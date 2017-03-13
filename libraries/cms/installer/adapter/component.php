@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -112,7 +112,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -224,7 +224,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->parent->pushStep(
 				array(
 					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_site')
+					'path' => $this->parent->getPath('extension_site'),
 				)
 			);
 		}
@@ -255,7 +255,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->parent->pushStep(
 				array(
 					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_administrator')
+					'path' => $this->parent->getPath('extension_administrator'),
 				)
 			);
 		}
@@ -279,7 +279,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			array(
 				'element'   => $this->element,
 				'type'      => $this->extension->type,
-				'client_id' => 1
+				'client_id' => 1,
 			)
 		);
 
@@ -311,7 +311,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		// Make sure that menu items pointing to the component have correct component id assigned to them.
 		// Prevents message "Component 'com_extension' does not exist." after uninstalling / re-installing component.
-		if (!$this->_updateSiteMenus($this->extension->extension_id))
+		if (!$this->_updateMenus($this->extension->extension_id))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATESITEMENUS_FAILED'), JLog::WARNING, 'jerror');
 		}
@@ -384,7 +384,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		$extension = $this->getElement();
-		$source    = $path ? $path : $client . '/components/' . $extension;
+		$source    = $path ?: $client . '/components/' . $extension;
 
 		if ($this->getManifest()->administration->files)
 		{
@@ -500,7 +500,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'));
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), $e->getCode(), $e);
 			}
 		}
 	}
@@ -630,6 +630,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->extension->access    = 0;
 			$this->extension->client_id = 1;
 			$this->extension->params    = $this->parent->getParams();
+			$this->extension->custom_data = '';
+			$this->extension->system_data = '';
 		}
 
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -659,7 +661,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 *
 	 * @param   integer  $id  The unique extension id of the component to uninstall
 	 *
-	 * @return  mixed  Return value for uninstall method in component uninstall file
+	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 */
@@ -682,6 +684,17 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		if ($this->extension->protected)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_WARNCORECOMPONENT'), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -802,6 +815,10 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$db->setQuery($query);
 		$db->execute();
 
+		// Rebuild the categories for correct lft/rgt
+		$category = JTable::getInstance('category');
+		$category->rebuild();
+
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
@@ -809,7 +826,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				'element'   => $this->extension->element,
 				'type'      => 'component',
 				'client_id' => 1,
-				'folder'    => ''
+				'folder'    => '',
 			)
 		);
 
@@ -870,13 +887,14 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 		$option = $this->get('element');
 
-		// If a component exists with this option in the table then we don't need to add menus
+		// If a component exists with this option in the table within the protected menutype 'main' then we don't need to add menus
 		$query = $db->getQuery(true)
 					->select('m.id, e.extension_id')
 					->from('#__menu AS m')
 					->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
 					->where('m.parent_id = 1')
 					->where('m.client_id = 1')
+					->where('m.menutype = ' . $db->quote('main'))
 					->where('e.element = ' . $db->quote($option));
 
 		$db->setQuery($query);
@@ -946,11 +964,13 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['alias'] = (string) $menuElement;
 			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
-			$data['published'] = 0;
+			$data['published'] = 1;
 			$data['parent_id'] = 1;
 			$data['component_id'] = $component_id;
-			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
+			$data['img'] = ((string) $menuElement->attributes()->img) ?: 'class:component';
 			$data['home'] = 0;
+			$data['path'] = '';
+			$data['params'] = '';
 		}
 		else
 		{
@@ -962,11 +982,13 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['alias'] = $option;
 			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
-			$data['published'] = 0;
+			$data['published'] = 1;
 			$data['parent_id'] = 1;
 			$data['component_id'] = $component_id;
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
+			$data['path'] = '';
+			$data['params'] = '';
 		}
 
 		// Try to create the menu item in the database
@@ -995,10 +1017,10 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['title'] = (string) trim($child);
 			$data['alias'] = (string) $child;
 			$data['type'] = 'component';
-			$data['published'] = 0;
+			$data['published'] = 1;
 			$data['parent_id'] = $parent_id;
 			$data['component_id'] = $component_id;
-			$data['img'] = ((string) $child->attributes()->img) ? (string) $child->attributes()->img : 'class:component';
+			$data['img'] = ((string) $child->attributes()->img) ?: 'class:component';
 			$data['home'] = 0;
 
 			// Set the sub menu link
@@ -1040,7 +1062,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 					$request[] = 'sub=' . $child->attributes()->sub;
 				}
 
-				$qstring = (count($request)) ? '&' . implode('&', $request) : '';
+				$qstring = count($request) ? '&' . implode('&', $request) : '';
 				$data['link'] = 'index.php?option=' . $option . $qstring;
 			}
 
@@ -1082,6 +1104,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 					->select('id')
 					->from('#__menu')
 					->where($db->quoteName('client_id') . ' = 1')
+					->where($db->quoteName('menutype') . ' = ' . $db->q('main'))
 					->where($db->quoteName('component_id') . ' = ' . (int) $id);
 
 		$db->setQuery($query);
@@ -1112,7 +1135,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to update menu database entries for a component in case if the component has been uninstalled before.
+	 * Method to update menu database entries for a component in case the component has been uninstalled before.
+	 * NOTE: This will not update admin menus. Use _updateMenus() instead to update admin menus ase well.
 	 *
 	 * @param   int|null  $component_id  The component ID.
 	 *
@@ -1122,18 +1146,39 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 */
 	protected function _updateSiteMenus($component_id = null)
 	{
+		return $this->_updateMenus($component_id, 0);
+	}
+
+	/**
+	 * Method to update menu database entries for a component in case if the component has been uninstalled before.
+	 *
+	 * @param   int|null  $component_id  The component ID.
+	 * @param   int       $clientId      The client id
+	 *
+	 * @return  boolean  True if successful
+	 *
+	 * @since   3.7.0
+	 */
+	protected function _updateMenus($component_id, $clientId = null)
+	{
 		$db     = $this->parent->getDbo();
 		$option = $this->get('element');
 
 		// Update all menu items which contain 'index.php?option=com_extension' or 'index.php?option=com_extension&...'
 		// to use the new component id.
 		$query = $db->getQuery(true)
-					->update('#__menu AS m')
-					->set('m.component_id = ' . $db->quote($component_id))
-					->where("m.type = " . $db->quote('component'))
-					->where('m.client_id = 0')
-					->where('m.link LIKE ' . $db->quote('index.php?option=' . $option)
-							. " OR m.link LIKE '" . $db->escape('index.php?option=' . $option . '&') . "%'");
+					->update('#__menu')
+					->set('component_id = ' . $db->quote($component_id))
+					->where('type = ' . $db->quote('component'))
+					->where('(' .
+						'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR ' .
+						'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false) .
+					')');
+
+		if (isset($clientId))
+		{
+			$query->where('client_id = ' . (int) $clientId);
+		}
 
 		$db->setQuery($query);
 
@@ -1278,7 +1323,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			return false;
 		}
 
-		if ( !$table->bind($data) || !$table->check() || !$table->store())
+		if (!$table->bind($data) || !$table->check() || !$table->store())
 		{
 			// The menu item already exists. Delete it and retry instead of throwing an error.
 			$query = $db->getQuery(true)
@@ -1294,7 +1339,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$db->setQuery($query);
 			$menu_id = $db->loadResult();
 
-			if ( !$menu_id)
+			if (!$menu_id)
 			{
 				// Oops! Could not get the menu ID. Go back and rollback changes.
 				JError::raiseWarning(1, $table->getError());
@@ -1311,7 +1356,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				// Retry creating the menu item
 				$table->setLocation($parentId, 'last-child');
 
-				if ( !$table->bind($data) || !$table->check() || !$table->store())
+				if (!$table->bind($data) || !$table->check() || !$table->store())
 				{
 					// Install failed, warn user and rollback changes
 					JError::raiseWarning(1, $table->getError());

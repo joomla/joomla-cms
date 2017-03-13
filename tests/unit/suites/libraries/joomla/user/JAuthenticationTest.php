@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/user/authentication.php';
 
 /**
  * Tests for the JAuthentication class.
@@ -108,7 +106,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @since  11.3
 	 */
-	public function mockTrigger($event, $args = array())
+	public static function mockTrigger($event, $args = array())
 	{
 		switch ($event)
 		{
@@ -285,10 +283,9 @@ class JAuthenticationTest extends TestCase
 	 */
 	public function testAuthorise($input, $expect, $message)
 	{
-		$authentication = JAuthentication::getInstance();
 		$this->assertEquals(
 			$expect,
-			$authentication->authorise($input),
+			JAuthentication::authorise($input),
 			$message
 		);
 	}

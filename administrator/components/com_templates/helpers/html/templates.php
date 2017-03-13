@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ class JHtmlTemplates
 	/**
 	 * Display the thumb for the template.
 	 *
-	 * @param   string	 $template  The name of the template.
+	 * @param   string   $template  The name of the template.
 	 * @param   integer  $clientId  The application client ID the template applies to
 	 *
 	 * @return  string  The html string
@@ -45,7 +45,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail pull-left hasTooltip" data-toggle="modal" title="' .
-					JHtml::tooltipText('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
+					JHtml::_('tooltipText', 'COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
 			}
 		}
 
@@ -55,7 +55,7 @@ class JHtmlTemplates
 	/**
 	 * Renders the html for the modal linked to thumb.
 	 *
-	 * @param   string	 $template  The name of the template.
+	 * @param   string   $template  The name of the template.
 	 * @param   integer  $clientId  The application client ID the template applies to
 	 *
 	 * @return  string  The html string
@@ -76,7 +76,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
-				$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+				$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 					. JText::_('JTOOLBAR_CLOSE') . '</a>';
 
 				$html .= JHtml::_(

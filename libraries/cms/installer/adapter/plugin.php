@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
 class JInstallerAdapterPlugin extends JInstallerAdapter
 {
 	/**
-	 * <scriptfile> element of the extension manifest
+	 * `<scriptfile>` element of the extension manifest
 	 *
 	 * @var    object
 	 * @since  3.1
@@ -27,7 +27,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected $scriptElement = null;
 
 	/**
-	 * <files> element of the old extension manifest
+	 * `<files>` element of the old extension manifest
 	 *
 	 * @var    object
 	 * @since  3.1
@@ -58,13 +58,15 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
 					JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
-				)
+				),
+				$e->getCode(),
+				$e
 			);
 		}
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -153,7 +155,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			array(
 				'element' => $this->element,
 				'type'    => $this->type,
-				'folder'  => $this->group
+				'folder'  => $this->group,
 			)
 		);
 
@@ -267,7 +269,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			if ($name)
 			{
 				$extension = "plg_${group}_${name}";
-				$source = $path ? $path : JPATH_PLUGINS . "/$group/$name";
+				$source = $path ?: JPATH_PLUGINS . "/$group/$name";
 				$folder = (string) $element->attributes()->folder;
 
 				if ($folder && file_exists("$path/$folder"))
@@ -480,6 +482,17 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			return false;
 		}
 
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
 		// Get the plugin folder so we can properly build the plugin path
 		if (trim($row->folder) == '')
 		{
@@ -513,16 +526,13 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		{
 			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
 			// If a dash is present in the folder, remove it
 			$folderClass = str_replace('-', '', $row->folder);
 
 			// Set the class name
 			$classname = 'Plg' . $folderClass . $row->element . 'InstallerScript';
+
+			JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{

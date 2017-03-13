@@ -3,7 +3,7 @@
 	<name>mod_status</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>
-	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -21,6 +21,26 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+			<field
+					name="show_viewsite"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_STATUS_FIELD_SHOW_VIEWSITE_LABEL"
+					description="MOD_STATUS_FIELD_SHOW_VIEWSITE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			<field
+					name="show_viewadmin"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_STATUS_FIELD_SHOW_VIEWADMIN_LABEL"
+					description="MOD_STATUS_FIELD_SHOW_VIEWADMIN_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 				<field
 					name="show_loggedin_users"
 					type="radio"
@@ -65,15 +85,6 @@
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-				<field
-					name="cache"
-					type="list"
-					default="0"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

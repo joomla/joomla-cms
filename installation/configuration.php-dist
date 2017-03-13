@@ -1,8 +1,9 @@
 <?php
 /**
- * @package     Joomla
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ *
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  *
  * -------------------------------------------------------------------------
  * THIS SHOULD ONLY BE USED AS A LAST RESORT WHEN THE WEB INSTALLER FAILS
@@ -16,7 +17,8 @@
  * Now edit this file and configure the parameters for your site and
  * database.
  */
-class JConfig {
+class JConfig
+{
 	/* Site Settings */
 	public $offline = '0';
 	public $offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
@@ -40,7 +42,7 @@ class JConfig {
 	public $secret = 'FBVtggIk5lAzEU9H';     // Change this to something more secure
 	public $gzip = '0';
 	public $error_reporting = 'default';
-	public $helpurl = 'https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
+	public $helpurl = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}';
 	public $ftp_host = '';
 	public $ftp_port = '';
 	public $ftp_user = '';
@@ -49,7 +51,7 @@ class JConfig {
 	public $ftp_enable = '';
 	public $tmp_path = '/tmp';                // Please check with your host that this is the correct path to the temp directory. This path needs to be writable by Joomla!
 	public $log_path = '/var/logs';           // Please check with your host that this is the correct path to the logs directory. This path needs to be writable by Joomla!
-	public $live_site = '';                   // Optional, full url to Joomla install.
+	public $live_site = '';                   // Optional, full URL to Joomla install.
 	public $force_ssl = 0;                    // Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator
 
 	/* Locale Settings */
@@ -60,19 +62,22 @@ class JConfig {
 	public $session_handler = 'database';
 
 	/* Mail Settings */
-	public $mailer = 'mail';
-	public $mailfrom = '';
-	public $fromname = '';
-	public $sendmail = '/usr/sbin/sendmail';
-	public $smtpauth = '0';
-	public $smtpuser = '';
-	public $smtppass = '';
-	public $smtphost = 'localhost';
+	public $mailer      = 'mail';
+	public $mailfrom    = '';
+	public $fromname    = '';
+	public $replyto     = '';
+	public $replytoname = '';
+	public $sendmail    = '/usr/sbin/sendmail';
+	public $smtpauth    = '0';
+	public $smtpuser    = '';
+	public $smtppass    = '';
+	public $smtphost    = 'localhost';
 
 	/* Cache Settings */
 	public $caching = '0';
 	public $cachetime = '15';
 	public $cache_handler = 'file';
+	public $cache_platformprefix = '0';
 
 	/* Debug Settings */
 	public $debug = '0';
@@ -94,5 +99,5 @@ class JConfig {
 
 	/* Feed Settings */
 	public $feed_limit = 10;
-	public $feed_email = 'author';
+	public $feed_email = 'none';
 }

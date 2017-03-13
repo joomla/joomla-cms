@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class JSchemaChangeset
 	/**
 	 * Array of JSchemaChangeitem objects
 	 *
-	 * @var    array
+	 * @var    JSchemaChangeitem[]
 	 * @since  2.5
 	 */
 	protected $changeItems = array();
@@ -41,12 +41,21 @@ class JSchemaChangeset
 	 * Folder where SQL update files will be found
 	 *
 	 * @var    string
+	 * @since  2.5
 	 */
 	protected $folder = null;
 
 	/**
+	 * The singleton instance of this object
+	 *
+	 * @var    JSchemaChangeset
+	 * @since  3.5.1
+	 */
+	protected static $instance;
+
+	/**
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
-	 * The folder for the Joomla core updates is administrator/components/com_admin/sql/updates/<database>.
+	 * The folder for the Joomla core updates is `administrator/components/com_admin/sql/updates/<database>`.
 	 *
 	 * @param   JDatabaseDriver  $db      The current database object
 	 * @param   string           $folder  The full path to the folder containing the update queries
@@ -62,7 +71,63 @@ class JSchemaChangeset
 
 		foreach ($updateQueries as $obj)
 		{
-			$this->changeItems[] = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+			$changeItem = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+
+			if ($changeItem->queryType === 'UTF8CNV')
+			{
+				// Execute the special update query for utf8mb4 conversion status reset
+				try
+				{
+					$this->db->setQuery($changeItem->updateQuery)->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
+			}
+			else
+			{
+				// Normal change item
+				$this->changeItems[] = $changeItem;
+			}
+		}
+
+		// If on mysql, add a query at the end to check for utf8mb4 conversion status
+		if ($this->db->getServerType() == 'mysql')
+		{
+			// Let the update query be something harmless which should always succeed
+			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
+				$db,
+				'database.php',
+				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
+				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+
+			// Set to not skipped
+			$tmpSchemaChangeItem->checkStatus = 0;
+
+			// Set the check query
+			if ($this->db->hasUTF8mb4Support())
+			{
+				$converted = 2;
+				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
+			}
+			else
+			{
+				$converted = 1;
+				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
+			}
+
+			$tmpSchemaChangeItem->checkQuery = 'SELECT '
+				. $this->db->quoteName('converted')
+				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
+				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted;
+
+			// Set expected records from check query
+			$tmpSchemaChangeItem->checkQueryExpected = 1;
+
+			$tmpSchemaChangeItem->msgElements = array();
+
+			$this->changeItems[] = $tmpSchemaChangeItem;
 		}
 	}
 
@@ -76,16 +141,14 @@ class JSchemaChangeset
 	 *
 	 * @since   2.5
 	 */
-	public static function getInstance($db, $folder)
+	public static function getInstance($db, $folder = null)
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(static::$instance))
 		{
-			$instance = new JSchemaChangeset($db, $folder);
+			static::$instance = new JSchemaChangeset($db, $folder);
 		}
 
-		return $instance;
+		return static::$instance;
 	}
 
 	/**
@@ -191,13 +254,10 @@ class JSchemaChangeset
 	private function getUpdateFiles()
 	{
 		// Get the folder from the database name
-		$sqlFolder = $this->db->name;
+		$sqlFolder = $this->db->getServerType();
 
-		if ($sqlFolder == 'mysqli' || $sqlFolder == 'pdomysql')
-		{
-			$sqlFolder = 'mysql';
-		}
-		elseif ($sqlFolder == 'sqlsrv')
+		// For `mssql` server types, convert the type to `sqlazure`
+		if ($sqlFolder === 'mssql')
 		{
 			$sqlFolder = 'sqlazure';
 		}
@@ -238,47 +298,13 @@ class JSchemaChangeset
 
 			foreach ($queries as $query)
 			{
-				if ($trimmedQuery = $this->trimQuery($query))
-				{
-					$fileQueries = new stdClass;
-					$fileQueries->file = $file;
-					$fileQueries->updateQuery = $trimmedQuery;
-					$result[] = $fileQueries;
-				}
+				$fileQueries = new stdClass;
+				$fileQueries->file = $file;
+				$fileQueries->updateQuery = $query;
+				$result[] = $fileQueries;
 			}
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Trim comment and blank lines out of a query string
-	 *
-	 * @param   string  $query  query string to be trimmed
-	 *
-	 * @return  string  String with leading comment lines removed
-	 *
-	 * @since   3.1
-	 */
-	private function trimQuery($query)
-	{
-		$query = trim($query);
-
-		while (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--' || substr($query, 0, 2) == '/*')
-		{
-			$endChars = (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--') ? "\n" : "*/";
-
-			if ($position = strpos($query, $endChars))
-			{
-				$query = trim(substr($query, $position + strlen($endChars)));
-			}
-			else
-			{
-				// If no newline, the rest of the file is a comment, so return an empty string.
-				return '';
-			}
-		}
-
-		return trim($query);
 	}
 }

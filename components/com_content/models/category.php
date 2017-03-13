@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
@@ -86,7 +87,8 @@ class ContentModelCategory extends JModelList
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
-				'author', 'a.author'
+				'author', 'a.author',
+				'filter_tag'
 			);
 		}
 
@@ -112,6 +114,9 @@ class ContentModelCategory extends JModelList
 
 		$this->setState('category.id', $pk);
 
+		$value = $app->input->get('filter_tag', 0, 'uint');
+		$this->setState('filter.tag', $value);
+
 		// Load the parameters. Merge Global and Menu Item params into new object
 		$params = $app->getParams();
 		$menuParams = new Registry;
@@ -127,10 +132,6 @@ class ContentModelCategory extends JModelList
 		$this->setState('params', $mergedParams);
 		$user  = JFactory::getUser();
 
-		// Create a new query object.
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-
 		$asset = 'com_content';
 
 		if ($pk)
@@ -142,13 +143,6 @@ class ContentModelCategory extends JModelList
 		{
 			// Limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
-
-			// Filter by start and end dates.
-			$nullDate = $db->quote($db->getNullDate());
-			$nowDate = $db->quote(JFactory::getDate()->toSql());
-
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 		else
 		{
@@ -165,11 +159,13 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.access', false);
 		}
 
+		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+
 		// Optional filter text
-		$this->setState('list.filter', $app->input->getString('filter-search'));
+		$search = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
+		$this->setState('list.filter', $search);
 
 		// Filter.order
-		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 
 		if (!in_array($orderCol, $this->filter_fields))
@@ -191,7 +187,7 @@ class ContentModelCategory extends JModelList
 		$this->setState('list.start', $app->input->get('limitstart', 0, 'uint'));
 
 		// Set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-		if (($app->input->get('layout') == 'blog') || $params->get('layout_type') == 'blog')
+		if (($app->input->get('layout') === 'blog') || $params->get('layout_type') === 'blog')
 		{
 			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 			$this->setState('list.links', $params->get('num_links'));
@@ -245,6 +241,7 @@ class ContentModelCategory extends JModelList
 			$model->setState('list.limit', $limit);
 			$model->setState('list.direction', $this->getState('list.direction'));
 			$model->setState('list.filter', $this->getState('list.filter'));
+			$model->setState('filter.tag', $this->getState('filter.tag'));
 
 			// Filter.subcategories indicates whether to include articles from subcategories in the list or blog
 			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
@@ -280,13 +277,13 @@ class ContentModelCategory extends JModelList
 	 */
 	protected function _buildContentOrderBy()
 	{
-		$app		= JFactory::getApplication('site');
-		$db			= $this->getDbo();
-		$params		= $this->state->params;
-		$itemid		= $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
-		$orderCol	= $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
-		$orderDirn	= $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
-		$orderby	= ' ';
+		$app       = JFactory::getApplication('site');
+		$db        = $this->getDbo();
+		$params    = $this->state->params;
+		$itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+		$orderCol  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
+		$orderDirn = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
+		$orderby   = ' ';
 
 		if (!in_array($orderCol, $this->filter_fields))
 		{
@@ -303,11 +300,11 @@ class ContentModelCategory extends JModelList
 			$orderby .= $db->escape($orderCol) . ' ' . $db->escape($orderDirn) . ', ';
 		}
 
-		$articleOrderby		= $params->get('orderby_sec', 'rdate');
-		$articleOrderDate	= $params->get('order_date');
-		$categoryOrderby	= $params->def('orderby_pri', '');
-		$secondary			= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary			= ContentHelperQuery::orderbyPrimary($categoryOrderby);
+		$articleOrderby   = $params->get('orderby_sec', 'rdate');
+		$articleOrderDate = $params->get('order_date');
+		$categoryOrderby  = $params->def('orderby_pri', '');
+		$secondary        = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
+		$primary          = ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
 		$orderby .= $primary . ' ' . $secondary . ' a.created ';
 
@@ -347,6 +344,7 @@ class ContentModelCategory extends JModelList
 				$params = $this->state->params;
 				$options = array();
 				$options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
+				$options['access']     = $params->get('check_access_rights', 1);
 			}
 			else
 			{
@@ -359,8 +357,8 @@ class ContentModelCategory extends JModelList
 			// Compute selected asset permissions.
 			if (is_object($this->_item))
 			{
-				$user	= JFactory::getUser();
-				$asset	= 'com_content.category.' . $this->_item->id;
+				$user  = JFactory::getUser();
+				$asset = 'com_content.category.' . $this->_item->id;
 
 				// Check general create permission.
 				if ($user->authorise('core.create', $asset))
@@ -460,10 +458,11 @@ class ContentModelCategory extends JModelList
 		{
 			$params = $this->getState()->get('params');
 
-			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha')
+			$orderByPri = $params->get('orderby_pri');
+
+			if ($orderByPri === 'alpha' || $orderByPri === 'ralpha')
 			{
-				jimport('joomla.utilities.arrayhelper');
-				JArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : (-1));
+				$this->_children = ArrayHelper::sortObjects($this->_children, 'title', ($orderByPri === 'alpha') ? 1 : (-1));
 			}
 		}
 

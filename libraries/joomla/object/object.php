@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Object
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -238,6 +238,6 @@ class JObject
 	 */
 	public function setError($error)
 	{
-		array_push($this->_errors, $error);
+		$this->_errors[] = $error;
 	}
 }

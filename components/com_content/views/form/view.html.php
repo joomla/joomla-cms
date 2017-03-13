@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,25 +25,34 @@ class ContentViewForm extends JViewLegacy
 	protected $state;
 
 	/**
+	 * Should we show a captcha form for the submission of the article?
+	 *
+	 * @var   bool
+	 * @since 3.7.0
+	 */
+	protected $captchaEnabled = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
 		$user = JFactory::getUser();
+		$app  = JFactory::getApplication();
 
 		// Get model data.
-		$this->state		= $this->get('State');
-		$this->item			= $this->get('Item');
-		$this->form			= $this->get('Form');
-		$this->return_page	= $this->get('ReturnPage');
+		$this->state       = $this->get('State');
+		$this->item        = $this->get('Item');
+		$this->form        = $this->get('Form');
+		$this->return_page = $this->get('ReturnPage');
 
 		if (empty($this->item->id))
 		{
-			$authorised = $user->authorise('core.create', 'com_content') || (count($user->getAuthorisedCategories('com_content', 'core.create')));
+			$authorised = $user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create'));
 		}
 		else
 		{
@@ -52,7 +61,8 @@ class ContentViewForm extends JViewLegacy
 
 		if ($authorised !== true)
 		{
-			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->setHeader('status', 403, true);
 
 			return false;
 		}
@@ -84,7 +94,7 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		// Create a shortcut to the parameters.
-		$params	= &$this->state->params;
+		$params = &$this->state->params;
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
@@ -102,10 +112,21 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		// Propose current language as default when creating new article
-		if (JLanguageMultilang::isEnabled() && empty($this->item->id))
+		if (empty($this->item->id) && JLanguageMultilang::isEnabled())
 		{
 			$lang = JFactory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);
+		}
+
+		$captchaSet = $params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
+
+		foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+		{
+			if ($captchaSet === $plugin->name)
+			{
+				$this->captchaEnabled = true;
+				break;
+			}
 		}
 
 		$this->_prepareDocument();
@@ -119,9 +140,9 @@ class ContentViewForm extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself

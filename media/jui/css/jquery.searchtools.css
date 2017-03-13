@@ -8,9 +8,27 @@
 .js-stools-container-bar .input-append {
 	margin-bottom: 0;
 }
+/* Use up caret to hide the search filters */
+.js-stools-container-bar .btn-primary .caret {
+	border-top: 0;
+	border-bottom: 4px solid #FFF;
+	margin-top: 7px;
+	margin-bottom: 8px;
+}
 .js-stools .btn-wrapper {
 	display: inline-block;
 	margin: 0 5px 0 0;
+}
+/* Fixed filter fields (selector) */
+.js-stools .js-stools-container-selector {
+	float: left;
+	margin-right: 10px;
+	min-width: 220px;
+}
+html[dir=rtl] .js-stools .js-stools-container-selector {
+	float: right;
+	margin-left: 10px;
+	margin-right: 0;
 }
 .js-stools .js-stools-container-bar {
 	float: left;
@@ -35,6 +53,9 @@ html[dir=rtl] .js-stools .chzn-container {
 .js-stools .js-stools-container-filters select.active,
 .js-stools .js-stools-container-filters .chzn-container.active .chzn-single{
 	border: 2px solid #2384D3;
+}
+.js-stools .js-stools-container-filters-visible {
+	display: inline-block;
 }
 .js-stools .chzn-container-single .chzn-single span {
 	overflow: visible;

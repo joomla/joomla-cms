@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,6 +29,47 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	protected $limit;
 
 	/**
+	 * Magic function to convert the query to a string.
+	 *
+	 * @return  string  The completed query.
+	 *
+	 * @since   11.1
+	 */
+	public function __toString()
+	{
+		switch ($this->type)
+		{
+			case 'select':
+				if ($this->selectRowNumber)
+				{
+					$orderBy      = $this->selectRowNumber['orderBy'];
+					$tmpOffset    = $this->offset;
+					$tmpLimit     = $this->limit;
+					$this->offset = 0;
+					$this->limit  = 0;
+					$tmpOrder     = $this->order;
+					$this->order  = null;
+					$query        = parent::__toString();
+					$this->order  = $tmpOrder;
+					$this->offset = $tmpOffset;
+					$this->limit  = $tmpLimit;
+
+					// Add support for second order by, offset and limit
+					$query = PHP_EOL . 'SELECT * FROM (' . $query . PHP_EOL . "ORDER BY $orderBy" . PHP_EOL . ') w';
+
+					if ($this->order)
+					{
+						$query .= (string) $this->order;
+					}
+
+					return $this->processLimit($query, $this->limit, $this->offset);
+				}
+		}
+
+		return parent::__toString();
+	}
+
+	/**
 	 * Method to modify a query already in string format with the needed
 	 * additions to make the query limited to a particular number of
 	 * results, or start at a particular offset.
@@ -43,9 +84,13 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
-		if ($limit > 0 || $offset > 0)
+		if ($limit > 0 && $offset > 0)
 		{
 			$query .= ' LIMIT ' . $offset . ', ' . $limit;
+		}
+		elseif ($limit > 0)
+		{
+			$query .= ' LIMIT ' . $limit;
 		}
 
 		return $query;
@@ -119,5 +164,41 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	public function regexp($value)
 	{
 		return ' REGEXP ' . $value;
+	}
+
+	/**
+	 * Return correct rand() function for Mysql.
+	 *
+	 * Ensure that the rand() function is Mysql compatible.
+	 * 
+	 * Usage:
+	 * $query->Rand();
+	 * 
+	 * @return  string  The correct rand function.
+	 *
+	 * @since   3.5
+	 */
+	public function Rand()
+	{
+		return ' RAND() ';
+	}
+
+	/**
+	 * Return the number of the current row.
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.7.0
+	 * @throws  RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias)
+	{
+		$this->validateRowNumber($orderBy, $orderColumnAlias);
+		$this->select("(SELECT @rownum := @rownum + 1 FROM (SELECT @rownum := 0) AS r) AS $orderColumnAlias");
+
+		return $this;
 	}
 }

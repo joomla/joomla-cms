@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ $lang = JFactory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 ?>
-<div class="profile-edit<?php echo $this->pageclass_sfx?>">
+<div class="profile-edit<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
@@ -54,7 +54,10 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			<legend>
 				<?php echo JText::_($fieldset->label); ?>
 			</legend>
-			<?php endif;?>
+			<?php endif; ?>
+			<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
+				<?php echo '<p>' . $this->escape(JText::_($fieldset->description)) . '</p>'; ?>
+			<?php endif; ?>
 			<?php // Iterate through the fields in the set and display them. ?>
 			<?php foreach ($fields as $field) : ?>
 			<?php // If the field is hidden, just display the input. ?>
@@ -70,16 +73,16 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 						</div>
 						<div class="controls">
 							<?php if ($field->fieldname == 'password1') : ?>
-								<?php // Disables autocomplete ?> <input type="text" style="display:none">
+								<?php // Disables autocomplete ?> <input type="password" style="display:none">
 							<?php endif; ?>
 							<?php echo $field->input; ?>
 						</div>
 					</div>
-				<?php endif;?>
-			<?php endforeach;?>
+				<?php endif; ?>
+			<?php endforeach; ?>
 		</fieldset>
-		<?php endif;?>
-	<?php endforeach;?>
+		<?php endif; ?>
+	<?php endforeach; ?>
 
 	<?php if (count($this->twofactormethods) > 1) : ?>
 		<fieldset>
@@ -88,7 +91,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			<div class="control-group">
 				<div class="control-label">
 					<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-						   title="<strong><?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL'); ?></strong><br /><?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
+						   title="<?php echo '<strong>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') . '</strong><br />' . JText::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
 						<?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL'); ?>
 					</label>
 				</div>
@@ -97,7 +100,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 				</div>
 			</div>
 			<div id="com_users_twofactor_forms_container">
-				<?php foreach($this->twofactorform as $form) : ?>
+				<?php foreach ($this->twofactorform as $form) : ?>
 				<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
 				<div id="com_users_twofactor_<?php echo $form['method']; ?>" style="<?php echo $style; ?>">
 					<?php echo $form['form']; ?>
@@ -131,7 +134,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 		<div class="control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate"><span><?php echo JText::_('JSUBMIT'); ?></span></button>
-				<a class="btn" href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
+				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
 				<input type="hidden" name="option" value="com_users" />
 				<input type="hidden" name="task" value="profile.save" />
 			</div>

@@ -3,7 +3,7 @@
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,7 +13,6 @@
 		<filename module="mod_menu">mod_menu.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_menu.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_menu.ini</language>
@@ -22,27 +21,37 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MENU" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic"
+				addfieldpath="/administrator/components/com_menus/models/fields"
+			>
 				<field
 					name="menutype"
 					type="menu"
+					clientid="0"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
-					description="MOD_MENU_FIELD_MENUTYPE_DESC" />
+					description="MOD_MENU_FIELD_MENUTYPE_DESC"
+				/>
+
 				<field
 					name="base"
-					type="menuitem"
+					type="modal_menu"
 					label="MOD_MENU_FIELD_ACTIVE_LABEL"
 					description="MOD_MENU_FIELD_ACTIVE_DESC"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
 					>
 					<option value="">JCURRENT</option>
 				</field>
+
 				<field
 					name="startLevel"
 					type="list"
-					default="1"
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
 					description="MOD_MENU_FIELD_STARTLEVEL_DESC"
-				>
+					default="1"
+					>
 					<option value="1">J1</option>
 					<option value="2">J2</option>
 					<option value="3">J3</option>
@@ -58,9 +67,9 @@
 				<field
 					name="endLevel"
 					type="list"
-					default="0"
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
 					description="MOD_MENU_FIELD_ENDLEVEL_DESC"
+					default="0"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -78,70 +87,78 @@
 				<field
 					name="showAllChildren"
 					type="radio"
+					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
+					description="MOD_MENU_FIELD_ALLCHILDREN_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
-					description="MOD_MENU_FIELD_ALLCHILDREN_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="tag_id"
 					type="text"
 					label="MOD_MENU_FIELD_TAG_ID_LABEL"
-					description="MOD_MENU_FIELD_TAG_ID_DESC" />
+					description="MOD_MENU_FIELD_TAG_ID_DESC"
+				/>
 
 				<field
 					name="class_sfx"
 					type="text"
 					label="MOD_MENU_FIELD_CLASS_LABEL"
-					description="MOD_MENU_FIELD_CLASS_DESC" />
+					description="MOD_MENU_FIELD_CLASS_DESC"
+				/>
 
 				<field
 					name="window_open"
 					type="text"
 					label="MOD_MENU_FIELD_TARGET_LABEL"
-					description="MOD_MENU_FIELD_TARGET_DESC" />
+					description="MOD_MENU_FIELD_TARGET_DESC"
+				/>
 
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
 
 				<field
 					name="cache"
 					type="list"
-					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					default="1"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
+
 				<field
 					name="cachemode"
 					type="hidden"
-					default="itemid">
-					<option
-						value="itemid"></option>
+					default="itemid"
+					>
+					<option value="itemid"></option>
 				</field>
 			</fieldset>
 		</fields>

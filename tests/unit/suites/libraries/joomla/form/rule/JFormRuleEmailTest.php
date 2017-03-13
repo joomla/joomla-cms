@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -138,7 +138,7 @@ class JFormRuleEmailTest extends TestCase
 	{
 		return array(
 			array('test@example.com', true),
-			array('test3@localhost', true),
+			array('test3@localhost', false),
 			array('test3@example.c', true),
 			array('test3@example.ca', true),
 			array('test3@example.travel', true),

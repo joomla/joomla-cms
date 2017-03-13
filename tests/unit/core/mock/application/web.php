@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -161,17 +161,12 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 		// Collect all the relevant methods in JApplicationWeb (work in progress).
 		$methods = self::getMethods();
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JApplicationWeb',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			true
-		);
+		// Build the mock object & allow call to original constructor.
+		$mockObject = $test->getMockBuilder('JApplicationWeb')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->getMock();
 
 		$mockObject = self::addBehaviours($test, $mockObject, $options);
 
@@ -189,7 +184,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 */
 	public static function mockAppendBody($content)
 	{
-		array_push(static::$body, (string) $content);
+		static::$body[] = (string) $content;
 	}
 
 	/**
@@ -257,7 +252,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 *
 	 * @since   3.2
 	 */
-	public function mockSetHeader($name, $value, $replace = false)
+	public static function mockSetHeader($name, $value, $replace = false)
 	{
 		// Sanitize the input values.
 		$name = (string) $name;

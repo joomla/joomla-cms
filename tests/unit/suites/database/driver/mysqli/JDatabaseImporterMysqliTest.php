@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,22 +46,21 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setup()
 	{
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverMysqli',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'quoteName',
-				'loadObjectList',
-				'quote',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverMysqli')
+					->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'quoteName',
+						'loadObjectList',
+						'quote',
+						'setQuery',
+					))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$this->dbo->expects(
 			$this->any()
@@ -170,6 +169,20 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 				array($this, 'callbackLoadObjectList')
 			)
 		);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
 	}
 
 	/**

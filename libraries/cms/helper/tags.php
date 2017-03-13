@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Tags helper class, provides methods to perform various tasks relevant
@@ -77,7 +79,7 @@ class JHelperTags extends JHelper
 				$db->quoteName('content_item_id'),
 				$db->quoteName('tag_id'),
 				$db->quoteName('tag_date'),
-				$db->quoteName('type_id')
+				$db->quoteName('type_id'),
 			)
 		);
 
@@ -202,11 +204,18 @@ class JHelperTags extends JHelper
 		{
 			// We will use the tags table to store them
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-			$tagTable = JTable::getInstance('Tag', 'TagsTable');
-			$newTags = array();
+			$tagTable  = JTable::getInstance('Tag', 'TagsTable');
+			$newTags   = array();
+			$canCreate = JFactory::getUser()->authorise('core.create', 'com_tags');
 
 			foreach ($tags as $key => $tag)
 			{
+				// User is not allowed to create tags, so don't create.
+				if (strpos($tag, '#new#') !== false && !$canCreate)
+				{
+					continue;
+				}
+
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
@@ -353,28 +362,43 @@ class JHelperTags extends JHelper
 	 * Method to delete the tag mappings and #__ucm_content record for for an item
 	 *
 	 * @param   JTableInterface  $table          JTable object of content table where delete occurred
-	 * @param   integer          $contentItemId  ID of the content item.
+	 * @param   integer|array    $contentItemId  ID of the content item. Or an array of key/value pairs with array key
+	 *                                           being a primary key name and value being the content item ID. Note
+	 *                                           multiple primary keys are not supported
 	 *
 	 * @return  boolean  true on success, false on failure
 	 *
 	 * @since   3.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function deleteTagData(JTableInterface $table, $contentItemId)
 	{
-		$result = $this->unTagItem($contentItemId, $table);
+		$key = $table->getKeyName();
 
-		/**
-		 * @var JTableCorecontent $ucmContentTable
-		 */
+		if (!is_array($contentItemId))
+		{
+			$contentItemId = array($key => $contentItemId);
+		}
+
+		// If we have multiple items for the content item primary key we currently don't support this so
+		// throw an InvalidArgumentException for now
+		if (count($contentItemId) != 1)
+		{
+			throw new InvalidArgumentException('Multiple primary keys are not supported as a content item id');
+		}
+
+		$result = $this->unTagItem($contentItemId[$key], $table);
+
+		/** @var JTableCorecontent $ucmContentTable */
 		$ucmContentTable = JTable::getInstance('Corecontent');
 
-		return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
+		return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
 	}
 
 	/**
 	 * Method to get a list of tags for an item, optionally with the tag data.
 	 *
-	 * @param   integer  $contentType  Content type alias. Dot separated.
+	 * @param   string   $contentType  Content type alias. Dot separated.
 	 * @param   integer  $id           Id of the item to retrieve tags for.
 	 * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
 	 *
@@ -393,7 +417,7 @@ class JHelperTags extends JHelper
 				array(
 					$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
 					$db->quoteName('m.content_item_id') . ' = ' . (int) $id,
-					$db->quoteName('t.published') . ' = 1'
+					$db->quoteName('t.published') . ' = 1',
 				)
 			);
 
@@ -457,7 +481,7 @@ class JHelperTags extends JHelper
 		$ids = (array) $ids;
 		$ids = implode(',', $ids);
 		$ids = explode(',', $ids);
-		JArrayHelper::toInteger($ids);
+		$ids = ArrayHelper::toInteger($ids);
 
 		$db = JFactory::getDbo();
 
@@ -514,13 +538,12 @@ class JHelperTags extends JHelper
 		$tagIds = (array) $tagId;
 		$tagIds = implode(',', $tagIds);
 		$tagIds = explode(',', $tagIds);
-		JArrayHelper::toInteger($tagIds);
+		$tagIds = ArrayHelper::toInteger($tagIds);
 
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
 		if ($includeChildren)
 		{
-			$tagTreeList = '';
 			$tagTreeArray = array();
 
 			foreach ($tagIds as $tag)
@@ -533,7 +556,7 @@ class JHelperTags extends JHelper
 
 		// Sanitize filter states
 		$stateFilters = explode(',', $stateFilter);
-		JArrayHelper::toInteger($stateFilters);
+		$stateFilters = ArrayHelper::toInteger($stateFilters);
 
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
 		$query
@@ -569,13 +592,17 @@ class JHelperTags extends JHelper
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
+			// Join over categories for get only tags from published categories
+			->join('LEFT', '#__categories AS tc ON tc.id = c.core_catid')
+
 			// Join over the users for the author and email
 			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
-			->select("ua.email AS author_email")
+			->select('ua.email AS author_email')
 
 			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
 
-			->where('m.tag_id IN (' . implode(',', $tagIds) . ')');
+			->where('m.tag_id IN (' . implode(',', $tagIds) . ')')
+			->where('(c.core_catid = 0 OR tc.published = 1)');
 
 		// Optionally filter on language
 		if (empty($language))
@@ -607,7 +634,7 @@ class JHelperTags extends JHelper
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
-			->group('m.type_alias, m.content_item_id, m.core_content_id');
+			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, name, author_email');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
 		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
@@ -646,7 +673,7 @@ class JHelperTags extends JHelper
 
 		if (is_array($tagIds) && count($tagIds) > 0)
 		{
-			JArrayHelper::toInteger($tagIds);
+			$tagIds = ArrayHelper::toInteger($tagIds);
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -747,7 +774,7 @@ class JHelperTags extends JHelper
 			}
 			else
 			{
-				JArrayHelper::toInteger($selectTypes);
+				$selectTypes = ArrayHelper::toInteger($selectTypes);
 
 				$query->where($db->quoteName('type_id') . ' IN (' . implode(',', $selectTypes) . ')');
 			}
@@ -797,15 +824,13 @@ class JHelperTags extends JHelper
 		// If existing row, check to see if tags have changed.
 		$newTable = clone $table;
 		$newTable->reset();
-		$key = $newTable->getKeyName();
-		$typeAlias = $this->typeAlias;
 
 		$result = true;
 
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
 		if ($this->tagsChanged || (!empty($newTags) && $newTags[0] != ''))
 		{
-			if (!$newTags && $replace = true)
+			if (!$newTags && $replace == true)
 			{
 				// Delete all tags data
 				$key = $table->getKeyName();
@@ -953,13 +978,11 @@ class JHelperTags extends JHelper
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// We will replace path aliases with tag names
-		$results = self::convertPathsToNames($results);
-
-		return $results;
+		return self::convertPathsToNames($results);
 	}
 
 	/**
@@ -1053,9 +1076,9 @@ class JHelperTags extends JHelper
 
 		if (is_array($tags) && count($tags) > 0)
 		{
-			JArrayHelper::toInteger($tags);
+			$tags = ArrayHelper::toInteger($tags);
 
-			$query->where($db->quoteName('tag_id') . ' IN ' . implode(',', $tags));
+			$query->where($db->quoteName('tag_id') . ' IN (' . implode(',', $tags) . ')');
 		}
 
 		$db->setQuery($query);

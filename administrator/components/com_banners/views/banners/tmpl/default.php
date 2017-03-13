@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,14 +15,11 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_banners.category');
-$archived	= $this->state->get('filter.state') == 2 ? true : false;
-$trashed	= $this->state->get('filter.state') == -2 ? true : false;
-$saveOrder	= $listOrder == 'a.ordering';
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder)
 {
@@ -30,7 +27,6 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 ?>
-
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -69,13 +65,13 @@ if ($saveOrder)
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_IMPRESSIONS', 'impmade', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap center hidden-phone">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -100,13 +96,14 @@ if ($saveOrder)
 							<td class="order nowrap center hidden-phone">
 								<?php
 								$iconClass = '';
+
 								if (!$canChange)
 								{
 									$iconClass = ' inactive';
 								}
 								elseif (!$saveOrder)
 								{
-									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 								}
 								?>
 								<span class="sortable-handler <?php echo $iconClass ?>">
@@ -123,16 +120,13 @@ if ($saveOrder)
 							<td class="center">
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-									<?php
-									// Create dropdown items
-									$action = $archived ? 'unarchive' : 'archive';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'banners');
-
-									$action = $trashed ? 'untrash' : 'trash';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'banners');
-
-									// Render dropdown list
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+									<?php // Create dropdown items and render the dropdown list.
+									if ($canChange)
+									{
+										JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'banners');
+										JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'banners');
+										echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+									}
 									?>
 								</div>
 							</td>
@@ -151,7 +145,7 @@ if ($saveOrder)
 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									</span>
 									<div class="small">
-										<?php echo $this->escape($item->category_title); ?>
+										<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 									</div>
 								</div>
 							</td>
@@ -164,26 +158,21 @@ if ($saveOrder)
 							<td class="small hidden-phone">
 								<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED')); ?>
 							</td>
-							<td class="center small hidden-phone">
+							<td class="small hidden-phone">
 								<?php echo $item->clicks; ?> -
 								<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 							</td>
-
 							<td class="small nowrap hidden-phone">
-								<?php if ($item->language == '*'): ?>
-									<?php echo JText::alt('JALL', 'language'); ?>
-								<?php else: ?>
-									<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-								<?php endif; ?>
+								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<?php echo $item->id; ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form. ?>
+			<?php // Load the batch processing form. ?>
 			<?php if ($user->authorise('core.create', 'com_banners')
 				&& $user->authorise('core.edit', 'com_banners')
 				&& $user->authorise('core.edit.state', 'com_banners')) : ?>

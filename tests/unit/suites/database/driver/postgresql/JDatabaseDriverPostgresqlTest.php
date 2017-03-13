@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -111,6 +111,10 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	public function dataTestQuoteName()
 	{
 		return array(
+			/* test escape double quote */
+			array('protected`title', null, '"protected`title"'),
+			array('protected"title', null, '"protected""title"'),
+			array('protected]title', null, '"protected]title"'),
 			/* no dot inside var */
 			array('jos_dbtest', null, '"jos_dbtest"'),
 			/* a dot inside var */
@@ -252,7 +256,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testGetCollation()
 	{
-		$this->assertContains('UTF-8', self::$driver->getCollation());
+		$this->assertNotEmpty(self::$driver->getCollation());
 	}
 
 	/**
@@ -482,9 +486,9 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	public function testGetVersion()
 	{
 		$versionRow = self::$driver->setQuery('SELECT version();')->loadRow();
-		$versionArray = explode(' ', $versionRow[0]);
+		preg_match('/((\d+)\.)((\d+)\.)(\*|\d+)/', $versionRow[0], $versionArray);
 
-		$this->assertGreaterThanOrEqual($versionArray[1], self::$driver->getVersion());
+		$this->assertGreaterThanOrEqual($versionArray[0], self::$driver->getVersion());
 	}
 
 	/**
@@ -944,12 +948,6 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testExecute()
 	{
-		/* REPLACE is not present in PostgreSQL */
-		$query = self::$driver->getQuery(true);
-		$query->delete();
-		$query->from('#__dbtest')->where('id=5');
-		self::$driver->setQuery($query)->execute();
-
 		$query = self::$driver->getQuery(true);
 		$query->insert('#__dbtest')
 			->columns('id,title,start_date, description')
@@ -1045,7 +1043,14 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testSetUtf()
 	{
-		$this->assertEquals(0, self::$driver->setUtf());
+		if (!function_exists('pg_set_client_encoding'))
+		{
+			$this->assertEquals(-1, self::$driver->setUtf());
+		}
+		else
+		{
+			$this->assertEquals(0, self::$driver->setUtf());
+		}
 	}
 
 	/**

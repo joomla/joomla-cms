@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.4" client="administrator" type="language" method="upgrade">
-	<name>English (United Kingdom)</name>
+<extension version="3.7" client="administrator" type="language" method="upgrade">
+	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.4.2</version>
-	<creationDate>2013-03-07</creationDate>
+	<version>3.7.0</version>
+	<creationDate>February 2017</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB administrator language</description>
 	<files>
 		<filename>en-GB.com_admin.ini</filename>
 		<filename>en-GB.com_admin.sys.ini</filename>
-		<filename>en-GB.com_banners.ini</filename>
-		<filename>en-GB.com_banners.sys.ini</filename>
 		<filename>en-GB.com_ajax.ini</filename>
 		<filename>en-GB.com_ajax.sys.ini</filename>
+		<filename>en-GB.com_associations.ini</filename>
+		<filename>en-GB.com_associations.sys.ini</filename>
+		<filename>en-GB.com_banners.ini</filename>
+		<filename>en-GB.com_banners.sys.ini</filename>
 		<filename>en-GB.com_cache.ini</filename>
 		<filename>en-GB.com_cache.sys.ini</filename>
 		<filename>en-GB.com_categories.ini</filename>
@@ -33,6 +35,8 @@
 		<filename>en-GB.com_contenthistory.sys.ini</filename>
 		<filename>en-GB.com_cpanel.ini</filename>
 		<filename>en-GB.com_cpanel.sys.ini</filename>
+		<filename>en-GB.com_fields.ini</filename>
+		<filename>en-GB.com_fields.sys.ini</filename>
 		<filename>en-GB.com_finder.ini</filename>
 		<filename>en-GB.com_finder.sys.ini</filename>
 		<filename>en-GB.com_installer.ini</filename>
@@ -115,10 +119,12 @@
 		<filename>en-GB.plg_authentication_ldap.sys.ini</filename>
 		<filename>en-GB.plg_captcha_recaptcha.ini</filename>
 		<filename>en-GB.plg_captcha_recaptcha.sys.ini</filename>
-		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_contact.ini</filename>
 		<filename>en-GB.plg_content_contact.sys.ini</filename>
+		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
+		<filename>en-GB.plg_content_fields.ini</filename>
+		<filename>en-GB.plg_content_fields.sys.ini</filename>
 		<filename>en-GB.plg_content_finder.ini</filename>
 		<filename>en-GB.plg_content_finder.sys.ini</filename>
 		<filename>en-GB.plg_content_joomla.ini</filename>
@@ -139,14 +145,54 @@
 		<filename>en-GB.plg_editors_tinymce.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_article.ini</filename>
 		<filename>en-GB.plg_editors-xtd_article.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_contact.ini</filename>
+		<filename>en-GB.plg_editors-xtd_contact.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_fields.ini</filename>
+		<filename>en-GB.plg_editors-xtd_fields.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_menu.ini</filename>
+		<filename>en-GB.plg_editors-xtd_menu.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_module.ini</filename>
+		<filename>en-GB.plg_editors-xtd_module.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_pagebreak.ini</filename>
 		<filename>en-GB.plg_editors-xtd_pagebreak.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_readmore.ini</filename>
 		<filename>en-GB.plg_editors-xtd_readmore.sys.ini</filename>
 		<filename>en-GB.plg_extension_joomla.ini</filename>
 		<filename>en-GB.plg_extension_joomla.sys.ini</filename>
+		<filename>en-GB.plg_fields_calendar.ini</filename>
+		<filename>en-GB.plg_fields_calendar.sys.ini</filename>
+		<filename>en-GB.plg_fields_checkboxes.ini</filename>
+		<filename>en-GB.plg_fields_checkboxes.sys.ini</filename>
+		<filename>en-GB.plg_fields_color.ini</filename>
+		<filename>en-GB.plg_fields_color.sys.ini</filename>
+		<filename>en-GB.plg_fields_editor.ini</filename>
+		<filename>en-GB.plg_fields_editor.sys.ini</filename>
+		<filename>en-GB.plg_fields_image.ini</filename>
+		<filename>en-GB.plg_fields_image.sys.ini</filename>
+		<filename>en-GB.plg_fields_imagelist.ini</filename>
+		<filename>en-GB.plg_fields_imagelist.sys.ini</filename>
+		<filename>en-GB.plg_fields_integer.ini</filename>
+		<filename>en-GB.plg_fields_integer.sys.ini</filename>
+		<filename>en-GB.plg_fields_list.ini</filename>
+		<filename>en-GB.plg_fields_list.sys.ini</filename>
+		<filename>en-GB.plg_fields_media.ini</filename>
+		<filename>en-GB.plg_fields_media.sys.ini</filename>
+		<filename>en-GB.plg_fields_radio.ini</filename>
+		<filename>en-GB.plg_fields_radio.sys.ini</filename>
+		<filename>en-GB.plg_fields_sql.ini</filename>
+		<filename>en-GB.plg_fields_sql.sys.ini</filename>
+		<filename>en-GB.plg_fields_text.ini</filename>
+		<filename>en-GB.plg_fields_text.sys.ini</filename>
+		<filename>en-GB.plg_fields_textarea.ini</filename>
+		<filename>en-GB.plg_fields_textarea.sys.ini</filename>
+		<filename>en-GB.plg_fields_url.ini</filename>
+		<filename>en-GB.plg_fields_url.sys.ini</filename>
+		<filename>en-GB.plg_fields_user.ini</filename>
+		<filename>en-GB.plg_fields_user.sys.ini</filename>
+		<filename>en-GB.plg_fields_usergrouplist.ini</filename>
+		<filename>en-GB.plg_fields_usergrouplist.sys.ini</filename>
 		<filename>en-GB.plg_finder_categories.ini</filename>
 		<filename>en-GB.plg_finder_categories.sys.ini</filename>
 		<filename>en-GB.plg_finder_contacts.ini</filename>
@@ -159,12 +205,20 @@
 		<filename>en-GB.plg_finder_tags.sys.ini</filename>
 		<filename>en-GB.plg_finder_weblinks.ini</filename>
 		<filename>en-GB.plg_finder_weblinks.sys.ini</filename>
+		<filename>en-GB.plg_installer_folderinstaller.ini</filename>
+		<filename>en-GB.plg_installer_folderinstaller.sys.ini</filename>
+		<filename>en-GB.plg_installer_packageinstaller.ini</filename>
+		<filename>en-GB.plg_installer_packageinstaller.sys.ini</filename>
+		<filename>en-GB.plg_installer_urlinstaller.ini</filename>
+		<filename>en-GB.plg_installer_urlinstaller.sys.ini</filename>
 		<filename>en-GB.plg_installer_webinstaller.ini</filename>
 		<filename>en-GB.plg_installer_webinstaller.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_extensionupdate.ini</filename>
 		<filename>en-GB.plg_quickicon_extensionupdate.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.sys.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.sys.ini</filename>
 		<filename>en-GB.plg_search_categories.ini</filename>
 		<filename>en-GB.plg_search_categories.sys.ini</filename>
 		<filename>en-GB.plg_search_contacts.ini</filename>
@@ -181,6 +235,8 @@
 		<filename>en-GB.plg_system_cache.sys.ini</filename>
 		<filename>en-GB.plg_system_debug.ini</filename>
 		<filename>en-GB.plg_system_debug.sys.ini</filename>
+		<filename>en-GB.plg_system_fields.ini</filename>
+		<filename>en-GB.plg_system_fields.sys.ini</filename>
 		<filename>en-GB.plg_system_highlight.ini</filename>
 		<filename>en-GB.plg_system_highlight.sys.ini</filename>
 		<filename>en-GB.plg_system_languagecode.ini</filename>
@@ -199,6 +255,10 @@
 		<filename>en-GB.plg_system_remember.sys.ini</filename>
 		<filename>en-GB.plg_system_sef.ini</filename>
 		<filename>en-GB.plg_system_sef.sys.ini</filename>
+		<filename>en-GB.plg_system_stats.ini</filename>
+		<filename>en-GB.plg_system_stats.sys.ini</filename>
+		<filename>en-GB.plg_system_updatenotification.ini</filename>
+		<filename>en-GB.plg_system_updatenotification.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_yubikey.ini</filename>
@@ -213,7 +273,7 @@
 		<filename>en-GB.tpl_hathor.sys.ini</filename>
 		<filename>en-GB.tpl_isis.ini</filename>
 		<filename>en-GB.tpl_isis.sys.ini</filename>
-		<filename file="meta">en-GB.xml</filename>	
+		<filename file="meta">en-GB.xml</filename>
 		<filename file="meta">install.xml</filename>
 	</files>
 	<params />

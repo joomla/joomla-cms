@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,7 +20,7 @@ class JFeedParserMock extends JFeedParser
 	 * @var    mixed  The value to return when the parse method is called.
 	 * @since  12.3
 	 */
-	public static $parseReturn = null;
+	public static $parseReturn;
 
 	/**
 	 * Do Nothing.

@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.7"
 	client="installation">
 	<name>Persian (پارسی)</name>
-	<version>3.2.0</version>
-	<creationDate>2012-09-24</creationDate>
-	<author>Joomla Farsi Team</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<version>3.7.0</version>
+	<creationDate>February 2017</creationDate>
+	<author>JoomlaFarsi.Com Team</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>fa-IR.ini</filename>
 	</files>
 	<metadata>
 		<name>Persian (پارسی)</name>
+		<nativeName>Persian (پارسی)</nativeName>
 		<tag>fa-IR</tag>
 		<rtl>1</rtl>
 	</metadata>

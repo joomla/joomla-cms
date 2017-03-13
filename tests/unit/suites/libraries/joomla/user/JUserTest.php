@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,6 +36,9 @@ class JUserTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		// Clear JAccess static caches.
+		JAccess::clearStatics();
+
 		$this->saveFactoryState();
 
 		$this->object = new JUser('42');
@@ -55,7 +58,7 @@ class JUserTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -243,7 +246,7 @@ class JUserTest extends TestCaseDatabase
 	public function testAuthorise($userId, $action, $asset, $expected)
 	{
 		// Set up user 99 to be root_user from configuration
-		$testConfig = $this->getMock('JConfig', array('get'));
+		$testConfig = $this->getMockBuilder('JConfig')->setMethods(array('get'))->getMock();
 		$testConfig->expects(
 			$this->any()
 		)

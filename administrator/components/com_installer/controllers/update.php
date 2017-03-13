@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Controller
@@ -32,7 +34,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$model = $this->getModel('update');
 		$uid   = $this->input->get('cid', array(), 'array');
 
-		JArrayHelper::toInteger($uid, array());
+		$uid = ArrayHelper::toInteger($uid, array());
 
 		// Get the minimum stability.
 		$component     = JComponentHelper::getComponent('com_installer');
@@ -43,8 +45,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		if ($model->getState('result', false))
 		{
-			$cache = JFactory::getCache('mod_menu');
-			$cache->clean();
+			JFactory::getCache('mod_menu')->clean();
 		}
 
 		$app          = JFactory::getApplication();
@@ -144,7 +145,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		if (!JSession::checkToken('get'))
 		{
-			JResponse::setHeader('status', 403, true);
+			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
 			echo JText::_('JINVALID_TOKEN');
 			$app->close();

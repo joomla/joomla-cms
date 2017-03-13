@@ -3,29 +3,15 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JCacheStorageMemcache.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Cache
- * @since       11.1
  */
-class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
+class JCacheStorageMemcacheTest extends TestCaseCache
 {
-	/**
-	 * @var    JCacheStorageMemcache
-	 */
-	protected $object;
-
-	/**
-	 * @var    boolean
-	 */
-	protected $extensionAvailable;
-
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -34,54 +20,23 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$memcachetest = false;
-
-		if (extension_loaded('memcache') || class_exists('Memcache'))
+		if (!JCacheStorageMemcache::isSupported())
 		{
-			$config = JFactory::getConfig();
-			$host = $config->get('memcache_server_host', 'localhost');
-			$port = $config->get('memcache_server_port', 11211);
-
-			$memcache = new Memcache;
-			$memcachetest = @$memcache->connect($host, $port);
+			$this->markTestSkipped('The Memcache cache handler is not supported on this system.');
 		}
 
-		$this->extensionAvailable = $memcachetest;
+		parent::setUp();
 
-		if ($this->extensionAvailable)
+		try
 		{
-			$this->object = JCacheStorage::getInstance('memcache');
+			$this->handler = new JCacheStorageMemcache;
 		}
-		else
+		catch (JCacheExceptionConnecting $e)
 		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
+			$this->markTestSkipped('Failed to connect to Memcache');
 		}
-	}
 
-	/**
-	 * Testing gc().
-	 *
-	 * @return  void
-	 */
-	public function testGc()
-	{
-		$this->assertTrue(
-			$this->object->gc(),
-			'Should return default true'
-		);
-	}
-
-	/**
-	 * Testing isSupported().
-	 *
-	 * @return  void
-	 */
-	public function testIsSupported()
-	{
-		$this->assertEquals(
-			$this->extensionAvailable,
-			$this->object->isSupported(),
-			'Claims Memcache is not loaded.'
-		);
+		// Override the lifetime because the JCacheStorage API multiplies it by 60 (converts minutes to seconds)
+		$this->handler->_lifetime = 2;
 	}
 }

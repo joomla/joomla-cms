@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.joomla
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				$response->email    = $user->email;
 				$response->fullname = $user->name;
 
-				if (JFactory::getApplication()->isAdmin())
+				if (JFactory::getApplication()->isClient('administrator'))
 				{
 					$response->language = $user->getParam('admin_language');
 				}
@@ -82,6 +82,10 @@ class PlgAuthenticationJoomla extends JPlugin
 		}
 		else
 		{
+			// Let's hash the entered password even if we don't have a matching user for some extra response time
+			// By doing so, we mitigate side channel user enumeration attacks
+			JUserHelper::hashPassword($credentials['password']);
+
 			// Invalid user
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
@@ -90,9 +94,7 @@ class PlgAuthenticationJoomla extends JPlugin
 		// Check the two factor authentication
 		if ($response->status == JAuthentication::STATUS_SUCCESS)
 		{
-			require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
-
-			$methods = UsersHelper::getTwoFactorMethods();
+			$methods = JAuthenticationHelper::getTwoFactorMethods();
 
 			if (count($methods) <= 1)
 			{
@@ -100,9 +102,10 @@ class PlgAuthenticationJoomla extends JPlugin
 				return;
 			}
 
-			require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 
-			$model = new UsersModelUser;
+			/** @var UsersModelUser $model */
+			$model = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))
@@ -116,10 +119,10 @@ class PlgAuthenticationJoomla extends JPlugin
 			}
 
 			// Check if the user has enabled two factor authentication
-			if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+			if (empty($otpConfig->method) || ($otpConfig->method === 'none'))
 			{
-				// Warn the user if he's using a secret code but he has not
-				// enabed two factor auth in his account.
+				// Warn the user if they are using a secret code but they have not
+				// enabled two factor auth in their account.
 				if (!empty($credentials['secretkey']))
 				{
 					try
@@ -139,12 +142,6 @@ class PlgAuthenticationJoomla extends JPlugin
 				}
 
 				return;
-			}
-
-			// Load the Joomla! RAD layer
-			if (!defined('FOF_INCLUDED'))
-			{
-				include_once JPATH_LIBRARIES . '/fof/include.php';
 			}
 
 			// Try to validate the OTP
@@ -173,7 +170,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				// Did the user use an OTEP instead?
 				if (empty($otpConfig->otep))
 				{
-					if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+					if (empty($otpConfig->method) || ($otpConfig->method === 'none'))
 					{
 						// Two factor authentication is not enabled on this account.
 						// Any string is assumed to be a valid OTEP.
@@ -184,7 +181,7 @@ class PlgAuthenticationJoomla extends JPlugin
 					{
 						/*
 						 * Two factor authentication enabled and no OTEPs defined. The
-						 * user has used them all up. Therefore anything he enters is
+						 * user has used them all up. Therefore anything they enter is
 						 * an invalid OTEP.
 						 */
 						return;

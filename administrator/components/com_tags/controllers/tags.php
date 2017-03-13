@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,9 +29,7 @@ class TagsControllerTags extends JControllerAdmin
 	 */
 	public function getModel($name = 'Tag', $prefix = 'TagsModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -59,7 +57,7 @@ class TagsControllerTags extends JControllerAdmin
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(JText::_('COM_TAGSS_REBUILD_FAILURE'));
+			$this->setMessage(JText::_('COM_TAGS_REBUILD_FAILURE'));
 
 			return false;
 		}

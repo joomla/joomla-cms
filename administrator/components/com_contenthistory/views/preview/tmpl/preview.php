@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_users
+ * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,18 +25,18 @@ JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 <tbody>
 <?php foreach ($this->item->data as $name => $value) : ?>
 	<tr>
-	<?php if (is_object($value->value)): ?>
+	<?php if (is_object($value->value)) : ?>
 		<td><strong><?php echo $value->label; ?></strong></td>
 		<td></td><tr>
-		<?php foreach ($value->value as $subName => $subValue): ?>
-			<?php if ($subValue): ?>
+		<?php foreach ($value->value as $subName => $subValue) : ?>
+			<?php if ($subValue) : ?>
 				<tr>
 				<td><i>&nbsp;&nbsp;<?php echo $subValue->label; ?></i></td>
 				<td><?php echo $subValue->value; ?></td>
 				</tr>
 			<?php endif; ?>
 		<?php endforeach; ?>
-	<?php else: ?>
+	<?php else : ?>
 		<td><strong><?php echo $value->label; ?></strong></td>
 		<td><?php echo $value->value; ?></td>
 	<?php endif; ?>

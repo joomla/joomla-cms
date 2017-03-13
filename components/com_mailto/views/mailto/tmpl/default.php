@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
 
-$data	= $this->get('data');
+$data = $this->get('data');
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(pressbutton)
@@ -21,7 +21,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		// do field validation
 		if (form.mailto.value == '' || form.from.value == '')
 		{
-			alert('" . JText::_('COM_MAILTO_EMAIL_ERR_NOINFO') . "');
+			alert('" . JText::_('COM_MAILTO_EMAIL_ERR_NOINFO', true) . "');
 			return false;
 		}
 		form.submit();
@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 			</button>
 		</p>
-		<input type="hidden" name="layout" value="<?php echo $this->getLayout();?>" />
+		<input type="hidden" name="layout" value="<?php echo htmlspecialchars($this->getLayout(), ENT_COMPAT, 'UTF-8'); ?>" />
 		<input type="hidden" name="option" value="com_mailto" />
 		<input type="hidden" name="task" value="send" />
 		<input type="hidden" name="tmpl" value="component" />

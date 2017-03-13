@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.6"
 	client="installation">
 	<name>Syriac (sy-IQ)</name>
-	<version>3.2.0</version>
+	<version>3.5.0</version>
 	<creationDate>2012-09-25</creationDate>
 	<author>East Syriac Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>sy-IQ.ini</filename>
 	</files>

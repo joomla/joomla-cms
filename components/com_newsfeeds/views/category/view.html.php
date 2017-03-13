@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,19 +41,18 @@ class NewsfeedsViewCategory extends JViewCategory
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		parent::commonCategoryDisplay();
+		$this->commonCategoryDisplay();
 
 		// Prepare the data.
 		// Compute the newsfeed slug.
 		foreach ($this->items as $item)
 		{
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp		= new Registry;
-			$temp->loadString($item->params);
+			$temp       = $item->params;
 			$item->params = clone $this->params;
 			$item->params->merge($temp);
 		}
@@ -69,9 +68,9 @@ class NewsfeedsViewCategory extends JViewCategory
 	protected function prepareDocument()
 	{
 		parent::prepareDocument();
-		$id = (int) @$menu->query['id'];
 
 		$menu = $this->menu;
+		$id = (int) @$menu->query['id'];
 
 		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $this->category->id))
 		{
@@ -91,7 +90,5 @@ class NewsfeedsViewCategory extends JViewCategory
 				$this->pathway->addItem($item['title'], $item['link']);
 			}
 		}
-
-		parent::addFeed();
 	}
 }

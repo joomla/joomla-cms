@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Http
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,17 +38,32 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
-
 		if (!defined('JTEST_HTTP_STUB') && getenv('JTEST_HTTP_STUB') == '')
 		{
 			$this->markTestSkipped('The JHttpTransport test stub has not been configured');
 		}
 		else
 		{
-			$this->options = $this->getMock('\\Joomla\\Registry\\Registry', array('get', 'set'));
+			parent::setUp();
+			$this->options = $this->getMockBuilder('\\Joomla\\Registry\\Registry')->setMethods(array('get', 'set'))->getMock();
 			$this->stubUrl = defined('JTEST_HTTP_STUB') ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
 		}
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->stubUrl);
+		parent::tearDown();
 	}
 
 	/**
@@ -126,7 +141,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	public function testRequestGet404($transportClass)
 	{
 		$transport = new $transportClass($this->options);
-		$response = $transport->request('get', new JUri($this->stubUrl . ':80'));
+		$transport->request('get', new JUri($this->stubUrl . ':80'));
 	}
 
 	/**

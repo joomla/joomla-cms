@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -247,7 +247,7 @@ class JFeedParserAtomTest extends TestCase
 	public function testInitialise($expected, $xml)
 	{
 		// Set the XML for the internal reader.
-		$this->_reader->Xml($xml);
+		$this->_reader->XML($xml);
 
 		// Advance the reader to the first element.
 		do
@@ -329,6 +329,6 @@ class JFeedParserAtomTest extends TestCase
 		unset($this->_instance);
 		unset($this->_reader);
 
-		parent::teardown();
+		parent::tearDown();
 	}
 }

@@ -3,16 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$com_path = JPATH_SITE . '/components/com_content/';
-require_once $com_path . 'helpers/route.php';
+use Joomla\String\StringHelper;
 
-JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
+$com_path = JPATH_SITE . '/components/com_content/';
+
+JLoader::register('ContentHelperRoute', $com_path . 'helpers/route.php');
+JModelLegacy::addIncludePath($com_path . 'models', 'ContentModel');
 
 /**
  * Helper for mod_articles_category
@@ -130,7 +132,7 @@ abstract class ModArticlesCategoryHelper
 				// Get an instance of the generic categories model
 				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
-				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
+				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
 				$categories->setState('filter.published', 1);
 				$categories->setState('filter.access', $access);
@@ -163,14 +165,37 @@ abstract class ModArticlesCategoryHelper
 		}
 
 		// Ordering
-		$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
-		$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+		$ordering = $params->get('article_ordering', 'a.ordering');
+
+		switch ($ordering)
+		{
+			case 'random':
+				$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
+				break;
+
+			case 'rating_count':
+			case 'rating':
+				$articles->setState('list.ordering', $ordering);
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+
+				if (!JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$articles->setState('list.ordering', 'a.ordering');
+				}
+
+				break;
+
+			default:
+				$articles->setState('list.ordering', $ordering);
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+				break;
+		}
 
 		// New Parameters
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-		$articles->setState('filter.author_id', $params->get('created_by', ""));
+		$articles->setState('filter.author_id', $params->get('created_by', ''));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-		$articles->setState('filter.author_alias', $params->get('created_by_alias', ""));
+		$articles->setState('filter.author_alias', $params->get('created_by_alias', ''));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 		$excluded_articles = $params->get('excluded_articles', '');
 
@@ -226,6 +251,8 @@ abstract class ModArticlesCategoryHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
@@ -235,7 +262,6 @@ abstract class ModArticlesCategoryHelper
 			}
 			else
 			{
-				$app       = JFactory::getApplication();
 				$menu      = $app->getMenu();
 				$menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
 
@@ -298,8 +324,7 @@ abstract class ModArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace('<p>', ' ', $introtext);
-		$introtext = str_replace('</p>', ' ', $introtext);
+		$introtext = str_replace(array('<p>','</p>'), ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
@@ -335,7 +360,7 @@ abstract class ModArticlesCategoryHelper
 			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
 
 			// If the new plain text string matches the original plain text string we are done.
-			if ($ptString == $htmlStringToPtString)
+			if ($ptString === $htmlStringToPtString)
 			{
 				return $htmlString;
 			}
@@ -388,7 +413,7 @@ abstract class ModArticlesCategoryHelper
 				$grouped[$item->$fieldName] = array();
 			}
 
-			if (is_null($fieldNameToKeep))
+			if ($fieldNameToKeep === null)
 			{
 				$grouped[$item->$fieldName][$key] = $item;
 			}
@@ -436,7 +461,7 @@ abstract class ModArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = JString::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->created, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -448,7 +473,7 @@ abstract class ModArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = JString::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->created, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{

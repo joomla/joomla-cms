@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class LanguagesModelStrings extends JModelLegacy
 	 */
 	public function refresh()
 	{
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		$app = JFactory::getApplication();
 
@@ -48,8 +48,8 @@ class LanguagesModelStrings extends JModelLegacy
 					->columns('constant, string, file');
 
 		// Initialize some variables.
-		$client		= $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
-		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+		$client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
+		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
 		$base = constant('JPATH_' . strtoupper($client));
 		$path = $base . '/language/' . $language;

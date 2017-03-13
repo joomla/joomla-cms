@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,6 +22,13 @@ class JDocumentRendererRSSTest extends TestCase
 	protected $object;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -34,24 +41,15 @@ class JDocumentRendererRSSTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
+		$this->backupServer = $_SERVER;
 
 		$this->markTestSkipped("Too tightly coupled to internals to be testable now");
 
-		require_once JPATH_PLATFORM . '/joomla/application/router.php';
-		require_once JPATH_PLATFORM . '/joomla/environment/request.php';
-		require_once JPATH_PLATFORM . '/joomla/document/feed/feed.php';
-		require_once JPATH_PLATFORM . '/joomla/environment/response.php';
-
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMock(
-			'JApplication',
-			array(
-				'get',
-				'getCfg',
-				'getRouter',
-			)
-		);
+		JFactory::$application = $this->getMockBuilder('JApplication')
+								->setMethods(array('get', 'getCfg', 'getRouter'))
+								->getMock();
 
 		JFactory::$application
 			->expects($this->any())
@@ -60,10 +58,7 @@ class JDocumentRendererRSSTest extends TestCase
 			$this->returnValue(new JRouter)
 		);
 
-		JFactory::$config = $this->getMock(
-			'JConfig',
-			array('get')
-		);
+		JFactory::$config = $this->getMockBuilder('JConfig')->setMethods(array('get'))->getMock();
 
 		$_SERVER['REQUEST_METHOD'] = 'get';
 		$input = JFactory::getApplication()->input;
@@ -83,7 +78,12 @@ class JDocumentRendererRSSTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
 		$this->restoreFactoryState();
+		unset($input);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -96,7 +96,7 @@ class JDocumentRendererRSSTest extends TestCase
 		$item = new JFeedItem(
 			array(
 				'title' => 'Joomla!',
-				'link' => 'http://www.joomla.org',
+				'link' => 'https://www.joomla.org',
 				'description' => 'Joomla main site',
 				'author' => 'Joomla',
 				'authorEmail' => 'joomla@joomla.org',
@@ -104,7 +104,7 @@ class JDocumentRendererRSSTest extends TestCase
 				'comments' => 'No comment',
 				'guid' => 'joomla',
 				'date' => 'Mon, 20 Jan 03 18:05:41 +0400',
-				'source' => 'http://www.joomla.org'
+				'source' => 'https://www.joomla.org'
 			)
 		);
 		$this->object->addItem($item);
@@ -123,7 +123,7 @@ class JDocumentRendererRSSTest extends TestCase
 		<language>en-gb</language>
 		<item>
 			<title>Joomla!</title>
-			<link>http://www.joomla.org</link>
+			<link>https://www.joomla.org</link>
 			<guid isPermaLink="false">joomla</guid>
 			<description><![CDATA[Joomla main site]]></description>
 			<author>joomla@joomla.org (Joomla)</author>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -91,13 +91,13 @@ class JUpdaterCollection extends JUpdateAdapter
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
-		array_push($this->stack, $name);
-		$tag = $this->_getStackLocation();
+		$this->stack[] = $name;
+		$tag           = $this->_getStackLocation();
 
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = "";
+			$this->$tag->_data = '';
 		}
 
 		switch ($name)
@@ -148,7 +148,7 @@ class JUpdaterCollection extends JUpdateAdapter
 				$ver = new JVersion;
 
 				// Lower case and remove the exclamation mark
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+				$product = strtolower(JFilterInput::getInstance()->clean($ver::PRODUCT, 'cmd'));
 
 				/*
 				 * Set defaults, the extension file should clarify in case but it may be only available in one version
@@ -162,14 +162,16 @@ class JUpdaterCollection extends JUpdateAdapter
 				{
 					$values['targetplatform'] = $product;
 				}
+
 				// Set this to ourself as a default
 				if (!isset($values['targetplatformversion']))
 				{
-					$values['targetplatformversion'] = $ver->RELEASE;
+					$values['targetplatformversion'] = $ver::RELEASE;
 				}
+
 				// Set this to ourselves as a default
 				// validate that we can install the extension
-				if ($product == $values['targetplatform'] && preg_match('/' . $values['targetplatformversion'] . '/', $ver->RELEASE))
+				if ($product == $values['targetplatform'] && preg_match('/^' . $values['targetplatformversion'] . '/', JVERSION))
 				{
 					$update->bind($values);
 					$this->updates[] = $update;
@@ -239,7 +241,7 @@ class JUpdaterCollection extends JUpdateAdapter
 				return $this->findUpdate($options);
 			}
 
-			JLog::add("Error parsing url: " . $this->_url, JLog::WARNING, 'updater');
+			JLog::add('Error parsing url: ' . $this->_url, JLog::WARNING, 'updater');
 
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');

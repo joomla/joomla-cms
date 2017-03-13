@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,8 @@ class CacheHelper
 	 * Get a list of filter options for the application clients.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @deprecated  4.0  No replacement.
 	 */
 	public static function getClientOptions()
 	{

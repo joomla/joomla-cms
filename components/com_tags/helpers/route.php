@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -94,6 +94,38 @@ class TagsHelperRoute extends JHelperRoute
 			{
 				$link .= '&Itemid=' . $item;
 			}
+			else
+			{
+				$needles = array('tags' => array(1, 0));
+
+				if ($item = self::_findItem($needles))
+				{
+					$link .= '&Itemid=' . $item;
+				}
+			}
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Tries to load the router for the tags view.
+	 *
+	 * @return  string  URL link to pass to JRoute
+	 *
+	 * @since   3.7
+	 */
+	public static function getTagsRoute()
+	{
+		$needles = array(
+			'tags'  => array(0)
+		);
+
+		$link = 'index.php?option=com_tags&view=tags';
+
+		if ($item = self::_findItem($needles))
+		{
+			$link .= '&Itemid=' . $item;
 		}
 
 		return $link;
@@ -110,17 +142,17 @@ class TagsHelperRoute extends JHelperRoute
 	 */
 	protected static function _findItem($needles = null)
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu('site');
-		$language	= isset($needles['language']) ? $needles['language'] : '*';
+		$app      = JFactory::getApplication();
+		$menus    = $app->getMenu('site');
+		$language = isset($needles['language']) ? $needles['language'] : '*';
 
 		// Prepare the reverse lookup array.
 		if (self::$lookup === null)
 		{
 			self::$lookup = array();
 
-			$component	= JComponentHelper::getComponent('com_tags');
-			$items		= $menus->getItems('component_id', $component->id);
+			$component = JComponentHelper::getComponent('com_tags');
+			$items     = $menus->getItems('component_id', $component->id);
 
 			if ($items)
 			{
@@ -152,6 +184,10 @@ class TagsHelperRoute extends JHelperRoute
 									self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
 								}
 							}
+						}
+						elseif ($view == 'tags')
+						{
+							self::$lookup[$lang]['tags'][] = $item->id;
 						}
 					}
 				}

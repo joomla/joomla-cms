@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.cookie
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,14 +48,21 @@ class PlgAuthenticationCookie extends JPlugin
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
 		// Get cookie
-		$cookieName  = JUserHelper::getShortHashedUserAgent();
+		$cookieName  = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 		$cookieValue = $this->app->input->cookie->get($cookieName);
+
+		// Try with old cookieName (pre 3.6.0) if not found
+		if (!$cookieValue)
+		{
+			$cookieName  = JUserHelper::getShortHashedUserAgent();
+			$cookieValue = $this->app->input->cookie->get($cookieName);
+		}
 
 		if (!$cookieValue)
 		{
@@ -77,8 +84,8 @@ class PlgAuthenticationCookie extends JPlugin
 		$response->type = 'Cookie';
 
 		// Filter series since we're going to use it in the query
-		$filter	= new JFilterInput;
-		$series	= $filter->clean($cookieArray[1], 'ALNUM');
+		$filter = new JFilterInput;
+		$series = $filter->clean($cookieArray[1], 'ALNUM');
 
 		// Remove expired tokens
 		$query = $this->db->getQuery(true)
@@ -212,30 +219,41 @@ class PlgAuthenticationCookie extends JPlugin
 	public function onUserAfterLogin($options)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
-		if (isset($options['responseType']) && $options['responseType'] == 'Cookie')
+		if (isset($options['responseType']) && $options['responseType'] === 'Cookie')
 		{
 			// Logged in using a cookie
-			$cookieName = JUserHelper::getShortHashedUserAgent();
+			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 
 			// We need the old data to get the existing series
 			$cookieValue = $this->app->input->cookie->get($cookieName);
+
+			// Try with old cookieName (pre 3.6.0) if not found
+			if (!$cookieValue)
+			{
+				$oldCookieName = JUserHelper::getShortHashedUserAgent();
+				$cookieValue   = $this->app->input->cookie->get($oldCookieName);
+
+				// Destroy the old cookie in the browser
+				$this->app->input->cookie->set($oldCookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
+			}
+
 			$cookieArray = explode('.', $cookieValue);
 
 			// Filter series since we're going to use it in the query
 			$filter = new JFilterInput;
-			$series	= $filter->clean($cookieArray[1], 'ALNUM');
+			$series = $filter->clean($cookieArray[1], 'ALNUM');
 		}
 		elseif (!empty($options['remember']))
 		{
 			// Remember checkbox is set
-			$cookieName		= JUserHelper::getShortHashedUserAgent();
+			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 
-			// Create an unique series which will be used over the lifespan of the cookie
+			// Create a unique series which will be used over the lifespan of the cookie
 			$unique     = false;
 			$errorCount = 0;
 
@@ -277,7 +295,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 		// Get the parameter values
 		$lifetime = $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
-		$length	  = $this->params->get('key_length', '16');
+		$length   = $this->params->get('key_length', '16');
 
 		// Generate new cookie
 		$token       = JUserHelper::genRandomPassword($length);
@@ -341,12 +359,12 @@ class PlgAuthenticationCookie extends JPlugin
 	public function onUserAfterLogout($options)
 	{
 		// No remember me for admin
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			return false;
 		}
 
-		$cookieName  = JUserHelper::getShortHashedUserAgent();
+		$cookieName  = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 		$cookieValue = $this->app->input->cookie->get($cookieName);
 
 		// There are no cookies to delete.

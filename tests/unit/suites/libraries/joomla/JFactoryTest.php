@@ -2,11 +2,9 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/factory.php';
 
 /**
  * Tests for JDate class.
@@ -72,7 +70,7 @@ class JFactoryTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JFactory::getLangauge method.
+	 * Tests the JFactory::getLanguage method.
 	 *
 	 * @return  void
 	 *
@@ -168,7 +166,7 @@ class JFactoryTest extends TestCaseDatabase
 	{
 		$this->assertInstanceOf(
 			'JUri',
-			JFactory::getUri('http://www.joomla.org'),
+			JFactory::getUri('https://www.joomla.org'),
 			'Line: ' . __LINE__
 		);
 	}
@@ -225,7 +223,7 @@ class JFactoryTest extends TestCaseDatabase
 		JFactory::$language = $this->getMockLanguage();
 
 		$date = JFactory::getDate('now');
-		sleep(2);
+		usleep(1);
 		$date2 = JFactory::getDate('now');
 
 		$this->assertThat(

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,12 +69,6 @@ class UsersModelLogin extends JModelForm
 			}
 		}
 
-		// Set the return URL if empty.
-		if (!isset($data['return']) || empty($data['return']))
-		{
-			$data['return'] = 'index.php?option=com_users&view=profile';
-		}
-
 		$app->setUserState('users.login.form.data', $data);
 
 		$this->preprocessData('com_users.login', $data);
@@ -94,7 +88,7 @@ class UsersModelLogin extends JModelForm
 	protected function populateState()
 	{
 		// Get the application object.
-		$params	= JFactory::getApplication()->getParams('com_users');
+		$params = JFactory::getApplication()->getParams('com_users');
 
 		// Load the parameters.
 		$this->setState('params', $params);

@@ -2,7 +2,7 @@
  * @author Design & Accessible Team ( Angie Radtke  )
  * @package Joomla
  * @subpackage Accessible-Template-Beez
- * @copyright Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -513,6 +513,7 @@ ul.menu li ul li ul li ul li ul {
 .tooltip.left {
 	margin-left: 3px;
 }
+.popover,
 .tooltip-inner {
 	text-align: right;
 }
@@ -532,4 +533,21 @@ ul.menu li ul li ul li ul li ul {
 .tooltip.bottom .tooltip-arrow {
 	right: 50%;
 	margin-right: -5px;
+}
+
+/* Smartsearch Calendar*/
+#filter_date1_img,
+#filter_date2_img {
+	margin-left: 0;
+	margin-right: 3px;
+}
+ul#finder-filter-select-dates li.filter-date {
+	text-align: right;
+}
+.radio, .checkbox {
+	padding-left: 0;
+	padding-right: 4px;
+}
+#searchForm .searchintro {
+	padding: 0 250px 0 0;
 }

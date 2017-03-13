@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,6 +27,20 @@ class FinderIndexerStemmerPorter_EnTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->object = new FinderIndexerStemmerPorter_En;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
 	}
 
 	/**

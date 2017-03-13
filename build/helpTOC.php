@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,18 +52,18 @@ class MediawikiCli extends JApplicationCli
 	{
 		// Get the version data for the script
 		$version     = new JVersion;
-		$helpVersion = str_replace('.', '', $version->RELEASE);
+		$helpVersion = str_replace('.', '', $version::RELEASE);
 		$namespace   = 'Help' . $helpVersion . ':';
 
 		// Set up options for JMediawiki
-		$options = new JRegistry;
+		$options = new Joomla\Registry\Registry;
 		$options->set('api.url', 'https://docs.joomla.org');
 
 		$mediawiki = new JMediawiki($options);
 
 		// Get the category members (local hack)
 		$this->out('Fetching data from docs wiki', true);
-		$categoryMembers = $mediawiki->categories->getCategoryMembers('Category:Help_screen_' . $version->RELEASE, null, 'max');
+		$categoryMembers = $mediawiki->categories->getCategoryMembers('Category:Help_screen_' . $version::RELEASE, null, 'max');
 
 		$members = array();
 

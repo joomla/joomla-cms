@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,12 +14,13 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for generating Twitter API access token.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterOAuth extends JOAuth1Client
 {
 	/**
-	* @var Registry  Options for the JTwitterOauth object.
+	* @var    Registry  Options for the JTwitterOauth object.
 	* @since  12.3
 	*/
 	protected $options;

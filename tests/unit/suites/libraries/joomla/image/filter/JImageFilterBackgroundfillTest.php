@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,7 +51,7 @@ class JImageFilterBackgroundfillTest extends TestCase
 	 */
 	public function testExecute()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 		imagealphablending($imageHandle, false);
 		imagesavealpha($imageHandle, true);
@@ -93,7 +93,7 @@ class JImageFilterBackgroundfillTest extends TestCase
 	 */
 	public function testExecuteInvalidArgument()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
 		// Define red.

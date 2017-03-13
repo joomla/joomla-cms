@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,6 +59,19 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
 
+		// Check for special update statement to reset utf8mb4 conversion status
+		if (($command == 'UPDATE `#__UTF8_CONVERSION`'
+			|| $command == 'UPDATE #__UTF8_CONVERSION')
+			&& strtoupper($wordArray[2]) == 'SET'
+			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) == 'converted')
+		{
+			// Statement is special statement to reset conversion status
+			$this->queryType = 'UTF8CNV';
+
+			// Done with method
+			return;
+		}
+
 		if ($command === 'ALTER TABLE')
 		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
@@ -69,7 +82,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
-			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD UNIQUE')
+			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD KEY')
 			{
 				if ($pos = strpos($wordArray[5], '('))
 				{
@@ -84,7 +97,34 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->queryType = 'ADD_INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif ($alterCommand == 'DROP INDEX')
+			elseif ($alterCommand == 'ADD UNIQUE')
+			{
+				$idxIndexName = 5;
+
+				if (isset($wordArray[6]))
+				{
+					$addCmdCheck = strtoupper($wordArray[5]);
+
+					if ($addCmdCheck == 'INDEX' || $addCmdCheck == 'KEY')
+					{
+						$idxIndexName = 6;
+					}
+				}
+
+				if ($pos = strpos($wordArray[$idxIndexName], '('))
+				{
+					$index = $this->fixQuote(substr($wordArray[$idxIndexName], 0, $pos));
+				}
+				else
+				{
+					$index = $this->fixQuote($wordArray[$idxIndexName]);
+				}
+
+				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+				$this->queryType = 'ADD_INDEX';
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+			}
+			elseif ($alterCommand == 'DROP INDEX' || $alterCommand == 'DROP KEY')
 			{
 				$index = $this->fixQuote($wordArray[5]);
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
@@ -103,24 +143,44 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			elseif (strtoupper($wordArray[3]) == 'MODIFY')
 			{
 				// Kludge to fix problem with "integer unsigned"
-				$type = $this->fixQuote($wordArray[5]);
+				$type = $wordArray[5];
 
 				if (isset($wordArray[6]))
 				{
-					$type = $this->fixQuote($this->fixInteger($wordArray[5], $wordArray[6]));
+					$type = $this->fixInteger($wordArray[5], $wordArray[6]);
 				}
 
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
+				/**
+				 * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
+				 * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
+				 */
+				$typeCheck = $this->fixUtf8mb4TypeChecks($type);
+
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4])
+					. ' AND ' . $typeCheck;
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
 			}
 			elseif (strtoupper($wordArray[3]) == 'CHANGE')
 			{
 				// Kludge to fix problem with "integer unsigned"
-				$type = $this->fixQuote($this->fixInteger($wordArray[6], $wordArray[7]));
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
+				$type = $wordArray[6];
+
+				if (isset($wordArray[7]))
+				{
+					$type = $this->fixInteger($wordArray[6], $wordArray[7]);
+				}
+
+				/**
+				 * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
+				 * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
+				 */
+				$typeCheck = $this->fixUtf8mb4TypeChecks($type);
+
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5])
+					. ' AND ' . $typeCheck;
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
-				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
 			}
 		}
 
@@ -169,9 +229,13 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) == "integer" && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
 		{
 			$result = 'int(10) unsigned';
+		}
+		elseif (strtolower(substr($type2, 0, 8)) == 'unsigned')
+		{
+			$result = $type1 . ' unsigned';
 		}
 
 		return $result;
@@ -180,7 +244,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	/**
 	 * Fixes up a string for inclusion in a query.
 	 * Replaces name quote character with normal quote for literal.
-	 * Drops trailing semi-colon. Injects the database prefix.
+	 * Drops trailing semicolon. Injects the database prefix.
 	 *
 	 * @param   string  $string  The input string to be cleaned up.
 	 *
@@ -195,5 +259,49 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
 
 		return $this->db->quote($string);
+	}
+
+	/**
+	 * Make check query for column changes/modifications tolerant
+	 * for automatic type changes of text columns, e.g. from TEXT
+	 * to MEDIUMTEXT, after comnversion from utf8 to utf8mb4
+	 *
+	 * @param   string  $type  The column type found in the update query
+	 *
+	 * @return  string  The condition for type check in the check query
+	 *
+	 * @since   3.5
+	 */
+	private function fixUtf8mb4TypeChecks($type)
+	{
+		$fixedType = str_replace(';', '', $type);
+
+		if ($this->db->hasUTF8mb4Support())
+		{
+			$uType = strtoupper($fixedType);
+
+			if ($uType === 'TINYTEXT')
+			{
+				$typeCheck = 'type IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
+			}
+			elseif ($uType === 'TEXT')
+			{
+				$typeCheck = 'type IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
+			}
+			elseif ($uType === 'MEDIUMTEXT')
+			{
+				$typeCheck = 'type IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
+			}
+			else
+			{
+				$typeCheck = 'type = ' . $this->db->quote($fixedType);
+			}
+		}
+		else
+		{
+			$typeCheck = 'type = ' . $this->db->quote($fixedType);
+		}
+
+		return $typeCheck;
 	}
 }

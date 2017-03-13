@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Microdata
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,17 +45,31 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->handler);
+	}
+
+	/**
 	 * Test the default settings
 	 *
 	 * @return  void
-	 *
+	 * 
 	 * @since   3.2
 	 */
 	public function testDefaults()
 	{
 		$this->handler = new JMicrodata;
 
-		// Test that the default Type is Thing
+		// Test that the default Type is 'Thing'
 		$this->assertEquals($this->handler->getType(), $this->defaultType);
 
 		$this->assertClassHasAttribute('types', 'JMicrodata');
@@ -72,10 +86,10 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	{
 		$this->handler->setType('Article');
 
-		// Test if the current Type is Article
+		// Test if the current Type is 'Article'
 		$this->assertEquals($this->handler->getType(), 'Article');
 
-		// Test if the Type fallbacks to Thing Type
+		// Test if the Type fallbacks to 'Thing' Type
 		$this->handler->setType('TypeThatDoesNotExist');
 		$this->assertEquals($this->handler->getType(), $this->defaultType);
 	}
@@ -94,13 +108,13 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($this->handler->getFallbackType(), 'Article');
 		$this->assertEquals($this->handler->getFallbackProperty(), 'articleBody');
 
-		// Test if Fallback Property fallbacks isn't available in the Type
-		$this->handler->fallback('Article', 'anUnanvailableProperty');
+		// Test if the Fallback Property fallbacks when it isn't available in the $Type
+		$this->handler->fallback('Article', 'anUnavailableProperty');
 		$this->assertEquals($this->handler->getFallbackType(), 'Article');
 		$this->assertNull($this->handler->getFallbackProperty());
 
-		// Test if Fallback Type fallbacks to Thing Type
-		$this->handler->fallback('anUnanvailableType', 'anUnanvailableProperty');
+		// Test if the Fallback Type fallbacks to the 'Thing' Type
+		$this->handler->fallback('anUnavailableType', 'anUnavailableProperty');
 		$this->assertEquals($this->handler->getFallbackType(), 'Thing');
 		$this->assertNull($this->handler->getFallbackProperty());
 	}
@@ -122,7 +136,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($this->handler->display(), '');
 
-		// Test if the params are reseted after display()
+		// Test if the params are reseted after the display() function
 		$this->handler->setType('Article')
 			->content($content)
 			->property('name')
@@ -132,116 +146,136 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($this->handler->getFallbackProperty());
 		$this->assertNull($this->handler->getFallbackType());
 		$this->assertNull($this->handler->getProperty());
-		$this->assertEmpty($this->handler->getContent());
+		$this->assertNull($this->handler->getContent());
 
 		// Test for a simple display
-		$responce = $this->handler
+		$response = $this->handler
 			->property('url')
 			->display();
 
-		$this->assertEquals($responce, "itemprop='url'");
+		$this->assertEquals($response, "itemprop='url'");
 
-		// Test for a simple display with content
-		$responce = $this->handler
+		// Test for a simple display with $content
+		$response = $this->handler
 			->property('url')
 			->content($content)
 			->display();
 
-		$this->assertEquals($responce, "<span itemprop='url'>$content</span>");
+		$this->assertEquals($response, "<span itemprop='url'>$content</span>");
 
-		// Test for a simple display if the content is empty ''
-		$responce = $this->handler->enable(true)
+		// Test for a simple display if the $content is empty ''
+		$response = $this->handler->enable(true)
 			->content('')
 			->property('name')
 			->display();
 
-		$this->assertEquals($responce, "<span itemprop='name'></span>");
+		$this->assertEquals($response, "<span itemprop='name'></span>");
 
-		// Test for a simple nested display
-		$responce = $this->handler
+		// Test for a simple 'nested' display
+		$response = $this->handler
 			->property('author')
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"itemprop='author' itemscope itemtype='https://schema.org/Organization'"
 		);
 
-		// Test for a nested display with content
-		$responce = $this->handler
+		// Test for a 'nested' display with $content
+		$response = $this->handler
 			->property('author')
 			->content($content)
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<span itemprop='author' itemscope itemtype='https://schema.org/Organization'>$content</span>"
 		);
 
-		// Test for a nested display with content and Fallback
-		$responce = $this->handler
+		// Test for a 'nested' display with $content and $Fallback
+		$response = $this->handler
 			->fallback('Person', 'name')
 			->property('author')
 			->content($content)
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<span itemprop='author' itemscope itemtype='https://schema.org/Person'><span itemprop='name'>$content</span></span>"
 		);
 
-		// Test for a nested display with Fallback and without content
-		$responce = $this->handler
+		// Test for a 'nested' display with $Fallback and without $content
+		$response = $this->handler
 			->fallback('Person', 'name')
 			->property('author')
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"itemprop='author' itemscope itemtype='https://schema.org/Person' itemprop='name'"
 		);
 
-		// Test for a meta display without content
-		$responce = $this->handler
+		// Test for a 'meta' display without $content
+		$response = $this->handler
 			->property('datePublished')
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"itemprop='datePublished'"
 		);
 
-		// Test for a meta display with content
+		// Test for a 'meta' display with $content
 		$content = '01 January 2011';
-		$responce = $this->handler
+		$response = $this->handler
 			->property('datePublished')
 			->content($content)
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<meta itemprop='datePublished' content='$content'/>$content"
 		);
 
-		// Test if the JMicrodata is disabled
-		$responce = $this->handler->enable(false)
+		// Test for a 'meta' display with human $content and $machineContent
+		$machineContent = "2011-01-01T00:00:00+00:00";
+		$response = $this->handler
+			->property('datePublished')
+			->content($content, $machineContent)
+			->display();
+
+		$this->assertEquals(
+			$response,
+			"<meta itemprop='datePublished' content='$machineContent'/>$content"
+		);
+
+		// Test when if fallbacks that the library returns an empty string as specified
+		$response = $this->handler
+			->content('en-GB')
+			->property('doesNotExist')
+			->display('meta', true);
+
+		$this->assertEquals($response, '');
+
+		// Test if the library is disabled
+		$response = $this->handler->enable(false)
 			->content($content)
 			->fallback('Article', 'about')
 			->property('datePublished')
 			->display();
 
-		$this->assertEquals($responce, $content);
+		$this->assertEquals($response, $content);
 
-		// Test if JMicrodata is disabled and have a $content it must return an empty string
-		$responce = $this->handler->enable(false)
+		// Test if the library is disabled and if it have a $content it must return an empty string
+		$response = $this->handler->enable(false)
 			->content('en-GB')
 			->property('inLanguage')
 			->fallback('Language', 'name')
 			->display('meta', true);
 
-		$this->assertEquals($responce, '');
+		$this->assertEquals($response, '');
 
-		// Test if the params are reseted after display(), if the library is disabled
+		// Test if the params are reseted after the display() function, if the library is disabled
 		$this->assertNull($this->handler->getFallbackProperty());
 		$this->assertNull($this->handler->getFallbackType());
 		$this->assertNull($this->handler->getProperty());
@@ -261,60 +295,60 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		$this->handler->enable(true)->setType('Article');
 		$content = 'anything';
 
-		// Test without content if fallbacks, the Property isn't available in the current Type
-		$responce = $this->handler
-			->property('anUnanvailableProperty')
+		// Test without $content if fallbacks, the $Property isn't available in the current Type
+		$response = $this->handler
+			->property('anUnavailableProperty')
 			->fallback('Article', 'about')
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"itemscope itemtype='https://schema.org/Article' itemprop='about'"
 		);
 
-		// Test wit content if fallbacks, the Property isn't available in the current Type
-		$responce = $this->handler
+		// Test with $content if fallbacks, the $Property isn't available in the current Type
+		$response = $this->handler
 			->content($content)
-			->property('anUnanvailableProperty')
+			->property('anUnavailableProperty')
 			->fallback('Article', 'about')
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<span itemscope itemtype='https://schema.org/Article'><span itemprop='about'>$content</span></span>"
 		);
 
-		// Test if fallbacks, the Property isn't available in the current and fallback Type
-		$responce = $this->handler
-			->property('anUnanvailableProperty')
-			->fallback('Article', 'anUnanvailableProperty')
+		// Test if fallbacks, the $Property isn't available in the current and fallback Type
+		$response = $this->handler
+			->property('anUnavailableProperty')
+			->fallback('Article', 'anUnavailableProperty')
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"itemscope itemtype='https://schema.org/Article'"
 		);
 
-		// Test with content if fallbacks, the Property isn't available in the current and fallback Type
-		$responce = $this->handler
+		// Test with $content if fallbacks, the $Property isn't available in the current $Type
+		$response = $this->handler
 			->content($content)
-			->property('anUnanvailableProperty')
+			->property('anUnavailableProperty')
 			->fallback('Article', 'datePublished')
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='$content'/>"
 		);
 
-		// Test withtout content if fallbacks, the Property isn't available in the current and fallback Type
-		$responce = $this->handler
-			->property('anUnanvailableProperty')
+		// Test without $content if fallbacks, the $Property isn't available in the current $Type
+		$response = $this->handler
+			->property('anUnavailableProperty')
 			->fallback('Article', 'datePublished')
 			->display();
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"itemscope itemtype='https://schema.org/Article' itemprop='datePublished'"
 		);
 	}
@@ -329,85 +363,84 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	public function testDisplayTypes()
 	{
 		// Setup
-		$type = 'Article';
-		$content = 'microdata';
-		$property = 'datePublished';
-
+		$type      = 'Article';
+		$content   = 'anything';
+		$property  = 'datePublished';
 		$microdata = $this->handler;
 		$microdata->enable(true)->setType($type);
 
-		// Display Type: Inline
-		$responce = $microdata->content($content)
+		// Test Display Type: 'inline'
+		$response = $microdata->content($content)
 			->property($property)
 			->display('inline');
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"itemprop='$property'"
 		);
 
-		// Display Type: div
-		$responce = $microdata->content($content)
+		// Test Display Type: 'div'
+		$response = $microdata->content($content)
 			->property($property)
 			->display('div');
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<div itemprop='$property'>$content</div>"
 		);
 
-		// Display Type: div without $content
-		$responce = $microdata->property($property)
+		// Test Display Type: 'div' without $content
+		$response = $microdata->property($property)
 			->display('div');
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<div itemprop='$property'></div>"
 		);
 
-		// Display Type: span
-		$responce = $microdata->content($content)
+		// Test Display Type: 'span'
+		$response = $microdata->content($content)
 			->property($property)
 			->display('span');
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<span itemprop='$property'>$content</span>"
 		);
 
-		// Display Type: span without $content
-		$responce = $microdata
+		// Test Display Type: 'span' without $content
+		$response = $microdata
 			->property($property)
 			->display('span');
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<span itemprop='$property'></span>"
 		);
 
-		// Display Type: meta
-		$responce = $microdata->content($content)
+		// Test Display Type: 'meta'
+		$response = $microdata->content($content)
 			->property($property)
 			->display('meta');
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<meta itemprop='$property' content='$content'/>"
 		);
 
-		// Display Type: meta without $content
-		$responce = $microdata
-		->property($property)
-		->display('meta');
+		// Test Display Type: 'meta' without $content
+		$response = $microdata
+			->property($property)
+			->display('meta');
 
 		$this->assertEquals(
-			$responce,
+			$response,
 			"<meta itemprop='$property' content=''/>"
 		);
 	}
 
 	/**
-	 * Test the isTypeAvailabe() function
+	 * Test the isTypeAvailable() function
 	 *
 	 * @return  void
 	 *
@@ -415,12 +448,12 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsTypeAvailable()
 	{
-		// Test if the method return true with an available Type
+		// Test if the function returns 'true' with an available $Type
 		$this->assertTrue(
 			JMicrodata::isTypeAvailable('Article')
 		);
 
-		// Test if the method return false with an unavailable Type
+		// Test if the function returns 'false' with an unavailable $Type
 		$this->assertFalse(
 			JMicrodata::isTypeAvailable('SomethingThatDoesNotExist')
 		);
@@ -438,22 +471,22 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		// Setup
 		$type = 'Article';
 
-		// Test a Property that is available in the Type
+		// Test a $Property that is available in the $Type
 		$this->assertTrue(
 			JMicrodata::isPropertyInType($type, 'articleBody')
 		);
 
-		// Test an inherit Property that is available in the Type
+		// Test an inherit $Property that is available in the $Type
 		$this->assertTrue(
 			JMicrodata::isPropertyInType($type, 'about')
 		);
 
-		// Test a Property that is unavailable in the Type
+		// Test a $Property that is unavailable in the $Type
 		$this->assertFalse(
 			JMicrodata::isPropertyInType($type, 'aPropertyThatDoesNotExist')
 		);
 
-		// Test a Property in an unanvailable Type
+		// Test a Property in an unavailable Type
 		$this->assertFalse(
 			JMicrodata::isPropertyInType('aTypeThatDoesNotExist', 'aPropertyThatDoesNotExist')
 		);
@@ -505,16 +538,16 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		$this->handler->enable(true)
 			->setType($type);
 
-		// Test a displayScope() when microdata are enabled
+		// Test the displayScope() function when the library is enabled
 		$this->assertEquals(
 			$this->handler->displayScope(),
 			"itemscope itemtype='https://schema.org/$type'"
 		);
 
-		// Test a displayScope() when microdata are disabled
+		// Test the displayScope() function when the library is disabled
 		$this->assertEquals(
-			$this->handler->displayScope(),
-			"itemscope itemtype='https://schema.org/$type'"
+			$this->handler->enable(false)->displayScope(),
+			""
 		);
 	}
 
@@ -527,11 +560,11 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAvailableTypes()
 	{
-		$responce = JMicrodata::getAvailableTypes();
+		$response = JMicrodata::getAvailableTypes();
 
-		$this->assertGreaterThan(500, count($responce));
-		$this->assertNotEmpty($responce);
-		$this->assertTrue(in_array('Thing', $responce));
+		$this->assertGreaterThan(500, count($response));
+		$this->assertNotEmpty($response);
+		$this->assertTrue(in_array('Thing', $response));
 	}
 
 	/**
@@ -543,8 +576,8 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testHtmlMeta()
 	{
-		$scope = 'Article';
-		$content = 'microdata';
+		$scope    = 'Article';
+		$content  = 'anything';
 		$property = 'datePublished';
 
 		// Test with all params
@@ -553,7 +586,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 			"<meta itemscope itemtype='https://schema.org/$scope' itemprop='$property' content='$content'/>"
 		);
 
-		// Test with the inverse mode
+		// Test with the $inverse mode
 		$this->assertEquals(
 			JMicrodata::htmlMeta($content, $property, $scope, true),
 			"<meta itemprop='$property' itemscope itemtype='https://schema.org/$scope' content='$content'/>"
@@ -576,8 +609,8 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	public function testHtmlDiv()
 	{
 		// Setup
-		$scope = 'Article';
-		$content = 'microdata';
+		$scope    = 'Article';
+		$content  = 'microdata';
 		$property = 'about';
 
 		// Test with all params
@@ -586,7 +619,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 			"<div itemscope itemtype='https://schema.org/$scope' itemprop='$property'>$content</div>"
 		);
 
-		// Test with the inverse mode
+		// Test with the $inverse mode
 		$this->assertEquals(
 			JMicrodata::htmlDiv($content, $property, $scope, true),
 			"<div itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</div>"
@@ -604,7 +637,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 			"<div itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</div>"
 		);
 
-		// Test withoud the $scope, $property
+		// Test without the $scope, $property
 		$this->assertEquals(
 			JMicrodata::htmlDiv($content),
 			"<div>$content</div>"
@@ -621,8 +654,8 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	public function testHtmlSpan()
 	{
 		// Setup
-		$scope = 'Article';
-		$content = 'microdata';
+		$scope    = 'Article';
+		$content  = 'anything';
 		$property = 'about';
 
 		// Test with all params
@@ -649,7 +682,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 			"<span itemprop='$property' itemscope itemtype='https://schema.org/$scope'>$content</span>"
 		);
 
-		// Test withoud the $scope, $property
+		// Test without the $scope, $property
 		$this->assertEquals(
 			JMicrodata::htmlSpan($content),
 			"<span>$content</span>"

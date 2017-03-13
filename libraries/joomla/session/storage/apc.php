@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APC session storage handler for PHP
  *
- * @see    http://www.php.net/manual/en/function.session-set-save-handler.php
- * @since  11.1
+ * @see         https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @since       11.1
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageApc extends JSessionStorage
 {
@@ -66,7 +67,7 @@ class JSessionStorageApc extends JSessionStorage
 	{
 		$sess_id = 'sess_' . $id;
 
-		return apc_store($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
+		return apc_store($sess_id, $session_data, ini_get('session.gc_maxlifetime'));
 	}
 
 	/**

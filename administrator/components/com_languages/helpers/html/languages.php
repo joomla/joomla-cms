@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ abstract class JHtmlLanguages
 			. ' type="radio"'
 			. ' id="cb' . $rowNum . '"'
 			. ' name="cid"'
-			. ' value="' . htmlspecialchars($language) . '"'
+			. ' value="' . htmlspecialchars($language, ENT_COMPAT, 'UTF-8') . '"'
 			. ' onclick="Joomla.isChecked(this.checked);"'
 			. ' title="' . ($rowNum + 1) . '"'
 			. '/>';
@@ -76,11 +76,11 @@ abstract class JHtmlLanguages
 	public static function publishedOptions()
 	{
 		// Build the active state filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JPUBLISHED');
-		$options[]	= JHtml::_('select.option', '0', 'JUNPUBLISHED');
-		$options[]	= JHtml::_('select.option', '-2', 'JTRASHED');
-		$options[]	= JHtml::_('select.option', '*', 'JALL');
+		$options   = array();
+		$options[] = JHtml::_('select.option', '1', 'JPUBLISHED');
+		$options[] = JHtml::_('select.option', '0', 'JUNPUBLISHED');
+		$options[] = JHtml::_('select.option', '-2', 'JTRASHED');
+		$options[] = JHtml::_('select.option', '*', 'JALL');
 
 		return $options;
 	}

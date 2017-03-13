@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Event
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,8 +92,8 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUpdateNoArgs()
 	{
-		// Get a mock for the
-		$observable = $this->getMock('Observable', array('attach'));
+		// Build the mock object
+		$observable = $this->getMockBuilder('Observable')->setMethods(array('attach'))->getMock();
 
 		// We expect that the attach method of our mock object will be called because
 		// when we instantiate an observer it needs something observable to attach itself to
@@ -143,8 +143,8 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUpdateOneArg()
 	{
-		// Get a mock for the
-		$observable = $this->getMock('Observable', array('attach'));
+		// Build the mock object
+		$observable = $this->getMockBuilder('Observable')->setMethods(array('attach'))->getMock();
 
 		// We expect that the attach method of our mock object will be called because
 		// when we instantiate an observer it needs something observable to attach itself to
@@ -193,8 +193,8 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUpdateMultipleArgs()
 	{
-		// Get a mock for the
-		$observable = $this->getMock('Observable', array('attach'));
+		// Build the mock object
+		$observable = $this->getMockBuilder('Observable')->setMethods(array('attach'))->getMock();
 
 		// We expect that the attach method of our mock object will be called because
 		// when we instantiate an observer it needs something observable to attach itself to
@@ -243,8 +243,8 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUpdateBadEvent()
 	{
-		// Get a mock for the
-		$observable = $this->getMock('Observable', array('attach'));
+		// Build the mock object
+		$observable = $this->getMockBuilder('Observable')->setMethods(array('attach'))->getMock();
 
 		// We expect that the attach method of our mock object will be called because
 		// when we instantiate an observer it needs something observable to attach itself to

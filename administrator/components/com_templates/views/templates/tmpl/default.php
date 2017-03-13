@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,43 +16,30 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty($this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
-
-	<div id="filter-bar" class="btn-toolbar">
-		<div class="filter-search btn-group pull-left">
-			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
-		</div>
-		<div class="btn-group pull-left">
-			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
-			<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
-		</div>
-	</div>
-	<div class="clearfix"> </div>
-	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'); ?>
-		</div>
-	<?php else : ?>
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif; ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
+		<?php if ($this->total > 0) : ?>
 		<table class="table table-striped" id="template-mgr">
 			<thead>
 				<tr>
-					<th class="col1template hidden-phone">
-						&#160;
+					<th class="col1template hidden-phone" width="20%">
+						<?php echo JText::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 					</th>
-					<th>
-						<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%">
-						<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
+					<th width="30%">
+						<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="hidden-phone">
 						<?php echo JText::_('JVERSION'); ?>
@@ -67,7 +54,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="8">
+					<td colspan="5">
 						<?php echo $this->pagination->getListFooter(); ?>
 					</td>
 				</tr>
@@ -81,20 +68,17 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<td class="template-name">
 						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
 							<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
-						<p>
+						<div>
 						<?php if ($this->preview && $item->client_id == '0') : ?>
-							<a href="<?php echo JUri::root() . 'index.php?tp=1&template=' . $item->element; ?>" target="_blank">
-								<?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
+							<a href="<?php echo JRoute::_(JUri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
+							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+							</a>
 						<?php elseif ($item->client_id == '1') : ?>
 							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
 						<?php else : ?>
-							<span class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
-								<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+							<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 						<?php endif; ?>
-						</p>
-					</td>
-					<td class="small">
-						<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
+						</div>
 					</td>
 					<td class="small hidden-phone">
 						<?php echo $this->escape($item->xmldata->get('version')); ?>
@@ -104,16 +88,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</td>
 					<td class="hidden-phone">
 						<?php if ($author = $item->xmldata->get('author')) : ?>
-							<p><?php echo $this->escape($author); ?></p>
+							<div><?php echo $this->escape($author); ?></div>
 						<?php else : ?>
 							&mdash;
 						<?php endif; ?>
 						<?php if ($email = $item->xmldata->get('authorEmail')) : ?>
-							<p><?php echo $this->escape($email); ?></p>
+							<div><?php echo $this->escape($email); ?></div>
 						<?php endif; ?>
 						<?php if ($url = $item->xmldata->get('authorUrl')) : ?>
-							<p><a href="<?php echo $this->escape($url); ?>">
-								<?php echo $this->escape($url); ?></a></p>
+							<div><a href="<?php echo $this->escape($url); ?>"><?php echo $this->escape($url); ?></a></div>
 						<?php endif; ?>
 					</td>
 					<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
@@ -121,12 +104,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-	<?php endif;?>
+	<?php endif; ?>
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -299,21 +299,15 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
-		$parts = explode(':', $user->activation);
-		$crypt = $parts[0];
-
-		if (!isset($parts[1]))
+		if (!$user->activation)
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
 
-		$salt = $parts[1];
-		$testcrypt = JUserHelper::getCryptedPassword($data['token'], $salt, 'md5-hex');
-
 		// Verify the token
-		if (!($crypt == $testcrypt))
+		if (!JUserHelper::verifyPassword($data['token'], $user->activation))
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -330,7 +324,7 @@ class UsersModelReset extends JModelForm
 
 		// Push the user data into the session.
 		$app = JFactory::getApplication();
-		$app->setUserState('com_users.reset.token', $crypt . ':' . $salt);
+		$app->setUserState('com_users.reset.token', $user->activation);
 		$app->setUserState('com_users.reset.user', $user->id);
 
 		return true;
@@ -441,8 +435,8 @@ class UsersModelReset extends JModelForm
 
 		// Set the confirmation token.
 		$token = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
-		$salt = JUserHelper::getSalt('crypt-md5');
-		$hashedToken = md5($token . $salt) . ':' . $salt;
+		$hashedToken = JUserHelper::hashPassword($token);
+
 		$user->activation = $hashedToken;
 
 		// Save the user to the database.
@@ -453,9 +447,7 @@ class UsersModelReset extends JModelForm
 
 		// Assemble the password reset confirmation link.
 		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
-		$itemid = UsersHelperRoute::getLoginRoute();
-		$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-		$link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token . $itemid;
+		$link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
 		// Put together the email template data.
 		$data = $user->getProperties();
@@ -506,7 +498,7 @@ class UsersModelReset extends JModelForm
 		$resetHours = (int) $params->get('reset_time');
 		$result = true;
 
-		$lastResetTime = strtotime($user->lastResetTime) ? strtotime($user->lastResetTime) : 0;
+		$lastResetTime = strtotime($user->lastResetTime) ?: 0;
 		$hoursSinceLastReset = (strtotime(JFactory::getDate()->toSql()) - $lastResetTime) / 3600;
 
 		if ($hoursSinceLastReset > $resetHours)

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,8 +52,8 @@ class InstallerHelper
 		);
 		JHtmlSidebar::addEntry(
 		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
-					'index.php?option=com_installer&view=warnings',
-		$vName == 'warnings'
+			'index.php?option=com_installer&view=warnings',
+			$vName == 'warnings'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
@@ -87,7 +87,7 @@ class InstallerHelper
 
 		foreach ($types as $type)
 		{
-			$options[] = JHtml::_('select.option', $type, 'COM_INSTALLER_TYPE_' . strtoupper($type));
+			$options[] = JHtml::_('select.option', $type, JText::_('COM_INSTALLER_TYPE_' . strtoupper($type)));
 		}
 
 		return $options;
@@ -132,11 +132,56 @@ class InstallerHelper
 	public static function getActions()
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions
-		$result = JHelperContent::getActions('com_installer');
+		return JHelperContent::getActions('com_installer');
+	}
 
-		return $result;
+	/**
+	 * Get a list of filter options for the application clients.
+	 *
+	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   3.5
+	 */
+	public static function getClientOptions()
+	{
+		// Build the filter options.
+		$options   = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+
+		return $options;
+	}
+
+	/**
+	 * Get a list of filter options for the application statuses.
+	 *
+	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   3.5
+	 */
+	public static function getStateOptions()
+	{
+		// Build the filter options.
+		$options   = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JDISABLED'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JENABLED'));
+		$options[] = JHtml::_('select.option', '2', JText::_('JPROTECTED'));
+		$options[] = JHtml::_('select.option', '3', JText::_('JUNPROTECTED'));
+
+		return $options;
 	}
 }

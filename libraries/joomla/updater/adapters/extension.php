@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,13 +31,13 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
 	{
-		array_push($this->stack, $name);
-		$tag = $this->_getStackLocation();
+		$this->stack[] = $name;
+		$tag           = $this->_getStackLocation();
 
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = "";
+			$this->$tag->_data = '';
 		}
 
 		switch ($name)
@@ -46,7 +46,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->currentUpdate = JTable::getInstance('update');
 				$this->currentUpdate->update_site_id = $this->updateSiteId;
 				$this->currentUpdate->detailsurl = $this->_url;
-				$this->currentUpdate->folder = "";
+				$this->currentUpdate->folder = '';
 				$this->currentUpdate->client_id = 1;
 				break;
 
@@ -70,6 +70,11 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$this->currentUpdate->php_minimum = '';
 				}
+
+				if ($name == 'SUPPORTED_DATABASES')
+				{
+					$this->currentUpdate->supported_databases = $attrs;
+				}
 				break;
 		}
 	}
@@ -92,17 +97,29 @@ class JUpdaterExtension extends JUpdateAdapter
 		switch ($name)
 		{
 			case 'UPDATE':
-				$ver = new JVersion;
-
 				// Lower case and remove the exclamation mark
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+				$product = strtolower(JFilterInput::getInstance()->clean(JVersion::PRODUCT, 'cmd'));
 
-				// Check that the product matches and that the version matches (optionally a regexp)
-				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
+				// Support for the min_dev_level and max_dev_level attributes is deprecated, a regexp should be used instead
+				if (isset($this->currentUpdate->targetplatform->min_dev_level) || isset($this->currentUpdate->targetplatform->max_dev_level))
+				{
+					JLog::add(
+						'Support for the min_dev_level and max_dev_level attributes of an update\'s <targetplatform> tag is deprecated and'
+						. ' will be removed in 4.0. The full version should be specified in the version attribute and may optionally be a regexp.',
+						JLog::WARNING,
+						'deprecated'
+					);
+				}
+
+				/*
+				 * Check that the product matches and that the version matches (optionally a regexp)
+				 *
+				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
+				 */
 				if ($product == $this->currentUpdate->targetplatform['NAME']
-					&& preg_match('/' . $this->currentUpdate->targetplatform['VERSION'] . '/', $ver->RELEASE)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
@@ -125,6 +142,56 @@ class JUpdaterExtension extends JUpdateAdapter
 						$phpMatch = false;
 					}
 
+					$dbMatch = false;
+
+					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
+					if (isset($this->currentUpdate->supported_databases))
+					{
+						$db           = JFactory::getDbo();
+						$dbType       = strtoupper($db->getServerType());
+						$dbVersion    = $db->getVersion();
+						$supportedDbs = $this->currentUpdate->supported_databases;
+
+						// Do we have a entry for the database?
+						if (array_key_exists($dbType, $supportedDbs))
+						{
+							$minumumVersion = $supportedDbs[$dbType];
+							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
+
+							if (!$dbMatch)
+							{
+								// Notify the user of the potential update
+								$dbMsg = JText::sprintf(
+									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
+									$this->currentUpdate->name,
+									$this->currentUpdate->version,
+									JText::_($db->name),
+									$dbVersion,
+									$minumumVersion
+								);
+
+								JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
+							}
+						}
+						else
+						{
+							// Notify the user of the potential update
+							$dbMsg = JText::sprintf(
+								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
+								$this->currentUpdate->name,
+								$this->currentUpdate->version,
+								JText::_($db->name)
+							);
+
+							JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
+						}
+					}
+					else
+					{
+						// Set to true if the <supported_databases> tag is not set
+						$dbMatch = true;
+					}
+
 					// Check minimum stability
 					$stabilityMatch = true;
 
@@ -141,13 +208,18 @@ class JUpdaterExtension extends JUpdateAdapter
 						unset($this->currentUpdate->php_minimum);
 					}
 
+					if (isset($this->currentUpdate->supported_databases))
+					{
+						unset($this->currentUpdate->supported_databases);
+					}
+
 					if (isset($this->currentUpdate->stability))
 					{
 						unset($this->currentUpdate->stability);
 					}
 
 					// If the PHP version and minimum stability checks pass, consider this version as a possible update
-					if ($phpMatch && $stabilityMatch)
+					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
 						if (isset($this->latest))
 						{
@@ -242,7 +314,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				return $this->findUpdate($options);
 			}
 
-			JLog::add("Error parsing url: " . $this->_url, JLog::WARNING, 'updater');
+			JLog::add('Error parsing url: ' . $this->_url, JLog::WARNING, 'updater');
 
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');

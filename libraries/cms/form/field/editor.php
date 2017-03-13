@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -184,7 +184,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -205,7 +205,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
 			$this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 			$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-			$this->asset       = $this->form->getValue($this->assetField) ? $this->form->getValue($this->assetField) : (string) $this->element['asset_id'];
+			$this->asset       = $this->form->getValue($this->assetField) ?: (string) $this->element['asset_id'];
 
 			$buttons    = (string) $this->element['buttons'];
 			$hide       = (string) $this->element['hide'];
@@ -298,8 +298,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 			// Create the JEditor instance based on the given editor.
 			if (is_null($editor))
 			{
-				$conf = JFactory::getConfig();
-				$editor = $conf->get('editor');
+				$editor = JFactory::getConfig()->get('editor');
 			}
 
 			$this->editor = JEditor::getInstance($editor);

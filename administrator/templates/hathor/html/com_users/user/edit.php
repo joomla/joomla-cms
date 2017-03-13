@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-					   title="<strong><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') ?></strong><br /><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC') ?>">
+						title="<?php echo '<strong>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong><br />' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC'); ?>">
 					<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>
@@ -101,7 +101,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 		</div>
 		<div id="com_users_twofactor_forms_container">
-			<?php foreach($this->tfaform as $form): ?>
+			<?php foreach ($this->tfaform as $form): ?>
 			<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
 			<div id="com_users_twofactor_<?php echo $form['method'] ?>" style="<?php echo $style; ?>">
 				<?php echo $form['form'] ?>

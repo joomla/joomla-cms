@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.Isis
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,13 +15,13 @@ $alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-inf
 ?>
 <div id="system-message-container">
 	<?php if (is_array($msgList) && $msgList) : ?>
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<?php foreach ($msgList as $type => $msgs) : ?>
-			<div class="alert <?php echo $alert[$type]; ?>">
-				<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
-				<?php if ($msgs) : ?>
+			<div class="alert <?php echo isset($alert[$type]) ? $alert[$type] : 'alert-' . $type; ?>">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<?php if (!empty($msgs)) : ?>
+					<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
 					<?php foreach ($msgs as $msg) : ?>
-						<p class="alert-message"><?php echo $msg; ?></p>
+						<div class="alert-message"><?php echo $msg; ?></div>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</div>

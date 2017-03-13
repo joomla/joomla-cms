@@ -3,7 +3,7 @@
 	<name>mod_breadcrumbs</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,7 +13,6 @@
 		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_breadcrumbs.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_breadcrumbs.ini</language>
@@ -26,79 +25,96 @@
 				<field
 					name="showHere"
 					type="radio"
+					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_SHOWHERE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWHERE_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="showHome"
 					type="radio"
+					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="homeText"
 					type="text"
 					label="MOD_BREADCRUMBS_FIELD_HOMETEXT_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC" />
+					description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC"
+					showon="showHome:1"
+				/>
+
 				<field
 					name="showLast"
 					type="radio"
+					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
-					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="separator"
 					type="text"
 					label="MOD_BREADCRUMBS_FIELD_SEPARATOR_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SEPARATOR_DESC" />
+					description="MOD_BREADCRUMBS_FIELD_SEPARATOR_DESC"
+				/>
+
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
 				<field
 					name="cache"
 					type="list"
-					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					default="0"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="0"
+				/>
+
 				<field
 					name="cachemode"
 					type="hidden"
-					default="itemid">
-					<option
-						value="itemid"></option>
+					default="itemid"
+					>
+					<option value="itemid"></option>
 				</field>
 			</fieldset>
 		</fields>

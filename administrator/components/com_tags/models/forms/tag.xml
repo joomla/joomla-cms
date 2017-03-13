@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="urls">
-		<!-- This fieldset is needed to stop the URLs column being null which throws errors in postgres -->
-		<fieldset name="urls">
-			<field
-				name="urla"
-				type="hidden"
-			/>
-		</fieldset>
-	</fields>
-
 	<field
 		name="id"
 		type="text"
@@ -84,6 +74,7 @@
 	<field
 		name="note"
 		type="text"
+		maxlength="255"
 		class="span12"
 		label="COM_TAGS_FIELD_NOTE_LABEL"
 		description="COM_TAGS_FIELD_NOTE_DESC"
@@ -165,7 +156,7 @@
 		name="created_user_id"
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
-		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
+		description="JGLOBAL_FIELD_CREATED_BY_DESC"
 	/>
 
 	<field
@@ -182,7 +173,10 @@
 		type="calendar"
 		class="readonly"
 		label="JGLOBAL_CREATED_DATE"
-		filter="unset"
+		description="COM_TAGS_FIELD_CREATED_DATE_DESC"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
 		readonly="true"
 	/>
 
@@ -200,7 +194,10 @@
 		type="calendar"
 		class="readonly"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
-		filter="unset"
+		description="COM_TAGS_FIELD_MODIFIED_DESC"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
 		readonly="true"
 	/>
 
@@ -217,6 +214,7 @@
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+		maxlength="255"
 		class="span12" size="45"
 		labelclass="control-label"
 	/>
@@ -268,7 +266,7 @@
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 				<option value="right">COM_TAGS_RIGHT</option>
 				<option value="left">COM_TAGS_LEFT</option>
 				<option value="none">COM_TAGS_NONE</option>
@@ -313,7 +311,7 @@
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 				<option value="right">COM_TAGS_RIGHT</option>
 				<option value="left">COM_TAGS_LEFT</option>
 				<option value="none">COM_TAGS_NONE</option>

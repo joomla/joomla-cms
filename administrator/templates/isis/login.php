@@ -3,36 +3,46 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $app  = JFactory::getApplication();
-$doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
+// Output as HTML5
+$this->setHtml5(true);
+
+// Gets the FrontEnd Main page Uri
+$frontEndUri = JUri::getInstance(JUri::root());
+$frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
+
 // Color Params
-$template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
+$background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
+$color_is_light = ($background_color && colorIsLight($background_color));
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+
 // Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', array('version' => 'auto', 'relative' => true));
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
 
-if (is_file($file))
-{
-	$doc->addStyleSheet($file);
-}
+// Load custom.css
+JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -51,49 +61,51 @@ function colorIsLight($color)
 
 	return $yiq >= 200;
 }
+
+// Background color
+if ($background_color)
+{
+	$this->addStyleDeclaration('
+	.view-login {
+		background-color: ' . $background_color . ';
+	}');
+}
+
+// Responsive Styles
+$this->addStyleDeclaration('
+	@media (max-width: 480px) {
+		.view-login .container {
+			margin-top: -170px;
+		}
+		.btn {
+			font-size: 13px;
+			padding: 4px 10px 4px;
+		}
+	}');
+
+// Check if debug is on
+if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) || $app->get('debug', 0)))
+{
+	$this->addStyleDeclaration('
+	.view-login .container {
+		position: static;
+		margin-top: 20px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.view-login .navbar-fixed-bottom {
+		display: none;
+	}');
+}
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
-	<style type="text/css">
-		/* Template color */
-		<?php if ($this->params->get('templateColor')) : ?>
-		.view-login {
-			background: <?php echo $this->params->get('templateColor'); ?>;
-		}
-		<?php endif; ?>
-		/* Responsive Styles */
-		@media (max-width: 480px) {
-			.view-login .container {
-				margin-top: -170px;
-			}
-			.btn {
-				font-size: 13px;
-				padding: 4px 10px 4px;
-			}
-		}
-		<?php // Check if debug is on ?>
-		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
-		.view-login .container {
-			position: static;
-			margin-top: 20px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		.view-login .navbar-fixed-bottom {
-			display: none;
-		}
-		<?php endif; ?>
-	</style>
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
 </head>
-
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " "; ?>">
+<body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
 	<!-- Container -->
 	<div class="container">
 		<div id="content">
@@ -114,12 +126,12 @@ function colorIsLight($color)
 			<!-- End Content -->
 		</div>
 	</div>
-	<div class="navbar<?php echo $template_is_light ? ' navbar-inverse' : ''; ?> navbar-fixed-bottom hidden-phone">
+	<div class="navbar<?php echo $color_is_light ? ' navbar-inverse' : ''; ?> navbar-fixed-bottom hidden-phone">
 		<p class="pull-right">
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
-		<a class="login-joomla hasTooltip" href="http://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>"><span class="icon-joomla"></span></a>
-		<a href="<?php echo JUri::root(); ?>" target="_blank" class="pull-left"><span class="icon-out-2"></span> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+		<a class="login-joomla hasTooltip" href="https://www.joomla.org" target="_blank" title="<?php echo JHtml::_('tooltipText', 'TPL_ISIS_ISFREESOFTWARE'); ?>"><span class="icon-joomla"></span></a>
+		<a href="<?php echo $frontEndUri->toString(); ?>" target="_blank" class="pull-left"><span class="icon-out-2"></span><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>

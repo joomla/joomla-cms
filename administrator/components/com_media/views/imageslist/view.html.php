@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class MediaViewImagesList extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.0
 	 */
@@ -30,26 +30,14 @@ class MediaViewImagesList extends JViewLegacy
 		// Do not allow cache
 		JFactory::getApplication()->allowCache(false);
 
-		$lang	= JFactory::getLanguage();
-
-		JHtml::_('stylesheet', 'media/popup-imagelist.css', array(), true);
-
-		if ($lang->isRtl())
-		{
-			JHtml::_('stylesheet', 'media/popup-imagelist_rtl.css', array(), true);
-		}
-
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
-
-		$images = $this->get('images');
+		$images  = $this->get('images');
 		$folders = $this->get('folders');
-		$state = $this->get('state');
+		$state   = $this->get('state');
 
 		$this->baseURL = COM_MEDIA_BASEURL;
-		$this->images = &$images;
+		$this->images  = &$images;
 		$this->folders = &$folders;
-		$this->state = &$state;
+		$this->state   = &$state;
 
 		parent::display($tpl);
 	}

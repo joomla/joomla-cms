@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,8 +54,8 @@ class JHtmlUsers
 	{
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
-			. '<span class="icon-vcard"></span><span class="hidden-phone">' . $title . '</span></a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="'
+			. $title . '"><span class="icon-vcard"></span><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**
@@ -77,8 +77,8 @@ class JHtmlUsers
 
 		$title = JText::_('COM_USERS_FILTER_NOTES');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
-			. '<span class="icon-filter"></span></a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter[search]=uid:' . (int) $userId)
+			. '" class="hasTooltip btn btn-mini" title="' . $title . '"><span class="icon-filter"></span></a>';
 	}
 
 	/**
@@ -100,8 +100,8 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="' . $title . '">'
-			. '<span class="icon-drawer-2"></span><span class="hidden-phone">' . $title . '</span></a>';
+		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="'
+			. $title . '"><span class="icon-drawer-2"></span><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**
@@ -122,8 +122,8 @@ class JHtmlUsers
 		}
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
-		$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_('JTOOLBAR_CLOSE') . '</a>';
+		$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+			. JText::_('JTOOLBAR_CLOSE') . '</button>';
 
 		return JHtml::_(
 			'bootstrap.renderModal',
@@ -134,7 +134,7 @@ class JHtmlUsers
 				'keyboard' => true,
 				'closeButton' => true,
 				'footer' => $footer,
-				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
+				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter[user_id]=' . (int) $userId),
 				'height' => '300px',
 				'width' => '800px'
 			)
@@ -159,22 +159,22 @@ class JHtmlUsers
 		{
 			$states = array(
 				1 => array(
-					'task'				=> 'unblock',
-					'text'				=> '',
-					'active_title'		=> 'COM_USERS_USER_FIELD_BLOCK_DESC',
-					'inactive_title'	=> '',
-					'tip'				=> true,
-					'active_class'		=> 'unpublish',
-					'inactive_class'	=> 'unpublish'
+					'task'           => 'unblock',
+					'text'           => '',
+					'active_title'   => 'COM_USERS_USER_FIELD_BLOCK_DESC',
+					'inactive_title' => '',
+					'tip'            => true,
+					'active_class'   => 'unpublish',
+					'inactive_class' => 'unpublish',
 				),
 				0 => array(
-					'task'				=> 'block',
-					'text'				=> '',
-					'active_title'		=> '',
-					'inactive_title'	=> 'COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF',
-					'tip'				=> true,
-					'active_class'		=> 'publish',
-					'inactive_class'	=> 'publish'
+					'task'           => 'block',
+					'text'           => '',
+					'active_title'   => '',
+					'inactive_title' => 'COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF',
+					'tip'            => true,
+					'active_class'   => 'publish',
+					'inactive_class' => 'publish',
 				)
 			);
 		}
@@ -182,22 +182,22 @@ class JHtmlUsers
 		{
 			$states = array(
 				1 => array(
-					'task'				=> 'unblock',
-					'text'				=> '',
-					'active_title'		=> 'COM_USERS_TOOLBAR_UNBLOCK',
-					'inactive_title'	=> '',
-					'tip'				=> true,
-					'active_class'		=> 'unpublish',
-					'inactive_class'	=> 'unpublish'
+					'task'           => 'unblock',
+					'text'           => '',
+					'active_title'   => 'COM_USERS_TOOLBAR_UNBLOCK',
+					'inactive_title' => '',
+					'tip'            => true,
+					'active_class'   => 'unpublish',
+					'inactive_class' => 'unpublish',
 				),
 				0 => array(
-					'task'				=> 'block',
-					'text'				=> '',
-					'active_title'		=> 'COM_USERS_USER_FIELD_BLOCK_DESC',
-					'inactive_title'	=> '',
-					'tip'				=> true,
-					'active_class'		=> 'publish',
-					'inactive_class'	=> 'publish'
+					'task'           => 'block',
+					'text'           => '',
+					'active_title'   => 'COM_USERS_USER_FIELD_BLOCK_DESC',
+					'inactive_title' => '',
+					'tip'            => true,
+					'active_class'   => 'publish',
+					'inactive_class' => 'publish',
 				)
 			);
 		}
@@ -215,23 +215,23 @@ class JHtmlUsers
 	public static function activateStates()
 	{
 		$states = array(
-			1	=> array(
-				'task'				=> 'activate',
-				'text'				=> '',
-				'active_title'		=> 'COM_USERS_TOOLBAR_ACTIVATE',
-				'inactive_title'	=> '',
-				'tip'				=> true,
-				'active_class'		=> 'unpublish',
-				'inactive_class'	=> 'unpublish'
+			1 => array(
+				'task'           => 'activate',
+				'text'           => '',
+				'active_title'   => 'COM_USERS_TOOLBAR_ACTIVATE',
+				'inactive_title' => '',
+				'tip'            => true,
+				'active_class'   => 'unpublish',
+				'inactive_class' => 'unpublish',
 			),
-			0	=> array(
-				'task'				=> '',
-				'text'				=> '',
-				'active_title'		=> '',
-				'inactive_title'	=> 'COM_USERS_ACTIVATED',
-				'tip'				=> true,
-				'active_class'		=> 'publish',
-				'inactive_class'	=> 'publish'
+			0 => array(
+				'task'           => '',
+				'text'           => '',
+				'active_title'   => '',
+				'inactive_title' => 'COM_USERS_ACTIVATED',
+				'tip'            => true,
+				'active_class'   => 'publish',
+				'inactive_class' => 'publish',
 			)
 		);
 

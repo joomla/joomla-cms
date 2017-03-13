@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Controller (Controllers are where you put all the actual code.) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @since  12.2
+ * @since  2.5.5
  */
 class JControllerLegacy extends JObject
 {
@@ -23,8 +23,7 @@ class JControllerLegacy extends JObject
 	 * The base path of the controller
 	 *
 	 * @var    string
-	 * @since  12.2
-	 * @note   Replaces _basePath.
+	 * @since  3.0
 	 */
 	protected $basePath;
 
@@ -32,7 +31,7 @@ class JControllerLegacy extends JObject
 	 * The default view for the display method.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $default_view;
 
@@ -40,8 +39,7 @@ class JControllerLegacy extends JObject
 	 * The mapped task that was performed.
 	 *
 	 * @var    string
-	 * @since  12.2
-	 * @note   Replaces _doTask.
+	 * @since  3.0
 	 */
 	protected $doTask;
 
@@ -49,8 +47,7 @@ class JControllerLegacy extends JObject
 	 * Redirect message.
 	 *
 	 * @var    string
-	 * @since  12.2
-	 * @note   Replaces _message.
+	 * @since  3.0
 	 */
 	protected $message;
 
@@ -58,8 +55,7 @@ class JControllerLegacy extends JObject
 	 * Redirect message type.
 	 *
 	 * @var    string
-	 * @since  12.2
-	 * @note   Replaces _messageType.
+	 * @since  3.0
 	 */
 	protected $messageType;
 
@@ -67,8 +63,7 @@ class JControllerLegacy extends JObject
 	 * Array of class methods
 	 *
 	 * @var    array
-	 * @since  12.2
-	 * @note   Replaces _methods.
+	 * @since  3.0
 	 */
 	protected $methods;
 
@@ -76,8 +71,7 @@ class JControllerLegacy extends JObject
 	 * The name of the controller
 	 *
 	 * @var    array
-	 * @since  12.2
-	 * @note   Replaces _name.
+	 * @since  3.0
 	 */
 	protected $name;
 
@@ -85,7 +79,7 @@ class JControllerLegacy extends JObject
 	 * The prefix of the models
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $model_prefix;
 
@@ -93,8 +87,7 @@ class JControllerLegacy extends JObject
 	 * The set of search directories for resources (views).
 	 *
 	 * @var    array
-	 * @since  12.2
-	 * @note   Replaces _path.
+	 * @since  3.0
 	 */
 	protected $paths;
 
@@ -102,8 +95,7 @@ class JControllerLegacy extends JObject
 	 * URL for redirection.
 	 *
 	 * @var    string
-	 * @since  12.2
-	 * @note   Replaces _redirect.
+	 * @since  3.0
 	 */
 	protected $redirect;
 
@@ -111,8 +103,7 @@ class JControllerLegacy extends JObject
 	 * Current or most recently performed task.
 	 *
 	 * @var    string
-	 * @since  12.2
-	 * @note   Replaces _task.
+	 * @since  3.0
 	 */
 	protected $task;
 
@@ -120,8 +111,7 @@ class JControllerLegacy extends JObject
 	 * Array of class methods to call for a given task.
 	 *
 	 * @var    array
-	 * @since  12.2
-	 * @note   Replaces _taskMap.
+	 * @since  3.0
 	 */
 	protected $taskMap;
 
@@ -129,7 +119,7 @@ class JControllerLegacy extends JObject
 	 * Hold a JInput object for easier access to the input variables.
 	 *
 	 * @var    JInput
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected $input;
 
@@ -137,14 +127,14 @@ class JControllerLegacy extends JObject
 	 * Instance container.
 	 *
 	 * @var    JControllerLegacy
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	protected static $instance;
 
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    array
+	 * @var    JViewLegacy[]
 	 * @since  3.4
 	 */
 	protected static $views;
@@ -156,6 +146,8 @@ class JControllerLegacy extends JObject
 	 * @param   string  $prefix  A prefix for models
 	 *
 	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
@@ -170,8 +162,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  string  The filename.
 	 *
-	 * @note    Replaced _createFileName.
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected static function createFileName($type, $parts = array())
 	{
@@ -224,7 +215,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
@@ -285,32 +276,30 @@ class JControllerLegacy extends JObject
 		// Include the class if not present.
 		if (!class_exists($class))
 		{
-			// If the controller file path exists, include it.
-			if (file_exists($path))
+			JLoader::register($class, $path);
+
+			if (!class_exists($class))
 			{
-				require_once $path;
-			}
-			elseif (isset($backuppath) && file_exists($backuppath))
-			{
-				require_once $backuppath;
-			}
-			else
-			{
-				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				if (isset($backuppath) && file_exists($backuppath))
+				{
+					JLoader::register($class, $backuppath);
+				}
+
+				if (!class_exists($class))
+				{
+					throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
+				}
 			}
 		}
 
 		// Instantiate the class.
-		if (class_exists($class))
-		{
-			self::$instance = new $class($config);
-		}
-		else
+		if (!class_exists($class))
 		{
 			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
-		return self::$instance;
+		// Instantiate the class, store it to the static container, and return it
+		return self::$instance = new $class($config);
 	}
 
 	/**
@@ -320,7 +309,7 @@ class JControllerLegacy extends JObject
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function __construct($config = array())
 	{
@@ -402,7 +391,7 @@ class JControllerLegacy extends JObject
 			}
 			else
 			{
-				$this->model_prefix = $this->name . 'Model';
+				$this->model_prefix = ucfirst($this->name) . 'Model';
 			}
 		}
 
@@ -447,24 +436,20 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
-	 * @note    Replaces _addPath.
+	 * @since   3.0
 	 */
 	protected function addPath($type, $path)
 	{
-		// Just force path to array
-		settype($path, 'array');
-
 		if (!isset($this->paths[$type]))
 		{
 			$this->paths[$type] = array();
 		}
 
 		// Loop through the path directories
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(JPath::check($dir, '/'), '/') . '/';
+			$dir = rtrim(JPath::check($dir), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
@@ -479,12 +464,12 @@ class JControllerLegacy extends JObject
 	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
+	 *
+	 * @since   3.0
 	 */
 	public function addViewPath($path)
 	{
-		$this->addPath('view', $path);
-
-		return $this;
+		return $this->addPath('view', $path);
 	}
 
 	/**
@@ -494,8 +479,8 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  boolean  True if authorised
 	 *
-	 * @since   12.2
-	 * @deprecated  13.3  Use JAccess instead.
+	 * @since   3.0
+	 * @deprecated  3.0  Use JAccess instead.
 	 */
 	public function authorise($task)
 	{
@@ -512,14 +497,13 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  boolean  True if the ID is in the edit list.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function checkEditId($context, $id)
 	{
 		if ($id)
 		{
-			$app = JFactory::getApplication();
-			$values = (array) $app->getUserState($context . '.id');
+			$values = (array) JFactory::getApplication()->getUserState($context . '.id');
 
 			$result = in_array((int) $id, $values);
 
@@ -540,11 +524,9 @@ class JControllerLegacy extends JObject
 
 			return $result;
 		}
-		else
-		{
-			// No id for a new item.
-			return true;
-		}
+
+		// No id for a new item.
+		return true;
 	}
 
 	/**
@@ -554,10 +536,9 @@ class JControllerLegacy extends JObject
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Configuration array for the model. Optional.
 	 *
-	 * @return  mixed   Model object on success; otherwise null failure.
+	 * @return  JModelLegacy|boolean   Model object on success; otherwise false on failure.
 	 *
-	 * @since   12.2
-	 * @note    Replaces _createModel.
+	 * @since   3.0
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
@@ -565,9 +546,7 @@ class JControllerLegacy extends JObject
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		$result = JModelLegacy::getInstance($modelName, $classPrefix, $config);
-
-		return $result;
+		return JModelLegacy::getInstance($modelName, $classPrefix, $config);
 	}
 
 	/**
@@ -583,10 +562,9 @@ class JControllerLegacy extends JObject
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  mixed  View object on success; null or error result on failure.
+	 * @return  JViewLegacy|null  View object on success; null or error result on failure.
 	 *
-	 * @since   12.2
-	 * @note    Replaces _createView.
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
@@ -604,18 +582,16 @@ class JControllerLegacy extends JObject
 			jimport('joomla.filesystem.path');
 			$path = JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
 
-			if ($path)
-			{
-				require_once $path;
-
-				if (!class_exists($viewClass))
-				{
-					throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
-				}
-			}
-			else
+			if (!$path)
 			{
 				return null;
+			}
+
+			JLoader::register($viewClass, $path);
+
+			if (!class_exists($viewClass))
+			{
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
 			}
 		}
 
@@ -629,11 +605,11 @@ class JControllerLegacy extends JObject
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -653,13 +629,10 @@ class JControllerLegacy extends JObject
 
 		$view->document = $document;
 
-		$conf = JFactory::getConfig();
-
 		// Display the view
-		if ($cachable && $viewType != 'feed' && $conf->get('caching') >= 1)
+		if ($cachable && $viewType != 'feed' && JFactory::getConfig()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
-			$cache = JFactory::getCache($option, 'view');
 
 			if (is_array($urlparams))
 			{
@@ -676,14 +649,23 @@ class JControllerLegacy extends JObject
 
 				foreach ($urlparams as $key => $value)
 				{
-					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
+					// Add your safe URL parameters with variable type as value {@see JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 
 				$app->registeredurlparams = $registeredurlparams;
 			}
 
-			$cache->get($view, 'display');
+			try
+			{
+				/** @var JCacheControllerView $cache */
+				$cache = JFactory::getCache($option, 'view');
+				$cache->get($view, 'display');
+			}
+			catch (JCacheException $exception)
+			{
+				$view->display();
+			}
 		}
 		else
 		{
@@ -698,9 +680,9 @@ class JControllerLegacy extends JObject
 	 *
 	 * @param   string  $task  The task to perform. If no matching task is found, the '__default' task is executed, if defined.
 	 *
-	 * @return  mixed   The value returned by the called method, false in error case.
+	 * @return  mixed   The value returned by the called method.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function execute($task)
@@ -735,9 +717,9 @@ class JControllerLegacy extends JObject
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  JModelLegacy|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function getModel($name = '', $prefix = '', $config = array())
 	{
@@ -757,8 +739,7 @@ class JControllerLegacy extends JObject
 			$model->setState('task', $this->task);
 
 			// Let's get the application object and set menu information if it's available
-			$app = JFactory::getApplication();
-			$menu = $app->getMenu();
+			$menu = JFactory::getApplication()->getMenu();
 
 			if (is_object($menu))
 			{
@@ -783,7 +764,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  string  The name of the dispatcher
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function getName()
@@ -808,7 +789,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  string  The task that is being performed or was most recently performed.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function getTask()
 	{
@@ -820,7 +801,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  array  Array[i] of task names.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function getTasks()
 	{
@@ -837,7 +818,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JViewLegacy  Reference to the view or an error.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
@@ -867,17 +848,13 @@ class JControllerLegacy extends JObject
 			else
 			{
 				$response = 500;
-				$app = JFactory::getApplication();
 
 				/*
-				 * With URL rewriting enabled on the server, all client
-				 * requests for non-existent files are being forwarded to
-				 * Joomla.  Return a 404 response here and assume the client
-				 * was requesting a non-existent file for which there is no
-				 * view type that matches the file's extension (the most
-				 * likely scenario).
+				 * With URL rewriting enabled on the server, all client requests for non-existent files are being
+				 * forwarded to Joomla.  Return a 404 response here and assume the client was requesting a non-existent
+				 * file for which there is no view type that matches the file's extension (the most likely scenario).
 				 */
-				if ($app->get('sef_rewrite'))
+				if (JFactory::getApplication()->get('sef_rewrite'))
 				{
 					$response = 404;
 				}
@@ -897,7 +874,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function holdEditId($context, $id)
 	{
@@ -907,8 +884,8 @@ class JControllerLegacy extends JObject
 		// Add the id to the list if non-zero.
 		if (!empty($id))
 		{
-			array_push($values, (int) $id);
-			$values = array_unique($values);
+			$values[] = (int) $id;
+			$values   = array_unique($values);
 			$app->setUserState($context . '.id', $values);
 
 			if (defined('JDEBUG') && JDEBUG)
@@ -932,7 +909,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  boolean  False if no redirect exists.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function redirect()
 	{
@@ -957,7 +934,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function registerDefaultTask($method)
 	{
@@ -974,7 +951,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function registerTask($task, $method)
 	{
@@ -993,7 +970,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function unregisterTask($task)
 	{
@@ -1010,7 +987,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function releaseEditId($context, $id)
 	{
@@ -1049,7 +1026,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  string  Previous message
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setMessage($text, $type = 'message')
 	{
@@ -1068,8 +1045,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @note    Replaces _setPath.
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function setPath($type, $path)
 	{
@@ -1081,6 +1057,40 @@ class JControllerLegacy extends JObject
 	}
 
 	/**
+	 * Checks for a form token in the request.
+	 *
+	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
+	 *
+	 * @param   string   $method    The request method in which to look for the token key.
+	 * @param   boolean  $redirect  Whether to implicitly redirect user to the referrer page on failure or simply return false.
+	 *
+	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
+	 *
+	 * @since   3.7.0
+	 * @see     JSession::checkToken()
+	 */
+	public function checkToken($method = 'post', $redirect = true)
+	{
+		$valid = JSession::checkToken($method);
+
+		if (!$valid && $redirect)
+		{
+			$referrer = $this->input->server->getString('HTTP_REFERER');
+
+			if (!JUri::isInternal($referrer))
+			{
+				$referrer = 'index.php';
+			}
+
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
+			$app->redirect($referrer);
+		}
+
+		return $valid;
+	}
+
+	/**
 	 * Set a URL for browser redirection.
 	 *
 	 * @param   string  $url   URL to redirect to.
@@ -1089,7 +1099,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setRedirect($url, $msg = null, $type = null)
 	{

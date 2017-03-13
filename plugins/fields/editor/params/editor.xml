@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="buttons"
+				type="list"
+				label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
+				description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
+			>
+				<option value="">PLG_FIELDS_EDITOR_PARAMS_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="hide"
+				type="plugins"
+				folder="editors-xtd"
+				multiple="true"
+				label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
+				description="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_DESC"
+			/>
+
+			<field
+				name="width"
+				type="text"
+				label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
+				description="PLG_FIELDS_EDITOR_PARAMS_WIDTH_DESC"
+				size="5"
+			/>
+
+			<field
+				name="height"
+				type="text"
+				label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
+				description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
+				size="5"
+			/>
+		</fieldset>
+	</fields>
+</form>

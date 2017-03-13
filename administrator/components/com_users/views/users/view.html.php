@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +39,38 @@ class UsersViewUsers extends JViewLegacy
 	 * @since 1.6
 	 */
 	protected $state;
+	
+	/**
+	 * A JForm instance with filter fields.
+	 *
+	 * @var    JForm
+	 * @since  3.6.3
+	 */
+	 public $filterForm;
+
+	/**
+	 * An array with active filters.
+	 *
+	 * @var    array
+	 * @since  3.6.3
+	 */
+	public $activeFilters;
+	
+	/**
+	 * An ACL object to verify user rights.
+	 *
+	 * @var    JObject
+	 * @since  3.6.3
+	 */
+	 protected $canDo;
+	
+	/**
+	 * An instance of JDatabaseDriver.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.6.3
+	 */
+	 protected $db;
 
 	/**
 	 * Display the view
@@ -55,6 +87,7 @@ class UsersViewUsers extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = JHelperContent::getActions('com_users');
+		$this->db            = JFactory::getDbo();
 
 		UsersHelper::addSubmenu('users');
 
@@ -84,11 +117,11 @@ class UsersViewUsers extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= $this->canDo;
-		$user 	= JFactory::getUser();
+		$canDo = $this->canDo;
+		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
@@ -113,7 +146,7 @@ class UsersViewUsers extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'users.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'users.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 

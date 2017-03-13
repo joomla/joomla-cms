@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,24 +25,35 @@ class UsersViewProfile extends JViewLegacy
 	protected $state;
 
 	/**
+	 * An instance of JDatabaseDriver.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.6.3
+	 */
+	protected $db;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed   A string if successful, otherwise a Error object.
+	 * @return  mixed   A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
+
 		// Get the view data.
-		$this->data	            = $this->get('Data');
-		$this->form	            = $this->get('Form');
+		$this->data	        = $this->get('Data');
+		$this->form	        = $this->getModel()->getForm(new JObject(array('id' => $user->id)));
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');
 		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
+		$this->db               = JFactory::getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -53,7 +64,6 @@ class UsersViewProfile extends JViewLegacy
 		}
 
 		// View also takes responsibility for checking if the user logged in with remember me.
-		$user = JFactory::getUser();
 		$cookieLogin = $user->get('cookieLogin');
 
 		if (!empty($cookieLogin))
@@ -77,6 +87,11 @@ class UsersViewProfile extends JViewLegacy
 
 		$this->data->tags = new JHelperTags;
 		$this->data->tags->getItemTags('com_users.user.', $this->data->id);
+
+		JPluginHelper::importPlugin('content');
+		$this->data->text = '';
+		JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
+		unset($this->data->text);
 
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();

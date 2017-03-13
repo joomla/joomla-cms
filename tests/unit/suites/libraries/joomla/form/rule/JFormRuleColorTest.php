@@ -3,83 +3,74 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Test class for JFormRuleColor.
+ * Test class for JFormRuleColor
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
  * @since       11.1
  */
 class JFormRuleColorTest extends TestCase
 {
 	/**
-	 * Test the JFormRuleColor::test method.
+	 * Data provider for the failure test case
 	 *
-	 * @return void
+	 * @return  array
 	 */
-	public function testColor()
-	{
-		$rule = new JFormRuleColor;
-		$xml = simplexml_load_string('<form><field name="color" /></form>');
-
-		// Test fail conditions.
-		$this->assertThat(
-			$rule->test($xml->field[0], 'bogus'),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' The rule should fail and return false.'
-		);
-
-		// Test pass conditions.
-		$this->assertThat(
-			$rule->test($xml->field[0], '#000000'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The basic rule should pass and return true.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return array
-	 */
-	public function colorData()
+	public function casesRuleFailure()
 	{
 		return array(
-			array('#000000', true),
-			array('#', false),
-			array('#000', true),
-			array('#FFFFFF', true),
-			array('#EEE', true),
-			array('#A0A0A0', true),
-			array('#GGGGGG', false),
-			array('FFFFFF', false),
-			array('#GGG', false),
-			array('', false)
+			'bogus'        => array('bogus'),
+			'#GGGGGG'      => array('#GGGGGG'),
+			'FFFFFF'       => array('FFFFFF'),
+			'#GGG'         => array('#GGG'),
+			'empty string' => array(''),
 		);
 	}
 
 	/**
-	 * Test...
+	 * Data provider for the success test case
 	 *
-	 * @param   string  $color           @todo
-	 * @param   string  $expectedResult  @todo
-	 *
-	 * @dataProvider colorData
-	 *
-	 * @return void
+	 * @return  array
 	 */
-	public function testColorData($color, $expectedResult)
+	public function casesRuleSuccess()
+	{
+		return array(
+			'#000000' => array('#000000'),
+			'#000'    => array('#000'),
+			'#FFFFFF' => array('#FFFFFF'),
+			'#EEE'    => array('#EEE'),
+			'#A0A0A0' => array('#A0A0A0'),
+		);
+	}
+
+	/**
+	 * @testdox  The color rule fails values that are not valid hexadecimal color codes
+	 *
+	 * @param   mixed  $value  The value to test
+	 *
+	 * @dataProvider  casesRuleFailure
+	 */
+	public function testRuleFailure($value)
 	{
 		$rule = new JFormRuleColor;
-		$xml = simplexml_load_string('<form><field name="color1" /></form>');
-		$this->assertThat(
-			$rule->test($xml->field[0], $color),
-			$this->equalTo($expectedResult),
-			$color . ' should have returned ' . ($expectedResult ? 'true' : 'false') . ' but did not'
-		);
+
+		$this->assertFalse($rule->test(new SimpleXMLElement('<form><field name="color" /></form>'), $value));
+	}
+
+	/**
+	 * @testdox  The color rule passes values that are valid hexadecimal color codes
+	 *
+	 * @param   mixed  $value  The value to test
+	 *
+	 * @dataProvider  casesRuleSuccess
+	 */
+	public function testRuleSuccess($value)
+	{
+		$rule = new JFormRuleColor;
+
+		$this->assertTrue($rule->test(new SimpleXMLElement('<form><field name="color" /></form>'), $value));
 	}
 }

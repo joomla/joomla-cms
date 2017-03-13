@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class TagsViewTag extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -63,27 +63,26 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
-
-		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$user       = JFactory::getUser();
+		$userId     = $user->get('id');
+		$isNew      = ($this->item->id == 0);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-			$lang->load('com_tags', JPATH_BASE, null, false, true)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
-
-		// Load the tags helper.
-		require_once JPATH_COMPONENT . '/helpers/tags.php';
+		$lang->load('com_tags', JPATH_BASE, null, false, true)
+		|| $lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
 
 		// Get the results for each action.
 		$canDo = $this->canDo;
+		$title = JText::_('COM_TAGS_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
 
-		$title = JText::_('COM_TAGS_BASE_' . ($isNew?'ADD':'EDIT') . '_TITLE');
-
-		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'tag tag-' . ($isNew?'add':'edit') . ($isNew?'add':'edit'));
+		/**
+		 * Prepare the toolbar.
+		 * If it is new we get: `tag tag-add add`
+		 * else we get `tag tag-edit edit`
+		 */
+		JToolbarHelper::title($title, 'tag tag-' . ($isNew ? 'add add' : 'edit edit'));
 
 		// For new records, check the create permission.
 		if ($isNew)
@@ -91,33 +90,34 @@ class TagsViewTag extends JViewLegacy
 			JToolbarHelper::apply('tag.apply');
 			JToolbarHelper::save('tag.save');
 			JToolbarHelper::save2new('tag.save2new');
+			JToolbarHelper::cancel('tag.cancel');
 		}
 
 		// If not checked out, can save the item.
-		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId)))
-		{
-			JToolbarHelper::apply('tag.apply');
-			JToolbarHelper::save('tag.save');
-
-			if ($canDo->get('core.create'))
-			{
-				JToolbarHelper::save2new('tag.save2new');
-			}
-		}
-
-		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save2copy('tag.save2copy');
-		}
-
-		if (empty($this->item->id))
-		{
-			JToolbarHelper::cancel('tag.cancel');
-		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
+
+			// Can't save the record if it's checked out and editable
+			if (!$checkedOut && $itemEditable)
+			{
+				JToolbarHelper::apply('tag.apply');
+				JToolbarHelper::save('tag.save');
+	
+				if ($canDo->get('core.create'))
+				{
+					JToolbarHelper::save2new('tag.save2new');
+				}
+			}
+
+			// If an existing item, can save to a copy.
+			if ($canDo->get('core.create'))
+			{
+				JToolbarHelper::save2copy('tag.save2copy');
+			}
+
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				JToolbarHelper::versions('com_tags.tag', $this->item->id);
 			}

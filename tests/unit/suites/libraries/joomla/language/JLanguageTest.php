@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,6 +61,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	protected function tearDown()
 	{
 		JFolder::delete(JPATH_TESTS . '/tmp/language');
+		unset($this->object);
+		unset($this->inspector);
+		parent::tearDown();
 	}
 
 	/**
@@ -736,17 +739,17 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testExists()
 	{
 		$this->assertFalse(
-			$this->object->exists(null)
+			JLanguage::exists(null)
 		);
 
 		$basePath = __DIR__ . '/data';
 
 		$this->assertTrue(
-			$this->object->exists('en-GB', $basePath)
+			JLanguage::exists('en-GB', $basePath)
 		);
 
 		$this->assertFalse(
-			$this->object->exists('es-ES', $basePath)
+			JLanguage::exists('es-ES', $basePath)
 		);
 	}
 
@@ -778,6 +781,38 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			array(),
 			'Line: ' . __LINE__ . ' bad ini file should not load properly.'
 		);
+	}
+
+	/**
+	 * Test debugFile reports no errors on a good file
+	 *
+	 * @return void
+	 */
+	public function testVerifyDebugFileFindsNoErrorsInAGoodFile()
+	{
+		$this->assertSame(0, $this->object->debugFile(__DIR__ . '/data/good.ini'));
+	}
+
+	/**
+	 * Test debugFile reports errors on a bad file
+	 *
+	 * @return void
+	 */
+	public function testVerifyDebugFileFindsErrorsInABadFile()
+	{
+		$this->assertGreaterThan(0, $this->object->debugFile(__DIR__ . '/data/bad.ini'));
+	}
+
+	/**
+	 * Test debugFile throws an Exception when the file does not exist
+	 *
+	 * @expectedException  InvalidArgumentException
+	 *
+	 * @return void
+	 */
+	public function testVerifyDebugFileThrowsAnExceptionWhenTheFileDoesNotExist()
+	{
+		$this->object->debugFile(__DIR__ . '/data/not-existing.ini');
 	}
 
 	/**
@@ -1000,18 +1035,18 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			$this->inspector->getMetadata('es-ES')
 		);
 
-		$localeString = 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, ' .
-			'uk, united kingdom, united-kingdom';
-
 		// In this case, returns array with default language
 		// - same operation of get method with metadata property
 		$options = array(
-			'name' => 'English (en-GB)',
-			'tag' => 'en-GB',
-			'rtl' => '0',
-			'locale' => $localeString,
-			'firstDay' => '0',
-			'weekEnd' => '0,6'
+			'name'       => 'English (en-GB)',
+			'nativeName' => 'English (United Kingdom)',
+			'tag'        => 'en-GB',
+			'rtl'        => '0',
+			'locale'     => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
+				' uk, united kingdom, united-kingdom',
+			'firstDay'   => '0',
+			'weekEnd'    => '0,6',
+			'calendar'   => 'gregorian',
 		);
 
 		// Language exists, returns array with values
@@ -1031,25 +1066,23 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// This method returns a list of known languages
 		$basePath = __DIR__ . '/data';
 
-		$localeString = 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
-			' uk, united kingdom, united-kingdom';
-
-		$weekEnd = '0,6';
-
 		$option1 = array(
-			'name' => 'English (United Kingdom)',
-			'tag' => 'en-GB',
-			'rtl' => '0',
-			'locale' => $localeString,
-			'firstDay' => '0',
-			'weekEnd' => $weekEnd
+			'name'       => 'English (en-GB)',
+			'nativeName' => 'English (United Kingdom)',
+			'tag'        => 'en-GB',
+			'rtl'        => '0',
+			'locale'     => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
+				' uk, united kingdom, united-kingdom',
+			'firstDay'   => '0',
+			'weekEnd'    => '0,6',
+			'calendar'   => 'gregorian',
 		);
 
 		$listCompareEqual1 = array(
 			'en-GB' => $option1,
 		);
 
-		$list = JLanguage::getKnownLanguages($basePath);
+		$list = JLanguageHelper::getKnownLanguages($basePath);
 		$this->assertEquals(
 			$listCompareEqual1,
 			$list,
@@ -1069,21 +1102,21 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// $language = null, returns language directory
 		$this->assertEquals(
 			'test/language',
-			JLanguage::getLanguagePath($basePath, null),
+			JLanguageHelper::getLanguagePath($basePath, null),
 			'Line: ' . __LINE__
 		);
 
 		// $language = value (en-GB, for example), returns en-GB language directory
 		$this->assertEquals(
 			'test/language/en-GB',
-			JLanguage::getLanguagePath($basePath, 'en-GB'),
+			JLanguageHelper::getLanguagePath($basePath, 'en-GB'),
 			'Line: ' . __LINE__
 		);
 
 		// With no argument JPATH_BASE should be returned
 		$this->assertEquals(
 			JPATH_BASE . '/language',
-			JLanguage::getLanguagePath(),
+			JLanguageHelper::getLanguagePath(),
 			'Line: ' . __LINE__
 		);
 	}
@@ -1115,22 +1148,24 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParseLanguageFiles()
 	{
-		$dir = __DIR__ . '/data/language';
+		$dir    = __DIR__ . '/data/language';
 		$option = array(
-			'name' => 'English (United Kingdom)',
-			'tag' => 'en-GB',
-			'rtl' => '0',
-			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england,' .
+			'name'       => 'English (en-GB)',
+			'nativeName' => 'English (United Kingdom)',
+			'tag'        => 'en-GB',
+			'rtl'        => '0',
+			'locale'     => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england,' .
 				' great britain, uk, united kingdom, united-kingdom',
-			'firstDay' => '0',
-			'weekEnd' => '0,6'
+			'firstDay'   => '0',
+			'weekEnd'    => '0,6',
+			'calendar'   => 'gregorian',
 		);
 
 		$expected = array(
 			'en-GB' => $option
 		);
 
-		$result = JLanguage::parseLanguageFiles($dir);
+		$result = JLanguageHelper::parseLanguageFiles($dir);
 
 		$this->assertEquals(
 			$expected,
@@ -1147,27 +1182,22 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testParseXMLLanguageFile()
 	{
 		$option = array(
-			'name' => 'English (United Kingdom)',
-			'tag' => 'en-GB',
-			'rtl' => '0',
-			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
+			'name'       => 'English (en-GB)',
+			'nativeName' => 'English (United Kingdom)',
+			'tag'        => 'en-GB',
+			'rtl'        => '0',
+			'locale'     => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
 				' uk, united kingdom, united-kingdom',
-			'firstDay' => '0',
-			'weekEnd' => '0,6'
+			'firstDay'   => '0',
+			'weekEnd'    => '0,6',
+			'calendar'   => 'gregorian',
 		);
 
 		$path = __DIR__ . '/data/language/en-GB/en-GB.xml';
 
 		$this->assertEquals(
 			$option,
-			JLanguage::parseXMLLanguageFile($path),
-			'Line: ' . __LINE__
-		);
-
-		$path2 = __DIR__ . '/data/language/es-ES/es-ES.xml';
-		$this->assertEquals(
-			$option,
-			JLanguage::parseXMLLanguageFile($path),
+			JLanguageHelper::parseXMLLanguageFile($path),
 			'Line: ' . __LINE__
 		);
 	}
@@ -1183,6 +1213,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	{
 		$path = __DIR__ . '/data/language/es-ES/es-ES.xml';
 
-		JLanguage::parseXMLLanguageFile($path);
+		JLanguageHelper::parseXMLLanguageFile($path);
 	}
 }

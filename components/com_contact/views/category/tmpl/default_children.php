@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 $class = ' class="first"';
-if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
+if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 ?>
 <ul class="list-striped list-condensed">
 <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
@@ -27,7 +27,7 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
 				<?php echo $this->escape($child->title); ?>
 				</a>
 
-				<?php if ($this->params->get('show_cat_items') == 1) :?>
+				<?php if ($this->params->get('show_cat_items') == 1) : ?>
 					<span class="badge badge-info pull-right" title="<?php echo JText::_('COM_CONTACT_CAT_NUM'); ?>"><?php echo $child->numitems; ?></span>
 				<?php endif; ?>
 			</h4>

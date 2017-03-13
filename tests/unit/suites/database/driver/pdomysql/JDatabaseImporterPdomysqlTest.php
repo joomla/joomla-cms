@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,22 +55,21 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverPdomysql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'quoteName',
-				'loadObjectList',
-				'quote',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverPdomysql')
+					->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'quoteName',
+						'loadObjectList',
+						'quote',
+						'setQuery',
+					))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$this->dbo->expects(
 			$this->any()
@@ -179,6 +178,21 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 				array($this, 'callbackLoadObjectList')
 			)
 		);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
+		parent::tearDown();
 	}
 
 	/**
@@ -761,37 +775,6 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 			TestReflection::invoke($instance, 'getRealTableName', '#__test'),
 			$this->equalTo('jos_test'),
 			'getRealTableName should return the name of the table with #__ converted to the database prefix.'
-		);
-	}
-
-	/**
-	 * Tests the setDbo method with the wrong type of class.
-	 *
-	 * @return void
-	 *
-	 * @since  3.4
-	 */
-	public function testSetDboWithBadInput()
-	{
-		if (PHP_MAJOR_VERSION >= 7)
-		{
-			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
-		}
-
-		$instance = new JDatabaseImporterPdomysql;
-
-		try
-		{
-			$instance->setDbo(new stdClass);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Expecting the error, so just ignore it.
-			return;
-		}
-
-		$this->fail(
-			'setDbo requires a JDatabaseDriverPdomysql object and should throw an exception.'
 		);
 	}
 

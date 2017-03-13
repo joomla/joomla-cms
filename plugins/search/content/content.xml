@@ -3,7 +3,7 @@
 	<name>plg_search_content</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -19,29 +19,35 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="search_limit" type="text"
-					default="50"
-					description="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_DESC"
+				<field
+					name="search_limit"
+					type="text"
 					label="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_LABEL"
+					description="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_DESC"
+					default="50"
 					size="5"
 				/>
 
-				<field name="search_content" type="radio"
+				<field
+					name="search_content"
+					type="radio"
+					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
+					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
-					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="search_archived" type="radio"
+				<field
+					name="search_archived"
+					type="radio"
+					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
+					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
-					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>

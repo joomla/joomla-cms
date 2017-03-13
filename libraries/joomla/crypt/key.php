@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,9 +70,7 @@ class JCryptKey
 		{
 			return $this->type;
 		}
-		else
-		{
-			trigger_error('Cannot access property ' . __CLASS__ . '::' . $name, E_USER_WARNING);
-		}
+
+		trigger_error('Cannot access property ' . __CLASS__ . '::' . $name, E_USER_WARNING);
 	}
 }

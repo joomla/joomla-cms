@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,7 +59,7 @@ class JPaginationTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->app);
 		parent::tearDown();
 	}
 
@@ -192,7 +192,7 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
-	 * This method tests the getAdditionalUrlParam function by setting a url with Reflection then retrieving it.
+	 * This method tests the getAdditionalUrlParam function by setting a URL with Reflection then retrieving it.
 	 *
 	 * @return  void
 	 *
@@ -447,7 +447,7 @@ class JPaginationTest extends TestCase
 
 		$result = $pagination->getPagesLinks();
 
-		$this->assertEquals($result, $expected, 'The expected output of the pagination is incorrect');
+		$this->assertXmlStringEqualsXmlString($result, $expected, 'The expected output of the pagination is incorrect');
 
 		unset($pagination);
 	}
@@ -510,7 +510,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 
@@ -651,7 +651,7 @@ class JPaginationTest extends TestCase
 
 		$string = TestReflection::invoke($pagination, '_list_render', $list);
 
-		$this->assertEquals($string, $expected, 'The list render method is not outputting the expected results');
+		$this->assertXmlStringEqualsXmlString($string, $expected, 'The list render method is not outputting the expected results');
 
 		unset($pagination);
 	}
@@ -692,7 +692,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
@@ -739,7 +739,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
@@ -832,7 +832,7 @@ class JPaginationTest extends TestCase
 		{
 			$result = TestReflection::getValue($pagination, $property);
 		}
-		elseif(strpos($property, '.'))
+		elseif (strpos($property, '.'))
 		{
 			$prop = explode('.', $property);
 			$prop[1] = ucfirst($prop[1]);

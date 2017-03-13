@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,18 +45,16 @@ abstract class TestCaseDatabaseMysql extends TestCaseDatabase
 	{
 		if (PHP_MAJOR_VERSION >= 7)
 		{
-			self::markTestSkipped('ext/mysql is unsupported on PHP 7.');
+			static::markTestSkipped('ext/mysql is unsupported on PHP 7.');
 		}
 
 		// First let's look to see if we have a DSN defined or in the environment variables.
-		if (defined('JTEST_DATABASE_MYSQL_DSN') || getenv('JTEST_DATABASE_MYSQL_DSN'))
+		if (!defined('JTEST_DATABASE_MYSQL_DSN') && !getenv('JTEST_DATABASE_MYSQL_DSN'))
 		{
-			$dsn = defined('JTEST_DATABASE_MYSQL_DSN') ? JTEST_DATABASE_MYSQL_DSN : getenv('JTEST_DATABASE_MYSQL_DSN');
+			static::markTestSkipped('The MySQL driver is not configured.');
 		}
-		else
-		{
-			return;
-		}
+
+		$dsn = defined('JTEST_DATABASE_MYSQL_DSN') ? JTEST_DATABASE_MYSQL_DSN : getenv('JTEST_DATABASE_MYSQL_DSN');
 
 		// First let's trim the mysql: part off the front of the DSN if it exists.
 		if (strpos($dsn, 'mysql:') === 0)
@@ -92,22 +90,22 @@ abstract class TestCaseDatabaseMysql extends TestCaseDatabase
 		try
 		{
 			// Attempt to instantiate the driver.
-			self::$driver = JDatabaseDriver::getInstance(self::$_options);
+			static::$driver = JDatabaseDriver::getInstance(self::$_options);
 		}
 		catch (RuntimeException $e)
 		{
-			self::$driver = null;
+			static::$driver = null;
 		}
 
 		// If for some reason an exception object was returned set our database object to null.
-		if (self::$driver instanceof Exception)
+		if (static::$driver instanceof Exception)
 		{
-			self::$driver = null;
+			static::$driver = null;
 		}
 
 		// Setup the factory pointer for the driver and stash the old one.
 		self::$_stash = JFactory::$database;
-		JFactory::$database = self::$driver;
+		JFactory::$database = static::$driver;
 	}
 
 	/**
@@ -120,7 +118,12 @@ abstract class TestCaseDatabaseMysql extends TestCaseDatabase
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$_stash;
-		self::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**

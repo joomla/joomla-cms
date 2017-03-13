@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  */
-class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterMysqlTest extends TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -40,28 +40,41 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	);
 
 	/**
-	 * Sets up the testing conditions
+	 * This method is called before the first test of this test class is run.
 	 *
 	 * @return  void
 	 */
-	public function setup()
+	public static function setUpBeforeClass()
 	{
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverMysql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'quoteName',
-				'loadObjectList',
-				'quote',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			self::markTestSkipped('ext/mysql is unsupported on PHP 7.');
+		}
+	}
+
+	/**
+	 * Sets up the fixture, for example, open a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
+	{
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverMysql')
+					->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'quoteName',
+						'loadObjectList',
+						'quote',
+						'setQuery',
+					))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$this->dbo
 			->expects($this->any())
@@ -161,6 +174,20 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 				array($this, 'callbackLoadObjectList')
 			)
 		);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
 	}
 
 	/**

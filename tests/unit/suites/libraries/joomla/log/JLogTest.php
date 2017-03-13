@@ -3,13 +3,10 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/log/log.php';
-require_once JPATH_PLATFORM . '/joomla/log/entry.php';
-require_once JPATH_PLATFORM . '/joomla/log/logger.php';
 require_once __DIR__ . '/stubs/log/inspector.php';
 
 /**
@@ -89,7 +86,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddLoggerAutoInstantiationInvalidLogger()
 	{
-		// We are expecting a InvalidArgumentException to be thrown since we are trying to add a bogus logger.
+		// We are expecting an InvalidArgumentException to be thrown since we are trying to add a bogus logger.
 		$this->setExpectedException('RuntimeException');
 
 		JLog::setInstance(null);
@@ -504,22 +501,19 @@ class JLogTest extends PHPUnit_Framework_TestCase
 		// Get the expected loggers array after adding the single logger (hasn't been instantiated yet so null).
 		$expectedLoggers = null;
 
-		$this->assertThat(
-			$log->configurations,
-			$this->equalTo($expectedConfigurations),
-			'Line: ' . __LINE__ . '.'
+		$this->assertEquals(
+			$expectedConfigurations,
+			$log->configurations
 		);
 
-		$this->assertThat(
-			$log->lookup,
-			$this->equalTo($expectedLookup),
-			'Line: ' . __LINE__ . '.'
+		$this->assertEquals(
+			$expectedLookup,
+			$log->lookup
 		);
 
-		$this->assertThat(
-			$log->loggers,
-			$this->equalTo($expectedLoggers),
-			'Line: ' . __LINE__ . '.'
+		$this->assertEquals(
+			$expectedLoggers,
+			$log->loggers
 		);
 
 		// Start over so we test that it actually sets the instance appropriately.
@@ -527,37 +521,34 @@ class JLogTest extends PHPUnit_Framework_TestCase
 		JLog::setInstance($log);
 
 		// Add a logger to the JLog object.
-		JLog::addLogger(array('logger' => 'database', 'db_type' => 'mysql', 'db_table' => '#__test_table'), JLog::ERROR);
+		JLog::addLogger(array('logger' => 'database', 'db_type' => 'mysqli', 'db_table' => '#__test_table'), JLog::ERROR);
 
 		// Get the expected configurations array after adding the single logger.
 		$expectedConfigurations = array(
-			'b67483f5ba61450d173aae527fa4163f' => array('logger' => 'database', 'db_type' => 'mysql', 'db_table' => '#__test_table')
+			'2c6b1817bcb404c50f7bbbe9e6ae1429' => array('logger' => 'database', 'db_type' => 'mysqli', 'db_table' => '#__test_table')
 		);
 
 		// Get the expected lookup array after adding the single logger.
 		$expectedLookup = array(
-			'b67483f5ba61450d173aae527fa4163f' => (object) array('priorities' => JLog::ERROR, 'categories' => array(), 'exclude' => false)
+			'2c6b1817bcb404c50f7bbbe9e6ae1429' => (object) array('priorities' => JLog::ERROR, 'categories' => array(), 'exclude' => false)
 		);
 
 		// Get the expected loggers array after adding the single logger (hasn't been instantiated yet so null).
 		$expectedLoggers = null;
 
-		$this->assertThat(
-			$log->configurations,
-			$this->equalTo($expectedConfigurations),
-			'Line: ' . __LINE__ . '.'
+		$this->assertEquals(
+			$expectedConfigurations,
+			$log->configurations
 		);
 
-		$this->assertThat(
-			$log->lookup,
-			$this->equalTo($expectedLookup),
-			'Line: ' . __LINE__ . '.'
+		$this->assertEquals(
+			$expectedLookup,
+			$log->lookup
 		);
 
-		$this->assertThat(
-			$log->loggers,
-			$this->equalTo($expectedLoggers),
-			'Line: ' . __LINE__ . '.'
+		$this->assertEquals(
+			$expectedLoggers,
+			$log->loggers
 		);
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -181,5 +181,28 @@ div#system-debug {
 #system-debug .dbg-query-memory,
 #system-debug .dbg-query-rowsnumber
 {
-    margin-left: 50px;
+	margin-left: 50px;
+}
+#dbg_container_session pre
+{
+	background: white;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+#dbg_container_session pre .blue
+{
+	color:blue;
+}
+#dbg_container_session pre .green
+{
+	color:green;
+}
+#dbg_container_session pre .black
+{
+	color:black;
+}
+#dbg_container_session pre .grey
+{
+	color:grey;
 }

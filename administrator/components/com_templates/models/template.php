@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,7 +64,7 @@ class TemplatesModelTemplate extends JModelForm
 	 */
 	public function getFiles()
 	{
-		$result	= array();
+		$result = array();
 
 		if ($template = $this->getTemplate())
 		{
@@ -116,7 +116,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		foreach ($dirFiles as $key => $value)
 		{
-			if (!in_array($value, array(".", "..")))
+			if (!in_array($value, array('.', '..')))
 			{
 				if (is_dir($dir . $value))
 				{
@@ -125,16 +125,10 @@ class TemplatesModelTemplate extends JModelForm
 				}
 				else
 				{
-					$ext          = pathinfo($dir . $value, PATHINFO_EXTENSION);
-					$params       = JComponentHelper::getParams('com_templates');
-					$imageTypes   = explode(',', $params->get('image_formats'));
-					$sourceTypes  = explode(',', $params->get('source_formats'));
-					$fontTypes    = explode(',', $params->get('font_formats'));
-					$archiveTypes = explode(',', $params->get('compressed_formats'));
+					$ext           = pathinfo($dir . $value, PATHINFO_EXTENSION);
+					$allowedFormat = $this->checkFormat($ext);
 
-					$types = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
-
-					if (in_array($ext, $types))
+					if ($allowedFormat == true)
 					{
 						$relativePath = str_replace($this->element, '', $dir);
 						$info = $this->getFile('/' . $relativePath, $value);
@@ -439,7 +433,16 @@ class TemplatesModelTemplate extends JModelForm
 			$input    = JFactory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
 			$client   = JApplicationHelper::getClientInfo($this->template->client_id);
-			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+
+			try
+			{
+				$filePath = JPath::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+			}
+			catch (Exception $e)
+			{
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				return;
+			}
 
 			if (file_exists($filePath))
 			{
@@ -493,7 +496,7 @@ class TemplatesModelTemplate extends JModelForm
 		if (!is_writable($filePath))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'), 'warning');
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_PERMISSIONS' . JPath::getPermissions($filePath)), 'warning');
+			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_FILE_PERMISSIONS', JPath::getPermissions($filePath)), 'warning');
 
 			if (!JPath::isOwner($filePath))
 			{
@@ -503,7 +506,11 @@ class TemplatesModelTemplate extends JModelForm
 			return false;
 		}
 
+		// Make sure EOL is Unix
+		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
+
 		$return = JFile::write($filePath, $data['source']);
+
 		if (!$return)
 		{
 			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
@@ -511,6 +518,7 @@ class TemplatesModelTemplate extends JModelForm
 			return false;
 		}
 
+		// Get the extension of the changed file.
 		$explodeArray = explode('.', $fileName);
 		$ext = end($explodeArray);
 
@@ -552,23 +560,38 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		if ($template = $this->getTemplate())
 		{
-			$client 	        = JApplicationHelper::getClientInfo($template->client_id);
-			$componentPath		= JPath::clean($client->path . '/components/');
-			$modulePath		    = JPath::clean($client->path . '/modules/');
-			$layoutPath		    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
-			$components         = JFolder::folders($componentPath);
+			$client        = JApplicationHelper::getClientInfo($template->client_id);
+			$componentPath = JPath::clean($client->path . '/components/');
+			$modulePath    = JPath::clean($client->path . '/modules/');
+			$layoutPath    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
+			$components    = JFolder::folders($componentPath);
 
 			foreach ($components as $component)
 			{
-				$viewPath	= JPath::clean($componentPath . '/' . $component . '/views/');
-
-				if (file_exists($viewPath))
+				if (file_exists($componentPath . '/' . $component . '/views/'))
 				{
-					$views	= JFolder::folders($viewPath);
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/views/');
+				}
+				elseif (file_exists($componentPath . '/' . $component . '/view/'))
+				{
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/view/');
+				}
+				else
+				{
+					$viewPath = '';
+				}
+
+				if ($viewPath)
+				{
+					$views = JFolder::folders($viewPath);
 
 					foreach ($views as $view)
 					{
-						$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						// Only show the view has layout inside it
+						if (file_exists($viewPath . $view . '/tmpl'))
+						{
+							$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						}
 					}
 				}
 			}
@@ -683,7 +706,7 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		$return = false;
 
-		if (empty($htmlPath) || empty($htmlPath))
+		if (empty($overridePath) || empty($htmlPath))
 		{
 			return $return;
 		}
@@ -830,6 +853,14 @@ class TemplatesModelTemplate extends JModelForm
 
 				return false;
 			}
+			// Check if the format is allowed and will be showed in the backend
+			$check = $this->checkFormat($type);
+
+			// Add a message if we are not allowed to show this file in the backend.
+			if (!$check)
+			{
+				$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_WARNING_FORMAT_WILL_NOT_BE_VISIBLE', $type), 'warning');
+			}
 
 			return true;
 		}
@@ -857,7 +888,7 @@ class TemplatesModelTemplate extends JModelForm
 			$fileName = JFile::makeSafe($file['name']);
 
 			$err = null;
-			JLoader::register('TemplateHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php');
+			JLoader::register('TemplateHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/template.php');
 
 			if (!TemplateHelper::canUpload($file, $err))
 			{
@@ -1033,10 +1064,10 @@ class TemplatesModelTemplate extends JModelForm
 			if (file_exists(JPath::clean($path . $fileName)))
 			{
 				$JImage = new JImage(JPath::clean($path . $fileName));
-				$image['address'] 	= $uri . $fileName;
-				$image['path']		= $fileName;
-				$image['height'] 	= $JImage->getHeight();
-				$image['width']  	= $JImage->getWidth();
+				$image['address'] = $uri . $fileName;
+				$image['path']    = $fileName;
+				$image['height']  = $JImage->getHeight();
+				$image['width']   = $JImage->getWidth();
 			}
 
 			else
@@ -1301,7 +1332,7 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
-	 * Extract contents of a archive file.
+	 * Extract contents of an archive file.
 	 *
 	 * @param   string  $file  The name and location of the file
 	 *
@@ -1357,5 +1388,30 @@ class TemplatesModelTemplate extends JModelForm
 				return false;
 			}
 		}
+	}
+
+	/**
+ 	* Check if the extension is allowed and will be shown in the template manager
+ 	*
+	* @param   string  $ext  The extension to check if it is allowed
+ 	*
+ 	* @return  boolean  true if the extension is allowed false otherwise
+ 	*
+ 	* @since   3.6.0
+	*/
+	protected function checkFormat($ext)
+	{
+		if (!isset($this->allowedFormats))
+		{
+			$params       = JComponentHelper::getParams('com_templates');
+			$imageTypes   = explode(',', $params->get('image_formats'));
+			$sourceTypes  = explode(',', $params->get('source_formats'));
+			$fontTypes    = explode(',', $params->get('font_formats'));
+			$archiveTypes = explode(',', $params->get('compressed_formats'));
+
+			$this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
+		}
+
+		return in_array($ext, $this->allowedFormats);
 	}
 }

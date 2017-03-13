@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -128,7 +128,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 		$db = JFactory::getDbo();
 
 		// Get the database object and a new query object.
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		// Build the query.
 		$query->select('element, name, enabled')
@@ -138,8 +138,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 
 		// Set the query and load the templates.
 		$db->setQuery($query);
-		$templates = $db->loadObjectList('element');
 
-		return $templates;
+		return $db->loadObjectList('element');
 	}
 }

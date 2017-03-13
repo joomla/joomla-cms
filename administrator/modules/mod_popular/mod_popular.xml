@@ -3,7 +3,7 @@
 	<name>mod_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,8 +11,8 @@
 	<description>MOD_POPULAR_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_popular">mod_popular.php</filename>
-		<filename>helper.php</filename>
 		<folder>tmpl</folder>
+		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_popular.ini</language>
@@ -69,13 +69,16 @@
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
 				<field
-					name="cache"
-					type="list"
+					name="automatic_title"
+					type="radio"
+					class="btn-group btn-group-yesno"
 					default="0"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
+					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
+					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC">
 					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

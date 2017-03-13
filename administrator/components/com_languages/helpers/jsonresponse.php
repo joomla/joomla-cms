@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +71,14 @@ class JJsonResponse
 	 */
 	public function __construct($response = null, $message = null, $error = false)
 	{
-		JLog::add('Class JJsonResponse is deprecated. Use class JResponseJson instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(sprintf('%s is deprecated, use JResponseJson instead.', __CLASS__), JLog::WARNING, 'deprecated');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		$this->message = $message;
 
@@ -101,15 +108,15 @@ class JJsonResponse
 		{
 			// Prepare the error response.
 			$this->success = false;
-			$this->error = true;
-			$this->message	= $response->getMessage();
+			$this->error   = true;
+			$this->message = $response->getMessage();
 		}
 		else
 		{
 			// Prepare the response data.
 			$this->success = !$error;
-			$this->error = $error;
-			$this->data = $response;
+			$this->error   = $error;
+			$this->data    = $response;
 		}
 	}
 

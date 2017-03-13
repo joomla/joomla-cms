@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -252,7 +252,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock input object.
 	 *
-	 * @param   array  $options  A associative array of options to configure the mock.
+	 * @param   array  $options  An associative array of options to configure the mock.
 	 *                           * methods => an array of additional methods to mock
 	 *
 	 * @return  JInput
@@ -371,7 +371,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected function restoreErrorHandlers()
 	{
-		$this->setErrorhandlers($this->_stashedErrorState);
+		$this->setErrorHandlers($this->_stashedErrorState);
 	}
 
 	/**

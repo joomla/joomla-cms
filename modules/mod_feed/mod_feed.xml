@@ -3,7 +3,7 @@
 	<name>mod_feed</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,8 +11,8 @@
 	<description>MOD_FEED_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_feed">mod_feed.php</filename>
-		<filename>helper.php</filename>
 		<folder>tmpl</folder>
+		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_feed.ini</language>
@@ -25,118 +25,124 @@
 				<field
 					name="rssurl"
 					type="url"
+					label="MOD_FEED_FIELD_RSSURL_LABEL"
+					description="MOD_FEED_FIELD_RSSURL_DESC"
 					size="50"
 					filter="url"
 					required="true"
 					validate="url"
-					label="MOD_FEED_FIELD_RSSURL_LABEL"
-					description="MOD_FEED_FIELD_RSSURL_DESC" />
+				/>
+
 				<field
 					name="rssrtl"
 					type="radio"
+					label="MOD_FEED_FIELD_RTL_LABEL"
+					description="MOD_FEED_FIELD_RTL_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="MOD_FEED_FIELD_RTL_LABEL"
-					description="MOD_FEED_FIELD_RTL_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="rsstitle"
 					type="radio"
+					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
+					description="MOD_FEED_FIELD_RSSTITLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
-					description="MOD_FEED_FIELD_RSSTITLE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="rssdesc"
 					type="radio"
+					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
+					description="MOD_FEED_FIELD_DESCRIPTION_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_DESCRIPTION_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="rssimage"
 					type="radio"
+					label="MOD_FEED_FIELD_IMAGE_LABEL"
+					description="MOD_FEED_FIELD_IMAGE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_FEED_FIELD_IMAGE_LABEL"
-					description="MOD_FEED_FIELD_IMAGE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="rssitems"
 					type="text"
-					default="3"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
-					description="MOD_FEED_FIELD_ITEMS_DESC" />
+					description="MOD_FEED_FIELD_ITEMS_DESC"
+					default="3"
+				/>
+
 				<field
 					name="rssitemdesc"
 					type="radio"
+					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
+					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="word_count"
 					type="text"
+					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
+					description="MOD_FEED_FIELD_WORDCOUNT_DESC"
 					size="6"
 					default="0"
-					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
-					description="MOD_FEED_FIELD_WORDCOUNT_DESC" />
+				/>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+				/>
 
 				<field
 					name="cache"
 					type="list"
-					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					default="1"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 			</fieldset>
 		</fields>
 	</config>

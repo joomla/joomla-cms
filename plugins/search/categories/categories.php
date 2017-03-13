@@ -3,13 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Categories search plugin.
@@ -154,21 +154,22 @@ class PlgSearchCategories extends JPlugin
 		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when .= ' ELSE ';
 		$case_when .= $a_id . ' END as slug';
-		$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
+		$query->select('a.title, a.description AS text, a.created_time AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
 			->from('#__categories AS a')
 			->where(
 				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = '
 				. $db->quote('com_content') . 'AND a.access IN (' . $groups . ')'
 			)
-			->group('a.id, a.title, a.description, a.alias')
+			->group('a.id, a.title, a.description, a.alias, a.created_time')
 			->order($order);
 
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		$db->setQuery($query, 0, $limit);
+
 		try
 		{
 			$rows = $db->loadObjectList();
@@ -183,19 +184,15 @@ class PlgSearchCategories extends JPlugin
 
 		if ($rows)
 		{
-			$count = count($rows);
-
-			for ($i = 0; $i < $count; $i++)
+			foreach ($rows as $i => $row)
 			{
-				$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
-				$rows[$i]->section = JText::_('JCATEGORY');
-			}
 
-			foreach ($rows as $category)
-			{
-				if (searchHelper::checkNoHtml($category, $searchText, array('name', 'title', 'text')))
+				if (searchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
 				{
-					$return[] = $category;
+					$row->href = ContentHelperRoute::getCategoryRoute($row->slug);
+					$row->section = JText::_('JCATEGORY');
+
+					$return[] = $row;
 				}
 			}
 		}

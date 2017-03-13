@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Module
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ abstract class JModuleHelper
 	 * @param   string  $name   The name of the module
 	 * @param   string  $title  The title of the module, optional
 	 *
-	 * @return  object  The Module object
+	 * @return  stdClass  The Module object
 	 *
 	 * @since   1.5
 	 */
@@ -123,7 +123,7 @@ abstract class JModuleHelper
 	{
 		$result = static::getModule($module);
 
-		return (!is_null($result) && $result->id !== 0);
+		return !is_null($result) && $result->id !== 0;
 	}
 
 	/**
@@ -166,8 +166,7 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new Registry;
-		$params->loadString($module->params);
+		$params = new Registry($module->params);
 
 		// Get the template
 		$template = $app->getTemplate();
@@ -181,9 +180,18 @@ abstract class JModuleHelper
 		{
 			$lang = JFactory::getLanguage();
 
-			// 1.5 or Core then 1.6 3PD
-			$lang->load($module->module, JPATH_BASE, null, false, true) ||
-				$lang->load($module->module, dirname($path), null, false, true);
+			$coreLanguageDirectory      = JPATH_BASE;
+			$extensionLanguageDirectory = dirname($path);
+
+			$langPaths = $lang->getPaths();
+
+			// Only load the module's language file if it hasn't been already
+			if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
+			{
+				// 1.5 or Core then 1.6 3PD
+				$lang->load($module->module, $coreLanguageDirectory, null, false, true) ||
+					$lang->load($module->module, $extensionLanguageDirectory, null, false, true);
+			}
 
 			$content = '';
 			ob_start();
@@ -258,6 +266,8 @@ abstract class JModuleHelper
 		// Revert the scope
 		$app->scope = $scope;
 
+		$app->triggerEvent('onAfterRenderModule', array(&$module, &$attribs));
+
 		if (JDEBUG)
 		{
 			JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
@@ -287,7 +297,7 @@ abstract class JModuleHelper
 			$temp = explode(':', $layout);
 			$template = ($temp[0] == '_') ? $template : $temp[0];
 			$layout = $temp[1];
-			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
@@ -372,6 +382,9 @@ abstract class JModuleHelper
 		$lang = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
+		// Build a cache ID for the resulting data object
+		$cacheId = $groups . $clientId . (int) $Itemid;
+
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
@@ -392,9 +405,10 @@ abstract class JModuleHelper
 			->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
 
 		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter())
+		if ($app->isClient('site') && $app->getLanguageFilter())
 		{
 			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
+			$cacheId .= $lang . '*';
 		}
 
 		$query->order('m.position, m.ordering');
@@ -404,7 +418,10 @@ abstract class JModuleHelper
 
 		try
 		{
-			$modules = $db->loadObjectList();
+			/** @var JCacheControllerCallback $cache */
+			$cache = JFactory::getCache('com_modules', 'callback');
+
+			$modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
 		catch (RuntimeException $e)
 		{
@@ -483,7 +500,7 @@ abstract class JModuleHelper
 	 *
 	 * @param   object  $module        Module object
 	 * @param   object  $moduleparams  Module parameters
-	 * @param   object  $cacheparams   Module cache parameters - id or url parameters, depending on the module cache mode
+	 * @param   object  $cacheparams   Module cache parameters - id or URL parameters, depending on the module cache mode
 	 *
 	 * @return  string
 	 *
@@ -503,8 +520,10 @@ abstract class JModuleHelper
 		}
 
 		$user = JFactory::getUser();
-		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
 		$conf = JFactory::getConfig();
+
+		/** @var JCacheControllerCallback $cache */
+		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
 		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
@@ -564,8 +583,7 @@ abstract class JModuleHelper
 
 			case 'static':
 				$ret = $cache->get(
-					array($cacheparams->class,
-						$cacheparams->method),
+					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
 					$wrkarounds,

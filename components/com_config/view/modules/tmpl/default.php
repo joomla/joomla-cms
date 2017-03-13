@@ -3,20 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.framework', true);
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
-$hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' || $this->item['module'] == 'mod_custom';
+$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
 
 // If multi-language site, make language read-only
 if (JLanguageMultilang::isEnabled())
@@ -113,7 +112,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						<hr />
 
 						<?php
-						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])): ?>
+						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('published'); ?>
@@ -181,7 +180,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							<?php echo $this->loadTemplate('options'); ?>
 						</div>
 
-						<?php if ($hasContent): ?>
+						<?php if ($hasContent) : ?>
 							<div class="tab-pane" id="custom">
 								<?php echo $this->form->getInput('content'); ?>
 							</div>
@@ -189,8 +188,8 @@ JFactory::getDocument()->addScriptDeclaration("
 					</fieldset>
 				</div>
 
-				<input type="hidden" name="id" value="<?php echo $this->item['id'];?>" />
-				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64');?>" />
+				<input type="hidden" name="id" value="<?php echo $this->item['id']; ?>" />
+				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64'); ?>" />
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
 

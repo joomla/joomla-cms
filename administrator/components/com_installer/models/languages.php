@@ -2,13 +2,14 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
+use Joomla\String\StringHelper;
 
 /**
  * Languages Installer Model
@@ -18,19 +19,15 @@ jimport('joomla.updater.update');
 class InstallerModelLanguages extends JModelList
 {
 	/**
-	 * @var     integer  Extension ID of the en-GB language pack.
-	 * @since   3.4
+	 * Language count
+	 *
+	 * @var     integer
+	 * @since   3.7.0
 	 */
-	private $enGbExtensionId = 0;
+	private $languageCount;
 
 	/**
-	 * @var     integer  Upate Site ID of the en-GB language pack.
-	 * @since   3.4
-	 */
-	private $updateSiteId = 0;
-
-	/**
-	 * Constructor override, defines a white list of column filters.
+	 * Constructor override, defines a whitelist of column filters.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
@@ -41,100 +38,147 @@ class InstallerModelLanguages extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'update_id', 'update_id',
-				'name', 'name',
+				'name',
+				'element',
 			);
 		}
 
 		parent::__construct($config);
-
-		// Get the extension_id of the en-GB package.
-		$db        = $this->getDbo();
-		$extQuery  = $db->getQuery(true);
-		$extType   = 'language';
-		$extElem   = 'en-GB';
-
-		$extQuery->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote($extType))
-			->where($db->quoteName('element') . ' = ' . $db->quote($extElem))
-			->where($db->quoteName('client_id') . ' = 0');
-
-		$db->setQuery($extQuery);
-
-		$extId = (int) $db->loadResult();
-
-		// Get the update_site_id for the en-GB package if extension_id found before.
-		if ($extId)
-		{
-			$this->enGbExtensionId = $extId;
-
-			$siteQuery = $db->getQuery(true);
-
-			$siteQuery->select($db->quoteName('update_site_id'))
-				->from($db->quoteName('#__update_sites_extensions'))
-				->where($db->quoteName('extension_id') . ' = ' . $extId);
-
-			$db->setQuery($siteQuery);
-
-			$siteId = (int) $db->loadResult();
-
-			if ($siteId)
-			{
-				$this->updateSiteId = $siteId;
-			}
-		}
 	}
 
 	/**
-	 * Method to get the available languages database query.
+	 * Get the Update Site
 	 *
-	 * @return  JDatabaseQuery  The database query
+	 * @since   3.7.0
 	 *
-	 * @since   2.5.7
+	 * @return  string  The URL of the Accredited Languagepack Updatesite XML
 	 */
-	protected function _getListQuery()
+	private function getUpdateSite()
 	{
 		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
+		$query = $db->getQuery(true)
+			->select($db->qn('us.location'))
+			->from($db->qn('#__extensions', 'e'))
+			->where($db->qn('e.type') . ' = ' . $db->q('package'))
+			->where($db->qn('e.element') . ' = ' . $db->q('pkg_en-GB'))
+			->where($db->qn('e.client_id') . ' = 0')
+			->join('LEFT', $db->qn('#__update_sites_extensions', 'use') . ' ON ' . $db->qn('use.extension_id') . ' = ' . $db->qn('e.extension_id'))
+			->join('LEFT', $db->qn('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'));
 
-		// Select the required fields from the updates table.
-		$query->select($db->quoteName(array('update_id', 'name', 'version', 'detailsurl', 'type')))
-			->from($db->quoteName('#__updates'));
+		return $db->setQuery($query)->loadResult();
+	}
 
-		/*
-		 * This where clause will limit to language updates only.
-		 * If no update site exists, set the where clause so
-		 * no available languages will be found later with the
-		 * query returned by this function here.
-		 */
-		if ($this->updateSiteId)
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   3.7.0
+	 */
+	public function getItems()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId();
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
 		{
-			$query->where($db->quoteName('update_site_id') . ' = ' . $this->updateSiteId);
-		}
-		else
-		{
-			$query->where($db->quoteName('update_site_id') . ' = -1');
-		}
-
-		// This where clause will avoid to list languages already installed.
-		$query->where($db->quoteName('extension_id') . ' = 0');
-
-		// Filter by search in title
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
-		{
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(name LIKE ' . $search . ')');
+			return $this->cache[$store];
 		}
 
-		// Add the list ordering clause.
-		$listOrder = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
-		$query->order($db->escape($listOrder) . ' ' . $db->escape($orderDirn));
+		try
+		{
+			// Load the list items and add the items to the internal cache.
+			$this->cache[$store] = $this->getLanguages();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 
-		return $query;
+			return false;
+		}
+
+		return $this->cache[$store];
+	}
+
+	/**
+	 * Gets an array of objects from the updatesite.
+	 *
+	 * @return  object[]  An array of results.
+	 *
+	 * @since   3.0
+	 * @throws  RuntimeException
+	 */
+	protected function getLanguages()
+	{
+		$updateSite = $this->getUpdateSite();
+
+		$jhttp = new JHttp;
+		$response = $jhttp->get($updateSite);
+
+		$updateSiteXML = simplexml_load_string($response->body);
+
+		$languages = array();
+
+		$search = strtolower($this->getState('filter.search'));
+
+		foreach ($updateSiteXML->extension as $extension)
+		{
+			$language = new stdClass;
+
+			foreach ($extension->attributes() as $key => $value)
+			{
+				$language->$key =  (string) $value;
+			}
+
+			if ($search)
+			{
+				if (strpos(strtolower($language->name), $search) === false
+					&& strpos(strtolower($language->element), $search) === false)
+				{
+					continue;
+				}
+			}
+
+			$languages[$language->name] = $language;
+		}
+
+		// Sort the array by value of subarray
+		usort(
+			$languages,
+			function($a, $b)
+			{
+				$ordering = $this->getState('list.ordering');
+
+				if (strtolower($this->getState('list.direction')) === 'asc')
+				{
+					return StringHelper::strcmp($a->$ordering, $b->$ordering);
+				}
+				else
+				{
+					return StringHelper::strcmp($b->$ordering, $a->$ordering);
+				}
+			}
+		);
+
+		// Count the non-paginated list
+		$this->languageCount = count($languages);
+
+		return array_slice($languages, $this->getStart(), $this->getState('list.limit'));
+	}
+
+	/**
+	 * Returns a record count for the updatesite.
+	 *
+	 * @param   JDatabaseQuery|string  $query  The query.
+	 *
+	 * @return  integer  Number of rows for query.
+	 *
+	 * @since   3.7.0
+	 */
+	protected function _getListCount($query)
+	{
+		return $this->languageCount;
 	}
 
 	/**
@@ -149,7 +193,7 @@ class InstallerModelLanguages extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.search');
 
 		return parent::getStoreId($id);
 	}
@@ -168,226 +212,26 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = JFactory::getApplication();
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $value);
-
-		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
+		$this->setState('extension_message', JFactory::getApplication()->getUserState('com_installer.extension_message'));
 
 		parent::populateState($ordering, $direction);
 	}
 
 	/**
-	 * Enable languages update server
+	 * Method to compare two languages in order to sort them.
 	 *
-	 * @return  boolean
+	 * @param   object  $lang1  The first language.
+	 * @param   object  $lang2  The second language.
 	 *
-	 * @since   3.4
+	 * @return  integer
+	 *
+	 * @since   3.7.0
 	 */
-	protected function enableUpdateSite()
+	protected function compareLanguages($lang1, $lang2)
 	{
-		// If no update site, return false.
-		if (!$this->updateSiteId)
-		{
-			return false;
-		}
-
-		// Try to enable the update site, return false if some RuntimeException
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->update('#__update_sites')
-			->set('enabled = 1')
-			->where('update_site_id = ' . $this->updateSiteId);
-
-		$db->setQuery($query);
-
-		try
-		{
-			$db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
-		return true;
+		return strcmp($lang1->name, $lang2->name);
 	}
 
-	/**
-	 * Method to find available languages in the Accredited Languages Update Site.
-	 *
-	 * @param   int  $cache_timeout  time before refreshing the cached updates
-	 *
-	 * @return  bool
-	 *
-	 * @since   2.5.7
-	 */
-	public function findLanguages($cache_timeout = 0)
-	{
-		if (!$this->enableUpdateSite())
-		{
-			return false;
-		}
-
-		if (!$this->enGbExtensionId)
-		{
-			return false;
-		}
-
-		$updater = JUpdater::getInstance();
-
-		/*
-		 * The following function call uses the extension_id of the en-GB package.
-		 * In #__update_sites_extensions you should have this extension_id linked
-		 * to the Accredited Translations Repo.
-		 */
-		$updater->findUpdates(array($this->enGbExtensionId), $cache_timeout);
-
-		return true;
-	}
-
-	/**
-	 * Install languages in the system.
-	 *
-	 * @param   array  $lids  array of language ids selected in the list
-	 *
-	 * @return  bool
-	 *
-	 * @since   2.5.7
-	 */
-	public function install($lids)
-	{
-		$app = JFactory::getApplication();
-
-		// Loop through every selected language
-		foreach ($lids as $id)
-		{
-			$installer = new JInstaller;
-
-			// Loads the update database object that represents the language.
-			$language = JTable::getInstance('update');
-			$language->load($id);
-
-			// Get the url to the XML manifest file of the selected language.
-			$remote_manifest = $this->_getLanguageManifest($id);
-
-			if (!$remote_manifest)
-			{
-				// Could not find the url, the information in the update server may be corrupt.
-				$message  = JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_MANIFEST', $language->name);
-				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
-				$app->enqueueMessage($message);
-				continue;
-			}
-
-			// Based on the language XML manifest get the url of the package to download.
-			$package_url = $this->_getPackageUrl($remote_manifest);
-
-			if (!$package_url)
-			{
-				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
-				$message  = JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_PACKAGE', $language->name);
-				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
-				$app->enqueueMessage($message);
-				continue;
-			}
-
-			// Download the package to the tmp folder.
-			$package = $this->_downloadPackage($package_url);
-
-			// Install the package
-			if (!$installer->install($package['dir']))
-			{
-				// There was an error installing the package.
-				$message  = JText::sprintf('COM_INSTALLER_INSTALL_ERROR', $language->name);
-				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
-				$app->enqueueMessage($message);
-				continue;
-			}
-
-			// Package installed successfully.
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $language->name));
-
-			// Cleanup the install files in tmp folder.
-			if (!is_file($package['packagefile']))
-			{
-				$config = JFactory::getConfig();
-				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
-			}
-
-			JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
-
-			// Delete the installed language from the list.
-			$language->delete($id);
-		}
-	}
-
-	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
-	 *
-	 * @param   int  $uid  the id of the language in the #__updates table
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5.7
-	 */
-	protected function _getLanguageManifest($uid)
-	{
-		$instance = JTable::getInstance('update');
-		$instance->load($uid);
-
-		return $instance->detailsurl;
-	}
-
-	/**
-	 * Finds the url of the package to download.
-	 *
-	 * @param   string  $remote_manifest  url to the manifest XML file of the remote package
-	 *
-	 * @return  string|bool
-	 *
-	 * @since   2.5.7
-	 */
-	protected function _getPackageUrl( $remote_manifest )
-	{
-		$update = new JUpdate;
-		$update->loadFromXml($remote_manifest);
-		$package_url = trim($update->get('downloadurl', false)->_data);
-
-		return $package_url;
-	}
-
-	/**
-	 * Download a language package from a URL and unpack it in the tmp folder.
-	 *
-	 * @param   string  $url  hola
-	 *
-	 * @return  array|bool  Package details or false on failure
-	 *
-	 * @since   2.5.7
-	 */
-	protected function _downloadPackage($url)
-	{
-		// Download the package from the given URL.
-		$p_file = JInstallerHelper::downloadPackage($url);
-
-		// Was the package downloaded?
-		if (!$p_file)
-		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'));
-
-			return false;
-		}
-
-		$config   = JFactory::getConfig();
-		$tmp_dest = $config->get('tmp_path');
-
-		// Unpack the downloaded package file.
-		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
-
-		return $package;
-	}
 }

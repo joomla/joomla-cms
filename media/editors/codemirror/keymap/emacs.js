@@ -271,6 +271,8 @@
     clearMark(cm);
   }
 
+  CodeMirror.emacs = {kill: kill, killRegion: killRegion, repeated: repeated};
+
   // Actual keymap
 
   var keyMap = CodeMirror.keyMap.emacs = CodeMirror.normalizeKeyMap({
@@ -377,7 +379,7 @@
 
       getInput(cm, "Goto line", function(str) {
         var num;
-        if (str && !isNaN(num = Number(str)) && num == num|0 && num > 0)
+        if (str && !isNaN(num = Number(str)) && num == (num|0) && num > 0)
           cm.setCursor(num - 1);
       });
     },

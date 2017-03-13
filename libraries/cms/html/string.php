@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\String\StringHelper;
 
 /**
  * HTML helper class for rendering manipulated strings.
@@ -45,7 +47,7 @@ abstract class JHtmlString
 			// Deal with spacing issues in the input.
 			$text = str_replace('>', '> ', $text);
 			$text = str_replace(array('&nbsp;', '&#160;'), ' ', $text);
-			$text = JString::trim(preg_replace('#\s+#mui', ' ', $text));
+			$text = StringHelper::trim(preg_replace('#\s+#mui', ' ', $text));
 
 			// Strip the tags from the input and decode entities.
 			$text = strip_tags($text);
@@ -53,13 +55,13 @@ abstract class JHtmlString
 
 			// Remove remaining extra spaces.
 			$text = str_replace('&nbsp;', ' ', $text);
-			$text = JString::trim(preg_replace('#\s+#mui', ' ', $text));
+			$text = StringHelper::trim(preg_replace('#\s+#mui', ' ', $text));
 		}
 
 		// Whether or not allowing HTML, truncate the item text if it is too long.
-		if ($length > 0 && JString::strlen($text) > $length)
+		if ($length > 0 && StringHelper::strlen($text) > $length)
 		{
-			$tmp = trim(JString::substr($text, 0, $length));
+			$tmp = trim(StringHelper::substr($text, 0, $length));
 
 			if (substr($tmp, 0, 1) == '<' && strpos($tmp, '>') === false)
 			{
@@ -70,8 +72,8 @@ abstract class JHtmlString
 			if ($noSplit)
 			{
 				// Find the position of the last space within the allowed length.
-				$offset = JString::strrpos($tmp, ' ');
-				$tmp = JString::substr($tmp, 0, $offset + 1);
+				$offset = StringHelper::strrpos($tmp, ' ');
+				$tmp = StringHelper::substr($tmp, 0, $offset + 1);
 
 				// If there are no spaces and the string is longer than the maximum
 				// we need to just use the ellipsis. In that case we are done.
@@ -80,9 +82,9 @@ abstract class JHtmlString
 					return '...';
 				}
 
-				if (JString::strlen($tmp) > $length - 3)
+				if (StringHelper::strlen($tmp) > $length - 3)
 				{
-					$tmp = trim(JString::substr($tmp, 0, JString::strrpos($tmp, ' ')));
+					$tmp = trim(StringHelper::substr($tmp, 0, StringHelper::strrpos($tmp, ' ')));
 				}
 			}
 
@@ -93,7 +95,7 @@ abstract class JHtmlString
 				$openedTags = $result[1];
 
 				// Some tags self close so they do not need a separate close tag.
-				$openedTags = array_diff($openedTags, array("img", "hr", "br"));
+				$openedTags = array_diff($openedTags, array('img', 'hr', 'br'));
 				$openedTags = array_values($openedTags);
 
 				// Put all closed tags into an array
@@ -116,7 +118,7 @@ abstract class JHtmlString
 				{
 					if (!in_array($openedTags[$i], $closedTags))
 					{
-						$tmp .= "</" . $openedTags[$i] . ">";
+						$tmp .= '</' . $openedTags[$i] . '>';
 					}
 					else
 					{
@@ -276,14 +278,14 @@ abstract class JHtmlString
 	public static function abridge($text, $length = 50, $intro = 30)
 	{
 		// Abridge the item text if it is too long.
-		if (JString::strlen($text) > $length)
+		if (StringHelper::strlen($text) > $length)
 		{
 			// Determine the remaining text length.
 			$remainder = $length - ($intro + 3);
 
 			// Extract the beginning and ending text sections.
-			$beg = JString::substr($text, 0, $intro);
-			$end = JString::substr($text, JString::strlen($text) - $remainder);
+			$beg = StringHelper::substr($text, 0, $intro);
+			$end = StringHelper::substr($text, StringHelper::strlen($text) - $remainder);
 
 			// Build the resulting string.
 			$text = $beg . '...' . $end;

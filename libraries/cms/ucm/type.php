@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ class JUcmType implements JUcm
 	/**
 	 * The alias for the content type
 	 *
-	 * @var	  string
+	 * @var	   string
 	 * @since  3.1
 	 */
 	protected $alias;
@@ -85,11 +85,11 @@ class JUcmType implements JUcm
 	 */
 	public function __construct($alias = null, JDatabaseDriver $database = null, JApplicationBase $application = null)
 	{
-		$this->db = $database ? $database : JFactory::getDbo();
-		$app      = $application ? $application : JFactory::getApplication();
+		$this->db = $database ?: JFactory::getDbo();
+		$app      = $application ?: JFactory::getApplication();
 
 		// Make the best guess we can in the absence of information.
-		$this->alias = $alias ? $alias : $app->input->get('option') . '.' . $app->input->get('view');
+		$this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');
 		$this->type  = $this->getType();
 	}
 
@@ -109,16 +109,14 @@ class JUcmType implements JUcm
 			$pk = $this->getTypeId();
 		}
 
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 
 		$query->where($this->db->quoteName('ct.type_id') . ' = ' . (int) $pk);
 		$this->db->setQuery($query);
 
-		$type = $this->db->loadObject();
-
-		return $type;
+		return $this->db->loadObject();
 	}
 
 	/**
@@ -132,16 +130,14 @@ class JUcmType implements JUcm
 	 */
 	public function getTypeByAlias($typeAlias = null)
 	{
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->quote($typeAlias));
 
 		$this->db->setQuery($query);
 
-		$type = $this->db->loadObject();
-
-		return $type;
+		return $this->db->loadObject();
 	}
 
 	/**
@@ -155,7 +151,7 @@ class JUcmType implements JUcm
 	 */
 	public function getTypeByTable($tableName)
 	{
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 

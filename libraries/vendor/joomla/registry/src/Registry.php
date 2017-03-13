@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,10 +26,19 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	protected $data;
 
 	/**
+	 * Flag if the Registry data object has been initialized
+	 *
+	 * @var    boolean
+	 * @since  1.5.2
+	 */
+	protected $initialized = false;
+
+	/**
 	 * Registry instances container.
 	 *
 	 * @var    array
 	 * @since  1.0
+	 * @deprecated  2.0  Object caching will no longer be supported
 	 */
 	protected static $instances = array();
 
@@ -57,11 +66,8 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		if (is_array($data) || is_object($data))
 		{
 			$this->bindData($this->data, $data);
-
-			return;
 		}
-
-		if (!empty($data) && is_string($data))
+		elseif (!empty($data) && is_string($data))
 		{
 			$this->loadString($data);
 		}
@@ -252,6 +258,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 * @return  Registry  The Registry object.
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Instantiate a new Registry instance instead
 	 */
 	public static function getInstance($id)
 	{
@@ -279,7 +286,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	}
 
 	/**
-	 * Load a associative array of values into the default namespace
+	 * Load an associative array of values into the default namespace
 	 *
 	 * @param   array    $array      Associative array of value to load
 	 * @param   boolean  $flattened  Load from a one-dimensional array
@@ -354,9 +361,19 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	public function loadString($data, $format = 'JSON', $options = array())
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler = AbstractRegistryFormat::getInstance($format);
+		$handler = AbstractRegistryFormat::getInstance($format, $options);
 
 		$obj = $handler->stringToObject($data, $options);
+
+		// If the data object has not yet been initialized, direct assign the object
+		if (!$this->initialized)
+		{
+			$this->data        = $obj;
+			$this->initialized = true;
+
+			return $this;
+		}
+
 		$this->loadObject($obj);
 
 		return $this;
@@ -644,7 +661,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	public function toString($format = 'JSON', $options = array())
 	{
 		// Return a namespace in a given format
-		$handler = AbstractRegistryFormat::getInstance($format);
+		$handler = AbstractRegistryFormat::getInstance($format, $options);
 
 		return $handler->objectToString($this->data, $options);
 	}
@@ -663,6 +680,9 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 */
 	protected function bindData($parent, $data, $recursive = true, $allowNull = true)
 	{
+		// The data object is now initialized
+		$this->initialized = true;
+
 		// Ensure the input data is an array.
 		$data = is_object($data)
 			? get_object_vars($data)

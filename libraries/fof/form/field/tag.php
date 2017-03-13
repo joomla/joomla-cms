@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -80,7 +80,7 @@ class FOFFormFieldTag extends JFormFieldTag implements FOFFormField
 
 		$db		= FOFPlatform::getInstance()->getDbo();
 		$query	= $db->getQuery(true)
-			->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
+			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
 			->from('#__tags AS a')
 			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -112,22 +112,13 @@ class FOFFormFieldTag extends JFormFieldTag implements FOFFormField
 			$this->value = $db->loadColumn();
 		}
 
-		// Ajax tag only loads assigned values
-		if (!$this->isNested())
-		{
-			// Only item assigned values
-			$values = (array) $this->value;
-            FOFUtilsArray::toInteger($values);
-			$query->where('a.id IN (' . implode(',', $values) . ')');
-		}
-
 		// Filter language
 		if (!empty($this->element['language']))
 		{
 			$query->where('a.language = ' . $db->quote($this->element['language']));
 		}
 
-		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+		$query->where($db->qn('a.lft') . ' > 0');
 
 		// Filter to only load active items
 
@@ -142,8 +133,7 @@ class FOFFormFieldTag extends JFormFieldTag implements FOFFormField
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
-			->order('a.lft ASC');
+		$query->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);

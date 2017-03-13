@@ -2,11 +2,9 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
-include_once JPATH_PLATFORM . '/platform.php';
 
 /**
  * JPlatformTest
@@ -45,7 +43,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 
 	protected $COPYRIGHT = 'Copyright (C) 2005 - 3109 Open Source Matters. All rights reserved.';
 
-	protected $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	protected $URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * This checks for the correct Short Version.
@@ -142,8 +140,8 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 			'RELDATE'    => '22-June-2009',
 			'RELTIME'    => '23:00',
 			'RELTZ'      => 'GMT',
-			'COPYRIGHT'  => 'Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.',
-			'URL'        => '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
+			'COPYRIGHT'  => 'Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.',
+			'URL'        => '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
 		);
 
 		$testInstance = $this->object->__set_state($testData);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,17 +39,27 @@ class JFormFieldMenuParent extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level')
-			->from('#__menu AS a')
-			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->select('DISTINCT(a.id) AS value, a.title AS text, a.level, a.lft')
+			->from('#__menu AS a');
 
+		// Filter by menu type.
 		if ($menuType = $this->form->getValue('menutype'))
 		{
 			$query->where('a.menutype = ' . $db->quote($menuType));
 		}
 		else
 		{
+			// Skip special menu types
 			$query->where('a.menutype != ' . $db->quote(''));
+			$query->where('a.menutype != ' . $db->quote('main'));
+		}
+
+		// Filter by client id.
+		$clientId = $this->getAttribute('clientid');
+
+		if (!is_null($clientId))
+		{
+			$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId);
 		}
 
 		// Prevent parenting to children of this item.
@@ -60,7 +70,6 @@ class JFormFieldMenuParent extends JFormFieldList
 		}
 
 		$query->where('a.published != -2')
-			->group('a.id, a.title, a.level, a.lft, a.rgt, a.menutype, a.parent_id, a.published')
 			->order('a.lft ASC');
 
 		// Get the options.
@@ -78,7 +87,16 @@ class JFormFieldMenuParent extends JFormFieldList
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
-			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+			if ($clientId != 0)
+			{
+				// Allow translation of custom admin menus
+				$options[$i]->text = str_repeat('- ', $options[$i]->level) . JText::_($options[$i]->text);
+			}
+			else
+			{
+				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+			}
+
 		}
 
 		// Merge any additional options in the XML definition.

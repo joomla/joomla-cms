@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,11 +17,13 @@ defined('_JEXEC') or die;
 function modChrome_beezDivision($module, &$params, &$attribs)
 {
 	$headerLevel = isset($attribs['headerLevel']) ? (int) $attribs['headerLevel'] : 3;
-	if (!empty ($module->content)) { ?>
-<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-<?php if ($module->showtitle) { ?> <h<?php echo $headerLevel; ?>><?php echo $module->title; ?></h<?php echo $headerLevel; ?>>
-<?php }; ?> <?php echo $module->content; ?></div>
-<?php };
+	if (!empty ($module->content)) : ?>
+		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
+		<?php if ($module->showtitle) : ?>
+			<h<?php echo $headerLevel; ?>><?php echo $module->title; ?></h<?php echo $headerLevel; ?>>
+		<?php endif; ?>
+		<?php echo $module->content; ?></div>
+	<?php endif;
 }
 
 /**
@@ -37,7 +39,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
 	if (!empty ($module->content)) { ?>
 
 <div
-	class="moduletable_js <?php echo htmlspecialchars($params->get('moduleclass_sfx'));?>"><?php if ($module->showtitle) : ?>
+	class="moduletable_js <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');?>"><?php if ($module->showtitle) : ?>
 <h<?php echo $headerLevel; ?> class="js_heading"> <?php echo $module->title; ?> <a href="#"
 	title="<?php echo JText::_('TPL_BEEZ3_CLICK'); ?>"
 	onclick="auf('module_<?php echo $module->id; ?>'); return false"
@@ -45,7 +47,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
 	class="no"><img src="templates/beez3/images/plus.png"
 	alt="<?php if ($state == 1) { echo JText::_('TPL_BEEZ3_ALTOPEN');} else {echo JText::_('TPL_BEEZ3_ALTCLOSE');} ?>" />
 </span></a></h<?php echo $headerLevel; ?>> <?php endif; ?>
-<div class="module_content <?php if ($state == 1){echo "open";} ?>"
+<div class="module_content <?php if ($state == 1){echo 'open';} ?>"
 	id="module_<?php echo $module->id; ?>" tabindex="-1"><?php echo $module->content; ?></div>
 </div>
 	<?php }

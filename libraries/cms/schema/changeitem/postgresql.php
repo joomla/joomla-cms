@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -243,7 +243,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 	/**
 	 * Fixes up a string for inclusion in a query.
 	 * Replaces name quote character with normal quote for literal.
-	 * Drops trailing semi-colon. Injects the database prefix.
+	 * Drops trailing semicolon. Injects the database prefix.
 	 *
 	 * @param   string  $string  The input string to be cleaned up.
 	 *

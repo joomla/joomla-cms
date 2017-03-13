@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @see    http://php.net/manual/en/book.mysqli.php
+ * @see    https://secure.php.net/manual/en/book.mysqli.php
  * @since  12.1
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
@@ -24,6 +24,20 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * @since  12.1
 	 */
 	public $name = 'mysqli';
+
+	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'mysql';
+
+	/**
+	 * @var    mysqli  The database connection resource.
+	 * @since  11.1
+	 */
+	protected $connection;
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -62,12 +76,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		// Get some basic values from the options.
 		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user']     = (isset($options['user'])) ? $options['user'] : 'root';
+		$options['user']     = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
-		$options['port']     = null;
-		$options['socket']   = null;
+		$options['port']     = (isset($options['port'])) ? (int) $options['port'] : null;
+		$options['socket']   = (isset($options['socket'])) ? $options['socket'] : null;
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -107,7 +121,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		if (preg_match($regex, $this->options['host'], $matches))
 		{
-			// It's an IPv4 address with ot without port
+			// It's an IPv4 address with or without port
 			$this->options['host'] = $matches['host'];
 
 			if (!empty($matches['port']))
@@ -127,7 +141,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 		elseif (preg_match('/^(?P<host>(\w+:\/{2,3})?[a-z0-9\.\-]+)(:(?P<port>[^:]+))?$/i', $this->options['host'], $matches))
 		{
-			// Named host (e.g domain.com or localhost) with ot without port
+			// Named host (e.g example.com or localhost) with or without port
 			$this->options['host'] = $matches['host'];
 
 			if (!empty($matches['port']))
@@ -154,9 +168,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 
 		// Make sure the MySQLi extension for PHP is installed and enabled.
-		if (!function_exists('mysqli_connect'))
+		if (!self::isSupported())
 		{
-			throw new RuntimeException('The MySQL adapter mysqli is not available');
+			throw new JDatabaseExceptionUnsupported('The MySQL adapter mysqli is not available');
 		}
 
 		$this->connection = @mysqli_connect(
@@ -166,7 +180,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!$this->connection)
 		{
-			throw new RuntimeException('Could not connect to MySQL.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -178,14 +192,17 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$this->select($this->options['database']);
 		}
 
-		// Set charactersets (needed for MySQL 4.1.2+).
-		$this->setUtf();
+		// Pre-populate the UTF-8 Multibyte compatibility flag based on server version
+		$this->utf8mb4 = $this->serverClaimsUtf8mb4Support();
+
+		// Set the character set (needed for MySQL 4.1.2+).
+		$this->utf = $this->setUtf();
 
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
 		{
-			mysqli_query($this->connection, "SET profiling_history_size = 100;");
-			mysqli_query($this->connection, "SET profiling = 1;");
+			mysqli_query($this->connection, 'SET profiling_history_size = 100;');
+			mysqli_query($this->connection, 'SET profiling = 1;');
 		}
 	}
 
@@ -199,7 +216,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function disconnect()
 	{
 		// Close the connection.
-		if ($this->connection)
+		if ($this->connection instanceof mysqli && $this->connection->stat() !== false)
 		{
 			foreach ($this->disconnectHandlers as $h)
 			{
@@ -245,7 +262,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public static function isSupported()
 	{
-		return (function_exists('mysqli_connect'));
+		return function_exists('mysqli_connect');
 	}
 
 	/**
@@ -290,7 +307,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 
 	/**
-	 * Get the number of affected rows for the previous executed SQL statement.
+	 * Get the number of affected rows by the last INSERT, UPDATE, REPLACE or DELETE for the previous executed SQL statement.
 	 *
 	 * @return  integer  The number of affected rows.
 	 *
@@ -330,7 +347,33 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		$this->connect();
+
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_connection"');
+		$result = $this->loadObject();
+
+		if (property_exists($result, 'Value'))
+		{
+			return $result->Value;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
+	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
+	 * To retrieve the number of rows affected by an INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
 	 *
 	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
 	 *
@@ -401,7 +444,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.
@@ -514,18 +557,18 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		if (!is_object($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
-		}
-
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
 		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+		}
+
+		if (!is_object($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 		}
 
 		// Increment the query counter.
@@ -574,15 +617,16 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
 				$memoryBefore,
 				memory_get_usage(),
-				is_object($this->cursor) ? $this->getNumRows() : null
+				is_object($this->cursor) ? $this->getNumRows() : null,
 			);
 		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-			$this->errorNum = (int) mysqli_errno($this->connection);
-			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $query;
+			// Get the error number and message before we execute any more queries.
+			$this->errorNum = $this->getErrorNumber();
+			$this->errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -596,8 +640,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
+					// Get the error number and message.
+					$this->errorNum = $this->getErrorNumber();
+					$this->errorMsg = $this->getErrorMessage();
+
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -607,7 +656,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -655,7 +705,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		if (!mysqli_select_db($this->connection, $database))
 		{
-			throw new RuntimeException('Could not connect to database.');
+			throw new JDatabaseExceptionConnecting('Could not connect to database.');
 		}
 
 		return true;
@@ -670,9 +720,34 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function setUtf()
 	{
+		// If UTF is not supported return false immediately
+		if (!$this->utf)
+		{
+			return false;
+		}
+
+		// Make sure we're connected to the server
 		$this->connect();
 
-		return $this->connection->set_charset('utf8');
+		// Which charset should I use, plain utf8 or multibyte utf8mb4?
+		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+
+		$result = @$this->connection->set_charset($charset);
+
+		/**
+		 * If I could not set the utf8mb4 charset then the server doesn't support utf8mb4 despite claiming otherwise.
+		 * This happens on old MySQL server versions (less than 5.5.3) using the mysqlnd PHP driver. Since mysqlnd
+		 * masks the server version and reports only its own we can not be sure if the server actually does support
+		 * UTF-8 Multibyte (i.e. it's MySQL 5.5.3 or later). Since the utf8mb4 charset is undefined in this case we
+		 * catch the error and determine that utf8mb4 is not supported!
+		 */
+		if (!$result && $this->utf8mb4)
+		{
+			$this->utf8mb4 = false;
+			$result = @$this->connection->set_charset('utf8');
+		}
+
+		return $result;
 	}
 
 	/**
@@ -850,7 +925,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  boolean
 	 *
-	 * @since 3.1.3
+	 * @since   3.1.3
 	 */
 	private function hasProfiling()
 	{
@@ -865,5 +940,70 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
+	 *
+	 * libmysql supports utf8mb4 since 5.5.3 (same version as the MySQL server). mysqlnd supports utf8mb4 since 5.0.9.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	private function serverClaimsUtf8mb4Support()
+	{
+		$client_version = mysqli_get_client_info();
+		$server_version = $this->getVersion();
+
+		if (version_compare($server_version, '5.5.3', '<'))
+		{
+			return false;
+		}
+		else
+		{
+			if (strpos($client_version, 'mysqlnd') !== false)
+			{
+				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+
+				return version_compare($client_version, '5.0.9', '>=');
+			}
+			else
+			{
+				return version_compare($client_version, '5.5.3', '>=');
+			}
+		}
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNumber()
+	{
+		return (int) mysqli_errno($this->connection);
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMessage()
+	{
+		$errorMessage = (string) mysqli_error($this->connection);
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+		}
+
+		return $errorMessage;
 	}
 }

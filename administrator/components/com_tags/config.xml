@@ -34,6 +34,7 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
+			showon="save_history:1"
 		/>
 
 		<field 
@@ -78,18 +79,6 @@
 			description="COM_TAGS_TAG_LIST_MEDIA_DESC"
 			label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 		/>
-		
-		<field 
-			name="show_tag_num_items" 
-			type="radio" 
-			class="btn-group btn-group-yesno"
-			label="COM_TAGS_NUMBER_TAG_ITEMS_LABEL"
-			description="COM_TAGS_NUMBER_TAG_ITEMS_DESC"
-			default="0"
-		>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
 	
 		<field name="tag_list_orderby"
 			type="list"
@@ -120,8 +109,8 @@
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="1"			
-			description="JGLOBAL_SHOW_HEADINGS_DESC"
-			label="JGLOBAL_SHOW_HEADINGS_LABEL"
+			description="COM_TAGS_TAG_LIST_SHOW_HEADINGS_DESC"
+			label="COM_TAGS_TAG_LIST_SHOW_HEADINGS_LABEL"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -131,8 +120,8 @@
 			name="tag_list_show_date"
 			type="list"
 			default="0"
-			label="JGLOBAL_SHOW_DATE_LABEL"
-			description="JGLOBAL_SHOW_DATE_DESC"
+			description="COM_TAGS_TAG_LIST_SHOW_DATE_LABEL"
+			label="COM_TAGS_TAG_LIST_SHOW_DATE_DESC"
 		>
 				<option value="0">JHIDE</option>
 				<option value="created">JGLOBAL_CREATED</option>
@@ -168,7 +157,9 @@
 			type="text"
 			filter="integer"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
-			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC">
+			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
+			showon="tag_list_show_item_description:1"
+		>
 		</field>
 
 	</fieldset>
@@ -306,6 +297,7 @@
 			filter="integer"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
+			showon="all_tags_show_tag_descripion:1"
 		/>
 		
 		<field 
@@ -369,6 +361,7 @@
 			default="1"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC"
+			showon="show_pagination:1,2"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>

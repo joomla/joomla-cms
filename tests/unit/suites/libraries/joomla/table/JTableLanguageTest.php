@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/table/language.php';
 
 /**
  * Test class for JTableLanguage.
@@ -51,7 +49,7 @@ class JTableLanguageTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -88,7 +86,7 @@ class JTableLanguageTest extends TestCaseDatabase
 			'Line: ' . __LINE__ . ' Checking an empty table should fail.'
 		);
 
-		$table->title = 'English (UK)';
+		$table->title = 'English (en-GB)';
 		$this->assertThat(
 			$table->check(),
 			$this->isTrue(),
@@ -108,19 +106,19 @@ class JTableLanguageTest extends TestCaseDatabase
 		$table = $this->object;
 
 		// Store a new language
-		$table->lang_id = null;
-		$table->title = 'English (US)';
-		$table->title_native = 'English (US)';
-		$table->sef = 'en';
+		$table->lang_id      = null;
+		$table->title        = 'English (en-US)';
+		$table->title_native = 'English (United States)';
+		$table->sef          = 'en';
 		$this->assertFalse($table->store(), 'Line: ' . __LINE__ . ' Table store should fail due to a duplicated sef field.');
-		$table->sef = 'us';
-		$table->image = 'en';
+		$table->sef   = 'us';
+		$table->image = 'en_gb';
 		$this->assertFalse($table->store(), 'Line: ' . __LINE__ . ' Table store should fail due to a duplicated image field.');
-		$table->image = 'us';
+		$table->image     = 'en_us';
 		$table->lang_code = 'en-GB';
 		$this->assertFalse($table->store(), 'Line: ' . __LINE__ . ' Table store should fail due to a duplicated lang_code field.');
 		$table->lang_code = 'en-US';
-		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should successfully insert a record for English (US).');
+		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should successfully insert a record for English (en-US).');
 	}
 
 }

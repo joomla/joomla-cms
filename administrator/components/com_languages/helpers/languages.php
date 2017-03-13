@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,18 +23,15 @@ class LanguagesHelper
 	 * @param   int     $client  The client id of the active view. Maybe be 0 or 1.
 	 *
 	 * @return  void
+	 *
+	 * @deprecated  4.0 $client parameter is not needed anymore.
 	 */
 	public static function addSubmenu($vName, $client = 0)
 	{
 		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_SITE'),
-			'index.php?option=com_languages&view=installed&client=0',
-			$vName == 'installed' && $client === 0
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'),
-			'index.php?option=com_languages&view=installed&client=1',
-			$vName == 'installed' && $client === 1
+			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED'),
+			'index.php?option=com_languages&view=installed',
+			$vName == 'installed'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
@@ -58,12 +55,21 @@ class LanguagesHelper
 	public static function getActions()
 	{
 		// Log usage of deprecated function.
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions.
-		$result = JHelperContent::getActions('com_languages');
-
-		return $result;
+		return JHelperContent::getActions('com_languages');
 	}
 
 	/**

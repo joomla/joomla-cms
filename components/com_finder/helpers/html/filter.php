@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
@@ -32,18 +32,17 @@ abstract class JHtmlFilter
 	 */
 	public static function slider($options = array())
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true);
+		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$html = '';
+		$html   = '';
 		$filter = null;
 
 		// Get the configuration options.
-		$filterId = array_key_exists('filter_id', $options) ? $options['filter_id'] : null;
+		$filterId    = array_key_exists('filter_id', $options) ? $options['filter_id'] : null;
 		$activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : array();
 		$classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
-		$loadMedia = array_key_exists('load_media', $options) ? $options['load_media'] : true;
 
 		// Load the predefined filter if specified.
 		if (!empty($filterId))
@@ -67,9 +66,7 @@ abstract class JHtmlFilter
 			// Initialize the filter parameters.
 			if ($filter)
 			{
-				$registry = new Registry;
-				$registry->loadString($filter->params);
-				$filter->params = $registry;
+				$filter->params = new Registry($filter->params);
 			}
 		}
 
@@ -81,8 +78,6 @@ abstract class JHtmlFilter
 			->where('t.parent_id = 1')
 			->where('t.state = 1')
 			->where('t.access IN (' . $groups . ')')
-			->where('c.state = 1')
-			->where('c.access IN (' . $groups . ')')
 			->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id')
 			->order('t.ordering, t.title');
 
@@ -110,55 +105,17 @@ abstract class JHtmlFilter
 			return null;
 		}
 
-		// Load the CSS/JS resources.
-		if ($loadMedia)
-		{
-			JHtml::_('stylesheet', 'com_finder/sliderfilter.css', false, true, false);
+		$branch_keys = array_keys($branches);
+		$html .= JHtml::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
+		);
 
-			if (JFactory::getDocument()->direction == 'rtl')
-			{
-				JHtml::_('stylesheet', 'com_finder/finder-rtl.css', false, true, false);
-			}
-			JHtml::_('script', 'com_finder/sliderfilter.js', true, true);
-		}
-
-		// Load plug-in language files.
+		// Load plugin language files.
 		FinderHelperLanguage::loadPluginLanguage();
-
-		// Start the widget.
-		$html .= '<div id="finder-filter-container">';
-		$html .= '<dl id="branch-selectors">';
-		$html .= '<dt>';
-		$html .= '<label for="tax-select-all" class="checkbox">';
-		$html .= '<input type="checkbox" id="tax-select-all" />';
-		$html .= JText::_('COM_FINDER_FILTER_SELECT_ALL_LABEL');
-		$html .= '</label>';
-		$html .= '</dt>';
-		$html .= '<div class="control-group">';
-
-		// Iterate through the branches to build the branch selector.
-		foreach ($branches as $bk => $bv)
-		{
-			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
-			{
-				continue;
-			}
-
-			$html .= '<label for="tax-' . $bk . '" class="checkbox">';
-			$html .= '<input type="checkbox" class="toggler" id="tax-' . $bk . '"/>';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
-			$html .= '</label>';
-		}
-
-		$html .= '</div>';
-		$html .= '</dl>';
-		$html .= '<div id="finder-filter-container">';
 
 		// Iterate through the branches and build the branch groups.
 		foreach ($branches as $bk => $bv)
 		{
-			// If the multi-lang plug-in is enabled then drop the language branch.
+			// If the multi-lang plugin is enabled then drop the language branch.
 			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
 			{
 				continue;
@@ -172,6 +129,10 @@ abstract class JHtmlFilter
 				->where('t.state = 1')
 				->where('t.access IN (' . $groups . ')')
 				->order('t.ordering, t.title');
+
+			// Self-join to get the parent title.
+			$query->select('e.title AS parent_title')
+				->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('t.parent_id'));
 
 			// Load the branches.
 			$db->setQuery($query);
@@ -189,23 +150,31 @@ abstract class JHtmlFilter
 			$lang = JFactory::getLanguage();
 			foreach ($nodes as $nk => $nv)
 			{
-				$key = FinderHelperLanguage::branchPlural($nv->title);
-				if ($lang->hasKey($key))
+				if (trim($nv->parent_title, '**') == 'Language')
 				{
-					$nodes[$nk]->title = JText::_($key);
+					$title = FinderHelperLanguage::branchLanguageTitle($nv->title);
 				}
+				else
+				{
+					$key = FinderHelperLanguage::branchPlural($nv->title);
+					$title = $lang->hasKey($key) ? JText::_($key) : $nv->title;
+				}
+				$nodes[$nk]->title = $title;
 			}
 
-			// Start the group.
-			$html .= '<dl class="checklist" rel="tax-' . $bk . '">';
-			$html .= '<dt>';
-			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="checkbox">';
-			$html .= '<input type="checkbox" class="branch-selector filter-branch' . $classSuffix . '" id="tax-'
-				. JFilterOutput::stringUrlSafe($bv->title) . '" />';
-			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
-			$html .= '</label>';
-			$html .= '</dt>';
-			$html .= '<div class="control-group">';
+			// Adding slides
+			$html .= JHtml::_('bootstrap.addSlide',
+				'accordion',
+				JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL',
+					JText::_(FinderHelperLanguage::branchSingular($bv->title)) . ' - ' . count($nodes)
+				),
+				'accordion-' . $bk
+			);
+
+			// Populate the toggle button.
+			$html .= '<button class="btn" type="button" class="jform-rightbtn" onclick="jQuery(\'[id="tax-'
+				. $bk . '"]\').each(function(){this.click();});"><span class="icon-checkbox-partial"></span> '
+				. JText::_('JGLOBAL_SELECTION_INVERT') . '</button><hr/>';
 
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
@@ -214,28 +183,26 @@ abstract class JHtmlFilter
 				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
 				// Build a node.
-				$html .= '<label for="tax-' . $nk . '" class="checkbox">';
-				$html .= '<input class="selector filter-node' . $classSuffix . '" type="checkbox" value="' . $nk . '" name="t[]" id="tax-'
-					. $nk . '"' . $checked . ' />';
+				$html .= '<div class="control-group">';
+				$html .= '<div class="controls">';
+				$html .= '<label class="checkbox" tax-'
+					. $bk . '>';
+				$html .= '<input type="checkbox" class="selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
+					. $bk . '"' . $checked . ' />';
 				$html .= $nv->title;
 				$html .= '</label>';
+				$html .= '</div>';
+				$html .= '</div>';
 			}
-
-			// Close the group.
-			$html .= '</div>';
-			$html .= '</dl>';
+			$html .= JHtml::_('bootstrap.endSlide');
 		}
-
-		// Close the widget.
-		$html .= '<div class="clr"></div>';
-		$html .= '</div>';
-		$html .= '</div>';
+		$html .= JHtml::_('bootstrap.endAccordion');
 
 		return $html;
 	}
 
 	/**
-	 * Method to generate filters using select box drop down controls.
+	 * Method to generate filters using select box dropdown controls.
 	 *
 	 * @param   FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
 	 * @param   array               $options   An array of options.
@@ -246,23 +213,26 @@ abstract class JHtmlFilter
 	 */
 	public static function select($idxQuery, $options)
 	{
-		$user 	= JFactory::getUser();
+		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$filter = null;
 
 		// Get the configuration options.
 		$classSuffix = $options->get('class_suffix', null);
-		$loadMedia = $options->get('load_media', true);
-		$showDates = $options->get('show_date_filters', false);
+		$showDates   = $options->get('show_date_filters', false);
 
 		// Try to load the results from cache.
-		$cache = JFactory::getCache('com_finder', '');
+		$cache   = JFactory::getCache('com_finder', '');
 		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, JFactory::getLanguage()->getTag()));
 
 		// Check the cached results.
-		if (!($branches = $cache->get($cacheId)))
+		if ($cache->contains($cacheId))
 		{
-			$db = JFactory::getDbo();
+			$branches = $cache->get($cacheId);
+		}
+		else
+		{
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Load the predefined filter if specified.
@@ -287,9 +257,7 @@ abstract class JHtmlFilter
 				// Initialize the filter parameters.
 				if ($filter)
 				{
-					$registry = new Registry;
-					$registry->loadString($filter->params);
-					$filter->params = $registry;
+					$filter->params = new Registry($filter->params);
 				}
 			}
 
@@ -333,7 +301,7 @@ abstract class JHtmlFilter
 			// Iterate through the branches and build the branch groups.
 			foreach ($branches as $bk => $bv)
 			{
-				// If the multi-lang plug-in is enabled then drop the language branch.
+				// If the multi-lang plugin is enabled then drop the language branch.
 				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
 				{
 					continue;
@@ -347,6 +315,10 @@ abstract class JHtmlFilter
 					->where('t.state = 1')
 					->where('t.access IN (' . $groups . ')')
 					->order('t.ordering, t.title');
+
+				// Self-join to get the parent title.
+				$query->select('e.title AS parent_title')
+					->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('t.parent_id'));
 
 				// Limit the nodes to a predefined filter.
 				if (!empty($filter->data))
@@ -370,11 +342,16 @@ abstract class JHtmlFilter
 				$language = JFactory::getLanguage();
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					$key = FinderHelperLanguage::branchPlural($node->title);
-					if ($language->hasKey($key))
+					if (trim($node->parent_title, '**') == 'Language')
 					{
-						$branches[$bk]->nodes[$node_id]->title = JText::_($key);
+						$title = FinderHelperLanguage::branchLanguageTitle($node->title);
 					}
+					else
+					{
+						$key = FinderHelperLanguage::branchPlural($node->title);
+						$title = $language->hasKey($key) ? JText::_($key) : $node->title;
+					}
+					$branches[$bk]->nodes[$node_id]->title = $title;
 				}
 
 				// Add the Search All option to the branch.
@@ -384,7 +361,6 @@ abstract class JHtmlFilter
 			// Store the data in cache.
 			$cache->store($branches, $cacheId);
 		}
-
 		$html = '';
 
 		// Add the dates if enabled.
@@ -393,56 +369,44 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $idxQuery, $options);
 		}
 
-		$html .= '<div id="finder-filter-select-list" class="form-horizontal">';
+		$html .= '<div class="filter-branch' . $classSuffix . ' control-group clearfix">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
 		{
-			// If the multi-lang plug-in is enabled then drop the language branch.
+			// If the multi-lang plugin is enabled then drop the language branch.
 			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
 			{
 				continue;
 			}
-
 			$active = null;
 
 			// Check if the branch is in the filter.
 			if (array_key_exists($bv->title, $idxQuery->filters))
 			{
 				// Get the request filters.
-				$temp = JFactory::getApplication()->input->request->get('t', array(), 'array');
+				$temp   = JFactory::getApplication()->input->request->get('t', array(), 'array');
 
 				// Search for active nodes in the branch and get the active node.
 				$active = array_intersect($temp, $idxQuery->filters[$bv->title]);
 				$active = count($active) === 1 ? array_shift($active) : null;
 			}
 
-			$html .= '<div class="filter-branch' . $classSuffix . ' control-group">';
+			// Build a node.
+			$html .= '<div class="controls finder-selects">';
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="control-label">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
-			$html .= '<div class="controls">';
+			$html .= '<br />';
 			$html .= JHtml::_(
-				'select.genericlist', $branches[$bk]->nodes, 't[]', 'class="inputbox"', 'id', 'title', $active,
+				'select.genericlist',
+				$branches[$bk]->nodes, 't[]', 'class="inputbox advancedSelect"', 'id', 'title', $active,
 				'tax-' . JFilterOutput::stringUrlSafe($bv->title)
 			);
 			$html .= '</div>';
-			$html .= '</div>';
 		}
 
-		// Close the widget.
 		$html .= '</div>';
-
-		// Load the CSS/JS resources.
-		if ($loadMedia)
-		{
-			JHtml::stylesheet('com_finder/sliderfilter.css', false, true, false);
-
-			if (JFactory::getDocument()->direction == 'rtl')
-			{
-				JHtml::_('stylesheet', 'com_finder/finder-rtl.css', false, true, false);
-			}
-		}
 
 		return $html;
 	}
@@ -463,13 +427,13 @@ abstract class JHtmlFilter
 
 		// Get the configuration options.
 		$classSuffix = $options->get('class_suffix', null);
-		$loadMedia = $options->get('load_media', true);
-		$showDates = $options->get('show_date_filters', false);
+		$loadMedia   = $options->get('load_media', true);
+		$showDates   = $options->get('show_date_filters', false);
 
 		if (!empty($showDates))
 		{
 			// Build the date operators options.
-			$operators = array();
+			$operators   = array();
 			$operators[] = JHtml::_('select.option', 'before', JText::_('COM_FINDER_FILTER_DATE_BEFORE'));
 			$operators[] = JHtml::_('select.option', 'exact', JText::_('COM_FINDER_FILTER_DATE_EXACTLY'));
 			$operators[] = JHtml::_('select.option', 'after', JText::_('COM_FINDER_FILTER_DATE_AFTER'));
@@ -477,7 +441,7 @@ abstract class JHtmlFilter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				JHtml::stylesheet('com_finder/dates.css', false, true, false);
+				JHtml::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
 			}
 
 			// Open the widget.
@@ -491,9 +455,10 @@ abstract class JHtmlFilter
 			$html .= '</label>';
 			$html .= '<br />';
 			$html .= JHtml::_(
-				'select.genericlist', $operators, 'w1', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
+				'select.genericlist',
+				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
-			$html .= JHtml::calendar($idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
+			$html .= JHtml::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// End date filter.
@@ -503,9 +468,10 @@ abstract class JHtmlFilter
 			$html .= '</label>';
 			$html .= '<br />';
 			$html .= JHtml::_(
-				'select.genericlist', $operators, 'w2', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
+				'select.genericlist',
+				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
-			$html .= JHtml::calendar($idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
+			$html .= JHtml::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// Close the widget.

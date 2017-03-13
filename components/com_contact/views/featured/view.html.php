@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,11 +61,13 @@ class ContactViewFeatured extends JViewLegacy
 	protected $pagination;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  False on error, null otherwise.
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -84,6 +86,7 @@ class ContactViewFeatured extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -93,11 +96,10 @@ class ContactViewFeatured extends JViewLegacy
 		{
 			$item       = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry;
-
-			$temp->loadString($item->params);
-			$item->params = clone($params);
+			$temp       = $item->params;
+			$item->params = clone $params;
 			$item->params->merge($temp);
+
 			if ($item->params->get('show_email', 0) == 1)
 			{
 				$item->email_to = trim($item->email_to);
@@ -114,7 +116,7 @@ class ContactViewFeatured extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 		$maxLevel         = $params->get('maxLevel', -1);
 		$this->maxLevel   = &$maxLevel;
@@ -128,7 +130,7 @@ class ContactViewFeatured extends JViewLegacy
 
 		$this->_prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
