@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// Dummy change for pull request example
 defined('_JEXEC') or die;
 
 /**
