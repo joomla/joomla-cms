@@ -60,7 +60,7 @@
             type="text"
             label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
             description="PLG_TINY_FIELD_CUSTOM_PATH_DESC"
-            class="input-xxlarge"
+            class="input-large"
             showon="drag_drop:1"
     />
 
@@ -132,7 +132,7 @@
             type="text"
             label="PLG_TINY_FIELD_CUSTOM_CSS_LABEL"
             description="PLG_TINY_FIELD_CUSTOM_CSS_DESC"
-            class="input-xxlarge"
+            class="input-large"
     />
 
     <field
@@ -176,7 +176,7 @@
             description="PLG_TINY_FIELD_PROHIBITED_DESC"
             showon="use_config_textfilters:0"
             default="script,applet,iframe"
-            class="input-xxlarge"
+            class="input-large"
     />
 
     <field
@@ -185,7 +185,7 @@
             label="PLG_TINY_FIELD_VALIDELEMENTS_LABEL"
             description="PLG_TINY_FIELD_VALIDELEMENTS_DESC"
             showon="use_config_textfilters:0"
-            class="input-xxlarge"
+            class="input-large"
     />
 
     <field
@@ -194,7 +194,7 @@
             label="PLG_TINY_FIELD_ELEMENTS_LABEL"
             description="PLG_TINY_FIELD_ELEMENTS_DESC"
             showon="use_config_textfilters:0"
-            class="input-xxlarge"
+            class="input-large"
     />
 
     <!-- Extra plugins -->
@@ -300,7 +300,7 @@
             type="text"
             label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
             description="PLG_TINY_FIELD_CUSTOMPLUGIN_DESC"
-            class="input-xxlarge"
+            class="input-large"
     />
 
     <field
@@ -308,6 +308,6 @@
             type="text"
             label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
             description="PLG_TINY_FIELD_CUSTOMBUTTON_DESC"
-            class="input-xxlarge"
+            class="input-large"
     />
 </form>
