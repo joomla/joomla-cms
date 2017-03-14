@@ -130,7 +130,7 @@ $app->getDocument()->addScriptDeclaration(
 					</td>
 					<td>
 						<?php if (true || $item->association) : ?>
-							<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, false); ?>
+							<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, false, false); ?>
 						<?php endif; ?>
 					</td>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
