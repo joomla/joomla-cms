@@ -18,7 +18,6 @@ JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 JHtml::_('script', 'vendor/diff/diff.min.js', false, true);
 
 JFactory::getDocument()->addScriptDeclaration("
-
 	(function() {
 		document.addEventListener('DOMContentLoaded', function() {
 
@@ -43,7 +42,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			}
 
 			var diffs = document.querySelectorAll('.original');
-			for (var i = 0; i < diffs.length; i++) {
+			for (var i = 0, l = diffs.length; i < l; i++) {
 				compare(diffs[i], diffs[i].nextElementSibling)
 			}
 
@@ -60,9 +59,8 @@ JFactory::getDocument()->addScriptDeclaration("
 		<thead>
 			<tr>
 				<th width="25%"><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
-				<th>Old <small>(<?php echo JText::sprintf('COM_CONTENTHISTORY_COMPARE_VALUE1', $version1->save_date, $version1->version_note); ?>)</small></th>
-				<th>New <small>(<?php echo JText::sprintf('COM_CONTENTHISTORY_COMPARE_VALUE2', $version2->save_date, $version2->version_note); ?>)</small></th>
-				<th>CHANGED</th>
+				<th><?php echo JText::_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
+				<th><?php echo JText::_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -83,7 +81,7 @@ JFactory::getDocument()->addScriptDeclaration("
 								<tr>
 									<td><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></td>
 									<td class="original"><?php echo htmlspecialchars($subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
-									<td class="changed"><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
+									<td class="changed" style="display:none;"><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
 									<td class="diff">&nbsp;</td>
 								</tr>
 							<?php endif; ?>
@@ -95,7 +93,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					</td>
 					<td class="original"><?php echo htmlspecialchars($value->value); ?></td>
 					<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
-					<td class="changed"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
+					<td class="changed" style="display:none;"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
 					<td class="diff">&nbsp;</td>
 				<?php endif; ?>
 			</tr>
