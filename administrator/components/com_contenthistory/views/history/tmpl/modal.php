@@ -8,9 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
 JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
@@ -20,8 +20,6 @@ $field          = $input->getCmd('field');
 $function       = 'jSelectContenthistory_' . $field;
 $listOrder      = $this->escape($this->state->get('list.ordering'));
 $listDirn       = $this->escape($this->state->get('list.direction'));
-$message        = JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
-$compareMessage = JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
 $deleteMessage  = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
 $aliasArray     = explode('.', $this->state->type_alias);
 $option         = (end($aliasArray) == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
@@ -31,63 +29,13 @@ $loadUrl        = JRoute::_('index.php?option=' . $filter->clean($option) . '&am
 $deleteUrl      = JRoute::_('index.php?option=com_contenthistory&task=history.delete');
 $hash           = $this->state->get('sha1_hash');
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
-	. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . JSession::getFormToken() . '=1';
+					. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . JSession::getFormToken() . '=1';
 
+JText::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
+JText::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
 JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
-JFactory::getDocument()->addScriptDeclaration("
-	(function ($){
-		$(document).ready(function () {
-			$('#toolbar-load').on('click', function() {
-				var ids = $('input[id*=\'cb\']:checked');
-				if (ids.length == 1) {
-					// Add version item id to URL
-					var url = $('#toolbar-load').attr('data-url') + '&version_id=' + ids[0].value;
-					$('#content-url').attr('data-url', url);
-					if (window.parent) {
-						window.parent.location = url;
-					}
-				} else {
-					alert('" . $message . "');
-				}
-			});
-
-		$('#toolbar-preview').on('click', function() {
-				var windowSizeArray = ['width=800, height=600, resizable=yes, scrollbars=yes'],
-				    ids = $('input[id*=\'cb\']:checked');
-				if (ids.length == 1) {
-					// Add version item id to URL
-					var url = $('#toolbar-preview').attr('data-url') + '&version_id=' + ids[0].value;
-					$('#content-url').attr('data-url', url);
-					if (window.parent) {
-						window.open(url, '', windowSizeArray);
-						return false;
-					}
-				} else {
-					alert('" . $message . "');
-				}
-			});
-
-			$('#toolbar-compare').on('click', function() {
-				var windowSizeArray = ['width=1000, height=600, resizable=yes, scrollbars=yes'],
-				    ids = $('input[id*=\'cb\']:checked');
-				if (ids.length == 2) {
-					// Add version item ids to URL
-					var url = $('#toolbar-compare').attr('data-url') + '&id1=' + ids[0].value + '&id2=' + ids[1].value;
-					$('#content-url').attr('data-url', url);
-					if (window.parent) {
-						window.open(url, '', windowSizeArray);
-						return false;
-					}
-				} else {
-					alert('" . $compareMessage . "');
-				}
-			});
-		});
-	})(jQuery);
-	"
-);
-
+JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="container-popup">
 
