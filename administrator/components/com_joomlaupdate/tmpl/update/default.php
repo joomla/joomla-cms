@@ -22,12 +22,15 @@ $filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize'
 $ajaxUrl = JUri::base() . 'components/com_joomlaupdate/restore.php';
 $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1';
 
-JFactory::getDocument()->addScriptOptions('com_joomlaupdate', [
-		'joomlaupdate_password' => $password,
-		'joomlaupdate_totalsize' => $filesize,
-		'joomlaupdate_ajax_url' => $ajaxUrl,
-		'joomlaupdate_return_url' => $returnUrl,
-]);
+JFactory::getDocument()->addScriptOptions(
+		'com_joomlaupdate',
+		[
+			'joomlaupdate_password' => $password,
+			'joomlaupdate_totalsize' => $filesize,
+			'joomlaupdate_ajax_url' => $ajaxUrl,
+			'joomlaupdate_return_url' => $returnUrl,
+		]
+);
 ?>
 
 <p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS'); ?></p>
