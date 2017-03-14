@@ -10081,6 +10081,9 @@ iframe {
     .gu-mirror.table td {
       display: table-cell; }
 
+.js-draggable .sortable-handler {
+  cursor: move; }
+
 .minicolors-theme-bootstrap .minicolors-input {
   width: 120px; }
 
