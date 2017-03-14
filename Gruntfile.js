@@ -175,6 +175,10 @@ module.exports = function(grunt) {
 					{ cwd: '<%= folder.node_module %>flying-focus-a11y/src/scss', src: ['*.scss'], dest: 'media/vendor/flying-focus-a11y/scss/', expand: true, filter: 'isFile'},
 					// flying-focus js files
 					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
+					// json3 js files
+					{ expand: true, cwd: '<%= folder.node_module %>json3/lib', src: ['*.js'], dest: 'media/vendor/json3/js/', filter: 'isFile'},
+					// AES-js js files
+					{ expand: true, cwd: '<%= folder.node_module %>aes-js', src: ['*.js'], dest: 'media/vendor/aes-js/js/', filter: 'isFile'},
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
 
@@ -189,6 +193,7 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>perfect-scrollbar/LICENSE'], dest: 'media/vendor/perfect-scrollbar/LICENSE'},
 					{ src: ['<%= folder.node_module %>flying-focus-a11y/MIT-LICENSE.txt'], dest: 'media/vendor/flying-focus-a11y/MIT-LICENSE.txt'},
 					{ src: ['<%= folder.node_module %>diff/LICENSE'], dest: 'media/vendor/diff/LICENSE'},
+					{ src: ['<%= folder.node_module %>aes-js/LICENSE.txt'], dest: 'media/vendor/aes-js/LICENSE.txt'},
 				]
 			}
 		},

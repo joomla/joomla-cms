@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 
 // Load the scripts
-JHtml::_('script', 'com_joomlaupdate/json2.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'com_joomlaupdate/encryption.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'vendor/json3/js/json3.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'vendor/aes-js/js/index.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_joomlaupdate/update.js', array('version' => 'auto', 'relative' => true));
 
 $password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
@@ -22,18 +22,12 @@ $filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize'
 $ajaxUrl = JUri::base() . 'components/com_joomlaupdate/restore.php';
 $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1';
 
-JFactory::getDocument()->addScriptDeclaration(
-	"
-	var joomlaupdate_password = '$password';
-	var joomlaupdate_totalsize = '$filesize';
-	var joomlaupdate_ajax_url = '$ajaxUrl';
-	var joomlaupdate_return_url = '$returnUrl';
-
-	jQuery(document).ready(function(){
-		window.pingExtract();
-		});
-	"
-);
+JFactory::getDocument()->addScriptOptions('com_joomlaupdate', [
+		'joomlaupdate_password' => $password,
+		'joomlaupdate_totalsize' => $filesize,
+		'joomlaupdate_ajax_url' => $ajaxUrl,
+		'joomlaupdate_return_url' => $returnUrl,
+]);
 ?>
 
 <p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS'); ?></p>
