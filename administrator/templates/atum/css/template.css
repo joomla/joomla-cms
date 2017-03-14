@@ -10074,6 +10074,7 @@ iframe {
   position: fixed !important;
   z-index: 9999 !important;
   margin: 0 !important;
+  cursor: move;
   background-color: #90ee90;
   opacity: .8; }
   .gu-mirror.table {
@@ -10081,6 +10082,7 @@ iframe {
     .gu-mirror.table td {
       display: table-cell; }
 
+.gu-transit,
 .js-draggable .sortable-handler {
   cursor: move; }
 
