@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS `#__fields` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) NOT NULL DEFAULT 0,
+  `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
   `context` varchar(255) NOT NULL DEFAULT '',
-  `group_id` int(10) NOT NULL DEFAULT 0,
+  `group_id` int(10) unsigned NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) NOT NULL DEFAULT '',
   `label` varchar(255) NOT NULL DEFAULT '',
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   KEY `idx_state` (`state`),
   KEY `idx_created_user_id` (`created_user_id`),
   KEY `idx_access` (`access`),
-  KEY `idx_context` (`context`),
+  KEY `idx_context` (`context`(191)),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -40,7 +40,7 @@ CREATE TABLE `#__fields_categories` (
 
 CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) NOT NULL DEFAULT 0,
+  `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
   `context` varchar(255) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   KEY `idx_state` (`state`),
   KEY `idx_created_by` (`created_by`),
   KEY `idx_access` (`access`),
-  KEY `idx_context` (`context`),
+  KEY `idx_context` (`context`(191)),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS `#__fields_values` (
   `field_id` int(10) unsigned NOT NULL,
   `item_id` varchar(255) NOT NULL COMMENT 'Allow references to items which have strings as ids, eg. none db systems.',
   `value` text NOT NULL DEFAULT '',
-  KEY (`field_id`),
-  KEY (`item_id`)
+  KEY `idx_field_id` (`field_id`),
+  KEY `idx_item_id` (`item_id`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
