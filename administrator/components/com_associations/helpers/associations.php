@@ -200,7 +200,7 @@ class AssociationsHelper extends JHelperContent
 			// Get html parameters.
 			if (isset($items[$langCode]))
 			{
-				$title       = '<br/><br/>' . $items[$langCode][$titleFieldName];
+				$title       = $items[$langCode][$titleFieldName];
 				$additional  = '';
 
 				if (isset($items[$langCode]['category_title']))
@@ -212,21 +212,21 @@ class AssociationsHelper extends JHelperContent
 					$additional = '<br/>' . JText::_('COM_ASSOCIATIONS_HEADING_MENUTYPE') . ': ' . $items[$langCode]['menu_title'];
 				}
 
-				$labelClass  = 'label';
+				$labelClass  = '';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
 								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
 
-				$additional .= $addLink && $allow ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+				$additional .= $addLink && $allow ? JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 			}
 			else
 			{
 				$items[$langCode] = array();
 
-				$title      = '<br/><br/>' . JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
-				$additional = $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-				$labelClass = 'label label-warning';
+				$title      = JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$additional = $addLink ? JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
+				$labelClass = 'label-warning';
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
 			}
@@ -242,14 +242,19 @@ class AssociationsHelper extends JHelperContent
 				'target'   => $target,
 			);
 
-			$url       = JRoute::_('index.php?' . http_build_query($options));
-			$text      = strtoupper($language->sef);
-			$langImage = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title, array('title' => $language->title), true);
-			$tooltip   = implode(' ', array($langImage, $language->title, $title, $additional));
+			$url     = JRoute::_('index.php?' . http_build_query($options));
+			$url     = $allow && $addLink ? $url : '';
+			$text    = strtoupper($language->sef);
 
-			$items[$langCode]['link'] = JHtml::_('tooltip', $tooltip, null, null, $text, $allow && $addLink ? $url : '', null, 'hasTooltip ' . $labelClass);
+			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional;
+			$classes = 'hasPopover label ' . $labelClass . ' label-' . $language->sef;
+
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
+						. '" data-content="' . $tooltip . '" data-placement="top">'
+						. $text . '</a>';
 		}
 
+		JHtml::_('bootstrap.popover');
 		return JLayoutHelper::render('joomla.content.associations', $items);
 	}
 
