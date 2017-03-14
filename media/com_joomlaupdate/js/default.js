@@ -5,11 +5,26 @@
 
 Joomla = window.Joomla || {};
 
+jQuery(document).ready(function($) {
+	$('#extraction_method').change(function(e){
+		extractionMethodHandler('#extraction_method', 'row_ftp');
+	});
+	$('#upload_method').change(function(e){
+		extractionMethodHandler('#upload_method', 'upload_ftp');
+	});
+
+	$('button.submit').on('click', function() {
+		$('div.download_message').show();
+	});
+});
+
 (function() {
 	'use strict';
 
 	Joomla.extractionMethodHandler = function(element, prefix) {
-		var displayStyle = element.value === 'direct' ? 'none' : 'table-row';
+
+		var el = document.querySelector(element);
+		var displayStyle = el.value === 'direct' ? 'none' : 'table-row';
 
 		document.getElementById(prefix + '_hostname').style.display = displayStyle;
 		document.getElementById(prefix + '_port').style.display = displayStyle;

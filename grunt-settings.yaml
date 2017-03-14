@@ -54,6 +54,13 @@ vendors:
     'diff':
                   'version': '3.4.0'
                   'dependencies': ''
+                  'dependencies': ''
+    'aes-js':
+                  'version': '3.0.0'
+                  'dependencies': ''
+    'json3':
+                  'version': '3.3.2'
+                  'dependencies': ''
     'wicked-good-xpath':
                   'version': '1.3.0'
                   'dependencies': ''
