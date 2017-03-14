@@ -1611,9 +1611,6 @@ pre {
   .form-control::-webkit-input-placeholder {
     color: #636c72;
     opacity: 1; }
-  .form-control::-moz-placeholder {
-    color: #636c72;
-    opacity: 1; }
   .form-control:-ms-input-placeholder {
     color: #636c72;
     opacity: 1; }

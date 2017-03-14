@@ -28,6 +28,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       colorKeywords = parserConfig.colorKeywords || {},
       valueKeywords = parserConfig.valueKeywords || {},
       allowNested = parserConfig.allowNested,
+      lineComment = parserConfig.lineComment,
       supportsAtComponent = parserConfig.supportsAtComponent === true;
 
   var type, override;
@@ -253,6 +254,8 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
   };
 
   states.pseudo = function(type, stream, state) {
+    if (type == "meta") return "pseudo";
+
     if (type == "word") {
       override = "variable-3";
       return state.context.type;
@@ -407,6 +410,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     electricChars: "}",
     blockCommentStart: "/*",
     blockCommentEnd: "*/",
+    lineComment: lineComment,
     fold: "brace"
   };
 });
@@ -730,6 +734,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     valueKeywords: valueKeywords,
     fontProperties: fontProperties,
     allowNested: true,
+    lineComment: "//",
     tokenHooks: {
       "/": function(stream, state) {
         if (stream.eat("/")) {
@@ -772,6 +777,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     valueKeywords: valueKeywords,
     fontProperties: fontProperties,
     allowNested: true,
+    lineComment: "//",
     tokenHooks: {
       "/": function(stream, state) {
         if (stream.eat("/")) {
