@@ -8,49 +8,17 @@
  */
 
 defined('_JEXEC') or die;
+
 JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+
 $version2 = $this->items[0];
 $version1 = $this->items[1];
-$object1 = $version1->data;
-$object2 = $version2->data;
-JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
+$object1  = $version1->data;
+$object2  = $version2->data;
 
-JHtml::_('script', 'vendor/diff/diff.min.js', false, true);
-
-JFactory::getDocument()->addScriptDeclaration("
-	(function() {
-		document.addEventListener('DOMContentLoaded', function() {
-
-			function compare(original, changed)
-			{
-				var display  = changed.nextElementSibling,
-					color    = '',
-					span     = null,
-					diff     = JsDiff.diffChars(original.innerHTML, changed.innerHTML),
-					fragment = document.createDocumentFragment();
-
-				diff.forEach(function(part){
-					color = part.added ? '#a6f3a6' : part.removed ? '#f8cbcb' : '';
-					span = document.createElement('span');
-					span.style.backgroundColor = color;
-					span.style.borderRadius = '.2rem';
-					span.appendChild(document.createTextNode(part.value));
-					fragment.appendChild(span);
-				});
-
-				display.appendChild(fragment);
-			}
-
-			var diffs = document.querySelectorAll('.original');
-			for (var i = 0, l = diffs.length; i < l; i++) {
-				compare(diffs[i], diffs[i].nextElementSibling)
-			}
-
-		});
-	})();
-");
+JHtml::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('version' => 'auto', 'relative' => true));
 ?>
-
 <fieldset>
 
 	<h2 class="mb-3"><?php echo JText::sprintf('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h2>
