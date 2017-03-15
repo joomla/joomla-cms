@@ -63,6 +63,7 @@
 					size="15"
 				/>
 			</fieldset>
+			<!-- Uncomment the following fieldset to enable debug mode for testing purposes. Statistics will be sent on every page load
 			<fieldset name="advanced">
 				<field
 					name="debug"
@@ -76,6 +77,7 @@
 					<option value="0">JNO</option>
 				</field>
 			</fieldset>
+			-->	
 		</fields>
 	</config>
 </extension>
