@@ -69,7 +69,8 @@ class AssociationsViewAssociations extends JViewLegacy
 
 		if (!JLanguageAssociations::isEnabled())
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_ERROR_NO_ASSOC'), 'warning');
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
 		}
 		elseif ($this->state->get('itemtype') == '' || $this->state->get('language') == '')
 		{
