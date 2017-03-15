@@ -75,7 +75,7 @@ class FieldsHelper
 	 * Should the value being prepared to be shown in an HTML context then
 	 * prepareValue must be set to true. No further escaping needs to be done.
 	 * The values of the fields can be overridden by an associative array where the keys
-	 * can be an id or an alias and it's corresponding value.
+	 * has to be an id or an alias and it's corresponding value.
 	 *
 	 * @param   string    $context           The context of the content passed to the helper
 	 * @param   stdClass  $item              item
@@ -355,7 +355,7 @@ class FieldsHelper
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');
 		$fieldsNode = $xml->appendChild(new DOMElement('form'))->appendChild(new DOMElement('fields'));
-		$fieldsNode->setAttribute('name', 'params');
+		$fieldsNode->setAttribute('name', 'com_fields');
 
 		// Organizing the fields according to their group
 		$fieldsPerGroup = array(
@@ -479,9 +479,7 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-				'ignore_request' => true)
-		);
+		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
 			&& JFactory::getApplication()->isClient('site'))
@@ -508,7 +506,7 @@ class FieldsHelper
 			if (!is_array($value) && $value !== '')
 			{
 				// Function getField doesn't cache the fields, so we try to do it only when necessary
-				$formField = $form->getField($field->alias, 'params');
+				$formField = $form->getField($field->alias, 'com_fields');
 
 				if ($formField && $formField->forceMultiple)
 				{
@@ -517,7 +515,7 @@ class FieldsHelper
 			}
 
 			// Setting the value on the field
-			$form->setValue($field->alias, 'params', $value);
+			$form->setValue($field->alias, 'com_fields', $value);
 		}
 
 		return true;

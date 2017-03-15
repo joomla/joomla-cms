@@ -31,61 +31,6 @@ class PlgSystemFields extends JPlugin
 	/**
 	 * The save event.
 	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The item
-	 * @param   boolean   $isNew    Is new
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.7.0
-	 */
-	public function onContentBeforeSave($context, $item, $isNew)
-	{
-		if (!isset($item->params))
-		{
-			return true;
-		}
-
-		// Create correct context for category
-		if ($context == 'com_categories.category')
-		{
-			$context = $item->extension . '.categories';
-		}
-
-		$parts = FieldsHelper::extract($context, $item);
-
-		if (!$parts)
-		{
-			return true;
-		}
-
-		$context = $parts[0] . '.' . $parts[1];
-
-		// Loading the fields
-		$fieldsObjects = FieldsHelper::getFields($context, $item);
-
-		if (!$fieldsObjects)
-		{
-			return true;
-		}
-
-		$params = (array) json_decode($item->params);
-
-		foreach ($fieldsObjects as $field)
-		{
-			// Remove it from the params array
-			unset($params[$field->alias]);
-		}
-
-		// Set the cleaned up params array
-		$item->params = json_encode($params);
-
-		return true;
-	}
-
-	/**
-	 * The save event.
-	 *
 	 * @param   string   $context  The context
 	 * @param   JTable   $item     The table
 	 * @param   boolean  $isNew    Is new item
@@ -97,7 +42,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		if (!is_array($data) || empty($data['params']))
+		if (!is_array($data) || empty($data['com_fields']))
 		{
 			return true;
 		}
@@ -108,7 +53,7 @@ class PlgSystemFields extends JPlugin
 			$context = $item->extension . '.categories';
 		}
 
-		$fieldsData = $data['params'];
+		$fieldsData = $data['com_fields'];
 		$parts      = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
@@ -177,19 +122,10 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$userData['params'] = json_decode($userData['params'], true);
-		$user               = JFactory::getUser($userData['id']);
+		$user = JFactory::getUser($userData['id']);
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
-
-		// Save the user with the modified params
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)->update('#__users')
-			->set(array('params = ' . $db->quote($user->params)))
-			->where('id = ' . $user->id);
-		$db->setQuery($query);
-		$db->execute();
 
 		return true;
 	}
@@ -288,31 +224,6 @@ class PlgSystemFields extends JPlugin
 		FieldsHelper::prepareForm($parts[0] . '.' . $parts[1], $form, $data);
 
 		return true;
-	}
-
-	/**
-	 * The prepare data event.
-	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $data     The data
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	public function onContentPrepareData($context, $data)
-	{
-		$parts = FieldsHelper::extract($context, $data);
-
-		if (!$parts)
-		{
-			return;
-		}
-
-		if (isset($data->params) && $data->params instanceof Registry)
-		{
-			$data->params = $data->params->toArray();
-		}
 	}
 
 	/**
@@ -500,7 +411,7 @@ class PlgSystemFields extends JPlugin
 					$component = 'com_' . $component;
 				}
 
-				// Transofrm com_article to com_content
+				// Transform com_article to com_content
 				if ($component === 'com_article')
 				{
 					$component = 'com_content';
