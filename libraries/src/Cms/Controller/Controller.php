@@ -90,6 +90,14 @@ class Controller  implements ControllerInterface
 	protected $model_prefix;
 
 	/**
+	 * The prefix of the views
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $viewPrefix;
+
+	/**
 	 * The set of search directories for resources (views).
 	 *
 	 * @var    array
@@ -357,7 +365,8 @@ class Controller  implements ControllerInterface
 			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
 		}
 
-		$this->input  = $input ? $input : \JFactory::getApplication()->input;
+		$app = \JFactory::getApplication();
+		$this->input  = $input ? $input : $app->input;
 		$this->option = $this->input->getCmd('option');
 		
 		// Determine the methods to exclude from the base class.
@@ -414,8 +423,8 @@ class Controller  implements ControllerInterface
 			$this->registerDefaultTask('display');
 		}
 
-		// Calculate component base namespace from controller class name
-		$this->getNamespace();
+		// Get component namespace from manifest cache
+		$this->namespace = \JComponentHelper::getNamespace($this->option);
 
 		// Set the models prefix
 		if (empty($this->model_prefix))
@@ -427,11 +436,43 @@ class Controller  implements ControllerInterface
 			}
 			elseif ($this->namespace)
 			{
-				$this->model_prefix = $this->namespace . '\\Model\\';
+				if ($app->isClient('site'))
+				{
+					$this->model_prefix = $this->namespace . '\\Site\\Model\\';
+				}
+				else
+				{
+					$this->model_prefix = $this->namespace . '\\Admin\\Model\\';
+				}
 			}
 			else
 			{
 				$this->model_prefix = ucfirst($this->name) . 'Model';
+			}
+		}
+
+		// Set the views prefix
+		if (empty($this->viewPrefix))
+		{
+			if (array_key_exists('view_prefix', $config))
+			{
+				// User-defined prefix
+				$this->viewPrefix = $config['view_prefix'];
+			}
+			elseif ($this->namespace)
+			{
+				if ($app->isClient('site'))
+				{
+					$this->viewPrefix = $this->namespace . '\\Site\\View\\';
+				}
+				else
+				{
+					$this->viewPrefix = $this->namespace . '\\Admin\\View\\';
+				}
+			}
+			else
+			{
+				$this->viewPrefix = ucfirst($this->name) . 'View';
 			}
 		}
 
@@ -604,7 +645,7 @@ class Controller  implements ControllerInterface
 	{
 		// Clean the view name
 		$viewName    = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$classPrefix = preg_replace('/[^A-Z0-9_\\\\]/i', '', $prefix);
 		$viewType    = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
 		// Basic view configuration data
@@ -614,7 +655,7 @@ class Controller  implements ControllerInterface
 		// If this is a namespace controller, create namespace view class
 		if ($this->namespace)
 		{
-			$viewClass = $this->namespace . '\\View\\' . ucfirst($viewName) . '\\' . ucfirst($viewType);
+			$viewClass = $classPrefix . ucfirst($viewName) . '\\' . ucfirst($viewType);
 
 			if (class_exists($viewClass))
 			{
@@ -787,6 +828,10 @@ class Controller  implements ControllerInterface
 		{
 			$prefix = $this->model_prefix;
 		}
+		elseif ($prefix == 'Site' || $prefix == 'Admin')
+		{
+			$prefix = $this->namespace . '\\' . $prefix . '\\Model\\';
+		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
 		{
@@ -884,7 +929,11 @@ class Controller  implements ControllerInterface
 
 		if (empty($prefix))
 		{
-			$prefix = $this->getName() . 'View';
+			$prefix = $this->viewPrefix;
+		}
+		elseif ($prefix == 'Site' || $prefix == 'Admin')
+		{
+			$prefix = $this->namespace . '\\' . $prefix . '\\View\\';
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))
@@ -1172,39 +1221,6 @@ class Controller  implements ControllerInterface
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Get base namespace of the component, ie Joomla\Component\Content\Admin or Joomla\Component\Content\Site
-	 *
-	 * @return string
-	 */
-	protected function getNamespace()
-	{
-		if ($this->namespace === null)
-		{
-			$this->namespace = '';
-			$reflection      = new \ReflectionClass($this);
-
-			if ($controllerNamespace = $reflection->getNamespaceName())
-			{
-				$pos = strpos($controllerNamespace, '\\Controller');
-
-				if ($pos !== false)
-				{
-					$this->namespace = substr($controllerNamespace, 0, $pos);
-
-					// In case model class not in score of component, set it to empty for now
-					if (strpos($this->namespace, 'Site') === false && strpos($this->namespace, 'Admin') === false)
-					{
-						$this->namespace = '';
-					}
-				}
-			}
-
-		}
-
-		return $this->namespace;
 	}
 
 	/**

@@ -50,6 +50,7 @@ class JComponentHelper
 				$result = new JComponentRecord;
 				$result->enabled = $strict ? false : true;
 				$result->setParams(new Registry);
+				$result->setManifest(new Registry);
 			}
 		}
 		else
@@ -110,6 +111,21 @@ class JComponentHelper
 	public static function getParams($option, $strict = false)
 	{
 		return static::getComponent($option, $strict)->params;
+	}
+
+	/**
+	 * Gets the namespace for the component, ie Joomla\Component\Content
+	 *
+	 * @param   string   $option  The option for the component.
+	 * @param   boolean  $strict  If set and the component does not exist, false will be returned
+	 *
+	 * @return  string  The namespace of component
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getNamespace($option, $strict = false)
+	{
+		return static::getComponent($option, $strict)->getManifest()->get('namespace');
 	}
 
 	/**
@@ -472,7 +488,7 @@ class JComponentHelper
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->select($db->quoteName(array('extension_id', 'element', 'params', 'manifest_cache', 'enabled'), array('id', 'option', null, 'manifest', null)))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
