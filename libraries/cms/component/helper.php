@@ -129,6 +129,42 @@ class JComponentHelper
 	}
 
 	/**
+	 *  Gets the name for the component from class name
+	 *
+	 * @param string $className
+	 *
+	 * @return  string
+	 */
+	public static function getComponentName($className)
+	{
+		$option = '';
+
+		if (strpos($className, '\\'))
+		{
+			// In a namespace model class, the component name will be the part before Site/Admin
+			$parts = explode('\\', $className);
+
+			$index = array_search('Site', $parts) ?: array_search('Admin', $parts);
+
+			if ($index !== false && isset($parts[$index - 1]))
+			{
+				$option = 'com_' . strtolower($parts[$index - 1]);
+			}
+		}
+		else
+		{
+			$r = null;
+
+			if (preg_match('/(.*)(Controller|Model|View)/i', $className, $r))
+			{
+				$option = strtolower($r[1]);
+			}
+		}
+
+		return $option;
+	}
+
+	/**
 	 * Applies the global text filters to arbitrary text as per settings for current user groups
 	 *
 	 * @param   string  $text  The string to filter

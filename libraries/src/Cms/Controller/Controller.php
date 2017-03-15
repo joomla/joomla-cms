@@ -368,6 +368,12 @@ class Controller  implements ControllerInterface
 		$app = \JFactory::getApplication();
 		$this->input  = $input ? $input : $app->input;
 		$this->option = $this->input->getCmd('option');
+
+		// Detect component from controller class name if not provided in input
+		if (empty($this->option))
+		{
+			$this->option = \JComponentHelper::getComponentName(get_class($this));
+		}
 		
 		// Determine the methods to exclude from the base class.
 		$xMethods = get_class_methods('\\Joomla\\Cms\\Controller\\Controller');
