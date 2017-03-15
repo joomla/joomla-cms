@@ -134,34 +134,33 @@ class JComponentHelper
 	 * @param string $className
 	 *
 	 * @return  string
+	 *
+	 * @throws \Exception
 	 */
 	public static function getComponentName($className)
 	{
-		$option = '';
-
+		// In a namespace model class, the component name will be the part before Site/Admin
 		if (strpos($className, '\\'))
 		{
-			// In a namespace model class, the component name will be the part before Site/Admin
 			$parts = explode('\\', $className);
 
 			$index = array_search('Site', $parts) ?: array_search('Admin', $parts);
 
 			if ($index !== false && isset($parts[$index - 1]))
 			{
-				$option = 'com_' . strtolower($parts[$index - 1]);
+				return 'com_' . strtolower($parts[$index - 1]);
 			}
 		}
-		else
+
+		// In a none namespace class, the component will be the part before Controller/Model/View
+		$r = null;
+
+		if (preg_match('/(.*)(Controller|Model|View)/i', $className, $r))
 		{
-			$r = null;
-
-			if (preg_match('/(.*)(Controller|Model|View)/i', $className, $r))
-			{
-				$option = strtolower($r[1]);
-			}
+			return 'com_' . strtolower($r[1]);
 		}
 
-		return $option;
+		throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 	}
 
 	/**
