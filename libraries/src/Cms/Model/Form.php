@@ -217,23 +217,9 @@ abstract class Form extends Model
 		\JForm::addFormPath(JPATH_COMPONENT . '/model/form');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
 
-		// In case namespace model, use resources folder as agreed elsewhere.
-		if ($this->namespace)
-		{
-			// Frontend model
-			if (strpos($this->namespace, '\\Admin'))
-			{
-				\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/resources/forms');
-				\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/resources/fields');
-			}
-
-			// Backend model
-			if (strpos($this->namespace, '\\Site'))
-			{
-				\JForm::addFormPath(JPATH_ROOT . '/components/' . $this->option . '/resources/forms');
-				\JForm::addFormPath(JPATH_ROOT . '/components/' . $this->option . '/resources/fields');
-			}
-		}
+		// Find XML Forms and Form Fields from resources folder for now. Will change it when there is final decision
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/forms');
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/fields');
 
 		try
 		{

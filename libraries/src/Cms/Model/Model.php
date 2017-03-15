@@ -227,10 +227,6 @@ abstract class Model extends \JObject
 	 */
 	public function __construct($config = array())
 	{
-		// Calculate component base namespace from model class name
-		$this->getNamespace();
-
-		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
 		{
 			if (isset($config['option']))
@@ -239,9 +235,12 @@ abstract class Model extends \JObject
 			}
 			else
 			{
-				$this->option =  $this->getComponentName();
+				// Guess the option from the class name
+				$this->option = \JComponentHelper::getComponentName(get_class($this));
 			}
 		}
+
+		$this->namespace = \JComponentHelper::getNamespace($this->option);
 
 		// Set the view name
 		if (empty($this->name))
@@ -489,8 +488,7 @@ abstract class Model extends \JObject
 		{
 			if ($this->namespace)
 			{
-				$adminNamespace = str_replace('\\Site\\', '\\Admin\\', $this->namespace);
-				$prefix         = $adminNamespace . '\\Table\\';
+				$prefix = $this->namespace.'\\Admin\\Table\\';
 			}
 			else
 			{
@@ -635,81 +633,5 @@ abstract class Model extends \JObject
 
 		// Trigger the onContentCleanCache event.
 		\JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
-	}
-
-	/**
-	 * Get base namespace of the component
-	 *
-	 * @return string
-	 */
-	protected function getNamespace()
-	{
-		if ($this->namespace === null)
-		{
-			$this->namespace = '';
-			$reflection = new \ReflectionClass($this);
-
-			if ($modelNamespace = $reflection->getNamespaceName())
-			{
-				$pos = strpos($modelNamespace, '\\Model');
-
-				if ($pos !== false)
-				{
-					$this->namespace = substr($modelNamespace, 0, $pos);
-
-					// In case model class not in score of component, set it to empty for now
-					if (strpos($this->namespace, 'Site') === false && strpos($this->namespace, 'Admin') === false)
-					{
-						$this->namespace = '';
-					}
-				}
-			}
-		}
-
-		return $this->namespace;
-	}
-
-	/**
-	 * Method to get component name of the model
-	 *
-	 * @return string
-	 *
-	 * @throws \Exception
-	 */
-	protected function getComponentName()
-	{
-		if (empty($this->option))
-		{
-			if ($this->namespace)
-			{
-				// In a namespace model class, the component name will be the part before Site/Admin
-				$parts = explode('\\', $this->namespace);
-
-				$index = array_search('Site', $parts) ?: array_search('Admin', $parts);
-
-				if ($index !== false && isset($parts[$index - 1]))
-				{
-					$this->option = 'com_' . strtolower($parts[$index - 1]);
-				}
-
-				if (empty($this->option))
-				{
-					throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
-				}
-			}
-			else
-			{
-				$r = null;
-
-				if (!preg_match('/(.*)Model/i', get_class($this), $r))
-				{
-					throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
-				}
-
-				$this->option = 'com_' . strtolower($r[1]);
-			}
-		}
-
-		return $this->option;
 	}
 }
