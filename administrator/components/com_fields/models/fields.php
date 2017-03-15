@@ -331,7 +331,6 @@ class FieldsModelFields extends JModelList
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-                echo __FILE__  ." =>" . (string) $query."<br/>";
 		$result = parent::_getList($query, $limitstart, $limit);
 
 		if (is_array($result))
