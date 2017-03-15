@@ -528,39 +528,14 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function getFieldValue($fieldId, $itemId)
 	{
-		$key = md5($fieldId . $itemId);
+		$values = $this->getFieldValues(array($fieldId), $itemId);
 
-		if (!key_exists($key, $this->valueCache))
+		if (key_exists($fieldId, $values))
 		{
-			$this->valueCache[$key] = null;
-
-			$query = $this->getDbo()->getQuery(true);
-
-			$query->select($query->qn('value'))
-				->from($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
-
-			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
-
-			if (count($rows) == 1)
-			{
-				$this->valueCache[$key] = array_shift($rows)->value;
-			}
-			elseif (count($rows) > 1)
-			{
-				$data = array();
-
-				foreach ($rows as $row)
-				{
-					$data[] = $row->value;
-				}
-
-				$this->valueCache[$key] = $data;
-			}
+			return $values[$fieldId];
 		}
 
-		return $this->valueCache[$key];
+		return null;
 	}
 
 	/**
@@ -575,29 +550,53 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function getFieldValues(array $fieldIds, $itemId)
 	{
+		// Create a unique key for the cache
 		$key = md5(serialize($fieldIds) . $itemId);
 
+		// Fill the cache when it doesn't exist
 		if (!key_exists($key, $this->valueCache))
 		{
+			// Create the query
 			$query = $this->getDbo()->getQuery(true);
 
 			$query->select(array($query->qn('field_id'), $query->qn('value')))
 				->from($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' in (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
+				->where($query->qn('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
 				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
+			// Fetch the row from the database
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
 
 			$data = array();
 
+			// Fill the data container from the database rows
 			foreach ($rows as $row)
 			{
+				// If there are multiple values for a field, create an array
+				if (key_exists($row->field_id, $data))
+				{
+					// Transform it to an array
+					if (!is_array($data[$row->field_id]))
+					{
+						$data[$row->field_id] = array($data[$row->field_id]);
+					}
+
+					// Set the value in the array
+					$data[$row->field_id][] = $row->value;
+
+					// Go to the next row, otherwise the value gets overwritten in the data container
+					continue;
+				}
+
+				// Set the value
 				$data[$row->field_id] = $row->value;
 			}
 
+			// Assign it to the internal cache
 			$this->valueCache[$key] = $data;
 		}
 
+		// Return the value from the cache
 		return $this->valueCache[$key];
 	}
 
