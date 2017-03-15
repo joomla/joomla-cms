@@ -2,15 +2,14 @@
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(function (){
+(function() {
 	document.addEventListener('DOMContentLoaded', function () {
 		document.getElementById('toolbar-load').addEventListener('click', function() {
 			var ids = document.querySelectorAll('input[id*="cb"]:checked');
 			if (ids.length == 1) {
 				// Add version item id to URL
 				var url = document.getElementById('toolbar-load').getAttribute('data-url') + '&version_id=' + ids[0].value;
-				document.getElementById('content-url').setAttribute('data-url', url);
-				if (window.parent) {
+				if (window.parent && url) {
 					window.parent.location = url;
 				}
 			} else {
@@ -24,8 +23,7 @@
 			if (ids.length == 1) {
 				// Add version item id to URL
 				var url = document.getElementById('toolbar-preview').getAttribute('data-url') + '&version_id=' + ids[0].value;
-				document.getElementById('content-url').setAttribute('data-url', url);
-				if (window.parent) {
+				if (window.parent && url) {
 					window.open(url, '', windowSizeArray);
 					return false;
 				}
@@ -40,8 +38,7 @@
 			if (ids.length == 2) {
 				// Add version item ids to URL
 				var url = document.getElementById('toolbar-compare').getAttribute('data-url') + '&id1=' + ids[0].value + '&id2=' + ids[1].value;
-				document.getElementById('content-url').setAttribute('data-url', url);
-				if (window.parent) {
+				if (window.parent && url) {
 					window.open(url, '', windowSizeArray);
 					return false;
 				}
