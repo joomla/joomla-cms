@@ -122,7 +122,7 @@ class JLanguageAssociations
 	}
 
 	/**
-	 * Method to determine if the language filter Items Associations parameter is enabled.
+	 * Method to determine if the language filter Associations parameter is enabled.
 	 * This works for both site and administrator.
 	 *
 	 * @return  boolean  True if the parameter is implemented; false otherwise.
