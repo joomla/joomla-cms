@@ -131,9 +131,9 @@ class JComponentHelper
 	/**
 	 *  Gets the name for the component from class name
 	 *
-	 * @param string $className
+	 * @param   string  $className  The class name of controller, model, view
 	 *
-	 * @return  string
+	 * @return  string  The name of component
 	 *
 	 * @throws \Exception
 	 */
@@ -160,6 +160,7 @@ class JComponentHelper
 			return 'com_' . strtolower($r[1]);
 		}
 
+		// Could not detect component name from given class, throws Exception
 		throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 	}
 
