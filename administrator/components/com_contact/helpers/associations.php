@@ -152,6 +152,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 					$support['state'] = true;
 					$support['acl'] = true;
 					$support['checkout'] = true;
+					$support['category'] = true;
 
 					$tables = array(
 						'a' => '#__contact_details'
@@ -170,6 +171,7 @@ class ContactAssociationsHelper extends JAssociationExtensionHelper
 					$support['state'] = true;
 					$support['acl'] = true;
 					$support['checkout'] = true;
+					$support['level'] = true;
 
 					$tables = array(
 						'a' => '#__categories'
