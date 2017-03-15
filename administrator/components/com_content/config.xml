@@ -1052,12 +1052,6 @@
 		</field>
 
 		<field
-			name="custom_fields_base_context"
-			type="hidden"
-			default="com_content.article"
-		/>
-
-		<field
 			name="custom_fields_enabled_contexts"
 			type="list"
 			multiple="multiple"
