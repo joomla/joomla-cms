@@ -8874,12 +8874,13 @@ form:not(.form-no-margin) .control-group {
   margin-bottom: 18px; }
   form:not(.form-no-margin) .control-group .control-label {
     float: left;
-    width: auto;
+    width: 220px;
     padding-top: 5px;
     padding-right: 5px;
     text-align: left; }
   form:not(.form-no-margin) .control-group .controls {
-    margin-left: 220px; }
+    margin-left: 0;
+    overflow: hidden; }
 
 form .form-no-margin .control-group .controls {
   margin-left: 0; }
@@ -9194,9 +9195,9 @@ iframe {
       vertical-align: middle; }
     .quick-icons a span {
       z-index: 1;
-      padding-left: .9rem;
-      font-size: 1.2rem;
-      line-height: 4.7rem; }
+      font-size: 1.2rem; }
+      .quick-icons a span.j-links-link {
+        padding-left: 1rem; }
       @media (max-width: 575px) {
         .quick-icons a span {
           padding: 0;
