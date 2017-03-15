@@ -339,21 +339,6 @@ class PlgSystemFields extends JPlugin
 	}
 
 	/**
-	 * Plugin that fetches custom fields for a group of items
-	 *
-	 * @param   string  $context  The context of the content being passed to the plugin.
-	 * @param   object  &$items   Array of item objects
-	 *
-	 * @return void
-	 *
-	 * @since  3.7.0
-	 */
-	public function onContentPrepareBatch($context, &$items)
-	{
-            $parts = FieldsHelper::extract($context, $items);
-        }
-        
-	/**
 	 * Performs the display event.
 	 *
 	 * @param   string    $context  The context
