@@ -29,6 +29,7 @@ JHtml::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('ver
 				<th width="25%"><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
 				<th><?php echo JText::_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
 				<th><?php echo JText::_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
+				<th><?php echo JText::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -49,7 +50,7 @@ JHtml::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('ver
 								<tr>
 									<td><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></td>
 									<td class="original"><?php echo htmlspecialchars($subValue->value, ENT_COMPAT, 'UTF-8'); ?></td>
-									<td class="changed" style="display:none;"><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
+									<td class="changed" ><?php echo htmlspecialchars($newSubValue, ENT_COMPAT, 'UTF-8'); ?></td>
 									<td class="diff">&nbsp;</td>
 								</tr>
 							<?php endif; ?>
@@ -61,7 +62,7 @@ JHtml::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('ver
 					</td>
 					<td class="original"><?php echo htmlspecialchars($value->value); ?></td>
 					<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
-					<td class="changed" style="display:none;"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
+					<td class="changed"><?php echo htmlspecialchars($object2->$name->value, ENT_COMPAT, 'UTF-8'); ?></td>
 					<td class="diff">&nbsp;</td>
 				<?php endif; ?>
 			</tr>
