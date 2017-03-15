@@ -10,7 +10,7 @@
 			var display  = changed.nextElementSibling,
 			    color    = '',
 			    span     = null,
-			    diff     = JsDiff.diffChars(original.innerHTML, changed.innerHTML),
+			    diff     = JsDiff.diffWords(original.innerHTML, changed.innerHTML),
 			    fragment = document.createDocumentFragment();
 
 			diff.forEach(function(part){
