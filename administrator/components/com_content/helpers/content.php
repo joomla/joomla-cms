@@ -237,7 +237,7 @@ class ContentHelper extends JHelperContent
 
 		if (JFactory::getApplication()->isClient('site'))
 		{
-			$customFieldsEnabledContexts = $compParams->get('custom_fields_enabled_contexts', '');
+			$customFieldsEnabledContexts = $compParams->get('custom_fields_enabled_contexts', array());
 
 			if (is_array($customFieldsEnabledContexts))
 			{
