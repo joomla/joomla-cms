@@ -488,7 +488,7 @@ abstract class Model extends \JObject
 		{
 			if ($this->namespace)
 			{
-				$prefix = $this->namespace.'\\Admin\\Table\\';
+				$prefix = $this->namespace . '\\Admin\\Table\\';
 			}
 			else
 			{
