@@ -1066,10 +1066,10 @@
 			default="com_content.article"
 			showon="custom_fields_enable:1"
 		>
-			<option value="com_content.article">COM_CONTENT_ARTICLE_VIEW</option>
-			<option value="com_content.featured">COM_CONTENT_FEATURED_VIEW</option>
-			<option value="com_content.category">COM_CONTENT_CATEGORY_VIEW</option>
-			<option value="com_content.archive">COM_CONTENT_ARCHIVE_VIEW</option>
+			<option value="article">COM_CONTENT_ARTICLE_VIEW</option>
+			<option value="featured">COM_CONTENT_FEATURED_VIEW</option>
+			<option value="category">COM_CONTENT_CATEGORY_VIEW</option>
+			<option value="archive">COM_CONTENT_ARCHIVE_VIEW</option>
 		</field>
 
 	</fieldset>

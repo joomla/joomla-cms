@@ -389,33 +389,6 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		if (strpos($parts[0], 'com_') === 0)
-		{
-			$compParams = JComponentHelper::getParams($parts[0]);
-
-			// Should check if we want the custom fields displayed
-			if (!$compParams->get('custom_fields_enable', 1))
-			{
-				return;
-			}
-
-			$customFieldsEnabledContexts = $compParams->get('custom_fields_enabled_contexts', '');
-
-			if (is_array($customFieldsEnabledContexts))
-			{
-				if (in_array($parts[0] . '.' . $parts[1], $customFieldsEnabledContexts))
-				{
-					$context = $compParams->get('custom_fields_base_context', $context);
-					$parts   = FieldsHelper::extract($context);                        
-				}
-				else
-				{
-					// We have no contexts within which to show custom fields
-					return;
-				}
-			}
-		}
-
 		if (is_string($params) || !$params)
 		{
 			$params = new Registry($params);
@@ -455,6 +428,21 @@ class PlgSystemFields extends JPlugin
 	}
 
 	/**
+	 * Plugin that fetches custom fields for a group of items
+	 *
+	 * @param   string  $context  The context of the content being passed to the plugin.
+	 * @param   object  &$items   Array of item objects
+	 *
+	 * @return void
+	 *
+	 * @since  3.7.0
+	 */
+	public function onContentPrepareBatch($context, &$items)
+	{
+            $parts = FieldsHelper::extract($context, $items);
+        }
+        
+	/**
 	 * Performs the display event.
 	 *
 	 * @param   string    $context  The context
@@ -471,33 +459,6 @@ class PlgSystemFields extends JPlugin
 		if (!$parts)
 		{
 			return;
-		}
-
-		if (strpos($parts[0], 'com_') === 0)
-		{
-			$compParams = JComponentHelper::getParams($parts[0]);
-
-			// Should check if we want the custom fields displayed
-			if (!$compParams->get('custom_fields_enable', 1))
-			{
-				return;
-			}
-
-			$customFieldsEnabledContexts = $compParams->get('custom_fields_enabled_contexts', '');
-
-			if (is_array($customFieldsEnabledContexts))
-			{
-				if (in_array($parts[0] . '.' . $parts[1], $customFieldsEnabledContexts))
-				{
-					$context = $compParams->get('custom_fields_base_context', $context);
-					$parts   = FieldsHelper::extract($context);                        
-				}
-				else
-				{
-					// We have no contexts within which to show custom fields
-					return;
-				}                        
-			}
 		}
 
 		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);

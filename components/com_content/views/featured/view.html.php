@@ -66,6 +66,8 @@ class ContentViewFeatured extends JViewLegacy
 		$params = &$state->params;
 
 		// PREPARE THE DATA
+                $dispatcher  = JEventDispatcher::getInstance();
+                $dispatcher->trigger('onContentPrepareBatch', array ('com_content.featured', &$items));
 
 		// Get the metrics for the structural page layout.
 		$numLeading = (int) $params->def('num_leading_articles', 1);

@@ -227,8 +227,29 @@ class ContentHelper extends JHelperContent
 	 */
 	public static function validateSection($section)
 	{
+            	$compParams = JComponentHelper::getParams("com_content");
+
+                // Should check if we want the custom fields displayed
+                if (!$compParams->get('custom_fields_enable', 1))
+                {
+                        return null;
+                }
+
 		if (JFactory::getApplication()->isClient('site'))
 		{
+			$customFieldsEnabledContexts = $compParams->get('custom_fields_enabled_contexts', '');
+
+			if (is_array($customFieldsEnabledContexts))
+			{
+                                // Always show in form
+                                $customFieldsEnabledContexts[] = "form";
+				if (!in_array($section, $customFieldsEnabledContexts))
+				{
+					// We have no contexts within which to show custom fields
+					return null;
+				}                        
+			}
+                    
 			// On the front end we need to map some sections
 			switch ($section)
 			{
