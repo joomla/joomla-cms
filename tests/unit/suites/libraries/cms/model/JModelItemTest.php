@@ -15,7 +15,7 @@
  *
  * @since       3.4
  */
-class JModelItemTest extends TestCase
+class JModelItemTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JModelItem

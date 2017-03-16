@@ -15,7 +15,7 @@
  *
  * @since       12.3
  */
-class JModelFormTest extends TestCase
+class JModelFormTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JModelForm
