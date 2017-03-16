@@ -301,23 +301,39 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 				$identities = array($identities);
 			}
 
-			if (isset($authorizationMatrix[$asset][$action]))
+			if (isset($authorizationMatrix[$asset]))
 			{
-				foreach ($identities as $identity)
+				// Make sure that parents come before children
+				ksort($authorizationMatrix[$asset]);
+
+				// Loop from top parents all whe way down down to the leaf
+				foreach ($authorizationMatrix[$asset] AS $node)
 				{
-					// Technically the identity just needs to be unique.
-					$identity = (int) $identity;
-
-					// Check if the identity is known.
-					if (isset($authorizationMatrix[$asset][$action][$identity]))
+					if (isset($node[$action]))
 					{
-						$result = (boolean) $authorizationMatrix[$asset][$action][$identity];
-
-						// An explicit deny wins.
-						if ($result === false)
+						foreach ($identities as $identity)
 						{
-							break;
+							// Technically the identity just needs to be unique.
+							$identity = (int) $identity;
+
+							// Check if the identity is known.
+							if (isset($node[$action][$identity]))
+							{
+								$result = (boolean) $node[$action][$identity];
+
+								// An explicit deny wins.
+								if ($result === false)
+								{
+									break;
+								}
+							}
 						}
+					}
+
+					// An explicit deny wins.
+					if ($result === false)
+					{
+						break;
 					}
 				}
 			}
@@ -359,7 +375,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			if ($this->db->getServerType() == 'mysql')
 			{
 				$straightJoin = 'STRAIGHT_JOIN ';
-				$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
+				//$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
 			}
 		}
 
@@ -381,8 +397,8 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		}
 
 		$query->select(
-			$straightJoin . 'DISTINCT ' . $prefix . '.id,' . $prefix . '.name, p.permission, p.value, '
-			. $this->db->qn('p') . '.' . $this->db->qn('group')
+			$straightJoin . 'a.id AS searchid, a.name AS searchname,' . $prefix . '.lft AS resultid, p.permission, p.value,
+			 ' . $this->db->qn('p') . '.' . $this->db->qn('group')
 		);
 
 		$conditions = 'ON p.assetid = ' . $prefix . '.id';
@@ -392,12 +408,17 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			$conditions .= ' AND ' . $this->assetGroupQuery($groups);
 		}
 
-		$query->leftJoin($this->db->qn('#__permissions', 'p') . ' ' . $conditions);
-
 		if (isset($action))
 		{
-			$query->where('p.permission = ' . $this->db->quote((string) $action));
+			$conditions .= ' AND p.permission = ' . $this->db->quote((string) $action);
 		}
+
+		$query->join('', $this->db->qn('#__permissions', 'p') . ' ' . $conditions);
+
+		/*if (isset($action))
+		{
+			$query->where('p.permission = ' . $this->db->quote((string) $action));
+		}*/
 
 		if ($useIds && $recursive)
 		{
@@ -495,9 +516,11 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		if (!isset(self::$rootAsset))
 		{
 			$query = $this->db->getQuery(true);
-			$query  ->select('b.id, b.name, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
+			$query  ->select('b.id AS searchid, b.lft AS resultid, b.name AS searchname, p.permission, 
+								p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group')
+							)
 				->from($this->db->qn('#__assets', 'b'))
-				->leftJoin($this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
+				->join('', $this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
 				->where('b.parent_id=0');
 			$this->db->setQuery($query);
 
@@ -520,28 +543,29 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 */
 	private function prefillMatrix($results)
 	{
-		$authorizationMatrix = array();
+		$authorizationMatrix = $this->authorizationMatrix;
 
 		foreach ($results AS $result)
 		{
 			if (isset($result->permission) && !empty($result->permission))
 			{
-				if (!isset($authorizationMatrix[$result->id]))
+				if (!isset($authorizationMatrix[$result->searchid]))
 				{
-					$authorizationMatrix[$result->id] = array();
+					$authorizationMatrix[$result->searchid] = array();
+					$authorizationMatrix[$result->searchid][$result->resultid] = array();
 				}
 
-				if (!isset($authorizationMatrix[$result->id][$result->permission]))
+				if (!isset($authorizationMatrix[$result->searchid][$result->resultid][$result->permission]))
 				{
-					$authorizationMatrix[$result->id][$result->permission] = array();
+					$authorizationMatrix[$result->searchid][$result->resultid][$result->permission] = array();
 				}
 
-				$authorizationMatrix[$result->id][$result->permission][$result->group] = (int) $result->value;
-				$authorizationMatrix[$result->name][$result->permission][$result->group] = (int) $result->value;
+				$authorizationMatrix[$result->searchid][$result->resultid][$result->permission][$result->group] = (int) $result->value;
+				$authorizationMatrix[$result->searchname][$result->resultid][$result->permission][$result->group] = (int) $result->value;
 			}
 		}
 
-		$this->authorizationMatrix = array_merge_recursive($this->authorizationMatrix, $authorizationMatrix);
+		$this->authorizationMatrix = $authorizationMatrix;
 	}
 
 	/** Inject permissions filter in the database object
@@ -563,7 +587,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			$groups = \JFactory::getUser()->getAuthorisedGroups();
 		}
 
-		$query->select('ass.id AS assid, bs.id AS bssid, bs.rules, p.permission, p.value, p.group');
+		$query->select('ass.id AS assid, bs.id AS bssid, p.permission, p.value, p.group');
 		$query->innerJoin('#__assets AS ass ON ass.id = ' . $joincolumn);
 
 		// If we want the rules cascading up to the global asset node we need a self-join.

@@ -149,7 +149,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 
 			foreach ($target AS $assetId)
 			{
-				$result[$assetId] = $rules->allow($action, $identities);
+				$result[$assetId] = $rules[$assetId]->allow($action, $identities);
 			}
 
 			return $result;
@@ -175,7 +175,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 * @param   array    $groups     Array of group ids to get permissions for
 	 * @param   string   $action     Action name to limit results
 	 *
-	 * @return  Rules   AccessRules object for the asset.
+	 * @return  Rules|array   AccessRules object for the asset or array of AccessRules objects.
 	 *
 	 * @since  4.0.
 	 */
@@ -205,19 +205,36 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		}
 
 		// Instantiate and return the JAccessRules object for the asset rules.
+		$rulesArr = array();
 		$rules = new Rules;
-		$rules->mergeCollection(self::$permCache[$cacheId]);
 
-		// If action was set return only this action's result
-		$data = $rules->getData();
-
-		if (isset($action) && isset($data[$action]))
+		foreach (self::$permCache[$cacheId] AS $searchedId => $searched)
 		{
-			$data = array($action => $data[$action]);
-			$rules = new Rules($data);
+			$rules = new Rules;
+
+			$rules->mergeCollection($searched);
+
+			// If action was set return only this action's result
+			$data = $rules->getData();
+
+			if (isset($action) && isset($data[$action]))
+			{
+				$data = array($action => $data[$action]);
+				$rules = new Rules($data);
+			}
+
+			$rulesArr[$searchedId] = $rules;
 		}
 
-		return $rules;
+		if (is_array($this->assetId))
+		{
+			return $rulesArr;
+		}
+		else
+		{
+			return $rules;
+		}
+
 	}
 
 	/**
@@ -288,6 +305,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		if (count($this->assetId) > $this->optimizeLimit)
 		{
 			$useIds = false;
+			$forceIndex = 'FORCE INDEX FOR JOIN (`cover all`)';
 		}
 		else
 		{
@@ -296,19 +314,19 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			if ($this->db->getServerType() == 'mysql')
 			{
 				$straightJoin = 'STRAIGHT_JOIN ';
-				$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
+				//$forceIndex = 'FORCE INDEX FOR JOIN (`PRIMARY`)';
 			}
 		}
 
 		$query = $this->db->getQuery(true);
 
 		// Build the database query to get the rules for the asset.
-		$query->from($this->db->qn('#__assets', 'a'));
+		$query->from($this->db->qn('#__assets', 'a')); // . 'FORCE INDEX(`id_lft_rgt`)');
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->join('', $this->db->qn('#__assets', 'b') . $forceIndex . ' ON (a.lft BETWEEN b.lft AND b.rgt) ');
+			$query->join('', $this->db->qn('#__assets', 'b') . $forceIndex . ' ON a.lft BETWEEN b.lft AND b.rgt ');
 
 			$prefix = 'b';
 		}
@@ -318,7 +336,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		}
 
 		$query->select(
-					$straightJoin . 'DISTINCT ' . $prefix . '.id,' . $prefix . '.name,' . $prefix
+					$straightJoin . 'a.id AS searchid, a.name,' . $prefix . '.lft AS resultid, ' . $prefix
 					. '.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group')
 				);
 
@@ -329,12 +347,17 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			$conditions .= ' AND ' . $this->assetGroupQuery($groups);
 		}
 
-		$query->leftJoin($this->db->qn('#__permissions', 'p') . ' ' . $conditions);
-
 		if (isset($action))
 		{
-			$query->where('p.permission = ' . $this->db->quote((string) $action));
+			$conditions .= ' AND p.permission = ' . $this->db->quote((string) $action);
 		}
+
+		$query->join('', $this->db->qn('#__permissions', 'p') . ' ' . $conditions);
+
+		/*if (isset($action))
+		{
+			$query->where('p.permission = ' . $this->db->quote((string) $action));
+		}*/
 
 		if ($useIds && $recursive)
 		{
@@ -347,6 +370,8 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			$query->where($assetwhere);
 		}
 
+		//$query->group(array($this->db->qn('b.id'), $this->db->qn('b.name')));
+		//$query->order($this->db->qn('b.lft'));
 		$this->db->setQuery($query);
 		$result = $this->db->loadObjectList();
 
@@ -367,9 +392,9 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		{
 			$query = $this->db->getQuery(true);
 
-			$query  ->select('b.id, b.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
+			$query  ->select('b.id AS searchid, b.lft AS resultid, b.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
 			->from($this->db->qn('#__assets', 'b'))
-			->leftJoin($this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
+			->join('', $this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
 			->where('b.parent_id=0');
 			$this->db->setQuery($query);
 
@@ -397,25 +422,24 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		{
 			if (isset($result->permission) && !empty($result->permission))
 			{
-				if (!isset($mergedResult[$result->id]))
+				if (!isset($mergedResult[$result->searchid]))
 				{
-					$mergedResult[$result->id] = array();
+					$mergedResult[$result->searchid] = array();
+					$mergedResult[$result->searchid][$result->resultid] = array();
 				}
 
-				if (!isset($mergedResult[$result->id][$result->permission]))
+				if (!isset($mergedResult[$result->searchid][$result->resultid][$result->permission]))
 				{
-					$mergedResult[$result->id][$result->permission] = array();
+					$mergedResult[$result->searchid][$result->resultid][$result->permission] = array();
 				}
 
-				$mergedResult[$result->id][$result->permission][$result->group] = (int) $result->value;
+				$mergedResult[$result->searchid][$result->resultid][$result->permission][$result->group] = (int) $result->value;
 			}
 			elseif (isset($result->rules) && $result->rules != '{}')
 			{
-				$mergedResult[$result->id] = json_decode((string) $result->rules, true);
+				$mergedResult[$result->searchid][$result->resultid] = json_decode((string) $result->rules, true);
 			}
 		}
-
-		$mergedResult = array_values($mergedResult);
 
 		return $mergedResult;
 	}
