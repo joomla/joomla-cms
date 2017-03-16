@@ -115,6 +115,9 @@ class FieldsModelField extends JModelAdmin
 			$data['state'] = 0;
 		}
 
+		// Load the fields plugins, perhaps they want to do something
+		JPluginHelper::importPlugin('fields');
+
 		if (!parent::save($data))
 		{
 			return false;
