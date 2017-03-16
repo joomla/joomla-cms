@@ -105,7 +105,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						<?php if ($images->image_intro_caption) : ?>
 							<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
 						<?php endif; ?>
-						src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
+				 		src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
 				</div>
 			<?php endif; ?>
 			</span>
