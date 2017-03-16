@@ -106,7 +106,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 
 		switch ($typeName)
 		{
-			case 'contact':
+			case 'newsfeed':
 				$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
 				break;
 
