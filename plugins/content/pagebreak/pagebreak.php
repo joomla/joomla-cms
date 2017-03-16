@@ -356,7 +356,7 @@ class PlgContentPagebreak extends JPlugin
 			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_next);
 
 			// Next >>
-			$next = '<a class="next_page" href="' . $link_next . '">' . JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') . JText::_('JGLOBAL_GT') . '</a>';
+			$next = '<a class="next_page" href="' . $link_next . '"> <span>' . JText::_('JNEXT_PAGE') . '</span>' . $pnSpace . JText::_('JGLOBAL_GT') . JText::_('JGLOBAL_GT') . '</a>';
 		}
 
 		if ($page > 0)
@@ -366,7 +366,7 @@ class PlgContentPagebreak extends JPlugin
 			$link_prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_prev);
 
 			// << Prev
-			$prev = '<a class="prev_page" href="' . $link_prev . '">' . JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>';
+			$prev = '<a class="prev_page" href="' . $link_prev . '">' . JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . '<span>' . JText::_('JPREV_PAGE') . '</span>' . '</a>';
 		}
 	
 
