@@ -321,7 +321,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		$query = $this->db->getQuery(true);
 
 		// Build the database query to get the rules for the asset.
-		$query->from($this->db->qn('#__assets', 'a')); // . 'FORCE INDEX(`id_lft_rgt`)');
+		$query->from($this->db->qn('#__assets', 'a'));
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
@@ -354,11 +354,6 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 
 		$query->join('', $this->db->qn('#__permissions', 'p') . ' ' . $conditions);
 
-		/*if (isset($action))
-		{
-			$query->where('p.permission = ' . $this->db->quote((string) $action));
-		}*/
-
 		if ($useIds && $recursive)
 		{
 			$query->where('a.lft > -1 AND b.lft > -1 AND b.rgt > -1');
@@ -370,8 +365,6 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			$query->where($assetwhere);
 		}
 
-		//$query->group(array($this->db->qn('b.id'), $this->db->qn('b.name')));
-		//$query->order($this->db->qn('b.lft'));
 		$this->db->setQuery($query);
 		$result = $this->db->loadObjectList();
 

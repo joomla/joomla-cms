@@ -415,11 +415,6 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 
 		$query->join('', $this->db->qn('#__permissions', 'p') . ' ' . $conditions);
 
-		/*if (isset($action))
-		{
-			$query->where('p.permission = ' . $this->db->quote((string) $action));
-		}*/
-
 		if ($useIds && $recursive)
 		{
 			$query->where('a.lft > -1 AND b.lft > -1 AND b.rgt > -1');
