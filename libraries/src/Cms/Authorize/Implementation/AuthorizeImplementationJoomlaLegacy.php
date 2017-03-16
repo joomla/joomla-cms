@@ -293,19 +293,11 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 */
 	private function getAssetPermissions($recursive = false, $groups = array(), $action = null)
 	{
-		static $driverName = null;
-
-		if (!isset($driverName))
-		{
-			$driverName = $this->db->getName();
-		}
-
 		$forceIndex = $straightJoin = '';
 
 		if (count($this->assetId) > $this->optimizeLimit)
 		{
 			$useIds = false;
-			$forceIndex = 'FORCE INDEX FOR JOIN (`cover all`)';
 		}
 		else
 		{
@@ -336,8 +328,8 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		}
 
 		$query->select(
-					$straightJoin . 'a.id AS searchid, a.name,' . $prefix . '.lft AS resultid, ' . $prefix
-					. '.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group')
+					$straightJoin . 'a.id AS searchid, a.name AS searchname,' . $prefix . '.lft AS resultid, ' . $prefix
+					. '.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('ugroup')
 				);
 
 		$conditions = 'ON p.assetid = ' . $prefix . '.id';
@@ -385,7 +377,9 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 		{
 			$query = $this->db->getQuery(true);
 
-			$query  ->select('b.id AS searchid, b.lft AS resultid, b.rules, p.permission, p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group'))
+			$query  ->select('b.id AS searchid, b.name AS searchname, b.lft AS resultid,  b.rules, p.permission, p.value, '
+						. $this->db->qn('p') . '.' . $this->db->qn('ugroup')
+			)
 			->from($this->db->qn('#__assets', 'b'))
 			->join('', $this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
 			->where('b.parent_id=0');
@@ -426,7 +420,8 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 					$mergedResult[$result->searchid][$result->resultid][$result->permission] = array();
 				}
 
-				$mergedResult[$result->searchid][$result->resultid][$result->permission][$result->group] = (int) $result->value;
+				$mergedResult[$result->searchid][$result->resultid][$result->permission][$result->ugroup] = (int) $result->value;
+				$mergedResult[$result->searchname][$result->resultid][$result->permission][$result->ugroup] = (int) $result->value;
 			}
 			elseif (isset($result->rules) && $result->rules != '{}')
 			{

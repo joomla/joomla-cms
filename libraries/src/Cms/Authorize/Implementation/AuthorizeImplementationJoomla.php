@@ -355,13 +355,6 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 */
 	private function getAssetPermissions($recursive = false, $groups = array(), $action = null)
 	{
-		static $driverName = null;
-
-		if (!isset($driverName))
-		{
-			$driverName = $this->db->getName();
-		}
-
 		$forceIndex = $straightJoin = '';
 
 		if (count($this->assetId) > $this->optimizeLimit)
@@ -398,7 +391,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 
 		$query->select(
 			$straightJoin . 'a.id AS searchid, a.name AS searchname,' . $prefix . '.lft AS resultid, p.permission, p.value,
-			 ' . $this->db->qn('p') . '.' . $this->db->qn('group')
+			 ' . $this->db->qn('p') . '.' . $this->db->qn('ugroup')
 		);
 
 		$conditions = 'ON p.assetid = ' . $prefix . '.id';
@@ -448,7 +441,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			$groups = array($groups);
 		}
 
-		$groupQuery = 'p.group IN (' . implode(',', $groups) . ')';
+		$groupQuery = 'p.ugroup IN (' . implode(',', $groups) . ')';
 
 		return $groupQuery;
 	}
@@ -512,7 +505,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		{
 			$query = $this->db->getQuery(true);
 			$query  ->select('b.id AS searchid, b.lft AS resultid, b.name AS searchname, p.permission, 
-								p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('group')
+								p.value, ' . $this->db->qn('p') . '.' . $this->db->qn('ugroup')
 							)
 				->from($this->db->qn('#__assets', 'b'))
 				->join('', $this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
@@ -555,8 +548,8 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 					$authorizationMatrix[$result->searchid][$result->resultid][$result->permission] = array();
 				}
 
-				$authorizationMatrix[$result->searchid][$result->resultid][$result->permission][$result->group] = (int) $result->value;
-				$authorizationMatrix[$result->searchname][$result->resultid][$result->permission][$result->group] = (int) $result->value;
+				$authorizationMatrix[$result->searchid][$result->resultid][$result->permission][$result->ugroup] = (int) $result->value;
+				$authorizationMatrix[$result->searchname][$result->resultid][$result->permission][$result->ugroup] = (int) $result->value;
 			}
 		}
 
@@ -582,7 +575,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			$groups = \JFactory::getUser()->getAuthorisedGroups();
 		}
 
-		$query->select('ass.id AS assid, bs.id AS bssid, p.permission, p.value, p.group');
+		$query->select('ass.id AS assid, bs.id AS bssid, p.permission, p.value, p.ugroup');
 		$query->innerJoin('#__assets AS ass ON ass.id = ' . $joincolumn);
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
@@ -637,7 +630,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 
 		foreach ($groups AS $group)
 		{
-			if (isset ($authorizationMatrix[$rootId]['core.admin'][$group]) && $authorizationMatrix[$rootId]['core.admin'][$group] == 1)
+			if (isset ($authorizationMatrix[$rootId][$rootId]['core.admin'][$group]) && $authorizationMatrix[$rootId]['core.admin'][$group] == 1)
 			{
 				$root = true;
 				break;

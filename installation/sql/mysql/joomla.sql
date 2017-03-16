@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`,`lft`,`rgt`,`name`,`rules`),
   UNIQUE KEY `idx_asset_name` (`name`),
-  KEY `idx_lft_rgt` (`lft`,`rgt`),
+  KEY `idx_lft_rgt_id` (`lft`,`rgt`,`id`),
   KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -2123,20 +2123,19 @@ CREATE TABLE `#__permissions` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `permission` VARCHAR( 50 ) NOT NULL ,
   `value` BOOL NOT NULL ,
-  `group` INT NOT NULL ,
+  `ugroup` int(10) NOT NULL ,
   `assetid` int(10) unsigned NOT NULL ,
-  INDEX ( `assetid` ),
-  INDEX ( `group` ),
+  INDEX ( `ugroup` ),
   INDEX ( `value` ),
   KEY `idx_aid_per_val`( `assetid`, `permission` , `value` ),
-  UNIQUE KEY `uniq` ( `permission` , `group` , `assetid` )
+  UNIQUE KEY `uniq` ( `permission` , `ugroup` , `assetid` )
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT = 'Joomla permission table';
 
 --
 -- Dumping data for table `#__viewlevels`
 --
 
-INSERT INTO `#__permissions` (`id`, `permission`, `value`, `group`, `assetid`) VALUES
+INSERT INTO `#__permissions` (`id`, `permission`, `value`, `ugroup`, `assetid`) VALUES
   (1, 'core.login.site', 1, 6, 1),
   (2, 'core.login.site', 1, 2, 1),
   (3, 'core.login.admin', 1, 6, 1),
@@ -2190,9 +2189,9 @@ INSERT INTO `#__permissions` (`id`, `permission`, `value`, `group`, `assetid`) V
 
 
 -- To be moved to change sql later and merged with tables sql
-ALTER TABLE `#__contact_details` ADD INDEX `idx_useri_id` ( `user_id` );
+ALTER TABLE `#__contact_details` ADD INDEX `idx_user_id` ( `user_id` );
 ALTER TABLE `#__assets` ADD INDEX `idx_id_level` ( `level` , `id` );
-ALTER TABLE `#__assets` ADD INDEX `lft_rgt_id` ( `lft` ,`rgt` , `id` );
+ALTER TABLE `#__assets` ADD INDEX `idx_rgt` ( `rgt` );
 
 -- TESTING ONLY
 UPDATE `#__assets` SET `rules`='{}';
