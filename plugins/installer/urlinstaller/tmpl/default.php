@@ -22,7 +22,12 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 		else
 		{
-			jQuery("#loading").css("display", "block");
+			var loading = document.getElementById("loading");
+			if (loading)
+			{
+				loading.style.display = "block";
+			}
+
 			form.installtype.value = "url"
 			form.submit();
 		}
@@ -30,17 +35,20 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 <legend><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
+<hr>
 <div class="control-group">
 	<label for="install_url" class="control-label">
 		<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?>
 	</label>
 	<div class="controls">
-		<input type="text" id="install_url" name="install_url" class="form-control" placeholder="https://">
+		<input type="text" id="install_url" name="install_url" class="form-control input-xlarge" placeholder="https://">
 	</div>
 </div>
+<hr>
 <div class="control-group">
 	<div class="controls">
-		<input type="button" class="btn btn-primary" id="installbutton_url"
-			value="<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonurl()">
+		<button type="button" class="btn btn-primary" id="installbutton_url" onclick="Joomla.submitbuttonurl()">
+			<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>
+		</button>
 	</div>
 </div>

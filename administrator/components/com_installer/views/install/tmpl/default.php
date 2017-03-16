@@ -23,8 +23,12 @@ JFactory::getDocument()->addScriptDeclaration(
 		}
 		else
 		{
-			jQuery("#loading").css("display", "block");
-			
+			var loading = document.getElementById("loading");
+			if (loading)
+			{
+				loading.style.display = "block";
+			}
+
 			form.installtype.value = "url";
 			form.submit();
 		}
@@ -58,9 +62,7 @@ JFactory::getDocument()->addStyleDeclaration(
 	#loading {
 		background: rgba(255, 255, 255, .8) url(\'' . JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true) . '\') 50% 15% no-repeat;
 		position: fixed;
-		opacity: 0.8;
-		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
-		filter: alpha(opacity = 80);
+		opacity: .8;
 		overflow: hidden;
 	}
 	'
@@ -68,7 +70,7 @@ JFactory::getDocument()->addStyleDeclaration(
 
 ?>
 
-<script type="text/javascript">
+<script>
 	// Set the first tab to active if there is no other active tab
 	jQuery(document).ready(function($) {
 		var hasTab = function(href){
@@ -101,14 +103,14 @@ JFactory::getDocument()->addStyleDeclaration(
 								'link',
 								JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
 								'',
-								'class="close hasTooltip icon-options" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
+								'class="alert-options float-right hasTooltip icon-options icon-white" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
 							);
 							?>
 							<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
 								<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
-							<input class="btn btn-primary" type="button"
-								value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>"
-								onclick="Joomla.submitbuttonInstallWebInstaller()">
+							<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonInstallWebInstaller()">
+								<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>
+							</button>
 						</div>
 					<?php endif; ?>
 					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab'); ?>
