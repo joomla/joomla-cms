@@ -18,7 +18,7 @@ require_once __DIR__ . '/stubs/controllerform.php';
  *
  * @since       12.3
  */
-class JControllerFormTest extends TestCase
+class JControllerFormTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
