@@ -12,31 +12,8 @@ defined('_JEXEC') or die;
 JHtml::_('bootstrap.tooltip');
 
 $app = JFactory::getApplication('administrator');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbuttonfolder = function()
-	{
-		var form = document.getElementById("adminForm");
-
-		// do field validation 
-		if (form.install_directory.value == "")
-		{
-			alert("' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH', true) . '");
-		}
-		else
-		{
-			var loading = document.getElementById("loading");
-			if (loading)
-			{
-				loading.style.display = "block";
-			}
-
-			form.installtype.value = "folder"
-			form.submit();
-		}
-	};
-');
 ?>
+
 <legend><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
 <hr>
 <div class="control-group">

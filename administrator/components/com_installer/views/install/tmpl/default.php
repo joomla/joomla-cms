@@ -9,81 +9,17 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.core');
+JText::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
+JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
+JText::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
+JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
+
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.tabstate');
-
-JFactory::getDocument()->addScriptDeclaration(
-	'
-	Joomla.submitbutton4 = function() {
-		var form = document.getElementById("adminForm");
-
-		// do field validation
-		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
-			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
-		}
-		else
-		{
-			var loading = document.getElementById("loading");
-			if (loading)
-			{
-				loading.style.display = "block";
-			}
-
-			form.installtype.value = "url";
-			form.submit();
-		}
-	};
-
-	Joomla.submitbuttonInstallWebInstaller = function() {
-		var form = document.getElementById("adminForm");
-		
-		form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
-		
-		Joomla.submitbutton4();
-	};
-
-	// Add spindle-wheel for installations:
-	jQuery(document).ready(function($) {
-		var outerDiv = $("#installer-install");
-		
-		$("#loading")
-		.css("top", outerDiv.position().top - $(window).scrollTop())
-		.css("left", "0")
-		.css("width", "100%")
-		.css("height", "100%")
-		.css("display", "none")
-		.css("margin-top", "-10px");
-	});
-	'
-);
-
-JFactory::getDocument()->addStyleDeclaration(
-	'
-	#loading {
-		background: rgba(255, 255, 255, .8) url(\'' . JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true) . '\') 50% 15% no-repeat;
-		position: fixed;
-		opacity: .8;
-		overflow: hidden;
-	}
-	'
-);
-
+JHtml::_('stylesheet', 'com_installer/installer.css', false, true);
+JHtml::_('script', 'com_installer/installer.js', false, true);
 ?>
-
-<script>
-	// Set the first tab to active if there is no other active tab
-	jQuery(document).ready(function($) {
-		var hasTab = function(href){
-			return $('a[data-toggle="tab"]a[href*="' + href + '"]').length;
-		};
-		if (!hasTab(localStorage.getItem('tab-href')))
-		{
-			var tabAnchor = $("#myTabTabs li:first a");
-			window.localStorage.setItem('tab-href', tabAnchor.attr('href'));
-			tabAnchor.click();
-		}
-	});
-</script>
 
 <div id="installer-install" class="clearfix">
 

@@ -11,30 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbuttonpackage = function()
-	{
-		var form = document.getElementById("adminForm");
-
-		// do field validation 
-		if (form.install_package.value == "")
-		{
-			alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE', true) . '");
-		}
-		else
-		{
-			var loading = document.getElementById("loading");
-			if (loading)
-			{
-				loading.style.display = "block";
-			}
-
-			form.installtype.value = "upload"
-			form.submit();
-		}
-	};
-');
 ?>
+
 <legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 <hr>
 <div class="control-group">

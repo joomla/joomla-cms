@@ -1,0 +1,14 @@
+/**
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+#loading {
+	position: fixed;
+	background-image: url(../../jui/img/ajax-loader.gif);
+	background-color: rgba(255,255,255,.8);
+	background-repeat: no-repeat;
+	background-position: center center;
+	opacity: .8;
+	overflow: hidden;
+}
