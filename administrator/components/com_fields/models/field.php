@@ -156,20 +156,48 @@ class FieldsModelField extends JModelAdmin
 		// If the options have changed delete the values
 		if ($field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
 		{
-			$oldParams = json_decode($field->fieldparams['options']);
-			$newParams = json_decode($data['fieldparams']['options']);
+			$oldParams = $this->getParams($field->fieldparams['options']);
+			$newParams = $this->getParams($data['fieldparams']['options']);
 
-			if (is_object($oldParams) && is_object($newParams) && $oldParams->name != $newParams->name)
+			if (true || is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
+				$names = array();
+				foreach ($newParams as $param) {
+					$names[] = $param['value'];
+				}
 				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where("value not in ('" . implode("','", $newParams->name) . "')");
+					->where("value NOT IN ('" . implode("','", $names) . "')");
 				$db->setQuery($query);
 				$db->execute();
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Convertes the unknown params into an object.
+	 *
+	 * @param   mixed     $params  The params.
+	 *
+	 * @return  stdClass  Object on success, false on failure.
+	 *
+	 * @since   3.7.0
+	 */
+	private function getParams($params)
+	{
+		if (is_string($params))
+		{
+			$params = json_decode($params);
+		}
+
+		if (is_array($params))
+		{
+			$params = (object)$params;
+		}
+
+		return $params;
 	}
 
 	/**
