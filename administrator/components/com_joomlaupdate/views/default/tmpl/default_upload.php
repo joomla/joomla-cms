@@ -22,7 +22,11 @@ $js               = <<< JS
 		}
 		else
 		{
-			jQuery("#loading").css("display", "block");
+			var loading = document.getElementById("loading");
+			if (loading)
+			{
+				loading.style.display = "block";
+			}
 
 			form.submit();
 		}
@@ -51,8 +55,6 @@ $css             = <<< CSS
 		background: rgba(255, 255, 255, .8) url('$ajaxLoaderImage') 50% 15% no-repeat;
 		position: fixed;
 		opacity: 1;
-		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
-		filter: alpha(opacity = 80);
 		overflow: hidden;
 	}
 CSS;
@@ -96,9 +98,9 @@ JFactory::getDocument()->addStyleDeclaration($css);
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 				</td>
 				<td>
-					<input class="form-control" id="install_package" name="install_package" type="file" size="57">
+					<input class="form-control-file" id="install_package" name="install_package" type="file" size="57">
 					<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
-					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+					<small class="form-text text-muted"><?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
 				</td>
 			</tr>
 			<tr>

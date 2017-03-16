@@ -42,7 +42,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div class="controls">
 		<input class="form-control-file" id="install_package" name="install_package" type="file">
 		<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
-		<small id="fileHelp" class="form-text text-muted"><?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
+		<small class="form-text text-muted"><?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
 	</div>
 </div>
 <hr>
