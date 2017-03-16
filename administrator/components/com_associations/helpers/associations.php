@@ -619,6 +619,7 @@ class AssociationsHelper extends JHelperContent
 
 		return $helper->getTypeFieldName($typeName, $fieldName);
 	}
+
 	/**
 	 * Gets the language filter system plugin extension id.
 	 *
@@ -647,6 +648,4 @@ class AssociationsHelper extends JHelperContent
 
 		return $result;
 	}
-
-
 }
