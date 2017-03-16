@@ -124,7 +124,7 @@ abstract class JHtmlCategory
 
 				if ($item->language !== '*')
 				{
-					$item->title .= ' (' . $language . ')';
+					$item->title .= ' (' . $item->language . ')';
 				}
 
 				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
