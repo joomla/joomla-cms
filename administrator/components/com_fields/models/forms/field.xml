@@ -252,13 +252,13 @@
 			<field
 				name="showlabel"
 				type="radio"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				default="1"
 				label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
 				description="COM_FIELDS_FIELD_SHOWLABEL_DESC"
 			>
-				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field
