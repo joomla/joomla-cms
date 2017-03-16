@@ -9043,7 +9043,7 @@ input:focus,
 		display: none;
 	}
 }
-@media (min-width: 481px) and (max-width: 768px) {
+@media (min-width: 481px) and (max-width: 767px) {
 	.com_content #toolbar-archive,
 	.com_content #toolbar-trash {
 		display: none;
