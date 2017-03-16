@@ -49,7 +49,7 @@ abstract class JHtmlCategory
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 
 			$query = $db->getQuery(true)
-				->select('a.id, a.title, a.level')
+				->select('a.id, a.title, a.level, a.language')
 				->from('#__categories AS a')
 				->where('a.parent_id > 0');
 
@@ -121,6 +121,12 @@ abstract class JHtmlCategory
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
+
+				if ($item->language !== '*')
+				{
+					$item->title .= ' (' . $language . ')';
+				}
+
 				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 		}
