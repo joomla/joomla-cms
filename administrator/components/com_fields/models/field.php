@@ -162,7 +162,8 @@ class FieldsModelField extends JModelAdmin
 			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
 				$names = array();
-				foreach ($newParams as $param) {
+				foreach ($newParams as $param)
+				{
 					$names[] = $param['value'];
 				}
 				$query = $db->getQuery(true);
@@ -179,7 +180,7 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Convertes the unknown params into an object.
 	 *
-	 * @param   mixed     $params  The params.
+	 * @param   mixed  $params  The params.
 	 *
 	 * @return  stdClass  Object on success, false on failure.
 	 *
@@ -194,7 +195,7 @@ class FieldsModelField extends JModelAdmin
 
 		if (is_array($params))
 		{
-			$params = (object)$params;
+			$params = (object) $params;
 		}
 
 		return $params;
