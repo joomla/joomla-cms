@@ -59,7 +59,7 @@ class Issue13382Test extends PHPUnit_Framework_TestCase
 	 *
 	 * @see      https://issues.joomla.org/tracker/joomla-cms/13382#event-231756
 	 *
-	 * @testdox  Custom field types override core field types
+	 * @testdox  Custom field types can extend core types with the same filename
 	 *
 	 * @since    __DEPLOY_VERSION__
 	 */
