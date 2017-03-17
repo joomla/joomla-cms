@@ -290,7 +290,8 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			if ($this->db->getServerType() == 'mysql')
 			{
 				$straightJoin = 'STRAIGHT_JOIN ';
-				//$forceIndex = 'FORCE INDEX FOR JOIN (`PRIMARY`)';
+
+				// $forceIndex = 'FORCE INDEX FOR JOIN (`PRIMARY`)';
 			}
 		}
 
@@ -328,7 +329,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			$conditions .= ' AND p.permission = ' . $this->db->quote((string) $action);
 		}
 
-		$query->join('', $this->db->qn('#__permissions', 'p') . ' ' . $conditions);
+		$query->leftJoin($this->db->qn('#__permissions', 'p') . ' ' . $conditions);
 
 		if ($useIds && $recursive)
 		{
@@ -340,7 +341,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			$assetwhere = $this->assetWhere();
 			$query->where($assetwhere);
 		}
-
+		$test = (string) $query;
 		$this->db->setQuery($query);
 		$result = $this->db->loadObjectList();
 
@@ -365,7 +366,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 						. $this->db->qn('p') . '.' . $this->db->qn('ugroup')
 			)
 			->from($this->db->qn('#__assets', 'b'))
-			->join('', $this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
+			->leftJoin($this->db->qn('#__permissions', 'p') . ' ON b.id = p.assetid')
 			->where('b.parent_id=0');
 			$this->db->setQuery($query);
 

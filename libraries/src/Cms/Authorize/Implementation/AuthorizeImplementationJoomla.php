@@ -419,7 +419,8 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 			if ($this->db->getServerType() == 'mysql')
 			{
 				$straightJoin = 'STRAIGHT_JOIN ';
-				//$forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
+
+				// $forceIndex = 'FORCE INDEX FOR JOIN (`lft_rgt_id`)';
 			}
 		}
 
