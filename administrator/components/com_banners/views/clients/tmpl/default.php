@@ -59,16 +59,16 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap center hidden-phone hidden-tablet">
-							<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"></i>
+							<i class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span></i>
 						</th>
 						<th width="1%" class="nowrap center hidden-phone hidden-tablet">
-							<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
+							<i class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span></i>
 						</th>
 						<th width="1%" class="nowrap center hidden-phone hidden-tablet">
-							<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></i>
+							<i class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span></i>
 						</th>
 						<th width="1%" class="nowrap center hidden-phone hidden-tablet">
-							<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></i>
+							<i class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span></i>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
