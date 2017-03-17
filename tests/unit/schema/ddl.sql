@@ -369,13 +369,13 @@ CREATE TABLE `jos_permissions` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `permission` VARCHAR(50) NOT NULL DEFAULT '',
   `value` BOOLEAN NOT NULL,
-  `group` INTEGER NOT NULL,
+  `ugroup` INTEGER NOT NULL,
   `assetid` INTEGER NOT NULL,
-  CONSTRAINT `uniq` UNIQUE ( `permission` , `group` , `assetid` )
+  CONSTRAINT `uniq` UNIQUE ( `permission` , `ugroup` , `assetid` )
 );
 
 CREATE INDEX `idx_assetid` ON `jos_permissions` (`assetid`);
-CREATE INDEX `idx_group` ON `jos_permissions` (`group`);
+CREATE INDEX `idx_group` ON `jos_permissions` (`ugroup`);
 CREATE INDEX `idx_value` ON `jos_permissions` (`value`);
 
 
