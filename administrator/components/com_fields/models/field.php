@@ -178,7 +178,7 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Convertes the unknown params into an object.
+	 * Converts the unknown params into an object.
 	 *
 	 * @param   mixed  $params  The params.
 	 *
