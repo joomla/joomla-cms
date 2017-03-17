@@ -73,23 +73,13 @@ class PlgFieldsSql extends FieldsListPlugin
 			return false;
 		}
 
-		$changed = false;
-		// Loop trough the rules
-		foreach ($item->getRules()->getData() as $name => $rule)
-		{
-			// If the rule is not empty, means it was actively modified
-			if (!empty($rule->getData()))
-			{
-				continue;
-			}
+		$rules = $item->getRules()->getData();
 
-			// Set the debied flag on the root group
-			$rule->mergeIdentity(1, false);
-			$changed = true;
-		}
-
-		if ($changed)
+		// Only change the edit rule and when it is empty
+		if (key_exists('core.edit', $rules) && !$rules['core.edit']->getData())
 		{
+			// Set the denied flag on the root group
+			$rules['core.edit']->mergeIdentity(1, false);
 			JFactory::getApplication()->enqueueMessage(JText::_('PLG_FIELDS_SQL_RULES_ADAPTED'), 'warning');
 		}
 
