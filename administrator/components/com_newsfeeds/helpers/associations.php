@@ -106,7 +106,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 
 		switch ($typeName)
 		{
-			case 'contact':
+			case 'newsfeed':
 				$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
 				break;
 
@@ -154,6 +154,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 					$support['state'] = true;
 					$support['acl'] = true;
 					$support['checkout'] = true;
+					$support['category'] = true;
 
 					$tables = array(
 						'a' => '#__newsfeeds'
@@ -171,6 +172,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 					$support['state'] = true;
 					$support['acl'] = true;
 					$support['checkout'] = true;
+					$support['level'] = true;
 
 					$tables = array(
 						'a' => '#__categories'
