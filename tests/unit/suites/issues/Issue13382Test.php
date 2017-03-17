@@ -13,12 +13,51 @@
  *
  * https://issues.joomla.org/tracker/joomla-cms/13382
  *
+ * Loading a custom field can result in a Fatal Error, if a core field exists with the same filename, and the custom
+ * field extends the core field.
+ *
+ * Consider a file `testfields/radio.php` containing
+ *
+ * ```php
+ * <?php
+ *
+ * class TestFormFieldRadio extends JFormFieldRadio {}
+ * ```
+ *
+ * Calling `JFormHelper::loadFieldClass('radio')` will yield in a Fatal error: Class 'JFormFieldRadio' not found.
+ *
+ * There are two reasons for this.
+ *
+ * 1. JLoader cannot autoload JFormFieldRadio, because the class name (JFormField*) does not match the path name
+ *    (joomla/form/fields/* - notice the plural on fields).
+ *
+ * 2. JFormHelper cannot load JFormFieldRadio, because custom paths are scanned first, and the requested field type
+ *    ('radio') gets resolved before the core classes are reached.
+ *
+ * Solution:
+ *
+ * Require the core field directly:
+ *
+ * ```php
+ * <?php
+ * require_once JPATH_LIBRARIES . '/joomla/form/fields/radio.php';
+ *
+ * class TestFormFieldRadio extends JFormFieldRadio {}
+ * ```
+ *
+ * and use `JFormHelper::loadFieldClass` properly with 'test.radio' instead of 'radio'.
+ *
  * @since  __DEPLOY_VERSION__
  */
 class Issue13382Test extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Test expected behaviour according to https://issues.joomla.org/tracker/joomla-cms/13382#event-231756
+	 * Test expected behaviour
+	 *
+	 * `JFormHelper::loadFieldClass('radio')` should return 'JFormFieldRadio'
+	 * `JFormHelper::loadFieldClass('test.radio')` should return 'TestFormFieldRadio'
+	 *
+	 * @see      https://issues.joomla.org/tracker/joomla-cms/13382#event-231756
 	 *
 	 * @testdox  Custom field types override core field types
 	 *
