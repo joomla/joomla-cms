@@ -91,7 +91,7 @@ class MediaModelApi extends Model
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
 	 *
-	 * @return  void
+	 * @return  string  The new file name
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
@@ -99,7 +99,11 @@ class MediaModelApi extends Model
 	 */
 	public function createFolder($name, $path)
 	{
+		$name = $this->getSafeName($name);
+
 		$this->adapter->createFolder($name, $path);
+
+		return $name;
 	}
 
 	/**
@@ -110,7 +114,7 @@ class MediaModelApi extends Model
 	 * @param   string  $path  The folder
 	 * @param   binary  $data  The data
 	 *
-	 * @return  void
+	 * @return  string  The new file name
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
@@ -120,9 +124,9 @@ class MediaModelApi extends Model
 	{
 		$name = $this->getSafeName($name);
 
-		$this->checkContent($name, $data);
-
 		$this->adapter->createFile($name, $path, $data);
+
+		return $name;
 	}
 
 	/**
