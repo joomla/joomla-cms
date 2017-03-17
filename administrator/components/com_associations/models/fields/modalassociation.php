@@ -69,7 +69,7 @@ class JFormFieldModalAssociation extends JFormField
 			. ' data-change="' . JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' role="button"'
 			. ' href="#associationSelect' . $this->id . 'Modal">'
-			. '<span class="icon-file"></span>'
+			. '<span class="icon-file" aria-hdden="true"></span>'
 			. '<span id="select-change-text"></span>'
 			. '</a>';
 
