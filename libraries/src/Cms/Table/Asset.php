@@ -423,7 +423,7 @@ class Asset extends Nested
 						$query->insert('#__permissions');
 						$query->set('`permission` = ' . $this->_db->quote($perName));
 						$query->set('`value` = ' . $this->_db->quote($value));
-						$query->set('`group` = ' . $perGroup);
+						$query->set('`ugroup` = ' . $perGroup);
 						$query->set('`assetid` = ' . (int) $this->id);
 						$this->_db->setQuery($query);
 						$this->_db->execute();
