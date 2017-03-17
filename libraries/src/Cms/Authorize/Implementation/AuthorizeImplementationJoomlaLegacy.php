@@ -41,22 +41,6 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 */
 	protected static $permCache = array();
 
-
-	/**
-	 * Instantiate the access class
-	 *
-	 * @param   mixed             $assetId  Assets id, can be integer id or string name or array of string/integer values
-	 * @param   \JDatabaseDriver  $db       Database object
-	 *
-	 * @since  4.0
-	 */
-	public function __construct($assetId = 1, \JDatabaseDriver $db = null)
-	{
-		$this->assetId = $assetId;
-		$this->db = isset($db) ? $db : \JFactory::getDbo();
-		$this->getRootAssetPermissions();
-	}
-
 	/**
 	 * Method to set a value Example: $access->set('items', $items);
 	 *
