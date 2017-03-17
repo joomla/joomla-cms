@@ -63,6 +63,16 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		$this->assetId = $assetId;
 		$this->db = isset($db) ? $db : \JFactory::getDbo();
 		$this->getRootAssetPermissions();
+
+		if ($this->db->getServerType() == 'mysql')
+		{
+			$query = 'SHOW TABLE STATUS LIKE ' . $this->db->quote($this->db->getPrefix() . 'assets');
+			$this->db->setQuery($query);
+			$total  = $this->db->loadObject();
+
+			$this->optimizeLimit = (int) $total->Rows * 0.15;
+		}
+
 	}
 
 	/**
@@ -208,40 +218,81 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		// Local copy as empty/isset doesn't play nicely with getters
 		$authorizationMatrix = $this->authorizationMatrix;
 
-		if (is_array($target))
-		{
-			// Load only ids that don't already exist in matrix
-			$newAssetIds = array();
+		$result = false;
+		$originalTarget = $target;
+		// Cast all assetid types to array for easier looping
+		$target = (array) $target;
 
-			foreach ($target AS $assetId)
+		// Load only ids that don't already exist in matrix
+		$newAssetIds = array();
+
+		foreach ($target AS $assetId)
+		{
+			$newAssetIds[] = $assetId;
+
+			if (isset($authorizationMatrix[$assetId]))
 			{
-				if (!isset($authorizationMatrix[$assetId][$action]))
+				foreach ($authorizationMatrix[$assetId] AS $node)
 				{
-					$newAssetIds[] = $assetId;
+					if (isset($node[$action]))
+					{
+						array_pop($newAssetIds);
+						break;
+					}
 				}
 			}
+		}
 
+		if (!empty($newAssetIds))
+		{
 			$this->assetId = $newAssetIds;
 
 			$this->loadPermissions(true, array(), $action);
 
 			// Revert ids after loading
-			$this->assetId = $target;
+			$this->assetId = $originalTarget;
+		}
 
-			foreach ($target AS $assetId)
+		foreach ($target AS $assetId)
+		{
+			$result[$assetId] = $this->calculate($assetId, $action, $identities);
+		}
+
+
+		if (!is_array($originalTarget))
+		{
+			return $result[$originalTarget];
+		}
+
+		return $result;
+
+
+
+		/*
+		else
+		{
+			$found = false;
+
+			if (isset($authorizationMatrix[$target]))
 			{
-				$result[$assetId] = $this->calculate($assetId, $action, $identities);
+				foreach ($authorizationMatrix[$target] AS $node)
+				{
+					if (isset($node[$action]))
+					{
+						$found = true;
+						break;
+					}
+				}
 			}
 
-			return $result;
-
-		}
-		elseif (!isset($authorizationMatrix[$target][$action]))
-		{
-			$this->loadPermissions(true, array(), $action);
+			if (!$found)
+			{
+				$this->loadPermissions(true, array(), $action);
+			}
 		}
 
 		return $this->calculate($target, $action, $identities);
+		*/
 
 	}
 
@@ -390,7 +441,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		}
 
 		$query->select(
-			$straightJoin . 'a.id AS searchid, a.name AS searchname,' . $prefix . '.lft AS resultid, p.permission, p.value,
+			$straightJoin . 'a.id AS searchid, a.name AS searchname, ' . $prefix . '.lft AS resultid, p.permission, p.value,
 			 ' . $this->db->qn('p') . '.' . $this->db->qn('ugroup')
 		);
 
@@ -626,11 +677,13 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		$rootAsset = $this->getRootAssetPermissions();
 
 		$authorizationMatrix = $this->authorizationMatrix;
-		$rootId = isset($rootAsset[0]->id) ? $rootAsset[0]->id : 0;
+		$rootSearchid = isset($rootAsset[0]->searchid) ? $rootAsset[0]->searchid : 1;
+		$rootResultid = isset($rootAsset[0]->resultid) ? $rootAsset[0]->resultid : 0;
 
 		foreach ($groups AS $group)
 		{
-			if (isset ($authorizationMatrix[$rootId][$rootId]['core.admin'][$group]) && $authorizationMatrix[$rootId]['core.admin'][$group] == 1)
+			if (isset ($authorizationMatrix[$rootSearchid][$rootResultid]['core.admin'][$group])
+				&& $authorizationMatrix[$rootSearchid][$rootResultid]['core.admin'][$group] == 1)
 			{
 				$root = true;
 				break;
