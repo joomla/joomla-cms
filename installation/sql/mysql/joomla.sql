@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`,`lft`,`rgt`,`name`,`rules`),
   UNIQUE KEY `idx_asset_name` (`name`),
-  KEY `idx_lft_rgt_id` (`lft`,`rgt`,`id`),
+  UNIQUE KEY `idx_lft_rgt_id` (`lft`,`rgt`,`id`),
   KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -2125,9 +2125,9 @@ CREATE TABLE `#__permissions` (
   `value` BOOL NOT NULL ,
   `ugroup` int(10) NOT NULL ,
   `assetid` int(10) unsigned NOT NULL ,
-  INDEX ( `ugroup` ),
-  INDEX ( `value` ),
-  KEY `idx_aid_per_val`( `assetid`, `permission` , `value` ),
+  KEY ( `ugroup` ),
+  KEY ( `value` ),
+  UNIQUE KEY `idx_aid_per_val`( `assetid`, `permission` , `value` ),
   UNIQUE KEY `uniq` ( `permission` , `ugroup` , `assetid` )
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT = 'Joomla permission table';
 
@@ -2189,9 +2189,9 @@ INSERT INTO `#__permissions` (`id`, `permission`, `value`, `ugroup`, `assetid`) 
 
 
 -- To be moved to change sql later and merged with tables sql
-ALTER TABLE `#__contact_details` ADD INDEX `idx_user_id` ( `user_id` );
-ALTER TABLE `#__assets` ADD INDEX `idx_id_level` ( `level` , `id` );
-ALTER TABLE `#__assets` ADD INDEX `idx_rgt` ( `rgt` );
+ALTER TABLE `#__contact_details` ADD KEY `idx_user_id` ( `user_id` );
+ALTER TABLE `#__assets` ADD KEY `idx_id_level` ( `level` , `id` );
+ALTER TABLE `#__assets` ADD UNIQUE KEY `idx_rgt_lft_id` ( `rgt` , `lft` , `id` );
 
 -- TESTING ONLY
 UPDATE `#__assets` SET `rules`='{}';
