@@ -159,7 +159,7 @@ class FieldsModelField extends JModelAdmin
 			$oldParams = $this->getParams($field->fieldparams['options']);
 			$newParams = $this->getParams($data['fieldparams']['options']);
 
-			if (true || is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
+			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
 				$names = array();
 				foreach ($newParams as $param) {
