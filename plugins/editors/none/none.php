@@ -147,31 +147,12 @@ class PlgEditorNone extends JPlugin
 	{
 		$return = '';
 
-		$onGetInsertMethodEvent = new Event(
-			'onGetInsertMethod',
-			['name' => $name]
-		);
-
-		$rawResults = $this->getDispatcher()->dispatch('onGetInsertMethod', $onGetInsertMethodEvent);
-		$results    = $rawResults['result'];
-
-		if (is_array($results) && !empty($results))
-		{
-			foreach ($results as $result)
-			{
-				if (is_string($result) && trim($result))
-				{
-					$return .= $result;
-				}
-			}
-		}
-
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttonsEvent = new Event(
 				'getButtons',
 				[
-					'name'    => $this->_name,
+					'editor'    => $name,
 					'buttons' => $buttons,
 				]
 			);

@@ -106,7 +106,7 @@ h	<div class="row">
 						</tr>
 						</tfoot>
 
-						<tbody <?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
+						<tbody <?php if ($saveOrder && $menuType) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 						<?php
 						foreach ($this->items as $i => $item) :
 							$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);

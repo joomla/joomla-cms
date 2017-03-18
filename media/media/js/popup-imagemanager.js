@@ -152,12 +152,7 @@
 				}
 			}
 
-			/** Use the API, if editor supports it **/
-			if (window.Joomla && Joomla.editors.instances.hasOwnProperty(this.editor)) {
-				Joomla.editors.instances[editor].replaceSelection(tag)
-			} else {
-				window.parent.jInsertEditorText(tag, this.editor);
-			}
+			window.parent.Joomla.editors.instances[this.editor].replaceSelection(tag);
 
 			return true;
 		},

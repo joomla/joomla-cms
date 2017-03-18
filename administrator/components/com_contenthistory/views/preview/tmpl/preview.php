@@ -28,9 +28,8 @@ JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 	<?php foreach ($this->item->data as $name => $value) : ?>
 		<tr>
 		<?php if (is_object($value->value)) : ?>
-			<td><strong><?php echo $value->label; ?></strong></td>
-			<td></td>
-			<tr>
+			<td><b><?php echo $value->label; ?></b></td>
+			<td>&nbsp;</td>
 			<?php foreach ($value->value as $subName => $subValue) : ?>
 				<?php if ($subValue) : ?>
 					<tr>
@@ -40,7 +39,7 @@ JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 				<?php endif; ?>
 			<?php endforeach; ?>
 		<?php else : ?>
-			<td><strong><?php echo $value->label; ?></strong></td>
+			<td><b><?php echo $value->label; ?></b></td>
 			<td><?php echo $value->value; ?></td>
 		<?php endif; ?>
 		</tr>
