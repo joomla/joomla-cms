@@ -66,8 +66,8 @@ $inputvalue = '';
 $attributes = array();
 
 empty($size)      ? null : $attributes['size'] = $size;
-empty($maxlength) ? null : $attributes['maxlength'] = ' maxlength="' . $maxLength . '"';
-empty($class)     ? null : $attributes['class'] = $class;
+empty($maxlength) ? null : $attributes['maxlength'] = $maxLength;
+empty($class)     ? $attributes['class'] = 'form-control' : $attributes['class'] = 'form-control ' . $class;
 !$readonly        ? null : $attributes['readonly'] = 'readonly';
 !$disabled        ? null : $attributes['disabled'] = 'disabled';
 empty($onchange)  ? null : $attributes['onchange'] = $onchange;
