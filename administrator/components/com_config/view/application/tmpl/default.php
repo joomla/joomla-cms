@@ -22,20 +22,9 @@ JText::script('ERROR');
 JText::script('WARNING');
 JText::script('NOTICE');
 JText::script('MESSAGE');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task === "config.cancel.application" || document.formvalidator.isValid(document.getElementById("application-form")))
-		{
-			jQuery("#permissions-sliders select").attr("disabled", "disabled");
-			Joomla.submitform(task, document.getElementById("application-form"));
-		}
-	};
-');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate" data-cancel-task="config.cancel.component">
 	<div class="row">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-2">
