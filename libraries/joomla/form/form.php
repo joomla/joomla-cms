@@ -1011,7 +1011,15 @@ class JForm
 			return true;
 		}
 
-		throw new UnexpectedValueException(sprintf('%s::setField we cloud not found the fieldset (%s) to add the field', get_class($this), $fieldset));
+		// We couldn't find a fieldset to add the field to so we are adding it on root level
+
+		// Add field to the form.
+		self::addNode($this->xml, $element);
+
+		// Synchronize any paths found in the load.
+		$this->syncPaths();
+
+		return true;
 	}
 
 	/**
