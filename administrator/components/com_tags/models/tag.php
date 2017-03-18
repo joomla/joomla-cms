@@ -46,7 +46,7 @@ class TagsModelTag extends JModelAdmin
 		{
 			if ($record->published != -2)
 			{
-				return;
+				return false;
 			}
 
 			return parent::canDelete($record);
