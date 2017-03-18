@@ -952,7 +952,7 @@ class JForm
 	 * @param   SimpleXMLElement  $element   The XML element object representation of the form field.
 	 * @param   string            $group     The optional dot-separated form group path on which to set the field.
 	 * @param   boolean           $replace   True to replace an existing field if one already exists.
-	 * @param   string            $fieldset	 The name of the fieldset we are set the field.
+	 * @param   string            $fieldset  The name of the fieldset we are set the field.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1064,6 +1064,7 @@ class JForm
 	 * @param   array    &$elements  The array of XML element object representations of the form fields.
 	 * @param   string   $group      The optional dot-separated form group path on which to set the fields.
 	 * @param   boolean  $replace    True to replace existing fields if they already exist.
+	 * @param   string   $fieldset   The name of the fieldset we are set the field.
 	 *
 	 * @return  boolean  True on success.
 	 *
