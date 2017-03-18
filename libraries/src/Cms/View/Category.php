@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class Category extends View
+class Category extends HtmlView
 {
 	/**
 	 * State data
