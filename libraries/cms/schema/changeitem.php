@@ -141,12 +141,6 @@ abstract class JSchemaChangeitem
 		// Get the class name
 		$serverType = $db->getServerType();
 
-		// For `mssql` server types, convert the type to `sqlsrv`
-		if ($serverType === 'mssql')
-		{
-			$serverType = 'sqlsrv';
-		}
-
 		$class = 'JSchemaChangeitem' . ucfirst($serverType);
 
 		// If the class exists, return it.
