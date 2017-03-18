@@ -76,7 +76,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
-	 * Default function. Usually would be overriden by the component
+	 * Default function. Can be overriden by the component to add custom logic
 	 */
 	Joomla.submitbutton = function( task ) {
 		var form = document.querySelectorAll( 'form.form-validate' );
