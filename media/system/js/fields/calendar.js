@@ -703,7 +703,7 @@
 			cell.className = "time time-title";
 			cell.colSpan = 1;
 			cell.style.verticalAlign = 'middle';
-			cell.innerHTML = JoomlaCalLocale.time || "&#160;";
+			cell.innerHTML = " ";
 
 			var cell1 = createElement("td", row);
 			cell1.className = "time hours-select";

@@ -36,7 +36,7 @@
 			type="category"
 			label="JCATEGORY"
 			extension="com_content"
-			description="JFIELD_CATEGORY_DESC"
+			description="JFIELD_FIELDS_CATEGORY_DESC"
 			multiple="true"
 		>
 			<option value="">JALL</option>

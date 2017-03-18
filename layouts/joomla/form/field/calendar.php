@@ -109,12 +109,12 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
             id="<?php echo $id; ?>"
             name="<?php echo $name; ?>"
 			value="<?php echo htmlspecialchars(($value != "0000-00-00 00:00:00") ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
-			<?php echo  $attributes; ?>
+			<?php echo $attributes; ?>
 			<?php !empty($hint) ? 'placeholder="' . $hint . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
 		<span class="input-group-btn">
 			<button type="button" class="<?php echo ($readonly || $disabled) ? "hidden " : ''; ?>btn btn-secondary"
-				id="<?php echo  $id; ?>_btn"
+				id="<?php echo $id; ?>_btn"
 				data-inputfield="<?php echo $id; ?>"
 				data-dayformat="<?php echo $format; ?>"
 				data-button="<?php echo $id; ?>_btn"
