@@ -10074,12 +10074,16 @@ iframe {
   position: fixed !important;
   z-index: 9999 !important;
   margin: 0 !important;
+  cursor: move;
   background-color: #90ee90;
   opacity: .8; }
   .gu-mirror.table {
     display: table; }
     .gu-mirror.table td {
       display: table-cell; }
+
+.js-draggable .sortable-handler {
+  cursor: move; }
 
 .minicolors-theme-bootstrap .minicolors-input {
   width: 120px; }
