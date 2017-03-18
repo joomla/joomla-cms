@@ -195,6 +195,7 @@ class PlgSystemDebug extends JPlugin
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
 			JHtml::_('stylesheet', 'system/debug.css', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Only if debugging is enabled for SQL query popovers.
@@ -253,13 +254,6 @@ class PlgSystemDebug extends JPlugin
 		$this->loadLanguage();
 
 		$html = array();
-
-		// Some "mousewheel protecting" JS.
-		$html[] = "<script>function toggleContainer(name)
-		{
-			var e = document.getElementById(name);// MooTools might not be available ;)
-			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
-		}</script>";
 
 		$html[] = '<div id="system-debug" class="profiler">';
 
@@ -324,7 +318,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '</div>';
 
-		echo str_replace('<div id="debug-wrapper"></div>', implode('', $html) . '<div id="debug-wrapper"></div>', $contents);
+		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
 	}
 
 	/**
@@ -426,7 +420,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html = array();
 
-		$js = "toggleContainer('dbg_container_" . $item . "');";
+		$js = "Joomla.toggleContainer('dbg_container_" . $item . "');";
 
 		$class = 'dbg-header' . $status;
 
