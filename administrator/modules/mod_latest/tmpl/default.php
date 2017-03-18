@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 		<?php foreach ($list as $i => $item) : ?>
 			<div class="row-fluid">
 				<div class="span8">
-					<?php echo JHtml::_('jgrid.published', $item->state, $i, '', false); ?>
+					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', false, 'cb', $item->publish_up, $item->publish_down); ?>
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
