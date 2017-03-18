@@ -75,7 +75,7 @@
 
 			/** On save **/
 			document.getElementById(ed.id).form.addEventListener('submit', function() {
-				Joomla.editors.instances[ed.targetElm.id].onSave();
+				return Joomla.editors.instances[ed.targetElm.id].onSave();
 			})
 		}
 
