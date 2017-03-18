@@ -114,38 +114,23 @@ class ContactModelCategory extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$user = JFactory::getUser();
+		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		// Select required fields from the categories.
-		// Changes for sqlsrv
-		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('a.alias', '!=', '0');
-		$case_when .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
-		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-		$case_when .= ' ELSE ';
-		$case_when .= $a_id . ' END as slug';
-
-		$case_when1 = ' CASE WHEN ';
-		$case_when1 .= $query->charLength('c.alias', '!=', '0');
-		$case_when1 .= ' THEN ';
-		$c_id = $query->castAsChar('c.id');
-		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-		$case_when1 .= ' ELSE ';
-		$case_when1 .= $c_id . ' END as catslug';
-		$query->select($this->getState('list.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
+		$query->select($this->getState('list.select', 'a.*'))
+			->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
+			->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 		/**
 		 * TODO: we actually should be doing it but it's wrong this way
 		 *	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 		 *	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
 		 */
-			->from($db->quoteName('#__contact_details') . ' AS a')
-			->join('LEFT', '#__categories AS c ON c.id = a.catid')
+			->from($db->quoteName('#__contact_details', 'a'))
+			->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 			->where('a.access IN (' . $groups . ')');
 
 		// Filter by category.
@@ -158,9 +143,8 @@ class ContactModelCategory extends JModelList
 		// Join over the users for the author and modified_by names.
 		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
 			->select('ua.email AS author_email')
-
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
-			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
+			->leftJoin($db->quoteName('#__users', 'ua') . ' ON ua.id = a.created_by')
+			->leftJoin($db->quoteName('#__users', 'uam') . ' ON uam.id = a.modified_by');
 
 		// Filter by state
 		$state = $this->getState('filter.published');
@@ -403,6 +387,25 @@ class ContactModelCategory extends JModelList
 		}
 
 		return $this->_children;
+	}
+
+	/**
+	* Generate column expression for slug or catslug.
+	*
+	* @param   JDatabaseQuery  $query  Current query instance.
+	* @param   string          $id     Column id name.
+	* @param   string          $alias  Column alias name.
+	*
+	* @return  string
+	*/
+	private function getSlugColumn($query, $id, $alias)
+	{
+		return 'CASE WHEN '
+			. $query->charLength($alias, '!=', '0')
+			. ' THEN '
+			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
+			.' ELSE '
+			. $id . ' END';
 	}
 
 	/**

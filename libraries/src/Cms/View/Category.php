@@ -176,7 +176,7 @@ class Category extends View
 			foreach ($items as $itemElement)
 			{
 				$itemElement = (object) $itemElement;
-				$itemElement->event = new stdClass;
+				$itemElement->event = new \stdClass;
 
 				// For some plugins.
 				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
