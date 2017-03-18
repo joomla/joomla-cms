@@ -5,6 +5,19 @@
 		label="COM_CONFIG_CACHE_SETTINGS_LABEL">
 
 		<field
+				name="caching"
+				type="list"
+				label="COM_CONFIG_FIELD_CACHE_LABEL"
+				description="COM_CONFIG_FIELD_CACHE_DESC"
+				default="2"
+				filter="integer"
+		>
+			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
+			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
+			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
+		</field>
+
+		<field
 			name="cache_handler"
 			type="cachehandler"
 			default=""
@@ -45,7 +58,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_CACHE_PATH_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_PATH_DESC"
-			showon="cache_handler:file"
+			showon="cache_handler:file[AND]caching:1,2"
 			filter="string"
 			size="50"
 		/>
@@ -228,6 +241,7 @@
 			filter="integer"
 			validate="number"
 			size="6"
+			showon="caching:1,2"
 		/>
 
 		<field
@@ -238,24 +252,11 @@
 			class="switcher"
 			default="0"
 			filter="integer"
+			showon="caching:1,2"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
-		<field
-			name="caching"
-			type="list"
-			label="COM_CONFIG_FIELD_CACHE_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_DESC"
-			default="2"
-			filter="integer"
-		>
-			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
-			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
-			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
-		</field>
-
 	</fieldset>
 
 	<fieldset
