@@ -138,7 +138,7 @@ class JApplicationWebTest extends TestCase
 	{
 		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Application\\Web\\WebClient', 'client', $this->class);
 
 		// TODO Test that configuration data loaded.
 
@@ -182,7 +182,7 @@ class JApplicationWebTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+		$mockClient = $this->getMockBuilder('\\Joomla\\Application\\Web\\WebClient')
 					->setMethods(array('test'))
 					->setConstructorArgs(array())
 					->setMockClassName('')
@@ -497,7 +497,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -584,7 +584,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::TRIDENT,
+				'engine' => WebClient::TRIDENT,
 			)
 		);
 
@@ -615,7 +615,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -671,7 +671,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 

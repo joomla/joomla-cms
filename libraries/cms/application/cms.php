@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Web\WebClient;
 use Joomla\Cms\Event\AbstractEvent;
 use Joomla\Cms\Event\BeforeExecuteEvent;
 use Joomla\DI\Container;
@@ -157,20 +158,20 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input      An optional argument to provide dependency injection for the application's
-	 *                                             input object.  If the argument is a JInput object that object will become
-	 *                                             the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config     An optional argument to provide dependency injection for the application's
-	 *                                             config object.  If the argument is a Registry object that object will become
-	 *                                             the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client     An optional argument to provide dependency injection for the application's
-	 *                                             client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                                             the application's client object, otherwise a default client object is created.
-	 * @param   Container              $container  Dependency injection container.
+	 * @param   JInput $input          An optional argument to provide dependency injection for the application's input
+	 *                                 object.  If the argument is a JInput object that object will become the
+	 *                                 application's input object, otherwise a default input object is created.
+	 * @param   Registry $config       An optional argument to provide dependency injection for the application's config
+	 *                                 object.  If the argument is a Registry object that object will become the
+	 *                                 application's config object, otherwise a default config object is created.
+	 * @param   WebClient $client      An optional argument to provide dependency injection for the application's client
+	 *                                 object.  If the argument is a WebClient object that object will become the
+	 *                                 application's client object, otherwise a default client object is created.
+	 * @param   Container  $container  Dependency injection container.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
+	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		$container = $container ?: new Container;
 		$this->setContainer($container);
