@@ -84,9 +84,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		if (form.length > 0) {
 			for (var i = 0, j = form.length; i < j; i++) {
 				var pressbutton = task.split('.'),
-				    cancelTask = form[i].getAttribute( 'data-cancel-task' ),
-				    permContainer = form[i].getAttribute( 'data-permissions-selector' ),
-				    skipPermissionsValidation = form[i].getAttribute( 'data-skip-permissions' );
+				    cancelTask = form[i].getAttribute( 'data-cancel-task' );
 
 				if (!cancelTask) {
 					cancelTask = pressbutton[0] + '.cancel';
@@ -94,19 +92,6 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 				if ((task == cancelTask ) || document.formvalidator.isValid( form[i] ))
 				{
-					if ( skipPermissionsValidation ) {
-
-						if ( !permContainer ) {
-							permContainer = '#permissions-sliders'
-						}
-
-						var i, items = document.querySelectorAll( permContainer + ' select'), l = items.length;
-
-						for (i = 0, l; i < l; i++) {
-							items[i].setAttribute('disabled', 'disabled');
-						}
-					}
-
 					Joomla.submitform( task, form[i] );
 				}
 			}
