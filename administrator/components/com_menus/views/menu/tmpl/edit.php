@@ -18,7 +18,7 @@ JHtml::_('behavior.tabstate');
 
 JText::script('ERROR');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
