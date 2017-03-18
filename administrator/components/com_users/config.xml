@@ -257,25 +257,25 @@
 		<field
 			name="debugUsers"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			label="COM_USERS_DEBUG_USERS_LABEL"
 			description="COM_USERS_DEBUG_USERS_DESC"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="debugGroups"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			label="COM_USERS_DEBUG_GROUPS_LABEL"
 			description="COM_USERS_DEBUG_GROUPS_DESC"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>
