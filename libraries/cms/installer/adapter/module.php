@@ -374,9 +374,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$this->extension->client_id = $this->clientId;
 			$this->extension->params    = $this->parent->getParams();
 
-			// Custom data
-			$this->extension->custom_data    = '';
-			$this->extension->system_data    = '';
+			// Update the manifest cache for the entry
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			if (!$this->extension->store())
