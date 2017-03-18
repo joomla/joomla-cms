@@ -3,9 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Rule for the standard handling of component routing
@@ -36,11 +38,11 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 
 	/**
 	 * Dummymethod to fullfill the interface requirements
-	 * 
+	 *
 	 * @param   array  &$query  The query array to process
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.4
 	 */
 	public function preprocess(&$query)
@@ -279,7 +281,11 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 						$i--;
 						$found2 = false;
 					}
-					$found = true;
+
+					if (count($views[$view]->children))
+					{
+						$found = true;
+					}
 				}
 			}
 			unset($query[$views[$view]->parent_key]);

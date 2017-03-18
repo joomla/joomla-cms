@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,6 +35,14 @@ class JFormFieldTinymceBuilder extends JFormField
 	protected $layout = 'plugins.editors.tinymce.field.tinymcebuilder';
 
 	/**
+	 * The prepared layout data
+	 *
+	 * @var    array
+	 * @since  3.7.0
+	 */
+	protected $layoutData = array();
+
+	/**
 	 * Method to get the data to be passed to the layout for rendering.
 	 *
 	 * @return  array
@@ -43,9 +51,19 @@ class JFormFieldTinymceBuilder extends JFormField
 	 */
 	protected function getLayoutData()
 	{
+		if (!empty($this->layoutData))
+		{
+			return $this->layoutData;
+		}
+
 		$data       = parent::getLayoutData();
 		$paramsAll  = (object) $this->form->getValue('params');
 		$setsAmount = empty($paramsAll->sets_amount) ? 3 : $paramsAll->sets_amount;
+
+		if (empty($data['value']))
+		{
+			$data['value'] = array();
+		}
 
 		// Get the plugin
 		require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
@@ -72,8 +90,6 @@ class JFormFieldTinymceBuilder extends JFormField
 			$data['setsNames'][$i] = JText::sprintf('PLG_TINY_SET_TITLE', $i);
 		}
 
-		krsort($data['setsNames']);
-
 		// Prepare the forms for each set
 		$setsForms  = array();
 		$formsource = JPATH_PLUGINS . '/editors/tinymce/form/setoptions.xml';
@@ -92,6 +108,10 @@ class JFormFieldTinymceBuilder extends JFormField
 			}
 		}
 
+		// Collect already used groups
+		$groupsInUse = array();
+
+		// Prepare the Set forms, for the set options
 		foreach (array_keys($data['setsNames']) as $num)
 		{
 			$formname = 'set.form.' . $num;
@@ -109,16 +129,30 @@ class JFormFieldTinymceBuilder extends JFormField
 				 * Set 0: for Administrator, Editor, Super Users (4,7,8)
 				 * Set 1: for Registered, Manager (2,6), all else are public
 				 */
-				$formValues->access = !$num ? array(4,7,8) : ($num === 1 ? array(2,6) : 1);
+				$formValues->access = !$num ? array(4,7,8) : ($num === 1 ? array(2,6) : array());
+
+				// Assign Public to the new Set, but only when it not in use already
+				if (empty($formValues->access) && !in_array(1, $groupsInUse))
+				{
+					$formValues->access = array(1);
+				}
 			}
 			else
 			{
-				$formValues = $this->value['setoptions'][$num];
+				$formValues = (object) $this->value['setoptions'][$num];
+			}
+
+			// Collect already used groups
+			if (!empty($formValues->access))
+			{
+				$groupsInUse = array_merge($groupsInUse, $formValues->access);
 			}
 
 			// Bind the values
 			$setsForms[$num]->bind($formValues);
 		}
+
+		krsort($data['setsNames']);
 
 		$data['setsForms'] = $setsForms;
 
@@ -137,6 +171,8 @@ class JFormFieldTinymceBuilder extends JFormField
 		{
 			$data['languageFile'] = $languageFile2;
 		}
+
+		$this->layoutData = $data;
 
 		return $data;
 	}

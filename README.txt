@@ -50,7 +50,7 @@
 	* Find the information you need: https://docs.joomla.org/Start_here
 	* Find help and other users: https://www.joomla.org/about-joomla/create-and-share.html
 	* Post questions at our forums: https://forum.joomla.org
-	* Joomla! Resources Directory (JRD): http://resources.joomla.org/
+	* Joomla! Resources Directory (JRD): https://resources.joomla.org/
 
 11- Do you already have a Joomla! site that's not built with Joomla! 3.x ?
 	* What's new in Joomla! 3.x: https://www.joomla.org/3
@@ -66,7 +66,7 @@
 	* Documentation for Web designers: https://docs.joomla.org/Web_designers
 
 Copyright:
-	* Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+	* Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
 	* Special Thanks: https://docs.joomla.org/Joomla!_Credits_and_Thanks
 	* Distributed under the GNU General Public License version 2 or later
 	* See Licenses details at https://docs.joomla.org/Joomla_Licenses

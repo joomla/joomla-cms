@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -198,7 +198,7 @@
 			$el.attr('name', nameNew);
 			// set new id
 			$el.attr('id', idNew);
-			// guess there a lable for this input
+			// guess there a label for this input
 			$row.find('label[for="' + forOldAttr + '"]').attr('for', idNew);
 		}
 	};

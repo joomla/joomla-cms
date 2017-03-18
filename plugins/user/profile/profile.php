@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,7 +133,7 @@ class PlgUserProfile extends JPlugin
 	/**
 	 * Returns an anchor tag generated from a given value
 	 *
-	 * @param   string  $value  url to use
+	 * @param   string  $value  URL to use
 	 *
 	 * @return mixed|string
 	 */
@@ -145,7 +145,7 @@ class PlgUserProfile extends JPlugin
 		}
 		else
 		{
-			// Convert website url to utf8 for display
+			// Convert website URL to utf8 for display
 			$value = JStringPunycode::urlToUTF8(htmlspecialchars($value));
 
 			if (substr($value, 0, 4) === 'http')

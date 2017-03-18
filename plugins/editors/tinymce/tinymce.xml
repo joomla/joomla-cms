@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>4.5.0</version>
-	<creationDate>2005-2016</creationDate>
+	<version>4.5.5</version>
+	<creationDate>2005-2017</creationDate>
 	<author>Ephox Corporation</author>
 	<authorEmail>N/A</authorEmail>
 	<authorUrl>http://www.tinymce.com</authorUrl>

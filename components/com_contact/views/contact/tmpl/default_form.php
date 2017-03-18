@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,9 +26,6 @@ JHtml::_('behavior.formvalidator');
 						<legend><?php echo $legend; ?></legend>
 					<?php endif; ?>
 					<?php foreach ($fields as $field) : ?>
-						<?php if ($field->name === 'contact_email_copy' && !$this->params->get('show_email_copy')) : ?>
-							<?php continue; ?>
-						<?php endif; ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</fieldset>

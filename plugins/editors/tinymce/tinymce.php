@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,8 @@ class PlgEditorTinymce extends JPlugin
 {
 	/**
 	 * Base path for editor files
+	 *
+	 * @since  3.5
 	 */
 	protected $_basePath = 'media/editors/tinymce';
 
@@ -40,52 +42,64 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Initialises the Editor.
 	 *
-	 * @return  string  JavaScript Initialization string
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
 	public function onInit()
 	{
+		JHtml::_('behavior.core');
 		JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 		JHtml::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
-		JHtml::_('script', 'system/tinymce-init.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'editors/tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
 	 * TinyMCE WYSIWYG Editor - get the editor content
 	 *
-	 * @param   string  $editor  The name of the editor
+	 * @param   string  $id  The name of the editor
+	 *
+	 * @since   1.5
 	 *
 	 * @return  string
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
-	public function onGetContent($editor)
+	public function onGetContent($id)
 	{
-		return 'tinyMCE.activeEditor.getContent();';
+		return 'Joomla.editors.instances[' . json_encode($id) . '].getValue();';
 	}
 
 	/**
 	 * TinyMCE WYSIWYG Editor - set the editor content
 	 *
-	 * @param   string  $editor  The name of the editor
-	 * @param   string  $html    The html to place in the editor
+	 * @param   string  $id    The name of the editor
+	 * @param   string  $html  The html to place in the editor
+	 *
+	 * @since   1.5
 	 *
 	 * @return  string
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
-	public function onSetContent($editor, $html)
+	public function onSetContent($id, $html)
 	{
-		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
+		return 'Joomla.editors.instances[' . json_encode($id) . '].setValue(' . json_encode($html) . ');';
 	}
 
 	/**
 	 * TinyMCE WYSIWYG Editor - copy editor content to form field
 	 *
-	 * @param   string  $editor  The name of the editor
+	 * @param   string  $id  The name of the editor
 	 *
-	 * @return  string
+	 * @since   1.5
+	 *
+	 * @return  void
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
-	public function onSave($editor)
+	public function onSave($id)
 	{
-		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
 	}
 
 	/**
@@ -93,13 +107,14 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @param   string  $name  The name of the editor
 	 *
-	 * @return  void
+	 * @since   1.5
+	 *
+	 * @return  string
 	 *
 	 * @deprecated 3.5 tinyMCE (API v4) will get the content automatically from the text area
 	 */
 	public function onGetInsertMethod($name)
 	{
-		return;
 	}
 
 	/**
@@ -167,7 +182,7 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->content = $content;
 
 		// Render Editor markup
-		$editor = '<div class="editor">';
+		$editor = '<div class="js-editor-tinymce">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
@@ -541,7 +556,7 @@ class PlgEditorTinymce extends JPlugin
 			// Add them to the first toolbar
 			$toolbar1 = array_merge($toolbar1, array('|'), $btnsNames);
 
-			JHtml::_('script', 'system/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+			JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
 		}
 
 		// Drag and drop Images
@@ -626,6 +641,7 @@ class PlgEditorTinymce extends JPlugin
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
 			'importcss_append'   => true,
+			'image_title'        => true,
 			'height'             => $html_height,
 			'width'              => $html_width,
 			'resize'             => $resizing,
@@ -1152,7 +1168,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  int  The plugin id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function getPluginId()
 	{
@@ -1183,7 +1199,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	private function onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
 	{
@@ -1244,7 +1260,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// Set the selected skin
 		$skin = 'lightgray';
-		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
+		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
 		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
@@ -1821,7 +1837,7 @@ class PlgEditorTinymce extends JPlugin
 								. '&' . JSession::getFormToken() . '=1'
 								. '&asset=image&format=json';
 
-			if ($app->isSite())
+			if ($app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}
@@ -1931,7 +1947,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				$scriptOptions['menubar']  = false;
-				$scriptOptions['toolbar1'] = 'bold italics underline strikethrough | undo redo | bullist numlist | code | ' . $toolbar5;
+				$scriptOptions['toolbar1'] = 'bold italic underline strikethrough | undo redo | bullist numlist | code | ' . $toolbar5;
 				$scriptOptions['plugins']  = $dragDropPlg . ' code';
 
 				break;

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class SearchController extends JControllerLegacy
 	 * Method to display a view.
 	 *
 	 * @param   bool  $cachable   If true, the view output will be cached
-	 * @param   bool  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JControllerLegacy This object to support chaining.
 	 *
@@ -86,7 +86,7 @@ class SearchController extends JControllerLegacy
 		$item = $menu->getItem($post['Itemid']);
 
 		// The requested Item is not a search page so we need to find one
-		if ($item->component != 'com_search' || $item->query['view'] != 'search')
+		if ($item && ($item->component != 'com_search' || $item->query['view'] != 'search'))
 		{
 			// Get item based on component, not link. link is not reliable.
 			$item = $menu->getItems('component', 'com_search', true);

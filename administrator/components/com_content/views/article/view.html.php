@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,11 +57,6 @@ class ContentViewArticle extends JViewLegacy
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			// TODO: This is really dogy - should change this one day.
-			$eName = JFactory::getApplication()->input->getCmd('e_name');
-			$eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
-			$this->document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
-			$this->eName = &$eName;
 
 			return parent::display($tpl);
 		}

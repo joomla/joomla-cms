@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -24,6 +24,9 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
+
+// The category object of the component
+$category = JCategories::getInstance(str_replace('com_', '', $component));
 
 if ($saveOrder)
 {
@@ -142,21 +145,20 @@ if ($saveOrder)
 										<?php endif; ?>
 									</span>
 									<div class="small">
-										<?php echo JText::_('JCATEGORY') . ': '; ?>
-										<?php if ($categories = FieldsHelper::getAssignedCategoriesTitles($item->id)) : ?>
-											<?php echo implode(', ', $categories); ?>
-										<?php else: ?>
-											<?php echo JText::_('JALL'); ?>
+										<?php if ($category) : ?>
+											<?php echo JText::_('JCATEGORY') . ': '; ?>
+											<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
+											<?php if ($categories) : ?>
+												<?php echo implode(', ', $categories); ?>
+											<?php else : ?>
+												<?php echo JText::_('JALL'); ?>
+											<?php endif; ?>
 										<?php endif; ?>
 									</div>
 								</div>
 							</td>
 							<td class="small">
-								<?php $label = 'COM_FIELDS_TYPE_' . strtoupper($item->type); ?>
-								<?php if (!JFactory::getLanguage()->hasKey($label)) : ?>
-									<?php $label = Joomla\String\StringHelper::ucfirst($item->type); ?>
-								<?php endif; ?>
-								<?php echo $this->escape(JText::_($label)); ?>
+								<?php echo $this->escape($item->type); ?>
 							</td>
 							<td>
 								<?php echo $this->escape($item->group_title); ?>

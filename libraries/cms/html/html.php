@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -384,7 +384,7 @@ abstract class JHtml
 
 				/*
 				 * Loop on 1 or 2 files and break on first found.
-				 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+				 * Add the content of the MD5SUM file located in the same folder to URL to ensure cache browser refresh
 				 * This MD5SUM file must represent the signature of the folder content
 				 */
 				foreach ($files as $file)
@@ -529,7 +529,7 @@ abstract class JHtml
 
 				/*
 				 * Loop on 1 or 2 files and break on first found.
-				 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+				 * Add the content of the MD5SUM file located in the same folder to URL to ensure cache browser refresh
 				 * This MD5SUM file must represent the signature of the folder content
 				 */
 				foreach ($files as $file)
@@ -1026,6 +1026,13 @@ abstract class JHtml
 		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
 		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
 		$class        = isset($attribs['class']) ? $attribs['class'] : '';
+		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
+
+		$showTime     = !empty($showTime) ? ($showTime === 'true' ? "1" : "0") : "1";
+		$todayBtn     = !empty($todayBtn) ? ($todayBtn === 'true' ? "1" : "0") : "1";
+		$weekNumbers  = !empty($weekNumbers) ? ($weekNumbers === 'true' ? "1" : "0") : "0";
+		$fillTable    = !empty($fillTable) ? ($fillTable === 'true' ? "1" : "0") : "1";
+		$singleHeader = !empty($singleHeader) ? ($singleHeader === 'true' ? "1" : "0") : "0";
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
@@ -1063,7 +1070,8 @@ abstract class JHtml
 			'helperPath'   => $helperPath,
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
-			);
+			'onchange'     => $onchange,
+		);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
 	}

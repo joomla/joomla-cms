@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,6 +75,38 @@ jQuery(document).ready(function($){
 		$('#folderModal input.address').val($(this).attr('data-id'));
 		$(this).addClass('selected');
 	});
+
+	var containerDiv = document.querySelector('.span3.tree-holder'),
+		treeContainer = containerDiv.querySelector('.nav.nav-list'),
+		liEls = treeContainer.querySelectorAll('.folder.show'),
+		filePathEl = document.querySelector('p.lead.hidden.path');
+
+	if(filePathEl)
+		var filePathTmp = document.querySelector('p.lead.hidden.path').innerText;
+
+	 if(filePathTmp && filePathTmp.charAt( 0 ) === '/' ) {
+			filePathTmp = filePathTmp.slice( 1 );
+			filePathTmp = filePathTmp.split('/');
+			filePathTmp = filePathTmp[filePathTmp.length - 1];
+			var re = new RegExp( filePathTmp );
+
+		for (var i = 0, l = liEls.length; i < l; i++) {
+			liEls[i].querySelector('a').classList.add('active');
+			if (i === liEls.length - 1) {
+				var parentUl = liEls[i].querySelector('ul'),
+					allLi = parentUl.querySelectorAll('li'); 
+	
+				for (var i = 0, l = allLi.length; i < l; i++) {
+					aEl = allLi[i].querySelector('a'),
+					spanEl = aEl.querySelector('span');
+	
+					if (spanEl && re.test(spanEl.innerText)) {
+						aEl.classList.add('active');
+					}
+				}
+			}
+		}
+	}
 });");
 
 if ($this->type == 'image')
@@ -171,13 +203,18 @@ if ($this->type == 'font')
 <div class="row-fluid">
 	<div class="span12">
 		<?php if ($this->type == 'file') : ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
 		<?php endif; ?>
 		<?php if ($this->type == 'image') : ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
+
 		<?php endif; ?>
 		<?php if ($this->type == 'font') : ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
+
 		<?php endif; ?>
 	</div>
 </div>

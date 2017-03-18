@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -260,7 +260,11 @@ class FieldsModelField extends JModelAdmin
 			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 		}
 
-		return JTable::getInstance($name, $prefix, $options);
+		// Default to text type
+		$table       = JTable::getInstance($name, $prefix, $options);
+		$table->type = 'text';
+
+		return $table;
 	}
 
 	/**
@@ -363,12 +367,21 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
+		if (isset($data['type']))
+		{
+			// This is needed that the plugins can determine the type
+			$this->setState('field.type', $data['type']);
+		}
+
+		// Load the fields plugin that they can add additional parameters to the form
+		JPluginHelper::importPlugin('fields');
+
 		// Get the form.
 		$form = $this->loadForm(
 			'com_fields.field' . $context, 'field',
 			array(
 				'control'   => 'jform',
-				'load_data' => $loadData,
+				'load_data' => true,
 			)
 		);
 
@@ -381,11 +394,6 @@ class FieldsModelField extends JModelAdmin
 		if (empty($data['context']))
 		{
 			$data['context'] = $context;
-		}
-
-		if (isset($data['type']))
-		{
-			$this->loadTypeForms($form, $data['type']);
 		}
 
 		$fieldId  = $jinput->get('id');
@@ -403,31 +411,6 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		return $form;
-	}
-
-	/**
-	 * Load the form declaration for the type.
-	 *
-	 * @param   JForm   &$form  The form
-	 * @param   string  $type   The type
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	private function loadTypeForms(JForm &$form, $type)
-	{
-		FieldsHelper::loadPlugins();
-
-		$type = JFormHelper::loadFieldType($type);
-
-		// Load all children that's why we need to define the xpath
-		if (!($type instanceof JFormDomfieldinterface))
-		{
-			return;
-		}
-
-		$form->load($type->getFormParameters(), true, '/form/*');
 	}
 
 	/**
@@ -719,21 +702,18 @@ class FieldsModelField extends JModelAdmin
 			{
 				// Check for which context the Category Manager is used and
 				// get selected fields
-				$context   = substr($app->getUserState('com_fields.fields.filter.context'), 4);
-				$component = FieldsHelper::extract($context);
-				$component = $component ? $component[0] : null;
+				$filters = (array) $app->getUserState('com_fields.fields.filter');
 
-				$filters = (array) $app->getUserState('com_fields.fields.' . $component . '.filter');
-
-				$data->set('published', $app->input->getInt('published', (!empty($filters['published']) ? $filters['published'] : null)));
+				$data->set('state', $app->input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
 					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))
 				);
 
 				// Set the type if available from the request
-				$data->set('type', $app->input->getWord('type', $data->get('type')));
+				$data->set('type', $app->input->getWord('type', $this->state->get('field.type', $data->get('type'))));
 			}
 
 			if ($data->label && !isset($data->params['label']))
@@ -772,8 +752,6 @@ class FieldsModelField extends JModelAdmin
 
 		if (isset($dataObject->type))
 		{
-			$this->loadTypeForms($form, $dataObject->type);
-
 			$form->setFieldAttribute('type', 'component', $component);
 
 			// Not allowed to change the type of an existing record

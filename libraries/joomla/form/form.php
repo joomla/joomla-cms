@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1298,7 +1298,16 @@ class JForm
 					$offset = JFactory::getConfig()->get('offset');
 
 					// Return an SQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
+					try
+					{
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 'warning');
+
+						$return = '';
+					}
 				}
 				else
 				{
@@ -1331,7 +1340,16 @@ class JForm
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 
 					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
+					try
+					{
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 'warning');
+
+						$return = '';
+					}
 				}
 				else
 				{
@@ -1498,10 +1516,20 @@ class JForm
 					$return = call_user_func($filter, $value);
 				}
 
-				// Filter using JFilterInput. All HTML code is filtered by default.
+				// Check for empty value and return empty string if no value is required,
+				// otherwise filter using JFilterInput. All HTML code is filtered by default.
 				else
 				{
-					$return = JFilterInput::getInstance()->clean($value, $filter);
+					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+					if (($value === '' || $value === null) && ! $required)
+					{
+						$return = '';
+					}
+					else
+					{
+						$return = JFilterInput::getInstance()->clean($value, $filter);
+					}
 				}
 				break;
 		}

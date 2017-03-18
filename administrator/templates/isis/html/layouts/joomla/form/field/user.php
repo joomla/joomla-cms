@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,9 +111,9 @@ if (!$readonly)
 				'bootstrap.renderModal',
 				'userModal_' . $id,
 				array(
-					'title' => JText::_('JLIB_FORM_CHANGE_USER'),
+					'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
 					'closeButton' => true,
-					'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
+					'footer'      => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>',
 				)
 			); ?>
 		<?php endif; ?>
