@@ -81,7 +81,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	Joomla.submitbutton = function( task ) {
 		var form = document.querySelectorAll( 'form.form-validate' );
 
-		if (form) {
+		if (form.length > 0) {
 			for (var i = 0, j = form.length; i < j; i++) {
 				var pressbutton = task.split('.'),
 				    cancelTask = form[i].getAttribute( 'data-cancel-task' ),
