@@ -92,25 +92,25 @@ if ($saveOrder)
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></i>
+								<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?></span></i>
+								<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?></span></i>
+								<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?></span></i>
+								<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
