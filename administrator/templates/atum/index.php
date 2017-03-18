@@ -254,6 +254,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 
 		</div>
 
+		<div id="debug-wrapper"></div>
 		<jdoc:include type="modules" name="debug" style="none" />
 
 	</div>

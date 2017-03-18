@@ -324,7 +324,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '</div>';
 
-		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
+		echo str_replace('<div id="debug-wrapper"></div>', implode('', $html) . '<div id="debug-wrapper"></div>', $contents);
 	}
 
 	/**
@@ -616,8 +616,8 @@ class PlgSystemDebug extends JPlugin
 			$totalTime += $mark->time;
 			$totalMem += (float) $mark->memory;
 			$htmlMark = sprintf(
-				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="label label-default">%.2f&nbsp;ms</span>'
-				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label label-default">%0.2f MB</span>'
+				JText::_('PLG_DEBUG_TIME') . ': <span class="badge badge-time">%.2f&nbsp;ms</span> / <span class="badge badge-default">%.2f&nbsp;ms</span>'
+				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="badge badge-memory">%0.3f MB</span> / <span class="badge badge-default">%0.2f MB</span>'
 				. ' %s: %s',
 				$mark->time,
 				$mark->totalTime,
@@ -642,34 +642,34 @@ class PlgSystemDebug extends JPlugin
 		{
 			if ($mark->time > $avgTime * 1.5)
 			{
-				$barClass = 'bar-danger';
-				$labelClass = 'label-important label-danger';
+				$barClass = 'bg-danger';
+				$labelClass = 'badge-danger';
 			}
 			elseif ($mark->time < $avgTime / 1.5)
 			{
-				$barClass = 'bar-success';
-				$labelClass = 'label-success';
+				$barClass = 'bg-success';
+				$labelClass = 'badge-success';
 			}
 			else
 			{
-				$barClass = 'bar-warning';
-				$labelClass = 'label-warning';
+				$barClass = 'bg-warning';
+				$labelClass = 'badge-warning';
 			}
 
 			if ($mark->memory > $avgMem * 1.5)
 			{
-				$barClassMem = 'bar-danger';
-				$labelClassMem = 'label-important label-danger';
+				$barClassMem = 'bg-danger';
+				$labelClassMem = 'badge-danger';
 			}
 			elseif ($mark->memory < $avgMem / 1.5)
 			{
-				$barClassMem = 'bar-success';
-				$labelClassMem = 'label-success';
+				$barClassMem = 'bg-success';
+				$labelClassMem = 'badge-success';
 			}
 			else
 			{
-				$barClassMem = 'bar-warning';
-				$labelClassMem = 'label-warning';
+				$barClassMem = 'bg-warning';
+				$labelClassMem = 'badge-warning';
 			}
 
 			$barClass .= " progress-$barClass";
@@ -687,7 +687,7 @@ class PlgSystemDebug extends JPlugin
 				'tip' => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
 			);
 
-			$htmlMarks[] = '<div>' . str_replace('label-time', $labelClass, str_replace('label-memory', $labelClassMem, $mark->html)) . '</div>';
+			$htmlMarks[] = '<div>' . str_replace('badge-time', $labelClass, str_replace('badge-memory', $labelClassMem, $mark->html)) . '</div>';
 		}
 
 		$html[] = '<h4>' . JText::_('PLG_DEBUG_TIME') . '</h4>';
@@ -729,20 +729,20 @@ class PlgSystemDebug extends JPlugin
 
 				if ($totalQueryTime > ($totalTime * 0.25))
 				{
-					$labelClass = 'label-important';
+					$labelClass = 'badge-important';
 				}
 				elseif ($totalQueryTime < ($totalTime * 0.15))
 				{
-					$labelClass = 'label-success';
+					$labelClass = 'badge-success';
 				}
 				else
 				{
-					$labelClass = 'label-warning';
+					$labelClass = 'badge-warning';
 				}
 
 				$html[] = '<br><div>' . JText::sprintf(
 						'PLG_DEBUG_QUERIES_TIME',
-						sprintf('<span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
+						sprintf('<span class="badge ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
 
 				if ($this->params->get('log-executed-sql', '0'))
@@ -766,8 +766,8 @@ class PlgSystemDebug extends JPlugin
 	{
 		$bytes = memory_get_usage();
 
-		return '<span class="label label-default">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="label label-default">'
+		return '<span class="badge badge-default">' . JHtml::_('number.bytes', $bytes) . '</span>'
+			. ' (<span class="badge badge-default">'
 			. number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))
 			. ' '
 			. JText::_('PLG_DEBUG_BYTES')
@@ -882,18 +882,18 @@ class PlgSystemDebug extends JPlugin
 				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN.
 				if ($timeScore > 10)
 				{
-					$barClass = 'bar-danger';
-					$labelClass = 'label-important';
+					$barClass = 'bg-danger';
+					$labelClass = 'badge-danger';
 				}
 				elseif ($hasWarnings || $timeScore > 5)
 				{
-					$barClass = 'bar-warning';
-					$labelClass = 'label-warning';
+					$barClass = 'bg-warning';
+					$labelClass = 'badge-warning';
 				}
 				else
 				{
-					$barClass = 'bar-success';
-					$labelClass = 'label-success';
+					$barClass = 'bg-success';
+					$labelClass = 'badge-success';
 				}
 
 				// Computes bargraph as follows: Position begin and end of the bar relatively to whole execution time.
@@ -1023,7 +1023,7 @@ class PlgSystemDebug extends JPlugin
 				$htmlTiming .= JText::sprintf(
 						'PLG_DEBUG_QUERY_TIME',
 						sprintf(
-							'<span class="label %s">%.2f&nbsp;ms</span>',
+							'<span class="badge %s">%.2f&nbsp;ms</span>',
 							$info[$id]->class,
 							$timing[$id]['0']
 						)
@@ -1032,7 +1032,7 @@ class PlgSystemDebug extends JPlugin
 				if ($timing[$id]['1'])
 				{
 					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST',
-							sprintf('<span class="label label-default">%.2f&nbsp;ms</span>', $timing[$id]['1'])
+							sprintf('<span class="badge badge-default">%.2f&nbsp;ms</span>', $timing[$id]['1'])
 						);
 				}
 
@@ -1046,20 +1046,20 @@ class PlgSystemDebug extends JPlugin
 					// Determine colour of query memory usage.
 					if ($memoryUsed > 0.1 * $memoryUsageNow)
 					{
-						$labelClass = 'label-important';
+						$labelClass = 'badge-danger';
 					}
 					elseif ($memoryUsed > 0.05 * $memoryUsageNow)
 					{
-						$labelClass = 'label-warning';
+						$labelClass = 'badge-warning';
 					}
 					else
 					{
-						$labelClass = 'label-success';
+						$labelClass = 'badge-success';
 					}
 
 					$htmlTiming .= ' ' . '<span class="dbg-query-memory">' . JText::sprintf('PLG_DEBUG_MEMORY_USED_FOR_QUERY',
-							sprintf('<span class="label ' . $labelClass . '">%.3f&nbsp;MB</span>', $memoryUsed / 1048576),
-							sprintf('<span class="label label-default">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576)
+							sprintf('<span class="badge ' . $labelClass . '">%.3f&nbsp;MB</span>', $memoryUsed / 1048576),
+							sprintf('<span class="badge badge-default">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576)
 						)
 						. '</span>';
 
@@ -1070,11 +1070,11 @@ class PlgSystemDebug extends JPlugin
 
 						if ($resultsReturned > 3000)
 						{
-							$labelClass = 'label-important';
+							$labelClass = 'badge-danger';
 						}
 						elseif ($resultsReturned > 1000)
 						{
-							$labelClass = 'label-warning';
+							$labelClass = 'badge-warning';
 						}
 						elseif ($resultsReturned == 0)
 						{
@@ -1082,10 +1082,10 @@ class PlgSystemDebug extends JPlugin
 						}
 						else
 						{
-							$labelClass = 'label-success';
+							$labelClass = 'badge-success';
 						}
 
-						$htmlResultsReturned = '<span class="label ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
+						$htmlResultsReturned = '<span class="badge ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
 						$htmlTiming .= ' <span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}
@@ -1172,15 +1172,15 @@ class PlgSystemDebug extends JPlugin
 
 		if ($totalQueryTime > ($totalTime * 0.25))
 		{
-			$labelClass = 'label-important';
+			$labelClass = 'badge-danger';
 		}
 		elseif ($totalQueryTime < ($totalTime * 0.15))
 		{
-			$labelClass = 'label-success';
+			$labelClass = 'badge-success';
 		}
 		else
 		{
-			$labelClass = 'label-warning';
+			$labelClass = 'badge-warning';
 		}
 
 		if ($this->totalQueries == 0)
@@ -1191,7 +1191,7 @@ class PlgSystemDebug extends JPlugin
 		$html = array();
 
 		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
-			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br>';
+			. sprintf(' <span class="badge ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br>';
 
 		if ($total_duplicates)
 		{
