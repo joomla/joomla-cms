@@ -223,20 +223,6 @@ class InstallationModelSetup extends JModelBase
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for magic quotes gpc.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_MAGIC_QUOTES_GPC');
-		$option->state  = (ini_get('magic_quotes_gpc') == false);
-		$option->notice = null;
-		$options[] = $option;
-
-		// Check for register globals.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_REGISTER_GLOBALS');
-		$option->state  = (ini_get('register_globals') == false);
-		$option->notice = null;
-		$options[] = $option;
-
 		// Check for zlib support.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
