@@ -87,26 +87,9 @@ class ContentModelArchive extends ContentModelArticles
 		// Create a new query object.
 		$query = parent::getListQuery();
 
-			// Add routing for archive
-			// Sqlsrv changes
-		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('a.alias', '!=', '0');
-		$case_when .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
-		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-		$case_when .= ' ELSE ';
-		$case_when .= $a_id . ' END as slug';
-
-		$query->select($case_when);
-
-		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('c.alias', '!=', '0');
-		$case_when .= ' THEN ';
-		$c_id = $query->castAsChar('c.id');
-		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
-		$case_when .= ' ELSE ';
-		$case_when .= $c_id . ' END as catslug';
-		$query->select($case_when);
+		// Add routing for archive
+		$query->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug');
+		$query->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug');
 
 		// Filter on month, year
 		// First, get the date field
@@ -204,5 +187,24 @@ class ContentModelArchive extends ContentModelArticles
 
 		$db->setQuery($query);
 		return $db->loadColumn();
+	}
+
+	/**
+	* Generate column expression for slug or catslug.
+	*
+	* @param   JDatabaseQuery  $query  Current query instance.
+	* @param   string          $id     Column id name.
+	* @param   string          $alias  Column alias name.
+	*
+	* @return  string
+	*/
+	private function getSlugColumn($query, $id, $alias)
+	{
+		return 'CASE WHEN '
+			. $query->charLength($alias, '!=', '0')
+			. ' THEN '
+			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
+			.' ELSE '
+			. $id . ' END';
 	}
 }
