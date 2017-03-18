@@ -28,8 +28,8 @@
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_VIEWSITE_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_VIEWSITE_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 			<field
 					name="show_viewadmin"
@@ -38,8 +38,8 @@
 					default="0"
 					label="MOD_STATUS_FIELD_SHOW_VIEWADMIN_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_VIEWADMIN_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 				<field
 					name="show_loggedin_users"
@@ -48,8 +48,8 @@
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 				<field
 					name="show_loggedin_users_admin"
@@ -58,8 +58,8 @@
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 				<field
 					name="show_messages"
@@ -68,8 +68,8 @@
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_MESSAGES_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_MESSAGES_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">

@@ -36,6 +36,7 @@ class PlgEditorCodemirror extends JPlugin
 			'html' => 'htmlmixed',
 			'ini'  => 'properties',
 			'json' => array('name' => 'javascript', 'json' => true),
+			'scss' => 'css',
 		);
 
 	/**

@@ -30,6 +30,7 @@ $alert = [
 				<div class="alert <?php echo isset($alert[$type]) ? $alert[$type] : 'alert-' . $type; ?>">
 					<?php // This requires JS so we should add it trough JS. Progressive enhancement and stuff. ?>
 					<a class="close" data-dismiss="alert">&times;</a>
+
 					<?php if (!empty($msgs)) : ?>
 						<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
 						<div>
