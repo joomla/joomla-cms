@@ -86,23 +86,26 @@
 })();
 
 
-jQuery(document).ready(function($) {
+document.addEventListener('DOMContentLoaded', function() {
 	
 	var hasTab = function(href){
-		return $('a[data-toggle="tab"]a[href*="' + href + '"]').length;
+		return document.querySelector('a[data-toggle="tab"]a[href*="' + href + '"]').length;
 	};
 	if (!hasTab(localStorage.getItem('tab-href')))
 	{
-		var tabAnchor = $("#myTabTabs li:first a");
+		var tabAnchor = document.querySelector("#myTabTabs li:first a");
 		window.localStorage.setItem('tab-href', tabAnchor.attr('href'));
 		tabAnchor.click();
 	}
 
-	$('#loading')
-	.css('top', $('#installer-install').position().top - $(window).scrollTop())
-	.css('left', 0)
-	.css('width', '100%')
-	.css('height', '100%')
-	.css('display', 'none')
-	.css('margin-top', '-10px');
+	var loading = document.querySelector('#loading'),
+	    instaler = document.querySelector('#loading').getBoundingClientRect();
+	
+	// Set the position
+	loading.style.left = 0;
+	loading.style.width = '100%;
+	loading.style.height = '100%;
+	loading.style.display = 'none';
+	loading.style.marginTop = '-10px';
+	loading.style.top = instaler.top - window.scrollTop;
 });
