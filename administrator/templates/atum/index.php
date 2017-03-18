@@ -62,6 +62,8 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.24/webcomponents-lite.min.js"></script>
+	<link rel="import" href="/media/joomla-elements/html/bs4-alert.html">
 	<jdoc:include type="head" />
 </head>
 
@@ -193,6 +195,39 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 
 		<?php // container-fluid ?>
 		<div class="container-fluid container-main">
+			<!-- For demo purposes -->
+			<hr>
+			<hr>
+			<h2>Bootstrap code</h2>
+
+			<div class="alert alert-success" role="alert">
+				<h4 class="alert-heading">Well done!</h4>
+				<p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+				<p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+			</div>
+
+			<div class="alert alert-warning alert-dismissible fade show" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<strong>Holy guacamole!</strong> You should check in on some of those fields below.
+			</div>
+
+			<h2>Custom element code</h2>
+
+			<bs4-alert data-type="success" data-button="false">
+				<h4 class="alert-heading">Well done!</h4>
+				<p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+				<p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+			</bs4-alert>
+
+			<bs4-alert data-type="warning" data-button="true">
+				<strong>Holy guacamole!</strong> You should check in on some of those fields below.
+			</bs4-alert>
+
+			<p>The data-type and data-button can be (<strong>and should be</strong>) replaced by type and button</p>
+			<p>This demo proves that custom elements and native bootstrap code can co-exist!</p>
+			<!-- End of demo section -->
 			<?php if (!$cpanel) : ?>
 				<?php // Subheader ?>
 				<a class="btn btn-subhead hidden-md-up" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>

@@ -12,14 +12,14 @@ defined('JPATH_BASE') or die;
 $msgList = $displayData['msgList'];
 
 $alert = [
-	JApplicationCms::MSG_EMERGENCY => 'alert-danger',
-	JApplicationCms::MSG_ALERT     => 'alert-danger',
-	JApplicationCms::MSG_CRITICAL  => 'alert-danger',
-	JApplicationCms::MSG_ERROR     => 'alert-danger',
-	JApplicationCms::MSG_WARNING   => 'alert-warning',
-	JApplicationCms::MSG_NOTICE    => 'alert-info',
-	JApplicationCms::MSG_INFO      => 'alert-info',
-	JApplicationCms::MSG_DEBUG     => 'alert-info',
+	JApplicationCms::MSG_EMERGENCY => 'danger',
+	JApplicationCms::MSG_ALERT     => 'danger',
+	JApplicationCms::MSG_CRITICAL  => 'danger',
+	JApplicationCms::MSG_ERROR     => 'danger',
+	JApplicationCms::MSG_WARNING   => 'warning',
+	JApplicationCms::MSG_NOTICE    => 'info',
+	JApplicationCms::MSG_INFO      => 'info',
+	JApplicationCms::MSG_DEBUG     => 'info',
 ];
 
 ?>
@@ -27,9 +27,7 @@ $alert = [
 	<?php if (is_array($msgList) && !empty($msgList)) : ?>
 		<div id="system-message">
 			<?php foreach ($msgList as $type => $msgs) : ?>
-				<div class="alert <?php echo isset($alert[$type]) ? $alert[$type] : 'alert-' . $type; ?>">
-					<?php // This requires JS so we should add it trough JS. Progressive enhancement and stuff. ?>
-					<a class="close" data-dismiss="alert">&times;</a>
+				<bs4-alert data-type="<?php echo isset($alert[$type]) ? $alert[$type] : $type; ?>" data-button="true">
 					<?php if (!empty($msgs)) : ?>
 						<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
 						<div>
@@ -38,7 +36,7 @@ $alert = [
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>
-				</div>
+				</bs4-alert>
 			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>

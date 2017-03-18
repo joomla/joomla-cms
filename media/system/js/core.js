@@ -306,15 +306,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			alertClass = (type == 'message') ? 'alert-success' : alertClass;
 			alertClass = (type == 'error') ? 'alert-danger' : alertClass;
 
-			messagesBox.className = 'alert ' + alertClass;
-
-			// Close button
-			var buttonWrapper = document.createElement( 'button' );
-			buttonWrapper.setAttribute('type', 'button');
-			buttonWrapper.setAttribute('data-dismiss', 'alert');
-			buttonWrapper.className = 'close';
-			buttonWrapper.innerHTML = '×';
-			messagesBox.appendChild( buttonWrapper );
+			messagesBox.setAttribute('data-type', alertClass);
+			messagesBox.setAttribute('data-button', "true");
 
 			// Title
 			title = Joomla.JText._( type );
