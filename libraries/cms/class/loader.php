@@ -52,11 +52,47 @@ class JClassLoader
 	 */
 	public function loadClass($class)
 	{
+		// Namespaced class
+		if ($this->loadFromJloader($class))
+		{
+			return true;
+		}
+
+		// None namespaced class
+		if ($this->loadFromJloader('\\' . $class))
+		{
+			return true;
+		}
+
 		if ($result = $this->loader->loadClass($class))
 		{
 			JLoader::applyAliasFor($class);
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Loads the class from JLoader when possible.
+	 *
+	 * @param   string  $class  The name of the class
+	 *
+	 * @return  boolean  True if loaded, false otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function loadFromJloader($class)
+	{
+		// Check if JLoader is able to load the class
+		if (!key_exists(strtolower($class), JLoader::getClassList()))
+		{
+			return false;
+		}
+
+		// Load the class
+		JLoader::load($class);
+
+		JLoader::applyAliasFor($class);
+		return true;
 	}
 }

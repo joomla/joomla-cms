@@ -6,16 +6,18 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Model;
+
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Cms\Model\Model;
+
 /**
  * Model class for handling lists of items.
  *
  * @since  1.6
  */
-class JModelList extends Model
+class ListModel extends Model
 {
 	/**
 	 * Internal memory based cache array of data.
@@ -170,8 +172,7 @@ class JModelList extends Model
 	 */
 	public function getItems()
 	{
-		\JFactory::getApplication()->enqueueMessage('Override called in none namespaced class!!');
-
+		\JFactory::getApplication()->enqueueMessage('Override called in namespaced class!!');
 		// Get a storage key.
 		$store = $this->getStoreId();
 
@@ -569,7 +570,7 @@ class JModelList extends Model
 				}
 			}
 			else
-				// Keep B/C for components previous to jform forms for filters
+			// Keep B/C for components previous to jform forms for filters
 			{
 				// Pre-fill the limits
 				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
