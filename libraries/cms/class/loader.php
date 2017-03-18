@@ -53,13 +53,13 @@ class JClassLoader
 	public function loadClass($class)
 	{
 		// Namespaced class
-		if ($this->loadFromJloader($class))
+		if ($this->loadFromJLoader($class))
 		{
 			return true;
 		}
 
 		// None namespaced class
-		if ($this->loadFromJloader('\\' . $class))
+		if ($this->loadFromJLoader('\\' . $class))
 		{
 			return true;
 		}
@@ -81,7 +81,7 @@ class JClassLoader
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function loadFromJloader($class)
+	private function loadFromJLoader($class)
 	{
 		// Check if JLoader is able to load the class
 		if (!key_exists(strtolower($class), JLoader::getClassList()))
