@@ -3,17 +3,6 @@
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
 			<field
-				name="multiple"
-				type="list"
-				label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
-				description="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_DESC"
-			>
-				<option value="">PLG_FIELDS_INTEGER_PARAMS_USE_GLOBAL</option>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-
-			<field
 				name="first"
 				type="number"
 				label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"
@@ -36,6 +25,17 @@
 				description="PLG_FIELDS_INTEGER_PARAMS_STEP_DESC"
 				size="5"
 			/>
+
+			<field
+				name="multiple"
+				type="list"
+				label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
+				description="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_DESC"
+			>
+				<option value="">PLG_FIELDS_INTEGER_PARAMS_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 		</fieldset>
 	</fields>
 </form>

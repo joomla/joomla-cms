@@ -20,17 +20,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="multiple"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_LIST_PARAMS_MULTIPLE_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
 					name="options"
 					type="subform" layout="joomla.form.field.subform.repeatable-table"
 					icon="list" multiple="true"
@@ -52,6 +41,17 @@
 							type="text"
 						/>
 					</form>
+				</field>				
+				<field
+					name="multiple"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"
+					description="PLG_FIELDS_LIST_PARAMS_MULTIPLE_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>
