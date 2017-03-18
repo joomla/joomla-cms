@@ -1891,6 +1891,7 @@ class PlgEditorTinymce extends JPlugin
 				array('jdragdrop' => ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', JUri::root(false)))
 						. '/media/editors/tinymce/js/plugins/jdragdrop/plugin.min.js')
 				);
+
 		// Prepare config variables
 		$plugins  = implode(',', $plugins);
 		$elements = implode(',', $elements);
