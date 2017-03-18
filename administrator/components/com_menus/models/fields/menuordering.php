@@ -48,7 +48,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.client_id AS clientId')
+			->select('a.id AS value, a.title AS text, a.client_id AS ' . $db->quoteName('clientId'))
 			->from('#__menu AS a')
 
 			->where('a.published >= 0')
@@ -80,7 +80,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		// Allow translation of custom admin menus
 		foreach ($options as &$option)
 		{
-			if ($option->clientid != 0)
+			if ($option->clientId != 0)
 			{
 				$option->text = JText::_($option->text);
 			}
