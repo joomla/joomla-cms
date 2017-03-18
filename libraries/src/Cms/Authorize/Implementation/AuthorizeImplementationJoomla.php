@@ -220,6 +220,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 
 		$result = false;
 		$originalTarget = $target;
+
 		// Cast all assetid types to array for easier looping
 		$target = (array) $target;
 
@@ -265,34 +266,6 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 		}
 
 		return $result;
-
-
-
-		/*
-		else
-		{
-			$found = false;
-
-			if (isset($authorizationMatrix[$target]))
-			{
-				foreach ($authorizationMatrix[$target] AS $node)
-				{
-					if (isset($node[$action]))
-					{
-						$found = true;
-						break;
-					}
-				}
-			}
-
-			if (!$found)
-			{
-				$this->loadPermissions(true, array(), $action);
-			}
-		}
-
-		return $this->calculate($target, $action, $identities);
-		*/
 
 	}
 
