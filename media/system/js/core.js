@@ -78,8 +78,41 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Default function. Usually would be overriden by the component
 	 */
-	Joomla.submitbutton = function( pressbutton ) {
-		Joomla.submitform( pressbutton );
+	Joomla.submitbutton = function( task ) {
+		var form = document.querySelectorAll( 'form.form-validate' );
+
+		if (form) {
+			for (var i = 0, j = form.length; i < j; i++) {
+				var pressbutton = task.split('.'),
+				    cancelTask = form[i].getAttribute( 'data-cancel-task' ),
+				    permContainer = form[i].getAttribute( 'data-permissions-selector' ),
+				    skipPermissionsValidation = form[i].getAttribute( 'data-skip-permissions' );
+
+				if (!cancelTask) {
+					cancelTask = pressbutton[0] + '.cancel';
+				}
+
+				if ((task == cancelTask ) || document.formvalidator.isValid( form[i] ))
+				{
+					if ( skipPermissionsValidation ) {
+
+						if ( !permContainer ) {
+							permContainer = '#permissions-sliders'
+						}
+
+						var i, items = document.querySelectorAll( permContainer + ' select'), l = items.length;
+
+						for (i = 0, l; i < l; i++) {
+							items[i].setAttribute('disabled', 'disabled');
+						}
+					}
+
+					Joomla.submitform( task, form[i] );
+				}
+			}
+		} else {
+			Joomla.submitform( task );
+		}
 	};
 
 	/**
