@@ -949,16 +949,17 @@ class JForm
 	 * the field will be set whether it already exists or not.  If it isn't set, then the field
 	 * will not be replaced if it already exists.
 	 *
-	 * @param   SimpleXMLElement  $element  The XML element object representation of the form field.
-	 * @param   string            $group    The optional dot-separated form group path on which to set the field.
-	 * @param   boolean           $replace  True to replace an existing field if one already exists.
+	 * @param   SimpleXMLElement  $element   The XML element object representation of the form field.
+	 * @param   string            $group     The optional dot-separated form group path on which to set the field.
+	 * @param   boolean           $replace   True to replace an existing field if one already exists.
+	 * @param   string            $fieldset	 The name of the fieldset we are set the field.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function setField(SimpleXMLElement $element, $group = null, $replace = true)
+	public function setField(SimpleXMLElement $element, $group = null, $replace = true, $fieldset = 'default')
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
@@ -979,31 +980,38 @@ class JForm
 		if ($replace && !empty($old) && ($old instanceof SimpleXMLElement))
 		{
 			$dom = dom_import_simplexml($old);
-			$dom->parentNode->removeChild($dom);
+
+			// Get the parent element, this should be the fieldset
+			$parent   = $dom->parentNode;
+			$fieldset = $parent->getAttribute('name');
+
+			$parent->removeChild($dom);
 		}
 
-		// If no existing field is found find a group element and add the field as a child of it.
-		if ($group)
+		// Create the search path
+		$path = '//';
+
+		if (!empty($group))
 		{
-			// Get the fields elements for a given group.
-			$fields = &$this->findGroup($group);
-
-			// If an appropriate fields element was found for the group, add the element.
-			if (isset($fields[0]) && ($fields[0] instanceof SimpleXMLElement))
-			{
-				self::addNode($fields[0], $element);
-			}
+			$path .= 'fields[@name="' . $group . '"]/';
 		}
-		else
+
+		$path .= 'fieldset[@name="' . $fieldset . '"]';
+
+		$fs = $this->xml->xpath($path);
+
+		if (isset($fs[0]) && ($fs[0] instanceof SimpleXMLElement))
 		{
-			// Set the new field to the form.
-			self::addNode($this->xml, $element);
+			// Add field to the form.
+			self::addNode($fs[0], $element);
+
+			// Synchronize any paths found in the load.
+			$this->syncPaths();
+
+			return true;
 		}
 
-		// Synchronize any paths found in the load.
-		$this->syncPaths();
-
-		return true;
+		throw new UnexpectedValueException(sprintf('%s::setField we cloud not found the fieldset (%s) to add the field', get_class($this), $fieldset));
 	}
 
 	/**
@@ -1062,7 +1070,7 @@ class JForm
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function setFields(&$elements, $group = null, $replace = true)
+	public function setFields(&$elements, $group = null, $replace = true, $fieldset = 'default')
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
@@ -1084,7 +1092,7 @@ class JForm
 
 		foreach ($elements as $element)
 		{
-			if (!$this->setField($element, $group, $replace))
+			if (!$this->setField($element, $group, $replace, $fieldset))
 			{
 				$return = false;
 			}
@@ -2324,5 +2332,20 @@ class JForm
 	public function getXml()
 	{
 		return $this->xml;
+	}
+
+	/**
+	 * Method to get a form field represented as an XML element object.
+	 *
+	 * @param   string  $name   The name of the form field.
+	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return  SimpleXMLElement|boolean  The XML element object for the field or boolean false on error.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFieldXml($name, $group = null)
+	{
+		return $this->findField($name, $group);
 	}
 }
