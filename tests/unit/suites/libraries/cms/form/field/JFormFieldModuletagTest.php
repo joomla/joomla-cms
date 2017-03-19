@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Form
  * @since       3.1
  */
-class JFormFieldModuletagTest extends PHPUnit_Framework_TestCase
+class JFormFieldModuletagTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Tests the getInput method.

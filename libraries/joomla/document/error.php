@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -153,7 +153,7 @@ class JDocumentError extends JDocument
 		if (JFactory::$language)
 		{
 			$lang = JFactory::getLanguage();
-	
+
 			// 1.5 or core then 1.6
 			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 				|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
@@ -228,6 +228,9 @@ class JDocumentError extends JDocument
 			echo '		<td class="TD"><strong>Function</strong></td>';
 			echo '		<td class="TD"><strong>Location</strong></td>';
 			echo '	</tr>';
+
+			// Add the position of the actual file
+			array_unshift($backtrace, array('file' => $this->_error->getFile(), 'line' => $this->_error->getLine(), 'function' => ''));
 
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{

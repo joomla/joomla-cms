@@ -3,12 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-JHtml::script('system/sendtestmail.js', false, true);
+
+JHtml::_('script', 'system/sendtestmail.js', array('version' => 'auto', 'relative' => true));
+
 JFactory::getDocument()->addScriptDeclaration('
 	var sendtestmail_url = "' . addslashes(JUri::base()) . 'index.php?option=com_config&task=config.sendtestmail.application&format=json&' . JSession::getFormToken() . '=1";
  ');

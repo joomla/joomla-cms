@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Session
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@
  *
  * @since  11.1
  */
-class JSessionStorageMemcacheTest extends PHPUnit_Framework_TestCase
+class JSessionStorageMemcacheTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorageMemcache

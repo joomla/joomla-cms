@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -283,7 +283,7 @@ abstract class JHtml
 	 *
 	 * @return  string  Query string to add.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 *
 	 * @deprecated   4.0  Usage of MD5SUM files is deprecated, use version instead.
 	 */
@@ -370,11 +370,9 @@ abstract class JHtml
 					 * Detect if we received a file in the format name.min.ext
 					 * If so, strip the .min part out, otherwise append -uncompressed
 					 */
-					if (strrpos($strip, '.min', '-4'))
+					if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
 					{
-						$position = strrpos($strip, '.min', '-4');
-						$filename = str_replace('.min', '.', $strip, $position);
-						$files[]  = $filename . $ext;
+						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
 					}
 					else
 					{
@@ -386,7 +384,7 @@ abstract class JHtml
 
 				/*
 				 * Loop on 1 or 2 files and break on first found.
-				 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+				 * Add the content of the MD5SUM file located in the same folder to URL to ensure cache browser refresh
 				 * This MD5SUM file must represent the signature of the folder content
 				 */
 				foreach ($files as $file)
@@ -517,11 +515,9 @@ abstract class JHtml
 					 * Detect if we received a file in the format name.min.ext
 					 * If so, strip the .min part out, otherwise append -uncompressed
 					 */
-					if (strrpos($strip, '.min', '-4'))
+					if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
 					{
-						$position = strrpos($strip, '.min', '-4');
-						$filename = str_replace('.min', '.', $strip, $position);
-						$files[]  = $filename . $ext;
+						$files[] = preg_replace('#\.min$#', '.', $strip) . $ext;
 					}
 					else
 					{
@@ -533,7 +529,7 @@ abstract class JHtml
 
 				/*
 				 * Loop on 1 or 2 files and break on first found.
-				 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+				 * Add the content of the MD5SUM file located in the same folder to URL to ensure cache browser refresh
 				 * This MD5SUM file must represent the signature of the folder content
 				 */
 				foreach ($files as $file)
@@ -591,54 +587,53 @@ abstract class JHtml
 	/**
 	 * Write a `<link>` element to load a CSS file
 	 *
-	 * @param   string   $file            Path to file
-	 * @param   array    $attribs         Attributes to be added to the `<link>` element
-	 * @param   boolean  $relative        Flag if the path to the file is relative to the /media folder (and searches in template).
-	 * @param   boolean  $returnPath      Flag if the file path should be returned or if the file should be included in the global JDocument instance
-	 * @param   boolean  $detect_browser  Flag if the browser should be detected to include specific browser files.
-	 *                                    This will try to include file, `file_*browser*`, `file_*browser*_*major*`, `file_*browser*_*major*_*minor*`
-	 *                                    <table>
-	 *                                       <tr><th>Navigator</th>                  <th>browser</th>	<th>major.minor</th></tr>
-	 *
-	 *                                       <tr><td>Safari 3.0.x</td>               <td>konqueror</td>	<td>522.x</td></tr>
-	 *                                       <tr><td>Safari 3.1.x and 3.2.x</td>     <td>konqueror</td>	<td>525.x</td></tr>
-	 *                                       <tr><td>Safari 4.0 to 4.0.2</td>        <td>konqueror</td>	<td>530.x</td></tr>
-	 *                                       <tr><td>Safari 4.0.3 to 4.0.4</td>      <td>konqueror</td>	<td>531.x</td></tr>
-	 *                                       <tr><td>iOS 4.0 Safari</td>             <td>konqueror</td>	<td>532.x</td></tr>
-	 *                                       <tr><td>Safari 5.0</td>                 <td>konqueror</td>	<td>533.x</td></tr>
-	 *
-	 *                                       <tr><td>Google Chrome 1.0</td>          <td>konqueror</td>	<td>528.x</td></tr>
-	 *                                       <tr><td>Google Chrome 2.0</td>          <td>konqueror</td>	<td>530.x</td></tr>
-	 *                                       <tr><td>Google Chrome 3.0 and 4.x</td>  <td>konqueror</td>	<td>532.x</td></tr>
-	 *                                       <tr><td>Google Chrome 5.0</td>          <td>konqueror</td>	<td>533.x</td></tr>
-	 *
-	 *                                       <tr><td>Internet Explorer 5.5</td>      <td>msie</td>		<td>5.5</td></tr>
-	 *                                       <tr><td>Internet Explorer 6.x</td>      <td>msie</td>		<td>6.x</td></tr>
-	 *                                       <tr><td>Internet Explorer 7.x</td>      <td>msie</td>		<td>7.x</td></tr>
-	 *                                       <tr><td>Internet Explorer 8.x</td>      <td>msie</td>		<td>8.x</td></tr>
-	 *
-	 *                                       <tr><td>Firefox</td>                    <td>mozilla</td>	<td>5.0</td></tr>
-	 *                                    </table>
-	 * @param   boolean  $detect_debug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   string  $file     Path to file
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
 	 * @see     JBrowser
 	 * @since   1.5
+	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
+	 *                  use (file, options, attributes) instead.
 	 */
-	public static function stylesheet($file, $attribs = array(), $relative = false, $returnPath = false, $detect_browser = true, $detect_debug = true)
+	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
-		$includes = static::includeRelativeFiles('css', $file, $relative, $detect_browser, $detect_debug);
+		// B/C before 3.7.0
+		if (!is_array($attribs))
+		{
+			JLog::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+
+			// Old parameters.
+			$attribs                  = isset($argList[1]) ? $argList[1] : array();
+			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
+			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
+			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
+			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
+		}
+		else
+		{
+			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
+			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
+			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
+			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+		}
+
+		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
 		// If only path is required
-		if ($returnPath)
+		if ($options['pathOnly'])
 		{
-			if (count($includes) == 0)
+			if (count($includes) === 0)
 			{
 				return;
 			}
 
-			if (count($includes) == 1)
+			if (count($includes) === 1)
 			{
 				return $includes[0];
 			}
@@ -651,7 +646,13 @@ abstract class JHtml
 
 		foreach ($includes as $include)
 		{
-			$document->addStyleSheet($include, 'text/css', null, $attribs);
+			// If there is already a version hash in the script reference (by using deprecated MD5SUM).
+			if ($pos = strpos($include, '?') !== false)
+			{
+				$options['version'] = substr($include, $pos + 1);
+			}
+
+			$document->addStyleSheet($include, $options, $attribs);
 		}
 	}
 
@@ -671,7 +672,7 @@ abstract class JHtml
 	 */
 	public static function script($file, $options = array(), $attribs = array())
 	{
-		// B/C before __DEPLOY_VERSION__
+		// B/C before 3.7.0
 		if (!is_array($options) && !is_array($attribs))
 		{
 			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
@@ -776,7 +777,7 @@ abstract class JHtml
 	{
 		// Get some system objects.
 		$config = JFactory::getConfig();
-		$user = JFactory::getUser();
+		$user   = JFactory::getUser();
 
 		// UTC date converted to user time zone.
 		if ($tz === true)
@@ -973,32 +974,65 @@ abstract class JHtml
 	 * @param   string  $id       The id of the text field
 	 * @param   string  $format   The date format
 	 * @param   mixed   $attribs  Additional HTML attributes
+	 *                            The array can have the following keys:
+	 *                            readonly      Sets the readonly parameter for the input tag
+	 *                            disabled      Sets the disabled parameter for the input tag
+	 *                            autofocus     Sets the autofocus parameter for the input tag
+	 *                            autocomplete  Sets the autocomplete parameter for the input tag
+	 *                            filter        Sets the filter for the input tag
 	 *
 	 * @return  string  HTML markup for a calendar field
 	 *
 	 * @since   1.5
+	 *
 	 */
-	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
+	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
-		static $done;
+		$tag       = JFactory::getLanguage()->getTag();
+		$calendar  = JFactory::getLanguage()->getCalendar();
+		$direction = strtolower(JFactory::getDocument()->getDirection());
 
-		if ($done === null)
+		// Get the appropriate file for the current language date helper
+		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
+
+		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
 		{
-			$done = array();
+			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
 		}
 
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+		// Get the appropriate locale file for the current language
+		$localesPath = 'system/fields/calendar-locales/en.js';
 
-		if (is_array($attribs))
+		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
 		{
-			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
-
-			$attribs = ArrayHelper::toString($attribs);
+			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
+		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
+		{
+			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
-		static::_('bootstrap.tooltip');
+		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
+		$disabled     = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+		$autocomplete = isset($attribs['autocomplete']) && $attribs['autocomplete'] == '';
+		$autofocus    = isset($attribs['autofocus']) && $attribs['autofocus'] == '';
+		$required     = isset($attribs['required']) && $attribs['required'] == '';
+		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
+		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
+		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : false;
+		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : true;
+		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
+		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;
+		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
+		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
+		$class        = isset($attribs['class']) ? $attribs['class'] : '';
+		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
+
+		$showTime     = !empty($showTime) ? ($showTime === 'true' ? "1" : "0") : "1";
+		$todayBtn     = !empty($todayBtn) ? ($todayBtn === 'true' ? "1" : "0") : "1";
+		$weekNumbers  = !empty($weekNumbers) ? ($weekNumbers === 'true' ? "1" : "0") : "0";
+		$fillTable    = !empty($fillTable) ? ($fillTable === 'true' ? "1" : "0") : "1";
+		$singleHeader = !empty($singleHeader) ? ($singleHeader === 'true' ? "1" : "0") : "0";
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
@@ -1013,38 +1047,33 @@ abstract class JHtml
 			$inputvalue = '';
 		}
 
-		// Load the calendar behavior
-		static::_('behavior.calendar');
+		$data = array(
+			'id'           => $id,
+			'name'         => $name,
+			'class'        => $class,
+			'value'        => $inputvalue,
+			'format'       => $format,
+			'filter'       => $filter,
+			'required'     => $required,
+			'readonly'     => $readonly,
+			'disabled'     => $disabled,
+			'hint'         => $hint,
+			'autofocus'    => $autofocus,
+			'autocomplete' => $autocomplete,
+			'todaybutton'  => $todayBtn,
+			'weeknumbers'  => $weekNumbers,
+			'showtime'     => $showTime,
+			'filltable'    => $fillTable,
+			'timeformat'   => $timeFormat,
+			'singleheader' => $singleHeader,
+			'tag'          => $tag,
+			'helperPath'   => $helperPath,
+			'localesPath'  => $localesPath,
+			'direction'    => $direction,
+			'onchange'     => $onchange,
+		);
 
-		// Only display the triggers once for each control.
-		if (!in_array($id, $done))
-		{
-			JFactory::getDocument()->addScriptDeclaration(
-				'jQuery(document).ready(function($) {Calendar.setup({
-			// Id of the input field
-			inputField: "' . $id . '",
-			// Format of the input field
-			ifFormat: "' . $format . '",
-			// Trigger for the calendar (button ID)
-			button: "' . $id . '_img",
-			// Alignment (defaults to "Bl")
-			align: "Tl",
-			singleClick: true,
-			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-			});});'
-			);
-			$done[] = $id;
-		}
-
-		// Hide button using inline styles for readonly/disabled fields
-		$btn_style = ($readonly || $disabled) ? ' style="display:none;"' : '';
-		$div_class = (!$readonly && !$disabled) ? ' class="input-append"' : '';
-
-		return '<div' . $div_class . '>'
-				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
-			. '</div>';
+		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
 	}
 
 	/**

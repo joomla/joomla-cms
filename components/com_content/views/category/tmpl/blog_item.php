@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
 <?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
-	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
+	<?php echo JLayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 <?php endif; ?>
 
 <?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
@@ -55,7 +55,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 <?php echo $this->item->introtext; ?>
 
 <?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
-	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+	<?php echo JLayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
 <?php  endif; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :

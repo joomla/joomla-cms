@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,10 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user       = JFactory::getUser();
-$listOrder  = $this->escape($this->state->get('list.ordering'));
-$listDirn   = $this->escape($this->state->get('list.direction'));
+$user        = JFactory::getUser();
+$listOrder   = $this->escape($this->state->get('list.ordering'));
+$listDirn    = $this->escape($this->state->get('list.direction'));
+$debugGroups = $this->state->get('params')->get('debugGroups', 1);
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
@@ -49,7 +50,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
@@ -112,17 +113,17 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
-							<?php if (JDEBUG) : ?>
+							<?php if ($debugGroups) : ?>
 								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
 								<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
 							<?php endif; ?>
 						</td>
 						<td class="center btns">
-							<a class="badge <?php if ($item->count_enabled > 0) echo "badge-success"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
+							<a class="badge <?php if ($item->count_enabled > 0) echo 'badge-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
 								<?php echo $item->count_enabled; ?></a>
 						</td>
 						<td class="center btns">
-							<a class="badge <?php if ($item->count_disabled > 0) echo "badge-important"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
+							<a class="badge <?php if ($item->count_disabled > 0) echo 'badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
 								<?php echo $item->count_disabled; ?></a>
 						</td>
 						<td class="hidden-phone">
@@ -132,7 +133,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,7 +51,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 *
 	 * @var  int
 	 */
-	private static $closed = null;
+	private static $closed;
 
 	/**
 	 * Backup of the SERVER superglobal
@@ -77,7 +77,10 @@ class JGoogleAuthOauth2Test extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->input = $this->getMockInput();
 
 		$mockApplication = $this->getMockWeb();
@@ -95,7 +98,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -205,7 +208,7 @@ class JGoogleAuthOauth2Test extends TestCase
 		$this->oauth->setToken($token);
 
 		$this->http->expects($this->once())->method('get')->willReturnCallback(array($this, 'getOauthCallback'));
-		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
+		$this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
 
 		$this->assertEquals('https://accounts.google.com/o/oauth2/auth', $this->object->getOption('authurl'));
 		$this->assertEquals('https://accounts.google.com/o/oauth2/token', $this->object->getOption('tokenurl'));

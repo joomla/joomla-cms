@@ -1,6 +1,6 @@
 /**
  * @package		Joomla.JavaScript
- * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@
  * 			<thead>
  * 				<tr>
  * 					<th>Field label 1</th>
- * 					<th>Field lable 2</th>
+ * 					<th>Field label 2</th>
  * 					<th><a href="#" class="add">Add new</a></th>
  * 				</tr>
  * 			</thead>

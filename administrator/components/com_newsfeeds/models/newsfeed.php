@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -508,28 +508,24 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 
 		// Association newsfeeds items
-		$assoc = JLanguageAssociations::isEnabled();
-
-		if ($assoc)
+		if (JLanguageAssociations::isEnabled())
 		{
-			$languages = JLanguageHelper::getLanguages('lang_code');
-			$addform = new SimpleXMLElement('<form />');
-			$fields = $addform->addChild('fields');
-			$fields->addAttribute('name', 'associations');
-			$fieldset = $fields->addChild('fieldset');
-			$fieldset->addAttribute('name', 'item_associations');
-			$fieldset->addAttribute('description', 'COM_NEWSFEEDS_ITEM_ASSOCIATIONS_FIELDSET_DESC');
-			$add = false;
+			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
-			foreach ($languages as $tag => $language)
+			if (count($languages) > 1)
 			{
-				if (empty($data->language) || $tag != $data->language)
+				$addform = new SimpleXMLElement('<form />');
+				$fields = $addform->addChild('fields');
+				$fields->addAttribute('name', 'associations');
+				$fieldset = $fields->addChild('fieldset');
+				$fieldset->addAttribute('name', 'item_associations');
+
+				foreach ($languages as $language)
 				{
-					$add = true;
 					$field = $fieldset->addChild('field');
-					$field->addAttribute('name', $tag);
+					$field->addAttribute('name', $language->lang_code);
 					$field->addAttribute('type', 'modal_newsfeed');
-					$field->addAttribute('language', $tag);
+					$field->addAttribute('language', $language->lang_code);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$field->addAttribute('select', 'true');
@@ -537,10 +533,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
 				}
-			}
 
-			if ($add)
-			{
 				$form->load($addform, false);
 			}
 		}

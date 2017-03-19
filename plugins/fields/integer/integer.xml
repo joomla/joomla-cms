@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+	<name>plg_fields_integer</name>
+	<author>Joomla! Project</author>
+	<creationDate>March 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.7.0</version>
+	<description>PLG_FIELDS_INTEGER_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="integer">integer.php</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_fields_integer.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_integer.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="multiple"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
+					description="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+	
+				<field
+					name="first"
+					type="number"
+					default="1"
+					label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"
+					description="PLG_FIELDS_INTEGER_PARAMS_FIRST_DESC"
+					size="5"
+					required="true"
+				/>
+	
+				<field
+					name="last"
+					type="number"
+					default="100"
+					label="PLG_FIELDS_INTEGER_PARAMS_LAST_LABEL"
+					description="PLG_FIELDS_INTEGER_PARAMS_LAST_DESC"
+					size="5"
+					required="true"
+				/>
+	
+				<field
+					name="step"
+					type="number"
+					default="1"
+					label="PLG_FIELDS_INTEGER_PARAMS_STEP_LABEL"
+					description="PLG_FIELDS_INTEGER_PARAMS_STEP_DESC"
+					size="5"
+					required="true"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

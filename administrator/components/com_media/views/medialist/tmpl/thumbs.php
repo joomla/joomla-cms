@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,8 +86,7 @@ $doc->addScriptDeclaration(
 		<p>
 			<span class="icon-folder"></span>
 			<?php
-				echo JText::_('JGLOBAL_ROOT'), ': ',
-					$params->get($path, 'images'),
+				echo $params->get($path, 'images'),
 					($this->state->folder != '') ? '/' . $this->state->folder : '';
 			?>
 		</p>
@@ -100,7 +99,7 @@ $doc->addScriptDeclaration(
 		</label>
 	</div>
 
-	<ul class="manager thumbnails">
+	<ul class="manager thumbnails thumbnails-media">
 		<?php
 			echo $this->loadTemplate('up'),
 				$this->loadTemplate('folders'),

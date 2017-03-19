@@ -3,16 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Model class for handling lists of items.
  *
- * @since  12.2
+ * @since  1.6
  */
 class JModelList extends JModelLegacy
 {
@@ -20,7 +22,7 @@ class JModelList extends JModelLegacy
 	 * Internal memory based cache array of data.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $cache = array();
 
@@ -29,7 +31,7 @@ class JModelList extends JModelLegacy
 	 * when dealing with the getStoreId() method and caching data structures.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $context = null;
 
@@ -37,7 +39,7 @@ class JModelList extends JModelLegacy
 	 * Valid filter fields or ordering.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $filter_fields = array();
 
@@ -45,7 +47,7 @@ class JModelList extends JModelLegacy
 	 * An internal cache for the last query used.
 	 *
 	 * @var    JDatabaseQuery[]
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $query = array();
 
@@ -60,7 +62,8 @@ class JModelList extends JModelLegacy
 	/**
 	 * Associated HTML form
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  3.2
 	 */
 	protected $htmlFormName = 'adminForm';
 
@@ -86,7 +89,7 @@ class JModelList extends JModelLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -112,7 +115,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function _getListQuery()
 	{
@@ -164,7 +167,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -197,7 +200,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -209,7 +212,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  JPagination  A JPagination object for the data set.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function getPagination()
 	{
@@ -241,7 +244,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -259,7 +262,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  integer  The total number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function getTotal()
 	{
@@ -292,7 +295,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function getStart()
 	{
@@ -360,11 +363,11 @@ class JModelList extends JModelLegacy
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param   string   $name     The name of the form.
-	 * @param   string   $source   The form source. Can be XML string if file flag is set to false.
-	 * @param   array    $options  Optional array of options for the form creation.
-	 * @param   boolean  $clear    Optional argument to force load a new form.
-	 * @param   string   $xpath    An optional xpath to search for the fields.
+	 * @param   string          $name     The name of the form.
+	 * @param   string          $source   The form source. Can be XML string if file flag is set to false.
+	 * @param   array           $options  Optional array of options for the form creation.
+	 * @param   boolean         $clear    Optional argument to force load a new form.
+	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  JForm|boolean  JForm object on success, False on error.
 	 *
@@ -374,7 +377,7 @@ class JModelList extends JModelLegacy
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['control'] = JArrayHelper::getValue($options, 'control', false);
+		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
 
 		// Create a signature hash.
 		$hash = md5($source . serialize($options));
@@ -463,7 +466,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -639,7 +642,7 @@ class JModelList extends JModelLegacy
 		JPluginHelper::importPlugin($group);
 
 		// Get the dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
@@ -671,7 +674,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  mixed  The request user state.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
@@ -718,6 +721,8 @@ class JModelList extends JModelLegacy
 	 * @param   string  $regexDelimiter  The regex delimiter to use for the quoting
 	 *
 	 * @return  string  Search string escaped for regex
+	 *
+	 * @since   3.4
 	 */
 	protected function refineSearchStringToRegex($search, $regexDelimiter = '/')
 	{

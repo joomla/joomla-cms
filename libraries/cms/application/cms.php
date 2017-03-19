@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -453,11 +453,13 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Get the system message queue.
 	 *
+	 * @param   boolean  $clear  Clear the messages currently attached to the application object
+	 *
 	 * @return  array  The system message queue.
 	 *
 	 * @since   3.2
 	 */
-	public function getMessageQueue()
+	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->_messageQueue))
@@ -471,8 +473,15 @@ class JApplicationCms extends JApplicationWeb
 				$session->set('application.queue', null);
 			}
 		}
+		
+		$messageQueue = $this->_messageQueue;
+		
+		if ($clear)
+		{
+			$this->_messageQueue = array();
+		}
 
-		return $this->_messageQueue;
+		return $messageQueue;
 	}
 
 	/**
@@ -707,11 +716,11 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @return  boolean  True if this application is of the given type client interface.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function isClient($identifier)
 	{
-		return $this->getName() == $identifier;
+		return $this->getName() === $identifier;
 	}
 
 	/**
@@ -752,7 +761,7 @@ class JApplicationCms extends JApplicationWeb
 		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
 
 		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
+		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);
 
 		// Initialize the options for JSession.
 		$options = array(
@@ -783,14 +792,13 @@ class JApplicationCms extends JApplicationWeb
 
 		/*
 		 * Note: The below code CANNOT change from instantiating a session via JFactory until there is a proper dependency injection container supported
-		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated meaning
-		 * each application will attempt to start a new session. https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and
-		 * burn if you ever attempt to make this change without a proper dependency injection container.
+		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated.
+		 * https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and burn if you ever attempt to make this change
+		 * without a proper dependency injection container.
 		 */
 
 		$session = JFactory::getSession($options);
 		$session->initialise($this->input, $this->dispatcher);
-		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 		$db = JFactory::getDbo();
@@ -963,8 +971,8 @@ class JApplicationCms extends JApplicationWeb
 		$parameters['username'] = $user->get('username');
 		$parameters['id'] = $user->get('id');
 
-		// Set clientid in the options array if it hasn't been set already.
-		if (!isset($options['clientid']))
+		// Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.
+		if (!$this->get('shared_session', '0') && !isset($options['clientid']))
 		{
 			$options['clientid'] = $this->getClientId();
 		}
@@ -1095,7 +1103,7 @@ class JApplicationCms extends JApplicationWeb
 
 		$caching = false;
 
-		if ($this->isSite() && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
 		{
 			$caching = true;
 		}
@@ -1147,7 +1155,7 @@ class JApplicationCms extends JApplicationWeb
 	 * Sets the value of a user state variable.
 	 *
 	 * @param   string  $key    The path of the state.
-	 * @param   string  $value  The value of the variable.
+	 * @param   mixed   $value  The value of the variable.
 	 *
 	 * @return  mixed  The previous state, if one existed.
 	 *

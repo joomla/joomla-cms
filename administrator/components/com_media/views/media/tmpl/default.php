@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,14 +32,14 @@ JFactory::getDocument()->addScriptDeclaration(
 
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.framework');
-JHtml::_('script', 'media/mediamanager.min.js', false, true);
-JHtml::_('script', 'media/mediaelement-and-player.js', false, true);
-JHtml::_('stylesheet', 'media/mediaelementplayer.css', array(), true);
-JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+JHtml::_('script', 'media/mediamanager.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'media/mediaelement-and-player.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'media/mediaelementplayer.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'system/mootree.css', array('version' => 'auto', 'relative' => true));
 
 if ($lang->isRtl())
 {
-	JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
+	JHtml::_('stylesheet', 'system/mootree_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 ?>
 <div class="row-fluid">
@@ -47,10 +47,10 @@ if ($lang->isRtl())
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 		<div class="j-toggle-sidebar-header">
-		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS');?> </h3>
+		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS'); ?> </h3>
 		</div>
 		<div id="treeview" class="sidebar">
-			<div id="media-tree_tree" class="sidebar-nav">
+			<div id="media-tree_tree" class="tree-holder">
 				<?php echo $this->loadTemplate('folders'); ?>
 			</div>
 		</div>
@@ -80,10 +80,10 @@ if ($lang->isRtl())
 			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
 		</form>
 
-		<?php if ($user->authorise('core.create', 'com_media')):?>
+		<?php if ($user->authorise('core.create', 'com_media')) : ?>
 		<!-- File Upload Form -->
 		<div id="collapseUpload" class="collapse">
-			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
+			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
 				<div id="uploadform">
 					<fieldset id="upload-noflash" class="actions">
 							<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
@@ -100,7 +100,7 @@ if ($lang->isRtl())
 			</form>
 		</div>
 		<div id="collapseFolder" class="collapse">
-			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" class="form-inline" method="post">
+			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>" name="folderForm" id="folderForm" class="form-inline" method="post">
 					<div class="path">
 						<input type="text" id="folderpath" readonly="readonly" class="update-folder" />
 						<input required type="text" id="foldername" name="foldername" />
@@ -110,12 +110,12 @@ if ($lang->isRtl())
 					<?php echo JHtml::_('form.token'); ?>
 			</form>
 		</div>
-		<?php endif;?>
+		<?php endif; ?>
 
-		<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" method="post">
+		<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>" name="folderForm" id="folderForm" method="post">
 			<div id="folderview">
 				<div class="view">
-					<iframe class="thumbnail" src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
+					<iframe class="thumbnail" src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
 				</div>
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
@@ -129,7 +129,7 @@ echo JHtml::_(
 	array(
 		'title' => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	),
 	'<div id="image" style="text-align:center;"><img id="imagePreviewSrc" src="../media/jui/img/alpha.png" alt="preview" style="max-width:100%; max-height:300px;"/></div>'
 );
@@ -140,7 +140,7 @@ echo JHtml::_(
 	array(
 		'title' => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	),
 	'<div id="videoPlayer" style="z-index: -100;"><video id="mejsPlayer" style="height: 250px;"/></div>'
 );

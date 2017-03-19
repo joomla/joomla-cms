@@ -3,14 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JDocument.
  */
-class JDocumentTest extends PHPUnit_Framework_TestCase
+class JDocumentTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var  JDocument
@@ -69,7 +69,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 					'tab' => "\11",
 					'link' => '',
 					'base' => '',
-				    'mediaversion' => '1a2b3c4d'
+					'mediaversion' => '1a2b3c4d'
 				)
 			),
 			array(

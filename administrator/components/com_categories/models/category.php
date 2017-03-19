@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -271,9 +271,11 @@ class CategoriesModelCategory extends JModelAdmin
 			$data['extension'] = $extension;
 		}
 
-		$user = JFactory::getUser();
+		$categoryId = $jinput->get('id');
+		$parts      = explode('.', $extension);
+		$assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
-		if (!$user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
+		if (!JFactory::getUser()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -425,28 +427,24 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Association category items
-		$assoc = $this->getAssoc();
-
-		if ($assoc)
+		if ($this->getAssoc())
 		{
-			$languages = JLanguageHelper::getLanguages('lang_code');
-			$addform = new SimpleXMLElement('<form />');
-			$fields = $addform->addChild('fields');
-			$fields->addAttribute('name', 'associations');
-			$fieldset = $fields->addChild('fieldset');
-			$fieldset->addAttribute('name', 'item_associations');
-			$fieldset->addAttribute('description', 'COM_CATEGORIES_ITEM_ASSOCIATIONS_FIELDSET_DESC');
-			$add = false;
+			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
-			foreach ($languages as $tag => $language)
+			if (count($languages) > 1)
 			{
-				if (empty($data->language) || $tag != $data->language)
+				$addform = new SimpleXMLElement('<form />');
+				$fields = $addform->addChild('fields');
+				$fields->addAttribute('name', 'associations');
+				$fieldset = $fields->addChild('fieldset');
+				$fieldset->addAttribute('name', 'item_associations');
+
+				foreach ($languages as $language)
 				{
-					$add = true;
 					$field = $fieldset->addChild('field');
-					$field->addAttribute('name', $tag);
+					$field->addAttribute('name', $language->lang_code);
 					$field->addAttribute('type', 'modal_category');
-					$field->addAttribute('language', $tag);
+					$field->addAttribute('language', $language->lang_code);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$field->addAttribute('extension', $extension);
@@ -455,10 +453,7 @@ class CategoriesModelCategory extends JModelAdmin
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
 				}
-			}
 
-			if ($add)
-			{
 				$form->load($addform, false);
 			}
 		}
@@ -553,7 +548,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Trigger the before save event.
-		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		if (in_array(false, $result, true))
 		{
@@ -589,9 +584,9 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Detecting all item menus
-			$all_language = $table->language == '*';
+			$allLanguage = $table->language == '*';
 
-			if ($all_language && !empty($associations))
+			if ($allLanguage && !empty($associations))
 			{
 				JError::raiseNotice(403, JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'));
 			}
@@ -604,7 +599,7 @@ class CategoriesModelCategory extends JModelAdmin
 				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
 				->where($db->quoteName('id') . ' = ' . (int) $table->id);
 			$db->setQuery($query);
-			$old_key = $db->loadResult();
+			$oldKey = $db->loadResult();
 
 			// Deleting old associations for the associated items
 			$query = $db->getQuery(true)
@@ -614,11 +609,11 @@ class CategoriesModelCategory extends JModelAdmin
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($oldKey) . ')');
 			}
 			else
 			{
-				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
+				$query->where($db->quoteName('key') . ' = ' . $db->quote($oldKey));
 			}
 
 			$db->setQuery($query);
@@ -635,7 +630,7 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Adding self to the association
-			if (!$all_language)
+			if (!$allLanguage)
 			{
 				$associations[$table->language] = (int) $table->id;
 			}
@@ -668,7 +663,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Trigger the after save event.
-		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew, $data));
 
 		// Rebuild the path for the category:
 		if (!$table->rebuildPath($table->id))
@@ -965,7 +960,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				if (!in_array($childId, $pks))
 				{
-					array_push($pks, $childId);
+					$pks[] = $childId;
 				}
 			}
 

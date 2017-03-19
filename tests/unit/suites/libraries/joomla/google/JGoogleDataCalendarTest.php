@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,7 +69,10 @@ class JGoogleDataCalendarTest extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->input = new JInput;
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
@@ -91,7 +94,7 @@ class JGoogleDataCalendarTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -284,7 +287,7 @@ class JGoogleDataCalendarTest extends TestCase
 		$timezone = new DateTimeZone('Europe/London');
 		$start = new DateTime('now');
 		$end = new DateTime;
-		$end->setTimestamp(time() + 3600)->setTimeZone($timezone);
+		$end->setTimestamp(time() + 3600)->setTimezone($timezone);
 
 		$result = $this->object->createEvent('calendarID', time(), time() + 100000, array('option' => 'value'));
 		$this->assertEquals($result, array('items' => array('1' => 1, '2' => 2)));

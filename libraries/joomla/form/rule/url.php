@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -75,6 +75,8 @@ class JFormRuleUrl extends JFormRule
 			 */
 			if ($urlParts === false or !$element['relative'])
 			{
+				$element->addAttribute('message', JText::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_SCHEMA_MISSING', $value, implode(', ', $scheme)));
+
 				return false;
 			}
 			// The best we can do for the rest is make sure that the path exists and is valid UTF-8.

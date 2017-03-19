@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,12 +35,12 @@ abstract class JHtmlGrid
 		JHtml::_('bootstrap.tooltip');
 
 		// Build the title.
-		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
-		$title = JHtml::tooltipText($title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
+		$title = $value ? JText::_('JYES') : JText::_('JNO');
+		$title = JHtml::_('tooltipText', $title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
 
 		// Build the <a> tag.
-		$bool = ($value) ? 'true' : 'false';
-		$task = ($value) ? $taskOff : $taskOn;
+		$bool = $value ? 'true' : 'false';
+		$task = $value ? $taskOff : $taskOn;
 		$toggle = (!$task) ? false : true;
 
 		if ($toggle)
@@ -88,7 +88,7 @@ abstract class JHtmlGrid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
-			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ? $tip : $title)) . '"'
+			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ?: $title)) . '"'
 			. ' data-content="' . htmlspecialchars(JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-placement="top">';
 
 		if (isset($title['0']) && $title['0'] == '<')
@@ -126,7 +126,7 @@ abstract class JHtmlGrid
 		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.tooltip');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip)
+		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::_('tooltipText', $tip)
 			. '" onclick="' . $action . '" />';
 	}
 
@@ -299,8 +299,8 @@ abstract class JHtmlGrid
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
-			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::tooltipText('JLIB_HTML_CHECKED_OUT', $row->editor) . '<br />' . $date . '<br />'
-				. $time . '">';
+			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::_('tooltipText', 'JLIB_HTML_CHECKED_OUT', $row->editor)
+				. '<br />' . $date . '<br />' . $time . '">';
 		}
 
 		return $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';

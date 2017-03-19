@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -78,7 +78,7 @@ class JFormFieldSpacer extends JFormField
 			if (!empty($this->description))
 			{
 				JHtml::_('bootstrap.tooltip');
-				$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), JText::_($this->description), 0) . '"';
+				$label .= ' title="' . JHtml::_('tooltipText', trim($text, ':'), JText::_($this->description), 0) . '"';
 			}
 
 			// Add the label text and closing tag.
