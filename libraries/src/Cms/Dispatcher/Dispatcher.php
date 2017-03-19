@@ -114,9 +114,27 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \JAccessExceptionNotallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
+		$command = $this->input->getCmd('task', 'display');
+
+		// Check for a controller.task command.
+		if (strpos($command, '.') !== false)
+		{
+			// Explode the controller.task command.
+			list ($controller, $task) = explode('.', $command);
+
+			$this->input->set('controller', $controller);
+			$this->input->set('task', $task);
+		}
+		else
+		{
+			// Do we have a controller?
+			$controller = $this->input->get('controller', ucwords(substr($this->app->scope, 4)));
+			$task       = $command;
+		}
+
 		// Execute the task for this component
-		$controller = $this->getController($this->input->get('controller', ucwords(substr($this->app->scope, 4))));
-		$controller->execute($this->input->get('task'));
+		$controller = $this->getController($controller);
+		$controller->execute($task);
 		$controller->redirect();
 	}
 
