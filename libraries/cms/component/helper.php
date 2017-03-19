@@ -373,8 +373,10 @@ class JComponentHelper
 				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
 			}
 
+			$namespace = self::getNamespace($option);
+
 			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($app));
+			$contents = static::dispatchComponent(new $class($namespace, $app));
 		}
 		else
 		{
@@ -533,5 +535,30 @@ class JComponentHelper
 		}
 
 		return static::$components;
+	}
+
+	/**
+	 * Get the namespace for the extension
+	 *
+	 * @param   string  $extensionName  Name of the extension
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getNamespace($extensionName)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true);
+
+		$query
+			->select('namespace')
+			->from('#__extensions')
+			->where('name = ' . $db->quote($extensionName));
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 }

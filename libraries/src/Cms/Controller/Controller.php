@@ -145,6 +145,14 @@ class Controller  implements ControllerInterface
 	protected static $views;
 
 	/**
+	 * The Application
+	 *
+	 * @var    \JApplicationCms|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * Adds to the stack of model paths in LIFO order.
 	 *
 	 * @param   mixed   $path    The directory (string), or list of directories (array) to add.
@@ -221,6 +229,8 @@ class Controller  implements ControllerInterface
 	 * @return  static
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated 4.0
 	 * @throws  \Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
@@ -310,11 +320,11 @@ class Controller  implements ControllerInterface
 		}
 		else
 		{
-			self::$instance = new $class($config);
+			self::$instance = new $class($config, $input, \JFactory::getApplication());
 		}
 
 		// Instantiate the class, store it to the static container, and return it
-		return self::$instance = new $class($config);
+		return self::$instance = new $class($config, $input, \JFactory::getApplication());
 	}
 
 	/**
@@ -326,7 +336,7 @@ class Controller  implements ControllerInterface
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), $app = null, $input = null)
 	{
 		$this->methods = array();
 		$this->message = null;
@@ -335,12 +345,13 @@ class Controller  implements ControllerInterface
 		$this->redirect = null;
 		$this->taskMap = array();
 
+		$this->app = $app ? $app : \JFactory::getApplication();
+		$this->input = $input ? $input : $this->app->input;
+
 		if (defined('JDEBUG') && JDEBUG)
 		{
 			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
 		}
-
-		$this->input = \JFactory::getApplication()->input;
 
 		// Determine the methods to exclude from the base class.
 		$xMethods = get_class_methods('\JControllerLegacy');
@@ -501,14 +512,13 @@ class Controller  implements ControllerInterface
 	{
 		if ($id)
 		{
-			$app    = \JFactory::getApplication();
-			$values = (array) $app->getUserState($context . '.id');
+			$values = (array) $this->app->getUserState($context . '.id');
 
 			$result = in_array((int) $id, $values);
 
 			if (defined('JDEBUG') && JDEBUG)
 			{
-				$app->getLogger()->info(
+				$this->app->getLogger()->info(
 					sprintf(
 						'Checking edit ID %s.%s: %d %s',
 						$context,
@@ -640,11 +650,11 @@ class Controller  implements ControllerInterface
 
 			if (is_array($urlparams))
 			{
-				$app = \JFactory::getApplication();
+				$this->app = \JFactory::getApplication();
 
-				if (!empty($app->registeredurlparams))
+				if (!empty($this->app->registeredurlparams))
 				{
-					$registeredurlparams = $app->registeredurlparams;
+					$registeredurlparams = $this->app->registeredurlparams;
 				}
 				else
 				{
@@ -657,7 +667,7 @@ class Controller  implements ControllerInterface
 					$registeredurlparams->$key = $value;
 				}
 
-				$app->registeredurlparams = $registeredurlparams;
+				$this->app->registeredurlparams = $registeredurlparams;
 			}
 
 			try
@@ -882,19 +892,18 @@ class Controller  implements ControllerInterface
 	 */
 	protected function holdEditId($context, $id)
 	{
-		$app = \JFactory::getApplication();
-		$values = (array) $app->getUserState($context . '.id');
+		$values = (array) $this->app->getUserState($context . '.id');
 
 		// Add the id to the list if non-zero.
 		if (!empty($id))
 		{
 			$values[] = (int) $id;
 			$values   = array_unique($values);
-			$app->setUserState($context . '.id', $values);
+			$this->app->setUserState($context . '.id', $values);
 
 			if (defined('JDEBUG') && JDEBUG)
 			{
-				$app->getLogger()->info(
+				$this->app->getLogger()->info(
 					sprintf(
 						'Holding edit ID %s.%s %s',
 						$context,
@@ -918,13 +927,11 @@ class Controller  implements ControllerInterface
 	{
 		if ($this->redirect)
 		{
-			$app = \JFactory::getApplication();
-
 			// Enqueue the redirect message
-			$app->enqueueMessage($this->message, $this->messageType);
+			$this->app->enqueueMessage($this->message, $this->messageType);
 
 			// Execute the redirect
-			$app->redirect($this->redirect);
+			$this->app->redirect($this->redirect);
 		}
 
 		return false;
@@ -994,8 +1001,7 @@ class Controller  implements ControllerInterface
 	 */
 	protected function releaseEditId($context, $id)
 	{
-		$app = \JFactory::getApplication();
-		$values = (array) $app->getUserState($context . '.id');
+		$values = (array) $this->app->getUserState($context . '.id');
 
 		// Do a strict search of the edit list values.
 		$index = array_search((int) $id, $values, true);
@@ -1003,11 +1009,11 @@ class Controller  implements ControllerInterface
 		if (is_int($index))
 		{
 			unset($values[$index]);
-			$app->setUserState($context . '.id', $values);
+			$this->app->setUserState($context . '.id', $values);
 
 			if (defined('JDEBUG') && JDEBUG)
 			{
-				$app->getLogger()->info(
+				$this->app->getLogger()->info(
 					sprintf(
 						'Releasing edit ID %s.%s %s',
 						$context,
@@ -1084,9 +1090,8 @@ class Controller  implements ControllerInterface
 				$referrer = 'index.php';
 			}
 
-			$app = \JFactory::getApplication();
-			$app->enqueueMessage(\JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
-			$app->redirect($referrer);
+			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
+			$this->app->redirect($referrer);
 		}
 
 		return $valid;

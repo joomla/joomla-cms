@@ -468,6 +468,7 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `protected` tinyint(3) NOT NULL DEFAULT 0,
   `manifest_cache` text NOT NULL,
   `params` text NOT NULL,
+  `namespace` varchar(500) DEFAULT NULL,
   `custom_data` text NOT NULL,
   `system_data` text NOT NULL,
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,

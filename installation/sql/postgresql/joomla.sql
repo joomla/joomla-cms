@@ -479,6 +479,7 @@ CREATE TABLE "#__extensions" (
   "protected" smallint DEFAULT 0 NOT NULL,
   "manifest_cache" text NOT NULL,
   "params" text NOT NULL,
+  "namespace" varchar(500) DEFAULT NULL,
   "custom_data" text DEFAULT '' NOT NULL,
   "system_data" text DEFAULT '' NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
