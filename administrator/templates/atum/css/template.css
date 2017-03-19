@@ -8885,6 +8885,9 @@ form .form-no-margin .control-group .controls {
 form .form-no-margin .control-group .control-label {
   float: none; }
 
+.custom-select {
+  min-width: 240px; }
+
 .spacer hr {
   width: 380px; }
 
