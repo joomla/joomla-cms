@@ -14,7 +14,7 @@
  * @subpackage  Log
  * @since       11.1
  */
-class JLogEntryTest extends PHPUnit_Framework_TestCase
+class JLogEntryTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Verify the default values for the log entry object.
