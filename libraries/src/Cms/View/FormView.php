@@ -72,7 +72,7 @@ class FormView extends HtmlView
 	/**
 	 * Constructor
 	 *
-	 * @param   array   $config
+	 * @param   array   $config  An optional associative array of configuration settings.
 	 */
 	public function __construct(array $config)
 	{
@@ -91,6 +91,8 @@ class FormView extends HtmlView
 	}
 
 	/**
+	 * Execute and display a template script.
+	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return   mixed
