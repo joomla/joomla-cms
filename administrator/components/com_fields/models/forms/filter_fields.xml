@@ -77,8 +77,8 @@
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.type ASC">COM_FIELDS_VIEW_FIELDS_SORT_TYPE_ASC</option>
 			<option value="a.type DESC">COM_FIELDS_VIEW_FIELDS_SORT_TYPE_DESC</option>
-			<option value="g.group_title ASC">COM_FIELDS_VIEW_FIELDS_SORT_GROUP_ASC</option>
-			<option value="g.group_title DESC">COM_FIELDS_VIEW_FIELDS_SORT_GROUP_DESC</option>
+			<option value="g.title ASC">COM_FIELDS_VIEW_FIELDS_SORT_GROUP_ASC</option>
+			<option value="g.title DESC">COM_FIELDS_VIEW_FIELDS_SORT_GROUP_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
 			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
