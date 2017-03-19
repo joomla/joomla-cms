@@ -107,7 +107,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 					<span class="sr-only"><?php echo JText::_('TPL_ATUM_GOTO_JOOMLA_HOME_PAGE'); ?></span>
 				</a>
 			</li>
-			<li class="nav-item">	<span class="sr-only"><?php echo JText::_('TPL_ATUM_GOTO_JOOMLA_HOME_PAGE'); ?></span>
+			<li class="nav-item">
 				<span class="text-white float-right">&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
 			</li>
 		</ul>

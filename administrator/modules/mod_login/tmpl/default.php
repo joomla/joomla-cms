@@ -63,6 +63,7 @@ if ($spacing > 0)
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
+			<label for="mod-login-secretkey" class="sr-only"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
 			<div class="form-group">
 				<input
 					name="secretkey"
@@ -83,7 +84,7 @@ if ($spacing > 0)
 
 		<div class="form-group">
 			<button class="btn btn-success btn-block btn-lg">
-				<span class="icon-lock"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
+				<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 			</button>
 		</div>
 
