@@ -50,6 +50,11 @@ class Update extends Table
 			return false;
 		}
 
+		if (!$this->update_id && !$this->data)
+		{
+			$this->data = '';
+		}
+
 		return true;
 	}
 

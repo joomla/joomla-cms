@@ -62,7 +62,16 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		switch ($this->type)
 		{
 			case 'select':
-				$query .= (string) $this->select;
+				// Add required aliases for offset or fixGroupColumns method
+				$columns = $this->fixSelectAliases();
+
+				$query = (string) $this->select;
+
+				if ($this->group)
+				{
+					$this->fixGroupColumns($columns);
+				}
+
 				$query .= (string) $this->from;
 
 				if ($this->join)
@@ -212,6 +221,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 			default:
 				$query = parent::__toString();
+
 				break;
 		}
 
@@ -334,29 +344,21 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
-		if ($limit == 0 && $offset == 0)
+		if ($limit)
+		{
+			$total = $offset + $limit;
+			$query = substr_replace($query, 'SELECT TOP ' . (int) $total, stripos($query, 'SELECT'), 6);
+		}
+
+		if (!$offset)
 		{
 			return $query;
 		}
 
-		$start = $offset + 1;
-		$end   = $offset + $limit;
-
-		$orderBy = stristr($query, 'ORDER BY');
-
-		if (is_null($orderBy) || empty($orderBy))
-		{
-			$orderBy = 'ORDER BY (select 0)';
-		}
-
-		$query = str_ireplace($orderBy, '', $query);
-
-		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
-
-		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
-		$query = 'SELECT * FROM (' . $query . ') A WHERE A.RowNumber BETWEEN ' . $start . ' AND ' . $end;
-
-		return $query;
+		return PHP_EOL
+			. 'SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY (SELECT 0)) AS RowNumber FROM ('
+			. $query
+			. PHP_EOL . ') AS A) AS A WHERE RowNumber > ' . (int) $offset;
 	}
 
 	/**
@@ -382,95 +384,627 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	}
 
 	/**
-	 * Add a grouping column to the GROUP clause of the query.
+	 * Split a string of sql expression into an array of individual columns.
+	 * Single line or line end comments and multi line comments are stripped off.
+	 * Always return at least one column.
 	 *
-	 * Usage:
-	 * $query->group('id');
+	 * @param   string  $string  Input string of sql expression like select expression.
 	 *
-	 * @param   mixed  $columns  A string or array of ordering columns.
+	 * @return  array[]  The columns from the input string separated into an array.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function splitSqlExpression($string)
+	{
+		// Append whitespace as equivalent to the last comma
+		$string .= ' ';
+
+		$colIdx    = 0;
+		$start     = 0;
+		$open      = false;
+		$openC     = 0;
+		$comment   = false;
+		$endString = '';
+		$length    = strlen($string);
+		$columns   = array();
+		$column    = array();
+		$current   = '';
+		$previous  = null;
+		$operators = array(
+			'+' => '',
+			'-' => '',
+			'*' => '',
+			'/' => '',
+			'%' => '',
+			'&' => '',
+			'|' => '',
+			'~' => '',
+			'^' => '',
+		);
+
+		$addBlock = function ($block) use (&$column, &$colIdx)
+		{
+			if (isset($column[$colIdx]))
+			{
+				$column[$colIdx] .= $block;
+			}
+			else
+			{
+				$column[$colIdx] = $block;
+			}
+		};
+
+		for ($i = 0; $i < $length; $i++)
+		{
+			$current      = substr($string, $i, 1);
+			$current2     = substr($string, $i, 2);
+			$current3     = substr($string, $i, 3);
+			$lenEndString = strlen($endString);
+			$testEnd      = substr($string, $i, $lenEndString);
+
+			if ($current == '[' || $current == '"' || $current == "'" || $current2 == '--'
+				|| ($current2 == '/*') || ($current == '#' && $current3 != '#__')
+				|| ($lenEndString && $testEnd == $endString))
+			{
+				if ($open)
+				{
+					if ($testEnd === $endString)
+					{
+						if ($comment)
+						{
+							if ($lenEndString > 1)
+							{
+								$i += ($lenEndString - 1);
+							}
+
+							// Move cursor after close tag of comment
+							$start = $i + 1;
+							$comment = false;
+						}
+						elseif ($current == "'" || $current == ']' || $current == '"')
+						{
+							// Check for escaped quote like '', ]] or ""
+							$n = 1;
+
+							while ($i + $n < $length && $string[$i + $n] == $current)
+							{
+								$n++;
+							}
+
+							// Jump to the last quote
+							$i += $n - 1;
+
+							if ($n % 2 === 0)
+							{
+								// There is only escaped quote
+								continue;
+							}
+							elseif ($n > 2)
+							{
+								// The last right close quote is not escaped
+								$current = $string[$i];
+							}
+						}
+
+						$open = false;
+						$endString = '';
+					}
+				}
+				else
+				{
+					$open = true;
+
+					if ($current == '#' || $current2 == '--')
+					{
+						$endString = "\n";
+						$comment = true;
+					}
+					elseif ($current2 == '/*')
+					{
+						$endString = '*/';
+						$comment = true;
+					}
+					elseif ($current == '[')
+					{
+						$endString = ']';
+					}
+					else
+					{
+						$endString = $current;
+					}
+
+					if ($comment && $start < $i)
+					{
+						// Add string exists before comment
+						$addBlock(substr($string, $start, $i - $start));
+						$previous = $string[$i - 1];
+						$start = $i;
+					}
+				}
+			}
+			elseif (!$open)
+			{
+				if ($current == '(')
+				{
+					$openC++;
+					$previous = $current;
+				}
+				elseif ($current == ')')
+				{
+					$openC--;
+					$previous = $current;
+				}
+				elseif ($current == '.')
+				{
+					if ($i === $start && $colIdx > 0 && !isset($column[$colIdx]))
+					{
+						// Remove whitepace placed before dot
+						$colIdx--;
+					}
+
+					$previous = $current;
+				}
+				elseif ($openC === 0)
+				{
+					if (ctype_space($current))
+					{
+						// Normalize whitepace
+						$string[$i] = ' ';
+
+						if ($start < $i)
+						{
+							// Add text placed before whitespace
+							$addBlock(substr($string, $start, $i - $start));
+							$colIdx++;
+							$previous = $string[$i - 1];
+						}
+						elseif (isset($column[$colIdx]))
+						{
+							if ($colIdx > 1 || !isset($operators[$previous]))
+							{
+								// There was whitespace after comment
+								$colIdx++;
+							}
+						}
+
+						// Move cursor forward
+						$start = $i + 1;
+					}
+					elseif (isset($operators[$current]) && ($current !== '*' || $previous !== '.'))
+					{
+						if ($start < $i)
+						{
+							// Add text before operator
+							$addBlock(substr($string, $start, $i - $start));
+							$colIdx++;
+						}
+						elseif (!isset($column[$colIdx]) && isset($operators[$previous]))
+						{
+							// Do not create whitespace between operators
+							$colIdx--;
+						}
+
+						// Add operator
+						$addBlock($current);
+						$previous = $current;
+						$colIdx++;
+
+						// Move cursor forward
+						$start = $i + 1;
+					}
+					else
+					{
+						$previous = $current;
+					}
+				}
+			}
+
+			if (($current == ',' && !$open && $openC == 0) || $i == $length - 1)
+			{
+				if ($start < $i && !$comment)
+				{
+					// Save remaining text
+					$addBlock(substr($string, $start, $i - $start));
+				}
+
+				$columns[] = $column;
+
+				// Reset values
+				$column   = array();
+				$colIdx   = 0;
+				$previous = null;
+
+				// Column saved, move cursor forward after comma
+				$start = $i + 1;
+			}
+		}
+
+		return $columns;
+	}
+
+	/**
+	 * Add required aliases to columns for select statement in subquery.
+	 *
+	 * @return  array[]  Array of columns with added missing aliases.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function fixSelectAliases()
+	{
+		$operators = array(
+			'+' => '',
+			'-' => '',
+			'*' => '',
+			'/' => '',
+			'%' => '',
+			'&' => '',
+			'|' => '',
+			'~' => '',
+			'^' => '',
+		);
+
+		// Split into array and remove comments
+		$columns = $this->splitSqlExpression(implode(',', $this->select->getElements()));
+
+		foreach ($columns as $i => $column)
+		{
+			$size = count($column);
+
+			if ($size == 0)
+			{
+				continue;
+			}
+
+			if ($size > 2 && strcasecmp($column[$size - 2], 'AS') === 0)
+			{
+				// Alias exists, replace it to uppercase
+				$columns[$i][$size - 2] = 'AS';
+				continue;
+			}
+
+			if ($i == 0 && stripos(' DISTINCT ALL ', " $column[0] ") !== false)
+			{
+				// This words are reserved, they are not column names
+				array_shift($column);
+				$size--;
+			}
+
+			$lastWord = strtoupper($column[$size - 1]);
+			$length   = strlen($lastWord);
+			$lastChar = $lastWord[$length - 1];
+
+			if ($lastChar == '*')
+			{
+				// Skip on wildcard
+				continue;
+			}
+
+			if ($lastChar == ')'
+				|| ($size == 1 && $lastChar == "'")
+				|| $lastWord[0] == '@'
+				|| $lastWord == 'NULL'
+				|| $lastWord == 'END'
+				|| is_numeric($lastWord))
+			{
+				/* Ends with:
+				 * - SQL function
+				 * - single static value like 'only '+'string'
+				 * - @@var
+				 * - NULL
+				 * - CASE ... END
+				 * - Numeric
+				 */
+				$columns[$i][] = 'AS';
+				$columns[$i][] = $this->quoteName('columnAlias' . $i);
+				continue;
+			}
+
+			if ($size == 1)
+			{
+				continue;
+			}
+
+			$lastChar2 = substr($column[$size - 2], -1);
+
+			// Check if column ends with  '- a.x' or '- a. x'
+			if (isset($operators[$lastChar2])
+				|| ($size > 2 && $lastChar2 === '.' && isset($operators[substr($column[$size - 3], -1)])))
+			{
+				// Ignore plus signs if column start with them
+				if ($size != 2 || ltrim($column[0], '+') !== '' || $column[1][0] === "'")
+				{
+					// If operator exists before last word then alias is required for subquery
+					$columns[$i][] = 'AS';
+					$columns[$i][] = $this->quoteName('columnAlias' . $i);
+					continue;
+				}
+			}
+			elseif ($column[$size - 1][0] !== '.' && $lastChar2 !== '.')
+			{
+				// If columns is like name name2 then second word is alias.
+				// Add missing AS before the alias, exception for 'a. x' and 'a .x'
+				array_splice($columns[$i], -1, 0, 'AS');
+			}
+		}
+
+		$selectColumns = array();
+
+		foreach ($columns as $i => $column)
+		{
+			$selectColumns[$i] = implode(' ', $column);
+		}
+
+		$this->select = new JDatabaseQueryElement('SELECT', $selectColumns);
+
+		return $columns;
+	}
+
+	/**
+	 * Add missing columns names to GROUP BY clause.
+	 *
+	 * @param   array[]  $selectColumns  Array of columns from splitSqlExpression method.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function group($columns)
+	protected function fixGroupColumns($selectColumns)
 	{
-		// Transform $columns into an array for filtering purposes
-		is_string($columns) && $columns = explode(',', str_replace(' ', '', $columns));
+		// Cache tables columns
+		static $cacheCols = array();
 
-		// Get the _formatted_ FROM string and remove everything except `table AS alias`
-		$fromStr = str_replace(array('[', ']'), '', str_replace('#__', $this->db->getPrefix(), str_replace('FROM ', '', (string) $this->from)));
+		// Known columns of all included tables
+		$knownColumnsByAlias = array();
 
-		// Start setting up an array of alias => table
-		list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
+		$iquotes  = array('"' => '', '[' => '', "'" => '');
+		$nquotes = array('"', '[', ']');
 
-		$tmpCols = $this->db->getTableColumns(trim($table));
-		$cols = array();
+		// Aggregate functions
+		$aFuncs = array(
+			'AVG(',
+			'CHECKSUM_AGG(',
+			'COUNT(',
+			'COUNT_BIG(',
+			'GROUPING(',
+			'GROUPING_ID(',
+			'MIN(',
+			'MAX(',
+			'SUM(',
+			'STDEV(',
+			'STDEVP(',
+			'VAR(',
+			'VARP(',
+		);
 
-		foreach ($tmpCols as $name => $type)
+		// Aggregated columns
+		$filteredColumns = array();
+
+		// Aliases found in SELECT statement
+		$knownAliases = array();
+		$wildcardTables = array();
+
+		foreach ($selectColumns as $i => $column)
 		{
-			$cols[] = $alias . '.' . $name;
+			$size = count($column);
+
+			if ($size === 0)
+			{
+				continue;
+			}
+
+			if ($size > 2 && $column[$size - 2] === 'AS')
+			{
+				// Save and remove AS alias
+				$alias = $column[$size - 1];
+
+				if (isset($iquotes[$alias[0]]))
+				{
+					$alias = substr($alias, 1, -1);
+				}
+
+				// Remove alias
+				$selectColumns[$i] = $column = array_slice($column, 0, -2);
+
+				if ($size === 3 || ($size === 4 && strpos('+-*/%&|~^', $column[0][0]) !== false))
+				{
+					$lastWord = $column[$size - 3];
+
+					if ($lastWord[0] === "'" || $lastWord === 'NULL' || is_numeric($lastWord))
+					{
+						unset($selectColumns[$i]);
+
+						continue;
+					}
+				}
+
+				// Remember pair alias => column expression
+				$knownAliases[$alias] = implode(' ', $column);
+			}
+
+			$aggregated = false;
+
+			foreach ($column as $j => $block)
+			{
+				if (substr($block, -2) === '.*')
+				{
+					// Found column ends with .*
+					if (isset($iquotes[$block[0]]))
+					{
+						// Quoted table
+						$wildcardTables[] = substr($block, 1, -3);
+					}
+					else
+					{
+						$wildcardTables[] = substr($block, 0, -2);
+					}
+				}
+				elseif (str_ireplace($aFuncs, '', $block) != $block)
+				{
+					$aggregated = true;
+				}
+
+				if ($block[0] === "'")
+				{
+					// Shrink static strings which could contain column name
+					$column[$j] = "''";
+				}
+			}
+
+			if (!$aggregated)
+			{
+				// Without aggregated columns and aliases
+				$filteredColumns[] = implode(' ', $selectColumns[$i]);
+			}
+
+			// Without aliases and static strings
+			$selectColumns[$i] = implode(' ', $column);
 		}
 
-		// Now we need to get all tables from any joins
-		// Go through all joins and add them to the tables array
-		if ($this->join)
+		// If select statement use table.* expression
+		if ($wildcardTables)
 		{
-			foreach ($this->join as $join)
+			// Split FROM statement into list of tables
+			$tables = $this->splitSqlExpression(implode(',', $this->from->getElements()));
+
+			foreach ($tables as $i => $table)
 			{
-				$joinTbl = str_replace('#__', $this->db->getPrefix(), str_replace(']', '', preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
+				$table = implode(' ', $table);
 
-				list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
-
-				$tmpCols = $this->db->getTableColumns(trim($table));
-
-				foreach ($tmpCols as $name => $tmpColType)
+				// Exclude subquery from the FROM clause
+				if (strpos($table, '(') === false)
 				{
-					$cols[] = $alias . '.' . $name;
+					// Unquote
+					$table = str_replace($nquotes, '', $table);
+					$table = str_replace('#__', $this->db->getPrefix(), $table);
+					$table = explode(' ', $table);
+					$alias = end($table);
+					$table = $table[0];
+
+					// Chek if exists a wildcard with current alias table?
+					if (in_array($alias, $wildcardTables, true))
+					{
+						if (!isset($cacheCols[$table]))
+						{
+							$cacheCols[$table] = $this->db->getTableColumns($table);
+						}
+
+						if ($this->join || $table != $alias)
+						{
+							foreach ($cacheCols[$table] as $name => $type)
+							{
+								$knownColumnsByAlias[$alias][] = $alias . '.' . $name;
+							}
+						}
+						else
+						{
+							foreach ($cacheCols[$table] as $name => $type)
+							{
+								$knownColumnsByAlias[$alias][] = $name;
+							}
+						}
+					}
+				}
+			}
+
+			// Now we need to get all tables from any joins
+			// Go through all joins and add them to the tables array
+			if ($this->join)
+			{
+				foreach ($this->join as $join)
+				{
+					// Unquote and replace prefix
+					$joinTbl = str_replace($nquotes, '', (string) $join);
+					$joinTbl = str_replace("#__", $this->db->getPrefix(), $joinTbl);
+
+					// Exclude subquery
+					if (preg_match('/JOIN\s+(\w+)(?:\s+AS)?(?:\s+(\w+))?/i', $joinTbl, $matches))
+					{
+						$table = $matches[1];
+						$alias = isset($matches[2]) ? $matches[2] : $table;
+
+						// Chek if exists a wildcard with current alias table?
+						if (in_array($alias, $wildcardTables, true))
+						{
+							if (!isset($cacheCols[$table]))
+							{
+								$cacheCols[$table] = $this->db->getTableColumns($table);
+							}
+
+							foreach ($cacheCols[$table] as $name => $type)
+							{
+								$knownColumnsByAlias[$alias][] = $alias . '.' . $name;
+							}
+						}
+					}
 				}
 			}
 		}
 
-		$selectStr = str_replace('SELECT ', '', (string) $this->select);
+		$selectExpression = implode(',', $selectColumns);
 
-		// Remove any functions (e.g. COUNT(), SUM(), CONCAT())
-		$selectCols = preg_replace("/([^,]*\([^\)]*\)[^,]*,?)/", '', $selectStr);
+		// Split into the right columns
+		$groupColumns = $this->splitSqlExpression(implode(',', $this->group->getElements()));
 
-		// Remove any "as alias" statements
-		$selectCols = preg_replace("/(\sas\s[^,]*)/i", '', $selectCols);
-
-		// Remove any extra commas
-		$selectCols = preg_replace('/,{2,}/', ',', $selectCols);
-
-		// Remove any trailing commas and all whitespaces
-		$selectCols = trim(str_replace(' ', '', preg_replace("/,?$/", '', $selectCols)));
-
-		// Get an array to compare against
-		$selectCols = explode(',', $selectCols);
-
-		// Find all alias.* and fill with proper table column names
-		foreach ($selectCols as $key => $aliasColName)
+		// Remove column aliases from GROUP statement - SQLSRV does not support it
+		foreach ($groupColumns as $i => $column)
 		{
-			if (preg_match("/.+\*/", $aliasColName, $match))
+			$groupColumns[$i] = implode(' ', $column);
+			$column = str_replace($nquotes, '', $groupColumns[$i]);
+
+			if (isset($knownAliases[$column]))
 			{
-				// Grab the table alias minus the .*
-				$aliasStar = preg_replace("/(.+)\.\*/", "$1", $aliasColName);
-
-				// Unset the array key
-				unset($selectCols[$key]);
-
-				// Get the table name
-				$tableColumns = preg_grep("/{$aliasStar}\.+/", $cols);
-				$columns = array_merge($columns, $tableColumns);
+				// Be sure that this is not a valid column name
+				if (!preg_match('/\b' . preg_quote($column, '/') . '\b/', $selectExpression))
+				{
+					// Replace column alias by column expression
+					$groupColumns[$i] = $knownAliases[$column];
+				}
 			}
 		}
 
-		// Finally, get a unique string of all column names that need to be included in the group statement
-		$columns = array_unique(array_merge($columns, $selectCols));
-		$columns = implode(',', $columns);
+		// Find all alias.* and fill with proper table column names
+		foreach ($filteredColumns as $i => $column)
+		{
+			if (substr($column, -2) === '.*')
+			{
+				unset($filteredColumns[$i]);
 
-		// Recreate it every time, to ensure we have checked _all_ select statements
-		$this->group = new JDatabaseQueryElement('GROUP BY', $columns);
+				// Extract alias.* columns into GROUP BY statement
+				$groupColumns = array_merge($groupColumns, $knownColumnsByAlias[substr($column, 0, -2)]);
+			}
+		}
+
+		$groupColumns = array_merge($groupColumns, $filteredColumns);
+
+		if ($this->order)
+		{
+			// Remove direction suffixes
+			$dir = array(" DESC\v", " ASC\v");
+
+			$orderColumns = $this->splitSqlExpression(implode(',', $this->order->getElements()));
+
+			foreach ($orderColumns as $i => $column)
+			{
+				$column = implode(' ', $column);
+				$orderColumns[$i] = $column = trim(str_ireplace($dir, '', "$column\v"), "\v");
+
+				if (isset($knownAliases[str_replace($nquotes, '', $column)]))
+				{
+					unset($orderColumns[$i]);
+				}
+
+				if (str_ireplace($aFuncs, '', $column) != $column)
+				{
+					// Do not add aggregate expression
+					unset($orderColumns[$i]);
+				}
+			}
+
+			$groupColumns = array_merge($groupColumns, $orderColumns);
+		}
+
+		// Get a unique string of all column names that need to be included in the group statement
+		$this->group = new JDatabaseQueryElement('GROUP BY', array_unique($groupColumns));
 
 		return $this;
 	}

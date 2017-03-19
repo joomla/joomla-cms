@@ -14,7 +14,7 @@
  * @subpackage  Http
  * @since       3.4
  */
-class JHttpTest extends PHPUnit_Framework_TestCase
+class JHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    \Joomla\Registry\Registry  Options for the JHttp object.
@@ -68,7 +68,7 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

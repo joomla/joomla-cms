@@ -22,7 +22,7 @@ if (!class_exists('En_GBLocalise'))
  * @subpackage  Language
  * @since       11.1
  */
-class JLanguageTest extends PHPUnit_Framework_TestCase
+class JLanguageTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JLanguage

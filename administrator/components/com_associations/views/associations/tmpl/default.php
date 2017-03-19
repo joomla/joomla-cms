@@ -83,6 +83,9 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th width="5%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
+					<th width="15%" class="nowrap">
+						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
@@ -143,10 +146,13 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php endif; ?>
 					</td>
 					<td class="small">
-						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td>
-						<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout); ?>
+						<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, false); ?>
+					</td>
+					<td>
+						<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, !$isCheckout, true); ?>
 					</td>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<td class="small">
