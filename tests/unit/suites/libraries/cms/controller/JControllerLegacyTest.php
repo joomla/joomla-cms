@@ -123,7 +123,7 @@ class JControllerLegacyTest extends TestCase
 	 */
 	public function testConstructer()
 	{
-		$controller = new TestTestController();
+		$controller = new TestTestController;
 		$this->assertEquals(
 			$controller->getTasks(),
 			array('task5', 'task1', 'task2', 'display'),
