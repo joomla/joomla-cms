@@ -11,7 +11,7 @@ Joomla = window.Joomla || {};
 	document.addEventListener('DOMContentLoaded', function() {
 		Joomla.toggleContainer = function(name)
 		{
-			var e = document.getElementById(name); // MooTools might not be available ;)
+			var e = document.getElementById(name);
 			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
 		};
 
