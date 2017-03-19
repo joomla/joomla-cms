@@ -95,7 +95,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 					<div class="menu-collapse hidden-lg-up">
 						<a id="menu-collapse" class="menu-toggle" href="#">
 							<span class="fa fa-bars fa-fw">
-								<span class="sr-only"><?php echo JText::__('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
+								<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
 							</span>
 						</a>
 					</div>
