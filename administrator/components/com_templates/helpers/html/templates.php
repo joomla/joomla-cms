@@ -88,7 +88,7 @@ class JHtmlTemplates
 						'width' => '800px',
 						'footer' => $footer
 					),
-					$body = '<div><img src="' . $preview . '" style="max-width:100%"></div>'
+					$body = '<div><img src="' . $preview . '" style="max-width:100%" alt="' . $template . '"></div>'
 				);
 			}
 		}

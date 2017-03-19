@@ -14,7 +14,7 @@
  * @subpackage  Form
  * @since       3.1
  */
-class JFormFieldModuletagTest extends PHPUnit_Framework_TestCase
+class JFormFieldModuletagTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Tests the getInput method.

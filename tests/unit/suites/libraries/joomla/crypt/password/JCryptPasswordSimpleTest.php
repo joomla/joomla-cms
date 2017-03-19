@@ -14,7 +14,7 @@
  * @subpackage  Crypt
  * @since       11.1
  */
-class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
+class JCryptPasswordSimpleTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Data provider for testCreate method.
