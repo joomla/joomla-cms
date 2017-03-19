@@ -303,7 +303,15 @@ class FieldsModelFields extends JModelList
 
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.fullordering', 'a.ordering');
-		$query->order($db->escape($listOrdering));		
+		$orderDirn    = '';
+
+		if (empty($listOrdering))
+		{
+			$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
+			$orderDirn     = $this->state->get('list.direction', 'DESC');
+		}
+	
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
 
 		return $query;
 	}
