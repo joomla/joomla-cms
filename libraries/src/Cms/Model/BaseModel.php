@@ -557,7 +557,8 @@ abstract class BaseModel extends \JObject
 
 	/**
 	 * Method to check if the given record is checked out by the current user
-	 * @param  $item
+	 *
+	 * @param   \stdClass  $item  The record to check
 	 *
 	 * @return  bool
 	 */

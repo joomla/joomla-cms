@@ -93,14 +93,14 @@ class ListView extends HtmlView
 	/**
 	 * The help link for the view
 	 *
-	 * @var
+	 * @var string
 	 */
 	protected $helpLink;
 
 	/**
 	 * Constructor
 	 *
-	 * @param array $config
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
 	public function __construct(array $config)
 	{
@@ -124,9 +124,9 @@ class ListView extends HtmlView
 	}
 
 	/**
-	 * @param null $tpl
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return mixed
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -148,6 +148,8 @@ class ListView extends HtmlView
 
 	/**
 	 * Prepare view data
+	 *
+	 * @return  void
 	 */
 	protected function initializeView()
 	{
@@ -169,10 +171,10 @@ class ListView extends HtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		// canDo property should be built by the child class before, if not, generate default value
+		// Property $canDo should be built by the child class before, if not, generate default value
 		if (!empty($this->canDo))
 		{
-			$this->canDo = new \JObject();
+			$this->canDo = new \JObject;
 		}
 	}
 

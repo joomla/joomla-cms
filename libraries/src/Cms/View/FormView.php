@@ -72,7 +72,7 @@ class FormView extends HtmlView
 	/**
 	 * Constructor
 	 *
-	 * @param array $config
+	 * @param   array   $config
 	 */
 	public function __construct(array $config)
 	{
@@ -91,9 +91,9 @@ class FormView extends HtmlView
 	}
 
 	/**
-	 * @param null $tpl
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return mixed
+	 * @return   mixed
 	 */
 	public function display($tpl = null)
 	{
@@ -115,6 +115,8 @@ class FormView extends HtmlView
 
 	/**
 	 * Prepare view data
+	 *
+	 * @return  void
 	 */
 	protected function initializeView()
 	{
@@ -122,10 +124,10 @@ class FormView extends HtmlView
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
-		// canDo property should be built by the child class before, if not, generate default value
+		// Property $canDo should be built by the child class before, if not, generate default value
 		if (!empty($this->canDo))
 		{
-			$this->canDo = new \JObject();
+			$this->canDo = new \JObject;
 		}
 	}
 
@@ -149,7 +151,7 @@ class FormView extends HtmlView
 
 		if (empty($this->toolbarTitle))
 		{
-			$langKey            = strtoupper($this->option . '_PAGE_' . ($checkedOut ? 'VIEW_' . $viewName : ($isNew ? 'ADD_' . $viewName : 'EDIT_' . $viewName)));
+			$langKey = strtoupper($this->option . '_PAGE_' . ($checkedOut ? 'VIEW_' . $viewName : ($isNew ? 'ADD_' . $viewName : 'EDIT_' . $viewName)));
 			$this->toolbarTitle = \JText::_($langKey);
 		}
 

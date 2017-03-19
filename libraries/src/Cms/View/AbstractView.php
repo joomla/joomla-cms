@@ -107,7 +107,7 @@ abstract class AbstractView extends \JObject
 	 *
 	 * @since   3.0
 	 */
-	abstract function display($tpl = null);
+	abstract public function display($tpl = null);
 
 	/**
 	 * Method to get data from a registered model or a property of the view
@@ -175,8 +175,8 @@ abstract class AbstractView extends \JObject
 	 * referenced by the name without \JModel, eg. \JModelCategory is just
 	 * Category.
 	 *
-	 * @param   BaseModel $model   The model to add to the view.
-	 * @param   boolean   $default Is this the default model?
+	 * @param   BaseModel  $model    The model to add to the view.
+	 * @param   boolean    $default  Is this the default model?
 	 *
 	 * @return  BaseModel  The added model.
 	 *
@@ -241,3 +241,4 @@ abstract class AbstractView extends \JObject
 		return $this->_name;
 	}
 }
+

@@ -206,7 +206,7 @@ class FormController extends BaseController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   \Joomla\Cms\Model\AdminModel $model The model of the component being processed.
+	 * @param   \Joomla\Cms\Model\AdminModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
