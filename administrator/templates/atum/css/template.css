@@ -9108,11 +9108,11 @@ legend {
     font-weight: normal; }
     .container-title .page-title span {
       position: relative;
-      top: 2px;
-      margin-right: 12px;
+      top: 3px;
+      margin-right: 15px;
       margin-left: 5px;
       font-size: 1.857rem;
-      color: #285783; }
+      color: #fefefe; }
 
 @media (max-width: 991px) {
   .header {

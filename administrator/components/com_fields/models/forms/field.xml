@@ -182,7 +182,7 @@
 			label="COM_FIELDS_FIELD_LABEL_LABEL"
 			description="COM_FIELDS_FIELD_LABEL_DESC"
 			size="40"
-			required="true"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
 
 		<field
