@@ -204,7 +204,7 @@ class JControllerLegacyTest extends TestCaseDatabase
 	 */
 	public function testGetName()
 	{
-		$this->assertEquals($this->class->getName(), 'joomla\\cms\\controller\\');
+		$this->assertEquals($this->class->getName(), 'joomla\cms\controller\base');
 
 		TestReflection::setValue($this->class, 'name', 'inspector');
 
