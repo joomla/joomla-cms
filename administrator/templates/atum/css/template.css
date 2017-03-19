@@ -8779,6 +8779,81 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   font-weight: normal; }
 
 /* Bootstrap alert mapping */
+.js-switcher {
+  position: relative;
+  box-sizing: content-box;
+  display: inline-block;
+  width: 60px;
+  height: 26px;
+  margin-top: 2px;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-color: #f1f1f1;
+  background-clip: content-box;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0 0 #dfdfdf inset;
+  transition: border .4s ease 0s, box-shadow .4s ease 0s; }
+  .js-switcher.active {
+    background-color: #64bd63;
+    border-color: #64bd63;
+    box-shadow: 0 0 0 16px #64bd63 inset;
+    transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s; }
+  .js-switcher.switcher-danger.active {
+    background-color: #bc6564;
+    border-color: #bc6564;
+    box-shadow: 0 0 0 16px #bc6564 inset; }
+  .js-switcher.switcher-primary.active {
+    background-color: #648fba;
+    border-color: #648fba;
+    box-shadow: 0 0 0 16px #648fba inset; }
+  .js-switcher input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 60px;
+    height: 26px;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    opacity: 0; }
+  .js-switcher .switch {
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 26px;
+    background: #fefefe;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1) inset, 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: left .2s ease 0s; }
+  .js-switcher input:checked ~ .switch {
+    left: 0; }
+  .js-switcher input ~ :checked ~ .switch {
+    left: 30px; }
+  .js-switcher input:checked {
+    z-index: 0; }
+
+.switcher-labels {
+  position: relative;
+  margin-left: 10px; }
+  .switcher-labels span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #aaa;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .2s ease-in-out; }
+    .switcher-labels span.active {
+      visibility: visible;
+      opacity: 1;
+      transition: all .2s ease-in-out; }
+
 html,
 body {
   font-size: 14px; }
@@ -9033,11 +9108,11 @@ legend {
     font-weight: normal; }
     .container-title .page-title span {
       position: relative;
-      top: 2px;
-      margin-right: 12px;
+      top: 3px;
+      margin-right: 15px;
       margin-left: 5px;
       font-size: 1.857rem;
-      color: #285783; }
+      color: #fefefe; }
 
 @media (max-width: 991px) {
   .header {
@@ -9524,83 +9599,6 @@ iframe {
 
 .sidebar-wrapper[data-hidden="1"] ~ .status {
   margin-left: 0; }
-
-.js-switcher {
-  position: relative;
-  box-sizing: content-box;
-  display: inline-block;
-  width: 60px;
-  height: 26px;
-  margin-top: 2px;
-  vertical-align: middle;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  background-color: #f9f9f9;
-  background-clip: content-box;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 0.25rem;
-  box-shadow: 0 0 0 0 #dfdfdf inset;
-  transition: border .4s ease 0s, box-shadow .4s ease 0s; }
-  .js-switcher.active {
-    background-color: #64bd63;
-    border-color: #64bd63;
-    box-shadow: 0 0 0 16px #64bd63 inset;
-    transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s; }
-  .js-switcher.switcher-danger.active {
-    background-color: #bc6564;
-    border-color: #bc6564;
-    box-shadow: 0 0 0 16px #bc6564 inset; }
-  .js-switcher.switcher-primary.active {
-    background-color: #648fba;
-    border-color: #648fba;
-    box-shadow: 0 0 0 16px #648fba inset; }
-  .js-switcher input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    width: 60px;
-    height: 26px;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    zoom: 1;
-    filter: alpha(opacity=0);
-    opacity: 0; }
-  .js-switcher .switch {
-    position: absolute;
-    top: 0;
-    width: 30px;
-    height: 26px;
-    background: #fefefe;
-    border-radius: 0.25rem;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1) inset, 0 1px 3px rgba(0, 0, 0, 0.15);
-    transition: left .2s ease 0s; }
-  .js-switcher input:checked ~ .switch {
-    left: 0; }
-  .js-switcher input ~ :checked ~ .switch {
-    left: 30px; }
-  .js-switcher input:checked {
-    z-index: 0; }
-
-.switcher-labels {
-  position: relative;
-  margin-left: 10px; }
-  .switcher-labels span {
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: #aaa;
-    visibility: hidden;
-    opacity: 0;
-    transition: all .2s ease-in-out; }
-    .switcher-labels span.active {
-      visibility: visible;
-      opacity: 1;
-      transition: all .2s ease-in-out; }
 
 .subhead {
   position: absolute;
