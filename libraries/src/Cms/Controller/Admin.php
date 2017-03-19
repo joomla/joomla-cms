@@ -24,14 +24,6 @@ use Joomla\Utilities\ArrayHelper;
 class Admin extends Controller
 {
 	/**
-	 * The URL option for the component.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $option;
-
-	/**
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
@@ -76,29 +68,23 @@ class Admin extends Controller
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
-		// Guess the option as com_NameOfController.
-		if (empty($this->option))
-		{
-			$this->option = 'com_' . strtolower($this->getName());
-		}
-
 		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
-			$this->text_prefix = strtoupper($this->option);
+			if (isset($config['text_prefix']))
+			{
+				$this->text_prefix = strtoupper($config['text_prefix']);
+			}
+			else
+			{
+				$this->text_prefix = strtoupper($this->option);
+			}
 		}
 
 		// Guess the list view as the suffix, eg: OptionControllerSuffix.
 		if (empty($this->view_list))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->view_list = strtolower($r[2]);
+			$this->view_list = strtolower($this->getControllerName());
 		}
 	}
 
@@ -114,14 +100,12 @@ class Admin extends Controller
 		// Check for request forgeries
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = \JFactory::getApplication();
-
 		// Get items to remove from the request.
-		$cid = $app->input->get('cid', array(), 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			\JFactory::getApplication()->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -190,17 +174,15 @@ class Admin extends Controller
 		// Check for request forgeries
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = \JFactory::getApplication();
-
 		// Get items to publish from the request.
-		$cid = $app->input->get('cid', array(), 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (empty($cid))
 		{
-			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			\JFactory::getApplication()->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -269,7 +251,7 @@ class Admin extends Controller
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$ids = \JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
 
 		$model = $this->getModel();
@@ -283,14 +265,12 @@ class Admin extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Reorder succeeded.
-			$message = \JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
-			return true;
-		}
+		// Reorder succeeded.
+		$message = \JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+		return true;
 	}
 
 	/**
@@ -327,14 +307,12 @@ class Admin extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Reorder succeeded.
-			$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
-			return true;
-		}
+		// Reorder succeeded.
+		$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
+		return true;
 	}
 
 	/**
@@ -349,7 +327,7 @@ class Admin extends Controller
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$ids = \JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
@@ -362,14 +340,12 @@ class Admin extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Checkin succeeded.
-			$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
-			return true;
-		}
+		// Checkin succeeded.
+		$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+		return true;
 	}
 
 	/**
@@ -402,5 +378,28 @@ class Admin extends Controller
 
 		// Close the application
 		\JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Method to get an admin model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  \Joomla\Cms\Model\Admin |boolean  Model object on success; otherwise false on failure.
+	 *
+	 * @since   3.0
+	 */
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	{
+		if (empty($name))
+		{
+			$name = $this->getControllerName();
+
+			$name = \Joomla\String\Inflector::getInstance()->toSingular($name);
+		}
+
+		return parent::getModel($name, $prefix, $config);
 	}
 }

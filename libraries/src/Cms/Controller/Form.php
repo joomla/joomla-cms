@@ -11,6 +11,8 @@ namespace Joomla\Cms\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\Inflector;
+
 /**
  * Controller tailored to suit most form-based admin operations.
  *
@@ -26,14 +28,6 @@ class Form extends Controller
 	 * @since  1.6
 	 */
 	protected $context;
-
-	/**
-	 * The URL option for the component.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $option;
 
 	/**
 	 * The URL view item variable.
@@ -72,29 +66,23 @@ class Form extends Controller
 	{
 		parent::__construct($config);
 
-		// Guess the option as com_NameOfController
-		if (empty($this->option))
-		{
-			$this->option = 'com_' . strtolower($this->getName());
-		}
-
 		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
-			$this->text_prefix = strtoupper($this->option);
+			if (isset($config['text_prefix']))
+			{
+				$this->text_prefix = strtoupper($config['text_prefix']);
+			}
+			else
+			{
+				$this->text_prefix = strtoupper($this->option);
+			}
 		}
 
 		// Guess the context as the suffix, eg: OptionControllerContent.
 		if (empty($this->context))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->context = strtolower($r[2]);
+			$this->context = strtolower($this->getControllerName());
 		}
 
 		// Guess the item view as the context.
@@ -106,29 +94,7 @@ class Form extends Controller
 		// Guess the list view as the plural of the item view.
 		if (empty($this->view_list))
 		{
-			// @TODO Probably worth moving to an inflector class based on
-			// http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
-
-			// Simple pluralisation based on public domain snippet by Paul Osman
-			// For more complex types, just manually set the variable in your class.
-			$plural = array(
-				array('/(x|ch|ss|sh)$/i', "$1es"),
-				array('/([^aeiouy]|qu)y$/i', "$1ies"),
-				array('/([^aeiouy]|qu)ies$/i', "$1y"),
-				array('/(bu)s$/i', "$1ses"),
-				array('/s$/i', 's'),
-				array('/$/', 's'),
-			);
-
-			// Check for matches using regular expressions
-			foreach ($plural as $pattern)
-			{
-				if (preg_match($pattern[0], $this->view_item))
-				{
-					$this->view_list = preg_replace($pattern[0], $pattern[1], $this->view_item);
-					break;
-				}
-			}
+			$this->view_list = Inflector::getInstance()->toPlural($this->view_item);
 		}
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
@@ -233,16 +199,14 @@ class Form extends Controller
 		{
 			return $this->allowEdit($data, $key);
 		}
-		else
-		{
-			return $this->allowAdd($data);
-		}
+
+		return $this->allowAdd($data);
 	}
 
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   \JModelLegacy  $model  The model of the component being processed.
+	 * @param   \Joomla\Cms\Model\Admin  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -278,12 +242,10 @@ class Form extends Controller
 
 			return true;
 		}
-		else
-		{
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
 
-			return false;
-		}
+		$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
+
+		return false;
 	}
 
 	/**
@@ -437,7 +399,7 @@ class Form extends Controller
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy  The model.
+	 * @return  \Joomla\Cms\Model\Form  The model.
 	 *
 	 * @since   1.6
 	 */
