@@ -50,6 +50,7 @@ class JComponentHelper
 				$result = new JComponentRecord;
 				$result->enabled = $strict ? false : true;
 				$result->setParams(new Registry);
+				$result->setManifest(new Registry);
 			}
 		}
 		else
@@ -110,6 +111,57 @@ class JComponentHelper
 	public static function getParams($option, $strict = false)
 	{
 		return static::getComponent($option, $strict)->params;
+	}
+
+	/**
+	 * Gets the namespace for the component, ie Joomla\Component\Content
+	 *
+	 * @param   string   $option  The option for the component.
+	 * @param   boolean  $strict  If set and the component does not exist, false will be returned
+	 *
+	 * @return  string  The namespace of component
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getNamespace($option, $strict = false)
+	{
+		return static::getComponent($option, $strict)->getManifest()->get('namespace');
+	}
+
+	/**
+	 *  Gets the name for the component from class name
+	 *
+	 * @param   string  $className  The class name of controller, model, view
+	 *
+	 * @return  string  The name of component
+	 *
+	 * @throws \Exception
+	 */
+	public static function getComponentName($className)
+	{
+		// In a namespace model class, the component name will be the part before Site/Admin
+		if (strpos($className, '\\'))
+		{
+			$parts = explode('\\', $className);
+
+			$index = array_search('Site', $parts) ?: array_search('Admin', $parts);
+
+			if ($index !== false && isset($parts[$index - 1]))
+			{
+				return 'com_' . strtolower($parts[$index - 1]);
+			}
+		}
+
+		// In a none namespace class, the component will be the part before Controller/Model/View
+		$r = null;
+
+		if (preg_match('/(.*)(Controller|Model|View)/i', $className, $r))
+		{
+			return 'com_' . strtolower($r[1]);
+		}
+
+		// Could not detect component name from given class, throws Exception
+		throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 	}
 
 	/**
@@ -312,9 +364,9 @@ class JComponentHelper
 
 		// Load template language files.
 		$template = $app->getTemplate(true)->template;
-		$lang = JFactory::getLanguage();
+		$lang     = JFactory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		if (empty($option))
 		{
@@ -334,7 +386,7 @@ class JComponentHelper
 
 		// Build the component path.
 		$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-		$file = substr($option, 4);
+		$file   = substr($option, 4);
 
 		// Define component path.
 		if (!defined('JPATH_COMPONENT'))
@@ -359,39 +411,19 @@ class JComponentHelper
 		}
 
 		// Handle template preview outlining.
-		$contents = null;
+		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
-		// Check if we have a dispatcher
-		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
+		// If component file doesn't exist throw error
+		if (!file_exists($path))
 		{
-			require_once JPATH_COMPONENT . '/dispatcher.php';
-			$class = ucwords($file) . 'Dispatcher';
-
-			// Check the class exists and implements the dispatcher interface
-			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
-			{
-				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
-			}
-
-			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($app));
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
-		else
-		{
-			$path = JPATH_COMPONENT . '/' . $file . '.php';
 
-			// If component file doesn't exist throw error
-			if (!file_exists($path))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
-			}
+		// Load common and local language files.
+		$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
 
-			// Load common and local language files.
-			$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
-
-			// Execute the component.
-			$contents = static::executeComponent($path);
-		}
+		// Execute the component.
+		$contents = static::executeComponent($path);
 
 		// Revert the scope
 		$app->scope = $scope;
@@ -472,7 +504,7 @@ class JComponentHelper
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->select($db->quoteName(array('extension_id', 'element', 'params', 'manifest_cache', 'enabled'), array('id', 'option', null, 'manifest', null)))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);

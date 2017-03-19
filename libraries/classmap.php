@@ -19,18 +19,18 @@ JLoader::registerAlias('JData',                        '\\Joomla\\Data\\DataObje
 JLoader::registerAlias('JDataSet',                     '\\Joomla\\Data\\DataSet', '4.0');
 JLoader::registerAlias('JDataDumpable',                '\\Joomla\\Data\\DumpableInterface', '4.0');
 
-JLoader::registerAlias('JModelAdmin',                  '\\Joomla\\Cms\\Model\\Admin', '4.0');
-JLoader::registerAlias('JModelForm',                   '\\Joomla\\Cms\\Model\\Form', '4.0');
-JLoader::registerAlias('JModelItem',                   '\\Joomla\\Cms\\Model\\Item', '4.0');
+JLoader::registerAlias('JModelAdmin',                  '\\Joomla\\Cms\\Model\\AdminModel', '4.0');
+JLoader::registerAlias('JModelForm',                   '\\Joomla\\Cms\\Model\\FormModel', '4.0');
+JLoader::registerAlias('JModelItem',                   '\\Joomla\\Cms\\Model\\ItemModel', '4.0');
 JLoader::registerAlias('JModelList',                   '\\Joomla\\Cms\\Model\\ListModel', '4.0');
-JLoader::registerAlias('JModelLegacy',                 '\\Joomla\\Cms\\Model\\Model', '4.0');
+JLoader::registerAlias('JModelLegacy',                 '\\Joomla\\Cms\\Model\\BaseModel', '4.0');
 JLoader::registerAlias('JViewCategories',              '\\Joomla\\Cms\\View\\Categories', '4.0');
 JLoader::registerAlias('JViewCategory',                '\\Joomla\\Cms\\View\\Category', '4.0');
 JLoader::registerAlias('JViewCategoryfeed',            '\\Joomla\\Cms\\View\\CategoryFeed', '4.0');
-JLoader::registerAlias('JViewLegacy',                  '\\Joomla\\Cms\\View\\View', '4.0');
-JLoader::registerAlias('JControllerAdmin',             '\\Joomla\\Cms\\Controller\\Admin', '4.0');
-JLoader::registerAlias('JControllerLegacy',            '\\Joomla\\Cms\\Controller\\Controller', '4.0');
-JLoader::registerAlias('JControllerForm',              '\\Joomla\\Cms\\Controller\\Form', '4.0');
+JLoader::registerAlias('JViewLegacy',                  '\\Joomla\\Cms\\View\\HtmlView', '4.0');
+JLoader::registerAlias('JControllerAdmin',             '\\Joomla\\Cms\\Controller\\AdminController', '4.0');
+JLoader::registerAlias('JControllerLegacy',            '\\Joomla\\Cms\\Controller\\BaseController', '4.0');
+JLoader::registerAlias('JControllerForm',              '\\Joomla\\Cms\\Controller\\FormController', '4.0');
 JLoader::registerAlias('JTableInterface',              '\\Joomla\\Cms\\Table\\TableInterface', '4.0');
 JLoader::registerAlias('JTable',                       '\\Joomla\\Cms\\Table\\Table', '4.0');
 JLoader::registerAlias('JTableNested',                 '\\Joomla\\Cms\\Table\\Nested', '4.0');
