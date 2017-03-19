@@ -40,18 +40,19 @@ if ($spacing > 0)
 	<fieldset>
 
 		<div class="form-group">
+			<label for="mod-login-username" class="sr-only"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
 			<input
 				name="username"
 				id="mod-login-username"
 				type="text"
 				class="form-control input-full"
-				tabindex="1"
 				placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"
 				autofocus
 			>
 		</div>
 
 		<div class="form-group">
+			<label for="mod-login-password" class="sr-only"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 			<input
 				name="passwd"
 				id="mod-login-password"
@@ -82,7 +83,7 @@ if ($spacing > 0)
 
 		<div class="form-group">
 			<button class="btn btn-success btn-block btn-lg">
-				<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
+				<span class="icon-lock"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 			</button>
 		</div>
 
