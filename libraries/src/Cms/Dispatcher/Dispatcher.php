@@ -68,7 +68,7 @@ abstract class Dispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Initialize the
+	 * Initialise the Dispatcher, do auto- and language loading
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
