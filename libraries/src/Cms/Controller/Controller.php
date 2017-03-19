@@ -240,7 +240,8 @@ class Controller  implements ControllerInterface
 			return self::$instance;
 		}
 
-		$input = \JFactory::getApplication()->input;
+		$app   = \JFactory::getApplication();
+		$input = $app->input;
 
 		// Get the environment configuration.
 		$basePath = array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
@@ -320,11 +321,11 @@ class Controller  implements ControllerInterface
 		}
 		else
 		{
-			self::$instance = new $class($config, $input, \JFactory::getApplication());
+			self::$instance = new $class($config, $input, $app);
 		}
 
 		// Instantiate the class, store it to the static container, and return it
-		return self::$instance = new $class($config, $input, \JFactory::getApplication());
+		return self::$instance = new $class($config, $input, $app);
 	}
 
 	/**
