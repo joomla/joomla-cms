@@ -14,7 +14,7 @@
  * @subpackage  Form
  * @since       3.1
  */
-class JFormFieldHeadertagTest extends TestCase
+class JFormFieldHeadertagTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

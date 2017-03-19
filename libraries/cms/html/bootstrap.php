@@ -551,8 +551,8 @@ abstract class JHtmlBootstrap
 			JHtml::_('bootstrap.framework');
 
 			// Setup options object
-			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
-			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === false || isset($params['active']) ? false : true);
+			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : '';
+			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === '' || isset($params['active']) ? false : true);
 			$onShow        = isset($params['onShow']) ? (string) $params['onShow'] : null;
 			$onShown       = isset($params['onShown']) ? (string) $params['onShown'] : null;
 			$onHide        = isset($params['onHide']) ? (string) $params['onHide'] : null;
@@ -631,7 +631,7 @@ abstract class JHtmlBootstrap
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="card' . $class . '">'
+		$html = '<div class="card mb-2' . $class . '">'
 			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
 			. $text
 			. '</a>'

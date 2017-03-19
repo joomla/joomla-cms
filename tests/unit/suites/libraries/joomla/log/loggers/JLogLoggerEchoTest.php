@@ -14,7 +14,7 @@
  * @subpackage  Log
  * @since       11.1
  */
-class JLogLoggerEchoTest extends PHPUnit_Framework_TestCase
+class JLogLoggerEchoTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test the JLogLoggerEcho::addEntry method.
