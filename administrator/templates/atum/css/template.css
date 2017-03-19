@@ -8792,9 +8792,9 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  background-color: #f9f9f9;
+  background-color: #f1f1f1;
   background-clip: content-box;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.18);
   border-radius: 0.25rem;
   box-shadow: 0 0 0 0 #dfdfdf inset;
   transition: border .4s ease 0s, box-shadow .4s ease 0s; }
