@@ -371,7 +371,7 @@ class ListModel extends Model
 	 * @param   boolean         $clear    Optional argument to force load a new form.
 	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  \JForm|boolean  \JForm object on success, False on error.
+	 * @return  \JForm  \JForm object on success, False on error.
 	 *
 	 * @see     \JForm
 	 * @since   3.2
@@ -393,6 +393,20 @@ class ListModel extends Model
 		// Get the form.
 		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+
+		// Admin model
+		if ($this->namespace && strpos($this->namespace, '\\Admin'))
+		{
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/Model/Forms');
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/Model/Fields');
+		}
+
+		// Site Model
+		if ($this->namespace && strpos($this->namespace, '\\Site'))
+		{
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/Model/Forms');
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->option . '/Model/Fields');
+		}
 
 		try
 		{

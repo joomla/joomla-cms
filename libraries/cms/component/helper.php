@@ -359,39 +359,19 @@ class JComponentHelper
 		}
 
 		// Handle template preview outlining.
-		$contents = null;
+		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
-		// Check if we have a dispatcher
-		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
+		// If component file doesn't exist throw error
+		if (!file_exists($path))
 		{
-			require_once JPATH_COMPONENT . '/dispatcher.php';
-			$class = ucwords($file) . 'Dispatcher';
-
-			// Check the class exists and implements the dispatcher interface
-			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
-			{
-				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
-			}
-
-			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($app));
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
-		else
-		{
-			$path = JPATH_COMPONENT . '/' . $file . '.php';
 
-			// If component file doesn't exist throw error
-			if (!file_exists($path))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
-			}
+		// Load common and local language files.
+		$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
 
-			// Load common and local language files.
-			$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
-
-			// Execute the component.
-			$contents = static::executeComponent($path);
-		}
+		// Execute the component.
+		$contents = static::executeComponent($path);
 
 		// Revert the scope
 		$app->scope = $scope;
