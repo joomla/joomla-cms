@@ -59,6 +59,8 @@ class JControllerFormTest extends TestCase
 	{
 		// Test the auto-naming of the _option, _context, _view_item and _view_list
 		$object = new MincesControllerMince(
+			JFactory::getApplication(),
+			null,
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar'
@@ -75,6 +77,8 @@ class JControllerFormTest extends TestCase
 
 		// Test for correct pluralisation.
 		$object = new MiniesControllerMiny(
+			JFactory::getApplication(),
+			null,
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar'
@@ -84,6 +88,8 @@ class JControllerFormTest extends TestCase
 		$this->assertAttributeEquals('minies', 'view_list', $object, 'Check the _view_list variable was created properly');
 
 		$object = new MintsControllerMint(
+			JFactory::getApplication(),
+			null,
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar'
