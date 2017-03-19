@@ -10,9 +10,9 @@
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
-  background-color: darken($white-offset, 2%);
+  background-color: darken($white-offset, 5%);
   background-clip: content-box;
-  border: 1px solid rgba(0,0,0,.12);
+  border: 1px solid rgba(0,0,0,.18);
   border-radius: $border-radius;
   box-shadow: 0 0 0 0 rgb(223,223,223) inset;
   transition: border .4s ease 0s, box-shadow .4s ease 0s;
@@ -46,8 +46,6 @@
     padding: 0;
     margin: 0;
     cursor: pointer;
-    zoom: 1;
-    filter: alpha(opacity = 0);
     opacity: 0;
   }
 
