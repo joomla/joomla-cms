@@ -1741,7 +1741,7 @@ INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title"
 (9, 'protostar', 0, '1', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
 (10, 'atum', 1, '1', 'atum - Default', '');
 
-SELECT setval('#__template_styles_id_seq', 9, false);
+SELECT setval('#__template_styles_id_seq', 11, false);
 
 --
 -- Table structure for table `#__ucm_base`
