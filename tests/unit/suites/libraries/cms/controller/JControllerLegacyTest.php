@@ -45,7 +45,7 @@ class JControllerLegacyTest extends TestCase
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config = $this->getMockConfig();
 
-		$this->class = new JControllerLegacy(JFactory::$application);
+		$this->class = new JControllerLegacy;
 
 		parent::setUp();
 	}
@@ -123,7 +123,7 @@ class JControllerLegacyTest extends TestCase
 	 */
 	public function testConstructer()
 	{
-		$controller = new TestTestController(JFactory::getApplication());
+		$controller = new TestTestController();
 		$this->assertEquals(
 			$controller->getTasks(),
 			array('task5', 'task1', 'task2', 'display'),
@@ -143,7 +143,7 @@ class JControllerLegacyTest extends TestCase
 			'name' => $name
 		);
 
-		$controller = new TestTestController(JFactory::getApplication(), null, $config);
+		$controller = new TestTestController($config);
 
 		$this->assertEquals(
 			TestReflection::getValue($controller, 'name'),
@@ -230,7 +230,7 @@ class JControllerLegacyTest extends TestCase
 	 */
 	public function testGetTasks()
 	{
-		$class = new TestController(JFactory::getApplication());
+		$class = new TestController;
 
 		$this->assertEquals(array('task1', 'task2', 'display'), $class->getTasks());
 	}

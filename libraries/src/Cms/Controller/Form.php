@@ -62,17 +62,17 @@ class Form extends Controller
 	/**
 	 * Constructor.
 	 *
+	 * @param   array             $config  An optional associative array of configuration settings.
 	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
 	 * @param   \JInput           $input   Input
-	 * @param   array             $config  An optional associative array of configuration settings.
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($app, $input = null, $config = array())
+	public function __construct($config = array(), $app = null, $input = null)
 	{
-		parent::__construct($app, $input, $config);
+		parent::__construct($config, $app, $input);
 
 		// Guess the option as com_NameOfController
 		if (empty($this->option))
