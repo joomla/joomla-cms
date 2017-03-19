@@ -11,7 +11,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  */
-class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
+class JCacheControllerCallbackTest_Callback extends \PHPUnit\Framework\TestCase
 {
 
 	/**

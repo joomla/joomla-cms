@@ -32,7 +32,7 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.5.2'
+                  'version': '4.5.5'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.1'
@@ -41,13 +41,16 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.23.0'
+                  'version': '5.24.2'
                   'dependencies': ''
     'cropperjs':
-                  'version': '1.0.0-beta'
+                  'version': '1.0.0-beta.2'
                   'dependencies': ''
     'flying-focus-a11y':
                   'version': '1.5.4'
+                  'dependencies': ''
+    'diff':
+                  'version': '3.2.0'
                   'dependencies': ''
 
 ## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##

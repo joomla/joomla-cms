@@ -751,7 +751,7 @@ class JInstaller extends JAdapter
 		// Fire the onExtensionAfterInstall
 		JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterUninstall',
-			array('installer' => clone $this, 'eid' => $identifier, 'result' => $result)
+			array('installer' => clone $this, 'eid' => $identifier, 'removed' => $result)
 		);
 
 		// Refresh versionable assets cache

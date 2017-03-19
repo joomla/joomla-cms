@@ -107,7 +107,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 						<ul class="nav">
 							<li class="nav-item">
 								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
-									<i class="fa fa-envelope"></i>
+									<span class="fa fa-envelope"></span>
 									<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
 									<?php if ($countUnread > 0) : ?>
 										<span class="badge badge-pill badge-success"><?php echo $countUnread; ?></span>
@@ -135,7 +135,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('TPL_ATUM_POST_INSTALLATION_MESSAGES'); ?>">
-									<i class="fa fa-bell"></i>
+									<span class="fa fa-bell"></span>
 									<?php if (count($messages) > 0) : ?>
 										<span class="badge badge-pill badge-success"><?php echo count($messages); ?></span>
 									<?php endif; ?>
@@ -161,11 +161,11 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php endif; ?>
 							<li class="nav-item dropdown header-profile">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-									<i class="fa fa-user"></i>
+									<span class="fa fa-user"></span>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
 									<div class="dropdown-item header-profile-user">
-										<i class="fa fa-user"></i>
+										<span class="fa fa-user"></span>
 										<?php echo $user->name; ?>
 									</div>
 									<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
@@ -254,9 +254,9 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 
 		</div>
 
-		<jdoc:include type="modules" name="debug" style="none" />
-
 	</div>
+
+	<jdoc:include type="modules" name="debug" style="none" />
 
 </body>
 </html>

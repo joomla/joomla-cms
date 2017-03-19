@@ -20,7 +20,7 @@ class LoginController extends JControllerLegacy
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
 	 *
@@ -63,7 +63,7 @@ class LoginController extends JControllerLegacy
 
 		$result = $app->login($credentials, array('action' => 'core.login.admin'));
 
-		if (!($result instanceof Exception))
+		if ($result && !($result instanceof Exception))
 		{
 			// Only redirect to an internal URL.
 			if (JUri::isInternal($return))
@@ -80,7 +80,7 @@ class LoginController extends JControllerLegacy
 			}
 		}
 
-		parent::display();
+		$this->display();
 	}
 
 	/**

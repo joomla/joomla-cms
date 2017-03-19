@@ -136,7 +136,6 @@ var JFormValidator = function() {
 	    },
 
 	    validate = function(el) {
-		    debugger;
 		    var tagName, handler;
 		    // Ignore the element if its currently disabled, because are not submitted for the http-request. For those case return always true.
 		    if (el.getAttribute('disabled') === 'disabled' || el.getAttribute('display') === 'none') {

@@ -153,5 +153,7 @@ class FieldsViewField extends JViewLegacy
 
 			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
+
+		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELDS_EDIT');
 	}
 }

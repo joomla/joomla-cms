@@ -152,7 +152,7 @@
 				}
 			}
 
-			window.parent.jInsertEditorText(tag, this.editor);
+			window.parent.Joomla.editors.instances[this.editor].replaceSelection(tag);
 
 			return true;
 		},
