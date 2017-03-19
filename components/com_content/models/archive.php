@@ -197,6 +197,8 @@ class ContentModelArchive extends ContentModelArticles
 	* @param   string          $alias  Column alias name.
 	*
 	* @return  string
+	*
+	* @since   __DEPLOY_VERSION__
 	*/
 	private function getSlugColumn($query, $id, $alias)
 	{
@@ -204,7 +206,7 @@ class ContentModelArchive extends ContentModelArticles
 			. $query->charLength($alias, '!=', '0')
 			. ' THEN '
 			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
-			.' ELSE '
+			. ' ELSE '
 			. $id . ' END';
 	}
 }

@@ -347,6 +347,8 @@ class ContactModelContact extends JModelForm
 	* @param   string          $alias  Column alias name.
 	*
 	* @return  string
+	*
+	* @since   __DEPLOY_VERSION__
 	*/
 	private function getSlugColumn($query, $id, $alias)
 	{
@@ -354,7 +356,7 @@ class ContactModelContact extends JModelForm
 			. $query->charLength($alias, '!=', '0')
 			. ' THEN '
 			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
-			.' ELSE '
+			. ' ELSE '
 			. $id . ' END';
 	}
 
