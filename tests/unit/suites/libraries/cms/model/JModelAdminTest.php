@@ -15,7 +15,7 @@
  *
  * @since       12.3
  */
-class JModelAdminTest extends TestCase
+class JModelAdminTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JModelAdmin

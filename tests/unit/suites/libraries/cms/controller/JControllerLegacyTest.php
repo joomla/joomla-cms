@@ -17,7 +17,7 @@ require_once __DIR__ . '/stubs/controller.php';
  *
  * @since       12.3
  */
-class JControllerLegacyTest extends TestCase
+class JControllerLegacyTest extends TestCaseDatabase
 {
 	/**
 	 * An instance of the test object.
