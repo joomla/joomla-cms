@@ -78,6 +78,7 @@ if ($spacing > 0)
 
 		<?php if (!empty($langs)) : ?>
 			<div class="form-group">
+				<label for="lang" class="sr-only"><?php echo JText::_('JDEFAULTLANGUAGE'); ?></label>
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
