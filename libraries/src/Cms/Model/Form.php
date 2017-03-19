@@ -217,6 +217,10 @@ abstract class Form extends Model
 		\JForm::addFormPath(JPATH_COMPONENT . '/model/form');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
 
+		// Find XML Forms and Form Fields from resources folder for now. Will change it when there is final decision
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/forms');
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/fields');
+
 		try
 		{
 			$form = \JForm::getInstance($name, $source, $options, false, $xpath);

@@ -45,6 +45,15 @@ class JComponentRecord extends JObject
 	protected $params;
 
 	/**
+	 * The component manifest
+	 *
+	 * @var    string|Registry
+	 * @since  __DEPLOY_VERSION__
+	 * @note   This field is protected to require reading this field to proxy through the getter to convert the params to a Registry instance
+	 */
+	protected $manifest;
+
+	/**
 	 * Indicates if this component is enabled
 	 *
 	 * @var    integer
@@ -139,5 +148,36 @@ class JComponentRecord extends JObject
 	public function setParams($params)
 	{
 		$this->params = $params;
+	}
+
+	/**
+	 * Returns the component manifest cache
+	 *
+	 * @return  Registry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getManifest()
+	{
+		if (!($this->manifest instanceof Registry))
+		{
+			$this->manifest = new Registry($this->manifest);
+		}
+
+		return $this->manifest;
+	}
+
+	/**
+	 * Sets the menu item parameters
+	 *
+	 * @param   Registry|string  $manifest  The data to be stored as the parameters
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setManifest($manifest)
+	{
+		$this->manifest = $manifest;
 	}
 }

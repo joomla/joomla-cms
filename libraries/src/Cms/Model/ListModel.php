@@ -340,26 +340,14 @@ class ListModel extends Model
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
-		$form = null;
-
 		// Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
 		if (empty($this->filterFormName))
 		{
-			$classNameParts = explode('Model', get_called_class());
-
-			if (count($classNameParts) == 2)
-			{
-				$this->filterFormName = 'filter_' . strtolower($classNameParts[1]);
-			}
+			$this->filterFormName = 'filter_' . strtolower($this->getName());
 		}
 
-		if (!empty($this->filterFormName))
-		{
-			// Get the form.
-			$form = $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
-		}
-
-		return $form;
+		// Return the form.
+		return $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
 	}
 
 	/**
@@ -393,6 +381,10 @@ class ListModel extends Model
 		// Get the form.
 		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+
+		// Find XML Forms and Form Fields from resources folder for now. Will change it when there is final decision
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/forms');
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/fields');
 
 		try
 		{
