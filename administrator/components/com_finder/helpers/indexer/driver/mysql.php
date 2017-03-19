@@ -307,7 +307,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
 				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
 				' WHERE t2.context = %d AND t.term_id IS NOT NULL' .
-				' GROUP BY t1.term' .
+				' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 				' ORDER BY t1.term DESC';
 
 		// Iterate through the contexts and aggregate the tokens per context.
@@ -340,7 +340,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 			' WHERE ta.term_id = 0' .
-			' GROUP BY ta.term'
+			' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
 		);
 		$db->execute();
 
@@ -414,7 +414,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
 				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
 				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
-				' GROUP BY ' . $db->quoteName('term') .
+				' GROUP BY ' . $db->quoteName('term') . ', ' . $db->quoteName('term_id') .
 				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
 			$db->execute();
