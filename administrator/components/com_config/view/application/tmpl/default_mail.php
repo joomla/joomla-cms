@@ -31,4 +31,4 @@ $this->name = JText::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';
 echo JLayoutHelper::render('joomla.content.options_default', $this);
 
-echo '<button class="btn btn-secondary btn-sm" data-ajaxuri="' . $ajaxUri . '" type="button" id="sendtestmail"><span>' . JText::_('COM_CONFIG_SENDMAIL_ACTION_BUTTON') . '</span></button>';
+echo '<button class="btn btn-primary" data-ajaxuri="' . $ajaxUri . '" type="button" id="sendtestmail"><span>' . JText::_('COM_CONFIG_SENDMAIL_ACTION_BUTTON') . '</span></button>';
