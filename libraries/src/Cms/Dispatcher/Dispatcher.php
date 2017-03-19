@@ -52,7 +52,9 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   \JApplicationCms  $app  The JApplication for the dispatcher
+	 * @param   string            $namespace  Namespace of the Extension
+	 * @param   \JApplicationCms  $app        The JApplication for the dispatcher
+	 * @param   \JInput           $input      JInput
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

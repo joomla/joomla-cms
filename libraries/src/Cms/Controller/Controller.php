@@ -333,6 +333,8 @@ class Controller  implements ControllerInterface
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   \JApplicationCms  $app    The JApplication for the dispatcher
+	 * @param   \JInput           $input  Input
 	 *
 	 * @since   3.0
 	 */
@@ -345,7 +347,7 @@ class Controller  implements ControllerInterface
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		$this->app = $app ? $app : \JFactory::getApplication();
+		$this->app   = $app ? $app : \JFactory::getApplication();
 		$this->input = $input ? $input : $this->app->input;
 
 		if (defined('JDEBUG') && JDEBUG)
