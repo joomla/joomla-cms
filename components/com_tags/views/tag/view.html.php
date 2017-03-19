@@ -115,15 +115,6 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
-		//Categories store the images differently so lets re-map it so the display is correct
-		$count = count($items);
-		if ($count > 0 && $items[0]->type_alias === 'com_content.category' || $items[0]->type_alias === 'com_banners.category') {
-			foreach ($items as $row) {
-				$core_params = json_decode($row->core_params);
-				$row->core_images = json_encode(array('image_intro' => $core_params->image, 'image_intro_alt' => $core_params->image_alt));
-			}
-		}
-
 		$this->state      = $state;
 		$this->items      = $items;
 		$this->children   = $children;
