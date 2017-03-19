@@ -21,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  * @see    \JFormRule
  * @since  1.6
  */
-abstract class Form extends Model
+abstract class FormModel extends BaseModel
 {
 	/**
 	 * Array of form objects.
@@ -216,6 +216,10 @@ abstract class Form extends Model
 		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 		\JForm::addFormPath(JPATH_COMPONENT . '/model/form');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
+
+		// Find XML Forms and Form Fields from resources folder for now. Will change it when there is final decision
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/forms');
+		\JForm::addFormPath(JPATH_COMPONENT . '/resources/fields');
 
 		try
 		{

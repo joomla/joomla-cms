@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class CategoryFeed extends View
+class CategoryFeed extends HtmlView
 {
 	/**
 	 * Execute and display a template script.

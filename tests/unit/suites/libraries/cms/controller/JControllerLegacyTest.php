@@ -17,7 +17,7 @@ require_once __DIR__ . '/stubs/controller.php';
  *
  * @since       12.3
  */
-class JControllerLegacyTest extends TestCase
+class JControllerLegacyTest extends TestCaseDatabase
 {
 	/**
 	 * An instance of the test object.
@@ -204,7 +204,7 @@ class JControllerLegacyTest extends TestCase
 	 */
 	public function testGetName()
 	{
-		$this->assertEquals($this->class->getName(), 'joomla\\cms\\controller\\');
+		$this->assertEquals($this->class->getName(), 'joomla\cms\controller\base');
 
 		TestReflection::setValue($this->class, 'name', 'inspector');
 
