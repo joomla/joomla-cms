@@ -321,25 +321,25 @@ class Controller  implements ControllerInterface
 		}
 		else
 		{
-			self::$instance = new $class($config, $input, $app);
+			self::$instance = new $class($app, $input, $config);
 		}
 
 		// Instantiate the class, store it to the static container, and return it
-		return self::$instance = new $class($config, $input, $app);
+		return self::$instance = new $class($app, $input, $config);
 	}
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
+	 * @param   \JInput           $input   Input
 	 * @param   array             $config  An optional associative array of configuration settings.
 	 *                                     Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                                     'view_path' (this list is not meant to be comprehensive).
-	 * @param   \JInput           $input   Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($app, $config = array(), $input = null)
+	public function __construct($app, $input = null, $config = array())
 	{
 		$this->methods = array();
 		$this->message = null;

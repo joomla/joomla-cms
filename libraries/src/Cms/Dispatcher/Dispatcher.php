@@ -167,7 +167,7 @@ abstract class Dispatcher implements DispatcherInterface
 
 		$controllerName = $this->namespace . $client . 'Controller\\' . ucfirst($name);
 
-		$controller = new $controllerName($config, $this->app, $this->input);
+		$controller = new $controllerName($this->app, $this->input, $config);
 
 		return $controller;
 	}
