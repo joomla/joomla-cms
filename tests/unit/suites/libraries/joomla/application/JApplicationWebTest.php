@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Application\Web\WebClient;
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
