@@ -64,27 +64,39 @@ abstract class Dispatcher implements DispatcherInterface
 		$this->app       = $app;
 		$this->input     = $input ? $input : $app->input;
 
-		$this->init();
+		$this->loadLanguage();
+		$this->autoLoad();
 	}
 
 	/**
-	 * Initialise the Dispatcher, do auto- and language loading
+	 * Load the laguage
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
-	protected function init()
+	protected function loadLanguage()
+	{
+		// Load common and local language files.
+		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
+		$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+	}
+
+
+	/**
+	 * Autoload the extension files
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function autoLoad()
 	{
 		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
 
 		// Autoload the component
 		$autoLoader->addPsr4($this->namespace . 'Admin\\', JPATH_ADMINISTRATOR . '/components/' . $this->app->scope);
 		$autoLoader->setPsr4($this->namespace . 'Site\\', JPATH_BASE . '/components/' . $this->app->scope);
-
-		// Load common and local language files.
-		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
-		$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
 	}
 
 	/**
@@ -124,15 +136,18 @@ abstract class Dispatcher implements DispatcherInterface
 	 * Get a controller from the component
 	 *
 	 * @param   string  $name    Controller name
+	 * @param   string  $client  Optional client (like Admin, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
 	 * @return  Controller|null
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getController($name, $config = array())
+	public function getController($name, $client = null, $config = array())
 	{
-		$controllerName = $this->namespace . 'Admin\\Controller\\' . ucfirst($name);
+		$client = $client ? $client : $this->app->isClient('site') ? 'Site\\' : 'Admin\\';
+
+		$controllerName = $this->namespace . $client . 'Controller\\' . ucfirst($name);
 
 		$controller = new $controllerName($config, $this->app, $this->input);
 
