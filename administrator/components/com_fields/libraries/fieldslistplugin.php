@@ -42,7 +42,7 @@ class FieldsListPlugin extends FieldsPlugin
 		foreach ($this->getOptionsFromField($field) as $value => $name)
 		{
 			$option = new DOMElement('option', htmlentities($value));
-			$option->nodeValue = JText::_($name);
+			$option->nodeValue = htmlentities(JText::_($name));
 
 			$element = $fieldNode->appendChild($option);
 			$element->setAttribute('value', $value);
