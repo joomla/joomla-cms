@@ -373,8 +373,10 @@ class JComponentHelper
 				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
 			}
 
+			$namespace = self::getComponent($option)->namespace;
+
 			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($app));
+			$contents = static::dispatchComponent(new $class($namespace, $app));
 		}
 		else
 		{
@@ -472,7 +474,7 @@ class JComponentHelper
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->select($db->quoteName(array('extension_id', 'element', 'params', 'namespace', 'enabled'), array('id', 'option', null, null, null)))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
