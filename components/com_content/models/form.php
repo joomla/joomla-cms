@@ -205,6 +205,7 @@ class ContentModelForm extends ContentModelArticle
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		$params = $this->getState()->get('params');
+
 		if ($params && $params->get('enable_category') == 1)
 		{
 			$form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
