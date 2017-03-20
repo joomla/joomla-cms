@@ -868,14 +868,7 @@ class Controller  implements ControllerInterface
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->name = strtolower($r[1]);
+			$this->name = strtolower(substr($this->option, 4));
 		}
 
 		return $this->name;
