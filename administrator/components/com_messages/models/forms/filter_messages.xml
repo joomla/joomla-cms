@@ -12,6 +12,7 @@
 			name="state"
 			type="messagestates"
 			label="COM_MESSAGES_FILTER_STATES_LABEL"
+			aria-label="COM_MESSAGES_FILTER_STATES_LABEL"
 			description="COM_MESSAGES_FILTER_STATES_DESC"
 			onchange="this.form.submit();"
 			>
@@ -24,6 +25,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
+			aria-label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.date_time DESC"
@@ -37,11 +39,12 @@
 			<option value="a.user_id_from DESC">COM_MESSAGES_HEADING_FROM_DESC</option>
 			<option value="a.date_time ASC">JDATE_ASC</option>
 			<option value="a.date_time DESC">JDATE_DESC</option>
-		</field> 
+		</field>
 		<field
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
+			aria-label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
 			default="5"
 			onchange="this.form.submit();"
