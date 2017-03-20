@@ -70,9 +70,32 @@ class FormView extends HtmlView
 	protected $helpLink;
 
 	/**
-	 * @param null $tpl
+	 * Constructor
 	 *
-	 * @return mixed
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 */
+	public function __construct(array $config)
+	{
+		parent::__construct($config);
+
+		// Set class properties from config data passed in constructor
+		if (isset($config['canDo']))
+		{
+			$this->canDo = $config['canDo'];
+		}
+
+		if (isset($config['help_link']))
+		{
+			$this->helpLink = $config['help_link'];
+		}
+	}
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return   mixed
 	 */
 	public function display($tpl = null)
 	{
@@ -94,6 +117,8 @@ class FormView extends HtmlView
 
 	/**
 	 * Prepare view data
+	 *
+	 * @return  void
 	 */
 	protected function initializeView()
 	{
@@ -101,10 +126,10 @@ class FormView extends HtmlView
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
-		// canDo property should be built by the child class before, if not, generate default value
+		// Property $canDo should be built by the child class before, if not, generate default value
 		if (!empty($this->canDo))
 		{
-			$this->canDo = new \JObject();
+			$this->canDo = new \JObject;
 		}
 	}
 
@@ -119,25 +144,16 @@ class FormView extends HtmlView
 	{
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user           = \JFactory::getUser();
-		$userId         = $user->id;
-		$isNew          = ($this->item->id == 0);
-		$viewName       = $this->getName();
-
-		if (property_exists($this->item, 'checked_out'))
-		{
-			$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		}
-		else
-		{
-			$checkedOut = false;
-		}
-
-		$canDo = $this->canDo;
+		$user       = \JFactory::getUser();
+		$userId     = $user->id;
+		$isNew      = ($this->item->id == 0);
+		$viewName   = $this->getName();
+		$checkedOut = $this->getModel()->isCheckedOut($this->item);
+		$canDo      = $this->canDo;
 
 		if (empty($this->toolbarTitle))
 		{
-			$langKey            = strtoupper($this->option . '_PAGE_' . ($checkedOut ? 'VIEW_' . $viewName : ($isNew ? 'ADD_' . $viewName : 'EDIT_' . $viewName)));
+			$langKey = strtoupper($this->option . '_PAGE_' . ($checkedOut ? 'VIEW_' . $viewName : ($isNew ? 'ADD_' . $viewName : 'EDIT_' . $viewName)));
 			$this->toolbarTitle = \JText::_($langKey);
 		}
 

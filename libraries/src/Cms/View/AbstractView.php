@@ -20,7 +20,7 @@ use Joomla\Cms\Model\Model;
  *
  * @since  2.5.5
  */
-class AbstractView extends \JObject
+abstract class AbstractView extends \JObject
 {
 	/**
 	 * The active document object
@@ -99,6 +99,17 @@ class AbstractView extends \JObject
 	}
 
 	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since   3.0
+	 */
+	abstract public function display($tpl = null);
+
+	/**
 	 * Method to get data from a registered model or a property of the view
 	 *
 	 * @param   string  $property  The name of the method to call on the model or the property to get
@@ -164,8 +175,8 @@ class AbstractView extends \JObject
 	 * referenced by the name without \JModel, eg. \JModelCategory is just
 	 * Category.
 	 *
-	 * @param   Model    $model    The model to add to the view.
-	 * @param   boolean  $default  Is this the default model?
+	 * @param   Model     $model    The model to add to the view.
+	 * @param   boolean   $default  Is this the default model?
 	 *
 	 * @return  Model  The added model.
 	 *
@@ -230,3 +241,4 @@ class AbstractView extends \JObject
 		return $this->_name;
 	}
 }
+

@@ -74,7 +74,7 @@ class ListView extends HtmlView
 	 *
 	 * @var bool
 	 */
-	protected $enableBatch = true;
+	protected $supportsBatch = true;
 
 	/**
 	 * The toolbar title
@@ -93,29 +93,42 @@ class ListView extends HtmlView
 	/**
 	 * The help link for the view
 	 *
-	 * @var
+	 * @var string
 	 */
 	protected $helpLink;
 
 	/**
 	 * Constructor
 	 *
-	 * @param array $config
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
 	public function __construct(array $config)
 	{
 		parent::__construct($config);
 
+		// Set class properties from config data passed in constructor
 		if (isset($config['canDo']))
 		{
 			$this->canDo = $config['canDo'];
 		}
+
+		if (isset($config['supports_batch']))
+		{
+			$this->supportsBatch = $config['supports_batch'];
+		}
+
+		if (isset($config['help_link']))
+		{
+			$this->helpLink = $config['help_link'];
+		}
 	}
 
 	/**
-	 * @param null $tpl
+	 * Execute and display a template script.
 	 *
-	 * @return mixed
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -137,6 +150,8 @@ class ListView extends HtmlView
 
 	/**
 	 * Prepare view data
+	 *
+	 * @return  void
 	 */
 	protected function initializeView()
 	{
@@ -158,10 +173,10 @@ class ListView extends HtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		// canDo property should be built by the child class before, if not, generate default value
+		// Property $canDo should be built by the child class before, if not, generate default value
 		if (!empty($this->canDo))
 		{
-			$this->canDo = new \JObject();
+			$this->canDo = new \JObject;
 		}
 	}
 
@@ -216,7 +231,7 @@ class ListView extends HtmlView
 		}
 
 		// Add a batch button
-		if ($this->enableBatch && $user->authorise('core.create', $this->option)
+		if ($this->supportsBatch && $user->authorise('core.create', $this->option)
 			&& $user->authorise('core.edit', $this->option)
 			&& $user->authorise('core.edit.state', $this->option))
 		{

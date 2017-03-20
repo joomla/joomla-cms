@@ -528,6 +528,26 @@ abstract class Model extends \JObject
 	}
 
 	/**
+	 * Method to check if the given record is checked out by the current user
+	 *
+	 * @param   \stdClass  $item  The record to check
+	 *
+	 * @return  bool
+	 */
+	public function isCheckedOut($item)
+	{
+		$table = $this->getTable();
+		$checkedOutField = $table->getColumnAlias('checked_out');
+
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != \JFactory::getUser()->id)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * This method should only be called once per instantiation and is designed
