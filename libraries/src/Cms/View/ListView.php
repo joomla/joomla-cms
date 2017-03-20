@@ -84,13 +84,6 @@ class ListView extends HtmlView
 	protected $toolbarTitle;
 
 	/**
-	 * The preview link
-	 *
-	 * @var string
-	 */
-	protected $previewLink;
-
-	/**
 	 * The help link for the view
 	 *
 	 * @var string
