@@ -331,6 +331,16 @@
 		</fieldset>
 
 		<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+
+			<field
+				name="article_layout" type="componentlayout"
+				label="JGLOBAL_FIELD_LAYOUT_LABEL"
+				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				menuitems="true"
+				extension="com_content"
+				view="article"
+			/>
+
 			<field
 				name="show_title"
 				type="list"
