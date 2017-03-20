@@ -48,13 +48,13 @@
 					description="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_DESC"
 				>
 					<option value="0">JNO</option>
-					<option value="raw">PLG_FIELDS_TEXTAREA_PARAMS_FILTER_RAW</option>
-					<option value="safehtml">PLG_FIELDS_TEXTAREA_PARAMS_FILTER_SAFEHTML</option>
-					<option value="JComponentHelper::filterText">PLG_FIELDS_TEXTAREA_PARAMS_FILTER_TEXT</option>
-					<option value="alnum">PLG_FIELDS_TEXTAREA_PARAMS_FILTER_ALNUM</option>
-					<option value="integer">PLG_FIELDS_TEXTAREA_PARAMS_FILTER_INTEGER</option>
-					<option value="float">PLG_FIELDS_TEXTAREA_PARAMS_FILTER_FLOAT</option>
-					<option value="tel">PLG_FIELDS_TEXTAREA_PARAMS_FILTER_TEL</option>
+					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
+					<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>
+					<option value="JComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
+					<option value="alnum">JLIB_FILTER_PARAMS_ALNUM</option>
+					<option value="integer">JLIB_FILTER_PARAMS_INTEGER</option>
+					<option value="float">JLIB_FILTER_PARAMS_FLOAT</option>
+					<option value="tel">JLIB_FILTER_PARAMS_TEL</option>
 				</field>
 			</fieldset>
 		</fields>

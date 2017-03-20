@@ -12,7 +12,7 @@
  * @package  Joomla.UnitTest
  * @since    11.1
  */
-class JLoaderTest extends PHPUnit_Framework_TestCase
+class JLoaderTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Container for JLoader static values during tests.
@@ -735,7 +735,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

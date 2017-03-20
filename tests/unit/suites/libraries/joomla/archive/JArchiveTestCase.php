@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  * @subpackage  Archive
  * @since       3.1
  */
-abstract class JArchiveTestCase extends TestCase
+abstract class JArchiveTestCase extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Output path
