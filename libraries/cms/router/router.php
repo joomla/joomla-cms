@@ -241,12 +241,10 @@ class JRouter
 
 		// Check if all parts of the URL have been parsed.
 		// Otherwise we have an invalid URL
-		if (strlen($uri->getPath()) > 0)
+		if (strlen($uri->getPath()) > 0 && isset($this->app))
 		{
-			$app = JFactory::getApplication();
-
-			if ($app->get('handling404') == 2
-				|| ($app->get('handling404') == 1
+			if ($this->app->get('handling404') == 2
+				|| ($this->app->get('handling404') == 1
 				&& array_key_exists('option', $vars)
 				&& JComponentHelper::getParams($vars['option'])->get('sef_advanced', 0)))
 			{
