@@ -791,6 +791,20 @@
 		</field>
 
 		<field
+			name="handling404"
+			type="list"
+			default="0"
+			label="COM_CONFIG_FIELD_404_HANDLING_LABEL"
+			description="COM_CONFIG_FIELD_404_HANDLING_DESC"
+			filter="integer"
+			showon="sef:1"
+		>
+			<option value="0">COM_CONFIG_FIELD_VALUE_NO_404_HANDLING</option>
+			<option value="1">COM_CONFIG_FIELD_VALUE_ONLY_MODERN_404_HANDLING</option>
+			<option value="2">COM_CONFIG_FIELD_VALUE_STRICT_404_HANDLING</option>
+		</field>
+
+		<field
 			name="sitename_pagetitles"
 			type="list"
 			default="0"
