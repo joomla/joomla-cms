@@ -622,11 +622,7 @@ class Controller  implements ControllerInterface
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-<<<<<<< HEAD:libraries/src/Cms/Controller/Controller.php
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
-=======
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
->>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Controller/Controller.php
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
