@@ -111,22 +111,25 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 
 			foreach ($views[$vars['view']]->children as $view)
 			{
-				if (!$view->key && $view->name == $segment)
+				if (!$view->key)
 				{
-					// The segment is a view name
-					$parent       = $views[$vars['view']];
-					$vars['view'] = $view->name;
-					$found        = true;
-
-					if ($view->parent_key && isset($vars[$parent->key]))
+					if ($view->name == $segment)
 					{
-						$parent_key              = $vars[$parent->key];
-						$vars[$view->parent_key] = $parent_key;
+						// The segment is a view name
+						$parent       = $views[$vars['view']];
+						$vars['view'] = $view->name;
+						$found        = true;
 
-						unset($vars[$parent->key]);
+						if ($view->parent_key && isset($vars[$parent->key]))
+						{
+							$parent_key              = $vars[$parent->key];
+							$vars[$view->parent_key] = $parent_key;
+
+							unset($vars[$parent->key]);
+						}
+
+						break;
 					}
-
-					break;
 				}
 				elseif (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
 				{
