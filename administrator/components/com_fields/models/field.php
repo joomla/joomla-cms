@@ -164,11 +164,11 @@ class FieldsModelField extends JModelAdmin
 				$names = array();
 				foreach ($newParams as $param)
 				{
-					$names[] = $param['value'];
+					$names[] = $db->q($param['value']);
 				}
 				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where("value NOT IN ('" . implode("','", $names) . "')");
+					->where('value NOT IN (' . implode(',', $names) . ')');
 				$db->setQuery($query);
 				$db->execute();
 			}
