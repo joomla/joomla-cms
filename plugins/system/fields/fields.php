@@ -42,7 +42,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		if (!is_array($data) || empty($data['com_fields']))
+		if (!is_array($data) || empty($data['com_fields']) || empty($item->id))
 		{
 			return true;
 		}
@@ -76,26 +76,10 @@ class PlgSystemFields extends JPlugin
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $fieldsData))
-			{
-				continue;
-			}
-
-			$id = null;
-
-			if (isset($item->id))
-			{
-				$id = $item->id;
-			}
-
-			if (!$id)
-			{
-				continue;
-			}
+			$value = key_exists($field->alias, $fieldsData) ? $fieldsData[$field->alias] : null;
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fieldsData[$field->alias]);
+			$model->setFieldValue($field->id, $context, $item->id, $value);
 		}
 
 		return true;
