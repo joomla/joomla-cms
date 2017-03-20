@@ -84,7 +84,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JText::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 					</th>
 					<th width="15%" class="nowrap">
-						<?php echo JText::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
+						<?php echo JText::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<th width="10%" class="nowrap">
