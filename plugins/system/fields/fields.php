@@ -42,7 +42,8 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		if (!is_array($data) || empty($data['com_fields']) || empty($item->id))
+		// Check if data is an array and the item has an id
+		if (!is_array($data) || empty($item->id))
 		{
 			return true;
 		}
@@ -53,29 +54,35 @@ class PlgSystemFields extends JPlugin
 			$context = $item->extension . '.categories';
 		}
 
-		$fieldsData = $data['com_fields'];
-		$parts      = FieldsHelper::extract($context, $item);
+		// Check the context
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
 			return true;
 		}
 
+		// Compile the right context for the fields
 		$context = $parts[0] . '.' . $parts[1];
 
 		// Loading the fields
-		$fieldsObjects = FieldsHelper::getFields($context, $item);
+		$fields = FieldsHelper::getFields($context, $item);
 
-		if (!$fieldsObjects)
+		if (!$fields)
 		{
 			return true;
 		}
 
+		// Get the fields data
+		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
+
 		// Loading the model
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
-		foreach ($fieldsObjects as $field)
+		// Loop over the fields
+		foreach ($fields as $field)
 		{
+			// Determine the value if it is available from the data
 			$value = key_exists($field->alias, $fieldsData) ? $fieldsData[$field->alias] : null;
 
 			// Setting the value for the field and the item
