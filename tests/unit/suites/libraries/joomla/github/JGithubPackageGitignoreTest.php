@@ -15,7 +15,7 @@
  *
  * @since       ¿
  */
-class JGithubPackageGitignoreTest extends PHPUnit_Framework_TestCase
+class JGithubPackageGitignoreTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
@@ -64,7 +64,7 @@ class JGithubPackageGitignoreTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

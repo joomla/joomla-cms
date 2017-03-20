@@ -13,7 +13,7 @@
  * @subpackage  Language
  * @since       11.1
  */
-class JLanguageHelperTest extends PHPUnit_Framework_TestCase
+class JLanguageHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test...
