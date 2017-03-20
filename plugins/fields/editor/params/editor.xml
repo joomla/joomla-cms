@@ -37,6 +37,20 @@
 				description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
 				size="5"
 			/>
+
+			<field
+				name="filter"
+				type="list"
+				class="btn-group"
+				label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
+				description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
+			>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
+				<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>
+				<option value="JComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
+			</field>
 		</fieldset>
 	</fields>
 </form>
