@@ -53,7 +53,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<p class="small">
 					<?php echo JText::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?>
 				</p>
-				<p><?php echo JText::_($item->description_key); ?></p>
+				<div><?php echo JText::_($item->description_key); ?></div>
 				<div>
 					<?php if ($item->type !== 'message') : ?>
 					<a href="index.php?option=com_postinstall&amp;view=messages&amp;task=action&amp;id=<?php echo $item->postinstall_message_id; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-primary">
