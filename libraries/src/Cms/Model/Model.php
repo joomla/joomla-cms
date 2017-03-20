@@ -72,6 +72,13 @@ abstract class Model extends \JObject
 	protected $event_clean_cache = null;
 
 	/**
+	 * The base namespace of the component model belong to
+	 *
+	 * @var string
+	 */
+	protected $namespace = null;
+
+	/**
 	 * Add a directory where \JModelLegacy should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
@@ -223,15 +230,19 @@ abstract class Model extends \JObject
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			if (isset($config['option']))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				$this->option = $config['option'];
 			}
-
-			$this->option = 'com_' . strtolower($r[1]);
+			else
+			{
+				// Guess the option from the class name
+				$this->option = \JComponentHelper::getComponentName(get_class($this));
+			}
 		}
+
+		// Set the component namespace
+		$this->namespace = \JComponentHelper::getComponent($this->option)->namespace;
 
 		// Set the view name
 		if (empty($this->name))
@@ -374,7 +385,7 @@ abstract class Model extends \JObject
 	{
 		// Clean the model name
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$prefix = preg_replace('/[^A-Z0-9_\\\\]/i', '', $prefix);
 
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))
@@ -412,14 +423,21 @@ abstract class Model extends \JObject
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-
-			if (!preg_match('/Model(.*)/i', get_class($this), $r))
+			if ($this->namespace)
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				$this->name = strtolower((new \ReflectionClass($this))->getShortName());
 			}
+			else
+			{
+				$r = null;
 
-			$this->name = strtolower($r[1]);
+				if (!preg_match('/Model(.*)/i', get_class($this), $r))
+				{
+					throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				}
+
+				$this->name = strtolower($r[1]);
+			}
 		}
 
 		return $this->name;
@@ -461,11 +479,23 @@ abstract class Model extends \JObject
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = '', $prefix = 'Table', $options = array())
+	public function getTable($name = '', $prefix = '', $options = array())
 	{
 		if (empty($name))
 		{
 			$name = $this->getName();
+		}
+
+		if (empty($prefix))
+		{
+			if ($this->namespace)
+			{
+				$prefix = $this->namespace . '\\Administrator\\Table\\';
+			}
+			else
+			{
+				$prefix = 'Table';
+			}
 		}
 
 		if ($table = $this->_createTable($name, $prefix, $options))
@@ -528,6 +558,26 @@ abstract class Model extends \JObject
 	}
 
 	/**
+	 * Method to check if the given record is checked out by the current user
+	 *
+	 * @param   \stdClass  $item  The record to check
+	 *
+	 * @return  bool
+	 */
+	public function isCheckedOut($item)
+	{
+		$table = $this->getTable();
+		$checkedOutField = $table->getColumnAlias('checked_out');
+
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != \JFactory::getUser()->id)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * This method should only be called once per instantiation and is designed
@@ -587,7 +637,7 @@ abstract class Model extends \JObject
 		$conf = \JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
+			'defaultgroup' => ($group) ? $group : $this->option,
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
 			'result' => true,
 		);
