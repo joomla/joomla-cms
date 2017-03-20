@@ -395,4 +395,27 @@ class Admin extends Controller
 		// Close the application
 		$this->app->close();
 	}
+
+	/**
+	 * Method to get an admin model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  \Joomla\Cms\Model\Admin |boolean  Model object on success; otherwise false on failure.
+	 *
+	 * @since   3.0
+	 */
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	{
+		if (empty($name))
+		{
+			$name = $this->getControllerName();
+
+			$name = \Joomla\String\Inflector::getInstance()->toSingular($name);
+		}
+
+		return parent::getModel($name, $prefix, $config);
+	}
 }
