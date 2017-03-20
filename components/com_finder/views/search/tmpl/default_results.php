@@ -70,9 +70,9 @@ defined('_JEXEC') or die;
 	<div class="search-pages-counter">
 		<?php
 			// Prepare the pagination string.  Results X - Y of Z
-			$start = (int) $this->pagination->get('limitstart') + 1;
-			$total = (int) $this->pagination->get('total');
-			$limit = (int) $this->pagination->get('limit') * $this->pagination->get('pages.current');
+			$start = (int) $this->pagination->limitstart + 1;
+			$total = (int) $this->pagination->total;
+			$limit = (int) $this->pagination->limit * $this->pagination->pagesCurrent;
 			$limit = (int) ($limit > $total ? $total : $limit);
 
 			echo JText::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total);
