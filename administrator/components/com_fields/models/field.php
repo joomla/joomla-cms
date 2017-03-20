@@ -765,7 +765,7 @@ class FieldsModelField extends JModelAdmin
 				$form->setFieldAttribute('type', 'readonly', 'true');
 			}
 
-			// Allow to override the default value label and description trough the plugin
+			// Allow to override the default value label and description through the plugin
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
 			if (JFactory::getLanguage()->hasKey($key))
 			{
