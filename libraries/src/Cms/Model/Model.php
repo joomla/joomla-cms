@@ -486,10 +486,19 @@ abstract class Model extends \JObject
 			$name = $this->getName();
 		}
 
+		$name = ucfirst($name);
+
 		if (empty($prefix))
 		{
 			if ($this->namespace)
 			{
+				$inflector = \Joomla\String\Inflector::getInstance();
+
+				if ($inflector->isPlural($name))
+				{
+					$name = $inflector->toSingular($name);
+				}
+
 				$prefix = $this->namespace . '\\Administrator\\Table\\';
 			}
 			else
