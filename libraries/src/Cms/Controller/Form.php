@@ -69,13 +69,20 @@ class Form extends Controller
 		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
-			$this->text_prefix = strtoupper($this->option);
+			if (empty($config['text_prefix']))
+			{
+				$this->text_prefix = strtoupper($this->option);
+			}
+			else
+			{
+				$this->text_prefix = strtoupper($config['text_prefix']);
+			}
 		}
 
 		// Guess the context as the suffix, eg: OptionControllerContent.
 		if (empty($this->context))
 		{
-			$this->context = $this->getControllerName();
+			$this->context = strtolower($this->getControllerName());
 		}
 
 		// Guess the item view as the context.
