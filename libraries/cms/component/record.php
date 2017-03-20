@@ -45,6 +45,14 @@ class JComponentRecord extends JObject
 	protected $params;
 
 	/**
+	 * The extension namespace
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $namespace;
+
+	/**
 	 * Indicates if this component is enabled
 	 *
 	 * @var    integer
