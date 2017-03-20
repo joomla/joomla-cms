@@ -1752,6 +1752,7 @@ class JoomlaInstallerScript
 			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
 			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
 			'/administrator/components/com_users/models/fields/components.php',
+			'/administrator/components/com_admin/postinstall/phpversion.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
