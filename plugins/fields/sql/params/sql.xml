@@ -9,6 +9,7 @@
 				label="PLG_FIELDS_SQL_PARAMS_QUERY_LABEL"
 				description="PLG_FIELDS_SQL_PARAMS_QUERY_DESC"
 				rows="10"
+				required="true"
 			/>
 
 			<field
@@ -17,7 +18,7 @@
 				label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
 				description="PLG_FIELDS_SQL_PARAMS_MULTIPLE_DESC"
 			>
-				<option value="">PLG_FIELDS_SQL_PARAMS_USE_GLOBAL</option>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>

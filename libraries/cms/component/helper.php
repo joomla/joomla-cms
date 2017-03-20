@@ -21,7 +21,7 @@ class JComponentHelper
 	/**
 	 * The component list cache
 	 *
-	 * @var    array
+	 * @var    JComponentRecord[]
 	 * @since  1.6
 	 */
 	protected static $components = array();
@@ -32,7 +32,7 @@ class JComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  stdClass   An object with the information for the component.
+	 * @return  JComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -46,19 +46,14 @@ class JComponentHelper
 			}
 			else
 			{
-				$result = new stdClass;
+				$result = new JComponentRecord;
 				$result->enabled = $strict ? false : true;
-				$result->params = new Registry;
+				$result->setParams(new Registry);
 			}
 		}
 		else
 		{
 			$result = static::$components[$option];
-		}
-
-		if (is_string($result->params))
-		{
-			static::$components[$option]->params = new Registry(static::$components[$option]->params);
 		}
 
 		return $result;
@@ -454,7 +449,7 @@ class JComponentHelper
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option');
+			return $db->loadObjectList('option', 'JComponentRecord');
 		};
 
 		/** @var JCacheControllerCallback $cache */
@@ -498,7 +493,7 @@ class JComponentHelper
 	/**
 	 * Get installed components
 	 *
-	 * @return  array  The components property
+	 * @return  JComponentRecord[]  The components property
 	 *
 	 * @since   3.6.3
 	 */

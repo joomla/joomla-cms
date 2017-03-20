@@ -17,7 +17,7 @@ require_once __DIR__ . '/stubs/callback/helper.php';
  * @subpackage  Log
  * @since       12.2
  */
-class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
+class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test the JLogLoggerCallback::__construct method.

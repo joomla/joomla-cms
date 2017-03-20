@@ -31,7 +31,7 @@ class FieldsController extends JControllerLegacy
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean     $cachable   If true, the view output will be cached
-	 * @param   array|bool  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}
+	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}
 	 *
 	 * @return JControllerLegacy|boolean  A JControllerLegacy object to support chaining.
 	 *

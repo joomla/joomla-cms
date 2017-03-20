@@ -79,26 +79,30 @@ jQuery(document).ready(function($){
 	var containerDiv = document.querySelector('.span3.tree-holder'),
 		treeContainer = containerDiv.querySelector('.nav.nav-list'),
 		liEls = treeContainer.querySelectorAll('.folder.show'),
-		filePathTmp = document.querySelector('p.lead.hidden.path').innerText;
-		
-		if( filePathTmp.charAt( 0 ) === '/' )
+		filePathEl = document.querySelector('p.lead.hidden.path');
+
+	if(filePathEl)
+		var filePathTmp = document.querySelector('p.lead.hidden.path').innerText;
+
+	 if(filePathTmp && filePathTmp.charAt( 0 ) === '/' ) {
 			filePathTmp = filePathTmp.slice( 1 );
 			filePathTmp = filePathTmp.split('/');
-			filePathTmp = filePathTmp[filePathTmp.length - 1],
-			re = new RegExp( filePathTmp );
+			filePathTmp = filePathTmp[filePathTmp.length - 1];
+			var re = new RegExp( filePathTmp );
 
-	for (var i = 0, l = liEls.length; i < l; i++) {
-		liEls[i].querySelector('a').classList.add('active');
-		if (i === liEls.length - 1) {
-			var parentUl = liEls[i].querySelector('ul'),
-				allLi = parentUl.querySelectorAll('li'); 
-
-			for (var i = 0, l = allLi.length; i < l; i++) {
-				aEl = allLi[i].querySelector('a'),
-				spanEl = aEl.querySelector('span');
-
-				if (spanEl && re.test(spanEl.innerText)) {
-					aEl.classList.add('active');
+		for (var i = 0, l = liEls.length; i < l; i++) {
+			liEls[i].querySelector('a').classList.add('active');
+			if (i === liEls.length - 1) {
+				var parentUl = liEls[i].querySelector('ul'),
+					allLi = parentUl.querySelectorAll('li'); 
+	
+				for (var i = 0, l = allLi.length; i < l; i++) {
+					aEl = allLi[i].querySelector('a'),
+					spanEl = aEl.querySelector('span');
+	
+					if (spanEl && re.test(spanEl.innerText)) {
+						aEl.classList.add('active');
+					}
 				}
 			}
 		}

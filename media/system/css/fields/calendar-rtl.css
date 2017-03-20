@@ -130,26 +130,27 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	display: none;
 }
 
-a.js-btn.btn.btn-danger.btn-exit, a.js-btn.btn.btn-primary.btn-today, a.js-btn.btn.btn-clear {
-	cursor : pointer;
+.buttons-wrapper {
+	padding: 5px 5px;
+}
+a.js-btn.btn.btn-exit, a.js-btn.btn.btn-today, a.js-btn.btn.btn-clear {
+	cursor: pointer;
 	text-decoration: none;
+	min-width: 60px;
 }
 .calendar-container .calendar-head-row td {
-    padding: 4px 0 !important;
+	padding: 4px 0 !important;
 }
 .calendar-container .day-name {
-    font-size: 0.7rem;
-    font-weight: bold;
+	font-size: 0.7rem;
+	font-weight: bold;
 }
 .calendar-container .time td {
 	padding: 8px 8px 8px 0;
 }
-.calendar-container .btn-row td {
-	padding: 8px 4px;
+.time .time-title {
+	background-image: url("data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAdlJREFUeNqklUsohFEUx7/5kgWGjEcRJULJSmJhITQLr8UoFko2k2SDLGZD2SglJcXOxo6Fx0ayUt4jWXgNG2rIwsgMJZPn/+o/dRvfa8yp33zfPfecM+e795x7bYqxtIAaUA2KgA3cgn3gBcsgrMQg3eAAfJtwBYa0Atg0dAugg+/3YAUcgkvqCkAVcIIy6raBCwT0/mRdymYG5Bt8VQoYBe+0Pwdpik6mwuAVNMawbJXgmr7e6FVokzKt1XBOZnYuneB54Jn+w/LEMZXTOo65nN80yNxNmyBIF4o6Ku6AXccpmzbzJstyQbs+FT/1VC6CFyU+mePTqbIBhBwp8csGn8UqO0qIz8AhstNBk8BP4As4RGCVyk8LgUVVlFvIXFXZ+4qUuZY8gn6W1QmYBKkadklM9PfLJriTYxYyEYFXpZp3s8Yj0kv9mhi0cuCTlsVMuqRWbpL0Xuo8YpAotaQnhgoQSzEAMjhuZoywfMb0UCmyKP1HmSXzJBQxpqIn9zhxA0piCJoFdqXu/bOpmeCMBiF+ZoJJ0E7gp0/AKCF71M1xCkZ4NRWSCjAIdiQ7v9UlHAcPUdfQh1QJEd7ArOg0K1dTRHJAO2hg8zhoH2IVbYElvaPgR4ABAFM/gtHnpJfxAAAAAElFTkSuQmCC");
+	background-repeat: no-repeat;
+	background-position: center; 
 }
-.calendar-container .btn-row td:first-of-type {
-	padding-right: 8px;
-}
-.calendar-container .btn-row td:last-of-type {
-	padding-left: 8px;
-}
+

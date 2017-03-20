@@ -433,6 +433,8 @@ class JRouterSite extends JRouter
 
 				$this->setVars($vars);
 			}
+
+			$route = implode('/', $segments);
 		}
 		else
 		{
@@ -442,6 +444,8 @@ class JRouterSite extends JRouter
 				$vars = $item->query;
 			}
 		}
+
+		$uri->setPath($route);
 
 		return $vars;
 	}
@@ -680,7 +684,7 @@ class JRouterSite extends JRouter
 	}
 
 	/**
-	 * Create a uri based on a full or partial url string
+	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   string  $url  The URI
 	 *
