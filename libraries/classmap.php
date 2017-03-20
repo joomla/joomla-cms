@@ -55,3 +55,8 @@ JLoader::registerAlias('JRule',                        '\\Joomla\\Cms\\Access\\R
 JLoader::registerAlias('JRules',                       '\\Joomla\\Cms\\Access\\Rules', '4.0');
 
 JLoader::registerAlias('JAuthenticationHelper',        '\\Joomla\\Cms\\Authentication\\AuthenticationHelper', '4.0');
+
+JLoader::registerAlias('JHelp',                        '\\Joomla\\Cms\\Help\\Help', '4.0');
+
+JLoader::registerAlias('JLanguageAssociations',        '\\Joomla\\Cms\\Language\\Associations', '4.0');
+JLoader::registerAlias('JLanguageMultilang',           '\\Joomla\\Cms\\Language\\Multilanguage', '4.0');

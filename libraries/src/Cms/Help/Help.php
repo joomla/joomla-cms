@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Help
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Help;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.5
  */
-class JHelp
+class Help
 {
 	/**
 	 * Create a URL for a given help key reference
@@ -31,11 +32,11 @@ class JHelp
 	public static function createUrl($ref, $useComponent = false, $override = null, $component = null)
 	{
 		$local = false;
-		$app   = JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 
 		if (is_null($component))
 		{
-			$component = JApplicationHelper::getComponentName();
+			$component = \JApplicationHelper::getComponentName();
 		}
 
 		//  Determine the location of the help file.  At this stage the URL
@@ -48,7 +49,7 @@ class JHelp
 		else
 		{
 			// Get the user help URL.
-			$user = JFactory::getUser();
+			$user = \JFactory::getUser();
 			$url  = $user->getParam('helpsite');
 
 			// If user hasn't specified a help URL, then get the global one.
@@ -61,7 +62,7 @@ class JHelp
 			if ($useComponent)
 			{
 				// Look for help URL in component parameters.
-				$params = JComponentHelper::getParams($component);
+				$params = \JComponentHelper::getParams($component);
 				$url    = $params->get('helpURL');
 
 				if ($url == '')
@@ -91,13 +92,13 @@ class JHelp
 		/*
 		 *  Replace substitution codes in the URL.
 		 */
-		$lang    = JFactory::getLanguage();
-		$version = new JVersion;
+		$lang    = \JFactory::getLanguage();
+		$version = new \JVersion;
 		$jver    = explode('.', $version->getShortVersion());
 		$jlang   = explode('-', $lang->getTag());
 
 		$debug  = $lang->setDebug(false);
-		$keyref = JText::_($ref);
+		$keyref = \JText::_($ref);
 		$lang->setDebug($debug);
 
 		// Replace substitution codes in help URL.

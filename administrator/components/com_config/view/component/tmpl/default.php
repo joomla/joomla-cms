@@ -34,7 +34,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" data-cancel-task="config.cancel.component">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off" data-cancel-task="config.cancel.component">
 	<div class="row">
 
 		<?php // Begin Sidebar ?>
@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
 							<div class="tab-description alert alert-info">
-								<span class="icon-info"></span> <?php echo JText::_($fieldSet->description); ?>
+								<span class="icon-info" aria-hidden="true"></span> <?php echo JText::_($fieldSet->description); ?>
 							</div>
 						<?php endif; ?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
@@ -95,7 +95,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				<?php endforeach; ?>
 			</div>
 			<?php else: ?>
-				<div class="alert alert-info"><i class="icon-info"></i> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></div>
+				<div class="alert alert-info"><span class="icon-info" aria-hidden="true"></span> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></div>
 			<?php endif; ?>
 
 		</div>
