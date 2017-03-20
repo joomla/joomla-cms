@@ -116,14 +116,12 @@ class Admin extends Controller
 		// Check for request forgeries
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = \JFactory::getApplication();
-
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -192,8 +190,6 @@ class Admin extends Controller
 		// Check for request forgeries
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = \JFactory::getApplication();
-
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
 		$data  = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
@@ -202,7 +198,7 @@ class Admin extends Controller
 
 		if (empty($cid))
 		{
-			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -285,14 +281,12 @@ class Admin extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Reorder succeeded.
-			$message = \JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
-			return true;
-		}
+		// Reorder succeeded.
+		$message = \JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+		return true;
 	}
 
 	/**
@@ -329,14 +323,12 @@ class Admin extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Reorder succeeded.
-			$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
-			return true;
-		}
+		// Reorder succeeded.
+		$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
+		return true;
 	}
 
 	/**
@@ -364,14 +356,12 @@ class Admin extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Checkin succeeded.
-			$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
-			return true;
-		}
+		// Checkin succeeded.
+		$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+		return true;
 	}
 
 	/**
@@ -403,6 +393,6 @@ class Admin extends Controller
 		}
 
 		// Close the application
-		\JFactory::getApplication()->close();
+		$this->app->close();
 	}
 }

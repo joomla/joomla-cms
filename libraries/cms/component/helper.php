@@ -407,6 +407,42 @@ class JComponentHelper
 	}
 
 	/**
+	 *  Gets the name for the component from class name
+	 *
+	 * @param   string  $className  The class name of controller, model, view
+	 *
+	 * @return  string  The name of component
+	 *
+	 * @throws \Exception
+	 */
+	public static function getComponentName($className)
+	{
+		// In a namespace model class, the component name will be the part before Site/Administrator
+		if (strpos($className, '\\'))
+		{
+			$parts = explode('\\', $className);
+
+			$index = array_search('Site', $parts) ?: array_search('Administrator', $parts);
+
+			if ($index !== false && isset($parts[$index - 1]))
+			{
+				return 'com_' . strtolower($parts[$index - 1]);
+			}
+		}
+
+		// In a none namespace class, the component will be the part before Controller/Model/View
+		$r = null;
+
+		if (preg_match('/(.*)(Controller|Model|View)/i', $className, $r))
+		{
+			return 'com_' . strtolower($r[1]);
+		}
+
+		// Could not detect component name from given class, throws Exception
+		throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+	}
+
+	/**
 	 * Execute the component.
 	 *
 	 * @param   string  $path  The component path.
