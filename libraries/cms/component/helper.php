@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Cms\Dispatcher\DispatcherInterface;
 
 /**
  * Component helper class
@@ -351,22 +352,46 @@ class JComponentHelper
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
-		$path = JPATH_COMPONENT . '/' . $file . '.php';
-
 		// If component is disabled throw error
-		if (!static::isEnabled($option) || !file_exists($path))
+		if (!static::isEnabled($option))
 		{
 			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		// Load common and local language files.
-		$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
-
 		// Handle template preview outlining.
 		$contents = null;
 
-		// Execute the component.
-		$contents = static::executeComponent($path);
+		// Check if we have a dispatcher
+		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
+		{
+			require_once JPATH_COMPONENT . '/dispatcher.php';
+			$class = ucwords($file) . 'Dispatcher';
+
+			// Check the class exists and implements the dispatcher interface
+			if (!class_exists($class) || !in_array('Joomla\\Cms\\Dispatcher\\DispatcherInterface', class_implements($class)))
+			{
+				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
+			}
+
+			// Dispatch the component.
+			$contents = static::dispatchComponent(new $class($app));
+		}
+		else
+		{
+			$path = JPATH_COMPONENT . '/' . $file . '.php';
+
+			// If component file doesn't exist throw error
+			if (!file_exists($path))
+			{
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			}
+
+			// Load common and local language files.
+			$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
+
+			// Execute the component.
+			$contents = static::executeComponent($path);
+		}
 
 		// Revert the scope
 		$app->scope = $scope;
@@ -394,6 +419,24 @@ class JComponentHelper
 		require_once $path;
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Dispatch the component.
+	 *
+	 * @param   DispatcherInterface  $dispatcher  The dispatcher class.
+	 *
+	 * @return  string  The component output
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function dispatchComponent(DispatcherInterface $dispatcher)
+	{
+		ob_start();
+		$dispatcher->dispatch();
+		$contents = ob_get_clean();
+
+		return $contents;
 	}
 
 	/**
