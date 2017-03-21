@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContentModelArticles extends \Joomla\Cms\Model\ListModel
+class ContentModelArticles extends JModelList
 {
 	/**
 	 * Constructor.
