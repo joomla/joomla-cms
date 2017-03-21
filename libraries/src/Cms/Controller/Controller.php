@@ -375,10 +375,17 @@ class Controller  implements ControllerInterface
 		$this->input = $input ? $input : $this->app->input;
 		$this->option = $this->input->getCmd('option');
 
-		// Detect component from controller class name if not provided in input
+		// If option is not available in input, try to get it from config array. If still not available, detect from class name
 		if (empty($this->option))
 		{
-			$this->option = \JComponentHelper::getComponentName(get_class($this));
+			if (!empty($config['option']))
+			{
+				$this->option = $config['option'];
+			}
+			else
+			{
+				$this->option = \JComponentHelper::getComponentName(get_class($this));
+			}
 		}
 
 		// Store component namespace
