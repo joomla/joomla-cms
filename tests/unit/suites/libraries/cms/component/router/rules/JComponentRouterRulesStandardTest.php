@@ -87,6 +87,21 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
+	/**
 	 * Tests the __construct() method
 	 *
 	 * @return  void
@@ -209,7 +224,73 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	{
 		$actualSegments = array();
 		$this->object->build($query, $actualSegments);
-		$this->assertEquals($expectedSegments, $actualSegments);
-		$this->assertEquals($expectedQuery, $query);
+		$this->assertEquals($expectedSegments, $actualSegments, $error);
+		$this->assertEquals($expectedQuery, $query, $error);
+	}
+
+	/**
+	 * Provides the data to test the build method.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function dataTestParse()
+	{
+		return array(
+			array(
+				array(
+					0 => 'beginners'
+				),
+				array(
+					'option' => 'com_content',
+					'view' => 'article',
+					'catid' => 19,
+					'id' => 8
+				),
+				260,
+				'Error parsing a URL for an article with a parent category menu item'
+			),
+			array(
+				array(
+					0 => 'park-site',
+					1 => 'photo-gallery',
+					2 => 'scenery',
+					3 => 'cradle-mountain'
+				),
+				array(
+					'option' => 'com_content',
+					'view' => 'article',
+					'catid' => 73,
+					'id' => 11
+				),
+				272,
+				'Error parsing a URL for an article with a parent category menu item'
+			),
+		);
+	}
+
+	/**
+	 * Tests the build() method
+	 *
+	 * @return  void
+	 *
+	 * @covers        JComponentRouterRulesStandard::parse
+	 * @dataProvider  dataTestParse
+	 * @since         __DEPLOY_VERSION__
+	 */
+	public function testParse($segments, $expectedVars, $activeMenu, $error)
+	{
+		$vars = array();
+
+		// Set the router ID effectively mimicking JComponentRouterRulesMenu
+		/** @var ContentRouterStandardRuleOnly $router */
+		$router = TestReflection::getValue($this->object, 'router');
+		$router->menu->setActive($activeMenu);
+		TestReflection::setValue($this->object, 'router', $router);
+
+		$this->object->parse($segments, $vars);
+		$this->assertEquals($expectedVars, $vars, $error . ' invalid vars');
+		$this->assertEquals(array(), $segments, $error . ' invalid segments');
 	}
 }
