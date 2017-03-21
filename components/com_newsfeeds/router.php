@@ -42,7 +42,7 @@ class NewsfeedsRouter extends JComponentRouterView
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 
-		$params = JComponentHelper::getParams('com_content');
+		$params = JComponentHelper::getParams('com_newsfeeds');
 
 		if ($params->get('sef_advanced', 0))
 		{
