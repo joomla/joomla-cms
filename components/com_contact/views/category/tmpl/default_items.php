@@ -78,15 +78,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo $item->email_to; ?><br />
 						<?php endif; ?>
 						<?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
-							<?php echo $item->suburb . ', '; ?>
+							<?php echo $item->suburb; ?>
 						<?php endif; ?>
-
 						<?php if ($this->params->get('show_state_headings') && !empty($item->state)) : ?>
-							<?php echo $item->state . ', '; ?>
+							<?php echo ', ' .$item->state; ?>
 						<?php endif; ?>
-
 						<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
-							<?php echo $item->country; ?><br />
+							<?php echo ', ' . $item->country; ?><br />
 						<?php endif; ?>
 					</div>
 
