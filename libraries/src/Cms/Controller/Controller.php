@@ -373,19 +373,20 @@ class Controller  implements ControllerInterface
 
 		$this->app   = $app ? $app : \JFactory::getApplication();
 		$this->input = $input ? $input : $this->app->input;
-		$this->option = $this->input->getCmd('option');
 
-		// If option is not available in input, try to get it from config array. If still not available, detect from class name
+		if (!empty($config['option']))
+		{
+			$this->option = $config['option'];
+		}
+		else
+		{
+			$this->option = $this->input->getCmd('option');
+		}
+
+		// If option is not provided, try to detect it from class name
 		if (empty($this->option))
 		{
-			if (!empty($config['option']))
-			{
-				$this->option = $config['option'];
-			}
-			else
-			{
-				$this->option = \JComponentHelper::getComponentName(get_class($this));
-			}
+			$this->option = \JComponentHelper::getComponentName(get_class($this));
 		}
 
 		// Store component namespace
