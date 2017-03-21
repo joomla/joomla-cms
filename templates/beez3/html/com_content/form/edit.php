@@ -227,6 +227,8 @@ endif;
 					<?php echo $this->form->getInput('tags'); ?>
 				</div>
 			</div>
+			<?php // Do not show these publishing options if the edit form is configured not to. ?>
+			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('created_by_alias'); ?>
@@ -235,7 +237,7 @@ endif;
 					<?php echo $this->form->getInput('created_by_alias'); ?>
 				</div>
 			</div>
-
+			<?php endif; ?>
 			<?php if ($this->item->params->get('access-change')) : ?>
 				<div class="control-group">
 					<div class="control-label">
@@ -253,6 +255,8 @@ endif;
 						<?php echo $this->form->getInput('featured'); ?>
 					</div>
 				</div>
+				<?php // Do not show these publishing options if the edit form is configured not to. ?>
+				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('publish_up'); ?>
@@ -269,6 +273,7 @@ endif;
 						<?php echo $this->form->getInput('publish_down'); ?>
 					</div>
 				</div>
+				<?php endif; ?>
 			<?php endif; ?>
 			<div class="control-group">
 				<div class="control-label">
@@ -301,6 +306,8 @@ endif;
 			</div>
 	</fieldset>
 
+	<?php // Do not show these publishing options if the edit form is configured not to. ?>
+	<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 	<fieldset>
 		<legend><?php echo JText::_('COM_CONTENT_METADATA'); ?></legend>
 			<div class="control-group">
@@ -319,13 +326,14 @@ endif;
 					<?php echo $this->form->getInput('metakey'); ?>
 				</div>
 			</div>
-
+	</fieldset>
+	<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 		<?php if ($this->params->get('enable_category', 0) == 1) : ?>
 			<input type="hidden" name="jform[catid]" value="<?php echo $this->params->get('catid', 1);?>"/>
 		<?php endif;?>
 		<?php echo JHtml::_('form.token'); ?>
-	</fieldset>
+
 </form>
 </div>
