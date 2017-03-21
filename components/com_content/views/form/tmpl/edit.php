@@ -108,12 +108,18 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php if ($params->get('save_history', 0)) : ?>
 					<?php echo $this->form->renderField('version_note'); ?>
 				<?php endif; ?>
-				<?php echo $this->form->renderField('created_by_alias'); ?>
+				<?php // Do not show these publishing options if the edit form is configured not to. ?>
+				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
+					<?php echo $this->form->renderField('created_by_alias'); ?>
+				<?php endif; ?>
 				<?php if ($this->item->params->get('access-change')) : ?>
 					<?php echo $this->form->renderField('state'); ?>
 					<?php echo $this->form->renderField('featured'); ?>
-					<?php echo $this->form->renderField('publish_up'); ?>
-					<?php echo $this->form->renderField('publish_down'); ?>
+					<?php // Do not show these publishing options if the edit form is configured not to. ?>
+						<?php if ($params->get('show_publishing_options', 1) == 1) : ?>					
+							<?php echo $this->form->renderField('publish_up'); ?>
+							<?php echo $this->form->renderField('publish_down'); ?>
+						<?php endif; ?>
 				<?php endif; ?>
 				<?php echo $this->form->renderField('access'); ?>
 				<?php if (is_null($this->item->id)) : ?>
@@ -131,10 +137,13 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo $this->form->renderField('language'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'metadata', JText::_('COM_CONTENT_METADATA')); ?>
-				<?php echo $this->form->renderField('metadesc'); ?>
-				<?php echo $this->form->renderField('metakey'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php // Do not show these publishing options if the edit form is configured not to. ?>
+			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
+				<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'metadata', JText::_('COM_CONTENT_METADATA')); ?>
+					<?php echo $this->form->renderField('metadesc'); ?>
+					<?php echo $this->form->renderField('metakey'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php endif; ?>
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
