@@ -156,7 +156,6 @@
 				if (task === 'save')
 				{
 					submittedTask = 'apply';
-					jQuery('#' + modalId + ' iframe').addClass('hidden');
 				}
 
 				document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);

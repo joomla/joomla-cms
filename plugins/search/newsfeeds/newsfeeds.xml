@@ -36,8 +36,8 @@
 					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JON</option>
-					<option value="0">JOFF</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field

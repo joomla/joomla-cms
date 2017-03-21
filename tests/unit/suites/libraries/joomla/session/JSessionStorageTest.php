@@ -13,7 +13,7 @@
  * @subpackage  Session
  * @since       11.1
  */
-class JSessionStorageTest extends PHPUnit_Framework_TestCase
+class JSessionStorageTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorage
