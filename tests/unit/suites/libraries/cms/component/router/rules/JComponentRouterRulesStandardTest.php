@@ -66,7 +66,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 		$app = $this->getMockCmsApp();
 		JFactory::$application = $app;
 
-		$router = new ContentRouterStandardRuleOnly($app, new JMenuSite(['app' => $app, 'language' => self::getMockLanguage()]), $noIds);
+		$router = new ContentRouterStandardRuleOnly($app, new JMenuSite(array('app' => $app, 'language' => self::getMockLanguage())), $noIds);
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
 		$router->registerView($categories);
@@ -178,6 +178,21 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 				),
 				'Error building a URL for a menu item that doesn\'t have a key'
 			),
+			array(
+				array(
+					'option' => 'com_content',
+					'id' => 19,
+					'Itemid' => 260
+				),
+				array(
+					'option' => 'com_content',
+					'id' => 19,
+					'Itemid' => 260
+				),
+				array(
+				),
+				'URL without a view specified cannot build'
+			),
 		);
 	}
 
@@ -192,7 +207,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 */
 	public function testBuild($query, $expectedQuery, $expectedSegments, $error)
 	{
-		$actualSegments = [];
+		$actualSegments = array();
 		$this->object->build($query, $actualSegments);
 		$this->assertEquals($expectedSegments, $actualSegments);
 		$this->assertEquals($expectedQuery, $query);
