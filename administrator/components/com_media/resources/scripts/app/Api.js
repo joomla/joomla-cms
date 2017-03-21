@@ -113,9 +113,9 @@ class Api {
             case 401:
             case 403:
             case 500:
-                window.location.href = '/administrator';
+                window.location.href = window.location.pathname;
             default:
-                window.location.href = '/administrator';
+                window.location.href = window.location.pathname;
         }
 
         throw error;
