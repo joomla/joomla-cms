@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_content
+ * @package     Joomla.UnitTest
+ * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,9 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Routing class of com_content
+ * Routing class of com_content, with the following changes:
+ * 1. The no id's object is a constructor parameter
+ * 2. The router only has the JComponentRouterRulesStandard rule attached
  *
- * @since  3.3
+ * @since  __DEPLOY_VERSION__
  */
 class ContentRouterStandardRuleOnly extends JComponentRouterView
 {
@@ -53,9 +55,11 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategorySegment($id, $query)
 	{
@@ -84,9 +88,11 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategoriesSegment($id, $query)
 	{
@@ -97,9 +103,11 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 * Method to get the segment(s) for an article
 	 *
 	 * @param   string  $id     ID of the article to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getArticleSegment($id, $query)
 	{
@@ -132,6 +140,8 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 * @param   array   $query    The request that is parsed right now
 	 *
 	 * @return  mixed   The id of this item or false
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategoryId($segment, $query)
 	{
@@ -168,6 +178,8 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 * @param   array   $query    The request that is parsed right now
 	 *
 	 * @return  mixed   The id of this item or false
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategoriesId($segment, $query)
 	{
@@ -181,6 +193,8 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 * @param   array   $query    The request that is parsed right now
 	 *
 	 * @return  mixed   The id of this item or false
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getArticleId($segment, $query)
 	{
