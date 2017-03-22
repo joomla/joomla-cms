@@ -61,7 +61,7 @@ class ContentRouter extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
 	 */
@@ -92,7 +92,7 @@ class ContentRouter extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
 	 */
@@ -105,7 +105,7 @@ class ContentRouter extends JComponentRouterView
 	 * Method to get the segment(s) for an article
 	 *
 	 * @param   string  $id     ID of the article to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
 	 */
