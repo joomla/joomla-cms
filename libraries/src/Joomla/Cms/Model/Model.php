@@ -383,7 +383,14 @@ abstract class Model extends \JObject
 			$config['dbo'] = $this->getDbo();
 		}
 
-		return $this->factory->createTable($name, $prefix, $config);
+		$table = $this->factory->createTable($name, $prefix, $config);
+
+		if ($table === null)
+		{
+			return false;
+		}
+
+		return $table;
 	}
 
 	/**

@@ -10,12 +10,53 @@ namespace Joomla\Cms\Mvc;
 
 defined('JPATH_PLATFORM') or die;
 
-
+/**
+ * Factory to create MVC objects.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 interface MvcFactoryInterface
 {
-	public function createModel($name, $prefix = '', $config = array());
+	/**
+	 * Method to load and return a model object.
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  Optional model prefix.
+	 * @param   array   $config  Optional configuration array for the model.
+	 *
+	 * @return  \Joomla\Cms\Model\Model  The model object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createModel($name, $prefix = '', array $config = array());
 
-	public function createView($name, $prefix = '', $type = '', $config = array());
+	/**
+	 * Method to load and return a view object.
+	 *
+	 * @param   string  $name    The name of the view.
+	 * @param   string  $prefix  Optional view prefix.
+	 * @param   string  $type    Optional type of view.
+	 * @param   array   $config  Optional configuration array for the view.
+	 *
+	 * @return  \Joomla\Cms\View\View  The view object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createView($name, $prefix = '', $type = '', array $config = array());
 
-	public function createTable($name, $prefix = 'Table', $config = array());
+	/**
+	 * Method to load and return a table object.
+	 *
+	 * @param   string  $name    The name of the table.
+	 * @param   string  $prefix  Optional table prefix.
+	 * @param   array   $config  Optional configuration array for the table.
+	 *
+	 * @return  \Joomla\Cms\Table\Table  The table object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createTable($name, $prefix = '', array $config = array());
 }

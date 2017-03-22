@@ -8,15 +8,35 @@
 
 namespace Joomla\Cms\Mvc;
 
-use Joomla\Cms\Controller\Controller;
-use Joomla\Cms\Model\Model;
-
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Controller\Controller;
+use Joomla\Cms\Model\Model;
+use Joomla\Cms\Table\Table;
+
+/**
+ * Factory to create MVC objects in legacy mode.
+ * Uses the static getInstance function on the classes itself. Behavior of the old none
+ * namespaced extension set up.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class LegacyFactory implements MvcFactoryInterface
 {
 
-	public function createModel($name, $prefix = '', $config = array())
+	/**
+	 * Method to load and return a model object.
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  Optional model prefix.
+	 * @param   array   $config  Optional configuration array for the model.
+	 *
+	 * @return  \Joomla\Cms\Model\Model  The model object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createModel($name, $prefix = '', array $config = array())
 	{
 		// Clean the model name
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -25,7 +45,7 @@ class LegacyFactory implements MvcFactoryInterface
 		return Model::getInstance($modelName, $classPrefix, $config);
 	}
 
-	public function createView($name, $prefix = '', $type = '', $config = array())
+	public function createView($name, $prefix = '', $type = '', array $config = array())
 	{
 		// Clean the view name
 		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -56,12 +76,12 @@ class LegacyFactory implements MvcFactoryInterface
 		return new $viewClass($config);
 	}
 
-	public function createTable($name, $prefix = 'Table', $config = array())
+	public function createTable($name, $prefix = 'Table', array $config = array())
 	{
 		// Clean the model name
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		return \JTable::getInstance($name, $prefix, $config);
+		return Table::getInstance($name, $prefix, $config);
 	}
 }

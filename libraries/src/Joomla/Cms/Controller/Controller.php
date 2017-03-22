@@ -557,7 +557,14 @@ class Controller extends \JObject
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		return $this->factory->createModel($name, $prefix, $config);
+		$model = $this->factory->createModel($name, $prefix, $config);
+
+		if ($model === null)
+		{
+			return false;
+		}
+
+		return $model;
 	}
 
 	/**

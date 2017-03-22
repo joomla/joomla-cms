@@ -8,13 +8,23 @@
 
 namespace Joomla\Cms\Mvc;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\Cms\Controller\Controller;
 use Joomla\Cms\Model\Model;
 
-defined('JPATH_PLATFORM') or die;
-
+/**
+ * Factory to create MVC objects based on a namespace.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class MvcFactory implements MvcFactoryInterface
 {
+	/**
+	 * The namespace to create the objects from.
+	 *
+	 * @var null|string
+	 */
 	private $namespace = null;
 
 	/**
@@ -30,9 +40,21 @@ class MvcFactory implements MvcFactoryInterface
 		$this->namespace = $namespace;
 	}
 
-	public function createModel($name, $prefix = '', $config = array())
+	/**
+	 * Method to load and return a model object.
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  Optional model prefix.
+	 * @param   array   $config  Optional configuration array for the model.
+	 *
+	 * @return  \Joomla\Cms\Model\Model  The model object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createModel($name, $prefix = 'Model', array $config = array())
 	{
-		$modelClass = $this->namespace . '\\' . ucfirst($prefix) . '\\Model\\' . ucfirst($name);
+		$modelClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' .  ucfirst($name);
 		if (!class_exists($modelClass))
 		{
 			return null;
@@ -40,9 +62,22 @@ class MvcFactory implements MvcFactoryInterface
 		return new $modelClass($config);
 	}
 
-	public function createView($name, $prefix = '', $type = '', $config = array())
+	/**
+	 * Method to load and return a view object.
+	 *
+	 * @param   string  $name    The name of the view.
+	 * @param   string  $prefix  Optional view prefix.
+	 * @param   string  $type    Optional type of view.
+	 * @param   array   $config  Optional configuration array for the view.
+	 *
+	 * @return  \Joomla\Cms\View\View  The view object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createView($name, $prefix = 'View', $type = '', array $config = array())
 	{
-		$viewClass = $this->namespace . '\\' . ucfirst($prefix) . '\\View\\' . ucfirst($name) . '\\' . ucfirst($type);
+		$viewClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' .  ucfirst($name) . '\\' . ucfirst($type);
 		if (!class_exists($viewClass))
 		{
 			return null;
@@ -51,9 +86,21 @@ class MvcFactory implements MvcFactoryInterface
 		return new $viewClass($config);
 	}
 
-	public function createTable($name, $prefix = 'Table', $config = array())
+	/**
+	 * Method to load and return a table object.
+	 *
+	 * @param   string  $name    The name of the table.
+	 * @param   string  $prefix  Optional table prefix.
+	 * @param   array   $config  Optional configuration array for the table.
+	 *
+	 * @return  \Joomla\Cms\Table\Table  The table object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createTable($name, $prefix = 'Table', array $config = array())
 	{
-		$tableClass = $this->namespace . '\\' . ucfirst($prefix) . '\\Table\\' . ucfirst($name);
+		$tableClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' .  ucfirst($name);
 		if (!class_exists($tableClass))
 		{
 			return null;
