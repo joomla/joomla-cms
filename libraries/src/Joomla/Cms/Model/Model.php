@@ -209,7 +209,7 @@ abstract class Model extends \JObject
 			}
 		}
 
-		return new $modelClass($config, new LegacyFactory());
+		return new $modelClass($config);
 	}
 
 	/**
