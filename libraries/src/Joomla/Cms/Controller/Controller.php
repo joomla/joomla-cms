@@ -8,6 +8,9 @@
 
 namespace Joomla\Cms\Controller;
 
+use Joomla\Cms\Mvc\LegacyFactory;
+use Joomla\Cms\Mvc\MvcFactory;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -125,6 +128,14 @@ class Controller extends \JObject
 	protected $input;
 
 	/**
+	 * The factory.
+	 *
+	 * @var    MvcFactory
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $factory;
+
+	/**
 	 * Instance container.
 	 *
 	 * @var    JControllerLegacy
@@ -165,7 +176,7 @@ class Controller extends \JObject
 	 *
 	 * @since   3.0
 	 */
-	protected static function createFileName($type, $parts = array())
+	public static function createFileName($type, $parts = array())
 	{
 		$filename = '';
 
@@ -306,13 +317,14 @@ class Controller extends \JObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array       $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactory  $factory  The factory.
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactory $factory = null)
 	{
 		$this->methods = array();
 		$this->message = null;
@@ -427,6 +439,8 @@ class Controller extends \JObject
 		{
 			$this->default_view = $this->getName();
 		}
+
+		$this->factory = $factory ? : new LegacyFactory();
 	}
 
 	/**
@@ -543,11 +557,7 @@ class Controller extends \JObject
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		// Clean the model name
-		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-
-		return \JModelLegacy::getInstance($modelName, $classPrefix, $config);
+		return $this->factory->createModel($name, $prefix, $config);
 	}
 
 	/**
@@ -570,33 +580,8 @@ class Controller extends \JObject
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		// Clean the view name
-		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
-
-		// Build the view class name
-		$viewClass = $classPrefix . $viewName;
-
-		if (!class_exists($viewClass))
-		{
-			jimport('joomla.filesystem.path');
-			$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
-
-			if (!$path)
-			{
-				return null;
-			}
-
-			\JLoader::register($viewClass, $path);
-
-			if (!class_exists($viewClass))
-			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
-			}
-		}
-
-		return new $viewClass($config);
+		$config['paths'] = $this->paths['view'];
+		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
 	/**
