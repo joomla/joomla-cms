@@ -28,6 +28,7 @@ if (!class_exists('JLoader'))
 
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
+JLoader::registerNamespace('Joomla', JPATH_PLATFORM . '/src/Joomla', false, false, 'psr4');
 
 // Create the Composer autoloader
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';

@@ -28,5 +28,4 @@ return array(
     'Joomla\\DI\\Tests\\' => array($vendorDir . '/joomla/di/Tests'),
     'Joomla\\DI\\' => array($vendorDir . '/joomla/di/src'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),
-    'Joomla\\' => array($baseDir . '/libraries/src/Joomla'),
 );

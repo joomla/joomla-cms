@@ -278,12 +278,6 @@ abstract class JLoader
 	 */
 	public static function register($class, $path, $force = true)
 	{
-		// When an alias exists, register it as well
-		if (key_exists($class, self::$classAliases))
-		{
-			self::register(self::$classAliases[$class], $path, $force);
-		}
-
 		// Sanitize class name.
 		$class = strtolower($class);
 
@@ -642,17 +636,6 @@ abstract class JLoader
 	 */
 	public static function applyAliasFor($class)
 	{
-		// When the class doesn't exists but we have a class available with the key, create the alias
-		if (!class_exists($class) && $key = array_search($class, self::$classAliases))
-		{
-			if (class_exists($key))
-			{
-				class_alias($key, $class);
-				return;
-			}
-		}
-
-
 		// Remove the root backslash if present.
 		if ($class[0] == '\\')
 		{
