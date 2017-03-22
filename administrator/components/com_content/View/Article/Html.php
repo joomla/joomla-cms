@@ -7,23 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Content\Admin\View\Article;
-
 defined('_JEXEC') or die;
-
-use Joomla\Cms\View\View;
 
 /**
  * View to edit an article.
  *
  * @since  1.6
  */
-class Html extends View
+class ContentViewArticle extends JViewLegacy
 {
 	/**
-	 * The \JForm object
+	 * The JForm object
 	 *
-	 * @var  \JForm
+	 * @var  JForm
 	 */
 	protected $form;
 
@@ -37,14 +33,14 @@ class Html extends View
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  JObject
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  JObject
 	 */
 	protected $canDo;
 
@@ -68,28 +64,22 @@ class Html extends View
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			// TODO: This is really dodgy - should change this one day.
-			$eName = \JFactory::getApplication()->input->getCmd('e_name');
-			$eName    = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
-			$this->document->setTitle(\JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
-			$this->eName = &$eName;
-
 			return parent::display($tpl);
 		}
 
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = \JHelperContent::getActions('com_content', 'article', $this->item->id);
+		$this->canDo = JHelperContent::getActions('com_content', 'article', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -116,8 +106,8 @@ class Html extends View
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
-		$user       = \JFactory::getUser();
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$user       = JFactory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
@@ -125,15 +115,15 @@ class Html extends View
 		// Built the actions for new and existing records.
 		$canDo = $this->canDo;
 
-		\JToolbarHelper::title(
-			\JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
+		JToolbarHelper::title(
+			JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
 			'pencil-2 article-add'
 		);
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
-			\JToolbarHelper::saveGroup(
+			JToolbarHelper::saveGroup(
 				[
 					['apply', 'article.apply'],
 					['save', 'article.save'],
@@ -142,7 +132,7 @@ class Html extends View
 				'btn-success'
 			);
 
-			\JToolbarHelper::cancel('article.cancel');
+			JToolbarHelper::cancel('article.cancel');
 		}
 		else
 		{
@@ -170,27 +160,27 @@ class Html extends View
 				$toolbarButtons[] = ['save2copy', 'article.save2copy'];
 			}
 
-			\JToolbarHelper::saveGroup(
+			JToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
-			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
-				\JToolbarHelper::versions('com_content.article', $this->item->id);
+				JToolbarHelper::versions('com_content.article', $this->item->id);
 			}
 
 			if (!$isNew)
 			{
-				\JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
-				$url = \ContentHelperPreview::url($this->item);
-				\JToolbarHelper::preview($url, \JText::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
+				JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
+				$url = ContentHelperPreview::url($this->item);
+				JToolbarHelper::preview($url, JText::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
 			}
 
-			\JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
 	}
 }

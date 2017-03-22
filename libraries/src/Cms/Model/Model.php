@@ -12,6 +12,7 @@ namespace Joomla\Cms\Model;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Cms\Table\Table;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Base class for a Joomla Model
@@ -503,7 +504,7 @@ abstract class Model extends \JObject
 			return false;
 		}
 
-		$rowArray = \JArrayHelper::fromObject(json_decode($historyTable->version_data));
+		$rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
 		$typeId   = Table::getInstance('Contenttype')->getTypeId($this->typeAlias);
 
 		if ($historyTable->ucm_type_id != $typeId)

@@ -272,7 +272,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli,pdomysql,postgresql"
+			supported="mysqli,pdomysql,postgresql"
 			filter="string" />
 
 		<field

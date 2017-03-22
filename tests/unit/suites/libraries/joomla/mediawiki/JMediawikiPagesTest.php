@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mediawiki
  */
-class JMediawikiPagesTest extends PHPUnit_Framework_TestCase
+class JMediawikiPagesTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Mediawiki object.
@@ -63,7 +63,7 @@ class JMediawikiPagesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

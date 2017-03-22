@@ -4,10 +4,13 @@
   "description": "Joomla CMS",
   "repository": {
     "type": "git",
-    "url": "https://github.com/joomla/40-backend-template.git"
+    "url": "https://github.com/joomla/joomla-cms.git"
+  },
+  "scripts": {
+    "compile-js": "grunt uglify:allJs"
   },
   "dependencies": {
-    "autoprefixer": "^6.7.2",
+    "autoprefixer": "^6.7.7",
     "grunt": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-concat": "latest",

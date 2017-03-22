@@ -15,10 +15,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
-
-$user      = JFactory::getUser();
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$user        = JFactory::getUser();
+$listOrder   = $this->escape($this->state->get('list.ordering'));
+$listDirn    = $this->escape($this->state->get('list.direction'));
+$debugGroups = $this->state->get('params')->get('debugGroups', 1);
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
@@ -109,7 +109,7 @@ JFactory::getDocument()->addScriptDeclaration('
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<?php if (JDEBUG) : ?>
+									<?php if ($debugGroups) : ?>
 										<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
 										<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
 									<?php endif; ?>

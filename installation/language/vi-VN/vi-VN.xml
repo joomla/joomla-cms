@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.6"
+	version="3.7"
 	client="installation">
-	<name>Vietnamese (Vietnam)</name>
-	<version>3.5.0</version>
-	<creationDate>August 2015</creationDate>
+	<name>Vietnamese (Vn)</name>
+	<version>3.7.0</version>
+	<creationDate>January 2017</creationDate>
 	<author>Joomla! Project</author>
 	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
-		<filename>vn-VN.ini</filename>
+		<filename>vi-VN.ini</filename>
 	</files>
 	<metadata>
-		<name>Vietnamese (Vietnam)</name>
+		<name>Vietnamese (Vn)</name>
+		<nativeName>Tiếng Việt (Việt Nam)</nativeName>
 		<tag>vi-VN</tag>
 		<rtl>0</rtl>
 	</metadata>

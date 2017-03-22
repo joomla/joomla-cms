@@ -1,7 +1,9 @@
 #### Maintainer's Area
 
-- Install Node:  https://nodejs.org/en/
-- Run: `npm install` in this folder if this is the first itme!
+- Install Node:  https://nodejs.org/en
+- Install Ruby:  https://rubyinstaller.org
+- Run: `npm install` in this folder if this is the first time!
+- Run: `gem install scss_lint` to install the linter
 
 - Run: `grunt` will do the automatic update for all the assets
 

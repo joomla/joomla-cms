@@ -25,35 +25,78 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The JApplication instance
 	 *
-	 * @var     \JApplicationCms
+	 * @var    \JApplicationCms
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
-	private $app;
+	protected $app;
+
+	/**
+	 * The JApplication instance
+	 *
+	 * @var    \JInput
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $input;
+
+	/**
+	 * The extension namespace
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $namespace;
 
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   \JApplicationCms  $app  The JApplication for the dispatcher
+	 * @param   string            $namespace  Namespace of the Extension
+	 * @param   \JApplicationCms  $app        The JApplication for the dispatcher
+	 * @param   \JInput           $input      JInput
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(\JApplicationCms $app)
+	public function __construct($namespace, \JApplicationCms $app, \JInput $input = null)
 	{
-		$this->app  = $app;
+		$this->namespace = $namespace;
+		$this->app       = $app;
+		$this->input     = $input ? $input : $app->input;
+
+		$this->loadLanguage();
+		$this->autoLoad();
 	}
 
 	/**
-	 * Returns the namespace of the extension this dispatcher belongs to. If
-	 * the returned string is empty, then a none namespaced extension is assumed.
+	 * Load the laguage
 	 *
-	 * @return  string|null
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	protected function loadLanguage()
+	{
+		// Load common and local language files.
+		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
+		$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+	}
+
+
+	/**
+	 * Autoload the extension files
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getNamespace()
+	protected function autoLoad()
 	{
-		return null;
+		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
+
+		// Autoload the component
+		$autoLoader->addPsr4($this->namespace . 'Administrator\\', JPATH_ADMINISTRATOR . '/components/' . $this->app->scope);
+		$autoLoader->setPsr4($this->namespace . 'Site\\', JPATH_BASE . '/components/' . $this->app->scope);
 	}
 
 	/**
@@ -71,78 +114,61 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \JAccessExceptionNotallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		// Load common and local language files.
-		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
-			$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+		$command = $this->input->getCmd('task', 'display');
 
-		$namespace = $this->getNamespace();
-
-		if (!$namespace)
+		// Check for a controller.task command.
+		if (strpos($command, '.') !== false)
 		{
-			// Execute the task for this component
-			$controller = Controller::getInstance(ucwords(substr($this->app->scope, 4)));
+			// Explode the controller.task command.
+			list ($controller, $task) = explode('.', $command);
+
+			$this->input->set('controller', $controller);
+			$this->input->set('task', $task);
 		}
 		else
 		{
-			// Register the namespace
-			\JLoader::registerNamespace($namespace, JPATH_COMPONENT, false, false, 'psr4');
-
-			$command = $this->app->input->get('task', 'display');
-			$format  = $this->app->input->getWord('format', '');
-
-			// The config for the controller
-			$config = array();
-
-			// Check for a controller.task command
-			if (strpos($command, '.') !== false)
-			{
-				// Explode the controller.task command
-				list ($type, $task) = explode('.', $command);
-
-				// Define the controller class name
-				$class = '\\Controller\\' . ucfirst($type) . ucfirst($format);
-
-				// Reset the task without the controller context
-				$this->app->input->set('task', $task);
-			}
-			else
-			{
-				// Define the View as we run the display command class name
-				$class = '\\Controller\\View';
-			}
-
-			// Compile the full class name
-			$class = \JPath::clean($namespace . '\\' . $class, '\\');
-
-			$controller = null;
-
-			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getContainer()->exists($class))
-			{
-				$controller = \JFactory::getContainer()->get($class);
-			}
-			else
-			{
-				$controller = new $class($config);
-			}
+			// Do we have a controller?
+			$controller = $this->input->get('controller', ucwords(substr($this->app->scope, 4)));
+			$task       = $command;
 		}
 
-		// Execute the task
-		$controller->execute($this->app->input->get('task'));
-
-		// Redirect if needed
+		// Execute the task for this component
+		$controller = $this->getController($controller);
+		$controller->execute($task);
 		$controller->redirect();
 	}
 
 	/**
 	 * The application the dispatcher is working with.
 	 *
-	 * @return \JApplicationCms
+	 * @return  \JApplicationCms
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getApplication()
 	{
 		return $this->app;
+	}
+
+	/**
+	 * Get a controller from the component
+	 *
+	 * @param   string  $name    Controller name
+	 * @param   string  $client  Optional client (like Admin, Site etc.)
+	 * @param   array   $config  Optional controller config
+	 *
+	 * @return  Controller|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getController($name, $client = null, $config = array())
+	{
+		$client = $client ? $client : ucfirst($this->app->getName()) . '\\';
+
+		$controllerName = $this->namespace . $client . 'Controller\\' . ucfirst($name);
+
+		$controller = new $controllerName($config, $this->app, $this->input);
+
+		return $controller;
 	}
 }

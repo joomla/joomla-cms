@@ -37,8 +37,8 @@
 					description="JFIELD_PLG_SEARCH_ALL_DESC"
 					default="0"
 					>
-					<option value="0">JOFF</option>
-t					<option value="1">JON</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -49,8 +49,8 @@ t					<option value="1">JON</option>
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
 					default="0"
 					>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 

@@ -22,20 +22,9 @@ JText::script('ERROR');
 JText::script('WARNING');
 JText::script('NOTICE');
 JText::script('MESSAGE');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task === "config.cancel.application" || document.formvalidator.isValid(document.getElementById("application-form")))
-		{
-			jQuery("#permissions-sliders select").attr("disabled", "disabled");
-			Joomla.submitform(task, document.getElementById("application-form"));
-		}
-	};
-');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate" data-cancel-task="config.cancel.component">
 	<div class="row">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-2">
@@ -70,11 +59,11 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div id="config-document" class="tab-content">
 				<div id="page-site" class="tab-pane active">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('site'); ?>
 							<?php echo $this->loadTemplate('metadata'); ?>
 						</div>
-						<div class="col-md-6">
+						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('seo'); ?>
 							<?php echo $this->loadTemplate('cookie'); ?>
 						</div>
@@ -92,13 +81,13 @@ JFactory::getDocument()->addScriptDeclaration('
 				</div>
 				<div id="page-server" class="tab-pane">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('server'); ?>
 							<?php echo $this->loadTemplate('locale'); ?>
 							<?php echo $this->loadTemplate('ftp'); ?>
 							<?php echo $this->loadTemplate('proxy'); ?>
 						</div>
-						<div class="col-md-6">
+						<div class="col-lg-12 col-xl-6">
 							<?php echo $this->loadTemplate('database'); ?>
 							<?php echo $this->loadTemplate('mail'); ?>
 						</div>

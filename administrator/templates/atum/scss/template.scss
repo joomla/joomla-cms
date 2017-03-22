@@ -17,6 +17,9 @@
 // Alert
 @import "../../../../media/system/scss/jalert";
 
+// Switcher
+@import "../../../../media/system/scss/switcher";
+
 // Blocks
 @import "blocks/global"; // Leave this first
 @import "blocks/alerts";
@@ -31,7 +34,6 @@
 @import "blocks/sidebar";
 @import "blocks/sidebar-nav";
 @import "blocks/status";
-@import "blocks/switcher";
 @import "blocks/toolbar";
 @import "blocks/treeselect";
 @import "blocks/utilities";

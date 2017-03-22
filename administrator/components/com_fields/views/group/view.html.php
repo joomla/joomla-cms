@@ -144,7 +144,7 @@ class FieldsViewGroup extends JViewLegacy
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('contact.cancel');
+			JToolbarHelper::cancel('group.cancel');
 		}
 		else
 		{
@@ -177,7 +177,9 @@ class FieldsViewGroup extends JViewLegacy
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
+
+		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS_EDIT');
 	}
 }
