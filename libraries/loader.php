@@ -266,7 +266,7 @@ abstract class JLoader
 				$original = array_search($class, self::$classAliases) ? : array_search('\\' . $class, self::$classAliases);
 
 				// When we have an original and the class exists an alias should be created
-				if ($original && class_exists($original))
+				if ($original && class_exists($original, false))
 				{
 					class_alias($original, $class);
 				}
