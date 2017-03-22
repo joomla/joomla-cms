@@ -440,7 +440,7 @@ class Controller extends \JObject
 			$this->default_view = $this->getName();
 		}
 
-		$this->factory = $factory ? : new LegacyFactory();
+		$this->factory = $factory ? : new LegacyFactory;
 	}
 
 	/**

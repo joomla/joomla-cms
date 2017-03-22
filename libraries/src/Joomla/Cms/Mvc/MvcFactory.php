@@ -54,7 +54,7 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createModel($name, $prefix = 'Model', array $config = array())
 	{
-		$modelClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' .  ucfirst($name);
+		$modelClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' . ucfirst($name);
 		if (!class_exists($modelClass))
 		{
 			return null;
@@ -77,7 +77,7 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createView($name, $prefix = 'View', $type = '', array $config = array())
 	{
-		$viewClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' .  ucfirst($name) . '\\' . ucfirst($type);
+		$viewClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' . ucfirst($name) . '\\' . ucfirst($type);
 		if (!class_exists($viewClass))
 		{
 			return null;
@@ -100,7 +100,7 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createTable($name, $prefix = 'Table', array $config = array())
 	{
-		$tableClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' .  ucfirst($name);
+		$tableClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' . ucfirst($name);
 		if (!class_exists($tableClass))
 		{
 			return null;

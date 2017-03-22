@@ -299,7 +299,7 @@ abstract class Model extends \JObject
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
 
-		$this->factory = $factory ? : new LegacyFactory();
+		$this->factory = $factory ? : new LegacyFactory;
 	}
 
 	/**
