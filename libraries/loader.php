@@ -270,7 +270,7 @@ abstract class JLoader
 				{
 					class_alias($original, $class);
 				}
- 			}
+			}
 
 			return true;
 		}
