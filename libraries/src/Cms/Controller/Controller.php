@@ -571,7 +571,7 @@ class Controller  implements ControllerInterface
 			// If the site class is needed, we replace Admin with Site
 			if ($prefix == 'Site')
 			{
-				$ns = str_replace('\\Admin\\', '\\' . $prefix . '\\', $ns);
+				$ns = str_replace('\\Administrator\\', '\\' . $prefix . '\\', $ns);
 			}
 
 			// Compile the model class name
@@ -630,7 +630,7 @@ class Controller  implements ControllerInterface
 			// If the site class is needed, we replace Admin with Site
 			if ($prefix == 'Site')
 			{
-				$ns = str_replace('\\Admin\\', '\\' . $prefix . '\\', $ns);
+				$ns = str_replace('\\Administrator\\', '\\' . $prefix . '\\', $ns);
 			}
 
 			// Compile the model class name

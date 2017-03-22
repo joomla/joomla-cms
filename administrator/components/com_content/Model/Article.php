@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Content\Admin\Model;
+namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Cms\Model\Admin;
-use Joomla\Component\Content\Admin\Table\Article as ArticleTable;
+use Joomla\Component\Content\Administrator\Table\Article as ArticleTable;
 
 /**
  * Item Model for an Article.

@@ -18,16 +18,4 @@ use Joomla\Cms\Dispatcher\Dispatcher;
  */
 class ContentDispatcher extends Dispatcher
 {
-	/**
-	 * Returns the namespace of the extension this dispatcher belongs to. If
-	 * the returned string is empty, then a none namespaced extension is assumed.
-	 *
-	 * @return  string|null
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getNamespace()
-	{
-		return 'Joomla\\Component\\Content\\Admin';
-	}
 }

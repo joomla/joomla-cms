@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Content\Admin\Controller;
+namespace Joomla\Component\Content\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
@@ -18,7 +18,7 @@ use Joomla\Cms\Controller\Controller;
  *
  * @since  1.5
  */
-class View extends Controller
+class Content extends Controller
 {
 	/**
 	 * The default view.

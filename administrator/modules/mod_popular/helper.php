@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models', 'ContentModel');
+JLoader::registerNamespace('Joomla\Component\Content\Administrator', JPATH_ADMINISTRATOR . '/components/com_content', false, false, 'psr4');
 
 /**
  * Helper for mod_popular
@@ -30,7 +30,7 @@ abstract class ModPopularHelper
 		$user = JFactory::getuser();
 
 		// Get an instance of the generic articles model
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Content\Administrator\Model\Articles(array('ignore_request' => true));
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .

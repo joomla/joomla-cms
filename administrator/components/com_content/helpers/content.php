@@ -16,6 +16,6 @@ JLoader::registerNamespace('Joomla\\Component\\Content\\Admin', JPATH_ADMINISTRA
  *
  * @since  1.6
  */
-class ContentHelper extends \Joomla\Component\Content\Admin\Helper\ContentHelper
+class ContentHelper extends \Joomla\Component\Content\Administrator\Helper\ContentHelper
 {
 }

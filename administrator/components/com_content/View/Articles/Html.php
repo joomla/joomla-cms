@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Content\Admin\View\Articles;
+namespace Joomla\Component\Content\Administrator\View\Articles;
 
 defined('_JEXEC') or die;
 
 use Joomla\Cms\View\View;
-use Joomla\Component\Content\Admin\Helper\ContentHelper;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 /**
  * View class for a list of articles.

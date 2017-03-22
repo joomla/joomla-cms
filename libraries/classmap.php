@@ -60,5 +60,3 @@ JLoader::registerAlias('JHelp',                        '\\Joomla\\Cms\\Help\\Hel
 
 JLoader::registerAlias('JLanguageAssociations',        '\\Joomla\\Cms\\Language\\Associations', '4.0');
 JLoader::registerAlias('JLanguageMultilang',           '\\Joomla\\Cms\\Language\\Multilanguage', '4.0');
-
-JLoader::registerAlias('JTableContent',                '\\Joomla\\Component\\Content\\Admin\\Table\\Article', '4.0');

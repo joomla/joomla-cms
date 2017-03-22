@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Content\Admin\Table;
+namespace Joomla\Component\Content\Administrator\Table;
 
 defined('JPATH_PLATFORM') or die;
 

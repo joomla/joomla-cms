@@ -60,7 +60,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function __construct($namespace, \JApplicationCms $app, \JInput $input = null)
 	{
-		$this->namespace = $namespace;
+		$this->namespace = rtrim($namespace, '\\') . '\\';
 		$this->app       = $app;
 		$this->input     = $input ? $input : $app->input;
 
