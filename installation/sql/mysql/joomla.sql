@@ -1764,13 +1764,8 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 --
 
 INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
-<<<<<<< HEAD
 (10, 'atum', 1, '1', 'atum - Default', ''),
 (11, 'aurora', 0, '1', 'aurora - Default', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
-=======
-(9, 'protostar', 0, '1', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
-(10, 'atum', 1, '1', 'atum - Default', '');
->>>>>>> upstream/4.0-dev
 
 -- --------------------------------------------------------
 

@@ -4,7 +4,6 @@
   position: relative;
   z-index: 5;
   padding: 15px 0;
-  margin-bottom: 40px;
   background: $aurora-template-color-light;
 
   &::after {
@@ -43,6 +42,10 @@
 
   .navbar-nav.flex-column {
     flex-direction: row !important;
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column !important;
+    }
   }
 
   .navbar-nav li {
@@ -63,6 +66,10 @@
       content: "";
       background: transparent;
       transition: width .5s ease, background-color .5s ease;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
     }
 
     &.active::after,
@@ -77,6 +84,15 @@
       padding: .5rem 0;
       color: $white;
       text-decoration: none;
+    }
+  }
+
+  .navbar-toggler {
+    color: $white-offset;
+    border: 1px solid $white-offset;
+
+    .fa {
+      font-size: 24px;
     }
   }
 

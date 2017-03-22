@@ -34,94 +34,54 @@ function modChrome_no($module, &$params, &$attribs)
 	}
 }
 
-function modChrome_card($module, &$params, &$attribs)
-{
-	$moduleTag     = $params->get('module_tag', 'div');
-	$bootstrapSize = (int) $params->get('bootstrap_size', 12);
-	$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
-	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
-	$headerClass   = htmlspecialchars($params->get('header_class', ''));
-
-	if ($module->content)
-	{
-		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-3">';
-		echo '<div class="card">';
-		echo '<div class="card-block">';
-		if ($module->showtitle)
-		{
-			echo '<' . $headerTag . ' class="card-title ' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
-		}
-		echo $module->content;
-		echo '</div>';
-		echo '</div>';
-		echo '</' . $moduleTag . '>';
-	}
-}
-
-function modChrome_cardDark($module, &$params, &$attribs)
-{
-	$moduleTag     = $params->get('module_tag', 'div');
-	$bootstrapSize = (int) $params->get('bootstrap_size', 12);
-	$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
-	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
-	$headerClass   = htmlspecialchars($params->get('header_class', ''));
-
-	if ($module->content)
-	{
-		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-3">';
-		echo '<div class="card card-light">';
-		echo '<div class="card-block">';
-		if ($module->showtitle)
-		{
-			echo '<' . $headerTag . ' class="card-title ' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
-		}
-		echo $module->content;
-		echo '</div>';
-		echo '</div>';
-		echo '</' . $moduleTag . '>';
-	}
-}
-
-function modChrome_cardBlue($module, &$params, &$attribs)
-{
-	$moduleTag     = $params->get('module_tag', 'div');
-	$bootstrapSize = (int) $params->get('bootstrap_size', 12);
-	$moduleClass   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
-	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
-	$headerClass   = htmlspecialchars($params->get('header_class', ''));
-
-	if ($module->content)
-	{
-		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-3">';
-		echo '<div class="card card-blue">';
-		echo '<div class="card-block">';
-		if ($module->showtitle)
-		{
-			echo '<' . $headerTag . ' class="card-title ' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
-		}
-		echo $module->content;
-		echo '</div>';
-		echo '</div>';
-		echo '</' . $moduleTag . '>';
-	}
-}
-
 function modChrome_default($module, &$params, &$attribs)
 {
 	$moduleTag     = $params->get('module_tag', 'div');
 	$bootstrapSize = (int) $params->get('bootstrap_size', 12);
-	$moduleClass   = ($bootstrapSize) ? ' col-md-' . $bootstrapSize : ' col-md-12';
+	$bootstrapSize   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
 	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
 	$headerClass   = htmlspecialchars($params->get('header_class', ''));
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="' . htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass . ' mb-3">';
-		echo '<div class="card">';
-		echo '<div class="card-block">';
-		if ($module->showtitle)
+		echo '<' . $moduleTag . ' class="' . $bootstrapSize . ' mb-3">';
+		echo '<div class="card' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
+		if ($module->showtitle && $headerClass !== 'card-title')
 		{
-			echo '<' . $headerTag . ' class="card-title ' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+			echo '<' . $headerTag . ' class="card-header' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+		}
+		echo '<div class="card-block">';
+		if ($module->showtitle && $headerClass === 'card-title')
+		{
+			echo '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+		}
+		echo $module->content;
+		echo '</div>';
+		echo '</div>';
+		echo '</' . $moduleTag . '>';
+	}
+}
+
+function modChrome_cardGrey($module, &$params, &$attribs)
+{
+	$moduleTag     = $params->get('module_tag', 'div');
+	$bootstrapSize = (int) $params->get('bootstrap_size', 12);
+	$bootstrapSize   = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
+	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
+	$headerClass   = htmlspecialchars($params->get('header_class', ''));
+
+	if ($module->content)
+	{
+		echo '<' . $moduleTag . ' class="' . $bootstrapSize . ' mb-3">';
+		echo '<div class="card card-grey' . htmlspecialchars($params->get('moduleclass_sfx')) . '">';
+		if ($module->showtitle && $headerClass !== 'card-title')
+		{
+			echo '<' . $headerTag . ' class="card-header' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+		}
+		echo '<div class="card-block">';
+		if ($module->showtitle && $headerClass === 'card-title')
+		{
+			echo '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
 		}
 		echo $module->content;
 		echo '</div>';

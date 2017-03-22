@@ -1611,9 +1611,6 @@ pre {
   .form-control::-webkit-input-placeholder {
     color: #636c72;
     opacity: 1; }
-  .form-control::-moz-placeholder {
-    color: #636c72;
-    opacity: 1; }
   .form-control:-ms-input-placeholder {
     color: #636c72;
     opacity: 1; }
@@ -8789,7 +8786,7 @@ body {
   padding: 0;
   margin: 0;
   line-height: 1.6;
-  background: #fefefe; }
+  background: #fff; }
 
 img {
   display: block;
@@ -8859,6 +8856,42 @@ small,
 
 .wrapper0 .notify-alerts {
   margin-left: 0; }
+
+.banner img {
+  width: 100%; }
+
+.demo-module {
+  color: #666;
+  text-align: center; }
+  .demo-module .demo-title {
+    font-size: 20px;
+    color: #007eb7; }
+  .demo-module .fa-joomla {
+    font-size: 32px;
+    color: #007eb7; }
+  .demo-module .badge {
+    position: absolute;
+    top: 10px;
+    right: 10px; }
+
+.card-primary .demo-module,
+.card-info .demo-module,
+.card-success .demo-module,
+.card-warning .demo-module,
+.card-danger .demo-module {
+  color: rgba(255, 255, 255, 0.9); }
+  .card-primary .demo-module .demo-title,
+  .card-info .demo-module .demo-title,
+  .card-success .demo-module .demo-title,
+  .card-warning .demo-module .demo-title,
+  .card-danger .demo-module .demo-title {
+    color: rgba(255, 255, 255, 0.9); }
+  .card-primary .demo-module .fa-joomla,
+  .card-info .demo-module .fa-joomla,
+  .card-success .demo-module .fa-joomla,
+  .card-warning .demo-module .fa-joomla,
+  .card-danger .demo-module .fa-joomla {
+    color: rgba(255, 255, 255, 0.9); }
 
 .footer .back-top {
   padding: 8px 11px;
@@ -8946,7 +8979,6 @@ legend {
   position: relative;
   z-index: 5;
   padding: 15px 0;
-  margin-bottom: 40px;
   background: #1c3d5c; }
   .header::after {
     position: absolute;
@@ -8974,6 +9006,10 @@ legend {
   .header .navbar-nav.flex-column {
     -ms-flex-direction: row !important;
         flex-direction: row !important; }
+    @media (max-width: 991px) {
+      .header .navbar-nav.flex-column {
+        -ms-flex-direction: column !important;
+            flex-direction: column !important; } }
   .header .navbar-nav li {
     position: relative;
     display: inline-block;
@@ -8989,6 +9025,9 @@ legend {
       content: "";
       background: transparent;
       transition: width .5s ease, background-color .5s ease; }
+      @media (max-width: 991px) {
+        .header .navbar-nav li::after {
+          display: none; } }
     .header .navbar-nav li.active::after, .header .navbar-nav li:hover::after {
       width: 100%;
       background: #fff; }
@@ -8998,6 +9037,11 @@ legend {
       padding: .5rem 0;
       color: #fff;
       text-decoration: none; }
+  .header .navbar-toggler {
+    color: #fefefe;
+    border: 1px solid #fefefe; }
+    .header .navbar-toggler .fa {
+      font-size: 24px; }
 
 .container-title {
   padding-top: 13px;
@@ -9188,18 +9232,11 @@ iframe {
 .btn-secondary {
   background-color: #fefefe; }
 
-.card {
-  background-color: #f8f8f8; }
-  .card.card-light {
-    background-color: #f8f8f8; }
-  .card.card-dark {
-    background-color: #0d1321; }
-    .card.card-dark > *,
-    .card.card-dark a:not(.dropdown-item),
-    .card.card-dark .module-dropdown > a {
-      color: #fefefe; }
-    .card.card-dark .list-group-item {
-      background: none; }
+.card-grey {
+  background-color: #f7f7f9; }
+
+.card-inverse {
+  color: rgba(255, 255, 255, 0.9); }
 
 .custom-select.custom-select-color-state.custom-select-success {
   color: #fefefe;

@@ -1,25 +1,9 @@
-// Card
+// Alerts
 
-.card {
-  background-color: $card-bg-color-light;
+.card-grey {
+  background-color: #f7f7f9;
+}
 
-  &.card-light {
-    background-color: $card-bg-color-light;
-  }
-
-  &.card-dark {
-    background-color: $card-bg-color-dark;
-
-    > *,
-    a:not(.dropdown-item),
-	.module-dropdown > a {
-      color: $white-offset;
-    }
-
-    .list-group-item {
-      background: none;
-    }
-
-  }
-
+.card-inverse {
+  color: rgba(255,255,255,.9);
 }

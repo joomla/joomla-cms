@@ -13,52 +13,24 @@ defined('_JEXEC') or die;
 <div class="search<?php echo $moduleclass_sfx; ?>">
 	<form action="<?php echo JRoute::_('index.php'); ?>" method="post">
 		<?php
-			$btnBlock = '';
-			if ($button_pos === 'top' || $button_pos === 'bottom')
-			{
-				$btnBlock = ' btn-block';
-			}
-
-			$input = '<input name="searchword" id="mod-search-searchword' . $module->id . '" maxlength="' . $maxlength . '" class="form-control" type="search"';
-			$input .= ' placeholder="' . $text . '">';
-
+			$input  = '<input name="searchword" id="mod-search-searchword' . $module->id . '" class="form-control" type="search" placeholder="' . $text . '">';
 			$output = '';
 
 			if ($button) :
 				if ($imagebutton) :
-					$btn_output = '<input type="image" alt="' . $button_text . '" class="btn btn-primary' . $btnBlock . '" src="' . $img . '" onclick="this.form.searchword.focus();">';
+					$btn_output = '<input type="image" alt="' . $button_text . '" class="btn btn-primary" src="' . $img . '" onclick="this.form.searchword.focus();">';
 				else :
-					$btn_output = '<button class="btn btn-primary' . $btnBlock . '" onclick="this.form.searchword.focus();">' . $button_text . '</button>';
+					$btn_output = '<button class="btn btn-primary" onclick="this.form.searchword.focus();">' . $button_text . '</button>';
 				endif;
 
-				switch ($button_pos) :
-					case 'top' :
-						$output = $btn_output . '<br>' . $input;
-						break;
-
-					case 'bottom' :
-						$output .= $input . '<br>' . $btn_output;
-						break;
-
-					case 'right' :
-						$output .= '<div class="input-group">';
-						$output .= $input;
-						$output .= '<span class="input-group-btn">';
-						$output .= $btn_output;
-						$output .= '</span>';
-						$output .= '</div>';
-						break;
-
-					case 'left' :
-					default :
-						$output .= '<div class="input-group">';
-						$output .= '<span class="input-group-btn">';
-						$output .= $btn_output;
-						$output .= '</span>';
-						$output .= $input;
-						$output .= '</div>';
-						break;
-				endswitch;
+				$output .= '<div class="input-group">';
+				$output .= $input;
+				$output .= '<span class="input-group-btn">';
+				$output .= $btn_output;
+				$output .= '</span>';
+				$output .= '</div>';
+			else :
+				$output .= $input;
 			endif;
 
 			echo $output;
