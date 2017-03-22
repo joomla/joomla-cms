@@ -13,7 +13,7 @@ use Joomla\Cms\Model\Model;
 
 defined('JPATH_PLATFORM') or die;
 
-class LegacyFactory implements MvcFactory
+class LegacyFactory implements MvcFactoryInterface
 {
 
 	public function createModel($name, $prefix = '', $config = array())

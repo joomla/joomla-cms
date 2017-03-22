@@ -11,7 +11,7 @@ namespace Joomla\Cms\Model;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Cms\Mvc\LegacyFactory;
-use Joomla\Cms\Mvc\MvcFactory;
+use Joomla\Cms\Mvc\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -74,7 +74,7 @@ abstract class Model extends \JObject
 	/**
 	 * The factory.
 	 *
-	 * @var    MvcFactory
+	 * @var    MvcFactoryInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $factory;
@@ -215,13 +215,13 @@ abstract class Model extends \JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   array       $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MvcFactory  $factory  The factory.
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MvcFactory $factory = null)
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
