@@ -185,6 +185,7 @@ CREATE TABLE `jos_extensions` (
   `protected` INTEGER NOT NULL DEFAULT '0',
   `manifest_cache` TEXT NOT NULL DEFAULT '',
   `params` TEXT NOT NULL DEFAULT '',
+  `namespace` VARCHAR(500) NULL DEFAULT '',
   `checked_out` INTEGER NOT NULL DEFAULT '0',
   `checked_out_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` INTEGER DEFAULT '0',
