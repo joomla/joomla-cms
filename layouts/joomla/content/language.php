@@ -13,7 +13,7 @@ $item = $displayData;
 
 if ($item->language == '')
 {
-	echo JText::_('JUNDEFINED');
+	echo JText::_('JDEFAULT');
 }
 elseif ($item->language == '*')
 {
