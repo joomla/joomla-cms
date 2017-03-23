@@ -222,6 +222,9 @@ abstract class ModArticlesCategoryHelper
 		// Filter by language
 		$articles->setState('filter.language', $app->getLanguageFilter());
 
+		// Filter modified later than n minutes from creation
+		$articles->setState('filter.modified_later_than', $params->get('modified_later_than', 0));
+		
 		$items = $articles->getItems();
 
 		// Display options
