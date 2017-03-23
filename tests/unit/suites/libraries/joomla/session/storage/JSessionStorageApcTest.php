@@ -12,7 +12,7 @@
  *
  * @since  11.1
  */
-class JSessionStorageApcTest extends PHPUnit_Framework_TestCase
+class JSessionStorageApcTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorageApc

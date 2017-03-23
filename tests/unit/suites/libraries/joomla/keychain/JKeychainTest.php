@@ -14,7 +14,7 @@
  * @subpackage  Keychain
  * @since       12.3
  */
-class JKeychainTest extends PHPUnit_Framework_TestCase
+class JKeychainTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Set up the system by ensuring some files aren't there.

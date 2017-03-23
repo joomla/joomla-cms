@@ -14,7 +14,7 @@
  * @subpackage  Form
  * @since       3.1
  */
-class JFormFieldHeadertagTest extends PHPUnit_Framework_TestCase
+class JFormFieldHeadertagTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Tests the getInput method.

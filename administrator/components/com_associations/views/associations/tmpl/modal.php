@@ -126,11 +126,11 @@ $app->getDocument()->addScriptDeclaration(
 						<?php endif; ?>
 					</td>
 					<td class="small">
-						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td>
 						<?php if (true || $item->association) : ?>
-							<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, false); ?>
+							<?php echo AssociationsHelper::getAssociationHtmlList($this->extensionName, $this->typeName, (int) $item->id, $item->language, false, false); ?>
 						<?php endif; ?>
 					</td>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>

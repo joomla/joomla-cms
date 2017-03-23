@@ -36,7 +36,7 @@ class UsersRouter extends JComponentRouterView
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 
-		$params = JComponentHelper::getParams('com_content');
+		$params = JComponentHelper::getParams('com_users');
 
 		if ($params->get('sef_advanced', 0))
 		{
