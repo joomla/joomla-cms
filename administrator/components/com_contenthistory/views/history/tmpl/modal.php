@@ -150,7 +150,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>
-							<span class="icon-featured" aria-hidden="true"><div class="element-invisible"><?php echo JText::_('JFEATURED'); ?></div></span>&nbsp;
+							<span class="icon-featured" aria-hidden="true"><span class="element-invisible"><?php echo JText::_('JFEATURED'); ?></span></span>&nbsp;
 						<?php endif; ?>
 					</td>
 					<td class="hidden-phone">
