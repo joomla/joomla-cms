@@ -23,21 +23,30 @@ class MvcFactory implements MvcFactoryInterface
 	/**
 	 * The namespace to create the objects from.
 	 *
-	 * @var null|string
+	 * @var string
 	 */
 	private $namespace = null;
+
+	/**
+	 * The application.
+	 *
+	 * @var \JApplicationCms
+	 */
+	private $application = null;
 
 	/**
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string  $namespace  The namespace.
+	 * @param   string            $namespace    The namespace.
+	 * @param   \JApplicationCms  $application  The application
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace)
+	public function __construct($namespace, \JApplicationCms $application)
 	{
-		$this->namespace = $namespace;
+		$this->namespace   = $namespace;
+		$this->application = $application;
 	}
 
 	/**
@@ -52,14 +61,9 @@ class MvcFactory implements MvcFactoryInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = 'Model', array $config = array())
+	public function createModel($name, $prefix = '', array $config = array())
 	{
-		$modelClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' . ucfirst($name);
-		if (!class_exists($modelClass))
-		{
-			return null;
-		}
-		return new $modelClass($config);
+		return $this->createInstance('Model\\' . ucfirst($name), $prefix, $config);
 	}
 
 	/**
@@ -75,15 +79,9 @@ class MvcFactory implements MvcFactoryInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function createView($name, $prefix = 'View', $type = '', array $config = array())
+	public function createView($name, $prefix = '', $type = '', array $config = array())
 	{
-		$viewClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' . ucfirst($name) . '\\' . ucfirst($type);
-		if (!class_exists($viewClass))
-		{
-			return null;
-		}
-
-		return new $viewClass($config);
+		return $this->createInstance('View\\' . ucfirst($name) . '\\' . ucfirst($type), $prefix, $config);
 	}
 
 	/**
@@ -98,14 +96,34 @@ class MvcFactory implements MvcFactoryInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function createTable($name, $prefix = 'Table', array $config = array())
+	public function createTable($name, $prefix = '', array $config = array())
 	{
-		$tableClass = $this->namespace . '\\' . ucfirst($prefix) . '\\' . ucfirst($name);
-		if (!class_exists($tableClass))
+		return $this->createInstance('Table\\' . ucfirst($name), $prefix, $config);
+	}
+
+	/**
+	 * Creates a standard classname and returns an instance of this class.
+	 *
+	 * @param  string  $suffix  The suffix
+	 * @param  string  $prefix  The prefix
+	 * @param  array   $config  The config
+	 *
+	 * @return object  The instance
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function createInstance($suffix, $prefix, array $config)
+	{
+		if (!$prefix)
+		{
+			$prefix = $this->application->getName();
+		}
+
+		$className = $this->namespace . '\\' . ucfirst($prefix) . '\\' . $suffix;
+		if (!class_exists($className))
 		{
 			return null;
 		}
-
-		return new $tableClass($config);
+		return new $className($config);
 	}
 }
