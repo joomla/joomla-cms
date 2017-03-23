@@ -272,6 +272,14 @@
 					default="30"
 				/>
 
+				<field
+					name="modified_later_than"
+					type="text"
+					label="MOD_ARTICLES_CATEGORY_FIELD_MODIFIEDLATERTHAN_LABEL"
+					description="MOD_ARTICLES_CATEGORY_FIELD_MODIFIEDLATERTHAN_DESC"
+					default="0"
+				/>
+				
 			</fieldset>
 
 			<fieldset
