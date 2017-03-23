@@ -31,12 +31,3 @@ export const getSelectedDirectoryFiles= (state, getters) => {
     return getters.getSelectedDirectory.files
         .map(filePath => state.files.find(file => (file.path === filePath)));
 }
-
-/**
- * Get the combined contents (files and directories) of the currently selected directory
- * @param state
- * @returns {[*,*]}
- */
-export const getSelectedDirectoryContents = (state, getters) => {
-    return [...getters.getSelectedDirectoryDirectories, ...getters.getSelectedDirectoryFiles];
-}

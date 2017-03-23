@@ -251,7 +251,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 * - width:         The width, when available
 	 * - height:        The height, when available
 	 *
-	 * @param   string  $path    The folder
+	 * @param   string  $path  The folder
 	 *
 	 * @return  stdClass
 	 *
@@ -262,16 +262,21 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// The boolean if it is a dir
 		$isDir = is_dir($path);
 
+		$createDate   = $this->getDate(filectime($path));
+		$modifiedDate = $this->getDate(filemtime($path));
+
 		// Set the values
-		$obj                = new stdClass;
-		$obj->type          = $isDir ? 'dir' : 'file';
-		$obj->name          = basename($path);
-		$obj->path          = str_replace($this->rootPath, '/', $path);
-		$obj->extension     = !$isDir ? JFile::getExt($obj->name) : '';
-		$obj->size          = !$isDir ? filesize($path) : 0;
-		$obj->create_date   = $this->getDate(filectime($path))->format('c', true);
-		$obj->modified_date = $this->getDate(filemtime($path))->format('c', true);
-		$obj->mime_type     = mime_content_type($path);
+		$obj                          = new stdClass;
+		$obj->type                    = $isDir ? 'dir' : 'file';
+		$obj->name                    = basename($path);
+		$obj->path                    = str_replace($this->rootPath, '/', $path);
+		$obj->extension               = !$isDir ? JFile::getExt($obj->name) : '';
+		$obj->size                    = !$isDir ? filesize($path) : 0;
+		$obj->create_date             = $createDate->format('c', true);
+		$obj->create_date_formatted   = (string) $createDate; // TODO use format from config
+		$obj->modified_date           = $modifiedDate->format('c', true);
+		$obj->modified_date_formatted = (string) $modifiedDate; // TODO use format from config
+		$obj->mime_type               = mime_content_type($path);
 
 		try
 		{
@@ -304,7 +309,8 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$dateObj = JFactory::getDate($date);
 
 		$timezone = JFactory::getApplication()->get('offset');
-		$user = JFactory::getUser();
+		$user     = JFactory::getUser();
+		
 		if ($user->id)
 		{
 			$userTimezone = $user->getParam('timezone');

@@ -2,7 +2,7 @@
 export default {
     selectedDirectory: '/',
     directories: [
-        {path: '/', directories: [], files: [], directory: null}
+        {path: '/', name: 'PLACEHOLDER', directories: [], files: [], directory: null}
     ],
     files: [],
     showCreateFolderModal: false,

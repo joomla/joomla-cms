@@ -66,15 +66,6 @@ class MediaViewMedia extends View
 			JToolbarHelper::divider();
 		}
 
-		// Add a delete button
-		if ($user->authorise('core.delete', 'com_media'))
-		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.delete', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
-			JToolbarHelper::divider();
-		}
-
 		// Add the preferences button
 		if ($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media'))
 		{

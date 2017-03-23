@@ -69,9 +69,10 @@ export default {
                 on: {
                     click: handleClick,
                 }
-            }, [createElement(itemType(), {
-                props: context.props,
-            })
+            }, [
+                createElement(itemType(), {
+                    props: context.props,
+                })
             ]
         );
     }

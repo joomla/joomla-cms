@@ -1,6 +1,6 @@
 <template>
     <div class="media-browser">
-        <div class="media-browser-items" ref="browserItems">
+        <div class="media-browser-items col-md-8" ref="browserItems">
             <media-browser-item v-for="item in items" :item="item"></media-browser-item>
         </div>
     </div>
@@ -13,7 +13,16 @@
         computed: {
             /* Get the contents of the currently selected directory */
             items() {
-                return this.$store.getters.getSelectedDirectoryContents;
+                const directories = this.$store.getters.getSelectedDirectoryDirectories.sort((a, b) => {
+                    // Sort by type and alphabetically
+                    return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
+                });
+                const files = this.$store.getters.getSelectedDirectoryFiles.sort((a, b) => {
+                    // Sort by type and alphabetically
+                    return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1;
+                });
+
+                return [...directories, ...files];
             }
         },
         methods: {

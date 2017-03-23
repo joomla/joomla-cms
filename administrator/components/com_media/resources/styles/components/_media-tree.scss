@@ -1,0 +1,60 @@
+/* Media Tree */
+ul.media-tree {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.media-tree-item {
+  position: relative;
+  display: block;
+}
+
+.media-tree-item a {
+  display: block;
+  position: relative;
+  padding: 5px 10px;
+  margin-bottom: 2px;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  text-decoration: none;
+  line-height: 26px;
+  white-space: nowrap;
+}
+
+.media-tree-item a:hover {
+  background-color: #e1e1e1;
+  border-color: #646464;
+  text-decoration: none;
+}
+
+.media-tree-item.active > a {
+  background-color: transparent;
+  border-color: #007eb7;
+}
+
+.media-tree-item .item-icon {
+  display: inline-block;
+  line-height: normal;
+  padding-right: 6px;
+  vertical-align: middle;
+  color: #646464;
+  font-size: 20px;
+}
+
+.media-tree-item.active > a .item-icon {
+  color: #007eb7;
+}
+
+.item-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.media-tree-item.active > a .item-name {
+  font-weight: bold;
+}
