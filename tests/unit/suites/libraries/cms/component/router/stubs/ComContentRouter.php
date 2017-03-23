@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_content
+ * @package     Joomla.UnitTest
+ * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,24 +10,29 @@
 defined('_JEXEC') or die;
 
 /**
- * Routing class of com_content
+ * Routing class of com_content, with the following changes:
+ * 1. The no id's object is a constructor parameter
+ * 2. The router only has the JComponentRouterRulesStandard rule attached
  *
- * @since  3.3
+ * @since  __DEPLOY_VERSION__
  */
-class ContentRouter extends JComponentRouterView
+class ContentRouterStandardRuleOnly extends JComponentRouterView
 {
 	protected $noIDs = false;
+	protected $name = 'content';
 
 	/**
 	 * Content Component router constructor
 	 *
-	 * @param   JApplicationCms  $app   The application object
-	 * @param   JMenu            $menu  The menu object to work with
+	 * @param   JApplicationCms  $app    The application object
+	 * @param   JMenu            $menu   The menu object to work with
+	 * @param   boolean          $noIds  Should ID's be present in the URL or not?
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct($app = null, $menu = null)
+	public function __construct($app = null, $menu = null, $noIds)
 	{
-		$params = JComponentHelper::getParams('com_content');
-		$this->noIDs = (bool) $params->get('sef_ids');
+		$this->noIDs = $noIds;
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
@@ -43,18 +48,7 @@ class ContentRouter extends JComponentRouterView
 
 		parent::__construct($app, $menu);
 
-		$this->attachRule(new JComponentRouterRulesMenu($this));
-
-		if ($params->get('sef_advanced', 0))
-		{
-			$this->attachRule(new JComponentRouterRulesStandard($this));
-			$this->attachRule(new JComponentRouterRulesNomenu($this));
-		}
-		else
-		{
-			JLoader::register('ContentRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
-			$this->attachRule(new ContentRouterRulesLegacy($this));
-		}
+		$this->attachRule(new JComponentRouterRulesStandard($this));
 	}
 
 	/**
@@ -64,6 +58,8 @@ class ContentRouter extends JComponentRouterView
 	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategorySegment($id, $query)
 	{
@@ -95,6 +91,8 @@ class ContentRouter extends JComponentRouterView
 	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategoriesSegment($id, $query)
 	{
@@ -108,6 +106,8 @@ class ContentRouter extends JComponentRouterView
 	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getArticleSegment($id, $query)
 	{
@@ -140,6 +140,8 @@ class ContentRouter extends JComponentRouterView
 	 * @param   array   $query    The request that is parsed right now
 	 *
 	 * @return  mixed   The id of this item or false
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategoryId($segment, $query)
 	{
@@ -176,6 +178,8 @@ class ContentRouter extends JComponentRouterView
 	 * @param   array   $query    The request that is parsed right now
 	 *
 	 * @return  mixed   The id of this item or false
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategoriesId($segment, $query)
 	{
@@ -189,6 +193,8 @@ class ContentRouter extends JComponentRouterView
 	 * @param   array   $query    The request that is parsed right now
 	 *
 	 * @return  mixed   The id of this item or false
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getArticleId($segment, $query)
 	{
@@ -207,45 +213,4 @@ class ContentRouter extends JComponentRouterView
 
 		return (int) $segment;
 	}
-}
-
-/**
- * Content router functions
- *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
- *
- * @param   array  &$query  An array of URL arguments
- *
- * @return  array  The URL arguments to use to assemble the subsequent URL.
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function contentBuildRoute(&$query)
-{
-	$app = JFactory::getApplication();
-	$router = new ContentRouter($app, $app->getMenu());
-
-	return $router->build($query);
-}
-
-/**
- * Parse the segments of a URL.
- *
- * This function is a proxy for the new router interface
- * for old SEF extensions.
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return  array  The URL attributes to be used by the application.
- *
- * @since   3.3
- * @deprecated  4.0  Use Class based routers instead
- */
-function contentParseRoute($segments)
-{
-	$app = JFactory::getApplication();
-	$router = new ContentRouter($app, $app->getMenu());
-
-	return $router->parse($segments);
 }
