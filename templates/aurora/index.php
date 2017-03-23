@@ -79,6 +79,10 @@ else
 	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block align-top" alt="' . $sitename . '">';
 }
 
+// Header bottom margin
+$headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
+
+// Container
 $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 
 $doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
@@ -97,7 +101,7 @@ $doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
-	<header class="header">
+	<header class="header<?php echo $headerMargin; ?>">
 		<nav class="navbar navbar-toggleable-md navbar-full <?php echo $container; ?>">
 			<div class="navbar-brand">
 				<a href="<?php echo $this->baseurl; ?>/">
