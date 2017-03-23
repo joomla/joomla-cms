@@ -1866,7 +1866,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts',
 			'/administrator/templates/hathor/html/mod_menu',
 			// Joomla! 4.0
-			'/templates/protostar',
 			'/templates/beez3',
 			'/administrator/templates/isis',
 			'/administrator/templates/hathor',
