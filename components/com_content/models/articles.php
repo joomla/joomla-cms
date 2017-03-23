@@ -549,6 +549,11 @@ class ContentModelArticles extends JModelList
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
 				);
 		}
+		
+		// Filter modified later than n minutes from creation
+		if ($this->getState('filter.modified_later_than')) {
+			$query->where('(a.modified > (a.created + interval '.$this->getState('filter.modified_later_than', 0).' minute))');
+		}
 
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
