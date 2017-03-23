@@ -227,7 +227,6 @@ endif;
 					<?php echo $this->form->getInput('tags'); ?>
 				</div>
 			</div>
-			<?php // Do not show these publishing options if the edit form is configured not to. ?>
 			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 			<div class="control-group">
 				<div class="control-label">
@@ -255,7 +254,6 @@ endif;
 						<?php echo $this->form->getInput('featured'); ?>
 					</div>
 				</div>
-				<?php // Do not show these publishing options if the edit form is configured not to. ?>
 				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 				<div class="control-group">
 					<div class="control-label">
@@ -306,7 +304,6 @@ endif;
 			</div>
 	</fieldset>
 
-	<?php // Do not show these publishing options if the edit form is configured not to. ?>
 	<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 	<fieldset>
 		<legend><?php echo JText::_('COM_CONTENT_METADATA'); ?></legend>
