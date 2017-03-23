@@ -9,10 +9,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var JDocumentHtml $this */
-
 $app = JFactory::getApplication();
-$doc = JFactory::getDocument();
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;
@@ -85,7 +82,7 @@ $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 // Container
 $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 
-$doc->setMetaData('viewport', 'width=device-width, initial-scale=1');
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
