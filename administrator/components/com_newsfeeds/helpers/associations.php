@@ -57,7 +57,6 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @since   3.7.0
 	 */
-
 	public function getAssociations($typeName, $id)
 	{
 		$type = $this->getType($typeName);
