@@ -274,10 +274,13 @@
 
 				<field
 					name="modified_later_than"
-					type="text"
+					type="number"
+					min="0"
+					filter="integer"
+					validate="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_MODIFIEDLATERTHAN_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_MODIFIEDLATERTHAN_DESC"
-					default="0"
+					default="0" 				       
 				/>
 				
 			</fieldset>
