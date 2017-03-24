@@ -685,6 +685,7 @@ class JCategoryNode extends JObject
 		if ($category)
 		{
 			$this->setProperties($category);
+			$this->_path[$this->id] = $this->id . ':' . $this->alias;
 
 			if ($constructor)
 			{
