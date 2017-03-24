@@ -334,7 +334,7 @@ class PlgUserProfile extends JPlugin
 			}
 		}
 
-		//drop the profile form entirely if there aren't any fields to display.
+		// Drop the profile form entirely if there aren't any fields to display.
 		$remainingfields = $form->getGroup('profile');
 		if (!count($remainingfields))
 		{
