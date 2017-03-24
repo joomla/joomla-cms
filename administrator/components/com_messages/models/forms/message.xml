@@ -24,6 +24,6 @@
 			required="true"
 			filter="JComponentHelper::filterText"
 			buttons="true"
-			hide="readmore,pagebreak,image,article,module" />
+			hide="readmore,pagebreak,image,article,module,contact,menu" />
 	</fieldset>
 </form>
