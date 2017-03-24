@@ -40,7 +40,6 @@ if (count($parts) > 1)
 	{
 		$section = $inflector->toPlural($section);
 	}
-
 }
 
 if ($section === 'categories')

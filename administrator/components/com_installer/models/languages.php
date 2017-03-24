@@ -236,5 +236,4 @@ class InstallerModelLanguages extends JModelList
 	{
 		return strcmp($lang1->name, $lang2->name);
 	}
-
 }
