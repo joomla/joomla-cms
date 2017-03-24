@@ -175,5 +175,4 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		$this->setRedirect('index.php?option=com_redirect&view=links', $message);
 	}
-
 }

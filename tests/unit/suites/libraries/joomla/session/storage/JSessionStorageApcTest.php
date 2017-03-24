@@ -100,5 +100,4 @@ class JSessionStorageApcTest extends \PHPUnit\Framework\TestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-
 }

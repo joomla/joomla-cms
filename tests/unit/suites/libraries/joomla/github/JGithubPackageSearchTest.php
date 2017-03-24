@@ -163,5 +163,4 @@ class JGithubPackageSearchTest extends \PHPUnit\Framework\TestCase
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
-
 }
