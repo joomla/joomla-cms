@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die();
 
+use Joomla\Registry\Registry;
+
+JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
 /**
  * Plug-in to show a custom field in eg an article
  * This uses the {fields ID} syntax
@@ -127,5 +131,117 @@ class PlgContentFields extends JPlugin
 				$item->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $item->text, 1);
 			}
 		}
+	}
+
+	/**
+	 * The display event.
+	 *
+	 * @param   string    $context     The context
+	 * @param   stdClass  $item        The item
+	 * @param   Registry  $params      The params
+	 * @param   integer   $limitstart  The start
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
+	{
+		return $this->display($context, $item, $params, 1);
+	}
+
+	/**
+	 * The display event.
+	 *
+	 * @param   string    $context     The context
+	 * @param   stdClass  $item        The item
+	 * @param   Registry  $params      The params
+	 * @param   integer   $limitstart  The start
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
+	{
+		return $this->display($context, $item, $params, 2);
+	}
+
+	/**
+	 * The display event.
+	 *
+	 * @param   string    $context     The context
+	 * @param   stdClass  $item        The item
+	 * @param   Registry  $params      The params
+	 * @param   integer   $limitstart  The start
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
+	{
+		return $this->display($context, $item, $params, 3);
+	}
+
+	/**
+	 * Performs the display event.
+	 *
+	 * @param   string    $context      The context
+	 * @param   stdClass  $item         The item
+	 * @param   Registry  $params       The params
+	 * @param   integer   $displayType  The type
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	private function display($context, $item, $params, $displayType)
+	{
+		$parts = FieldsHelper::extract($context, $item);
+
+		if (!$parts)
+		{
+			return '';
+		}
+
+		$context = $parts[0] . '.' . $parts[1];
+
+		if (is_string($params) || !$params)
+		{
+			$params = new Registry($params);
+		}
+
+		$fields = FieldsHelper::getFields($context, $item, true);
+
+		if ($fields)
+		{
+			foreach ($fields as $key => $field)
+			{
+				$fieldDisplayType = $field->params->get('display', '2');
+
+				if ($fieldDisplayType == $displayType)
+				{
+					continue;
+				}
+
+				unset($fields[$key]);
+			}
+		}
+
+		if ($fields)
+		{
+			return FieldsHelper::render(
+				$context,
+				'fields.render',
+				array(
+					'item'            => $item,
+					'context'         => $context,
+					'fields'          => $fields
+				)
+			);
+		}
+
+		return '';
 	}
 }
