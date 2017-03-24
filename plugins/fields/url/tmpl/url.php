@@ -19,7 +19,7 @@ $attributes = '';
 
 if (!JUri::isInternal($value))
 {
-	$attributes = 'rel="nofollow nopener" target="_blank"';
+	$attributes = 'rel="nofollow noopener noreferrer" target="_blank"';
 }
 
 echo '<a href="' . $value . '" ' . $attributes . '>' . $value . '</a>';

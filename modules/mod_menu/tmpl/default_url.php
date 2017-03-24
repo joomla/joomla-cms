@@ -41,7 +41,7 @@ if ($item->menu_image)
 if ($item->browserNav == 1)
 {
 	$attributes['target'] = '_blank';
-	$attributes['rel'] = 'noopener';
+	$attributes['rel'] = 'noopener noreferrer';
 }
 elseif ($item->browserNav == 2)
 {

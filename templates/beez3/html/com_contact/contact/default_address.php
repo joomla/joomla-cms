@@ -111,7 +111,7 @@ defined('_JEXEC') or die;
 	</dt>
 	<dd>
 		<span class="contact-webpage">
-			<a href="<?php echo $this->contact->webpage; ?>" target="_blank" rel="noopener">
+			<a href="<?php echo $this->contact->webpage; ?>" target="_blank" rel="noopener noreferrer">
 			<?php echo $this->contact->webpage; ?></a>
 		</span>
 	</dd>

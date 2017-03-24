@@ -38,7 +38,7 @@ $baseurl = JUri::base();
 					<?php if ($target == 1) : ?>
 						<?php // Open in a new window ?>
 						<a
-							href="<?php echo $link; ?>" target="_blank" rel="noopener"
+							href="<?php echo $link; ?>" target="_blank" rel="noopener noreferrer"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
