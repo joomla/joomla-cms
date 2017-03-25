@@ -215,5 +215,4 @@ class JComponentRouterViewconfigurationTest extends TestCase
 		$this->object->removeLayout('form');
 		$this->assertEquals(array(), $this->object->layouts);
 	}
-
 }

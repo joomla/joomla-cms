@@ -190,7 +190,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
 
 		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
-		JToolbarHelper::help('JGLOBAL_HELP');
+		JToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
 
 		JHtmlSidebar::setAction('index.php?option=com_associations');
 	}
