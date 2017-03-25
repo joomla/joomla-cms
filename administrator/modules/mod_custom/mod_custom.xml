@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="administrator">
+<extension type="module" version="3.1" client="administrator" method="upgrade">
 	<name>mod_custom</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_CUSTOM_XML_DESCRIPTION</description>
+
+	<customContent />
+
 	<files>
 		<filename module="mod_custom">mod_custom.php</filename>
-		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -24,18 +23,16 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_CUSTOM" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="options" label="COM_MODULES_BASIC_FIELDSET_LABEL">
 				<field
 					name="prepare_content"
 					type="radio"
 					label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
 					default="1">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 			<fieldset

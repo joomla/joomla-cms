@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="administrator">
+<extension type="module" version="3.1" client="administrator" method="upgrade">
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -14,10 +11,10 @@
 	<description>MOD_MENU_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
-		<filename>menu.php</filename>
-		<filename>helper.php</filename>
-		<filename>index.html</filename>
+		<folder>preset</folder>
 		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>menu.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_menu.ini</language>
@@ -27,6 +24,26 @@
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
+				<field
+					name="menutype"
+					type="menu"
+					clientid="1"
+					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
+					description="MOD_MENU_FIELD_MENUTYPE_DESC"
+				>
+					<option value="*">MOD_MENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
+				</field>
+				<field
+					name="check"
+					type="radio"
+					label="MOD_MENU_FIELD_CHECK_LABEL"
+					description="MOD_MENU_FIELD_CHECK_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 				<field
 					name="layout"
 					type="modulelayout"
@@ -40,7 +57,8 @@
 
 				<field
 					name="shownew"
-					type="list"
+					type="radio"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_MENU_FIELD_SHOWNEW"
 					description="MOD_MENU_FIELD_SHOWNEW_DESC">
@@ -50,7 +68,8 @@
 
 				<field
 					name="showhelp"
-					type="list"
+					type="radio"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_MENU_FIELD_SHOWHELP"
 					description="MOD_MENU_FIELD_SHOWHELP_DESC">
@@ -61,22 +80,13 @@
 				<field
 					name="forum_url"
 					type="url"
-					class="inputbox"
+					filter="url"
 					size="30"
 					default=""
 					label="MOD_MENU_FIELD_FORUMURL_LABEL"
 					description="MOD_MENU_FIELD_FORUMURL_DESC"
 				/>
 
-				<field
-					name="cache"
-					type="list"
-					default="0"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Database connector class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @since       11.1
  * @deprecated  13.3 (Platform) & 4.0 (CMS)
  */

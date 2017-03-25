@@ -1,206 +1,181 @@
 <?xml version="1.0"?>
 <ruleset name="Joomla">
- <description>The Joomla coding standard.</description>
+	<description>The Joomla coding standard.</description>
 
- <!-- Exclude folders not containing production code -->
- <exclude-pattern type="relative">build/*</exclude-pattern>
- <exclude-pattern type="relative">docs/*</exclude-pattern>
- <exclude-pattern type="relative">tests/*</exclude-pattern>
- <exclude-pattern type="relative">cache/*</exclude-pattern>
- <exclude-pattern type="relative">tmp/*</exclude-pattern>
- <exclude-pattern type="relative">logs/*</exclude-pattern>
+	<!-- Exclude folders not containing production code -->
+	<exclude-pattern type="relative">build/*</exclude-pattern>
+	<exclude-pattern type="relative">docs/*</exclude-pattern>
+	<exclude-pattern type="relative">tests/*</exclude-pattern>
+	<exclude-pattern type="relative">cache/*</exclude-pattern>
+	<exclude-pattern type="relative">tmp/*</exclude-pattern>
+	<exclude-pattern type="relative">logs/*</exclude-pattern>
 
- <!-- Exclude 3rd party libraries. -->
- <exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
- <exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>
- <exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
- <exclude-pattern type="relative">libraries/phpmailer/*</exclude-pattern>
+	<!-- Exclude 3rd party libraries and Framework code. -->
+	<exclude-pattern type="relative">libraries/compat/password/*</exclude-pattern>
+	<exclude-pattern type="relative">libraries/fof/*</exclude-pattern>
+	<exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
+	<exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
+	<exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>
+	<exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
+	<exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
+	<exclude-pattern type="relative">libraries/vendor/*</exclude-pattern>
+	<!-- Exclude the restore_finalisation until we can deal with nested class definitions -->
+	<exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore_finalisation.php</exclude-pattern>
+	<exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
+	<exclude-pattern type="relative">configuration.php</exclude-pattern>
+	<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
+	<exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
 
- <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
- <exclude-pattern type="relative">configuration.php</exclude-pattern>
+	<!-- Include all sniffs in an external standard directory -->
+	<rule ref="Generic.Files.EndFileNewline">
+		<!-- These exceptions are temporary for now, possibly permanent -->
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
 
- <!-- Include all sniffs in an external standard directory -->
+	<!-- Use Unix newlines -->
+	<rule ref="Generic.Files.LineEndings">
+		<properties>
+			<property name="eolChar" value="\n"/>
+		</properties>
+	</rule>
 
- <!-- Include some additional sniffs from the Generic standard -->
+	<!-- Lines can be 150 chars long, but never show errors -->
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="150"/>
+			<property name="absoluteLineLimit" value="0"/>
+		</properties>
+		<!-- These exceptions are temporary for now, possibly permanent -->
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
 
- <rule ref="PEAR.Classes.ClassDeclaration"/>
- <rule ref="Squiz.Classes.SelfMemberReference"/>
+	<rule ref="Generic.Formatting.DisallowMultipleStatements">
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
+	<rule ref="Generic.Functions.FunctionCallArgumentSpacing" />
 
- <rule ref="PEAR.Commenting.InlineComment"/>
+	<!-- This message is not required as spaces are allowed for alignment -->
+	<rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
+		<severity>0</severity>
+	</rule>
 
- <rule ref="Generic.Files.LineEndings"/>
- <rule ref="Generic.Files.LineLength">
-	 <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
-  <exclude-pattern type="relative">libraries/*</exclude-pattern>
-  <exclude-pattern type="relative">includes/*</exclude-pattern>
-  <!-- These exceptions are permanent -->
-  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
- </rule>
- <rule ref="Zend.Files.ClosingTag">
-  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
- </rule>
+	<rule ref="Generic.NamingConventions.UpperCaseConstantName" />
+	<rule ref="Generic.PHP.DisallowShortOpenTag" />
+	<rule ref="Generic.PHP.DeprecatedFunctions" />
+	<rule ref="Generic.PHP.ForbiddenFunctions"/>
+	<rule ref="Generic.PHP.LowerCaseConstant" />
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent">
+		<!-- These exceptions are temporary for now -->
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+		<exclude-pattern type="relative">components/*</exclude-pattern>
+		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
+	</rule>
 
- <rule ref="Generic.Formatting.DisallowMultipleStatements">
-  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
- </rule>
- <rule ref="PEAR.Formatting.MultiLineAssignment"/>
+	<!-- Include some additional sniffs from the PEAR standard -->
+	<rule ref="PEAR.Classes.ClassDeclaration" />
+	<rule ref="PEAR.Commenting.InlineComment" />
+	<rule ref="PEAR.Formatting.MultiLineAssignment" />
+	<rule ref="PEAR.Functions.ValidDefaultValue">
+		<!-- These exceptions are temporary for now -->
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+		<exclude-pattern type="relative">components/*</exclude-pattern>
+		<exclude-pattern type="relative">modules/mod_articles_category/helper.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
+	</rule>
+	<rule ref="PEAR.NamingConventions.ValidClassName">
+		<!-- These exceptions are temporary for now -->
+		<exclude-pattern type="relative">installation/controller/install/database_*</exclude-pattern>
+	</rule>
 
- <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
- <rule ref="PEAR.Functions.ValidDefaultValue">
-  <!-- These exceptions are temporary for now -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
-  <exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
- </rule>
+	<!-- Include some additional sniffs from the Squiz standard -->
+	<rule ref="Squiz.CSS.ColonSpacing" />
+	<rule ref="Squiz.CSS.DuplicateClassDefinition" />
+	<rule ref="Squiz.CSS.EmptyClassDefinition" />
+	<rule ref="Squiz.CSS.EmptyStyleDefinition" />
+	<rule ref="Squiz.CSS.MissingColon" />
+	<rule ref="Squiz.CSS.SemicolonSpacing" />
+	<rule ref="Squiz.Classes.SelfMemberReference" />
 
- <rule ref="PEAR.NamingConventions.ValidClassName">
-  <!-- These exceptions are temporary for now -->
-  <exclude-pattern type="relative">installation/controller/install/database_*</exclude-pattern>
- </rule>
- <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+	<rule ref="Squiz.Operators.IncrementDecrementUsage">
+		<exclude name="Squiz.Operators.IncrementDecrementUsage.processAssignment" />
+	</rule>
 
- <rule ref="Generic.PHP.DisallowShortOpenTag"/>
- <rule ref="Generic.PHP.DeprecatedFunctions"/>
- <rule ref="Generic.PHP.ForbiddenFunctions"/>
+	<rule ref="Squiz.Scope.StaticThisUsage" />
 
- <rule ref="Squiz.Operators.IncrementDecrementUsage">
-  <exclude name="Squiz.Operators.IncrementDecrementUsage.processAssignment"/>
-  <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
- </rule>
+	<rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
+		<!-- These exceptions are temporary -->
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+	</rule>
 
- <rule ref="Squiz.Scope.StaticThisUsage"/>
+	<rule ref="Squiz.WhiteSpace.CastSpacing"/>
+	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
 
- <rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
- <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
- </rule>
+	<!-- Include some additional sniffs from the PSR2 standard -->
+	<rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
+	<rule ref="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed">
+		<type>error</type>
+	</rule>
 
- <!-- Lines can be 85 chars long, but never show errors -->
- <rule ref="Generic.Files.LineLength">
-  <properties>
-   <property name="lineLimit" value="150"/>
-   <property name="absoluteLineLimit" value="0"/>
-  </properties>
- </rule>
+	<!-- Include some additional sniffs from the Zend standard -->
+	<rule ref="Zend.Files.ClosingTag">
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
 
- <!-- Use Unix newlines -->
- <rule ref="Generic.Files.LineEndings">
-  <properties>
-   <property name="eolChar" value="\n"/>
-  </properties>
- </rule>
+	<!-- Remove the following when the folder limitations are dropped -->
 
- <!-- This message is not required as spaces are allowed for alignment -->
- <rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
-  <severity>0</severity>
- </rule>
+	<rule ref="Joomla.Classes.MethodScope"/>
 
- <!-- Remove the following when the folder limitations are dropped -->
+	<rule ref="Joomla.Commenting.FunctionComment">
+		<!-- We only want this for libraries, language and cli for now -->
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
 
- <rule ref="Joomla.Classes.MethodScope">
-  <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
- </rule>
+	<rule ref="Joomla.Commenting.SingleComment">
+		<!-- We don't want this in mixed html/php views for now -->
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
 
- <rule ref="Joomla.Commenting.FunctionComment">
-  <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">includes/*</exclude-pattern>
- </rule>
+	<rule ref="Joomla.Commenting.ClassComment"/>
 
- <rule ref="Joomla.Commenting.SingleComment">
-  <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">includes/*</exclude-pattern>
- </rule>
+	<rule ref="Joomla.ControlStructures.ControlSignature">
+		<!-- These exceptions are permanent -->
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
 
- <rule ref="Joomla.Commenting.ClassComment">
-  <!-- We exclude components and modules for now -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/modules/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
- </rule>
+	<rule ref="Joomla.ControlStructures.InlineControlStructure">
+		<!-- These exceptions are permanent -->
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
 
- <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
-  <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">includes/*</exclude-pattern>
- </rule>
+	<rule ref="Joomla.ControlStructures.MultiLineCondition">
+		<!-- These exceptions are permanent -->
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
 
- <rule ref="Joomla.ControlStructures.ControlSignature">
-  <!-- We only want this for libraries, languages and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
-  <exclude-pattern type="relative">includes/*</exclude-pattern>
-  <!-- These exceptions are permanent -->
-  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
- </rule>
-
- <rule ref="Joomla.ControlStructures.InlineControlStructure">
-  <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <!-- These exceptions are permanent -->
-  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
- </rule>
-
- <rule ref="Joomla.ControlStructures.MultiLineCondition">
-  <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
-  <exclude-pattern type="relative">plugins/*</exclude-pattern>
-  <exclude-pattern type="relative">modules/*</exclude-pattern>
-  <!-- These exceptions are permanent -->
-  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
-  <exclude-pattern type="relative">templates/*</exclude-pattern>
-  <exclude-pattern type="relative">layouts/*</exclude-pattern>
-  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
- </rule>
+	<rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
+		<!-- We only want this for libraries, language and cli for now -->
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
+	<rule ref="Joomla.WhiteSpace.MemberVarSpacing" />
+	<rule ref="Joomla.WhiteSpace.ObjectOperatorIndent"/>
 </ruleset>

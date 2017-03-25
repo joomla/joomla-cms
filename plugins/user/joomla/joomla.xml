@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="user">
+<extension version="3.1" type="plugin" group="user" method="upgrade">
 	<name>plg_user_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>(C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,6 @@
 	<description>PLG_USER_JOOMLA_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="joomla">joomla.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_user_joomla.ini</language>
@@ -19,32 +18,43 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
-				<field name="autoregister" type="radio"
-					class="btn-group"
-					default="1"
-					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
-					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
-				>
-					<option value="0">JNo</option>
-					<option value="1">JYes</option>
-				</field>
-
-				<field name="mail_to_user"
+				<field
+					name="autoregister"
 					type="radio"
-					class="btn-group"
+					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
+					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
+					class="btn-group btn-group-yesno"
 					default="1"
-					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
-					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
-			</fieldset>
+				<field
+					name="mail_to_user"
+					type="radio"
+					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
+					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 
+				<field
+					name="forceLogout"
+					type="radio"
+					label="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_LABEL"
+					description="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
 		</fields>
 	</config>
 </extension>

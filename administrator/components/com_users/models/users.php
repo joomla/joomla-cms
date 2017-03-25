@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of user records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelUsers extends JModelList
 {
@@ -40,6 +40,11 @@ class UsersModelUsers extends JModelList
 				'registerDate', 'a.registerDate',
 				'lastvisitDate', 'a.lastvisitDate',
 				'activation', 'a.activation',
+				'active',
+				'group_id',
+				'range',
+				'lastvisitrange',
+				'state',
 			);
 		}
 
@@ -51,11 +56,14 @@ class UsersModelUsers extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
 		$app = JFactory::getApplication('administrator');
 
@@ -66,33 +74,31 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$active = $this->getUserStateFromRequest($this->context . '.filter.active', 'filter_active');
-		$this->setState('filter.active', $active);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state');
-		$this->setState('filter.state', $state);
-
-		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group_id', null, 'int');
-		$this->setState('filter.group_id', $groupId);
-
-		$range = $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range');
-		$this->setState('filter.range', $range);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.active', $this->getUserStateFromRequest($this->context . '.filter.active', 'filter_active', '', 'cmd'));
+		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
+		$this->setState('filter.group_id', $this->getUserStateFromRequest($this->context . '.filter.group_id', 'filter_group_id', null, 'int'));
+		$this->setState('filter.range', $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range', '', 'cmd'));
+		$this->setState(
+			'filter.lastvisitrange', $this->getUserStateFromRequest($this->context . '.filter.lastvisitrange', 'filter_lastvisitrange', '', 'cmd')
+		);
 
 		$groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
+
 		if (isset($groups))
 		{
-			JArrayHelper::toInteger($groups);
+			$groups = ArrayHelper::toInteger($groups);
 		}
+
 		$this->setState('filter.groups', $groups);
 
 		$excluded = json_decode(base64_decode($app->input->get('excluded', '', 'BASE64')));
+
 		if (isset($excluded))
 		{
-			JArrayHelper::toInteger($excluded);
+			$excluded = ArrayHelper::toInteger($excluded);
 		}
+
 		$this->setState('filter.excluded', $excluded);
 
 		// Load the parameters.
@@ -100,7 +106,7 @@ class UsersModelUsers extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -143,8 +149,9 @@ class UsersModelUsers extends JModelList
 		// Try to load the data from internal storage.
 		if (empty($this->cache[$store]))
 		{
-			$groups = $this->getState('filter.groups');
+			$groups  = $this->getState('filter.groups');
 			$groupId = $this->getState('filter.group_id');
+
 			if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups)))
 			{
 				$items = array();
@@ -167,6 +174,7 @@ class UsersModelUsers extends JModelList
 
 			// First pass: get list of the user id's and reset the counts.
 			$userIds = array();
+
 			foreach ($items as $item)
 			{
 				$userIds[] = (int) $item->id;
@@ -176,7 +184,7 @@ class UsersModelUsers extends JModelList
 			}
 
 			// Get the counts from the database only for the users in the list.
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			// Join over the group mapping table.
@@ -197,6 +205,7 @@ class UsersModelUsers extends JModelList
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 
@@ -217,6 +226,7 @@ class UsersModelUsers extends JModelList
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 
@@ -226,7 +236,8 @@ class UsersModelUsers extends JModelList
 				if (isset($userGroups[$item->id]))
 				{
 					$item->group_count = $userGroups[$item->id]->group_count;
-					//Group_concat in other databases is not supported
+
+					// Group_concat in other databases is not supported
 					$item->group_names = $this->_getUserDisplayedGroups($item->id);
 				}
 
@@ -253,7 +264,7 @@ class UsersModelUsers extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -281,22 +292,38 @@ class UsersModelUsers extends JModelList
 		{
 			if ($active == '0')
 			{
-				$query->where('a.activation = ' . $db->quote(''));
+				$query->where('a.activation IN (' . $db->quote('') . ', ' . $db->quote('0') . ')');
 			}
 			elseif ($active == '1')
 			{
-				$query->where($query->length('a.activation') . ' = 32');
+				$query->where($query->length('a.activation') . ' > 1');
 			}
 		}
 
 		// Filter the items over the group id if set.
 		$groupId = $this->getState('filter.group_id');
-		$groups = $this->getState('filter.groups');
+		$groups  = $this->getState('filter.groups');
 
 		if ($groupId || isset($groups))
 		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
-				->group($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email')));
+				->group(
+					$db->quoteName(
+						array(
+							'a.id',
+							'a.name',
+							'a.username',
+							'a.password',
+							'a.block',
+							'a.sendEmail',
+							'a.registerDate',
+							'a.lastvisitDate',
+							'a.activation',
+							'a.params',
+							'a.email'
+						)
+					)
+				);
 
 			if ($groupId)
 			{
@@ -310,19 +337,33 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Filter the items over the search string if set.
-		if ($this->getState('filter.search') !== '' && $this->getState('filter.search') !== null)
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
 		{
-			// Escape the search token.
-			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			elseif (stripos($search, 'username:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 9), true) . '%');
+				$query->where('a.username LIKE ' . $search);
+			}
+			else
+			{
+				// Escape the search token.
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 
-			// Compile the different search clauses.
-			$searches = array();
-			$searches[] = 'a.name LIKE ' . $token;
-			$searches[] = 'a.username LIKE ' . $token;
-			$searches[] = 'a.email LIKE ' . $token;
+				// Compile the different search clauses.
+				$searches   = array();
+				$searches[] = 'a.name LIKE ' . $search;
+				$searches[] = 'a.username LIKE ' . $search;
+				$searches[] = 'a.email LIKE ' . $search;
 
-			// Add the clauses to the query.
-			$query->where('(' . implode(' OR ', $searches) . ')');
+				// Add the clauses to the query.
+				$query->where('(' . implode(' OR ', $searches) . ')');
+			}
 		}
 
 		// Add filter for registration ranges select list
@@ -331,86 +372,152 @@ class UsersModelUsers extends JModelList
 		// Apply the range filter.
 		if ($range)
 		{
-			// Get UTC for now.
-			$dNow = new JDate;
-			$dStart = clone $dNow;
+			$dates = $this->buildDateRange($range);
 
-			switch ($range)
-			{
-				case 'past_week':
-					$dStart->modify('-7 day');
-					break;
-
-				case 'past_1month':
-					$dStart->modify('-1 month');
-					break;
-
-				case 'past_3month':
-					$dStart->modify('-3 month');
-					break;
-
-				case 'past_6month':
-					$dStart->modify('-6 month');
-					break;
-
-				case 'post_year':
-				case 'past_year':
-					$dStart->modify('-1 year');
-					break;
-
-				case 'today':
-					// Ranges that need to align with local 'days' need special treatment.
-					$app = JFactory::getApplication();
-					$offset = $app->getCfg('offset');
-
-					// Reset the start time to be the beginning of today, local time.
-					$dStart = new JDate('now', $offset);
-					$dStart->setTime(0, 0, 0);
-
-					// Now change the timezone back to UTC.
-					$tz = new DateTimeZone('GMT');
-					$dStart->setTimezone($tz);
-					break;
-			}
-
-			if ($range == 'post_year')
+			if ($dates['dNow'] === false)
 			{
 				$query->where(
-					'a.registerDate < ' . $db->quote($dStart->format('Y-m-d H:i:s'))
+					$db->qn('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					'a.registerDate >= ' . $db->quote($dStart->format('Y-m-d H:i:s')) .
-						' AND a.registerDate <=' . $db->quote($dNow->format('Y-m-d H:i:s'))
+					$db->qn('a.registerDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
+					' AND ' . $db->qn('a.registerDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
+				);
+			}
+		}
+
+		// Add filter for registration ranges select list
+		$lastvisitrange = $this->getState('filter.lastvisitrange');
+
+		// Apply the range filter.
+		if ($lastvisitrange)
+		{
+			$dates = $this->buildDateRange($lastvisitrange);
+
+			if (is_string($dates['dStart']))
+			{
+				$query->where(
+					$db->qn('a.lastvisitDate') . ' = ' . $db->quote($dates['dStart'])
+				);
+			}
+			elseif ($dates['dNow'] === false)
+			{
+				$query->where(
+					$db->qn('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
+				);
+			}
+			else
+			{
+				$query->where(
+					$db->qn('a.lastvisitDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
+					' AND ' . $db->qn('a.lastvisitDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
 				);
 			}
 		}
 
 		// Filter by excluded users
 		$excluded = $this->getState('filter.excluded');
+
 		if (!empty($excluded))
 		{
 			$query->where('id NOT IN (' . implode(',', $excluded) . ')');
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.name')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->qn($db->escape($this->getState('list.ordering', 'a.name'))) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
 
-	//sqlsrv change
-	function _getUserDisplayedGroups($user_id)
+	/**
+	 * Construct the date range to filter on.
+	 *
+	 * @param   string  $range  The textual range to construct the filter for.
+	 *
+	 * @return  string  The date range to filter on.
+	 *
+	 * @since   3.6.0
+	 */
+	private function buildDateRange($range)
 	{
-		$db = JFactory::getDbo();
-		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .
-			$db->quoteName('#__user_usergroup_map') . " map on (ug.id = map.group_id)" .
-			" WHERE map.user_id=" . $user_id;
+		// Get UTC for now.
+		$dNow   = new JDate;
+		$dStart = clone $dNow;
 
-		$db->setQuery($query);
-		$result = $db->loadColumn();
+		switch ($range)
+		{
+			case 'past_week':
+				$dStart->modify('-7 day');
+				break;
+
+			case 'past_1month':
+				$dStart->modify('-1 month');
+				break;
+
+			case 'past_3month':
+				$dStart->modify('-3 month');
+				break;
+
+			case 'past_6month':
+				$dStart->modify('-6 month');
+				break;
+
+			case 'post_year':
+				$dNow = false;
+			case 'past_year':
+				$dStart->modify('-1 year');
+				break;
+
+			case 'today':
+				// Ranges that need to align with local 'days' need special treatment.
+				$app    = JFactory::getApplication();
+				$offset = $app->get('offset');
+
+				// Reset the start time to be the beginning of today, local time.
+				$dStart = new JDate('now', $offset);
+				$dStart->setTime(0, 0, 0);
+
+				// Now change the timezone back to UTC.
+				$tz = new DateTimeZone('GMT');
+				$dStart->setTimezone($tz);
+				break;
+			case 'never':
+				$dNow = false;
+				$dStart = $this->_db->getNullDate();
+				break;
+		}
+
+		return array('dNow' => $dNow, 'dStart' => $dStart);
+	}
+
+	/**
+	 * SQL server change
+	 *
+	 * @param   integer  $user_id  User identifier
+	 *
+	 * @return  string   Groups titles imploded :$
+	 */
+	protected function _getUserDisplayedGroups($user_id)
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('title'))
+			->from($db->qn('#__usergroups', 'ug'))
+			->join('LEFT', $db->qn('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
+			->where($db->qn('map.user_id') . ' = ' . (int) $user_id);
+
+		try
+		{
+			$result = $db->setQuery($query)->loadColumn();
+		}
+		catch (RunTimeException $e)
+		{
+			$result = array();
+		}
+
 		return implode("\n", $result);
 	}
 }

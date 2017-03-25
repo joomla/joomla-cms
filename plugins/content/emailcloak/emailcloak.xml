@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="content">
+<extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>plg_content_emailcloak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,6 @@
 	<description>PLG_CONTENT_EMAILCLOAK_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="emailcloak">emailcloak.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_emailcloak.ini</language>
@@ -19,9 +18,10 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
-				<field name="mode" type="list"
+				<field
+					name="mode"
+					type="list"
 					default="1"
 					description="PLG_CONTENT_EMAILCLOAK_MODE_DESC"
 					label="PLG_CONTENT_EMAILCLOAK_MODE_LABEL"

@@ -2,24 +2,23 @@
 /**
  * @package    Joomla.Language
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * en-GB localise class
+ * en-GB localise class.
  *
- * @package  Joomla.Language
- * @since    1.6
+ * @since  1.6
  */
 abstract class En_GBLocalise
 {
 	/**
 	 * Returns the potential suffixes for a specific number of items
 	 *
-	 * @param   int  $count  The number of items.
+	 * @param   integer  $count  The number of items.
 	 *
 	 * @return  array  An array of potential suffixes.
 	 *
@@ -29,17 +28,16 @@ abstract class En_GBLocalise
 	{
 		if ($count == 0)
 		{
-			$return = array('0');
+			return array('0');
 		}
 		elseif ($count == 1)
 		{
-			$return = array('1');
+			return array('1');
 		}
 		else
 		{
-			$return = array('MORE');
+			return array('MORE');
 		}
-		return $return;
 	}
 
 	/**
@@ -51,11 +49,7 @@ abstract class En_GBLocalise
 	 */
 	public static function getIgnoredSearchWords()
 	{
-		$search_ignore = array();
-		$search_ignore[] = "and";
-		$search_ignore[] = "in";
-		$search_ignore[] = "on";
-		return $search_ignore;
+		return array('and', 'in', 'on');
 	}
 
 	/**

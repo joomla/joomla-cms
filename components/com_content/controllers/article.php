@@ -3,15 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
- * @package     Joomla.Site
- * @subpackage  com_content
+ * Content article class.
+ *
+ * @since  1.6.0
  */
 class ContentControllerArticle extends JControllerForm
 {
@@ -32,9 +35,17 @@ class ContentControllerArticle extends JControllerForm
 	protected $view_list = 'categories';
 
 	/**
+	 * The URL edit variable.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $urlVar = 'a.id';
+
+	/**
 	 * Method to add a new record.
 	 *
-	 * @return  mixed  True if the record can be added, a error object if not.
+	 * @return  mixed  True if the record can be added, an error object if not.
 	 *
 	 * @since   1.6
 	 */
@@ -59,13 +70,13 @@ class ContentControllerArticle extends JControllerForm
 	protected function allowAdd($data = array())
 	{
 		$user       = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
+		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow      = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the data or URL check it.
-			$allow	= $user->authorise('core.create', 'com_content.category.'.$categoryId);
+			$allow = $user->authorise('core.create', 'com_content.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -92,44 +103,36 @@ class ContentControllerArticle extends JControllerForm
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user     = JFactory::getUser();
-		$userId   = $user->get('id');
-		$asset    = 'com_content.article.' . $recordId;
+		$user = JFactory::getUser();
 
-		// Check general edit permission first.
-		if ($user->authorise('core.edit', $asset))
+		// Zero record (id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
+		{
+			return parent::allowEdit($data, $key);
+		}
+
+		// Check edit on the record asset (explicit or inherited)
+		if ($user->authorise('core.edit', 'com_content.article.' . $recordId))
 		{
 			return true;
 		}
 
-		// Fallback on edit.own.
-		// First test if the permission is available.
-		if ($user->authorise('core.edit.own', $asset))
+		// Check edit own on the record asset (explicit or inherited)
+		if ($user->authorise('core.edit.own', 'com_content.article.' . $recordId))
 		{
-			// Now test the owner is the user.
-			$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
-			if (empty($ownerId) && $recordId)
+			// Existing record already has an owner, get it
+			$record = $this->getModel()->getItem($recordId);
+
+			if (empty($record))
 			{
-				// Need to do a lookup from the model.
-				$record = $this->getModel()->getItem($recordId);
-
-				if (empty($record))
-				{
-					return false;
-				}
-
-				$ownerId = $record->created_by;
+				return false;
 			}
 
-			// If the owner matches 'me' then do the test.
-			if ($ownerId == $userId)
-			{
-				return true;
-			}
+			// Grant if current user is owner of the record
+			return $user->get('id') == $record->created_by;
 		}
 
-		// Since there is no asset tracking, revert to the component permissions.
-		return parent::allowEdit($data, $key);
+		return false;
 	}
 
 	/**
@@ -146,7 +149,7 @@ class ContentControllerArticle extends JControllerForm
 		parent::cancel($key);
 
 		// Redirect to the return page.
-		$this->setRedirect($this->getReturnPage());
+		$this->setRedirect(JRoute::_($this->getReturnPage()));
 	}
 
 	/**
@@ -164,6 +167,11 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$result = parent::edit($key, $urlVar);
 
+		if (!$result)
+		{
+			$this->setRedirect(JRoute::_($this->getReturnPage()));
+		}
+
 		return $result;
 	}
 
@@ -180,9 +188,7 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -199,44 +205,47 @@ class ContentControllerArticle extends JControllerForm
 	{
 		// Need to override the parent method completely.
 		$tmpl   = $this->input->get('tmpl');
-//		$layout = $this->input->get('layout', 'edit');
+
 		$append = '';
 
 		// Setup redirect info.
 		if ($tmpl)
 		{
-			$append .= '&tmpl='.$tmpl;
+			$append .= '&tmpl=' . $tmpl;
 		}
 
 		// TODO This is a bandaid, not a long term solution.
-//		if ($layout)
-//		{
-//			$append .= '&layout=' . $layout;
-//		}
+		/**
+		 * if ($layout)
+		 * {
+		 *	$append .= '&layout=' . $layout;
+		 * }
+		 */
+
 		$append .= '&layout=edit';
 
 		if ($recordId)
 		{
-			$append .= '&'.$urlVar.'='.$recordId;
+			$append .= '&' . $urlVar . '=' . $recordId;
 		}
 
-		$itemId	= $this->input->getInt('Itemid');
-		$return	= $this->getReturnPage();
+		$itemId = $this->input->getInt('Itemid');
+		$return = $this->getReturnPage();
 		$catId  = $this->input->getInt('catid', null, 'get');
 
 		if ($itemId)
 		{
-			$append .= '&Itemid='.$itemId;
+			$append .= '&Itemid=' . $itemId;
 		}
 
 		if ($catId)
 		{
-			$append .= '&catid='.$catId;
+			$append .= '&catid=' . $catId;
 		}
 
 		if ($return)
 		{
-			$append .= '&return='.base64_encode($return);
+			$append .= '&return=' . base64_encode($return);
 		}
 
 		return $append;
@@ -266,21 +275,6 @@ class ContentControllerArticle extends JControllerForm
 	}
 
 	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   array         $validData   The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
-	{
-		return;
-	}
-
-	/**
 	 * Method to save a record.
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
@@ -292,12 +286,40 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = 'a_id')
 	{
-		$result = parent::save($key, $urlVar);
+		$result    = parent::save($key, $urlVar);
+		$app       = JFactory::getApplication();
+		$articleId = $app->input->getInt('a_id');
 
-		// If ok, redirect to the return page.
-		if ($result)
+		// Load the parameters.
+		$params   = $app->getParams();
+		$menuitem = (int) $params->get('redirect_menuitem');
+
+		// Check for redirection after submission when creating a new article only
+		if ($menuitem > 0 && $articleId == 0)
 		{
-			$this->setRedirect($this->getReturnPage());
+			$lang = '';
+
+			if (JLanguageMultilang::isEnabled())
+			{
+				$item = $app->getMenu()->getItem($menuitem);
+				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+			}
+
+			$return = base64_encode('index.php?Itemid=' . $menuitem . $lang);
+
+			// If ok, redirect to the return page.
+			if ($result)
+			{
+				$this->setRedirect(JRoute::_(base64_decode($return)));
+			}
+		}
+		else
+		{
+			// If ok, redirect to the return page.
+			if ($result)
+			{
+				$this->setRedirect(JRoute::_($this->getReturnPage()));
+			}
 		}
 
 		return $result;
@@ -313,7 +335,7 @@ class ContentControllerArticle extends JControllerForm
 	public function vote()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$user_rating = $this->input->getInt('user_rating', -1);
 

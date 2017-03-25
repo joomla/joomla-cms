@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset
+		addfieldpath="/administrator/components/com_categories/models/fields"
+	>
 		<field
 			name="id"
 			type="hidden"
@@ -15,24 +17,28 @@
 			name="user_id"
 			type="user"
 			size="50"
-			class="inputbox"
+			class="input-medium"
 			required="true"
 			label="COM_USERS_FIELD_USER_ID_LABEL"
+			description="JLIB_FORM_SELECT_USER"
 			/>
 
 		<field
 			name="catid"
-			type="category"
-			class="inputbox"
-			extension="com_users"
+			type="modal_category"
 			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
-			description="JFIELD_CATEGORY_DESC" >
-		</field>
+			description="JFIELD_CATEGORY_DESC"
+			extension="com_users"
+			required="true"
+			select="true"
+			new="true"
+			edit="true"
+			clear="true"
+		/>
 
 		<field
 			name="subject"
 			type="text"
-			class="inputbox"
 			size="80"
 			label="COM_USERS_FIELD_SUBJECT_LABEL"
 			description="COM_USERS_FIELD_SUBJECT_DESC"
@@ -41,7 +47,6 @@
 		<field
 			name="body"
 			type="editor"
-			class="inputbox"
 			rows="10"
 			cols="80"
 			filter="safehtml"
@@ -54,7 +59,6 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_USERS_FIELD_STATE_DESC"
-			class="inputbox"
 			size="1"
 			default="1">
 			<option
@@ -70,11 +74,10 @@
 		<field
 			name="review_time"
 			type="calendar"
-			class="inputbox"
 			label="COM_USERS_FIELD_REVIEW_TIME_LABEL"
 			description="COM_USERS_FIELD_REVIEW_TIME_DESC"
-			default="0000-00-00"
-			format="%Y-%m-%d"
+			default="NOW"
+			translateformat="true"
 			/>
 
 		<field
@@ -91,36 +94,62 @@
 
 		<field
 			name="created_user_id"
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 			type="hidden"
 			filter="unset"
 			/>
 
 		<field
 			name="created_time"
+			label="JGLOBAL_FIELD_CREATED_LABEL"
 			type="hidden"
 			filter="unset"
 			/>
 
 		<field
 			name="modified_user_id"
+			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 			type="hidden"
 			filter="unset"
 			/>
 
 		<field
 			name="modified_time"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			type="hidden"
 			filter="unset"
 			/>
-			
-		<field name="publish_up" type="calendar"
-			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />
 
-		<field name="publish_down" type="calendar"
-			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />			
+		<field
+			name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			maxlength="255"
+			size="45"
+			labelclass="control-label"
+			/>
 	</fieldset>
 </form>

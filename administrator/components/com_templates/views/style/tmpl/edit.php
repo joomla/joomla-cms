@@ -3,109 +3,103 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', 'select');
 $user = JFactory::getUser();
-$canDo = TemplatesHelper::getActions();
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'style.cancel' || document.formvalidator.isValid(document.id('style-form')))
-		{
+		if (task == 'style.cancel' || document.formvalidator.isValid(document.getElementById('style-form'))) {
 			Joomla.submitform(task, document.getElementById('style-form'));
 		}
-	}
-</script>
+	};
+");
+?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
-	<fieldset>
+<form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
+
+	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+
+	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('title'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('title'); ?>
-					</div>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
+
+		<div class="row-fluid">
+			<div class="span9">
+				<h3>
+					<?php echo JText::_($this->item->template); ?>
+				</h3>
+				<div class="info-labels">
+					<span class="label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
+						<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
+					</span>
 				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('template'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('template'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('client_id'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('client_id'); ?>
-						<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('home'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('home'); ?>
-					</div>
-				</div>
-				<?php if ($this->item->id) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('id'); ?>
-						</div>
-						<div class="controls">
-							<span class="disabled"><?php echo $this->item->id; ?></span>
-						</div>
-					</div>
-				<?php endif; ?>
-				<?php if ($this->item->xml) : ?>
-					<?php if ($text = trim($this->item->xml->description)) : ?>
-						<div class="control-group">
-							<label class="control-label">
-								<?php echo JText::_('COM_TEMPLATES_TEMPLATE_DESCRIPTION'); ?>
-							</label>
-							<div class="controls">
-								<span class="disabled"><?php echo JText::_($text); ?></span>
-							</div>
-						</div>
+				<div>
+					<p><?php echo JText::_($this->item->xml->description); ?></p>
+					<?php
+					$this->fieldset = 'description';
+					$description = JLayoutHelper::render('joomla.edit.fieldset', $this);
+					?>
+					<?php if ($description) : ?>
+						<p class="readmore">
+							<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
+								<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+							</a>
+						</p>
 					<?php endif; ?>
-				<?php else : ?>
-					<div class="alert alert-error"><?php echo JText::_('COM_TEMPLATES_ERR_XML'); ?></div>
-				<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+				</div>
+				<?php
+				$this->fieldset = 'basic';
+				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
+				echo $html ? '<hr />' . $html : '';
+				?>
+			</div>
+			<div class="span3">
+				<?php
+				// Set main fields.
+				$this->fields = array(
+					'home',
+					'client_id',
+					'template'
+				);
+				?>
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			</div>
+		</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'options', JText::_('JOPTIONS', true)); ?>
-				<?php //get the menu parameters that are automatically set but may be modified.
-					echo $this->loadTemplate('options'); ?>
+		<?php if ($description) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+			<?php echo $description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
 
-			<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0):?>
-				<?php if ($canDo->get('core.edit.state')) : ?>
-					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT', true)); ?>
-						<?php echo $this->loadTemplate('assignment'); ?>
-					<?php echo JHtml::_('bootstrap.endTab'); ?>
-				<?php endif; ?>
-			<?php endif;?>
+		<?php
+		$this->fieldsets = array();
+		$this->ignore_fieldsets = array('basic', 'description');
+		echo JLayoutHelper::render('joomla.edit.params', $this);
+		?>
+
+		<?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
+			<?php echo $this->loadTemplate('assignment'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-	</fieldset>
 
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

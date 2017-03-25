@@ -3,26 +3,27 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of banner records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelClients extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see     JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -36,7 +37,7 @@ class BannersModelClients extends JModelList
 				'state', 'a.state',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
-				'nbanners',
+				'purchase_type', 'a.purchase_type'
 			);
 		}
 
@@ -48,23 +49,25 @@ class BannersModelClients extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
+		$this->setState('filter.purchase_type', $this->getUserStateFromRequest($this->context . '.filter.purchase_type', 'filter_purchase_type'));
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_banners');
-		$this->setState('params', $params);
+		$this->setState('params', JComponentHelper::getParams('com_banners'));
 
 		// List state information.
-		parent::populateState('a.name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -74,7 +77,7 @@ class BannersModelClients extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 */
@@ -82,8 +85,8 @@ class BannersModelClients extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.purchase_type');
 
 		return parent::getStoreId($id);
 	}
@@ -96,21 +99,23 @@ class BannersModelClients extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
+
+		$defaultPurchase = JComponentHelper::getParams('com_banners')->get('purchase_type', 3);
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id AS id,' .
-					'a.name AS name,' .
-					'a.contact AS contact,' .
-					'a.checked_out AS checked_out,' .
-					'a.checked_out_time AS checked_out_time, ' .
-					'a.state AS state,' .
-					'a.metakey AS metakey,' .
-					'a.purchase_type as purchase_type'
+				'a.id AS id,'
+				. 'a.name AS name,'
+				. 'a.contact AS contact,'
+				. 'a.checked_out AS checked_out,'
+				. 'a.checked_out_time AS checked_out_time, '
+				. 'a.state AS state,'
+				. 'a.metakey AS metakey,'
+				. 'a.purchase_type as purchase_type'
 			)
 		);
 
@@ -126,6 +131,7 @@ class BannersModelClients extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
@@ -139,6 +145,7 @@ class BannersModelClients extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -147,19 +154,156 @@ class BannersModelClients extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('a.name LIKE ' . $search);
 			}
 		}
-		$ordering_o = $this->getState('list.ordering', 'ordering');
-		if ($ordering_o == 'nbanners')
-		{
-			$ordering_o = 'COUNT(b.id)';
-		}
-		// Add the list ordering clause.
-		$query->order($db->escape($ordering_o) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		// Filter by purchase type
+		$purchaseType = $this->getState('filter.purchase_type');
+
+		if (!empty($purchaseType))
+		{
+			if ($defaultPurchase == $purchaseType)
+			{
+				$query->where('(a.purchase_type = ' . (int) $purchaseType . ' OR a.purchase_type = -1)');
+			}
+			else
+			{
+				$query->where('a.purchase_type = ' . (int) $purchaseType);
+			}
+		}
+
+		// Add the list ordering clause.
+		$query->order($db->escape($this->getState('list.ordering', 'a.name')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+
 		return $query;
+	}
+
+	/**
+	 * Overrides the getItems method to attach additional metrics to the list.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   3.6
+	 */
+	public function getItems()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId('getItems');
+
+		// Try to load the data from internal storage.
+		if (!empty($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
+		// Load the list items.
+		$items = parent::getItems();
+
+		// If emtpy or an error, just return.
+		if (empty($items))
+		{
+			return array();
+		}
+
+		// Getting the following metric by joins is WAY TOO SLOW.
+		// Faster to do three queries for very large banner trees.
+
+		// Get the clients in the list.
+		$db = $this->getDbo();
+		$clientIds = ArrayHelper::getColumn($items, 'id');
+
+		// Quote the strings.
+		$clientIds = implode(
+			',',
+			array_map(array($db, 'quote'), $clientIds)
+		);
+
+		// Get the published banners count.
+		$query = $db->getQuery(true)
+			->select('cid, COUNT(cid) AS count_published')
+			->from('#__banners')
+			->where('state = 1')
+			->where('cid IN (' . $clientIds . ')')
+			->group('cid');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$countPublished = $db->loadAssocList('cid', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		// Get the unpublished banners count.
+		$query->clear('where')
+			->where('state = 0')
+			->where('cid IN (' . $clientIds . ')');
+		$db->setQuery($query);
+
+		try
+		{
+			$countUnpublished = $db->loadAssocList('cid', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		// Get the trashed banners count.
+		$query->clear('where')
+			->where('state = -2')
+			->where('cid IN (' . $clientIds . ')');
+		$db->setQuery($query);
+
+		try
+		{
+			$countTrashed = $db->loadAssocList('cid', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		// Get the archived banners count.
+		$query->clear('where')
+			->where('state = 2')
+			->where('cid IN (' . $clientIds . ')');
+		$db->setQuery($query);
+
+		try
+		{
+			$countArchived = $db->loadAssocList('cid', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		// Inject the values back into the array.
+		foreach ($items as $item)
+		{
+			$item->count_published   = isset($countPublished[$item->id]) ? $countPublished[$item->id] : 0;
+			$item->count_unpublished = isset($countUnpublished[$item->id]) ? $countUnpublished[$item->id] : 0;
+			$item->count_trashed     = isset($countTrashed[$item->id]) ? $countTrashed[$item->id] : 0;
+			$item->count_archived    = isset($countArchived[$item->id]) ? $countArchived[$item->id] : 0;
+		}
+
+		// Add the items to the internal cache.
+		$this->cache[$store] = $items;
+
+		return $this->cache[$store];
 	}
 }

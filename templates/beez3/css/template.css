@@ -2,7 +2,7 @@
  * @author Design & Accessible Team ( Angie Radtke  )
  * @package Joomla
  * @subpackage Accessible-Template-Beez
- * @copyright Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @copyright Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -12,21 +12,20 @@
  */
 
 
-body
-{
-        background: #fff;
-        color: #000000;
-        font-size: 100.1%;
-        padding: 0px;
-        text-align: center;
+body {
+    background: #fff;
+    color: #000000;
+    font-size: 100.1%;
+    padding: 0px;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body.contentpane {
-		width:auto;
-		margin:10px;
-		text-align: left;
+	width:auto;
+	margin:10px;
+	text-align: left;
 }
+
 img { border: 0 none; }
-
-
-

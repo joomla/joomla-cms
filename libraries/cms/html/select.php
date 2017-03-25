@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Utility class for creating HTML select lists
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlSelect
 {
@@ -24,20 +24,31 @@ abstract class JHtmlSelect
 	 * @var     array
 	 * @since   1.5
 	 */
-	static protected $optionDefaults = array(
-		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
-			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
-			'option.text.toHtml' => true));
+	protected static $optionDefaults = array(
+		'option' => array(
+			'option.attr' => null,
+			'option.disable' => 'disable',
+			'option.id' => null,
+			'option.key' => 'value',
+			'option.key.toHtml' => true,
+			'option.label' => null,
+			'option.label.toHtml' => true,
+			'option.text' => 'text',
+			'option.text.toHtml' => true,
+			'option.class' => 'class',
+			'option.onclick' => 'onclick',
+		),
+	);
 
 	/**
 	 * Generates a yes/no radio list.
 	 *
 	 * @param   string  $name      The value of the HTML name attribute
-	 * @param   array   $attribs   Additional HTML attributes for the <select> tag
+	 * @param   array   $attribs   Additional HTML attributes for the `<select>` tag
 	 * @param   string  $selected  The key that is selected
 	 * @param   string  $yes       Language key for Yes
 	 * @param   string  $no        Language key for no
-	 * @param   string  $id        The id for the field
+	 * @param   mixed   $id        The id for the field or false for no id
 	 *
 	 * @return  string  HTML for the radio list
 	 *
@@ -56,7 +67,7 @@ abstract class JHtmlSelect
 	 *
 	 * @param   array    $data       An array of objects, arrays, or scalars.
 	 * @param   string   $name       The value of the HTML name attribute.
-	 * @param   mixed    $attribs    Additional HTML attributes for the <select> tag. This
+	 * @param   mixed    $attribs    Additional HTML attributes for the `<select>` tag. This
 	 *                               can be an array of attributes, or an array of options. Treated as options
 	 *                               if it is the last argument passed. Valid options are:
 	 *                               Format options, see {@see JHtml::$formatOptions}.
@@ -106,7 +117,7 @@ abstract class JHtmlSelect
 		{
 			if (is_array($options['list.attr']))
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
 			else
 			{
@@ -120,11 +131,61 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
 			. static::options($data, $options) . $baseIndent . '</select>' . $options['format.eol'];
+
+		return $html;
+	}
+
+	/**
+	 * Method to build a list with suggestions
+	 *
+	 * @param   array    $data       An array of objects, arrays, or values.
+	 * @param   string   $optKey     The name of the object variable for the option value. If
+	 *                               set to null, the index of the value array is used.
+	 * @param   string   $optText    The name of the object variable for the option text.
+	 * @param   mixed    $idtag      Value of the field id or null by default
+	 * @param   boolean  $translate  True to translate
+	 *
+	 * @return  string  HTML for the select list
+	 *
+	 * @since       3.2
+	 * @deprecated  4.0  Just create the `<datalist>` directly instead
+	 */
+	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag = null, $translate = false)
+	{
+		// Log deprecated message
+		JLog::add(
+			'JHtmlSelect::suggestionlist() is deprecated. Create the <datalist> tag directly instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
+
+		// Note: $idtag is requried but has to be an optional argument in the funtion call due to argument order
+		if (!$idtag)
+		{
+			throw new InvalidArgumentException('$idtag is a required argument in deprecated JHtmlSelect::suggestionlist');
+		}
+
+		// Set default options
+		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
+
+		// Get options from the parameters
+		$options['id'] = $idtag;
+		$options['list.attr'] = null;
+		$options['list.translate'] = $translate;
+		$options['option.key'] = $optKey;
+		$options['option.text'] = $optText;
+		$options['list.select'] = null;
+
+		$id = ' id="' . $idtag . '"';
+
+		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+		$html = $baseIndent . '<datalist' . $id . '>' . $options['format.eol']
+			. static::options($data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
 
 		return $html;
 	}
@@ -181,7 +242,7 @@ abstract class JHtmlSelect
 		{
 			if (is_array($options['list.attr']))
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
 			else
 			{
@@ -195,7 +256,7 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		// Disable groups in the options.
 		$options['groups'] = false;
@@ -235,17 +296,17 @@ abstract class JHtmlSelect
 			elseif (is_object($group))
 			{
 				// Sub-list is in a property of an object
-				$subList = $group->$options['group.items'];
+				$subList = $group->{$options['group.items']};
 
-				if (isset($group->$options['group.label']))
+				if (isset($group->{$options['group.label']}))
 				{
-					$label = $group->$options['group.label'];
+					$label = $group->{$options['group.label']};
 					$noGroup = false;
 				}
 
-				if (isset($options['group.id']) && isset($group->$options['group.id']))
+				if (isset($options['group.id']) && isset($group->{$options['group.id']}))
 				{
-					$id = $group->$options['group.id'];
+					$id = $group->{$options['group.id']};
 					$noGroup = false;
 				}
 			}
@@ -278,7 +339,7 @@ abstract class JHtmlSelect
 	 * @param   integer  $end       The end integer
 	 * @param   integer  $inc       The increment
 	 * @param   string   $name      The value of the HTML name attribute
-	 * @param   mixed    $attribs   Additional HTML attributes for the <select> tag, an array of
+	 * @param   mixed    $attribs   Additional HTML attributes for the `<select>` tag, an array of
 	 *                              attributes, or an array of options. Treated as options if it is the last
 	 *                              argument passed.
 	 * @param   mixed    $selected  The key that is selected
@@ -333,7 +394,7 @@ abstract class JHtmlSelect
 	 * @param   string  $optKey   The returned object property name for the value
 	 * @param   string  $optText  The returned object property name for the text
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @deprecated  4.0  Use JHtmlSelect::groupedList()
 	 * @see     JHtmlSelect::groupedList()
@@ -393,14 +454,21 @@ abstract class JHtmlSelect
 	 *                             parameter is ignored if an options array is passed.
 	 * @param   boolean  $disable  Not used.
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @since   1.5
 	 */
 	public static function option($value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
 	{
-		$options = array('attr' => null, 'disable' => false, 'option.attr' => null, 'option.disable' => 'disable', 'option.key' => 'value',
-			'option.label' => null, 'option.text' => 'text');
+		$options = array(
+			'attr' => null,
+			'disable' => false,
+			'option.attr' => null,
+			'option.disable' => 'disable',
+			'option.key' => 'value',
+			'option.label' => null,
+			'option.text' => 'text',
+		);
 
 		if (is_array($optKey))
 		{
@@ -414,9 +482,10 @@ abstract class JHtmlSelect
 			$options['option.text'] = $optText;
 			$options['disable'] = $disable;
 		}
+
 		$obj = new stdClass;
-		$obj->$options['option.key'] = $value;
-		$obj->$options['option.text'] = trim($text) ? $text : $value;
+		$obj->{$options['option.key']}  = $value;
+		$obj->{$options['option.text']} = trim($text) ? $text : $value;
 
 		/*
 		 * If a label is provided, save it. If no label is provided and there is
@@ -431,20 +500,21 @@ abstract class JHtmlSelect
 		}
 		elseif ($hasProperty)
 		{
-			$obj->$options['option.label'] = '';
+			$obj->{$options['option.label']} = '';
 		}
 
 		// Set attributes only if there is a property and a value
 		if ($options['attr'] !== null)
 		{
-			$obj->$options['option.attr'] = $options['attr'];
+			$obj->{$options['option.attr']} = $options['attr'];
 		}
 
 		// Set disable only if it has a property and a value
 		if ($options['disable'] !== null)
 		{
-			$obj->$options['option.disable'] = $options['disable'];
+			$obj->{$options['option.disable']} = $options['disable'];
 		}
+
 		return $obj;
 	}
 
@@ -550,27 +620,37 @@ abstract class JHtmlSelect
 			}
 			elseif (is_object($element))
 			{
-				$key = $options['option.key'] === null ? $elementKey : $element->$options['option.key'];
-				$text = $element->$options['option.text'];
+				$key = $options['option.key'] === null ? $elementKey : $element->{$options['option.key']};
+				$text = $element->{$options['option.text']};
 
-				if (isset($element->$options['option.attr']))
+				if (isset($element->{$options['option.attr']}))
 				{
-					$attr = $element->$options['option.attr'];
+					$attr = $element->{$options['option.attr']};
 				}
 
-				if (isset($element->$options['option.id']))
+				if (isset($element->{$options['option.id']}))
 				{
-					$id = $element->$options['option.id'];
+					$id = $element->{$options['option.id']};
 				}
 
-				if (isset($element->$options['option.label']))
+				if (isset($element->{$options['option.label']}))
 				{
-					$label = $element->$options['option.label'];
+					$label = $element->{$options['option.label']};
 				}
 
-				if (isset($element->$options['option.disable']) && $element->$options['option.disable'])
+				if (isset($element->{$options['option.disable']}) && $element->{$options['option.disable']})
 				{
 					$extra .= ' disabled="disabled"';
+				}
+
+				if (isset($element->{$options['option.class']}) && $element->{$options['option.class']})
+				{
+					$extra .= ' class="' . $element->{$options['option.class']} . '"';
+				}
+
+				if (isset($element->{$options['option.onclick']}) && $element->{$options['option.onclick']})
+				{
+					$extra .= ' onclick="' . $element->{$options['option.onclick']} . '"';
 				}
 			}
 			else
@@ -606,7 +686,7 @@ abstract class JHtmlSelect
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 
-				if (isset($splitText[1]))
+				if (isset($splitText[1]) && $splitText[1] != '' && !preg_match('/^[\s]+$/', $splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}
@@ -623,7 +703,7 @@ abstract class JHtmlSelect
 
 				if (is_array($attr))
 				{
-					$attr = JArrayHelper::toString($attr);
+					$attr = ArrayHelper::toString($attr);
 				}
 				else
 				{
@@ -636,7 +716,7 @@ abstract class JHtmlSelect
 				{
 					foreach ($options['list.select'] as $val)
 					{
-						$key2 = is_object($val) ? $val->$options['option.key'] : $val;
+						$key2 = is_object($val) ? $val->{$options['option.key']} : $val;
 
 						if ($key == $key2)
 						{
@@ -671,7 +751,7 @@ abstract class JHtmlSelect
 	 *
 	 * @param   array    $data       An array of objects
 	 * @param   string   $name       The value of the HTML name attribute
-	 * @param   string   $attribs    Additional HTML attributes for the <select> tag
+	 * @param   string   $attribs    Additional HTML attributes for the `<select>` tag
 	 * @param   mixed    $optKey     The key that is selected
 	 * @param   string   $optText    The name of the object variable for the option value
 	 * @param   string   $selected   The name of the object variable for the option text
@@ -685,14 +765,13 @@ abstract class JHtmlSelect
 	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
 		$translate = false)
 	{
-		reset($data);
 
 		if (is_array($attribs))
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
-		$id_text = $idtag ? $idtag : $name;
+		$id_text = $idtag ?: $name;
 
 		$html = '<div class="controls">';
 
@@ -703,7 +782,7 @@ abstract class JHtmlSelect
 			$id = (isset($obj->id) ? $obj->id : null);
 
 			$extra = '';
-			$extra .= $id ? ' id="' . $obj->id . '"' : '';
+			$id = $id ? $obj->id : $id_text . $k;
 
 			if (is_array($selected))
 			{
@@ -713,21 +792,23 @@ abstract class JHtmlSelect
 
 					if ($k == $k2)
 					{
-						$extra .= ' selected="selected"';
+						$extra .= ' selected="selected" ';
 						break;
 					}
 				}
 			}
 			else
 			{
-				$extra .= ((string) $k == (string) $selected ? ' checked="checked"' : '');
+				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
 			}
-			$html .= "\n\t" . '<label for="' . $id_text . $k . '" id="' . $id_text . $k . '-lbl" class="radio">';
-			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id_text . $k . '" value="' . $k . '" ' . $extra . ' '
-				. $attribs . '>' . $t;
+
+			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
+			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
+				. $attribs . ' />' . $t;
 			$html .= "\n\t" . '</label>';
 		}
 
+		$html .= "\n";
 		$html .= '</div>';
 		$html .= "\n";
 

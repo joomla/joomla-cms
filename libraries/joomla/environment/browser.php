@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,9 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * This class has many influences from the lib/Browser.php code in
  * version 3 of Horde by Chuck Hagenbuch and Jon Parise.
  *
- * @package     Joomla.Platform
- * @subpackage  Environment
- * @since       11.1
+ * @since  11.1
  */
 class JBrowser
 {
@@ -123,7 +121,8 @@ class JBrowser
 		'ViolaBot',
 		'webbandit',
 		'www.almaden.ibm.com/cs/crawler',
-		'ZyBorg');
+		'ZyBorg',
+	);
 
 	/**
 	 * @var    boolean  Is this a mobile browser?
@@ -247,6 +246,13 @@ class JBrowser
 					$this->identifyBrowserVersion();
 				}
 			}
+
+			// Opera 15+
+			elseif (preg_match('|OPR[/ ]([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('opera');
+				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+			}
 			elseif (preg_match('|Chrome[/ ]([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('chrome');
@@ -312,7 +318,7 @@ class JBrowser
 				$this->setBrowser('avantgo');
 				$this->mobile = true;
 			}
-			elseif (preg_match('|Konqueror/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
+			elseif (preg_match('|[Kk]onqueror/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
 			{
 				// Konqueror and Apple's Safari both use the KHTML
 				// rendering engine.
@@ -461,7 +467,6 @@ class JBrowser
 		// Can't identify browser version
 		$this->majorVersion = 0;
 		$this->minorVersion = 0;
-		JLog::add("Can't identify browser version. Agent: " . $this->agent, JLog::NOTICE);
 	}
 
 	/**
@@ -555,7 +560,7 @@ class JBrowser
 			}
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -607,12 +612,12 @@ class JBrowser
 			}
 		}
 
-		if (!$this->hasFeature('images') || ($type != 'image'))
+		if ($type != 'image')
 		{
 			return false;
 		}
 
-		return (in_array($subtype, $this->images));
+		return in_array($subtype, $this->images);
 	}
 
 	/**
@@ -626,7 +631,7 @@ class JBrowser
 	 */
 	public function isBrowser($browser)
 	{
-		return ($this->browser === $browser);
+		return $this->browser === $browser;
 	}
 
 	/**
@@ -671,9 +676,12 @@ class JBrowser
 	 */
 	public function isSSLConnection()
 	{
-		JLog::add('JBrowser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
-			JLog::WARNING, 'deprecated');
+		JLog::add(
+			'JBrowser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
 
-		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 }

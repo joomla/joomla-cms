@@ -3,23 +3,24 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for interacting with a Twitter API instance.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
  * @since       12.3
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitter
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
+	 * @var    Registry  Options for the JTwitter object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -31,8 +32,8 @@ class JTwitter
 	protected $client;
 
 	/**
-	 * @var JTwitterOAuth The OAuth client.
-	 * @since 12.3
+	 * @var    JTwitterOAuth The OAuth client.
+	 * @since  12.3
 	 */
 	protected $oauth;
 
@@ -112,15 +113,15 @@ class JTwitter
 	 * Constructor.
 	 *
 	 * @param   JTwitterOauth  $oauth    The oauth client.
-	 * @param   JRegistry      $options  Twitter options object.
+	 * @param   Registry       $options  Twitter options object.
 	 * @param   JHttp          $client   The HTTP client object.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JTwitterOAuth $oauth = null, JRegistry $options = null, JHttp $client = null)
+	public function __construct(JTwitterOAuth $oauth = null, Registry $options = null, JHttp $client = null)
 	{
 		$this->oauth = $oauth;
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
 		// Setup the default API url if not already set.

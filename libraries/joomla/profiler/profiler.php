@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Profiler
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
- * @package     Joomla.Platform
- * @subpackage  Profiler
- * @since       11.1
+ * @since  11.1
  */
 class JProfiler
 {
@@ -44,13 +42,13 @@ class JProfiler
 	protected $marks = null;
 
 	/**
-	 * @var    float
+	 * @var    float  The previous time marker
 	 * @since  12.1
 	 */
 	protected $previousTime = 0.0;
 
 	/**
-	 * @var    float
+	 * @var    float  The previous memory marker
 	 * @since  12.1
 	 */
 	protected $previousMem = 0.0;
@@ -66,7 +64,7 @@ class JProfiler
 	 *
 	 * @param   string  $prefix  Prefix for mark messages
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function __construct($prefix = '')
 	{
@@ -99,12 +97,9 @@ class JProfiler
 	/**
 	 * Output a time mark
 	 *
-	 * The mark is returned as text enclosed in <div> tags
-	 * with a CSS class of 'profiler'.
-	 *
 	 * @param   string  $label  A label for the time mark
 	 *
-	 * @return  string  Mark enclosed in <div> tags
+	 * @return  string
 	 *
 	 * @since   11.1
 	 */
@@ -119,7 +114,7 @@ class JProfiler
 			'totalTime' => ($current * 1000),
 			'memory' => ($currentMem > $this->previousMem ? '+' : '-') . ($currentMem - $this->previousMem),
 			'totalMemory' => $currentMem,
-			'label' => $label
+			'label' => $label,
 		);
 		$this->marks[] = $m;
 
@@ -152,7 +147,7 @@ class JProfiler
 	{
 		list ($usec, $sec) = explode(' ', microtime());
 
-		return ((float) $usec + (float) $sec);
+		return (float) $usec + (float) $sec;
 	}
 
 	/**
@@ -176,6 +171,8 @@ class JProfiler
 	 * was instantiated.  Marks are objects as per {@link JProfiler::mark()}.
 	 *
 	 * @return  array  Array of profiler marks
+	 *
+	 * @since   11.1
 	 */
 	public function getMarks()
 	{
@@ -189,9 +186,29 @@ class JProfiler
 	 * was instantiated.  Marks are strings as per {@link JProfiler::mark()}.
 	 *
 	 * @return  array  Array of profiler marks
+	 *
+	 * @since   11.1
 	 */
 	public function getBuffer()
 	{
 		return $this->buffer;
+	}
+
+	/**
+	 * Sets the start time.
+	 *
+	 * @param   double  $startTime  Unix timestamp in microseconds for setting the Profiler start time.
+	 * @param   int     $startMem   Memory amount in bytes for setting the Profiler start memory.
+	 *
+	 * @return  $this   For chaining
+	 *
+	 * @since   12.1
+	 */
+	public function setStart($startTime = 0, $startMem = 0)
+	{
+		$this->start       = (double) $startTime;
+		$this->previousMem = (int) $startMem / 1048576;
+
+		return $this;
 	}
 }

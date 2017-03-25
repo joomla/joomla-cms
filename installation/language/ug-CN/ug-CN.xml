@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<metafile version="3.1"	client="installation">
+	<metafile version="3.6"	client="installation">
 	<name>Uyghur (ئۇيغۇرچە)</name>
-	<version>3.0</version>
+	<version>3.5.0</version>
 	<creationDate>2012.10.28</creationDate>
 	<author>Joomla! Uyghur Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>!Joomla 3.0 قاچىلاش پىروگراممسىنىڭ ئۇيغۇرچە تەرجىمىسى</description>
 	<files>
 		<filename>ug-CN.ini</filename>
 	</files>

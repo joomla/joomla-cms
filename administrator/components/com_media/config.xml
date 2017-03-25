@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component">
+	<fieldset 
+		name="component"
+		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
 		<field
 			name="upload_extensions"
 			type="text"
@@ -17,11 +19,7 @@
 			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
 			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" />
 
-		<field name="spacer1" type="spacer"
-			hr="true"
-		/>
-
-		<field name="spacer2" type="spacer" class="text"
+		<field name="spacer1" type="spacer" class="text"
 			label="COM_MEDIA_FOLDERS_PATH_LABEL"
 		/>
 
@@ -41,34 +39,26 @@
 			label="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_LABEL"
 			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC" />
 
-		<field name="spacer3" type="spacer"
-			hr="true"
-		/>
-
 		<field
 			name="restrict_uploads"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
 			name="check_mime"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
 			description="COM_MEDIA_FIELD_CHECK_MIME_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field

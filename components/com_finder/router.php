@@ -3,108 +3,160 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Method to build a SEF route.
+ * Routing class from com_finder
  *
- * @param   array  &$query  An array of route variables.
- *
- * @return  array  An array of route segments.
- *
- * @since   2.5
+ * @since  3.3
  */
-function FinderBuildRoute(&$query)
+class FinderRouter extends JComponentRouterBase
 {
-	static $menu;
-	$segments = array();
-
-	// Load the menu if necessary.
-	if (!$menu)
-	{
-		$menu = JFactory::getApplication('site')->getMenu();
-	}
-
-	/*
-	 * First, handle menu item routes first. When the menu system builds a
-	 * route, it only provides the option and the menu item id. We don't have
-	 * to do anything to these routes.
+	/**
+	 * Build the route for the com_finder component
+	 *
+	 * @param   array  &$query  An array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
 	 */
-	if (count($query) === 2 && isset($query['Itemid']) && isset($query['option']))
+	public function build(&$query)
 	{
-		return $segments;
-	}
+		$segments = array();
 
-	/*
-	 * Next, handle a route with a supplied menu item id. All system generated
-	 * routes should fall into this group. We can assume that the menu item id
-	 * is the best possible match for the query but we need to go through and
-	 * see which variables we can eliminate from the route query string because
-	 * they are present in the menu item route already.
-	 */
-	if (!empty($query['Itemid']))
-	{
-		// Get the menu item.
-		$item = $menu->getItem($query['Itemid']);
-
-		// Check if the view matches.
-		if ($item && @$item->query['view'] === @$query['view'])
+		/*
+		 * First, handle menu item routes first. When the menu system builds a
+		 * route, it only provides the option and the menu item id. We don't have
+		 * to do anything to these routes.
+		 */
+		if (count($query) === 2 && isset($query['Itemid']) && isset($query['option']))
 		{
+			return $segments;
+		}
+
+		/*
+		 * Next, handle a route with a supplied menu item id. All system generated
+		 * routes should fall into this group. We can assume that the menu item id
+		 * is the best possible match for the query but we need to go through and
+		 * see which variables we can eliminate from the route query string because
+		 * they are present in the menu item route already.
+		 */
+		if (!empty($query['Itemid']))
+		{
+			// Get the menu item.
+			$item = $this->menu->getItem($query['Itemid']);
+
+			// Check if the view matches.
+			if ($item && isset($item->query['view']) && isset($query['view']) && $item->query['view'] === $query['view'])
+			{
+				unset($query['view']);
+			}
+
+			// Check if the search query filter matches.
+			if ($item && isset($item->query['f']) && isset($query['f']) && $item->query['f'] === $query['f'])
+			{
+				unset($query['f']);
+			}
+
+			// Check if the search query string matches.
+			if ($item && isset($item->query['q']) && isset($query['q']) && $item->query['q'] === $query['q'])
+			{
+				unset($query['q']);
+			}
+
+			return $segments;
+		}
+
+		/*
+		 * Lastly, handle a route with no menu item id. Fortunately, we only need
+		 * to deal with the view as the other route variables are supposed to stay
+		 * in the query string.
+		 */
+		if (isset($query['view']))
+		{
+			// Add the view to the segments.
+			$segments[] = $query['view'];
 			unset($query['view']);
 		}
 
-		// Check if the search query filter matches.
-		if ($item && @$item->query['f'] === @$query['f'])
-		{
-			unset($query['f']);
-		}
+		$total = count($segments);
 
-		// Check if the search query string matches.
-		if ($item && @$item->query['q'] === @$query['q'])
+		for ($i = 0; $i < $total; $i++)
 		{
-			unset($query['q']);
+			$segments[$i] = str_replace(':', '-', $segments[$i]);
 		}
 
 		return $segments;
 	}
 
-	/*
-	 * Lastly, handle a route with no menu item id. Fortunately, we only need
-	 * to deal with the view as the other route variables are supposed to stay
-	 * in the query string.
+	/**
+	 * Parse the segments of a URL.
+	 *
+	 * @param   array  &$segments  The segments of the URL to parse.
+	 *
+	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.3
 	 */
-	if (isset($query['view']))
+	public function parse(&$segments)
 	{
-		// Add the view to the segments.
-		$segments[] = $query['view'];
-		unset($query['view']);
-	}
+		$total = count($segments);
+		$vars = array();
 
-	return $segments;
+		for ($i = 0; $i < $total; $i++)
+		{
+			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+		}
+
+		// Check if the view segment is set and it equals search or advanced.
+		if (isset($segments[0]) && ($segments[0] === 'search' || $segments[0] === 'advanced'))
+		{
+			$vars['view'] = $segments[0];
+		}
+
+		return $vars;
+	}
 }
 
 /**
- * Method to parse a SEF route.
+ * Finder router functions
  *
- * @param   array  $segments  An array of route segments.
+ * These functions are proxys for the new router interface
+ * for old SEF extensions.
  *
- * @return  array  An array of route variables.
+ * @param   array  &$query  An array of URL arguments
  *
- * @since   2.5
+ * @return  array  The URL arguments to use to assemble the subsequent URL.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function FinderBuildRoute(&$query)
+{
+	$router = new FinderRouter;
+
+	return $router->build($query);
+}
+
+/**
+ * Finder router functions
+ *
+ * These functions are proxys for the new router interface
+ * for old SEF extensions.
+ *
+ * @param   array  $segments  The segments of the URL to parse.
+ *
+ * @return  array  The URL attributes to be used by the application.
+ *
+ * @deprecated  4.0  Use Class based routers instead
  */
 function FinderParseRoute($segments)
 {
-	$vars = array();
+	$router = new FinderRouter;
 
-	// Check if the view segment is set and it equals search or advanced.
-	if (@$segments[0] === 'search' || @$segments[0] === 'advanced')
-	{
-		$vars['view'] = $segments[0];
-	}
-
-	return $vars;
+	return $router->parse($segments);
 }

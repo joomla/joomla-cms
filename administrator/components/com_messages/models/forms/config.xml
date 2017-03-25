@@ -4,7 +4,7 @@
 		<field
 			name="lock"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="COM_MESSAGES_FIELD_LOCK_LABEL"
 			description="COM_MESSAGES_FIELD_LOCK_DESC"
 			default="0">
@@ -17,7 +17,7 @@
 		<field
 			name="mail_on_new"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="COM_MESSAGES_FIELD_MAIL_ON_NEW_LABEL"
 			description="COM_MESSAGES_FIELD_MAIL_ON_NEW_DESC"
 			default="1">
@@ -30,7 +30,6 @@
 		<field
 			name="auto_purge"
 			type="text"
-			class="inputbox"
 			size="6"
 			default="7"
 			label="COM_MESSAGES_FIELD_AUTO_PURGE_LABEL"

@@ -3,25 +3,34 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Client table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersTableClient extends JTable
 {
-	public function __construct(&$_db)
+	/**
+	 * Constructor
+	 *
+	 * @param   JDatabaseDriver  &$db  Database connector object
+	 *
+	 * @since   1.5
+	 */
+	public function __construct(&$db)
 	{
-		$this->checked_out_time = $_db->getNullDate();
-		parent::__construct('#__banner_clients', 'id', $_db);
+		$this->checked_out_time = $db->getNullDate();
+		parent::__construct('#__banner_clients', 'id', $db);
+
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.client'));
 	}
 
 	/**
@@ -29,11 +38,12 @@ class BannersTableClient extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed	An optional array of primary key values to update.  If not
-	 *					set the instance property value is used.
-	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer The user id of the user performing the operation.
+	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
+	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
+	 * @param   integer  $userId  The user id of the user performing the operation.
+	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.0.4
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -41,7 +51,7 @@ class BannersTableClient extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks    = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state  = (int) $state;
 
@@ -53,14 +63,16 @@ class BannersTableClient extends JTable
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else {
+			else
+			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
 
 		// Build the WHERE clause for the primary keys.
-		$where = $k.'='.implode(' OR '.$k.'=', $pks);
+		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
@@ -69,15 +81,15 @@ class BannersTableClient extends JTable
 		}
 		else
 		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = '.(int) $userId.')';
+			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE '.$this->_db->quoteName($this->_tbl).
-			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
-			' WHERE ('.$where.')' .
-			$checkin
+			'UPDATE ' . $this->_db->quoteName($this->_tbl)
+			. ' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state
+			. ' WHERE (' . $where . ')'
+			. $checkin
 		);
 
 		try
@@ -87,6 +99,7 @@ class BannersTableClient extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -107,6 +120,7 @@ class BannersTableClient extends JTable
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 }

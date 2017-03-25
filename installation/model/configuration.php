@@ -3,20 +3,19 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Configuration setup model for the Joomla Core Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Model
- * @since       3.1
+ * @since  3.1
  */
 class InstallationModelConfiguration extends JModelBase
 {
@@ -32,16 +31,16 @@ class InstallationModelConfiguration extends JModelBase
 	public function setup($options)
 	{
 		// Get the options as an object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($options);
 
-		// Attempt to create the root user.
-		if (!$this->_createConfiguration($options))
+		// Attempt to create the configuration.
+		if (!$this->createConfiguration($options))
 		{
 			return false;
 		}
 
 		// Attempt to create the root user.
-		if (!$this->_createRootUser($options))
+		if (!$this->createRootUser($options))
 		{
 			return false;
 		}
@@ -58,12 +57,12 @@ class InstallationModelConfiguration extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	function _createConfiguration($options)
+	public function createConfiguration($options)
 	{
 		// Create a new registry to build the configuration options.
-		$registry = new JRegistry;
+		$registry = new Registry;
 
-		/* Site Settings */
+		// Site settings.
 		$registry->set('offline', $options->site_offline);
 		$registry->set('offline_message', JText::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
@@ -74,11 +73,11 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('list_limit', 20);
 		$registry->set('access', 1);
 
-		/* Debug Settings */
+		// Debug settings.
 		$registry->set('debug', 0);
 		$registry->set('debug_lang', 0);
 
-		/* Database Settings */
+		// Database settings.
 		$registry->set('dbtype', $options->db_type);
 		$registry->set('host', $options->db_host);
 		$registry->set('user', $options->db_user);
@@ -86,23 +85,24 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
 
-		/* Server Settings */
+		// Server settings.
 		$registry->set('live_site', '');
 		$registry->set('secret', JUserHelper::genRandomPassword(16));
 		$registry->set('gzip', 0);
 		$registry->set('error_reporting', 'default');
-		$registry->set('helpurl', 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
+		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
 		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
 		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
-		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : '');
+		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : 0);
 
-		/* Locale Settings */
+		// Locale settings.
 		$registry->set('offset', 'UTC');
 
-		/* Mail Settings */
+		// Mail settings.
+		$registry->set('mailonline', 1);
 		$registry->set('mailer', 'mail');
 		$registry->set('mailfrom', $options->admin_email);
 		$registry->set('fromname', $options->site_name);
@@ -114,12 +114,13 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('smtpsecure', 'none');
 		$registry->set('smtpport', '25');
 
-		/* Cache Settings */
+		// Cache settings.
 		$registry->set('caching', 0);
 		$registry->set('cache_handler', 'file');
 		$registry->set('cachetime', 15);
+		$registry->set('cache_platformprefix', 0);
 
-		/* Meta Settings */
+		// Meta settings.
 		$registry->set('MetaDesc', $options->site_metadesc);
 		$registry->set('MetaKeys', '');
 		$registry->set('MetaTitle', 1);
@@ -127,20 +128,23 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('MetaVersion', 0);
 		$registry->set('robots', '');
 
-		/* SEO Settings */
+		// SEO settings.
 		$registry->set('sef', 1);
 		$registry->set('sef_rewrite', 0);
 		$registry->set('sef_suffix', 0);
 		$registry->set('unicodeslugs', 0);
 
-		/* Feed Settings */
+		// Feed settings.
 		$registry->set('feed_limit', 10);
-		$registry->set('log_path', JPATH_ROOT . '/logs');
+		$registry->set('feed_email', 'none');
+
+		$registry->set('log_path', JPATH_ADMINISTRATOR . '/logs');
 		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
 
-		/* Session Setting */
+		// Session setting.
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
+		$registry->set('shared_session', 0);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
@@ -160,7 +164,7 @@ class InstallationModelConfiguration extends JModelBase
 
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP
+		 * is not writable we need to use FTP.
 		 */
 		$useFTP = false;
 
@@ -169,34 +173,34 @@ class InstallationModelConfiguration extends JModelBase
 			$useFTP = true;
 		}
 
-		// Check for safe mode
+		// Check for safe mode.
 		if (ini_get('safe_mode'))
 		{
 			$useFTP = true;
 		}
 
-		// Enable/Disable override
+		// Enable/Disable override.
 		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
 		{
 			$useFTP = false;
 		}
 
+		// Get the session
+		$session = JFactory::getSession();
+
 		if ($useFTP == true)
 		{
-			// Connect the FTP client
-			jimport('joomla.filesystem.path');
-
+			// Connect the FTP client.
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
-			// Translate path for the FTP account
+			// Translate path for the FTP account.
 			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 
-			// Use FTP write buffer to file
+			// Use FTP write buffer to file.
 			if (!$ftp->write($file, $buffer))
 			{
 				// Set the config string to the session.
-				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
 			}
 
@@ -207,13 +211,11 @@ class InstallationModelConfiguration extends JModelBase
 			if ($canWrite)
 			{
 				file_put_contents($path, $buffer);
-				$session = JFactory::getSession();
 				$session->set('setup.config', null);
 			}
 			else
 			{
 				// Set the config string to the session.
-				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
 			}
 		}
@@ -222,48 +224,49 @@ class InstallationModelConfiguration extends JModelBase
 	}
 
 	/**
-	 * Method to create the root user for the site
+	 * Method to create the root user for the site.
 	 *
-	 * @param   array  $options  The session options
+	 * @param   object  $options  The session options.
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	private function _createRootUser($options)
+	private function createRootUser($options)
 	{
-		// Get the application
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Get a database object.
 		try
 		{
-			$db = InstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+			$db = InstallationHelperDatabase::getDbo(
+				$options->db_type,
+				$options->db_host,
+				$options->db_user,
+				$options->db_pass,
+				$options->db_name,
+				$options->db_prefix
+			);
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+
 			return false;
 		}
 
-		// Create random salt/password for the admin user
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
-		$cryptpass = $crypt . ':' . $salt;
+		$cryptpass = JUserHelper::hashPassword($options->admin_password);
 
-		// Take the admin user id
+		// Take the admin user id.
 		$userId = InstallationModelDatabase::getUserId();
 
-		// We don't need the randUserId in the session any longer, let's remove it
+		// We don't need the randUserId in the session any longer, let's remove it.
 		InstallationModelDatabase::resetRandUserId();
 
-		// Create the admin user
+		// Create the admin user.
 		date_default_timezone_set('UTC');
 		$installdate = date('Y-m-d H:i:s');
 		$nullDate    = $db->getNullDate();
 
-		// Sqlsrv change
+		// Sqlsrv change.
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -276,7 +279,7 @@ class InstallationModelConfiguration extends JModelBase
 			$query->clear()
 				->update($db->quoteName('#__users'))
 				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
-				->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user))
+				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_user)))
 				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
 				->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
 				->set($db->quoteName('block') . ' = 0')
@@ -289,20 +292,27 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		else
 		{
-			$columns = array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
-							$db->quoteName('email'), $db->quoteName('password'),
-							$db->quoteName('block'),
-							$db->quoteName('sendEmail'), $db->quoteName('registerDate'),
-							$db->quoteName('lastvisitDate'), $db->quoteName('activation'), $db->quoteName('params'));
+			$columns = array(
+				$db->quoteName('id'), $db->quoteName('name'),
+				$db->quoteName('username'),
+				$db->quoteName('email'),
+				$db->quoteName('password'),
+				$db->quoteName('block'),
+				$db->quoteName('sendEmail'),
+				$db->quoteName('registerDate'),
+				$db->quoteName('lastvisitDate'),
+				$db->quoteName('activation'),
+				$db->quoteName('params')
+			);
 			$query->clear()
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', ' .
-				$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
-				$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
-				$db->quote('0') . ', ' . $db->quote('')
-			);
+					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
+					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
+					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
+					$db->quote('0') . ', ' . $db->quote('')
+				);
 		}
 
 		$db->setQuery($query);
@@ -313,7 +323,8 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
 			return false;
 		}
 
@@ -348,7 +359,8 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
 			return false;
 		}
 

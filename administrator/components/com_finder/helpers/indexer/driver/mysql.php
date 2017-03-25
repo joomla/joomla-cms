@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,9 +22,7 @@ jimport('joomla.filesystem.file');
  * Note: All exceptions thrown from within this class should be caught
  * by the controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       3.0
+ * @since  3.0
  */
 class FinderIndexerDriverMysql extends FinderIndexer
 {
@@ -223,7 +221,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 						}
 
 						// Tokenize a string of content and add it to the database.
-						$count += $this->tokenizeToDB($ip, $group, $item->language, $format);
+						$count += $this->tokenizeToDb($ip, $group, $item->language, $format);
 
 						// Check if we're approaching the memory limit of the token table.
 						if ($count > static::$state->options->get('memory_table_limit', 30000))
@@ -247,7 +245,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 					}
 
 					// Tokenize a string of content and add it to the database.
-					$count += $this->tokenizeToDB($item->$property, $group, $item->language, $format);
+					$count += $this->tokenizeToDb($item->$property, $group, $item->language, $format);
 
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > static::$state->options->get('memory_table_limit', 30000))
@@ -274,7 +272,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
 
 				// Tokenize the node title and add them to the database.
-				$count += $this->tokenizeToDB($node->title, static::META_CONTEXT, $item->language, $format);
+				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
 			}
 		}
 
@@ -288,7 +286,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		 * aggregated data will be inserted into #__finder_tokens_aggregate
 		 * table.
 		 */
-		$query	= 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
+		$query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
 				' (' . $db->quoteName('term_id') .
 				', ' . $db->quoteName('term') .
 				', ' . $db->quoteName('stem') .
@@ -299,7 +297,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				', ' . $db->quoteName('context_weight') .
 				', ' . $db->quoteName('language') . ')' .
 				' SELECT' .
-				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, ' .
+				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
 				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
 				' FROM (' .
 				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
@@ -308,7 +306,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				' ) AS t1' .
 				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
 				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
-				' WHERE t2.context = %d' .
+				' WHERE t2.context = %d AND t.term_id IS NOT NULL' .
 				' GROUP BY t1.term' .
 				' ORDER BY t1.term DESC';
 
@@ -470,7 +468,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			$query->update($db->quoteName('#__finder_terms') . ' AS t')
+			$query->clear()
+				->update($db->quoteName('#__finder_terms') . ' AS t')
 				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
 				->set('t.links = t.links - 1')
 				->where('m.link_id = ' . $db->quote((int) $linkId));
@@ -540,8 +539,16 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			$db->execute();
 		}
 
-		// Optimize the terms mapping table.
-		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
+		// Optimize the filters table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_filters'));
+		$db->execute();
+
+		// Optimize the terms common table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_terms_common'));
+		$db->execute();
+
+		// Optimize the types table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_types'));
 		$db->execute();
 
 		// Remove the orphaned taxonomy nodes.
@@ -549,6 +556,10 @@ class FinderIndexerDriverMysql extends FinderIndexer
 
 		// Optimize the taxonomy mapping table.
 		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
+		$db->execute();
+
+		// Optimize the taxonomy table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy'));
 		$db->execute();
 
 		return true;
@@ -565,7 +576,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 	 * @since   3.0
 	 * @throws  Exception on database error.
 	 */
-	protected function addTokensToDB($tokens, $context = '')
+	protected function addTokensToDb($tokens, $context = '')
 	{
 		// Get the database object.
 		$db = JFactory::getDbo();
@@ -605,6 +616,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			);
 			$values++;
 		}
+
 		$db->setQuery($query);
 		$db->execute();
 

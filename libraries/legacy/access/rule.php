@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,11 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Deprecated class placeholder. You should use JAccessRule instead.
  *
- * @package     Joomla.Legacy
- * @subpackage  Access
- * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
- * @codeCoverageIgnore
+ * @since       1.6
+ * @deprecated  2.5
  */
 class JRule extends JAccessRule
 {
@@ -28,8 +25,8 @@ class JRule extends JAccessRule
 	 *
 	 * @param   mixed  $identities  A JSON format string (probably from the database) or a named array.
 	 *
-	 * @since   11.1
-	 * @deprecated  12.3
+	 * @since   1.6
+	 * @deprecated  2.5
 	 */
 	public function __construct($identities)
 	{

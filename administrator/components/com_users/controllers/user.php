@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerUser extends JControllerForm
 {
@@ -71,36 +69,6 @@ class UsersControllerUser extends JControllerForm
 		$this->setRedirect(JRoute::_('index.php?option=com_users&view=users' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
-	}
-
-	/**
-	 * Overrides parent save method to check the submitted passwords match.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-	 *
-	 * @return  boolean  True if successful, false otherwise.
-	 *
-	 * @since   1.6
-	 */
-	public function save($key = null, $urlVar = null)
-	{
-		$data = $this->input->post->get('jform', array(), 'array');
-
-		// TODO: JForm should really have a validation handler for this.
-		if (isset($data['password']) && isset($data['password2']))
-		{
-			// Check the passwords match.
-			if ($data['password'] != $data['password2'])
-			{
-				$this->setMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'warning');
-				$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
-			}
-
-			unset($data['password2']);
-		}
-
-		return parent::save();
 	}
 
 	/**

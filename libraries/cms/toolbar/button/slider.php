@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a button to render an HTML element in a slider container
  *
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
- * @since       3.0
+ * @since  3.0
  */
 class JToolbarButtonSlider extends JToolbarButton
 {
@@ -42,7 +40,7 @@ class JToolbarButtonSlider extends JToolbarButton
 	 */
 	public function fetchButton($type = 'Slider', $name = '', $text = '', $url = '', $width = 640, $height = 480, $onClose = '')
 	{
-		JHtml::_('script', 'jui/cms.js', false, true);
+		JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
 
 		// Store all data to the options array for use with JLayout
 		$options = array();

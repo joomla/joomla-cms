@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,12 +11,11 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
- * Supports a nested check box field listing user groups.
+ * Supports a nested checkbox field listing user groups.
  * Multiselect is available by default.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @since       11.1
+ * @deprecated  3.5
  */
 class JFormFieldUsergroup extends JFormField
 {
@@ -37,33 +36,39 @@ class JFormFieldUsergroup extends JFormField
 	 */
 	protected function getInput()
 	{
+		JLog::add('JFormFieldUsergroup is deprecated. Use JFormFieldUserGroupList instead.', JLog::WARNING, 'deprecated');
+
 		$options = array();
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->multiple ? ' multiple="multiple"' : '';
-		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
+		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= $this->disabled ? ' disabled' : '';
+		$attr .= $this->size ? ' size="' . $this->size . '"' : '';
+		$attr .= $this->multiple ? ' multiple' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+		$attr .= !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->element->children() as $option)
 		{
-
 			// Only add <option /> elements.
 			if ($option->getName() != 'option')
 			{
 				continue;
 			}
 
+			$disabled = (string) $option['disabled'];
+			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+
 			// Create a new option object based on the <option /> element.
 			$tmp = JHtml::_(
 				'select.option', (string) $option['value'], trim((string) $option), 'value', 'text',
-				((string) $option['disabled'] == 'true')
+				$disabled
 			);
 
 			// Set some option attributes.

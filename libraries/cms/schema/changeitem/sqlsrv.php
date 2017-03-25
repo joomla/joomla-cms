@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Checks the database schema against one SQL Server DDL query to see if it has been run.
  *
- * @package     Joomla.Libraries
- * @subpackage  Schema
- * @since       2.5
+ * @since  2.5
  */
 class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 {
@@ -60,9 +58,11 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 
 		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
+
 		if ($command === 'ALTER TABLE')
 		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
+
 			if ($alterCommand == 'ADD')
 			{
 				$result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
@@ -86,7 +86,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 
 		if ($command == 'CREATE TABLE')
 		{
-			$table = $wordArray[5];
+			$table = $wordArray[2];
 			$result = 'SELECT * FROM sys.TABLES WHERE NAME = ' . $this->fixQuote($table);
 			$this->queryType = 'CREATE_TABLE';
 			$this->msgElements = array($this->fixQuote($table));
@@ -120,17 +120,19 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	private function fixInteger($type1, $type2)
 	{
 		$result = $type1;
+
 		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
 		{
 			$result = 'int';
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Fixes up a string for inclusion in a query.
 	 * Replaces name quote character with normal quote for literal.
-	 * Drops trailing semi-colon. Injects the database prefix.
+	 * Drops trailing semicolon. Injects the database prefix.
 	 *
 	 * @param   string  $string  The input string to be cleaned up.
 	 *
@@ -140,9 +142,12 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	 */
 	private function fixQuote($string)
 	{
+		$string = str_replace('[', '', $string);
+		$string = str_replace(']', '', $string);
 		$string = str_replace('`', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
+
 		return $this->db->quote($string);
 	}
 }

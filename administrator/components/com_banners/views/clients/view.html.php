@@ -3,40 +3,62 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
+
 /**
  * View class for a list of clients.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersViewClients extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -44,29 +66,33 @@ class BannersViewClients extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		$canDo = JHelperContent::getActions('com_banners');
 
-		$canDo	= BannersHelper::getActions();
+		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
 
-		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::addNew('client.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('client.edit');
 		}
+
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
@@ -74,29 +100,24 @@ class BannersViewClients extends JViewLegacy
 			JToolbarHelper::archiveList('clients.archive');
 			JToolbarHelper::checkin('clients.checkin');
 		}
+
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('clients.trash');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_banners');
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
-
-		JHtmlSidebar::setAction('index.php?option=com_banners&view=clients');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
-		);
 	}
+
 	/**
 	 * Returns an array of fields the table can be sorted by
 	 *
@@ -107,12 +128,12 @@ class BannersViewClients extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.status' => JText::_('JSTATUS'),
-			'a.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'contact' => JText::_('COM_BANNERS_HEADING_CONTACT'),
+			'a.status'    => JText::_('JSTATUS'),
+			'a.name'      => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'contact'     => JText::_('COM_BANNERS_HEADING_CONTACT'),
 			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'nbanners' => JText::_('COM_BANNERS_HEADING_ACTIVE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'nbanners'    => JText::_('COM_BANNERS_HEADING_ACTIVE'),
+			'a.id'        => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

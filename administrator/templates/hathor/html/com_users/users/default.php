@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 
-$canDo = UsersHelper::getActions();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
@@ -37,7 +35,7 @@ $loggeduser = JFactory::getUser();
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('COM_USERS_SEARCH_USERS'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_RESET'); ?></button>
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_RESET'); ?></button>
 		</div>
 
 		<div class="filter-select">
@@ -46,7 +44,7 @@ $loggeduser = JFactory::getUser();
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('COM_USERS_FILTER_LABEL'); ?>
 			</label>
-			<select name="filter_state" class="inputbox" id="filter_state">
+			<select name="filter_state" id="filter_state">
 				<option value="*"><?php echo JText::_('COM_USERS_FILTER_STATE');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
 			</select>
@@ -54,7 +52,7 @@ $loggeduser = JFactory::getUser();
 			<label class="selectlabel" for="filter_active">
 				<?php echo JText::_('COM_USERS_FILTER_ACTIVE'); ?>
 			</label>
-			<select name="filter_active" class="inputbox" id="filter_active">
+			<select name="filter_active" id="filter_active">
 				<option value="*"><?php echo JText::_('COM_USERS_FILTER_ACTIVE');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'));?>
 			</select>
@@ -62,15 +60,23 @@ $loggeduser = JFactory::getUser();
 			<label class="selectlabel" for="filter_group_id">
 				<?php echo JText::_('COM_USERS_FILTER_USERGROUP'); ?>
 			</label>
-			<select name="filter_group_id" class="inputbox" id="filter_group_id">
+			<select name="filter_group_id" id="filter_group_id">
 				<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
 			</select>
 
-			<label class="selectlabel" for="filter_range">
-				<?php echo JText::_('COM_USERS_FILTER_FILTER_DATE'); ?>
+			<label class="selectlabel" for="filter_lastvisitrange">
+				<?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE'); ?>
 			</label>
-			<select name="filter_range" class="inputbox"  id="filter_range" >
+			<select name="filter_lastvisitrange" id="filter_lastvisitrange" >
+				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE');?></option>
+				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.lastvisitrange'));?>
+			</select>
+
+			<label class="selectlabel" for="filter_range">
+				<?php echo JText::_('COM_USERS_OPTION_FILTER_DATE'); ?>
+			</label>
+			<select name="filter_range" id="filter_range" >
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_DATE');?></option>
 				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'));?>
 			</select>
@@ -119,13 +125,14 @@ $loggeduser = JFactory::getUser();
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canEdit	= $canDo->get('core.edit');
-			$canChange	= $loggeduser->authorise('core.edit.state',	'com_users');
+			$canEdit   = $this->canDo->get('core.edit');
+			$canChange = $loggeduser->authorise('core.edit.state',	'com_users');
+
 			// If this group is super admin and this user is not super admin, $canEdit is false
 			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin'))
 			{
-				$canEdit	= false;
-				$canChange	= false;
+				$canEdit   = false;
+				$canChange = false;
 			}
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
@@ -134,11 +141,15 @@ $loggeduser = JFactory::getUser();
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					<?php endif; ?>
 				</td>
-				<td>
+				<td class="break-word">
 					<div class="fltrt">
 						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.addNote', $item->id); ?>
+						<?php if ($item->requireReset == '1') : ?>
+						<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+						<?php endif; ?>
+						<?php echo JHtml::_('users.notesModal', $item->note_count, $item->id); ?>
 					</div>
 					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
@@ -151,7 +162,7 @@ $loggeduser = JFactory::getUser();
 						<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div></div></div>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center break-word">
 					<?php echo $this->escape($item->username); ?>
 				</td>
 				<td class="center">
@@ -170,16 +181,16 @@ $loggeduser = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
-						<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+						<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 					<?php else : ?>
 						<?php echo nl2br($item->group_names); ?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center break-word">
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00') : ?>
+					<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>
@@ -196,8 +207,20 @@ $loggeduser = JFactory::getUser();
 		</tbody>
 	</table>
 
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+	<?php // Load the batch processing form if user is allowed ?>
+	<?php if ($loggeduser->authorise('core.create', 'com_users')
+		&& $loggeduser->authorise('core.edit', 'com_users')
+		&& $loggeduser->authorise('core.edit.state', 'com_users')) : ?>
+		<?php echo JHtml::_(
+			'bootstrap.renderModal',
+			'collapseModal',
+			array(
+				'title'  => JText::_('COM_USERS_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer'),
+			),
+			$this->loadTemplate('batch_body')
+		); ?>
+	<?php endif;?>
 
 	<?php echo $this->pagination->getListFooter(); ?>
 	<div>

@@ -3,20 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * Content Component Archive Model
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelArchive extends ContentModelArticles
 {
@@ -31,6 +29,11 @@ class ContentModelArchive extends ContentModelArticles
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   The field to order on.
+	 * @param   string  $direction  The direction to order on.
+	 *
+	 * @return  void.
 	 *
 	 * @since   1.6
 	 */
@@ -57,38 +60,42 @@ class ContentModelArchive extends ContentModelArticles
 		$itemid = $app->input->get('Itemid', 0, 'int');
 		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		$this->setState('list.limit', $limit);
-	}
 
-	/**
-	 * @return  JDatabaseQuery
-	 */
-	protected function getListQuery()
-	{
 		// Set the archive ordering
-		$params = $this->state->params;
-		$articleOrderby = $params->get('orderby_sec', 'rdate');
+		$articleOrderby   = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
 
 		// No category ordering
-		$categoryOrderby = '';
-		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary = ContentHelperQuery::orderbyPrimary($categoryOrderby);
+		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
 
-		$orderby = $primary . ' ' . $secondary . ' a.created DESC ';
-		$this->setState('list.ordering', $orderby);
+		$this->setState('list.ordering', $secondary . ', a.created DESC');
 		$this->setState('list.direction', '');
+	}
+
+	/**
+	 * Get the master query for retrieving a list of articles subject to the model state.
+	 *
+	 * @return  JDatabaseQuery
+	 *
+	 * @since   1.6
+	 */
+	protected function getListQuery()
+	{
+		$params = $this->state->params;
+		$articleOrderDate = $params->get('order_date');
+
 		// Create a new query object.
 		$query = parent::getListQuery();
 
 			// Add routing for archive
-			//sqlsrv changes
+			// Sqlsrv changes
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
 		$a_id = $query->castAsChar('a.id');
 		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when .= ' ELSE ';
-		$case_when .= $a_id.' END as slug';
+		$case_when .= $a_id . ' END as slug';
 
 		$query->select($case_when);
 
@@ -98,7 +105,7 @@ class ContentModelArchive extends ContentModelArticles
 		$c_id = $query->castAsChar('c.id');
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when .= ' ELSE ';
-		$case_when .= $c_id.' END as catslug';
+		$case_when .= $c_id . ' END as catslug';
 		$query->select($case_when);
 
 		// Filter on month, year
@@ -107,15 +114,13 @@ class ContentModelArchive extends ContentModelArticles
 
 		if ($month = $this->getState('filter.month'))
 		{
-			$query->where('MONTH('. $queryDate . ') = ' . $month);
+			$query->where($query->month($queryDate) . ' = ' . $month);
 		}
 
 		if ($year = $this->getState('filter.year'))
 		{
-			$query->where('YEAR('. $queryDate . ') = ' . $year);
+			$query->where($query->year($queryDate) . ' = ' . $year);
 		}
-
-		//echo nl2br(str_replace('#__','jos_',$query));
 
 		return $query;
 	}
@@ -137,8 +142,8 @@ class ContentModelArchive extends ContentModelArticles
 			$params = $app->getParams();
 
 			// Get the pagination request variables
-			$limit		= $app->input->get('limit', $params->get('display_num', 20), 'uint');
-			$limitstart	= $app->input->get('limitstart', 0, 'uint');
+			$limit      = $app->input->get('limit', $params->get('display_num', 20), 'uint');
+			$limitstart = $app->input->get('limitstart', 0, 'uint');
 
 			$query = $this->_buildQuery();
 
@@ -148,12 +153,24 @@ class ContentModelArchive extends ContentModelArticles
 		return $this->_data;
 	}
 
-	// JModelLegacy override to add alternating value for $odd
+	/**
+	 * JModelLegacy override to add alternating value for $odd
+	 *
+	 * @param   string   $query       The query.
+	 * @param   integer  $limitstart  Offset.
+	 * @param   integer  $limit       The number of records.
+	 *
+	 * @return  array  An array of results.
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
 		$result = parent::_getList($query, $limitstart, $limit);
 
 		$odd = 1;
+
 		foreach ($result as $k => $row)
 		{
 			$result[$k]->odd = $odd;
@@ -161,5 +178,31 @@ class ContentModelArchive extends ContentModelArticles
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets the archived articles years
+	 *
+	 * @return   array
+	 * 
+	 * @since    3.6.0
+	 */
+	public function getYears()
+	{
+		$db = $this->getDbo();
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate  = $db->quote(JFactory::getDate()->toSql());
+
+		$query = $db->getQuery(true);
+		$years = $query->year($db->qn('created'));
+		$query->select('DISTINCT (' . $years . ')')
+			->from($db->qn('#__content'))
+			->where($db->qn('state') . '= 2')
+			->where('(publish_up = ' . $nullDate . ' OR publish_up <= ' . $nowDate . ')')
+			->where('(publish_down = ' . $nullDate . ' OR publish_down >= ' . $nowDate . ')')
+			->order('1 ASC');
+
+		$db->setQuery($query);
+		return $db->loadColumn();
 	}
 }

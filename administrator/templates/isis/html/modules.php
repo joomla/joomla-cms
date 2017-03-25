@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ function modChrome_title($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
-		echo "<div class=\"module-title\"><h6>".$module->title."</h6></div>";
+		echo '<div class="module-title"><h6>' . $module->title . '</h6></div>';
 		echo $module->content;
 	}
 }
@@ -47,9 +47,23 @@ function modChrome_well($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
-		echo "<div class=\"well well-small\">";
-		echo "<div class=\"module-title nav-header\">".$module->title."</div>";
-		echo $module->content;
-		echo "</div>";
+		$moduleTag     = $params->get('module_tag', 'div');
+		$bootstrapSize = (int) $params->get('bootstrap_size');
+		$moduleClass   = ($bootstrapSize) ? ' span' . $bootstrapSize : '';
+		$headerTag     = htmlspecialchars($params->get('header_tag', 'h2'), ENT_COMPAT, 'UTF-8');
+
+		// Temporarily store header class in variable
+		$headerClass   = $params->get('header_class');
+		$headerClass   = ($headerClass) ? ' ' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') : '';
+
+		echo '<' . $moduleTag . ' class="well well-small' . $moduleClass . '">';
+
+			if ($module->showtitle)
+			{
+				echo '<' . $headerTag . ' class="module-title nav-header' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+			}
+
+			echo $module->content;
+		echo '</' . $moduleTag . '>';
 	}
 }

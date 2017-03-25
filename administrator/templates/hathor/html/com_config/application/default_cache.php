@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,15 +20,6 @@ defined('_JEXEC') or die;
 					<?php echo $field->input; ?>
 				</li>
 			<?php endforeach; ?>
-			<?php if (isset($this->data['cache_handler']) && $this->data['cache_handler'] == 'memcache' || $this->data['session_handler'] == 'memcache') : ?>
-
-				<?php foreach ($this->form->getFieldset('memcache') as $mfield): ?>
-					<li>
-						<?php echo $mfield->label; ?>
-						<?php echo $mfield->input; ?>
-					</li>
-				<?php endforeach; ?>
-			<?php endif; ?>
 		</ul>
 
 	</fieldset>

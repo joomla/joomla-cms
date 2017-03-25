@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @package     Joomla.Libraries
- * @subpackage  Editor
- * @since       1.5
+ * @since  1.5
  */
 class JEditor extends JObject
 {
@@ -75,7 +75,9 @@ class JEditor extends JObject
 	protected $author = null;
 
 	/**
-	 * @var    array  JEditor instances container.
+	 * JEditor instances container.
+	 *
+	 * @var    JEditor[]
 	 * @since  2.5
 	 */
 	protected static $instances = array();
@@ -127,7 +129,7 @@ class JEditor extends JObject
 	/**
 	 * Attach an observer object
 	 *
-	 * @param   object  $observer  An observer object to attach
+	 * @param   array|object  $observer  An observer object to attach or an array with handler and event keys
 	 *
 	 * @return  void
 	 *
@@ -174,6 +176,8 @@ class JEditor extends JObject
 			}
 
 			$this->_observers[] = $observer;
+
+			// @todo We require a JEditor object above but get the methods from JPlugin - something isn't right here!
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
@@ -243,7 +247,7 @@ class JEditor extends JObject
 
 		$args['event'] = 'onInit';
 
-		$return = '';
+		$return    = '';
 		$results[] = $this->_editor->update($args);
 
 		foreach ($results as $result)
@@ -256,7 +260,11 @@ class JEditor extends JObject
 		}
 
 		$document = JFactory::getDocument();
-		$document->addCustomTag($return);
+
+		if (method_exists($document, 'addCustomTag') && !empty($return))
+		{
+			$document->addCustomTag($return);
+		}
 	}
 
 	/**
@@ -287,6 +295,8 @@ class JEditor extends JObject
 		// Check whether editor is already loaded
 		if (is_null(($this->_editor)))
 		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'error');
+
 			return;
 		}
 
@@ -304,7 +314,7 @@ class JEditor extends JObject
 		$args['col'] = $col;
 		$args['row'] = $row;
 		$args['buttons'] = $buttons;
-		$args['id'] = $id ? $id : $name;
+		$args['id'] = $id ?: $name;
 		$args['event'] = 'onDisplay';
 
 		$results[] = $this->_editor->update($args);
@@ -316,6 +326,7 @@ class JEditor extends JObject
 				$return .= $result;
 			}
 		}
+
 		return $return;
 	}
 
@@ -448,7 +459,12 @@ class JEditor extends JObject
 			}
 
 			JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
-			$className = 'plgButton' . $plugin->name;
+			$className = 'PlgEditorsXtd' . $plugin->name;
+
+			if (!class_exists($className))
+			{
+				$className = 'PlgButton' . $plugin->name;
+			}
 
 			if (class_exists($className))
 			{
@@ -456,10 +472,25 @@ class JEditor extends JObject
 			}
 
 			// Try to authenticate
-			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author))
+			if (!method_exists($plugin, 'onDisplay'))
 			{
-				$result[] = $temp;
+				continue;
 			}
+
+			$button = $plugin->onDisplay($editor, $this->asset, $this->author);
+
+			if (empty($button))
+			{
+				continue;
+			}
+
+			if (is_array($button))
+			{
+				$result = array_merge($result, $button);
+				continue;
+			}
+
+			$result[] = $button;
 		}
 
 		return $result;
@@ -468,7 +499,7 @@ class JEditor extends JObject
 	/**
 	 * Load the editor
 	 *
-	 * @param   array  $config  Associative array of editor config paramaters
+	 * @param   array  $config  Associative array of editor config parameters
 	 *
 	 * @return  mixed
 	 *
@@ -484,16 +515,13 @@ class JEditor extends JObject
 
 		// Build the path to the needed editor plugin
 		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
-		$path = JPATH_PLUGINS . '/editors/' . $name . '.php';
+		$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
-			if (!is_file($path))
-			{
-				JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
-				return false;
-			}
+			JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
+
+			return false;
 		}
 
 		// Require plugin file
@@ -501,13 +529,19 @@ class JEditor extends JObject
 
 		// Get the plugin
 		$plugin = JPluginHelper::getPlugin('editors', $this->_name);
-		$params = new JRegistry;
-		$params->loadString($plugin->params);
+
+		// If no plugin is published we get an empty array and there not so much to do with it
+		if (empty($plugin))
+		{
+			return false;
+		}
+
+		$params = new Registry($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 
 		// Build editor plugin classname
-		$name = 'plgEditor' . $this->_name;
+		$name = 'PlgEditor' . $this->_name;
 
 		if ($this->_editor = new $name($this, (array) $plugin))
 		{

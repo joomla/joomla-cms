@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,18 +12,18 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.6
+ * @since  1.6
  */
-class NewsfeedsHelper
+class NewsfeedsHelper extends JHelperContent
 {
 	public static $extension = 'com_newsfeeds';
 
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -32,49 +32,134 @@ class NewsfeedsHelper
 			'index.php?option=com_newsfeeds&view=newsfeeds',
 			$vName == 'newsfeeds'
 		);
+
 		JHtmlSidebar::addEntry(
 			JText::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_newsfeeds',
 			$vName == 'categories'
 		);
-		if ($vName == 'categories')
-		{
-			JToolbarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_newsfeeds')),
-				'newsfeeds-categories');
-		}
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
+	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   integer  The category ID.
+	 * @param   stdClass[]  &$items  The banner category objects
 	 *
-	 * @return  JObject
+	 * @return  stdClass[]
+	 *
+	 * @since   3.5
 	 */
-	public static function getActions($categoryId = 0, $newsfeedId = 0)
+	public static function countItems(&$items)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$db = JFactory::getDbo();
 
-		if (empty($categoryId))
+		foreach ($items as $item)
 		{
-			$assetName = 'com_newsfeeds';
-			$level = 'component';
-		}
-		else
-		{
-			$assetName = 'com_newsfeeds.category.'.(int) $categoryId;
-			$level = 'category';
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published AS state, count(*) AS count')
+				->from($db->qn('#__newsfeeds'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+			$newfeeds = $db->loadObjectList();
+
+			foreach ($newfeeds as $newsfeed)
+			{
+				if ($newsfeed->state == 1)
+				{
+					$item->count_published = $newsfeed->count;
+				}
+
+				if ($newsfeed->state == 0)
+				{
+					$item->count_unpublished = $newsfeed->count;
+				}
+
+				if ($newsfeed->state == 2)
+				{
+					$item->count_archived = $newsfeed->count;
+				}
+
+				if ($newsfeed->state == -2)
+				{
+					$item->count_trashed = $newsfeed->count;
+				}
+			}
 		}
 
-		$actions = JAccess::getActions('com_newsfeeds', $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
+		return $items;
 	}
+
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The newsfeed tag objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$db = JFactory::getDbo();
+		$parts     = explode('.', $extension);
+		$section   = null;
+		if (count($parts) > 1)
+		{
+			$section = $parts[1];
+		}
+		$join = $db->qn('#__newsfeeds') . ' AS c ON ct.content_item_id=c.id';
+		if ($section === 'category')
+		{
+			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+		}
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published AS state, count(*) AS count')
+				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->where('ct.tag_id = ' . (int) $item->id)
+				->where('ct.type_alias =' . $db->q($extension))
+				->join('LEFT', $join)
+				->group('state');
+
+			$db->setQuery($query);
+			$newsfeeds = $db->loadObjectList();
+
+			foreach ($newsfeeds as $newsfeed)
+			{
+				if ($newsfeed->state == 1)
+				{
+					$item->count_published = $newsfeed->count;
+				}
+
+				if ($newsfeed->state == 0)
+				{
+					$item->count_unpublished = $newsfeed->count;
+				}
+
+				if ($newsfeed->state == 2)
+				{
+					$item->count_archived = $newsfeed->count;
+				}
+
+				if ($newsfeed->state == -2)
+				{
+					$item->count_trashed = $newsfeed->count;
+				}
+			}
+		}
+
+		return $items;
+	}	
 }

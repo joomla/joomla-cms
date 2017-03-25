@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,26 +12,48 @@ defined('_JEXEC') or die;
 /**
  * The HTML Users access levels view.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersViewLevels extends JViewLegacy
 {
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		UsersHelper::addSubmenu('levels');
 
@@ -39,6 +61,7 @@ class UsersViewLevels extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -50,33 +73,39 @@ class UsersViewLevels extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= UsersHelper::getActions();
+		$canDo = JHelperContent::getActions('com_users');
 
-		JToolbarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'levels');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'users levels');
 
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::addNew('level.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('level.edit');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'level.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'level.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
-		if ($canDo->get('core.admin'))
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS');
 	}
 

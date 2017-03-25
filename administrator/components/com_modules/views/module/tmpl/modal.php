@@ -3,24 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-?>
-<div class="btn-toolbar">
-	<div class="btn-group">
-		<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('module.save');">
-		<?php echo JText::_('JSAVE');?></button>
-	</div>
-	<div class="btn-group">
-		<button type="button" class="btn" onclick="window.parent.SqueezeBox.close();">
-		<?php echo JText::_('JCANCEL');?></button>
-	</div>
-	<div class="clearfix"></div>
-</div>
 
-<?php
-$this->setLayout('edit');
-echo $this->loadTemplate();
+JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
+?>
+<button id="applyBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.apply');"></button>
+<button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.save');"></button>
+<button id="closeBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.cancel');"></button>
+
+<div class="container-popup">
+	<?php $this->setLayout('edit'); ?>
+	<?php echo $this->loadTemplate(); ?>
+</div>

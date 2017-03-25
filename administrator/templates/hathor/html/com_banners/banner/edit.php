@@ -3,49 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
-?>
-<script type="text/javascript">
+JHtml::_('jquery.framework');
+JHtml::_('behavior.formvalidator');
+
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.getElementById('banner-form')))
 		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-	window.addEvent('domready', function()
-	{
-		document.id('jform_type0').addEvent('click', function(e){
-			document.id('image').setStyle('display', 'block');
-			document.id('url').setStyle('display', 'block');
-			document.id('custom').setStyle('display', 'none');
-		});
-		document.id('jform_type1').addEvent('click', function(e){
-			document.id('image').setStyle('display', 'none');
-			document.id('url').setStyle('display', 'none');
-			document.id('custom').setStyle('display', 'block');
-		});
-
-		if (document.id('jform_type0').checked==true)
-		{
-			document.id('jform_type0').fireEvent('click');
-		}
-		else
-		{
-			document.id('jform_type1').fireEvent('click');
-		}
-	});
-</script>
-
-<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
+");
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_BANNER') : JText::sprintf('COM_BANNERS_BANNER_DETAILS', $this->item->id); ?></legend>
@@ -67,12 +46,14 @@ JHtml::_('behavior.formvalidation');
 
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
-
+			</ul>
+			<ul id="image">
 				<?php foreach ($this->form->getFieldset('image') as $field) : ?>
 					<li><?php echo $field->label; ?>
 						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>
-
+			</ul>
+			<ul>
 				<li><div id="custom">
 					<?php echo $this->form->getLabel('custombannercode'); ?>
 					<?php echo $this->form->getInput('custombannercode'); ?>

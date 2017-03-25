@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,22 +12,21 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt cipher for mcrypt algorithm encryption, decryption and key generation.
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
  * @since       12.1
+ * @deprecated  4.0   Without replacment use JCryptCipherCrypto
  */
 abstract class JCryptCipherMcrypt implements JCryptCipher
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
-	 * @see    http://www.php.net/manual/en/mcrypt.ciphers.php
+	 * @see    https://secure.php.net/manual/en/mcrypt.ciphers.php
 	 * @since  12.1
 	 */
 	protected $type;
 
 	/**
 	 * @var    integer  The mcrypt block cipher mode.
-	 * @see    http://www.php.net/manual/en/mcrypt.constants.php
+	 * @see    https://secure.php.net/manual/en/mcrypt.constants.php
 	 * @since  12.1
 	 */
 	protected $mode;
@@ -61,6 +60,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function decrypt($data, JCryptKey $key)
 	{
@@ -85,6 +85,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   12.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function encrypt($data, JCryptKey $key)
 	{
@@ -108,6 +109,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 * @return  JCryptKey
 	 *
 	 * @since   12.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function generateKey(array $options = array())
 	{
@@ -115,14 +117,18 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 		$key = new JCryptKey($this->keyType);
 
 		// Generate an initialisation vector based on the algorithm.
-		$key->public = mcrypt_create_iv(mcrypt_get_iv_size($this->type, $this->mode));
+		$key->public = mcrypt_create_iv(mcrypt_get_iv_size($this->type, $this->mode), MCRYPT_DEV_URANDOM);
 
 		// Get the salt and password setup.
-		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack("h*", md5(mt_rand())), 0, 16);
-		$password = (isset($options['password'])) ? $options['password'] : 'J00ml4R0ck$!';
+		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack('h*', md5(JCrypt::genRandomBytes())), 0, 16);
+
+		if (!isset($options['password']))
+		{
+			throw new InvalidArgumentException('Password is not set.');
+		}
 
 		// Generate the derived key.
-		$key->private = $this->pbkdf2($password, $salt, mcrypt_get_key_size($this->type, $this->mode));
+		$key->private = $this->pbkdf2($options['password'], $salt, mcrypt_get_key_size($this->type, $this->mode));
 
 		return $key;
 	}
@@ -138,7 +144,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 *
 	 * @return  string  The derived key.
 	 *
-	 * @see     http://en.wikipedia.org/wiki/PBKDF2
+	 * @see     https://en.wikipedia.org/wiki/PBKDF2
 	 * @see     http://www.ietf.org/rfc/rfc2898.txt
 	 * @since   12.1
 	 */

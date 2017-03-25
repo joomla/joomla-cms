@@ -3,19 +3,17 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Form Field class for the Joomla Platform.
+ * Form Field class for the Joomla CMS.
  * Provides a modal media selector including upload mechanism
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMedia extends JFormField
 {
@@ -28,12 +26,182 @@ class JFormFieldMedia extends JFormField
 	protected $type = 'Media';
 
 	/**
-	 * The initialised state of the document object.
+	 * The authorField.
 	 *
-	 * @var    boolean
-	 * @since  1.6
+	 * @var    string
+	 * @since  3.2
 	 */
-	protected static $initialised = false;
+	protected $authorField;
+
+	/**
+	 * The asset.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $asset;
+
+	/**
+	 * The link.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $link;
+
+	/**
+	 * Modal width.
+	 *
+	 * @var    integer
+	 * @since  3.4.5
+	 */
+	protected $width;
+
+	/**
+	 * Modal height.
+	 *
+	 * @var    integer
+	 * @since  3.4.5
+	 */
+	protected $height;
+
+	/**
+	 * The authorField.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $preview;
+
+	/**
+	 * The preview.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $directory;
+
+	/**
+	 * The previewWidth.
+	 *
+	 * @var    int
+	 * @since  3.2
+	 */
+	protected $previewWidth;
+
+	/**
+	 * The previewHeight.
+	 *
+	 * @var    int
+	 * @since  3.2
+	 */
+	protected $previewHeight;
+
+	/**
+	 * Layout to render
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $layout = 'joomla.form.field.media';
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.2
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'authorField':
+			case 'asset':
+			case 'link':
+			case 'width':
+			case 'height':
+			case 'preview':
+			case 'directory':
+			case 'previewWidth':
+			case 'previewHeight':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to the the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function __set($name, $value)
+	{
+		switch ($name)
+		{
+			case 'authorField':
+			case 'asset':
+			case 'link':
+			case 'width':
+			case 'height':
+			case 'preview':
+			case 'directory':
+				$this->$name = (string) $value;
+				break;
+
+			case 'previewWidth':
+			case 'previewHeight':
+				$this->$name = (int) $value;
+				break;
+
+			default:
+				parent::__set($name, $value);
+		}
+	}
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   3.2
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$result = parent::setup($element, $value, $group);
+
+		if ($result == true)
+		{
+			$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+
+			$this->authorField   = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
+			$this->asset         = $this->form->getValue($assetField) ?: (string) $this->element['asset_id'];
+			$this->link          = (string) $this->element['link'];
+			$this->width  	     = isset($this->element['width']) ? (int) $this->element['width'] : 800;
+			$this->height 	     = isset($this->element['height']) ? (int) $this->element['height'] : 500;
+			$this->preview       = (string) $this->element['preview'];
+			$this->directory     = (string) $this->element['directory'];
+			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
+			$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
+		}
+
+		return $result;
+	}
 
 	/**
 	 * Method to get the field input markup for a media selector.
@@ -45,195 +213,58 @@ class JFormFieldMedia extends JFormField
 	 */
 	protected function getInput()
 	{
-		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
-		$authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-		$asset = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
+
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
+
+	/**
+	 * Get the data that is going to be passed to the layout
+	 *
+	 * @return  array
+	 */
+	public function getLayoutData()
+	{
+		// Get the basic field data
+		$data = parent::getLayoutData();
+
+		$asset = $this->asset;
+
 		if ($asset == '')
 		{
 			$asset = JFactory::getApplication()->input->get('option');
 		}
 
-		$link = (string) $this->element['link'];
-		if (!self::$initialised)
-		{
-			// Load the modal behavior script.
-			JHtml::_('behavior.modal');
-
-			// Build the script.
-			$script = array();
-			$script[] = '	function jInsertFieldValue(value, id) {';
-			$script[] = '		var old_value = document.id(id).value;';
-			$script[] = '		if (old_value != value) {';
-			$script[] = '			var elem = document.id(id);';
-			$script[] = '			elem.value = value;';
-			$script[] = '			elem.fireEvent("change");';
-			$script[] = '			if (typeof(elem.onchange) === "function") {';
-			$script[] = '				elem.onchange();';
-			$script[] = '			}';
-			$script[] = '			jMediaRefreshPreview(id);';
-			$script[] = '		}';
-			$script[] = '	}';
-
-			$script[] = '	function jMediaRefreshPreview(id) {';
-			$script[] = '		var value = document.id(id).value;';
-			$script[] = '		var img = document.id(id + "_preview");';
-			$script[] = '		if (img) {';
-			$script[] = '			if (value) {';
-			$script[] = '				img.src = "' . JUri::root() . '" + value;';
-			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "none");';
-			$script[] = '				document.id(id + "_preview_img").setStyle("display", "");';
-			$script[] = '			} else { ';
-			$script[] = '				img.src = ""';
-			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "");';
-			$script[] = '				document.id(id + "_preview_img").setStyle("display", "none");';
-			$script[] = '			} ';
-			$script[] = '		} ';
-			$script[] = '	}';
-
-			$script[] = '	function jMediaRefreshPreviewTip(tip)';
-			$script[] = '	{';
-			$script[] = '		var img = tip.getElement("img.media-preview");';
-			$script[] = '		tip.getElement("div.tip").setStyle("max-width", "none");';
-			$script[] = '		var id = img.getProperty("id");';
-			$script[] = '		id = id.substring(0, id.length - "_preview".length);';
-			$script[] = '		jMediaRefreshPreview(id);';
-			$script[] = '		tip.setStyle("display", "block");';
-			$script[] = '	}';
-
-			// Add the script to the document head.
-			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-
-			self::$initialised = true;
-		}
-
-		$html = array();
-		$attr = '';
-
-		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
-		// The text field.
-		$html[] = '<div class="input-prepend input-append">';
-
-		// The Preview.
-		$preview = (string) $this->element['preview'];
-		$showPreview = true;
-		$showAsTooltip = false;
-		switch ($preview)
-		{
-			case 'no': // Deprecated parameter value
-			case 'false':
-			case 'none':
-				$showPreview = false;
-				break;
-
-			case 'yes': // Deprecated parameter value
-			case 'true':
-			case 'show':
-				break;
-
-			case 'tooltip':
-			default:
-				$showAsTooltip = true;
-				$options = array(
-					'onShow' => 'jMediaRefreshPreviewTip',
-				);
-				JHtml::_('behavior.tooltip', '.hasTipPreview', $options);
-				break;
-		}
-
-		if ($showPreview)
-		{
-			if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
-			{
-				$src = JUri::root() . $this->value;
-			}
-			else
-			{
-				$src = '';
-			}
-
-			$width = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
-			$height = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
-			$style = '';
-			$style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
-			$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
-
-			$imgattr = array(
-				'id' => $this->id . '_preview',
-				'class' => 'media-preview',
-				'style' => $style,
-			);
-			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
-			$previewImg = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
-			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
-				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
-
-			if ($showAsTooltip)
-			{
-				$html[] = '<div class="media-preview add-on">';
-				$tooltip = $previewImgEmpty . $previewImg;
-				$options = array(
-					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
-					'text' => '<i class="icon-eye"></i>',
-					'class' => 'hasTipPreview'
-				);
-				$html[] = JHtml::tooltip($tooltip, $options);
-				$html[] = '</div>';
-			}
-			else
-			{
-				$html[] = '<div class="media-preview add-on" style="height:auto">';
-				$html[] = ' ' . $previewImgEmpty;
-				$html[] = ' ' . $previewImg;
-				$html[] = '</div>';
-			}
-		}
-
-		$html[] = '	<input type="text" class="input-small" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly"' . $attr . ' />';
-
-		$directory = (string) $this->element['directory'];
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
 		{
-			$folder = explode('/', $this->value);
-			$folder = array_diff_assoc($folder, explode('/', JComponentHelper::getParams('com_media')->get('image_path', 'images')));
-			array_pop($folder);
-			$folder = implode('/', $folder);
+			$this->folder = explode('/', $this->value);
+			$this->folder = array_diff_assoc($this->folder, explode('/', JComponentHelper::getParams('com_media')->get('image_path', 'images')));
+			array_pop($this->folder);
+			$this->folder = implode('/', $this->folder);
 		}
-		elseif (file_exists(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $directory))
+		elseif (file_exists(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
 		{
-			$folder = $directory;
+			$this->folder = $this->directory;
 		}
 		else
 		{
-			$folder = '';
+			$this->folder = '';
 		}
 
-		// The button.
-		if ($this->element['disabled'] != true)
-		{
-			JHtml::_('bootstrap.tooltip');
+		$extraData = array(
+			'asset'         => $asset,
+			'authorField'   => $this->authorField,
+			'authorId'      => $this->form->getValue($this->authorField),
+			'folder'        => $this->folder,
+			'link'          => $this->link,
+			'preview'       => $this->preview,
+			'previewHeight' => $this->previewHeight,
+			'previewWidth'  => $this->previewWidth,
+		);
 
-			$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" href="'
-				. ($this->element['readonly'] ? ''
-				: ($link ? $link
-					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
-					. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
-				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
-			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
-			$html[] = 'return false;';
-			$html[] = '">';
-			$html[] = '<i class="icon-remove"></i></a>';
-		}
-
-		$html[] = '</div>';
-
-		return implode("\n", $html);
+		return array_merge($data, $extraData);
 	}
 }

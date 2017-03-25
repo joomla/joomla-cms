@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,9 +19,7 @@ JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
  * declared will be pushed into the elements array and can be accessed
  * explicitly using the getElement() method.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerResult
 {
@@ -209,12 +207,11 @@ class FinderIndexerResult
 	 */
 	public function __set($name, $value)
 	{
-		$this->elements[$name] = $value;
+		$this->setElement($name, $value);
 	}
 
 	/**
-	 * The magic get method is used to retrieve additional element values
-	 * from the elements array.
+	 * The magic get method is used to retrieve additional element values from the elements array.
 	 *
 	 * @param   string  $name  The name of the element.
 	 *
@@ -224,20 +221,11 @@ class FinderIndexerResult
 	 */
 	public function __get($name)
 	{
-		// Get the element value if set.
-		if (array_key_exists($name, $this->elements))
-		{
-			return $this->elements[$name];
-		}
-		else
-		{
-			return null;
-		}
+		return $this->getElement($name);
 	}
 
 	/**
-	 * The magic isset method is used to check the state of additional element
-	 * values in the elements array.
+	 * The magic isset method is used to check the state of additional element values in the elements array.
 	 *
 	 * @param   string  $name  The name of the element.
 	 *
@@ -251,8 +239,7 @@ class FinderIndexerResult
 	}
 
 	/**
-	 * The magic unset method is used to unset additional element values in the
-	 * elements array.
+	 * The magic unset method is used to unset additional element values in the elements array.
 	 *
 	 * @param   string  $name  The name of the element.
 	 *
@@ -281,10 +268,8 @@ class FinderIndexerResult
 		{
 			return $this->elements[$name];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	/**
@@ -379,7 +364,7 @@ class FinderIndexerResult
 		if ($branch !== null && isset($this->taxonomy[$branch]))
 		{
 			// Filter the input.
-			$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $branch);
+			$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
 			return $this->taxonomy[$branch];
 		}
@@ -402,7 +387,7 @@ class FinderIndexerResult
 	public function addTaxonomy($branch, $title, $state = 1, $access = 1)
 	{
 		// Filter the input.
-		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $branch);
+		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
 		// Create the taxonomy node.
 		$node = new JObject;
@@ -423,7 +408,7 @@ class FinderIndexerResult
 	 */
 	public function setLanguage()
 	{
-		if ($this->language == '*' || $this->language == '')
+		if ($this->language == '')
 		{
 			$this->language = $this->defaultLanguage;
 		}

@@ -3,36 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
 ?>
-<script type="text/javascript">
-function iFrameHeight()
-{
-	var h = 0;
-	if (!document.all)
-	{
-		h = document.getElementById('blockrandom').contentDocument.height;
-		document.getElementById('blockrandom').style.height = h + 60 + 'px';
-	} else if (document.all)
-	{
-		h = document.frames('blockrandom').document.body.scrollHeight;
-		document.all.blockrandom.style.height = h + 20 + 'px';
-	}
-}
-</script>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
-	<h1>
-		<?php if ($this->escape($this->params->get('page_heading'))) :?>
-			<?php echo $this->escape($this->params->get('page_heading')); ?>
-		<?php else : ?>
-			<?php echo $this->escape($this->params->get('page_title')); ?>
-		<?php endif; ?>
-	</h1>
+	<div class="page-header">
+		<h1>
+			<?php if ($this->escape($this->params->get('page_heading'))) : ?>
+				<?php echo $this->escape($this->params->get('page_heading')); ?>
+			<?php else : ?>
+				<?php echo $this->escape($this->params->get('page_title')); ?>
+			<?php endif; ?>
+		</h1>
+	</div>
 <?php endif; ?>
 <iframe <?php echo $this->wrapper->load; ?>
 	id="blockrandom"

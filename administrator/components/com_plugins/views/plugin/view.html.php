@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View to edit a plugin.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
- * @since       1.5
+ * @since  1.5
  */
 class PluginsViewPlugin extends JViewLegacy
 {
@@ -25,18 +23,23 @@ class PluginsViewPlugin extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->state	= $this->get('State');
-		$this->item		= $this->get('Item');
-		$this->form		= $this->get('Form');
+		$this->state = $this->get('State');
+		$this->item  = $this->get('Item');
+		$this->form  = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -47,15 +50,17 @@ class PluginsViewPlugin extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo = PluginsHelper::getActions();
+		$canDo = JHelperContent::getActions('com_plugins');
 
-		JToolbarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->item->name)), 'plugin');
+		JToolbarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->item->name)), 'power-cord plugin');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
@@ -63,13 +68,15 @@ class PluginsViewPlugin extends JViewLegacy
 			JToolbarHelper::apply('plugin.apply');
 			JToolbarHelper::save('plugin.save');
 		}
+
 		JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::divider();
-		// Get the help information for the plugin item.
 
+		// Get the help information for the plugin item.
 		$lang = JFactory::getLanguage();
 
 		$help = $this->get('Help');
+
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
@@ -80,6 +87,7 @@ class PluginsViewPlugin extends JViewLegacy
 		{
 			$url = null;
 		}
+
 		JToolbarHelper::help($help->key, false, $url);
 	}
 }

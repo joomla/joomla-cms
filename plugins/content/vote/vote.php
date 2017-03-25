@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.vote
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,88 +12,131 @@ defined('_JEXEC') or die;
 /**
  * Vote plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.vote
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentVote extends JPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Application object
 	 *
-	 * @var    boolean
-	 * @since  3.1
+	 * @var    JApplicationCms
+	 * @since  3.7.0
 	 */
-	protected $autoloadLanguage = true;
+	protected $app;
 
 	/**
-	 * Displays the voting area if in an article
+	 * The position the voting data is displayed in relative to the article.
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $votingPosition;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *
+	 * @since   3.7.0
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+
+		$this->votingPosition = $this->params->get('position', 'top');
+	}
+
+	/**
+	 * Displays the voting area when viewing an article and the voting section is displayed before the article
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
 	 * @param   object   &$row     The article object
 	 * @param   object   &$params  The article params
 	 * @param   integer  $page     The 'page' number
 	 *
-	 * @return  string  html string containing code for the votes
+	 * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
 	 *
 	 * @since   1.6
 	 */
-	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
+	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
 	{
-		$html = '';
-
-		if (!empty($params) && $params->get('show_vote', null))
+		if ($this->votingPosition !== 'top')
 		{
-			$rating = (int) @$row->rating;
+			return '';
+		}
 
-			$view = JFactory::getApplication()->input->getString('view', '');
-			$img = '';
+		return $this->displayVotingData($context, $row, $params, $page);
+	}
 
-			// Look for images in template if available
-			$starImageOn = JHtml::_('image', 'system/rating_star.png', JText::_('PLG_VOTE_STAR_ACTIVE'), null, true);
-			$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', JText::_('PLG_VOTE_STAR_INACTIVE'), null, true);
+	/**
+	 * Displays the voting area when viewing an article and the voting section is displayed after the article
+	 *
+	 * @param   string   $context  The context of the content being passed to the plugin
+	 * @param   object   &$row     The article object
+	 * @param   object   &$params  The article params
+	 * @param   integer  $page     The 'page' number
+	 *
+	 * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentAfterDisplay($context, &$row, &$params, $page = 0)
+	{
+		if ($this->votingPosition !== 'bottom')
+		{
+			return '';
+		}
 
-			for ($i = 0; $i < $rating; $i++)
-			{
-				$img .= $starImageOn;
-			}
+		return $this->displayVotingData($context, $row, $params, $page);
+	}
 
-			for ($i = $rating; $i < 5; $i++)
-			{
-				$img .= $starImageOff;
-			}
+	/**
+	 * Displays the voting area
+	 *
+	 * @param   string   $context  The context of the content being passed to the plugin
+	 * @param   object   &$row     The article object
+	 * @param   object   &$params  The article params
+	 * @param   integer  $page     The 'page' number
+	 *
+	 * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
+	 *
+	 * @since   3.7.0
+	 */
+	private function displayVotingData($context, &$row, &$params, $page)
+	{
+		$parts = explode('.', $context);
 
-			$html .= '<div class="content_rating">';
-			$html .= '<p class="unseen element-invisible">' . JText::sprintf('PLG_VOTE_USER_RATING', $rating, '5') . '</p>';
-			$html .= $img;
-			$html .= '</div>';
+		if ($parts[0] !== 'com_content')
+		{
+			return false;
+		}
 
-			if ($view == 'article' && $row->state == 1)
-			{
-				$uri = JUri::getInstance();
-				$uri->setQuery($uri->getQuery() . '&hitcount=0');
+		if (empty($params) || !$params->get('show_vote', null))
+		{
+			return '';
+		}
 
-				// Create option list for voting select box
-				$options = array();
+		// Load plugin language files only when needed (ex: they are not needed if show_vote is not active).
+		$this->loadLanguage();
 
-				for ($i = 1; $i < 6; $i++)
-				{
-					$options[] = JHTML::_('select.option', $i, JText::sprintf('PLG_VOTE_VOTE', $i));
-				}
+		// Get the path for the rating summary layout file
+		$path = JPluginHelper::getLayoutPath('content', 'vote', 'rating');
 
-				// Generate voting form
-				$html .= '<form method="post" action="' . htmlspecialchars($uri->toString()) . '" class="form-inline">';
-				$html .= '<span class="content_vote">';
-				$html .= '<label class="unseen element-invisible" for="content_vote_' . $row->id . '">' . JText::_('PLG_VOTE_LABEL') . '</label>';
-				$html .= JHTML::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_' . $row->id);
-				$html .= '&#160;<input class="btn btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />';
-				$html .= '<input type="hidden" name="task" value="article.vote" />';
-				$html .= '<input type="hidden" name="hitcount" value="0" />';
-				$html .= '<input type="hidden" name="url" value="' . htmlspecialchars($uri->toString()) . '" />';
-				$html .= JHtml::_('form.token');
-				$html .= '</span>';
-				$html .= '</form>';
-			}
+		// Render the layout
+		ob_start();
+		include $path;
+		$html = ob_get_clean();
+
+		if ($this->app->input->getString('view', '') === 'article' && $row->state == 1)
+		{
+			// Get the path for the voting form layout file
+			$path = JPluginHelper::getLayoutPath('content', 'vote', 'vote');
+
+			// Render the layout
+			ob_start();
+			include $path;
+			$html .= ob_get_clean();
 		}
 
 		return $html;

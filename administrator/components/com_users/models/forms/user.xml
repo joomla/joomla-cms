@@ -2,7 +2,6 @@
 <form>
 	<fieldset name="user_details">
 		<field name="name" type="text"
-			class="inputbox"
 			description="COM_USERS_USER_FIELD_NAME_DESC"
 			label="COM_USERS_USER_FIELD_NAME_LABEL"
 			required="true"
@@ -10,7 +9,6 @@
 		/>
 
 		<field name="username" type="text"
-			class="inputbox"
 			description="COM_USERS_USER_FIELD_USERNAME_DESC"
 			label="COM_USERS_USER_FIELD_USERNAME_LABEL"
 			required="true"
@@ -19,7 +17,7 @@
 
 		<field name="password" type="password"
 			autocomplete="off"
-			class="inputbox validate-password"
+			class="validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
 			validate="password"
@@ -29,17 +27,17 @@
 
 		<field name="password2" type="password"
 			autocomplete="off"
-			class="inputbox validate-password"
+			class="validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
+			message="COM_USERS_USER_FIELD_PASSWORD1_MESSAGE"
 			size="30"
 			validate="equals"
 			field="password"
 		/>
 
 		<field name="email" type="email"
-			class="inputbox"
 			description="COM_USERS_USER_FIELD_EMAIL_DESC"
 			label="JGLOBAL_EMAIL"
 			required="true"
@@ -54,7 +52,8 @@
 			label="COM_USERS_USER_FIELD_REGISTERDATE_LABEL"
 			description="COM_USERS_USER_FIELD_REGISTERDATE_DESC"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			filter="user_utc"
 		/>
@@ -66,7 +65,8 @@
 			label="COM_USERS_USER_FIELD_LASTVISIT_LABEL"
 			description="COM_USERS_USER_FIELD_LASTVISIT_DESC"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			filter="user_utc"
 		/>
@@ -78,7 +78,8 @@
 			label="COM_USERS_USER_FIELD_LASTRESET_LABEL"
 			description="COM_USERS_USER_FIELD_LASTRESET_DESC"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			filter="user_utc"
 		/>
@@ -97,26 +98,33 @@
 				name="sendEmail"
 				type="radio"
 				default="0"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 				description="COM_USERS_USER_FIELD_SENDEMAIL_DESC">
-				<option
-					value="0">JNO</option>
-				<option
-					value="1">JYES</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 		</field>
 
 		<field
 				name="block"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno btn-group-reversed"
 				default="0"
 				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 				description="COM_USERS_USER_FIELD_BLOCK_DESC">
-				<option
-					value="0">JNO</option>
-				<option
-					value="1">JYES</option>
+				<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
+				<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
+		</field>
+
+		<field
+			name="requireReset"
+			type="radio"
+			default="0"
+			class="btn-group btn-group-yesno"
+			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
+			description="COM_USERS_USER_FIELD_REQUIRERESET_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -131,6 +139,7 @@
 
 	</fieldset>
 	<field name="groups" type="hidden" />
+	<field name="twofactor" type="hidden" />
 
 	<fields name="params">
 

@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,174 +10,182 @@
  * @subpackage  Media
  * @since		1.5
  */
-(function() {
-var MediaManager = this.MediaManager = {
+;(function( $, scope ) {
+	"use strict";
 
-	initialize: function()
-	{
-		this.folderframe	= document.id('folderframe');
-		this.folderpath		= document.id('folderpath');
+	var MediaManager = scope.MediaManager = {
 
-		this.updatepaths	= $$('input.update-folder');
+		/**
+		 * Basic setup
+		 *
+		 * @return  void
+		 */
+		initialize: function() {
+			this.folderpath = $( '#folderpath' );
 
-		this.frame		= window.frames['folderframe'];
-		this.frameurl	= this.frame.location.href;
-		//this.frameurl   = window.frames['folderframe'].location.href;
-/*
-		this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: '../media/system/images/mootree.gif', onClick:
-				function(node){
-					target = node.data.target != null ? node.data.target : '_self';
+			this.updatepaths = $( 'input.update-folder' );
 
-					// Get the current URL.
-				   	uri = this._getUriObject(this.frameurl);
-				   	current	= uri.file+'?'+uri.query;
+			this.frame = window.frames.folderframe;
+			this.frameurl = this.frame.location.href;
+		},
 
-					if (current != 'undefined?undefined' && current != node.data.url) {
-						window.frames[target].location.href = node.data.url;
-					}
-				}.bind(this)
-			},{ text: '', open: true, data: { url: 'index.php?option=com_media&view=mediaList&tmpl=component', target: 'folderframe'}});
-		this.tree.adopt('media-tree');
-*/
-	},
+		/**
+		 * Called from outside. Only ever called with task 'folder.delete'
+		 *
+		 * @param   string  task  [description]
+		 *
+		 * @return  void
+		 */
+		submit: function( task ) {
+			var form = this.frame.document.getElementById( 'mediamanager-form' );
+			form.task.value = task;
 
-	submit: function(task)
-	{
-		form = window.frames['folderframe'].document.id('mediamanager-form');
-		form.task.value = task;
-		if (document.id('username')) {
-			form.username.value = document.id('username').value;
-			form.password.value = document.id('password').value;
-		}
-		form.submit();
-	},
-
-	onloadframe: function()
-	{
-		// Update the frame url
-		this.frameurl = this.frame.location.href;
-
-		var folder = this.getFolder();
-		if (folder) {
-			this.updatepaths.each(function(path){ path.value =folder; });
-			this.folderpath.value = basepath+'/'+folder;
-//			node = this.tree.get('node_'+folder);
-//			node.toggle(false, true);
-		} else {
-			this.updatepaths.each(function(path){ path.value = ''; });
-			this.folderpath.value = basepath;
-//			node = this.tree.root;
-		}
-/*
-		if (node) {
-			this.tree.select(node, true);
-		}
-*/
-		document.id(viewstyle).addClass('active');
-
-		a = this._getUriObject(document.id('uploadForm').getProperty('action'));
-		q = new Hash(this._getQueryObject(a.query));
-		q.set('folder', folder);
-		var query = [];
-		q.each(function(v, k){
-			if (v != null) {
-				this.push(k+'='+v);
+			if ( $( '#username' ).length ) {
+				form.username.value = $( '#username' ).val();
+				form.password.value = $( '#password' ).val();
 			}
-		}, query);
-		a.query = query.join('&');
 
-		if (a.port) {
-			document.id('uploadForm').setProperty('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
-		} else {
-			document.id('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
-		}
-	},
+			form.submit();
+		},
 
-	oncreatefolder: function()
-	{
-		if (document.id('foldername').value.length) {
-			document.id('dirpath').value = this.getFolder();
-			Joomla.submitbutton('createfolder');
-		}
-	},
+		/**
+		 * [onloadframe description]
+		 *
+		 * @return  {[type]}
+		 */
+		onloadframe: function() {
+			// Update the frame url
+			this.frameurl = this.frame.location.href;
 
-	setViewType: function(type)
-	{
-		document.id(type).addClass('active');
-		document.id(viewstyle).removeClass('active');
-		viewstyle = type;
-		var folder = this.getFolder();
-		this._setFrameUrl('index.php?option=com_media&view=mediaList&tmpl=component&folder='+folder+'&layout='+type);
-	},
+			var folder = this.getFolder() || '',
+				query = [],
+				a = getUriObject( $( '#uploadForm' ).attr( 'action' ) ),
+				q = getQueryObject( a.query ),
+				k, v;
 
-	refreshFrame: function()
-	{
-		this._setFrameUrl();
-	},
+			this.updatepaths.each( function( path, el ) {
+				el.value = folder;
+			} );
 
-	getFolder: function()
-	{
-		var url	 = this.frame.location.search.substring(1);
-		var args	= this.parseQuery(url);
+			this.folderpath.value = basepath + (folder ? '/' + folder : '');
 
-		if (args['folder'] == "undefined") {
-			args['folder'] = "";
-		}
+			q.folder = folder;
 
-		return args['folder'];
-	},
+			for ( k in q ) {
+				if (!q.hasOwnProperty( k )) { continue; }
 
-	parseQuery: function(query)
-	{
-		var params = new Object();
-		if (!query) {
-			return params;
-		}
-		var pairs = query.split(/[;&]/);
-		for ( var i = 0; i < pairs.length; i++ )
-		{
-			var KeyVal = pairs[i].split('=');
-			if ( ! KeyVal || KeyVal.length != 2 ) {
-				continue;
+				v = q[ k ];
+				query.push( k + (v === null ? '' : '=' + v) );
 			}
-			var key = unescape( KeyVal[0] );
-			var val = unescape( KeyVal[1] ).replace(/\+ /g, ' ');
-			params[key] = val;
-	   }
-	   return params;
-	},
 
-	_setFrameUrl: function(url)
-	{
-		if (url != null) {
-			this.frameurl = url;
-		}
-		this.frame.location.href = this.frameurl;
-	},
+			a.query = query.join( '&' );
+			a.fragment = null;
 
-	_getQueryObject: function(q) {
-		var vars = q.split(/[&;]/);
+			$( '#uploadForm' ).attr( 'action', buildUri(a) );
+			$( '#' + viewstyle ).addClass( 'active' );
+		},
+
+		/**
+		 * Switch the view type
+		 *
+		 * @param  string  type  'thumbs' || 'details'
+		 */
+		setViewType: function( type ) {
+			$( '#' + type ).addClass( 'active' );
+			$( '#' + viewstyle ).removeClass( 'active' );
+			viewstyle = type;
+			var folder = this.getFolder();
+
+			this.setFrameUrl( 'index.php?option=com_media&view=mediaList&tmpl=component&folder=' + folder + '&layout=' + type );
+		},
+
+		refreshFrame: function() {
+			this.setFrameUrl();
+		},
+
+		getFolder: function() {
+			var args = getQueryObject( this.frame.location.search.substring( 1 ) );
+
+			args.folder = args.folder === undefined ? '' : args.folder;
+
+			return args.folder;
+		},
+
+		setFrameUrl: function( url ) {
+			if ( url !== null ) {
+				this.frameurl = url;
+			}
+
+			this.frame.location.href = this.frameurl;
+		},
+	};
+
+	/**
+	 * Convert a query string to an object
+	 *
+	 * @param   string  q  A query string (no leading ?)
+	 *
+	 * @return  object
+	 */
+	function getQueryObject( q ) {
 		var rs = {};
-		if (vars.length) vars.each(function(val) {
-			var keys = val.split('=');
-			if (keys.length && keys.length == 2) rs[encodeURIComponent(keys[0])] = encodeURIComponent(keys[1]);
-		});
+
+		q = q || '';
+
+		$.each( q.split( /[&;]/ ),
+			function( key, val ) {
+				var keys = val.split( '=' );
+
+				rs[ decodeURIComponent(keys[ 0 ]) ] = keys.length == 2 ? decodeURIComponent(keys[ 1 ]) : null;
+			});
+
 		return rs;
-	},
-
-	_getUriObject: function(u){
-		var bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
-		return (bits)
-			? bits.associate(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'])
-			: null;
 	}
-};
-})(document.id);
 
-window.addEvent('domready', function(){
-	// Added to populate data on iframe load
-	MediaManager.initialize();
-	MediaManager.trace = 'start';
-	document.updateUploader = function() { MediaManager.onloadframe(); };
-	MediaManager.onloadframe();
-});
+	/**
+	 * Break a url into its component parts
+	 *
+	 * @param   string  u  URL
+	 *
+	 * @return  object
+	 */
+	function getUriObject( u ) {
+		var bitsAssociate = {},
+			bits = u.match( /^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/ );
+
+		$.each([ 'uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment' ],
+			function( key, index ) {
+				bitsAssociate[ index ] = ( !!bits && !!bits[ key ] ) ? bits[ key ] : '';
+			});
+
+		return bitsAssociate;
+	}
+
+	/**
+	 * Build a url from component parts
+	 *
+	 * @param   object  o  Such as the return value of `getUriObject()`
+	 *
+	 * @return  string
+	 */
+	function buildUri ( o ) {
+		return o.scheme + '://' + o.domain +
+			(o.port ? ':' + o.port : '') +
+			(o.path ? o.path : '/') +
+			(o.query ? '?' + o.query : '') +
+			(o.fragment ? '#' + o.fragment : '');
+	}
+
+	$(function() {
+		// Added to populate data on iframe load
+		MediaManager.initialize();
+
+		document.updateUploader = function() {
+			MediaManager.onloadframe();
+		};
+
+		MediaManager.onloadframe();
+	});
+
+}( jQuery, window ));
+

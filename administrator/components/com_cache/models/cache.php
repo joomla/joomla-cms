@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Cache Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cache
- * @since       1.6
+ * @since  1.6
  */
 class CacheModelCache extends JModelList
 {
@@ -40,21 +40,72 @@ class CacheModelCache extends JModelList
 	protected $_pagination = null;
 
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   3.5
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'group',
+				'count',
+				'size',
+				'cliend_id',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   Field for ordering.
+	 * @param   string  $direction  Direction of ordering.
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'group', $direction = 'asc')
 	{
-		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int');
-		$this->setState('clientId', $clientId == 1 ? 1 : 0);
+		// Load the filter state.
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		$client	= JApplicationHelper::getClientInfo($clientId);
-		$this->setState('client', $client);
+		// Special case for client id.
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+		$this->setState('client_id', $clientId);
 
-		parent::populateState('group', 'asc');
+		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   3.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':' . $this->getState('client_id');
+		$id	.= ':' . $this->getState('filter.search');
+
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -66,71 +117,102 @@ class CacheModelCache extends JModelList
 	{
 		if (empty($this->_data))
 		{
-			$cache = $this->getCache();
-			$data  = $cache->getAll();
-
-			if ($data != false)
+			try
 			{
-				$this->_data = $data;
-				$this->_total = count($data);
+				$cache = $this->getCache();
+				$data  = $cache->getAll();
 
-				if ($this->_total)
+				if ($data && count($data) > 0)
 				{
-					// Apply custom ordering
-					$ordering 	= $this->getState('list.ordering');
-					$direction 	= ($this->getState('list.direction') == 'asc') ? 1 : -1;
-
-					jimport('joomla.utilities.arrayhelper');
-					$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
-
-					// Apply custom pagination
-					if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit'))
+					// Process filter by search term.
+					if ($search = $this->getState('filter.search'))
 					{
-						$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
+						foreach ($data as $key => $cacheItem)
+						{
+							if (stripos($cacheItem->group, $search) === false)
+							{
+								unset($data[$key]);
+								continue;
+							}
+						}
+					}
+
+					// Process ordering.
+					$listOrder = $this->getState('list.ordering', 'group');
+					$listDirn  = $this->getState('list.direction', 'ASC');
+
+					$this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+
+					// Process pagination.
+					$limit = (int) $this->getState('list.limit', 25);
+
+					if ($limit !== 0)
+					{
+						$start = (int) $this->getState('list.start', 0);
+
+						return array_slice($this->_data, $start, $limit);
 					}
 				}
-			} else {
+				else
+				{
+					$this->_data = array();
+				}
+			}
+			catch (JCacheExceptionConnecting $exception)
+			{
+				$this->setError(JText::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
+				$this->_data = array();
+			}
+			catch (JCacheExceptionUnsupported $exception)
+			{
+				$this->setError(JText::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
 				$this->_data = array();
 			}
 		}
+
 		return $this->_data;
 	}
 
 	/**
-	 * Method to get cache instance
+	 * Method to get cache instance.
 	 *
-	 * @return object
+	 * @return JCacheController
 	 */
-	public function getCache()
+	public function getCache($clientId = null)
 	{
 		$conf = JFactory::getConfig();
 
+		if (is_null($clientId))
+		{
+			$clientId = $this->getState('client_id');
+		}
+
 		$options = array(
-			'defaultgroup'	=> '',
-			'storage' 		=> $conf->get('cache_handler', ''),
-			'caching'		=> true,
-			'cachebase'		=> ($this->getState('clientId') == 1) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+			'defaultgroup' => '',
+			'storage'      => $conf->get('cache_handler', ''),
+			'caching'      => true,
+			'cachebase'    => (int) $clientId === 1 ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
-		$cache = JCache::getInstance('', $options);
-
-		return $cache;
+		return JCache::getInstance('', $options);
 	}
 
 	/**
-	 * Method to get client data
+	 * Method to get client data.
 	 *
 	 * @return array
+	 *
+	 * @deprecated  4.0  No replacement.
 	 */
 	public function getClient()
 	{
-		return $this->getState('client');
+		return JApplicationHelper::getClientInfo($this->getState('client_id', 0));
 	}
 
 	/**
-	 * Get the number of current Cache Groups
+	 * Get the number of current Cache Groups.
 	 *
-	 * @return  int
+	 * @return  integer
 	 */
 	public function getTotal()
 	{
@@ -143,9 +225,9 @@ class CacheModelCache extends JModelList
 	}
 
 	/**
-	 * Method to get a pagination object for the cache
+	 * Method to get a pagination object for the cache.
 	 *
-	 * @return  integer
+	 * @return  JPagination
 	 */
 	public function getPagination()
 	{
@@ -161,25 +243,66 @@ class CacheModelCache extends JModelList
 	 * Clean out a cache group as named by param.
 	 * If no param is passed clean all cache groups.
 	 *
-	 * @param String $group
+	 * @param   string  $group  Cache group name.
+	 *
+	 * @return  boolean  True on success, false otherwise
 	 */
 	public function clean($group = '')
 	{
-		$cache = $this->getCache();
-		$cache->clean($group);
-	}
-
-	public function cleanlist($array)
-	{
-		foreach ($array as $group)
+		try
 		{
-			$this->clean($group);
+			return $this->getCache()->clean($group);
+		}
+		catch (JCacheExceptionConnecting $exception)
+		{
+			return false;
+		}
+		catch (JCacheExceptionUnsupported $exception)
+		{
+			return false;
 		}
 	}
 
+	/**
+	 * Purge an array of cache groups.
+	 *
+	 * @param   array  $array  Array of cache group names.
+	 *
+	 * @return  array  Array with errors, if they exist.
+	 */
+	public function cleanlist($array)
+	{
+		$errors = array();
+
+		foreach ($array as $group)
+		{
+			if (!$this->clean($group))
+			{
+				$errors[] = $group;
+			}
+		}
+
+		return $errors;
+	}
+
+	/**
+	 * Purge all cache items.
+	 *
+	 * @return  boolean  True if successful; false otherwise.
+	 */
 	public function purge()
 	{
-		$cache = JFactory::getCache('');
-		return $cache->gc();
+		try
+		{
+			return JFactory::getCache('')->gc();
+		}
+		catch (JCacheExceptionConnecting $exception)
+		{
+			return false;
+		}
+		catch (JCacheExceptionUnsupported $exception)
+		{
+			return false;
+		}
 	}
 }

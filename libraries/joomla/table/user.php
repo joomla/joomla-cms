@@ -3,18 +3,19 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Users table
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableUser extends JTable
 {
@@ -88,7 +89,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		// Convert e-mail from punycode
+		// Convert email from punycode
 		$data['email'] = JStringPunycode::emailToUTF8($data['email']);
 
 		// Bind the data to the table.
@@ -126,8 +127,7 @@ class JTableUser extends JTable
 	{
 		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
@@ -138,7 +138,7 @@ class JTableUser extends JTable
 		if ($return && !empty($this->groups))
 		{
 			// Set the group ids.
-			JArrayHelper::toInteger($this->groups);
+			$this->groups = ArrayHelper::toInteger($this->groups);
 
 			// Get the titles for the user groups.
 			$query = $this->_db->getQuery(true)
@@ -150,7 +150,6 @@ class JTableUser extends JTable
 
 			// Set the titles for the user groups.
 			$this->groups = $this->_db->loadAssocList('id', 'id');
-
 		}
 
 		return $return;
@@ -171,32 +170,39 @@ class JTableUser extends JTable
 			$this->id = null;
 		}
 
+		$filterInput = JFilterInput::getInstance();
+
 		// Validate user information
-		if (trim($this->name) == '')
+		if ($filterInput->clean($this->name, 'TRIM') == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
+
 			return false;
 		}
 
-		if (trim($this->username) == '')
+		if ($filterInput->clean($this->username, 'TRIM') == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
+
 			return false;
 		}
 
-		if (preg_match("#[<>\"'%;()&]#i", $this->username) || strlen(utf8_decode($this->username)) < 2)
+		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2
+			|| $filterInput->clean($this->username, 'TRIM') !== $this->username)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
+
 			return false;
 		}
 
-		if ((trim($this->email) == "") || !JMailHelper::isEmailAddress($this->email))
+		if (($filterInput->clean($this->email, 'TRIM') == '') || !JMailHelper::isEmailAddress($this->email))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+
 			return false;
 		}
 
-		// Convert e-mail to punycode for storage
+		// Convert email to punycode for storage
 		$this->email = JStringPunycode::emailToPunycode($this->email);
 
 		// Set the registration timestamp
@@ -211,6 +217,12 @@ class JTableUser extends JTable
 			$this->lastvisitDate = $this->_db->getNullDate();
 		}
 
+		// Set the lastResetTime timestamp
+		if (empty($this->lastResetTime))
+		{
+			$this->lastResetTime = $this->_db->getNullDate();
+		}
+
 		// Check for existing username
 		$query = $this->_db->getQuery(true)
 			->select($this->_db->quoteName('id'))
@@ -220,9 +232,11 @@ class JTableUser extends JTable
 		$this->_db->setQuery($query);
 
 		$xid = (int) $this->_db->loadResult();
+
 		if ($xid && $xid != (int) $this->id)
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
+
 			return false;
 		}
 
@@ -234,15 +248,18 @@ class JTableUser extends JTable
 			->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
 		$this->_db->setQuery($query);
 		$xid = (int) $this->_db->loadResult();
+
 		if ($xid && $xid != (int) $this->id)
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
+
 			return false;
 		}
 
 		// Check for root_user != username
 		$config = JFactory::getConfig();
 		$rootUser = $config->get('root_user');
+
 		if (!is_numeric($rootUser))
 		{
 			$query->clear()
@@ -251,10 +268,12 @@ class JTableUser extends JTable
 				->where($this->_db->quoteName('username') . ' = ' . $this->_db->quote($rootUser));
 			$this->_db->setQuery($query);
 			$xid = (int) $this->_db->loadResult();
+
 			if ($rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
 				|| $xid && $xid == (int) $this->id && $rootUser != $this->username)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
+
 				return false;
 			}
 		}
@@ -264,16 +283,14 @@ class JTableUser extends JTable
 
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
-	 * If a primary key value is set the row with that primary key value will be
-	 * updated with the instance property values.  If no primary key value is set
-	 * a new row will be inserted into the database with the properties from the
-	 * JTable instance.
+	 *
+	 * If a primary key value is set the row with that primary key value will be updated with the instance property values.
+	 * If no primary key value is set a new row will be inserted into the database with the properties from the JTable instance.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/store
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -301,31 +318,74 @@ class JTableUser extends JTable
 
 		// Reset groups to the local object.
 		$this->groups = $groups;
-		unset($groups);
+
+		$query = $this->_db->getQuery(true);
 
 		// Store the group data if the user data was saved.
 		if (is_array($this->groups) && count($this->groups))
 		{
-			// Delete the old user group maps.
-			$query = $this->_db->getQuery(true)
-				->delete($this->_db->quoteName('#__user_usergroup_map'))
-				->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
+			// Grab all usergroup entries for the user
+			$query -> clear()
+				-> select($this->_db->quoteName('group_id'))
+				-> from($this->_db->quoteName('#__user_usergroup_map'))
+				-> where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
+
+			$this->_db->setQuery($query);
+			$result = $this->_db->loadObjectList();
+
+			// Loop through them and check if database contains something $this->groups does not
+			if (count($result))
+			{
+				foreach ($result as $map)
+				{
+					if (array_key_exists($map->group_id, $this->groups))
+					{
+						// It already exists, no action required
+						unset($groups[$map->group_id]);
+					}
+					else
+					{
+						// It should be removed
+						$query -> clear()
+							-> delete($this->_db->quoteName('#__user_usergroup_map'))
+							-> where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id)
+							-> where($this->_db->quoteName('group_id') . ' = ' . (int) $map->group_id);
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+				}
+			}
+
+			// If there is anything left in this->groups it needs to be inserted
+			if (count($groups))
+			{
+				// Set the new user group maps.
+				$query->clear()
+					->insert($this->_db->quoteName('#__user_usergroup_map'))
+					->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
+
+				// Have to break this up into individual queries for cross-database support.
+				foreach ($groups as $group)
+				{
+					$query->clear('values')
+						->values($this->id . ', ' . $group);
+					$this->_db->setQuery($query);
+					$this->_db->execute();
+				}
+			}
+
+			unset($groups);
+		}
+
+		// If a user is blocked, delete the cookie login rows
+		if ($this->block == (int) 1)
+		{
+			$query->clear()
+				->delete($this->_db->quoteName('#__user_keys'))
+				->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
-
-			// Set the new user group maps.
-			$query->clear()
-				->insert($this->_db->quoteName('#__user_usergroup_map'))
-				->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
-
-			// Have to break this up into individual queries for cross-database support.
-			foreach ($this->groups as $group)
-			{
-				$query->clear('values')
-					->values($this->id . ', ' . $group);
-				$this->_db->setQuery($query);
-				$this->_db->execute();
-			}
 		}
 
 		return true;
@@ -344,6 +404,7 @@ class JTableUser extends JTable
 	{
 		// Set the primary key to delete.
 		$k = $this->_tbl_key;
+
 		if ($userId)
 		{
 			$this->$k = (int) $userId;
@@ -376,6 +437,12 @@ class JTableUser extends JTable
 		$query->clear()
 			->delete($this->_db->quoteName('#__messages'))
 			->where($this->_db->quoteName('user_id_to') . ' = ' . (int) $this->$k);
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+
+		$query->clear()
+			->delete($this->_db->quoteName('#__user_keys'))
+			->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

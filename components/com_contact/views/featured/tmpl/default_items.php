@@ -3,15 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-JHtml::_('behavior.framework');
+JHtml::_('behavior.core');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 // Create a shortcut for params.
 $params = &$this->item->params;
@@ -95,7 +95,7 @@ $params = &$this->item->params;
 
 		<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
-				<tr class="<?php echo ($i % 2) ? "odd" : "even"; ?>">
+				<tr class="<?php echo ($i % 2) ? 'odd' : 'even'; ?>" itemscope itemtype="https://schema.org/Person">
 					<td class="item-num">
 						<?php echo $i; ?>
 					</td>
@@ -104,56 +104,57 @@ $params = &$this->item->params;
 						<?php if ($this->items[$i]->published == 0) : ?>
 							<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 						<?php endif; ?>
-						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
-							<?php echo $item->name; ?></a>
+						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>" itemprop="url">
+							<span itemprop="name"><?php echo $item->name; ?></span>
+						</a>
 					</td>
 
 					<?php if ($this->params->get('show_position_headings')) : ?>
-						<td class="item-position">
+						<td class="item-position" itemprop="jobTitle">
 							<?php echo $item->con_position; ?>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_email_headings')) : ?>
-						<td class="item-email">
+						<td class="item-email" itemprop="email">
 							<?php echo $item->email_to; ?>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_telephone_headings')) : ?>
-						<td class="item-phone">
+						<td class="item-phone" itemprop="telephone">
 							<?php echo $item->telephone; ?>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_mobile_headings')) : ?>
-						<td class="item-phone">
+						<td class="item-phone" itemprop="telephone">
 							<?php echo $item->mobile; ?>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_fax_headings')) : ?>
-					<td class="item-phone">
-						<?php echo $item->fax; ?>
-					</td>
+						<td class="item-phone" itemprop="faxNumber">
+							<?php echo $item->fax; ?>
+						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_suburb_headings')) : ?>
-					<td class="item-suburb">
-						<?php echo $item->suburb; ?>
-					</td>
+						<td class="item-suburb" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+							<span itemprop="addressLocality"><?php echo $item->suburb; ?></span>
+						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_state_headings')) : ?>
-					<td class="item-state">
-						<?php echo $item->state; ?>
-					</td>
+						<td class="item-state" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+							<span itemprop="addressRegion"><?php echo $item->state; ?></span>
+						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_country_headings')) : ?>
-					<td class="item-state">
-						<?php echo $item->country; ?>
-					</td>
+						<td class="item-state" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+							<span itemprop="addressCountry"><?php echo $item->country; ?></span>
+						</td>
 					<?php endif; ?>
 				</tr>
 			<?php endforeach; ?>

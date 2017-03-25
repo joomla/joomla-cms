@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ JHtml::_('behavior.caption');
 <?php endif; ?>
 <?php if ($this->params->get('show_category_title', 1)) : ?>
 <h2>
-	<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_weblinks.category'); ?>
+	<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_weblinks.category.title'); ?>
 </h2>
 <?php endif; ?>
 <?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>

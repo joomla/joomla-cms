@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,15 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Helper class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderHelper
 {
 	/**
-	 * @var		string	The extension name.
-	 * @since	2.5
+	 * The extension name.
+	 *
+	 * @var    string
+	 * @since  2.5
 	 */
 	public static $extension = 'com_finder';
 
@@ -53,25 +53,59 @@ class FinderHelper
 	}
 
 	/**
+	 * Gets the finder system plugin extension id.
+	 *
+	 * @return  int  The finder system plugin extension id.
+	 *
+	 * @since   3.6.0
+	 */
+	public static function getFinderPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('content'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject  A JObject containing the allowed actions.
 	 *
 	 * @since   2.5
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-		$assetName = 'com_finder';
-
-		$actions = JAccess::getActions($assetName, 'component');
-
-		foreach ($actions as $action)
+		// Log usage of deprecated function
+		try
 		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
 		}
 
-		return $result;
+		// Get list of actions
+		return JHelperContent::getActions('com_finder');
 	}
 }

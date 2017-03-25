@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="3.6" client="installation">
+	<name>Khmer ភាសាខ្មែរ (Cambodia)</name>
+	<version>3.5.0</version>
+	<creationDate>August 2015</creationDate>
+	<author>Khmer Translation Team</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>km-KH.ini</filename>
+	</files>
+	<metadata>
+		<name>Khmer ភាសាខ្មែរ (Cambodia)</name>
+		<tag>km-KH</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

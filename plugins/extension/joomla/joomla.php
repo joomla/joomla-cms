@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! master extension plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Extension.Joomla
- * @since       1.6
+ * @since  1.6
  */
 class PlgExtensionJoomla extends JPlugin
 {
@@ -70,6 +68,7 @@ class PlgExtensionJoomla extends JPlugin
 				->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')))
 				->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled);
 			$db->setQuery($query);
+
 			if ($db->execute())
 			{
 				// Link up this extension to the update site
@@ -88,6 +87,7 @@ class PlgExtensionJoomla extends JPlugin
 				->where('extension_id = ' . $this->eid);
 			$db->setQuery($query);
 			$tmpid = (int) $db->loadResult();
+
 			if (!$tmpid)
 			{
 				// Link this extension to the relevant update site
@@ -128,7 +128,7 @@ class PlgExtensionJoomla extends JPlugin
 	 *
 	 * @param   JInstaller  $installer  Installer instance
 	 * @param   integer     $eid        Extension id
-	 * @param   integer     $result     Installation result
+	 * @param   boolean     $result     Installation result
 	 *
 	 * @return  void
 	 *
@@ -136,9 +136,10 @@ class PlgExtensionJoomla extends JPlugin
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
 	{
-		if ($eid)
+		// If we have a valid extension ID and the extension was successfully uninstalled wipe out any
+		// update sites for it
+		if ($eid && $result)
 		{
-			// Wipe out any update_sites_extensions links
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__update_sites_extensions')
@@ -187,13 +188,12 @@ class PlgExtensionJoomla extends JPlugin
 				// Note: this might wipe out the entire table if there are no extensions linked
 				$db->setQuery($updatesite_delete);
 				$db->execute();
-
 			}
 
 			// Last but not least we wipe out any pending updates for the extension
 			$query->clear()
 				->delete('#__updates')
-				->where('extension_id = '. $eid);
+				->where('extension_id = ' . $eid);
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -216,7 +216,7 @@ class PlgExtensionJoomla extends JPlugin
 			$this->installer = $installer;
 			$this->eid = $eid;
 
-			// handle any update sites
+			// Handle any update sites
 			$this->processUpdateSites();
 		}
 	}
@@ -230,8 +230,8 @@ class PlgExtensionJoomla extends JPlugin
 	 */
 	private function processUpdateSites()
 	{
-		$manifest		= $this->installer->getManifest();
-		$updateservers	= $manifest->updateservers;
+		$manifest      = $this->installer->getManifest();
+		$updateservers = $manifest->updateservers;
 
 		if ($updateservers)
 		{
@@ -247,12 +247,12 @@ class PlgExtensionJoomla extends JPlugin
 			foreach ($children as $child)
 			{
 				$attrs = $child->attributes();
-				$this->addUpdateSite($attrs['name'], $attrs['type'], $child, true);
+				$this->addUpdateSite($attrs['name'], $attrs['type'], trim($child), true);
 			}
 		}
 		else
 		{
-			$data = (string) $updateservers;
+			$data = trim((string) $updateservers);
 
 			if (strlen($data))
 			{

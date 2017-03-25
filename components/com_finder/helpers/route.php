@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Finder route helper class.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderHelperRoute
 {
@@ -35,7 +33,7 @@ class FinderHelperRoute
 		$item = self::getItemid($query);
 
 		// Get the base route.
-		$uri = clone(JUri::getInstance('index.php?option=com_finder&view=search'));
+		$uri = clone JUri::getInstance('index.php?option=com_finder&view=search');
 
 		// Add the pre-defined search filter if present.
 		if ($f !== null)
@@ -75,7 +73,7 @@ class FinderHelperRoute
 		$item = self::getItemid($query);
 
 		// Get the base route.
-		$uri = clone(JUri::getInstance('index.php?option=com_finder&view=advanced'));
+		$uri = clone JUri::getInstance('index.php?option=com_finder&view=advanced');
 
 		// Add the pre-defined search filter if present.
 		if ($q !== null)

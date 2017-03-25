@@ -37,7 +37,7 @@
 }
 .navbar .brand {
 	float: right;
-	padding: 8px 20px 12px;
+	padding: 8px 20px 8px 12px;
 	margin-right: -20px;
 	margin-left: 0;
 }
@@ -203,7 +203,7 @@
 	float: right;
 }
 .input-append .add-on {
-	float: left;
+	float: none;
 }
 .input-prepend .add-on,
 .input-prepend .btn {
@@ -355,11 +355,29 @@ body {
 	padding-left: 5px;
 }
 .navbar .nav > li > a {
-	padding: 9px 10px;
-	color: #D2E3FC;
+	padding: 8px 10px;
+	color: #FFFFFF;
+}
+.navigation .nav li li .nav-child {
+	left: auto;
+	right: 100%;
+}
+.navigation .nav li li .nav-child:before {
+	left: auto;
+	right: -7px;
+	border-left: 7px solid rgba(0,0,0,0.2);
+	border-right-width: 0;
+}
+.navigation .nav li li .nav-child:after {
+	left: auto;
+	right: -6px;
+	border-left: 6px solid #ffffff;
+	border-right-width: 0;
 }
 .container-logo {
 	padding-top: 6px;
+	float: left;
+	text-align: left;
 }
 .modal-header .close {
 	float: left;
@@ -419,7 +437,14 @@ body {
 }
 .dl-horizontal dt {
 	float: right;
+	text-align: left;
+	clear: right;
 }
+.dl-horizontal dd {
+	margin-left: 0;
+	margin-right: 180px;
+}
+.dl-horizontal dt,
 .profile> ul {
 	margin: 9px 25px 0 0;
 }
@@ -456,6 +481,10 @@ body {
 .btn-toolbar .btn + .btn-group {
 	margin-left: 0;
 	margin-right: 5px;
+}
+.btn-toolbar .btn-wrapper {
+	display: inline-block;
+	margin: 0 5px 5px 0;
 }
 .btn-group > .btn + .btn {
 	margin-left: 0;
@@ -505,6 +534,19 @@ body {
 	left: 3px;
 	right: auto;
 }
+.chzn-container.chzn-with-drop .chzn-drop {
+	right: 0;
+	left: auto;
+}
+.chzn-container-single.chzn-container-single-nosearch .chzn-search {
+	position: absolute;
+	right: -9999px;
+	left: auto;
+}
+.chzn-container .chzn-drop {
+	right: -9999px;
+	left: auto;
+}
 .alert {
 	padding-right: 14px;
 	padding-left: 35px;
@@ -543,12 +585,51 @@ body {
 #mediamanager-form .dimensions {
 	direction: ltr;
 }
+.popover,
 .tooltip-inner {
 	text-align: right;
 }
+.popover.top .arrow,
+.popover.bottom .arrow {
+	margin-right: -11px;
+}
+.popover.top .arrow:after,
+.popover.bottom .arrow:after {
+	margin-right: -10px;
+}
 @media (max-width: 480px) {
+	.btn-toolbar .btn-wrapper {
+		display: block;
+		margin: 0 0 5px 0;
+	}
 	.btn-toolbar .btn-wrapper .btn {
 		margin-left: 0px;
 		margin-right: 10px;
 	}
+}
+#pop-print {
+	float: left;
+	margin: 10px;
+}
+#install_url,
+#install_directory,
+#jform_customurl,
+#jform_link,
+#jform_params_url,
+input[type="url"] {
+	text-align: left;
+	direction: ltr;
+}
+#aside .nav .nav-child {
+	border-left: 0;
+	border-right: 2px solid #ddd;
+	padding-left: 0;
+	padding-right: 5px;
+}
+.dropdown-menu {
+	text-align: right;
+}
+[class^="icon-"],
+[class*=" icon-"] {
+	margin-left: .25em;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Languages Model Class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.6
+ * @since  1.6
  */
 class LanguagesModelLanguages extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -58,24 +57,19 @@ class LanguagesModelLanguages extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.ordering', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$accessId = $this->getUserStateFromRequest($this->context . '.access', 'filter_access', null, 'int');
-		$this->setState('filter.access', $accessId);
-
-		$published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
+		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_languages');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -85,9 +79,10 @@ class LanguagesModelLanguages extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -104,6 +99,7 @@ class LanguagesModelLanguages extends JModelList
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return  string    An SQL query
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -120,12 +116,13 @@ class LanguagesModelLanguages extends JModelList
 		$query->select('ag.title AS access_level')
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
-		// Select the language home pages
+		// Select the language home pages.
 		$query->select('l.home AS home')
 			->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);
@@ -135,11 +132,12 @@ class LanguagesModelLanguages extends JModelList
 			$query->where('(a.published IN (0, 1))');
 		}
 
-		// Filter by search in title
+		// Filter by search in title.
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%', false);
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('(a.title LIKE ' . $search . ')');
 		}
 
@@ -156,12 +154,13 @@ class LanguagesModelLanguages extends JModelList
 	}
 
 	/**
-	 * Set the published language(s)
+	 * Set the published language(s).
 	 *
-	 * @param   array    $cid      An array of language IDs.
-	 * @param   integer  $value    The value of the published state.
+	 * @param   array    $cid    An array of language IDs.
+	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   1.6
 	 */
 	public function setPublished($cid, $value = 0)
@@ -172,9 +171,10 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Method to delete records.
 	 *
-	 * @param   array  An array of item primary keys.
+	 * @param   array  $pks  An array of item primary keys.
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function delete($pks)
@@ -203,7 +203,12 @@ class LanguagesModelLanguages extends JModelList
 	}
 
 	/**
-	 * Custom clean cache method, 2 places for 2 clients
+	 * Custom clean cache method, 2 places for 2 clients.
+	 *
+	 * @param   string   $group      Optional cache group name.
+	 * @param   integer  $client_id  Application client id.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

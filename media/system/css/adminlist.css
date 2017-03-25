@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -209,15 +209,10 @@ button:hover {
 	border: 1px solid #aaa;
 }
 
-.clearfix {
-	overflow: hidden;
-}
-
 fieldset input,
 fieldset textarea,
 fieldset select,
-fieldset img,
-fieldset button {
+fieldset img {
 	float: left;
 	width: auto;
 	margin: 5px 5px 5px 0;

@@ -3,240 +3,87 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Function to build a Users URL route.
+ * Routing class from com_users
  *
- * @return  array  The array of query string values for which to build a route.
- * @return  array  The URL route with segments represented as an array.
- * @since    1.5
+ * @since  3.2
  */
-function UsersBuildRoute(&$query)
+class UsersRouter extends JComponentRouterView
 {
-	// Declare static variables.
-	static $items;
-	static $default;
-	static $registration;
-	static $profile;
-	static $login;
-	static $remind;
-	static $resend;
-	static $reset;
-
-	$segments = array();
-
-	// Get the relevant menu items if not loaded.
-	if (empty($items))
+	/**
+	 * Users Component router constructor
+	 *
+	 * @param   JApplicationCms  $app   The application object
+	 * @param   JMenu            $menu  The menu object to work with
+	 */
+	public function __construct($app = null, $menu = null)
 	{
-		// Get all relevant menu items.
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$items = $menu->getItems('component', 'com_users');
+		$this->registerView(new JComponentRouterViewconfiguration('login'));
+		$profile = new JComponentRouterViewconfiguration('profile');
+		$profile->addLayout('edit');
+		$this->registerView($profile);
+		$this->registerView(new JComponentRouterViewconfiguration('registration'));
+		$this->registerView(new JComponentRouterViewconfiguration('remind'));
+		$this->registerView(new JComponentRouterViewconfiguration('reset'));
 
-		// Build an array of serialized query strings to menu item id mappings.
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		parent::__construct($app, $menu);
+
+		$this->attachRule(new JComponentRouterRulesMenu($this));
+
+		$params = JComponentHelper::getParams('com_users');
+
+		if ($params->get('sef_advanced', 0))
 		{
-			// Check to see if we have found the resend menu item.
-			if (empty($resend) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'resend'))
-			{
-				$resend = $items[$i]->id;
-			}
-
-			// Check to see if we have found the reset menu item.
-			if (empty($reset) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'reset'))
-			{
-				$reset = $items[$i]->id;
-			}
-
-			// Check to see if we have found the remind menu item.
-			if (empty($remind) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'remind'))
-			{
-				$remind = $items[$i]->id;
-			}
-
-			// Check to see if we have found the login menu item.
-			if (empty($login) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'login'))
-			{
-				$login = $items[$i]->id;
-			}
-
-			// Check to see if we have found the registration menu item.
-			if (empty($registration) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'registration'))
-			{
-				$registration = $items[$i]->id;
-			}
-
-			// Check to see if we have found the profile menu item.
-			if (empty($profile) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'profile'))
-			{
-				$profile = $items[$i]->id;
-			}
+			$this->attachRule(new JComponentRouterRulesStandard($this));
+			$this->attachRule(new JComponentRouterRulesNomenu($this));
 		}
-
-		// Set the default menu item to use for com_users if possible.
-		if ($profile)
+		else
 		{
-			$default = $profile;
-		}
-		elseif ($registration)
-		{
-			$default = $registration;
-		}
-		elseif ($login)
-		{
-			$default = $login;
+			JLoader::register('UsersRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
+			$this->attachRule(new UsersRouterRulesLegacy($this));
 		}
 	}
-
-	if (!empty($query['view']))
-	{
-		switch ($query['view'])
-		{
-			case 'reset':
-				if ($query['Itemid'] = $reset)
-				{
-					unset ($query['view']);
-				}
-				else
-				{
-					$query['Itemid'] = $default;
-				}
-				break;
-
-			case 'resend':
-				if ($query['Itemid'] = $resend)
-				{
-					unset ($query['view']);
-				}
-				else
-				{
-					$query['Itemid'] = $default;
-				}
-				break;
-
-			case 'remind':
-				if ($query['Itemid'] = $remind)
-				{
-					unset ($query['view']);
-				}
-				else
-				{
-					$query['Itemid'] = $default;
-				}
-				break;
-
-			case 'login':
-				if ($query['Itemid'] = $login)
-				{
-					unset ($query['view']);
-				}
-				else
-				{
-					$query['Itemid'] = $default;
-				}
-				break;
-
-			case 'registration':
-				if ($query['Itemid'] = $registration)
-				{
-					unset ($query['view']);
-				}
-				else
-				{
-					$query['Itemid'] = $default;
-				}
-				break;
-
-			default:
-			case 'profile':
-				if (!empty($query['view']))
-				{
-					$segments[] = $query['view'];
-				}
-				unset ($query['view']);
-				if ($query['Itemid'] = $profile)
-				{
-					unset ($query['view']);
-				}
-				else
-				{
-					$query['Itemid'] = $default;
-				}
-
-				// Only append the user id if not "me".
-				$user = JFactory::getUser();
-				if (!empty($query['user_id']) && ($query['user_id'] != $user->id))
-				{
-					$segments[] = $query['user_id'];
-				}
-				unset ($query['user_id']);
-
-				break;
-		}
-	}
-
-	return $segments;
 }
 
 /**
- * Function to parse a Users URL route.
+ * Users router functions
  *
- * @return  array  The URL route with segments represented as an array.
- * @return  array  The array of variables to set in the request.
- * @since    1.5
+ * These functions are proxys for the new router interface
+ * for old SEF extensions.
+ *
+ * @param   array  &$query  REQUEST query
+ *
+ * @return  array  Segments of the SEF url
+ *
+ * @deprecated  4.0  Use Class based routers instead
  */
-function UsersParseRoute($segments)
+function usersBuildRoute(&$query)
 {
-	$vars = array();
+	$app = JFactory::getApplication();
+	$router = new UsersRouter($app, $app->getMenu());
 
-	// Only run routine if there are segments to parse.
-	if (count($segments) < 1)
-	{
-		return;
-	}
+	return $router->build($query);
+}
 
-	// Get the package from the route segments.
-	$userId = array_pop($segments);
+/**
+ * Convert SEF URL segments into query variables
+ *
+ * @param   array  $segments  Segments in the current URL
+ *
+ * @return  array  Query variables
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function usersParseRoute($segments)
+{
+	$app = JFactory::getApplication();
+	$router = new UsersRouter($app, $app->getMenu());
 
-	if (!is_numeric($userId))
-	{
-		$vars['view'] = 'profile';
-		return $vars;
-	}
-
-	if (is_numeric($userId))
-	{
-		// Get the package id from the packages table by alias.
-		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT ' . $db->quoteName('id') .
-				' FROM ' . $db->quoteName('#__users') .
-				' WHERE ' . $db->quoteName('id') . ' = ' . (int) $userId
-		);
-		$userId = $db->loadResult();
-	}
-
-	// Set the package id if present.
-	if ($userId)
-	{
-		// Set the package id.
-		$vars['user_id'] = (int) $userId;
-
-		// Set the view to package if not already set.
-		if (empty($vars['view']))
-		{
-			$vars['view'] = 'profile';
-		}
-	}
-	else
-	{
-		JError::raiseError(404, JText::_('JGLOBAL_RESOURCE_NOT_FOUND'));
-	}
-
-	return $vars;
+	return $router->parse($segments);
 }

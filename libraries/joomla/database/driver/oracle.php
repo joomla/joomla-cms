@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Oracle database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/pdo
- * @since       12.1
+ * @see    https://secure.php.net/pdo
+ * @since  12.1
  */
 class JDatabaseDriverOracle extends JDatabaseDriverPdo
 {
@@ -26,6 +24,14 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 * @since  12.1
 	 */
 	public $name = 'oracle';
+
+	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'oracle';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -164,6 +170,17 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		return $this->charset;
+	}
+
+	/**
 	 * Get a query to run and verify the database is operational.
 	 *
 	 * @return  string  The query to check the health of the DB.
@@ -176,16 +193,16 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
-     * Returns the current date format
-     * This method should be useful in the case that
-     * somebody actually wants to use a different
-     * date format and needs to check what the current
-     * one is to see if it needs to be changed.
-     *
-     * @return string The current date format
-     *
-     * @since 12.1
-     */
+	 * Returns the current date format
+	 * This method should be useful in the case that
+	 * somebody actually wants to use a different
+	 * date format and needs to check what the current
+	 * one is to see if it needs to be changed.
+	 *
+	 * @return string The current date format
+	 *
+	 * @since 12.1
+	 */
 	public function getDateFormat()
 	{
 		return $this->dateformat;
@@ -216,6 +233,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
+
 		foreach ($tables as $table)
 		{
 			$query->bind(':tableName', $table);
@@ -342,6 +360,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		}
 
 		$query->from('all_tables');
+
 		if ($databaseName)
 		{
 			$query->where('owner = :database')
@@ -398,19 +417,19 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
-     * Sets the Oracle Date Format for the session
-     * Default date format for Oracle is = DD-MON-RR
-     * The default date format for this driver is:
-     * 'RRRR-MM-DD HH24:MI:SS' since it is the format
-     * that matches the MySQL one used within most Joomla
-     * tables.
-     *
-     * @param   string  $dateFormat  Oracle Date Format String
-     *
-     * @return boolean
-     *
-     * @since  12.1
-     */
+	 * Sets the Oracle Date Format for the session
+	 * Default date format for Oracle is = DD-MON-RR
+	 * The default date format for this driver is:
+	 * 'RRRR-MM-DD HH24:MI:SS' since it is the format
+	 * that matches the MySQL one used within most Joomla
+	 * tables.
+	 *
+	 * @param   string  $dateFormat  Oracle Date Format String
+	 *
+	 * @return boolean
+	 *
+	 * @since  12.1
+	 */
 	public function setDateFormat($dateFormat = 'DD-MON-RR')
 	{
 		$this->connect();
@@ -423,6 +442,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		}
 
 		$this->setQuery("ALTER SESSION SET NLS_TIMESTAMP_FORMAT = '$dateFormat'");
+
 		if (!$this->execute())
 		{
 			return false;
@@ -444,7 +464,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		return false;
 	}
@@ -536,6 +556,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		while ($startPos < $n)
 		{
 			$ip = strpos($query, $prefix, $startPos);
+
 			if ($ip === false)
 			{
 				break;
@@ -563,31 +584,39 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 			{
 				$k = strpos($query, $quoteChar, $j);
 				$escaped = false;
+
 				if ($k === false)
 				{
 					break;
 				}
+
 				$l = $k - 1;
+
 				while ($l >= 0 && $query{$l} == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;
 				}
+
 				if ($escaped)
 				{
 					$j = $k + 1;
 					continue;
 				}
+
 				break;
 			}
+
 			if ($k === false)
 			{
 				// Error in the query - no end quote; ignore it
 				break;
 			}
+
 			$literal .= substr($query, $startPos, $k - $startPos + 1);
 			$startPos = $k + 1;
 		}
+
 		if ($startPos < $n)
 		{
 			$literal .= substr($query, $startPos, $n - $startPos);
@@ -676,5 +705,36 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		{
 			$this->transactionDepth++;
 		}
+	}
+
+	/**
+	 * Get the query strings to alter the character set and collation of a table.
+	 *
+	 * @param   string  $tableName  The name of the table
+	 *
+	 * @return  string[]  The queries required to alter the table's character set and collation
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getAlterTableCharacterSet($tableName)
+	{
+		return array();
+	}
+
+	/**
+	 * Return the query string to create new Database.
+	 * Each database driver, other than MySQL, need to override this member to return correct string.
+	 *
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 *                   This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  string  The query that creates database
+	 *
+	 * @since   12.2
+	 */
+	protected function getCreateDatabaseQuery($options, $utf)
+	{
+		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
 }

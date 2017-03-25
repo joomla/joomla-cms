@@ -1,1 +1,0 @@
-CREATE TABLE IF NOT EXISTS #__alpha_install ( fielda int(10) )

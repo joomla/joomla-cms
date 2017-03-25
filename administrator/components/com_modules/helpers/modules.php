@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Modules component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModulesHelper
 {
@@ -22,6 +22,8 @@ abstract class ModulesHelper
 	 * Configure the Linkbar.
 	 *
 	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -31,18 +33,36 @@ abstract class ModulesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
+	 * @param   integer  $moduleId  The module ID.
+	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
-	public static function getActions()
+	public static function getActions($moduleId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		$actions = JAccess::getActions('com_modules');
-
-		foreach ($actions as $action)
+		// Log usage of deprecated function
+		try
 		{
-			$result->set($action->name, $user->authorise($action->name, 'com_modules'));
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
+		// Get list of actions
+		if (empty($moduleId))
+		{
+			$result = JHelperContent::getActions('com_modules');
+		}
+		else
+		{
+			$result = JHelperContent::getActions('com_modules', 'module', $moduleId);
 		}
 
 		return $result;
@@ -56,10 +76,12 @@ abstract class ModulesHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('JPUBLISHED'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('JUNPUBLISHED'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
+		$options[] = JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
+		$options[] = JHtml::_('select.option', '-2', JText::_('JTRASHED'));
+		$options[] = JHtml::_('select.option', '*', JText::_('JALL'));
+
 		return $options;
 	}
 
@@ -71,23 +93,25 @@ abstract class ModulesHelper
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '0', JText::_('JSITE'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+
 		return $options;
 	}
 
 	/**
 	 * Get a list of modules positions
 	 *
-	 * @param   integer  $clientId  Client ID
+	 * @param   integer  $clientId       Client ID
+	 * @param   boolean  $editPositions  Allow to edit the positions
 	 *
 	 * @return  array  A list of positions
 	 */
 	public static function getPositions($clientId, $editPositions = false)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('DISTINCT(position)')
 			->from('#__modules')
 			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
@@ -103,23 +127,25 @@ abstract class ModulesHelper
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
+
 			return;
 		}
 
 		// Build the list
 		$options = array();
+
 		foreach ($positions as $position)
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[]	= JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
-
+				$options[] = JHtml::_('select.option', 'none', JText::_('COM_MODULES_NONE'));
 			}
 			else
 			{
-				$options[]	= JHtml::_('select.option', $position, $position);
+				$options[] = JHtml::_('select.option', $position, $position);
 			}
 		}
+
 		return $options;
 	}
 
@@ -137,13 +163,14 @@ abstract class ModulesHelper
 		$db = JFactory::getDbo();
 
 		// Get the database object and a new query object.
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		// Build the query.
 		$query->select('element, name, enabled')
 			->from('#__extensions')
 			->where('client_id = ' . (int) $clientId)
 			->where('type = ' . $db->quote('template'));
+
 		if ($state != '')
 		{
 			$query->where('enabled = ' . $db->quote($state));
@@ -157,6 +184,7 @@ abstract class ModulesHelper
 		// Set the query and load the templates.
 		$db->setQuery($query);
 		$templates = $db->loadObjectList('element');
+
 		return $templates;
 	}
 
@@ -169,8 +197,8 @@ abstract class ModulesHelper
 	 */
 	public static function getModules($clientId)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('element AS value, name AS text')
 			->from('#__extensions as e')
 			->where('e.client_id = ' . (int) $clientId)
@@ -188,13 +216,13 @@ abstract class ModulesHelper
 			$extension = $module->value;
 			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$source = $path . "/modules/$extension";
-				$lang->load("$extension.sys", $path, null, false, false)
-			||	$lang->load("$extension.sys", $source, null, false, false)
-			||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
-			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+				$lang->load("$extension.sys", $path, null, false, true)
+			||	$lang->load("$extension.sys", $source, null, false, true);
 			$modules[$i]->text = JText::_($module->text);
 		}
-		JArrayHelper::sortObjects($modules, 'text', 1, true, true);
+
+		$modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);
+
 		return $modules;
 	}
 
@@ -223,8 +251,9 @@ abstract class ModulesHelper
 	/**
 	 * Return a translated module position name
 	 *
-	 * @param   string  $template  Template name
-	 * @param   string  $position  Position name
+	 * @param   integer  $clientId  Application client id 0: site | 1: admin
+	 * @param   string   $template  Template name
+	 * @param   string   $position  Position name
 	 *
 	 * @return  string  Return a translated position name
 	 *
@@ -236,10 +265,16 @@ abstract class ModulesHelper
 		$lang = JFactory::getLanguage();
 		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
-		$lang->load('tpl_'.$template.'.sys', $path, null, false, false)
-		||	$lang->load('tpl_'.$template.'.sys', $path.'/templates/'.$template, null, false, false)
-		||	$lang->load('tpl_'.$template.'.sys', $path, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_'.$template.'.sys', $path.'/templates/'.$template, $lang->getDefault(), false, false);
+		$loaded = $lang->getPaths('tpl_' . $template . '.sys');
+
+		// Only load the template's language file if it hasn't been already
+		if (!$loaded)
+		{
+			$lang->load('tpl_' . $template . '.sys', $path, null, false, false)
+			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+			||	$lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
+			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+		}
 
 		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
 		$text = JText::_($langKey);

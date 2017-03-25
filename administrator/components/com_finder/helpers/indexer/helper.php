@@ -3,11 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
 JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
@@ -16,9 +19,7 @@ JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 /**
  * Helper class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerHelper
 {
@@ -30,6 +31,14 @@ class FinderIndexerHelper
 	 * @since	2.5
 	 */
 	public static $stemmer;
+
+	/**
+	 * A state flag, in order to not constantly check if the stemmer is an instance of FinderIndexerStemmer
+	 *
+	 * @var		boolean
+	 * @since	3.7.0
+	 */
+	protected static $stemmerOK;
 
 	/**
 	 * Method to parse input into plain text.
@@ -62,7 +71,7 @@ class FinderIndexerHelper
 	public static function tokenize($input, $lang, $phrase = false)
 	{
 		static $cache;
-		$store = JString::strlen($input) < 128 ? md5($input . '::' . $lang . '::' . $phrase) : null;
+		$store = StringHelper::strlen($input) < 128 ? md5($input . '::' . $lang . '::' . $phrase) : null;
 
 		// Check if the string has been tokenized already.
 		if ($store && isset($cache[$store]))
@@ -74,7 +83,7 @@ class FinderIndexerHelper
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.
-		$lang = self::getPrimaryLanguage($lang);
+		$lang = static::getPrimaryLanguage($lang);
 
 		/*
 		 * Parsing the string input into terms is a multi-step process.
@@ -89,7 +98,7 @@ class FinderIndexerHelper
 		 *  7. Replace the assorted single quotation marks with the ASCII standard single quotation.
 		 *  8. Remove multiple space characters and replaces with a single space.
 		 */
-		$input = JString::strtolower($input);
+		$input = StringHelper::strtolower($input);
 		$input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
 		$input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
@@ -98,7 +107,7 @@ class FinderIndexerHelper
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
 		$input = preg_replace('#\s+#mui', ' ', $input);
-		$input = JString::trim($input);
+		$input = trim($input);
 
 		// Explode the normalized string to get the terms.
 		$terms = explode(' ', $input);
@@ -120,7 +129,8 @@ class FinderIndexerHelper
 				// Split apart any groups of Chinese characters.
 				for ($j = 0; $j < $charCount; $j++)
 				{
-					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
+					$tSplit = StringHelper::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
+
 					if (!empty($tSplit))
 					{
 						$terms[$i] = $tSplit;
@@ -190,6 +200,7 @@ class FinderIndexerHelper
 		if ($store)
 		{
 			$cache[$store] = count($tokens) > 1 ? $tokens : array_shift($tokens);
+
 			return $cache[$store];
 		}
 		else
@@ -213,23 +224,30 @@ class FinderIndexerHelper
 	public static function stem($token, $lang)
 	{
 		// Trim apostrophes at either end of the token.
-		$token = JString::trim($token, '\'');
+		$token = trim($token, '\'');
 
 		// Trim everything after any apostrophe in the token.
-		if (($pos = JString::strpos($token, '\'')) !== false)
+		if ($res = explode('\'', $token))
 		{
-			$token = JString::substr($token, 0, $pos);
+			$token = $res[0];
 		}
 
-		// Stem the token if we have a valid stemmer to use.
-		if (self::$stemmer instanceof FinderIndexerStemmer)
+		if (static::$stemmerOK === true)
 		{
-			return self::$stemmer->stem($token, $lang);
+			return static::$stemmer->stem($token, $lang);
 		}
 		else
 		{
-			return $token;
+			// Stem the token if we have a valid stemmer to use.
+			if (static::$stemmer instanceof FinderIndexerStemmer)
+			{
+				static::$stemmerOK = true;
+
+				return static::$stemmer->stem($token, $lang);
+			}
 		}
+
+		return $token;
 	}
 
 	/**
@@ -301,14 +319,7 @@ class FinderIndexerHelper
 		}
 
 		// Check if the token is in the common array.
-		if (in_array($token, $data[$lang]))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return in_array($token, $data[$lang], true);
 	}
 
 	/**
@@ -333,9 +344,8 @@ class FinderIndexerHelper
 
 		// Load all of the common terms for the language.
 		$db->setQuery($query);
-		$results = $db->loadColumn();
 
-		return $results;
+		return $db->loadColumn();
 	}
 
 	/**
@@ -382,7 +392,7 @@ class FinderIndexerHelper
 			else
 			{
 				// Get the language key using string position.
-				$data[$lang] = JString::substr($lang, 0, JString::strpos($lang, '-'));
+				$data[$lang] = StringHelper::substr($lang, 0, StringHelper::strpos($lang, '-'));
 			}
 		}
 
@@ -405,9 +415,6 @@ class FinderIndexerHelper
 		// Only get the router once.
 		if (!($router instanceof JRouter))
 		{
-			jimport('joomla.application.router');
-			include_once JPATH_SITE . '/includes/application.php';
-
 			// Get and configure the site router.
 			$config = JFactory::getConfig();
 			$router = JRouter::getInstance('site');
@@ -441,22 +448,14 @@ class FinderIndexerHelper
 		// Load the finder plugin group.
 		JPluginHelper::importPlugin('finder');
 
-		try
-		{
-			// Trigger the event.
-			$results = $dispatcher->trigger('onPrepareFinderContent', array(&$item));
+		// Trigger the event.
+		$results = $dispatcher->trigger('onPrepareFinderContent', array(&$item));
 
-			// Check the returned results. This is for plugins that don't throw
-			// exceptions when they encounter serious errors.
-			if (in_array(false, $results))
-			{
-				throw new Exception($dispatcher->getError(), 500);
-			}
-		}
-		catch (Exception $e)
+		// Check the returned results. This is for plugins that don't throw
+		// exceptions when they encounter serious errors.
+		if (in_array(false, $results))
 		{
-			// Handle a caught exception.
-			throw $e;
+			throw new Exception($dispatcher->getError(), 500);
 		}
 
 		return true;
@@ -465,8 +464,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string     $text    The content to process.
-	 * @param   JRegistry  $params  The parameters object. [optional]
+	 * @param   string    $text    The content to process.
+	 * @param   Registry  $params  The parameters object. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
@@ -487,10 +486,9 @@ class FinderIndexerHelper
 		}
 
 		// Instantiate the parameter object if necessary.
-		if (!($params instanceof JRegistry))
+		if (!($params instanceof Registry))
 		{
-			$registry = new JRegistry;
-			$registry->loadString($params);
+			$registry = new Registry($params);
 			$params = $registry;
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,19 +14,23 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $input = JFactory::getApplication()->input;
 
-JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.keepalive');
-?>
+$saveHistory = $this->state->get('params')->get('save_history', 0);
 
-<script type="text/javascript">
+JHtml::_('behavior.keepalive');
+JHtml::_('behavior.formvalidator');
+
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			<?php echo $this->form->getField('description')->save(); ?>
+		if (task == 'category.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
+			" . $this->form->getField('description')->save() . "
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 	}
-</script>
+");
+$assoc = JLanguageAssociations::isEnabled();
+
+?>
 
 <div class="category-edit">
 	<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -71,15 +75,18 @@ JHtml::_('behavior.keepalive');
 						<?php echo $this->form->getInput('language'); ?>
 					</li>
 					<!-- Tag field -->
-					<?php foreach ($this->get('form')->getFieldset('jmetadata') as $field) : ?>
-						<?php if ($field->name == 'jform[metadata][tags][]') : ?>
-							<li>
-								<?php echo $field->label; ?>
-								<?php echo $field->input; ?>
-
-							</li>
+					<li>
+						<?php if ($this->checkTags) : ?>
+							<?php echo $this->form->getLabel('tags'); ?>
+							<div class="is-tagbox">
+								<?php echo $this->form->getInput('tags'); ?>
+							</div>
 						<?php endif; ?>
-					<?php endforeach; ?>
+					</li>
+					<?php if ($saveHistory) : ?>
+						<li><?php echo $this->form->getLabel('version_note'); ?>
+						<?php echo $this->form->getInput('version_note'); ?></li>
+					<?php endif; ?>
 					<li>
 						<?php echo $this->form->getLabel('id'); ?>
 						<?php echo $this->form->getInput('id'); ?>
@@ -135,28 +142,10 @@ JHtml::_('behavior.keepalive');
 				<?php endif; ?>
 			<?php endforeach; ?>
 
-			<?php $fieldSets = $this->form->getFieldsets('associations'); ?>
-			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-				<?php
-				$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL';
-				echo JHtml::_('sliders.panel', JText::_($label), $name . '-options');
-				if (isset($fieldSet->description) && trim($fieldSet->description))
-				{
-					echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
-				}
-				?>
-				<div class="clr"></div>
-				<fieldset class="panelform">
-					<ul class="adminformlist">
-						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<li>
-								<?php echo $field->label; ?>
-								<?php echo $field->input; ?>
-							</li>
-						<?php endforeach; ?>
-					</ul>
-				</fieldset>
-			<?php endforeach;?>
+			<?php if ($assoc) : ?>
+				<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
+				<?php echo $this->loadTemplate('associations'); ?>
+			<?php endif; ?>
 
 			<?php echo JHtml::_('sliders.end'); ?>
 		</div>

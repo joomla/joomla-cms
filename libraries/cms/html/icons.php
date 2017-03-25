@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for icons.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlIcons
 {
@@ -30,10 +28,12 @@ abstract class JHtmlIcons
 	public static function buttons($buttons)
 	{
 		$html = array();
+
 		foreach ($buttons as $button)
 		{
 			$html[] = JHtml::_('icons.button', $button);
 		}
+
 		return implode($html);
 	}
 
@@ -75,6 +75,7 @@ abstract class JHtmlIcons
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.quickicons.icon');
+
 		return $layout->render($button);
 	}
 }

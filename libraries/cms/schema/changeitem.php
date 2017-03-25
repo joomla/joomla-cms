@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * This class is used to check the site's database to see if the DDL query has been run.
  * If not, it provides the ability to fix the database by re-running the DDL query.
  * The queries are parsed from the update files in the folder
- * administrator/components/com_admin/sql/updates/<database>.
+ * `administrator/components/com_admin/sql/updates/<database>`.
  * These updates are run automatically if the site was updated using com_installer.
  * However, it is possible that the program files could be updated without udpating
  * the database (for example, if a user just copies the new files over the top of an
@@ -23,9 +23,7 @@ defined('JPATH_PLATFORM') or die;
  * This is an abstract class. We need to extend it for each database and add a
  * buildCheckQuery() method that creates the query to check that a DDL query has been run.
  *
- * @package     Joomla.Libraries
- * @subpackage  Schema
- * @since       2.5
+ * @since  2.5
  */
 abstract class JSchemaChangeitem
 {
@@ -141,18 +139,15 @@ abstract class JSchemaChangeitem
 	public static function getInstance($db, $file, $query)
 	{
 		// Get the class name
-		$dbname = $db->name;
+		$serverType = $db->getServerType();
 
-		if ($dbname == 'mysqli')
+		// For `mssql` server types, convert the type to `sqlsrv`
+		if ($serverType === 'mssql')
 		{
-			$dbname = 'mysql';
-		}
-		elseif ($dbname == 'sqlazure')
-		{
-			$dbname = 'sqlsrv';
+			$serverType = 'sqlsrv';
 		}
 
-		$class = 'JSchemaChangeitem' . ucfirst($dbname);
+		$class = 'JSchemaChangeitem' . ucfirst($serverType);
 
 		// If the class exists, return it.
 		if (class_exists($class))
@@ -160,7 +155,7 @@ abstract class JSchemaChangeitem
 			return new $class($db, $file, $query);
 		}
 
-		throw new RuntimeException(sprintf('JSchemaChangeitem child class not found for the %s database driver', $dbname), 500);
+		throw new RuntimeException(sprintf('JSchemaChangeitem child class not found for the %s database driver', $serverType), 500);
 	}
 
 	/**
@@ -193,10 +188,23 @@ abstract class JSchemaChangeitem
 	public function check()
 	{
 		$this->checkStatus = -1;
+
 		if ($this->checkQuery)
 		{
 			$this->db->setQuery($this->checkQuery);
-			$rows = $this->db->loadObject();
+
+			try
+			{
+				$rows = $this->db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				$rows = false;
+
+				// Still render the error message from the Exception object
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
+
 			if ($rows !== false)
 			{
 				if (count($rows) === $this->checkQueryExpected)
@@ -213,6 +221,7 @@ abstract class JSchemaChangeitem
 				$this->checkStatus = -2;
 			}
 		}
+
 		return $this->checkStatus;
 	}
 
@@ -228,7 +237,9 @@ abstract class JSchemaChangeitem
 		if ($this->checkStatus === -2)
 		{
 			// At this point we have a failed query
-			$this->db->setQuery($this->updateQuery);
+			$query = $this->db->convertUtf8mb4QueryToUtf8($this->updateQuery);
+			$this->db->setQuery($query);
+
 			if ($this->db->execute())
 			{
 				if ($this->check())

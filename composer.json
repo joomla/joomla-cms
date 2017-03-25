@@ -1,0 +1,48 @@
+{
+    "name": "joomla/joomla-cms",
+    "type": "project",
+    "description": "Joomla CMS",
+    "keywords": ["joomla", "cms"],
+    "homepage": "https://github.com/joomla/joomla-cms",
+    "license": "GPL-2.0+",
+    "config": {
+        "platform": {
+            "php": "5.3.10"
+        },
+        "vendor-dir": "libraries/vendor"
+    },
+    "support": {
+        "issues":"https://issues.joomla.org",
+        "irc":"http://irc.lc/freenode/joomla/",
+        "forum":"https://forum.joomla.org/",
+        "docs":"https://docs.joomla.org"
+    },
+    "require": {
+        "php": ">=5.3.10",
+        "joomla/application": "~1.5",
+        "joomla/data": "~1.2",
+        "joomla/di": "~1.2",
+        "joomla/event": "~1.1",
+        "joomla/ldap": "~1.1",
+        "joomla/registry": "^1.4.5",
+        "joomla/session": "~1.3",
+        "joomla/string": "~1.3",
+        "joomla/uri": "~1.1",
+        "joomla/utilities": "^1.3.3",
+        "ircmaxell/password-compat": "1.*",
+        "leafo/lessphp": "0.5.0",
+        "paragonie/random_compat": "~1.0",
+        "phpmailer/phpmailer": "^5.2.20",
+        "symfony/polyfill-php55": "~1.2",
+        "symfony/polyfill-php56": "~1.0",
+        "symfony/yaml": "2.*",
+        "simplepie/simplepie": "1.3.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8.35",
+        "phpunit/dbunit": "~1.3",
+        "friendsofphp/php-cs-fixer": "~1.11",
+        "squizlabs/php_codesniffer": "~1.5",
+        "pear/cache_lite": "1.7.16"
+    }
+}

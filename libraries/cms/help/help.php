@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Help
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Help system class
  *
- * @package     Joomla.Libraries
- * @subpackage  Help
- * @since       1.5
+ * @since  1.5
  */
 class JHelp
 {
@@ -30,10 +28,10 @@ class JHelp
 	 *
 	 * @since   1.5
 	 */
-	public static function createURL($ref, $useComponent = false, $override = null, $component = null)
+	public static function createUrl($ref, $useComponent = false, $override = null, $component = null)
 	{
 		$local = false;
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 
 		if (is_null($component))
 		{
@@ -51,12 +49,12 @@ class JHelp
 		{
 			// Get the user help URL.
 			$user = JFactory::getUser();
-			$url = $user->getParam('helpsite');
+			$url  = $user->getParam('helpsite');
 
 			// If user hasn't specified a help URL, then get the global one.
 			if ($url == '')
 			{
-				$url = $app->getCfg('helpurl');
+				$url = $app->get('helpurl');
 			}
 
 			// Component help URL overrides user and global.
@@ -64,12 +62,12 @@ class JHelp
 			{
 				// Look for help URL in component parameters.
 				$params = JComponentHelper::getParams($component);
-				$url = $params->get('helpURL');
+				$url    = $params->get('helpURL');
 
 				if ($url == '')
 				{
 					$local = true;
-					$url = 'components/{component}/help/{language}/{keyref}';
+					$url   = 'components/{component}/help/{language}/{keyref}';
 				}
 			}
 
@@ -77,7 +75,7 @@ class JHelp
 			if (!$url)
 			{
 				$local = true;
-				$url = 'help/{language}/{keyref}';
+				$url   = 'help/{language}/{keyref}';
 			}
 		}
 
@@ -93,12 +91,12 @@ class JHelp
 		/*
 		 *  Replace substitution codes in the URL.
 		 */
-		$lang = JFactory::getLanguage();
+		$lang    = JFactory::getLanguage();
 		$version = new JVersion;
-		$jver = explode('.', $version->getShortVersion());
-		$jlang = explode('-', $lang->getTag());
+		$jver    = explode('.', $version->getShortVersion());
+		$jlang   = explode('-', $lang->getTag());
 
-		$debug = $lang->setDebug(false);
+		$debug  = $lang->setDebug(false);
 		$keyref = JText::_($ref);
 		$lang->setDebug($debug);
 
@@ -121,7 +119,7 @@ class JHelp
 			// Joomla minor version number
 			'{minor}',
 			// Joomla maintenance version number
-			'{maintenance}'
+			'{maintenance}',
 		);
 
 		$replace = array(
@@ -142,7 +140,7 @@ class JHelp
 			// {minor}
 			$jver[1],
 			// {maintenance}
-			$jver[2]
+			$jver[2],
 		);
 
 		// If the help file is local then check it exists.
@@ -176,7 +174,7 @@ class JHelp
 	public static function createSiteList($pathToXml)
 	{
 		$list = array();
-		$xml = false;
+		$xml  = false;
 
 		if (!empty($pathToXml))
 		{
@@ -185,8 +183,9 @@ class JHelp
 
 		if (!$xml)
 		{
-			$option['text'] = 'English (GB) help.joomla.org';
+			$option['text']  = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
+
 			$list[] = $option;
 		}
 		else
@@ -195,7 +194,7 @@ class JHelp
 
 			foreach ($xml->sites->site as $site)
 			{
-				$option['text'] = (string) $site;
+				$option['text']  = (string) $site;
 				$option['value'] = (string) $site->attributes()->url;
 
 				$list[] = $option;

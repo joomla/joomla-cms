@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ $text    = empty($displayData['text']) ? '' : ('<span>' . $displayData['text'] .
 <div class="quickicon-wrapper"<?php echo $id; ?>>
 	<div class="icon">
 		<a href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<?php echo JHtml::_('image', empty($displayData['icon']) ? '' : $displayData['icon'], empty($displayData['alt']) ? null : htmlspecialchars($displayData['alt']), null, true); ?>
+			<?php echo JHtml::_('image', empty($displayData['icon']) ? '' : $displayData['icon'], empty($displayData['alt']) ? null : htmlspecialchars($displayData['alt'], ENT_COMPAT, 'UTF-8'), null, true); ?>
 			<?php echo $text; ?>
 		</a>
 	</div>

@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.1"
+	version="3.6"
 	client="installation">
 	<name>Türkçe (Türkiye)</name>
-	<version>3.0</version>
-	<creationDate>September 2012</creationDate>
-	<author>Joomla! Project</author>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<version>3.6.0</version>
+	<creationDate>May 2016</creationDate>
+	<author>Ümit Kenan Gönüllü</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Turkish installation file</description>
 	<files>
 		<filename>tr-TR.ini</filename>
 	</files>

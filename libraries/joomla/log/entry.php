@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * This class is designed to hold log entries for either writing to an engine, or for
  * supported engines, retrieving lists and building in memory (PHP based) search operations.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @since  11.1
  */
 class JLogEntry
 {
@@ -46,7 +44,7 @@ class JLogEntry
 	 * The priority of the message to be logged.
 	 * @var    string
 	 * @since  11.1
-	 * @see    $priorities
+	 * @see    JLogEntry::$priorities
 	 */
 	public $priority = JLog::INFO;
 
@@ -63,14 +61,21 @@ class JLogEntry
 		JLog::WARNING,
 		JLog::NOTICE,
 		JLog::INFO,
-		JLog::DEBUG
+		JLog::DEBUG,
 	);
+
+	/**
+	 * Call stack and back trace of the logged call.
+	 * @var    array
+	 * @since  12.3
+	 */
+	public $callStack = array();
 
 	/**
 	 * Constructor
 	 *
 	 * @param   string  $message   The message to log.
-	 * @param   string  $priority  Message priority based on {$this->priorities}.
+	 * @param   int     $priority  Message priority based on {$this->priorities}.
 	 * @param   string  $category  Type of entry
 	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
 	 *
@@ -85,6 +90,7 @@ class JLogEntry
 		{
 			$priority = JLog::INFO;
 		}
+
 		$this->priority = $priority;
 
 		// Sanitize category if it exists.
@@ -92,6 +98,9 @@ class JLogEntry
 		{
 			$this->category = (string) strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $category));
 		}
+
+		// Get the current call stack and back trace (without args to save memory).
+		$this->callStack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		// Get the date as a JDate object.
 		$this->date = new JDate($date ? $date : 'now');

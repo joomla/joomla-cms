@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php';
+JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $clientId       = $this->item->client_id;
@@ -25,7 +25,7 @@ $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 $attr = array(
 	'id'          => 'jform_position',
 	'list.select' => $this->item->position,
-	'list.attr'   => 'class="chzn-custom-value input-xlarge" '
+	'list.attr'   => 'class="chzn-custom-value" '
 	. 'data-custom_group_text="' . $customGroupText . '" '
 	. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
 	. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '

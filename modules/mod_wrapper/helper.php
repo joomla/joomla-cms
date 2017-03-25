@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class ModWrapperHelper
 {
+	/**
+	 * Gets the parameters for the wrapper
+	 *
+	 * @param   mixed  &$params  The parameters set in the administrator section
+	 *
+	 * @return  mixed  &params  The modified parameters
+	 *
+	 * @since   1.5
+	 */
 	public static function getParams(&$params)
 	{
 		$params->def('url', '');
@@ -32,22 +41,19 @@ class ModWrapperHelper
 
 		if ($params->get('add'))
 		{
-			// adds 'http://' if none is set
-			if (substr($url, 0, 1) == '/')
+			// Adds 'http://' if none is set
+			if (strpos($url, '/') === 0)
 			{
-				// relative url in component. use server http_host.
-				$url = 'http://'.$_SERVER['HTTP_HOST'].$url;
+				// Relative URL in component. use server http_host.
+				$url = 'http://' . $_SERVER['HTTP_HOST'] . $url;
 			}
-			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
+			elseif (strpos($url, 'http') === false && strpos($url, 'https') === false)
 			{
-				$url = 'http://'.$url;
-			}
-			else {
-				$url = $url;
+				$url = 'http://' . $url;
 			}
 		}
 
-		// auto height control
+		// Auto height control
 		if ($params->def('height_auto'))
 		{
 			$load = 'onload="iFrameHeight()"';

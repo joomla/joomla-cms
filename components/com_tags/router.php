@@ -3,149 +3,218 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
- * Build the route for the com_tags component
+ * Routing class from com_tags
  *
- * @param   array  An array of URL arguments
- *
- * @return  array  The URL arguments to use to assemble the subsequent URL.
- *
- * @since   3.1
+ * @since  3.3
  */
-function TagsBuildRoute(&$query)
+class TagsRouter extends JComponentRouterBase
 {
-	$segments = array();
-
-	// Get a menu item based on Itemid or currently active
-	$app		= JFactory::getApplication();
-	$menu		= $app->getMenu();
-	$params		= JComponentHelper::getParams('com_tags');
-	$advanced	= $params->get('sef_advanced_link', 0);
-
-	// We need a menu item.  Either the one specified in the query, or the current active one if none specified
-	if (empty($query['Itemid'])) {
-		$menuItem = $menu->getActive();
-	}
-	else {
-		$menuItem = $menu->getItem($query['Itemid']);
-	}
-
-	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
-	if (is_array($mId))
+	/**
+	 * Build the route for the com_tags component
+	 *
+	 * @param   array  &$query  An array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
+	 */
+	public function build(&$query)
 	{
-		JArrayHelper::toInteger($mId);
-	}
+		$segments = array();
 
-	if (isset($query['view'])) {
-		$view = $query['view'];
+		// Get a menu item based on Itemid or currently active
+		$params = JComponentHelper::getParams('com_tags');
 
-		if (empty($query['Itemid'])) {
-			$segments[] = $query['view'];
+		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
+		if (empty($query['Itemid']))
+		{
+			$menuItem = $this->menu->getActive();
 		}
-		unset($query['view']);
-	}
+		else
+		{
+			$menuItem = $this->menu->getItem($query['Itemid']);
+		}
 
-	// Are we dealing with a tag that is attached to a menu item?
-	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == $query['id']))
-	{
-		unset($query['view']);
-		unset($query['id']);
+		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
+		$mId   = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
+
+		if (is_array($mId))
+		{
+			$mId = ArrayHelper::toInteger($mId);
+		}
+
+		$view = '';
+
+		if (isset($query['view']))
+		{
+			$view = $query['view'];
+
+			if (empty($query['Itemid']))
+			{
+				$segments[] = $view;
+			}
+
+			unset($query['view']);
+		}
+
+		// Are we dealing with a tag that is attached to a menu item?
+		if ($mView == $view && isset($query['id']) && $mId == $query['id'])
+		{
+			unset($query['id']);
+
+			return $segments;
+		}
+
+		if ($view == 'tag')
+		{
+			$notActiveTag = is_array($mId) ? (count($mId) > 1 || $mId[0] != (int) $query['id']) : ($mId != (int) $query['id']);
+
+			if ($notActiveTag || $mView != $view)
+			{
+				// ID in com_tags can be either an integer, a string or an array of IDs
+				$id = is_array($query['id']) ? implode(',', $query['id']) : $query['id'];
+				$segments[] = $id;
+			}
+
+			unset($query['id']);
+		}
+
+		if (isset($query['layout']))
+		{
+			if ((!empty($query['Itemid']) && isset($menuItem->query['layout'])
+				&& $query['layout'] == $menuItem->query['layout'])
+				|| $query['layout'] == 'default')
+			{
+				unset($query['layout']);
+			}
+		}
+
+		$total = count($segments);
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			$segments[$i] = str_replace(':', '-', $segments[$i]);
+			$position     = strpos($segments[$i], '-');
+
+			if ($position)
+			{
+				// Remove id from segment
+				$segments[$i] = substr($segments[$i], $position + 1);
+			}
+		}
+
 		return $segments;
 	}
 
-	if (isset($view) and $view == 'tag')
+	/**
+	 * Parse the segments of a URL.
+	 *
+	 * @param   array  &$segments  The segments of the URL to parse.
+	 *
+	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.3
+	 */
+	public function parse(&$segments)
 	{
-		if ($mId != (int) $query['id'] || $mView != $view)
+		$total = count($segments);
+		$vars = array();
+
+		for ($i = 0; $i < $total; $i++)
 		{
-			if ($view == 'tag') {
-				if ($advanced) {
-					list($tmp, $id) = explode(':', $query['id'], 2);
-				}
-				else {
-					$id = $query['id'];
-				}
-
-				$segments[] = $id;
-			}
+			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
 		}
-		unset($query['id']);
-	}
 
-	if (isset($query['layout'])) {
-		if (!empty($query['Itemid']) && isset($menuItem->query['layout'])) {
-			if ($query['layout'] == $menuItem->query['layout']) {
-				unset($query['layout']);
-			}
+		// Get the active menu item.
+		$item = $this->menu->getActive();
+
+		// Count route segments
+		$count = count($segments);
+
+		// Standard routing for tags.
+		if (!isset($item))
+		{
+			$vars['view'] = $segments[0];
+			$vars['id']   = $this->fixSegment($segments[$count - 1]);
+
+			return $vars;
 		}
-		else {
-			if ($query['layout'] == 'default') {
-				unset($query['layout']);
-			}
-		}
-	};
 
-	return $segments;
-}
-/**
- * Parse the segments of a URL.
- *
- * @param   array  The segments of the URL to parse.
- *
- * @return  array  The URL attributes to be used by the application.
- *
- * @since   3.1
- */
-function TagsParseRoute($segments)
-{
-	$vars = array();
+		$vars['id'] = $this->fixSegment($segments[0]);
+		$vars['view'] = 'tag';
 
-	//Get the active menu item.
-	$app	= JFactory::getApplication();
-	$menu	= $app->getMenu();
-	$item	= $menu->getActive();
-
-	// Count route segments
-	$count = count($segments);
-
-	// Standard routing for tags.
-	if (!isset($item))
-	{
-		$vars['view']	= $segments[0];
-		$vars['id']		= $segments[$count - 1];
 		return $vars;
 	}
 
-	// From the tags view, we can only jump to a tag.
-	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-
-	$found = 0;
-
-	/* TODO: Sort this code out. Makes no sense!
-	 * $found isn't used.
-	 * Indentation is all off
-	 * The foreach loop will always break in first itteration
-	 */
-	foreach($segments as $segment)
+	/**
+	 * Try to add missing id to segment
+	 *
+	 * @param   string  $segment  One piece of segment of the URL to parse
+	 *
+	 * @return  string  The segment with founded id
+	 *
+	 * @since   3.7
+	*/
+	protected function fixSegment($segment)
 	{
-		if ($found == 0)
+		$db = JFactory::getDbo();
+
+		// Try to find tag id
+		$alias = str_replace(':', '-', $segment);
+
+		$query = $db->getQuery(true)
+			->select('id')
+			->from($db->quoteName('#__tags'))
+			->where($db->quoteName('alias') . " = " . $db->quote($alias));
+
+		$id = $db->setQuery($query)->loadResult();
+
+		if ($id)
 		{
-			$id = $segment;
+			$segment = "$id:$alias";
 		}
 
-			$vars['id'] = $id;
-			$vars['view'] = 'tag';
-
-			break;
+		return $segment;
 	}
+}
 
-	$found = 0;
+/**
+ * Tags router functions. These functions are proxys for the new router interface or old SEF extensions.
+ *
+ * @param   array  &$query  An array of URL arguments.
+ *
+ * @return array
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function tagsBuildRoute(&$query)
+{
+	$router = new TagsRouter;
 
-	return $vars;
+	return $router->build($query);
+}
+
+/**
+ * Parse the segments of a URL. These functions are proxys for the new router interface or old SEF extensions.
+ *
+ * @param   array  $segments  The segments of the URL to parse.
+ *
+ * @return  array  The URL attributes to be used by the application.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function tagsParseRoute($segments)
+{
+	$router = new TagsRouter;
+
+	return $router->parse($segments);
 }

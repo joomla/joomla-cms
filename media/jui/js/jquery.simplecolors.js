@@ -8,10 +8,8 @@
  * Copyright (C) 2013 Peter van Westen
  */
 
-(function($)
-{
-	var SimpleColorPicker = function(element, options)
-	{
+(function($) {
+	var SimpleColorPicker = function(element, options) {
 		this.select = $(element);
 		this.options = $.extend({}, $.fn.simplecolors.defaults, options);
 
@@ -19,8 +17,7 @@
 
 		// Build the list of colors
 		var list = '';
-		$('option', this.select).each(function()
-		{
+		$('option', this.select).each(function() {
 			var option = $(this);
 			var color = option.val();
 			if (option.text() == '-') {
@@ -63,8 +60,7 @@
 	SimpleColorPicker.prototype = {
 		constructor: SimpleColorPicker,
 
-		show: function()
-		{
+		show: function() {
 			var panelpadding = 7; // Empirical value
 			var pos = this.icon.offset();
 			switch (this.select.attr('data-position')) {
@@ -98,13 +94,13 @@
 			this.panel.show(this.options.delay);
 		},
 
-		hide: function()
-		{
-			this.panel.hide(this.options.delay);
+		hide: function() {
+			if (this.panel.css('display') != 'none') {
+				this.panel.hide(this.options.delay);
+			}
 		},
 
-		click: function(e)
-		{
+		click: function(e) {
 			var target = $(e.target);
 			if (target.length === 1) {
 				if (target[0].nodeName.toLowerCase() === 'span') {
@@ -141,8 +137,7 @@
 		/**
 		 * Prevents the mousedown event from "eating" the click event.
 		 */
-		mousedown: function(e)
-		{
+		mousedown: function(e) {
 			e.stopPropagation();
 			e.preventDefault();
 		},
@@ -152,10 +147,8 @@
 		 *
 		 * See http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-$
 		 */
-		rgb2hex: function(rgb)
-		{
-			function hex(x)
-			{
+		rgb2hex: function(rgb) {
+			function hex(x) {
 				return ("0" + parseInt(x, 10).toString(16)).slice(-2);
 			}
 
@@ -173,11 +166,9 @@
 	/**
 	 * Plugin definition.
 	 */
-	$.fn.simplecolors = function(option)
-	{
+	$.fn.simplecolors = function(option) {
 		// For HTML element passed to the plugin
-		return this.each(function()
-		{
+		return this.each(function() {
 			var $this = $(this),
 				data = $this.data('simplecolors'),
 				options = typeof option === 'object' && option;

@@ -4,7 +4,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,11 +15,8 @@ jimport('joomla.filesystem.file');
 /**
  * A Unified Diff Format Patcher class
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- *
- * @link        http://sourceforge.net/projects/phppatcher/ This has been derived from the PhpPatcher version 0.1.1 written by Giuseppe Mazzotta
- * @since       12.1
+ * @link   http://sourceforge.net/projects/phppatcher/ This has been derived from the PhpPatcher version 0.1.1 written by Giuseppe Mazzotta
+ * @since  12.1
  */
 class JFilesystemPatcher
 {
@@ -44,37 +41,32 @@ class JFilesystemPatcher
 	const SPLIT = '/(\r\n)|(\r)|(\n)/';
 
 	/**
-	 * @var  array  sources files
-	 *
-	 * @since   12.1
+	 * @var    array  sources files
+	 * @since  12.1
 	 */
 	protected $sources = array();
 
 	/**
-	 * @var  array  destination files
-	 *
-	 * @since   12.1
+	 * @var    array  destination files
+	 * @since  12.1
 	 */
 	protected $destinations = array();
 
 	/**
-	 * @var  array  removal files
-	 *
-	 * @since   12.1
+	 * @var    array  removal files
+	 * @since  12.1
 	 */
 	protected $removals = array();
 
 	/**
-	 * @var  array  patches
-	 *
-	 * @since   12.1
+	 * @var    array  patches
+	 * @since  12.1
 	 */
 	protected $patches = array();
 
 	/**
-	 * @var  array  instance of this class
-	 *
-	 * @since   12.1
+	 * @var    array  instance of this class
+	 * @since  12.1
 	 */
 	protected static $instance;
 
@@ -102,6 +94,7 @@ class JFilesystemPatcher
 		{
 			static::$instance = new static;
 		}
+
 		return static::$instance;
 	}
 
@@ -109,6 +102,8 @@ class JFilesystemPatcher
 	 * Reset the pacher
 	 *
 	 * @return  JFilesystemPatcher  This object for chaining
+	 *
+	 * @since   12.1
 	 */
 	public function reset()
 	{
@@ -116,15 +111,17 @@ class JFilesystemPatcher
 		$this->destinations = array();
 		$this->removals = array();
 		$this->patches = array();
+
 		return $this;
 	}
 
 	/**
 	 * Apply the patches
 	 *
-	 * @throw  RuntimeException
+	 * @return  integer  The number of files patched
 	 *
-	 * @return integer the number of files patched
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function apply()
 	{
@@ -138,16 +135,14 @@ class JFilesystemPatcher
 			{
 				$done = false;
 
-				if ($patch['strip'] === null)
+				$regex = '#^([^/]*/)*#';
+				if ($patch['strip'] !== null)
 				{
-					$src = $patch['root'] . preg_replace('#^([^/]*/)*#', '', $src);
-					$dst = $patch['root'] . preg_replace('#^([^/]*/)*#', '', $dst);
+					$regex = '#^([^/]*/){' . (int) $patch['strip'] . '}#';
 				}
-				else
-				{
-					$src = $patch['root'] . preg_replace('#^([^/]*/){' . (int) $patch['strip'] . '}#', '', $src);
-					$dst = $patch['root'] . preg_replace('#^([^/]*/){' . (int) $patch['strip'] . '}#', '', $dst);
-				}
+
+				$src = $patch['root'] . preg_replace($regex, '', $src);
+				$dst = $patch['root'] . preg_replace($regex, '', $dst);
 
 				// Loop for each hunk of differences
 				while (self::findHunk($lines, $src_line, $src_size, $dst_line, $dst_size))
@@ -172,12 +167,15 @@ class JFilesystemPatcher
 		// Patch each destination file
 		foreach ($this->destinations as $file => $content)
 		{
-			if (JFile::write($file, implode("\n", $content)))
+			$buffer = implode("\n", $content);
+
+			if (JFile::write($file, $buffer))
 			{
 				if (isset($this->sources[$file]))
 				{
 					$this->sources[$file] = $content;
 				}
+
 				$done++;
 			}
 		}
@@ -191,6 +189,7 @@ class JFilesystemPatcher
 				{
 					unset($this->sources[$file]);
 				}
+
 				$done++;
 			}
 		}
@@ -203,6 +202,7 @@ class JFilesystemPatcher
 
 		// Clear the patches
 		$this->patches = array();
+
 		return $done;
 	}
 
@@ -238,8 +238,9 @@ class JFilesystemPatcher
 		$this->patches[] = array(
 			'udiff' => $udiff,
 			'root' => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
-			'strip' => $strip
+			'strip' => $strip,
 		);
+
 		return $this;
 	}
 
@@ -268,7 +269,8 @@ class JFilesystemPatcher
 	 *
 	 * @return  boolean  TRUE in case of success, FALSE in case of failure
 	 *
-	 * @throw  RuntimeException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	protected static function findHeader(&$lines, &$src, &$dst)
 	{
@@ -280,39 +282,40 @@ class JFilesystemPatcher
 		{
 			$line = next($lines);
 		}
+
 		if ($line === false)
 		{
 			// No header found, return false
 			return false;
 		}
-		else
+
+		// Set the source file
+		$src = $m[1];
+
+		// Advance to the next line
+		$line = next($lines);
+
+		if ($line === false)
 		{
-			// Set the source file
-			$src = $m[1];
-
-			// Advance to the next line
-			$line = next($lines);
-			if ($line === false)
-			{
-				throw new RuntimeException('Unexpected EOF');
-			}
-
-			// Search the destination file
-			if (!preg_match(self::DST_FILE, $line, $m))
-			{
-				throw new RuntimeException('Invalid Diff file');
-			}
-
-			// Set the destination file
-			$dst = $m[1];
-
-			// Advance to the next line
-			if (next($lines) === false)
-			{
-				throw new RuntimeException('Unexpected EOF');
-			}
-			return true;
+			throw new RuntimeException('Unexpected EOF');
 		}
+
+		// Search the destination file
+		if (!preg_match(self::DST_FILE, $line, $m))
+		{
+			throw new RuntimeException('Invalid Diff file');
+		}
+
+		// Set the destination file
+		$dst = $m[1];
+
+		// Advance to the next line
+		if (next($lines) === false)
+		{
+			throw new RuntimeException('Unexpected EOF');
+		}
+
+		return true;
 	}
 
 	/**
@@ -328,29 +331,27 @@ class JFilesystemPatcher
 	 *
 	 * @return  boolean  TRUE in case of success, false in case of failure
 	 *
-	 * @throw  RuntimeException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	protected static function findHunk(&$lines, &$src_line, &$src_size, &$dst_line, &$dst_size)
 	{
 		$line = current($lines);
+
 		if (preg_match(self::HUNK, $line, $m))
 		{
 			$src_line = (int) $m[1];
-			if ($m[3] === '')
-			{
-				$src_size = 1;
-			}
-			else
+
+			$src_size = 1;
+			if ($m[3] !== '')
 			{
 				$src_size = (int) $m[3];
 			}
 
 			$dst_line = (int) $m[4];
-			if ($m[6] === '')
-			{
-				$dst_size = 1;
-			}
-			else
+
+			$dst_size = 1;
+			if ($m[6] !== '')
 			{
 				$dst_size = (int) $m[6];
 			}
@@ -362,10 +363,8 @@ class JFilesystemPatcher
 
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -381,7 +380,8 @@ class JFilesystemPatcher
 	 *
 	 * @return  void
 	 *
-	 * @throw  RuntimeException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	protected function applyHunk(&$lines, $src, $dst, $src_line, $src_size, $dst_line, $dst_size)
 	{
@@ -396,6 +396,7 @@ class JFilesystemPatcher
 		$destin = array();
 		$src_left = $src_size;
 		$dst_left = $dst_size;
+
 		do
 		{
 			if (!isset($line[0]))
@@ -409,8 +410,9 @@ class JFilesystemPatcher
 			{
 				if ($src_left == 0)
 				{
-					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_REMOVE_LINE', key($lines)));
+					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_REMOVE_LINE', key($lines)));
 				}
+
 				$source[] = substr($line, 1);
 				$src_left--;
 			}
@@ -418,8 +420,9 @@ class JFilesystemPatcher
 			{
 				if ($dst_left == 0)
 				{
-					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_ADD_LINE', key($lines)));
+					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_ADD_LINE', key($lines)));
 				}
+
 				$destin[] = substr($line, 1);
 				$dst_left--;
 			}
@@ -431,24 +434,27 @@ class JFilesystemPatcher
 				$src_left--;
 				$dst_left--;
 			}
+
 			if ($src_left == 0 && $dst_left == 0)
 			{
-
 				// Now apply the patch, finally!
 				if ($src_size > 0)
 				{
 					$src_lines = & $this->getSource($src);
+
 					if (!isset($src_lines))
 					{
 						throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXISING_SOURCE', $src));
 					}
 				}
+
 				if ($dst_size > 0)
 				{
 					if ($src_size > 0)
 					{
 						$dst_lines = & $this->getDestination($dst, $src);
 						$src_bottom = $src_line + count($source);
+
 						for ($l = $src_line;$l < $src_bottom;$l++)
 						{
 							if ($src_lines[$l] != $source[$l - $src_line])
@@ -456,6 +462,7 @@ class JFilesystemPatcher
 								throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_FAILED_VERIFY', $src, $l));
 							}
 						}
+
 						array_splice($dst_lines, $dst_line, count($source), $destin);
 					}
 					else
@@ -467,11 +474,15 @@ class JFilesystemPatcher
 				{
 					$this->removals[] = $src;
 				}
+
 				next($lines);
+
 				return;
 			}
+
 			$line = next($lines);
 		}
+
 		while ($line !== false);
 		throw new RuntimeException('Unexpected EOF');
 	}
@@ -489,15 +500,13 @@ class JFilesystemPatcher
 	{
 		if (!isset($this->sources[$src]))
 		{
+			$this->sources[$src] = null;
 			if (is_readable($src))
 			{
 				$this->sources[$src] = self::splitLines(file_get_contents($src));
 			}
-			else
-			{
-				$this->sources[$src] = null;
-			}
 		}
+
 		return $this->sources[$src];
 	}
 
@@ -517,6 +526,7 @@ class JFilesystemPatcher
 		{
 			$this->destinations[$dst] = $this->getSource($src);
 		}
+
 		return $this->destinations[$dst];
 	}
 }

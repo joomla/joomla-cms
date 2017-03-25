@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extension object
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerExtension extends JObject
 {
@@ -131,12 +129,14 @@ class JInstallerExtension extends JObject
 						$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
 						$this->client_id = $this->client_id->id;
 					}
+
 					if ($element->attributes()->group)
 					{
 						$this->group = (string) $element->attributes()->group;
 					}
 					break;
 			}
+
 			$this->filename = (string) $element;
 		}
 	}
@@ -145,23 +145,10 @@ class JInstallerExtension extends JObject
 /**
  * Deprecated class placeholder. You should use JInstallerExtension instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore
  */
 class JExtension extends JInstallerExtension
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
-	 *
-	 * @since  3.1
-	 */
-	public function __construct(SimpleXMLElement $element = null)
-	{
-		parent::__construct($element);
-	}
 }

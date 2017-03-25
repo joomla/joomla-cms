@@ -3,7 +3,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  *
@@ -262,9 +262,6 @@ p.tab-description {
 /**
  * Login Settings
  */
-#login-page form .inputbox {
-	margin-right: 5px;
-}
 #login-page input, #login-page select {
 	float: left;
 }
@@ -496,6 +493,21 @@ table.paramlist td.paramlist_description {
  */
 fieldset.adminform {
 	margin: 0 10px 10px 10px;
+}
+fieldset.adminform .input-prepend,
+fieldset.adminform .input-append,
+fieldset.panelform .input-prepend,
+fieldset.panelform .input-append {
+	float: right;
+}
+fieldset.adminform .adminformlist .btn.modal,
+fieldset.adminform .input-prepend > *,
+fieldset.adminform .input-append > *,
+fieldset.panelform .adminformlist .btn.modal,
+fieldset.panelform .input-prepend > *,
+fieldset.panelform .input-append > * {
+	float: none;
+	vertical-align: middle;
 }
 
 	/* Table styles are for use with tabular data */
@@ -1292,6 +1304,22 @@ div.btn-toolbar {
 	float: left;
 }
 
+.popover,
 .tooltip-inner {
 	text-align: right;
+}
+div.toggle-editor {
+	float: left;
+}
+#editor-xtd-buttons .btn {
+	float: right;
+}
+div.toggle-editor {
+	margin-top: 14px;
+}
+.modal-footer button {
+	float: left;
+}
+#form-login  {
+	float: right;
 }

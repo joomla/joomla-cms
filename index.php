@@ -2,14 +2,23 @@
 /**
  * @package    Joomla.Site
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (version_compare(PHP_VERSION, '5.3.1', '<'))
+/**
+ * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
+ */
+define('JOOMLA_MINIMUM_PHP', '5.3.10');
+
+if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
-	die('Your host needs to use PHP 5.3.1 or higher to run this version of Joomla!');
+	die('Your host needs to use PHP ' . JOOMLA_MINIMUM_PHP . ' or higher to run this version of Joomla!');
 }
+
+// Saves the start time and memory usage.
+$startTime = microtime(1);
+$startMem  = memory_get_usage();
 
 /**
  * Constant that is checked in included files to prevent direct access.
@@ -30,35 +39,11 @@ if (!defined('_JDEFINES'))
 
 require_once JPATH_BASE . '/includes/framework.php';
 
-// Mark afterLoad in the profiler.
-JDEBUG ? $_PROFILER->mark('afterLoad') : null;
+// Set profiler start time and memory usage and mark afterLoad in the profiler.
+JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;
 
 // Instantiate the application.
 $app = JFactory::getApplication('site');
 
-// Initialise the application.
-$app->initialise();
-
-// Mark afterIntialise in the profiler.
-JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
-
-// Route the application.
-$app->route();
-
-// Mark afterRoute in the profiler.
-JDEBUG ? $_PROFILER->mark('afterRoute') : null;
-
-// Dispatch the application.
-$app->dispatch();
-
-// Mark afterDispatch in the profiler.
-JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
-
-// Render the application.
-$app->render();
-
-// Mark afterRender in the profiler.
-JDEBUG ? $_PROFILER->mark('afterRender') : null;
-
-// Return the response.
-echo $app;
+// Execute the application.
+$app->execute();

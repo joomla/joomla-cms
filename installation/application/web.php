@@ -3,29 +3,21 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-/**
- * Joomla! Installation Application class
- *
- * @package     Joomla.Installation
- * @subpackage  Application
- * @since       3.1
- */
-final class InstallationApplicationWeb extends JApplicationWeb
-{
-	/**
-	 * The application message queue.
-	 *
-	 * @var    array
-	 * @since  3.1
-	 */
-	protected $_messageQueue = array();
+use Joomla\Registry\Registry;
 
+/**
+ * Joomla! Installation Application class.
+ *
+ * @since  3.1
+ */
+final class InstallationApplicationWeb extends JApplicationCms
+{
 	/**
 	 * Class constructor.
 	 *
@@ -33,50 +25,34 @@ final class InstallationApplicationWeb extends JApplicationWeb
 	 */
 	public function __construct()
 	{
-		// Run the parent constructor
+		// Register the application name.
+		$this->_name = 'installation';
+
+		// Register the client ID.
+		$this->_clientId = 2;
+
+		// Run the parent constructor.
 		parent::__construct();
 
-		// Load and set the dispatcher
-		$this->loadDispatcher();
-
-		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
-		{
-			$this->config->set('session', true);
-		}
-
-		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
-		{
-			$this->config->set('session_name', 'installation');
-		}
-
-		// Create the session if a session name is passed.
-		if ($this->config->get('session') !== false)
-		{
-			$this->loadSession();
-
-			// Register the session with JFactory
-			JFactory::$session = $this->getSession();
-		}
-
-		// Store the debug value to config based on the JDEBUG flag
+		// Store the debug value to config based on the JDEBUG flag.
 		$this->config->set('debug', JDEBUG);
 
-		// Register the config to JFactory
+		// Register the config to JFactory.
 		JFactory::$config = $this->config;
 
-		// Register the application to JFactory
+		// Register the application to JFactory.
 		JFactory::$application = $this;
 
-		// Set the root in the URI based on the application name
-		JUri::root(null, str_ireplace('/installation', '', JUri::base(true)));
+		// Set the root in the URI one level up.
+		$parts = explode('/', JUri::base(true));
+		array_pop($parts);
+		JUri::root(null, implode('/', $parts));
 	}
 
 	/**
-	 * Method to display errors in language parsing
+	 * Method to display errors in language parsing.
 	 *
-	 * @return  string  Language debug output
+	 * @return  string  Language debug output.
 	 *
 	 * @since   3.1
 	 */
@@ -112,6 +88,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 			ksort($orphans, SORT_STRING);
 
 			$guesses = array();
+
 			foreach ($orphans as $key => $occurance)
 			{
 				$guess = str_replace('_', ' ', $key);
@@ -130,7 +107,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
-				// Prepare the text
+				// Prepare the text.
 				$guesses[] = $key . '="' . $guess . '"';
 			}
 
@@ -147,7 +124,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 	}
 
 	/**
-	 * Dispatch the application
+	 * Dispatch the application.
 	 *
 	 * @return  void
 	 *
@@ -157,13 +134,13 @@ final class InstallationApplicationWeb extends JApplicationWeb
 	{
 		try
 		{
-			// Load the document to the API
+			// Load the document to the API.
 			$this->loadDocument();
 
 			// Set up the params
 			$document = $this->getDocument();
 
-			// Register the document object with JFactory
+			// Register the document object with JFactory.
 			JFactory::$document = $document;
 
 			if ($document->getType() == 'html')
@@ -172,7 +149,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 			}
 
-			// Define component path
+			// Define component path.
 			define('JPATH_COMPONENT', JPATH_BASE);
 			define('JPATH_COMPONENT_SITE', JPATH_SITE);
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
@@ -189,7 +166,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 				$this->close($e->getCode());
 			}
 
-			// If debug language is set, append its output to the contents
+			// If debug language is set, append its output to the contents.
 			if ($this->config->get('debug_lang'))
 			{
 				$contents .= $this->debugLanguage();
@@ -216,40 +193,30 @@ final class InstallationApplicationWeb extends JApplicationWeb
 	 */
 	protected function doExecute()
 	{
-		// Initialise the application
+		// Initialise the application.
 		$this->initialiseApp();
 
-		// Dispatch the application
+		// Dispatch the application.
 		$this->dispatch();
 	}
 
 	/**
-	 * Enqueue a system message.
+	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
+	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
+	 * for your specific application.
 	 *
-	 * @param   string  $msg   The message to enqueue.
-	 * @param   string  $type  The message type. Default is message.
+	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
+	 *                          in JPATH_BASE will be used.
+	 * @param   string  $class  The class name to instantiate.
 	 *
-	 * @return  void
+	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
-	 * @since   3.1
+	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
-	public function enqueueMessage($msg, $type = 'message')
+	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
-		// For empty queue, if messages exists in the session, enqueue them first.
-		if (!count($this->_messageQueue))
-		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
-			}
-		}
-
-		// Enqueue the message.
-		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
+		return array();
 	}
 
 	/**
@@ -269,7 +236,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 			$task = 'default';
 		}
 
-		// Set the controller class name based on the task
+		// Set the controller class name based on the task.
 		$class = 'InstallationController' . ucfirst($task);
 
 		// If the requested controller exists let's use it.
@@ -283,19 +250,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 	}
 
 	/**
-	 * Gets the client id of the current running application.
-	 *
-	 * @return  integer  A client identifier.
-	 *
-	 * @since   3.1
-	 */
-	public function getClientId()
-	{
-		return 2;
-	}
-
-	/**
-	 * Returns the language code and help url set in the localise.xml file.
+	 * Returns the language code and help URL set in the localise.xml file.
 	 * Used for forcing a particular language in localised releases.
 	 *
 	 * @return  mixed  False on failure, array on success.
@@ -311,7 +266,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 			return false;
 		}
 
-		// Check that it's a localise file
+		// Check that it's a localise file.
 		if ($xml->getName() != 'localise')
 		{
 			return false;
@@ -319,9 +274,9 @@ final class InstallationApplicationWeb extends JApplicationWeb
 
 		$ret = array();
 
-		$ret['language'] = (string) $xml->forceLang;
-		$ret['helpurl'] = (string) $xml->helpurl;
-		$ret['debug'] = (string) $xml->debug;
+		$ret['language']   = (string) $xml->forceLang;
+		$ret['helpurl']    = (string) $xml->helpurl;
+		$ret['debug']      = (string) $xml->debug;
 		$ret['sampledata'] = (string) $xml->sampledata;
 
 		return $ret;
@@ -329,87 +284,39 @@ final class InstallationApplicationWeb extends JApplicationWeb
 
 	/**
 	 * Returns the installed language files in the administrative and
-	 * front-end area.
+	 * frontend area.
 	 *
-	 * @param   mixed  $db  JDatabaseDriver instance
+	 * @param   mixed  $db  JDatabaseDriver instance.
 	 *
-	 * @return  array  Array with installed language packs in admin and site area
+	 * @return  array  Array with installed language packs in admin and site area.
 	 *
 	 * @since   3.1
 	 */
 	public function getLocaliseAdmin($db = false)
 	{
-		jimport('joomla.filesystem.folder');
+		$langfiles = array();
 
-		// Read the files in the admin area
-		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
-		$langfiles['admin'] = JFolder::folders($path);
-
-		// Read the files in the site area
-		$path = JLanguage::getLanguagePath(JPATH_SITE);
-		$langfiles['site'] = JFolder::folders($path);
-
+		// If db connection, fetch them from the database.
 		if ($db)
 		{
-			$langfiles_disk = $langfiles;
-			$langfiles = array();
-			$langfiles['admin'] = array();
-			$langfiles['site'] = array();
-			$query = $db->getQuery(true)
-				->select($db->quoteName(array('element','client_id')))
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('language'));
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-			foreach ($langs as $lang)
+			foreach (JLanguageHelper::getInstalledLanguages() as $clientId => $language)
 			{
-				switch ($lang->client_id)
-				{
-					// Site
-					case 0:
-						if (in_array($lang->element, $langfiles_disk['site']))
-						{
-							$langfiles['site'][] = $lang->element;
-						}
-						break;
+				$clientName = $clientId === 0 ? 'site' : 'admin';
 
-					// Administrator
-					case 1:
-						if (in_array($lang->element, $langfiles_disk['admin']))
-						{
-							$langfiles['admin'][] = $lang->element;
-						}
-						break;
+				foreach ($language as $languageCode => $lang)
+				{
+					$langfiles[$clientName][] = $lang->element;
 				}
 			}
 		}
-
-		return $langfiles;
-	}
-
-	/**
-	 * Get the system message queue.
-	 *
-	 * @return  array  The system message queue.
-	 *
-	 * @since   3.1
-	 */
-	public function getMessageQueue()
-	{
-		// For empty queue, if messages exists in the session, enqueue them.
-		if (!count($this->_messageQueue))
+		// Read the folder names in the site and admin area.
+		else
 		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
-			}
+			$langfiles['site']  = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
-		return $this->_messageQueue;
+		return $langfiles;
 	}
 
 	/**
@@ -427,7 +334,8 @@ final class InstallationApplicationWeb extends JApplicationWeb
 		{
 			$template = new stdClass;
 			$template->template = 'template';
-			$template->params = new JRegistry;
+			$template->params = new Registry;
+
 			return $template;
 		}
 
@@ -452,6 +360,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 		if (empty($options['language']))
 		{
 			$requestLang = $this->input->getCmd('lang', null);
+
 			if (!is_null($requestLang))
 			{
 				$options['language'] = $requestLang;
@@ -479,6 +388,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 			else
 			{
 				$options['language'] = JLanguageHelper::detectLanguage();
+
 				if (empty($options['language']))
 				{
 					$options['language'] = 'en-GB';
@@ -486,16 +396,71 @@ final class InstallationApplicationWeb extends JApplicationWeb
 			}
 		}
 
-		// Give the user English
+		// Give the user English.
 		if (empty($options['language']))
 		{
 			$options['language'] = 'en-GB';
 		}
 
-		// Set the language in the class
+		// Check for custom helpurl.
+		if (empty($forced['helpurl']))
+		{
+			$options['helpurl'] = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}';
+		}
+		else
+		{
+			$options['helpurl'] = $forced['helpurl'];
+		}
+
+		// Store helpurl in the session.
+		$this->getSession()->set('setup.helpurl', $options['helpurl']);
+
+		// Set the language in the class.
 		$this->config->set('language', $options['language']);
 		$this->config->set('debug_lang', $forced['debug']);
 		$this->config->set('sampledata', $forced['sampledata']);
+		$this->config->set('helpurl', $options['helpurl']);
+	}
+
+	/**
+	 * Allows the application to load a custom or default document.
+	 *
+	 * The logic and options for creating this object are adequately generic for default cases
+	 * but for many applications it will make sense to override this method and create a document,
+	 * if required, based on more specific needs.
+	 *
+	 * @param   JDocument  $document  An optional document object. If omitted, the factory document is created.
+	 *
+	 * @return  InstallationApplicationWeb This method is chainable.
+	 *
+	 * @since   3.2
+	 */
+	public function loadDocument(JDocument $document = null)
+	{
+		if ($document === null)
+		{
+			$lang = JFactory::getLanguage();
+			$type = $this->input->get('format', 'html', 'word');
+			$date = new JDate('now');
+
+			$attributes = array(
+				'charset'      => 'utf-8',
+				'lineend'      => 'unix',
+				'tab'          => "\t",
+				'language'     => $lang->getTag(),
+				'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
+				'mediaversion' => md5($date->format('YmdHi')),
+			);
+
+			$document = JDocument::getInstance($type, $attributes);
+
+			// Register the instance to JFactory.
+			JFactory::$document = $document;
+		}
+
+		$this->document = $document;
+
+		return $this;
 	}
 
 	/**
@@ -507,28 +472,39 @@ final class InstallationApplicationWeb extends JApplicationWeb
 	 *
 	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
 	 *
-	 * @return  JApplicationWeb This method is chainable.
+	 * @return  InstallationApplicationWeb  This method is chainable.
 	 *
 	 * @since   3.1
 	 */
 	public function loadSession(JSession $session = null)
 	{
-		jimport('legacy.application.application');
+		// Generate a session name.
+		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
 
-		$options = array();
-		$options['name'] = JApplication::getHash($this->config->get('session_name'));
+		// Calculate the session lifetime.
+		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);
 
-		$session = JFactory::getSession($options);
-		$session->initialise($this->input);
-		$session->start();
-		if (!$session->get('registry') instanceof JRegistry)
-		{
-			// Registry has been corrupted somehow
-			$session->set('registry', new JRegistry('session'));
-		}
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
+
+		// Initialize the options for JSession.
+		$options = array(
+			'name' => $name,
+			'expire' => $lifetime,
+			'force_ssl' => $this->get('force_ssl'),
+		);
+
+		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
+
+		// Instantiate the session object.
+		$session = JSession::getInstance($handler, $options);
+		$session->initialise($this->input, $this->dispatcher);
 
 		// Set the session object.
 		$this->session = $session;
+
+		// Register the session with JFactory.
+		JFactory::$session = $session;
 
 		return $this;
 	}
@@ -550,7 +526,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 			'template' => 'template',
 			'file' => $file . '.php',
 			'directory' => JPATH_THEMES,
-			'params' => '{}'
+			'params' => '{}',
 		);
 
 		// Parse the document.
@@ -565,7 +541,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 
 	/**
 	 * Method to send a JSON response. The data parameter
-	 * can be a Exception object for when an error has occurred or
+	 * can be an Exception object for when an error has occurred or
 	 * a stdClass for a good response.
 	 *
 	 * @param   mixed  $response  stdClass on success, Exception on failure.
@@ -593,7 +569,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 	}
 
 	/**
-	 * Set configuration values
+	 * Set configuration values.
 	 *
 	 * @param   array   $vars       Array of configuration values
 	 * @param   string  $namespace  The namespace

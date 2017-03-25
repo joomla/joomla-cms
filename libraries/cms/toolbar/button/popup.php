@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a modal window button
  *
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
- * @since       3.0
+ * @since  3.0
  */
 class JToolbarButtonPopup extends JToolbarButton
 {
@@ -38,13 +36,14 @@ class JToolbarButtonPopup extends JToolbarButton
 	 * @param   integer  $left     Left attribute. [@deprecated  Unused, will be removed in 4.0]
 	 * @param   string   $onClose  JavaScript for the onClose event.
 	 * @param   string   $title    The title text
+	 * @param   string   $footer   The footer html
 	 *
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0,
-		$onClose = '', $title = '')
+		$onClose = '', $title = '', $footer = null)
 	{
 		// If no $title is set, use the $text element
 		if (strlen($title) == 0)
@@ -54,7 +53,7 @@ class JToolbarButtonPopup extends JToolbarButton
 
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['name'] = JText::_($name);
+		$options['name'] = $name;
 		$options['text'] = JText::_($text);
 		$options['title'] = JText::_($title);
 		$options['class'] = $this->fetchIconClass($name);
@@ -67,7 +66,7 @@ class JToolbarButtonPopup extends JToolbarButton
 		$html[] = $layout->render($options);
 
 		// Place modal div and scripts in a new div
-		$html[] = '</div><div class="btn-group" style="width: 0; margin: 0">';
+		$html[] = '<div class="btn-group" style="width: 0; margin: 0">';
 
 		// Build the options array for the modal
 		$params = array();
@@ -75,6 +74,12 @@ class JToolbarButtonPopup extends JToolbarButton
 		$params['url']    = $options['doTask'];
 		$params['height'] = $height;
 		$params['width']  = $width;
+
+		if (isset($footer))
+		{
+			$params['footer'] = $footer;
+		}
+
 		$html[] = JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
@@ -84,6 +89,8 @@ class JToolbarButtonPopup extends JToolbarButton
 				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
 				. '</script>';
 		}
+
+		$html[] = '</div>';
 
 		return implode("\n", $html);
 	}

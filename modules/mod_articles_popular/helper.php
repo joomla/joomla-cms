@@ -3,24 +3,33 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_popular
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.'/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
-JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
+JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
 
 /**
  * Helper for mod_articles_popular
  *
  * @package     Joomla.Site
  * @subpackage  mod_articles_popular
+ *
+ * @since       1.6.0
  */
 abstract class ModArticlesPopularHelper
 {
+	/**
+	 * Get a list of popular articles from the articles model
+	 *
+	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+	 *
+	 * @return mixed
+	 */
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
@@ -45,6 +54,18 @@ abstract class ModArticlesPopularHelper
 		// Category filter
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
+		// Date filter
+		$date_filtering = $params->get('date_filtering', 'off');
+
+		if ($date_filtering !== 'off')
+		{
+			$model->setState('filter.date_filtering', $date_filtering);
+			$model->setState('filter.date_field', $params->get('date_field', 'a.created'));
+			$model->setState('filter.start_date_range', $params->get('start_date_range', '1000-01-01 00:00:00'));
+			$model->setState('filter.end_date_range', $params->get('end_date_range', '9999-12-31 23:59:59'));
+			$model->setState('filter.relative_date', $params->get('relative_date', 30));
+		}
+
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
@@ -56,14 +77,18 @@ abstract class ModArticlesPopularHelper
 
 		foreach ($items as &$item)
 		{
-			$item->slug = $item->id.':'.$item->alias;
-			$item->catslug = $item->catid.':'.$item->category_alias;
+			$item->slug = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
-			} else {
+				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+			}
+			else
+			{
 				$item->link = JRoute::_('index.php?option=com_users&view=login');
 			}
 		}

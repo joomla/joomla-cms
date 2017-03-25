@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Utility class for form related behaviors
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlFormbehavior
 {
@@ -31,44 +31,64 @@ abstract class JHtmlFormbehavior
 	 *
 	 * @param   string  $selector  Class for Chosen elements.
 	 * @param   mixed   $debug     Is debugging mode on? [optional]
+	 * @param   array   $options   the possible Chosen options as name => value [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function chosen($selector = '.advancedSelect', $debug = null)
+	public static function chosen($selector = '.advancedSelect', $debug = null, $options = array())
 	{
 		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		// Add chosen.jquery.js language strings
-		JText::script('JGLOBAL_SELECT_SOME_OPTIONS');
-		JText::script('JGLOBAL_SELECT_AN_OPTION');
-		JText::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
-
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
+			$debug = JDEBUG;
 		}
 
-		JHtml::_('script', 'jui/chosen.jquery.min.js', false, true, false, false, $debug);
-		JHtml::_('stylesheet', 'jui/chosen.css', false, true);
-		JFactory::getDocument()->addScriptDeclaration("
-				jQuery(document).ready(function (){
-					jQuery('" . $selector . "').chosen({
-						disable_search_threshold : 10,
-						allow_single_deselect : true
-					});
-				});
-			"
+		// Default settings
+		if (!isset($options['disable_search_threshold']))
+		{
+			$options['disable_search_threshold'] = 10;
+		}
+
+		// Allow searching contains space in query
+		if (!isset($options['search_contains']))
+		{
+			$options['search_contains'] = true;
+		}
+
+		if (!isset($options['allow_single_deselect']))
+		{
+			$options['allow_single_deselect'] = true;
+		}
+
+		if (!isset($options['placeholder_text_multiple']))
+		{
+			$options['placeholder_text_multiple'] = JText::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
+		}
+
+		if (!isset($options['placeholder_text_single']))
+		{
+			$options['placeholder_text_single'] = JText::_('JGLOBAL_SELECT_AN_OPTION');
+		}
+
+		if (!isset($options['no_results_text']))
+		{
+			$options['no_results_text'] = JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+		}
+
+		$displayData = array(
+			'debug'     => $debug,
+			'options'  => $options,
+			'selector' => $selector,
 		);
+
+		JLayoutHelper::render('joomla.html.formbehavior.chosen', $displayData);
 
 		static::$loaded[__METHOD__][$selector] = true;
 
@@ -80,14 +100,14 @@ abstract class JHtmlFormbehavior
 	 *
 	 * If debugging mode is on an uncompressed version of AJAX Chosen is included for easier debugging.
 	 *
-	 * @param   JRegistry  $options  Options in a JRegistry object
-	 * @param   mixed      $debug    Is debugging mode on? [optional]
+	 * @param   Registry  $options  Options in a Registry object
+	 * @param   mixed     $debug    Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function ajaxchosen(JRegistry $options, $debug = null)
+	public static function ajaxchosen(Registry $options, $debug = null)
 	{
 		// Retrieve options/defaults
 		$selector       = $options->get('selector', '.tagfield');
@@ -98,9 +118,6 @@ abstract class JHtmlFormbehavior
 		$afterTypeDelay = $options->get('afterTypeDelay', '500');
 		$minTermLength  = $options->get('minTermLength', '3');
 
-		JText::script('JGLOBAL_KEEP_TYPING');
-		JText::script('JGLOBAL_LOOKING_FOR');
-
 		// Ajax URL is mandatory
 		if (!empty($url))
 		{
@@ -108,36 +125,23 @@ abstract class JHtmlFormbehavior
 			{
 				return;
 			}
-			// Include jQuery
-			JHtml::_('jquery.framework');
 
 			// Requires chosen to work
 			static::chosen($selector, $debug);
 
-			JHtml::_('script', 'jui/ajax-chosen.min.js', false, true, false, false, $debug);
-			JFactory::getDocument()->addScriptDeclaration("
-				(function($){
-					$(document).ready(function () {
-						$('" . $selector . "').ajaxChosen({
-							type: '" . $type . "',
-							url: '" . $url . "',
-							dataType: '" . $dataType . "',
-							jsonTermKey: '" . $jsonTermKey . "',
-							afterTypeDelay: '" . $afterTypeDelay . "',
-							minTermLength: '" . $minTermLength . "'
-						}, function (data) {
-							var results = [];
-
-							$.each(data, function (i, val) {
-								results.push({ value: val.value, text: val.text });
-							});
-
-							return results;
-						});
-					});
-				})(jQuery);
-				"
+			$displayData = array(
+				'url'            => $url,
+				'debug'          => $debug,
+				'options'        => $options,
+				'selector'       => $selector,
+				'type'           => $type,
+				'dataType'       => $dataType,
+				'jsonTermKey'    => $jsonTermKey,
+				'afterTypeDelay' => $afterTypeDelay,
+				'minTermLength'  => $minTermLength,
 			);
+
+			JLayoutHelper::render('joomla.html.formbehavior.ajaxchosen', $displayData);
 
 			static::$loaded[__METHOD__][$selector] = true;
 		}

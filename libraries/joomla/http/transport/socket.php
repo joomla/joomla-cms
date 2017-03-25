@@ -3,18 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP transport class for using sockets directly.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @since  11.3
  */
 class JHttpTransportSocket implements JHttpTransport
 {
@@ -25,7 +25,7 @@ class JHttpTransportSocket implements JHttpTransport
 	protected $connections;
 
 	/**
-	 * @var    JRegistry  The client options.
+	 * @var    Registry  The client options.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -33,12 +33,12 @@ class JHttpTransportSocket implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   Registry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry $options)
+	public function __construct(Registry $options)
 	{
 		if (!self::isSupported())
 		{
@@ -72,6 +72,7 @@ class JHttpTransportSocket implements JHttpTransport
 		{
 			// Make sure the connection has not timed out.
 			$meta = stream_get_meta_data($connection);
+
 			if ($meta['timed_out'])
 			{
 				throw new RuntimeException('Server connection timed out.');
@@ -123,11 +124,23 @@ class JHttpTransportSocket implements JHttpTransport
 			}
 		}
 
+		// Set any custom transport options
+		foreach ($this->options->get('transport.socket', array()) as $value)
+		{
+			$request[] = $value;
+		}
+
 		// If we have data to send add it to the request payload.
 		if (!empty($data))
 		{
 			$request[] = null;
 			$request[] = $data;
+		}
+
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$request[] = 'Authorization: Basic ' . base64_encode($this->options->get('userauth') . ':' . $this->options->get('passwordauth'));
 		}
 
 		// Send the request to the server.
@@ -141,7 +154,15 @@ class JHttpTransportSocket implements JHttpTransport
 			$content .= fgets($connection, 4096);
 		}
 
-		return $this->getResponse($content);
+		$content = $this->getResponse($content);
+
+		// Follow Http redirects
+		if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location']))
+		{
+			return $this->request($method, new JUri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
+		}
+
+		return $content;
 	}
 
 	/**
@@ -159,6 +180,11 @@ class JHttpTransportSocket implements JHttpTransport
 		// Create the response object.
 		$return = new JHttpResponse;
 
+		if (empty($content))
+		{
+			throw new UnexpectedValueException('No content in response.');
+		}
+
 		// Split the response into headers and body.
 		$response = explode("\r\n\r\n", $content, 2);
 
@@ -166,15 +192,17 @@ class JHttpTransportSocket implements JHttpTransport
 		$headers = explode("\r\n", $response[0]);
 
 		// Set the body for the response.
-		$return->body = $response[1];
+		$return->body = empty($response[1]) ? '' : $response[1];
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{
@@ -208,13 +236,14 @@ class JHttpTransportSocket implements JHttpTransport
 		$err = null;
 
 		// Get the host from the uri.
-		$host = ($uri->isSSL()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
+		$host = ($uri->isSsl()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
 
 		// If the port is not explicitly set in the URI detect it.
 		if (!$uri->getPort())
 		{
 			$port = ($uri->getScheme() == 'https') ? 443 : 80;
 		}
+
 		// Use the set port.
 		else
 		{
@@ -229,6 +258,7 @@ class JHttpTransportSocket implements JHttpTransport
 		{
 			// Connection reached EOF, cannot be used anymore
 			$meta = stream_get_meta_data($this->connections[$key]);
+
 			if ($meta['eof'])
 			{
 				if (!fclose($this->connections[$key]))
@@ -236,6 +266,7 @@ class JHttpTransportSocket implements JHttpTransport
 					throw new RuntimeException('Cannot close connection');
 				}
 			}
+
 			// Make sure the connection has not timed out.
 			elseif (!$meta['timed_out'])
 			{
@@ -245,14 +276,34 @@ class JHttpTransportSocket implements JHttpTransport
 
 		if (!is_numeric($timeout))
 		{
-			$timeout = ini_get("default_socket_timeout");
+			$timeout = ini_get('default_socket_timeout');
 		}
-		// Attempt to connect to the server.
-		$connection = fsockopen($host, $port, $errno, $err, $timeout);
+
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+
+		// PHP sends a warning if the uri does not exists; we silence it and throw an exception instead.
+		// Attempt to connect to the server
+		$connection = @fsockopen($host, $port, $errno, $err, $timeout);
+
 		if (!$connection)
 		{
-			throw new RuntimeException($err, $errno);
+			if (!$php_errormsg)
+			{
+				// Error but nothing from php? Create our own
+				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+			}
+
+			// Restore error tracking to give control to the exception handler
+			ini_set('track_errors', $track_errors);
+
+			throw new RuntimeException($php_errormsg);
 		}
+
+		// Restore error tracking to what it was before.
+		ini_set('track_errors', $track_errors);
 
 		// Since the connection was successful let's store it in case we need to use it later.
 		$this->connections[$key] = $connection;
@@ -267,15 +318,14 @@ class JHttpTransportSocket implements JHttpTransport
 	}
 
 	/**
-	 * method to check if http transport socket available for using
+	 * Method to check if http transport socket available for use
 	 *
-	 * @return bool true if available else false
+	 * @return  boolean   True if available else false
 	 *
 	 * @since   12.1
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen');
+		return function_exists('fsockopen') && is_callable('fsockopen') && !JFactory::getConfig()->get('proxy_enable');
 	}
-
 }

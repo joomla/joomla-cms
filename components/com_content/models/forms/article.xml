@@ -12,6 +12,13 @@
 			readonly="true" />
 
 		<field
+			id="contenthistory"
+			name="contenthistory"
+			type="contenthistory"
+			data-typeAlias="com_content.article"
+			label="JTOOLBAR_VERSIONS" />
+
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset" />
@@ -32,6 +39,7 @@
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
 			size="45" />
 
@@ -90,13 +98,15 @@
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
 			class="inputbox"
-			required="true">
+			required="true"
+		>
 		</field>
 
 		<field
 			id="created"
 			name="created"
 			type="calendar"
+			translateformat="true"
 			filter="unset" />
 
 		<field
@@ -115,15 +125,27 @@
 			size="20" />
 
 		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox"
+			maxlength="255"
+			size="45"
+			labelclass="control-label" />
+
+		<field
 			id="publish_up"
 			name="publish_up"
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			class="inputbox"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			filter="user_utc" />
+			filter="user_utc"
+		/>
 
 		<field
 			id="publish_down"
@@ -132,9 +154,11 @@
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			filter="user_utc" />
+			filter="user_utc"
+		/>
 
 		<field
 			name="language"
@@ -145,12 +169,13 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12 small"
+			class="inputbox"
 			multiple="true"
+			size="45"
 		>
 		</field>
 
@@ -183,6 +208,15 @@
 			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
 			size="1" />
+
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_CONTENT_CAPTCHA_LABEL"
+			description="COM_CONTENT_CAPTCHA_DESC"
+			validate="captcha"
+			namespace="article" 
+		/>
 	</fieldset>
 		<fields name="images">
 		<fieldset name="image-intro">
@@ -207,10 +241,12 @@
 				name="float_intro"
 				type="list"
 				label="COM_CONTENT_FLOAT_INTRO_LABEL"
-				description="COM_CONTENT_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_CONTENT_RIGHT</option>
-					<option value="left">COM_CONTENT_LEFT</option>
+				description="COM_CONTENT_FLOAT_DESC"
+				useglobal="true"
+				>
+				<option value="right">COM_CONTENT_RIGHT</option>
+				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>
 			</field>
 			</fieldset>
 			<fieldset name="image-full">
@@ -235,10 +271,12 @@
 				name="float_fulltext"
 				type="list"
 				label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
-				description="COM_CONTENT_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_CONTENT_RIGHT</option>
-					<option value="left">COM_CONTENT_LEFT</option>
+				description="COM_CONTENT_FLOAT_DESC"
+				useglobal="true"
+				>
+				<option value="right">COM_CONTENT_RIGHT</option>
+				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>
 			</field>
 			</fieldset>
 		</fields>
@@ -247,6 +285,8 @@
 				name="urla"
 				type="url"
 				validate="url"
+				filter="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_URLA_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field name="urlatext"
@@ -264,6 +304,8 @@
 				name="urlb"
 				type="url"
 				validate="url"
+				filter="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_URLB_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field name="urlbtext"
@@ -280,6 +322,8 @@
 				name="urlc"
 				type="url"
 				validate="url"
+				filter="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_URLC_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field
@@ -297,7 +341,7 @@
 		<fields name="metadata">
 			<fieldset name="jmetadata"
 				label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-		
+
 					<field name="robots"
 						type="hidden"
 						filter="unset"
@@ -311,35 +355,34 @@
 						<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 						<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 					</field>
-		
-					<field name="author" 
+
+					<field name="author"
 						type="hidden"
 						filter="unset"
-						label="JAUTHOR" 
+						label="JAUTHOR"
 						description="JFIELD_METADATA_AUTHOR_DESC"
-						size="20" 
-						labelclass="control-label" 
+						size="20"
+						labelclass="control-label"
 					/>
-	
-					<field name="rights" 
-						type="hidden" 
+
+					<field name="rights"
+						type="hidden"
 						label="JFIELD_META_RIGHTS_LABEL"
 						filter="unset"
-						description="JFIELD_META_RIGHTS_DESC" 
-						required="false" 
-						labelclass="control-label" 
+						description="JFIELD_META_RIGHTS_DESC"
+						required="false"
+						labelclass="control-label"
 					/>
-	
-					<field name="xreference" 
+
+					<field name="xreference"
 						type="hidden"
 						filter="unset"
 						label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
 						description="COM_CONTENT_FIELD_XREFERENCE_DESC"
 						class="inputbox"
-						size="20" 
+						size="20"
 						labelclass="control-label" />
-	
+
 			</fieldset>
 		</fields>
-
 </form>

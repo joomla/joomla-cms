@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,6 +30,21 @@ class FinderIndexerResultTest extends TestCaseDatabase
 
 		// Instantiate the object
 		$this->object = new FinderIndexerResult;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -180,9 +195,9 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 */
 	public function testGetTaxonomy()
 	{
-		$this->assertThat(
-			$this->object->getTaxonomy(),
-			$this->isType('array')
+		$this->assertInternalType(
+			'array',
+			$this->object->getTaxonomy()
 		);
 	}
 
@@ -202,9 +217,9 @@ class FinderIndexerResultTest extends TestCaseDatabase
 		$taxonomy = $this->object->getTaxonomy('testing');
 
 		// Verify our test item is an instance of JObject
-		$this->assertThat(
-			$taxonomy['Test Item'],
-			$this->isInstanceOf('JObject')
+		$this->assertInstanceOf(
+			'JObject',
+			$taxonomy['Test Item']
 		);
 	}
 
@@ -217,12 +232,31 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 */
 	public function testSetLanguage()
 	{
-		// Set the language value
+		// Test for an empty language
+		$this->object->language = '';
 		$this->object->setLanguage();
 
 		$this->assertEquals(
 			$this->object->language,
 			$this->object->defaultLanguage
+		);
+
+		// Test for "all" language
+		$this->object->language = '*';
+		$this->object->setLanguage();
+
+		$this->assertEquals(
+			$this->object->language,
+			'*'
+		);
+
+		// Test for "it-IT" language
+		$this->object->language = 'it-IT';
+		$this->object->setLanguage();
+
+		$this->assertEquals(
+			$this->object->language,
+			'it-IT'
 		);
 	}
 }

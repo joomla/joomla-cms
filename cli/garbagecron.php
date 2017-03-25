@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,10 +28,9 @@ require_once JPATH_LIBRARIES . '/import.legacy.php';
 require_once JPATH_LIBRARIES . '/cms.php';
 
 /**
- * Cron job to trash expired cache data
+ * Cron job to trash expired cache data.
  *
- * @package  Joomla.CLI
- * @since    2.5
+ * @since  2.5
  */
 class GarbageCron extends JApplicationCli
 {

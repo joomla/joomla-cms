@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -14,9 +14,7 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Finder Component Controller.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderController extends JControllerLegacy
 {
@@ -24,7 +22,7 @@ class FinderController extends JControllerLegacy
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached. [optional]
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types,
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types,
 	 *                               for valid values see {@link JFilterInput::clean()}. [optional]
 	 *
 	 * @return  JControllerLegacy  This object is to support chaining.
@@ -36,7 +34,7 @@ class FinderController extends JControllerLegacy
 		$input = JFactory::getApplication()->input;
 		$cachable = true;
 
-		// Load plug-in language files.
+		// Load plugin language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
 		// Set the default view name and format from the Request.
@@ -44,14 +42,14 @@ class FinderController extends JControllerLegacy
 		$input->set('view', $viewName);
 
 		// Don't cache view for search queries
-		if ($input->get('q') || $input->get('f') || $input->get('t'))
+		if ($input->get('q', null, 'string') || $input->get('f', null, 'int') || $input->get('t', null, 'array'))
 		{
 			$cachable = false;
 		}
 
 		$safeurlparams = array(
-			'f' 	=> 'INT',
-			'lang' 	=> 'CMD'
+			'f'    => 'INT',
+			'lang' => 'CMD'
 		);
 
 		return parent::display($cachable, $safeurlparams);

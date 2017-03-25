@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for tags
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.1
+ * @since  3.1
  */
 abstract class JHtmlTag
 {
@@ -58,7 +58,7 @@ abstract class JHtmlTag
 				}
 				elseif (is_array($config['filter.published']))
 				{
-					JArrayHelper::toInteger($config['filter.published']);
+					$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
 				}
 			}
@@ -76,6 +76,7 @@ abstract class JHtmlTag
 					{
 						$language = $db->quote($language);
 					}
+
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}
 			}
@@ -127,7 +128,7 @@ abstract class JHtmlTag
 			}
 			elseif (is_array($config['filter.published']))
 			{
-				JArrayHelper::toInteger($config['filter.published']);
+				$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
 				$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
 			}
 		}
@@ -146,6 +147,7 @@ abstract class JHtmlTag
 			$item->title = str_repeat('- ', $repeat) . $item->title;
 			static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 		}
+
 		return static::$items[$hash];
 	}
 
@@ -159,81 +161,20 @@ abstract class JHtmlTag
 	 *
 	 * @since   3.1
 	 */
-	public static function ajaxfield($selector='#jform_tags', $allowCustom = true)
+	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
 	{
-		// Tags field ajax
-		$chosenAjaxSettings = new JRegistry(
-			array(
-				'selector'    => $selector,
-				'type'        => 'GET',
-				'url'         => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
-				'dataType'    => 'json',
-				'jsonTermKey' => 'like'
-			)
+		// Get the component parameters
+		$params = JComponentHelper::getParams('com_tags');
+		$minTermLength = (int) $params->get('min_term_length', 3);
+
+		$displayData = array(
+			'minTermLength' => $minTermLength,
+			'selector'      => $selector,
+			'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
 		);
-		JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
 
-		// Allow custom values ?
-		if ($allowCustom)
-		{
-			JFactory::getDocument()->addScriptDeclaration("
-				(function($){
-					$(document).ready(function () {
+		JLayoutHelper::render('joomla.html.tag', $displayData);
 
-						var customTagPrefix = '#new#';
-
-						// Method to add tags pressing enter
-						$('" . $selector . "_chzn input').keydown(function(event) {
-
-							// Tag is greater than 3 chars and enter pressed
-							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {
-
-								// Search an highlighted result
-								var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
-
-								// Add the highlighted option
-								if (event.which === 13 && highlighted.text() !== '')
-								{
-									// Extra check. If we have added a custom tag with this text remove it
-									var customOptionValue = customTagPrefix + highlighted.text();
-									$('" . $selector . " option').filter(function () { return $(this).val() == customOptionValue; }).remove();
-
-									// Select the highlighted result
-									var tagOption = $('" . $selector . " option').filter(function () { return $(this).html() == highlighted.text(); });
-									tagOption.attr('selected', 'selected');
-								}
-								// Add the custom tag option
-								else
-								{
-									var customTag = this.value;
-
-									// Extra check. Search if the custom tag already exists (typed faster than AJAX ready)
-									var tagOption = $('" . $selector . " option').filter(function () { return $(this).html() == customTag; });
-									if (tagOption.text() !== '')
-									{
-										tagOption.attr('selected', 'selected');
-									}
-									else
-									{
-										var option = $('<option>');
-										option.text(this.value).val(customTagPrefix + this.value);
-										option.attr('selected','selected');
-
-										// Append the option an repopulate the chosen field
-										$('" . $selector . "').append(option);
-									}
-								}
-
-								this.value = '';
-								$('" . $selector . "').trigger('liszt:updated');
-								event.preventDefault();
-
-							}
-						});
-					});
-				})(jQuery);
-				"
-			);
-		}
+		return;
 	}
 }

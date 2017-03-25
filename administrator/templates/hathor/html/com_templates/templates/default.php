@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,12 +13,11 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.modal');
 JHtml::_('behavior.multiselect');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
@@ -31,20 +30,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container">
 <?php endif;?>
 	<fieldset id="filter-bar">
-	<legend class="element-invisible"><?php echo JText::_('Filters'); ?></legend>
+	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select">
-			<label class="selectlabel" for="filter_client_id">
+			<label class="selectlabel" for="client_id">
 				<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
 			</label>
-			<select name="filter_client_id" class="inputbox" id="filter_client_id">
-				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
-				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+			<select name="client_id" id="client_id">
+				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('client_id'));?>
 			</select>
 
 			<button type="submit" id="filter-go">
@@ -84,16 +82,16 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
 				</td>
 				<td class="template-name">
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id); ?>">
-						<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', $item->name); ?></a>
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id . '&file=' . $this->file); ?>">
+						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', $item->name); ?></a>
 					<p>
 					<?php if ($this->preview && $item->client_id == '0') : ?>
 						<a href="<?php echo JUri::root().'index.php?tp=1&template='.$item->element; ?>" target="_blank">
-							<?php echo  JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
+							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
 					<?php elseif ($item->client_id == '1') : ?>
-						<?php echo  JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
+						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
 					<?php else: ?>
-						<span class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
+						<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
 							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 					<?php endif; ?>
 					</p>
@@ -121,6 +119,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($url); ?></a></p>
 					<?php endif; ?>
 				</td>
+				<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>

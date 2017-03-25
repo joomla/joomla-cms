@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.none
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plain Textarea Editor Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors.none
- * @since       1.5
+ * @since  1.5
  */
 class PlgEditorNone extends JPlugin
 {
@@ -22,36 +20,13 @@ class PlgEditorNone extends JPlugin
 	 * Method to handle the onInitEditor event.
 	 *  - Initialises the Editor
 	 *
-	 * @return  string	JavaScript Initialization string
+	 * @return  void
 	 *
 	 * @since 1.5
 	 */
 	public function onInit()
 	{
-		$txt =	"<script type=\"text/javascript\">
-					function insertAtCursor(myField, myValue)
-					{
-						if (document.selection)
-						{
-							// IE support
-							myField.focus();
-							sel = document.selection.createRange();
-							sel.text = myValue;
-						} else if (myField.selectionStart || myField.selectionStart == '0')
-						{
-							// MOZILLA/NETSCAPE support
-							var startPos = myField.selectionStart;
-							var endPos = myField.selectionEnd;
-							myField.value = myField.value.substring(0, startPos)
-								+ myValue
-								+ myField.value.substring(endPos, myField.value.length);
-						} else {
-							myField.value += myValue;
-						}
-					}
-				</script>";
-
-		return $txt;
+		JHtml::_('script', 'editors/none/none.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -59,11 +34,14 @@ class PlgEditorNone extends JPlugin
 	 *
 	 * Not applicable in this editor.
 	 *
+	 * @param   string  $editor  the editor id
+	 *
 	 * @return  void
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
-	public function onSave()
+	public function onSave($editor)
 	{
-		return;
 	}
 
 	/**
@@ -72,10 +50,12 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onGetContent($id)
 	{
-		return "document.getElementById('$id').value;\n";
+		return 'Joomla.editors.instances[' . json_encode($id) . '].getValue();';
 	}
 
 	/**
@@ -85,33 +65,25 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $html  The content to set.
 	 *
 	 * @return  string
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onSetContent($id, $html)
 	{
-		return "document.getElementById('$id').value = $html;\n";
+		return 'Joomla.editors.instances[' . json_encode($id) . '].setValue(' . json_encode($html) . ');';
 	}
 
 	/**
+	 * Inserts html code into the editor
+	 *
 	 * @param   string  $id  The id of the editor field
 	 *
-	 * @return  boolean  returns true when complete
+	 * @return  void
+	 *
+	 * @deprecated 4.0
 	 */
 	public function onGetInsertMethod($id)
 	{
-		static $done = false;
-
-		// Do this only once.
-		if (!$done)
-		{
-			$doc = JFactory::getDocument();
-			$js = "\tfunction jInsertEditorText(text, editor)
-			{
-				insertAtCursor(document.getElementById(editor), text);
-			}";
-			$doc->addScriptDeclaration($js);
-		}
-
-		return true;
 	}
 
 	/**
@@ -131,7 +103,8 @@ class PlgEditorNone extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true,
+		$id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id))
 		{
@@ -149,8 +122,11 @@ class PlgEditorNone extends JPlugin
 			$height .= 'px';
 		}
 
-		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
-		$editor  = "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>" . $buttons;
+		$editor = '<div class="js-editor-none">'
+			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
+			. '" style="width: ' . $width . '; height: ' . $height . ';">' . $content . '</textarea>'
+			. $this->_displayButtons($id, $buttons, $asset, $author)
+			. '</div>';
 
 		return $editor;
 	}
@@ -163,53 +139,15 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $asset    The object asset
 	 * @param   object  $author   The author.
 	 *
-	 * @return  string HTML
+	 * @return  void|string HTML
 	 */
 	public function _displayButtons($name, $buttons, $asset, $author)
 	{
-		// Load modal popup behavior
-		JHtml::_('behavior.modal', 'a.modal-button');
-
-		$args['name'] = $name;
-		$args['event'] = 'onGetInsertMethod';
-
-		$return = '';
-		$results[] = $this->update($args);
-
-		foreach ($results as $result)
-		{
-			if (is_string($result) && trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
-			$results = $this->_subject->getButtons($name, $buttons, $asset, $author);
+			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-			$return .= "\n<div id=\"editor-xtd-buttons\" class=\"btn-toolbar pull-left\">\n";
-			$return .= "\n<div class=\"btn-toolbar\">\n";
-
-			foreach ($results as $button)
-			{
-				// Results should be an object
-				if ($button->get('name'))
-				{
-					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
-					$href		= ($button->get('link')) ? 'class="btn" href="' . JUri::base() . $button->get('link') . '"' : null;
-					$onclick	= ($button->get('onclick')) ? 'onclick="' . $button->get('onclick') . '"' : null;
-					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$return .= "<a " . $modal . " title=\"" . $title . "\" " . $href . " " . $onclick . " rel=\"" . $button->get('options') . "\"><i class=\"icon-" . $button->get('name') . "\"></i> " . $button->get('text') . "</a>\n";
-				}
-			}
-
-			$return .= "</div>\n";
-			$return .= "</div>\n";
-			$return .= "<div class=\"clearfix\"></div>\n";
+			return JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
-
-		return $return;
 	}
 }

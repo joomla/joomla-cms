@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,13 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 $params = $params->toArray();
+$saveHistory = $this->state->get('params')->get('save_history', 0);
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params['show_publishing_options']);
@@ -42,19 +43,19 @@ if (!empty($this->item->attribs['show_urls_images_backend'])):
 		$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
 endif;
 
-?>
+$assoc = JLanguageAssociations::isEnabled();
 
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 		{
-			<?php echo $this->form->getField('articletext')->save(); ?>
+			" . $this->form->getField('articletext')->save() . "
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 	}
-</script>
-
+");
+?>
 <div class="article-edit">
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -92,16 +93,16 @@ endif;
 				<?php echo $this->form->getInput('language'); ?></li>
 
 				<!-- Tag field -->
-				<?php foreach ($this->get('form')->getFieldset('jmetadata') as $field) : ?>
-					<?php if ($field->name == 'jform[metadata][tags][]') :?>
-						<li>
-							<?php echo $field->label; ?>
-							<div class="is-tagbox">
-								<?php echo $field->input; ?>
-							</div>
-						</li>
-					<?php endif; ?>
-				<?php endforeach; ?>
+				<li><?php echo $this->form->getLabel('tags'); ?>
+					<div class="is-tagbox">
+						<?php echo $this->form->getInput('tags'); ?>
+					</div>
+				</li>
+
+				<?php if ($saveHistory) : ?>
+					<li><?php echo $this->form->getLabel('version_note'); ?>
+					<?php echo $this->form->getInput('version_note'); ?></li>
+				<?php endif; ?>
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
@@ -208,7 +209,7 @@ endif;
 						</fieldset>
 				<?php endif ?>
 
-		<?php // The url and images fields only show if the configuration is set to allow them.  ?>
+		<?php // The URL and images fields only show if the configuration is set to allow them.  ?>
 		<?php // This is for legacy reasons. ?>
 		<?php if ($params['show_urls_images_backend']) : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES'), 'urls_and_images-options'); ?>
@@ -242,27 +243,12 @@ endif;
 			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 				<?php echo $this->loadTemplate('metadata'); ?>
 			</fieldset>
-		<?php
 
-			$fieldSets = $this->form->getFieldsets('associations');
+		<?php if ($assoc) : ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
+			<?php echo $this->loadTemplate('associations'); ?>
+		<?php endif; ?>
 
-			foreach ($fieldSets as $name => $fieldSet) :
-				$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONTENT_'.$name.'_FIELDSET_LABEL';
-				echo JHtml::_('sliders.panel', JText::_($label), $name.'-options');
-					if (isset($fieldSet->description) && trim($fieldSet->description)) :
-						echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-					endif;
-					?>
-				<div class="clr"></div>
-				<fieldset class="panelform">
-					<ul class="adminformlist">
-						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<li><?php echo $field->label; ?>
-							<?php echo $field->input; ?></li>
-						<?php endforeach; ?>
-					</ul>
-				</fieldset>
-			<?php endforeach;?>
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 

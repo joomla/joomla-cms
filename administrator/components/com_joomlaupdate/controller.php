@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,20 +12,19 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Update Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
-	 * @since	2.5.4
+	 * @return  JController  This object to support chaining.
+	 *
+	 * @since   2.5.4
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -35,7 +34,7 @@ class JoomlaupdateController extends JControllerLegacy
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'default');
 		$vFormat = $document->getType();
-		$lName   = $this->input->get('layout', 'default');
+		$lName   = $this->input->get('layout', 'default', 'string');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
@@ -44,9 +43,20 @@ class JoomlaupdateController extends JControllerLegacy
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
-			$model = $this->getModel($vName);
+			/** @var JoomlaupdateModelDefault $model */
+			$model = $this->getModel('default');
 
-			// Perform update source preference check and refresh update information
+			// Push the Installer Warnings model into the view, if we can load it
+			static::addModelPath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
+
+			$warningsModel = $this->getModel('warnings', 'InstallerModel');
+
+			if (is_object($warningsModel))
+			{
+				$view->setModel($warningsModel, false);
+			}
+
+			// Perform update source preference check and refresh update information.
 			$model->applyUpdateSite();
 			$model->refreshUpdates();
 

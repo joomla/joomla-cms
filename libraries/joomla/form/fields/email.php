@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('text');
+
 /**
  * Form Field class for the Joomla Platform.
- * Provides and input field for e-mail addresses
+ * Provides and input field for email addresses
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.email.html#input.email
- * @see         JFormRuleEmail
- * @since       11.1
+ * @link   http://www.w3.org/TR/html-markup/input.email.html#input.email
+ * @see    JFormRuleEmail
+ * @since  11.1
  */
-class JFormFieldEMail extends JFormField
+class JFormFieldEMail extends JFormFieldText
 {
 	/**
 	 * The form field type.
@@ -30,7 +30,15 @@ class JFormFieldEMail extends JFormField
 	protected $type = 'Email';
 
 	/**
-	 * Method to get the field input markup for e-mail addresses.
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.email';
+
+	/**
+	 * Method to get the field input markup for email addresses.
 	 *
 	 * @return  string  The field input markup.
 	 *
@@ -38,18 +46,25 @@ class JFormFieldEMail extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize some field attributes.
-		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
-		$class = $this->element['class'] ? ' ' . (string) $this->element['class'] : '';
-		$readonly = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$required = $this->required ? ' required="required" aria-required="true"' : '';
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+	}
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
-		// Initialize JavaScript field attributes.
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$extraData = array(
+			'maxLength'  => $this->maxLength,
+			'multiple'   => $this->multiple,
+		);
 
-		return '<input type="text" name="' . $this->name . '" class="' . $class . '" id="' . $this->id . '" value="'
-			. JStringPunycode::emailToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . $required . '/>';
+		return array_merge($data, $extraData);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JAccessRules class.
  *
- * @package     Joomla.Platform
- * @subpackage  Access
- * @since       11.4
+ * @since  11.4
  */
 class JAccessRules
 {
@@ -170,7 +168,7 @@ class JAccessRules
 			return $this->data[$action]->allow($identity);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -194,6 +192,7 @@ class JAccessRules
 				$allowed->set($name, true);
 			}
 		}
+
 		return $allowed;
 	}
 

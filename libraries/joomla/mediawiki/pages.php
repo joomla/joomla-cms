@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,25 +12,23 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API Pages class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  MediaWiki
- * @since       12.3
+ * @since  12.3
  */
 class JMediawikiPages extends JMediawikiObject
 {
 	/**
-     * Method to edit a page.
+	 * Method to edit a page.
 	 *
 	 * @param   string  $title         Page title.
 	 * @param   int     $section       Section number.
 	 * @param   string  $sectiontitle  The title for a new section.
 	 * @param   string  $text          Page content.
 	 * @param   string  $summary       Title of the page you want to delete.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function editPage($title, $section = null, $sectiontitle = null, $text = null, $summary = null)
 	{
 		// Get the token.
@@ -46,7 +44,7 @@ class JMediawikiPages extends JMediawikiObject
 			'section' => $section,
 			'sectiontitle' => $section,
 			'text' => $text,
-			'summary' => $summary
+			'summary' => $summary,
 		);
 
 		// Send the request.
@@ -81,7 +79,7 @@ class JMediawikiPages extends JMediawikiObject
 			'token' => $token,
 			'reason' => $reason,
 			'watchlist' => $watchlist,
-			'oldimage' => $oldimage
+			'oldimage' => $oldimage,
 		);
 
 		// Send the request.
@@ -102,7 +100,7 @@ class JMediawikiPages extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function deletePageByID($pageid,  $reason = null, $watchlist = null, $oldimage = null)
+	public function deletePageById($pageid,  $reason = null, $watchlist = null, $oldimage = null)
 	{
 		// Get the token.
 		$token = $this->getToken($pageid, 'delete');
@@ -116,7 +114,7 @@ class JMediawikiPages extends JMediawikiObject
 			'token' => $token,
 			'reason' => $reason,
 			'watchlist' => $watchlist,
-			'oldimage' => $oldimage
+			'oldimage' => $oldimage,
 		);
 
 		// Send the request.
@@ -126,17 +124,17 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to restore certain revisions of a deleted page.
+	 * Method to restore certain revisions of a deleted page.
 	 *
 	 * @param   string  $title      Title of the page you want to restore.
 	 * @param   string  $reason     Reason for restoring (optional).
 	 * @param   string  $timestamp  Timestamps of the revisions to restore.
 	 * @param   string  $watchlist  Unconditionally add or remove the page from your watchlist.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function undeletePage($title, $reason = null, $timestamp = null, $watchlist = null)
 	{
 		// Get the token.
@@ -161,7 +159,7 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to move a page.
+	 * Method to move a page.
 	 *
 	 * @param   string   $from            Title of the page you want to move.
 	 * @param   string   $to              Title you want to rename the page to.
@@ -171,11 +169,11 @@ class JMediawikiPages extends JMediawikiObject
 	 * @param   boolean  $noredirect      Don't create a redirect.
 	 * @param   string   $watchlist       Unconditionally add or remove the page from your watchlist.
 	 * @param   boolean  $ignorewarnings  Ignore any warnings.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function movePageByName($from, $to, $reason = null, $movetalk = null, $movesubpages = null, $noredirect = null,
 		$watchlist =null, $ignorewarnings = null)
 	{
@@ -195,7 +193,7 @@ class JMediawikiPages extends JMediawikiObject
 			'movesubpages' => $movesubpages,
 			'noredirect' => $noredirect,
 			'watchlist' => $watchlist,
-			'ignorewarnings' => $ignorewarnings
+			'ignorewarnings' => $ignorewarnings,
 		);
 
 		// Send the request.
@@ -220,7 +218,7 @@ class JMediawikiPages extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function movePageByID($fromid, $to, $reason = null, $movetalk = null, $movesubpages = null, $noredirect = null,
+	public function movePageById($fromid, $to, $reason = null, $movetalk = null, $movesubpages = null, $noredirect = null,
 		$watchlist =null, $ignorewarnings = null)
 	{
 		// Get the token.
@@ -239,7 +237,7 @@ class JMediawikiPages extends JMediawikiObject
 			'movesubpages' => $movesubpages,
 			'noredirect' => $noredirect,
 			'watchlist' => $watchlist,
-			'ignorewarnings' => $ignorewarnings
+			'ignorewarnings' => $ignorewarnings,
 		);
 
 		// Send the request.
@@ -249,18 +247,18 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to undo the last edit to the page.
+	 * Method to undo the last edit to the page.
 	 *
 	 * @param   string  $title      Title of the page you want to rollback.
 	 * @param   string  $user       Name of the user whose edits are to be rolled back.
 	 * @param   string  $summary    Custom edit summary. If not set, default summary will be used.
 	 * @param   string  $markbot    Mark the reverted edits and the revert as bot edits.
 	 * @param   string  $watchlist  Unconditionally add or remove the page from your watchlist.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function rollback($title, $user, $summary = null, $markbot = null, $watchlist = null)
 	{
 		// Get the token.
@@ -276,7 +274,7 @@ class JMediawikiPages extends JMediawikiObject
 			'user' => $user,
 			'expiry' => $summary,
 			'markbot' => $markbot,
-			'watchlist' => $watchlist
+			'watchlist' => $watchlist,
 		);
 
 		// Send the request.
@@ -286,7 +284,7 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to change the protection level of a page.
+	 * Method to change the protection level of a page.
 	 *
 	 * @param   string  $title        Title of the page you want to (un)protect.
 	 * @param   string  $protections  Pipe-separated list of protection levels.
@@ -294,11 +292,11 @@ class JMediawikiPages extends JMediawikiObject
 	 * @param   string  $reason       Reason for (un)protecting (optional).
 	 * @param   string  $cascade      Enable cascading protection.
 	 * @param   string  $watchlist    Unconditionally add or remove the page from your watchlist.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function changeProtection($title, $protections, $expiry = null, $reason = null, $cascade = null, $watchlist = null)
 	{
 		// Get the token.
@@ -315,7 +313,7 @@ class JMediawikiPages extends JMediawikiObject
 			'expiry' => $expiry,
 			'reason' => $reason,
 			'cascade' => $cascade,
-			'watchlist' => $watchlist
+			'watchlist' => $watchlist,
 		);
 
 		// Send the request.
@@ -325,17 +323,17 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to get basic page information.
-     *
-     * @param   array    $titles      Page titles to retrieve info.
-     * @param   array    $inprop      Which additional properties to get.
-     * @param   array    $intoken     Request a token to perform a data-modifying action on a page
-     * @param   boolean  $incontinue  When more results are available, use this to continue.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * Method to get basic page information.
+	 *
+	 * @param   array    $titles      Page titles to retrieve info.
+	 * @param   array    $inprop      Which additional properties to get.
+	 * @param   array    $intoken     Request a token to perform a data-modifying action on a page
+	 * @param   boolean  $incontinue  When more results are available, use this to continue.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function getPageInfo(array $titles, array $inprop = null, array $intoken = null, $incontinue = null)
 	{
 		// Build the request
@@ -366,16 +364,16 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to get various properties defined in the page content.
-     *
-     * @param   array    $titles      Page titles to retrieve properties.
-     * @param   boolean  $ppcontinue  When more results are available, use this to continue.
-     * @param   string   $ppprop      Page prop to look on the page for.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * Method to get various properties defined in the page content.
+	 *
+	 * @param   array    $titles      Page titles to retrieve properties.
+	 * @param   boolean  $ppcontinue  When more results are available, use this to continue.
+	 * @param   string   $ppprop      Page prop to look on the page for.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function getPageProperties(array $titles, $ppcontinue = null, $ppprop = null)
 	{
 		// Build the request
@@ -401,17 +399,17 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to get a list of revisions.
-     *
+	 * Method to get a list of revisions.
+	 *
 	 * @param   array    $titles   Page titles to retrieve revisions.
 	 * @param   array    $rvprop   Which properties to get for each revision.
 	 * @param   boolean  $rvparse  Parse revision content.
 	 * @param   int      $rvlimit  Limit how many revisions will be returned.
 	 *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function getRevisions(array $titles, array $rvprop = null, $rvparse = null, $rvlimit = null)
 	{
 		// Build the request
@@ -442,19 +440,19 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to get all page templates from the given page.
-     *
-     * @param   array    $titles       Page titles to retrieve templates.
-     * @param   array    $tlnamespace  Show templates in this namespace(s) only.
-     * @param   integer  $tllimit      How many templates to return.
-     * @param   boolean  $tlcontinue   When more results are available, use this to continue.
-     * @param   string   $tltemplates  Only list these templates.
-     * @param   string   $tldir        The direction in which to list.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * Method to get all page templates from the given page.
+	 *
+	 * @param   array    $titles       Page titles to retrieve templates.
+	 * @param   array    $tlnamespace  Show templates in this namespace(s) only.
+	 * @param   integer  $tllimit      How many templates to return.
+	 * @param   boolean  $tlcontinue   When more results are available, use this to continue.
+	 * @param   string   $tltemplates  Only list these templates.
+	 * @param   string   $tldir        The direction in which to list.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function getPageTemplates(array $titles, array $tlnamespace = null, $tllimit = null, $tlcontinue = null, $tltemplates = null, $tldir = null)
 	{
 		// Build the request.
@@ -495,20 +493,20 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to get all pages that link to the given page.
-     *
-     * @param   string   $bltitle           Title to search.
-     * @param   integer  $blpageid          Pageid to search.
-     * @param   boolean  $blcontinue        When more results are available, use this to continue.
-     * @param   array    $blnamespace       The namespace to enumerate.
-     * @param   string   $blfilterredirect  How to filter for redirects..
-     * @param   integer  $bllimit           How many total pages to return.
-     * @param   boolean  $blredirect        If linking page is a redirect, find all pages that link to that redirect as well.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * Method to get all pages that link to the given page.
+	 *
+	 * @param   string   $bltitle           Title to search.
+	 * @param   integer  $blpageid          Pageid to search.
+	 * @param   boolean  $blcontinue        When more results are available, use this to continue.
+	 * @param   array    $blnamespace       The namespace to enumerate.
+	 * @param   string   $blfilterredirect  How to filter for redirects..
+	 * @param   integer  $bllimit           How many total pages to return.
+	 * @param   boolean  $blredirect        If linking page is a redirect, find all pages that link to that redirect as well.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function getBackLinks($bltitle, $blpageid = null, $blcontinue = null, array $blnamespace = null, $blfilterredirect = null,
 		$bllimit = null, $blredirect = null)
 	{
@@ -557,18 +555,18 @@ class JMediawikiPages extends JMediawikiObject
 	}
 
 	/**
-     * Method to get all pages that link to the given interwiki link.
-     *
-     * @param   string   $iwbltitle     Interwiki link to search for. Must be used with iwblprefix.
-     * @param   string   $iwblprefix    Prefix for the interwiki.
-     * @param   boolean  $iwblcontinue  When more results are available, use this to continue.
-     * @param   integer  $iwbllimit     How many total pages to return.
-     * @param   array    $iwblprop      Which properties to get.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * Method to get all pages that link to the given interwiki link.
+	 *
+	 * @param   string   $iwbltitle     Interwiki link to search for. Must be used with iwblprefix.
+	 * @param   string   $iwblprefix    Prefix for the interwiki.
+	 * @param   boolean  $iwblcontinue  When more results are available, use this to continue.
+	 * @param   integer  $iwbllimit     How many total pages to return.
+	 * @param   array    $iwblprop      Which properties to get.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function getIWBackLinks($iwbltitle, $iwblprefix = null, $iwblcontinue = null, $iwbllimit = null, array $iwblprop = null)
 	{
 		// Build the request

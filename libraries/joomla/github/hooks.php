@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Hooks class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
  * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubHooks extends JGithubObject
 {
@@ -25,8 +24,19 @@ class JGithubHooks extends JGithubObject
 	 * @since  12.3
 	 */
 	protected $events = array(
-						'push', 'issues', 'issue_comment', 'commit_comment', 'pull_request', 'gollum', 'watch', 'download', 'fork', 'fork_apply',
-						'member', 'public', 'status'
+		'push',
+		'issues',
+		'issue_comment',
+		'commit_comment',
+		'pull_request',
+		'gollum',
+		'watch',
+		'download',
+		'fork',
+		'fork_apply',
+		'member',
+		'public',
+		'status',
 	);
 
 	/**
@@ -38,6 +48,8 @@ class JGithubHooks extends JGithubObject
 	 * @param   array    $config  Array containing the config for the service.
 	 * @param   array    $events  The events the hook will be triggered for.
 	 * @param   boolean  $active  Flag to determine if the hook is active
+	 *
+	 * @deprecated  use repositories->hooks->create()
 	 *
 	 * @return  object
 	 *
@@ -76,6 +88,8 @@ class JGithubHooks extends JGithubObject
 	 * @param   string   $repo  The name of the GitHub repository.
 	 * @param   integer  $id    ID of the hook to delete.
 	 *
+	 * @deprecated  use repositories->hooks->delete()
+	 *
 	 * @return  object
 	 *
 	 * @since   12.3
@@ -104,6 +118,8 @@ class JGithubHooks extends JGithubObject
 	 * @param   array    $addEvents     Events to add to the hook.
 	 * @param   array    $removeEvents  Events to remove from the hook.
 	 * @param   boolean  $active        Flag to determine if the hook is active
+	 *
+	 * @deprecated  use repositories->hooks->edit()
 	 *
 	 * @return  object
 	 *
@@ -138,6 +154,7 @@ class JGithubHooks extends JGithubObject
 				throw new RuntimeException('Your remove_events array contains an unauthorized event.');
 			}
 		}
+
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/hooks/' . $id;
 
@@ -148,7 +165,8 @@ class JGithubHooks extends JGithubObject
 				'events' => $events,
 				'add_events' => $addEvents,
 				'remove_events' => $removeEvents,
-				'active' => $active)
+				'active' => $active,
+			)
 		);
 
 		return $this->processResponse(
@@ -162,6 +180,8 @@ class JGithubHooks extends JGithubObject
 	 * @param   string   $user  The name of the owner of the GitHub repository.
 	 * @param   string   $repo  The name of the GitHub repository.
 	 * @param   integer  $id    ID of the hook to retrieve
+	 *
+	 * @deprecated  use repositories->hooks->get()
 	 *
 	 * @return  object
 	 *
@@ -186,6 +206,8 @@ class JGithubHooks extends JGithubObject
 	 * @param   integer  $page   Page to request
 	 * @param   integer  $limit  Number of results to return per page
 	 *
+	 * @deprecated  use repositories->hooks->getList()
+	 *
 	 * @return  object
 	 *
 	 * @since   12.3
@@ -207,6 +229,8 @@ class JGithubHooks extends JGithubObject
 	 * @param   string   $user  The name of the owner of the GitHub repository.
 	 * @param   string   $repo  The name of the GitHub repository.
 	 * @param   integer  $id    ID of the hook to delete
+	 *
+	 * @deprecated  use repositories->hooks->test()
 	 *
 	 * @return  object
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RSS Feed Parser Namespace handler for MediaRSS.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @see         http://video.search.yahoo.com/mrss
- * @since       12.3
+ * @see    http://video.search.yahoo.com/mrss
+ * @since  12.3
  */
 class JFeedParserRssMedia implements JFeedParserNamespace
 {
@@ -31,7 +29,7 @@ class JFeedParserRssMedia implements JFeedParserNamespace
 	 */
 	public function processElementForFeed(JFeed $feed, SimpleXMLElement $el)
 	{
-
+		return;
 	}
 
 	/**
@@ -46,6 +44,6 @@ class JFeedParserRssMedia implements JFeedParserNamespace
 	 */
 	public function processElementForFeedEntry(JFeedEntry $entry, SimpleXMLElement $el)
 	{
-
+		return;
 	}
 }

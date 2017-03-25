@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,9 +16,7 @@ jimport('joomla.filesystem.path');
 /**
  * Installer helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 abstract class JInstallerHelper
 {
@@ -26,16 +24,14 @@ abstract class JInstallerHelper
 	 * Downloads a package
 	 *
 	 * @param   string  $url     URL of file to download
-	 * @param   string  $target  Download target filename [optional]
+	 * @param   mixed   $target  Download target filename or false to get the filename from the URL
 	 *
-	 * @return  mixed  Path to downloaded package or boolean false on failure
+	 * @return  string|boolean  Path to downloaded package or boolean false on failure
 	 *
 	 * @since   3.1
 	 */
 	public static function downloadPackage($url, $target = false)
 	{
-		$config = JFactory::getConfig();
-
 		// Capture PHP errors
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
@@ -44,8 +40,22 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
+		// Load installer plugins, and allow URL and headers modification
+		$headers = array();
+		JPluginHelper::importPlugin('installer');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
+
+		try
+		{
+			$response = JHttpFactory::getHttp()->get($url, $headers);
+		}
+		catch (RuntimeException $exception)
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), JLog::WARNING, 'jerror');
+
+			return false;
+		}
 
 		if (302 == $response->code && isset($response->headers['Location']))
 		{
@@ -53,25 +63,29 @@ abstract class JInstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), JLog::WARNING, 'jerror');
 
 			return false;
 		}
 
-		if (isset($response->headers['Content-Disposition']))
+		// Parse the Content-Disposition header to get the file name
+		if (isset($response->headers['Content-Disposition'])
+			&& preg_match("/\s*filename\s?=\s?(.*)/", $response->headers['Content-Disposition'], $parts))
 		{
-			$contentfilename = explode("\"", $response->headers['Content-Disposition']);
-			$target = $contentfilename[1];
+			$flds = explode(';', $parts[1]);
+			$target = trim($flds[0], '"');
 		}
+
+		$tmpPath = JFactory::getConfig()->get('tmp_path');
 
 		// Set the target path if not given
 		if (!$target)
 		{
-			$target = $config->get('tmp_path') . '/' . self::getFilenameFromURL($url);
+			$target = $tmpPath . '/' . self::getFilenameFromUrl($url);
 		}
 		else
 		{
-			$target = $config->get('tmp_path') . '/' . basename($target);
+			$target = $tmpPath . '/' . basename($target);
 		}
 
 		// Write buffer to file
@@ -91,13 +105,14 @@ abstract class JInstallerHelper
 	 * Unpacks a file and verifies it as a Joomla element package
 	 * Supports .gz .tar .tar.gz and .zip
 	 *
-	 * @param   string  $p_filename  The uploaded package filename or install directory
+	 * @param   string   $p_filename         The uploaded package filename or install directory
+	 * @param   boolean  $alwaysReturnArray  If should return false (and leave garbage behind) or return $retval['type']=false
 	 *
-	 * @return  mixed  Array on success or boolean false on failure
+	 * @return  array|boolean  Array on success or boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public static function unpack($p_filename)
+	public static function unpack($p_filename, $alwaysReturnArray = false)
 	{
 		// Path to the archive
 		$archivename = $p_filename;
@@ -112,10 +127,33 @@ abstract class JInstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			JArchive::extract($archivename, $extractdir);
+			$extract = JArchive::extract($archivename, $extractdir);
 		}
 		catch (Exception $e)
 		{
+			if ($alwaysReturnArray)
+			{
+				return array(
+					'extractdir'  => null,
+					'packagefile' => $archivename,
+					'type'        => false,
+				);
+			}
+
+			return false;
+		}
+
+		if (!$extract)
+		{
+			if ($alwaysReturnArray)
+			{
+				return array(
+					'extractdir'  => null,
+					'packagefile' => $archivename,
+					'type'        => false,
+				);
+			}
+
 			return false;
 		}
 
@@ -133,7 +171,7 @@ abstract class JInstallerHelper
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
-		$dirList = array_merge(JFolder::files($extractdir, ''), JFolder::folders($extractdir, ''));
+		$dirList = array_merge((array) JFolder::files($extractdir, ''), (array) JFolder::folders($extractdir, ''));
 
 		if (count($dirList) == 1)
 		{
@@ -155,7 +193,7 @@ abstract class JInstallerHelper
 		 */
 		$retval['type'] = self::detectType($extractdir);
 
-		if ($retval['type'])
+		if ($retval['type'] || $alwaysReturnArray)
 		{
 			return $retval;
 		}
@@ -179,7 +217,7 @@ abstract class JInstallerHelper
 		// Search the install dir for an XML file
 		$files = JFolder::files($p_dir, '\.xml$', 1, true);
 
-		if (!count($files))
+		if (!$files || !count($files))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
 
@@ -226,7 +264,7 @@ abstract class JInstallerHelper
 	 *
 	 * @since   3.1
 	 */
-	public static function getFilenameFromURL($url)
+	public static function getFilenameFromUrl($url)
 	{
 		if (is_string($url))
 		{
@@ -234,6 +272,7 @@ abstract class JInstallerHelper
 
 			return $parts[count($parts) - 1];
 		}
+
 		return false;
 	}
 
@@ -252,7 +291,7 @@ abstract class JInstallerHelper
 		$config = JFactory::getConfig();
 
 		// Does the unpacked extension directory exist?
-		if (is_dir($resultdir))
+		if ($resultdir && is_dir($resultdir))
 		{
 			JFolder::delete($resultdir);
 		}

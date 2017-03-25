@@ -3,23 +3,22 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapterinstance');
+use Joomla\Registry\Registry;
+
 jimport('joomla.filesystem.folder');
 
 /**
  * Language installer
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
-class JInstallerAdapterLanguage extends JAdapterInstance
+class JInstallerAdapterLanguage extends JInstallerAdapter
 {
 	/**
 	 * Core language pack flag
@@ -30,13 +29,51 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 	protected $core = false;
 
 	/**
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function copyBaseFiles()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to do any prechecks and setup the install paths for the extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function setupInstallPaths()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to store the extension to the database
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @throws  RuntimeException
+	 */
+	protected function storeExtension()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
 	 * Custom install method
 	 *
 	 * Note: This behaves badly due to hacks made in the middle of 1.5.x to add
 	 * the ability to install multiple distinct packs in one install. The
 	 * preferred method is to use a package to install multiple language packs.
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
@@ -52,10 +89,11 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
 			);
 		}
-		$this->manifest = $this->parent->getManifest();
+
+		$this->setManifest($this->parent->getManifest());
 
 		// Get the client application target
-		if ($cname = (string) $this->manifest->attributes()->client)
+		if ($cname = (string) $this->getManifest()->attributes()->client)
 		{
 			// Attempt to map the client to a base path
 			$client = JApplicationHelper::getClientInfo($cname, true);
@@ -66,19 +104,20 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 				return false;
 			}
+
 			$basePath = $client->path;
 			$clientId = $client->id;
-			$element = $this->manifest->files;
+			$element  = $this->getManifest()->files;
 
 			return $this->_install($cname, $basePath, $clientId, $element);
 		}
 		else
 		{
 			// No client attribute was found so we assume the site as the client
-			$cname = 'site';
+			$cname    = 'site';
 			$basePath = JPATH_SITE;
 			$clientId = 0;
-			$element = $this->manifest->files;
+			$element  = $this->getManifest()->files;
 
 			return $this->_install($cname, $basePath, $clientId, $element);
 		}
@@ -92,21 +131,21 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 	 * @param   integer  $clientId  The client id.
 	 * @param   object   &$element  The XML element.
 	 *
-	 * @return  boolean
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
-	 * @since  3.1
+	 * @since   3.1
 	 */
 	protected function _install($cname, $basePath, $clientId, &$element)
 	{
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
 		// Get the language name
 		// Set the extensions name
-		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd');
+		$name = JFilterInput::getInstance()->clean((string) $this->getManifest()->name, 'cmd');
 		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
-		$tag = (string) $this->manifest->tag;
+		$tag = (string) $this->getManifest()->tag;
 
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
 		if (!$tag)
@@ -157,7 +196,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 		else
 		{
 			// Look for an update function or update tag
-			$updateElement = $this->manifest->update;
+			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update tag detected
 			if ($this->parent->isUpgrade() || $updateElement)
@@ -185,6 +224,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 						JLog::WARNING, 'jerror'
 					);
 				}
+
 				return false;
 			}
 		}
@@ -209,23 +249,24 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 		}
 
 		// Parse optional tags
-		$this->parent->parseMedia($this->manifest->media);
+		$this->parent->parseMedia($this->getManifest()->media);
 
 		// Copy all the necessary font files to the common pdf_fonts directory
 		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
 
-		if ($this->parent->parseFiles($this->manifest->fonts) === false)
+		if ($this->parent->parseFiles($this->getManifest()->fonts) === false)
 		{
 			// Install failed, rollback changes
 			$this->parent->abort();
 
 			return false;
 		}
+
 		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description
-		$description = (string) $this->manifest->description;
+		$description = (string) $this->getManifest()->description;
 
 		if ($description)
 		{
@@ -251,7 +292,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 		$row->set('params', $this->parent->getParams());
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 
-		if (!$row->store())
+		if (!$row->check() || !$row->store())
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
@@ -259,16 +300,132 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 			return false;
 		}
 
+		// Create an unpublished content language.
+		if ((int) $clientId === 0)
+		{
+			// Load the site language manifest.
+			$siteLanguageManifest = JLanguageHelper::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
+
+			// Set the content language title as the language metadata name.
+			$contentLanguageTitle = $siteLanguageManifest['name'];
+
+			// Set, as fallback, the content language native title to the language metadata name.
+			$contentLanguageNativeTitle = $contentLanguageTitle;
+
+			// If exist, load the native title from the language xml metadata.
+			if (isset($siteLanguageMetadata['nativeName']) && $siteLanguageMetadata['nativeName'])
+			{
+				$contentLanguageNativeTitle = $siteLanguageMetadata['nativeName'];
+			}
+
+			// Try to load a language string from the installation language var. Will be removed in 4.0.
+			if ($contentLanguageNativeTitle === $contentLanguageTitle)
+			{
+				if (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
+				{
+					$installationLanguage = new JLanguage($this->tag);
+					$installationLanguage->load('', JPATH_INSTALLATION);
+
+					if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
+					{
+						// Make sure it will not use the en-GB fallback.
+						$defaultLanguage = new JLanguage('en-GB');
+						$defaultLanguage->load('', JPATH_INSTALLATION);
+
+						$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+						$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+
+						if ($defaultLanguageNativeTitle != $installationLanguageNativeTitle)
+						{
+							$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+						}
+					}
+				}
+			}
+
+			// Prepare language data for store.
+			$languageData = array(
+				'lang_id'      => 0,
+				'lang_code'    => $this->tag,
+				'title'        => $contentLanguageTitle,
+				'title_native' => $contentLanguageNativeTitle,
+				'sef'          => $this->getSefString($this->tag),
+				'image'        => strtolower(str_replace('-', '_', $this->tag)),
+				'published'    => 0,
+				'ordering'     => 0,
+				'access'       => (int) JFactory::getConfig()->get('access', 1),
+				'description'  => '',
+				'metakey'      => '',
+				'metadesc'     => '',
+				'sitename'     => '',
+			);
+
+			$tableLanguage = JTable::getInstance('language');
+
+			if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder())
+			{
+				JLog::add(
+					JText::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
+					JLog::WARNING,
+					'jerror'
+				);
+			}
+		}
+
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'folder' => ''));
 
 		if ($uid)
 		{
 			$update->delete($uid);
 		}
 
+		// Clean installed languages cache.
+		JFactory::getCache()->clean('com_languages');
+
 		return $row->get('extension_id');
+	}
+
+
+	/**
+	 * Gets a unique language SEF string.
+	 *
+	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
+	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
+	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+	 * For example: www.mywebsite.com/en-au/
+	 *
+	 * @param   string  $itemLanguageTag  Language Tag.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	protected function getSefString($itemLanguageTag)
+	{
+		$langs               = explode('-', $itemLanguageTag);
+		$prefixToFind        = $langs[0];
+		$numberPrefixesFound = 0;
+
+		// Get the sef value of all current content languages.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('sef'))
+			->from($db->qn('#__languages'));
+		$db->setQuery($query);
+
+		$siteLanguages = $db->loadObjectList();
+
+		foreach ($siteLanguages as $siteLang)
+		{
+			if ($siteLang->sef === $prefixToFind)
+			{
+				$numberPrefixesFound++;
+			}
+		}
+
+		return $numberPrefixesFound === 0 ? $prefixToFind : strtolower($itemLanguageTag);
 	}
 
 	/**
@@ -282,7 +439,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 	{
 		$xml = $this->parent->getManifest();
 
-		$this->manifest = $xml;
+		$this->setManifest($xml);
 
 		$cname = $xml->attributes()->client;
 
@@ -295,12 +452,13 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 			return false;
 		}
+
 		$basePath = $client->path;
 		$clientId = $client->id;
 
 		// Get the language name
 		// Set the extensions name
-		$name = (string) $this->manifest->name;
+		$name = (string) $this->getManifest()->name;
 		$name = JFilterInput::getInstance()->clean($name, 'cmd');
 		$this->set('name', $name);
 
@@ -356,6 +514,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 			return false;
 		}
+
 		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description and set it as message
@@ -378,7 +537,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
+		$eid = $row->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
 
 		if ($eid)
 		{
@@ -396,12 +555,16 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 			$row->set('client_id', $clientId);
 			$row->set('params', $this->parent->getParams());
 		}
+
 		$row->set('name', $this->get('name'));
 		$row->set('type', 'language');
 		$row->set('element', $this->get('tag'));
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 
-		if (!$row->store())
+		// Clean installed languages cache.
+		JFactory::getCache()->clean('com_languages');
+
+		if (!$row->check() || !$row->store())
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
@@ -417,7 +580,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 	 *
 	 * @param   string  $eid  The tag of the language to uninstall
 	 *
-	 * @return  mixed  Return value for uninstall method in component uninstall file
+	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 */
@@ -460,6 +623,17 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 			return false;
 		}
 
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($extension->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $extension->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
 		// Construct the path from the client, the language and the extension element name
 		$path = $client->path . '/language/' . $element;
 
@@ -468,8 +642,8 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
 		$this->parent->findManifest();
-		$this->manifest = $this->parent->getManifest();
-		$this->parent->removeFiles($this->manifest->media);
+		$this->setManifest($this->parent->getManifest());
+		$this->parent->removeFiles($this->getManifest()->media);
 
 		// Check it exists
 		if (!JFolder::exists($path))
@@ -513,8 +687,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		foreach ($users as $user)
 		{
-			$registry = new JRegistry;
-			$registry->loadString($user->params);
+			$registry = new Registry($user->params);
 
 			if ($registry->get($param_name) == $element)
 			{
@@ -528,6 +701,10 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$count++;
 			}
 		}
+
+		// Clean installed languages cache.
+		JFactory::getCache()->clean('com_languages');
+
 		if (!empty($count))
 		{
 			JLog::add(JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), JLog::NOTICE, 'jerror');
@@ -568,6 +745,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
+
 		foreach ($admin_languages as $language)
 		{
 			if (file_exists(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml'))
@@ -585,6 +763,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
+
 		return $results;
 	}
 
@@ -615,6 +794,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 		// @todo remove code: $this->parent->extension->params = $this->parent->getParams();
 		try
 		{
+			$this->parent->extension->check();
 			$this->parent->extension->store();
 		}
 		catch (RuntimeException $e)
@@ -623,6 +803,10 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 			return false;
 		}
+
+		// Clean installed languages cache.
+		JFactory::getCache()->clean('com_languages');
+
 		return $this->parent->extension->get('extension_id');
 	}
 
@@ -659,8 +843,6 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 /**
  * Deprecated class placeholder. You should use JInstallerAdapterLanguage instead.
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
  * @since       3.1
  * @deprecated  4.0
  * @codeCoverageIgnore

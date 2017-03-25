@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Content Component Article Model
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelArticle extends JModelItem
 {
@@ -31,6 +31,8 @@ class ContentModelArticle extends JModelItem
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @since   1.6
+	 *
+	 * @return void
 	 */
 	protected function populateState()
 	{
@@ -49,6 +51,7 @@ class ContentModelArticle extends JModelItem
 
 		// TODO: Tune these values based on other permissions.
 		$user = JFactory::getUser();
+
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			$this->setState('filter.published', 1);
@@ -61,12 +64,14 @@ class ContentModelArticle extends JModelItem
 	/**
 	 * Method to get article data.
 	 *
-	 * @param   integer    The id of the article.
+	 * @param   integer  $pk  The id of the article.
 	 *
-	 * @return  mixed  Menu item data object on success, false on failure.
+	 * @return  object|boolean|JException  Menu item data object on success, boolean false or JException instance on error
 	 */
 	public function getItem($pk = null)
 	{
+		$user = JFactory::getUser();
+
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		if ($this->_item === null)
@@ -76,7 +81,6 @@ class ContentModelArticle extends JModelItem
 
 		if (!isset($this->_item[$pk]))
 		{
-
 			try
 			{
 				$db = $this->getDbo();
@@ -88,7 +92,7 @@ class ContentModelArticle extends JModelItem
 							// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
 							'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
 							'a.catid, a.created, a.created_by, a.created_by_alias, ' .
-							// use created if modified is 0
+							// Use created if modified is 0
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
@@ -104,19 +108,6 @@ class ContentModelArticle extends JModelItem
 				// Join on user table.
 				$query->select('u.name AS author')
 					->join('LEFT', '#__users AS u on u.id = a.created_by');
-
-				// Get contact id
-				$subQuery = $db->getQuery(true)
-					->select('MAX(contact.id) AS id')
-					->from('#__contact_details AS contact')
-					->where('contact.published = 1')
-					->where('contact.user_id = a.created_by');
-					// Filter by language
-					if ($this->getState('filter.language'))
-					{
-						$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
-					}
-				$query->select('(' . $subQuery . ') as contactid');
 
 				// Filter by language
 				if ($this->getState('filter.language'))
@@ -134,14 +125,17 @@ class ContentModelArticle extends JModelItem
 
 					->where('a.id = ' . (int) $pk);
 
-				// Filter by start and end dates.
-				$nullDate = $db->quote($db->getNullDate());
-				$date = JFactory::getDate();
+				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+				{
+					// Filter by start and end dates.
+					$nullDate = $db->quote($db->getNullDate());
+					$date = JFactory::getDate();
 
-				$nowDate = $db->quote($date->toSql());
+					$nowDate = $db->quote($date->toSql());
 
-				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+				}
 
 				// Join to check for category published state in parent categories up the tree
 				// If all categories are published, badcats.id will be null, and we just use the article state
@@ -170,24 +164,18 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
 				{
 					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new JRegistry;
-				$registry->loadString($data->attribs);
+				$registry = new Registry($data->attribs);
 
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new JRegistry;
-				$registry->loadString($data->metadata);
-				$data->metadata = $registry;
-
-				// Compute selected asset permissions.
-				$user = JFactory::getUser();
+				$data->metadata = new Registry($data->metadata);
 
 				// Technically guest could edit an article, but lets not check that to improve performance a little.
 				if (!$user->get('guest'))
@@ -200,6 +188,7 @@ class ContentModelArticle extends JModelItem
 					{
 						$data->params->set('access-edit', true);
 					}
+
 					// Now check if edit.own is available.
 					elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
 					{
@@ -256,7 +245,7 @@ class ContentModelArticle extends JModelItem
 	/**
 	 * Increment the hit counter for the article.
 	 *
-	 * @param   integer  Optional primary key of the article to increment.
+	 * @param   integer  $pk  Optional primary key of the article to increment.
 	 *
 	 * @return  boolean  True if successful; false otherwise and internal error set.
 	 */
@@ -268,50 +257,65 @@ class ContentModelArticle extends JModelItem
 		if ($hitcount)
 		{
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-			$db = $this->getDbo();
 
-			$db->setQuery(
-
-				'UPDATE #__content' .
-					' SET hits = hits + 1' .
-					' WHERE id = ' . (int) $pk
-			);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
-				return false;
-			}
+			$table = JTable::getInstance('Content', 'JTable');
+			$table->load($pk);
+			$table->hit($pk);
 		}
+
 		return true;
 	}
 
+	/**
+	 * Save user vote on article
+	 *
+	 * @param   integer  $pk    Joomla Article Id
+	 * @param   integer  $rate  Voting rate
+	 *
+	 * @return  boolean          Return true on success
+	 */
 	public function storeVote($pk = 0, $rate = 0)
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
 			$userIP = $_SERVER['REMOTE_ADDR'];
-			$db = $this->getDbo();
 
-			$db->setQuery(
-				'SELECT *' .
-					' FROM #__content_rating' .
-					' WHERE content_id = ' . (int) $pk
-			);
+			// Initialize variables.
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true);
 
-			$rating = $db->loadObject();
+			// Create the base select statement.
+			$query->select('*')
+				->from($db->quoteName('#__content_rating'))
+				->where($db->quoteName('content_id') . ' = ' . (int) $pk);
 
+			// Set the query and load the result.
+			$db->setQuery($query);
+
+			// Check for a database error.
+			try
+			{
+				$rating = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
+
+				return false;
+			}
+
+			// There are no ratings yet, so lets insert our rating
 			if (!$rating)
 			{
-				// There are no ratings yet, so lets insert our rating
-				$db->setQuery(
-					'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
-						' VALUES ( ' . (int) $pk . ', ' . $db->quote($userIP) . ', ' . (int) $rate . ', 1 )'
-				);
+				$query = $db->getQuery(true);
+
+				// Create the base insert statement.
+				$query->insert($db->quoteName('#__content_rating'))
+					->columns(array($db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')))
+					->values((int) $pk . ', ' . $db->quote($userIP) . ',' . (int) $rate . ', 1');
+
+				// Set the query and execute the insert.
+				$db->setQuery($query);
 
 				try
 				{
@@ -319,19 +323,26 @@ class ContentModelArticle extends JModelItem
 				}
 				catch (RuntimeException $e)
 				{
-					$this->setError($e->getMessage);
+					JError::raiseWarning(500, $e->getMessage());
+
 					return false;
 				}
 			}
 			else
 			{
-				if ($userIP != ($rating->lastip))
+				if ($userIP != $rating->lastip)
 				{
-					$db->setQuery(
-						'UPDATE #__content_rating' .
-							' SET rating_count = rating_count + 1, rating_sum = rating_sum + ' . (int) $rate . ', lastip = ' . $db->quote($userIP) .
-							' WHERE content_id = ' . (int) $pk
-					);
+					$query = $db->getQuery(true);
+
+					// Create the base update statement.
+					$query->update($db->quoteName('#__content_rating'))
+						->set($db->quoteName('rating_count') . ' = rating_count + 1')
+						->set($db->quoteName('rating_sum') . ' = rating_sum + ' . (int) $rate)
+						->set($db->quoteName('lastip') . ' = ' . $db->quote($userIP))
+						->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+
+					// Set the query and execute the update.
+					$db->setQuery($query);
 
 					try
 					{
@@ -339,7 +350,8 @@ class ContentModelArticle extends JModelItem
 					}
 					catch (RuntimeException $e)
 					{
-						$this->setError($e->getMessage);
+						JError::raiseWarning(500, $e->getMessage());
+
 						return false;
 					}
 				}
@@ -348,9 +360,12 @@ class ContentModelArticle extends JModelItem
 					return false;
 				}
 			}
+
 			return true;
 		}
+
 		JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+
 		return false;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ jimport('joomla.filesystem.file');
 /**
  * Joomla! Package Manifest File
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 abstract class JInstallerManifest
 {
@@ -95,7 +93,7 @@ abstract class JInstallerManifest
 	{
 		if (strlen($xmlpath))
 		{
-			$this->loadManifestFromXML($xmlpath);
+			$this->loadManifestFromXml($xmlpath);
 		}
 	}
 
@@ -108,7 +106,7 @@ abstract class JInstallerManifest
 	 *
 	 * @since   3.1
 	 */
-	public function loadManifestFromXML($xmlfile)
+	public function loadManifestFromXml($xmlfile)
 	{
 		$this->manifest_file = basename($xmlfile, '.xml');
 

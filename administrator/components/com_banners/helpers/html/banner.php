@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Banner HTML class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlBanner
 {
@@ -30,24 +28,28 @@ abstract class JHtmlBanner
 		JHtml::_('bootstrap.tooltip');
 
 		// Create the batch selector to change the client on a selection list.
-		$lines = array(
-			'<label id="batch-client-lbl" for="batch-client" class="hasTooltip" title="' . JHtml::tooltipText('COM_BANNERS_BATCH_CLIENT_LABEL', 'COM_BANNERS_BATCH_CLIENT_LABEL_DESC') . '">',
-			JText::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
-			'</label>',
-			'<select name="batch[client_id]" class="inputbox" id="batch-client-id">',
-			'<option value="">' . JText::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
-			'<option value="0">' . JText::_('COM_BANNERS_NO_CLIENT') . '</option>',
-			JHtml::_('select.options', static::clientlist(), 'value', 'text'),
-			'</select>'
+		return implode(
+			"\n",
+			array(
+				'<label id="batch-client-lbl" for="batch-client" class="hasTooltip" title="'
+					. JHtml::_('tooltipText', 'COM_BANNERS_BATCH_CLIENT_LABEL', 'COM_BANNERS_BATCH_CLIENT_LABEL_DESC')
+					. '">',
+				JText::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
+				'</label>',
+				'<select name="batch[client_id]" id="batch-client-id">',
+				'<option value="">' . JText::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
+				'<option value="0">' . JText::_('COM_BANNERS_NO_CLIENT') . '</option>',
+				JHtml::_('select.options', static::clientlist(), 'value', 'text'),
+				'</select>'
+			)
 		);
-
-		return implode("\n", $lines);
 	}
 
 	/**
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   1.6
 	 */
 	public static function clientlist()
@@ -76,15 +78,14 @@ abstract class JHtmlBanner
 	/**
 	 * Returns a pinned state on a grid
 	 *
-	 * @param   integer       $value			The state value.
-	 * @param   integer       $i				The row index
-	 * @param   boolean       $enabled		An optional setting for access control on the action.
-	 * @param   string        $checkbox		An optional prefix for checkboxes.
+	 * @param   integer  $value     The state value.
+	 * @param   integer  $i         The row index
+	 * @param   boolean  $enabled   An optional setting for access control on the action.
+	 * @param   string   $checkbox  An optional prefix for checkboxes.
 	 *
-	 * @return  string        The Html code
+	 * @return  string   The Html code
 	 *
-	 * @see JHtmlJGrid::state
-	 *
+	 * @see     JHtmlJGrid::state
 	 * @since   2.5.5
 	 */
 	public static function pinned($value, $i, $enabled = true, $checkbox = 'cb')
@@ -112,5 +113,4 @@ abstract class JHtmlBanner
 
 		return JHtml::_('jgrid.state', $states, $value, $i, 'banners.', $enabled, true, $checkbox);
 	}
-
 }

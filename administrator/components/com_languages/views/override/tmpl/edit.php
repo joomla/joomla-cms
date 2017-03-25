@@ -3,48 +3,74 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-?>
-<script type="text/javascript">
-		window.addEvent('domready', function()
-		{
-			document.id('jform_searchstring').addEvent('focus', function()
+$expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
+
+JHtml::_('stylesheet', 'overrider/overrider.css', array('version' => 'auto', 'relative' => true));
+
+JHtml::_('behavior.core');
+JHtml::_('jquery.framework');
+JHtml::_('script', 'overrider/overrider.min.js', array('version' => 'auto', 'relative' => true));
+
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function($) {
+		$("#jform_searchstring").on("focus", function() {
+			if (!Joomla.overrider.states.refreshed)
 			{
-				if (!Joomla.overrider.states.refreshed)
+				var expired = "' . $expired . '";
+				if (expired)
 				{
-					<?php if ($this->state->get('cache_expired')) : ?>
 					Joomla.overrider.refreshCache();
 					Joomla.overrider.states.refreshed = true;
-					<?php endif; ?>
 				}
-				this.removeClass('invalid');
-			});
+			}
+			$(this).removeClass("invalid");
 		});
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'override.cancel' || document.formvalidator.isValid(document.id('override-form')))
-		{
-			Joomla.submitform(task, document.getElementById('override-form'));
-		}
-	}
-</script>
+	});
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&id='.$this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
+	Joomla.submitbutton = function(task) {
+		if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))
+		{
+			Joomla.submitform(task, document.getElementById("override-form"));
+		}
+	};
+');
+?>
+
+<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
 	<div class="row-fluid">
 		<div class="span6">
 			<fieldset>
 				<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('language'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('language'); ?>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('client'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('client'); ?>
+					</div>
+				</div>
+
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('key'); ?>
@@ -76,24 +102,6 @@ JHtml::_('formbehavior.chosen', 'select');
 
 				<div class="control-group">
 					<div class="control-label">
-						<?php echo $this->form->getLabel('language'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('client'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('client'); ?>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<div class="control-label">
 						<?php echo $this->form->getLabel('file'); ?>
 					</div>
 					<div class="controls">
@@ -112,7 +120,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 				<div class="control-group">
 					<?php echo $this->form->getInput('searchstring'); ?>
-					<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;">
+					<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
 					</button>
 					<span id="refresh-status" class="overrider-spinner  help-block">

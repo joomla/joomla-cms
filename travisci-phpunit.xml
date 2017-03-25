@@ -3,18 +3,23 @@
 	<php>
 		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=root;pass=" />
 		<const name="JTEST_DATABASE_MYSQLI_DSN" value="host=localhost;dbname=joomla_ut;user=root;pass=" />
+		<const name="JTEST_DATABASE_PDO_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=root;pass=" />
 		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=localhost;port=5432;dbname=joomla_ut;user=postgres;pass=" />
+		<!-- <const name="JTEST_HTTP_STUB" value="http://localhost/tests/unit/stubs/jhttp_stub.php" /> -->
 	</php>
 
 	<testsuites>
-		<testsuite name="libraries">
-			<directory>tests/unit/suites/libraries</directory>
+		<testsuite name="libraries-cms">
+			<directory>tests/unit/suites/libraries/cms</directory>
+		</testsuite>
+		<testsuite name="libraries-platform">
+			<directory>tests/unit/suites/libraries/joomla</directory>
+		</testsuite>
+		<testsuite name="libraries-legacy">
+			<directory>tests/unit/suites/libraries/legacy</directory>
 		</testsuite>
 		<testsuite name="database">
 			<directory>tests/unit/suites/database</directory>
-		</testsuite>
-		<testsuite name="platform">
-			<directory>tests/unit/suites/platform</directory>
 		</testsuite>
 		<testsuite name="administrator">
 			<directory>tests/unit/suites/administrator</directory>
@@ -22,20 +27,8 @@
 		<testsuite name="FinderIndexer">
 			<directory>tests/unit/suites/finderIndexer</directory>
 		</testsuite>
+		<testsuite name="plugins">
+			<directory>tests/unit/suites/plugins</directory>
+		</testsuite>
 	</testsuites>
-
-	<logging>
-		<log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="70" />
-	</logging>
-	<filter>
-		<whitelist addUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">libraries/cms</directory>
-			<directory suffix=".php">libraries/joomla</directory>
-			<directory suffix=".php">libraries/legacy</directory>
-			<directory suffix=".php">administrator/components/com_finder/helpers/indexer</directory>
-			<file>administrator/includes/helper.php</file>
-			<file>libraries/loader.php</file>
-			<file>libraries/platform.php</file>
-		</whitelist>
-	</filter>
 </phpunit>

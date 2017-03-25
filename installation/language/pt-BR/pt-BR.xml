@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.1"
+	version="3.7"
 	client="installation">
-	<name>Português (Brasil)</name>
-	<version>3.0</version>
-	<creationDate>Setembro 2012</creationDate>
-	<author>Joomla! Brasil</author>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved. Copyright (C) Translation 2005 - 2013 Joomla! Brasil. All rights reserved.</copyright>
+	<name>Português do Brasil (pt-BR)</name>
+	<version>3.7.0</version>
+	<creationDate>Fevereiro de 2017</creationDate>
+	<author>Equipe de Tradução pt-BR (Português do Brasil)</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Pacote de idioma em Português Brasileiro para o instalador web do Joomla!</description>
 	<files>
 		<filename>pt-BR.ini</filename>
 	</files>
 	<metadata>
-		<name>Português (Brasil)</name>
+		<name>Português do Brasil (pt-BR)</name>
+		<nativeName>Português do Brasil (pt-BR)</nativeName>
 		<tag>pt-BR</tag>
 		<rtl>0</rtl>
 	</metadata>

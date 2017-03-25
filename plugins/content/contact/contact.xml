@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.2" type="plugin" group="content" method="upgrade">
+	<name>plg_content_contact</name>
+	<author>Joomla! Project</author>
+	<creationDate>January 2014</creationDate>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.2.2</version>
+	<description>PLG_CONTENT_CONTACT_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="contact">contact.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_content_contact.ini</language>
+		<language tag="en-GB">en-GB.plg_content_contact.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+		</fields>
+	</config>
+</extension>

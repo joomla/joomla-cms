@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
- * @package     Joomla.Platform
- * @subpackage  Base
- * @since       11.1
+ * @since  11.1
  */
 class JAdapter extends JObject
 {
@@ -82,9 +80,34 @@ class JAdapter extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getDBO()
+	public function getDbo()
 	{
 		return $this->_db;
+	}
+
+	/**
+	 * Return an adapter.
+	 *
+	 * @param   string  $name     Name of adapter to return
+	 * @param   array   $options  Adapter options
+	 *
+	 * @return  object  Adapter of type 'name' or false
+	 *
+	 * @since   11.1
+	 */
+	public function getAdapter($name, $options = array())
+	{
+		if (array_key_exists($name, $this->_adapters))
+		{
+			return $this->_adapters[$name];
+		}
+
+		if ($this->setAdapter($name, $options))
+		{
+			return $this->_adapters[$name];
+		}
+
+		return false;
 	}
 
 	/**
@@ -100,56 +123,33 @@ class JAdapter extends JObject
 	 */
 	public function setAdapter($name, &$adapter = null, $options = array())
 	{
-		if (!is_object($adapter))
+		if (is_object($adapter))
 		{
-			$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
+			$this->_adapters[$name] = &$adapter;
 
-			if (!file_exists($fullpath))
-			{
-				return false;
-			}
-
-			// Try to load the adapter object
-			require_once $fullpath;
-
-			$class = $this->_classprefix . ucfirst($name);
-
-			if (!class_exists($class))
-			{
-				return false;
-			}
-
-			$adapter = new $class($this, $this->_db, $options);
+			return true;
 		}
 
-		$this->_adapters[$name] = &$adapter;
+		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
+
+		if (!file_exists($fullpath))
+		{
+			return false;
+		}
+
+		// Try to load the adapter object
+		$class = $this->_classprefix . ucfirst($name);
+
+		JLoader::register($class, $fullpath);
+
+		if (!class_exists($class))
+		{
+			return false;
+		}
+
+		$this->_adapters[$name] = new $class($this, $this->_db, $options);
 
 		return true;
-	}
-
-	/**
-	 * Return an adapter.
-	 *
-	 * @param   string  $name     Name of adapter to return
-	 * @param   array   $options  Adapter options
-	 *
-	 * @return  object  Adapter of type 'name' or false
-	 *
-	 * @since   11.1
-	 */
-	public function getAdapter($name, $options = array())
-	{
-		if (!array_key_exists($name, $this->_adapters))
-		{
-			if (!$this->setAdapter($name, $options))
-			{
-				$false = false;
-
-				return $false;
-			}
-		}
-
-		return $this->_adapters[$name];
 	}
 
 	/**
@@ -165,13 +165,13 @@ class JAdapter extends JObject
 	{
 		$files = new DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($files as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}

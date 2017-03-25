@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Search HTML view class for the Finder package.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewSearch extends JViewLegacy
 {
@@ -43,13 +41,13 @@ class FinderViewSearch extends JViewLegacy
 		// Get view data.
 		$state = $this->get('State');
 		$query = $this->get('Query');
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderQuery') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderQuery') : null;
 		$results = $this->get('Results');
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderResults') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderResults') : null;
 		$total = $this->get('Total');
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderTotal') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderTotal') : null;
 		$pagination = $this->get('Pagination');
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderPagination') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -76,7 +74,7 @@ class FinderViewSearch extends JViewLegacy
 		if (strpos($this->query->input, '"'))
 		{
 			// Get the application router.
-			$router =& $app->getRouter();
+			$router = &$app::getRouter();
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)
@@ -107,11 +105,11 @@ class FinderViewSearch extends JViewLegacy
 
 		$this->prepareDocument($query);
 
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('beforeFinderLayout') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('beforeFinderLayout') : null;
 
 		parent::display($tpl);
 
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderLayout') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderLayout') : null;
 	}
 
 	/**
@@ -127,7 +125,7 @@ class FinderViewSearch extends JViewLegacy
 		$fields = null;
 
 		// Get the URI.
-		$uri = JUri::getInstance(JRoute::_($this->query->toURI()));
+		$uri = JUri::getInstance(JRoute::_($this->query->toUri()));
 		$uri->delVar('q');
 		$uri->delVar('o');
 		$uri->delVar('t');
@@ -203,15 +201,15 @@ class FinderViewSearch extends JViewLegacy
 
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -244,12 +242,12 @@ class FinderViewSearch extends JViewLegacy
 		{
 			// Add the RSS link.
 			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$route = JRoute::_($this->query->toURI() . '&format=feed&type=rss');
+			$route = JRoute::_($this->query->toUri() . '&format=feed&type=rss');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
 			// Add the ATOM link.
 			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$route = JRoute::_($this->query->toURI() . '&format=feed&type=atom');
+			$route = JRoute::_($this->query->toUri() . '&format=feed&type=atom');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 		}
 	}

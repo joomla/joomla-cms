@@ -3,20 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractApplication;
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform Base Application Class
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       12.1
+ * @property-read  JInput  $input  The application input object
+ *
+ * @since  12.1
  */
-abstract class JApplicationBase
+abstract class JApplicationBase extends AbstractApplication
 {
 	/**
 	 * The application dispatcher object.
@@ -35,26 +38,23 @@ abstract class JApplicationBase
 	protected $identity;
 
 	/**
-	 * The application input object.
+	 * Class constructor.
 	 *
-	 * @var    JInput
-	 * @since  12.1
-	 */
-	public $input = null;
-
-	/**
-	 * Method to close the application.
+	 * @param   JInput    $input   An optional argument to provide dependency injection for the application's
+	 *                             input object.  If the argument is a JInput object that object will become
+	 *                             the application's input object, otherwise a default input object is created.
+	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's
+	 *                             config object.  If the argument is a Registry object that object will become
+	 *                             the application's config object, otherwise a default config object is created.
 	 *
-	 * @param   integer  $code  The exit code (optional; default is 0).
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
 	 * @since   12.1
 	 */
-	public function close($code = 0)
+	public function __construct(JInput $input = null, Registry $config = null)
 	{
-		exit($code);
+		$this->input = $input instanceof JInput ? $input : new JInput;
+		$this->config = $config instanceof Registry ? $config : new Registry;
+
+		$this->initialise();
 	}
 
 	/**
@@ -73,7 +73,7 @@ abstract class JApplicationBase
 	 * Registers a handler to a particular event group.
 	 *
 	 * @param   string    $event    The event name.
-	 * @param   callable  $handler  The handler, a function or an instance of a event object.
+	 * @param   callable  $handler  The handler, a function or an instance of an event object.
 	 *
 	 * @return  JApplicationBase  The application to allow chaining.
 	 *
@@ -106,7 +106,7 @@ abstract class JApplicationBase
 			return $this->dispatcher->trigger($event, $args);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -147,5 +147,19 @@ abstract class JApplicationBase
 		$this->identity = ($identity === null) ? JFactory::getUser() : $identity;
 
 		return $this;
+	}
+
+	/**
+	 * Method to run the application routines.  Most likely you will want to instantiate a controller
+	 * and execute it, or perform some sort of task directly.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4 (CMS)
+	 * @deprecated  4.0  The default concrete implementation of doExecute() will be removed, subclasses will need to provide their own implementation.
+	 */
+	protected function doExecute()
+	{
+		return;
 	}
 }

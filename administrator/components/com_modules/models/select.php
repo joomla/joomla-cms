@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Module model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 class ModulesModelSelect extends JModelList
 {
@@ -23,6 +23,11 @@ class ModulesModelSelect extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -30,8 +35,8 @@ class ModulesModelSelect extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$clientId = $app->getUserState('com_modules.modules.filter.client_id', 0);
-		$this->setState('filter.client_id', (int) $clientId);
+		$clientId = $app->getUserState('com_modules.modules.client_id', 0);
+		$this->setState('client_id', (int) $clientId);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_modules');
@@ -51,14 +56,14 @@ class ModulesModelSelect extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string    A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . $this->getState('filter.client_id');
+		$id .= ':' . $this->getState('client_id');
 
 		return parent::getStoreId($id);
 	}
@@ -87,7 +92,7 @@ class ModulesModelSelect extends JModelList
 		$query->where('a.type = ' . $db->quote('module'));
 
 		// Filter by client.
-		$clientId = $this->getState('filter.client_id');
+		$clientId = $this->getState('client_id');
 		$query->where('a.client_id = ' . (int) $clientId);
 
 		// Filter by enabled
@@ -96,7 +101,6 @@ class ModulesModelSelect extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 
@@ -105,12 +109,12 @@ class ModulesModelSelect extends JModelList
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 */
-	public function &getItems()
+	public function getItems()
 	{
 		// Get the list of items from the database.
 		$items = parent::getItems();
 
-		$client = JApplicationHelper::getClientInfo($this->getState('filter.client_id', 0));
+		$client = JApplicationHelper::getClientInfo($this->getState('client_id', 0));
 		$lang = JFactory::getLanguage();
 
 		// Loop through the results to add the XML metadata,
@@ -118,6 +122,7 @@ class ModulesModelSelect extends JModelList
 		foreach ($items as &$item)
 		{
 			$path = JPath::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
+
 			if (file_exists($path))
 			{
 				$item->xml = simplexml_load_file($path);
@@ -129,10 +134,8 @@ class ModulesModelSelect extends JModelList
 
 			// 1.5 Format; Core files or language packs then
 			// 1.6 3PD Extension Support
-			$lang->load($item->module . '.sys', $client->path, null, false, false)
-				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, false)
-				|| $lang->load($item->module . '.sys', $client->path, $lang->getDefault(), false, false)
-				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, $lang->getDefault(), false, false);
+			$lang->load($item->module . '.sys', $client->path, null, false, true)
+				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, true);
 			$item->name = JText::_($item->name);
 
 			if (isset($item->xml) && $text = trim($item->xml->description))
@@ -144,7 +147,8 @@ class ModulesModelSelect extends JModelList
 				$item->desc = JText::_('COM_MODULES_NODESCRIPTION');
 			}
 		}
-		$items = JArrayHelper::sortObjects($items, 'name', 1, true, true);
+
+		$items = ArrayHelper::sortObjects($items, 'name', 1, true, true);
 
 		// TODO: Use the cached XML from the extensions table?
 

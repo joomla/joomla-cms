@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="search">
+<extension version="3.1" type="plugin" group="search" method="upgrade">
 	<name>plg_search_newsfeeds</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,6 @@
 	<description>PLG_SEARCH_NEWSFEEDS_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="newsfeeds">newsfeeds.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_search_newsfeeds.ini</language>
@@ -19,37 +18,40 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
-
-				<field name="search_limit" type="text"
-					default="50"
-					description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
+				<field
+					name="search_limit"
+					type="text"
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
+					description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
+					default="50"
 					size="5"
 				/>
 
-				<field name="search_content" type="radio"
-					class="btn-group"
-					default="0"
-					description="JFIELD_PLG_SEARCH_ALL_DESC"
+				<field
+					name="search_content"
+					type="radio"
 					label="JFIELD_PLG_SEARCH_ALL_LABEL"
-				>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
+					description="JFIELD_PLG_SEARCH_ALL_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
-				<field name="search_archived" type="radio"
-					class="btn-group"
-					default="0"
-					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
+				<field
+					name="search_archived"
+					type="radio"
 					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
-				>
-					<option value="0">JOFF</option>
+					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

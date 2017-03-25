@@ -3,10 +3,9 @@
 	<name>com_wrapper</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.
 	</copyright>
-	<license>GNU General Public License version 2 or later; see
-		LICENSE.txt</license>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>

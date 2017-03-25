@@ -3,30 +3,35 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 ?>
-<form
-	action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw');?>"
-	method="post"
-	name="adminForm"
-	id="download-form"
-	class="form-validate">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_BANNERS_TRACKS_DOWNLOAD');?></legend>
+<div class="container-popup">
+	<form
+		class="form-horizontal form-validate"
+		id="download-form"
+		name="adminForm"
+		action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
+		method="post">
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>
-			<?php if (!$field->hidden) : ?>
-				<?php echo $field->label; ?>
-			<?php endif; ?>
-			<?php echo $field->input; ?>
+			<?php echo $this->form->renderField($field->fieldname); ?>
 		<?php endforeach; ?>
-		<div class="clr"></div>
-		<button type="button" onclick="this.form.submit();window.top.setTimeout('window.parent.SqueezeBox.close()', 700);"><?php echo JText::_('COM_BANNERS_TRACKS_EXPORT');?></button>
-		<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('COM_BANNERS_CANCEL');?></button>
 
-	</fieldset>
-</form>
+		<button class="hidden"
+			id="closeBtn"
+			type="button"
+			onclick="window.parent.jQuery('#modal-download').modal('hide');">
+		</button>
+		<button class="hidden"
+			id="exportBtn"
+			type="button"
+			onclick="this.form.submit();window.top.setTimeout('window.parent.jQuery(\'#downloadModal\').modal(\'hide\')', 700);">
+		</button>
+	</form>
+</div>

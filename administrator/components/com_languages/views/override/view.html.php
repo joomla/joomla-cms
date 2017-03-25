@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,12 @@ defined('_JEXEC') or die;
 /**
  * View to edit an language override
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       2.5
+ * @since  2.5
  */
 class LanguagesViewOverride extends JViewLegacy
 {
 	/**
-	 * The form to use for the view
+	 * The form to use for the view.
 	 *
 	 * @var		object
 	 * @since	2.5
@@ -27,7 +25,7 @@ class LanguagesViewOverride extends JViewLegacy
 	protected $form;
 
 	/**
-	 * The item to edit
+	 * The item to edit.
 	 *
 	 * @var		object
 	 * @since	2.5
@@ -35,7 +33,7 @@ class LanguagesViewOverride extends JViewLegacy
 	protected $item;
 
 	/**
-	 * The model state
+	 * The model state.
 	 *
 	 * @var		object
 	 * @since	2.5
@@ -43,38 +41,38 @@ class LanguagesViewOverride extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Displays the view
+	 * Displays the view.
 	 *
-	 * @param   	string	$tpl	The name of the template file to parse
+	 * @param   string  $tpl  The name of the template file to parse
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::_('stylesheet', 'overrider/overrider.css', array(), true);
-		JHtml::_('behavior.framework');
-		JHtml::_('script', 'overrider/overrider.js', false, true);
-
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
-		// Check for errors
+		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors));
 		}
 
-		// Check whether the cache has to be refreshed
-		$cached_time = JFactory::getApplication()->getUserState('com_languages.overrides.cachedtime.'.$this->state->get('filter.client').'.'.$this->state->get('filter.language'), 0);
+		// Check whether the cache has to be refreshed.
+		$cached_time = JFactory::getApplication()->getUserState(
+			'com_languages.overrides.cachedtime.' . $this->state->get('filter.client') . '.' . $this->state->get('filter.language'),
+			0
+		);
+
 		if (time() - $cached_time > 60 * 5)
 		{
 			$this->state->set('cache_expired', true);
 		}
 
-		// Add strings for translations in Javascript
+		// Add strings for translations in Javascript.
 		JText::script('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
 		JText::script('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR');
 
@@ -83,7 +81,7 @@ class LanguagesViewOverride extends JViewLegacy
 	}
 
 	/**
-	 * Adds the page title and toolbar
+	 * Adds the page title and toolbar.
 	 *
 	 * @return void
 	 *
@@ -93,9 +91,9 @@ class LanguagesViewOverride extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo	= LanguagesHelper::getActions();
+		$canDo = JHelperContent::getActions('com_languages');
 
-		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'langmanager');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments-2 langmanager');
 
 		if ($canDo->get('core.edit'))
 		{
@@ -103,8 +101,7 @@ class LanguagesViewOverride extends JViewLegacy
 			JToolbarHelper::save('override.save');
 		}
 
-		// This component does not support Save as Copy
-
+		// This component does not support Save as Copy.
 		if ($canDo->get('core.edit') && $canDo->get('core.create'))
 		{
 			JToolbarHelper::save2new('override.save2new');
@@ -118,6 +115,7 @@ class LanguagesViewOverride extends JViewLegacy
 		{
 			JToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
 		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES_EDIT');
 	}

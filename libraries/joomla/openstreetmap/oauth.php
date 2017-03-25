@@ -3,25 +3,26 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for generating Openstreetmap API access token.
  *
- * @package     Joomla.Platform
- * @subpackage  Openstreetmap
  * @since       13.1
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmapOauth extends JOAuth1Client
 {
 	/**
 	 * Options for the JOpenstreetmapOauth object.
 	 *
-	 * @var    JRegistry
+	 * @var    Registry
 	 * @since  13.1
 	 */
 	protected $options;
@@ -29,15 +30,15 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  JOpenstreetmapOauth options object.
-	 * @param   JHttp      $client   The HTTP client object.
-	 * @param   JInput     $input    The input object
+	 * @param   Registry  $options  JOpenstreetmapOauth options object.
+	 * @param   JHttp     $client   The HTTP client object.
+	 * @param   JInput    $input    The input object
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
+	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 
 		$this->options->def('accessTokenURL', 'http://www.openstreetmap.org/oauth/access_token');
 		$this->options->def('authoriseURL', 'http://www.openstreetmap.org/oauth/authorize');
@@ -80,7 +81,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	{
 		if ($response->code != 200)
 		{
-			$error = htmlspecialchars($response->body);
+			$error = htmlspecialchars($response->body, ENT_COMPAT, 'UTF-8');
 
 			throw new DomainException($error, $response->code);
 		}

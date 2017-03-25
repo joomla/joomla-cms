@@ -3,18 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+
 /**
  * Tags Component Tag Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsModelTag extends JModelAdmin
 {
@@ -23,6 +24,12 @@ class TagsModelTag extends JModelAdmin
 	 * @since  3.1
 	 */
 	protected $text_prefix = 'COM_TAGS';
+
+	/**
+	 * @var    string  The type alias for this content type.
+	 * @since  3.2
+	 */
+	public $typeAlias = 'com_tags.tag';
 
 	/**
 	 * Method to test whether a record can be deleted.
@@ -39,8 +46,9 @@ class TagsModelTag extends JModelAdmin
 		{
 			if ($record->published != -2)
 			{
-				return;
+				return false;
 			}
+
 			return parent::canDelete($record);
 		}
 	}
@@ -69,7 +77,7 @@ class TagsModelTag extends JModelAdmin
 	 * @return  JTable  A JTable object
 	 *
 	 * @since   3.1
-	*/
+	 */
 	public function getTable($type = 'Tag', $prefix = 'TagsTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -78,7 +86,7 @@ class TagsModelTag extends JModelAdmin
 	/**
 	 * Auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @note Calling getState in this method will result in recursion.
 	 *
 	 * @return  void
 	 *
@@ -113,7 +121,6 @@ class TagsModelTag extends JModelAdmin
 	{
 		if ($result = parent::getItem($pk))
 		{
-
 			// Prime required properties.
 			if (empty($result->id))
 			{
@@ -121,22 +128,19 @@ class TagsModelTag extends JModelAdmin
 			}
 
 			// Convert the metadata field to an array.
-			$registry = new JRegistry;
-			$registry->loadString($result->metadata);
+			$registry = new Registry($result->metadata);
 			$result->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new JRegistry;
-			$registry->loadString($result->images);
+			$registry = new Registry($result->images);
 			$result->images = $registry->toArray();
 
 			// Convert the urls field to an array.
-			$registry = new JRegistry;
-			$registry->loadString($result->urls);
+			$registry = new Registry($result->urls);
 			$result->urls = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
+			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
@@ -180,12 +184,14 @@ class TagsModelTag extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
 		}
 
 		$user = JFactory::getUser();
+
 		if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id')))
 		{
 			// Disable fields for display.
@@ -224,25 +230,6 @@ class TagsModelTag extends JModelAdmin
 	}
 
 	/**
-	 * Method to preprocess the form.
-	 *
-	 * @param   JForm   $form   A JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import.
-	 *
-	 * @return  void
-	 *
-	 * @see     JFormField
-	 * @since   3.1
-	 * @throws  Exception if there is an error in the form event.
-	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
-	{
-		// Trigger the default form events.
-		parent::preprocessForm($form, $data, $group);
-	}
-
-	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
@@ -254,13 +241,14 @@ class TagsModelTag extends JModelAdmin
 	public function save($data)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$table = $this->getTable();
-		$input = JFactory::getApplication()->input;
-		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-		$isNew = true;
+		$table      = $this->getTable();
+		$input      = JFactory::getApplication()->input;
+		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+		$isNew      = true;
+		$context    = $this->option . '.' . $this->name;
 
-		// Include the content plugins for the on save events.
-		JPluginHelper::importPlugin('content');
+		// Include the plugins for the save events.
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing tag.
 		if ($pk > 0)
@@ -277,15 +265,13 @@ class TagsModelTag extends JModelAdmin
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($data['images']);
+			$registry = new Registry($data['images']);
 			$data['images'] = (string) $registry;
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($data['urls']);
+			$registry = new Registry($data['urls']);
 			$data['urls'] = (string) $registry;
 		}
 
@@ -293,14 +279,15 @@ class TagsModelTag extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-			$data['title'] = $title;
-			$data['alias'] = $alias;
+			$data['title']       = $title;
+			$data['alias']       = $alias;
 		}
 
 		// Bind the data.
 		if (!$table->bind($data))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -315,14 +302,17 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->check())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
-		// Trigger the onContentBeforeSave event.
-		$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, &$table, $isNew));
+		// Trigger the before save event.
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
+
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -330,16 +320,18 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->store())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
-		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
+		// Trigger the after save event.
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
 
 		// Rebuild the path for the tag:
 		if (!$table->rebuildPath($table->id))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -374,6 +366,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->rebuild())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -394,7 +387,7 @@ class TagsModelTag extends JModelAdmin
 	 * @return  boolean  False on failure or error, True otherwise
 	 *
 	 * @since   3.1
-	*/
+	 */
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
@@ -403,6 +396,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->saveorder($idArray, $lft_array))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -427,10 +421,11 @@ class TagsModelTag extends JModelAdmin
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
-			$title = ($table->title != $title) ? $title : JString::increment($title);
-			$alias = JString::increment($alias, 'dash');
+			$title = ($table->title != $title) ? $title : StringHelper::increment($title);
+			$alias = StringHelper::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);

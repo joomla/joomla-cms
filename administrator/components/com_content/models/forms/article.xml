@@ -8,18 +8,28 @@
 		<field name="asset_id" type="hidden" filter="unset" />
 
 		<field name="title" type="text" label="JGLOBAL_TITLE"
-			description="JFIELD_TITLE_DESC" class="input-xlarge" size="30"
-			required="true" labelclass="control-label" />
+			description="JFIELD_TITLE_DESC"
+			class="input-xxlarge input-large-text"
+			size="40"
+			required="true" />
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC" class="inputbox" size="45" labelclass="control-label" />
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="40" />
 
-		<field name="articletext" type="editor" class="inputbox"
+		<field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="span12"
+			maxlength="255"
+			size="45" />
+
+		<field name="articletext" type="editor"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
 			filter="JComponentHelper::filterText" buttons="true" />
 
 		<field name="state" type="list" label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" class="span12 small"
+			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
 			filter="intval" size="1" default="1"
 		>
 			<option value="1">
@@ -32,9 +42,21 @@
 				JTRASHED</option>
 		</field>
 
-		<field name="catid" type="categoryedit"
-			label="JCATEGORY" description="JFIELD_CATEGORY_DESC"
-			class="inputbox" required="true"
+		<field name="catid"
+			   type="categoryedit"
+			label="JCATEGORY"
+			   description="JFIELD_CATEGORY_DESC"
+			required="true"
+			   default=""
+		>
+		</field>
+
+		<field name="tags"
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			class="span12"
+			multiple="true"
 		>
 		</field>
 
@@ -44,358 +66,395 @@
 			type="spacer" />
 
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
-			description="COM_CONTENT_FIELD_CREATED_DESC" class="inputbox" size="22"
-			format="%Y-%m-%d %H:%M:%S" filter="user_utc" labelclass="control-label" />
+			description="COM_CONTENT_FIELD_CREATED_DESC"
+			translateformat="true"
+			weeknumbers="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" />
 
 		<field name="created_by" type="user"
-			label="COM_CONTENT_FIELD_CREATED_BY_LABEL" description="COM_CONTENT_FIELD_CREATED_BY_DESC" labelclass="control-label" />
+			label="COM_CONTENT_FIELD_CREATED_BY_LABEL" description="COM_CONTENT_FIELD_CREATED_BY_DESC" />
 
 		<field name="created_by_alias" type="text"
 			label="COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL" description="COM_CONTENT_FIELD_CREATED_BY_ALIAS_DESC"
-			class="inputbox" size="20" labelclass="control-label" />
+			size="20" />
 
 		<field name="modified" type="calendar" class="readonly"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL" description="COM_CONTENT_FIELD_MODIFIED_DESC"
-			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" labelclass="control-label" />
+			translateformat="true"
+			showtime="true"
+			size="22"
+			readonly="true"
+			filter="user_utc" />
 
 		<field name="modified_by" type="user"
 		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 		class="readonly"
 		readonly="true"
 		filter="unset"
-		labelclass="control-label"
 		 />
 
 		<field name="checked_out" type="hidden" filter="unset" />
 
 		<field name="checked_out_time" type="hidden" filter="unset" />
 
-		<field name="publish_up" type="calendar"
-			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" labelclass="control-label" />
+		<field name="publish_up"
+			type="calendar"
+			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
+			description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" />
 
-		<field name="publish_down" type="calendar"
-			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" labelclass="control-label" />
+		<field name="publish_down"
+			type="calendar"
+			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL"
+			description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" />
 
 		<field name="version" type="text" class="readonly"
 			label="COM_CONTENT_FIELD_VERSION_LABEL" size="6" description="COM_CONTENT_FIELD_VERSION_DESC"
-			readonly="true" filter="unset" labelclass="control-label" />
+			readonly="true" filter="unset" />
 
 		<field name="ordering" type="text" label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" class="inputbox" size="6"
-			default="0" labelclass="control-label" />
+			description="JFIELD_ORDERING_DESC" size="6"
+			default="0" />
 
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
-			class="inputbox" rows="3" cols="30" labelclass="control-label" />
+			rows="3" cols="30" />
 
 		<field name="metadesc" type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
-			class="inputbox" rows="3" cols="30" labelclass="control-label" />
+			rows="3" cols="30" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="span12 small" size="1" />
+			description="JFIELD_ACCESS_DESC" size="1" />
 
 		<field name="hits" type="text" label="JGLOBAL_HITS"
 			description="COM_CONTENT_FIELD_HITS_DESC" class="readonly" size="6"
 			readonly="true" filter="unset" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_CONTENT_FIELD_LANGUAGE_DESC" class="span12 small"
+			description="COM_CONTENT_FIELD_LANGUAGE_DESC"
 		>
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="featured" type="list"
+		<field name="featured" type="radio"
+			class="btn-group btn-group-yesno"
 			label="JFEATURED"
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0"
-			class="span12 small"
 		>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
-		</field>
-
-		<field name="tags" 
-			type="tag"
-			label="JTAG"
-			description="JTAG_DESC"
-			class="inputbox span12 small"
-			multiple="true"
-		>
+			<option value="0">JNO</option>
 		</field>
 
 		<field name="rules" type="rules" label="JFIELD_RULES_LABEL"
-			translate_label="false" class="inputbox" filter="rules"
+			translate_label="false" filter="rules"
 			component="com_content" section="article" validate="rules"
 		/>
 
 	</fieldset>
 
-	<fields name="attribs">
+	<fields name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 		<fieldset name="basic" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+
+			<field name="article_layout" type="componentlayout"
+			       label="JFIELD_ALT_LAYOUT_LABEL"
+			       description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+			       useglobal="true"
+			       extension="com_content" view="article"
+			/>
+
 			<field
 				name="show_title"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
 				description="JGLOBAL_SHOW_TITLE_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
+				useglobal="true"
+				>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 			<field
 				name="link_titles"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				description="JGLOBAL_LINKED_TITLES_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="show_tags" type="radio"
-				class="btn-group"
+			<field name="show_tags"
+				type="list"
+				class="chzn-color"
 				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 				description="COM_CONTENT_FIELD_SHOW_TAGS_DESC"
-				labelclass="control-label"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
+				useglobal="true"
+				>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 			<field name="show_intro"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
-				labelclass="control-label"
+				useglobal="true"
 				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 			<field
 				name="info_block_position"
 				type="list"
 				default=""
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
+				useglobal="true"
+				>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
 			</field>
 
 			<field
+				name="info_block_show_title"
+				type="list"
+				class="chzn-color"
+				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
+				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
+				useglobal="true"
+				>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="show_category"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_CATEGORY_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="link_category"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_CATEGORY_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
 
 			<field
 				name="show_parent_category"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
-				labelclass="control-label">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="link_parent_category"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
+			</field>
+			
+			<field
+				name="show_associations"
+				type="list"
+				class="chzn-color"
+				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
+				description="JGLOBAL_SHOW_ASSOCIATIONS_DESC"
+				useglobal="true"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 			<field
 				name="show_author"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				description="JGLOBAL_SHOW_AUTHOR_DESC"
-				labelclass="control-label">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="link_author"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				description="JGLOBAL_LINK_AUTHOR_DESC"
-				labelclass="control-label">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
 
 			<field
 				name="show_create_date"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
-				labelclass="control-label">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="show_modify_date"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
-				labelclass="control-label">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="show_publish_date"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="show_item_navigation"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				description="JGLOBAL_SHOW_NAVIGATION_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="show_icons"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_ICONS_LABEL"
 				description="JGLOBAL_SHOW_ICONS_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="show_print_icon"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 				description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="show_email_icon"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
 				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
-				labelclass="control-label">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="show_vote"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				description="JGLOBAL_SHOW_VOTE_DESC"
-				labelclass="control-label"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="show_hits"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				description="JGLOBAL_SHOW_HITS_DESC"
-				labelclass="control-label">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
 
 			<field
 				name="show_noauth"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
-				labelclass="control-label">
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
+				useglobal="true"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field
 				name="urls_position"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 				description="COM_CONTENT_FIELD_URLSPOSITION_DESC"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				useglobal="true"
+				>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			</field>
@@ -406,73 +465,66 @@
 				hr="true"
 			/>
 
-			<field name="alternative_readmore" type="inputbox"
+			<field name="alternative_readmore" type="text"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
-				class="inputbox" size="25" labelclass="control-label" />
+				size="25" />
 
-			<field name="article_layout" type="componentlayout"
-				label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-				useglobal="true"
-				extension="com_content" view="article" labelclass="control-label"
-			/>
+			<field name="article_page_title" type="text"
+				label="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_LABEL"
+				description="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_DESC"
+				size="25" />
+
 		</fieldset>
 
-		<fieldset name="editorConfig">
+		<fieldset name="editorConfig" label="COM_CONTENT_EDITORCONFIG_FIELDSET_LABEL">
 			<field
 				name="show_publishing_options"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				default=""
 				label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
-				description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC" labelclass="control-label"
+				description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
+				useglobal="true"
 				>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
-
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 			<field
 				name="show_article_options"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				default=""
 				label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
-				labelclass="control-label"
+				useglobal="true"
 				>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
-
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 			<field
 				name="show_urls_images_backend"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
-				labelclass="control-label"
+				useglobal="true"
 				>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
-
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 			<field
 				name="show_urls_images_frontend"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
-				labelclass="control-label"
+				useglobal="true"
 				>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="0">JNO</option>
-						<option value="1">JYES</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 		</fieldset>
 
@@ -483,7 +535,6 @@
 				label="JGLOBAL_SHOW_TITLE_LABEL"
 				description="JGLOBAL_SHOW_TITLE_DESC"
 				>
-
 			</field>
 
 			<field
@@ -614,7 +665,7 @@
 			<field name="alternative_readmore" type="hidden"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
-				class="inputbox" size="25" />
+				size="25" />
 
 			<field name="article_layout" type="hidden"
 				label="JFIELD_ALT_LAYOUT_LABEL"
@@ -628,211 +679,197 @@
 	<field name="xreference" type="text"
 		label="JFIELD_KEY_REFERENCE_LABEL"
 		description="JFIELD_KEY_REFERENCE_DESC"
-		class="inputbox" size="20" labelclass="control-label" />
+		size="20" />
 
-	<fields name="images">
-			<field
-				name="image_intro"
-				type="media"
-				label="COM_CONTENT_FIELD_INTRO_LABEL"
-				description="COM_CONTENT_FIELD_INTRO_DESC"
-				labelclass="control-label"/>
-			<field
-				name="float_intro"
-				type="list"
-				label="COM_CONTENT_FLOAT_LABEL"
-				description="COM_CONTENT_FLOAT_DESC"
-				labelclass="control-label">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_CONTENT_RIGHT</option>
-					<option value="left">COM_CONTENT_LEFT</option>
-					<option value="none">COM_CONTENT_NONE</option>
-			</field>
-			<field name="image_intro_alt"
-				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
-				description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
-				class="inputbox"
-				size="20"
-				labelclass="control-label"/>
-			<field name="image_intro_caption"
-				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
-				class="inputbox"
-				size="20"
-				labelclass="control-label"/>
-			<field
-				name="spacer1"
-				type="spacer"
-				hr="true"
-				/>
-			<field
-				name="image_fulltext"
-				type="media"
-				label="COM_CONTENT_FIELD_FULL_LABEL"
-				description="COM_CONTENT_FIELD_FULL_DESC"
-				labelclass="control-label"/>
-			<field
-				name="float_fulltext"
-				type="list"
-				label="COM_CONTENT_FLOAT_LABEL"
-				description="COM_CONTENT_FLOAT_DESC"
-				labelclass="control-label">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_CONTENT_RIGHT</option>
-					<option value="left">COM_CONTENT_LEFT</option>
-					<option value="none">COM_CONTENT_NONE</option>
-			</field>
-			<field name="image_fulltext_alt"
-				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
-				description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
-				class="inputbox"
-				size="20"
-				labelclass="control-label"/>
-			<field name="image_fulltext_caption"
-				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
-				class="inputbox"
-				size="20"
-				labelclass="control-label"/>
+	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
+		<field
+			name="image_intro"
+			type="media"
+			label="COM_CONTENT_FIELD_INTRO_LABEL"
+			description="COM_CONTENT_FIELD_INTRO_DESC" />
+		<field
+			name="float_intro"
+			type="list"
+			label="COM_CONTENT_FLOAT_LABEL"
+			description="COM_CONTENT_FLOAT_DESC"
+			useglobal="true"
+			>
+			<option value="right">COM_CONTENT_RIGHT</option>
+			<option value="left">COM_CONTENT_LEFT</option>
+			<option value="none">COM_CONTENT_NONE</option>
+		</field>
+		<field name="image_intro_alt"
+			type="text"
+			label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+			description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
+			size="20"/>
+		<field name="image_intro_caption"
+			type="text"
+			label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
+			description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
+			size="20"/>
+		<field
+			name="spacer1"
+			type="spacer"
+			hr="true"
+			/>
+		<field
+			name="image_fulltext"
+			type="media"
+			label="COM_CONTENT_FIELD_FULL_LABEL"
+			description="COM_CONTENT_FIELD_FULL_DESC"/>
+		<field
+			name="float_fulltext"
+			type="list"
+			label="COM_CONTENT_FLOAT_LABEL"
+			description="COM_CONTENT_FLOAT_DESC"
+			useglobal="true"
+			>
+			<option value="right">COM_CONTENT_RIGHT</option>
+			<option value="left">COM_CONTENT_LEFT</option>
+			<option value="none">COM_CONTENT_NONE</option>
+		</field>
+		<field name="image_fulltext_alt"
+			type="text"
+			label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+			description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
+			size="20"/>
+		<field name="image_fulltext_caption"
+			type="text"
+			label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
+			description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
+			size="20"/>
 	</fields>
-	<fields name="urls">
-			<field
-				name="urla"
-				type="url"
-				validate="url"
-				filter="url"
-				label="COM_CONTENT_FIELD_URLA_LABEL"
-				description="COM_CONTENT_FIELD_URL_DESC"
-				labelclass="control-label" />
-			<field name="urlatext"
-				type="text"
-				label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
-				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox"
-				size="20"
-				labelclass="control-label"/>
-			<field
-				name="targeta"
-				type="list"
-				label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
-				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
-				default=""
-				filter="options"
-				class="inputbox"
-				labelclass="control-label">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JBROWSERTARGET_PARENT</option>
-				<option value="1">JBROWSERTARGET_NEW</option>
-				<option value="2">JBROWSERTARGET_POPUP</option>
-				<option value="3">JBROWSERTARGET_MODAL</option>
-			</field>
-			<field
-				name="spacer3"
-				type="spacer"
-				hr="true"
-				/>
-			<field
-				name="urlb"
-				type="url"
-				validate="url"
-				filter="url"
-				label="COM_CONTENT_FIELD_URLB_LABEL"
-				description="COM_CONTENT_FIELD_URL_DESC"
-				labelclass="control-label"/>
-			<field name="urlbtext"
-				type="text"
-				label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
-				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox"
-				size="20"
-				labelclass="control-label"/>
-			<field
-				name="targetb"
-				type="list"
-				label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
-				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
-				default=""
-				filter="options"
-				class="inputbox"
-				labelclass="control-label">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JBROWSERTARGET_PARENT</option>
-					<option value="1">JBROWSERTARGET_NEW</option>
-					<option value="2">JBROWSERTARGET_POPUP</option>
-					<option value="3">JBROWSERTARGET_MODAL</option>
-			</field>
-			<field
-				name="spacer4"
-				type="spacer"
-				hr="true"
-				/>
-			<field
-				name="urlc"
-				type="url"
-				validate="url"
-				filter="url"
-				label="COM_CONTENT_FIELD_URLC_LABEL"
-				description="COM_CONTENT_FIELD_URL_DESC"
-				labelclass="control-label"/>
-			<field
-				name="urlctext"
-				type="text"
-				label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
-				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox"
-				size="20"
-				labelclass="control-label"/>
-			<field
-				name="targetc"
-				type="list"
-				label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
-				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
-				default=""
-				filter="options"
-				class="inputbox"
-				labelclass="control-label">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JBROWSERTARGET_PARENT</option>
-					<option value="1">JBROWSERTARGET_NEW</option>
-					<option value="2">JBROWSERTARGET_POPUP</option>
-					<option value="3">JBROWSERTARGET_MODAL</option>
-			</field>
+	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
+		<field
+			name="urla"
+			type="url"
+			validate="url"
+			filter="url"
+			relative="true"
+			label="COM_CONTENT_FIELD_URLA_LABEL"
+			description="COM_CONTENT_FIELD_URL_DESC" />
+		<field name="urlatext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
+			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+			size="20"/>
+		<field
+			name="targeta"
+			type="list"
+			label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
+			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
+			default=""
+			filter="options"
+			useglobal="true"
+			>
+			<option value="0">JBROWSERTARGET_PARENT</option>
+			<option value="1">JBROWSERTARGET_NEW</option>
+			<option value="2">JBROWSERTARGET_POPUP</option>
+			<option value="3">JBROWSERTARGET_MODAL</option>
+		</field>
+		<field
+			name="spacer3"
+			type="spacer"
+			hr="true"
+			/>
+		<field
+			name="urlb"
+			type="url"
+			validate="url"
+			filter="url"
+			relative="true"
+			label="COM_CONTENT_FIELD_URLB_LABEL"
+			description="COM_CONTENT_FIELD_URL_DESC"/>
+		<field name="urlbtext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
+			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+			size="20"/>
+		<field
+			name="targetb"
+			type="list"
+			label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
+			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
+			default=""
+			filter="options"
+			useglobal="true"
+			>
+			<option value="0">JBROWSERTARGET_PARENT</option>
+			<option value="1">JBROWSERTARGET_NEW</option>
+			<option value="2">JBROWSERTARGET_POPUP</option>
+			<option value="3">JBROWSERTARGET_MODAL</option>
+		</field>
+		<field
+			name="spacer4"
+			type="spacer"
+			hr="true"
+			/>
+		<field
+			name="urlc"
+			type="url"
+			validate="url"
+			filter="url"
+			relative="true"
+			label="COM_CONTENT_FIELD_URLC_LABEL"
+			description="COM_CONTENT_FIELD_URL_DESC"/>
+		<field
+			name="urlctext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
+			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+			size="20"/>
+		<field
+			name="targetc"
+			type="list"
+			label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
+			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
+			default=""
+			filter="options"
+			useglobal="true"
+			>
+			<option value="0">JBROWSERTARGET_PARENT</option>
+			<option value="1">JBROWSERTARGET_NEW</option>
+			<option value="2">JBROWSERTARGET_POPUP</option>
+			<option value="3">JBROWSERTARGET_MODAL</option>
+		</field>
 
-		</fields>
-	<fields name="metadata">
+	</fields>
+
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-	
-				<field name="robots"
-					type="list"
-					label="JFIELD_METADATA_ROBOTS_LABEL"
-					description="JFIELD_METADATA_ROBOTS_DESC"
-					labelclass="control-label"
-					>
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-					<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
-				</field>
-	
-				<field name="author" type="text"
-					label="JAUTHOR" description="JFIELD_METADATA_AUTHOR_DESC"
-					size="20" labelclass="control-label" />
-	
-				<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
-					description="JFIELD_META_RIGHTS_DESC" required="false" filter="string"
-					cols="30" rows="2" labelclass="control-label" />
-				<field name="xreference" type="text"
-					label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
-					description="COM_CONTENT_FIELD_XREFERENCE_DESC"
-					class="inputbox" size="20" labelclass="control-label" />
+
+			<field name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				description="JFIELD_METADATA_ROBOTS_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			</field>
+
+			<field name="author" type="text"
+				label="JAUTHOR" description="JFIELD_METADATA_AUTHOR_DESC"
+				size="20" />
+
+			<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
+				description="JFIELD_META_RIGHTS_DESC" required="false" filter="string"
+				cols="30" rows="2" />
+			<field name="xreference" type="text"
+				label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
+				description="COM_CONTENT_FIELD_XREFERENCE_DESC"
+				size="20" />
 
 		</fieldset>
+	</fields>
+	<!-- These fields are used to get labels for the Content History Preview and Compare Views -->
+	<fields>
+		<field name="introtext" label="COM_CONTENT_FIELD_INTROTEXT" />
+		<field name="fulltext" label="COM_CONTENT_FIELD_FULLTEXT" />
 	</fields>
 
 </form>

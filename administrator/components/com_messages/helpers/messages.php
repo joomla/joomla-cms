@@ -3,25 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * Messages helper class.
+ *
+ * @since  1.6
  */
 class MessagesHelper
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -43,34 +44,44 @@ class MessagesHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		$actions = JAccess::getActions('com_messages');
-
-		foreach ($actions as $action)
+		// Log usage of deprecated function
+		try
 		{
-			$result->set($action->name,	$user->authorise($action->name, 'com_messages'));
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
 		}
 
-		return $result;
+		// Get list of actions
+		return JHelperContent::getActions('com_messages');
 	}
 
 	/**
 	 * Get a list of filter options for the state of a module.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   1.6
 	 */
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('COM_MESSAGES_OPTION_READ'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('COM_MESSAGES_OPTION_UNREAD'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '1', JText::_('COM_MESSAGES_OPTION_READ'));
+		$options[] = JHtml::_('select.option', '0', JText::_('COM_MESSAGES_OPTION_UNREAD'));
+		$options[] = JHtml::_('select.option', '-2', JText::_('JTRASHED'));
+
 		return $options;
 	}
 }

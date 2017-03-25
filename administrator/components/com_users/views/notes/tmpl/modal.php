@@ -3,20 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 ?>
 <div class="unotes">
 	<h1><?php echo JText::sprintf('COM_USERS_NOTES_FOR_USER', $this->user->name, $this->user->id); ?></h1>
 <?php if (empty($this->items)) : ?>
 	<?php echo JText::_('COM_USERS_NO_NOTES'); ?>
 <?php else : ?>
-	<ol class="alternating">
+	<ul class="alternating">
 	<?php foreach ($this->items as $item) : ?>
 		<li>
 			<div class="fltlft utitle">
@@ -28,7 +28,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 			</div>
 
 			<div class="fltlft utitle">
-				<?php echo JHtml::date($item->created_time, 'D d M Y H:i'); ?>
+				<?php echo JHtml::_('date', $item->created_time, 'D d M Y H:i'); ?>
 			</div>
 
 			<?php $category_image = $item->cparams->get('image'); ?>
@@ -45,10 +45,10 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 			<div class="clr"></div>
 			<div class="ubody">
-				<?php echo $item->body; ?>
+				<?php echo (isset($item->body) ? JHtml::_('content.prepare', $item->body) : ''); ?>
 			</div>
 		</li>
 	<?php endforeach; ?>
-	</ol>
+	</ul>
 <?php endif; ?>
 </div>

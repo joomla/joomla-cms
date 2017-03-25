@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,10 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a one line text field.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since       11.1
+ * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @since  11.1
  */
 class JFormFieldNote extends JFormField
 {
@@ -24,7 +22,6 @@ class JFormFieldNote extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 *
 	 * @since  11.1
 	 */
 	protected $type = 'Note';
@@ -46,15 +43,17 @@ class JFormFieldNote extends JFormField
 		$title = $this->element['label'] ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
 		$heading = $this->element['heading'] ? (string) $this->element['heading'] : 'h4';
 		$description = (string) $this->element['description'];
-		$class = $this->element['class'] ? ' class="' . trim((string) $this->element['class']) . '"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$close = (string) $this->element['close'];
 
 		$html = array();
+
 		if ($close)
 		{
 			$close = $close == 'true' ? 'alert' : $close;
 			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
 		}
+
 		$html[] = !empty($title) ? '<' . $heading . '>' . JText::_($title) . '</' . $heading . '>' : '';
 		$html[] = !empty($description) ? JText::_($description) : '';
 

@@ -3,17 +3,15 @@
 	<name>com_content</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.	</copyright>
-	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_CONTENT_XML_DESCRIPTION</description>
-
 	<files folder="site">
 		<filename>content.php</filename>
 		<filename>controller.php</filename>
-		<filename>index.html</filename>
 		<filename>router.php</filename>
 		<folder>helpers</folder>
 		<folder>models</folder>
@@ -27,7 +25,6 @@
 			<filename>config.xml</filename>
 			<filename>content.php</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
 			<folder>controllers</folder>
 			<folder>elements</folder>
 			<folder>helpers</folder>

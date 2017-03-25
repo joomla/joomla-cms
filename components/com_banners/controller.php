@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,17 @@ defined('_JEXEC') or die;
 /**
  * Banners Controller
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersController extends JControllerLegacy
 {
+	/**
+	 * Method when a banner is clicked on.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
 	public function click()
 	{
 		$id = $this->input->getInt('id', 0);

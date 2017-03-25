@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.1
+ * @since  12.1
  */
 class JCrypt
 {
@@ -56,10 +54,18 @@ class JCrypt
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function decrypt($data)
 	{
-		return $this->_cipher->decrypt($data, $this->_key);
+		try
+		{
+			return $this->_cipher->decrypt($data, $this->_key);
+		}
+		catch (InvalidArgumentException $e)
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -113,140 +119,142 @@ class JCrypt
 	 *
 	 * @return  string  Random binary data
 	 *
-	 * @since  12.1
+	 * @since   12.1
 	 */
 	public static function genRandomBytes($length = 16)
 	{
-		$sslStr = '';
+		return random_bytes($length);
+	}
 
-		/*
-		 * if a secure randomness generator exists and we don't
-		 * have a buggy PHP version use it.
-		 */
-		if (function_exists('openssl_random_pseudo_bytes')
-			&& (version_compare(PHP_VERSION, '5.3.4') >= 0 || IS_WIN))
+	/**
+	 * A timing safe comparison method.
+	 *
+	 * This defeats hacking attempts that use timing based attack vectors.
+	 *
+	 * NOTE: Length will leak.
+	 *
+	 * @param   string  $known    A known string to check against.
+	 * @param   string  $unknown  An unknown string to check.
+	 *
+	 * @return  boolean  True if the two strings are exactly the same.
+	 *
+	 * @since   3.2
+	 */
+	public static function timingSafeCompare($known, $unknown)
+	{
+		// This function is native in PHP as of 5.6 and backported via the symfony/polyfill-56 library
+		return hash_equals((string) $known, (string) $unknown);
+	}
+
+	/**
+	 * Tests for the availability of updated crypt().
+	 * Based on a method by Anthony Ferrera
+	 *
+	 * @return  boolean  Always returns true since 3.3
+	 *
+	 * @note    To be removed when PHP 5.3.7 or higher is the minimum supported version.
+	 * @see     https://github.com/ircmaxell/password_compat/blob/master/version-test.php
+	 * @since   3.2
+	 * @deprecated  4.0
+	 */
+	public static function hasStrongPasswordSupport()
+	{
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated without replacement.', JLog::WARNING, 'deprecated');
+
+		if (!defined('PASSWORD_DEFAULT'))
 		{
-			$sslStr = openssl_random_pseudo_bytes($length, $strong);
-
-			if ($strong)
-			{
-				return $sslStr;
-			}
+			// Always make sure that the password hashing API has been defined.
+			include_once JPATH_ROOT . '/vendor/ircmaxell/password-compat/lib/password.php';
 		}
 
-		/*
-		 * Collect any entropy available in the system along with a number
-		 * of time measurements of operating system randomness.
-		 */
-		$bitsPerRound = 2;
-		$maxTimeMicro = 400;
-		$shaHashLength = 20;
-		$randomStr = '';
-		$total = $length;
+		return true;
+	}
 
-		// Check if we can use /dev/urandom.
-		$urandom = false;
-		$handle = null;
+	/**
+	 * Safely detect a string's length
+	 *
+	 * This method is derived from \ParagonIE\Halite\Util::safeStrlen()
+	 *
+	 * @param   string  $str  String to check the length of
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.5
+	 * @ref     mbstring.func_overload
+	 * @throws  RuntimeException
+	 */
+	public static function safeStrlen($str)
+	{
+		static $exists = null;
 
-		// This is PHP 5.3.3 and up
-		if (function_exists('stream_set_read_buffer') && @is_readable('/dev/urandom'))
+		if ($exists === null)
 		{
-			$handle = @fopen('/dev/urandom', 'rb');
-
-			if ($handle)
-			{
-				$urandom = true;
-			}
+			$exists = function_exists('mb_strlen');
 		}
 
-		while ($length > strlen($randomStr))
+		if ($exists)
 		{
-			$bytes = ($total > $shaHashLength)? $shaHashLength : $total;
-			$total -= $bytes;
+			$length = mb_strlen($str, '8bit');
 
-			/*
-			 * Collect any entropy available from the PHP system and filesystem.
-			 * If we have ssl data that isn't strong, we use it once.
-			 */
-			$entropy = rand() . uniqid(mt_rand(), true) . $sslStr;
-			$entropy .= implode('', @fstat(fopen(__FILE__, 'r')));
-			$entropy .= memory_get_usage();
-			$sslStr = '';
-
-			if ($urandom)
+			if ($length === false)
 			{
-				stream_set_read_buffer($handle, 0);
-				$entropy .= @fread($handle, $bytes);
+				throw new RuntimeException('mb_strlen() failed unexpectedly');
 			}
-			else
-			{
-				/*
-				 * There is no external source of entropy so we repeat calls
-				 * to mt_rand until we are assured there's real randomness in
-				 * the result.
-				 *
-				 * Measure the time that the operations will take on average.
-				 */
-				$samples = 3;
-				$duration = 0;
 
-				for ($pass = 0; $pass < $samples; ++$pass)
+			return $length;
+		}
+
+		// If we reached here, we can rely on strlen to count bytes:
+		return \strlen($str);
+	}
+
+	/**
+	 * Safely extract a substring
+	 *
+	 * This method is derived from \ParagonIE\Halite\Util::safeSubstr()
+	 *
+	 * @param   string   $str     The string to extract the substring from
+	 * @param   integer  $start   The starting position to extract from
+	 * @param   integer  $length  The length of the string to return
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public static function safeSubstr($str, $start, $length = null)
+	{
+		static $exists = null;
+
+		if ($exists === null)
+		{
+			$exists = function_exists('mb_substr');
+		}
+
+		if ($exists)
+		{
+			// In PHP 5.3 mb_substr($str, 0, NULL, '8bit') returns an empty string, so we have to find the length ourselves.
+			if ($length === null)
+			{
+				if ($start >= 0)
 				{
-					$microStart = microtime(true) * 1000000;
-					$hash = sha1(mt_rand(), true);
-
-					for ($count = 0; $count < 50; ++$count)
-					{
-						$hash = sha1($hash, true);
-					}
-
-					$microEnd = microtime(true) * 1000000;
-					$entropy .= $microStart . $microEnd;
-
-					if ($microStart >= $microEnd)
-					{
-						$microEnd += 1000000;
-					}
-
-					$duration += $microEnd - $microStart;
+					$length = static::safeStrlen($str) - $start;
 				}
-
-				$duration = $duration / $samples;
-
-				/*
-				 * Based on the average time, determine the total rounds so that
-				 * the total running time is bounded to a reasonable number.
-				 */
-				$rounds = (int) (($maxTimeMicro / $duration) * 50);
-
-				/*
-				 * Take additional measurements. On average we can expect
-				 * at least $bitsPerRound bits of entropy from each measurement.
-				 */
-				$iter = $bytes * (int) ceil(8 / $bitsPerRound);
-
-				for ($pass = 0; $pass < $iter; ++$pass)
+				else
 				{
-					$microStart = microtime(true);
-					$hash = sha1(mt_rand(), true);
-
-					for ($count = 0; $count < $rounds; ++$count)
-					{
-						$hash = sha1($hash, true);
-					}
-
-					$entropy .= $microStart . microtime(true);
+					$length = -$start;
 				}
 			}
 
-			$randomStr .= sha1($entropy, true);
+			return mb_substr($str, $start, $length, '8bit');
 		}
 
-		if ($urandom)
+		// Unlike mb_substr(), substr() doesn't accept NULL for length
+		if ($length !== null)
 		{
-			@fclose($handle);
+			return substr($str, $start, $length);
 		}
 
-		return substr($randomStr, 0, $length);
+		return substr($str, $start);
 	}
 }

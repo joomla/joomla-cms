@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.2" method="upgrade">
+	<name>com_ajax</name>
+	<author>Joomla! Project</author>
+	<creationDate>August 2013</creationDate>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.2.0</version>
+	<description>COM_AJAX_XML_DESCRIPTION</description>
+
+	<files folder="site">
+		<filename>ajax.php</filename>
+	</files>
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB.com_ajax.ini</language>
+	</languages>
+
+	<administration>
+		<files folder="admin">
+			<filename>ajax.php</filename>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_ajax.ini</language>
+			<language tag="en-GB">language/en-GB.com_ajax.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

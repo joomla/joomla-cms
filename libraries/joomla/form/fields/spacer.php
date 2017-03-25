@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides spacer markup to be used in form layouts.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldSpacer extends JFormField
 {
@@ -52,14 +50,14 @@ class JFormFieldSpacer extends JFormField
 	protected function getLabel()
 	{
 		$html = array();
-		$class = $this->element['class'] ? (string) $this->element['class'] : '';
-
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$html[] = '<span class="spacer">';
 		$html[] = '<span class="before"></span>';
-		$html[] = '<span class="' . $class . '">';
+		$html[] = '<span' . $class . '>';
+
 		if ((string) $this->element['hr'] == 'true')
 		{
-			$html[] = '<hr class="' . $class . '" />';
+			$html[] = '<hr' . $class . ' />';
 		}
 		else
 		{
@@ -80,13 +78,14 @@ class JFormFieldSpacer extends JFormField
 			if (!empty($this->description))
 			{
 				JHtml::_('bootstrap.tooltip');
-				$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), JText::_($this->description), 0) . '"';
+				$label .= ' title="' . JHtml::_('tooltipText', trim($text, ':'), JText::_($this->description), 0) . '"';
 			}
 
 			// Add the label text and closing tag.
 			$label .= '>' . $text . '</label>';
 			$html[] = $label;
 		}
+
 		$html[] = '</span>';
 		$html[] = '<span class="after"></span>';
 		$html[] = '</span>';

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.remember
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,96 +12,86 @@ defined('_JEXEC') or die;
 /**
  * Joomla! System Remember Me Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  System.remember
- * @since       1.5
+ * @since  1.5
  */
+
 class PlgSystemRemember extends JPlugin
 {
+	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
+	/**
+	 * Remember me method to run onAfterInitialise
+	 * Only purpose is to initialise the login authentication process if a cookie is present
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 * @throws  InvalidArgumentException
+	 */
 	public function onAfterInitialise()
 	{
-		$app = JFactory::getApplication();
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
 
-		// No remember me for admin
-		if ($app->isAdmin())
+		// No remember me for admin.
+		if ($this->app->isClient('administrator'))
 		{
 			return;
 		}
 
-		$user = JFactory::getUser();
-		if ($user->get('guest'))
+		// Check for a cookie if user is not logged in
+		if (JFactory::getUser()->get('guest'))
 		{
-			$hash = JApplication::getHash('JLOGIN_REMEMBER');
+			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 
-			if ($str = JRequest::getString($hash, '', 'cookie', JREQUEST_ALLOWRAW | JREQUEST_NOTRIM))
+			// Try with old cookieName (pre 3.6.0) if not found
+			if (!$this->app->input->cookie->get($cookieName))
 			{
-				$credentials = array();
-				$filter = JFilterInput::getInstance();
+				$cookieName = JUserHelper::getShortHashedUserAgent();
+			}
 
-				// Create the encryption key, apply extra hardening using the user agent string.
-				// Since we're decoding, no UA validity check is required.
-				$privateKey = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
-
-				$key = new JCryptKey('simple', $privateKey, $privateKey);
-				$crypt = new JCrypt(new JCryptCipherSimple, $key);
-
-				try
-				{
-					$str = $crypt->decrypt($str);
-					if (!is_string($str))
-					{
-						throw new Exception('Decoded cookie is not a string.');
-					}
-
-					$cookieData = json_decode($str);
-					if (null === $cookieData)
-					{
-						throw new Exception('JSON could not be docoded.');
-					}
-					if (!is_object($cookieData))
-					{
-						throw new Exception('Decoded JSON is not an object.');
-					}
-
-					// json_decoded cookie could be any object structure, so make sure the
-					// credentials are well structured and only have user and password.
-					if (isset($cookieData->username) && is_string($cookieData->username))
-					{
-						$credentials['username'] = $filter->clean($cookieData->username, 'username');
-					}
-					else
-					{
-						throw new Exception('Malformed username.');
-					}
-					if (isset($cookieData->password) && is_string($cookieData->password))
-					{
-						$credentials['password'] = $filter->clean($cookieData->password, 'string');
-					}
-					else
-					{
-						throw new Exception('Malformed password.');
-					}
-
-					$return = $app->login($credentials, array('silent' => true));
-					if (!$return)
-					{
-						throw new Exception('Log-in failed.');
-					}
-
-				}
-				catch (Exception $e)
-				{
-					$config = JFactory::getConfig();
-					$cookie_domain = $config->get('cookie_domain', '');
-					$cookie_path = $config->get('cookie_path', '/');
-					// Clear the remember me cookie
-					setcookie(
-						JApplication::getHash('JLOGIN_REMEMBER'), false, time() - 86400,
-						$cookie_path, $cookie_domain
-					);
-					JLog::add('A remember me cookie was unset for the following reason: ' . $e->getMessage(), JLog::WARNING, 'security');
-				}
+			// Check for the cookie
+			if ($this->app->input->cookie->get($cookieName))
+			{
+				$this->app->login(array('username' => ''), array('silent' => true));
 			}
 		}
+	}
+
+	/**
+	 * Imports the authentication plugin on user logout to make sure that the cookie is destroyed.
+	 *
+	 * @param   array  $user     Holds the user data.
+	 * @param   array  $options  Array holding options (remember, autoregister, group).
+	 *
+	 * @return  boolean
+	 */
+	public function onUserLogout($user, $options)
+	{
+		// No remember me for admin
+		if ($this->app->isClient('administrator'))
+		{
+			return true;
+		}
+
+		$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
+
+		// Check for the cookie
+		if ($this->app->input->cookie->get($cookieName))
+		{
+			// Make sure authentication group is loaded to process onUserAfterLogout event
+			JPluginHelper::importPlugin('authentication');
+		}
+
+		return true;
 	}
 }

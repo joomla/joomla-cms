@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Index model class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelIndex extends JModelList
 {
@@ -40,18 +38,20 @@ class FinderModelIndex extends JModelList
 	 * @param   array  $config  An associative array of configuration settings. [optional]
 	 *
 	 * @since   2.5
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'published', 'l.published',
+				'state', 'published', 'l.published',
 				'title', 'l.title',
-				'type_id', 'l.type_id',
+				'type', 'type_id', 'l.type_id',
+				't.title', 't_title',
 				'url', 'l.url',
-				'indexdate', 'l.indexdate'
+				'indexdate', 'l.indexdate',
+				'content_map',
 			);
 		}
 
@@ -69,12 +69,11 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-		return $user->authorise('core.delete', $this->option);
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -84,8 +83,7 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-		return $user->authorise('core.edit.state', $this->option);
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -117,15 +115,18 @@ class FinderModelIndex extends JModelList
 
 					// Trigger the onContentBeforeDelete event.
 					$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+
 					if (in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
 					if (!$table->delete($pk))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
@@ -137,6 +138,7 @@ class FinderModelIndex extends JModelList
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$error = $this->getError();
+
 					if ($error)
 					{
 						$this->setError($error);
@@ -150,6 +152,7 @@ class FinderModelIndex extends JModelList
 			else
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -172,47 +175,74 @@ class FinderModelIndex extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('l.*')
-			->select('t.title AS t_title')
-			->from($db->quoteName('#__finder_links') . ' AS l')
-			->join('INNER', $db->quoteName('#__finder_types') . ' AS t ON t.id = l.type_id');
+			->select($db->quoteName('t.title', 't_title'))
+			->from($db->quoteName('#__finder_links', 'l'))
+			->join('INNER', $db->quoteName('#__finder_types', 't') . ' ON ' . $db->quoteName('t.id') . ' = ' . $db->quoteName('l.type_id'));
 
 		// Check the type filter.
-		if ($this->getState('filter.type'))
+		$type = $this->getState('filter.type');
+
+		if (is_numeric($type))
 		{
-			$query->where('l.type_id = ' . (int) $this->getState('filter.type'));
+			$query->where($db->quoteName('l.type_id') . ' = ' . (int) $type);
+		}
+
+		// Check the map filter.
+		$contentMapId = $this->getState('filter.content_map');
+
+		if (is_numeric($contentMapId))
+		{
+			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.link_id') . ' = ' . $db->quoteName('l.link_id'))
+				->where($db->quoteName('m.node_id') . ' = ' . (int) $contentMapId);
 		}
 
 		// Check for state filter.
-		if (is_numeric($this->getState('filter.state')))
+		$state = $this->getState('filter.state');
+
+		if (is_numeric($state))
 		{
-			$query->where('l.published = ' . (int) $this->getState('filter.state'));
+			$query->where($db->quoteName('l.published') . ' = ' . (int) $state);
 		}
 
 		// Check the search phrase.
-		if ($this->getState('filter.search') != '')
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
 		{
-			$search = $db->escape($this->getState('filter.search'));
-			$query->where(
-				'l.title LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR l.url LIKE ' . $db->quote('%' . $db->escape($search) . '%')
-				. ' OR l.indexdate LIKE  ' . $db->quote('%' . $db->escape($search) . '%')
-			);
+			$search      = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$orSearchSql = $db->quoteName('l.title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $search;
+
+			// Filter by indexdate only if $search doesn't contains non-ascii characters
+			if (!preg_match('/[^\x00-\x7F]/', $search))
+			{
+				$orSearchSql .= ' OR ' . $query->castAsChar($db->quoteName('l.indexdate')) . ' LIKE ' . $search;
+			}
+
+			$query->where('(' . $orSearchSql . ')');
 		}
 
 		// Handle the list ordering.
-		$ordering = $this->getState('list.ordering');
-		$direction = $this->getState('list.direction');
-		if (!empty($ordering))
+		$listOrder = $this->getState('list.ordering', 'l.title');
+		$listDir   = $this->getState('list.direction', 'ASC');
+
+		if ($listOrder == 't.title')
 		{
-			$query->order($db->escape($ordering) . ' ' . $db->escape($direction));
+			$ordering = $db->quoteName('t.title') . ' ' . $db->escape($listDir) . ', ' . $db->quoteName('l.title') . ' ' . $db->escape($listDir);
 		}
+		else
+		{
+			$ordering = $db->escape($listOrder) . ' ' . $db->escape($listDir);
+		}
+
+		$query->order($ordering);
 
 		return $query;
 	}
 
 	/**
-	 * Method to get the state of the Smart Search plug-ins.
+	 * Method to get the state of the Smart Search Plugins.
 	 *
-	 * @return  array   Array of relevant plug-ins and whether they are enabled or not.
+	 * @return  array  Array of relevant plugins and whether they are enabled or not.
 	 *
 	 * @since   2.5
 	 */
@@ -223,13 +253,11 @@ class FinderModelIndex extends JModelList
 			->select('name, enabled')
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' IN(' . $db->quote('system') . ',' . $db->quote('content') . ')')
+			->where($db->quoteName('folder') . ' IN (' . $db->quote('system') . ',' . $db->quote('content') . ')')
 			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
 		$db->setQuery($query);
-		$db->execute();
-		$plugins = $db->loadObjectList('name');
 
-		return $plugins;
+		return $db->loadObjectList('name');
 	}
 
 	/**
@@ -251,8 +279,29 @@ class FinderModelIndex extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.type');
+		$id .= ':' . $this->getState('filter.content_map');
 
 		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Gets the total of indexed items.
+	 *
+	 * @return  int  The total of indexed items.
+	 *
+	 * @since   3.6.0
+	 */
+	public function getTotalIndexed()
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(link_id)')
+			->from($db->quoteName('#__finder_links'));
+		$db->setQuery($query);
+
+		$db->execute();
+
+		return (int) $db->loadResult();
 	}
 
 	/**
@@ -327,24 +376,20 @@ class FinderModelIndex extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'l.title', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
-
-		$type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string');
-		$this->setState('filter.type', $type);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
+		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
+		$this->setState('filter.content_map', $this->getUserStateFromRequest($this->context . '.filter.content_map', 'filter_content_map', '', 'cmd'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_finder');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('l.title', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -379,6 +424,7 @@ class FinderModelIndex extends JModelList
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+
 					return false;
 				}
 			}
@@ -388,6 +434,7 @@ class FinderModelIndex extends JModelList
 		if (!$table->publish($pks, $value, $user->get('id')))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -399,6 +446,7 @@ class FinderModelIndex extends JModelList
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 

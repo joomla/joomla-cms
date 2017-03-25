@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,16 +14,23 @@ defined('JPATH_PLATFORM') or die;
  *
  * Class holding methods for displaying presentation data.
  *
- * @package     Joomla.Legacy
- * @subpackage  View
- * @since       12.2
+ * @since  2.5.5
  */
 class JViewLegacy extends JObject
 {
 	/**
+	 * The active document object
+	 *
+	 * @var    JDocument
+	 * @since  3.0
+	 */
+	public $document;
+
+	/**
 	 * The name of the view
 	 *
 	 * @var    array
+	 * @since  3.0
 	 */
 	protected $_name = null;
 
@@ -31,6 +38,7 @@ class JViewLegacy extends JObject
 	 * Registered models
 	 *
 	 * @var    array
+	 * @since  3.0
 	 */
 	protected $_models = array();
 
@@ -38,13 +46,15 @@ class JViewLegacy extends JObject
 	 * The base path of the view
 	 *
 	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_basePath = null;
 
 	/**
 	 * The default model
 	 *
-	 * @var	string
+	 * @var	   string
+	 * @since  3.0
 	 */
 	protected $_defaultModel = null;
 
@@ -52,6 +62,7 @@ class JViewLegacy extends JObject
 	 * Layout name
 	 *
 	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_layout = 'default';
 
@@ -59,6 +70,7 @@ class JViewLegacy extends JObject
 	 * Layout extension
 	 *
 	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_layoutExt = 'php';
 
@@ -66,58 +78,64 @@ class JViewLegacy extends JObject
 	 * Layout template
 	 *
 	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_layoutTemplate = '_';
 
 	/**
 	 * The set of search directories for resources (templates)
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.0
 	 */
 	protected $_path = array('template' => array(), 'helper' => array());
 
 	/**
 	 * The name of the default template source file.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_template = null;
 
 	/**
 	 * The output of the template script.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_output = null;
 
 	/**
 	 * Callback for escaping.
 	 *
-	 * @var string
-	 * @deprecated 13.3
+	 * @var    string
+	 * @since  3.0
+	 * @deprecated  3.0
 	 */
 	protected $_escape = 'htmlspecialchars';
 
 	/**
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0
 	 */
 	protected $_charset = 'UTF-8';
 
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $config  A named configuration array for object construction.<br/>
-	 *                          name: the name (optional) of the view (defaults to the view class name suffix).<br/>
-	 *                          charset: the character set to use for display<br/>
-	 *                          escape: the name (optional) of the function to use for escaping strings<br/>
-	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)<br/>
-	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name<br/>
-	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)<br/>
-	 *                          layout: the layout (optional) to use to display the view<br/>
+	 * @param   array  $config  A named configuration array for object construction.
+	 *                          name: the name (optional) of the view (defaults to the view class name suffix).
+	 *                          charset: the character set to use for display
+	 *                          escape: the name (optional) of the function to use for escaping strings
+	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
+	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
+	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
+	 *                          layout: the layout (optional) to use to display the view
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function __construct($config = array())
 	{
@@ -163,7 +181,7 @@ class JViewLegacy extends JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
-		elseif (is_dir(JPATH_COMPONENT . '/view'))
+		elseif (is_dir($this->_basePath . '/view'))
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}
@@ -201,14 +219,15 @@ class JViewLegacy extends JObject
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     fetch()
-	 * @since   12.2
+	 * @see     JViewLegacy::loadTemplate()
+	 * @since   3.0
 	 */
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
+
 		if ($result instanceof Exception)
 		{
 			return $result;
@@ -252,7 +271,8 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @deprecated  13.3 Use native PHP syntax.
+	 * @since   3.0
+	 * @deprecated  3.0 Use native PHP syntax.
 	 */
 	public function assign()
 	{
@@ -273,6 +293,7 @@ class JViewLegacy extends JObject
 					$this->$key = $val;
 				}
 			}
+
 			return true;
 		}
 
@@ -286,6 +307,7 @@ class JViewLegacy extends JObject
 					$this->$key = $val;
 				}
 			}
+
 			return true;
 		}
 
@@ -296,6 +318,7 @@ class JViewLegacy extends JObject
 		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
 		{
 			$this->$arg0 = $arg1;
+
 			return true;
 		}
 
@@ -325,8 +348,8 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   12.2
-	 * @deprecated  13.3  Use native PHP syntax.
+	 * @since   3.0
+	 * @deprecated  3.0  Use native PHP syntax.
 	 */
 	public function assignRef($key, &$val)
 	{
@@ -335,6 +358,7 @@ class JViewLegacy extends JObject
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
 			$this->$key = &$val;
+
 			return true;
 		}
 
@@ -351,7 +375,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  mixed  The escaped value.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function escape($var)
 	{
@@ -371,7 +395,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  mixed  The return value of the method
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function get($property, $default = null)
 	{
@@ -396,9 +420,9 @@ class JViewLegacy extends JObject
 			{
 				// The method exists, let's call it and return what we get
 				$result = $this->_models[$model]->$method();
+
 				return $result;
 			}
-
 		}
 
 		// Degrade to JObject::get
@@ -414,7 +438,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  mixed  JModelLegacy object
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function getModel($name = null)
 	{
@@ -422,6 +446,7 @@ class JViewLegacy extends JObject
 		{
 			$name = $this->_defaultModel;
 		}
+
 		return $this->_models[strtolower($name)];
 	}
 
@@ -429,6 +454,8 @@ class JViewLegacy extends JObject
 	 * Get the layout.
 	 *
 	 * @return  string  The layout name
+	 *
+	 * @since   3.0
 	 */
 	public function getLayout()
 	{
@@ -439,6 +466,8 @@ class JViewLegacy extends JObject
 	 * Get the layout template.
 	 *
 	 * @return  string  The layout template name
+	 *
+	 * @since   3.0
 	 */
 	public function getLayoutTemplate()
 	{
@@ -453,7 +482,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function getName()
@@ -468,17 +497,7 @@ class JViewLegacy extends JObject
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
-			$lastPart = substr($classname, $viewpos + 4);
-			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
-
-			if (!empty($pathParts[1]))
-			{
-				$this->_name = strtolower($pathParts[0]);
-			}
-			else
-			{
-				$this->_name = strtolower($lastPart);
-			}
+			$this->_name = strtolower(substr($classname, $viewpos + 4));
 		}
 
 		return $this->_name;
@@ -494,9 +513,9 @@ class JViewLegacy extends JObject
 	 * @param   JModelLegacy  $model    The model to add to the view.
 	 * @param   boolean       $default  Is this the default model?
 	 *
-	 * @return  object   The added model.
+	 * @return  JModelLegacy  The added model.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setModel($model, $default = false)
 	{
@@ -507,6 +526,7 @@ class JViewLegacy extends JObject
 		{
 			$this->_defaultModel = $name;
 		}
+
 		return $model;
 	}
 
@@ -517,11 +537,12 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  string  Previous value.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setLayout($layout)
 	{
 		$previous = $this->_layout;
+
 		if (strpos($layout, ':') === false)
 		{
 			$this->_layout = $layout;
@@ -544,13 +565,14 @@ class JViewLegacy extends JObject
 	 *
 	 * @param   string  $value  The extension.
 	 *
-	 * @return  string   Previous value
+	 * @return  string  Previous value
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function setLayoutExt($value)
 	{
 		$previous = $this->_layoutExt;
+
 		if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value)))
 		{
 			$this->_layoutExt = $value;
@@ -566,8 +588,8 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
-	 * @deprecated  13.3  Override JViewLegacy::escape() instead.
+	 * @since   3.0
+	 * @deprecated  3.0  Override JViewLegacy::escape() instead.
 	 */
 	public function setEscape($spec)
 	{
@@ -583,7 +605,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function addTemplatePath($path)
 	{
@@ -597,7 +619,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function addHelperPath($path)
 	{
@@ -611,7 +633,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  string  The output of the the template script.
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 * @throws  Exception
 	 */
 	public function loadTemplate($tpl = null)
@@ -632,10 +654,8 @@ class JViewLegacy extends JObject
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, false)
-			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		// Change the template folder if alternative layout is in different template
 		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
@@ -658,8 +678,7 @@ class JViewLegacy extends JObject
 		if ($this->_template != false)
 		{
 			// Unset so as not to introduce into template scope
-			unset($tpl);
-			unset($file);
+			unset($tpl, $file);
 
 			// Never allow a 'this' property
 			if (isset($this->this))
@@ -694,7 +713,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public function loadHelper($hlp = null)
 	{
@@ -720,7 +739,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function _setPath($type, $path)
 	{
@@ -756,18 +775,17 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function _addPath($type, $path)
 	{
-		// Just force to array
-		settype($path, 'array');
+		jimport('joomla.filesystem.path');
 
 		// Loop through the path directories
-		foreach ($path as $dir)
+		foreach ((array) $path as $dir)
 		{
-			// No surrounding spaces allowed!
-			$dir = trim($dir);
+			// Clean up the path
+			$dir = JPath::clean($dir);
 
 			// Add trailing separators as needed
 			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
@@ -789,7 +807,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  string  The filename
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	protected function _createFileName($type, $parts = array())
 	{
@@ -803,6 +821,54 @@ class JViewLegacy extends JObject
 				$filename = strtolower($parts['name']) . '.php';
 				break;
 		}
+
 		return $filename;
+	}
+
+	/**
+	 * Returns the form object
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   3.2
+	 */
+	public function getForm()
+	{
+		if (!is_object($this->form))
+		{
+			$this->form = $this->get('Form');
+		}
+
+		return $this->form;
+	}
+
+	/**
+	 * Sets the document title according to Global Configuration options
+	 *
+	 * @param   string  $title  The page title
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function setDocumentTitle($title)
+	{
+		$app = JFactory::getApplication();
+
+		// Check for empty title and add site name if param is set
+		if (empty($title))
+		{
+			$title = $app->get('sitename');
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		{
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		{
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+		}
+
+		$this->document->setTitle($title);
 	}
 }

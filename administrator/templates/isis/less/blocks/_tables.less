@@ -1,0 +1,74 @@
+// Tables
+
+@media (max-width: 480px) {
+
+	.pagination a {
+		padding: 5px;
+	}
+
+	.btn-group.divider,
+	.header .row-fluid .span3,
+	.header .row-fluid .span7 {
+		display: none;
+	}
+
+	.navbar .btn {
+		margin: 0;
+	}
+
+	.btn-subhead {
+		display: block;
+		margin: 10px 0;
+	}
+
+	.subhead-collapse.collapse {
+		height: 0;
+		overflow: hidden;
+	}
+
+	.btn-toolbar .btn-wrapper {
+		display: block;
+		margin:0px 10px 5px 10px;
+	}
+
+	.btn-toolbar .btn-wrapper .btn {
+		width: 100% !important;
+	}
+
+	.subhead {
+		background: none repeat scroll 0 0 transparent;
+		border-bottom: 0 solid darken(@wellBackground, 7%);
+	}
+
+	.btn-group + .btn-group {
+		margin-left: 10px;
+	}
+
+	.login .chzn-single {
+		width: 222px !important;
+	}
+
+	.login .chzn-container,
+	.login .chzn-drop {
+		width: 230px !important;
+	}
+	#toolbar [class^="icon-"], #toolbar [class*=" icon-"] {
+	    background-color: transparent;
+	    border-right: medium none;
+	    width: 10px;
+	}
+}
+
+/* Tables */
+table label {
+	margin: 0;
+}
+
+td.has-context {
+	// Fixes difference in height between normal and hover on cell with context
+	height: 23px;
+}
+
+td.nowrap.has-context {
+	width: 45%;
+}

@@ -3,23 +3,24 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Twitter API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
  * @since       12.3
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 abstract class JTwitterObject
 {
 	/**
-	 * @var    JRegistry  Options for the Twitter object.
+	 * @var    Registry  Options for the Twitter object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -31,23 +32,23 @@ abstract class JTwitterObject
 	protected $client;
 
 	/**
-	 * @var JTwitterOAuth The OAuth client.
-	 * @since 12.3
+	 * @var    JTwitterOAuth The OAuth client.
+	 * @since  12.3
 	 */
 	protected $oauth;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      &$options  Twitter options object.
-	 * @param   JTwitterHttp   $client    The HTTP client object.
+	 * @param   Registry       &$options  Twitter options object.
+	 * @param   JHttp          $client    The HTTP client object.
 	 * @param   JTwitterOAuth  $oauth     The OAuth client.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
+	public function __construct(Registry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);
 		$this->oauth = $oauth;
 	}
@@ -79,7 +80,7 @@ abstract class JTwitterObject
 		{
 			// The IP has exceeded the Twitter API rate limit
 			throw new RuntimeException('This server has exceed the Twitter API rate limit for the given period.  The limit will reset at '
-						. $rate_limit->resources->$resource->$property->reset
+				. $rate_limit->resources->$resource->$property->reset
 			);
 		}
 	}
@@ -159,6 +160,7 @@ abstract class JTwitterObject
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
 	public function sendRequest($path, $method = 'GET', $data = array(), $headers = array())
 	{
@@ -180,7 +182,7 @@ abstract class JTwitterObject
 			{
 				// The IP has exceeded the Twitter API media rate limit
 				throw new RuntimeException('This server has exceed the Twitter API media rate limit for the given period.  The limit will reset in '
-						. $response_headers['x-mediaratelimit-reset'] . 'seconds.'
+					. $response_headers['x-mediaratelimit-reset'] . 'seconds.'
 				);
 			}
 		}

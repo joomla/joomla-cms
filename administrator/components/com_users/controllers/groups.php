@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,20 +12,24 @@ defined('_JEXEC') or die;
 /**
  * User groups list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerGroups extends JControllerAdmin
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * @var     string  The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_USERS_GROUPS';
 
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -38,6 +42,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 * Removes an item.
 	 *
 	 * Overrides JControllerAdmin::delete to check the core.admin permission.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -57,6 +63,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * Overrides JControllerAdmin::publish to check the core.admin permission.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function publish()
@@ -74,6 +82,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 * Changes the order of one or more records.
 	 *
 	 * Overrides JControllerAdmin::reorder to check the core.admin permission.
+	 *
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.6
 	 */
@@ -93,6 +103,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * Overrides JControllerAdmin::saveorder to check the core.admin permission.
 	 *
+	 * @return  boolean  True on success
+	 *
 	 * @since   1.6
 	 */
 	public function saveorder()
@@ -110,6 +122,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 * Check in of one or more records.
 	 *
 	 * Overrides JControllerAdmin::checkin to check the core.admin permission.
+	 *
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.6
 	 */

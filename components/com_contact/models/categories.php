@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * This models supports retrieving lists of contact categories.
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class ContactModelCategories extends JModelList
 {
@@ -41,6 +41,11 @@ class ContactModelCategories extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -66,25 +71,25 @@ class ContactModelCategories extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id	A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.extension');
-		$id	.= ':'.$this->getState('filter.published');
-		$id	.= ':'.$this->getState('filter.access');
-		$id	.= ':'.$this->getState('filter.parentId');
+		$id	.= ':' . $this->getState('filter.extension');
+		$id	.= ':' . $this->getState('filter.published');
+		$id	.= ':' . $this->getState('filter.access');
+		$id	.= ':' . $this->getState('filter.parentId');
 
 		return parent::getStoreId($id);
 	}
 
 	/**
-	 * redefine the function an add some properties to make the styling more easy
+	 * Redefine the function an add some properties to make the styling more easy
 	 *
-	 * @return mixed An array of data items on success, false on failure.
+	 * @return  mixed  An array of data items on success, false on failure.
 	 */
 	public function getItems()
 	{
@@ -93,19 +98,24 @@ class ContactModelCategories extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
+
 			if ($active)
 			{
 				$params->loadString($active->params);
 			}
+
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items_cat', 1) || !$params->get('show_empty_categories_cat', 0);
 			$categories = JCategories::getInstance('Contact', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
+
 			if (is_object($this->_parent))
 			{
 				$this->_items = $this->_parent->getChildren();
-			} else {
+			}
+			else
+			{
 				$this->_items = false;
 			}
 		}
@@ -113,12 +123,20 @@ class ContactModelCategories extends JModelList
 		return $this->_items;
 	}
 
+	/**
+	 * Gets the id of the parent category for the selected list of categories
+	 *
+	 * @return   integer  The id of the parent category
+	 *
+	 * @since    1.6.0
+	 */
 	public function getParent()
 	{
 		if (!is_object($this->_parent))
 		{
 			$this->getItems();
 		}
+
 		return $this->_parent;
 	}
 }

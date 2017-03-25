@@ -3,18 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Joomla! udpate notification plugin
+ * Joomla! update notification plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Quickicon.Joomlaupdate
- * @since       2.5
+ * @since  2.5
  */
 class PlgQuickiconJoomlaupdate extends JPlugin
 {
@@ -31,12 +29,12 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 	 * of icons. You can return an array which defines a single icon and it will
 	 * be rendered right after the stock Quick Icons.
 	 *
-	 * @param  $context  The calling context
+	 * @param   string  $context  The calling context
 	 *
-	 * @return array A list of icon definition associative arrays, consisting of the
-	 *				 keys link, image, text and access.
+	 * @return  array  A list of icon definition associative arrays, consisting of the
+	 *                 keys link, image, text and access.
 	 *
-	 * @since       2.5
+	 * @since   2.5
 	 */
 	public function onGetIcons($context)
 	{
@@ -48,27 +46,38 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 		JHtml::_('jquery.framework');
 
 		$cur_template = JFactory::getApplication()->getTemplate();
-		$ajax_url = JUri::base().'index.php?option=com_installer&view=update&task=update.ajax';
-		$script = "var plg_quickicon_joomlaupdate_ajax_url = '$ajax_url';\n";
-		$script .= 'var plg_quickicon_jupdatecheck_jversion = "'.JVERSION.'";'."\n";
-		$script .= 'var plg_quickicon_joomlaupdate_text = {"UPTODATE" : "'.
-			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true).'", "UPDATEFOUND": "'.
-			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true).'", "ERROR": "'.
-			JText::_('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true)."\"};\n";
-		$script .= 'var plg_quickicon_joomlaupdate_img = {"UPTODATE" : "'.
-			JUri::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-uptodate.png'.'", "ERROR": "'.
-			JUri::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-deny.png'.'", "UPDATEFOUND": "'.
-			JUri::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-updatefound.png'."\"};\n";
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration($script);
-		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.js', false, true);
 
-		return array(array(
-			'link' => 'index.php?option=com_joomlaupdate',
-			'image' => 'download',
-			'icon' => 'header/icon-48-download.png',
-			'text' => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
-			'id' => 'plg_quickicon_joomlaupdate'
-		));
+		$token    = JSession::getFormToken() . '=' . 1;
+		$url = JUri::base() . 'index.php?option=com_joomlaupdate';
+		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token;
+		$script = array();
+		$script[] = 'var plg_quickicon_joomlaupdate_url = \'' . $url . '\';';
+		$script[] = 'var plg_quickicon_joomlaupdate_ajax_url = \'' . $ajax_url . '\';';
+		$script[] = 'var plg_quickicon_jupdatecheck_jversion = \'' . JVERSION . '\'';
+		$script[] = 'var plg_quickicon_joomlaupdate_text = {'
+			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true) . '",'
+			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true) . '",'
+			. '"UPDATEFOUND_MESSAGE": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true) . '",'
+			. '"UPDATEFOUND_BUTTON": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true) . '",'
+			. '"ERROR": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true) . '",'
+			. '};';
+		$script[] = 'var plg_quickicon_joomlaupdate_img = {'
+			. '"UPTODATE" : "' . JUri::base(true) . '/templates/' . $cur_template . '/images/header/icon-48-jupdate-uptodate.png",'
+			. '"UPDATEFOUND": "' . JUri::base(true) . '/templates/' . $cur_template . '/images/header/icon-48-jupdate-updatefound.png",'
+			. '"ERROR": "' . JUri::base(true) . '/templates/' . $cur_template . '/images/header/icon-48-deny.png",'
+			. '};';
+		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.js', array('version' => 'auto', 'relative' => true));
+
+		return array(
+			array(
+				'link' => 'index.php?option=com_joomlaupdate',
+				'image' => 'joomla',
+				'icon' => 'header/icon-48-download.png',
+				'text' => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
+				'id' => 'plg_quickicon_joomlaupdate',
+				'group' => 'MOD_QUICKICON_MAINTENANCE'
+			)
+		);
 	}
 }

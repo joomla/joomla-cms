@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,8 +42,7 @@ $lang->load('files_joomla.sys', JPATH_SITE, null, false, false)
 /**
  * A command line cron job to attempt to remove files that should have been deleted at update.
  *
- * @package  Joomla.CLI
- * @since    3.0
+ * @since  3.0
  */
 class DeletefilesCli extends JApplicationCli
 {

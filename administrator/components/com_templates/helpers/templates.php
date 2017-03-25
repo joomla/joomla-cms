@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Templates component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesHelper
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string    The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -41,20 +41,27 @@ class TemplatesHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-
-		$actions = JAccess::getActions('com_templates');
-
-		foreach ($actions as $action)
+		// Log usage of deprecated function
+		try
 		{
-			$result->set($action->name, $user->authorise($action->name, 'com_templates'));
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
 		}
 
-		return $result;
+		// Get list of actions
+		return JHelperContent::getActions('com_templates');
 	}
 
 	/**
@@ -75,6 +82,8 @@ class TemplatesHelper
 	/**
 	 * Get a list of filter options for the templates with styles.
 	 *
+	 * @param   mixed  $clientId  The CMS client id (0:site | 1:administrator) or '*' for all.
+	 *
 	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getTemplateOptions($clientId = '*')
@@ -83,28 +92,41 @@ class TemplatesHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
+		$query->select($db->quoteName('element', 'value'))
+			->select($db->quoteName('name', 'text'))
+			->select($db->quoteName('extension_id', 'e_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('template'))
+			->where($db->quoteName('enabled') . ' = 1')
+			->order($db->quoteName('client_id') . ' ASC')
+			->order($db->quoteName('name') . ' ASC');
+
 		if ($clientId != '*')
 		{
-			$query->where('client_id=' . (int) $clientId);
+			$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
 		}
 
-		$query->select('element as value, name as text, extension_id as e_id')
-			->from('#__extensions')
-			->where('type = ' . $db->quote('template'))
-			->where('enabled = 1')
-			->order('client_id')
-			->order('name');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
+
 		return $options;
 	}
 
+	/**
+	 * TODO
+	 *
+	 * @param   string  $templateBaseDir  TODO
+	 * @param   string  $templateDir      TODO
+	 *
+	 * @return  boolean|JObject
+	 */
 	public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
 		// Check of the xml file exists
 		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+
 		if (is_file($filePath))
 		{
 			$xml = JInstaller::parseXMLInstallFile($filePath);
@@ -124,6 +146,13 @@ class TemplatesHelper
 	}
 
 	/**
+	 * TODO
+	 *
+	 * @param   integer  $clientId     TODO
+	 * @param   string   $templateDir  TODO
+	 *
+	 * @return  boolean|array
+	 *
 	 * @since   3.0
 	 */
 	public static function getPositions($clientId, $templateDir)
@@ -137,6 +166,7 @@ class TemplatesHelper
 		{
 			// Read the file to see if it's a valid component XML file
 			$xml = simplexml_load_file($filePath);
+
 			if (!$xml)
 			{
 				return false;
@@ -149,6 +179,7 @@ class TemplatesHelper
 			if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
 			{
 				unset($xml);
+
 				return false;
 			}
 
@@ -156,7 +187,7 @@ class TemplatesHelper
 
 			if (isset($positions['position']))
 			{
-				$positions = $positions['position'];
+				$positions = (array) $positions['position'];
 			}
 			else
 			{

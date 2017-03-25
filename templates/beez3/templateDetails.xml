@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "https://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <extension version="3.1" type="template" client="site">
 	<name>beez3</name>
 	<creationDate>25 November 2009</creationDate>
 	<author>Angie Radtke</author>
 	<authorEmail>a.radtke@derauftritt.de</authorEmail>
 	<authorUrl>http://www.der-auftritt.de</authorUrl>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>3.1.0</version>
 	<description>TPL_BEEZ3_XML_DESCRIPTION</description>
@@ -17,7 +17,6 @@
 		<folder>images</folder>
 		<folder>javascript</folder>
 		<folder>language</folder>
-		<filename>index.html</filename>
 		<filename>index.php</filename>
 		<filename>templateDetails.xml</filename>
 		<filename>template_preview.png</filename>
@@ -94,7 +93,7 @@
 					description="TPL_BEEZ3_FIELD_BOOTSTRAP_DESC"
 					rows="4" columns="30"
 				/>
-				
+
 				<field name="templatecolor" type="list" default="nature"
 					label="TPL_BEEZ3_FIELD_TEMPLATECOLOR_LABEL"
 					description="TPL_BEEZ3_FIELD_TEMPLATECOLOR_DESC"
@@ -108,11 +107,14 @@
 				</field>
 
 				<field name="headerImage" type="media"
-					label="TPL_BEEZ3_FIELD_HEADER_IMAGE_LABEL" description="TPL_BEEZ3_FIELD_HEADER_IMAGE_DESC" />
+					label="TPL_BEEZ3_FIELD_HEADER_IMAGE_LABEL" 
+					description="TPL_BEEZ3_FIELD_HEADER_IMAGE_DESC" 
+					showon="templatecolor:image" />
 
 				<field name="backgroundcolor" type="color" default="#eee"
 					label="TPL_BEEZ3_FIELD_HEADER_BACKGROUND_COLOR_LABEL"
-					description="TPL_BEEZ3_FIELD_HEADER_BACKGROUND_COLOR_DESC" />
+					description="TPL_BEEZ3_FIELD_HEADER_BACKGROUND_COLOR_DESC"
+					showon="templatecolor:image" />
 
 			</fieldset>
 		</fields>

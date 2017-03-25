@@ -3,18 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * System plugin to highlight terms.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.Highlight
- * @since       2.5
+ * @since  2.5
  */
 class PlgSystemHighlight extends JPlugin
 {
@@ -32,12 +30,12 @@ class PlgSystemHighlight extends JPlugin
 	public function onAfterDispatch()
 	{
 		// Check that we are in the site application.
-		if (JFactory::getApplication()->isAdmin())
+		if (JFactory::getApplication()->isClient('administrator'))
 		{
 			return true;
 		}
 
-		// Set the variables
+		// Set the variables.
 		$input = JFactory::getApplication()->input;
 		$extension = $input->get('option', '', 'cmd');
 
@@ -63,10 +61,11 @@ class PlgSystemHighlight extends JPlugin
 			return true;
 		}
 
-		// Clean the terms array
-		$filter = JFilterInput::getInstance();
+		// Clean the terms array.
+		$filter     = JFilterInput::getInstance();
 
 		$cleanTerms = array();
+
 		foreach ($terms as $term)
 		{
 			$cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));

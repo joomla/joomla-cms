@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system">
+<extension version="3.1" type="plugin" group="system" method="upgrade">
 	<name>plg_system_log</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2007</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,6 @@
 	<description>PLG_LOG_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="log">log.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_log.ini</language>
@@ -20,14 +19,16 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="log_username" type="radio"
-					description="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_DESC"
+				<field
+					name="log_username"
+					type="radio"
 					label="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_LABEL"
-					class="btn-group"
+					description="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_DESC"
+					class="btn-group btn-group-yesno"
 					default="0"
-				>
-					<option value="0">JNO</option>
+					>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

@@ -3,25 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
+ * Newsfeed Table class.
+ *
+ * @since  1.6
  */
 class NewsfeedsTableNewsfeed extends JTable
 {
 	/**
-	 * Helper object for storing and deleting tag information.
+	 * Ensure the params, metadata and images are json encoded in the bind method
 	 *
-	 * @var    JHelperTags
-	 * @since  3.1
+	 * @var    array
+	 * @since  3.3
 	 */
-	protected $tagsHelper = null;
+	protected $_jsonEncode = array('params', 'metadata', 'images');
 
 	/**
 	 * Constructor
@@ -31,45 +34,9 @@ class NewsfeedsTableNewsfeed extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
-		$this->tagsHelper = new JHelperTags;
-		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
-	}
 
-	/**
-	 * Overloaded bind function to pre-process the params.
-	 *
-	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @see     JTable:bind
-	 * @since   1.5
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
-
-		if (isset($array['images']) && is_array($array['images']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['images']);
-			$array['images'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
 	}
 
 	/**
@@ -90,70 +57,64 @@ class NewsfeedsTableNewsfeed extends JTable
 		{
 			$this->alias = $this->name;
 		}
-		$this->alias = JApplication::stringURLSafe($this->alias);
+
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
+
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+
 			return false;
 		}
 
-		// clean up keywords -- eliminate extra spaces between phrases
-		// and cr (\r) and lf (\n) characters from string
+		// Clean up keywords -- eliminate extra spaces between phrases
+		// and cr (\r) and lf (\n) characters from string if not empty
 		if (!empty($this->metakey))
 		{
-			// only process if not empty
-			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
-			$keys = explode(',', $after_clean); // create array using commas as delimiter
+			// Array of characters to remove
+			$bad_characters = array("\n", "\r", "\"", '<', '>');
+
+			// Remove bad characters
+			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->metakey);
+
+			// Create array using commas as delimiter
+			$keys = explode(',', $after_clean);
 			$clean_keys = array();
 
 			foreach ($keys as $key)
 			{
-				if (trim($key)) {  // ignore blank keywords
+				if (trim($key))
+				{
+					// Ignore blank keywords
 					$clean_keys[] = trim($key);
 				}
 			}
-			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
+
+			// Put array back together delimited by ", "
+			$this->metakey = implode(', ', $clean_keys);
 		}
 
-		// clean up description -- eliminate quotes and <> brackets
+		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
-			// only process if not empty
-			$bad_characters = array("\"", "<", ">");
-			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
+			// Only process if not empty
+			$bad_characters = array("\"", '<', '>');
+			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
 
 		return true;
 	}
 
 	/**
-	 * Override parent delete method to delete tags information.
-	 *
-	 * @param   integer  $pk  Primary key to delete.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		$result = parent::delete($pk);
-		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
-	}
-
-	/**
 	 * Overriden JTable::store to set modified data.
 	 *
-	 * @param   boolean	 $updateNulls  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -161,13 +122,15 @@ class NewsfeedsTableNewsfeed extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date	= JFactory::getDate();
-		$user	= JFactory::getUser();
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
+
+		$this->modified = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified		= $date->toSql();
-			$this->modified_by	= $user->get('id');
+			$this->modified_by = $user->get('id');
 		}
 		else
 		{
@@ -177,6 +140,7 @@ class NewsfeedsTableNewsfeed extends JTable
 			{
 				$this->created = $date->toSql();
 			}
+
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
@@ -184,20 +148,17 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
+
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+
 			return false;
 		}
 
 		// Save links as punycode.
 		$this->link = JStringPunycode::urlToPunycode($this->link);
 
-		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		$this->newTags = isset($this->newTags) ? $this->newTags : array();
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
+		return parent::store($updateNulls);
 	}
 }

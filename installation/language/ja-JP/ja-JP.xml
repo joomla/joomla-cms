@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.1"
-	client="installation">
+<metafile version="3.7" client="installation">
 	<name>Japanese 日本語 (Japan)</name>
-	<version>3.0.0.1</version>
-	<creationDate>2012-09-24</creationDate>
-	<author>Japanese Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<version>3.7.0</version>
+	<creationDate>Feburary 2017</creationDate>
+	<author>Joomla.jp</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>ja-JP.ini</filename>
 	</files>
 	<metadata>
 		<name>Japanese 日本語 (Japan)</name>
+		<nativeName>日本語 (Japan)</nativeName>
 		<tag>ja-JP</tag>
 		<rtl>0</rtl>
 	</metadata>

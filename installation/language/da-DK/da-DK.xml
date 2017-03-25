@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.1"
+	version="3.7"
 	client="installation">
 	<name>Danish (DK)</name>
-	<version>3.0.0</version>
-	<creationDate>2012-09-15</creationDate>
-	<author>Danish Translation project</author>
-	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<version>3.7.0</version>
+	<creationDate>Februar 2017</creationDate>
+	<author>Danish Translation Team (Transl.: Mikael Winther, Ronny Buelund, Ole Bang Ottosen)</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>da-DK.ini</filename>
 	</files>
 	<metadata>
-		<name>Danish (DK)</name>
+		<name>Dansk (Denmarka-DK)</name>
+		<nativeName>Dansk (Denmark)</nativeName>
 		<tag>da-DK</tag>
 		<rtl>0</rtl>
 	</metadata>

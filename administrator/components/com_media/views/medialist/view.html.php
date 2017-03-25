@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,80 +12,52 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Media component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.0
+ * @since  1.0
  */
 class MediaViewMediaList extends JViewLegacy
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since   1.0
+	 */
 	public function display($tpl = null)
 	{
-		// Do not allow cache
-		JResponse::allowCache(false);
+		$app = JFactory::getApplication();
 
-		JHtml::_('behavior.framework', true);
-
-		JFactory::getDocument()->addScriptDeclaration("
-		window.addEvent('domready', function()
+		if (!$app->isClient('administrator'))
 		{
-			window.parent.document.updateUploader();
-			$$('a.img-preview').each(function(el)
+			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
+
+		// Do not allow cache
+		$app->allowCache(false);
+
+		$this->images    = $this->get('images');
+		$this->documents = $this->get('documents');
+		$this->folders   = $this->get('folders');
+		$this->videos    = $this->get('videos');
+		$this->state     = $this->get('state');
+
+		// Check for invalid folder name
+		if (empty($this->state->folder))
+		{
+			$dirname = JFactory::getApplication()->input->getPath('folder', '');
+
+			if (!empty($dirname))
 			{
-				el.addEvent('click', function(e)
-				{
-					window.top.document.preview.fromElement(el);
-					return false;
-				});
-			});
-		});");
+				$dirname = htmlspecialchars($dirname, ENT_COMPAT, 'UTF-8');
+				JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_BROWSE_FOLDER_WARNDIRNAME', $dirname));
+			}
+		}
 
-		$images = $this->get('images');
-		$documents = $this->get('documents');
-		$folders = $this->get('folders');
-		$state = $this->get('state');
-
-		$this->baseURL = JUri::root();
-		$this->images = &$images;
-		$this->documents = &$documents;
-		$this->folders = &$folders;
-		$this->state = &$state;
+		$user = JFactory::getUser();
+		$this->canDelete = $user->authorise('core.delete', 'com_media');
 
 		parent::display($tpl);
-	}
-
-	function setFolder($index = 0)
-	{
-		if (isset($this->folders[$index]))
-		{
-			$this->_tmp_folder = &$this->folders[$index];
-		}
-		else
-		{
-			$this->_tmp_folder = new JObject;
-		}
-	}
-
-	function setImage($index = 0)
-	{
-		if (isset($this->images[$index]))
-		{
-			$this->_tmp_img = &$this->images[$index];
-		}
-		else
-		{
-			$this->_tmp_img = new JObject;
-		}
-	}
-
-	function setDoc($index = 0)
-	{
-		if (isset($this->documents[$index]))
-		{
-			$this->_tmp_doc = &$this->documents[$index];
-		}
-		else
-		{
-			$this->_tmp_doc = new JObject;
-		}
 	}
 }

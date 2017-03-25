@@ -4,8 +4,15 @@
 // Core variables and mixins
 @import "../../../../media/jui/less/mixins.less";
 
+// Bootstrap Component Animations
+@import "../../../../media/jui/less/component-animations.less";
+
 // Bootstrap Modals
-//@import "../../../../media/jui/less/modals.less";
+@import "modals.less";
+//@import "../../../../media/jui/less/modals.joomla.less";
+
+// Bootstrap Popovers
+@import "../../../../media/jui/less/popovers.less";
 
 // Icon Font
 @import "icomoon.less";
@@ -57,6 +64,8 @@ body {
 	font-size: 62.5%;
 	line-height: 1.5em;
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 body, td, th, span, a {
@@ -483,6 +492,15 @@ input#mm_subject {
 textarea#mm_message {
 	width: 100%;
 }
+textarea {
+	resize:both;
+}
+textarea.vert {
+	resize:vertical;
+}
+textarea.noResize {
+	resize:none;
+}
 
 /**
  * Pane Slider pane Toggler styles
@@ -675,12 +693,6 @@ p.tab-description {
 /**
  * Login Settings
  */
-#login-page form .inputbox {
-	width: 190px;
-	margin-left: 5px;
-	margin-bottom: 15px;
-}
-
 #login-page input, #login-page select {
 	float: right;
 	clear: none;
@@ -742,7 +754,7 @@ p.tab-description {
 }
 
 #form-login {
-	float: right;
+	float: left;
 	padding: 1.1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -799,7 +811,8 @@ p.tab-description {
 #cpanel div.icon a, .cpanel div.icon a {
 	display: block;
 	float: left;
-	height: 97px;
+	height: auto;
+	min-height: 97px;
 	width: 108px;
 	color: #2c2c2c;
 	vertical-align: middle;
@@ -808,13 +821,14 @@ p.tab-description {
 }
 
 #cpanel img, .cpanel img {
-	padding: 10px 0;
+	padding: 10px;
 	margin: 0 auto;
 }
 
 #cpanel span, .cpanel span {
 	display: block;
 	text-align: center;
+	padding: 0 0 5px;
 }
 
 div.cpanel-icons {
@@ -1054,6 +1068,21 @@ fieldset.adminform-legacy span.faux-label {
 
 }
 
+
+fieldset.adminform,
+fieldset.panelform {
+	.input-prepend,
+	.input-append {
+		float: left;
+	}
+	.adminformlist .btn.modal,
+	.input-prepend > *,
+	.input-append > * {
+		float: none;
+		vertical-align: middle;
+	}
+}
+
 /* JParameter classes on radio button labels */
 fieldset.panelform-legacy label.radiobtn-jno,
 fieldset.panelform-legacy label.radiobtn-jyes,
@@ -1263,6 +1292,11 @@ table.admintable td.key.vtop {
 fieldset.adminform {
 	margin: 0 10px 10px 10px;
 	overflow: hidden;
+}
+
+.adminformlist .btn.modal{
+	float: left;
+	margin-top: 7px;
 }
 
 ul.adminformlist,
@@ -1832,7 +1866,7 @@ table.adminlist .pagination button {
  * MCE Editor
  */
 div.toggle-editor {
-	margin-top: 27px;
+	margin-top: 9px;
 }
 
 /**
@@ -3032,6 +3066,12 @@ ul.helpmenu li {
 	background-image: url(../images/menu/icon-16-tags.png);
 }
 
+.menu-postinstall {
+	background-image: url(../images/menu/icon-16-generic.png);
+}
+.icon-32-cog {
+	background-image: url(../images/toolbar/icon-32-cog.png);
+}
 
 /**
  * Extra positioning rules for limited noscript keyboard accessibility
@@ -3194,6 +3234,7 @@ div#database-sliders {
 fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	min-height: 200px;
 }
 
 /* Installer Database */
@@ -3309,7 +3350,8 @@ fieldset.uploadform {
 }
 
 .row-striped .row-fluid {
-	width: 97%;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .row-striped .row-fluid [class*="span"] {
@@ -3459,6 +3501,11 @@ table.adminlist .item-associations li a  {
 	color: #ffffff;
 }
 
+.hidden {
+	display: none;
+	visibility: hidden;
+}
+
 // Bootstrap Tooltips (need to load last, something is overriding these styles in the CSS, debug later ;-) )
 @import "../../../../media/jui/less/tooltip.less";
 
@@ -3479,4 +3526,32 @@ th .tooltip-inner {
 fieldset.panelform .tooltip img {
 	float: none;
 	margin: 0;
+}
+//Toggle editor button
+div.toggle-editor {
+	float: right;
+}
+
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
+}
+.module-edit {
+	display: inline-block;
+}
+.break-word {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+.muted {
+	color: #999;
+}
+/* Popover minimum height - overwrite bootstrap default */
+.popover-content {
+    min-height: 33px;
 }

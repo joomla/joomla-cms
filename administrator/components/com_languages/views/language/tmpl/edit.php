@@ -3,71 +3,54 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
-$canDo = LanguagesHelper::getActions();
-?>
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration(
+	'
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'language.cancel' || document.formvalidator.isValid(document.id('language-form')))
+		if (task == "language.cancel" || document.formvalidator.isValid(document.getElementById("language-form")))
 		{
-			Joomla.submitform(task, document.getElementById('language-form'));
+			Joomla.submitform(task, document.getElementById("language-form"));
 		}
-	}
-</script>
+	};
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&layout=edit&lang_id='.(int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">
+	jQuery(document).ready(function() {
+		jQuery("#jform_image").on("change", function() {
+			var flag = this.value;
+			if (flag) {
+				jQuery("#flag img").attr("src", "' . JUri::root(true) . '" + "/media/mod_languages/images/" + flag + ".gif").attr("alt", flag);
+			}
+			else
+			{
+				jQuery("#flag img").removeAttr("src").removeAttr("alt");
+			}
+	});
+});'
+);
+?>
+
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 
 	<fieldset>
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
-			<div class="control-group">
-				<div class="controls">
-					<?php if ($this->item->lang_id) : ?>
-						<?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->lang_id); ?>
-					<?php else : ?>
-						<?php echo JText::_('COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE'); ?>
-					<?php endif; ?>
-				</div>
-			</div>
-
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('title'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('title'); ?>
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('title_native'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('title_native'); ?>
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('sef'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('sef'); ?>
-					</div>
-			</div>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
+			<?php echo $this->form->renderField('title'); ?>
+			<?php echo $this->form->renderField('title_native'); ?>
+			<?php echo $this->form->renderField('lang_code'); ?>
+			<?php echo $this->form->renderField('sef'); ?>
 			<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('image'); ?>
@@ -75,83 +58,25 @@ $canDo = LanguagesHelper::getActions();
 					<div class="controls">
 						<?php echo $this->form->getInput('image'); ?>
 						<span id="flag">
-							<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), array('title' => $this->form->getValue('image')), true); ?>
+							<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
 						</span>
 					</div>
 			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('lang_code'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('lang_code'); ?>
-					</div>
-			</div>
-			<?php if ($canDo->get('core.edit.state')) : ?>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('published'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('published'); ?>
-					</div>
-				</div>
+			<?php if ($this->canDo->get('core.edit.state')) : ?>
+				<?php echo $this->form->renderField('published'); ?>
 			<?php endif; ?>
 
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('access'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('access'); ?>
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('description'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('description'); ?>
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('lang_id'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('lang_id'); ?>
-					</div>
-			</div>
+			<?php echo $this->form->renderField('access'); ?>
+			<?php echo $this->form->renderField('description'); ?>
+			<?php echo $this->form->renderField('lang_id'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
-			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
-				<div class="control-group">
-					<?php if (!$field->hidden) : ?>
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-					<?php endif; ?>
-					<div class="controls">
-						<?php echo $field->input; ?>
-					</div>
-				</div>
-			<?php endforeach; ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
+		<?php echo $this->form->renderFieldset('metadata'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL', true)); ?>
-			<?php foreach ($this->form->getFieldset('site_name') as $field) : ?>
-				<div class="control-group">
-					<?php if (!$field->hidden) : ?>
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-					<?php endif; ?>
-					<div class="controls">
-						<?php echo $field->input; ?>
-					</div>
-				</div>
-			<?php endforeach; ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL')); ?>
+		<?php echo $this->form->renderFieldset('site_name'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
@@ -159,19 +84,3 @@ $canDo = LanguagesHelper::getActions();
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-<script type="text/javascript">
-	jQuery('#jform_image').on('change', function() {
-		var flag = this.value;
-		if (!jQuery('#flag img').attr('src'))
-		{
-			jQuery('#flag img').attr('src', '<?php echo JUri::root(true);?>' + '/media/mod_languages/images/' + flag + '.gif');
-		}
-		else
-		{
-			jQuery('#flag img').attr('src', function(index, attr) {
-				return attr.replace(jQuery('#flag img').attr('title') + '.gif', flag + '.gif')
-			})
-		}
-		jQuery('#flag img').attr('title', flag).attr('alt', flag);
-	});
-</script>

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('groupedlist');
 /**
  * Chrome Styles Form Field class for the Joomla Platform.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.0
+ * @since  3.0
  */
 class JFormFieldChromeStyle extends JFormFieldGroupedList
 {
@@ -76,7 +74,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 		$moduleStyles = array();
 
 		$templates = array($this->getSystemTemplate());
-		$templates = array_merge($templates, ModulesHelper::getTemplates('site'));
+		$templates = array_merge($templates, $this->getTemplates());
 
 		foreach ($templates as $template)
 		{
@@ -116,5 +114,31 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 		$template->enabled = 1;
 
 		return $template;
+	}
+
+	/**
+	 * Return a list of templates
+	 *
+	 * @return  array  List of templates
+	 *
+	 * @since   3.2.1
+	 */
+	protected function getTemplates()
+	{
+		$db = JFactory::getDbo();
+
+		// Get the database object and a new query object.
+		$query = $db->getQuery(true);
+
+		// Build the query.
+		$query->select('element, name, enabled')
+			->from('#__extensions')
+			->where('client_id = 0')
+			->where('type = ' . $db->quote('template'));
+
+		// Set the query and load the templates.
+		$db->setQuery($query);
+
+		return $db->loadObjectList('element');
 	}
 }

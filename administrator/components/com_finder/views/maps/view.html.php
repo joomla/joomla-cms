@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,12 +14,45 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Groups view class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewMaps extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
+	protected $pagination;
+
+	/**
+	 * The HTML markup for the sidebar
+	 *
+	 * @var  string
+	 */
+	protected $sidebar;
+
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
+	protected $state;
+
+	/**
+	 * The total number of items
+	 *
+	 * @var  object
+	 */
+	protected $total;
+
 	/**
 	 * Method to display the view.
 	 *
@@ -31,14 +64,16 @@ class FinderViewMaps extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Load plug-in language files.
+		// Load plugin language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
 		// Load the view data.
-		$this->items		= $this->get('Items');
-		$this->total		= $this->get('Total');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->total         = $this->get('Total');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('maps');
 
@@ -46,6 +81,7 @@ class FinderViewMaps extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -54,7 +90,8 @@ class FinderViewMaps extends JViewLegacy
 		// Prepare the view.
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -66,12 +103,9 @@ class FinderViewMaps extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		// For whatever reason, the helper isn't being found
-		include_once JPATH_COMPONENT . '/helpers/finder.php';
-		$canDo	= FinderHelper::getActions();
+		$canDo = JHelperContent::getActions('com_finder');
 
-		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'finder');
-		$toolbar = JToolbar::getInstance('toolbar');
+		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -79,33 +113,28 @@ class FinderViewMaps extends JViewLegacy
 			JToolbarHelper::unpublishList('maps.unpublish');
 			JToolbarHelper::divider();
 		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::preferences('com_finder');
+		}
+
+		JToolbarHelper::divider();
+		JToolbar::getInstance('toolbar')->appendButton(
+			'Popup',
+			'bars',
+			'COM_FINDER_STATISTICS',
+			'index.php?option=com_finder&view=statistics&tmpl=component',
+			550,
+			350
+		);
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'maps.delete');
 			JToolbarHelper::divider();
 		}
-		if ($canDo->get('core.admin'))
-		{
-			JToolbarHelper::preferences('com_finder');
-		}
-		JToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
-
-		JHtmlSidebar::setAction('index.php?option=com_finder&view=maps');
-
-		JHtmlSidebar::addFilter(
-			'',
-			'filter_branch',
-			JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch')),
-			true
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
-		);
 	}
 }

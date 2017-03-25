@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="library" version="3.2" method="upgrade">
+	<name>LIB_PHPASS</name>
+	<libraryname>phpass</libraryname>
+	<description>LIB_PHPASS_XML_DESCRIPTION</description>
+	<creationDate>2004-2006</creationDate>
+	<author>Solar Designer</author>
+	<authorEmail>solar@openwall.com</authorEmail>
+	<authorUrl>http://www.openwall.com/phpass/</authorUrl>
+	<license>PD / GWC</license>
+	<version>0.3</version>
+	<packagerurl>http://www.openwall.com/phpass/</packagerurl>
+
+	<files folder="phpass">
+		<file>PasswordHash.php</file>
+	</files>
+</extension>

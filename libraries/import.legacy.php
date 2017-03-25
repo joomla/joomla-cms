@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,6 +22,7 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
+
 if (!defined('IS_UNIX'))
 {
 	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
@@ -35,51 +36,40 @@ if (!defined('IS_MAC'))
 	define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
 }
 
-// Import the platform version library if necessary.
-if (!class_exists('JPlatform'))
-{
-	require_once JPATH_PLATFORM . '/platform.php';
-}
-
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
 {
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-// Make sure that the Joomla Platform has been successfully loaded.
+// Make sure that the Joomla Loader has been successfully loaded.
 if (!class_exists('JLoader'))
 {
-	throw new RuntimeException('Joomla Platform not loaded.');
+	throw new RuntimeException('Joomla Loader not loaded.');
 }
-
-/*
- * Register the legacy library base path for deprecated or legacy libraries.
- * Due to LIFO ordering, the legacy folder must be loaded before setup(), which
- * loads JPATH_PLATFORM . '/joomla'
- */
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Setup the autoloaders.
 JLoader::setup();
 
-// Import the Joomla Factory.
-JLoader::import('joomla.factory');
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
-// Register classes for compatability with PHP 5.3
-if (version_compare(PHP_VERSION, '5.4.0', '<'))
+// Check if the JsonSerializable interface exists already
+if (!interface_exists('JsonSerializable'))
 {
-	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
+	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
 
 // Add deprecated constants
 // @deprecated 4.0
 define('JPATH_ISWIN', IS_WIN);
 define('JPATH_ISMAC', IS_MAC);
+
+// Register the PasswordHash lib
+JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  4.0

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,16 +15,25 @@ JHtml::_('behavior.keepalive');
 	<fieldset class="loginform">
 
 		<label id="mod-login-username-lbl" for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-		<input name="username" id="mod-login-username" type="text" class="inputbox" size="15" />
+		<input name="username" id="mod-login-username" type="text" size="15" autofocus="true" />
 
 		<label id="mod-login-password-lbl" for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-		<input name="passwd" id="mod-login-password" type="password" class="inputbox" size="15" />
-
+		<input name="passwd" id="mod-login-password" type="password" size="15" />
+		<?php if (count($twofactormethods) > 1): ?>
+			<div class="control-group">
+				<div class="controls">
+					<label for="mod-login-secretkey">
+						<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
+					</label>
+					<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" size="15"/>
+				</div>
+			</div>
+		<?php endif; ?>
 		<?php if (!empty ($langs)) : ?>
 			<label id="mod-login-language-lbl" for="lang"><?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?></label>
 			<?php echo $langs; ?>
 		<?php endif; ?>
-		
+
 		<div class="clr"></div>
 
 		<div class="button-holder">

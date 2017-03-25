@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="content">
+<extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>plg_content_pagenavigation</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,7 @@
 	<description>PLG_PAGENAVIGATION_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="pagenavigation">pagenavigation.php</filename>
-		<filename>index.html</filename>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_pagenavigation.ini</language>
@@ -21,23 +21,39 @@
 		<fields name="params">
 
 			<fieldset name="basic">
-				<field name="position" type="list"
-					default="1"
-					description="PLG_PAGENAVIGATION_FIELD_POSITION_DESC"
+				<field
+					name="position"
+					type="list"
 					label="PLG_PAGENAVIGATION_FIELD_POSITION_LABEL"
-				>
+					description="PLG_PAGENAVIGATION_FIELD_POSITION_DESC"
+					default="1"
+					>
 					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_BELOW</option>
 					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_ABOVE</option>
 				</field>
 
-			<field name="relative" type="list"
-					default="1"
-					description="PLG_PAGENAVIGATION_FIELD_RELATIVE_DESC"
+				<field
+					name="relative"
+					type="list"
 					label="PLG_PAGENAVIGATION_FIELD_RELATIVE_LABEL"
-			>
+					description="PLG_PAGENAVIGATION_FIELD_RELATIVE_DESC"
+					default="1"
+					>
 					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_ARTICLE</option>
 					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_TEXT</option>
-			</field>
+				</field>
+
+				<field
+					name="display"
+					type="list"
+					label="PLG_PAGENAVIGATION_FIELD_DISPLAY_LABEL"
+					description="PLG_PAGENAVIGATION_FIELD_DISPLAY_DESC"
+					default="0"
+					>
+					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_NEXTPREV</option>
+					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_TITLE</option>
+				</field>
+
 			</fieldset>
 		</fields>
 	</config>

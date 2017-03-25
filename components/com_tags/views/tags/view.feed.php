@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,30 +12,37 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Tags component all tags view
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsViewTags extends JViewLegacy
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 */
 	public function display($tpl = null)
 	{
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		$app            = JFactory::getApplication();
+		$document       = JFactory::getDocument();
 		$document->link = JRoute::_('index.php?option=com_tags&view=tags');
 
-		$app->input->set('limit', $app->getCfg('feed_limit'));
-		$siteEmail = $app->getCfg('mailfrom');
-		$fromName  = $app->getCfg('fromname');
-		$feedEmail = $app->getCfg('feed_email', 'author');
+		$app->input->set('limit', $app->get('feed_limit'));
+		$siteEmail        = $app->get('mailfrom');
+		$fromName         = $app->get('fromname');
+		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
-		if ($feedEmail != "none")
+
+		if ($feedEmail != 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}
 
 		// Get some data from the model
-		$items    = $this->get('Items');
+		$items = $this->get('Items');
+
 		foreach ($items as $item)
 		{
 			// Strip HTML from feed item title
@@ -44,8 +51,8 @@ class TagsViewTags extends JViewLegacy
 
 			// Strip HTML from feed item description text
 			$description = $item->description;
-			$author			= $item->created_by_alias ? $item->created_by_alias : $item->author;
-			$date = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+			$author      = $item->created_by_alias ?: $item->author;
+			$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 			// Load individual item creator class
 			$feeditem = new JFeedItem;
@@ -62,12 +69,11 @@ class TagsViewTags extends JViewLegacy
 			}
 			elseif ($feedEmail === 'author')
 			{
-				$item->authorEmail = $row->author_email;
+				$item->authorEmail = $item->author_email;
 			}
 
 			// Loads item info into RSS array
 			$document->addItem($feeditem);
 		}
-
 	}
 }

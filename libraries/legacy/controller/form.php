@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Controller tailored to suit most form-based admin operations.
  *
- * @package     Joomla.Legacy
- * @subpackage  Controller
- * @since       12.2
- * @todo        Add ability to set redirect manually to better cope with frontend usage.
+ * @since  1.6
+ * @todo   Add ability to set redirect manually to better cope with frontend usage.
  */
 class JControllerForm extends JControllerLegacy
 {
@@ -23,7 +21,7 @@ class JControllerForm extends JControllerLegacy
 	 * The context for storing internal data, e.g. record.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $context;
 
@@ -31,7 +29,7 @@ class JControllerForm extends JControllerLegacy
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $option;
 
@@ -39,7 +37,7 @@ class JControllerForm extends JControllerLegacy
 	 * The URL view item variable.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $view_item;
 
@@ -47,7 +45,7 @@ class JControllerForm extends JControllerLegacy
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $view_list;
 
@@ -55,7 +53,7 @@ class JControllerForm extends JControllerLegacy
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $text_prefix;
 
@@ -65,7 +63,7 @@ class JControllerForm extends JControllerLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JControllerLegacy
-	 * @since   12.2
+	 * @since   1.6
 	 * @throws  Exception
 	 */
 	public function __construct($config = array())
@@ -88,10 +86,12 @@ class JControllerForm extends JControllerLegacy
 		if (empty($this->context))
 		{
 			$r = null;
+
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
+
 			$this->context = strtolower($r[2]);
 		}
 
@@ -114,8 +114,9 @@ class JControllerForm extends JControllerLegacy
 				array('/([^aeiouy]|qu)y$/i', "$1ies"),
 				array('/([^aeiouy]|qu)ies$/i', "$1y"),
 				array('/(bu)s$/i', "$1ses"),
-				array('/s$/i', "s"),
-				array('/$/', "s"));
+				array('/s$/i', 's'),
+				array('/$/', 's'),
+			);
 
 			// Check for matches using regular expressions
 			foreach ($plural as $pattern)
@@ -137,13 +138,12 @@ class JControllerForm extends JControllerLegacy
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return  mixed  True if the record can be added, a error object if not.
+	 * @return  boolean  True if the record can be added, false if not.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function add()
 	{
-		$app = JFactory::getApplication();
 		$context = "$this->option.edit.$this->context";
 
 		// Access check.
@@ -164,7 +164,7 @@ class JControllerForm extends JControllerLegacy
 		}
 
 		// Clear the record edit information from the session.
-		$app->setUserState($context . '.data', null);
+		JFactory::getApplication()->setUserState($context . '.data', null);
 
 		// Redirect to the edit screen.
 		$this->setRedirect(
@@ -186,16 +186,17 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function allowAdd($data = array())
 	{
 		$user = JFactory::getUser();
-		return ($user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create')));
+
+		return $user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
 
 	/**
-	 * Method to check if you can add a new record.
+	 * Method to check if you can edit an existing record.
 	 *
 	 * Extended classes can override this if necessary.
 	 *
@@ -204,7 +205,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -221,7 +222,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
@@ -244,7 +245,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
-	 * @since	12.2
+	 * @since	1.7
 	 */
 	public function batch($model)
 	{
@@ -253,6 +254,7 @@ class JControllerForm extends JControllerLegacy
 
 		// Build an array of item contexts to check
 		$contexts = array();
+
 		foreach ($cid as $id)
 		{
 			// If we're coming from com_categories, we need to use extension vs. option
@@ -264,6 +266,7 @@ class JControllerForm extends JControllerLegacy
 			{
 				$option = $this->option;
 			}
+
 			$contexts[$id] = $option . '.' . $this->context . '.' . $id;
 		}
 
@@ -289,16 +292,14 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function cancel($key = null)
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 
 		if (empty($key))
@@ -306,29 +307,12 @@ class JControllerForm extends JControllerLegacy
 			$key = $table->getKeyName();
 		}
 
-		$recordId = $app->input->getInt($key);
+		$recordId = $this->input->getInt($key);
 
 		// Attempt to check-in the current record.
 		if ($recordId)
 		{
-			// Check we are holding the id in the edit list.
-			if (!$this->checkEditId($context, $recordId))
-			{
-				// Somehow the person just went to the form - we don't allow that.
-				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-				$this->setMessage($this->getError(), 'error');
-
-				$this->setRedirect(
-					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. $this->getRedirectToListAppend(), false
-					)
-				);
-
-				return false;
-			}
-
-			if ($checkin)
+			if (property_exists($table, 'checked_out'))
 			{
 				if ($model->checkin($recordId) === false)
 				{
@@ -350,7 +334,7 @@ class JControllerForm extends JControllerLegacy
 
 		// Clean the session data and redirect.
 		$this->releaseEditId($context, $recordId);
-		$app->setUserState($context . '.data', null);
+		JFactory::getApplication()->setUserState($context . '.data', null);
 
 		$this->setRedirect(
 			JRoute::_(
@@ -367,15 +351,17 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
 	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
-	 * (sometimes required to avoid router collisions).
+	 *                           (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		$app   = JFactory::getApplication();
+		// Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
+		JFactory::getApplication()->allowCache(false);
+
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$cid   = $this->input->post->get('cid', array(), 'array');
@@ -395,7 +381,7 @@ class JControllerForm extends JControllerLegacy
 
 		// Get the previous record id (if any) and the current record id.
 		$recordId = (int) (count($cid) ? $cid[0] : $this->input->getInt($urlVar));
-		$checkin = property_exists($table, 'checked_out');
+		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
@@ -433,7 +419,7 @@ class JControllerForm extends JControllerLegacy
 		{
 			// Check-out succeeded, push the new record id into the session.
 			$this->holdEditId($context, $recordId);
-			$app->setUserState($context . '.data', null);
+			JFactory::getApplication()->setUserState($context . '.data', null);
 
 			$this->setRedirect(
 				JRoute::_(
@@ -453,9 +439,9 @@ class JControllerForm extends JControllerLegacy
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  JModelLegacy  The model.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
@@ -475,23 +461,26 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl   = $this->input->get('tmpl');
-		$layout = $this->input->get('layout', 'edit');
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
+		if ($tmpl = $this->input->get('tmpl', '', 'string'))
 		{
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		if ($layout)
+		if ($layout = $this->input->get('layout', 'edit', 'string'))
 		{
 			$append .= '&layout=' . $layout;
+		}
+
+		if ($forcedLanguage = $this->input->get('forcedLanguage', '', 'cmd'))
+		{
+			$append .= '&forcedLanguage=' . $forcedLanguage;
 		}
 
 		if ($recordId)
@@ -507,17 +496,21 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl = JFactory::getApplication()->input->get('tmpl');
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
+		if ($tmpl = $this->input->get('tmpl', '', 'string'))
 		{
 			$append .= '&tmpl=' . $tmpl;
+		}
+
+		if ($forcedLanguage = $this->input->get('forcedLanguage', '', 'cmd'))
+		{
+			$append .= '&forcedLanguage=' . $forcedLanguage;
 		}
 
 		return $append;
@@ -532,10 +525,85 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
+	}
+
+	/**
+	 * Method to load a row from version history
+	 *
+	 * @return  mixed  True if the record can be added, an error object if not.
+	 *
+	 * @since   3.2
+	 */
+	public function loadhistory()
+	{
+		$model = $this->getModel();
+		$table = $model->getTable();
+		$historyId = $this->input->getInt('version_id', null);
+
+		if (!$model->loadhistory($historyId, $table))
+		{
+			$this->setMessage($model->getError(), 'error');
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+
+			return false;
+		}
+
+		// Determine the name of the primary key for the data.
+		if (empty($key))
+		{
+			$key = $table->getKeyName();
+		}
+
+		$recordId = $table->$key;
+
+		// To avoid data collisions the urlVar may be different from the primary key.
+		$urlVar = empty($this->urlVar) ? $key : $this->urlVar;
+
+		// Access check.
+		if (!$this->allowEdit(array($key => $recordId), $key))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setMessage($this->getError(), 'error');
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+			$table->checkin();
+
+			return false;
+		}
+
+		$table->store();
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_item
+				. $this->getRedirectToItemAppend($recordId, $urlVar), false
+			)
+		);
+
+		$this->setMessage(
+			JText::sprintf(
+				'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY', $model->getState('save_date'), $model->getState('version_note')
+			)
+		);
+
+		// Invoke the postSave method to allow for the child class to access the model.
+		$this->postSaveHook($model);
+
+		return true;
 	}
 
 	/**
@@ -546,7 +614,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -554,11 +622,10 @@ class JControllerForm extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app   = JFactory::getApplication();
-		$lang  = JFactory::getLanguage();
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data  = $this->input->post->get('jform', array(), 'array');
-		$checkin = property_exists($table, 'checked_out');
+		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
 
@@ -575,22 +642,6 @@ class JControllerForm extends JControllerLegacy
 		}
 
 		$recordId = $this->input->getInt($urlVar);
-
-		if (!$this->checkEditId($context, $recordId))
-		{
-			// Somehow the person just went to the form and tried to save it. We don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
-
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
-
-			return false;
-		}
 
 		// Populate the row id from the session.
 		$data[$key] = $recordId;
@@ -615,8 +666,9 @@ class JControllerForm extends JControllerLegacy
 				return false;
 			}
 
-			// Reset the ID and then treat the request as for Apply.
+			// Reset the ID, the multilingual associations and then treat the request as for Apply.
 			$data[$key] = 0;
+			$data['associations'] = array();
 			$task = 'apply';
 		}
 
@@ -728,13 +780,10 @@ class JControllerForm extends JControllerLegacy
 			return false;
 		}
 
-		$this->setMessage(
-			JText::_(
-				($lang->hasKey($this->text_prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
-					? $this->text_prefix
-					: 'JLIB_APPLICATION') . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
-			)
-		);
+		$langKey = $this->text_prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
+		$prefix  = JFactory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
+
+		$this->setMessage(JText::_($prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)

@@ -3,18 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * HTML View class for the Languages component
+ * HTML View class for the Languages component.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.5
+ * @since  1.5
  */
 class LanguagesViewLanguage extends JViewLegacy
 {
@@ -25,18 +23,24 @@ class LanguagesViewLanguage extends JViewLegacy
 	public $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		$this->item = $this->get('Item');
-		$this->form = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->form  = $this->get('Form');
 		$this->state = $this->get('State');
+		$this->canDo = JHelperContent::getActions('com_languages');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -47,26 +51,23 @@ class LanguagesViewLanguage extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since  1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
-		$canDo = LanguagesHelper::getActions();
+		$canDo = $this->canDo;
 
-		JToolbarHelper::title(JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'langmanager.png');
+		JToolbarHelper::title(
+			JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
+		);
 
-		// If a new item, can save.
-		if ($isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save('language.save');
-		}
-
-		//If an existing item, allow to Apply and Save.
-		if (!$isNew && $canDo->get('core.edit'))
+		if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit')))
 		{
 			JToolbarHelper::apply('language.apply');
 			JToolbarHelper::save('language.save');
@@ -89,7 +90,5 @@ class LanguagesViewLanguage extends JViewLegacy
 
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
-
-		$this->sidebar = JHtmlSidebar::render();
 	}
 }

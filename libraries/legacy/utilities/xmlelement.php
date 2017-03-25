@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,10 +14,8 @@ JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'de
 /**
  * Wrapper class for php SimpleXMLElement.
  *
- * @package     Joomla.Legacy
- * @subpackage  Utilities
- * @since       11.1
- * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXMLElement instead.
+ * @since       1.6
+ * @deprecated  3.0  Use SimpleXMLElement instead.
  */
 class JXMLElement extends SimpleXMLElement
 {
@@ -26,12 +24,13 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 * @deprecated 13.3  Use SimpleXMLElement::getName() instead.
+	 * @since   1.6
+	 * @deprecated  3.0  Use SimpleXMLElement::getName() instead.
 	 */
 	public function name()
 	{
 		JLog::add('JXMLElement::name() is deprecated, use SimpleXMLElement::getName() instead.', JLog::WARNING, 'deprecated');
+
 		return (string) $this->getName();
 	}
 
@@ -44,12 +43,12 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 * @deprecated 13.3  Use SimpleXMLElement::asXML() instead.
+	 * @since   1.6
+	 * @deprecated  3.0  Use SimpleXMLElement::asXml() instead.
 	 */
-	public function asFormattedXML($compressed = false, $indent = "\t", $level = 0)
+	public function asFormattedXml($compressed = false, $indent = "\t", $level = 0)
 	{
-		JLog::add('JXMLElement::asFormattedXML() is deprecated, use SimpleXMLElement::asXML() instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JXMLElement::asFormattedXml() is deprecated, use SimpleXMLElement::asXml() instead.', JLog::WARNING, 'deprecated');
 		$out = '';
 
 		// Start a new line, indent by the number indicated in $level
@@ -67,7 +66,7 @@ class JXMLElement extends SimpleXMLElement
 		// If there are no children and it contains no data, end it off with a />
 		if (!count($this->children()) && !(string) $this)
 		{
-			$out .= " />";
+			$out .= ' />';
 		}
 		else
 		{
@@ -82,14 +81,13 @@ class JXMLElement extends SimpleXMLElement
 				// For each child, call the asFormattedXML function (this will ensure that all children are added recursively)
 				foreach ($this->children() as $child)
 				{
-					$out .= $child->asFormattedXML($compressed, $indent, $level);
+					$out .= $child->asFormattedXml($compressed, $indent, $level);
 				}
 
 				$level--;
 
 				// Add the newline and indentation to go along with the close tag
 				$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
-
 			}
 			elseif ((string) $this)
 			{

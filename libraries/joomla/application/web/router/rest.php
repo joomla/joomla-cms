@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RESTful Web application router class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
  * @since       12.2
+ * @deprecated  3.7.0  Use the `joomla/router` package via Composer instead
  */
 class JApplicationWebRouterRest extends JApplicationWebRouterBase
 {
@@ -36,7 +35,7 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 		'PATCH' => 'Update',
 		'DELETE' => 'Delete',
 		'HEAD' => 'Head',
-		'OPTIONS' => 'Options'
+		'OPTIONS' => 'Options',
 	);
 
 	/**
@@ -125,7 +124,7 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 		}
 
 		// Check if request method is POST
-		if ( $this->methodInPostRequest == true && strcmp(strtoupper($this->input->server->getMethod()), 'POST') === 0)
+		if ($this->methodInPostRequest == true && strcmp(strtoupper($this->input->server->getMethod()), 'POST') === 0)
 		{
 			// Get the method from input
 			$postMethod = $this->input->get->getWord('_method');

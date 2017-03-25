@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Installer helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerHelper
 {
@@ -54,13 +52,18 @@ class InstallerHelper
 		);
 		JHtmlSidebar::addEntry(
 		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
-					'index.php?option=com_installer&view=warnings',
-		$vName == 'warnings'
+			'index.php?option=com_installer&view=warnings',
+			$vName == 'warnings'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
 			'index.php?option=com_installer&view=languages',
 			$vName == 'languages'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_INSTALLER_SUBMENU_UPDATESITES'),
+			'index.php?option=com_installer&view=updatesites',
+			$vName == 'updatesites'
 		);
 	}
 
@@ -81,9 +84,10 @@ class InstallerHelper
 		$types = $db->loadColumn();
 
 		$options = array();
+
 		foreach ($types as $type)
 		{
-			$options[] = JHtml::_('select.option', $type, 'COM_INSTALLER_TYPE_' . strtoupper($type));
+			$options[] = JHtml::_('select.option', $type, JText::_('COM_INSTALLER_TYPE_' . strtoupper($type)));
 		}
 
 		return $options;
@@ -108,6 +112,7 @@ class InstallerHelper
 		$folders = $db->loadColumn();
 
 		$options = array();
+
 		foreach ($folders as $folder)
 		{
 			$options[] = JHtml::_('select.option', $folder, $folder);
@@ -122,21 +127,61 @@ class InstallerHelper
 	 * @return  JObject
 	 *
 	 * @since   1.6
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		$assetName = 'com_installer';
-
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
+		// Log usage of deprecated function
+		try
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
 		}
 
-		return $result;
+		// Get list of actions
+		return JHelperContent::getActions('com_installer');
+	}
+
+	/**
+	 * Get a list of filter options for the application clients.
+	 *
+	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   3.5
+	 */
+	public static function getClientOptions()
+	{
+		// Build the filter options.
+		$options   = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+
+		return $options;
+	}
+
+	/**
+	 * Get a list of filter options for the application statuses.
+	 *
+	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   3.5
+	 */
+	public static function getStateOptions()
+	{
+		// Build the filter options.
+		$options   = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JDISABLED'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JENABLED'));
+		$options[] = JHtml::_('select.option', '2', JText::_('JPROTECTED'));
+		$options[] = JHtml::_('select.option', '3', JText::_('JUNPROTECTED'));
+
+		return $options;
 	}
 }

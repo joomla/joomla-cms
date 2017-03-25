@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User notes controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       2.5
+ * @since  2.5
  */
 class UsersControllerNotes extends JControllerAdmin
 {
@@ -27,6 +25,8 @@ class UsersControllerNotes extends JControllerAdmin
 	protected $text_prefix = 'COM_USERS_NOTES';
 
 	/**
+	 * Method to get a model object, loading it if required.
+	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.

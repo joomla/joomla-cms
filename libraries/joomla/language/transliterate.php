@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to transliterate strings
  *
- * @package     Joomla.Platform
- * @subpackage  Language
- * @since       11.1
- * @note        Port of phputf8's utf8_accents_to_ascii()
+ * @since  11.1
+ * @note   Port of phputf8's utf8_accents_to_ascii()
  */
 class JLanguageTransliterate
 {
@@ -23,7 +21,7 @@ class JLanguageTransliterate
 	 * Returns strings transliterated from UTF-8 to Latin
 	 *
 	 * @param   string   $string  String to transliterate
-	 * @param   boolean  $case    Optionally specify upper or lower case. Default to null.
+	 * @param   integer  $case    Optionally specify upper or lower case. Default to null.
 	 *
 	 * @return  string  Transliterated string
 	 *
@@ -143,7 +141,8 @@ class JLanguageTransliterate
 					'æ' => 'ae',
 					'µ' => 'u',
 					'ĕ' => 'e',
-					'œ' => 'oe');
+					'œ' => 'oe',
+				);
 			}
 
 			$string = str_replace(array_keys($UTF8_LOWER_ACCENTS), array_values($UTF8_LOWER_ACCENTS), $string);
@@ -256,8 +255,10 @@ class JLanguageTransliterate
 					'Ð' => 'Dh',
 					'Æ' => 'Ae',
 					'Ĕ' => 'E',
-					'Œ' => 'Oe');
+					'Œ' => 'Oe',
+				);
 			}
+
 			$string = str_replace(array_keys($UTF8_UPPER_ACCENTS), array_values($UTF8_UPPER_ACCENTS), $string);
 		}
 

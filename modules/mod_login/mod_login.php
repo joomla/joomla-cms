@@ -3,21 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the login functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModLoginHelper', __DIR__ . '/helper.php');
 
 $params->def('greeting', 1);
 
-$type	= ModLoginHelper::getType();
-$return	= ModLoginHelper::getReturnURL($params, $type);
-$user	= JFactory::getUser();
-$layout = $params->get('layout', 'default');
+$type             = ModLoginHelper::getType();
+$return           = ModLoginHelper::getReturnUrl($params, $type);
+$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
+$user             = JFactory::getUser();
+$layout           = $params->get('layout', 'default');
 
 // Logged users must load the logout sublayout
 if (!$user->guest)

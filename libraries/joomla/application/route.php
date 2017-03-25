@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Route handling class
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @since  11.1
  */
 class JRoute
 {
@@ -27,15 +25,16 @@ class JRoute
 	private static $_router = null;
 
 	/**
-	 * Translates an internal Joomla URL to a humanly readible URL.
+	 * Translates an internal Joomla URL to a humanly readable URL.
 	 *
 	 * @param   string   $url    Absolute or Relative URI to Joomla resource.
-	 * @param   boolean  $xhtml  Replace & by &amp; for XML compilance.
+	 * @param   boolean  $xhtml  Replace & by &amp; for XML compliance.
 	 * @param   integer  $ssl    Secure state for the resolved URI.
+	 *                             0: (default) No change, use the protocol currently used in the request
 	 *                             1: Make URI secure using global secure site URI.
 	 *                             2: Make URI unsecure using the global unsecure site URI.
 	 *
-	 * @return  The translated humanly readible URL.
+	 * @return string The translated humanly readable URL.
 	 *
 	 * @since   11.1
 	 */
@@ -44,26 +43,25 @@ class JRoute
 		if (!self::$_router)
 		{
 			// Get the router.
-			self::$_router = JFactory::getApplication()->getRouter();
+			$app = JFactory::getApplication();
+			self::$_router = $app::getRouter();
 
 			// Make sure that we have our router
 			if (!self::$_router)
 			{
-				return null;
+				return;
 			}
 		}
 
-		if ((strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
+		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{
 			return $url;
 		}
 
 		// Build route.
 		$uri = self::$_router->build($url);
-		$url = $uri->toString(array('path', 'query', 'fragment'));
 
-		// Replace spaces.
-		$url = preg_replace('/\s/u', '%20', $url);
+		$scheme = array('path', 'query', 'fragment');
 
 		/*
 		 * Get the secure/unsecure URLs.
@@ -72,34 +70,31 @@ class JRoute
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		if ((int) $ssl)
+		if ((int) $ssl || $uri->isSsl())
 		{
-			$uri = JUri::getInstance();
+			static $host_port;
 
-			// Get additional parts.
-			static $prefix;
-
-			if (!$prefix)
+			if (!is_array($host_port))
 			{
-				$prefix = $uri->toString(array('host', 'port'));
+				$uri2 = JUri::getInstance();
+				$host_port = array($uri2->getHost(), $uri2->getPort());
 			}
 
 			// Determine which scheme we want.
-			$scheme = ((int) $ssl === 1) ? 'https' : 'http';
-
-			// Make sure our URL path begins with a slash.
-			if (!preg_match('#^/#', $url))
-			{
-				$url = '/' . $url;
-			}
-
-			// Build the URL.
-			$url = $scheme . '://' . $prefix . $url;
+			$uri->setScheme(((int) $ssl === 1 || $uri->isSsl()) ? 'https' : 'http');
+			$uri->setHost($host_port[0]);
+			$uri->setPort($host_port[1]);
+			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));
 		}
+
+		$url = $uri->toString($scheme);
+
+		// Replace spaces.
+		$url = preg_replace('/\s/u', '%20', $url);
 
 		if ($xhtml)
 		{
-			$url = htmlspecialchars($url);
+			$url = htmlspecialchars($url, ENT_COMPAT, 'UTF-8');
 		}
 
 		return $url;

@@ -3,73 +3,141 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @return  array  A named array
- * @return  array
+ * Routing class from com_banners
+ *
+ * @since  3.3
  */
-function BannersBuildRoute(&$query)
+class BannersRouter extends JComponentRouterBase
 {
-	$segments = array();
-
-	if (isset($query['task']))
+	/**
+	 * Build the route for the com_banners component
+	 *
+	 * @param   array  &$query  An array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
+	 */
+	public function build(&$query)
 	{
-		$segments[] = $query['task'];
-		unset($query['task']);
-	}
-	if (isset($query['id']))
-	{
-		$segments[] = $query['id'];
-		unset($query['id']);
+		$segments = array();
+
+		if (isset($query['task']))
+		{
+			$segments[] = $query['task'];
+			unset($query['task']);
+		}
+
+		if (isset($query['id']))
+		{
+			$segments[] = $query['id'];
+			unset($query['id']);
+		}
+
+		$total = count($segments);
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			$segments[$i] = str_replace(':', '-', $segments[$i]);
+		}
+
+		return $segments;
 	}
 
-	return $segments;
+	/**
+	 * Parse the segments of a URL.
+	 *
+	 * @param   array  &$segments  The segments of the URL to parse.
+	 *
+	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.3
+	 */
+	public function parse(&$segments)
+	{
+		$total = count($segments);
+		$vars = array();
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+		}
+
+		// View is always the first element of the array
+		$count = count($segments);
+
+		if ($count)
+		{
+			$count--;
+			$segment = array_shift($segments);
+
+			if (is_numeric($segment))
+			{
+				$vars['id'] = $segment;
+			}
+			else
+			{
+				$vars['task'] = $segment;
+			}
+		}
+
+		if ($count)
+		{
+			$segment = array_shift($segments);
+
+			if (is_numeric($segment))
+			{
+				$vars['id'] = $segment;
+			}
+		}
+
+		return $vars;
+	}
 }
 
 /**
- * @return  array  A named array
- * @param   array
+ * Build the route for the com_banners component
  *
- * Formats:
+ * This function is a proxy for the new router interface
+ * for old SEF extensions.
  *
- * index.php?/banners/task/id/Itemid
+ * @param   array  &$query  An array of URL arguments
  *
- * index.php?/banners/id/Itemid
+ * @return  array  The URL arguments to use to assemble the subsequent URL.
+ *
+ * @since   3.3
+ * @deprecated  4.0  Use Class based routers instead
  */
-function BannersParseRoute($segments)
+function bannersBuildRoute(&$query)
 {
-	$vars = array();
+	$router = new BannersRouter;
 
-	// view is always the first element of the array
-	$count = count($segments);
+	return $router->build($query);
+}
 
-	if ($count)
-	{
-		$count--;
-		$segment = array_shift($segments);
-		if (is_numeric($segment))
-		{
-			$vars['id'] = $segment;
-		}
-		else
-		{
-			$vars['task'] = $segment;
-		}
-	}
+/**
+ * Parse the segments of a URL.
+ *
+ * This function is a proxy for the new router interface
+ * for old SEF extensions.
+ *
+ * @param   array  $segments  The segments of the URL to parse.
+ *
+ * @return  array  The URL attributes to be used by the application.
+ *
+ * @since   3.3
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function bannersParseRoute($segments)
+{
+	$router = new BannersRouter;
 
-	if ($count)
-	{
-		$segment = array_shift($segments);
-		if (is_numeric($segment))
-		{
-			$vars['id'] = $segment;
-		}
-	}
-
-	return $vars;
+	return $router->parse($segments);
 }

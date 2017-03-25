@@ -3,19 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Tags Component Route Helper
+ * Tags Component Route Helper.
  *
- * @static
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsHelperRoute extends JHelperRoute
 {
@@ -40,11 +37,13 @@ class TagsHelperRoute extends JHelperRoute
 		$link = '';
 		$explodedAlias = explode('.', $typeAlias);
 		$explodedRouter = explode('::', $routerName);
+
 		if (file_exists($routerFile = JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php'))
 		{
 			JLoader::register($explodedRouter[0], $routerFile);
 			$routerClass = $explodedRouter[0];
 			$routerMethod = $explodedRouter[1];
+
 			if (class_exists($routerClass) && method_exists($routerClass, $routerMethod))
 			{
 				if ($routerMethod == 'getCategoryRoute')
@@ -57,12 +56,14 @@ class TagsHelperRoute extends JHelperRoute
 				}
 			}
 		}
+
 		if ($link == '')
 		{
-			// create a fallback link in case we can't find the component router
+			// Create a fallback link in case we can't find the component router
 			$router = new JHelperRoute;
 			$link = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
 		}
+
 		return $link;
 	}
 
@@ -80,68 +81,113 @@ class TagsHelperRoute extends JHelperRoute
 		$needles = array(
 			'tag'  => array((int) $id)
 		);
+
 		if ($id < 1)
 		{
 			$link = '';
 		}
 		else
 		{
-			if (!empty($needles) && $item = self::_findItem($needles))
+			$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+
+			if ($item = self::_findItem($needles))
 			{
-				$link = 'index.php?Itemid=' . $item;
+				$link .= '&Itemid=' . $item;
 			}
 			else
 			{
-				// Create the link
-				$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+				$needles = array('tags' => array(1, 0));
+
+				if ($item = self::_findItem($needles))
+				{
+					$link .= '&Itemid=' . $item;
+				}
 			}
 		}
 
 		return $link;
 	}
 
+	/**
+	 * Tries to load the router for the tags view.
+	 *
+	 * @return  string  URL link to pass to JRoute
+	 *
+	 * @since   3.7
+	 */
+	public static function getTagsRoute()
+	{
+		$needles = array(
+			'tags'  => array(0)
+		);
+
+		$link = 'index.php?option=com_tags&view=tags';
+
+		if ($item = self::_findItem($needles))
+		{
+			$link .= '&Itemid=' . $item;
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Find Item static function
+	 *
+	 * @param   array  $needles  Array used to get the language value
+	 *
+	 * @return null
+	 *
+	 * @throws Exception
+	 */
 	protected static function _findItem($needles = null)
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu('site');
-		$language	= isset($needles['language']) ? $needles['language'] : '*';
+		$app      = JFactory::getApplication();
+		$menus    = $app->getMenu('site');
+		$language = isset($needles['language']) ? $needles['language'] : '*';
 
 		// Prepare the reverse lookup array.
 		if (self::$lookup === null)
 		{
 			self::$lookup = array();
 
-			$component	= JComponentHelper::getComponent('com_tags');
-			$items		= $menus->getItems('component_id', $component->id);
+			$component = JComponentHelper::getComponent('com_tags');
+			$items     = $menus->getItems('component_id', $component->id);
 
-			if ($items) {
+			if ($items)
+			{
 				foreach ($items as $item)
 				{
 					if (isset($item->query) && isset($item->query['view']))
 					{
+						$lang = ($item->language != '' ? $item->language : '*');
+
+						if (!isset(self::$lookup[$lang]))
+						{
+							self::$lookup[$lang] = array();
+						}
+
 						$view = $item->query['view'];
 
-						if (!isset(self::$lookup[$view]))
+						if (!isset(self::$lookup[$lang][$view]))
 						{
-							self::$lookup[$view] = array();
+							self::$lookup[$lang][$view] = array();
 						}
 
 						// Only match menu items that list one tag
-						if (isset($item->query['id'][0]) && count($item->query['id']) == 1)
+						if (isset($item->query['id']) && is_array($item->query['id']))
 						{
-							// Here it will become a bit tricky
-							// language != * can override existing entries
-							// language == * cannot override existing entries
-							if (!isset(self::$lookup[$language][$view][$item->query['id'][0]]) || $item->language != '*')
+							foreach ($item->query['id'] as $position => $tagId)
 							{
-								self::$lookup[$language][$view][$item->query['id'][0]] = $item->id;
+								if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1)
+								{
+									self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
+								}
 							}
-
-							self::$lookup[$view][$item->query['id'][0]] = $item->id;
 						}
-						if (isset($item->query["tag_list_language_filter"]) && $item->query["tag_list_language_filter"] != '')
+						elseif ($view == 'tags')
 						{
-							$language = $item->query["tag_list_language_filter"];
+							self::$lookup[$lang]['tags'][] = $item->id;
 						}
 					}
 				}
@@ -152,13 +198,13 @@ class TagsHelperRoute extends JHelperRoute
 		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset(self::$lookup[$view]))
+				if (isset(self::$lookup[$language][$view]))
 				{
-					foreach($ids as $id)
+					foreach ($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int) $id]))
+						if (isset(self::$lookup[$language][$view][(int) $id]))
 						{
-							return self::$lookup[$view][(int) $id];
+							return self::$lookup[$language][$view][(int) $id];
 						}
 					}
 				}
@@ -167,6 +213,7 @@ class TagsHelperRoute extends JHelperRoute
 		else
 		{
 			$active = $menus->getActive();
+
 			if ($active)
 			{
 				return $active->id;

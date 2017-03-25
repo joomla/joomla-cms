@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! update helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateHelper
 {
@@ -24,21 +22,25 @@ class JoomlaupdateHelper
 	 * @return  JObject
 	 *
 	 * @since	2.5.4
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		$assetName = 'com_joomlaupdate';
-
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
+		// Log usage of deprecated function
+		try
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
 		}
 
-		return $result;
+		// Get list of actions
+		return JHelperContent::getActions('com_joomlaupdate');
 	}
 }

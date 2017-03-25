@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Messages Component Messages Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesModelMessages extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -46,21 +45,28 @@ class MessagesModelMessages extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.date_time', $direction = 'desc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
+		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 
 		// List state information.
-		parent::populateState('a.date_time', 'desc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -70,9 +76,11 @@ class MessagesModelMessages extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string    A store id.
+	 *
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -87,6 +95,8 @@ class MessagesModelMessages extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -111,11 +121,12 @@ class MessagesModelMessages extends JModelList
 
 		// Filter by published state.
 		$state = $this->getState('filter.state');
+
 		if (is_numeric($state))
 		{
 			$query->where('a.state = ' . (int) $state);
 		}
-		elseif ($state === '')
+		elseif ($state !== '*')
 		{
 			$query->where('(a.state IN (0, 1))');
 		}
@@ -125,14 +136,13 @@ class MessagesModelMessages extends JModelList
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%', false);
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('a.subject LIKE ' . $search . ' OR a.message LIKE ' . $search);
 		}
 
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.date_time')) . ' ' . $db->escape($this->getState('list.direction', 'DESC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 }

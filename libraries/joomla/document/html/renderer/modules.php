@@ -3,41 +3,20 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JDocumentRendererModules is deprecated, use JDocumentRendererHtmlModules instead.', JLog::WARNING, 'deprecated');
+
 /**
  * JDocument Modules renderer
  *
- * @package     Joomla.Platform
- * @subpackage  Document
  * @since       11.1
+ * @deprecated  4.0  Use JDocumentRendererHtmlModules instead
  */
-class JDocumentRendererModules extends JDocumentRenderer
+class JDocumentRendererModules extends JDocumentRendererHtmlModules
 {
-	/**
-	 * Renders multiple modules script and returns the results as a string
-	 *
-	 * @param   string  $position  The position of the modules to render
-	 * @param   array   $params    Associative array of values
-	 * @param   string  $content   Module content
-	 *
-	 * @return  string  The output of the script
-	 *
-	 * @since   11.1
-	 */
-	public function render($position, $params = array(), $content = null)
-	{
-		$renderer = $this->_doc->loadRenderer('module');
-		$buffer = '';
-
-		foreach (JModuleHelper::getModules($position) as $mod)
-		{
-			$buffer .= $renderer->render($mod, $params, $content);
-		}
-		return $buffer;
-	}
 }

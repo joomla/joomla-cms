@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * The Categories List Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesControllerCategories extends JControllerAdmin
 {
@@ -23,15 +23,15 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  JModelLegacy  The model.
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -48,32 +48,44 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$extension = $this->input->get('extension');
 		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
 
+		/** @var CategoriesModelCategory $model */
 		$model = $this->getModel();
 
 		if ($model->rebuild())
 		{
 			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
+
 			return true;
 		}
-		else
-		{
-			// Rebuild failed.
-			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
-			return false;
-		}
+
+		// Rebuild failed.
+		$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
+
+		return false;
 	}
 
 	/**
 	 * Save the manual order inputs from the categories list page.
 	 *
-	 * @return  void
+	 * @return      void
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @see         JControllerAdmin::saveorder()
+	 * @deprecated  4.0
 	 */
 	public function saveorder()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		try
+		{
+			JLog::add(sprintf('%s() is deprecated. Function will be removed in 4.0.', __METHOD__), JLog::WARNING, 'deprecated');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get the arrays from the Request
 		$order = $this->input->post->get('order', null, 'array');
@@ -88,6 +100,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		{
 			// Nothing to reorder
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
 			return true;
 		}
 	}
@@ -114,11 +127,11 @@ class CategoriesControllerCategories extends JControllerAdmin
 		else
 		{
 			// Get the model.
+			/** @var CategoriesModelCategory $model */
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
+			$cid = ArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->delete($cid))
@@ -132,5 +145,26 @@ class CategoriesControllerCategories extends JControllerAdmin
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
+	}
+
+	/**
+	 * Check in of one or more records.
+	 *
+	 * Overrides JControllerAdmin::checkin to redirect to URL with extension.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.6.0
+	 */
+	public function checkin()
+	{
+		// Process parent checkin method.
+		$result = parent::checkin();
+
+		// Overrride the redirect Uri.
+		$redirectUri = 'index.php?option=' . $this->option . '&view=' . $this->view_list . '&extension=' . $this->input->get('extension', '', 'CMD');
+		$this->setRedirect(JRoute::_($redirectUri, false), $this->message, $this->messageType);
+
+		return $result;
 	}
 }

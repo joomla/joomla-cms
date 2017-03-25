@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,10 +16,8 @@ JFormHelper::loadFieldClass('list');
  * Provides a list of available database connections, optionally limiting to
  * a given list.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @see         JDatabaseDriver
- * @since       11.3
+ * @see    JDatabaseDriver
+ * @since  11.3
  */
 class JFormFieldDatabaseConnection extends JFormFieldList
 {
@@ -29,7 +27,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 * @var    string
 	 * @since  11.3
 	 */
-	public $type = 'DatabaseConnection';
+	protected $type = 'DatabaseConnection';
 
 	/**
 	 * Method to get the list of database options.
@@ -37,10 +35,10 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 * This method produces a drop down list of available databases supported
 	 * by JDatabaseDriver classes that are also supported by the application.
 	 *
-	 * @return  array    The field option objects.
+	 * @return  array  The field option objects.
 	 *
 	 * @since   11.3
-	 * @see		JDatabaseDriver
+	 * @see     JDatabaseDriver::getConnectors()
 	 */
 	protected function getOptions()
 	{
@@ -54,9 +52,11 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		 * are supported.
 		 */
 		$supported = $this->element['supported'];
+
 		if (!empty($supported))
 		{
 			$supported = explode(',', $supported);
+
 			foreach ($supported as $support)
 			{
 				if (in_array($support, $available))
@@ -79,6 +79,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		{
 			$options[''] = JText::_('JNONE');
 		}
+
 		return $options;
 	}
 }

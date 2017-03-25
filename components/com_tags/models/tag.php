@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Tags Component Tag Model
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsModelTag extends JModelList
 {
@@ -37,7 +37,8 @@ class TagsModelTag extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   3.1
 	 */
@@ -89,7 +90,8 @@ class TagsModelTag extends JModelList
 			foreach ($items as $item)
 			{
 				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->content_item_id . ':' . $item->core_alias;
+				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id='
+					. $item->content_item_id . ':' . $item->core_alias;
 
 				// Get display date
 				switch ($this->state->params->get('tag_list_show_date'))
@@ -126,7 +128,6 @@ class TagsModelTag extends JModelList
 	 */
 	protected function getListQuery()
 	{
-
 		$tagId  = $this->getState('tag.id') ? : '';
 
 		$typesr = $this->getState('tag.typesr');
@@ -137,14 +138,15 @@ class TagsModelTag extends JModelList
 		$language = $this->getState('tag.language');
 		$stateFilter = $this->getState('tag.state');
 
-	// Optionally filter on language
+		// Optionally filter on language
 		if (empty($language))
 		{
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 		}
 
-		$listQuery = New JHelperTags;
-		$query = $listQuery->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
+		$tagsHelper = new JHelperTags;
+		$query = $tagsHelper->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
+
 		if ($this->state->get('list.filter'))
 		{
 			$query->where($this->_db->quoteName('c.core_title') . ' LIKE ' . $this->_db->quote('%' . $this->state->get('list.filter') . '%'));
@@ -167,30 +169,32 @@ class TagsModelTag extends JModelList
 	 */
 	protected function populateState($ordering = 'c.core_title', $direction = 'ASC')
 	{
-		$app = JFactory::getApplication('site');
+		$app = JFactory::getApplication();
 
 		// Load the parameters.
-		$params = $app->getParams();
+		$params = $app->isClient('administrator') ? JComponentHelper::getParams('com_tags') : $app->getParams();
+
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$pk = $app->input->getObject('id');
-		$pk = (array) $pk;
-		$pkString = '';
+		$ids = ArrayHelper::toInteger($app->input->get('id', array(), 'array'));
 
-		foreach ($pk as $id)
-		{
-			$pkString .= (int) $id . ',';
-		}
-		$pkString = rtrim($pkString, ',');
+		$pkString = implode(',', $ids);
 
 		$this->setState('tag.id', $pkString);
 
 		// Get the selected list of types from the request. If none are specified all are used.
-		$typesr = $app->input->getObject('types');
+		$typesr = $app->input->get('types', array(), 'array');
+
 		if ($typesr)
 		{
-			$typesr = (array) $typesr;
+			// Implode is needed because the array can contain a string with a coma separated list of ids
+			$typesr = implode(',', $typesr);
+
+			// Sanitise
+			$typesr = explode(',', $typesr);
+			$typesr = ArrayHelper::toInteger($typesr);
+
 			$this->setState('tag.typesr', $typesr);
 		}
 
@@ -199,21 +203,17 @@ class TagsModelTag extends JModelList
 
 		// List state information
 		$format = $app->input->getWord('format');
+
 		if ($format == 'feed')
 		{
-			$limit = $app->getCfg('feed_limit');
+			$limit = $app->get('feed_limit');
 		}
 		else
 		{
-			if ($this->state->params->get('show_pagination_limit'))
-			{
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
-			}
-			else
-			{
-				$limit = $this->state->params->get('maximum', 20);
-			}
+			$limit = $params->get('display_num', $app->get('list_limit', 20));
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $limit, 'uint');
 		}
+
 		$this->setState('list.limit', $limit);
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
@@ -222,18 +222,22 @@ class TagsModelTag extends JModelList
 		$itemid = $pkString . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
+
 		if (!in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'c.core_title';
 		}
+
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
 		$listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
+
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}
+
 		$this->setState('list.direction', $listOrder);
 
 		$this->setState('tag.state', 1);
@@ -246,9 +250,10 @@ class TagsModelTag extends JModelList
 	/**
 	 * Method to get tag data for the current tag or tags
 	 *
-	 * @param   integer  An optional ID
+	 * @param   integer  $pk  An optional ID
 	 *
 	 * @return  object
+	 *
 	 * @since   3.1
 	 */
 	public function getItem($pk = null)
@@ -266,6 +271,7 @@ class TagsModelTag extends JModelList
 			$table = JTable::getInstance('Tag', 'TagsTable');
 
 			$idsArray = explode(',', $id);
+
 			// Attempt to load the rows into an array.
 			foreach ($idsArray as $id)
 			{
@@ -274,26 +280,67 @@ class TagsModelTag extends JModelList
 					$table->load($id);
 
 					// Check published state.
-					if ($published = $this->getState('filter.published'))
+					if ($published = $this->getState('tag.state'))
 					{
 						if ($table->published != $published)
 						{
-							return $this->item;
+							continue;
 						}
+					}
+
+					if (!in_array($table->access, JFactory::getUser()->getAuthorisedViewLevels()))
+					{
+						continue;
 					}
 
 					// Convert the JTable to a clean JObject.
 					$properties = $table->getProperties(1);
-					$this->item[] = JArrayHelper::toObject($properties, 'JObject');
+					$this->item[] = ArrayHelper::toObject($properties, 'JObject');
 				}
 				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
+
 					return false;
 				}
 			}
 		}
 
+		if (!$this->item)
+		{
+			return JError::raiseError(404, JText::_('COM_TAGS_TAG_NOT_FOUND'));
+		}
+
 		return $this->item;
+	}
+
+	/**
+	 * Increment the hit counter.
+	 *
+	 * @param   integer  $pk  Optional primary key of the article to increment.
+	 *
+	 * @return  boolean  True if successful; false otherwise and internal error set.
+	 *
+	 * @since   3.2
+	 */
+	public function hit($pk = 0)
+	{
+		$input    = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
+
+		if ($hitcount)
+		{
+			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
+			$table = JTable::getInstance('Tag', 'TagsTable');
+			$table->load($pk);
+			$table->hit($pk);
+
+			if (!$table->hasPrimaryKey())
+			{
+				JError::raiseError(404, JText::_('COM_TAGS_TAG_NOT_FOUND'));
+			}
+		}
+
+		return true;
 	}
 }

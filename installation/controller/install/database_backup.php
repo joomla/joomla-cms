@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller class to backup the old database for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerInstallDatabase_backup extends JControllerBase
 {
@@ -27,7 +25,7 @@ class InstallationControllerInstallDatabase_backup extends JControllerBase
 	 */
 	public function execute()
 	{
-		// Get the application
+		// Get the application.
 		/* @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
@@ -37,7 +35,7 @@ class InstallationControllerInstallDatabase_backup extends JControllerBase
 		// Get the setup model.
 		$model = new InstallationModelSetup;
 
-		// Get the options from the session
+		// Get the options from the session.
 		$options = $model->getOptions();
 
 		// Get the database model.
@@ -49,7 +47,7 @@ class InstallationControllerInstallDatabase_backup extends JControllerBase
 		$r = new stdClass;
 		$r->view = 'install';
 
-		// Check if the database was initialised
+		// Check if the database was initialised.
 		if (!$return)
 		{
 			$r->view = 'database';

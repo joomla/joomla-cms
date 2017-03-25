@@ -3,18 +3,19 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JHtmlRules is deprecated.', JLog::WARNING, 'deprecated');
+
 /**
  * Extended Utility class for all HTML drawing classes.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
  * @since       1.6
+ * @deprecated  4.0
  */
 abstract class JHtmlRules
 {
@@ -32,6 +33,7 @@ abstract class JHtmlRules
 	 * @see     JAccess
 	 * @see     JFormFieldRules
 	 * @since   1.6
+	 * @deprecated  4.0
 	 */
 	public static function assetFormWidget($actions, $assetId = null, $parent = null, $control = 'jform[rules]', $idPrefix = 'jform_rules')
 	{
@@ -41,7 +43,7 @@ abstract class JHtmlRules
 		$groups = static::_getUserGroups();
 
 		// Get the incoming inherited rules as well as the asset specific rules.
-		$inheriting = JAccess::getAssetRules($parent ? $parent : static::_getParentAssetId($assetId), true);
+		$inheriting = JAccess::getAssetRules($parent ?: static::_getParentAssetId($assetId), true);
 		$inherited = JAccess::getAssetRules($assetId, true);
 		$rules = JAccess::getAssetRules($assetId);
 
@@ -60,6 +62,7 @@ abstract class JHtmlRules
 		{
 			$html[] = '				<th class="col' . ($i + 2) . '">' . JText::_($action->title) . '</th>';
 		}
+
 		$html[] = '			</tr>';
 
 		foreach ($groups as $i => $group)
@@ -73,6 +76,7 @@ abstract class JHtmlRules
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
 					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 			}
+
 			$html[] = '			</tr>';
 		}
 
@@ -144,6 +148,7 @@ abstract class JHtmlRules
 	 * @return  integer  The id of the parent asset
 	 *
 	 * @since   1.6
+	 * @deprecated  4.0
 	 */
 	protected static function _getParentAssetId($assetId)
 	{
@@ -166,6 +171,7 @@ abstract class JHtmlRules
 	 * @return  array  Array of user groups
 	 *
 	 * @since   1.6
+	 * @deprecated  4.0
 	 */
 	protected static function _getUserGroups()
 	{
@@ -209,6 +215,7 @@ abstract class JHtmlRules
 	 * @return  array  An associative  array of permissions and images
 	 *
 	 * @since   1.6
+	 * @deprecated  4.0
 	 */
 	protected static function _getImagesArray()
 	{

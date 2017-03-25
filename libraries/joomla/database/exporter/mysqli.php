@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,106 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi export driver.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @since  11.1
  */
 class JDatabaseExporterMysqli extends JDatabaseExporter
 {
-	/**
-	 * An array of cached data.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected $cache = array();
-
-	/**
-	 * The database connector to use for exporting structure and/or data.
-	 *
-	 * @var    JDatabaseDriverMysql
-	 * @since  11.1
-	 */
-	protected $db = null;
-
-	/**
-	 * An array input sources (table names).
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected $from = array();
-
-	/**
-	 * The type of output format (xml).
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $asFormat = 'xml';
-
-	/**
-	 * An array of options for the exporter.
-	 *
-	 * @var    object
-	 * @since  11.1
-	 */
-	protected $options = null;
-
-	/**
-	 * Constructor.
-	 *
-	 * Sets up the default options for the exporter.
-	 *
-	 * @since   11.1
-	 */
-	public function __construct()
-	{
-		$this->options = new stdClass;
-
-		$this->cache = array('columns' => array(), 'keys' => array());
-
-		// Set up the class defaults:
-
-		// Export with only structure
-		$this->withStructure();
-
-		// Export as xml.
-		$this->asXml();
-
-		// Default destination is a string using $output = (string) $exporter;
-	}
-
-	/**
-	 * Magic function to exports the data to a string.
-	 *
-	 * @return  string
-	 *
-	 * @since   11.1
-	 * @throws  Exception if an error is encountered.
-	 */
-	public function __toString()
-	{
-		// Check everything is ok to run first.
-		$this->check();
-
-		return $this->buildXml();
-	}
-
-	/**
-	 * Set the output option for the exporter to XML format.
-	 *
-	 * @return  JDatabaseExporterMySQL  Method supports chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function asXml()
-	{
-		$this->asFormat = 'xml';
-
-		return $this;
-	}
-
 	/**
 	 * Builds the XML data for the tables to export.
 	 *
@@ -170,8 +74,8 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 			{
 				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
 					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
-					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
-					' />';
+					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' .
+					' Comment="' . htmlspecialchars($key->Comment, ENT_COMPAT, 'UTF-8') . '"' . ' />';
 			}
 
 			$buffer[] = '  </table_structure>';
@@ -201,86 +105,6 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 		{
 			throw new Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED');
 		}
-
-		return $this;
-	}
-
-	/**
-	 * Get the generic name of the table, converting the database prefix to the wildcard string.
-	 *
-	 * @param   string  $table  The name of the table.
-	 *
-	 * @return  string  The name of the table with the database prefix replaced with #__.
-	 *
-	 * @since   11.1
-	 */
-	protected function getGenericTableName($table)
-	{
-		// TODO Incorporate into parent class and use $this.
-		$prefix = $this->db->getPrefix();
-
-		// Replace the magic prefix if found.
-		$table = preg_replace("|^$prefix|", '#__', $table);
-
-		return $table;
-	}
-
-	/**
-	 * Specifies a list of table names to export.
-	 *
-	 * @param   mixed  $from  The name of a single table, or an array of the table names to export.
-	 *
-	 * @return  JDatabaseExporterMysql  Method supports chaining.
-	 *
-	 * @since   11.1
-	 * @throws  Exception if input is not a string or array.
-	 */
-	public function from($from)
-	{
-		if (is_string($from))
-		{
-			$this->from = array($from);
-		}
-		elseif (is_array($from))
-		{
-			$this->from = $from;
-		}
-		else
-		{
-			throw new Exception('JPLATFORM_ERROR_INPUT_REQUIRES_STRING_OR_ARRAY');
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Sets the database connector to use for exporting structure and/or data from MySQL.
-	 *
-	 * @param   JDatabaseDriverMysqli  $db  The database connector.
-	 *
-	 * @return  JDatabaseExporterMysqli  Method supports chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function setDbo(JDatabaseDriverMysqli $db)
-	{
-		$this->db = $db;
-
-		return $this;
-	}
-
-	/**
-	 * Sets an internal option to export the structure of the input table(s).
-	 *
-	 * @param   boolean  $setting  True to export the structure, false to not.
-	 *
-	 * @return  JDatabaseExporterMysql  Method supports chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function withStructure($setting = true)
-	{
-		$this->options->withStructure = (boolean) $setting;
 
 		return $this;
 	}

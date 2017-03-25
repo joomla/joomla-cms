@@ -3,18 +3,17 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Helper for standard content style extensions.
+ * This class mainly simplifies static helper methods often repeated in individual components
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.1
+ * @since  3.1
  */
 class JHelperContent
 {
@@ -41,20 +40,93 @@ class JHelperContent
 	 * @return  JObject
 	 *
 	 * @since   3.1
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
-	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
+	public static function _getActions($categoryId = 0, $id = 0, $assetName = '')
 	{
-		// Reverted a change for version 2.5.6
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
-		);
+		// Reverted a change for version 2.5.6
+		$user   = JFactory::getUser();
+		$result = new JObject;
+
+		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
+
+		if (empty($id) && empty($categoryId))
+		{
+			$section = 'component';
+		}
+		elseif (empty($id))
+		{
+			$section = 'category';
+			$assetName .= '.category.' . (int) $categoryId;
+		}
+		else
+		{
+			// Used only in com_content
+			$section = 'article';
+			$assetName .= '.article.' . (int) $id;
+		}
+
+		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
 
 		foreach ($actions as $action)
 		{
-			$result->set($action, $user->authorise($action, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param   string   $component  The component name.
+	 * @param   string   $section    The access section name.
+	 * @param   integer  $id         The item ID.
+	 *
+	 * @return  JObject
+	 *
+	 * @since   3.2
+	 */
+	public static function getActions($component = '', $section = '', $id = 0)
+	{
+		// Check for deprecated arguments order
+		if (is_int($component) || is_null($component))
+		{
+			$result = self::_getActions($component, $section, $id);
+
+			return $result;
+		}
+
+		$assetName = $component;
+
+		if ($section && $id)
+		{
+			$assetName .=  '.' . $section . '.' . (int) $id;
+		}
+
+		$result = new JObject;
+
+		$user = JFactory::getUser();
+
+		$actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
+		);
+
+		if ($actions === false)
+		{
+			JLog::add(
+				JText::sprintf('JLIB_ERROR_COMPONENTS_ACL_CONFIGURATION_FILE_MISSING_OR_IMPROPERLY_STRUCTURED', $component), JLog::ERROR, 'jerror'
+			);
+
+			return $result;
+		}
+
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -68,11 +140,12 @@ class JHelperContent
 	 * @return  string  The language string
 	 *
 	 * @since   3.1
+	 * @note    JHelper::getCurrentLanguage is the preferred method
 	 */
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
 		$app = JFactory::getApplication();
-		$langCode = $app->input->cookie->getString(JApplication::getHash('language'));
+		$langCode = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
 
 		// No cookie - let's try to detect browser language or use site default
 		if (!$langCode)
@@ -91,14 +164,15 @@ class JHelperContent
 	}
 
 	/**
-	* Gets the associated language ID
-	*
-	* @param   string  $langCode  The language code to look up
-	*
-	* @return  integer  The language ID
-	*
-	* @since   3.1
-	*/
+	 * Gets the associated language ID
+	 *
+	 * @param   string  $langCode  The language code to look up
+	 *
+	 * @return  integer  The language ID
+	 *
+	 * @since   3.1
+	 * @note    JHelper::getLanguage() is the preferred method.
+	 */
 	public static function getLanguageId($langCode)
 	{
 		$db    = JFactory::getDbo();
@@ -108,9 +182,7 @@ class JHelperContent
 			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
 		$db->setQuery($query);
 
-		$id = $db->loadResult();
-
-		return $id;
+		return $db->loadResult();
 	}
 
 	/**
@@ -122,18 +194,10 @@ class JHelperContent
 	 *
 	 * @since   3.1
 	 */
-	public function getRowData($table)
+	public function getRowData(JTable $table)
 	{
-		$fields = $table->getFields();
-		$data = array();
+		$data = new JHelper;
 
-		foreach ($fields as &$field)
-		{
-			$columnName = $field->Field;
-			$value = $table->$columnName;
-			$data[$columnName] = $value;
-		}
-
-		return $data;
+		return $data->getRowData($table);
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -151,6 +151,7 @@ div#media-noimages {
 
 .spinner {
 	position: absolute;
+	left: 50%;
 	opacity: 0.9;
 	filter: alpha(opacity=90);
 	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
@@ -163,9 +164,9 @@ div#media-noimages {
 }
 
 .spinner-img {
-	background: url(../../system/images/modal/spinner.gif) no-repeat;
-	width: 24px;
-	height: 24px;
+	background: url(../../jui/images/ajax-loader.gif) center no-repeat;
+	width: 66px;
+	height: 66px;
 	margin: 0 auto;
 }
 

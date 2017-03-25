@@ -3,28 +3,27 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Articles list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentControllerArticles extends JControllerAdmin
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config	An optional associative array of configuration settings.
-
-	 * @return  ContentControllerArticles
-	 * @see     JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -38,13 +37,14 @@ class ContentControllerArticles extends JControllerAdmin
 			$this->view_list = 'featured';
 		}
 
-		$this->registerTask('unfeatured',	'featured');
+		$this->registerTask('unfeatured', 'featured');
 	}
 
 	/**
 	 * Method to toggle the featured setting of a list of articles.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function featured()
@@ -56,12 +56,12 @@ class ContentControllerArticles extends JControllerAdmin
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
-		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
+		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
-			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
+			if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
@@ -76,6 +76,7 @@ class ContentControllerArticles extends JControllerAdmin
 		else
 		{
 			// Get the model.
+			/** @var ContentModelArticle $model */
 			$model = $this->getModel();
 
 			// Publish the items.
@@ -83,40 +84,42 @@ class ContentControllerArticles extends JControllerAdmin
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
+
+			if ($value == 1)
+			{
+				$message = JText::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+			}
+			else
+			{
+				$message = JText::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+			}
 		}
 
-		$this->setRedirect('index.php?option=com_content&view=articles');
+		$view = $this->input->get('view', '');
+
+		if ($view == 'featured')
+		{
+			$this->setRedirect(JRoute::_('index.php?option=com_content&view=featured', false), $message);
+		}
+		else
+		{
+			$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles', false), $message);
+		}
 	}
 
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string	$name	The name of the model.
-	 * @param   string	$prefix	The prefix for the PHP class name.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  JModel
+	 * @return  JModelLegacy
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
-
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $ids    The array of ids for items being deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
-	}
-
 }

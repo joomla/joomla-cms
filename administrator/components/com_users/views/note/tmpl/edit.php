@@ -3,25 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
-?>
-<script language="javascript" type="text/javascript">
-Joomla.submitbutton = function(task)
-{
-	if (task == 'note.cancel' || document.formvalidator.isValid(document.id('note-form')))
+
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function() {
+	Joomla.submitbutton = function(task)
 	{
-		Joomla.submitform(task, document.getElementById('note-form'));
+		if (task == "note.cancel" || document.formvalidator.isValid(document.getElementById("note-form")))
+		{
+			' . $this->form->getField('body')->save() . '
+			Joomla.submitform(task, document.getElementById("note-form"));
+		}
 	}
-}
-</script>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id='.(int) $this->item->id);?>" method="post" name="adminForm" id="note-form" class="form-validate form-horizontal">
+});');
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="note-form" class="form-validate form-horizontal">
 		<fieldset class="adminform">
 			<div class="control-group">
 				<div class="control-label">
@@ -61,6 +64,14 @@ Joomla.submitbutton = function(task)
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('review_time'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('version_note'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('version_note'); ?>
 				</div>
 			</div>
 

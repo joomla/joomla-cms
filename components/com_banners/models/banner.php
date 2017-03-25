@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,12 +14,16 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 /**
  * Banner model for the Joomla Banners component.
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersModelBanner extends JModelLegacy
 {
+	/**
+	 * Cached item object
+	 *
+	 * @var    object
+	 * @since  1.6
+	 */
 	protected $_item;
 
 	/**
@@ -33,7 +37,7 @@ class BannersModelBanner extends JModelLegacy
 	{
 		$id = $this->getState('banner.id');
 
-		// update click count
+		// Update click count
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->update('#__banners')
@@ -51,10 +55,9 @@ class BannersModelBanner extends JModelLegacy
 			JError::raiseError(500, $e->getMessage());
 		}
 
-		// track clicks
-
 		$item = $this->getItem();
 
+		// Track clicks
 		$trackClicks = $item->track_clicks;
 
 		if ($trackClicks < 0 && $item->cid)
@@ -96,17 +99,16 @@ class BannersModelBanner extends JModelLegacy
 
 			if ($count)
 			{
-				// update count
+				// Update count
 				$query->update('#__banner_tracks')
-					->set($db->quoteName('count') . ' = (' . $db->quote('count') . ' + 1)')
+					->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
 					->where('track_type=2')
 					->where('banner_id=' . (int) $id)
 					->where('track_date=' . $db->quote($trackDate));
 			}
 			else
 			{
-				// insert new count
-				//sqlsrv change
+				// Insert new count
 				$query->insert('#__banner_tracks')
 					->columns(
 						array(
@@ -134,46 +136,48 @@ class BannersModelBanner extends JModelLegacy
 	 * Get the data for a banner.
 	 *
 	 * @return  object
+	 *
+	 * @since   1.6
 	 */
 	public function &getItem()
 	{
 		if (!isset($this->_item))
 		{
-			$cache = JFactory::getCache('com_banners', '');
+			/** @var JCacheControllerCallback $cache */
+			$cache = JFactory::getCache('com_banners', 'callback');
 
 			$id = $this->getState('banner.id');
 
-			$this->_item = $cache->get($id);
+			// For PHP 5.3 compat we can't use $this in the lambda function below, so grab the database driver now to use it
+			$db = $this->getDbo();
 
-			if ($this->_item === false)
+			$loader = function ($id) use ($db)
 			{
-				// redirect to banner url
-				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
-						'a.clickurl as clickurl,' .
-							'a.cid as cid,' .
-							'a.track_clicks as track_clicks'
+						array(
+							$db->quoteName('a.clickurl', 'clickurl'),
+							$db->quoteName('a.cid', 'cid'),
+							$db->quoteName('a.track_clicks', 'track_clicks'),
+							$db->quoteName('cl.track_clicks', 'client_track_clicks'),
+						)
 					)
-					->from('#__banners as a')
-					->where('a.id = ' . (int) $id)
-
+					->from($db->quoteName('#__banners', 'a'))
 					->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
-					->select('cl.track_clicks as client_track_clicks');
+					->where('a.id = ' . (int) $id);
 
 				$db->setQuery($query);
 
-				try
-				{
-					$db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					JError::raiseError(500, $e->getMessage());
-				}
+				return $db->loadObject();
+			};
 
-				$this->_item = $db->loadObject();
-				$cache->store($this->_item, $id);
+			try
+			{
+				$this->_item = $cache->get($loader, array($id), md5(__METHOD__ . $id));
+			}
+			catch (JCacheException $e)
+			{
+				$this->_item = $loader($id);
 			}
 		}
 
@@ -192,7 +196,7 @@ class BannersModelBanner extends JModelLegacy
 		$item = $this->getItem();
 		$url = $item->clickurl;
 
-		// check for links
+		// Check for links
 		if (!preg_match('#http[s]?://|index[2]?\.php#', $url))
 		{
 			$url = "http://$url";

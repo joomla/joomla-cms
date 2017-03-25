@@ -3,17 +3,14 @@
 	<name>plg_system_highlight</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
-	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_SYSTEM_HIGHLIGHT_XML_DESCRIPTION</description>
-	<scriptfile>script.php</scriptfile>
 	<files>
-		<file plugin="highlight">highlight.php</file>
-    	<filename>index.html</filename>
-		<folder>media</folder>
+		<filename plugin="highlight">highlight.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_highlight.ini</language>

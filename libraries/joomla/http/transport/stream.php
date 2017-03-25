@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP transport class for using PHP streams.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @since  11.3
  */
 class JHttpTransportStream implements JHttpTransport
 {
 	/**
-	 * @var    JRegistry  The client options.
+	 * @var    Registry  The client options.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -27,23 +27,23 @@ class JHttpTransportStream implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   Registry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry $options)
+	public function __construct(Registry $options)
 	{
-		// Verify that fopen() is available.
-		if (!self::isSupported())
-		{
-			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
-		}
-
 		// Verify that URLs can be used with fopen();
 		if (!ini_get('allow_url_fopen'))
 		{
 			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
+		}
+
+		// Verify that fopen() is available.
+		if (!self::isSupported())
+		{
+			throw new RuntimeException('Cannot use a stream transport when fopen() is not available or "allow_url_fopen" is disabled.');
 		}
 
 		$this->options = $options;
@@ -62,6 +62,7 @@ class JHttpTransportStream implements JHttpTransport
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -91,19 +92,6 @@ class JHttpTransportStream implements JHttpTransport
 			$headers['Content-Length'] = strlen($options['content']);
 		}
 
-		// Build the headers string for the request.
-		$headerString = null;
-		if (isset($headers))
-		{
-			foreach ($headers as $key => $value)
-			{
-				$headerString .= $key . ': ' . $value . "\r\n";
-			}
-
-			// Add the headers string into the stream context options array.
-			$options['header'] = trim($headerString, "\r\n");
-		}
-
 		// If an explicit timeout is given user it.
 		if (isset($timeout))
 		{
@@ -122,17 +110,93 @@ class JHttpTransportStream implements JHttpTransport
 		// Follow redirects.
 		$options['follow_location'] = (int) $this->options->get('follow_location', 1);
 
+		// Set any custom transport options
+		foreach ($this->options->get('transport.stream', array()) as $key => $value)
+		{
+			$options[$key] = $value;
+		}
+
+		// Add the proxy configuration, if any.
+		$config = JFactory::getConfig();
+
+		if ($config->get('proxy_enable'))
+		{
+			$options['proxy'] = $config->get('proxy_host') . ':' . $config->get('proxy_port');
+			$options['request_fulluri'] = true;
+
+			// Put any required authorization into the headers array to be handled later
+			// TODO: do we need to support any auth type other than Basic?
+			if ($user = $config->get('proxy_user'))
+			{
+				$auth = base64_encode($config->get('proxy_user') . ':' . $config->get('proxy_pass'));
+
+				$headers['Proxy-Authorization'] = 'Basic ' . $auth;
+			}
+		}
+
+		// Build the headers string for the request.
+		$headerEntries = array();
+
+		if (isset($headers))
+		{
+			foreach ($headers as $key => $value)
+			{
+				$headerEntries[] = $key . ': ' . $value;
+			}
+
+			// Add the headers string into the stream context options array.
+			$options['header'] = implode("\r\n", $headerEntries);
+		}
+
+		// Get the current context options.
+		$contextOptions = stream_context_get_options(stream_context_get_default());
+
+		// Add our options to the current ones, if any.
+		$contextOptions['http'] = isset($contextOptions['http']) ? array_merge($contextOptions['http'], $options) : $options;
+
 		// Create the stream context for the request.
-		$context = stream_context_create(array('http' => $options));
+		$context = stream_context_create(
+			array(
+				'http' => $options,
+				'ssl' => array(
+					'verify_peer'   => true,
+					'cafile'        => $this->options->get('stream.certpath', __DIR__ . '/cacert.pem'),
+					'verify_depth'  => 5,
+				),
+			)
+		);
+
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$uri->setUser($this->options->get('userauth'));
+			$uri->setPass($this->options->get('passwordauth'));
+		}
+
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
 
 		// Open the stream for reading.
 		$stream = @fopen((string) $uri, 'r', false, $context);
 
-		// Check if the stream is open.
 		if (!$stream)
 		{
-			throw new RuntimeException(sprintf('Could not connect to resource: %s', $uri));
+			if (!$php_errormsg)
+			{
+				// Error but nothing from php? Create our own
+				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+			}
+
+			// Restore error tracking to give control to the exception handler
+			ini_set('track_errors', $track_errors);
+
+			throw new RuntimeException($php_errormsg);
 		}
+
+		// Restore error tracking to what it was before.
+		ini_set('track_errors', $track_errors);
 
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);
@@ -157,7 +221,6 @@ class JHttpTransportStream implements JHttpTransport
 		}
 
 		return $this->getResponse($headers, $content);
-
 	}
 
 	/**
@@ -182,10 +245,12 @@ class JHttpTransportStream implements JHttpTransport
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{
@@ -203,14 +268,14 @@ class JHttpTransportStream implements JHttpTransport
 	}
 
 	/**
-	 * method to check if http transport stream available for using
+	 * Method to check if http transport stream available for use
 	 *
 	 * @return bool true if available else false
 	 *
 	 * @since   12.1
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
-		return function_exists('fopen') && is_callable('fopen');
+		return function_exists('fopen') && is_callable('fopen') && ini_get('allow_url_fopen');
 	}
 }

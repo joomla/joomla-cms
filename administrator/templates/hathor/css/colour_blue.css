@@ -48,7 +48,6 @@
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe5e5e5', GradientType=0);
 	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #e6e6e6;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	border: 1px solid #bbb;
@@ -328,6 +327,21 @@
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	width: 175px;
+}
+.subform-repeatable-wrapper div.btn-toolbar {
+	float: none;
+}
+.subform-repeatable-wrapper .text-right {
+	text-align: right;
+}
+.subform-repeatable-wrapper .ui-sortable-helper {
+	background: #ffffff;
+}
+.subform-repeatable-wrapper tr.ui-sortable-helper {
+	display: table;
+}
+.subform-repeatable-wrapper .subform-repeatable-group {
+	clear: both;
 }
 .label,
 .badge {
@@ -861,6 +875,7 @@ table.adminlist {
 	color: #2c2c2c;
 }
 table.adminlist.modal {
+	border-top: 1px solid #738498;
 	border-right: 1px solid #738498;
 	border-left: 1px solid #738498;
 }
@@ -1190,6 +1205,10 @@ a img.calendar {
 .icon-32-featured {
 	background-image: url(../images/toolbar/icon-32-featured.png);
 }
+.icon-32-unfeatured {
+	background-image: url(../images/toolbar/icon-32-featured.png);
+	background-position: 0% 100%;
+}
 .icon-32-export {
 	background-image: url(../images/toolbar/icon-32-export.png);
 }
@@ -1201,6 +1220,15 @@ a img.calendar {
 }
 .icon-32-batch {
 	background-image: url(../images/toolbar/icon-32-batch.png);
+}
+.icon-32-envelope {
+	background-image: url(../images/toolbar/icon-32-messaging.png);
+}
+.icon-32-download {
+	background-image: url(../images/toolbar/icon-32-export.png);
+}
+.icon-32-bars {
+	background-image: url(../images/toolbar/icon-32-stats.png);
 }
 .icon-48-categories {
 	background-image: url(../images/header/icon-48-category.png);

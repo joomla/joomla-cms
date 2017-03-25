@@ -3,18 +3,20 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+
 /**
  * Base class for a Joomla! Web application.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.4
+ * @since  11.4
+ * @note   As of 4.0 this class will be abstract
  */
 class JApplicationWeb extends JApplicationBase
 {
@@ -41,12 +43,6 @@ class JApplicationWeb extends JApplicationBase
 	 * @since  11.3
 	 */
 	public $client;
-
-	/**
-	 * @var    JRegistry  The application configuration object.
-	 * @since  11.3
-	 */
-	protected $config;
 
 	/**
 	 * @var    JDocument  The application document object.
@@ -79,23 +75,69 @@ class JApplicationWeb extends JApplicationBase
 	protected static $instance;
 
 	/**
+	 * A map of integer HTTP 1.1 response codes to the full HTTP Status for the headers.
+	 *
+	 * @var    object
+	 * @since  3.4
+	 * @see    http://tools.ietf.org/pdf/rfc7231.pdf
+	 */
+	private $responseMap = array(
+		300 => 'HTTP/1.1 300 Multiple Choices',
+		301 => 'HTTP/1.1 301 Moved Permanently',
+		302 => 'HTTP/1.1 302 Found',
+		303 => 'HTTP/1.1 303 See other',
+		304 => 'HTTP/1.1 304 Not Modified',
+		305 => 'HTTP/1.1 305 Use Proxy',
+		306 => 'HTTP/1.1 306 (Unused)',
+		307 => 'HTTP/1.1 307 Temporary Redirect',
+		308 => 'HTTP/1.1 308 Permanent Redirect',
+	);
+
+	/**
+         * A map of HTTP Response headers which may only send a single value, all others
+         * are considered to allow multiple
+         * 
+         * @var    object
+         * @since  3.5.2
+         * @see    https://tools.ietf.org/html/rfc7230
+         */
+	private $singleValueResponseHeaders = array(
+		'status', // This is not a valid header name, but the representation used by Joomla to identify the HTTP Response Code
+		'Content-Length',
+		'Host',
+		'Content-Type',
+		'Content-Location',
+		'Date',
+		'Location',
+		'Retry-After',
+		'Server',
+		'Mime-Version',
+		'Last-Modified',
+		'ETag',
+		'Accept-Ranges',
+		'Content-Range',
+		'Age',
+		'Expires'
+	);
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
-	 *                          input object.  If the argument is a JInput object that object will become
-	 *                          the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config  An optional argument to provide dependency injection for the application's
-	 *                          config object.  If the argument is a JRegistry object that object will become
-	 *                          the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $client  An optional argument to provide dependency injection for the application's
-	 *                          client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                          the application's client object, otherwise a default client object is created.
+	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a JInput object that object will become
+	 *                                          the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
+	 *                                          config object.  If the argument is a Registry object that object will become
+	 *                                          the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
-		// If a input object is given use it.
+		// If an input object is given use it.
 		if ($input instanceof JInput)
 		{
 			$this->input = $input;
@@ -107,14 +149,14 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		// If a config object is given use it.
-		if ($config instanceof JRegistry)
+		if ($config instanceof Registry)
 		{
 			$this->config = $config;
 		}
 		// Instantiate a new configuration object.
 		else
 		{
-			$this->config = new JRegistry;
+			$this->config = new Registry;
 		}
 
 		// If a client object is given use it.
@@ -200,10 +242,10 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
-	 * @see     loadSession()
-	 * @see     loadDocument()
-	 * @see     loadLanguage()
-	 * @see     loadDispatcher()
+	 * @see     JApplicationWeb::loadSession()
+	 * @see     JApplicationWeb::loadDocument()
+	 * @see     JApplicationWeb::loadLanguage()
+	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.3
 	 */
 	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
@@ -279,21 +321,6 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Method to run the Web application routines.  Most likely you will want to instantiate a controller
-	 * and execute it, or perform some sort of action that populates a JDocument object so that output
-	 * can be rendered to the client.
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.3
-	 */
-	protected function doExecute()
-	{
-		// Your application routines go here.
-	}
-
-	/**
 	 * Rendering is the process of pushing the document buffers into the template
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the application response buffer.
@@ -308,7 +335,7 @@ class JApplicationWeb extends JApplicationBase
 		$options = array(
 			'template' => $this->get('theme'),
 			'file' => $this->get('themeFile', 'index.php'),
-			'params' => $this->get('themeParams')
+			'params' => $this->get('themeParams'),
 		);
 
 		if ($this->get('themes.base'))
@@ -345,7 +372,7 @@ class JApplicationWeb extends JApplicationBase
 		$supported = array(
 			'x-gzip' => 'gz',
 			'gzip' => 'gz',
-			'deflate' => 'deflate'
+			'deflate' => 'deflate',
 		);
 
 		// Get the supported encoding.
@@ -423,7 +450,7 @@ class JApplicationWeb extends JApplicationBase
 		if (!$this->response->cachable)
 		{
 			// Expires in the past.
-			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+			$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 
 			// Always modified.
 			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
@@ -456,22 +483,20 @@ class JApplicationWeb extends JApplicationBase
 	 * or "303 See Other" code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param   string   $url    The URL to redirect to. Can only be http/https URL
-	 * @param   boolean  $moved  True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
+	 * @param   string   $url     The URL to redirect to. Can only be http/https URL.
+	 * @param   integer  $status  The HTTP 1.1 status code to be provided. 303 is assumed by default.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function redirect($url, $moved = false)
+	public function redirect($url, $status = 303)
 	{
-		// Import library dependencies.
-		jimport('phputf8.utils.ascii');
-
 		// Check for relative internal links.
 		if (preg_match('#^index\.php#', $url))
 		{
-			$url = $this->get('uri.base.full') . $url;
+			// We changed this from "$this->get('uri.base.full') . $url" due to the inability to run the system tests with the original code
+			$url = JUri::base() . $url;
 		}
 
 		// Perform a basic sanity check to make sure we don't have any CRLF garbage.
@@ -509,30 +534,46 @@ class JApplicationWeb extends JApplicationBase
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href='$url';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
 		}
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
+			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !StringHelper::is_ascii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '<script>document.location.href=\'' . $url . '\';</script>';
+				$html .= '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script>';
 				$html .= '</head><body></body></html>';
 
 				echo $html;
 			}
 			else
 			{
+				// Check if we have a boolean for the status variable for compatability with old $move parameter
+				// @deprecated 4.0
+				if (is_bool($status))
+				{
+					$status = $status ? 301 : 303;
+				}
+
+				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
+				// @deprecated 4.0 From 4.0 if no valid status code is given an InvalidArgumentException will be thrown
+				if (!is_int($status) || is_int($status) && !isset($this->responseMap[$status]))
+				{
+					$status = 303;
+				}
+
 				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
+				$this->header($this->responseMap[$status]);
 				$this->header('Location: ' . $url);
-				$this->header('Content-Type: text/html; charset=' . $this->charSet);
 			}
 		}
 
-		// Close the application after the redirect.
+		// Set appropriate headers
+		$this->respond();
+
+		//  Close the application after the redirect.
 		$this->close();
 	}
 
@@ -558,39 +599,6 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $key      The name of the property.
-	 * @param   mixed   $default  The default value (optional) if none is set.
-	 *
-	 * @return  mixed   The value of the configuration.
-	 *
-	 * @since   11.3
-	 */
-	public function get($key, $default = null)
-	{
-		return $this->config->get($key, $default);
-	}
-
-	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
-	 *
-	 * @param   string  $key    The name of the property.
-	 * @param   mixed   $value  The value of the property to set (optional).
-	 *
-	 * @return  mixed   Previous value of the property
-	 *
-	 * @since   11.3
-	 */
-	public function set($key, $value = null)
-	{
-		$previous = $this->config->get($key);
-		$this->config->set($key, $value);
-
-		return $previous;
 	}
 
 	/**
@@ -632,23 +640,36 @@ class JApplicationWeb extends JApplicationBase
 		$name = (string) $name;
 		$value = (string) $value;
 
-		// If the replace flag is set, unset all known headers with the given name.
-		if ($replace)
+		// Create an array of duplicate header names
+		$keys = false;
+		if ($this->response->headers)
 		{
+			$names = array();
 			foreach ($this->response->headers as $key => $header)
 			{
-				if ($name == $header['name'])
-				{
-					unset($this->response->headers[$key]);
-				}
+				$names[$key] = $header['name'];
 			}
-
-			// Clean up the array as unsetting nested arrays leaves some junk.
-			$this->response->headers = array_values($this->response->headers);
+			// Find existing headers by name
+			$keys = array_keys($names, $name);
 		}
 
-		// Add the header to the internal array.
-		$this->response->headers[] = array('name' => $name, 'value' => $value);
+		// Remove if $replace is true and there are duplicate names
+		if ($replace && $keys)
+		{
+			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
+		}
+
+		/**
+                 * If no keys found, safe to insert (!$keys)
+                 * If ($keys && $replace) it's a replacement and previous have been deleted
+                 * if($keys && !in_array...) it's a multiple value header
+                 */
+		$single = in_array($name, $this->singleValueResponseHeaders);
+		if ($value && (!$keys || ($keys && ($replace || !$single))))
+		{
+			// Add the header to the internal array.
+			$this->response->headers[] = array('name' => $name, 'value' => $value);
+		}
 
 		return $this;
 	}
@@ -657,8 +678,8 @@ class JApplicationWeb extends JApplicationBase
 	 * Method to get the array of response headers to be sent when the response is sent
 	 * to the client.
 	 *
-	 * @return  array
-	 *
+	 * @return  array	 *
+	 * 
 	 * @since   11.3
 	 */
 	public function getHeaders()
@@ -691,16 +712,19 @@ class JApplicationWeb extends JApplicationBase
 	{
 		if (!$this->checkHeadersSent())
 		{
+			// Creating an array of headers, making arrays of headers with multiple values
+			$val = array();
 			foreach ($this->response->headers as $header)
 			{
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
+					$this->header('HTTP/1.1 ' . $header['value'], null, (int) $header['value']);
 				}
 				else
 				{
-					$this->header($header['name'] . ': ' . $header['value']);
+					$val[$header['name']] = !isset($val[$header['name']])?$header['value']:implode(', ', array($val[$header['name']], $header['value']));
+					$this->header($header['name'] . ': ' . $val[$header['name']], true);
 				}
 			}
 		}
@@ -751,7 +775,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function appendBody($content)
 	{
-		array_push($this->response->body, (string) $content);
+		$this->response->body[] = (string) $content;
 
 		return $this;
 	}
@@ -818,7 +842,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function checkConnectionAlive()
 	{
-		return (connection_status() === CONNECTION_NORMAL);
+		return connection_status() === CONNECTION_NORMAL;
 	}
 
 	/**
@@ -860,6 +884,8 @@ class JApplicationWeb extends JApplicationBase
 		 * properly detect the requested URI we need to adjust our algorithm based on whether or not we are getting
 		 * information from Apache or IIS.
 		 */
+		// Define variable to return
+		$uri = '';
 
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
 		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
@@ -868,7 +894,7 @@ class JApplicationWeb extends JApplicationBase
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
-		else
+		elseif (isset($_SERVER['HTTP_HOST']))
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
@@ -889,7 +915,7 @@ class JApplicationWeb extends JApplicationBase
 	 * for your specific application.
 	 *
 	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_BASE will be used.
+	 *                          in JPATH_CONFIGURATION will be used.
 	 * @param   string  $class  The class name to instantiate.
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
@@ -902,9 +928,9 @@ class JApplicationWeb extends JApplicationBase
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($file) && defined('JPATH_BASE'))
+		if (empty($file))
 		{
-			$file = JPATH_BASE . '/configuration.php';
+			$file = JPATH_CONFIGURATION . '/configuration.php';
 
 			// Applications can choose not to have any configuration data
 			// by not implementing this method and not having a config file.
@@ -932,6 +958,19 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
+	 * Flush the media version to refresh versionable assets
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function flushAssets()
+	{
+		$version = new JVersion;
+		$version->refreshMediaVersion();
+	}
+
+	/**
 	 * Method to send a header to the client.  We are wrapping this to isolate the header() function
 	 * from our code base for testing reasons.
 	 *
@@ -949,6 +988,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function header($string, $replace = true, $code = null)
 	{
+		$string = str_replace(chr(0), '', $string);
 		header($string, $replace, $code);
 	}
 
@@ -961,7 +1001,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 
 	/**
@@ -1039,7 +1079,7 @@ class JApplicationWeb extends JApplicationBase
 		$options = array(
 			'name' => $name,
 			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl')
+			'force_ssl' => $this->get('force_ssl'),
 		);
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
@@ -1076,7 +1116,7 @@ class JApplicationWeb extends JApplicationBase
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new JRegistry('session'));
+			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
 		}
 	}
@@ -1111,6 +1151,7 @@ class JApplicationWeb extends JApplicationBase
 		if ($siteUri != '')
 		{
 			$uri = JUri::getInstance($siteUri);
+			$path = $uri->toString(array('path'));
 		}
 		// No explicit base URI was set so we need to detect it.
 		else
@@ -1122,30 +1163,25 @@ class JApplicationWeb extends JApplicationBase
 			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
-				$uri->setPath(rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
+				$path = dirname($_SERVER['PHP_SELF']);
 			}
 			// Pretty much everything else should be handled with SCRIPT_NAME.
 			else
 			{
-				$uri->setPath(rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'));
+				$path = dirname($_SERVER['SCRIPT_NAME']);
 			}
-
-			// Clear the unused parts of the requested URI.
-			$uri->setQuery(null);
-			$uri->setFragment(null);
 		}
 
-		// Get the host and path from the URI.
 		$host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$path = rtrim($uri->toString(array('path')), '/\\');
 
 		// Check if the path includes "index.php".
 		if (strpos($path, 'index.php') !== false)
 		{
 			// Remove the index.php portion of the path.
 			$path = substr_replace($path, '', strpos($path, 'index.php'), 9);
-			$path = rtrim($path, '/\\');
 		}
+
+		$path = rtrim($path, '/\\');
 
 		// Set the base URI both as just a path and as the full URI.
 		$this->set('uri.base.full', $host . $path . '/');
@@ -1153,7 +1189,10 @@ class JApplicationWeb extends JApplicationBase
 		$this->set('uri.base.path', $path . '/');
 
 		// Set the extended (non-base) part of the request URI as the route.
-		$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
+		if (stripos($this->get('uri.request'), $this->get('uri.base.full')) === 0)
+		{
+			$this->set('uri.route', substr_replace($this->get('uri.request'), '', 0, strlen($this->get('uri.base.full'))));
+		}
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));

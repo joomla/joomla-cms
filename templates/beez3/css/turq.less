@@ -85,7 +85,6 @@ a:hover,a:active,a:focus {
 
 #header ul.menu a:link,#header ul.menu a:visited {
 	color: #333;
-	display: inline-block;
 	font-weight: bold;
 	text-decoration: none;
 	padding: 0px 10px;
@@ -192,15 +191,16 @@ input:focus,textarea:focus {
 }
 
 /* active item */
+
 span.pagenav {
-	background: #uxelmentshovergradientto;
-	color: #fff
+	background: @uxelmentshovergradientto;
+	color: #fff;
 }
 
 .pagination-start span.pagenav,.pagination-prev  span.pagenav,.pagination-end span.pagenav,.pagination-next span.pagenav
 	{
 	background-color: #f5f5f5;
-	color: #444
+	color: #444;
 }
 
 /* +++++++++++++++++  content  +++++++++++++++ */
@@ -230,8 +230,8 @@ ul.menu a:hover,ul.menu a:active,ul.menu a:focus {
 	background-color: #F5F5F5;
 	background-image: -moz-linear-gradient(center top, #FFFFFF, #E6E6E6);
 	background-repeat: repeat-x;
-	background: url(../images/3.0/arrow.png) no-repeat right center;
-	color:@linkcolor
+  background: url(../images/arrow.png) no-repeat right center;
+  color:@linkcolor
 }
 
 /* ++++++++++++++++   highlightning active menuitem  +++++++++++++++++++ */
@@ -257,7 +257,7 @@ ul.menu ul a {
 }
 
 ul.menu ul ul ul a {
-	background: #f5f5f5 url(../images/3.0/arrow.png) no-repeat 24px center;
+  background: #f5f5f5 url(../images/arrow.png) no-repeat 24px center;
 }
 
 ul.menu ul ul ul ul a {

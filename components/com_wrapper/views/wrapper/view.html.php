@@ -3,43 +3,50 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_wrapper
- * @since       1.5
+ * Wrapper view class.
+ * 
+ * @since  1.5
  */
 class WrapperViewWrapper extends JViewLegacy
 {
 	/**
-	 * @since  1.5
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-
+		$app    = JFactory::getApplication();
 		$params = $app->getParams();
 
-		// because the application sets a default page title, we need to get it
+		// Because the application sets a default page title, we need to get it
 		// right from the menu item itself
 		$title = $params->get('page_title', '');
+
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($params->get('menu-meta_description'))
@@ -58,7 +65,8 @@ class WrapperViewWrapper extends JViewLegacy
 		}
 
 		$wrapper = new stdClass;
-		// auto height control
+
+		// Auto height control
 		if ($params->def('height_auto'))
 		{
 			$wrapper->load = 'onload="iFrameHeight()"';
@@ -69,19 +77,28 @@ class WrapperViewWrapper extends JViewLegacy
 		}
 
 		$url = $params->def('url', '');
+
 		if ($params->def('add_scheme', 1))
 		{
-			// adds 'http://' if none is set
-			if (substr($url, 0, 1) == '/')
+			// Adds 'http://' or 'https://' if none is set
+			if (substr($url, 0, 2) == '//')
 			{
-				// relative url in component. use server http_host.
-				$wrapper->url = 'http://'. $_SERVER['HTTP_HOST'] . $url;
+				// URL without scheme in component. Prepend current scheme.
+				$wrapper->url = JUri::getInstance()->toString(array('scheme')) . substr($url, 2);
 			}
-			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
+			elseif (substr($url, 0, 1) == '/')
 			{
-				$wrapper->url = 'http://'. $url;
+				// Relative URL in component. Use scheme + host + port.
+				$wrapper->url = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . $url;
 			}
-			else {
+			elseif (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0)
+			{
+				// URL doesn't start with either 'http://' or 'https://'. Add current scheme.
+				$wrapper->url = JUri::getInstance()->toString(array('scheme')) . $url;
+			}
+			else
+			{
+				// URL starts with either 'http://' or 'https://'. Do not change it.
 				$wrapper->url = $url;
 			}
 		}
@@ -90,11 +107,10 @@ class WrapperViewWrapper extends JViewLegacy
 			$wrapper->url = $url;
 		}
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
-
-		$this->params = &$params;
-		$this->wrapper = &$wrapper;
+		$this->params        = &$params;
+		$this->wrapper       = &$wrapper;
 
 		parent::display($tpl);
 	}

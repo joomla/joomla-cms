@@ -19,6 +19,7 @@
 		<field name="alias" type="text"
 			description="JFIELD_ALIAS_DESC"
 			label="JFIELD_ALIAS_LABEL"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="30"
 		/>
 
@@ -86,7 +87,7 @@
 		<field name="email_to" type="email"
 			description="CONTACT_INFORMATION_EMAIL_DESC"
 			label="CONTACT_INFORMATION_EMAIL_LABEL"
-			size="30" validate="email" filter="string"
+			size="30" validate="email" filter="string" autocomplete="email"
 		/>
 
 		<field name="address" type="textarea"
@@ -158,6 +159,7 @@
 		<field name="ordering" type="ordering"
 			description="JFIELD_ORDERING_DESC"
 			label="JFIELD_ORDERING_LABEL"
+            content_type="com_contact.contact"
 		/>
 
 		<field name="metakey" type="textarea"
@@ -262,6 +264,28 @@
 
 	<fields name="params">
 		<fieldset name="options" label="CONTACT_PARAMETERS">
+
+			<field
+				name="show_tags"
+				type="list"
+				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_info"
+				type="list"
+				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
 		<field name="show_name" type="list"
 			description="CONTACT_PARAMS_NAME_DESC"
@@ -371,15 +395,6 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field name="show_misc" type="list"
-			description="CONTACT_PARAMS_NAME_DESC"
-			label="CONTACT_PARAMS_MISC_INFO_LABEL"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
 		<field name="show_image" type="list"
 			description="CONTACT_PARAMS_NAME_DESC"
 			label="CONTACT_PARAMS_IMAGE_LABEL"
@@ -398,6 +413,17 @@
 			<option value="1">JSHOW</option>
 		</field>
 
+		<field
+			name="show_misc"
+			type="list"
+			label="CONTACT_PARAMS_MISC_INFO_LABEL"
+			description="CONTACT_PARAMS_NAME_DESC"
+			>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
 		<field name="show_articles" type="list"
 			description="CONTACT_SHOW_ARTICLES_DESC"
 			label="CONTACT_SHOW_ARTICLES_LABEL"
@@ -407,12 +433,44 @@
 			<option value="1">JSHOW</option>
 		</field>
 
+		<field name="articles_display_num" type="list" default=""
+			label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
+			description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="5">J5</option>
+			<option value="10">J10</option>
+			<option value="15">J15</option>
+			<option value="20">J20</option>
+			<option value="25">J25</option>
+			<option value="30">J30</option>
+			<option value="50">J50</option>
+			<option value="75">J75</option>
+			<option value="100">J100</option>
+			<option value="150">J150</option>
+			<option value="200">J200</option>
+			<option value="250">J250</option>
+			<option value="300">J300</option>
+			<option value="0">JALL</option>
+		</field>
+
 		<field  name="show_profile" type="list"
 			label="CONTACT_PROFILE_SHOW_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+		</field>
+			
+		<field
+			name="show_user_custom_fields"
+			type="fieldgroups"
+			multiple="true"
+			context="com_users.user"
+			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
+			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+			>
+			<option value="-1">JALL</option>
 		</field>
 
 		<field name="show_links" type="list"

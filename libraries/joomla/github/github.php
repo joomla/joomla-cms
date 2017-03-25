@@ -3,36 +3,46 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
  *
- * @property-read  JGithubGists       $gists       GitHub API object for gists.
- * @property-read  JGithubIssues      $issues      GitHub API object for issues.
- * @property-read  JGithubPulls       $pulls       GitHub API object for pulls.
- * @property-read  JGithubRefs        $refs        GitHub API object for referencess.
- * @property-read  JGithubForks       $forks       GitHub API object for forks.
- * @property-read  JGithubCommits     $commits     GitHub API object for commits.
- * @property-read  JGithubMilestones  $milestones  GitHub API object for commits.
- * @property-read  JGithubStatuses    $statuses    GitHub API object for commits.
- * @property-read  JGithubAccount     $account     GitHub API object for account references.
- * @property-read  JGithubHooks       $hooks       GitHub API object for hooks.
- * @property-read  JGithubUsers       $users       GitHub API object for users.
- * @property-read  JGithubMeta        $meta        GitHub API object for meta.
+ * @property-read  JGithubPackageActivity       $activity       GitHub API object for activity.
+ * @property-read  JGithubPackageAuthorization  $authorization  GitHub API object for authorizations.
+ * @property-read  JGithubPackageData           $data           GitHub API object for data.
+ * @property-read  JGithubPackageGists          $gists          GitHub API object for gists.
+ * @property-read  JGithubPackageGitignore      $gitignore      GitHub API object for gitignore.
+ * @property-read  JGithubPackageIssues         $issues         GitHub API object for issues.
+ * @property-read  JGithubPackageMarkdown       $markdown       GitHub API object for markdown.
+ * @property-read  JGithubPackageOrgs           $orgs           GitHub API object for orgs.
+ * @property-read  JGithubPackagePulls          $pulls          GitHub API object for pulls.
+ * @property-read  JGithubPackageRepositories   $repositories   GitHub API object for repositories.
+ * @property-read  JGithubPackageSearch         $search         GitHub API object for search.
+ * @property-read  JGithubPackageUsers          $users          GitHub API object for users.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
+ * @property-read  JGithubRefs        $refs        Deprecated GitHub API object for referencess.
+ * @property-read  JGithubForks       $forks       Deprecated GitHub API object for forks.
+ * @property-read  JGithubCommits     $commits     Deprecated GitHub API object for commits.
+ * @property-read  JGithubMilestones  $milestones  Deprecated GitHub API object for commits.
+ * @property-read  JGithubStatuses    $statuses    Deprecated GitHub API object for commits.
+ * @property-read  JGithubAccount     $account     Deprecated GitHub API object for account references.
+ * @property-read  JGithubHooks       $hooks       Deprecated GitHub API object for hooks.
+ * @property-read  JGithubMeta        $meta        Deprecated GitHub API object for meta.
+ *
  * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithub
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
+	 * @var    Registry  Options for the GitHub object.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -44,88 +54,40 @@ class JGithub
 	protected $client;
 
 	/**
-	 * @var    JGithubGists  GitHub API object for gists.
-	 * @since  11.3
+	 * @var    array  List of known packages.
+	 * @since  3.3 (CMS)
 	 */
-	protected $gists;
+	protected $packages = array(
+		'activity',
+		'authorization',
+		'data',
+		'gists',
+		'gitignore',
+		'issues',
+		'markdown',
+		'orgs',
+		'pulls',
+		'repositories',
+		'users',
+	);
 
 	/**
-	 * @var    JGithubIssues  GitHub API object for issues.
-	 * @since  11.3
+	 * @var    array  List of known legacy packages.
+	 * @since  3.3 (CMS)
 	 */
-	protected $issues;
-
-	/**
-	 * @var    JGithubPulls  GitHub API object for pulls.
-	 * @since  11.3
-	 */
-	protected $pulls;
-
-	/**
-	 * @var    JGithubRefs  GitHub API object for referencess.
-	 * @since  11.3
-	 */
-	protected $refs;
-
-	/**
-	 * @var    JGithubForks  GitHub API object for forks.
-	 * @since  11.3
-	 */
-	protected $forks;
-
-	/**
-	 * @var    JGithubCommits  GitHub API object for commits.
-	 * @since  12.1
-	 */
-	protected $commits;
-
-	/**
-	 * @var    JGithubMilestones  GitHub API object for milestones.
-	 * @since  12.3
-	 */
-	protected $milestones;
-
-	/**
-	 * @var    JGithubStatuses  GitHub API object for statuses.
-	 * @since  12.3
-	 */
-	protected $statuses;
-
-	/**
-	 * @var    JGithubAccount  GitHub API object for account references.
-	 * @since  12.3
-	 */
-	protected $account;
-
-	/**
-	 * @var    JGithubHooks  GitHub API object for hooks.
-	 * @since  12.3
-	 */
-	protected $hooks;
-
-	/**
-	 * @var    JGithubUsers  GitHub API object for users.
-	 * @since  12.4
-	 */
-	protected $users;
-
-	/**
-	 * @var    JGithubMeta  GitHub API object for meta.
-	 * @since  13.1
-	 */
-	protected $meta;
+	protected $legacyPackages = array('refs', 'forks', 'commits', 'milestones', 'statuses', 'account', 'hooks', 'meta');
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  GitHub options object.
+	 * @param   Registry     $options  GitHub options object.
 	 * @param   JGithubHttp  $client   The HTTP client object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
+	public function __construct(Registry $options = null, JGithubHttp $client = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client  = isset($client) ? $client : new JGithubHttp($this->options);
 
 		// Setup the default API url if not already set.
@@ -137,26 +99,39 @@ class JGithub
 	 *
 	 * @param   string  $name  Name of property to retrieve
 	 *
-	 * @return  JGithubObject  GitHub API object (gists, issues, pulls, etc).
+	 * @throws RuntimeException
 	 *
 	 * @since   11.3
-	 * @throws  InvalidArgumentException
+	 * @return  JGithubObject  GitHub API object (gists, issues, pulls, etc).
 	 */
 	public function __get($name)
 	{
-		$class = 'JGithub' . ucfirst($name);
-
-		if (class_exists($class))
+		if (false == in_array($name, $this->packages))
 		{
-			if (false == isset($this->$name))
+			// Check for a legacy class
+			if (in_array($name, $this->legacyPackages))
 			{
-				$this->$name = new $class($this->options, $this->client);
+				if (false == isset($this->$name))
+				{
+					$className = 'JGithub' . ucfirst($name);
+
+					$this->$name = new $className($this->options, $this->client);
+				}
+
+				return $this->$name;
 			}
 
-			return $this->$name;
+			throw new RuntimeException(sprintf('%1$s - Unknown package %2$s', __METHOD__, $name));
 		}
 
-		throw new InvalidArgumentException(sprintf('Argument %s produced an invalid class name: %s', $name, $class));
+		if (false == isset($this->$name))
+		{
+			$className = 'JGithubPackage' . ucfirst($name);
+
+			$this->$name = new $className($this->options, $this->client);
+		}
+
+		return $this->$name;
 	}
 
 	/**
