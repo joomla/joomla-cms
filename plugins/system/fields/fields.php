@@ -351,14 +351,12 @@ class PlgSystemFields extends JPlugin
 		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
 
 		// Adding the fields to the object
-		$item->fields = array();
+		$item->jcfields = array();
 
 		foreach ($fields as $key => $field)
 		{
-			$item->fields[$field->id] = $field;
+			$item->jcfields[$field->id] = $field;
 		}
-
-		return;
 	}
 
 	/**
