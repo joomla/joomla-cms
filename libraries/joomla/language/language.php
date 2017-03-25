@@ -233,7 +233,10 @@ class JLanguage
 
 		while (!class_exists($class) && $path)
 		{
-			JLoader::register($class, $path);
+			if (file_exists($path))
+			{
+				require_once $path;
+			}
 
 			$path = next($paths);
 		}
