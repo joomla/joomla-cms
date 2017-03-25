@@ -12,7 +12,7 @@
 				label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
 				description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
 			>
-				<option value="">PLG_FIELDS_IMAGELIST_PARAMS_USE_GLOBAL</option>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="/">/</option>
 			</field>
 
@@ -22,7 +22,7 @@
 				label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
 				description="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_DESC"
 			>
-				<option value="">PLG_FIELDS_IMAGELIST_PARAMS_USE_GLOBAL</option>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>

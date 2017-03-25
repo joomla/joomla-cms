@@ -10,7 +10,7 @@
 /**
  * Test class for JLayoutBase.
  */
-class JLayoutBaseTest extends PHPUnit_Framework_TestCase
+class JLayoutBaseTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JLayoutBase
@@ -30,7 +30,7 @@ class JLayoutBaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
