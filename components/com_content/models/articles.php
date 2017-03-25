@@ -553,7 +553,7 @@ class ContentModelArticles extends JModelList
 		// Filter modified later than n minutes from creation
 		if ($this->getState('filter.modified_later_than'))
 		{
-			$query->where('(a.modified > (a.created + interval ' . $this->getState('filter.modified_later_than', 0) . ' minute))');
+			$query->where('(a.modified > (a.created + INTERVAL ' . $this->getState('filter.modified_later_than', 0) . ' MINUTE))');
 		}
 
 		// Add the list ordering clause.
