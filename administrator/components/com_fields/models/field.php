@@ -579,6 +579,11 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function getFieldValues(array $fieldIds, $itemId)
 	{
+		if (!$fieldIds)
+		{
+			return array();
+		}
+
 		// Create a unique key for the cache
 		$key = md5(serialize($fieldIds) . $itemId);
 
