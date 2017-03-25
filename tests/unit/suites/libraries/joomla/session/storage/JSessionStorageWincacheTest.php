@@ -12,7 +12,7 @@
  *
  * @since  11.1
  */
-class JSessionStorageWincacheTest extends PHPUnit_Framework_TestCase
+class JSessionStorageWincacheTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorageWincache

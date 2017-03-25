@@ -278,20 +278,22 @@ class FieldsHelper
 		$component = $parts[0];
 		$section   = $parts[1];
 
-		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : null);
+		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : $form->getValue('catid'));
 
-		if (!$assignedCatids && $form->getField('catid'))
+		if (!$assignedCatids && $formField = $form->getField('catid'))
 		{
+			$assignedCatids = $formField->getAttribute('default', null);
+
 			// Choose the first category available
 			$xml = new DOMDocument;
-			$xml->loadHTML($form->getField('catid')->__get('input'));
+			$xml->loadHTML($formField->__get('input'));
 			$options = $xml->getElementsByTagName('option');
 
-			if ($firstChoice = $options->item(0))
+			if (!$assignedCatids && $firstChoice = $options->item(0))
 			{
 				$assignedCatids = $firstChoice->getAttribute('value');
-				$data->fieldscatid = $assignedCatids;
 			}
+			$data->fieldscatid = $assignedCatids;
 		}
 
 		/*
@@ -479,9 +481,7 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-				'ignore_request' => true)
-		);
+		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
 			&& JFactory::getApplication()->isClient('site'))
