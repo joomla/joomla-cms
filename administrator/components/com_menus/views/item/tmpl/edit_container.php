@@ -90,7 +90,7 @@ JFactory::getDocument()->addStyleDeclaration($style);
 
 					foreach ($menuLinks as $i => $link) : ?>
 						<?php
-						if ($extension = $link->componentname):
+						if ($extension = $link->element):
 							$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
 							|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
 						endif;

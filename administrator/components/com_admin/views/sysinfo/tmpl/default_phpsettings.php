@@ -71,22 +71,6 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_('COM_ADMIN_MAGIC_QUOTES'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['magic_quotes_gpc']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_REGISTER_GLOBALS'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['register_globals']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<?php echo JText::_('COM_ADMIN_OUTPUT_BUFFERING'); ?>
 				</td>
 				<td>

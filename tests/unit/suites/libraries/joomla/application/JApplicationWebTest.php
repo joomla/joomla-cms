@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Application\Web\WebClient;
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
@@ -108,7 +109,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()
@@ -138,7 +139,7 @@ class JApplicationWebTest extends TestCase
 	{
 		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Application\\Web\\WebClient', 'client', $this->class);
 
 		// TODO Test that configuration data loaded.
 
@@ -182,7 +183,7 @@ class JApplicationWebTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+		$mockClient = $this->getMockBuilder('\\Joomla\\Application\\Web\\WebClient')
 					->setMethods(array('test'))
 					->setConstructorArgs(array())
 					->setMockClassName('')
@@ -497,7 +498,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -584,7 +585,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::TRIDENT,
+				'engine' => WebClient::TRIDENT,
 			)
 		);
 
@@ -615,7 +616,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -671,7 +672,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 

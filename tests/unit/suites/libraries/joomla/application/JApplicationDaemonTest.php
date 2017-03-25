@@ -58,7 +58,7 @@ class JApplicationDaemonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.3
 	 */
 	protected function tearDown()
@@ -85,7 +85,7 @@ class JApplicationDaemonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDownAfterClass()
+	 * @see     \PHPUnit\Framework\TestCase::tearDownAfterClass()
 	 * @since   11.3
 	 */
 	public static function tearDownAfterClass()

@@ -23,8 +23,6 @@ JFactory::getDocument()->addScriptDeclaration("
 	{
 		if (task == 'field.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 		{
-			" . $this->form->getField('description')->save() . "
-
 			if (window.opener && (task == 'field.save' || task == 'field.cancel'))
 			{
 				window.opener.document.closeEditWindow = self;

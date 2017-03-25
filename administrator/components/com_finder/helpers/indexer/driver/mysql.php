@@ -297,7 +297,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				', ' . $db->quoteName('context_weight') .
 				', ' . $db->quoteName('language') . ')' .
 				' SELECT' .
-				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, ' .
+				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
 				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
 				' FROM (' .
 				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
@@ -306,7 +306,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				' ) AS t1' .
 				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
 				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
-				' WHERE t2.context = %d' .
+				' WHERE t2.context = %d AND t.term_id IS NOT NULL' .
 				' GROUP BY t1.term' .
 				' ORDER BY t1.term DESC';
 
@@ -468,7 +468,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			$query->update($db->quoteName('#__finder_terms') . ' AS t')
+			$query->clear()
+				->update($db->quoteName('#__finder_terms') . ' AS t')
 				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
 				->set('t.links = t.links - 1')
 				->where('m.link_id = ' . $db->quote((int) $linkId));

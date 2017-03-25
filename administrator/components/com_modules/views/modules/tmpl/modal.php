@@ -14,8 +14,13 @@ if (JFactory::getApplication()->isClient('site'))
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
+// Load needed scripts
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
+
+// Scripts for the modules xtd-button
+JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
+JHtml::_('script', 'com_modules/admin-modules-modal.min.js', array('version' => 'auto', 'relative' => true));
 
 // Special case for the search field tooltip.
 $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
@@ -24,16 +29,6 @@ JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searc
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
-
-JFactory::getDocument()->addScriptDeclaration('
-moduleIns = function(type, name) {
-	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", "' . $editor . '");
-	window.parent.jModalClose();
-};
-modulePosIns = function(position) {
-	window.parent.jInsertEditorText("{loadposition " + position + "}", "' . $editor . '");
-	window.parent.jModalClose();
-};');
 ?>
 <div class="container-popup">
 
@@ -93,11 +88,13 @@ modulePosIns = function(position) {
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
 					</td>
 					<td class="has-context">
-						<a class="btn btn-sm btn-block btn-success" href="#" onclick="moduleIns('<?php echo $this->escape($item->module); ?>', '<?php echo $this->escape($item->title); ?>');"><?php echo $this->escape($item->title); ?></a>
+						<a class="js-module-insert btn btn-sm btn-block btn-success" href="#" data-module="<?php echo $this->escape($item->module); ?>" data-title="<?php echo $this->escape($item->title); ?>" data-editor="<?php echo $this->escape($editor); ?>">
+							<?php echo $this->escape($item->title); ?>
+						</a>
 					</td>
 					<td class="small hidden-sm-down">
 						<?php if ($item->position) : ?>
-						<a class="btn btn-sm btn-block btn-warning" href="#" onclick="modulePosIns('<?php echo $this->escape($item->position); ?>');"><?php echo $this->escape($item->position); ?></a>
+						<a class="js-position-insert btn btn-sm btn-block btn-warning" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
 						<?php else : ?>
 						<span class="label"><?php echo JText::_('JNONE'); ?></span>
 						<?php endif; ?>

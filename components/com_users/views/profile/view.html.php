@@ -98,8 +98,8 @@ class UsersViewProfile extends JViewLegacy
 		$user = JFactory::getUser();
 
 		// Get the view data.
-		$this->data	            = $this->get('Data');
-		$this->form	            = $this->getModel()->getForm(new JObject(array('id' => $user->id)));
+		$this->data	        = $this->get('Data');
+		$this->form	        = $this->getModel()->getForm(new JObject(array('id' => $user->id)));
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');

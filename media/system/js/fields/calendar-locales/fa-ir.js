@@ -14,7 +14,7 @@ window.JoomlaCalLocale = {
 	dateType : "jalali",
 	minYear : 1268,
 	maxYear : 1458,
-	exit: "ستن",
+	exit: "بستن",
 	save: "پاک",
 	localLangNumbers: ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"]
 };

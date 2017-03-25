@@ -15,7 +15,7 @@
  * @subpackage  Crypt
  * @since       11.1
  */
-class JCryptTest extends PHPUnit_Framework_TestCase
+class JCryptTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JCrypt
@@ -40,7 +40,7 @@ class JCryptTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

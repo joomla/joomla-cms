@@ -400,7 +400,7 @@ if ($showhelp == 1)
 	$this->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_TRANSLATIONS'), 'https://community.joomla.org/translations.html', '', false, '_blank')
 	);
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'http://resources.joomla.org', '', false, '_blank'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'https://resources.joomla.org', '', false, '_blank'));
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_COMMUNITY'), 'https://community.joomla.org', '', false, '_blank'));
 	$this->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_SECURITY'), 'https://developer.joomla.org/security-centre.html', '', false, '_blank')
