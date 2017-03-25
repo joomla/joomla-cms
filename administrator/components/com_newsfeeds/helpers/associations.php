@@ -154,6 +154,7 @@ class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 					$support['acl'] = true;
 					$support['checkout'] = true;
 					$support['category'] = true;
+					$support['save2copy'] = true;
 
 					$tables = array(
 						'a' => '#__newsfeeds'
