@@ -92,11 +92,9 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 		$output                 = $renderer->render('position-0', $params);
 		$htmlClean              = trim(preg_replace('~>\s+<~', '><', $output));
 		$this->assertTrue($this->callbackExecuted, 'onAfterRenderModules event is not executed');
-		$html = '<div class="moduletable"><h3>Search</h3><div class="search mod_search63">'
-			. '<form action="index.php" method="post" class="form-inline">'
-			. '<label for="mod-search-searchword63" class="element-invisible">Search ...</label>'
-			. '<input name="searchword" id="mod-search-searchword63" maxlength="200"  '
-			. 'class="inputbox search-query" type="search" size="20" placeholder="Search ...">'
+		$html = '<div class="moduletable"><h3>Search</h3><div class="search">'
+			. '<form action="index.php" method="post">'
+			. '<input name="searchword" id="mod-search-searchword63" class="form-control" type="search" placeholder="Search ...">'
 			. '<input type="hidden" name="task" value="search"><input type="hidden" name="option" value="com_search">'
 			. '<input type="hidden" name="Itemid" value=""></form></div></div>';
 		$this->assertEquals($html, $htmlClean, 'render output does not match expected content');
