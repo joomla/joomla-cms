@@ -653,7 +653,8 @@ INSERT INTO "#__modules" ("id", "title", "note", "content", "ordering", "positio
 (116, 'Bottom-b', '', '<div class="demo-module">\r\n<p><span class="fa fa-joomla">&nbsp;</span><span class="badge badge-info">New</span></p>\r\n<p class="demo-title">Bottom-a</p>\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n</div>', 1, 'bottom-b', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"Aurora-default"}', 0, '*'),
 (117, 'Bottom-b', '', '<div class="demo-module">\r\n<p><span class="fa fa-joomla">&nbsp;</span><span class="badge badge-success">New</span></p>\r\n<p class="demo-title">Bottom-a</p>\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n</div>', 1, 'bottom-b', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"Aurora-default"}', 0, '*'),
 (118, 'Bottom-b', '', '<div class="demo-module">\r\n<p><span class="fa fa-joomla">&nbsp;</span><span class="badge badge-default">New</span></p>\r\n<p class="demo-title">Bottom-a</p>\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n</div>', 1, 'bottom-b', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":" card-inverse card-danger","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"Aurora-default"}', 0, '*'),
-(119, 'Banner', '', '<p><img src="images/banners/banner.jpg" /></p>', 1, 'banner', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*');
+(119, 'Banner', '', '<p><img src="images/banners/banner.jpg"></p>', 1, 'banner', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
+(120, 'Footer', '', '&copy; Joomla! CMS', 1, 'footer', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 1, '', 0, '*');
 
 
 
@@ -841,7 +842,8 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (116, 435),
 (117, 435),
 (118, 435),
-(119, 435);
+(119, 435),
+(120, 0);
 
 --
 -- Dumping data for table `#__newsfeeds`

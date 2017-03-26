@@ -205,7 +205,8 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (198, 18, 357, 358, 2, 'com_modules.module.118', 'Bottom-b', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
 (210, 18, 359, 360, 2, 'com_modules.module.64', 'Language Switcher', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
 (211, 18, 361, 362, 2, 'com_modules.module.84', 'Smart Search Module', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
-(212, 18, 363, 364, 2, 'com_modules.module.119', 'Banner', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}');
+(212, 18, 363, 364, 2, 'com_modules.module.119', 'Banner', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
+(213, 18, 365, 366, 2, 'com_modules.module.120', 'Footer', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}');
 
 --
 -- Dumping data for table `#__banners`
@@ -641,7 +642,8 @@ INSERT INTO `#__modules` (`id`, `title`, `note`, `content`, `ordering`, `positio
 (116, 'Bottom-b', '', '<div class="demo-module">\r\n<p><span class="fa fa-joomla">&nbsp;</span><span class="badge badge-info">New</span></p>\r\n<p class="demo-title">Bottom-a</p>\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n</div>', 1, 'bottom-b', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"Aurora-default"}', 0, '*'),
 (117, 'Bottom-b', '', '<div class="demo-module">\r\n<p><span class="fa fa-joomla">&nbsp;</span><span class="badge badge-success">New</span></p>\r\n<p class="demo-title">Bottom-a</p>\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n</div>', 1, 'bottom-b', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"Aurora-default"}', 0, '*'),
 (118, 'Bottom-b', '', '<div class="demo-module">\r\n<p><span class="fa fa-joomla">&nbsp;</span><span class="badge badge-default">New</span></p>\r\n<p class="demo-title">Bottom-a</p>\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n</div>', 1, 'bottom-b', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":" card-inverse card-danger","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"Aurora-default"}', 0, '*'),
-(119, 'Banner', '', '<p><img src="images/banners/banner.jpg" /></p>', 1, 'banner', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*');
+(119, 'Banner', '', '<p><img src="images/banners/banner.jpg"></p>', 1, 'banner', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
+(120, 'Footer', '', '&copy; Joomla! CMS', 1, 'footer', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 1, '', 0, '*');
 
 
 --
@@ -826,7 +828,8 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (116, 435),
 (117, 435),
 (118, 435),
-(119, 435);
+(119, 435),
+(120, 0);
 
 --
 -- Dumping data for table `#__newsfeeds`

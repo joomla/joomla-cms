@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $app = JFactory::getApplication();
 
 // Getting params from template
@@ -202,13 +204,12 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<footer class="footer" role="contentinfo">
 		<div class="<?php echo $container; ?>">
 			<hr>
-			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="float-right">
 				<a href="#top" id="back-top" class="back-top">
 					<i class="icon-arrow-up-4"></i>
 				</a>
 			</p>
-			<p>&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></p>
+			<jdoc:include type="modules" name="footer" style="none" />
 		</div>
 	</footer>
 

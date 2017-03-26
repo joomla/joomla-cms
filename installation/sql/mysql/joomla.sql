@@ -527,7 +527,6 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (204, 0, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (205, 0, 'mod_custom', 'module', 'mod_custom', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (206, 0, 'mod_feed', 'module', 'mod_feed', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(207, 0, 'mod_footer', 'module', 'mod_footer', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (208, 0, 'mod_login', 'module', 'mod_login', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (209, 0, 'mod_menu', 'module', 'mod_menu', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (210, 0, 'mod_articles_news', 'module', 'mod_articles_news', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
