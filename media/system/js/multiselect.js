@@ -47,46 +47,47 @@ Joomla.JMultiSelect = function(table) {
 	initialize(table);
 };
 
-jQuery(document).ready(function($) {
+document.addEventListener("DOMContentLoaded", function(event) { 
 	color = '#d9edf7';
+	rows   = document.querySelectorAll('tr[class^="row"]');
 
 	// Changes the background-color on every <td> inside a <tr>
 	function changeBg(item, color) {
-		item.find('td').each (function()
-		{
-			$(this).css('background-color', color);
+		item.querySelectorAll('td').forEach (function(td) {
+			td.style.backgroundColor = color;
 		}); 
 	}
 
-	$('input[name="checkall-toggle"]:checkbox').click(function(event)
-	{
-		if($(this).is(":checked")) {
-			changeBg($('tr[class^="row"]'), color);
+	document.getElementsByName("checkall-toggle")[0].addEventListener("click", function(event) {
+		if (this.checked) {
+			rows.forEach(function(row, index) {
+				changeBg(row, color);
+			});
 		}
 		else {
-			changeBg($('tr[class^="row"]'), '');
+			rows.forEach(function(row, index) {
+				changeBg(row, '');
+			});
 		}
 	});
 
-	$('tr[class^="row"]').click(function(event)
-	{
-		clicked   = 'cb' + $(this).index();
-		cbClicked = document.getElementById(clicked);
+	rows.forEach(function(row, index) {
+		row.addEventListener("click", function(event) {
+			clicked   = 'cb' + index;
+			cbClicked = document.getElementById(clicked);
 
-		if (!(event.target.id == clicked))
-		{
-			cbClicked.checked = !cbClicked.checked;
-			Joomla.isChecked(cbClicked.checked);
-		}
+			if (!(event.target.id == clicked)) {
+				cbClicked.checked = !cbClicked.checked;
+				Joomla.isChecked(cbClicked.checked);
+			}
 	
-		if (cbClicked.checked)
-		{
-			changeBg($(this), color);
-		}
-		else
-		{
-			changeBg($(this), '');
-		}
+			if (cbClicked.checked) {
+				changeBg(this, color);
+			}
+			else {
+				changeBg(this, '');
+			}
+		});
 	});
 });
 
