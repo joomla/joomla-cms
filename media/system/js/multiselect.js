@@ -46,3 +46,47 @@ Joomla.JMultiSelect = function(table) {
 	};
 	initialize(table);
 };
+
+jQuery(document).ready(function($) {
+	color = '#d9edf7';
+
+	// Changes the background-color on every <td> inside a <tr>
+	function changeBg(item, color) {
+		item.find('td').each (function()
+		{
+			$(this).css('background-color', color);
+		}); 
+	}
+
+	$('input[name="checkall-toggle"]:checkbox').click(function(event)
+	{
+		if($(this).is(":checked")) {
+			changeBg($('tr[class^="row"]'), color);
+		}
+		else {
+			changeBg($('tr[class^="row"]'), '');
+		}
+	});
+
+	$('tr[class^="row"]').click(function(event)
+	{
+		clicked   = 'cb' + $(this).index();
+		cbClicked = document.getElementById(clicked);
+
+		if (!(event.target.id == clicked))
+		{
+			cbClicked.checked = !cbClicked.checked;
+			Joomla.isChecked(cbClicked.checked);
+		}
+	
+		if (cbClicked.checked)
+		{
+			changeBg($(this), color);
+		}
+		else
+		{
+			changeBg($(this), '');
+		}
+	});
+});
+
