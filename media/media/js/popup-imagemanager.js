@@ -124,7 +124,7 @@
 				// Set align attribute
 				if (align && !caption)
 				{
-					attr.push('class="pull-' + align + '"');
+					attr.push('class="float-xs-' + align + '"');
 				}
 
 				// Set title attribute
@@ -140,7 +140,7 @@
 				{
 					if (align)
 					{
-						figclass = ' class="pull-' + align + '"';
+						figclass = ' class="float-xs-' + align + '"';
 					}
 
 					if (c_class)
@@ -152,7 +152,7 @@
 				}
 			}
 
-			window.parent.jInsertEditorText(tag, this.editor);
+			window.parent.Joomla.editors.instances[this.editor].replaceSelection(tag);
 
 			return true;
 		},

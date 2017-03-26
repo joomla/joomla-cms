@@ -15,112 +15,28 @@
  *
  * @since       12.3
  */
-class JMediawikiHttpTest extends PHPUnit_Framework_TestCase
+class JMediawikiHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Mediawiki object.
-	 * @since  12.3
-	 */
-	protected $options;
-
-	/**
-	 * @var    JMediawikiHttp  Mock client object.
-	 * @since  12.3
-	 */
-	protected $transport;
-
-	/**
-	 * @var    JMediawikiHttp  Object under test.
-	 * @since  12.3
-	 */
-	protected $object;
-
-	/**
-	 * @var    string  Sample xml string.
-	 * @since  12.3
-	 */
-	protected $sampleString = '<a><b></b><c></c></a>';
-
-	/**
-	 * @var    string  Sample xml error message.
-	 * @since  12.3
-	 */
-	protected $errorString = '<message>Generic Error</message>';
-
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
+	 * Tests the constructor to ensure only arrays or ArrayAccess objects are allowed
 	 *
-	 * @access protected
 	 *
-	 * @return void
+	 * @expectedException  \InvalidArgumentException
 	 */
-	protected function setUp()
+	public function testConstructorDisallowsNonArrayObjects()
 	{
-		$this->options = new JRegistry;
-				$this->transport = $this->getMockBuilder('JHttpTransportStream')
-				->setMethods(array('request'))
-				->setConstructorArgs(array($this->options))
-				->setMockClassName('CustomTransport')
-				->disableOriginalConstructor()
-				->getMock();
-
-		$this->object = new JMediawikiHttp($this->options, $this->transport);
+		new JHttp(new stdClass);
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * Tests the constructor to ensure a JHttpTransportStream object is set as the transport when one is not provided
 	 *
-	 * @return void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   3.6
+	 * @return  void
 	 */
-	protected function tearDown()
+	public function testConstructorSetsStreamTransport()
 	{
-		unset($this->options);
-		unset($this->transport);
-		unset($this->object);
-	}
+		$http = new JMediawikiHttp(array());
 
-	/**
-	 * Tests the get method
-	 *
-	 * @return void
-	 */
-	public function testGet()
-	{
-		$uri = new JUri('https://example.com/gettest');
-
-		$this->transport->expects($this->once())
-			->method('request')
-			->with('GET', $uri)
-			->will($this->returnValue('requestResponse'));
-
-		$this->assertThat(
-			$this->object->get('https://example.com/gettest'),
-			$this->equalTo('requestResponse')
-		);
-	}
-
-	/**
-	 * Tests the post method
-	 *
-	 * @return void
-	 */
-	public function testPost()
-	{
-		$uri = new JUri('https://example.com/gettest');
-
-		$this->transport->expects($this->once())
-			->method('request')
-			->with('POST', $uri, array())
-			->will($this->returnValue('requestResponse'));
-
-		$this->assertThat(
-			$this->object->post('https://example.com/gettest', array()),
-			$this->equalTo('requestResponse')
-		);
+		$this->assertAttributeInstanceOf('JHttpTransportStream', 'transport', $http);
 	}
 }

@@ -55,7 +55,7 @@ class InstallerModelInstall extends JModelLegacy
 	}
 
 	/**
-	 * Install an extension from either folder, url or upload.
+	 * Install an extension from either folder, URL or upload.
 	 *
 	 * @return  boolean result of install.
 	 *
@@ -264,7 +264,7 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			JError::raiseWarning(
 				'',
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
 			);
 
 			return false;
@@ -275,7 +275,7 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			JError::raiseWarning(
 				'',
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
 			);
 
 			return false;

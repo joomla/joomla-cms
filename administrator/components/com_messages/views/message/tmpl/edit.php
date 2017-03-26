@@ -14,18 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-
-JFactory::getDocument()->addScriptDeclaration("
-		Joomla.submitbutton = function(task)
-		{
-			if (task == 'message.cancel' || document.formvalidator.isValid(document.getElementById('message-form')))
-			{
-				Joomla.submitform(task, document.getElementById('message-form'));
-			}
-		};
-");
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form">
 	<fieldset class="adminform">
 		<div class="control-group">
 			<div class="control-label">
@@ -52,6 +42,6 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 		</div>
 	</fieldset>
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

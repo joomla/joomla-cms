@@ -27,7 +27,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 
 <hr/>
 
-<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="form-inline center">
+<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="form-inline text-center">
 	<fieldset class="loginform">
 		<div class="control-group">
 			<div class="controls">
@@ -38,7 +38,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
 						</label>
 					</span>
-					<input name="username" tabindex="1" id="mod-login-username" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true" />
+					<input name="username" tabindex="1" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
 				</div>
 			</div>
 		</div>
@@ -51,7 +51,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 							<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
 						</label>
 					</span>
-					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15"/>
+					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15">
 				</div>
 			</div>
 		</div>
@@ -65,7 +65,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 								<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
 							</label>
 						</span>
-						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15"/>
+						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15">
 						<span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="icon-help"></span>
 						</span>
@@ -76,11 +76,9 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<a tabindex="4" class="btn btn-danger btn-small" href="index.php?option=com_joomlaupdate">
+					<a tabindex="4" class="btn btn-danger btn-sm" href="index.php?option=com_joomlaupdate">
 						<span class="icon-cancel icon-white"></span> <?php echo JText::_('JCANCEL'); ?>
 					</a>
-				</div>
-				<div class="btn-group">
 					<button tabindex="5" class="btn btn-primary btn-large">
 						<span class="icon-play icon-white"></span> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
@@ -88,8 +86,8 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 			</div>
 		</div>
 
-		<input type="hidden" name="option" value="com_joomlaupdate"/>
-		<input type="hidden" name="task" value="update.finaliseconfirm" />
+		<input type="hidden" name="option" value="com_joomlaupdate">
+		<input type="hidden" name="task" value="update.finaliseconfirm">
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>

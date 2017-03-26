@@ -30,7 +30,7 @@ abstract class JHtmlDirectory
 			return '<span class="badge badge-success">' . JText::_('COM_ADMIN_WRITABLE') . '</span>';
 		}
 
-		return '<span class="badge badge-important">' . JText::_('COM_ADMIN_UNWRITABLE') . '</span>';
+		return '<span class="badge badge-danger">' . JText::_('COM_ADMIN_UNWRITABLE') . '</span>';
 	}
 
 	/**

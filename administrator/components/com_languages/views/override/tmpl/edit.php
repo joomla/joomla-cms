@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+
 
 $expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 
@@ -38,23 +38,17 @@ JFactory::getDocument()->addScriptDeclaration('
 			$(this).removeClass("invalid");
 		});
 	});
-
-	Joomla.submitbutton = function(task) {
-		if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))
-		{
-			Joomla.submitform(task, document.getElementById("override-form"));
-		}
-	};
 ');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
-	<div class="row-fluid">
-		<div class="span6">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form">
+	<div class="row">
+		<div class="col-md-6">
 			<fieldset>
 				<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
 				<div class="control-group">
-					<div class="control-label">
+<div class="control-label"
+>
 						<?php echo $this->form->getLabel('language'); ?>
 					</div>
 					<div class="controls">
@@ -112,7 +106,7 @@ JFactory::getDocument()->addScriptDeclaration('
 
 		</div>
 
-		<div class="span6">
+		<div class="col-md-6">
 			<fieldset>
 				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
 
@@ -123,7 +117,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
 					</button>
-					<span id="refresh-status" class="overrider-spinner  help-block">
+					<span id="refresh-status" class="overrider-spinner help-block">
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 					</span>
 				</div>
@@ -146,8 +140,8 @@ JFactory::getDocument()->addScriptDeclaration('
 				</span>
 			</fieldset>
 
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="id" value="<?php echo $this->item->key; ?>" />
+			<input type="hidden" name="task" value="">
+			<input type="hidden" name="id" value="<?php echo $this->item->key; ?>">
 
 			<?php echo JHtml::_('form.token'); ?>
 		</div>

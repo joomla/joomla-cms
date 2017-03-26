@@ -212,7 +212,7 @@ class JFormHelper
 				continue;
 			}
 
-			JLoader::register($class, $file);
+			require_once $file;
 
 			if (class_exists($class))
 			{
@@ -326,7 +326,7 @@ class JFormHelper
 	 *
 	 * @return  array   Array with show on conditions.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
 	{

@@ -6,11 +6,13 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Zend\\Diactoros\\' => array($vendorDir . '/zendframework/zend-diactoros/src'),
     'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
     'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),
     'Symfony\\Polyfill\\Php55\\' => array($vendorDir . '/symfony/polyfill-php55'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Joomla\\Utilities\\' => array($vendorDir . '/joomla/utilities/src'),
     'Joomla\\Uri\\Tests\\' => array($vendorDir . '/joomla/uri/Tests'),
@@ -18,9 +20,12 @@ return array(
     'Joomla\\String\\' => array($vendorDir . '/joomla/string/src'),
     'Joomla\\Session\\' => array($vendorDir . '/joomla/session/src'),
     'Joomla\\Registry\\' => array($vendorDir . '/joomla/registry/src'),
+    'Joomla\\Ldap\\Tests\\' => array($vendorDir . '/joomla/ldap/Tests'),
+    'Joomla\\Ldap\\' => array($vendorDir . '/joomla/ldap/src'),
     'Joomla\\Input\\Tests\\' => array($vendorDir . '/joomla/input/Tests'),
     'Joomla\\Input\\' => array($vendorDir . '/joomla/input/src'),
     'Joomla\\Image\\' => array($vendorDir . '/joomla/image/src'),
+    'Joomla\\Http\\' => array($vendorDir . '/joomla/http/src'),
     'Joomla\\Filter\\' => array($vendorDir . '/joomla/filter/src'),
     'Joomla\\Event\\' => array($vendorDir . '/joomla/event/src'),
     'Joomla\\Data\\Tests\\' => array($vendorDir . '/joomla/data/Tests'),
@@ -30,4 +35,5 @@ return array(
     'Joomla\\Crypt\\' => array($vendorDir . '/joomla/crypt/src'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),
     'Joomla\\' => array($baseDir . '/libraries/src'),
+    'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
 );

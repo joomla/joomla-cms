@@ -30,26 +30,20 @@ abstract class JHtmlSearchtools
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @deprecated 4.0
 	 */
 	public static function main()
 	{
 		// Only load once
 		if (empty(static::$loaded[__METHOD__]))
 		{
-			// Requires jQuery but allows to skip its loading
-			if ($loadJquery = (!isset($options['loadJquery']) || $options['loadJquery'] != 0))
-			{
-				JHtml::_('jquery.framework');
-			}
-
-			// Load the jQuery plugin && CSS
-			JHtml::_('script', 'jui/jquery.searchtools.min.js', array('version' => 'auto', 'relative' => true));
-			JHtml::_('stylesheet', 'jui/jquery.searchtools.css', array('version' => 'auto', 'relative' => true));
+			// Load the script && css files
+			JHtml::_('script', 'system/searchtools.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
 
 			static::$loaded[__METHOD__] = true;
 		}
-
-		return;
 	}
 
 	/**
@@ -69,31 +63,21 @@ abstract class JHtmlSearchtools
 		// Only load once
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
-			// Include Bootstrap framework
-			static::main();
-
 			// Add the form selector to the search tools options
 			$options['formSelector'] = $selector;
 
 			// Generate options with default values
 			$options = static::optionsToRegistry($options);
 
-			$doc = JFactory::getDocument();
-			$script = "
-				(function($){
-					$(document).ready(function() {
-						$('" . $selector . "').searchtools(
-							" . $options->toString() . "
-						);
-					});
-				})(jQuery);
-			";
-			$doc->addScriptDeclaration($script);
+			// Load the script && css files
+			JHtml::_('behavior.core');
+			JHtml::_('script', 'system/searchtools.js', false, true);
+			JHtml::_('stylesheet', 'system/searchtools.css', array(), true);
+
+			JFactory::getDocument()->addScriptOptions('searchtools', $options);
 
 			static::$loaded[__METHOD__][$sig] = true;
 		}
-
-		return;
 	}
 
 	/**

@@ -17,24 +17,65 @@ defined('_JEXEC') or die;
 class MenusViewItems extends JViewLegacy
 {
 	/**
-	 * @var  array
+	 * Array used for displaying the levels filter
+	 *
+	 * @return  stdClass[]
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $f_levels;
 
 	/**
-	 * @var  mixed
+	 * An array of items
+	 *
+	 * @var  array
 	 */
 	protected $items;
 
 	/**
+	 * The pagination object
+	 *
 	 * @var  JPagination
 	 */
 	protected $pagination;
 
 	/**
+	 * The model state
+	 *
 	 * @var  JObject
 	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
+
+	/**
+	 * The sidebar markup
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $sidebar;
+
+	/**
+	 * Ordering of the items
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $ordering;
 
 	/**
 	 * Display the view
@@ -47,7 +88,6 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -92,6 +132,10 @@ class MenusViewItems extends JViewLegacy
 
 				case 'heading':
 					$value = JText::_('COM_MENUS_TYPE_HEADING');
+					break;
+
+				case 'container':
+					$value = JText::_('COM_MENUS_TYPE_CONTAINER');
 					break;
 
 				case 'component':
@@ -205,6 +249,7 @@ class MenusViewItems extends JViewLegacy
 			}
 
 			$item->item_type = $value;
+			$item->protected = $item->menutype == 'main';
 		}
 
 		// Levels filter.
@@ -282,23 +327,25 @@ class MenusViewItems extends JViewLegacy
 			JToolbarHelper::addNew('item.add');
 		}
 
-		if ($canDo->get('core.edit'))
+		$protected = $this->state->get('filter.menutype') == 'main';
+
+		if ($canDo->get('core.edit') && !$protected)
 		{
 			JToolbarHelper::editList('item.edit');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') && !$protected)
 		{
 			JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		if (JFactory::getUser()->authorise('core.admin'))
+		if (JFactory::getUser()->authorise('core.admin') && !$protected)
 		{
 			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
 		{
 			JToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 		}
@@ -309,7 +356,7 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_menus')
+		if (!$protected && $user->authorise('core.create', 'com_menus')
 			&& $user->authorise('core.edit', 'com_menus')
 			&& $user->authorise('core.edit.state', 'com_menus'))
 		{
@@ -322,11 +369,11 @@ class MenusViewItems extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state'))
+		elseif (!$protected && $canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('items.trash');
 		}

@@ -46,7 +46,7 @@ extract($displayData);
  */
 
 JHtml::_('behavior.modal', 'a.modal_' . $id);
-JHtml::_('script', 'jui/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 'relative' => true));
 
 $uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 
@@ -74,33 +74,58 @@ if ($this->escape($userName) === JText::_('JLIB_FORM_SELECT_USER'))
 }
 
 $inputAttributes = array(
-	'type' => 'text', 'id' => $id, 'value' => $this->escape($userName)
+	'type' => 'text', 'id' => $id, 'class' => 'form-control field-user-input-name', 'value' => $this->escape($userName)
 );
-
+if ($class)
+{
+	$inputAttributes['class'] .= ' ' . $class;
+}
 if ($size)
 {
 	$inputAttributes['size'] = (int) $size;
 }
-
 if ($required)
 {
 	$inputAttributes['required'] = 'required';
 }
-
 if (!$readonly)
 {
 	$inputAttributes['placeholder'] = JText::_('JLIB_FORM_SELECT_USER');
 }
-
-$anchorAttributes = array(
-	'class' => 'btn btn-primary modal_' . $id, 'title' => JText::_('JLIB_FORM_CHANGE_USER'), 'rel' => '{handler: \'iframe\', size: {x: 800, y: 500}}'
-);
-
 ?>
-<div class="input-append">
-	<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly />
-	<?php if (!$readonly) : ?>
-		<?php echo JHtml::_('link', (string) $uri, '<span class="icon-user"></span>', $anchorAttributes); ?>
-	<?php endif; ?>
+<?php // Create a dummy text field with the user name. ?>
+<div class="field-user-wrapper"
+	data-url="<?php echo (string) $uri; ?>"
+	data-modal=".modal"
+	data-modal-width="100%"
+	data-modal-height="400px"
+	data-input=".field-user-input"
+	data-input-name=".field-user-input-name"
+	data-button-select=".button-select">
+	<div class="input-group">
+		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
+			<?php if (!$readonly) : ?>
+				<span class="input-group-btn">
+					<a class="btn btn-primary button-select" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"><span class="icon-user icon-white"></span></a>
+					<?php echo JHtml::_(
+						'bootstrap.renderModal',
+						'userModal_' . $id,
+						array(
+							'url'         => $uri,
+							'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
+							'closeButton' => true,
+							'height'      => '100%',
+							'width'       => '100%',
+							'modalWidth'  => 80,
+							'bodyHeight'  => 60,
+							'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
+						)
+					); ?>
+				</span>
+			<?php endif; ?>
+	</div>
+	<?php // Create the real field, hidden, that stored the user id. ?>
+	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
+		class="field-user-input <?php echo $class ? (string) $class : ''?>"
+		data-onchange="<?php echo $this->escape($onchange); ?>">
 </div>
-<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" data-onchange="<?php echo $this->escape($onchange); ?>" />

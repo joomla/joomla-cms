@@ -54,7 +54,7 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -116,6 +116,69 @@ class JDatabaseQuerySqliteTest extends TestCase
 		$this->assertEquals(
 			'CURRENT_TIMESTAMP',
 			$this->_instance->currentTimestamp()
+		);
+	}
+
+	/**
+	 * Test for the JDatabaseQuerySqlite::__string method for a 'selectRowNumber' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function test__toStringSelectRowNumber()
+	{
+		$this->_instance
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, ROW_NUMBER() AS new_ordering" .
+			PHP_EOL . "FROM (" .
+			PHP_EOL . "SELECT id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering" .
+			PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->select('id')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, ROW_NUMBER() AS `ordering`" .
+			PHP_EOL . "FROM (" .
+			PHP_EOL . "SELECT id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering DESC" .
+			PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT ROW_NUMBER() AS `ordering`" .
+			PHP_EOL . "FROM (" .
+			PHP_EOL . "SELECT 1" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering DESC" .
+			PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
 		);
 	}
 }

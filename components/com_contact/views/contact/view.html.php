@@ -41,12 +41,62 @@ class ContactViewContact extends JViewLegacy
 	protected $item;
 
 	/**
+	 * The page to return to on submission
+	 * TODO: Implement this functionality
+	 *
+	 * @var         string
+	 * @since       1.6
+	 */
+	protected $return_page = '';
+
+	/**
 	 * Should we show a captcha form for the submission of the contact request?
 	 *
 	 * @var   bool
 	 * @since 3.6.3
 	 */
 	protected $captchaEnabled = false;
+
+	/**
+	 * The item object details (a duplicate of $item)
+	 *
+	 * @var         JObject
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  4.0
+	 */
+	protected $contact;
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
+	 * The user object
+	 *
+	 * @var   JUser
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $user;
+
+	/**
+	 * Other contacts in this contacts category
+	 *
+	 * @var   array
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $contacts;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Execute and display a template script.
@@ -89,8 +139,6 @@ class ContactViewContact extends JViewLegacy
 
 		// Check if access is not public
 		$groups = $user->getAuthorisedViewLevels();
-
-		$return = '';
 
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
 		{
@@ -268,7 +316,6 @@ class ContactViewContact extends JViewLegacy
 
 		$this->contact     = &$item;
 		$this->params      = &$params;
-		$this->return      = &$return;
 		$this->state       = &$state;
 		$this->item        = &$item;
 		$this->user        = &$user;

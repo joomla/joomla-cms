@@ -17,12 +17,16 @@ defined('_JEXEC') or die;
 class MenusViewItem extends JViewLegacy
 {
 	/**
+	 * The JForm object
+	 *
 	 * @var  JForm
 	 */
 	protected $form;
 
 	/**
-	 * @var  object
+	 * The active item
+	 *
+	 * @var  JObject
 	 */
 	protected $item;
 
@@ -32,9 +36,27 @@ class MenusViewItem extends JViewLegacy
 	protected $modules;
 
 	/**
+	 * The model state
+	 *
 	 * @var  JObject
 	 */
 	protected $state;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  3.7.0
+	 */
+	protected $canDo;
+
+	/**
+	 * A list of view levels containing the id and title of the view level
+	 *
+	 * @var    stdClass[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $levels;
 
 	/**
 	 * Display the view
@@ -47,13 +69,11 @@ class MenusViewItem extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
-
+		$this->state   = $this->get('State');
 		$this->form    = $this->get('Form');
 		$this->item    = $this->get('Item');
 		$this->modules = $this->get('Modules');
 		$this->levels  = $this->get('ViewLevels');
-		$this->state   = $this->get('State');
 		$this->canDo   = JHelperContent::getActions('com_menus', 'menu', (int) $this->state->get('item.menutypeid'));
 
 		// Check if we're allowed to edit this item
@@ -67,17 +87,6 @@ class MenusViewItem extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new JViewGenericdataexception(implode("\n", $errors), 500);
-		}
-
-		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
-		{
-			// Set the language field to the forcedLanguage and disable changing it.
-			$this->form->setValue('language', null, $forcedLanguage);
-			$this->form->setFieldAttribute('language', 'readonly', 'true');
-
-			// Only allow to select categories with All language or with the forced language.
-			$this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -114,35 +123,42 @@ class MenusViewItem extends JViewLegacy
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
+		$toolbarButtons = [];
+
 		// If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
 		if ($isNew && $canDo->get('core.create'))
 		{
 			if ($canDo->get('core.edit'))
 			{
-				JToolbarHelper::apply('item.apply');
+				$toolbarButtons[] = ['apply', 'item.apply'];
 			}
 
-			JToolbarHelper::save('item.save');
+			$toolbarButtons[] = ['save', 'item.save'];
 		}
 
 		// If not checked out, can save the item.
 		if (!$isNew && !$checkedOut && $canDo->get('core.edit'))
 		{
-			JToolbarHelper::apply('item.apply');
-			JToolbarHelper::save('item.save');
+			$toolbarButtons[] = ['apply', 'item.apply'];
+			$toolbarButtons[] = ['save', 'item.save'];
 		}
 
 		// If the user can create new items, allow them to see Save & New
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::save2new('item.save2new');
+			$toolbarButtons[] = ['save2new', 'item.save2new'];
 		}
 
 		// If an existing item, can save to a copy only if we have create rights.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('item.save2copy');
+			$toolbarButtons[] = ['save2copy', 'item.save2copy'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if ($isNew)
 		{

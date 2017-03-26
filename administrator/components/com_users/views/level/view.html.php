@@ -16,6 +16,11 @@ defined('_JEXEC') or die;
  */
 class UsersViewLevel extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
 	/**
@@ -73,22 +78,29 @@ class UsersViewLevel extends JViewLegacy
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'users levels-add');
 
+		$toolbarButtons = [];
+
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{
-			JToolbarHelper::apply('level.apply');
-			JToolbarHelper::save('level.save');
+			$toolbarButtons[] = ['apply', 'level.apply'];
+			$toolbarButtons[] = ['save', 'level.save'];
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::save2new('level.save2new');
+			$toolbarButtons[] = ['save2new', 'level.save2new'];
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('level.save2copy');
+			$toolbarButtons[] = ['save2copy', 'level.save2copy'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{

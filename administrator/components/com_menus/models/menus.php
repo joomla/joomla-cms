@@ -34,6 +34,7 @@ class MenusModelMenus extends JModelList
 				'id', 'a.id',
 				'title', 'a.title',
 				'menutype', 'a.menutype',
+				'client_id', 'a.client_id',
 			);
 		}
 
@@ -138,9 +139,9 @@ class MenusModelMenus extends JModelList
 		// Inject the values back into the array.
 		foreach ($items as $item)
 		{
-			$item->count_published = isset($countPublished[$item->menutype]) ? $countPublished[$item->menutype] : 0;
+			$item->count_published   = isset($countPublished[$item->menutype]) ? $countPublished[$item->menutype] : 0;
 			$item->count_unpublished = isset($countUnpublished[$item->menutype]) ? $countUnpublished[$item->menutype] : 0;
-			$item->count_trashed = isset($countTrashed[$item->menutype]) ? $countTrashed[$item->menutype] : 0;
+			$item->count_trashed     = isset($countTrashed[$item->menutype]) ? $countTrashed[$item->menutype] : 0;
 		}
 
 		// Add the items to the internal cache.
@@ -163,9 +164,11 @@ class MenusModelMenus extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.description'))
+		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.description, a.client_id'))
 			->from($db->quoteName('#__menu_types') . ' AS a')
 			->where('a.id > 0');
+
+		$query->where('a.client_id = ' . (int) $this->getState('client_id'));
 
 		// Filter by search in title or menutype
 		if ($search = trim($this->getState('filter.search')))
@@ -194,8 +197,11 @@ class MenusModelMenus extends JModelList
 	 */
 	protected function populateState($ordering = 'a.title', $direction = 'asc')
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
+		$search   = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
+
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$this->setState('client_id', $clientId);
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -210,13 +216,13 @@ class MenusModelMenus extends JModelList
 	 */
 	public function getModMenuId()
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('e.extension_id')
 			->from('#__extensions AS e')
 			->where('e.type = ' . $db->quote('module'))
 			->where('e.element = ' . $db->quote('mod_menu'))
-			->where('e.client_id = 0');
+			->where('e.client_id = ' . (int) $this->getState('client_id'));
 		$db->setQuery($query);
 
 		return $db->loadResult();

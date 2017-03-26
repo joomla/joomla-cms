@@ -31,25 +31,25 @@
 				<field
 					name="search_content"
 					type="radio"
+					class="switcher"
 					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
 					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JON</option>
-					<option value="0">JOFF</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
 					name="search_archived"
 					type="radio"
+					class="switcher"
 					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
 					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JON</option>
-					<option value="0">JOFF</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 

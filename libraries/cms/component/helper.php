@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Cms\Dispatcher\DispatcherInterface;
 
 /**
  * Component helper class
@@ -21,7 +22,7 @@ class JComponentHelper
 	/**
 	 * The component list cache
 	 *
-	 * @var    array
+	 * @var    JComponentRecord[]
 	 * @since  1.6
 	 */
 	protected static $components = array();
@@ -32,7 +33,7 @@ class JComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  stdClass   An object with the information for the component.
+	 * @return  JComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -46,19 +47,14 @@ class JComponentHelper
 			}
 			else
 			{
-				$result = new stdClass;
+				$result = new JComponentRecord;
 				$result->enabled = $strict ? false : true;
-				$result->params = new Registry;
+				$result->setParams(new Registry);
 			}
 		}
 		else
 		{
 			$result = static::$components[$option];
-		}
-
-		if (is_string($result->params))
-		{
-			static::$components[$option]->params = new Registry(static::$components[$option]->params);
 		}
 
 		return $result;
@@ -113,9 +109,7 @@ class JComponentHelper
 	 */
 	public static function getParams($option, $strict = false)
 	{
-		$component = static::getComponent($option, $strict);
-
-		return $component->params;
+		return static::getComponent($option, $strict)->params;
 	}
 
 	/**
@@ -310,7 +304,7 @@ class JComponentHelper
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @throws  Exception
+	 * @throws  JComponentExceptionMissing
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -324,7 +318,7 @@ class JComponentHelper
 
 		if (empty($option))
 		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
@@ -358,22 +352,48 @@ class JComponentHelper
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
-		$path = JPATH_COMPONENT . '/' . $file . '.php';
-
 		// If component is disabled throw error
-		if (!static::isEnabled($option) || !file_exists($path))
+		if (!static::isEnabled($option))
 		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
-
-		// Load common and local language files.
-		$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
 
 		// Handle template preview outlining.
 		$contents = null;
 
-		// Execute the component.
-		$contents = static::executeComponent($path);
+		// Check if we have a dispatcher
+		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
+		{
+			require_once JPATH_COMPONENT . '/dispatcher.php';
+			$class = ucwords($file) . 'Dispatcher';
+
+			// Check the class exists and implements the dispatcher interface
+			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
+			{
+				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
+			}
+
+			$namespace = self::getComponent($option)->namespace;
+
+			// Dispatch the component.
+			$contents = static::dispatchComponent(new $class($namespace, $app));
+		}
+		else
+		{
+			$path = JPATH_COMPONENT . '/' . $file . '.php';
+
+			// If component file doesn't exist throw error
+			if (!file_exists($path))
+			{
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			}
+
+			// Load common and local language files.
+			$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
+
+			// Execute the component.
+			$contents = static::executeComponent($path);
+		}
 
 		// Revert the scope
 		$app->scope = $scope;
@@ -399,6 +419,23 @@ class JComponentHelper
 	{
 		ob_start();
 		require_once $path;
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Dispatch the component.
+	 *
+	 * @param   DispatcherInterface  $dispatcher  The dispatcher class.
+	 *
+	 * @return  string  The component output
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function dispatchComponent(DispatcherInterface $dispatcher)
+	{
+		ob_start();
+		$dispatcher->dispatch();
 		$contents = ob_get_clean();
 
 		return $contents;
@@ -412,56 +449,49 @@ class JComponentHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
+	 * @note    As of 4.0 this method will be restructured to only load the data into memory
 	 */
 	protected static function load($option)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('component'));
-		$db->setQuery($query);
+		try
+		{
+			JLog::add(
+				sprintf(
+					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
+					__METHOD__,
+					__CLASS__
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $e)
+		{
+			// Informational log only
+		}
 
+		$loader = function ()
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('extension_id', 'element', 'params', 'namespace', 'enabled'), array('id', 'option', null, null, null)))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
+			$db->setQuery($query);
+
+			return $db->loadObjectList('option', 'JComponentRecord');
+		};
+
+		/** @var JCacheControllerCallback $cache */
 		$cache = JFactory::getCache('_system', 'callback');
 
 		try
 		{
-			$components = $cache->get(array($db, 'loadObjectList'), array('option'), $option, false);
-
-			/**
-			 * Verify $components is an array, some cache handlers return an object even though
-			 * the original was a single object array.
-			 */
-			if (!is_array($components))
-			{
-				static::$components[$option] = $components;
-			}
-			else
-			{
-				static::$components = $components;
-			}
+			static::$components = $cache->get($loader, array(), __METHOD__);
 		}
-		catch (RuntimeException $e)
+		catch (JCacheException $e)
 		{
-			/*
-			 * Fatal error
-			 *
-			 * It is possible for this error to be reached before the global JLanguage instance has been loaded so we check for its presence
-			 * before logging the error to ensure a human friendly message is always given
-			 */
-
-			if (JFactory::$language)
-			{
-				$msg = JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage());
-			}
-			else
-			{
-				$msg = sprintf('Error loading component: %1$s, %2$s', $option, $e->getMessage());
-			}
-
-			JLog::add($msg, JLog::WARNING, 'jerror');
-
-			return false;
+			static::$components = $loader();
 		}
 
 		if (empty(static::$components[$option]))
@@ -493,7 +523,7 @@ class JComponentHelper
 	/**
 	 * Get installed components
 	 *
-	 * @return  array  The components property
+	 * @return  JComponentRecord[]  The components property
 	 *
 	 * @since   3.6.3
 	 */

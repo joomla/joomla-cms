@@ -26,24 +26,24 @@ class JToolbarButtonPopup extends JToolbarButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type     Unused string, formerly button type.
-	 * @param   string   $name     Modal name, used to generate element ID
-	 * @param   string   $text     The link text
-	 * @param   string   $url      URL for popup
-	 * @param   integer  $width    Width of popup
-	 * @param   integer  $height   Height of popup
-	 * @param   integer  $top      Top attribute.  [@deprecated  Unused, will be removed in 4.0]
-	 * @param   integer  $left     Left attribute. [@deprecated  Unused, will be removed in 4.0]
-	 * @param   string   $onClose  JavaScript for the onClose event.
-	 * @param   string   $title    The title text
-	 * @param   string   $footer   The footer html
+	 * @param   string   $type          Unused string, formerly button type.
+	 * @param   string   $name          Modal name, used to generate element ID
+	 * @param   string   $text          The link text
+	 * @param   string   $url           URL for popup
+	 * @param   integer  $iframeWidth   Width of popup
+	 * @param   integer  $iframeHeight  Height of popup
+	 * @param   integer  $bodyHeight    Optional height of the modal body in viewport units (vh)
+	 * @param   integer  $modalWidth    Optional width of the modal in viewport units (vh)
+	 * @param   string   $onClose       JavaScript for the onClose event.
+	 * @param   string   $title         The title text
+	 * @param   string   $footer        The footer html
 	 *
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
 	 */
-	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0,
-		$onClose = '', $title = '', $footer = null)
+	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $iframeWidth = 640,
+		$iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null)
 	{
 		// If no $title is set, use the $text element
 		if (strlen($title) == 0)
@@ -53,10 +53,10 @@ class JToolbarButtonPopup extends JToolbarButton
 
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['name'] = $name;
-		$options['text'] = JText::_($text);
-		$options['title'] = JText::_($title);
-		$options['class'] = $this->fetchIconClass($name);
+		$options['name']   = $name;
+		$options['text']   = JText::_($text);
+		$options['title']  = JText::_($title);
+		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($url);
 
 		// Instantiate a new JLayoutFile instance and render the layout
@@ -70,10 +70,12 @@ class JToolbarButtonPopup extends JToolbarButton
 
 		// Build the options array for the modal
 		$params = array();
-		$params['title']  = $options['title'];
-		$params['url']    = $options['doTask'];
-		$params['height'] = $height;
-		$params['width']  = $width;
+		$params['title']      = $options['title'];
+		$params['url']        = $options['doTask'];
+		$params['height']     = $iframeHeight;
+		$params['width']      = $iframeWidth;
+		$params['bodyHeight'] = $bodyHeight;
+		$params['modalWidth'] = $modalWidth;
 
 		if (isset($footer))
 		{

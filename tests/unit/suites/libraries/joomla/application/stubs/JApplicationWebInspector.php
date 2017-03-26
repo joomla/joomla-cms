@@ -42,6 +42,12 @@ class JApplicationWebInspector extends JApplicationWeb
 	public $closed;
 
 	/**
+	 * @var     integer  The user identifier.
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $userId = 0;
+
+	/**
 	 * Allows public access to protected method.
 	 *
 	 * @return  boolean
@@ -107,5 +113,19 @@ class JApplicationWebInspector extends JApplicationWeb
 	public function header($string, $replace = true, $code = null)
 	{
 		$this->headers[] = array($string, $replace, $code);
+	}
+
+	/**
+	 * Method to determine a hash for anti-spoofing variable names
+	 *
+	 * @param   boolean  $forceNew  If true, force a new token to be created
+	 *
+	 * @return  string  Hashed var name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFormToken($forceNew = false)
+	{
+		return md5($this->get('secret') . 0 . $this->getSession()->getToken($forceNew));
 	}
 }

@@ -48,7 +48,7 @@ abstract class JHtmlIcon
 
 		$button = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
-		$output = '<span class="hasTooltip" title="' . JHtml::tooltipText('COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
+		$output = '<span class="hasTooltip" title="' . JHtml::_('tooltipText', 'COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
 
 		return $output;
 	}
@@ -80,6 +80,7 @@ abstract class JHtmlIcon
 		$attribs['title']   = JText::_('JGLOBAL_EMAIL_TITLE');
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
+		$attribs['class']   = 'dropdown-item';
 
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
@@ -116,6 +117,9 @@ abstract class JHtmlIcon
 			return;
 		}
 
+		// Set the link class
+		$attribs['class'] = 'dropdown-item';
+
 		// Show checked_out icon if the article is checked out by a different user
 		if (property_exists($article, 'checked_out')
 			&& property_exists($article, 'checked_out_time')
@@ -125,7 +129,7 @@ abstract class JHtmlIcon
 			$checkoutUser = JFactory::getUser($article->checked_out);
 			$date         = JHtml::_('date', $article->checked_out_time);
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
-				. ' <br /> ' . $date;
+				. ' <br> ' . $date;
 
 			$text = JLayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
 
@@ -188,6 +192,7 @@ abstract class JHtmlIcon
 		$attribs['title']   = JText::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
+		$attribs['class']   = 'dropdown-item';
 
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}

@@ -14,7 +14,7 @@
 * @subpackage  Microdata
 * @since       3.2
 */
-class JMicrodataTest extends PHPUnit_Framework_TestCase
+class JMicrodataTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * The default fallback Type
@@ -50,7 +50,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -234,7 +234,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$response,
-			"<meta itemprop='datePublished' content='$content'/>$content"
+			"<meta itemprop='datePublished' content='$content'>$content"
 		);
 
 		// Test for a 'meta' display with human $content and $machineContent
@@ -246,7 +246,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$response,
-			"<meta itemprop='datePublished' content='$machineContent'/>$content"
+			"<meta itemprop='datePublished' content='$machineContent'>$content"
 		);
 
 		// Test when if fallbacks that the library returns an empty string as specified
@@ -338,7 +338,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$response,
-			"<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='$content'/>"
+			"<meta itemscope itemtype='https://schema.org/Article' itemprop='datePublished' content='$content'>"
 		);
 
 		// Test without $content if fallbacks, the $Property isn't available in the current $Type
@@ -425,7 +425,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$response,
-			"<meta itemprop='$property' content='$content'/>"
+			"<meta itemprop='$property' content='$content'>"
 		);
 
 		// Test Display Type: 'meta' without $content
@@ -435,7 +435,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$response,
-			"<meta itemprop='$property' content=''/>"
+			"<meta itemprop='$property' content=''>"
 		);
 	}
 
@@ -583,19 +583,19 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		// Test with all params
 		$this->assertEquals(
 			JMicrodata::htmlMeta($content, $property, $scope),
-			"<meta itemscope itemtype='https://schema.org/$scope' itemprop='$property' content='$content'/>"
+			"<meta itemscope itemtype='https://schema.org/$scope' itemprop='$property' content='$content'>"
 		);
 
 		// Test with the $inverse mode
 		$this->assertEquals(
 			JMicrodata::htmlMeta($content, $property, $scope, true),
-			"<meta itemprop='$property' itemscope itemtype='https://schema.org/$scope' content='$content'/>"
+			"<meta itemprop='$property' itemscope itemtype='https://schema.org/$scope' content='$content'>"
 		);
 
 		// Test without the $scope
 		$this->assertEquals(
 			JMicrodata::htmlMeta($content, $property),
-			"<meta itemprop='$property' content='$content'/>"
+			"<meta itemprop='$property' content='$content'>"
 		);
 	}
 

@@ -247,9 +247,9 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 
 			// 10
 			array(
-				'<p><a href="mailto:joe@nowhere.com?subject=Text"><img src="path/to/something.jpg" />joe@nowhere.com</a></p>',
+				'<p><a href="mailto:joe@nowhere.com?subject=Text"><img src="path/to/something.jpg">joe@nowhere.com</a></p>',
 
-				'<a href=\'mailto:joe@nowhere.com?subject=Text\'><img src="path/to/something.jpg" />joe@nowhere.com</a>',
+				'<a href=\'mailto:joe@nowhere.com?subject=Text\'><img src="path/to/something.jpg">joe@nowhere.com</a>',
 
 				"
 				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
@@ -258,7 +258,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				var path = 'hr' + 'ef' + '=';
 				var addy__HASH__ = 'joe' + '@';
 				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com?subject=Text';
-				var addy_text__HASH__ = '<img src=\"path/to/something.jpg\" />joe' + '@' + 'nowhere' + '.' + 'com';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
+				var addy_text__HASH__ = '<img src=\"path/to/something.jpg\">joe' + '@' + 'nowhere' + '.' + 'com';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
 		</script></p>
 				"
 			),

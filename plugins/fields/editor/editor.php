@@ -14,14 +14,14 @@ JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRA
 /**
  * Fields Editor Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class PlgFieldsEditor extends FieldsPlugin
 {
 	/**
 	 * Transforms the field into an XML element and appends it as child on the given parent. This
 	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 * an XML Element must implement the JFormDomfieldinterface.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
@@ -41,7 +41,7 @@ class PlgFieldsEditor extends FieldsPlugin
 		}
 
 		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', 0) ? 'true' : 'false');
-		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
+		$fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', array())));
 
 		return $fieldNode;
 	}

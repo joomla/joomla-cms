@@ -38,6 +38,14 @@ class TemplatesViewStyle extends JViewLegacy
 	protected $state;
 
 	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -83,18 +91,25 @@ class TemplatesViewStyle extends JViewLegacy
 			: JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
 		);
 
+		$toolbarButtons = [];
+
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::apply('style.apply');
-			JToolbarHelper::save('style.save');
+			$toolbarButtons[] = ['apply', 'style.apply'];
+			$toolbarButtons[] = ['save', 'style.save'];
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('style.save2copy');
+			$toolbarButtons[] = ['save2copy', 'style.save2copy'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{

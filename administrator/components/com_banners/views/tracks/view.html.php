@@ -92,6 +92,7 @@ class BannersViewTracks extends JViewLegacy
 				'selector' => 'downloadModal',
 				'icon'     => 'download',
 				'text'     => JText::_('JTOOLBAR_EXPORT'),
+				'doTask'   => JRoute::_('index.php?option=com_banners&view=download&tmpl=component'),
 			)
 		);
 
@@ -100,13 +101,11 @@ class BannersViewTracks extends JViewLegacy
 		if ($canDo->get('core.delete'))
 		{
 			$bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_banners');
-			JToolbarHelper::divider();
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');

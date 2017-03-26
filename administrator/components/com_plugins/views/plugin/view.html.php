@@ -16,10 +16,25 @@ defined('_JEXEC') or die;
  */
 class PluginsViewPlugin extends JViewLegacy
 {
+	/**
+	 * The item object for the newsfeed
+	 *
+	 * @var    JObject
+	 */
 	protected $item;
 
+	/**
+	 * The form object for the newsfeed
+	 *
+	 * @var    JForm
+	 */
 	protected $form;
 
+	/**
+	 * The model state of the newsfeed
+	 *
+	 * @var    JObject
+	 */
 	protected $state;
 
 	/**
@@ -63,8 +78,13 @@ class PluginsViewPlugin extends JViewLegacy
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::apply('plugin.apply');
-			JToolbarHelper::save('plugin.save');
+			JToolbarHelper::saveGroup(
+				[
+					['apply', 'plugin.apply'],
+					['save', 'plugin.save']
+				],
+				'btn-success'
+			);
 		}
 
 		JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');

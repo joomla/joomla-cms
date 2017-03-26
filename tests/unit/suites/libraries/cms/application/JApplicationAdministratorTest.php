@@ -116,7 +116,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -233,7 +233,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('isis', $template->template);
+		$this->assertEquals('atum', $template->template);
 	}
 
 	/**
@@ -291,7 +291,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
+		$this->assertEquals('JWeb Body', (string) $this->class->getResponse()->getBody());
 	}
 
 	/**

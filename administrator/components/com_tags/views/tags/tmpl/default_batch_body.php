@@ -10,14 +10,14 @@ defined('_JEXEC') or die;
 $published = $this->state->get('filter.published');
 ?>
 
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="control-group span6">
+<div class="container">
+	<div class="row">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
-		<div class="control-group span6">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.access'); ?>
 			</div>

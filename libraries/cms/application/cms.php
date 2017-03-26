@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Web\WebClient;
 use Joomla\Cms\Event\AbstractEvent;
 use Joomla\Cms\Event\BeforeExecuteEvent;
 use Joomla\DI\Container;
@@ -25,6 +26,70 @@ use Joomla\Session\SessionEvent;
 abstract class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 {
 	use ContainerAwareTrait;
+
+	/**
+	 * Constant defining an enqueued emergency message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_EMERGENCY = 'emergency';
+
+	/**
+	 * Constant defining an enqueued alert message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_ALERT = 'alert';
+
+	/**
+	 * Constant defining an enqueued critical message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_CRITICAL = 'critical';
+
+	/**
+	 * Constant defining an enqueued error message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_ERROR = 'error';
+
+	/**
+	 * Constant defining an enqueued warning message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_WARNING = 'warning';
+
+	/**
+	 * Constant defining an enqueued notice message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_NOTICE = 'notice';
+
+	/**
+	 * Constant defining an enqueued info message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_INFO = 'info';
+
+	/**
+	 * Constant defining an enqueued debug message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_DEBUG = 'debug';
 
 	/**
 	 * Array of options for the JDocument object
@@ -93,20 +158,20 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input      An optional argument to provide dependency injection for the application's
-	 *                                             input object.  If the argument is a JInput object that object will become
-	 *                                             the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config     An optional argument to provide dependency injection for the application's
-	 *                                             config object.  If the argument is a Registry object that object will become
-	 *                                             the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client     An optional argument to provide dependency injection for the application's
-	 *                                             client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                                             the application's client object, otherwise a default client object is created.
-	 * @param   Container              $container  Dependency injection container.
+	 * @param   JInput     $input      An optional argument to provide dependency injection for the application's input
+	 *                                 object.  If the argument is a JInput object that object will become the
+	 *                                 application's input object, otherwise a default input object is created.
+	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
+	 *                                 object.  If the argument is a Registry object that object will become the
+	 *                                 application's config object, otherwise a default config object is created.
+	 * @param   WebClient  $client     An optional argument to provide dependency injection for the application's client
+	 *                                 object.  If the argument is a WebClient object that object will become the
+	 *                                 application's client object, otherwise a default client object is created.
+	 * @param   Container  $container  Dependency injection container.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
+	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		$container = $container ?: new Container;
 		$this->setContainer($container);
@@ -277,7 +342,7 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 	 *
 	 * @since   3.2
 	 */
-	public function enqueueMessage($msg, $type = 'message')
+	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
 		// Don't add empty messages.
 		if (!strlen(trim($msg)))
@@ -516,11 +581,13 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 	/**
 	 * Get the system message queue.
 	 *
+	 * @param   boolean  $clear  Clear the messages currently attached to the application object
+	 *
 	 * @return  array  The system message queue.
 	 *
 	 * @since   3.2
 	 */
-	public function getMessageQueue()
+	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->messageQueue))
@@ -534,7 +601,14 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 			}
 		}
 
-		return $this->messageQueue;
+		$messageQueue = $this->messageQueue;
+
+		if ($clear)
+		{
+			$this->messageQueue = array();
+		}
+
+		return $messageQueue;
 	}
 
 	/**
@@ -1141,5 +1215,41 @@ abstract class JApplicationCms extends JApplicationWeb implements ContainerAware
 		$this->sendHeaders();
 
 		return $this->getBody();
+	}
+
+	/**
+	 * Method to determine a hash for anti-spoofing variable names
+	 *
+	 * @param   boolean  $forceNew  If true, force a new token to be created
+	 *
+	 * @return  string  Hashed var name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFormToken($forceNew = false)
+	{
+		/** @var JSession $session */
+		$session = $this->getSession();
+
+		return $session->getFormToken();
+	}
+
+	/**
+	 * Checks for a form token in the request.
+	 *
+	 * Use in conjunction with getFormToken.
+	 *
+	 * @param   string  $method  The request method in which to look for the token key.
+	 *
+	 * @return  boolean  True if found and valid, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkToken($method = 'post')
+	{
+		/** @var JSession $session */
+		$session = $this->getSession();
+
+		return $session->checkToken($method);
 	}
 }

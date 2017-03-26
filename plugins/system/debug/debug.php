@@ -194,7 +194,8 @@ class PlgSystemDebug extends JPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('stylesheet', 'cms/debug.css', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'system/debug.css', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Only if debugging is enabled for SQL query popovers.
@@ -253,13 +254,6 @@ class PlgSystemDebug extends JPlugin
 		$this->loadLanguage();
 
 		$html = array();
-
-		// Some "mousewheel protecting" JS.
-		$html[] = "<script>function toggleContainer(name)
-		{
-			var e = document.getElementById(name);// MooTools might not be available ;)
-			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
-		}</script>";
 
 		$html[] = '<div id="system-debug" class="profiler">';
 
@@ -421,12 +415,12 @@ class PlgSystemDebug extends JPlugin
 
 		if (!method_exists($this, $fncName))
 		{
-			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br />';
+			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br>';
 		}
 
 		$html = array();
 
-		$js = "toggleContainer('dbg_container_" . $item . "');";
+		$js = "Joomla.toggleContainer('dbg_container_" . $item . "');";
 
 		$class = 'dbg-header' . $status;
 
@@ -576,13 +570,13 @@ class PlgSystemDebug extends JPlugin
 			$col = (E_WARNING == $error->get('level')) ? 'red' : 'orange';
 
 			$html[] = '<li>';
-			$html[] = '<b style="color: ' . $col . '">' . $error->getMessage() . '</b><br />';
+			$html[] = '<b style="color: ' . $col . '">' . $error->getMessage() . '</b><br>';
 
 			$info = $error->get('info');
 
 			if ($info)
 			{
-				$html[] = '<pre>' . print_r($info, true) . '</pre><br />';
+				$html[] = '<pre>' . print_r($info, true) . '</pre><br>';
 			}
 
 			$html[] = $this->renderBacktrace($error);
@@ -616,8 +610,8 @@ class PlgSystemDebug extends JPlugin
 			$totalTime += $mark->time;
 			$totalMem += (float) $mark->memory;
 			$htmlMark = sprintf(
-				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="label label-default">%.2f&nbsp;ms</span>'
-				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label label-default">%0.2f MB</span>'
+				JText::_('PLG_DEBUG_TIME') . ': <span class="badge badge-time">%.2f&nbsp;ms</span> / <span class="badge badge-default">%.2f&nbsp;ms</span>'
+				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="badge badge-memory">%0.3f MB</span> / <span class="badge badge-default">%0.2f MB</span>'
 				. ' %s: %s',
 				$mark->time,
 				$mark->totalTime,
@@ -642,34 +636,34 @@ class PlgSystemDebug extends JPlugin
 		{
 			if ($mark->time > $avgTime * 1.5)
 			{
-				$barClass = 'bar-danger';
-				$labelClass = 'label-important label-danger';
+				$barClass = 'bg-danger';
+				$labelClass = 'badge-danger';
 			}
 			elseif ($mark->time < $avgTime / 1.5)
 			{
-				$barClass = 'bar-success';
-				$labelClass = 'label-success';
+				$barClass = 'bg-success';
+				$labelClass = 'badge-success';
 			}
 			else
 			{
-				$barClass = 'bar-warning';
-				$labelClass = 'label-warning';
+				$barClass = 'bg-warning';
+				$labelClass = 'badge-warning';
 			}
 
 			if ($mark->memory > $avgMem * 1.5)
 			{
-				$barClassMem = 'bar-danger';
-				$labelClassMem = 'label-important label-danger';
+				$barClassMem = 'bg-danger';
+				$labelClassMem = 'badge-danger';
 			}
 			elseif ($mark->memory < $avgMem / 1.5)
 			{
-				$barClassMem = 'bar-success';
-				$labelClassMem = 'label-success';
+				$barClassMem = 'bg-success';
+				$labelClassMem = 'badge-success';
 			}
 			else
 			{
-				$barClassMem = 'bar-warning';
-				$labelClassMem = 'label-warning';
+				$barClassMem = 'bg-warning';
+				$labelClassMem = 'badge-warning';
 			}
 
 			$barClass .= " progress-$barClass";
@@ -687,7 +681,7 @@ class PlgSystemDebug extends JPlugin
 				'tip' => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
 			);
 
-			$htmlMarks[] = '<div>' . str_replace('label-time', $labelClass, str_replace('label-memory', $labelClassMem, $mark->html)) . '</div>';
+			$htmlMarks[] = '<div>' . str_replace('badge-time', $labelClass, str_replace('badge-memory', $labelClassMem, $mark->html)) . '</div>';
 		}
 
 		$html[] = '<h4>' . JText::_('PLG_DEBUG_TIME') . '</h4>';
@@ -729,20 +723,20 @@ class PlgSystemDebug extends JPlugin
 
 				if ($totalQueryTime > ($totalTime * 0.25))
 				{
-					$labelClass = 'label-important';
+					$labelClass = 'badge-important';
 				}
 				elseif ($totalQueryTime < ($totalTime * 0.15))
 				{
-					$labelClass = 'label-success';
+					$labelClass = 'badge-success';
 				}
 				else
 				{
-					$labelClass = 'label-warning';
+					$labelClass = 'badge-warning';
 				}
 
-				$html[] = '<br /><div>' . JText::sprintf(
+				$html[] = '<br><div>' . JText::sprintf(
 						'PLG_DEBUG_QUERIES_TIME',
-						sprintf('<span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
+						sprintf('<span class="badge ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
 
 				if ($this->params->get('log-executed-sql', '0'))
@@ -766,8 +760,8 @@ class PlgSystemDebug extends JPlugin
 	{
 		$bytes = memory_get_usage();
 
-		return '<span class="label label-default">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="label label-default">'
+		return '<span class="badge badge-default">' . JHtml::_('number.bytes', $bytes) . '</span>'
+			. ' (<span class="badge badge-default">'
 			. number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))
 			. ' '
 			. JText::_('PLG_DEBUG_BYTES')
@@ -882,18 +876,18 @@ class PlgSystemDebug extends JPlugin
 				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN.
 				if ($timeScore > 10)
 				{
-					$barClass = 'bar-danger';
-					$labelClass = 'label-important';
+					$barClass = 'bg-danger';
+					$labelClass = 'badge-danger';
 				}
 				elseif ($hasWarnings || $timeScore > 5)
 				{
-					$barClass = 'bar-warning';
-					$labelClass = 'label-warning';
+					$barClass = 'bg-warning';
+					$labelClass = 'badge-warning';
 				}
 				else
 				{
-					$barClass = 'bar-success';
-					$labelClass = 'label-success';
+					$barClass = 'bg-success';
+					$labelClass = 'badge-success';
 				}
 
 				// Computes bargraph as follows: Position begin and end of the bar relatively to whole execution time.
@@ -1023,7 +1017,7 @@ class PlgSystemDebug extends JPlugin
 				$htmlTiming .= JText::sprintf(
 						'PLG_DEBUG_QUERY_TIME',
 						sprintf(
-							'<span class="label %s">%.2f&nbsp;ms</span>',
+							'<span class="badge %s">%.2f&nbsp;ms</span>',
 							$info[$id]->class,
 							$timing[$id]['0']
 						)
@@ -1032,7 +1026,7 @@ class PlgSystemDebug extends JPlugin
 				if ($timing[$id]['1'])
 				{
 					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST',
-							sprintf('<span class="label label-default">%.2f&nbsp;ms</span>', $timing[$id]['1'])
+							sprintf('<span class="badge badge-default">%.2f&nbsp;ms</span>', $timing[$id]['1'])
 						);
 				}
 
@@ -1046,20 +1040,20 @@ class PlgSystemDebug extends JPlugin
 					// Determine colour of query memory usage.
 					if ($memoryUsed > 0.1 * $memoryUsageNow)
 					{
-						$labelClass = 'label-important';
+						$labelClass = 'badge-danger';
 					}
 					elseif ($memoryUsed > 0.05 * $memoryUsageNow)
 					{
-						$labelClass = 'label-warning';
+						$labelClass = 'badge-warning';
 					}
 					else
 					{
-						$labelClass = 'label-success';
+						$labelClass = 'badge-success';
 					}
 
 					$htmlTiming .= ' ' . '<span class="dbg-query-memory">' . JText::sprintf('PLG_DEBUG_MEMORY_USED_FOR_QUERY',
-							sprintf('<span class="label ' . $labelClass . '">%.3f&nbsp;MB</span>', $memoryUsed / 1048576),
-							sprintf('<span class="label label-default">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576)
+							sprintf('<span class="badge ' . $labelClass . '">%.3f&nbsp;MB</span>', $memoryUsed / 1048576),
+							sprintf('<span class="badge badge-default">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576)
 						)
 						. '</span>';
 
@@ -1070,11 +1064,11 @@ class PlgSystemDebug extends JPlugin
 
 						if ($resultsReturned > 3000)
 						{
-							$labelClass = 'label-important';
+							$labelClass = 'badge-danger';
 						}
 						elseif ($resultsReturned > 1000)
 						{
-							$labelClass = 'label-warning';
+							$labelClass = 'badge-warning';
 						}
 						elseif ($resultsReturned == 0)
 						{
@@ -1082,10 +1076,10 @@ class PlgSystemDebug extends JPlugin
 						}
 						else
 						{
-							$labelClass = 'label-success';
+							$labelClass = 'badge-success';
 						}
 
-						$htmlResultsReturned = '<span class="label ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
+						$htmlResultsReturned = '<span class="badge ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
 						$htmlTiming .= ' <span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}
@@ -1144,7 +1138,7 @@ class PlgSystemDebug extends JPlugin
 					}
 
 					$htmlQuery = '<div class="alert alert-error">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
-						. '<pre class="alert hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
+						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
 				}
 				else
 				{
@@ -1172,15 +1166,15 @@ class PlgSystemDebug extends JPlugin
 
 		if ($totalQueryTime > ($totalTime * 0.25))
 		{
-			$labelClass = 'label-important';
+			$labelClass = 'badge-danger';
 		}
 		elseif ($totalQueryTime < ($totalTime * 0.15))
 		{
-			$labelClass = 'label-success';
+			$labelClass = 'badge-success';
 		}
 		else
 		{
-			$labelClass = 'label-warning';
+			$labelClass = 'badge-warning';
 		}
 
 		if ($this->totalQueries == 0)
@@ -1191,7 +1185,7 @@ class PlgSystemDebug extends JPlugin
 		$html = array();
 
 		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
-			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br />';
+			. sprintf(' <span class="badge ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br>';
 
 		if ($total_duplicates)
 		{
@@ -1213,7 +1207,7 @@ class PlgSystemDebug extends JPlugin
 			$html[] = '</div>';
 		}
 
-		$html[] = '<ol><li>' . implode('<hr /></li><li>', $list) . '<hr /></li></ol>';
+		$html[] = '<ol><li>' . implode('<hr></li><li>', $list) . '<hr></li></ol>';
 
 		if (!$this->params->get('query_types', 1))
 		{
@@ -1300,7 +1294,7 @@ class PlgSystemDebug extends JPlugin
 			if (isset($bar->tip) && $bar->tip)
 			{
 				$barClass .= ' hasTooltip';
-				$tip = JHtml::tooltipText($bar->tip, '', 0);
+				$tip = JHtml::_('tooltipText', $bar->tip, '', 0);
 			}
 
 			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
@@ -1394,7 +1388,7 @@ class PlgSystemDebug extends JPlugin
 					{
 						// Displays query parts which don't use a key with warning:
 						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="'
-									. JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
+									. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
 									. JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
 						$hasWarnings = true;
 					}
@@ -1414,7 +1408,7 @@ class PlgSystemDebug extends JPlugin
 					$htmlTdWithWarnings = str_replace(
 											'Using&nbsp;filesort',
 											'<span class="dbg-warning hasTooltip" title="'
-												. JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
+												. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
 												. JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
 											$htmlTd
 										);
@@ -1457,9 +1451,7 @@ class PlgSystemDebug extends JPlugin
 
 		$this->totalQueries = $db->getCount();
 
-		$dbVersion5037 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.0.37', '>=');
-
-		if ($dbVersion5037)
+		if ($db->getServerType() === 'mysql')
 		{
 			try
 			{
@@ -1688,7 +1680,7 @@ class PlgSystemDebug extends JPlugin
 
 		$query = htmlspecialchars($query, ENT_QUOTES);
 
-		$query = preg_replace($newlineKeywords, '<br />&#160;&#160;\\0', $query);
+		$query = preg_replace($newlineKeywords, '<br>&#160;&#160;\\0', $query);
 
 		$regex = array(
 
@@ -1884,7 +1876,7 @@ class PlgSystemDebug extends JPlugin
 
 		$showEverything = $this->params->get('log-everything', 0);
 
-		$out .= '<h4>' . JText::sprintf('PLG_DEBUG_LOGS_LOGGED', $logEntriesTotal) . '</h4><br />';
+		$out .= '<h4>' . JText::sprintf('PLG_DEBUG_LOGS_LOGGED', $logEntriesTotal) . '</h4><br>';
 
 		if ($showDeprecated && $logEntriesDeprecated > 0)
 		{
@@ -1893,7 +1885,7 @@ class PlgSystemDebug extends JPlugin
 				<h4>' . JText::sprintf('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE', $logEntriesDeprecated) . '</h4>
 				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
 			</div>
-			<br />';
+			<br>';
 		}
 
 		$out .= '<ol>';
@@ -1920,7 +1912,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			$out .= '<li id="dbg_logs_' . $count . '">';
-			$out .= '<h5>' . $priorities[$entry->priority] . ' ' . $entry->category . '</h5><br />
+			$out .= '<h5>' . $priorities[$entry->priority] . ' ' . $entry->category . '</h5><br>
 				<pre>' . $entry->message . '</pre>';
 
 			if ($entry->callStack)
@@ -1932,7 +1924,7 @@ class PlgSystemDebug extends JPlugin
 				$out .= JHtml::_('bootstrap.endAccordion');
 			}
 
-			$out .= '<hr /></li>';
+			$out .= '<hr></li>';
 			$count++;
 		}
 

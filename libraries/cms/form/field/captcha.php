@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.5
  */
-class JFormFieldCaptcha extends JFormField implements JFormDomfieldinterface
+class JFormFieldCaptcha extends JFormField
 {
 	/**
 	 * The field type.

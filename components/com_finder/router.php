@@ -52,19 +52,19 @@ class FinderRouter extends JComponentRouterBase
 			$item = $this->menu->getItem($query['Itemid']);
 
 			// Check if the view matches.
-			if ($item && @$item->query['view'] === @$query['view'])
+			if ($item && isset($item->query['view']) && isset($query['view']) && $item->query['view'] === $query['view'])
 			{
 				unset($query['view']);
 			}
 
 			// Check if the search query filter matches.
-			if ($item && @$item->query['f'] === @$query['f'])
+			if ($item && isset($item->query['f']) && isset($query['f']) && $item->query['f'] === $query['f'])
 			{
 				unset($query['f']);
 			}
 
 			// Check if the search query string matches.
-			if ($item && @$item->query['q'] === @$query['q'])
+			if ($item && isset($item->query['q']) && isset($query['q']) && $item->query['q'] === $query['q'])
 			{
 				unset($query['q']);
 			}
@@ -114,49 +114,11 @@ class FinderRouter extends JComponentRouterBase
 		}
 
 		// Check if the view segment is set and it equals search or advanced.
-		if (@$segments[0] === 'search' || @$segments[0] === 'advanced')
+		if (isset($segments[0]) && ($segments[0] === 'search' || $segments[0] === 'advanced'))
 		{
 			$vars['view'] = $segments[0];
 		}
 
 		return $vars;
 	}
-}
-
-/**
- * Finder router functions
- *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
- *
- * @param   array  &$query  An array of URL arguments
- *
- * @return  array  The URL arguments to use to assemble the subsequent URL.
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function FinderBuildRoute(&$query)
-{
-	$router = new FinderRouter;
-
-	return $router->build($query);
-}
-
-/**
- * Finder router functions
- *
- * These functions are proxys for the new router interface
- * for old SEF extensions.
- *
- * @param   array  $segments  The segments of the URL to parse.
- *
- * @return  array  The URL attributes to be used by the application.
- *
- * @deprecated  4.0  Use Class based routers instead
- */
-function FinderParseRoute($segments)
-{
-	$router = new FinderRouter;
-
-	return $router->parse($segments);
 }

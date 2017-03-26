@@ -20,23 +20,21 @@ if ($params->get('show_viewsite', 1))
 	$frontEndUri = JUri::getInstance(JUri::root());
 	$frontEndUri->setScheme(((int) JFactory::getApplication()->get('force_ssl', 0) === 2) ? 'https' : 'http');
 
-	$output[] = '<div class="btn-group viewsite">'
+	$output[] = '<li class="px-2">'
 		. '<a href="' . $frontEndUri->toString() . '" target="_blank">'
-		. '<span class="icon-out-2"></span>' . JText::_('JGLOBAL_VIEW_SITE')
+		. '<span class="mr-1 fa fa-external-link"></span>' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
-		. '<span class="btn-group separator"></span>'
-		. '</div>';
+		. '</li>';
 }
 
 // Print the link to open a new Administrator window.
 if ($params->get('show_viewadmin', 0))
 {
-	$output[] = '<div class="btn-group viewsite">'
+	$output[] = '<li class="px-2">'
 		. '<a href="' . JUri::base() . 'index.php" target="_blank">'
-		. '<span class="icon-out-2"></span>' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
+		. '<span class="mr-1 fa fa-external-link"></span>' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
 		. '</a>'
-		. '<span class="btn-group separator"></span>'
-		. '</div>';
+		. '</li>';
 }
 
 // Print logged in user count based on the shared session state
@@ -45,11 +43,10 @@ if (JFactory::getConfig()->get('shared_session', '0'))
 	// Print the frontend logged in  users.
 	if ($params->get('show_loggedin_users', 1))
 	{
-		$output[] = '<div class="btn-group loggedin-users">'
-			. '<span class="badge">' . $total_users . '</span>'
+		$output[] = '<li class="px-2">'
+			. '<span class="mr-1 badge badge-pill badge-default">' . $total_users . '</span>'
 			. JText::plural('MOD_STATUS_TOTAL_USERS', $total_users)
-			. '<span class="btn-group separator"></span>'
-			. '</div>';
+			. '</li>';
 	}
 }
 else
@@ -57,35 +54,32 @@ else
 	// Print the frontend logged in  users.
 	if ($params->get('show_loggedin_users', 1))
 	{
-		$output[] = '<div class="btn-group loggedin-users">'
-			. '<span class="badge">' . $online_num . '</span>'
+		$output[] = '<li class="px-2">'
+			. '<span class="mr-1 badge badge-pill badge-default">' . $online_num . '</span>'
 			. JText::plural('MOD_STATUS_USERS', $online_num)
-			. '<span class="btn-group separator"></span>'
-			. '</div>';
+			. '</li>';
 	}
 
 	// Print the backend logged in users.
 	if ($params->get('show_loggedin_users_admin', 1))
 	{
-		$output[] = '<div class="btn-group backloggedin-users">'
-			. '<span class="badge">' . $count . '</span>'
+		$output[] = '<li class="px-2">'
+			. '<span class="mr-1 badge badge-pill badge-default">' . $count . '</span>'
 			. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
-			. '<span class="btn-group separator"></span>'
-			. '</div>';
+			. '</li>';
 	}
 }
 
 //  Print the inbox message.
 if ($params->get('show_messages', 1))
 {
-	$active   = $unread ? ' badge-warning' : '';
-	$output[] = '<div class="btn-group ' . $inboxClass . '">'
+	$active   = $unread ? 'badge badge-pill badge-warning' : 'badge badge-pill badge-default';
+	$output[] = '<li class="px-2">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
-		. '<span class="badge' . $active . '">' . $unread . '</span>'
+		. '<span class="mr-1 ' . $active . '">' . $unread . '</span>'
 		. JText::plural('MOD_STATUS_MESSAGES_LABEL', $unread)
 		. ($hideLinks ? '' : '</a>')
-		. '<span class="btn-group separator"></span>'
-		. '</div>';
+		. '</li>';
 }
 
 // Print the logout link.
@@ -100,11 +94,11 @@ else
 
 if ($params->get('show_logout', 1))
 {
-	$output[] = '<div class="btn-group logout">'
+	$output[] = '<li class="px-2 logout">'
 		. ($hideLinks ? '' : '<a href="' . $logoutLink . '">')
-		. '<span class="icon-minus-2"></span>' . JText::_('JLOGOUT')
+		. '<span class="mr-1 fa fa-sign-out"></span>' . JText::_('JLOGOUT')
 		. ($hideLinks ? '' : '</a>')
-		. '</div>';
+		. '</li>';
 }
 
 // Output the items.

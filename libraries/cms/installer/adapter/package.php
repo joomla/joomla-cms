@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Event\Event;
+
 /**
  * Package installer
  *
@@ -322,18 +324,17 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	/**
 	 * Handler for the `onExtensionAfterInstall` event
 	 *
-	 * @param   JInstaller       $installer  JInstaller instance managing the extension's installation
-	 * @param   integer|boolean  $eid        The extension ID of the installed extension on success, boolean false on install failure
+	 * @param   Event  $event  The event
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onExtensionAfterInstall(JInstaller $installer, $eid)
+	public function onExtensionAfterInstall(Event $event)
 	{
-		if ($eid !== false)
+		if ($event->getArgument('eid', false) !== false)
 		{
-			$this->installedIds[] = $eid;
+			$this->installedIds[] = $event->getArgument('eid');
 		}
 	}
 
@@ -403,21 +404,17 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 		else
 		{
-			$this->extension->name = $this->name;
-			$this->extension->type = 'package';
+			$this->extension->name    = $this->name;
+			$this->extension->type    = 'package';
 			$this->extension->element = $this->element;
 
 			// There is no folder for packages
-			$this->extension->folder = '';
-			$this->extension->enabled = 1;
+			$this->extension->folder    = '';
+			$this->extension->enabled   = 1;
 			$this->extension->protected = 0;
-			$this->extension->access = 1;
+			$this->extension->access    = 1;
 			$this->extension->client_id = 0;
-
-			// Custom data
-			$this->extension->custom_data = '';
-			$this->extension->system_data = '';
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->params    = $this->parent->getParams();
 		}
 
 		// Update the manifest cache for the entry
@@ -714,11 +711,10 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		$db->setQuery($query);
-		$result = $db->loadResult();
 
 		// Note: For templates, libraries and packages their unique name is their key.
 		// This means they come out the same way they came in.
-		return $result;
+		return $db->loadResult();
 	}
 
 	/**

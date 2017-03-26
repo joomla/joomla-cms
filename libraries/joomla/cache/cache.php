@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Web\WebClient;
 use Joomla\String\StringHelper;
 
 /**
@@ -180,7 +181,7 @@ class JCache
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function contains($id, $group = null)
 	{
@@ -525,8 +526,8 @@ class JCache
 		if (isset($data['body']))
 		{
 			$token       = JSession::getFormToken();
-			$search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
-			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
+			$search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1">#';
+			$replacement = '<input type="hidden" name="' . $token . '" value="1">';
 
 			$data['body'] = preg_replace($search, $replacement, $data['body']);
 			$body         = $data['body'];
@@ -763,7 +764,7 @@ class JCache
 			return '';
 		}
 
-		$webclient = new JApplicationWebClient;
+		$webclient = new WebClient;
 
 		if ($webclient->mobile)
 		{

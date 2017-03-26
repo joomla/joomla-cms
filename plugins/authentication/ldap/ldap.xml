@@ -30,47 +30,52 @@
 
 				<field
 					name="port"
-					type="text"
+					type="number"
 					label="PLG_LDAP_FIELD_PORT_LABEL"
 					description="PLG_LDAP_FIELD_PORT_DESC"
+					min="1"
+					max="65535"
 					default="389"
-					size="20"
+					hint="389"
+					validate="number"
+					filter="integer"
+					size="5"
 				/>
 
 				<field
 					name="use_ldapV3"
 					type="radio"
+					class="switcher"
 					label="PLG_LDAP_FIELD_V3_LABEL"
 					description="PLG_LDAP_FIELD_V3_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 				>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="negotiate_tls"
 					type="radio"
+					class="switcher"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 				>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="no_referrals"
 					type="radio"
+					class="switcher"
 					default="0"
-					class="btn-group btn-group-yesno"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 					description="PLG_LDAP_FIELD_REFERRALS_DESC"
 				>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

@@ -110,7 +110,9 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']? $this->element['published'] : array(0, 1);
+		$published = $this->element['published']?: array(0, 1);
+		$app       = JFactory::getApplication();
+		$tag       = $app->getLanguage()->getTag();
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -118,8 +120,18 @@ class JFormFieldTag extends JFormFieldList
 			->from('#__tags AS a')
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
+		// Limit Options in multilanguage
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+		{
+			$lang = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
+
+			if ($lang == 'current_language')
+			{
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+			}
+		}
 		// Filter language
-		if (!empty($this->element['language']))
+		elseif (!empty($this->element['language']))
 		{
 			if (strpos($this->element['language'], ',') !== false)
 			{

@@ -22,7 +22,7 @@ class MenusControllerMenus extends JControllerLegacy
 	 * Display the view
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached.
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController        This object to support chaining.
 	 *
@@ -205,7 +205,7 @@ class MenusControllerMenus extends JControllerLegacy
 				{
 					// Update the menu table.
 					$log = "Link $item->id refers to $item->component_id, converting to $componentId ($item->link)";
-					echo "<br />$log";
+					echo "<br>$log";
 
 					$query->clear();
 					$query->update('#__menu')

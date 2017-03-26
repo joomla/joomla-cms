@@ -29,6 +29,7 @@
 
 	<field
 		name="parent_id"
+		class="advancedSelect"
 		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
 		description="COM_CATEGORIES_FIELD_PARENT_DESC"
@@ -72,7 +73,7 @@
 		type="text"
 		label="JGLOBAL_TITLE"
 		description="JFIELD_TITLE_DESC"
-		class="input-xxlarge input-large-text"
+		class="input-xxlarge"
 		size="40"
 		required="true"
 	/>
@@ -91,7 +92,6 @@
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-		class="span12"
 		size="45"
 		maxlength="255"
 	/>
@@ -101,7 +101,6 @@
 		type="text"
 		label="COM_CATEGORIES_FIELD_NOTE_LABEL"
 		description="COM_CATEGORIES_FIELD_NOTE_DESC"
-		class="span12"
 		size="40"
 		maxlength="255"
 	/>
@@ -122,7 +121,7 @@
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC"
 		default="1"
-		class="chzn-color-state"
+		class="custom-select-color-state"
 		size="1"
 		>
 		<option value="1">JPUBLISHED</option>
@@ -222,8 +221,8 @@
 		name="tags"
 		type="tag"
 		label="JTAG"
+		class="col-sm-12"
 		description="JTAG_DESC"
-		class="span12"
 		multiple="true"
 	/>
 

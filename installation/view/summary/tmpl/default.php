@@ -17,63 +17,47 @@ $useftp = file_exists($path) ? !is_writable($path) : !is_writable(JPATH_CONFIGUR
 $prev = $useftp ? 'ftp' : 'database';
 ?>
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
-<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
-	<div class="btn-toolbar">
-		<div class="btn-group pull-right">
-			<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
-			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
+<form action="index.php" method="post" id="adminForm" class="form-validate">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
+			<a class="btn btn-secondary" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
+			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>
 	</div>
 
 	<h3><?php echo JText::_('INSTL_FINALISATION'); ?></h3>
 	<hr class="hr-condensed" />
 
-	<div class="control-group">
-		<div class="control-label">
-			<?php echo $this->form->getLabel('sample_file'); ?>
+	<div class="form-group">
+		<?php echo $this->form->getLabel('sample_file'); ?>
+		<div class="form-text text-muted small">
+			<?php echo $this->form->getInput('sample_file'); ?>
 		</div>
-		<div class="controls">
-			<div class="help-block">
-				<?php echo $this->form->getInput('sample_file'); ?>
-			</div>
-			<p class="help-block">
-				<?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?>
-			</p>
-		</div>
+		<p class="form-text text-muted small"><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
 	</div>
 
 	<h3><?php echo JText::_('INSTL_STEP_SUMMARY_LABEL'); ?></h3>
 	<hr class="hr-condensed" />
 
-	<div class="control-group" id="summary_email">
-		<div class="control-label">
-			<?php echo $this->form->getLabel('summary_email'); ?>
-		</div>
-		<div class="controls">
-			<?php echo $this->form->getInput('summary_email'); ?>
-			<p class="help-block">
-				<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="label">' . $this->options['admin_email'] . '</span>'); ?>
-			</p>
-		</div>
+	<div class="form-group" id="summary_email">
+		<?php echo $this->form->getLabel('summary_email'); ?>
+		<?php echo $this->form->getInput('summary_email'); ?>
+		<p class="form-text text-muted small">
+			<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="badge badge-default">' . $this->options['admin_email'] . '</span>'); ?>
+		</p>
 	</div>
 
-	<div class="control-group" id="email_passwords" style="display:none;">
-		<div class="control-label">
-			<?php echo $this->form->getLabel('summary_email_passwords'); ?>
-		</div>
-		<div class="controls">
-			<?php echo $this->form->getInput('summary_email_passwords'); ?>
-			<p class="help-block">
-				<?php echo JText::_('INSTL_SUMMARY_EMAIL_PASSWORDS_DESC'); ?>
-			</p>
-		</div>
+	<div class="form-group" id="email_passwords" style="display:none;">
+		<?php echo $this->form->getLabel('summary_email_passwords'); ?>
+		<?php echo $this->form->getInput('summary_email_passwords'); ?>
+		<p class="form-text text-muted small"><?php echo JText::_('INSTL_SUMMARY_EMAIL_PASSWORDS_DESC'); ?></p>
 	</div>
 
-	<div class="row-fluid">
-		<div class="span6">
+	<div class="row">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_SITE'); ?></h3>
 			<hr class="hr-condensed" />
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<tbody>
 					<tr>
 						<td class="item">
@@ -98,7 +82,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_SITE_OFFLINE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo $this->options['site_offline'] ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $this->options['site_offline'] ? 'success' : 'important'; ?>">
 								<?php echo JText::_($this->options['site_offline'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -108,7 +92,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_EMAIL_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label"><?php echo $this->options['admin_email']; ?></span>
+							<span class="badge badge-default"><?php echo $this->options['admin_email']; ?></span>
 						</td>
 					</tr>
 					<tr>
@@ -116,7 +100,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_USER_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label"><?php echo $this->options['admin_user']; ?></span>
+							<span class="badge badge-default"><?php echo $this->options['admin_user']; ?></span>
 						</td>
 					</tr>
 					<tr>
@@ -135,10 +119,10 @@ $prev = $useftp ? 'ftp' : 'database';
 				</tfoot>
 			</table>
 		</div>
-		<div class="span6">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_DATABASE'); ?></h3>
 			<hr class="hr-condensed" />
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<tbody>
 					<tr>
 						<td class="item">
@@ -193,7 +177,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['db_old'] == 'remove') ? 'important' : 'success'; ?>">
+							<span class="badge badge-<?php echo ($this->options['db_old'] == 'remove') ? 'important' : 'success'; ?>">
 								<?php echo JText::_(($this->options['db_old'] == 'remove') ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
 							</span>
 						</td>
@@ -208,18 +192,18 @@ $prev = $useftp ? 'ftp' : 'database';
 		</div>
 	</div>
 	<?php if ($useftp) : ?>
-	<div class="row-fluid">
-		<div class="span6">
+	<div class="row">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
 			<hr class="hr-condensed" />
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<tbody>
 					<tr>
 						<td class="item">
 							<?php echo JText::_('INSTL_FTP_ENABLE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo $this->options['ftp_enable'] ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $this->options['ftp_enable'] ? 'success' : 'important'; ?>">
 								<?php echo JText::_($this->options['ftp_enable'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -262,7 +246,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_SAVE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo $this->options['ftp_save'] ? 'important' : 'success'; ?>">
+							<span class="badge badge-<?php echo $this->options['ftp_save'] ? 'important' : 'success'; ?>">
 								<?php echo JText::_($this->options['ftp_save'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -278,14 +262,14 @@ $prev = $useftp ? 'ftp' : 'database';
 		</div>
 	</div>
 	<?php endif; ?>
-	<div class="row-fluid">
-		<div class="span6">
+	<div class="row">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
 			<p class="install-text">
 				<?php echo JText::_('INSTL_PRECHECK_DESC'); ?>
 			</p>
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<tbody>
 				<?php foreach ($this->phpoptions as $option) : ?>
 					<tr>
@@ -293,10 +277,10 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo $option->state ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $option->state ? 'success' : 'important'; ?>">
 								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
-								<?php if ($option->notice):?>
-								<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
+								<?php if ($option->notice): ?>
+									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif;?>
 							</span>
 						</td>
@@ -310,11 +294,11 @@ $prev = $useftp ? 'ftp' : 'database';
 				</tfoot>
 			</table>
 		</div>
-		<div class="span6">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
 			<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
 						<th>
@@ -335,12 +319,12 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo $setting->label; ?>
 						</td>
 						<td>
-							<span class="label label-success disabled">
+							<span class="badge badge-success disabled">
 								<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+							<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
@@ -355,24 +339,22 @@ $prev = $useftp ? 'ftp' : 'database';
 			</table>
 		</div>
 	</div>
-	<div class="row-fluid">
-		<div class="btn-toolbar">
-			<div class="btn-group pull-right">
-				<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
-				<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
-			</div>
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
+			<a class="btn btn-secondary" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
+			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>
 	</div>
 
-	<input type="hidden" name="task" value="summary" />
-	<input type="hidden" name="format" value="json" />
+	<input type="hidden" name="task" value="summary">
+	<input type="hidden" name="format" value="json">
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 
 <script type="text/javascript">
 	jQuery('input[name="jform[summary_email]"]').each(function(index, el) {
-        jQuery(el).on('click', function() {
-            Install.toggle('email_passwords', 'summary_email', 1);
+        jQuery(el).parent().on('click', function() {
+            Install.toggle('email_passwords', 'summary_email', 0);
         });
         Install.toggle('email_passwords', 'summary_email', 1);
     });

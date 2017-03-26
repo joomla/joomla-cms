@@ -36,6 +36,9 @@ class JUserTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		// Clear JAccess static caches.
+		JAccess::clearStatics();
+
 		$this->saveFactoryState();
 
 		$mockApp = $this->getMockCmsApp();
@@ -55,7 +58,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   12.1
 	 */
 	protected function tearDown()

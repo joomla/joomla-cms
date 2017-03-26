@@ -11,8 +11,8 @@
 defined('_JEXEC') or die;
 
 $params   = $displayData->params;
-$basePath = $params->get('basePath', 'media/editors/codemirror/');
-$modePath = $params->get('modePath', 'media/editors/codemirror/mode/%N/%N');
+$basePath = $params->get('basePath', 'media/vendor/codemirror/');
+$modePath = $params->get('modePath', 'media/vendor/codemirror/mode/%N/%N');
 $extJS    = JDEBUG ? '.js' : '.min.js';
 $extCSS   = JDEBUG ? '.css' : '.min.css';
 
@@ -26,7 +26,6 @@ $fskeys[]        = $params->get('fullScreen', 'F10');
 $fullScreenCombo = implode('-', $fskeys);
 $fsCombo         = json_encode($fullScreenCombo);
 $modPath         = json_encode(JUri::root(true) . '/' . $modePath . $extJS);
-
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
 		;(function (cm, $) {

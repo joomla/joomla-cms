@@ -135,14 +135,18 @@ class JErrorPage
 
 		if ($isException)
 		{
-			$message .= ': ';
-
-			if (isset($e))
+			// Make sure we do not display sensitive data in production environments
+			if (ini_get('display_errors'))
 			{
-				$message .= $e->getMessage() . ': ';
-			}
+				$message .= ': ';
 
-			$message .= $error->getMessage();
+				if (isset($e))
+				{
+					$message .= $e->getMessage() . ': ';
+				}
+
+				$message .= $error->getMessage();
+			}
 		}
 
 		echo $message;

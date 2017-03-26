@@ -21,12 +21,11 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MENU" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_menus/models/fields"
-			>
+			<fieldset name="basic" addfieldpath="/administrator/components/com_menus/models/fields">
 				<field
 					name="menutype"
 					type="menu"
+					clientid="0"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
 					description="MOD_MENU_FIELD_MENUTYPE_DESC"
 				/>
@@ -86,13 +85,13 @@
 				<field
 					name="showAllChildren"
 					type="radio"
+					class="switcher"
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
 					description="MOD_MENU_FIELD_ALLCHILDREN_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 

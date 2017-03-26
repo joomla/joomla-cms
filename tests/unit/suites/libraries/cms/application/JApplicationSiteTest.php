@@ -116,7 +116,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -248,7 +248,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('protostar', $template->template);
+		$this->assertEquals('aurora', $template->template);
 	}
 
 	/**
@@ -306,7 +306,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
+		$this->assertEquals('JWeb Body', (string) $this->class->getResponse()->getBody());
 	}
 
 	/**
@@ -346,12 +346,12 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testSetTemplate()
 	{
-		$this->class->setTemplate('protostar');
+		$this->class->setTemplate('aurora');
 
 		$template = $this->class->getTemplate(true);
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('protostar', $template->template);
+		$this->assertEquals('aurora', $template->template);
 	}
 }

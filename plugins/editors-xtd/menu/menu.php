@@ -35,41 +35,30 @@ class PlgButtonMenu extends JPlugin
 	public function onDisplay($name)
 	{
 		/*
-		 * Javascript to insert the link
-		 * View element calls jSelectMenuItem when a menu item is clicked
-		 * jSelectMenuItem creates the link tag, sends it to the editor,
-		 * and closes the select frame.
-		 */
-		$js = "
-		function jSelectMenuItem(id, title, tree, object, uri, language)
-		{
-			var thislang = '';
-			if (language !== '')
-			{
-				var thislang = '&lang=';
-			}
-			var tag = '<a href=\"' + uri + thislang + language + '\">' + title + '</a>';
-			jInsertEditorText(tag, '" . $name . "');
-			jModalClose();
-		}";
-
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
-
-		/*
 		 * Use the built-in element view to select the menu item.
 		 * Currently uses blank class.
 		 */
-		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+		$user  = JFactory::getUser();
+
+		if ($user->authorise('core.create', 'com_menus')
+			|| $user->authorise('core.edit', 'com_menus'))
+		{
+		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
+			. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
 		$button          = new JObject;
 		$button->modal   = true;
-		$button->class   = 'btn';
 		$button->link    = $link;
 		$button->text    = JText::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
 		$button->name    = 'share-alt';
-		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		$button->options = array(
+			'height' => '300px',
+			'width'  => '800px',
+			'bodyHeight'  => '70',
+			'modalWidth'  => '80',
+		);
 
 		return $button;
+		}
 	}
 }

@@ -17,7 +17,9 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlJquery
 {
 	/**
-	 * @var    array  Array containing information for loaded files
+	 * Array containing information for loaded files
+	 *
+	 * @var    array
 	 * @since  3.0
 	 */
 	protected static $loaded = array();
@@ -35,7 +37,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 */
-	public static function framework($noConflict = true, $debug = null, $migrate = true)
+	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))
@@ -49,18 +51,18 @@ abstract class JHtmlJquery
 			$debug = (boolean) JFactory::getConfig()->get('debug');
 		}
 
-		JHtml::_('script', 'jui/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		JHtml::_('script', 'vendor/jquery/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			JHtml::_('script', 'jui/jquery-noconflict.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'system/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			JHtml::_('script', 'jui/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+			JHtml::_('script', 'vendor/jquery/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
 
 		static::$loaded[__METHOD__] = true;
@@ -100,7 +102,16 @@ abstract class JHtmlJquery
 			// Only attempt to load the component if it's supported in core and hasn't already been loaded
 			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
 			{
-				JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+				JHtml::_(
+					'script',
+					'vendor/jquery-ui/jquery.ui.' . $component . '.min.js',
+					array(
+						'version' => 'auto',
+						'relative' => true,
+						'detectDebug' => $debug,
+					)
+				);
+
 				static::$loaded[__METHOD__][$component] = true;
 			}
 		}

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
+
 
 // Load user_profile plugin language
 $lang = JFactory::getLanguage();
@@ -91,7 +91,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			<div class="control-group">
 				<div class="control-label">
 					<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-						   title="<?php echo '<strong>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') . '</strong><br />' . JText::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
+						   title="<?php echo '<strong>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') . '</strong><br>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
 						<?php echo JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL'); ?>
 					</label>
 				</div>
@@ -135,8 +135,8 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate"><span><?php echo JText::_('JSUBMIT'); ?></span></button>
 				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_users&view=profile'); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
-				<input type="hidden" name="option" value="com_users" />
-				<input type="hidden" name="task" value="profile.save" />
+				<input type="hidden" name="option" value="com_users">
+				<input type="hidden" name="task" value="profile.save">
 			</div>
 		</div>
 		<?php echo JHtml::_('form.token'); ?>

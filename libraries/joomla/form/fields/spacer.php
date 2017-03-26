@@ -57,7 +57,7 @@ class JFormFieldSpacer extends JFormField
 
 		if ((string) $this->element['hr'] == 'true')
 		{
-			$html[] = '<hr' . $class . ' />';
+			$html[] = '<hr' . $class . '>';
 		}
 		else
 		{
@@ -78,7 +78,7 @@ class JFormFieldSpacer extends JFormField
 			if (!empty($this->description))
 			{
 				JHtml::_('bootstrap.tooltip');
-				$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), JText::_($this->description), 0) . '"';
+				$label .= ' title="' . JHtml::_('tooltipText', trim($text, ':'), JText::_($this->description), 0) . '"';
 			}
 
 			// Add the label text and closing tag.

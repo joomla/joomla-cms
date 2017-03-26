@@ -32,9 +32,9 @@ JFactory::getDocument()->addScriptDeclaration(
 
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.framework');
-JHtml::_('script', 'media/mediamanager.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'media/mediaelement-and-player.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'media/mediaelementplayer.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'vendor/mediaelement/mediamanager.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'vendor/mediaelement/mediaelement-and-player.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'vendor/mediaelement/mediaelementplayer.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'system/mootree.css', array('version' => 'auto', 'relative' => true));
 
 if ($lang->isRtl())
@@ -42,23 +42,21 @@ if ($lang->isRtl())
 	JHtml::_('stylesheet', 'system/mootree_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 ?>
-<div class="row-fluid">
-	<!-- Begin Sidebar -->
-	<div id="j-sidebar-container" class="span2">
+<div class="row">
+
+	<div id="j-sidebar-container" class="col-md-2">
 		<?php echo $this->sidebar; ?>
 		<div class="j-toggle-sidebar-header">
 		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS'); ?> </h3>
 		</div>
 		<div id="treeview" class="sidebar">
-			<div id="media-tree_tree" class="sidebar-nav">
+			<div id="media-tree_tree" class="tree-holder">
 				<?php echo $this->loadTemplate('folders'); ?>
 			</div>
 		</div>
 	</div>
-	<!-- End Sidebar -->
 
-	<!-- Begin Content -->
-	<div id="j-main-container" class="span10">
+	<div id="j-main-container" class="j-main-container" class="col-md-10">
 		<?php echo $this->loadTemplate('navigation'); ?>
 		<?php if (($user->authorise('core.create', 'com_media')) and $this->require_ftp) : ?>
 			<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">
@@ -66,18 +64,18 @@ if ($lang->isRtl())
 					<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>
 					<?php echo JText::_('COM_MEDIA_DESCFTP'); ?>
 					<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-					<input type="text" id="username" name="username" size="70" value="" />
+					<input type="text" id="username" name="username" size="70" value="">
 
 					<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-					<input type="password" id="password" name="password" size="70" value="" />
+					<input type="password" id="password" name="password" size="70" value="">
 				</fieldset>
 			</form>
 		<?php endif; ?>
 
-		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="cb1" id="cb1" value="0" />
-			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="task" value="">
+			<input type="hidden" name="cb1" id="cb1" value="0">
+			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>">
 		</form>
 
 		<?php if ($user->authorise('core.create', 'com_media')) : ?>
@@ -86,28 +84,29 @@ if ($lang->isRtl())
 			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
 				<div id="uploadform">
 					<fieldset id="upload-noflash" class="actions">
-							<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
-								<input required type="file" id="upload-file" name="Filedata[]" multiple /> <button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
-							<p class="help-block">
-								<?php $cMax    = (int) $this->config->get('upload_maxsize'); ?>
-								<?php $maxSize = JUtility::getMaxUploadSize($cMax . 'MB'); ?>
-								<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize)); ?>
-							</p>
+						<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
+						<input required type="file" id="upload-file" name="Filedata[]" multiple>
+						<button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
+						<p class="help-block">
+							<?php $cMax    = (int) $this->config->get('upload_maxsize'); ?>
+							<?php $maxSize = JUtility::getMaxUploadSize($cMax . 'MB'); ?>
+							<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize)); ?>
+						</p>
 					</fieldset>
-					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>">
 					<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media'); ?>
 				</div>
 			</form>
 		</div>
 		<div id="collapseFolder" class="collapse">
 			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index'); ?>" name="folderForm" id="folderForm" class="form-inline" method="post">
-					<div class="path">
-						<input type="text" id="folderpath" readonly="readonly" class="update-folder" />
-						<input required type="text" id="foldername" name="foldername" />
-						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
-						<button type="submit" class="btn"><span class="icon-folder-open"></span> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
-					</div>
-					<?php echo JHtml::_('form.token'); ?>
+				<div class="path">
+					<input type="text" id="folderpath" readonly="readonly" class="form-control update-folder">
+					<input required type="text" class="form-control" id="foldername" name="foldername">
+					<input class="form-control update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>">
+					<button type="submit" class="btn btn-secondary"><span class="icon-folder-open"></span> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
+				</div>
+				<?php echo JHtml::_('form.token'); ?>
 			</form>
 		</div>
 		<?php endif; ?>
@@ -128,10 +127,10 @@ echo JHtml::_(
 	'imagePreview',
 	array(
 		'title' => JText::_('COM_MEDIA_PREVIEW'),
-		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+		'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	),
-	'<div id="image" style="text-align:center;"><img id="imagePreviewSrc" src="../media/jui/img/alpha.png" alt="preview" style="max-width:100%; max-height:300px;"/></div>'
+	'<div id="image" style="text-align:center;"><img id="imagePreviewSrc" src="../media/jui/img/alpha.png" alt="preview" style="max-width:100%; max-height:300px;"></div>'
 );
 
 echo JHtml::_(
@@ -139,11 +138,10 @@ echo JHtml::_(
 	'videoPreview',
 	array(
 		'title' => JText::_('COM_MEDIA_PREVIEW'),
-		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+		'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	),
 	'<div id="videoPlayer" style="z-index: -100;"><video id="mejsPlayer" style="height: 250px;"/></div>'
 );
 ?>
-	<!-- End Content -->
 </div>

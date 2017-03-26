@@ -55,13 +55,10 @@ abstract class AbstractCliApplication extends AbstractApplication
 	public function __construct(Input\Cli $input = null, Registry $config = null, Cli\CliOutput $output = null, Cli\CliInput $cliInput = null)
 	{
 		// Close the application if we are not executed from the command line.
-		// @codeCoverageIgnoreStart
 		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}
-
-		// @codeCoverageIgnoreEnd
 
 		$this->output = ($output instanceof Cli\CliOutput) ? $output : new Cli\Output\Stdout;
 
@@ -105,7 +102,7 @@ abstract class AbstractCliApplication extends AbstractApplication
 	 * @param   string   $text  The text to display.
 	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
 	 *
-	 * @return  AbstractCliApplication  Instance of $this to allow chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */

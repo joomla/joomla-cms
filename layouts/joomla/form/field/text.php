@@ -44,10 +44,6 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-
 $list = '';
 
 if ($options)
@@ -59,7 +55,7 @@ $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $au
 $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
-	!empty($class) ? 'class="' . $class . '"' : '',
+	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
@@ -73,13 +69,16 @@ $attributes = array(
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($inputmode) ? 'inputmode="' . $inputmode . '"' : '',
 	!empty($pattern) ? 'pattern="' . $pattern . '"' : '',
+
+	// @TODO add a proper string here!!!
+	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
 );
 ?>
 <input type="text" name="<?php
 echo $name; ?>" id="<?php
 echo $id; ?>" <?php
 echo $dirname; ?> value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?> />
+echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?>>
 <?php if ($options) : ?>
 	<datalist id="<?php echo $id; ?>_datalist">
 		<?php foreach ($options as $option) : ?>

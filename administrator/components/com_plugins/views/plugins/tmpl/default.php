@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.tabstate');
 
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -28,46 +28,38 @@ if ($saveOrder)
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if (!empty( $this->sidebar)) : ?>
-	<div id="j-sidebar-container" class="span2">
-		<?php echo $this->sidebar; ?>
-	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif; ?>
+	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped" id="pluginList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap text-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PLUGINS_NAME_HEADING', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PLUGINS_FOLDER_HEADING', 'folder', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="hidden-phone">
+						<th width="10%" class="hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -87,7 +79,7 @@ if ($saveOrder)
 					$canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->folder; ?>">
-						<td class="order nowrap center hidden-phone">
+						<td class="order nowrap text-center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -96,20 +88,20 @@ if ($saveOrder)
 							}
 							elseif (!$saveOrder)
 							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass; ?>">
 								<span class="icon-menu"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
+								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-center">
 							<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 						</td>
-						<td class="center">
+						<td class="text-center">
 							<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>
 						</td>
 						<td>
@@ -123,16 +115,16 @@ if ($saveOrder)
 									<?php echo $item->name; ?>
 							<?php endif; ?>
 						</td>
-						<td class="nowrap small hidden-phone">
+						<td class="nowrap small hidden-sm-down text-center">
 							<?php echo $this->escape($item->folder); ?>
 						</td>
-						<td class="nowrap small hidden-phone">
+						<td class="nowrap small hidden-sm-down text-center">
 							<?php echo $this->escape($item->element); ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down text-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down text-center">
 							<?php echo (int) $item->extension_id; ?>
 						</td>
 					</tr>
@@ -141,8 +133,8 @@ if ($saveOrder)
 			</table>
 		<?php endif; ?>
 
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="boxchecked" value="0">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

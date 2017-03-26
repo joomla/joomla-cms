@@ -48,7 +48,7 @@ abstract class JPluginHelper
 			$temp = explode(':', $layout);
 			$template = ($temp[0] == '_') ? $template : $temp[0];
 			$layout = $temp[1];
-			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
@@ -237,7 +237,7 @@ abstract class JPluginHelper
 						}
 
 						// Instantiate and register the plugin.
-						new $className($dispatcher, (array) ($plugin));
+						new $className($dispatcher, (array) $plugin);
 					}
 				}
 			}
@@ -267,26 +267,30 @@ abstract class JPluginHelper
 		/** @var JCacheControllerCallback $cache */
 		$cache = JFactory::getCache('com_plugins', 'callback');
 
-		static::$plugins = $cache->get(
-			function () use ($levels)
-			{
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
-					->from('#__extensions')
-					->where('enabled = 1')
-					->where('type = ' . $db->quote('plugin'))
-					->where('state IN (0,1)')
-					->where('access IN (' . $levels . ')')
-					->order('ordering');
-				$db->setQuery($query);
+		$loader = function () use ($levels)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
+				->from('#__extensions')
+				->where('enabled = 1')
+				->where('type = ' . $db->quote('plugin'))
+				->where('state IN (0,1)')
+				->where('access IN (' . $levels . ')')
+				->order('ordering');
+			$db->setQuery($query);
 
-				return $db->loadObjectList();
-			},
-			array(),
-			md5($levels),
-			false
-		);
+			return $db->loadObjectList();
+		};
+
+		try
+		{
+			static::$plugins = $cache->get($loader, array(), md5($levels), false);
+		}
+		catch (JCacheException $cacheException)
+		{
+			static::$plugins = $loader();
+		}
 
 		return static::$plugins;
 	}

@@ -14,44 +14,42 @@ $options = array(
 );
 $published = $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
+
+JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 ?>
 
 <div class="container-fluid">
-	<div class="row-fluid">
-		<div class="control-group span6">
+	<div class="row">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
-		<div class="control-group span6">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.access'); ?>
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<div class="row">
 		<?php if ($published >= 0) : ?>
-			<div class="span6">
+			<div class="col-md-6">
 				<div class="control-group">
 					<label id="batch-choose-action-lbl" for="batch-category-id" class="control-label">
 						<?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?>
 					</label>
 					<div id="batch-choose-action" class="combo controls">
-						<select name="batch[category_id]" id="batch-category-id">
+						<select class="chzn-custom-value" name="batch[category_id]" id="batch-category-id">
 							<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 							<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
 						</select>
 					</div>
 				</div>
-				<div id="batch-copy-move" class="control-group radio">
-					<?php echo JText::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
-					<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+			<?php endif; ?>
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.tag'); ?>
 				</div>
-			</div>
-		<?php endif; ?>
-		<div class="control-group span6">
-			<div class="controls">
-				<?php echo JHtml::_('batch.tag'); ?>
 			</div>
 		</div>
 	</div>

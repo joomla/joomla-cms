@@ -16,15 +16,58 @@ defined('_JEXEC') or die;
  */
 class UsersViewUser extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * Gets the available groups
+	 *
+	 * @var  array
+	 */
 	protected $grouplist;
 
+	/**
+	 * The groups this user is assigned to
+	 *
+	 * @var     array
+	 * @since   1.6
+	 */
 	protected $groups;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * Configuration forms for all two-factor authentication methods
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected $tfaform;
+
+	/**
+	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
+	 * configuration for the user.
+	 *
+	 * @var    stdClass
+	 * @since  3.2
+	 */
+	protected $otpConfig;
 
 	/**
 	 * Display the view
@@ -88,16 +131,23 @@ class UsersViewUser extends JViewLegacy
 			'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
 		);
 
+		$toolbarButtons = [];
+
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{
-			JToolbarHelper::apply('user.apply');
-			JToolbarHelper::save('user.save');
+			$toolbarButtons[] = ['apply', 'user.apply'];
+			$toolbarButtons[] = ['save', 'user.save'];
 		}
 
 		if ($canDo->get('core.create') && $canDo->get('core.manage'))
 		{
-			JToolbarHelper::save2new('user.save2new');
+			$toolbarButtons[] = ['save2new', 'user.save2new'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{

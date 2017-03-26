@@ -35,9 +35,17 @@ JFactory::getDocument()->addScriptDeclaration('
 	});
 ');
 JFactory::getDocument()->addStyleDeclaration('
+ul.horizontal-buttons {
+	margin-top: 12px;
+	margin-bottom: 0;
+	padding-left: 10px;
+}
 ul.horizontal-buttons li {
   display: inline-block;
   padding-right: 10%;
+}
+ul.horizontal-buttons li .control-group {
+	margin-bottom: 0;
 }
 ');
 ?>
@@ -47,22 +55,22 @@ $this->fields = array('toggle_modules_assigned','toggle_modules_published');
 
 echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 
-	<table class="table table-striped">
+	<table class="table">
 		<thead>
 		<tr>
-			<th class="left">
-				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE'); ?>
-			</th>
 			<th>
+				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE');?>
+			</th>
+			<th class="text-center">
 				<?php echo JText::_('COM_MENUS_HEADING_LEVELS'); ?>
 			</th>
-			<th>
+			<th class="text-center">
 				<?php echo JText::_('COM_MENUS_HEADING_POSITION'); ?>
 			</th>
-			<th>
+			<th class="text-center">
 				<?php echo JText::_('COM_MENUS_HEADING_DISPLAY'); ?>
 			</th>
-			<th>
+			<th class="text-center">
 				<?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
 			</th>
 		</tr>
@@ -84,49 +92,49 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				<?php $status = 'unpublished '; ?>
 			<?php endif; ?>
 			<tr class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
-				<td id="<?php echo $module->id; ?>">
+				<td id="<?php echo $module->id; ?>" width="40%">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
-					<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>" id="title-<?php echo $module->id; ?>">
+					<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>" id="title-<?php echo $module->id; ?>">
 						<?php echo $this->escape($module->title); ?></a>
 				</td>
-				<td id="access-<?php echo $module->id; ?>">
+				<td id="access-<?php echo $module->id; ?>" width="15%" class="text-center">
 					<?php echo $this->escape($module->access_title); ?>
 				</td>
-				<td id="position-<?php echo $module->id; ?>">
+				<td id="position-<?php echo $module->id; ?>" width="15%" class="text-center">
 					<?php echo $this->escape($module->position); ?>
 				</td>
-				<td id="menus-<?php echo $module->id; ?>">
+				<td id="menus-<?php echo $module->id; ?>" width="15%" class="text-center">
 					<?php if (is_null($module->menuid)) : ?>
 						<?php if ($module->except) : ?>
-							<span class="label label-success">
+							<span class="badge badge-success">
 								<?php echo JText::_('JYES'); ?>
 							</span>
 						<?php else : ?>
-							<span class="label label-important">
+							<span class="badge badge-danger">
 								<?php echo JText::_('JNO'); ?>
 							</span>
 						<?php endif; ?>
 					<?php elseif ($module->menuid > 0) : ?>
-						<span class="label label-success">
+						<span class="badge badge-success">
 							<?php echo JText::_('JYES'); ?>
 						</span>
 					<?php elseif ($module->menuid < 0) : ?>
-						<span class="label label-important">
+						<span class="badge badge-danger">
 							<?php echo JText::_('JNO'); ?>
 						</span>
 					<?php else : ?>
-						<span class="label label-info">
+						<span class="badge badge-info">
 							<?php echo JText::_('JALL'); ?>
 						</span>
 					<?php endif; ?>
 				</td>
-				<td id="status-<?php echo $module->id; ?>">
+				<td id="status-<?php echo $module->id; ?>" class="text-center">
 						<?php if ($module->published) : ?>
-							<span class="label label-success">
+							<span class="badge badge-success">
 								<?php echo JText::_('JYES'); ?>
 							</span>
 						<?php else : ?>
-							<span class="label label-important">
+							<span class="badge badge-danger">
 								<?php echo JText::_('JNO'); ?>
 							</span>
 						<?php endif; ?>
@@ -142,9 +150,9 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 						'url'         => $link,
 						'height'      => '400px',
 						'width'       => '800px',
-						'bodyHeight'  => '70',
-						'modalWidth'  => '80',
-						'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+						'bodyHeight'  => 70,
+						'modalWidth'  => 80,
+						'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
 								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 								. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 								. '<button type="button" class="btn btn-primary" aria-hidden="true"'

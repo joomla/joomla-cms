@@ -38,7 +38,7 @@ class JHtmlUsers
 			return '';
 		}
 
-		return '<img src="' . JUri::root() . $src . '" alt="" />';
+		return '<img src="' . JUri::root() . $src . '" alt="">';
 	}
 
 	/**
@@ -54,8 +54,9 @@ class JHtmlUsers
 	{
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="'
-			. $title . '"><span class="icon-vcard"></span><span class="hidden-phone">' . $title . '</span></a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
+		. '" class="hasTooltip btn btn-secondary btn-xs" title="' . $title . '"><span class="icon-vcard">'
+		. '</span><span class="hidden-sm-down">' . $title . '</span></a>';
 	}
 
 	/**
@@ -78,7 +79,7 @@ class JHtmlUsers
 		$title = JText::_('COM_USERS_FILTER_NOTES');
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter[search]=uid:' . (int) $userId)
-			. '" class="hasTooltip btn btn-mini" title="' . $title . '"><span class="icon-filter"></span></a>';
+			. '" class="hasTooltip btn btn-secondary btn-xs" title="' . $title . '"><span class="icon-filter"></span></a>';
 	}
 
 	/**
@@ -101,7 +102,7 @@ class JHtmlUsers
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
 		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="'
-			. $title . '"><span class="icon-drawer-2"></span><span class="hidden-phone">' . $title . '</span></a>';
+			. $title . '"><span class="icon-drawer-2"></span><span class="hidden-sm-down">' . $title . '</span></a>';
 	}
 
 	/**
@@ -122,7 +123,7 @@ class JHtmlUsers
 		}
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
-		$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+		$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 			. JText::_('JTOOLBAR_CLOSE') . '</button>';
 
 		return JHtml::_(

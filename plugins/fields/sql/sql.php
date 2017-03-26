@@ -9,19 +9,19 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('fields.list.list', JPATH_PLUGINS);
+JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINISTRATOR);
 
 /**
  * Fields Sql Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
-class PlgFieldsSql extends PlgFieldsList
+class PlgFieldsSql extends FieldsListPlugin
 {
 	/**
 	 * Transforms the field into an XML element and appends it as child on the given parent. This
 	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 * an XML Element must implement the JFormDomfieldinterface.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
@@ -42,11 +42,6 @@ class PlgFieldsSql extends PlgFieldsList
 
 		$fieldNode->setAttribute('value_field', 'text');
 		$fieldNode->setAttribute('key_field', 'value');
-
-		if (! $fieldNode->getAttribute('query'))
-		{
-			$fieldNode->setAttribute('query', 'select id as value, name as text from #__users');
-		}
 
 		return $fieldNode;
 	}

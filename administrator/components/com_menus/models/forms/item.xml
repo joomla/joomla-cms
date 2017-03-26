@@ -17,7 +17,7 @@
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
-			class="input-xxlarge input-large-text"
+			class="input-xxlarge"
 			size="40"
 			required="true"/>
 
@@ -35,7 +35,6 @@
 			label="JFIELD_NOTE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_NOTE_DESC"
 			maxlength="255"
-			class="span12"
 			size="40"/>
 
 		<field
@@ -53,7 +52,8 @@
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
 			required="true"
-			size="1" 
+			clientid="0"
+			size="1"
 			>
 			<option value="">COM_MENUS_SELECT_MENU</option>
 		</field>
@@ -70,7 +70,7 @@
 		<field
 			name="published"
 			type="list"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			id="published"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
@@ -121,7 +121,7 @@
 			type="list"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
-			default="Parent"
+			default="0"
 			filter="int"
 			>
 				<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
@@ -143,6 +143,7 @@
 			type="templatestyle"
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TEMPLATE_DESC"
+			client="site"
 			filter="int"
 			>
 			<option value="0">JOPTION_USE_DEFAULT</option>
@@ -151,13 +152,13 @@
 		<field
 			name="home"
 			type="radio"
+			class="switcher"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HOME_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			filter="integer">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -202,25 +203,25 @@
 		<field
 			name="toggle_modules_assigned"
 			type="radio"
+			class="switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			filter="integer">
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="toggle_modules_published"
 			type="radio"
+			class="switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_DESC"
 			default="1"
-			class="btn-group btn-group-yesno"
 			filter="integer">
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 	</fieldset>
 

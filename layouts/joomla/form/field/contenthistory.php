@@ -11,16 +11,55 @@ defined('JPATH_BASE') or die;
 
 /**
  * Layout variables
- * ---------------------
+ * -----------------
+ * @var   string   $autocomplete    Autocomplete attribute for the field.
+ * @var   boolean  $autofocus       Is autofocus enabled?
+ * @var   string   $class           Classes for the input.
+ * @var   string   $description     Description of the field.
+ * @var   boolean  $disabled        Is this field disabled?
+ * @var   string   $group           Group the field belongs to. <fields> section in form XML.
+ * @var   boolean  $hidden          Is this field hidden in the form?
+ * @var   string   $hint            Placeholder for the field.
+ * @var   string   $id              DOM id of the field.
+ * @var   string   $label           Label of the field.
+ * @var   string   $labelclass      Classes to apply to the label.
+ * @var   boolean  $multiple        Does this field support multiple values?
+ * @var   string   $name            Name of the input field.
+ * @var   string   $onchange        Onchange attribute for the field.
+ * @var   string   $onclick         Onclick attribute for the field.
+ * @var   string   $pattern         Pattern (Reg Ex) of value of the form field.
+ * @var   boolean  $readonly        Is this field read only?
+ * @var   boolean  $repeat          Allows extensions to duplicate elements.
+ * @var   boolean  $required        Is this field required?
+ * @var   integer  $size            Size attribute of the input.
+ * @var   boolean  $spellcheck       Spellcheck state for the form field.
+ * @var   string   $validate        Validation rules to apply.
+ * @var   string   $value           Value attribute of the field.
+ * @var   array    $checkedOptions  Options that will be set as checked.
+ * @var   boolean  $hasValue        Has this field a value assigned?
+ * @var   array    $options         Options available for this field.
  *
- * @var  string   $item The item id number
- * @var  string   $link The link text
- * @var  string   $label The label text
+ * @var   string   $link            The link for the content history page
+ * @var   string   $label           The label text
  */
 extract($displayData);
 
-JHtml::_('behavior.modal', 'button.modal_' . $item);
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'versionsModal',
+	array(
+		'url'    => $link,
+		'title'  => $label,
+		'height' => '100%',
+		'width'  => '100%',
+		'modalWidth'  => '80',
+		'bodyHeight'  => '60',
+		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+	)
+);
+
 ?>
-<button class="btn modal_<?php echo $item; ?>" title="<?php echo $label; ?>" href="<?php echo $link; ?>" rel="{handler: 'iframe', size: {x: 800, y: 500}}">
+<button onclick="jQuery('#versionsModal').modal('show')" class="btn" data-toggle="modal" title="<?php echo $label; ?>">
 	<span class="icon-archive"></span><?php echo $label; ?>
 </button>

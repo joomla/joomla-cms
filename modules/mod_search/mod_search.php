@@ -33,9 +33,7 @@ if ($params->get('opensearch', 1))
 $upper_limit     = $lang->getUpperLimitSearchWord();
 $button          = $params->get('button', 0);
 $imagebutton     = $params->get('imagebutton', 0);
-$button_pos      = $params->get('button_pos', 'left');
 $button_text     = htmlspecialchars($params->get('button_text', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT')), ENT_COMPAT, 'UTF-8');
-$width           = (int) $params->get('width');
 $maxlength       = $upper_limit;
 $text            = htmlspecialchars($params->get('text', JText::_('MOD_SEARCH_SEARCHBOX_TEXT')), ENT_COMPAT, 'UTF-8');
 $label           = htmlspecialchars($params->get('label', JText::_('MOD_SEARCH_LABEL_TEXT')), ENT_COMPAT, 'UTF-8');
@@ -47,5 +45,5 @@ if ($imagebutton)
 	$img = ModSearchHelper::getSearchImage($button_text);
 }
 
-$mitemid = $set_Itemid > 0 ? $set_Itemid : $app->input->get('Itemid');
+$mitemid = $set_Itemid > 0 ? $set_Itemid : $app->input->getInt('Itemid');
 require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul class="nav nav-list">
+<ul class="nav flex-column">
 	<?php if ($this->userIsSuperAdmin) : ?>
 		<li class="nav-header"><?php echo JText::_('COM_CONFIG_SYSTEM'); ?></li>
 		<li class="active">

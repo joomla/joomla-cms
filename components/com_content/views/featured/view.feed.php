@@ -47,7 +47,7 @@ class ContentViewFeatured extends JViewLegacy
 			// Compute the article slug
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
-			// Url link to article
+			// URL link to article
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 
 			// Get row fulltext
@@ -66,7 +66,7 @@ class ContentViewFeatured extends JViewLegacy
 			if (isset($introImage) && ($introImage != ''))
 			{
 				$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
-				$description = '<p><img src="' . $image . '" /></p>';
+				$description = '<p><img src="' . $image . '"></p>';
 			}
 
 			$description .= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);

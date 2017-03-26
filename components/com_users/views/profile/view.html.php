@@ -16,12 +16,32 @@ defined('_JEXEC') or die;
  */
 class UsersViewProfile extends JViewLegacy
 {
+	/**
+	 * Profile form data for the user
+	 *
+	 * @var  JUser
+	 */
 	protected $data;
 
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The page parameters
+	 *
+	 * @var  \Joomla\Registry\Registry|null
+	 */
 	protected $params;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
 
 	/**
@@ -31,6 +51,38 @@ class UsersViewProfile extends JViewLegacy
 	 * @since  3.6.3
 	 */
 	protected $db;
+
+	/**
+	 * Configuration forms for all two-factor authentication methods.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $twofactorform;
+
+	/**
+	 * List of two factor authentication methods available.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $twofactormethods;
+
+	/**
+	 * One time password (OTP) – a.k.a. two factor authentication – configuration for the user.
+	 *
+	 * @var    stdClass
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $otpConfig;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Execute and display a template script.
@@ -46,8 +98,8 @@ class UsersViewProfile extends JViewLegacy
 		$user = JFactory::getUser();
 
 		// Get the view data.
-		$this->data	            = $this->get('Data');
-		$this->form	            = $this->getModel()->getForm(new JObject(array('id' => $user->id)));
+		$this->data	        = $this->get('Data');
+		$this->form	        = $this->getModel()->getForm(new JObject(array('id' => $user->id)));
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');
@@ -156,12 +208,12 @@ class UsersViewProfile extends JViewLegacy
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 	}
 }

@@ -309,7 +309,15 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	protected function downloadPackage($url, $target)
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
-		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
+
+		try
+		{
+			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get the handler to download the package
 		try
@@ -693,7 +701,6 @@ ENDDATA;
 			$row->set('access', 0);
 			$row->set('client_id', 0);
 			$row->set('params', '');
-			$row->set('system_data', '');
 			$row->set('manifest_cache', $installer->generateManifestCache());
 
 			if (!$row->store())
@@ -854,7 +861,7 @@ ENDDATA;
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
 			throw new RuntimeException(
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' .
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' .
 				JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
 				500
 			);
@@ -864,7 +871,7 @@ ENDDATA;
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
 			throw new RuntimeException(
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
 				500
 			);
 		}

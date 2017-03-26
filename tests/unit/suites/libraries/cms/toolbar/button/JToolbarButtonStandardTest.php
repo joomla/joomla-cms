@@ -14,7 +14,7 @@
  * @subpackage  Toolbar
  * @since       3.0
  */
-class JToolbarButtonStandardTest extends PHPUnit_Framework_TestCase
+class JToolbarButtonStandardTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Toolbar object
@@ -53,7 +53,7 @@ class JToolbarButtonStandardTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

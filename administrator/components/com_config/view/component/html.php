@@ -37,8 +37,14 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 
 		try
 		{
-			$form = $this->model->getForm();
 			$component = $this->model->getComponent();
+
+			if (!$component->enabled)
+			{
+				return false;
+			}
+
+			$form = $this->model->getForm();
 			$user = JFactory::getUser();
 		}
 		catch (Exception $e)
@@ -54,8 +60,8 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 			$form->bind($component->params);
 		}
 
-		$this->fieldsets   = $form->getFieldsets();
-		$this->formControl = $form->getFormControl();
+		$this->fieldsets   = $form ? $form->getFieldsets() : null;
+		$this->formControl = $form ? $form->getFormControl() : null;
 
 		// Don't show permissions fieldset if not authorised.
 		if (!$user->authorise('core.admin', $component->option) && isset($this->fieldsets['permissions']))
@@ -87,8 +93,13 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'equalizer config');
-		JToolbarHelper::apply('config.save.component.apply');
-		JToolbarHelper::save('config.save.component.save');
+		JToolbarHelper::saveGroup(
+			[
+				['apply', 'config.save.component.apply'],
+				['save', 'config.save.component.save']
+			],
+			'btn-success'
+		);
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.component');
 		JToolbarHelper::divider();

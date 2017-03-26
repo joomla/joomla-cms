@@ -17,6 +17,30 @@ defined('_JEXEC') or die;
 class InstallerViewDefault extends JViewLegacy
 {
 	/**
+	 * The model state
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $state;
+
+	/**
+	 * True if there are extension messages to be displayed
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $showMessage;
+
+	/**
+	 * The HTML markup for the sidebar
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $sidebar;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  Configuration array

@@ -51,7 +51,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 					<label class="filter-search-lbl element-invisible" for="filter-search">
 						<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
 					</label>
-					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
+					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
 				<?php else : ?>
 					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
 						<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
@@ -69,10 +69,10 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 			</div>
 		<?php endif; ?>
 
-		<input type="hidden" name="filter_order" value="" />
-		<input type="hidden" name="filter_order_Dir" value="" />
-		<input type="hidden" name="limitstart" value="" />
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="filter_order" value="">
+		<input type="hidden" name="filter_order_Dir" value="">
+		<input type="hidden" name="limitstart" value="">
+		<input type="hidden" name="task" value="">
 	</fieldset>
 
 	<div class="control-group hide pull-right">

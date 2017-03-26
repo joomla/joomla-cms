@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
+class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -29,6 +29,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
     );
 
     public static $prefixLengthsPsr4 = array (
+        'Z' => 
+        array (
+            'Zend\\Diactoros\\' => 15,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
@@ -39,6 +43,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'P' => 
         array (
             'Psr\\Log\\' => 8,
+            'Psr\\Http\\Message\\' => 17,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'J' => 
@@ -49,9 +54,12 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\String\\' => 14,
             'Joomla\\Session\\' => 15,
             'Joomla\\Registry\\' => 16,
+            'Joomla\\Ldap\\Tests\\' => 18,
+            'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
             'Joomla\\Image\\' => 13,
+            'Joomla\\Http\\' => 12,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
@@ -62,9 +70,17 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Application\\' => 19,
             'Joomla\\' => 7,
         ),
+        'C' => 
+        array (
+            'Composer\\CaBundle\\' => 18,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Zend\\Diactoros\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
+        ),
         'Symfony\\Polyfill\\Util\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-util',
@@ -84,6 +100,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'PHPMailer\\PHPMailer\\' => 
         array (
@@ -113,6 +133,14 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
         ),
+        'Joomla\\Ldap\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/ldap/Tests',
+        ),
+        'Joomla\\Ldap\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/ldap/src',
+        ),
         'Joomla\\Input\\Tests\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/input/Tests',
@@ -124,6 +152,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Image\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/image/src',
+        ),
+        'Joomla\\Http\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/http/src',
         ),
         'Joomla\\Filter\\' => 
         array (
@@ -161,6 +193,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/../../..' . '/libraries/src',
         ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+        ),
     );
 
     public static $classMap = array (
@@ -190,9 +226,9 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf349050c508061257f7f25c9c2eeb293::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf349050c508061257f7f25c9c2eeb293::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitf349050c508061257f7f25c9c2eeb293::$classMap;
 
         }, null, ClassLoader::class);
     }

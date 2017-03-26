@@ -16,18 +16,18 @@ $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
 
 JHtml::_('behavior.core');
 JFactory::getDocument()->addScriptDeclaration('
-		setmenutype = function(type) {
-			var tmpl = ' . json_encode($tmpl) . ';
-			if (tmpl)
-			{
-				window.parent.Joomla.submitbutton("item.setType", type);
-				window.parent.jQuery("#menuTypeModal").modal("hide");
-			}
-			else
-			{
-				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=" + type;
-			}
-		};
+	setmenutype = function(type) {
+		var tmpl = ' . json_encode($tmpl) . ';
+		if (tmpl)
+		{
+			window.parent.Joomla.submitbutton("item.setType", type);
+			window.parent.jQuery("#menuTypeModal").modal("hide");
+		}
+		else
+		{
+			window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=" + type;
+		}
+	};
 ');
 
 ?>
@@ -35,21 +35,19 @@ JFactory::getDocument()->addScriptDeclaration('
 	<?php $i = 0; ?>
 	<?php foreach ($this->types as $name => $list) : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $name, 'collapse' . ($i++)); ?>
-			<ul class="nav nav-tabs nav-stacked">
+			<div class="list-group">
 				<?php foreach ($list as $title => $item) : ?>
-					<li>
-						<?php $menutype = array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request); ?>
-						<?php $menutype = base64_encode(json_encode($menutype)); ?>
-						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
-							onclick="javascript:setmenutype('<?php echo $menutype; ?>')">
-							<?php echo $title; ?>
-							<small class="muted">
-								<?php echo JText::_($item->description); ?>
-							</small>
-						</a>
-					</li>
+					<?php $menutype = array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request); ?>
+					<?php $menutype = base64_encode(json_encode($menutype)); ?>
+					<a class="choose_type list-group-item list-group-item-action" href="#" title="<?php echo JText::_($item->description); ?>"
+						onclick="setmenutype('<?php echo $menutype; ?>')">
+						<?php echo $title; ?>
+						<small class="text-muted">
+							<?php echo JText::_($item->description); ?>
+						</small>
+					</a>
 				<?php endforeach; ?>
-			</ul>
+			</div>
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php endforeach; ?>
 <?php echo JHtml::_('bootstrap.endSlide'); ?>

@@ -6,12 +6,12 @@
 		<field
 			name="allowUserRegistration"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -21,7 +21,6 @@
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
 			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
 			checksuperusergroup="1"
-			showon="allowUserRegistration:1"
 			>
 		</field>
 
@@ -38,12 +37,12 @@
 		<field
 			name="sendpassword"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
 			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -63,12 +62,12 @@
 		<field
 			name="mail_to_admin"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -88,34 +87,34 @@
 		<field
 			name="frontend_userparams"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC">
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 		<field
 			name="site_language"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC"
 			showon="frontend_userparams:1"
 		>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 		<field
 			name="change_login_name"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>
@@ -188,6 +187,16 @@
 			step="1"
 			default="0">
 			</field>
+		<field
+			name="minimum_lowercase"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE"
+			description="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE_DESC"
+			first="0"
+			last="98"
+			step="1"
+			default="0">
+		</field>
 	</fieldset>
 
 	<fieldset
@@ -197,13 +206,13 @@
 			<field
 			name="save_history"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -240,6 +249,37 @@
 
 	</fieldset>
 
+	<fieldset
+		name="debug"
+		label="COM_USERS_DEBUG_LABEL"
+		description="COM_USERS_DEBUG_DESC">
+
+		<field
+			name="debugUsers"
+			type="radio"
+			class="switcher"
+			default="1"
+			label="COM_USERS_DEBUG_USERS_LABEL"
+			description="COM_USERS_DEBUG_USERS_DESC"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="debugGroups"
+			type="radio"
+			class="switcher"
+			default="1"
+			label="COM_USERS_DEBUG_GROUPS_LABEL"
+			description="COM_USERS_DEBUG_GROUPS_DESC"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+	</fieldset>
+
 	<fieldset name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
@@ -248,13 +288,13 @@
 		<field
 			name="custom_fields_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			default="1"
 		>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>

@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen', '.advancedSelect');
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -23,8 +23,6 @@ JFactory::getDocument()->addScriptDeclaration("
 	{
 		if (task == 'field.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 		{
-			" . $this->form->getField('description')->save() . "
-
 			if (window.opener && (task == 'field.save' || task == 'field.cancel'))
 			{
 				window.opener.document.closeEditWindow = self;
@@ -44,33 +42,32 @@ JFactory::getDocument()->addScriptDeclaration("
 		<button class="btn" type="button" onclick="Joomla.submitbutton('field.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 	</div>
 
-	<div class="clearfix"></div>
-	<hr class="hr-condensed" />
+	<hr>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
+	<form action="<?php echo JRoute::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 		<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-		<div class="form-horizontal">
+		<div>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FIELDS', true)); ?>
-			<div class="row-fluid">
-				<div class="span9">
+			<div class="row">
+				<div class="col-md-9">
 					<?php echo $this->form->getLabel('description'); ?>
 					<?php echo $this->form->getInput('description'); ?>
 				</div>
-				<div class="span3">
+				<div class="col-md-3">
 					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
 			</div>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_FIELDS_FIELDSET_PUBLISHING', true)); ?>
-			<div class="row-fluid form-horizontal-desktop">
-				<div class="span6">
+			<div class="row">
+				<div class="col-md-6">
 					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 				</div>
-				<div class="span6">
+				<div class="col-md-6">
 				</div>
 			</div>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -86,7 +83,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 			<?php echo $this->form->getInput('context'); ?>
-			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="task" value="">
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</form>

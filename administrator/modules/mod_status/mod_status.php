@@ -24,6 +24,9 @@ $query = $db->getQuery(true)
 $db->setQuery($query);
 $unread = (int) $db->loadResult();
 
+// Set the unread message count as a session variable so we can access it in the template
+JFactory::getSession()->set('messages.unread', $unread);
+
 $count = 0;
 
 // Get the number of backend logged in users if shared sessions is not enabled.
@@ -46,16 +49,6 @@ if ($input->getBool('hidemainmenu'))
 else
 {
 	$inboxLink = JRoute::_('index.php?option=com_messages');
-}
-
-// Set the inbox class.
-if ($unread)
-{
-	$inboxClass = 'unread-messages';
-}
-else
-{
-	$inboxClass = 'no-unread-messages';
 }
 
 $online_num = 0;

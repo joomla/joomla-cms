@@ -4,6 +4,11 @@ Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cm
 Build Status
 ---------------------
 Travis-CI: [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)
+
+Drone -CI: [![Build Status](http://213.160.72.75/api/badges/joomla/joomla-cms/status.svg)](http://213.160.72.75/joomla/joomla-cms)
+
+AppVeyor: [![Build status](https://ci.appveyor.com/api/projects/status/bpcxulw6nnxlv8kb/branch/staging?svg=true)](https://ci.appveyor.com/project/joomla/joomla-cms)
+
 Jenkins: [![Build Status](http://build.joomla.org/job/cms/badge/icon)](http://build.joomla.org/job/cms/)
 
 What is this?
@@ -66,7 +71,7 @@ Where can you get support and help?
 * Find the [information you need](https://docs.joomla.org/Start_here);
 * Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html);
 * Post questions at [our forums](https://forum.joomla.org);
-* [Joomla Resources Directory](http://resources.joomla.org/) (JRD).
+* [Joomla Resources Directory](https://resources.joomla.org/) (JRD).
 
 Do you already have a Joomla! site that isn't built with Joomla! 4.x?
 ---------------------

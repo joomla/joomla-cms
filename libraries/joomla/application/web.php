@@ -19,6 +19,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Joomla\String\StringHelper;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Base class for a Joomla! Web application.
@@ -102,23 +103,28 @@ abstract class JApplicationWeb extends AbstractWebApplication implements Dispatc
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput     $input   An optional argument to provide dependency injection for the application's
-	 *                              input object.  If the argument is a JInput object that object will become
-	 *                              the application's input object, otherwise a default input object is created.
-	 * @param   Registry   $config  An optional argument to provide dependency injection for the application's
-	 *                              config object.  If the argument is a Registry object that object will become
-	 *                              the application's config object, otherwise a default config object is created.
-	 * @param   WebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                              client object.  If the argument is a WebClient object that object will become
-	 *                              the application's client object, otherwise a default client object is created.
+	 * @param   JInput             $input     An optional argument to provide dependency injection for the application's
+	 *                                        input object.  If the argument is a JInput object that object will become
+	 *                                        the application's input object, otherwise a default input object is created.
+	 * @param   Registry           $config    An optional argument to provide dependency injection for the application's
+	 *                                        config object.  If the argument is a Registry object that object will become
+	 *                                        the application's config object, otherwise a default config object is created.
+	 * @param   WebClient          $client    An optional argument to provide dependency injection for the application's
+	 *                                        client object.  If the argument is a WebClient object that object will become
+	 *                                        the application's client object, otherwise a default client object is created.
+	 * @param   ResponseInterface  $response  An optional argument to provide dependency injection for the application's
+	 *                                        response object.  If the argument is a ResponseInterface object that object
+	 *                                        will become the application's response object, otherwise a default response
+	 *                                        object is created.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null, ResponseInterface $response = null)
 	{
-		$this->input  = $input ?: new JInput;
-		$this->config = $config ?: new Registry;
-		$this->client = $client ?: new WebClient;
+		// Ensure we have a JInput object otherwise the DI for \Joomla\Cms\Session\Storage\JoomlaStorage fails
+		$input = $input ?: new JInput;
+
+		parent::__construct($input, $config, $client, $response);
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -126,12 +132,6 @@ abstract class JApplicationWeb extends AbstractWebApplication implements Dispatc
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
 		$this->set('execution.timestamp', time());
-
-		// Setup the response object.
-		$this->response = new stdClass;
-		$this->response->cachable = false;
-		$this->response->headers = array();
-		$this->response->body = array();
 
 		// Set the system URIs.
 		$this->loadSystemUris();
@@ -316,7 +316,7 @@ abstract class JApplicationWeb extends AbstractWebApplication implements Dispatc
 			if (($this->client->engine == WebClient::TRIDENT) && !StringHelper::is_ascii($url))
 			{
 				$html = '<html><head>';
-				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
+				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '">';
 				$html .= '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script>';
 				$html .= '</head><body></body></html>';
 

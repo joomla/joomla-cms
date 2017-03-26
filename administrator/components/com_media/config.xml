@@ -42,23 +42,23 @@
 		<field
 			name="restrict_uploads"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="check_mime"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
 			description="COM_MEDIA_FIELD_CHECK_MIME_DESC">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

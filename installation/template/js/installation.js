@@ -175,11 +175,13 @@ var Installation = function(_container, _base) {
      * @param tasks       An array of install tasks to execute
      * @param step_width  The width of the progress bar element
      */
-    var install = function (tasks, step_width) {
-        var $progress = $('#install_progress').find('.bar');
+    var install = function(tasks, step_width) {
+        var $progressWrapper = $('#install_progress');
+		var $progress        = $progressWrapper.find('.progress-bar');
 
         if (!tasks.length) {
             $progress.css('width', parseFloat($progress.get(0).style.width) + (step_width * 3) + '%');
+            $progressWrapper.val(parseFloat(($progress.get(0).style.width) + (step_width * 3)));
             goToPage('complete');
             return;
         }
@@ -194,6 +196,7 @@ var Installation = function(_container, _base) {
         var data = $form.serialize();
 
         $progress.css('width', parseFloat($progress.get(0).style.width) + step_width + '%');
+		$progressWrapper.val(parseFloat(($progress.get(0).style.width) + step_width));
         $tr.addClass('active');
         Joomla.loadingLayer("show");
 
@@ -204,27 +207,17 @@ var Installation = function(_container, _base) {
             dataType: 'json'
         }).done(function (r) {
             Joomla.replaceTokens(r.token);
-
-            if (r.error) {
-                if (r.messages) {
-                    Joomla.renderMessages(r.messages);
-                }
-
-                Joomla.renderMessages({'error': [r.message]});
-
-                Install.goToPage('summary', true);
+            if (r.messages) {
+                Joomla.renderMessages(r.messages);
+                Install.goToPage(r.data.view, true);
             } else {
-                if (r.messages) {
-                    Joomla.renderMessages(r.messages);
-                    Install.goToPage(r.data.view, true);
-                } else {
-                    $progress.css('width', parseFloat($progress.get(0).style.width) + (step_width * 10) + '%');
-                    $tr.removeClass('active');
-                    Joomla.loadingLayer("hide");
+                $progress.css('width', parseFloat($progress.get(0).style.width) + (step_width * 10) + '%');
+				$progressWrapper.val(parseFloat(($progress.get(0).style.width) + (step_width * 10)));
+                $tr.removeClass('active');
+                Joomla.loadingLayer('hide');
 
-                    install(tasks, step_width);
-                }
-            }
+                install(tasks, step_width);
+			}
         }).fail(function (xhr) {
             Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
             Install.goToPage('summary');
@@ -363,7 +356,8 @@ var Installation = function(_container, _base) {
     }
 
     var toggle = function(id, el, value) {
-        var val = $('input[name="jform[' + el + ']"]:checked').val(), $id = $('#' + id);
+        var val = $('input[name="jform[' + el + ']"]:checked').val(), 
+			$id = $('#' + id);
         if (val === value.toString()) {
             $id.show();
         } else {
@@ -406,13 +400,7 @@ var Installation = function(_container, _base) {
 function initElements()
 {
 	(function($){
-		$('.hasTooltip').tooltip();
-
-		// Chosen select boxes
-		$('select').chosen({
-			disable_search_threshold : 10,
-			allow_single_deselect : true
-		});
+		$('.hasTooltip').tooltip({html:true});
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
@@ -427,10 +415,10 @@ function initElements()
 			}
 		});
 
-		$('.btn-group label:not(.active)').click(function()
+		$('.btn-group label:not(.active)').on('click', function()
 		{
-			var label = $(this);
-			var input = $('#' + label.attr('for'));
+			var label = $(this),
+			    input = $('#' + label.attr('for'));
 
 			if (!input.prop('checked'))
 			{
@@ -440,7 +428,15 @@ function initElements()
 				{
 					if (input.val() == '')
 					{
-						label.addClass('active btn-primary');
+						// Check for the sample data "No" button
+						if (input.attr('id') == 'jform_sample_file0')
+						{
+							label.addClass('active btn-danger');
+						}
+						else
+						{
+							label.addClass('active btn-primary');
+						}
 					}
 					else if (input.val() == 0)
 					{
@@ -472,10 +468,11 @@ function initElements()
 
 		$('.btn-group input[checked="checked"]').each(function()
 		{
-			var $self  = $(this);
-			var attrId = $self.attr('id');
+			var $self  = $(this),
+			    parent = $self.parents('.btn-group'),
+			    attrId = $self.attr('id');
 
-			if ($self.hasClass('btn-group-reverse'))
+			if (parent.hasClass('btn-group-reverse'))
 			{
 				if ($self.val() == '')
 				{

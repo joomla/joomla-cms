@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 ksort($this->files, SORT_STRING);
 ?>
 
-<ul class='nav nav-list directory-tree'>
-	<?php foreach ($this->files as $key => $value) : ?>
+<ul class='list-unstyled directory-tree'>
+	<?php foreach($this->files as $key => $value) : ?>
 		<?php if (is_array($value)) : ?>
 			<li class="folder-select">
 				<a class='folder-url nowrap' data-id='<?php echo base64_encode($key); ?>' href=''>
-					<span class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></span>
+					<span class='fa-fw fa fa-folder'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></span>
 				</a>
 				<?php echo $this->folderTree($value); ?>
 			</li>

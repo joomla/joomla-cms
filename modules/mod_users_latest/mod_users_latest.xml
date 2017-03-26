@@ -33,13 +33,13 @@
 				<field
 					name="filter_groups"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					label="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_LABEL"
 					description="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_DESC"
 					default="0"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">

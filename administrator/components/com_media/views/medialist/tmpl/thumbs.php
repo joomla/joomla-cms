@@ -86,8 +86,7 @@ $doc->addScriptDeclaration(
 		<p>
 			<span class="icon-folder"></span>
 			<?php
-				echo JText::_('JGLOBAL_ROOT'), ': ',
-					$params->get($path, 'images'),
+				echo $params->get($path, 'images'),
 					($this->state->folder != '') ? '/' . $this->state->folder : '';
 			?>
 		</p>
@@ -109,10 +108,10 @@ $doc->addScriptDeclaration(
 				$this->loadTemplate('imgs');
 		?>
 
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="username" value="" />
-		<input type="hidden" name="password" value="" />
-		<input type="hidden" name="boxchecked" value="" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="username" value="">
+		<input type="hidden" name="password" value="">
+		<input type="hidden" name="boxchecked" value="">
 		<?php echo JHtml::_('form.token'); ?>
 	</ul>
 </form>

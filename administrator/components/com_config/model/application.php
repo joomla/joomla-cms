@@ -310,7 +310,7 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			$path = $data['cache_path'];
 		}
-		elseif (!$data['cache_path'] && $prev['cache_path'])
+		elseif (!empty($prev['cache_path']))
 		{
 			$path = $prev['cache_path'];
 		}
@@ -351,7 +351,15 @@ class ConfigModelApplication extends ConfigModelForm
 
 			if ($error)
 			{
-				JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+				try
+				{
+					JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $exception)
+				{
+					$app->enqueueMessage(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), 'warning');
+				}
+
 				$data['caching'] = 0;
 			}
 		}
@@ -792,8 +800,8 @@ class ConfigModelApplication extends ConfigModelForm
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
 		{
-			$result['class'] = 'label label-success';
-			$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+			$result['class'] = 'badge badge-success';
+			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
 		else
@@ -803,13 +811,13 @@ class ConfigModelApplication extends ConfigModelForm
 			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			{
-				$result['class'] = 'label label-important';
+				$result['class'] = 'badge badge-danger';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 			}
 			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 			else
 			{
-				$result['class'] = 'label label-success';
+				$result['class'] = 'badge badge-success';
 				$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
@@ -817,20 +825,20 @@ class ConfigModelApplication extends ConfigModelForm
 
 			/**
 			 * @to do: incorect info
-			 * If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+			 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 			 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 			 */
 
 			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
-				$result['class'] = 'label label-important';
+				$result['class'] = 'badge badge-danger';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
 			// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
-				$result['class'] = 'label label-success';
+				$result['class'] = 'badge badge-success';
 				$result['text']  = JText::_('JLIB_RULES_ALLOWED');
 			}
 
@@ -839,7 +847,7 @@ class ConfigModelApplication extends ConfigModelForm
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
 			{
-				$result['class'] = 'label label-important';
+				$result['class'] = 'badge badge-danger';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
 
@@ -850,8 +858,8 @@ class ConfigModelApplication extends ConfigModelForm
 			 */
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
-				$result['class'] = 'label label-important';
-				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['class'] = 'badge badge-danger';
+				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
 

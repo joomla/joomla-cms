@@ -23,25 +23,25 @@
 				<field
 					name="title"
 					type="radio"
+					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
 					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="article_index"
 					type="radio"
+					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -56,25 +56,25 @@
 				<field
 					name="multipage_toc"
 					type="radio"
+					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
 					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="showall"
 					type="radio"
+					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
 					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field

@@ -25,7 +25,6 @@
 					name="schemes"
 					type="list"
 					multiple="true"
-					default="https"
 					label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
 					description="PLG_FIELDS_URL_PARAMS_SCHEMES_DESC"
 				>
@@ -41,13 +40,13 @@
 				<field
 					name="relative"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
 					description="PLG_FIELDS_URL_PARAMS_RELATIVE_DESC"
 				>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

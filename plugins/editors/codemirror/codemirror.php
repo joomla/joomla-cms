@@ -36,6 +36,7 @@ class PlgEditorCodemirror extends JPlugin
 			'html' => 'htmlmixed',
 			'ini'  => 'properties',
 			'json' => array('name' => 'javascript', 'json' => true),
+			'scss' => 'css',
 		);
 
 	/**
@@ -101,6 +102,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Code executes directly on submit
 	 */
 	public function onSave($id)
 	{
@@ -113,6 +116,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onGetContent($id)
 	{
@@ -126,6 +131,8 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string  $content  The content to set.
 	 *
 	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -135,7 +142,9 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Adds the editor specific insert method.
 	 *
-	 * @return  boolean
+	 * @return  void
+	 *
+	 * @deprecated 4.0 Code is loaded in the init script
 	 */
 	public function onGetInsertMethod()
 	{
@@ -149,9 +158,9 @@ class PlgEditorCodemirror extends JPlugin
 
 		$done = true;
 
-		JFactory::getDocument()->addScriptDeclaration('
+		JFactory::getDocument()->addScriptDeclaration("
 		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }
-		');
+		");
 
 		return true;
 	}
@@ -232,6 +241,7 @@ class PlgEditorCodemirror extends JPlugin
 		if ($theme = $this->params->get('theme'))
 		{
 			$options->theme = $theme;
+
 			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
 		}
 
@@ -322,7 +332,7 @@ class PlgEditorCodemirror extends JPlugin
 			$buttonsEvent = new Event(
 				'getButtons',
 				[
-					'name'    => $this->_name,
+					'editor'  => $name,
 					'buttons' => $buttons,
 				]
 			);

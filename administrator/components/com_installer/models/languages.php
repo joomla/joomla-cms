@@ -22,7 +22,7 @@ class InstallerModelLanguages extends JModelList
 	 * Language count
 	 *
 	 * @var     integer
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private $languageCount;
 
@@ -49,7 +49,7 @@ class InstallerModelLanguages extends JModelList
 	/**
 	 * Get the Update Site
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 *
 	 * @return  string  The URL of the Accredited Languagepack Updatesite XML
 	 */
@@ -73,7 +73,7 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getItems()
 	{
@@ -143,14 +143,17 @@ class InstallerModelLanguages extends JModelList
 			$languages[$language->name] = $language;
 		}
 
+		// Workaround for php 5.3
+		$that = $this;
+
 		// Sort the array by value of subarray
 		usort(
 			$languages,
-			function($a, $b)
+			function($a, $b) use ($that)
 			{
-				$ordering = $this->getState('list.ordering');
+				$ordering = $that->getState('list.ordering');
 
-				if (strtolower($this->getState('list.direction')) === 'asc')
+				if (strtolower($that->getState('list.direction')) === 'asc')
 				{
 					return StringHelper::strcmp($a->$ordering, $b->$ordering);
 				}
@@ -174,7 +177,7 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getListCount($query)
 	{
@@ -227,7 +230,7 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function compareLanguages($lang1, $lang2)
 	{

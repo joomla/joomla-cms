@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+	<field
+		name="client_id"
+		type="list"
+		label=""
+		filtermode="selector"
+		onchange="this.form.submit();"
+	>
+		<option value="0">JSITE</option>
+		<option value="1">JADMINISTRATOR</option>
+	</field>
 	<fields name="filter">
 		<field
 			name="search"
@@ -23,13 +33,12 @@
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
-		</field> 
+		</field>
 		<field
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="input-mini"
 			default="5"
 			onchange="this.form.submit();"
 		/>

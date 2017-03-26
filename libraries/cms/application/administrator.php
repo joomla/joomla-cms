@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Web\WebClient;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
@@ -22,20 +23,20 @@ class JApplicationAdministrator extends JApplicationCms
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input      An optional argument to provide dependency injection for the application's
-	 *                                             input object.  If the argument is a JInput object that object will become
-	 *                                             the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config     An optional argument to provide dependency injection for the application's
-	 *                                             config object.  If the argument is a Registry object that object will become
-	 *                                             the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client     An optional argument to provide dependency injection for the application's
-	 *                                             client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                                             the application's client object, otherwise a default client object is created.
-	 * @param   Container              $container  Dependency injection container.
+	 * @param   JInput     $input      An optional argument to provide dependency injection for the application's input
+	 *                                 object.  If the argument is a JInput object that object will become the
+	 *                                 application's input object, otherwise a default input object is created.
+	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
+	 *                                 object.  If the argument is a Registry object that object will become the
+	 *                                 application's config object, otherwise a default config object is created.
+	 * @param   WebClient  $client     An optional argument to provide dependency injection for the application's
+	 *                                 client object.  If the argument is a WebClient object that object will become the
+	 *                                 application's client object, otherwise a default client object is created.
+	 * @param   Container  $container  Dependency injection container.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
+	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name
 		$this->name = 'administrator';
@@ -114,23 +115,12 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	protected function doExecute()
 	{
+		// Get the language from the (login) form or user state
+		$login_lang = ($this->input->get('option') == 'com_login') ? $this->input->get('lang') : '';
+		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
+
 		// Initialise the application
-		$this->initialiseApp(array('language' => $this->getUserState('application.lang')));
-
-		// Test for magic quotes
-		if (get_magic_quotes_gpc())
-		{
-			$lang = $this->getLanguage();
-
-			if ($lang->hasKey('JERROR_MAGIC_QUOTES'))
-			{
-				$this->enqueueMessage(JText::_('JERROR_MAGIC_QUOTES'), 'error');
-			}
-			else
-			{
-				$this->enqueueMessage('Your host needs to disable magic_quotes_gpc to run this version of Joomla!', 'error');
-			}
-		}
+		$this->initialiseApp($options);
 
 		// Mark afterInitialise in the profiler.
 		JDEBUG ? $this->profiler->mark('afterInitialise') : null;
@@ -220,7 +210,7 @@ class JApplicationAdministrator extends JApplicationCms
 		{
 			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
-			$template->template = 'isis';
+			$template->template = 'atum';
 		}
 
 		// Cache the result

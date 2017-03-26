@@ -42,13 +42,13 @@
 				<field
 					name="show_on_article_page"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 
@@ -86,13 +86,13 @@
 				<field
 					name="category_filtering_type"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
+					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 				</field>
 
 				<field
@@ -110,13 +110,13 @@
 				<field
 					name="show_child_category_articles"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_DESC"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUDE_VALUE</option>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUDE_VALUE</option>
+					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUDE_VALUE</option>
 				</field>
 
 				<field
@@ -136,13 +136,13 @@
 				<field
 					name="author_filtering_type"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
+					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 				</field>
 
 				<field
@@ -168,13 +168,13 @@
 				<field
 					name="author_alias_filtering_type"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
+					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 				</field>
 
 				<field
@@ -360,25 +360,25 @@
 				<field
 					name="link_titles"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
 					name="show_date"
 					type="radio"
+					class="switcher"
 					label="JDATE"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWDATE_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -404,49 +404,49 @@
 				<field
 					name="show_category"
 					type="radio"
+					class="switcher"
 					label="JCATEGORY"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCATEGORY_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="show_hits"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="show_author"
 					type="radio"
+					class="switcher"
 					label="JAUTHOR"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWAUTHOR_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="show_introtext"
 					type="radio"
+					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -460,25 +460,25 @@
 				<field
 					name="show_readmore"
 					type="radio"
+					class="switcher"
 					label="JGLOBAL_SHOW_READMORE_LABEL"
 					description="JGLOBAL_SHOW_READMORE_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="show_readmore_title"
 					type="radio"
+					class="switcher"
 					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 					description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field

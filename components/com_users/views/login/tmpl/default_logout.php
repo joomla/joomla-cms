@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
 		<?php endif; ?>
 
 		<?php if ($this->params->get('logout_image') != '') : ?>
-			<img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="thumbnail pull-right logout-image" alt="<?php echo JText::_('COM_USER_LOGOUT_IMAGE_ALT'); ?>"/>
+			<img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="thumbnail pull-right logout-image" alt="<?php echo JText::_('COM_USER_LOGOUT_IMAGE_ALT'); ?>">
 		<?php endif; ?>
 
 	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
@@ -41,9 +41,9 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 		<?php if ($this->params->get('logout_redirect_url')) : ?>
-			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_url', $this->form->getValue('return'))); ?>" />
+			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_url', $this->form->getValue('return'))); ?>">
 		<?php else : ?>
-			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_menuitem', $this->form->getValue('return'))); ?>" />
+			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_menuitem', $this->form->getValue('return'))); ?>">
 		<?php endif; ?>
 		<?php echo JHtml::_('form.token'); ?>
 	</form>

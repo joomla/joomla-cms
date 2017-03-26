@@ -28,14 +28,14 @@ $script .= "\t\t" . '}' . "\n";
 $script .= "\t\t" . '}' . "\n";
 
 JHtml::_('behavior.core');
-JHtml::_('formbehavior.chosen', 'select');
+
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm">
-	<div class="row-fluid">
-		<div class="span9">
+	<div class="row">
+		<div class="col-md-9">
 			<fieldset class="adminform">
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('subject'); ?></div>
@@ -48,28 +48,28 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						<?php echo JComponentHelper::getParams('com_users')->get('mailBodySuffix'); ?></div>
 				</div>
 			</fieldset>
-			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="task" value="">
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
-		<div class="span3">
-			<fieldset class="form-inline">
+		<div class="col-md-3">
+			<div class="card card-block card-light">
 				<div class="control-group checkbox">
-					<div class="controls"><?php echo $this->form->getInput('recurse'); ?> <?php echo $this->form->getLabel('recurse'); ?></div>
+					<?php echo $this->form->getInput('recurse'); ?> <?php echo $this->form->getLabel('recurse'); ?>
 				</div>
 				<div class="control-group checkbox">
-					<div class="control-label"><?php echo $this->form->getInput('mode'); ?> <?php echo $this->form->getLabel('mode'); ?></div>
+					<?php echo $this->form->getInput('mode'); ?> <?php echo $this->form->getLabel('mode'); ?>
 				</div>
 				<div class="control-group checkbox">
-					<div class="control-label"><?php echo $this->form->getInput('disabled'); ?> <?php echo $this->form->getLabel('disabled'); ?></div>
+					<?php echo $this->form->getInput('disabled'); ?> <?php echo $this->form->getLabel('disabled'); ?>
 				</div>
 				<div class="control-group checkbox">
-					<div class="control-label"><?php echo $this->form->getInput('bcc'); ?> <?php echo $this->form->getLabel('bcc'); ?></div>
+					<?php echo $this->form->getInput('bcc'); ?> <?php echo $this->form->getLabel('bcc'); ?>
 				</div>
 				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('group'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('group'); ?></div>
+					<?php echo $this->form->getLabel('group'); ?>
+					<?php echo $this->form->getInput('group'); ?>
 				</div>
-			</fieldset>
+			</div>
 		</div>
 	</div>
 </form>

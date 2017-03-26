@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$direction = JFactory::getDocument()->direction == 'rtl' ? 'pull-right' : '';
-
-require JModuleHelper::getLayoutPath('mod_menu', $enabled ? 'default_enabled' : 'default_disabled');
+$direction = JFactory::getDocument()->direction == 'rtl' ? 'float-right' : '';
 
 $menu->renderMenu('menu', $enabled ? 'nav ' . $direction : 'nav disabled ' . $direction);

@@ -21,7 +21,7 @@ class JConfig
 {
 	/* Site Settings */
 	public $offline = '0';
-	public $offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
+	public $offline_message = 'This site is down for maintenance.<br> Please check back again soon.';
 	public $display_offline_message = '1';
 	public $offline_image = '';
 	public $sitename = 'Joomla!';            // Name of Joomla site
@@ -51,7 +51,7 @@ class JConfig
 	public $ftp_enable = '';
 	public $tmp_path = '/tmp';                // Please check with your host that this is the correct path to the temp directory. This path needs to be writable by Joomla!
 	public $log_path = '/var/logs';           // Please check with your host that this is the correct path to the logs directory. This path needs to be writable by Joomla!
-	public $live_site = '';                   // Optional, full url to Joomla install.
+	public $live_site = '';                   // Optional, full URL to Joomla install.
 	public $force_ssl = 0;                    // Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator
 
 	/* Locale Settings */

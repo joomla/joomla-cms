@@ -92,23 +92,30 @@ class BannersViewClient extends JViewLegacy
 			'bookmark banners-clients'
 		);
 
+		$toolbarButtons = [];
+
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create')))
 		{
-			JToolbarHelper::apply('client.apply');
-			JToolbarHelper::save('client.save');
+			$toolbarButtons[] = ['apply', 'client.apply'];
+			$toolbarButtons[] = ['save', 'client.save'];
 		}
 
 		if (!$checkedOut && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2new('client.save2new');
+			$toolbarButtons[] = ['save2new', 'client.save2new'];
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('client.save2copy');
+			$toolbarButtons[] = ['save2copy', 'client.save2copy'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{

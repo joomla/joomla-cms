@@ -14,7 +14,7 @@
  * @subpackage  HTML
  * @since       3.1
  */
-class JHtmlStringTest extends PHPUnit_Framework_TestCase
+class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test cases for truncate.
@@ -362,10 +362,10 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				'<div><span><i>Plain</i></span></div>'
 			),
 			'Text is all HTML' => array(
-				'<img src="myimage.jpg" />',
+				'<img src="myimage.jpg">',
 				5,
 				true,
-				'<img src="myimage.jpg" />'
+				'<img src="myimage.jpg">'
 			),
 			'Text with no spaces, split, maxlength 3' => array(
 				'thisistextwithnospace',

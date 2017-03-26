@@ -131,7 +131,18 @@ class SearchHelper
 	 */
 	public static function logSearch($search_term)
 	{
-		JLog::add(__METHOD__ . '() is deprecated, use JSearchHelper::logSearch() instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JSearchHelper::logSearch() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		JSearchHelper::logSearch($search_term, 'com_search');
 	}

@@ -85,23 +85,30 @@ class BannersViewBanner extends JViewLegacy
 
 		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'bookmark banners');
 
+		$toolbarButtons = [];
+
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0))
 		{
-			JToolbarHelper::apply('banner.apply');
-			JToolbarHelper::save('banner.save');
+			$toolbarButtons[] = ['apply', 'banner.apply'];
+			$toolbarButtons[] = ['save', 'banner.save'];
 
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2new('banner.save2new');
+				$toolbarButtons[] = ['save2new', 'banner.save2new'];
 			}
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('banner.save2copy');
+			$toolbarButtons[] = ['save2copy', 'banner.save2copy'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{

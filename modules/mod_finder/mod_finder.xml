@@ -3,7 +3,7 @@
 	<name>mod_finder</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>
-	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -33,13 +33,13 @@
 				<field
 					name="show_autosuggest"
 					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
 					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION"
 					default="1"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -55,37 +55,15 @@
 				</field>
 
 				<field
-					name="field_size"
-					type="text"
-					label="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION"
-					default="25"
-					filter="integer"
-				/>
-
-				<field
 					name="show_label"
 					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
-				</field>
-
-				<field
-					name="label_pos"
-					type="list"
-					label="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION"
-					default="left"
-					>
-					<option value="right">JGLOBAL_RIGHT</option>
-					<option value="left">JGLOBAL_LEFT</option>
-					<option value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
-					<option value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -98,38 +76,25 @@
 				<field
 					name="show_button"
 					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION"
-					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
-				</field>
-
-				<field
-					name="button_pos"
-					type="list"
-					label="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION"
-					default="left"
-					>
-					<option value="right">JGLOBAL_RIGHT</option>
-					<option value="left">JGLOBAL_LEFT</option>
-					<option value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
-					<option value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="opensearch"
 					type="radio"
+					class="switcher"
 					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
 					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field

@@ -11,17 +11,9 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+
 
 JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "filter.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
-		{
-			Joomla.submitform(task, document.getElementById("adminForm"));
-		}
-	};
-
 	jQuery(document).ready(function($) {
 		$("#rightbtn").on("click", function() {
 			if($(this).text() == "' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '") {
@@ -60,33 +52,35 @@ JFactory::getDocument()->addStyleDeclaration('
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php if ($this->total > 0) : ?>
 					<div class="well">
 						<?php echo $this->form->renderField('map_count'); ?>
 					</div>
-					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
+					<button class="btn btn-secondary" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
 						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
-					<button class="btn btn-default pull-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
+					<button class="btn btn-secondary float-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 					<hr>
 				<?php endif; ?>
 
 				<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 			</div>
-			<div class="span3">
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			<div class="col-md-3">
+				<div class="card card-block card-light">
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
-		<div class="row-fluid form-horizontal-desktop">
+		<div class="row">
 			<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -96,7 +90,7 @@ JFactory::getDocument()->addStyleDeclaration('
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd'); ?>" />
+	<input type="hidden" name="task" value="">
+	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd'); ?>">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

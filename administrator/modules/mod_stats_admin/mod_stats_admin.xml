@@ -26,45 +26,23 @@
 				<field
 					name="serverinfo"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
 					description="MOD_STATS_FIELD_SERVERINFO_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="siteinfo"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
 					description="MOD_STATS_FIELD_SITEINFO_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
-				<field
-					name="counter"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_STATS_FIELD_COUNTER_LABEL"
-					description="MOD_STATS_FIELD_COUNTER_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
-				<field
-					name="increase"
-					type="text"
-					default="0"
-					label="MOD_STATS_FIELD_INCREASECOUNTER_LABEL"
-					description="MOD_STATS_FIELD_INCREASECOUNTER_DESC" />
 			</fieldset>
 			<fieldset
 				name="advanced">

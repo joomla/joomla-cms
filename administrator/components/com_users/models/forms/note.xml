@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset
-		addfieldpath="/administrator/components/com_categories/models/fields"
-	>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field
 			name="id"
 			type="hidden"
@@ -20,6 +18,7 @@
 			class="input-medium"
 			required="true"
 			label="COM_USERS_FIELD_USER_ID_LABEL"
+			description="JLIB_FORM_SELECT_USER"
 			/>
 
 		<field

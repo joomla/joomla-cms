@@ -26,32 +26,55 @@ class JToolbarButtonStandard extends JToolbarButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type  Unused string.
-	 * @param   string   $name  The name of the button icon class.
-	 * @param   string   $text  Button text.
-	 * @param   string   $task  Task associated with the button.
-	 * @param   boolean  $list  True to allow lists
+	 * @param   string   $type   Unused string.
+	 * @param   string   $name   The name of the button icon class.
+	 * @param   string   $text   Button text.
+	 * @param   string   $task   Task associated with the button.
+	 * @param   boolean  $list   True to allow lists
+	 * @param   boolean  $group  Does the button belong to a group?
 	 *
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
 	 */
-	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true)
+	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $group = false)
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text'] = JText::_($text);
-		$options['class'] = $this->fetchIconClass($name);
+		$options['text']   = JText::_($text);
+		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
+		$options['group']  = $group;
 
-		if ($name == 'apply' || $name == 'new')
+		switch ($name)
 		{
-			$options['btnClass'] = 'btn btn-small btn-success';
-			$options['class'] .= ' icon-white';
-		}
-		else
-		{
-			$options['btnClass'] = 'btn btn-small';
+			case 'apply':
+			case 'new':
+				$options['btnClass'] = 'btn btn-sm btn-success';
+				break;
+
+			case 'save':
+			case 'save-new':
+			case 'save-copy':
+			case 'save-close':
+			case 'publish':
+				$options['btnClass'] = 'btn btn-sm btn-outline-success';
+				break;
+
+			case 'unpublish':
+				$options['btnClass'] = 'btn btn-sm btn-outline-danger';
+				break;
+
+			case 'featured':
+				$options['btnClass'] = 'btn btn-sm btn-outline-warning';
+				break;
+
+			case 'cancel':
+				$options['btnClass'] = 'btn btn-sm btn-danger';
+				break;
+
+			default:
+				$options['btnClass'] = 'btn btn-sm btn-outline-primary';
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout

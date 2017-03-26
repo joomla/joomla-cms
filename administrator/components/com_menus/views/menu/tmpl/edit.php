@@ -14,26 +14,15 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.tabstate');
 
 JText::script('ERROR');
-
-JFactory::getDocument()->addScriptDeclaration("
-		Joomla.submitbutton = function(task)
-		{
-			var form = document.getElementById('item-form');
-			if (task == 'menu.cancel' || document.formvalidator.isValid(form))
-			{
-				Joomla.submitform(task, form);
-			}
-		};
-");
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form">
-	
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
-	
-	<div class="form-horizontal">
+
+	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_MENU_DETAILS')); ?>
@@ -53,6 +42,14 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo $this->form->getInput('description'); ?>
 				</div>
 			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('client_id'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('client_id'); ?>
+				</div>
+			</div>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
@@ -62,9 +59,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
-
-
 	</div>
 </form>

@@ -2,52 +2,91 @@
  * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+/**
+ * Ajax call to get the update status of Joomla
+ */
+(function() {
+	"use strict";
 
-var plg_quickicon_jupdatecheck_ajax_structure = {};
+	var checkForJoomlaUpdates = function() {
+		if (Joomla.getOptions('js-joomla-update')) {
+			var options = Joomla.getOptions('js-joomla-update');
 
-jQuery(document).ready(function() {
-	plg_quickicon_jupdatecheck_ajax_structure = {
-		success: function(data, textStatus, jqXHR) {
-			var link = jQuery('#plg_quickicon_joomlaupdate').find('span.j-links-link');
+			Joomla.request(
+				{
+					url: options.ajaxUrl + '&eid=700&cache_timeout=3600',
+					method: 'GET',
+					data:    '',
+					perform: true,
+					onSuccess: function(response, xhr)
+					{
+						var link     = document.getElementById('plg_quickicon_joomlaupdate'),
+							linkSpan = link.querySelectorAll('span.j-links-link');
 
-			try {
-				var updateInfoList = jQuery.parseJSON(data);
-			} catch (e) {
-				// An error occurred
-				link.html(plg_quickicon_joomlaupdate_text.ERROR);
-			}
+						var updateInfoList = JSON.parse(response);
 
-			if (updateInfoList instanceof Array) {
-				if (updateInfoList.length < 1) {
-					// No updates
-					link.replaceWith(plg_quickicon_joomlaupdate_text.UPTODATE);
-				} else {
-					var updateInfo = updateInfoList.shift();
-					if (updateInfo.version != plg_quickicon_jupdatecheck_jversion) {
-						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND.replace("%s", updateInfo.version + "");
-						jQuery('#plg_quickicon_joomlaupdate').find('.j-links-link').html(updateString);
-						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfo.version + "");
-						jQuery('#system-message-container').prepend(
-							'<div class="alert alert-error alert-joomlaupdate">'
-							+ updateString
-							+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_joomlaupdate_url + '\'">'
-							+ plg_quickicon_joomlaupdate_text.UPDATEFOUND_BUTTON + '</button>'
-							+ '</div>'
-						);
-					} else {
-						link.html(plg_quickicon_joomlaupdate_text.UPTODATE);
+						if (updateInfoList instanceof Array) {
+							if (updateInfoList.length === 0) {
+								/** No updates **/
+								link.classList.add('success');
+								for (var i = 0, len = linkSpan.length; i < len; i++) {
+									linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
+								}
+							} else {
+								var updateInfo = updateInfoList.shift();
+
+								if (updateInfo.version != options.version) {
+									var messages = {
+										"message": [
+											Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace("%s", updateInfoList.length)
+											+ '<button class="btn btn-primary" onclick="document.location=\'' + options.url + '\'">'
+											+ Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTOON') + '</button>'
+										], "error": ["info"]
+									};
+
+									/** Render the message **/
+									Joomla.renderMessages(messages);
+
+									/** Scroll to page top **/
+									window.scrollTo(0, 0);
+
+									link.classList.add('danger');
+									for (var i = 0, len = linkSpan.length; i < len; i++) {
+										linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace("%s", updateInfoList.length);
+									}
+								} else {
+									for (var i = 0, len = linkSpan.length; i < len; i++) {
+										linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
+									}
+								}
+							}
+						} else {
+							/** An error occurred **/
+							link.classList.add('danger');
+							for (var i = 0, len = linkSpan.length; i < len; i++) {
+								linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
+							}
+						}
+
+					},
+					onError: function(xhr)
+					{
+						/** An error occurred **/
+						var link     = document.getElementById('plg_quickicon_joomlaupdate'),
+							linkSpan = link.querySelectorAll('span.j-links-link');
+
+						link.classList.add('danger');
+						for (var i = 0, len = linkSpan.length; i < len; i++) {
+							linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
+						}
 					}
 				}
-			} else {
-				// An error occurred
-				link.html(plg_quickicon_joomlaupdate_text.ERROR);
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			// An error occurred
-			jQuery('#plg_quickicon_joomlaupdate').find('span.j-links-link').html(plg_quickicon_joomlaupdate_text.ERROR);
-		},
-		url: plg_quickicon_joomlaupdate_ajax_url + '&eid=700&cache_timeout=3600'
+			);
+		}
 	};
-	setTimeout("ajax_object = new jQuery.ajax(plg_quickicon_jupdatecheck_ajax_structure);", 2000);
-});
+
+	/** Add a listener on content loaded to initiate the check **/
+	document.addEventListener('DOMContentLoaded', function() {
+		setTimeout(checkForJoomlaUpdates, 2000)
+	});
+})();

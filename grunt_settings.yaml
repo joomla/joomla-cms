@@ -1,0 +1,77 @@
+vendors:
+#### PLEASE ALTER ONLY THE VERSIONS NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
+    'jquery':
+                 'version': '3.1.1'
+                 'dependencies': ''
+
+    'jquery-migrate':
+                  'version': '1.4.1'
+                  'dependencies': 'jquery'
+    'bootstrap':
+                  'version': '~4.0.0-alpha.6'
+                  'dependencies': 'jquery, tether'
+    'tether':
+                  'version': '1.4.0'
+                  'dependencies': 'jquery, tether'
+    'font-awesome':
+                  'version': '4.7.0'
+                  'dependencies': ''
+    'jquery-minicolors':
+                  'version': '2.1.10'
+                  'dependencies': 'jquery'
+    'jquery-sortable':
+                  'version': '0.9.13'
+                  'dependencies': 'jquery'
+    'jquery-ui':
+                  'version': '1.12.1'
+                  'dependencies': 'jquery'
+    'mediaelement':
+                  'version': '2.23.4'
+                  'dependencies': 'jquery'
+    'punycode':
+                  'version': '1.4.1'
+                  'dependencies': ''
+    'tinymce':
+                  'version': '4.5.5'
+                  'dependencies': ''
+    'awesomplete':
+                  'version': '1.1.1'
+                  'dependencies': ''
+    'dragula':
+                  'version': '3.7.2'
+                  'dependencies': ''
+    'codemirror':
+                  'version': '5.24.2'
+                  'dependencies': ''
+    'cropperjs':
+                  'version': '1.0.0-beta.2'
+                  'dependencies': ''
+    'flying-focus-a11y':
+                  'version': '1.5.4'
+                  'dependencies': ''
+    'diff':
+                  'version': '3.2.0'
+                  'dependencies': ''
+
+## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
+CmAddons:
+        js:
+            - 'addon/display/fullscreen.js'
+            - 'addon/display/panel.js'
+            - 'addon/edit/closebrackets.js'
+            - 'addon/edit/closetag.js'
+            - 'addon/edit/matchbrackets.js'
+            - 'addon/edit/matchtags.js'
+            - 'addon/fold/brace-fold.js'
+            - 'addon/fold/foldcode.js'
+            - 'addon/fold/foldgutter.js'
+            - 'addon/fold/xml-fold.js'
+            - 'addon/mode/loadmode.js'
+            - 'addon/mode/multiplex.js'
+            - 'addon/scroll/simplescrollbars.js'
+            - 'addon/selection/active-line.js'
+            - 'keymap/vim.js'
+        css:
+            - 'addon/display/fullscreen.css'
+            - 'addon/fold/foldgutter.css'
+            - 'addon/scroll/simplescrollbars.css'

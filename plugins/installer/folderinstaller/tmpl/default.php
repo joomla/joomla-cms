@@ -34,13 +34,17 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 <legend><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
 <div class="control-group">
-	<label for="install_directory" class="control-label"><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></label>
+	<label for="install_directory" class="control-label">
+		<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?>
+	</label>
 	<div class="controls">
-		<input type="text" id="install_directory" name="install_directory" class="span5 input_box" size="70"
-			value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>" />
+		<input type="text" id="install_directory" name="install_directory" class="form-control"
+			value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>">
 	</div>
 </div>
-<div class="form-actions">
-	<input type="button" class="btn btn-primary" id="installbutton_directory"
-		value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()" />
+<div class="control-group">
+	<div class="controls">
+		<input type="button" class="btn btn-primary" id="installbutton_directory"
+			value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()">
+	</div>
 </div>

@@ -37,14 +37,12 @@
 				<field
 					name="product"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="MOD_VERSION_PRODUCT_LABEL"
 					description="MOD_VERSION_PRODUCT_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">

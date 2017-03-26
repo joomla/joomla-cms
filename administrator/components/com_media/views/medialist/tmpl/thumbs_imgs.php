@@ -21,10 +21,9 @@ $params = new Registry;
 			<a class="close delete-item" target="_top"
 			href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $img->name; ?>"
 			rel="<?php echo $img->name; ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>">&#215;</a>
-			<div class="pull-left">
+			<div class="float-left">
 				<?php echo JHtml::_('grid.id', $i, $img->name, false, 'rm', 'cb-image'); ?>
 			</div>
-			<div class="clearfix"></div>
 		<?php endif; ?>
 
 		<div class="height-50">

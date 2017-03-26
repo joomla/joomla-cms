@@ -31,41 +31,34 @@ class PlgButtonReadmore extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  JObject  The button options as JObject
+	 * @return  JObject  $button  A two element array of (imageName, textToInsert)
 	 *
 	 * @since   1.5
 	 */
 	public function onDisplay($name)
 	{
 		// Button is not active in specific content components
-
 		$event = new Event(
 			'getContent',
 			['name' => $name]
 		);
+
 		$getContentResult = $this->getDispatcher()->dispatch('getContent', $event);
 		$getContent = $getContentResult['result'][0];
-		$present    = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
+		JHtml::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
 
-		$js = "
-			function insertReadmore(editor)
-			{
-				var content = $getContent
-				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
-				{
-					alert('$present');
-					return false;
-				} else {
-					jInsertEditorText('<hr id=\"system-readmore\" />', editor);
-				}
-			}
-			";
-
-		JFactory::getDocument()->addScriptDeclaration($js);
+		// Pass some data to javascript
+		JFactory::getDocument()->addScriptOptions(
+			'xtd-readmore',
+			array(
+				'editor' => $getContent,
+				'exists' => JText::_('PLG_READMORE_ALREADY_EXISTS', true),
+			)
+		);
 
 		$button = new JObject;
 		$button->modal   = false;
-		$button->class   = 'btn';
+		$button->class   = 'btn btn-secondary';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
 		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
 		$button->name    = 'arrow-down';

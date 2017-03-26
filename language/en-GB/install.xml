@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.6" client="site" type="language" method="upgrade">
+<extension version="3.7" client="site" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
 	<version>4.0.0</version>
@@ -88,8 +88,6 @@
 		<filename>en-GB.mod_whosonline.sys.ini</filename>
 		<filename>en-GB.mod_wrapper.ini</filename>
 		<filename>en-GB.mod_wrapper.sys.ini</filename>
-		<filename>en-GB.tpl_beez3.ini</filename>
-		<filename>en-GB.tpl_beez3.sys.ini</filename>
 		<filename>en-GB.tpl_protostar.ini</filename>
 		<filename>en-GB.tpl_protostar.sys.ini</filename>
 		<filename file="meta">install.xml</filename>

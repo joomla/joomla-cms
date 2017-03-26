@@ -88,7 +88,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
 				. ' id="' . $this->id . $group->value . '_filter_type"'
-				. ' class="novalidate"'
+				. ' class="novalidate custom-select"'
 				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
 				. JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
@@ -106,19 +106,19 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
 				. ' type="text"'
-				. ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate"'
+				. ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate form-control"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '"'
 				. ' value="' . $group_filter['filter_tags'] . '"'
-				. '/>';
+				. '>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
 				. ' type="text"'
-				. ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate"'
+				. ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate form-control"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '"'
 				. ' value="' . $group_filter['filter_attributes'] . '"'
-				. '/>';
+				. '>';
 			$html[] = '		</td>';
 			$html[] = '	</tr>';
 		}
@@ -129,7 +129,7 @@ class JFormFieldFilters extends JFormField
 		$html[] = '</table>';
 
 		// Add notes
-		$html[] = '<div class="alert">';
+		$html[] = '<div class="alert alert-warning">';
 		$html[] = '<p>' . JText::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
 		$html[] = '<p>' . JText::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
 		$html[] = '<p>' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';

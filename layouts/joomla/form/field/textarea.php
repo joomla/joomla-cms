@@ -44,10 +44,6 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-
 // Initialize some field attributes.
 $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
@@ -55,7 +51,7 @@ $autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
 $attributes = array(
 	$columns ?: '',
 	$rows ?: '',
-	!empty($class) ? 'class="' . $class . '"' : '',
+	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
@@ -73,4 +69,3 @@ $attributes = array(
 echo $name; ?>" id="<?php
 echo $id; ?>" <?php
 echo implode(' ', $attributes); ?> ><?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?></textarea>
-

@@ -70,8 +70,8 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 		{
 			// Wrap output in various classes
 			$version = new JVersion;
-			$versionParts = explode('.', $version->RELEASE);
-			$minorVersion = str_replace('.', '', $version->RELEASE);
+			$versionParts = explode('.', $version::RELEASE);
+			$minorVersion = str_replace('.', '', $version::RELEASE);
 			$majorVersion = array_shift($versionParts);
 
 			$option = $input->getCmd('option', '');
@@ -191,7 +191,7 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 		{
 			JHtml::_('bootstrap.tooltip');
 
-			$tooltipText = '<strong>' . JText::_($title) . '</strong><br />' . JText::_($tooltip);
+			$tooltipText = '<strong>' . JText::_($title) . '</strong><br>' . JText::_($tooltip);
 
 			$html .= "\t\t\t\t" . '<label class="control-label hasTooltip ' . $labelClass . '" for="' . $field->id . '" title="' . $tooltipText . '" rel="tooltip">';
 		}

@@ -212,6 +212,10 @@ class ContactTableContact extends JTable
 			// Put array back together delimited by ", "
 			$this->metakey = implode(', ', $cleanKeys);
 		}
+		else
+		{
+			$this->metakey = '';
+		}
 
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
@@ -219,6 +223,20 @@ class ContactTableContact extends JTable
 			// Only process if not empty
 			$badCharacters = array("\"", '<', '>');
 			$this->metadesc = StringHelper::str_ireplace($badCharacters, '', $this->metadesc);
+		}
+		else
+		{
+			$this->metadesc = '';
+		}
+
+		if (empty($this->params))
+		{
+			$this->params = '{}';
+		}
+
+		if (empty($this->metadata))
+		{
+			$this->metadata = '{}';
 		}
 
 		return true;

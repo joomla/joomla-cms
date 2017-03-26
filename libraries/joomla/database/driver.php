@@ -253,8 +253,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
-		// If the selected driver is `mysql` and we are on PHP 7 or greater, switch to the `mysqli` driver.
-		if ($options['driver'] === 'mysql' && PHP_MAJOR_VERSION >= 7)
+		// If the selected driver is `mysql`, switch to one of the other available MySQL drivers.
+		if ($options['driver'] === 'mysql')
 		{
 			// Check if we have support for the other MySQL drivers
 			$mysqliSupported   = JDatabaseDriverMysqli::isSupported();
@@ -264,7 +264,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			if (!$mysqliSupported && !$pdoMysqlSupported)
 			{
 				throw new JDatabaseExceptionUnsupported(
-					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.'
+					'Support for the PHP `ext/mysql` extension has been removed, cannot use the `mysql` driver.'
 					. ' Also, this system does not support MySQLi or PDO MySQL.  Cannot instantiate database driver.'
 				);
 			}
@@ -273,7 +273,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			if ($mysqliSupported)
 			{
 				JLog::add(
-					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `mysqli` instead.',
+					'Support for the PHP `ext/mysql` extension has been removed, cannot use the `mysql` driver.  Trying `mysqli` instead.',
 					JLog::WARNING,
 					'deprecated'
 				);
@@ -283,7 +283,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			else
 			{
 				JLog::add(
-					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `pdomysql` instead.',
+					'Support for the PHP `ext/mysql` extension has been removed, cannot use the `mysql` driver.  Trying `pdomysql` instead.',
 					JLog::WARNING,
 					'deprecated'
 				);
@@ -1929,11 +1929,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 			if (strlen($q) == 1)
 			{
-				$parts[] = $q . $part . $q;
+				$parts[] = $q . str_replace($q, $q . $q, $part) . $q;
 			}
 			else
 			{
-				$parts[] = $q{0} . $part . $q{1};
+				$parts[] = $q{0} . str_replace($q{1}, $q{1} . $q{1}, $part) . $q{1};
 			}
 		}
 

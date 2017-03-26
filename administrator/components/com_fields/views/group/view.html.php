@@ -117,7 +117,9 @@ class FieldsViewGroup extends JViewLegacy
 		}
 
 		// Load component language file
-		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
+		$lang = JFactory::getLanguage();
+		$lang->load($component, JPATH_ADMINISTRATOR)
+		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 		$title = JText::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
 
@@ -128,39 +130,56 @@ class FieldsViewGroup extends JViewLegacy
 			($isNew ? 'add' : 'edit')
 		);
 
+		$toolbarButtons = [];
+
 		// For new records, check the create permission.
 		if ($isNew)
 		{
-			JToolbarHelper::apply('group.apply');
-			JToolbarHelper::save('group.save');
-			JToolbarHelper::save2new('group.save2new');
-		}
+			JToolbarHelper::saveGroup(
+				[
+					['apply', 'group.apply'],
+					['save', 'group.save'],
+					['save2new', 'group.save2new']
+				],
+				'btn-success'
+			);
 
-		// If not checked out, can save the item.
-		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId)))
-		{
-			JToolbarHelper::apply('group.apply');
-			JToolbarHelper::save('group.save');
-
-			if ($canDo->get('core.create'))
-			{
-				JToolbarHelper::save2new('group.save2new');
-			}
-		}
-
-		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save2copy('group.save2copy');
-		}
-
-		if (empty($this->item->id))
-		{
 			JToolbarHelper::cancel('group.cancel');
 		}
 		else
 		{
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+
+			$toolbarButtons = [];
+
+			// Can't save the record if it's checked out and editable
+			if (!$checkedOut && $itemEditable)
+			{
+				$toolbarButtons[] = ['apply', 'group.apply'];
+				$toolbarButtons[] = ['save', 'group.save'];
+
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					$toolbarButtons[] = ['save2new', 'group.save2new'];
+				}
+			}
+
+			// If an existing item, can save to a copy.
+			if ($canDo->get('core.create'))
+			{
+				$toolbarButtons[] = ['save2copy', 'group.save2copy'];
+			}
+
+			JToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
+
 			JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
+
+		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS_EDIT');
 	}
 }

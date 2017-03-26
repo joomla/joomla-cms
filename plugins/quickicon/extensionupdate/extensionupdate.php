@@ -42,8 +42,23 @@ class PlgQuickiconExtensionupdate extends JPlugin
 			return array();
 		}
 
-		JHtml::_('jquery.framework');
+		$token    = JSession::getFormToken() . '=1';
+		$options  = array(
+			'url' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
+			'ajaxUrl' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token,
+		);
 
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true);
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true);
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true);
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true);
+		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true);
+
+		JHtml::_('jquery.framework');
+		JHtml::_('behavior.core');
+
+		JFactory::getDocument()->addScriptOptions('js-extensions-update', $options);
+		
 		$token    = JSession::getFormToken() . '=' . 1;
 		$url      = JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token;
 		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token;

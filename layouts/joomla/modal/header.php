@@ -28,15 +28,15 @@ extract($displayData);
  *                             - width        string   width of the <iframe> containing the remote resource
  *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
  *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
- * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
+ * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  *
  */
 ?>
 <div class="modal-header">
-	<?php if (!isset($params['closeButton']) || $params['closeButton']) : ?>
-		<button type="button" class="close novalidate" data-dismiss="modal">×</button>
-	<?php endif; ?>
 	<?php if (isset($params['title'])) : ?>
-		<h3><?php echo $params['title']; ?></h3>
+		<h3 class="modal-title"><?php echo $params['title']; ?></h3>
+	<?php endif; ?>
+	<?php if (!isset($params['closeButton']) || $params['closeButton']) : ?>
+		<button type="button" class="close novalidate" data-dismiss="modal">&times;</button>
 	<?php endif; ?>
 </div>

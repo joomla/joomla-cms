@@ -300,7 +300,7 @@ abstract class JModuleHelper
 			$temp = explode(':', $layout);
 			$template = ($temp[0] == '_') ? $template : $temp[0];
 			$layout = $temp[1];
-			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
@@ -493,7 +493,7 @@ abstract class JModuleHelper
 	 *
 	 * @param   object  $module        Module object
 	 * @param   object  $moduleparams  Module parameters
-	 * @param   object  $cacheparams   Module cache parameters - id or url parameters, depending on the module cache mode
+	 * @param   object  $cacheparams   Module cache parameters - id or URL parameters, depending on the module cache mode
 	 *
 	 * @return  string
 	 *

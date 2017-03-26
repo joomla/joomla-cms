@@ -34,13 +34,16 @@ JFactory::getDocument()->addScriptDeclaration('
 <div class="control-group">
 	<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 	<div class="controls">
-		<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
+		<input class="form-control" id="install_package" name="install_package" type="file">
 		<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
 		<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 	</div>
 </div>
-<div class="form-actions">
-	<button class="btn btn-primary" type="button" id="installbutton_package" onclick="Joomla.submitbuttonpackage()">
-		<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
-	</button>
+<div class="control-group">
+	<div class="controls">
+		<button class="btn btn-primary" type="button" id="installbutton_package" onclick="Joomla.submitbuttonpackage()">
+			<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
+		</button>
+	</div>
 </div>
+

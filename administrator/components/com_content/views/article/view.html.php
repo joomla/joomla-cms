@@ -33,7 +33,7 @@ class ContentViewArticle extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  JObject
 	 */
 	protected $state;
 
@@ -43,6 +43,13 @@ class ContentViewArticle extends JViewLegacy
 	 * @var  JObject
 	 */
 	protected $canDo;
+
+	/**
+	 * Pagebreak TOC alias
+	 *
+	 * @var  string
+	 */
+	protected $eName;
 
 	/**
 	 * Execute and display a template script.
@@ -57,12 +64,6 @@ class ContentViewArticle extends JViewLegacy
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			// TODO: This is really dogy - should change this one day.
-			$eName = JFactory::getApplication()->input->getCmd('e_name');
-			$eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
-			$this->document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
-			$this->eName = &$eName;
-
 			return parent::display($tpl);
 		}
 
@@ -122,9 +123,15 @@ class ContentViewArticle extends JViewLegacy
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
-			JToolbarHelper::apply('article.apply');
-			JToolbarHelper::save('article.save');
-			JToolbarHelper::save2new('article.save2new');
+			JToolbarHelper::saveGroup(
+				[
+					['apply', 'article.apply'],
+					['save', 'article.save'],
+					['save2new', 'article.save2new']
+				],
+				'btn-success'
+			);
+
 			JToolbarHelper::cancel('article.cancel');
 		}
 		else
@@ -132,28 +139,42 @@ class ContentViewArticle extends JViewLegacy
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
+			$toolbarButtons = [];
+
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				JToolbarHelper::apply('article.apply');
-				JToolbarHelper::save('article.save');
+				$toolbarButtons[] = ['apply', 'article.apply'];
+				$toolbarButtons[] = ['save', 'article.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create'))
 				{
-					JToolbarHelper::save2new('article.save2new');
+					$toolbarButtons[] = ['save2new', 'article.save2new'];
 				}
 			}
 
 			// If checked out, we can still save
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::save2copy('article.save2copy');
+				$toolbarButtons[] = ['save2copy', 'article.save2copy'];
 			}
+
+			JToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
 
 			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				JToolbarHelper::versions('com_content.article', $this->item->id);
+			}
+
+			if (!$isNew)
+			{
+				JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
+				$url = ContentHelperPreview::url($this->item);
+				JToolbarHelper::preview($url, JText::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
 			}
 
 			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');

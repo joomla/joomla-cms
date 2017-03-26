@@ -16,11 +16,42 @@ defined('_JEXEC') or die;
  */
 class MessagesViewMessages extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
 
 	/**
 	 * Execute and display a template script.
@@ -88,7 +119,7 @@ class MessagesViewMessages extends JViewLegacy
 			0,
 			'',
 			'',
-			'<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
+			'<button class="btn btn-secondary" type="button" data-dismiss="modal" aria-hidden="true">'
 			. JText::_('JCANCEL')
 			. '</button>'
 			. '<button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true"'

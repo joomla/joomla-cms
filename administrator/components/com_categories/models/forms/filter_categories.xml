@@ -100,7 +100,6 @@
 			label="COM_CATEGORIES_LIST_LIMIT"
 			description="COM_CATEGORIES_LIST_LIMIT_DESC"
 			default="25"
-			class="input-mini"
 			onchange="this.form.submit();"
 		/>
 	</fields>

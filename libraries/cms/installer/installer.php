@@ -751,7 +751,7 @@ class JInstaller extends JAdapter
 		// Fire the onExtensionAfterInstall
 		JFactory::getApplication()->triggerEvent(
 			'onExtensionAfterUninstall',
-			array('installer' => clone $this, 'eid' => $identifier, 'result' => $result)
+			array('installer' => clone $this, 'eid' => $identifier, 'removed' => $result)
 		);
 
 		// Refresh versionable assets cache
@@ -1651,7 +1651,7 @@ class JInstaller extends JAdapter
 					// Copy the folder or file to the new location.
 					if ($filetype == 'folder')
 					{
-						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
+						if (!JFolder::copy($filesource, $filedest, null, $overwrite))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), JLog::WARNING, 'jerror');
 
@@ -1662,7 +1662,7 @@ class JInstaller extends JAdapter
 					}
 					else
 					{
-						if (!(JFile::copy($filesource, $filedest, null)))
+						if (!JFile::copy($filesource, $filedest, null))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
 
@@ -2212,8 +2212,8 @@ class JInstaller extends JAdapter
 		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ?: JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ?: JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
@@ -2221,6 +2221,7 @@ class JInstaller extends JAdapter
 		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
+		$data['namespace'] = (string) $xml->namespace;
 
 		if ($xml->files && count($xml->files->children()))
 		{
