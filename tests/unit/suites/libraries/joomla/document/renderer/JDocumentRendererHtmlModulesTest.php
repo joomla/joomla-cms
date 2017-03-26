@@ -117,7 +117,7 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 		switch ($event)
 		{
 			case 'onAfterRenderModules':
-				$this->assertContains('mod_search63', $args[0], 'buffer empty when processing onAfterRenderModules event');
+				$this->assertContains('mod-search-searchword63', $args[0], 'buffer empty when processing onAfterRenderModules event');
 				$this->assertArrayHasKey('name', $args[1], "params['name'] empty when processing onAfterRenderModules event");
 				$this->callbackExecuted = true;
 		}
