@@ -109,6 +109,7 @@ JFactory::getDocument()->addScriptDeclaration(
             
             if (typeof FormData === 'undefined') {
                 Joomla.renderMessages({'error': [Joomla.JText._("COM_INSTALLER_DRAG_ERR_UNSUPPORTEDBROWSER")]});
+                return;
             }
             
             cover.fadeOut();
