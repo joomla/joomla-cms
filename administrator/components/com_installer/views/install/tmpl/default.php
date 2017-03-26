@@ -69,6 +69,7 @@ JFactory::getDocument()->addStyleDeclaration(
 
 $token = JSession::getFormToken();
 $text = JText::_('COM_INSTALLER_DRAG_FILE_HERE');
+JText::script('COM_INSTALLER_DRAG_ERR_UNSUPPORTEDBROWSER');
 
 // Drag-drop installation
 JFactory::getDocument()->addScriptDeclaration(
@@ -105,6 +106,11 @@ JFactory::getDocument()->addScriptDeclaration(
         body.on('drop', function(e) {
             e.preventDefault();
             e.stopPropagation();
+            
+            if (typeof FormData === 'undefined') {
+                Joomla.renderMessages({'error': [Joomla.JText._("COM_INSTALLER_DRAG_ERR_UNSUPPORTEDBROWSER")]});
+            }
+            
             cover.fadeOut();
 
             var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
