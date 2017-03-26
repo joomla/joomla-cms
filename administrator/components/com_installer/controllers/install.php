@@ -83,9 +83,7 @@ class InstallerControllerInstall extends JControllerLegacy
 
 		header('Content-Type: application/json');
 
-		echo new JResponseJson(array(
-			'redirect' => $redirect,
-		), $app->getUserState('com_installer.message'));
+		echo new JResponseJson(array('redirect' => $redirect), $app->getUserState('com_installer.message'));
 
 		exit();
 	}
