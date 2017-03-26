@@ -68,6 +68,7 @@ JFactory::getDocument()->addStyleDeclaration(
 );
 
 $token = JSession::getFormToken();
+$text = JText::_('COM_INSTALLER_DRAG_FILE_HERE');
 
 // Drag-drop installation
 JFactory::getDocument()->addScriptDeclaration(
@@ -75,7 +76,6 @@ JFactory::getDocument()->addScriptDeclaration(
     jQuery(document).ready(function($) {
         var body = $('body');
         var cover = $('#dragarea');
-        var form = document.getElementById("adminForm");
         
         body.on('dragenter', function(e) {
             e.stopPropagation();
@@ -88,6 +88,13 @@ JFactory::getDocument()->addScriptDeclaration(
         body.on('dragover', function(e) {
             e.preventDefault();
             cover.fadeIn();
+
+            return false;
+        });
+        
+        cover.on('dragleave', function(e) {
+            e.preventDefault();
+            cover.fadeOut();
 
             return false;
         });
@@ -150,7 +157,8 @@ JFactory::getDocument()->addStyleDeclaration(
 		overflow: hidden;
 	}
 
-    #dragarea .dragarea-title {
+    #dragarea::before {
+        content: "{$text}";
         width: 100%;
         display: block;
         font-size: 36px;
@@ -244,5 +252,5 @@ CSS
 </div>
 <div id="loading"></div>
 <div id="dragarea" style="display: none;">
-    <div class="dragarea-title"><?php echo JText::_('COM_INSTALLER_DRAG_FILE_HERE'); ?></div>
+
 </div>
