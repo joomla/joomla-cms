@@ -47,8 +47,9 @@ class JFormFieldList extends JFormField
 
 		if (!empty($this->element['aria-label']))
 		{
-			$attr .= ' aria-label="' . JTEXT::_($this->element['aria-label']) . '"';
-		};
+			$attr .= ' aria-label="' . JText::_($this->element['aria-label']) . '"';
+		}
+
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
 		{
