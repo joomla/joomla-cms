@@ -119,24 +119,28 @@ JFactory::getDocument()->addScriptDeclaration(
             jQuery("#loading").css("display", "block");
 			
 			$.ajax({
-			    url: 'index.php?option=com_installer&task=install.ajax_upload',
+			    url: 'index.php?option=com_installer&task=install.ajax_upload2',
 			    data: data,
 			    type: 'post',
 			    processData: false,
 			    cache: false,
                 contentType: false
 			}).done(function (res) {
-			    console.log(res.redirect);
 			    if (res.success) {
 			        if (res.data.redirect) {
 			            location.href = res.data.redirect;
 			        } else {
 			            location.href = 'index.php?option=com_installer&view=install';
 			        }
+			    } else {
+			        jQuery("#loading").css("display", "none");
+			        alert(res.message);
 			    }
+			}).error (function (error) {
+			    jQuery("#loading").css("display", "none");
+			    alert(error.statusText);
 			});
         });
-        
     });
 JS
 );
