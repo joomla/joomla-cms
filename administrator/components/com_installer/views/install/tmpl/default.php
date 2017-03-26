@@ -119,7 +119,7 @@ JFactory::getDocument()->addScriptDeclaration(
             jQuery("#loading").css("display", "block");
 			
 			$.ajax({
-			    url: 'index.php?option=com_installer&task=install.ajax_upload2',
+			    url: 'index.php?option=com_installer&task=install.ajax_upload',
 			    data: data,
 			    type: 'post',
 			    processData: false,
