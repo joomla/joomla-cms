@@ -67,6 +67,100 @@ JFactory::getDocument()->addStyleDeclaration(
 	'
 );
 
+$token = JSession::getFormToken();
+
+// Drag-drop installation
+JFactory::getDocument()->addScriptDeclaration(
+<<<JS
+    jQuery(document).ready(function($) {
+        var body = $('body');
+        var cover = $('#dragarea');
+        var form = document.getElementById("adminForm");
+        
+        body.on('dragenter', function(e) {
+            e.stopPropagation();
+            cover.fadeIn();
+            
+            return false;
+        });
+
+        // Notify user when file is over the drop area
+        body.on('dragover', function(e) {
+            e.preventDefault();
+            cover.fadeIn();
+
+            return false;
+        });
+
+        body.on('drop', function(event) {
+            event.preventDefault();
+            cover.fadeOut();
+            
+            var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
+            
+            if (!files.length) {
+                return;
+            }
+            
+            var file = files[0];
+            
+            var data = new FormData();
+            data.append('install_package', file);
+            data.append('installtype', 'upload');
+            data.append('{$token}', 1);
+            
+            jQuery("#loading").css("display", "block");
+			
+			$.ajax({
+			    url: 'index.php?option=com_installer&task=install.ajax_upload',
+			    data: data,
+			    type: 'post',
+			    processData: false,
+			    cache: false,
+                contentType: false
+			}).done(function (res) {
+			    console.log(res.redirect);
+			    if (res.success) {
+			        if (res.data.redirect) {
+			            location.href = res.data.redirect;
+			        } else {
+			            location.href = 'index.php?option=com_installer&view=install';
+			        }
+			    }
+			});
+        });
+        
+    });
+JS
+);
+
+JFactory::getDocument()->addStyleDeclaration(
+<<<CSS
+	#dragarea {
+	    display: block;
+	    background: rgba(255, 255, 255, .8);
+	    position: fixed;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+		opacity: 0.8;
+		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
+		filter: alpha(opacity = 80);
+		overflow: hidden;
+	}
+
+    #dragarea .dragarea-title {
+        width: 100%;
+        display: block;
+        font-size: 36px;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+    }
+CSS
+);
+
 ?>
 
 <script type="text/javascript">
@@ -149,3 +243,6 @@ JFactory::getDocument()->addStyleDeclaration(
 	</form>
 </div>
 <div id="loading"></div>
+<div id="dragarea" style="display: none;">
+    <div class="dragarea-title"><?php echo JText::_('COM_INSTALLER_DRAG_FILE_HERE'); ?></div>
+</div>
