@@ -78,6 +78,7 @@ JFactory::getDocument()->addScriptDeclaration(
         var cover = $('#dragarea');
         
         body.on('dragenter', function(e) {
+            e.preventDefault();
             e.stopPropagation();
             cover.fadeIn();
             
@@ -87,6 +88,7 @@ JFactory::getDocument()->addScriptDeclaration(
         // Notify user when file is over the drop area
         body.on('dragover', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             cover.fadeIn();
 
             return false;
@@ -94,52 +96,54 @@ JFactory::getDocument()->addScriptDeclaration(
         
         cover.on('dragleave', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             cover.fadeOut();
 
             return false;
         });
 
-        body.on('drop', function(event) {
-            event.preventDefault();
+        body.on('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             cover.fadeOut();
-            
-            var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
-            
+
+            var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
+
             if (!files.length) {
                 return;
             }
-            
+
             var file = files[0];
-            
+
             var data = new FormData();
             data.append('install_package', file);
             data.append('installtype', 'upload');
             data.append('{$token}', 1);
-            
+
             jQuery("#loading").css("display", "block");
-			
-			$.ajax({
-			    url: 'index.php?option=com_installer&task=install.ajax_upload',
-			    data: data,
-			    type: 'post',
-			    processData: false,
-			    cache: false,
+
+            $.ajax({
+                url: 'index.php?option=com_installer&task=install.ajax_upload',
+                data: data,
+                type: 'post',
+                processData: false,
+                cache: false,
                 contentType: false
-			}).done(function (res) {
-			    if (res.success) {
-			        if (res.data.redirect) {
-			            location.href = res.data.redirect;
-			        } else {
-			            location.href = 'index.php?option=com_installer&view=install';
-			        }
-			    } else {
-			        jQuery("#loading").css("display", "none");
-			        alert(res.message);
-			    }
-			}).error (function (error) {
-			    jQuery("#loading").css("display", "none");
-			    alert(error.statusText);
-			});
+            }).done(function (res) {
+                if (res.success) {
+                    if (res.data.redirect) {
+                        location.href = res.data.redirect;
+                    } else {
+                        location.href = 'index.php?option=com_installer&view=install';
+                    }
+                } else {
+                    jQuery("#loading").css("display", "none");
+                    alert(res.message);
+                }
+            }).error (function (error) {
+                jQuery("#loading").css("display", "none");
+                alert(error.statusText);
+            });
         });
     });
 JS
@@ -147,19 +151,19 @@ JS
 
 JFactory::getDocument()->addStyleDeclaration(
 <<<CSS
-	#dragarea {
-	    display: block;
-	    background: rgba(255, 255, 255, .8);
-	    position: fixed;
-	    left: 0;
-	    top: 0;
-	    width: 100%;
-	    height: 100%;
-		opacity: 0.8;
-		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
-		filter: alpha(opacity = 80);
-		overflow: hidden;
-	}
+    #dragarea {
+        display: block;
+        background: rgba(255, 255, 255, .8);
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+        -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
+        filter: alpha(opacity = 80);
+        overflow: hidden;
+    }
 
     #dragarea::before {
         content: "{$text}";
