@@ -573,7 +573,7 @@ class FieldsModelField extends JModelAdmin
 
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->select($query->qn('value'))
+			$query->select($query->qn(array('value','field_id')))
 				->from($query->qn('#__fields_values'))
 				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
 				->where($query->qn('context') . ' = ' . $query->q($context))
