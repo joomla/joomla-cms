@@ -21,8 +21,10 @@ $options = array(
 			'itemtype' => $this->itemtype,
 			'id'       => $this->referenceId,
 		);
+
+JText::script('COM_ASSOCIATIONS_CONFIRM_CANCEL');
 ?>
-<button id="toogle-left-panel" class="btn btn-small" 
+<button id="toogle-left-panel" class="btn btn-small"
 		data-show-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
 		data-hide-reference="<?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo JText::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>

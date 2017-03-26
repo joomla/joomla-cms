@@ -13,9 +13,12 @@ jQuery(document).ready(function($) {
 		// Using close button, normal joomla submit.
 		if (task == 'association.cancel')
 		{
-			Joomla.submitform(task);
+			if (confirm(Joomla.JText._('COM_ASSOCIATIONS_CONFIRM_CANCEL')))
+			{
+				Joomla.submitform(task);
+			}
 		}
-		else if(task == 'copy')
+		else if (task == 'copy')
 		{
 			window.frames['reference-association'].Joomla.submitbutton(document.getElementById('adminForm').getAttribute('data-associatedview') + '.save2copy');
 		}
