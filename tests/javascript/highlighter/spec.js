@@ -44,11 +44,11 @@ define(['jquery', 'testsRoot/highlighter/spec-setup', 'jasmineJquery'], function
 		});
 		
 		it('Should highlight word \'sample\' in sample text at depth 1', function () {
-			expect($('#text-depth-1').html()).toContain('class="highlight"');;
+			expect($('#text-depth-1').html()).toContain('class="highlight"');
 		});
 		
 		it('Should highlight word \'sample\' in sample text at depth 2', function () {
-			expect($('#text-depth-2').html()).toContain('class="highlight"');;
+			expect($('#text-depth-2').html()).toContain('class="highlight"');
 		});
 	});
 
@@ -85,6 +85,7 @@ define(['jquery', 'testsRoot/highlighter/spec-setup', 'jasmineJquery'], function
 			expect($('#span-highlight')).not.toContainHtml('<span rel="span" class="highlight">span</span>');
 		});
 	});
+
 
 	describe('unhighlight with input lying inside a textarea', function () {
 		beforeAll(function () {
