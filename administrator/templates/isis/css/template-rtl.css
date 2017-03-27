@@ -9874,6 +9874,7 @@ a.grid_true {
 }
 @media (max-width: 767px) {
 	.j-sidebar-container {
+		position: relative;
 		border-right: 0;
 		border-left: 0;
 	}
