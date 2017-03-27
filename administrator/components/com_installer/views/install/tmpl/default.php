@@ -43,13 +43,13 @@ JFactory::getDocument()->addScriptDeclaration(
 	jQuery(document).ready(function($) {
 		var outerDiv = $("#installer-install");
 		
-		$("#loading")
-		.css("top", outerDiv.position().top - $(window).scrollTop())
-		.css("left", "0")
-		.css("width", "100%")
-		.css("height", "100%")
-		.css("display", "none")
-		.css("margin-top", "-10px");
+		JoomlaInstaller.getLoadingOverlay()
+            .css("top", outerDiv.position().top - $(window).scrollTop())
+            .css("left", "0")
+            .css("width", "100%")
+            .css("height", "100%")
+            .css("display", "none")
+            .css("margin-top", "-10px");
 	});
 	
 	var JoomlaInstaller = {
