@@ -4,9 +4,14 @@
     }
 }
 
+// Fluid width
 .control-group .chzn-container {
     width: 100% !important;
     max-width: 220px; 
+    .chzn-choices li.search-field,
+    .chzn-choices li.search-field input { // Fix for #13594
+        width: 100% !important; 
+    }
 }
 
 .chzn-container-single {
@@ -179,4 +184,22 @@
 }
 #jform_tags_chzn.chzn-container {
     max-width: 440px;
+}
+
+/* Chosen color styles */
+.chzn-color.chzn-single[rel="value_1"],
+.chzn-color-reverse.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_1"],
+.chzn-color.chzn-single[rel="value_show_no_link"],
+.chzn-color.chzn-single[rel="value_show_with_link"] {
+	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	color: #ffffff;
+}
+
+.chzn-color-state.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_-2"] {
+    .buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	color: #ffffff;
 }

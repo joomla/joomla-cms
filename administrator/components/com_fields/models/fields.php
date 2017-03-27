@@ -109,7 +109,7 @@ class FieldsModelFields extends JModelList
 		$id .= ':' . serialize($this->getState('filter.assigned_cat_ids'));
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
-		$id .= ':' . print_r($this->getState('filter.language'), true);
+		$id .= ':' . serialize($this->getState('filter.language'));
 
 		return parent::getStoreId($id);
 	}
@@ -302,17 +302,16 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Add the list ordering clause
-		$listOrdering = $this->getState('list.ordering', 'a.ordering');
-		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
+		$listOrdering = $this->getState('list.fullordering', 'a.ordering');
+		$orderDirn    = '';
 
-		if ($listOrdering == 'a.access')
+		if (empty($listOrdering))
 		{
-			$query->order('a.access ' . $listDirn);
+			$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
+			$orderDirn     = $this->state->get('list.direction', 'DESC');
 		}
-		else
-		{
-			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
-		}
+	
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
 
 		return $query;
 	}

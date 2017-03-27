@@ -1021,14 +1021,14 @@
 		<field
 			name="sef_advanced"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="btn-group btn-group-yesno btn-group-reversed"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			description="JGLOBAL_SEF_ADVANCED_DESC"
 			filter="integer"
-			>
-			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+		>
 			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
 		</field>
 
 		<field

@@ -16,7 +16,7 @@ require_once __DIR__ . '/JEventInspector.php';
  * @subpackage  Event
  * @since       11.3
  */
-class JEventDispatcherTest extends PHPUnit_Framework_TestCase
+class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JEventDispatcher

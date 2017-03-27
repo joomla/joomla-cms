@@ -162,5 +162,4 @@ abstract class JApplicationBase extends AbstractApplication
 	{
 		return;
 	}
-
 }
