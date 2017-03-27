@@ -32,36 +32,42 @@ JFactory::getDocument()->addScriptDeclaration('
 
 // Drag and Drop installation scripts
 $token = JSession::getFormToken();
-$text = JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE');
-JText::script('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_ERR_UNSUPPORTEDBROWSER');
 $return = JFactory::getApplication()->input->getBase64('return');
 
 // Drag-drop installation
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
 	jQuery(document).ready(function($) {
-		var dragZone   = $('body');
-		var tabContent = $('#package');
-		var cover      = $('<div id="dragarea" style="display: none;"></div>');
-		var url        = 'index.php?option=com_installer&task=install.ajax_upload';
-		var returnUrl  = '{$return}';
+		
+		if (typeof FormData === 'undefined') {
+			$('#legacy-uploader').show();
+			$('#uploader-wrapper').hide();
+			return;
+		}
+		
+		var dragZone  = $('#dragarea');
+		var fileInput = $('#install_package');
+		var button    = $('#select-file-button');
+		var url       = 'index.php?option=com_installer&task=install.ajax_upload';
+		var returnUrl = '{$return}';
 
 		if (returnUrl) {
 			url += '&return=' + returnUrl;
 		}
-
-		// Create drag cover first
-		dragZone.append(cover);
+		
+		button.on('click', function(e) {
+			fileInput.click();
+		});
+		
+		fileInput.on('change', function (e) {
+			Joomla.submitbuttonpackage();
+		});
 
 		dragZone.on('dragenter', function(e) {
 			e.preventDefault();
 			e.stopPropagation();
 			
-			if (!tabContent.hasClass('active')) {
-				return;
-			}
-			
-			cover.fadeIn();
+			dragZone.addClass('hover');
 			
 			return false;
 		});
@@ -71,19 +77,15 @@ JFactory::getDocument()->addScriptDeclaration(
 			e.preventDefault();
 			e.stopPropagation();
 
-			if (!tabContent.hasClass('active')) {
-				return;
-			}
-
-			cover.fadeIn();
+			dragZone.addClass('hover');
 
 			return false;
 		});
 
-		cover.on('dragleave', function(e) {
+		dragZone.on('dragleave', function(e) {
 			e.preventDefault();
 			e.stopPropagation();
-			cover.fadeOut();
+			dragZone.removeClass('hover');
 
 			return false;
 		});
@@ -92,16 +94,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			e.preventDefault();
 			e.stopPropagation();
 
-			if (!tabContent.hasClass('active')) {
-				return;
-			}
-
-			if (typeof FormData === 'undefined') {
-				Joomla.renderMessages({'error': [Joomla.JText._("COM_INSTALLER_DRAG_ERR_UNSUPPORTEDBROWSER")]});
-				return;
-			}
-
-			cover.fadeOut();
+			dragZone.removeClass('hover');
 
 			var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
 
@@ -148,44 +141,79 @@ JS
 JFactory::getDocument()->addStyleDeclaration(
 <<<CSS
 	#dragarea {
-		display: block;
-		background: rgba(255, 255, 255, .8);
-		position: fixed;
-		left: 0;
-		top: 0;
 		width: 100%;
-		height: 100%;
-		opacity: 0.8;
-		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
-		filter: alpha(opacity = 80);
-		overflow: hidden;
+		padding: 5% 0;
+		/*height: 300px;*/
+		border: 2px dashed #999;
+		transition: all .2s;
+		/*display: table-cell;*/
+		/*vertical-align: middle;*/
+	}
+	
+	#dragarea p.lead {
+		color: #999;
 	}
 
-	#dragarea::before {
-		/* Use CSS to inject text since a child element will trigger dragleave event */
-		content: "{$text}";
-		width: 100%;
-		display: block;
-		font-size: 36px;
-		text-align: center;
-		position: absolute;
-		top: 50%;
-	}
+#upload-icon {
+	font-size: 48px;
+	width: auto;
+	height: auto;
+	margin: 0;
+	line-height: 175%;
+	color: #999;
+	transition: all .2s;
+}
+
+#dragarea.hover {
+	border-color: #666;
+	background-color: #eee;
+}
+
+#dragarea.hover #upload-icon,
+#dragarea p.lead {
+	color: #666;
+}
 CSS
 );
+
+$maxSize = JFilesystemHelper::fileUploadMaxSize();
 ?>
 <legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
-<p class="lead"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_NOTICE'); ?></p>
-<div class="control-group">
-	<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
-	<div class="controls">
-		<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
-		<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
-		<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+
+<div id="uploader-wrapper">
+	<div id="dragarea" class="">
+		<div id="dragarea-content" class="text-center">
+            <p>
+                <span id="upload-icon" class="icon-upload"></span>
+            </p>
+            <p class="lead">
+                <?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
+            </p>
+            <p>
+                <button id="select-file-button" type="button" class="btn btn-success">
+                    <span class="icon-copy"></span>
+                    <?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
+                </button>
+            </p>
+			<p>
+				<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+			</p>
+		</div>
+
 	</div>
 </div>
-<div class="form-actions">
-	<button class="btn btn-primary" type="button" id="installbutton_package" onclick="Joomla.submitbuttonpackage()">
-		<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
-	</button>
+
+<div id="legacy-uploader" style="display: none;">
+	<div class="control-group">
+		<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+		<div class="controls">
+			<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
+			<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+		</div>
+	</div>
+	<div class="form-actions">
+		<button class="btn btn-primary" type="button" id="installbutton_package" onclick="Joomla.submitbuttonpackage()">
+			<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
+		</button>
+	</div>
 </div>
