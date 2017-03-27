@@ -48,27 +48,21 @@ Joomla.JMultiSelect = function(table) {
 };
 
 document.addEventListener("DOMContentLoaded", function(event) { 
-	color = '#d9edf7';
-	rows   = document.querySelectorAll('tr[class^="row"]');
+	var colour = '#d9edf7', rows = document.querySelectorAll('tr[class^="row"]');
 
 	// Changes the background-color on every <td> inside a <tr>
-	function changeBg(item, color) {
+	function changeBg(item, colour) {
 		item.querySelectorAll('td').forEach (function(td) {
-			td.style.backgroundColor = color;
+			td.style.backgroundColor = colour;
 		}); 
 	}
 
 	document.getElementsByName("checkall-toggle")[0].addEventListener("click", function(event) {
-		if (this.checked) {
-			rows.forEach(function(row, index) {
-				changeBg(row, color);
-			});
-		}
-		else {
-			rows.forEach(function(row, index) {
-				changeBg(row, '');
-			});
-		}
+		colour = this.checked ? colour : '';
+
+		rows.forEach(function(row, index) {
+			changeBg(row, colour);
+		});
 	});
 
 	rows.forEach(function(row, index) {
@@ -82,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			}
 	
 			if (cbClicked.checked) {
-				changeBg(this, color);
+				changeBg(this, colour);
 			}
 			else {
 				changeBg(this, '');
