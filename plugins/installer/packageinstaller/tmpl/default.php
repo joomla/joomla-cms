@@ -143,36 +143,33 @@ JFactory::getDocument()->addStyleDeclaration(
 	#dragarea {
 		width: 100%;
 		padding: 5% 0;
-		/*height: 300px;*/
 		border: 2px dashed #999;
 		transition: all .2s;
-		/*display: table-cell;*/
-		/*vertical-align: middle;*/
 	}
 	
 	#dragarea p.lead {
 		color: #999;
 	}
 
-#upload-icon {
-	font-size: 48px;
-	width: auto;
-	height: auto;
-	margin: 0;
-	line-height: 175%;
-	color: #999;
-	transition: all .2s;
-}
-
-#dragarea.hover {
-	border-color: #666;
-	background-color: #eee;
-}
-
-#dragarea.hover #upload-icon,
-#dragarea p.lead {
-	color: #666;
-}
+	#upload-icon {
+		font-size: 48px;
+		width: auto;
+		height: auto;
+		margin: 0;
+		line-height: 175%;
+		color: #999;
+		transition: all .2s;
+	}
+	
+	#dragarea.hover {
+		border-color: #666;
+		background-color: #eee;
+	}
+	
+	#dragarea.hover #upload-icon,
+	#dragarea p.lead {
+		color: #666;
+	}
 CSS
 );
 
@@ -183,18 +180,18 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 <div id="uploader-wrapper">
 	<div id="dragarea" class="">
 		<div id="dragarea-content" class="text-center">
-            <p>
-                <span id="upload-icon" class="icon-upload"></span>
-            </p>
-            <p class="lead">
-                <?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
-            </p>
-            <p>
-                <button id="select-file-button" type="button" class="btn btn-success">
-                    <span class="icon-copy"></span>
-                    <?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
-                </button>
-            </p>
+			<p>
+				<span id="upload-icon" class="icon-upload"></span>
+			</p>
+			<p class="lead">
+				<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
+			</p>
+			<p>
+				<button id="select-file-button" type="button" class="btn btn-success">
+					<span class="icon-copy"></span>
+					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
+				</button>
+			</p>
 			<p>
 				<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 			</p>
