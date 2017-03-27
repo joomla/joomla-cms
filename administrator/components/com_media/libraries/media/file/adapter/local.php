@@ -277,19 +277,15 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$obj->modified_date           = $modifiedDate->format('c', true);
 		$obj->modified_date_formatted = (string) $modifiedDate; // TODO use format from config
 		$obj->mime_type               = mime_content_type($path);
+		$obj->width                   = 0;
+		$obj->height                  = 0;
 
-		try
+		if (strpos($obj->mime_type, 'image/') === 0 && in_array(strtolower($obj->extension), array('jpg', 'jpeg', 'png', 'gif', 'bmp')))
 		{
 			// Get the image properties
 			$props       = JImage::getImageFileProperties($path);
 			$obj->width  = $props->width;
 			$obj->height = $props->height;
-		}
-		catch (Exception $e)
-		{
-			// Probably not an image
-			$obj->width  = 0;
-			$obj->height = 0;
 		}
 
 		return $obj;
@@ -310,7 +306,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		$timezone = JFactory::getApplication()->get('offset');
 		$user     = JFactory::getUser();
-		
+
 		if ($user->id)
 		{
 			$userTimezone = $user->getParam('timezone');
