@@ -44,12 +44,12 @@ JFactory::getDocument()->addScriptDeclaration(
 			$('#uploader-wrapper').hide();
 			return;
 		}
-		
+
 		var dragZone  = $('#dragarea');
 		var fileInput = $('#install_package');
 		var button    = $('#select-file-button');
 		var url       = 'index.php?option=com_installer&task=install.ajax_upload';
-		var returnUrl = '{$return}';
+		var returnUrl = $('#installer-return').val();
 
 		if (returnUrl) {
 			url += '&return=' + returnUrl;
@@ -215,4 +215,6 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 			<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
 		</button>
 	</div>
+
+	<input id="installer-return" name="return" type="hidden" value="<?php echo $return; ?>" />
 </div>
