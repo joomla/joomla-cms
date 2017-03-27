@@ -15,6 +15,24 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 
+// Add the js from @dgt41
+JHtml::_('jquery.framework');
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function($) {
+		$("a.js-permission").on("click", function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			var activeTab = [];
+			activeTab.push("#" + e.target.href.split("#")[1]);
+			var path = window.location.pathname;
+			localStorage.removeItem(e.target.href.replace(/&return=[a-zA-Z0-9%]+/, "").replace(/&[a-zA-Z-_]+=[0-9]+/, ""));
+			localStorage.setItem(path + e.target.href.split("index.php")[1].split("#")[0], JSON.stringify(activeTab));
+			return window.location.href = e.target.href.split("#")[0];
+		});
+	});
+');
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $colSpan   = 4 + count($this->actions);
@@ -66,7 +84,13 @@ $colSpan   = 4 + count($this->actions);
 							<?php echo $this->escape($item->title); ?>
 						</td>
 						<td class="nowrap">
+							<span>
+								<a class="js-permission btn btn-small"  href="<?php echo JRoute::_('index.php?option=com_config&view=component&component=' . $this->escape($item->name) . '#permission-' . $this->group->id );?>">
+								<span class="icon-edit"></span>
+								Edit</a>
+							</span>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
+						</a>	
 						</td>
 						<?php foreach ($this->actions as $action) : ?>
 							<?php
