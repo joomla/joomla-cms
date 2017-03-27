@@ -50,6 +50,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		var button    = $('#select-file-button');
 		var url       = 'index.php?option=com_installer&task=install.ajax_upload';
 		var returnUrl = $('#installer-return').val();
+		var token     = $('#installer-token').val();
 
 		if (returnUrl) {
 			url += '&return=' + returnUrl;
@@ -107,7 +108,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			var data = new FormData;
 			data.append('install_package', file);
 			data.append('installtype', 'upload');
-			data.append('{$token}', 1);
+			data.append(token, 1);
 
 			JoomlaInstaller.showLoading();
 			
@@ -217,4 +218,5 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 	</div>
 
 	<input id="installer-return" name="return" type="hidden" value="<?php echo $return; ?>" />
+	<input id="installer-token" name="return" type="hidden" value="<?php echo $token; ?>" />
 </div>
