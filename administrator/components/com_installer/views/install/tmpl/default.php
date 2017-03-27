@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
-JText::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
-JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
-JText::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
-JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
+JText::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE', true);
+JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH', true);
+JText::script('PLG_INSTALLER_URLINSTALLER_NO_URL', true);
+JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true);
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.tabstate');
