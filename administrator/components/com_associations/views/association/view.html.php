@@ -88,11 +88,17 @@ class AssociationsViewAssociation extends JViewLegacy
 			$this->type          = $types[$typeName];
 			$this->typeSupports  = array();
 			$details             = $this->type->get('details');
+			$this->save2copy     = false;
 
 			if (array_key_exists('support', $details))
 			{
 				$support = $details['support'];
 				$this->typeSupports = $support;
+			}
+
+			if (!empty($this->typeSupports['save2copy']))
+			{
+				$this->save2copy = true;
 			}
 		}
 
@@ -202,7 +208,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 
-		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->typeSupports['save2copy'])
+		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
 		{
 			JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
 		}
