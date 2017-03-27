@@ -50,15 +50,17 @@ class Admin extends Controller
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array             $config  An optional associative array of configuration settings.
+	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
+	 * @param   \JInput           $input   Input
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $app, $input);
 
 		// Define standard task mappings.
 
@@ -114,14 +116,12 @@ class Admin extends Controller
 		// Check for request forgeries
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = \JFactory::getApplication();
-
 		// Get items to remove from the request.
-		$cid = $app->input->get('cid', array(), 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -190,17 +190,15 @@ class Admin extends Controller
 		// Check for request forgeries
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = \JFactory::getApplication();
-
 		// Get items to publish from the request.
-		$cid = $app->input->get('cid', array(), 'array');
-		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
-		$task = $this->getTask();
+		$cid   = $this->input->get('cid', array(), 'array');
+		$data  = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
+		$task  = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (empty($cid))
 		{
-			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -269,7 +267,7 @@ class Admin extends Controller
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$ids = \JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
 
 		$model = $this->getModel();
@@ -349,7 +347,7 @@ class Admin extends Controller
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$ids = \JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
@@ -401,6 +399,6 @@ class Admin extends Controller
 		}
 
 		// Close the application
-		\JFactory::getApplication()->close();
+		$this->app->close();
 	}
 }

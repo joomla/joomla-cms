@@ -4,6 +4,7 @@
   position: fixed !important;
   z-index: 9999 !important;
   margin: 0 !important;
+  cursor: move;
   background-color: #90ee90;
   opacity: .8;
 
@@ -16,4 +17,8 @@
 
   }
 
+}
+
+.js-draggable .sortable-handler {
+  cursor: move;
 }

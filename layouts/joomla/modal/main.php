@@ -68,6 +68,7 @@ if (isset($params['keyboard']))
 if (isset($params['url']))
 {
 	$script[] = ';jQuery(document).ready(function() {';
+	$script[] = 'window.jModalClose = function() { jQuery(".modal.fade.show").modal("hide"); }; ';
 	$script[] = '   jQuery("#' . $selector . '").on("show.bs.modal", function() {';
 	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
 	// Script for destroying and reloading the iframe

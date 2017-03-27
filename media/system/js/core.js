@@ -76,10 +76,28 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
-	 * Default function. Usually would be overriden by the component
+	 * Default function. Can be overriden by the component to add custom logic
 	 */
-	Joomla.submitbutton = function( pressbutton ) {
-		Joomla.submitform( pressbutton );
+	Joomla.submitbutton = function( task ) {
+		var form = document.querySelectorAll( 'form.form-validate' );
+
+		if (form.length > 0) {
+			for (var i = 0, j = form.length; i < j; i++) {
+				var pressbutton = task.split('.'),
+				    cancelTask = form[i].getAttribute( 'data-cancel-task' );
+
+				if (!cancelTask) {
+					cancelTask = pressbutton[0] + '.cancel';
+				}
+
+				if ((task == cancelTask ) || document.formvalidator.isValid( form[i] ))
+				{
+					Joomla.submitform( task, form[i] );
+				}
+			}
+		} else {
+			Joomla.submitform( task );
+		}
 	};
 
 	/**

@@ -14,10 +14,9 @@
  * @subpackage  Http
  * @since       3.4
  */
-class JHttpTest extends PHPUnit_Framework_TestCase
+class JHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * Tests the constructor to ensure only arrays or ArrayAccess objects are allowed
 	 *
 	 * @return  void
 	 *

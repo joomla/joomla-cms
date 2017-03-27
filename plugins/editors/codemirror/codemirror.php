@@ -36,6 +36,7 @@ class PlgEditorCodemirror extends JPlugin
 			'html' => 'htmlmixed',
 			'ini'  => 'properties',
 			'json' => array('name' => 'javascript', 'json' => true),
+			'scss' => 'css',
 		);
 
 	/**
@@ -331,7 +332,7 @@ class PlgEditorCodemirror extends JPlugin
 			$buttonsEvent = new Event(
 				'getButtons',
 				[
-					'name'    => $this->_name,
+					'editor'  => $name,
 					'buttons' => $buttons,
 				]
 			);

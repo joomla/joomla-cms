@@ -33,7 +33,10 @@ module.exports = function(grunt) {
 			puny          : 'media/vendor/punycode/js',
 			codemirror    : 'media/vendor/codemirror',
 			adminTemplate : 'administrator/templates/atum',
-			node_module   : 'build/assets_tmp/node_modules/'
+			siteTemplate  : 'templates/aurora',
+			node_module   : 'build/assets_tmp/node_modules/',
+			editors       : 'media/editors',
+			media         : 'media'
 		},
 
 		// Let's clean up the system
@@ -55,6 +58,7 @@ module.exports = function(grunt) {
 					'media/vendor/chosenjs/*',
 					'media/vendor/awesomplete/*',
 					'media/vendor/flying-focus-a11y/*',
+					'media/vendor/diff/**',
 				],
 				expand: true,
 				options: {
@@ -160,10 +164,12 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>perfect-scrollbar/dist/js', src: ['*.js'], dest: 'media/vendor/perfect-scrollbar/js/', filter: 'isFile'},
 					// perfect-scrollbar css files
 					{ cwd: '<%= folder.node_module %>perfect-scrollbar/dist/css', src: ['*.css'], dest: 'media/vendor/perfect-scrollbar/css/', expand: true, filter: 'isFile'},
+					// flying-focus scss files
+					{ cwd: '<%= folder.node_module %>flying-focus-a11y/src/scss', src: ['*.scss'], dest: 'media/vendor/flying-focus-a11y/scss/', expand: true, filter: 'isFile'},
 					// flying-focus js files
 					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
-					// perfect-scrollbar scss files
-					{ cwd: '<%= folder.node_module %>flying-focus-a11y/src/scss', src: ['*.scss'], dest: 'media/vendor/flying-focus-a11y/scss/', expand: true, filter: 'isFile'},
+					// JSDiff js files
+					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
@@ -175,6 +181,7 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>awesomplete/LICENSE'], dest: 'media/vendor/awesomplete/LICENSE'},
 					{ src: ['<%= folder.node_module %>perfect-scrollbar/LICENSE'], dest: 'media/vendor/perfect-scrollbar/LICENSE'},
 					{ src: ['<%= folder.node_module %>flying-focus-a11y/MIT-LICENSE.txt'], dest: 'media/vendor/flying-focus-a11y/MIT-LICENSE.txt'},
+					{ src: ['<%= folder.node_module %>diff/LICENSE'], dest: 'media/vendor/diff/LICENSE'},
 				]
 			}
 		},
@@ -187,7 +194,8 @@ module.exports = function(grunt) {
 					sourceMap: true // SHOULD BE FALSE FOR DIST
 				},
 				files: {
-					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss'
+					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
+					'<%= folder.siteTemplate %>/css/template.css' : '<%= folder.siteTemplate %>/scss/template.scss',
 				}
 			}
 		},
@@ -196,10 +204,11 @@ module.exports = function(grunt) {
 		scsslint: {
 			allFiles: [
 				'<%= folder.adminTemplate %>/scss',
+				'<%= folder.siteTemplate %>/scss',
 			],
 			options: {
 				config: 'scss-lint.yml',
-				reporterOutput: '<%= folder.adminTemplate %>/scss/scss-lint-report.xml'
+				reporterOutput: 'scss-lint-report.xml'
 			}
 		},
 
@@ -226,6 +235,50 @@ module.exports = function(grunt) {
 							'<%= folder.codemirror %>/theme/*/*.js',
 							'!<%= folder.codemirror %>/theme/*/*.min.js',
 							'<%= folder.vendor %>/flying-focus-a11y/js/*.js',
+							'<%= folder.editors %>/none/js/*.js',
+							'!<%= folder.editors %>/none/js/*.min.js',
+							'<%= folder.editors %>/tinymce/js/*.js',
+							'!<%= folder.editors %>/tinymce/js/*.min.js',
+							'<%= folder.editors %>/codemirror/js/*.js',
+							'!<%= folder.editors %>/codemirror/js/*.min.js',
+							'<%= folder.media %>/com_associations/js/*.js',
+							'!<%= folder.media %>/com_associations/js/*.min.js',
+							'<%= folder.media %>/com_contact/js/*.js',
+							'!<%= folder.media %>/com_contact/js/*.min.js',
+							'<%= folder.media %>/com_content/js/*.js',
+							'!<%= folder.media %>/com_content/js/*.min.js',
+							'<%= folder.media %>/com_contenthistory/js/*.js',
+							'!<%= folder.media %>/com_contenthistory/js/*.min.js',
+							'<%= folder.media %>/com_finder/js/*.js',
+							'!<%= folder.media %>/com_finder/js/*.min.js',
+							'<%= folder.media %>/com_joomlaupdate/js/*.js',
+							'!<%= folder.media %>/com_joomlaupdate/js/*.min.js',
+							'<%= folder.media %>/com_menus/js/*.js',
+							'!<%= folder.media %>/com_menus/js/*.min.js',
+							'<%= folder.media %>/com_modules/js/*.js',
+							'!<%= folder.media %>/com_modules/js/*.min.js',
+							'<%= folder.media %>/com_wrapper/js/*.js',
+							'!<%= folder.media %>/com_wrapper/js/*.min.js',
+							'<%= folder.media %>/editors/*/js/*.js',
+							'!<%= folder.media %>/contacts/*/js/*.min.js',
+							'<%= folder.media %>/jui/js/*.js',
+							'!<%= folder.media %>/jui/js/*.min.js',
+							'<%= folder.media %>/media/js/*.js',
+							'!<%= folder.media %>/media/js/*.min.js',
+							'<%= folder.media %>/mod_languages/js/*.js',
+							'!<%= folder.media %>/mod_languages/js/*.min.js',
+							'<%= folder.media %>/overrider/js/*.js',
+							'!<%= folder.media %>/overrider/js/*.min.js',
+							'<%= folder.media %>/plg_captcha_recaptcha/js/*.js',
+							'!<%= folder.media %>/plg_captcha_recaptcha/js/*.min.js',
+							'<%= folder.media %>/plg_quickicon_extensionupdate/js/*.js',
+							'!<%= folder.media %>/plg_quickicon_extensionupdate/js/*.min.js',
+							'<%= folder.media %>/plg_quickicon_joomlaupdate/js/*.js',
+							'!<%= folder.media %>/plg_quickicon_joomlaupdate/js/*.min.js',
+							'<%= folder.media %>/plg_system_highlight/js/*.js',
+							'!<%= folder.media %>/plg_system_highlight/js/*.min.js',
+							'<%= folder.media %>/plg_system_stats/js/*.js',
+							'!<%= folder.media %>/plg_system_stats/js/*.min.js',
 							// '<%= folder.puny %>/*.js',            // Uglifying punicode.js fails!!!
 							// '!<%= folder.puny %>/*.min.js',       // Uglifying punicode.js fails!!!
 						],
@@ -240,6 +293,7 @@ module.exports = function(grunt) {
 					{
 						src: [
 							'<%= folder.adminTemplate %>/*.js',
+							'<%= folder.siteTemplate %>/*.js',
 						],
 						dest: '',
 						expand: true,
@@ -258,7 +312,10 @@ module.exports = function(grunt) {
 				],
 			},
 			dist: {
-				src: '<%= folder.adminTemplate %>/css/template.css'
+				src: [
+					'<%= folder.adminTemplate %>/css/template.css',
+					'<%= folder.siteTemplate %>/css/template.css'
+				]
 			}
 		},
 
@@ -270,18 +327,40 @@ module.exports = function(grunt) {
 					matchBase: true,
 					ext: '.min.css',
 					cwd: 'media/vendor/codemirror',
-					src: ['*.css', '!*.min.css', '!theme/*.css'],
+					src: [
+						'*.css',
+						'!*.min.css',
+						'!theme/*.css'
+					],
 					dest: 'media/vendor/codemirror',
 				}]
 			},
-			templates: {
+			adminTemplate: {
 				files: [{
 					expand: true,
 					matchBase: true,
 					ext: '.min.css',
 					cwd: '<%= folder.adminTemplate %>/css',
-					src: ['*.css', '!*.min.css', '!theme/*.css'],
+					src: [
+						'*.css',
+						'!*.min.css',
+						'!theme/*.css'
+					],
 					dest: '<%= folder.adminTemplate %>/css',
+				}]
+			},
+			siteTemplate: {
+				files: [{
+					expand: true,
+					matchBase: true,
+					ext: '.min.css',
+					cwd: '<%= folder.siteTemplate %>/css',
+					src: [
+						'*.css',
+						'!*.min.css',
+						'!theme/*.css'
+					],
+					dest: '<%= folder.siteTemplate %>/css',
 				}]
 			}
 		},
@@ -308,7 +387,8 @@ module.exports = function(grunt) {
 			'uglify:allJs',
 			'cssmin:allCss',
 			'postcss',
-			'cssmin:templates',
+			'cssmin:adminTemplate',
+			'cssmin:siteTemplate',
 			'updateXML',
 			'clean:temp'
 		]
@@ -346,7 +426,8 @@ module.exports = function(grunt) {
 			'scsslint',
 			'sass:dist',
 			'postcss',
-			'cssmin:templates'
+			'cssmin:adminTemplate',
+			'cssmin:siteTemplate'
 		]);
 	 });
 

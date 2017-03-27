@@ -168,7 +168,7 @@ class JAdminCssMenu
 
 		// Print the item
 		$ariaPopup = $this->_current->hasChildren() ? 'aria-haspopup="true"' : '';
-		echo '<li' . $class . ' role="menuitem" tabindex="' . $unique . '" ' . $ariaPopup . '>';
+		echo '<li' . $class . ' role="menuitem" ' . $ariaPopup . '>';
 
 		// Print a link if it exists
 		$linkClass = array();
@@ -314,7 +314,7 @@ class JAdminCssMenu
 
 		if ($menutype == '*')
 		{
-			require_once __DIR__ . '/preset/' . ($enabled ? 'enabled.php' : 'disabled.php');
+			require __DIR__ . '/preset/' . ($enabled ? 'enabled.php' : 'disabled.php');
 		}
 		else
 		{
@@ -345,7 +345,7 @@ class JAdminCssMenu
 						// In recovery mode, load the preset inside a special root node.
 						$this->addChild(new JMenuNode(JText::_('MOD_MENU_RECOVERY_MENU_ROOT'), '#'), true);
 
-						require_once __DIR__ . '/preset/enabled.php';
+						require __DIR__ . '/preset/enabled.php';
 
 						$this->addSeparator();
 

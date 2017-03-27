@@ -24,13 +24,13 @@
 				<field
 					name="buttons"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
 					description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
 				>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -59,6 +59,20 @@
 					description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
 					size="5"
 				/>
+
+				<field
+					name="filter"
+					type="list"
+					class="btn-group"
+					default="JComponentHelper::filterText"
+					label="PLG_FIELDS_EDITOR_PARAMS_FILTER_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_FILTER_DESC"
+				>
+					<option value="0">JNO</option>
+					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
+					<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>
+					<option value="JComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

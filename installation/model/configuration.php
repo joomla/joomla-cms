@@ -266,7 +266,6 @@ class InstallationModelConfiguration extends JModelBase
 		$installdate = date('Y-m-d H:i:s');
 		$nullDate    = $db->getNullDate();
 
-		// Sqlsrv change.
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))

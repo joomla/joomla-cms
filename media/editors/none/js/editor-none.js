@@ -6,28 +6,39 @@
 /**
  * Editor None
  */
-function insertAtCursor(myField, myValue)
-{
-	if (document.selection)
-	{
-		// IE support
-		myField.focus();
-		sel = document.selection.createRange();
-		sel.text = myValue;
-	} else if (myField.selectionStart || myField.selectionStart == '0')
-	{
-		// MOZILLA/NETSCAPE support
-		var startPos = myField.selectionStart;
-		var endPos = myField.selectionEnd;
-		myField.value = myField.value.substring(0, startPos)
-			+ myValue
-			+ myField.value.substring(endPos, myField.value.length);
-	} else {
-		myField.value += myValue;
-	}
-}
+;(function(Joomla, window, document){
 
-function jInsertEditorText(text, editor)
-{
-	insertAtCursor(document.getElementById(editor), text);
-}
+	function insertAtCursor(myField, myValue) {
+		if (document.selection) {
+			// IE support
+			myField.focus();
+			var sel = document.selection.createRange();
+			sel.text = myValue;
+		} else if (myField.selectionStart || myField.selectionStart == '0') {
+			// MOZILLA/NETSCAPE support
+			var startPos = myField.selectionStart;
+			var endPos = myField.selectionEnd;
+			myField.value = myField.value.substring(0, startPos)
+				+ myValue
+				+ myField.value.substring(endPos, myField.value.length);
+		} else {
+			myField.value += myValue;
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', function() {
+		var editors = document.querySelectorAll('.js-editor-none');
+
+		for(var i = 0, l = editors.length; i < l; i++) {
+			/** Register Editor */
+			Joomla.editors.instances[editors[i].childNodes[0].id] = {
+				'id': editors[i].childNodes[0].id,
+				'element':  editors[i].childNodes[0],
+				'getValue': function () { return this.element.value; },
+				'setValue': function (text) { return this.element.value = text; },
+				'replaceSelection': function (text) { return insertAtCursor(this.element, text); },
+				'onSave': function() { return ''; }
+			};
+		}
+	});
+}(Joomla, window, document));
