@@ -28,12 +28,13 @@ class JFormInspector extends JForm
 	 *
 	 * @param   SimpleXMLElement  $source  The source element on which to append.
 	 * @param   SimpleXMLElement  $new     The new element to append.
+	 * @param   string            $path    Tree elements a dot separated list where we add the node.
 	 *
 	 * @return  void
 	 */
-	public static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
+	public static function addNode(SimpleXMLElement $source, SimpleXMLElement $new, $path = '')
 	{
-		return parent::addNode($source, $new);
+		return parent::addNode($source, $new, $path);
 	}
 
 	/**

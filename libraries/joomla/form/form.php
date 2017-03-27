@@ -952,13 +952,14 @@ class JForm
 	 * @param   SimpleXMLElement  $element  The XML element object representation of the form field.
 	 * @param   string            $group    The optional dot-separated form group path on which to set the field.
 	 * @param   boolean           $replace  True to replace an existing field if one already exists.
+	 * @param   string            $path	    Tree elements a doc separated list where we add the node.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function setField(SimpleXMLElement $element, $group = null, $replace = true)
+	public function setField(SimpleXMLElement $element, $group = null, $replace = true, $path = '')
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
@@ -997,7 +998,7 @@ class JForm
 		else
 		{
 			// Set the new field to the form.
-			self::addNode($this->xml, $element);
+			self::addNode($this->xml, $element, $path);
 		}
 
 		// Synchronize any paths found in the load.
@@ -2164,13 +2165,25 @@ class JForm
 	 *
 	 * @param   SimpleXMLElement  $source  The source element on which to append.
 	 * @param   SimpleXMLElement  $new     The new element to append.
+	 * @param   string            $path    Tree elements a dot separated list where we add the node.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
+	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new, $path = '')
 	{
+		// Get the right parent element
+		if ($path != '')
+		{
+			$pathElements = explode('.', $path);
+
+			foreach ($pathElements as $element)
+			{
+				$source = $source->{$element};
+			}
+		}
+
 		// Add the new child node.
 		$node = $source->addChild($new->getName(), htmlspecialchars(trim($new)));
 
@@ -2324,5 +2337,20 @@ class JForm
 	public function getXml()
 	{
 		return $this->xml;
+	}
+
+	/**
+	 * Method to get a form field represented as an XML element object.
+	 *
+	 * @param   string  $name   The name of the form field.
+	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return  SimpleXMLElement|boolean  The XML element object for the field or boolean false on error.
+	 *
+	 * @since   3.6
+	 */
+	public function getFieldXml($name, $group = null)
+	{
+		return $this->findField($name, $group);
 	}
 }
