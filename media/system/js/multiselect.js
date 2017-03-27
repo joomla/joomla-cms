@@ -47,8 +47,8 @@ Joomla.JMultiSelect = function(table) {
 	initialize(table);
 };
 
-document.addEventListener("DOMContentLoaded", function(event) {
-	"use strict";
+document.addEventListener('DOMContentLoaded', function(event) {
+	'use strict';
 	var rows = document.querySelectorAll('tr[class^="row"]');
 
 	// Changes the background-color on every <td> inside a <tr>
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		}
 	}
 
-	document.getElementsByName("checkall-toggle")[0].addEventListener("click", function(event) {
+	document.getElementsByName('checkall-toggle')[0].addEventListener('click', function(event) {
 		var checkall = this;
 
 		rows.forEach(function(row, index) {
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	});
 
 	rows.forEach(function(row, index) {
-		row.addEventListener("click", function(event) {
+		row.addEventListener('click', function(event) {
 			var clicked   = 'cb' + index, cbClicked = document.getElementById(clicked);
 
 			if (!(event.target.id == clicked)) {
