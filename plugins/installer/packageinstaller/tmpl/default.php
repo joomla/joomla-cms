@@ -34,18 +34,25 @@ JFactory::getDocument()->addScriptDeclaration('
 $token = JSession::getFormToken();
 $text = JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE');
 JText::script('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_ERR_UNSUPPORTEDBROWSER');
+$return = JFactory::getApplication()->input->getBase64('return');
 
 // Drag-drop installation
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
     jQuery(document).ready(function($) {
-        var dragZone = $('body');
+        var dragZone   = $('body');
         var tabContent = $('#package');
-        var cover = $('<div id="dragarea" style="display: none;"></div>');
-        
+        var cover      = $('<div id="dragarea" style="display: none;"></div>');
+        var url        = 'index.php?option=com_installer&task=install.ajax_upload';
+        var returnUrl  = '{$return}';
+
+        if (returnUrl) {
+            url += '&return=' + returnUrl;
+        }
+
         // Create drag cover first
         dragZone.append(cover);
-        
+
         dragZone.on('dragenter', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -63,16 +70,16 @@ JFactory::getDocument()->addScriptDeclaration(
         dragZone.on('dragover', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             if (!tabContent.hasClass('active')) {
                 return;
             }
-            
+
             cover.fadeIn();
 
             return false;
         });
-        
+
         cover.on('dragleave', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -84,16 +91,16 @@ JFactory::getDocument()->addScriptDeclaration(
         dragZone.on('drop', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             if (!tabContent.hasClass('active')) {
                 return;
             }
-            
+
             if (typeof FormData === 'undefined') {
                 Joomla.renderMessages({'error': [Joomla.JText._("COM_INSTALLER_DRAG_ERR_UNSUPPORTEDBROWSER")]});
                 return;
             }
-            
+
             cover.fadeOut();
 
             var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
@@ -104,15 +111,15 @@ JFactory::getDocument()->addScriptDeclaration(
 
             var file = files[0];
 
-            var data = new FormData();
+            var data = new FormData;
             data.append('install_package', file);
             data.append('installtype', 'upload');
             data.append('{$token}', 1);
 
             jQuery("#loading").css("display", "block");
-
+            
             $.ajax({
-                url: 'index.php?option=com_installer&task=install.ajax_upload',
+                url: url,
                 data: data,
                 type: 'post',
                 processData: false,
@@ -155,6 +162,7 @@ JFactory::getDocument()->addStyleDeclaration(
     }
 
     #dragarea::before {
+        /* Use CSS to inject text since a child element will trigger dragleave event */
         content: "{$text}";
         width: 100%;
         display: block;
