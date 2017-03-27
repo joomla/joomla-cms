@@ -6421,8 +6421,8 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.eot?v=4.7.0");
-  src: url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0") format("embedded-opentype"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.woff?v=4.7.0") format("woff"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.ttf?v=4.7.0") format("truetype"), url("../../../../media/vendor/font-awesome/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format("svg");
+  src: url("../../../media/vendor/font-awesome/fonts/fontawesome-webfont.eot?v=4.7.0");
+  src: url("../../../media/vendor/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0") format("embedded-opentype"), url("../../../media/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"), url("../../../media/vendor/font-awesome/fonts/fontawesome-webfont.woff?v=4.7.0") format("woff"), url("../../../media/vendor/font-awesome/fonts/fontawesome-webfont.ttf?v=4.7.0") format("truetype"), url("../../../media/vendor/font-awesome/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format("svg");
   font-weight: normal;
   font-style: normal; }
 
