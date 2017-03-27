@@ -81,9 +81,9 @@
 			}
 		};
 
-		var loading = document.getElementById('loading');
-		if (loading) {
-			var installer = document.getElementById('installer-install');
+		var loading   = document.getElementById('loading'),
+		    installer = document.getElementById('installer-install');
+		if (loading && installer) {
 			loading.style.top = parseInt(installer.offsetTop - window.pageYOffset);
 			loading.style.left = 0;
 			loading.style.width = '100%';
@@ -95,4 +95,3 @@
 	});
 
 })();
-
