@@ -46,7 +46,7 @@ abstract class ModLatestHelper
 
 			case 'c_dsc':
 			default:
-				$model->setState('list.fullordering', 'created');
+				$model->setState('list.fullordering', 'created DESC');
 				$model->setState('list.direction', 'DESC');
 				break;
 		}
