@@ -86,20 +86,20 @@ $colSpan   = 4 + count($this->actions);
 						<td class="nowrap">
 						<?php
 							$parts = explode('.', $this->escape($item->name));
-							if(isset($parts[2]) && $parts[1] === 'category') {
+							if (isset($parts[2]) && $parts[1] === 'category') {
 								$url = JRoute::_('index.php?option=com_categories&view=' . $parts[1] . '&layout=edit&id=' . $parts[2] . '&extension=' . $parts[0] . '#permissions-' . $this->group->id);
 							}
 							
-							elseif(isset($parts[2])) {
+							elseif (isset($parts[2])) {
 								$url = JRoute::_('index.php?option=' . $parts[0] . '&view=' . $parts[1] . '&layout=edit&id=' . $parts[2] . '#permissions-' . $this->group->id);
 							}
 
-							if(!isset($parts[2])) 
+							if (!isset($parts[2])) 
 							$url = JRoute::_('index.php?option=com_config&view=component&component=' . $parts[0] . '#permission-' . $this->group->id);
 							?>
 						
 							<span>
-								<a class="js-permission btn btn-small"  href="<?php echo $url;?>">
+								<a class="js-permission btn btn-small" href="<?php echo $url;?>">
 								<span class="icon-edit"></span>
 								Edit</a>
 							</span>
