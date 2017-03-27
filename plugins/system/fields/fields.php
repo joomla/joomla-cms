@@ -86,7 +86,7 @@ class PlgSystemFields extends JPlugin
 			$value = key_exists($field->alias, $fieldsData) ? $fieldsData[$field->alias] : null;
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $item->id, $value);
+			$model->setFieldValue($field->id, $id, $value);
 		}
 
 		return true;
