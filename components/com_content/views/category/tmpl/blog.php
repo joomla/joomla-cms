@@ -101,7 +101,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 				<div class="item column-<?php echo $rowcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 					<?php
-					$this->item = & $item;
+					$this->item = $item;
 					echo $this->loadTemplate('item');
 					?>
 				</div>
