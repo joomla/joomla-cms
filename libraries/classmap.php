@@ -63,3 +63,5 @@ JLoader::registerAlias('JLanguageAssociations',        '\\Joomla\\Cms\\Language\
 JLoader::registerAlias('JLanguageMultilang',           '\\Joomla\\Cms\\Language\\Multilanguage', '4.0');
 
 JLoader::registerAlias('JEditor',                      '\\Joomla\\Cms\\Editor\\Editor', '4.0');
+
+JLoader::registerAlias('JErrorPage',                   '\\Joomla\\Cms\\Exception\\ExceptionHandler', '4.0');
