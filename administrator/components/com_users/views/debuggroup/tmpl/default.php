@@ -84,11 +84,20 @@ $colSpan   = 4 + count($this->actions);
 							<?php echo $this->escape($item->title); ?>
 						</td>
 						<td class="nowrap">
+						<?php
+							$parts = explode( '.', $this->escape($item->name));
+							if(isset($parts[2])) {
+								$url = JRoute::_('index.php?option=' . $parts[0] . '&view=' . $parts[1] . '&layout=edit&id=' . $parts[2] . '#permissions-7');
+							}
+							?>
+						
 							<span>
-								<a class="js-permission btn btn-small"  href="<?php echo JRoute::_('index.php?option=com_config&view=component&component=' . $this->escape($item->name) . '#permission-' . $this->group->id );?>">
+								<a class="js-permission btn btn-small"  href="<?php echo $url;?>">
 								<span class="icon-edit"></span>
 								Edit</a>
 							</span>
+
+
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
 						</a>	
 						</td>
