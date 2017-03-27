@@ -51,17 +51,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	var colour = '#d9edf7', rows = document.querySelectorAll('tr[class^="row"]');
 
 	// Changes the background-color on every <td> inside a <tr>
-	function changeBg(item, colour) {
-		item.querySelectorAll('td').forEach (function(td) {
-			td.style.backgroundColor = colour;
-		}); 
+	function changeBg(item, checkall) {
+		// Check if it should add or remove the background colour
+		if (checkall.checked) {
+			item.querySelectorAll('td').forEach (function(td) {
+				td.classList.add('row-selected');
+			});
+		}
+		else {
+			item.querySelectorAll('td').forEach (function(td) {
+				td.classList.remove('row-selected');
+			});
+		}
 	}
 
 	document.getElementsByName("checkall-toggle")[0].addEventListener("click", function(event) {
-		colour = this.checked ? colour : '';
+		var checkall = this;
 
 		rows.forEach(function(row, index) {
-			changeBg(row, colour);
+			changeBg(row, checkall);
 		});
 	});
 
@@ -75,12 +83,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				Joomla.isChecked(cbClicked.checked);
 			}
 	
-			if (cbClicked.checked) {
-				changeBg(this, colour);
-			}
-			else {
-				changeBg(this, '');
-			}
+			changeBg(this, cbClicked);
 		});
 	});
 });
