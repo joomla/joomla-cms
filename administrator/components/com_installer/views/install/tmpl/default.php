@@ -44,24 +44,24 @@ JFactory::getDocument()->addScriptDeclaration(
 		var outerDiv = $("#installer-install");
 		
 		JoomlaInstaller.getLoadingOverlay()
-            .css("top", outerDiv.position().top - $(window).scrollTop())
-            .css("left", "0")
-            .css("width", "100%")
-            .css("height", "100%")
-            .css("display", "none")
-            .css("margin-top", "-10px");
+			.css("top", outerDiv.position().top - $(window).scrollTop())
+			.css("left", "0")
+			.css("width", "100%")
+			.css("height", "100%")
+			.css("display", "none")
+			.css("margin-top", "-10px");
 	});
 	
 	var JoomlaInstaller = {
-	    getLoadingOverlay: function () {
-	        return jQuery("#loading");
-	    },
-	    showLoading: function () {
-	        this.getLoadingOverlay().css("display", "block");
-	    },
-	    hideLoading: function () {
-	        this.getLoadingOverlay().css("display", "none");
-	    }
+		getLoadingOverlay: function () {
+			return jQuery("#loading");
+		},
+		showLoading: function () {
+			this.getLoadingOverlay().css("display", "block");
+		},
+		hideLoading: function () {
+			this.getLoadingOverlay().css("display", "none");
+		}
 	};
 	'
 );

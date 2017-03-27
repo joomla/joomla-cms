@@ -39,138 +39,138 @@ $return = JFactory::getApplication()->input->getBase64('return');
 // Drag-drop installation
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
-    jQuery(document).ready(function($) {
-        var dragZone   = $('body');
-        var tabContent = $('#package');
-        var cover      = $('<div id="dragarea" style="display: none;"></div>');
-        var url        = 'index.php?option=com_installer&task=install.ajax_upload';
-        var returnUrl  = '{$return}';
+	jQuery(document).ready(function($) {
+		var dragZone   = $('body');
+		var tabContent = $('#package');
+		var cover      = $('<div id="dragarea" style="display: none;"></div>');
+		var url        = 'index.php?option=com_installer&task=install.ajax_upload';
+		var returnUrl  = '{$return}';
 
-        if (returnUrl) {
-            url += '&return=' + returnUrl;
-        }
+		if (returnUrl) {
+			url += '&return=' + returnUrl;
+		}
 
-        // Create drag cover first
-        dragZone.append(cover);
+		// Create drag cover first
+		dragZone.append(cover);
 
-        dragZone.on('dragenter', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            if (!tabContent.hasClass('active')) {
-                return;
-            }
-            
-            cover.fadeIn();
-            
-            return false;
-        });
+		dragZone.on('dragenter', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			
+			if (!tabContent.hasClass('active')) {
+				return;
+			}
+			
+			cover.fadeIn();
+			
+			return false;
+		});
 
-        // Notify user when file is over the drop area
-        dragZone.on('dragover', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+		// Notify user when file is over the drop area
+		dragZone.on('dragover', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
 
-            if (!tabContent.hasClass('active')) {
-                return;
-            }
+			if (!tabContent.hasClass('active')) {
+				return;
+			}
 
-            cover.fadeIn();
+			cover.fadeIn();
 
-            return false;
-        });
+			return false;
+		});
 
-        cover.on('dragleave', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            cover.fadeOut();
+		cover.on('dragleave', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			cover.fadeOut();
 
-            return false;
-        });
+			return false;
+		});
 
-        dragZone.on('drop', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+		dragZone.on('drop', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
 
-            if (!tabContent.hasClass('active')) {
-                return;
-            }
+			if (!tabContent.hasClass('active')) {
+				return;
+			}
 
-            if (typeof FormData === 'undefined') {
-                Joomla.renderMessages({'error': [Joomla.JText._("COM_INSTALLER_DRAG_ERR_UNSUPPORTEDBROWSER")]});
-                return;
-            }
+			if (typeof FormData === 'undefined') {
+				Joomla.renderMessages({'error': [Joomla.JText._("COM_INSTALLER_DRAG_ERR_UNSUPPORTEDBROWSER")]});
+				return;
+			}
 
-            cover.fadeOut();
+			cover.fadeOut();
 
-            var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
+			var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
 
-            if (!files.length) {
-                return;
-            }
+			if (!files.length) {
+				return;
+			}
 
-            var file = files[0];
+			var file = files[0];
 
-            var data = new FormData;
-            data.append('install_package', file);
-            data.append('installtype', 'upload');
-            data.append('{$token}', 1);
+			var data = new FormData;
+			data.append('install_package', file);
+			data.append('installtype', 'upload');
+			data.append('{$token}', 1);
 
-            JoomlaInstaller.showLoading();
-            
-            $.ajax({
-                url: url,
-                data: data,
-                type: 'post',
-                processData: false,
-                cache: false,
-                contentType: false
-            }).done(function (res) {
-                if (res.success) {
-                    if (res.data.redirect) {
-                        location.href = res.data.redirect;
-                    } else {
-                        location.href = 'index.php?option=com_installer&view=install';
-                    }
-                } else {
-                    JoomlaInstaller.hideLoading();
-                    alert(res.message);
-                }
-            }).error (function (error) {
-                JoomlaInstaller.hideLoading();
-                alert(error.statusText);
-            });
-        });
-    });
+			JoomlaInstaller.showLoading();
+			
+			$.ajax({
+				url: url,
+				data: data,
+				type: 'post',
+				processData: false,
+				cache: false,
+				contentType: false
+			}).done(function (res) {
+				if (res.success) {
+					if (res.data.redirect) {
+						location.href = res.data.redirect;
+					} else {
+						location.href = 'index.php?option=com_installer&view=install';
+					}
+				} else {
+					JoomlaInstaller.hideLoading();
+					alert(res.message);
+				}
+			}).error (function (error) {
+				JoomlaInstaller.hideLoading();
+				alert(error.statusText);
+			});
+		});
+	});
 JS
 );
 
 JFactory::getDocument()->addStyleDeclaration(
 <<<CSS
-    #dragarea {
-        display: block;
-        background: rgba(255, 255, 255, .8);
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0.8;
-        -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
-        filter: alpha(opacity = 80);
-        overflow: hidden;
-    }
+	#dragarea {
+		display: block;
+		background: rgba(255, 255, 255, .8);
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0.8;
+		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
+		filter: alpha(opacity = 80);
+		overflow: hidden;
+	}
 
-    #dragarea::before {
-        /* Use CSS to inject text since a child element will trigger dragleave event */
-        content: "{$text}";
-        width: 100%;
-        display: block;
-        font-size: 36px;
-        text-align: center;
-        position: absolute;
-        top: 50%;
-    }
+	#dragarea::before {
+		/* Use CSS to inject text since a child element will trigger dragleave event */
+		content: "{$text}";
+		width: 100%;
+		display: block;
+		font-size: 36px;
+		text-align: center;
+		position: absolute;
+		top: 50%;
+	}
 CSS
 );
 ?>
