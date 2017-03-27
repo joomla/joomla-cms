@@ -23,7 +23,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 		else
 		{
-			jQuery("#loading").css("display", "block");
+			JoomlaInstaller.showLoading();
 			form.installtype.value = "upload"
 			form.submit();
 		}
@@ -116,7 +116,7 @@ JFactory::getDocument()->addScriptDeclaration(
             data.append('installtype', 'upload');
             data.append('{$token}', 1);
 
-            jQuery("#loading").css("display", "block");
+            JoomlaInstaller.showLoading();
             
             $.ajax({
                 url: url,
@@ -133,11 +133,11 @@ JFactory::getDocument()->addScriptDeclaration(
                         location.href = 'index.php?option=com_installer&view=install';
                     }
                 } else {
-                    jQuery("#loading").css("display", "none");
+                    JoomlaInstaller.hideLoading();
                     alert(res.message);
                 }
             }).error (function (error) {
-                jQuery("#loading").css("display", "none");
+                JoomlaInstaller.hideLoading();
                 alert(error.statusText);
             });
         });

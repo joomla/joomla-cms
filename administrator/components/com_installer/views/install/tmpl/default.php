@@ -24,7 +24,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		}
 		else
 		{
-			jQuery("#loading").css("display", "block");
+			JoomlaInstaller.showLoading();
 			
 			form.installtype.value = "url";
 			form.submit();
@@ -51,6 +51,18 @@ JFactory::getDocument()->addScriptDeclaration(
 		.css("display", "none")
 		.css("margin-top", "-10px");
 	});
+	
+	var JoomlaInstaller = {
+	    getLoadingOverlay: function () {
+	        return jQuery("#loading");
+	    },
+	    showLoading: function () {
+	        this.getLoadingOverlay().css("display", "block");
+	    },
+	    hideLoading: function () {
+	        this.getLoadingOverlay().css("display", "none");
+	    }
+	};
 	'
 );
 
