@@ -141,10 +141,12 @@ JS
 JFactory::getDocument()->addStyleDeclaration(
 <<<CSS
 	#dragarea {
-		width: 100%;
+		background-color: #fafbfc;
+		border: 1px dashed #999;
+		box-sizing: border-box;
 		padding: 5% 0;
-		border: 2px dashed #999;
-		transition: all .2s;
+		transition: all 0.2s ease 0s;
+		width: 100%;
 	}
 	
 	#dragarea p.lead {
