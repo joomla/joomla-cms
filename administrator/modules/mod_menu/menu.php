@@ -343,75 +343,77 @@ class JAdminCssMenu
 
 		if ($menutype == '*')
 		{
-			require_once __DIR__ . '/preset/' . ($enabled ? 'enabled.php' : 'disabled.php');
+			require __DIR__ . '/preset/' . ($enabled ? 'enabled.php' : 'disabled.php');
 		}
 		else
 		{
 			$items = ModMenuHelper::getMenuItems($menutype);
+			$types = ArrayHelper::getColumn($items, 'type');
 			$app   = JFactory::getApplication();
 			$me    = JFactory::getUser();
 
 			$authMenus   = $me->authorise('core.manage', 'com_menus');
 			$authModules = $me->authorise('core.manage', 'com_modules');
 
-			$types = ArrayHelper::getColumn($items, 'type');
-
-			if (!in_array('container', $types))
-			{
-				$container = array(
-					'id'                => 0,
-					'menutype'          => $menutype,
-					'title'             => JText::_('MOD_MENU_COMPONENTS'),
-					'link'              => '',
-					'type'              => 'container',
-					'published'         => '1',
-					'parent_id'         => '1',
-					'level'             => '1',
-					'component_id'      => '0',
-					'browserNav'        => '0',
-					'access'            => '0',
-					'img'               => ' ',
-					'template_style_id' => '0',
-					'params'            => new Registry(array('menu_text' => 1, 'menu_show' => 1)),
-					'home'              => '0',
-					'language'          => '*',
-					'client_id'         => '1',
-					'element'           => null,
-				);
-				$items[]   = (object) $container;
-			}
-
 			if ($enabled && $params->get('check') && ($authMenus || $authModules))
 			{
 				$elements = ArrayHelper::getColumn($items, 'element');
 
-				$rMenu   = $authMenus && !in_array('com_menus', $elements);
-				$rModule = $authModules && !in_array('com_modules', $elements);
+				$rMenu      = $authMenus && !in_array('com_menus', $elements);
+				$rModule    = $authModules && !in_array('com_modules', $elements);
+				$rContainer = !in_array('container', $types);
 
-				if ($rMenu || $rModule)
+				if ($rMenu || $rModule || $rContainer)
 				{
 					$recovery = $app->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
 
 					if ($recovery)
 					{
-						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_RECOVERY'), 'info');
-
 						$params->set('recovery', true);
 
 						// In recovery mode, load the preset inside a special root node.
 						$this->addChild(new JMenuNode(JText::_('MOD_MENU_RECOVERY_MENU_ROOT'), '#'), true);
 
-						require_once __DIR__ . '/preset/enabled.php';
+						require __DIR__ . '/preset/enabled.php';
+
+						$this->addSeparator();
+
+						$uri = clone JUri::getInstance();
+						$uri->setVar('recover_menu', 0);
+
+						$this->addChild(new JMenuNode(JText::_('MOD_MENU_RECOVERY_EXIT'), $uri->toString()));
 
 						$this->getParent();
 					}
-					elseif ($rMenu && $rModule)
-					{
-						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE'), 'warning');
-					}
 					else
 					{
-						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_' . ($rMenu ? 'MENUS' : 'MODULES')), 'warning');
+						$missing = array();
+
+						if ($rMenu)
+						{
+							$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
+						}
+
+						if ($rModule)
+						{
+							$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MODULE_MANAGER');
+						}
+
+						if ($rContainer)
+						{
+							$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_COMPONENTS_CONTAINER');
+						}
+
+						$uri = clone JUri::getInstance();
+						$uri->setVar('recover_menu', 1);
+
+						$table = JTable::getInstance('MenuType');
+						$table->load(array('menutype' => $menutype));
+						$mType = $table->get('title', $menutype);
+
+						$msg = JText::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $mType, implode(', ', $missing), $uri);
+
+						$app->enqueueMessage($msg, 'warning');
 					}
 				}
 			}
@@ -449,7 +451,7 @@ class JAdminCssMenu
 			elseif ($item->type == 'container')
 			{
 				$exclude    = (array) $item->params->get('hideitems') ?: array();
-				$components = ModMenuHelper::getComponents(true, true, $exclude);
+				$components = ModMenuHelper::getComponents(true, false, $exclude);
 
 				// Exclude if it is a container type menu item, and has no children.
 				if (count($item->submenu) || count($components))
@@ -497,7 +499,9 @@ class JAdminCssMenu
 			}
 			else
 			{
-				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
+				$target = $item->browserNav ? '_blank' : null;
+
+				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:', false, $target), true);
 				$this->loadItems($item->submenu);
 				$this->getParent();
 			}

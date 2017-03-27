@@ -55,5 +55,4 @@ class ModulesViewModule extends JViewLegacy
 		return $paramsList;
 
 	}
-
 }

@@ -12,7 +12,7 @@
  *
  * @since  11.1
  */
-class JSessionStorageMemcacheTest extends PHPUnit_Framework_TestCase
+class JSessionStorageMemcacheTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorageMemcache
@@ -139,5 +139,4 @@ class JSessionStorageMemcacheTest extends PHPUnit_Framework_TestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-
 }

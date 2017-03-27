@@ -233,7 +233,10 @@ class JLanguage
 
 		while (!class_exists($class) && $path)
 		{
-			JLoader::register($class, $path);
+			if (file_exists($path))
+			{
+				require_once $path;
+			}
 
 			$path = next($paths);
 		}
@@ -742,14 +745,18 @@ class JLanguage
 				$oldFilename = $filename;
 
 				// Check the standard file name
-				$path = JLanguageHelper::getLanguagePath($basePath, $this->default);
-				$filename = $internal ? $this->default : $this->default . '.' . $extension;
-				$filename = "$path/$filename.ini";
-
-				// If the one we tried is different than the new name, try again
-				if ($oldFilename != $filename)
+				if (!$this->debug)
 				{
-					$result = $this->loadLanguage($filename, $extension, false);
+					$path = JLanguageHelper::getLanguagePath($basePath, $this->default);
+
+					$filename = $internal ? $this->default : $this->default . '.' . $extension;
+					$filename = "$path/$filename.ini";
+
+					// If the one we tried is different than the new name, try again
+					if ($oldFilename != $filename)
+					{
+						$result = $this->loadLanguage($filename, $extension, false);
+					}
 				}
 			}
 		}

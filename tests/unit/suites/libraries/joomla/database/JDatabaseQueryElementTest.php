@@ -14,7 +14,7 @@
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
+class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test cases for append and __toString

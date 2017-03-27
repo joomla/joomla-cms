@@ -409,6 +409,13 @@ abstract class JModelAdmin extends JModelForm
 				$this->table->state = 0;
 			}
 
+			$hitsAlias = $this->table->getColumnAlias('hits');
+
+			if (isset($this->table->$hitsAlias))
+			{
+				$this->table->$hitsAlias = 0;
+			}
+
 			// New category ID
 			$this->table->catid = $categoryId;
 
@@ -662,7 +669,7 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *

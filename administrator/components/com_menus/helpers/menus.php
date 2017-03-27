@@ -181,7 +181,7 @@ class MenusHelper
 					  a.lft')
 			->from('#__menu AS a');
 
-		$query->select('e.name as componentname')
+		$query->select('e.name as componentname, e.element')
 			->join('left', '#__extensions e ON e.extension_id = a.component_id');
 
 		if (JLanguageMultilang::isEnabled())
