@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('jquery.framework');
-JHtml::_('script', 'com_users/admin-debuggoup-default.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_users/admin-debuggroup-default.js', array('version' => 'auto', 'relative' => true));
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
