@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Captcha;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -19,7 +20,7 @@ use Joomla\Registry\Registry;
  * @subpackage  Captcha
  * @since       2.5
  */
-class JCaptcha extends JObject
+class Captcha extends JObject
 {
 	/**
 	 * An array of Observer objects to notify
@@ -48,7 +49,7 @@ class JCaptcha extends JObject
 	/**
 	 * Captcha Plugin object
 	 *
-	 * @var	   JPlugin
+	 * @var	   \JPlugin
 	 * @since  2.5
 	 */
 	private $_captcha;
@@ -64,7 +65,7 @@ class JCaptcha extends JObject
 	/**
 	 * Array of instances of this class.
 	 *
-	 * @var	   JCaptcha[]
+	 * @var	   Captcha[]
 	 * @since  2.5
 	 */
 	private static $_instances = array();
@@ -90,7 +91,7 @@ class JCaptcha extends JObject
 	 * @param   string  $captcha  The plugin to use.
 	 * @param   array   $options  Associative array of options.
 	 *
-	 * @return  JCaptcha|null  Instance of this class.
+	 * @return  Captcha|null  Instance of this class.
 	 *
 	 * @since   2.5
 	 */
@@ -102,11 +103,11 @@ class JCaptcha extends JObject
 		{
 			try
 			{
-				self::$_instances[$signature] = new JCaptcha($captcha, $options);
+				self::$_instances[$signature] = new Captcha($captcha, $options);
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return;
 			}
@@ -135,7 +136,7 @@ class JCaptcha extends JObject
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -212,23 +213,23 @@ class JCaptcha extends JObject
 	private function _load(array $options = array())
 	{
 		// Build the path to the needed captcha plugin
-		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Require plugin file
 		require_once $path;
 
 		// Get the plugin
-		$plugin = JPluginHelper::getPlugin('captcha', $this->_name);
+		$plugin = \JPluginHelper::getPlugin('captcha', $this->_name);
 
 		if (!$plugin)
 		{
-			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Check for already loaded params
@@ -244,7 +245,7 @@ class JCaptcha extends JObject
 	}
 
 	/**
-	 * Get the state of the JEditor object
+	 * Get the state of the \JEditor object
 	 *
 	 * @return  mixed  The state of the object.
 	 *
@@ -288,7 +289,7 @@ class JCaptcha extends JObject
 		}
 		else
 		{
-			if (!($observer instanceof JEditor))
+			if (!($observer instanceof \JEditor))
 			{
 				return;
 			}
@@ -305,7 +306,7 @@ class JCaptcha extends JObject
 			}
 
 			$this->_observers[] = $observer;
-			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
+			$methods = array_diff(get_class_methods($observer), get_class_methods('\JPlugin'));
 		}
 
 		$key = key($this->_observers);
