@@ -88,7 +88,7 @@ define(['jquery', 'testsRoot/highlighter/spec-setup', 'jasmineJquery'], function
 
 	describe('Unhighlight with input lying inside a textarea', function () {
 		beforeAll(function () {
-			highlighter.unhighlights("textarea");
+			highlighter.unhighlight("textarea");
 		});
 
 		it('Should not highlight the word textarea in the sample text inside textarea element', function () {
