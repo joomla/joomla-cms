@@ -62,3 +62,4 @@ JLoader::registerAlias('JCaptcha',                     '\\Joomla\\Cms\\Captcha\\
 JLoader::registerAlias('JLanguageAssociations',        '\\Joomla\\Cms\\Language\\Associations', '4.0');
 JLoader::registerAlias('JLanguageMultilang',           '\\Joomla\\Cms\\Language\\Multilanguage', '4.0');
 
+JLoader::registerAlias('JErrorPage',                   '\\Joomla\\Cms\\Exception\\ExceptionHandler', '4.0');
