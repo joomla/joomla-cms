@@ -325,7 +325,7 @@ class PlgSearchContent extends JPlugin
 						->where('context = ' . $db->quote('com_content.article'))
 						->where('item_id = ' . $db->quote((int) $article->slug));
 					$db->setQuery($query);
-					$article->fields = implode(',', $db->loadColumn());
+					$article->jcfields = implode(',', $db->loadColumn());
 
 					if (SearchHelper::checkNoHtml($article, $searchText, array('text', 'title', 'fields', 'metadesc', 'metakey')))
 					{

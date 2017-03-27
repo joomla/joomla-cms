@@ -15,7 +15,7 @@
  *
  * @since       12.3
  */
-class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
+class JGithubPackageIssuesMilestonesTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.

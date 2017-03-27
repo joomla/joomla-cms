@@ -16,7 +16,7 @@
  * @subpackage  Utilities
  * @since       11.1
  */
-class JPlatformTest extends PHPUnit_Framework_TestCase
+class JPlatformTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JPlatform

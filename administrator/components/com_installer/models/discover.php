@@ -166,6 +166,7 @@ class InstallerModelDiscover extends InstallerModel
 			if (!array_key_exists($key, $extensions))
 			{
 				// Put it into the table
+				$result->check();
 				$result->store();
 			}
 		}

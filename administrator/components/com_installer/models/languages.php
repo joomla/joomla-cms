@@ -143,14 +143,17 @@ class InstallerModelLanguages extends JModelList
 			$languages[$language->name] = $language;
 		}
 
+		// Workaround for php 5.3
+		$that = $this;
+
 		// Sort the array by value of subarray
 		usort(
 			$languages,
-			function($a, $b)
+			function($a, $b) use ($that)
 			{
-				$ordering = $this->getState('list.ordering');
+				$ordering = $that->getState('list.ordering');
 
-				if (strtolower($this->getState('list.direction')) === 'asc')
+				if (strtolower($that->getState('list.direction')) === 'asc')
 				{
 					return StringHelper::strcmp($a->$ordering, $b->$ordering);
 				}
@@ -233,5 +236,4 @@ class InstallerModelLanguages extends JModelList
 	{
 		return strcmp($lang1->name, $lang2->name);
 	}
-
 }

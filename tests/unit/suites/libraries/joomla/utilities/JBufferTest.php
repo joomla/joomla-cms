@@ -17,7 +17,7 @@ require_once JPATH_PLATFORM . '/joomla/utilities/buffer.php';
  * @subpackage  Utilities
  * @since       11.1
  */
-class JBufferTest extends PHPUnit_Framework_TestCase
+class JBufferTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JBuffer

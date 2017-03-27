@@ -14,7 +14,7 @@
  * @subpackage  Input
  * @since       11.1
  */
-class JInputCliTest extends PHPUnit_Framework_TestCase
+class JInputCliTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test object
