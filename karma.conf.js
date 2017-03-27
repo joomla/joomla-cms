@@ -45,7 +45,7 @@ module.exports = function (config) {
 		// coverage reporter configuration
 		coverageReporter: {
 			type : 'html',
-			dir : 'tests/js-coverage/'
+			dir : 'build/coverage-js/'
 		},
 
 		// test results reporter to use
