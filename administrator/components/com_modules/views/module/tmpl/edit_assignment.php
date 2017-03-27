@@ -14,31 +14,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 $menuTypes = MenusHelper::getMenuLinks();
 
 JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', array('version' => 'auto', 'relative' => true));
-
-$script = "
-	jQuery(document).ready(function()
-	{
-		menuHide(jQuery('#jform_assignment').val());
-		jQuery('#jform_assignment').change(function()
-		{
-			menuHide(jQuery(this).val());
-		})
-	});
-	function menuHide(val)
-	{
-		if (val == 0 || val == '-')
-		{
-			jQuery('#menuselect-group').hide();
-		}
-		else
-		{
-			jQuery('#menuselect-group').show();
-		}
-	}
-";
-
-// Add the script to the document head
-JFactory::getDocument()->addScriptDeclaration($script);
+JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="control-group">
 	<label id="jform_menus-lbl" class="control-label" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>

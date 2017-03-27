@@ -29,119 +29,13 @@ if ($hasContent)
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
 
-$script = "
-	Joomla.submitbutton = function(task) {
-			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form')))
-			{
-			Joomla.submitform(task, document.getElementById('module-form'));
+JText::script('JYES');
+JText::script('JNO');
+JText::script('JALL');
+JText::script('JTRASHED');
 
-				if (self != top)
-				{
-					if (parent.viewLevels)
-					{
-						var updPosition = jQuery('#jform_position').chosen().val(),
-							updTitle = jQuery('#jform_title').val(),
-							updMenus = jQuery('#jform_assignment').chosen().val(),
-							updStatus = jQuery('#jform_published').chosen().val(),
-							updAccess = jQuery('#jform_access').chosen().val(),
-							tmpMenu = jQuery('#menus-" . $this->item->id . "', parent.document),
-							tmpRow = jQuery('#tr-" . $this->item->id . "', parent.document);
-							tmpStatus = jQuery('#status-" . $this->item->id . "', parent.document);
-							window.parent.inMenus = new Array();
-							window.parent.numMenus = jQuery(':input[name=\"jform[assigned][]\"]').length;
-
-						jQuery('input[name=\"jform[assigned][]\"]').each(function(){
-							if (updMenus > 0 )
-							{
-								if (jQuery(this).is(':checked'))
-								{
-									window.parent.inMenus.push(parseInt(jQuery(this).val()));
-								}
-							}
-							if (updMenus < 0 )
-							{
-								if (!jQuery(this).is(':checked'))
-								{
-									window.parent.inMenus.push(parseInt(jQuery(this).val()));
-								}
-							}
-						});
-						if (updMenus == 0) {
-							tmpMenu.html('<span class=\"badge badge-info\">" . JText::_('JALL') . "</span>');
-							if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
-						}
-						if (updMenus == '-') {
-							tmpMenu.html('<span class=\"badge badge-danger\">" . JText::_('JNO') . "</span>');
-							if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no '); }
-						}
-						if (updMenus > 0) {
-							if (window.parent.inMenus.indexOf(parent.menuId) >= 0)
-							{
-								if (window.parent.numMenus == window.parent.inMenus.length)
-								{
-									tmpMenu.html('<span class=\"badge badge-info\">" . JText::_('JALL') . "</span>');
-									if (tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.removeClass('no'); }
-								}
-								else
-								{
-									tmpMenu.html('<span class=\"badge badge-success\">" . JText::_('JYES') . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
-								}
-							}
-							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
-							{
-								tmpMenu.html('<span class=\"badge badge-danger\">" . JText::_('JNO') . "</span>');
-								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no'); }
-							}
-						}
-						if (updMenus < 0) {
-							if (window.parent.inMenus.indexOf(parent.menuId) >= 0)
-							{
-								if (window.parent.numMenus == window.parent.inMenus.length)
-								{
-									tmpMenu.html('<span class=\"badge badge-info\">" . JText::_('JALL') . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
-								}
-								else
-								{
-									tmpMenu.html('<span class=\"badge badge-success\">" . JText::_('JYES') . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
-								}
-							}
-							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
-							{
-								tmpMenu.html('<span class=\"badge badge-danger\">" . JText::_('JNO') . "</span>');
-								if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
-							}
-						}
-						if (updStatus == 1) {
-							tmpStatus.html('<span class=\"badge badge-success\">" . JText::_('JYES') . "</span>');
-							if (tmpRow.hasClass('unpublished')) { tmpRow.removeClass('unpublished '); }
-						}
-						if (updStatus == 0) {
-							tmpStatus.html('<span class=\"badge badge-danger\">" . JText::_('JNO') . "</span>');
-							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
-						}
-						if (updStatus == -2) {
-							tmpStatus.html('<span class=\"badge badge-default\">" . JText::_('JTRASHED') . "</span>');
-							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
-						}
-						if (document.formvalidator.isValid(document.getElementById('module-form'))) {
-							jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
-							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
-							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
-						}
-					}
-				}
-
-				if (task !== 'module.apply')
-				{
-					window.parent.jQuery('#module" . ((int) $this->item->id == 0 ? 'Add' : 'Edit' . (int) $this->item->id) . "Modal').modal('hide');
-				}
-			}
-	};";
-
-JFactory::getDocument()->addScriptDeclaration($script);
+JFactory::getDocument()->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
+JHtml::_('script', 'com_modules/admin-module-edit.min.js', array('version' => 'auto', 'relative' => true));
 
 $input = JFactory::getApplication()->input;
 
