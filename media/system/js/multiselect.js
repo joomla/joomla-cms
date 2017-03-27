@@ -47,8 +47,9 @@ Joomla.JMultiSelect = function(table) {
 	initialize(table);
 };
 
-document.addEventListener("DOMContentLoaded", function(event) { 
-	var colour = '#d9edf7', rows = document.querySelectorAll('tr[class^="row"]');
+document.addEventListener("DOMContentLoaded", function(event) {
+	"use strict";
+	var rows = document.querySelectorAll('tr[class^="row"]');
 
 	// Changes the background-color on every <td> inside a <tr>
 	function changeBg(item, checkall) {
@@ -75,8 +76,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	rows.forEach(function(row, index) {
 		row.addEventListener("click", function(event) {
-			clicked   = 'cb' + index;
-			cbClicked = document.getElementById(clicked);
+			var clicked   = 'cb' + index, cbClicked = document.getElementById(clicked);
 
 			if (!(event.target.id == clicked)) {
 				cbClicked.checked = !cbClicked.checked;
