@@ -3,23 +3,27 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Component\Router\Rules;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Cms\Component\Router\RouterView;
 
 /**
  * Rule for the standard handling of component routing
  *
  * @since  3.4
  */
-class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
+class StandardRules implements RulesInterface
 {
 	/**
 	 * Router this rule belongs to
 	 *
-	 * @var JComponentRouterView
+	 * @var RouterView
 	 * @since 3.4
 	 */
 	protected $router;
@@ -27,11 +31,11 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JComponentRouterView  $router  Router this rule belongs to
+	 * @param   RouterView  $router  Router this rule belongs to
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JComponentRouterView $router)
+	public function __construct(RouterView $router)
 	{
 		$this->router = $router;
 	}

@@ -760,7 +760,7 @@ class JRouterSite extends JRouter
 			{
 				$reflection = new ReflectionClass($class);
 
-				if (in_array('JComponentRouterInterface', $reflection->getInterfaceNames()))
+				if (in_array('Joomla\\Cms\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
 				{
 					$this->componentRouters[$component] = new $class($this->app, $this->menu);
 				}
@@ -789,7 +789,7 @@ class JRouterSite extends JRouter
 	{
 		$reflection = new ReflectionClass($router);
 
-		if (in_array('JComponentRouterInterface', $reflection->getInterfaceNames()))
+		if (in_array('Joomla\\Cms\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
 		{
 			$this->componentRouters[$component] = $router;
 
