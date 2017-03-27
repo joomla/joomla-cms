@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Captcha\Captcha;
 use Joomla\Registry\Registry;
 
 /**
@@ -52,7 +53,7 @@ class JFormRuleCaptcha extends JFormRule
 		}
 		else
 		{
-			$captcha = JCaptcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
+			$captcha = Captcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
 		}
 
 		// Test the value.
