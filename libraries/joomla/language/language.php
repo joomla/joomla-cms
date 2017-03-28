@@ -160,7 +160,7 @@ class JLanguage
 	protected $lowerLimitSearchWordCallback = null;
 
 	/**
-	 * Name of the uppperLimitSearchWordCallback function for this language.
+	 * Name of the upperLimitSearchWordCallback function for this language.
 	 *
 	 * @var    callable
 	 * @since  11.1
