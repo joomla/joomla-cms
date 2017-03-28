@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
- * Language installer view
+ * Extension Manager Language Install View
  *
  * @since  2.5.7
  */
