@@ -87,16 +87,16 @@ class ContentModelArticle extends JModelItem
 				$query = $db->getQuery(true)
 					->select(
 						$this->getState(
-							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
+							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, '
 							// If badcats is not null, this means that the article is inside an unpublished category
 							// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
-							'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
-							'a.catid, a.created, a.created_by, a.created_by_alias, ' .
+							. 'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, '
+							. 'a.catid, a.created, a.created_by, a.created_by_alias, '
 							// Use created if modified is 0
-							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
-							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
-							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
-							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
+							. 'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, '
+							. 'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, '
+							. 'a.images, a.urls, a.attribs, a.version, a.ordering, '
+							. 'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
 						)
 					);
 				$query->from('#__content AS a');
@@ -172,7 +172,19 @@ class ContentModelArticle extends JModelItem
 				// Convert parameter fields to objects.
 				$registry = new Registry($data->attribs);
 
-				$data->params = clone $this->getState('params');
+				// $data->params = clone $this->getState('params');
+				// Let's check if the state params is a object. if not take care.
+				$tempparams = $this->getState('params');
+
+				if (is_object($tempparams))
+				{
+					$data->params = clone $tempparams;
+				}
+				else
+				{
+					$data->params = new Registry;
+				}
+
 				$data->params->merge($registry);
 
 				$data->metadata = new Registry($data->metadata);
