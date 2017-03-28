@@ -1754,23 +1754,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function formatLink($file, $line = '')
 	{
-		$link = str_replace(JPATH_ROOT, 'JROOT', $file);
-		$link .= $line ? ':' . $line : '';
-
-		if ($this->linkFormat)
-		{
-			$href = $this->linkFormat;
-			$href = str_replace('%f', $file, $href);
-			$href = str_replace('%l', $line, $href);
-
-			$html = '<a href="' . $href . '">' . $link . '</a>';
-		}
-		else
-		{
-			$html = $link;
-		}
-
-		return $html;
+		return JHtml::_('debug.xdebuglink', $file, $line);
 	}
 
 	/**

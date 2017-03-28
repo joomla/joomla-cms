@@ -50,7 +50,7 @@ $backtraceList = $displayData['backtrace'];
 
 		<?php if (isset($backtrace['file'])): ?>
 		<td class="TD">
-			<?php echo $backtrace['file'] . ':' . $backtrace['line'] ?>
+			<?php echo JHtml::_('debug.xdebuglink', $backtrace['file'], $backtrace['line']); ?>
 		</td>
 		<?php else: ?>
 		<td class="TD">

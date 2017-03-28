@@ -28,7 +28,7 @@ abstract class JHtmlDebug
 	/**
 	 * Render backtrace table by JLayout.
 	 *
-	 * @param   array  $backtrace The backtrace array from exception or debug_backtrace() function.
+	 * @param   array  $backtrace  The backtrace array from exception or debug_backtrace() function.
 	 *
 	 * @return  string  The backtrace table HTML.
 	 *
@@ -49,16 +49,16 @@ abstract class JHtmlDebug
 	 * Formats a link with a special value xdebug.file_link_format
 	 * from the php.ini file.
 	 *
-	 * @param   string $file The full path to the file.
-	 * @param   string $line The line number.
+	 * @param   string  $file  The full path to the file.
+	 * @param   string  $line  The line number.
 	 *
 	 * @return  string
 	 *
-	 * @throws \InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function xdebuglink($file, $line = '')
+	public static function xdebuglink($file, $line = '')
 	{
 		if (static::$xdebugLinkFormat === null)
 		{
