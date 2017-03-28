@@ -57,7 +57,7 @@ class JFormRuleColorTest extends TestCase
 	{
 		$rule = new JFormRuleColor;
 
-		$this->assertFalse($rule->test(new SimpleXMLElement('<form><field name="color" /></form>'), $value));
+		$this->assertFalse($rule->test(new SimpleXMLElement('<field name="color" required="true"/>'), $value));
 	}
 
 	/**
@@ -71,6 +71,6 @@ class JFormRuleColorTest extends TestCase
 	{
 		$rule = new JFormRuleColor;
 
-		$this->assertTrue($rule->test(new SimpleXMLElement('<form><field name="color" /></form>'), $value));
+		$this->assertTrue($rule->test(new SimpleXMLElement('<field name="color" required="true"/>'), $value));
 	}
 }
