@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Moduel Tag field.
+ * Module Tag field.
  *
  * @since  3.0
  */
