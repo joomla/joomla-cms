@@ -125,4 +125,23 @@ class JHtmlJqueryTest extends TestCase
 			'Verify that the jQueryUI sortable script is loaded'
 		);
 	}
+
+	/**
+	 * Tests the token() method.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testToken()
+	{
+		JHtmlJquery::token();
+		
+		$doc = JFactory::getDocument();
+		
+		$script = $doc->_script['text/javascript'];
+		$expected = ";(function ($) { $.ajaxSetup({ headers: { 'X-Csrf-Token': $('meta[name=\"csrf-token\"]').attr('content') } }); })(jQuery);";
+
+		self::assertEquals($expected, preg_replace('/\s+/', ' ', $script));
+	}
 }

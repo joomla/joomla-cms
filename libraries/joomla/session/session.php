@@ -311,6 +311,20 @@ class JSession implements IteratorAggregate
 		$token = self::getFormToken();
 		$app = JFactory::getApplication();
 
+		// Check from header first
+		$csrf = isset($_SERVER['HTTP_X_CSRF_TOKEN']) ? $_SERVER['HTTP_X_CSRF_TOKEN'] : null;
+
+		if ($csrf)
+		{
+			$csrf = JFilterInput::getInstance()->clean($csrf, 'alnum');
+		}
+
+		if ($token === $csrf)
+		{
+			return true;
+		}
+
+		// Then fallback to HTTP query
 		if (!$app->input->$method->get($token, '', 'alnum'))
 		{
 			if (JFactory::getSession()->isNew())
