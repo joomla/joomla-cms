@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,26 +42,13 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 */
 	public function testParse()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			'Test string to parse with the txt parser',
 			FinderIndexerHelper::parse('Test string to parse with the txt parser', 'txt'),
-			$this->stringContains('Test string to parse with the txt parser'),
 			'Tests that FinderIndexerHelper::parse() returns the string given with the txt parser.'
 		);
 	}
 
-	/**
-	 * @todo   Implement testTokenize().
-	 */
-	public function testTokenize()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testStem().
-	 */
 	public function testStem()
 	{
 		$this->assertEquals(
@@ -79,9 +66,9 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 */
 	public function testAddContentType()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			4,
 			FinderIndexerHelper::addContentType('Article'),
-			$this->equalTo('4'),
 			'Tests that addContentType returns the ID for an already existing type.'
 		);
 
@@ -123,9 +110,9 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 */
 	public function testGetDefaultLanguage()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			'en-GB',
 			FinderIndexerHelper::getDefaultLanguage(),
-			$this->StringContains('en-GB'),
 			'The default language is en-GB'
 		);
 	}
@@ -139,37 +126,10 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 */
 	public function testGetPrimaryLanguage()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			'en',
 			FinderIndexerHelper::getPrimaryLanguage('en-GB'),
-			$this->StringContains('en'),
 			'The primary language is en'
 		);
-	}
-
-	/**
-	 * @todo   Implement testGetContentPath().
-	 */
-	public function testGetContentPath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testGetContentExtras().
-	 */
-	public function testGetContentExtras()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testPrepareContent().
-	 */
-	public function testPrepareContent()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

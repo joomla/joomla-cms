@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
  * Joomla system checks.
  */
 
-error_reporting(E_ALL);
 const JDEBUG = false;
 @ini_set('magic_quotes_runtime', 0);
 
@@ -34,12 +33,13 @@ if (file_exists(JPATH_CONFIGURATION . '/configuration.php')
  */
 
 // Import the Joomla Platform.
-require_once JPATH_LIBRARIES . '/import.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php';
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Import filesystem classes since they aren't autoloaded
+// Import filesystem and utilities classes since they aren't autoloaded
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.path');
+jimport('joomla.utilities.arrayhelper');

@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -18,11 +18,28 @@ defined('FOF_INCLUDED') or die;
 class FOFModelBehaviorLanguage extends FOFModelBehavior
 {
 	/**
+	 * This event runs before we have built the query used to fetch a record
+	 * list in a model. It is used to blacklist the language filter
+	 *
+	 * @param   FOFModel        &$model  The model which calls this event
+	 * @param   FOFDatabaseQuery  &$query  The model which calls this event
+	 *
+	 * @return  void
+	 */
+	public function onBeforeBuildQuery(&$model, &$query)
+	{
+		if (FOFPlatform::getInstance()->isFrontend())
+		{
+			$model->blacklistFilters('language');
+		}
+	}
+
+	/**
 	 * This event runs after we have built the query used to fetch a record
 	 * list in a model. It is used to apply automatic query filters.
 	 *
 	 * @param   FOFModel        &$model  The model which calls this event
-	 * @param   JDatabaseQuery  &$query  The model which calls this event
+	 * @param   FOFDatabaseQuery  &$query  The model which calls this event
 	 *
 	 * @return  void
 	 */
@@ -78,9 +95,14 @@ class FOFModelBehaviorLanguage extends FOFModelBehavior
 		$languages = array_unique($languages);
 
 		// And filter the query output by these languages
-		$db        = FOFPlatform::getInstance()->getDbo();
+		$db = FOFPlatform::getInstance()->getDbo();
+
+		// Alias
+		$alias = $model->getTableAlias();
+		$alias = $alias ? $db->qn($alias) . '.' : '';
+
 		$languages = array_map(array($db, 'quote'), $languages);
-		$query->where($db->qn($languageField) . ' IN (' . implode(',', $languages) . ')');
+		$query->where($alias . $db->qn($languageField) . ' IN (' . implode(',', $languages) . ')');
 	}
 
 	/**

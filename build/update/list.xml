@@ -1,4 +1,0 @@
-<extensionset name="Joomla Core" description="Joomla! Core">
-	<extension name="Joomla" element="joomla" type="file" version="2.5.9" targetplatformversion="2.5" detailsurl="http://update.joomla.org/core/extension.xml" />
-	<extension name="Joomla" element="joomla" type="file" version="3.0.3" targetplatformversion="3.0" detailsurl="http://update.joomla.org/core/sts/extension_sts.xml" />
-</extensionset>

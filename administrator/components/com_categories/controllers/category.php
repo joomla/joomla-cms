@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * The Category Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesControllerCategory extends JControllerForm
 {
@@ -29,10 +29,10 @@ class CategoriesControllerCategory extends JControllerForm
 	/**
 	 * Constructor.
 	 *
-	 * @param  array   $config  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since  1.6
-	 * @see    JController
+	 * @see    JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -75,42 +75,28 @@ class CategoriesControllerCategory extends JControllerForm
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
 
-		// Check general edit permission first.
-		if ($user->authorise('core.edit', $this->extension))
-		{
-			return true;
-		}
-
-		// Check specific edit permission.
+		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.category.' . $recordId))
 		{
 			return true;
 		}
 
-		// Fallback on edit.own.
-		// First test if the permission is available.
-		if ($user->authorise('core.edit.own', $this->extension . '.category.' . $recordId) || $user->authorise('core.edit.own', $this->extension))
+		// Check "edit own" permission on record asset (explicit or inherited)
+		if ($user->authorise('core.edit.own', $this->extension . '.category.' . $recordId))
 		{
-			// Now test the owner is the user.
-			$ownerId = (int) isset($data['created_user_id']) ? $data['created_user_id'] : 0;
+			// Need to do a lookup from the model to get the owner
+			$record = $this->getModel()->getItem($recordId);
 
-			if (empty($ownerId) && $recordId)
+			if (empty($record))
 			{
-				// Need to do a lookup from the model.
-				$record = $this->getModel()->getItem($recordId);
-
-				if (empty($record))
-				{
-					return false;
-				}
-
-				$ownerId = $record->created_user_id;
+				return false;
 			}
 
+			$ownerId = $record->created_user_id;
+
 			// If the owner matches 'me' then do the test.
-			if ($ownerId == $userId)
+			if ($ownerId == $user->id)
 			{
 				return true;
 			}
@@ -133,6 +119,7 @@ class CategoriesControllerCategory extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
+		/** @var CategoriesModelCategory $model */
 		$model = $this->getModel('Category');
 
 		// Preset the redirect
@@ -190,18 +177,14 @@ class CategoriesControllerCategory extends JControllerForm
 
 		if (isset($item->params) && is_array($item->params))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->params);
+			$registry = new Registry($item->params);
 			$item->params = (string) $registry;
 		}
 
 		if (isset($item->metadata) && is_array($item->metadata))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->metadata);
+			$registry = new Registry($item->metadata);
 			$item->metadata = (string) $registry;
 		}
-
-		return;
 	}
 }

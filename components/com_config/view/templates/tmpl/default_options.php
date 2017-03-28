@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,25 +23,13 @@ JHtml::_('formbehavior.chosen', 'select');
 <?php
 
 	// Search for com_config field set
-	if (!empty($fieldSets['com_config'])):?>
+	if (!empty($fieldSets['com_config'])) : ?>
 
 	<fieldset class="form-horizontal">
-
-<?php foreach ($this->form->getFieldset('com_config') as $field) : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $field->label; ?>
-				</div>
-				<div class="controls">
-					<?php echo $field->input; ?>
-				</div>
-			</div>
-
-<?php endforeach;	?>
-
+		<?php echo $this->form->renderFieldset('com_config'); ?>
 	</fieldset>
 
-<?php else:
+<?php else :
 
 	// Fall-back to display all in params
 	foreach ($fieldSets as $name => $fieldSet) :
@@ -53,17 +41,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	?>
 
 <fieldset class="form-horizontal">
-
-	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $field->label; ?>
-			</div>
-			<div class="controls">
-				<?php echo $field->input; ?>
-			</div>
-		</div>
-	<?php endforeach; ?>
+	<?php echo $this->form->renderFieldset($name); ?>
 </fieldset>
 	<?php endforeach;
 	endif;

@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  inflector
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('FOF_INCLUDED') or die;
@@ -147,8 +147,8 @@ class FOFInflector
 
 	public static function deleteCache()
 	{
-		self::$_cache['pluralized'] = array();
-		self::$_cache['singularized'] = array();
+		static::$_cache['pluralized'] = array();
+		static::$_cache['singularized'] = array();
 	}
 
 	/**
@@ -161,8 +161,8 @@ class FOFInflector
 	 */
 	public static function addWord($singular, $plural)
 	{
-		self::$_cache['pluralized'][$singular] = $plural;
-		self::$_cache['singularized'][$plural] = $singular;
+		static::$_cache['pluralized'][$singular] = $plural;
+		static::$_cache['singularized'][$plural] = $singular;
 	}
 
 	/**
@@ -175,15 +175,15 @@ class FOFInflector
 	public static function pluralize($word)
 	{
 		// Get the cached noun of it exists
-		if (isset(self::$_cache['pluralized'][$word]))
+		if (isset(static::$_cache['pluralized'][$word]))
 		{
-			return self::$_cache['pluralized'][$word];
+			return static::$_cache['pluralized'][$word];
 		}
 
 		// Create the plural noun
 		if (in_array($word, self::$_rules['countable']))
 		{
-			$_cache['pluralized'][$word] = $word;
+			static::$_cache['pluralized'][$word] = $word;
 
 			return $word;
 		}
@@ -195,13 +195,15 @@ class FOFInflector
 
 			if ($matches > 0)
 			{
-				$_cache['pluralized'][$word] = $plural;
+				static::$_cache['pluralized'][$word] = $plural;
 
 				return $plural;
 			}
 		}
 
-		return $word;
+		static::$_cache['pluralized'][$word] = $word;
+
+		return static::$_cache['pluralized'][$word];
 	}
 
 	/**
@@ -214,15 +216,15 @@ class FOFInflector
 	public static function singularize($word)
 	{
 		// Get the cached noun of it exists
-		if (isset(self::$_cache['singularized'][$word]))
+		if (isset(static::$_cache['singularized'][$word]))
 		{
-			return self::$_cache['singularized'][$word];
+			return static::$_cache['singularized'][$word];
 		}
 
 		// Create the singular noun
 		if (in_array($word, self::$_rules['countable']))
 		{
-			$_cache['singularized'][$word] = $word;
+			static::$_cache['singularized'][$word] = $word;
 
 			return $word;
 		}
@@ -234,13 +236,15 @@ class FOFInflector
 
 			if ($matches > 0)
 			{
-				$_cache['singularized'][$word] = $singular;
+				static::$_cache['singularized'][$word] = $singular;
 
 				return $singular;
 			}
 		}
 
-		return $word;
+		static::$_cache['singularized'][$word] = $word;
+
+		return static::$_cache['singularized'][$word];
 	}
 
 	/**
@@ -397,8 +401,8 @@ class FOFInflector
 	public static function isSingular($string)
 	{
 		// Check cache assuming the string is plural.
-		$singular = isset(self::$_cache['singularized'][$string]) ? self::$_cache['singularized'][$string] : null;
-		$plural   = $singular && isset(self::$_cache['pluralized'][$singular]) ? self::$_cache['pluralized'][$singular] : null;
+		$singular = isset(static::$_cache['singularized'][$string]) ? static::$_cache['singularized'][$string] : null;
+		$plural   = $singular && isset(static::$_cache['pluralized'][$singular]) ? static::$_cache['pluralized'][$singular] : null;
 
 		if ($singular && $plural)
 		{
@@ -419,8 +423,8 @@ class FOFInflector
 	public static function isPlural($string)
 	{
 		// Check cache assuming the string is singular.
-		$plural   = isset(self::$_cache['pluralized'][$string]) ? self::$_cache['pluralized'][$string] : null;
-		$singular = $plural && isset(self::$_cache['singularized'][$plural]) ? self::$_cache['singularized'][$plural] : null;
+		$plural   = isset(static::$_cache['pluralized'][$string]) ? static::$_cache['pluralized'][$string] : null;
+		$singular = $plural && isset(static::$_cache['singularized'][$plural]) ? static::$_cache['singularized'][$plural] : null;
 
 		if ($plural && $singular)
 		{

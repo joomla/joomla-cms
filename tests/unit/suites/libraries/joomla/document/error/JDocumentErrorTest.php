@@ -3,97 +3,83 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/document/error/error.php';
-
 /**
- * Test class for JDocumentError.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Document
- * @since       11.1
+ * Test class for JDocumentError
  */
-class JDocumentErrorTest extends PHPUnit_Framework_TestCase
+class JDocumentErrorTest extends TestCase
 {
 	/**
-	 * @var JDocumentError
+	 * @var  JDocumentError
 	 */
 	protected $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @return void
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockWeb();
+
 		$this->object = new JDocumentError;
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetError().
-	 *
-	 * @return void
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
 	 */
-	public function testSetError()
+	protected function tearDown()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->restoreFactoryState();
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testRender().
-	 *
-	 * @return void
+	 * @testdox  Test that setError returns false with a non-Exception object
 	 */
-	public function testRender()
+	public function testEnsureSetErrorReturnsFalseWithNonException()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->assertFalse($this->object->setError(new stdClass));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement test_loadTemplate().
-	 *
-	 * @return void
+	 * @testdox  Test that setError returns true with an Exception object
 	 */
-	public function test_loadTemplate()
+	public function testEnsureSetErrorReturnsTrueWithException()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->assertTrue($this->object->setError(new Exception));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testRenderBacktrace().
-	 *
-	 * @return void
+	 * @testdox  Test that render returns null if the error object is not set
 	 */
-	public function testRenderBacktrace()
+	public function testEnsureRenderReturnsNullIfNoErrorObjectIsSet()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->assertNull($this->object->render());
 	}
 
+	/**
+	 * @testdox  Test that _loadTemplate returns an empty string if the template file is not found
+	 */
+	public function testEnsureLoadTemplateReturnsAnEmptyStringIfTemplateDoesNotExist()
+	{
+		$this->assertEmpty($this->object->_loadTemplate(__DIR__, 'nope.php'));
+	}
+
+	/**
+	 * @testdox  Test that renderBacktrace returns null if the error object is not set
+	 */
+	public function testEnsureRenderBacktraceReturnsNullIfNoErrorObjectIsSet()
+	{
+		$this->assertNull($this->object->renderBacktrace());
+	}
 }

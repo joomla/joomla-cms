@@ -3,18 +3,15 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-JLoader::register('JCacheStorage', JPATH_PLATFORM . '/joomla/cache/storage.php');
 
 /**
  * Mock of JCacheStorage Backend Class.  Used for testing of cache handlers.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
  * @since       11.1
  */
 class JCacheStorageMock extends JCacheStorage
@@ -30,49 +27,49 @@ class JCacheStorageMock extends JCacheStorage
 	{
 		parent::__construct($options);
 
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$this->_hash = $config->get('secret');
 	}
 
 	/**
-	 * Get cached data from y id and group
+	 * Get cached data by id and group
 	 *
 	 * @param   string   $id         The cache data id
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
 	 *
-	 * @return    mixed    Boolean false on failure or a cached data string
+	 * @return  mixed  Boolean  false on failure or a cached data object
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
-	public function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (isset($this->_storage[$id]))
+		if (isset($this->_storage[$cache_id]))
 		{
-			return $this->_storage[$id];
+			return $this->_storage[$cache_id];
 		}
 
 		return false;
 	}
 
 	/**
-	 * Store the data
+	 * Store the data to cache by id and group
 	 *
 	 * @param   string  $id     The cache data id
 	 * @param   string  $group  The cache data group
 	 * @param   string  $data   The data to store in cache
 	 *
-	 * @return    boolean    True on success, false otherwise
+	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		return ($this->_storage[$id] = $data);
+		return ($this->_storage[$cache_id] = $data);
 	}
 
 	/**
@@ -81,42 +78,31 @@ class JCacheStorageMock extends JCacheStorage
 	 * @param   string  $id     The cache data id
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return    boolean    True on success, false otherwise
+	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
 	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		unset($this->_storage[$id]);
+		unset($this->_storage[$cache_id]);
 	}
 
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * group mode        : cleans all cache in the group
-	 * notgroup mode    : cleans all cache not in the group
-	 *
 	 * @param   string  $group  The cache data group
 	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+	 *                          group mode     : cleans all cache in the group
+	 *                          notgroup mode  : cleans all cache not in the group
 	 *
-	 * @return    boolean    True on success, false otherwise
+	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
-	public function clean($group, $mode)
+	public function clean($group, $mode = null)
 	{
 		return ($this->_storage = array());
-	}
-
-	/**
-	 * Test to see if the cache storage is available.
-	 *
-	 * @return boolean  True on success, false otherwise.
-	 */
-	public static function isSupported()
-	{
-		return true;
 	}
 
 	/**
@@ -125,11 +111,11 @@ class JCacheStorageMock extends JCacheStorage
 	 * @param   string  $id     The cache data id
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return    string    The cache_id string
+	 * @return  string   The cache_id string
 	 *
-	 * @since    11.1
+	 * @since   11.1
 	 */
-	public function _getCacheId($id, $group)
+	protected function _getCacheId($id, $group)
 	{
 		$name = md5($this->_application . '-' . $id . '-' . $this->_hash . '-' . $this->_language);
 

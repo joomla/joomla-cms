@@ -3,16 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$params = new JRegistry;
-$dispatcher	= JEventDispatcher::getInstance();
+use Joomla\Registry\Registry;
+
+$params     = new Registry;
+$dispatcher = JEventDispatcher::getInstance();
 $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
 ?>
+
 <li class="imgOutline thumbnail height-80 width-80 center">
 	<a class="img-preview" href="javascript:ImageManager.populateFields('<?php echo $this->_tmp_img->path_relative; ?>')" title="<?php echo $this->_tmp_img->name; ?>" >
 		<div class="height-50">
@@ -25,4 +28,3 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 </li>
 <?php
 $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));
-?>

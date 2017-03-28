@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * JSON Response class for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Response
- * @since       3.1
+ * @since  3.1
  */
 class InstallationResponseJson
 {

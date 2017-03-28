@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,6 +32,22 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Data for the testQuoteName test.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public function dataTestQuoteName()
+	{
+		return array(
+			array('protected`title', null, '`protected``title`'),
+			array('protected"title', null, '`protected"title`'),
+			array('protected]title', null, '`protected]title`'),
+		);
+	}
+
+	/**
 	 * Data for the testTransactionRollback test.
 	 *
 	 * @return  array
@@ -44,27 +60,57 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Tests the __destruct method.
+	 * Data for testLoadNextObject test.
 	 *
-	 * @return  void
+	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
-	public function test__destruct()
+	public function dataTestLoadNextObject()
 	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$objCompOne = new stdClass;
+		$objCompOne->id = 1;
+		$objCompOne->title = 'Testing';
+		$objCompOne->start_date = '1980-04-18 00:00:00';
+		$objCompOne->description = 'one';
+
+		$objCompTwo = new stdClass;
+		$objCompTwo->id = 2;
+		$objCompTwo->title = 'Testing2';
+		$objCompTwo->start_date = '1980-04-18 00:00:00';
+		$objCompTwo->description = 'one';
+
+		$objCompThree = new stdClass;
+		$objCompThree->id = 3;
+		$objCompThree->title = 'Testing3';
+		$objCompThree->start_date = '1980-04-18 00:00:00';
+		$objCompThree->description = 'three';
+
+		$objCompFour = new stdClass;
+		$objCompFour->id = 4;
+		$objCompFour->title = 'Testing4';
+		$objCompFour->start_date = '1980-04-18 00:00:00';
+		$objCompFour->description = 'four';
+
+		return array(array(array($objCompOne, $objCompTwo, $objCompThree, $objCompFour)));
 	}
 
 	/**
-	 * Tests the connected method.
+	 * Data for testLoadNextRow test.
 	 *
-	 * @return  void
+	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   11.3
 	 */
-	public function testConnected()
+	public function dataTestLoadNextRow()
 	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		return array(
+			array(
+				array(
+					array(1, 'Testing', '1980-04-18 00:00:00', 'one'),
+					array(2, 'Testing2', '1980-04-18 00:00:00', 'one'),
+					array(3, 'Testing3', '1980-04-18 00:00:00', 'three'),
+					array(4, 'Testing4', '1980-04-18 00:00:00', 'four'))));
 	}
 
 	/**
@@ -76,7 +122,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testDropTable()
 	{
-		$this->assertThat(self::$driver->dropTable('#__bar', true), $this->isInstanceOf('JDatabaseDriverMysql'), 'The table is dropped if present.');
+		$this->assertInstanceOf('JDatabaseDriverMysql', self::$driver->dropTable('#__bar', true), 'dropTable will return an instance of $this on success');
 	}
 
 	/**
@@ -93,7 +139,28 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testEscape($text, $extra, $expected)
 	{
-		$this->assertThat(self::$driver->escape($text, $extra), $this->equalTo($expected), 'The string was not escaped properly');
+		$this->assertSame($expected, self::$driver->escape($text, $extra), 'The string was not escaped properly');
+	}
+
+	/**
+	 * Test the quoteName method.
+	 *
+	 * @param   string  $text      The column name or alias to be quote.
+	 * @param   string  $asPart    String used for AS query part.
+	 * @param   string  $expected  The expected result.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestQuoteName
+	 * @since         3.7.0
+	 */
+	public function testQuoteName($text, $asPart, $expected)
+	{
+		$this->assertThat(
+			self::$driver->quoteName($text, $asPart),
+			$this->equalTo($expected),
+			'The name was not quoted properly'
+		);
 	}
 
 	/**
@@ -109,10 +176,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$query->delete();
 		$query->from('jos_dbtest');
 		self::$driver->setQuery($query);
+		self::$driver->execute();
 
-		$result = self::$driver->execute();
-
-		$this->assertThat(self::$driver->getAffectedRows(), $this->equalTo(4), __LINE__);
+		$this->assertSame(4, self::$driver->getAffectedRows());
 	}
 
 	/**
@@ -124,9 +190,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetCollation()
 	{
-		$this->assertThat(
+		$this->assertSame(
+			'utf8_general_ci',
 			self::$driver->getCollation(),
-			$this->equalTo('utf8_general_ci'),
 			'Line:' . __LINE__ . ' The getCollation method should return the collation of the database.'
 		);
 	}
@@ -140,9 +206,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetExporter()
 	{
-		$this->assertThat(
+		$this->assertInstanceOf(
+			'JDatabaseExporterMysql',
 			self::$driver->getExporter(),
-			$this->isInstanceOf('JDatabaseExporterMysql'),
 			'Line:' . __LINE__ . ' The getExporter method should return the correct exporter.'
 		);
 	}
@@ -156,9 +222,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetImporter()
 	{
-		$this->assertThat(
+		$this->assertInstanceOf(
+			'JDatabaseImporterMysql',
 			self::$driver->getImporter(),
-			$this->isInstanceOf('JDatabaseImporterMysql'),
 			'Line:' . __LINE__ . ' The getImporter method should return the correct importer.'
 		);
 	}
@@ -180,7 +246,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		$res = self::$driver->execute();
 
-		$this->assertThat(self::$driver->getNumRows($res), $this->equalTo(2), __LINE__);
+		$this->assertSame(2, self::$driver->getNumRows($res));
 	}
 
 	/**
@@ -192,9 +258,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableCreate()
 	{
-		$this->assertThat(
+		$this->assertInternalType(
+			'array',
 			self::$driver->getTableCreate('#__dbtest'),
-			$this->isType('array'),
 			'The statement to create the table is returned in an array.'
 		);
 	}
@@ -210,10 +276,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	{
 		$tableCol = array('id' => 'int unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
 
-		$this->assertThat(
-			self::$driver->getTableColumns('jos_dbtest'),
-			$this->equalTo($tableCol),
-			__LINE__
+		$this->assertSame(
+			$tableCol,
+			self::$driver->getTableColumns('jos_dbtest')
 		);
 
 		/* not only type field */
@@ -261,17 +326,14 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$description->Privileges = 'select,insert,update,references';
 		$description->Comment    = '';
 
-		$this->assertThat(
-			self::$driver->getTableColumns('jos_dbtest', false),
-			$this->equalTo(
-				array(
-					'id' => $id,
-					'title' => $title,
-					'start_date' => $start_date,
-					'description' => $description
-				)
+		$this->assertEquals(
+			array(
+				'id' => $id,
+				'title' => $title,
+				'start_date' => $start_date,
+				'description' => $description
 			),
-			__LINE__
+			self::$driver->getTableColumns('jos_dbtest', false)
 		);
 	}
 
@@ -284,9 +346,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableKeys()
 	{
-		$this->assertThat(
+		$this->assertInternalType(
+			'array',
 			self::$driver->getTableKeys('#__dbtest'),
-			$this->isType('array'),
 			'The list of keys for the table is returned in an array.'
 		);
 	}
@@ -300,9 +362,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableList()
 	{
-		$this->assertThat(
+		$this->assertInternalType(
+			'array',
 			self::$driver->getTableList(),
-			$this->isType('array'),
 			'The list of tables for the database is returned in an array.'
 		);
 	}
@@ -316,23 +378,11 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetVersion()
 	{
-		$this->assertThat(
+		$this->assertGreaterThan(
+			0,
 			strlen(self::$driver->getVersion()),
-			$this->greaterThan(0),
 			'Line:' . __LINE__ . ' The getVersion method should return something without error.'
 		);
-	}
-
-	/**
-	 * Test insertid method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testInsertid()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -350,7 +400,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssoc();
 
-		$this->assertThat($result, $this->equalTo(array('title' => 'Testing')), __LINE__);
+		$this->assertSame(array('title' => 'Testing'), $result);
 	}
 
 	/**
@@ -368,10 +418,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssocList();
 
-		$this->assertThat(
-			$result,
-			$this->equalTo(array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4'))),
-			__LINE__
+		$this->assertSame(
+			array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4')),
+			$result
 		);
 	}
 
@@ -390,31 +439,165 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadColumn();
 
-		$this->assertThat($result, $this->equalTo(array('Testing', 'Testing2', 'Testing3', 'Testing4')), __LINE__);
+		$this->assertSame(array('Testing', 'Testing2', 'Testing3', 'Testing4'), $result);
 	}
 
 	/**
-	 * Test loadNextObject method.
+	 * Test loadNextObject function
+	 *
+	 * @param   array  $objArr  Array of expected objects
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @dataProvider  dataTestLoadNextObject
 	 */
-	public function testLoadNextObject()
+	public function testLoadNextObject($objArr)
 	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		$this->assertEquals($objArr[0], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[1], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextObject());
 	}
 
 	/**
-	 * Test loadNextRow method.
+	 * Test loadNextObject function with preceding loadObject call
+	 *
+	 * @param   array  $objArr  Array of expected objects
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @dataProvider  dataTestLoadNextObject
 	 */
-	public function testLoadNextRow()
+	public function testLoadNextObject_plusLoad($objArr)
 	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		self::$driver->loadObject();
+
+		$this->assertEquals($objArr[0], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[1], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextObject());
+	}
+
+	/**
+	 * Test loadNextObject function with preceding query call
+	 *
+	 * @param   array  $objArr  Array of expected objects
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestLoadNextObject
+	 */
+	public function testLoadNextObject_plusQuery($objArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		self::$driver->execute();
+
+		$this->assertEquals($objArr[0], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[1], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[2], self::$driver->loadNextObject());
+		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextObject());
+	}
+
+	/**
+	 * Test loadNextRow function
+	 *
+	 * @param   array  $rowArr  Array of expected arrays
+	 *
+	 * @return   void
+	 *
+	 * @dataProvider dataTestLoadNextRow
+	 */
+	public function testLoadNextRow($rowArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		$this->assertEquals($rowArr[0], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[1], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextRow());
+	}
+
+	/**
+	 * Test loadNextRow function with preceding query call
+	 *
+	 * @param   array  $rowArr  Array of expected arrays
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestLoadNextRow
+	 */
+	public function testLoadNextRow_plusQuery($rowArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		self::$driver->execute();
+
+		$this->assertEquals($rowArr[0], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[1], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextRow());
+	}
+
+	/**
+	 * Test loadNextRow function with preceding loadRow call
+	 *
+	 * @param   array  $rowArr  Array of expected arrays
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestLoadNextRow
+	 */
+	public function testLoadNextRow_plusLoad($rowArr)
+	{
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('#__dbtest');
+		self::$driver->setQuery($query);
+
+		self::$driver->loadRow();
+
+		$this->assertEquals($rowArr[0], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[1], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[2], self::$driver->loadNextRow());
+		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
+
+		/* last call to free cursor, asserting that returns false */
+		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
 	/**
@@ -439,7 +622,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$objCompare->start_date = '1980-04-18 00:00:00';
 		$objCompare->description = 'three';
 
-		$this->assertThat($result, $this->equalTo($objCompare), __LINE__);
+		$this->assertEquals($objCompare, $result);
 	}
 
 	/**
@@ -492,7 +675,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		$expected[] = clone $objCompare;
 
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertEquals($expected, $result);
 	}
 
 	/**
@@ -512,8 +695,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadResult();
 
-		$this->assertThat($result, $this->equalTo(2), __LINE__);
-
+		$this->assertSame(2, (int) $result);
 	}
 
 	/**
@@ -532,9 +714,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRow();
 
-		$expected = array(3, 'Testing3', '1980-04-18 00:00:00', 'three');
-
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertEquals(array(3, 'Testing3', '1980-04-18 00:00:00', 'three'), $result);
 	}
 
 	/**
@@ -553,9 +733,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRowList();
 
-		$expected = array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'), array(2, 'Testing2', '1980-04-18 00:00:00', 'one'));
-
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertEquals(array(array(1, 'Testing', '1980-04-18 00:00:00', 'one'), array(2, 'Testing2', '1980-04-18 00:00:00', 'one')), $result);
 	}
 
 	/**
@@ -569,9 +747,9 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	{
 		self::$driver->setQuery("REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle'");
 
-		$this->assertThat(self::$driver->execute(), $this->isTrue(), __LINE__);
+		$this->assertTrue(self::$driver->execute());
 
-		$this->assertThat(self::$driver->insertid(), $this->equalTo(5), __LINE__);
+		$this->assertSame(5, self::$driver->insertid());
 
 	}
 
@@ -590,34 +768,10 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		// Check name change
 		$tableList = self::$driver->getTableList();
-		$this->assertThat(in_array($newTableName, $tableList), $this->isTrue(), __LINE__);
+		$this->assertTrue(in_array($newTableName, $tableList));
 
 		// Restore initial state
 		self::$driver->renameTable($newTableName, 'jos_dbtest');
-	}
-
-	/**
-	 * Test select method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testSelect()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test setUTF method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testSetUTF()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -649,7 +803,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 
 		$expected = array('6', 'testTitle', '1970-01-01 00:00:00', 'testDescription');
 
-		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+		$this->assertSame($expected, $result);
 	}
 
 	/**
@@ -706,7 +860,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($queryCheck);
 		$result = self::$driver->loadRowList();
 
-		$this->assertThat(count($result), $this->equalTo($tupleCount), __LINE__);
+		$this->assertCount($tupleCount, $result);
 	}
 
 	/**
@@ -718,18 +872,6 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testIsSupported()
 	{
-		$this->assertThat(JDatabaseDriverMysql::isSupported(), $this->isTrue(), __LINE__);
-	}
-
-	/**
-	 * Test updateObject method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testUpdateObject()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertTrue(JDatabaseDriverMysql::isSupported());
 	}
 }

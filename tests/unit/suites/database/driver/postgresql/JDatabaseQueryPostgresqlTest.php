@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,23 +81,6 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	}
 
 	/**
-	 * A mock callback for the database escape method.
-	 *
-	 * We use this method to ensure that JDatabaseQuery's escape method uses the
-	 * the database object's escape method.
-	 *
-	 * @param   string  $text  The input text.
-	 *
-	 * @return  string
-	 *
-	 * @since   11.3
-	 */
-	public function mockEscape($text)
-	{
-		return "_{$text}_";
-	}
-
-	/**
 	 * A mock callback for the database quoteName method.
 	 *
 	 * We use this method to ensure that JDatabaseQuery's quoteName method uses the
@@ -115,6 +98,27 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	}
 
 	/**
+	 * Callback for the dbo getQuery method.
+	 *
+	 * @param   boolean  $new  True to get a new query, false to get the last query.
+	 *
+	 * @return  JDatabaseQueryPostgresql
+	 *
+	 * @since   11.3
+	 */
+	public function mockGetQuery($new = false)
+	{
+		if ($new)
+		{
+			return new JDatabaseQueryPostgresql($this->dbo);
+		}
+		else
+		{
+			return $this->$lastQuery;
+		}
+	}
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -124,15 +128,25 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->dbo = TestMockDatabaseDriver::create($this, '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+		$this->dbo = $this->getMockDatabase('Postgresql', array(), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
 		$this->_instance = new JDatabaseQueryPostgresql($this->dbo);
+	}
 
-		// Mock the escape method to ensure the API is calling the DBO's escape method.
-		$this->assignMockCallbacks(
-			$this->dbo,
-			array('escape' => array($this, 'mockEscape'))
-		);
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
+		unset($this->_instance);
+		parent::tearDown();
 	}
 
 	/**
@@ -154,18 +168,116 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 				->having('COUNT(a.id) > 3')
 			->order('a.id');
 
-		$this->assertThat(
+		$this->assertEquals(
+			PHP_EOL . "SELECT a.id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "INNER JOIN b ON b.id = a.id" .
+			PHP_EOL . "WHERE b.id = 1" .
+			PHP_EOL . "GROUP BY a.id" .
+			PHP_EOL . "HAVING COUNT(a.id) > 3" .
+			PHP_EOL . "ORDER BY a.id",
 			(string) $q,
-			$this->equalTo(
-				PHP_EOL . "SELECT a.id" .
-				PHP_EOL . "FROM a" .
-				PHP_EOL . "INNER JOIN b ON b.id = a.id" .
-				PHP_EOL . "WHERE b.id = 1" .
-				PHP_EOL . "GROUP BY a.id" .
-				PHP_EOL . "HAVING COUNT(a.id) > 3" .
-				PHP_EOL . "ORDER BY a.id"
-			),
 			'Tests for correct rendering.'
+		);
+	}
+
+	/**
+	 * Test for the JDatabaseQueryPostgresql::__string method for a 'selectRowNumber' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function test__toStringSelectRowNumber()
+	{
+		$this->dbo->expects($this->exactly(6))
+			->method('getVersion')
+			->will($this->onConsecutiveCalls('8.3.18', '8.3.22', '8.3.23', '8.4.0', '9.1.24', '9.5.5'));
+
+		$this->_instance
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT w.*, nextval(\'ROW_NUMBER\') - 1 AS new_ordering FROM (' .
+			PHP_EOL . 'SELECT id' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1' .
+			PHP_EOL . 'ORDER BY ordering' .
+			PHP_EOL . ') w,(SELECT setval(\'ROW_NUMBER\', 1)) AS r',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->select('id')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT w.*, nextval(\'ROW_NUMBER\') - 1 AS "ordering" FROM (' .
+			PHP_EOL . 'SELECT id' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1' .
+			PHP_EOL . 'ORDER BY ordering DESC' .
+			PHP_EOL . ') w,(SELECT setval(\'ROW_NUMBER\', 1)) AS r',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering ASC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT nextval(\'ROW_NUMBER\') - 1 AS "ordering" FROM (' .
+			PHP_EOL . 'SELECT 1' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1' .
+			PHP_EOL . 'ORDER BY ordering ASC' .
+			PHP_EOL . ') w,(SELECT setval(\'ROW_NUMBER\', 1)) AS r',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT id,ROW_NUMBER() OVER (ORDER BY ordering) AS new_ordering' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->select('id')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT ROW_NUMBER() OVER (ORDER BY ordering DESC) AS "ordering",id' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1',
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering ASC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . 'SELECT ROW_NUMBER() OVER (ORDER BY ordering ASC) AS "ordering"' .
+			PHP_EOL . 'FROM a' .
+			PHP_EOL . 'WHERE catid = 1',
+			(string) $this->_instance
 		);
 	}
 
@@ -178,22 +290,43 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function test__toStringUpdate()
 	{
-		$q = new JDatabaseQueryPostgresql($this->dbo);
+		// Test on ugly query
+		$this->_instance
+			->update('#__foo AS a')
+			->join('INNER', "b\roN\nb.id = a.id")
+			->set('a.hits = 0');
 
-		$q->update('#__foo AS a')
+		$string = (string) $this->_instance;
+
+		$this->assertEquals(
+			PHP_EOL . "UPDATE #__foo AS a" .
+			PHP_EOL . "SET a.hits = 0" .
+			PHP_EOL . "FROM b" .
+			PHP_EOL . "WHERE b.id = a.id",
+			$string
+		);
+
+		$this->_instance
+			->clear()
+			->update('#__foo AS a')
 			->join('INNER', 'b ON b.id = a.id')
 			->set('a.id = 2')
 			->where('b.id = 1');
 
-		$this->assertThat(
-			(string) $q,
-			$this->equalTo(
-				PHP_EOL . "UPDATE #__foo AS a" .
-				PHP_EOL . "SET a.id = 2" .
-				PHP_EOL . "FROM b" .
-				PHP_EOL . "WHERE b.id = 1 AND b.id = a.id"
-			),
-			'Tests for correct rendering.'
+		$string = (string) $this->_instance;
+
+		$this->assertEquals(
+			PHP_EOL . "UPDATE #__foo AS a" .
+			PHP_EOL . "SET a.id = 2" .
+			PHP_EOL . "FROM b" .
+			PHP_EOL . "WHERE b.id = 1 AND b.id = a.id",
+			$string
+		);
+
+		// Run method __toString() again on the same query
+		$this->assertEquals(
+			$string,
+			(string) $this->_instance
 		);
 	}
 
@@ -210,9 +343,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 
 		$q->select($q->year($q->quoteName('col')))->from('table');
 
-		$this->assertThat(
-			(string) $q,
-			$this->equalTo(PHP_EOL . "SELECT EXTRACT (YEAR FROM \"col\")" . PHP_EOL . "FROM table")
+		$this->assertEquals(
+			PHP_EOL . "SELECT EXTRACT (YEAR FROM \"col\")" . PHP_EOL . "FROM table",
+			(string) $q
 		);
 	}
 
@@ -229,9 +362,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 
 		$q->select($q->month($q->quoteName('col')))->from('table');
 
-		$this->assertThat(
-			(string) $q,
-			$this->equalTo(PHP_EOL . "SELECT EXTRACT (MONTH FROM \"col\")" . PHP_EOL . "FROM table")
+		$this->assertEquals(
+			PHP_EOL . "SELECT EXTRACT (MONTH FROM \"col\")" . PHP_EOL . "FROM table",
+			(string) $q
 		);
 	}
 
@@ -248,9 +381,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 
 		$q->select($q->day($q->quoteName('col')))->from('table');
 
-		$this->assertThat(
-			(string) $q,
-			$this->equalTo(PHP_EOL . "SELECT EXTRACT (DAY FROM \"col\")" . PHP_EOL . "FROM table")
+		$this->assertEquals(
+			PHP_EOL . "SELECT EXTRACT (DAY FROM \"col\")" . PHP_EOL . "FROM table",
+			(string) $q
 		);
 	}
 
@@ -267,9 +400,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 
 		$q->select($q->hour($q->quoteName('col')))->from('table');
 
-		$this->assertThat(
-			(string) $q,
-			$this->equalTo(PHP_EOL . "SELECT EXTRACT (HOUR FROM \"col\")" . PHP_EOL . "FROM table")
+		$this->assertEquals(
+			PHP_EOL . "SELECT EXTRACT (HOUR FROM \"col\")" . PHP_EOL . "FROM table",
+			(string) $q
 		);
 	}
 
@@ -286,9 +419,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 
 		$q->select($q->minute($q->quoteName('col')))->from('table');
 
-		$this->assertThat(
-			(string) $q,
-			$this->equalTo(PHP_EOL . "SELECT EXTRACT (MINUTE FROM \"col\")" . PHP_EOL . "FROM table")
+		$this->assertEquals(
+			PHP_EOL . "SELECT EXTRACT (MINUTE FROM \"col\")" . PHP_EOL . "FROM table",
+			(string) $q
 		);
 	}
 
@@ -305,9 +438,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 
 		$q->select($q->second($q->quoteName('col')))->from('table');
 
-		$this->assertThat(
-			(string) $q,
-			$this->equalTo(PHP_EOL . "SELECT EXTRACT (SECOND FROM \"col\")" . PHP_EOL . "FROM table")
+		$this->assertEquals(
+			PHP_EOL . "SELECT EXTRACT (SECOND FROM \"col\")" . PHP_EOL . "FROM table",
+			(string) $q
 		);
 	}
 
@@ -326,16 +459,17 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 
 		$q->insert('table')->columns('col')->values($subq);
 
-		$this->assertThat(
-			(string) $q,
-			$this->equalTo(PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col)" . PHP_EOL . "(" . PHP_EOL . "SELECT col2" . PHP_EOL . "WHERE a=1)")
+		$this->assertEquals(
+			PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col)" . PHP_EOL . "(" . PHP_EOL . "SELECT col2" . PHP_EOL . "WHERE a=1)",
+			(string) $q
 		);
 
 		$q->clear();
 		$q->insert('table')->columns('col')->values('3');
-		$this->assertThat(
-			(string) $q,
-			$this->equalTo(PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col) VALUES " . PHP_EOL . "(3)")
+
+		$this->assertEquals(
+			PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col) VALUES " . PHP_EOL . "(3)",
+			(string) $q
 		);
 	}
 
@@ -350,10 +484,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->castAsChar('123'),
-			$this->equalTo('123::text'),
-			'The default castAsChar behaviour is quote the input.'
+		$this->assertEquals(
+			'123::text',
+			$q->castAsChar('123')
 		);
 
 	}
@@ -369,9 +502,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->charLength('a.title'),
-			$this->equalTo('CHAR_LENGTH(a.title)')
+		$this->assertEquals(
+			'CHAR_LENGTH(a.title)',
+			$q->charLength('a.title')
 		);
 	}
 
@@ -386,10 +519,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = $this->dbo->getQuery(true)->select('foo');
 
-		$this->assertThat(
-			$q,
-			$this->isInstanceOf('JDatabaseQuery')
-		);
+		$this->assertInstanceOf('JDatabaseQuery', $q);
 	}
 
 	/**
@@ -437,17 +567,11 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 		// Check that all properties have been cleared
 		foreach ($properties as $property)
 		{
-			$this->assertThat(
-				$q->$property,
-				$this->equalTo(null)
-			);
+			$this->assertEmpty($q->$property);
 		}
 
 		// And check that the type has been cleared.
-		$this->assertThat(
-			$q->type,
-			$this->equalTo(null)
-		);
+		$this->assertNull($q->type);
 	}
 
 	/**
@@ -492,19 +616,16 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			$q->clear($clause);
 
 			// Check that clause was cleared.
-			$this->assertThat(
-				$q->$clause,
-				$this->equalTo(null)
-			);
+			$this->assertNull($q->$clause);
 
 			// Check the state of the other clauses.
 			foreach ($clauses as $clause2)
 			{
 				if ($clause != $clause2)
 				{
-					$this->assertThat(
+					$this->assertEquals(
+						$clause2,
 						$q->$clause2,
-						$this->equalTo($clause2),
 						"Clearing '$clause' resulted in '$clause2' having a value of " . $q->$clause2 . '.'
 					);
 				}
@@ -564,22 +685,20 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			$q->clear($type);
 
 			// Check the type has been cleared.
-			$this->assertThat(
-				$q->type,
-				$this->equalTo(null)
+			$this->assertNull(
+				$q->type
 			);
 
-			$this->assertThat(
-				$q->$type,
-				$this->equalTo(null)
+			$this->assertNull(
+				$q->$type
 			);
 
 			// Now check the claues have not been affected.
 			foreach ($clauses as $clause)
 			{
-				$this->assertThat(
-					$q->$clause,
-					$this->equalTo($clause)
+				$this->assertEquals(
+					$clause,
+					$q->$clause
 				);
 			}
 		}
@@ -594,17 +713,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->concatenate(array('foo', 'bar')),
-			$this->equalTo('foo || bar'),
-			'Tests without separator.'
-		);
+		$this->assertEquals('foo || bar', $q->concatenate(array('foo', 'bar')));
 
-		$this->assertThat(
-			$q->concatenate(array('foo', 'bar'), ' and '),
-			$this->equalTo("foo || '_ and _' || bar"),
-			'Tests without separator.'
-		);
+		$this->assertEquals("foo || '_ and _' || bar", $q->concatenate(array('foo', 'bar'), ' and '));
 	}
 
 	/**
@@ -618,26 +729,14 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->from('#__foo'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->from('#__foo'));
 
-		$this->assertThat(
-			trim($q->from),
-			$this->equalTo('FROM #__foo'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('FROM #__foo', trim($q->from));
 
 		// Add another column.
 		$q->from('#__bar');
 
-		$this->assertThat(
-			trim($q->from),
-			$this->equalTo('FROM #__foo,#__bar'),
-			'Tests rendered value after second use.'
-		);
+		$this->assertEquals('FROM #__foo,#__bar', trim($q->from));
 	}
 
 	/**
@@ -651,26 +750,14 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->group('foo'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->group('foo'));
 
-		$this->assertThat(
-			trim($q->group),
-			$this->equalTo('GROUP BY foo'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('GROUP BY foo', trim($q->group));
 
 		// Add another column.
 		$q->group('bar');
 
-		$this->assertThat(
-			trim($q->group),
-			$this->equalTo('GROUP BY foo,bar'),
-			'Tests rendered value after second use.'
-		);
+		$this->assertEquals('GROUP BY foo,bar', trim($q->group));
 	}
 
 	/**
@@ -684,37 +771,21 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->having('COUNT(foo) > 1'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->having('COUNT(foo) > 1'));
 
-		$this->assertThat(
-			trim($q->having),
-			$this->equalTo('HAVING COUNT(foo) > 1'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('HAVING COUNT(foo) > 1', trim($q->having));
 
 		// Add another column.
 		$q->having('COUNT(bar) > 2');
 
-		$this->assertThat(
-			trim($q->having),
-			$this->equalTo('HAVING COUNT(foo) > 1 AND COUNT(bar) > 2'),
-			'Tests rendered value after second use.'
-		);
+		$this->assertEquals('HAVING COUNT(foo) > 1 AND COUNT(bar) > 2', trim($q->having));
 
 		// Reset the field to test the glue.
-		TestReflection::setValue($q, 'having', null);
+		$q->clear();
 		$q->having('COUNT(foo) > 1', 'OR');
 		$q->having('COUNT(bar) > 2');
 
-		$this->assertThat(
-			trim($q->having),
-			$this->equalTo('HAVING COUNT(foo) > 1 OR COUNT(bar) > 2'),
-			'Tests rendered value with OR glue.'
-		);
+		$this->assertEquals('HAVING COUNT(foo) > 1 OR COUNT(bar) > 2', trim($q->having));
 	}
 
 	/**
@@ -726,22 +797,17 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function testInnerJoin()
 	{
-		$q = new JDatabaseQueryPostgresql($this->dbo);
+		$q  = new JDatabaseQueryPostgresql($this->dbo);
 		$q2 = new JDatabaseQueryPostgresql($this->dbo);
 		$condition = 'foo ON foo.id = bar.id';
 
-		$this->assertThat(
-			$q->innerJoin($condition),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->innerJoin($condition));
 
 		$q2->join('INNER', $condition);
 
-		$this->assertThat(
-			$q->join,
-			$this->equalTo($q2->join),
-			'Tests that innerJoin is an alias for join.'
+		$this->assertEquals(
+			$q2->join,
+			$q->join
 		);
 	}
 
@@ -760,25 +826,11 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->join('INNER', 'foo ON foo.id = bar.id'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->join($type, $conditions));
 
-		$this->assertThat(
-			trim($q->join[0]),
-			$this->equalTo('INNER JOIN foo ON foo.id = bar.id'),
-			'Tests that first join renders correctly.'
-		);
+		$type = empty($type) ? '' : $type . ' ';
 
-		$q->join('OUTER', 'goo ON goo.id = car.id');
-
-		$this->assertThat(
-			trim($q->join[1]),
-			$this->equalTo('OUTER JOIN goo ON goo.id = car.id'),
-			'Tests that second join renders correctly.'
-		);
+		$this->assertEquals($type . 'JOIN ' . $conditions, trim($q->join[0]));
 	}
 
 	/**
@@ -790,22 +842,17 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function testLeftJoin()
 	{
-		$q = new JDatabaseQueryPostgresql($this->dbo);
+		$q  = new JDatabaseQueryPostgresql($this->dbo);
 		$q2 = new JDatabaseQueryPostgresql($this->dbo);
 		$condition = 'foo ON foo.id = bar.id';
 
-		$this->assertThat(
-			$q->leftJoin($condition),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->leftJoin($condition));
 
 		$q2->join('LEFT', $condition);
 
-		$this->assertThat(
-			$q->join,
-			$this->equalTo($q2->join),
-			'Tests that innerJoin is an alias for join.'
+		$this->assertEquals(
+			$q2->join,
+			$q->join
 		);
 	}
 
@@ -824,10 +871,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->nullDate($quoted),
-			$this->equalTo($expected),
-			'The nullDate method should be a proxy for the JDatabase::getNullDate method.'
+		$this->assertEquals(
+			$expected,
+			$q->nullDate($quoted)
 		);
 	}
 
@@ -842,24 +888,14 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->order('column'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->order('column'));
 
-		$this->assertThat(
-			trim($q->order),
-			$this->equalTo('ORDER BY column'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('ORDER BY column', trim($q->order));
 
+		// Add another column.
 		$q->order('col2');
-		$this->assertThat(
-			trim($q->order),
-			$this->equalTo('ORDER BY column,col2'),
-			'Tests rendered value.'
-		);
+
+		$this->assertEquals('ORDER BY column,col2', trim($q->order));
 	}
 
 	/**
@@ -871,22 +907,17 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function testOuterJoin()
 	{
-		$q = new JDatabaseQueryPostgresql($this->dbo);
+		$q  = new JDatabaseQueryPostgresql($this->dbo);
 		$q2 = new JDatabaseQueryPostgresql($this->dbo);
 		$condition = 'foo ON foo.id = bar.id';
 
-		$this->assertThat(
-			$q->outerJoin($condition),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->outerJoin($condition));
 
 		$q2->join('OUTER', $condition);
 
-		$this->assertThat(
-			$q->join,
-			$this->equalTo($q2->join),
-			'Tests that innerJoin is an alias for join.'
+		$this->assertEquals(
+			$q2->join,
+			$q->join
 		);
 	}
 
@@ -906,10 +937,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->quoteName("test"),
-			$this->equalTo('"test"'),
-			'The quoteName method should be a proxy for the JDatabase::escape method.'
+		$this->assertEquals(
+			$expected,
+			$q->quote($text, $escape)
 		);
 	}
 
@@ -924,10 +954,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->quoteName('test'),
-			$this->equalTo('"test"'),
-			'The quoteName method should be a proxy for the JDatabase::escape method.'
+		$this->assertEquals(
+			'"test"',
+			$q->quoteName('test')
 		);
 	}
 
@@ -940,22 +969,17 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function testRightJoin()
 	{
-		$q = new JDatabaseQueryPostgresql($this->dbo);
+		$q  = new JDatabaseQueryPostgresql($this->dbo);
 		$q2 = new JDatabaseQueryPostgresql($this->dbo);
 		$condition = 'foo ON foo.id = bar.id';
 
-		$this->assertThat(
-			$q->rightJoin($condition),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->rightJoin($condition));
 
 		$q2->join('RIGHT', $condition);
 
-		$this->assertThat(
-			$q->join,
-			$this->equalTo($q2->join),
-			'Tests that innerJoin is an alias for join.'
+		$this->assertEquals(
+			$q2->join,
+			$q->join
 		);
 	}
 
@@ -970,43 +994,18 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->select('foo'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->select('foo'));
 
-		$this->assertThat(
-			$q->type,
-			$this->equalTo('select'),
-			'Tests the type property is set correctly.'
-		);
+		$this->assertEquals('SELECT foo', trim($q->select));
 
-		$this->assertThat(
-			trim($q->select),
-			$this->equalTo('SELECT foo'),
-			'Tests the select element is set correctly.'
-		);
-
+		// Add another column.
 		$q->select('bar');
 
-		$this->assertThat(
-			trim($q->select),
-			$this->equalTo('SELECT foo,bar'),
-			'Tests the second use appends correctly.'
-		);
+		$this->assertEquals('SELECT foo,bar', trim($q->select));
 
-		$q->select(
-			array(
-				'goo', 'car'
-			)
-		);
+		$q->select(array('goo', 'car'));
 
-		$this->assertThat(
-			trim($q->select),
-			$this->equalTo('SELECT foo,bar,goo,car'),
-			'Tests the second use appends correctly.'
-		);
+		$this->assertEquals('SELECT foo,bar,goo,car', trim($q->select));
 	}
 
 	/**
@@ -1019,47 +1018,21 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	public function testWhere()
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
-		$this->assertThat(
-			$q->where('foo = 1'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
 
-		$this->assertThat(
-			trim($q->where),
-			$this->equalTo('WHERE foo = 1'),
-			'Tests rendered value.'
-		);
+		$this->assertSame($q, $q->where('foo = 1'));
+
+		$this->assertEquals('WHERE foo = 1', trim($q->where));
 
 		// Add another column.
-		$q->where(
-			array(
-				'bar = 2',
-				'goo = 3',
-			)
-		);
+		$q->where(array('bar = 2', 'goo = 3'));
 
-		$this->assertThat(
-			trim($q->where),
-			$this->equalTo('WHERE foo = 1 AND bar = 2 AND goo = 3'),
-			'Tests rendered value after second use and array input.'
-		);
+		$this->assertEquals('WHERE foo = 1 AND bar = 2 AND goo = 3', trim($q->where));
 
 		// Clear the where
-		TestReflection::setValue($q, 'where', null);
-		$q->where(
-			array(
-				'bar = 2',
-				'goo = 3',
-			),
-			'OR'
-		);
+		$q->clear();
+		$q->where(array('bar = 2', 'goo = 3'), 'OR');
 
-		$this->assertThat(
-			trim($q->where),
-			$this->equalTo('WHERE bar = 2 OR goo = 3'),
-			'Tests rendered value with glue.'
-		);
+		$this->assertEquals('WHERE bar = 2 OR goo = 3', trim($q->where));
 	}
 
 	/**
@@ -1073,9 +1046,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->escape('foo'),
-			$this->equalTo('_foo_')
+		$this->assertEquals(
+			'_foo_',
+			$q->escape('foo')
 		);
 	}
 
@@ -1086,38 +1059,25 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testForUpdate ()
+	public function testForUpdate()
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->forUpdate('#__foo'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->forUpdate('#__foo'));
 
-		$this->assertThat(
-			trim($q->forUpdate),
-			$this->equalTo('FOR UPDATE OF #__foo'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('FOR UPDATE OF #__foo', trim($q->forUpdate));
 
 		$q->forUpdate('#__bar');
-		$this->assertThat(
-			trim($q->forUpdate),
-			$this->equalTo('FOR UPDATE OF #__foo, #__bar'),
-			'Tests rendered value.'
-		);
+
+		$this->assertEquals('FOR UPDATE OF #__foo, #__bar', trim($q->forUpdate));
 
 		// Testing glue
-		TestReflection::setValue($q, 'forUpdate', null);
+		$q->clear();
+
 		$q->forUpdate('#__foo', ';');
 		$q->forUpdate('#__bar');
-		$this->assertThat(
-			trim($q->forUpdate),
-			$this->equalTo('FOR UPDATE OF #__foo; #__bar'),
-			'Tests rendered value.'
-		);
+
+		$this->assertEquals('FOR UPDATE OF #__foo; #__bar', trim($q->forUpdate));
 	}
 
 	/**
@@ -1127,38 +1087,24 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testForShare ()
+	public function testForShare()
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->forShare('#__foo'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->forShare('#__foo'));
 
-		$this->assertThat(
-			trim($q->forShare),
-			$this->equalTo('FOR SHARE OF #__foo'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('FOR SHARE OF #__foo', trim($q->forShare));
 
 		$q->forShare('#__bar');
-		$this->assertThat(
-			trim($q->forShare),
-			$this->equalTo('FOR SHARE OF #__foo, #__bar'),
-			'Tests rendered value.'
-		);
+
+		$this->assertEquals('FOR SHARE OF #__foo, #__bar', trim($q->forShare));
 
 		// Testing glue
-		TestReflection::setValue($q, 'forShare', null);
+		$q->clear();
 		$q->forShare('#__foo', ';');
 		$q->forShare('#__bar');
-		$this->assertThat(
-			trim($q->forShare),
-			$this->equalTo('FOR SHARE OF #__foo; #__bar'),
-			'Tests rendered value.'
-		);
+
+		$this->assertEquals('FOR SHARE OF #__foo; #__bar', trim($q->forShare));
 	}
 
 	/**
@@ -1168,21 +1114,13 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testNoWait ()
+	public function testNoWait()
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->noWait(),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->noWait());
 
-		$this->assertThat(
-			trim($q->noWait),
-			$this->equalTo('NOWAIT'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('NOWAIT', trim($q->noWait));
 	}
 
 	/**
@@ -1196,17 +1134,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->limit('5'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->limit(5));
 
-		$this->assertThat(
-			trim($q->limit),
-			$this->equalTo('LIMIT 5'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('LIMIT 5', trim($q->limit));
 	}
 
 	/**
@@ -1220,17 +1150,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->offset('10'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->offset(10));
 
-		$this->assertThat(
-			trim($q->offset),
-			$this->equalTo('OFFSET 10'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('OFFSET 10', trim($q->offset));
 	}
 
 	/**
@@ -1244,18 +1166,11 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	{
 		$q = new JDatabaseQueryPostgresql($this->dbo);
 
-		$this->assertThat(
-			$q->returning('id'),
-			$this->identicalTo($q),
-			'Tests chaining.'
-		);
+		$this->assertSame($q, $q->returning('id'));
 
-		$this->assertThat(
-			trim($q->returning),
-			$this->equalTo('RETURNING id'),
-			'Tests rendered value.'
-		);
+		$this->assertEquals('RETURNING id', trim($q->returning));
 	}
+
 	/**
 	 * Data for the testDateAdd test.
 	 *
@@ -1288,9 +1203,9 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function testDateAdd($date, $interval, $datePart, $expected)
 	{
-		$this->assertThat(
-			$this->_instance->dateAdd($date, $interval, $datePart),
-			$this->equalTo($expected)
+		$this->assertEquals(
+			$expected,
+			$this->_instance->dateAdd($date, $interval, $datePart)
 		);
 	}
 }

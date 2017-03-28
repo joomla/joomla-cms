@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,11 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Activity Watching Events class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/activity/watching/
+ * @documentation https://developer.github.com/v3/activity/watching/
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Activity
  * @since       3.3 (CMS)
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageActivityWatching extends JGithubPackage
 {
@@ -102,7 +101,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 
 		$data = array(
 			'subscribed' => $subscribed,
-			'ignored'    => $ignored
+			'ignored'    => $ignored,
 		);
 
 		return $this->processResponse(

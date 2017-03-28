@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of plugins.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
- * @since       1.5
+ * @since  1.5
  */
 class PluginsViewPlugins extends JViewLegacy
 {
@@ -25,36 +23,37 @@ class PluginsViewPlugins extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
+		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
+		$this->state = $this->get('State');
+		$this->filterForm = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
-		// Check if there are no matching items
-		if (!count($this->items))
-		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'),
-				'warning'
-			);
-		}
-
 		$this->addToolbar();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -83,34 +82,12 @@ class PluginsViewPlugins extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
 
-		JHtmlSidebar::setAction('index.php?option=com_plugins&view=plugins');
-
-		JHtmlSidebar::addFilter(
-				JText::_('JOPTION_SELECT_PUBLISHED'),
-				'filter_enabled',
-				JHtml::_('select.options', PluginsHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.enabled'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-				JText::_('COM_PLUGINS_OPTION_FOLDER'),
-				'filter_folder',
-				JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'))
-		);
-
-		JHtmlSidebar::addFilter(
-				JText::_('JOPTION_SELECT_ACCESS'),
-				'filter_access',
-				JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
-		$this->sidebar = JHtmlSidebar::render();
-
 	}
 
 	/**
-	 * Returns an array of fields the table can be sorted by
+	 * Returns an array of fields the table can be sorted by.
 	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 * @return  array  Array containing the field name to sort by as the key and display text as value.
 	 *
 	 * @since   3.0
 	 */

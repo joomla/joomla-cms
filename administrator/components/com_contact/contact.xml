@@ -3,10 +3,8 @@
 	<name>com_contact</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.
-	</copyright>
-	<license>GNU General Public License version 2 or later; see
-		LICENSE.txt</license>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
@@ -26,7 +24,6 @@
 	<files folder="site">
 		<filename>contact.php</filename>
 		<filename>controller.php</filename>
-		<filename>index.html</filename>
 		<filename>metadata.xml</filename>
 		<filename>router.php</filename>
 		<folder>helpers</folder>
@@ -38,23 +35,22 @@
 	</languages>
 
 	<administration>
-		<menu img="class:contact">com_contact</menu>
+		<menu img="class:contact">COM_CONTACT</menu>
 		<submenu>
 			<!--
 				Note that all & must be escaped to &amp; for the file to be valid
 				XML and be parsed by the installer
 			-->
 			<menu link="option=com_contact" img="class:contact"
-				alt="Contact/Contacts">com_contact_contacts</menu>
+				alt="Contact/Contacts">COM_CONTACT_CONTACTS</menu>
 			<menu link="option=com_categories&amp;extension=com_contact"
-				view="categories" img="class:contact-cat" alt="Contacts/Categories">com_contact_categories</menu>
+				view="categories" img="class:contact-cat" alt="Contacts/Categories">COM_CONTACT_CATEGORIES</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>contact.php</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
 			<folder>controllers</folder>
 			<folder>elements</folder>
 			<folder>helpers</folder>

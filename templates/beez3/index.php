@@ -2,13 +2,15 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
- * 
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ *
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
 defined('_JEXEC') or die;
+
+/** @var JDocumentHtml $this */
 
 JLoader::import('joomla.filesystem.file');
 
@@ -29,13 +31,12 @@ $color          = $this->params->get('templatecolor');
 $logo           = $this->params->get('logo');
 $navposition    = $this->params->get('navposition');
 $headerImage    = $this->params->get('headerImage');
-$doc            = JFactory::getDocument();
-$app            = JFactory::getApplication();
-$templateparams	= $app->getTemplate(true)->params;
 $config         = JFactory::getConfig();
-$bootstrap      = explode(',', $templateparams->get('bootstrap'));
-$jinput         = JFactory::getApplication()->input;
-$option         = $jinput->get('option', '', 'cmd');
+$bootstrap      = explode(',', $this->params->get('bootstrap'));
+$option         = JFactory::getApplication()->input->getCmd('option', '');
+
+// Output as HTML5
+$this->setHtml5(true);
 
 if (in_array($option, $bootstrap))
 {
@@ -43,72 +44,76 @@ if (in_array($option, $bootstrap))
 	JHtml::_('bootstrap.loadCss', true, $this->direction);
 }
 
-$doc->addStyleSheet(JUri::base() . 'templates/system/css/system.css');
-$doc->addStyleSheet(JUri::base() . 'templates/' . $this->template . '/css/position.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet(JUri::base() . 'templates/' . $this->template . '/css/layout.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet(JUri::base() . 'templates/' . $this->template . '/css/print.css', $type = 'text/css', $media = 'print');
-$doc->addStyleSheet(JUri::base() . 'templates/' . $this->template . '/css/general.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet(JUri::base() . 'templates/' . $this->template . '/css/' . htmlspecialchars($color) . '.css', $type = 'text/css', $media = 'screen,projection');
+// Add stylesheets
+JHtml::_('stylesheet', 'templates/system/css/system.css', array('version' => 'auto'));
+JHtml::_('stylesheet', 'position.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'layout.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'print.css', array('version' => 'auto', 'relative' => true), array('media' => 'print'));
+JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css', array('version' => 'auto', 'relative' => true));
 
-if ($this->direction == 'rtl')
+if ($this->direction === 'rtl')
 {
-	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
-	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css'))
-	{
-		$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color) . '_rtl.css');
-	}
+	JHtml::_('stylesheet', 'template_rtl.css', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
+if ($color === 'image')
+{
+	$this->addStyleDeclaration("
+	.logoheader {
+		background: url('" . $this->baseurl . "/" . htmlspecialchars($headerImage) . "') no-repeat right;
+	}
+	body {
+		background: " . $this->params->get('backgroundcolor') . ";
+	}");
+}
+
+JHtml::_('stylesheet', 'ie7only.css', array('version' => 'auto', 'relative' => true, 'conditional' => 'IE 7'));
+
+// Check for a custom CSS file
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+
 JHtml::_('bootstrap.framework');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js', 'text/javascript');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js', 'text/javascript');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js', 'text/javascript');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js', 'text/javascript');
 
+// Add template scripts
+JHtml::_('script', 'templates/' . $this->template . '/javascript/md_stylechanger.js', array('version' => 'auto'));
+JHtml::_('script', 'templates/' . $this->template . '/javascript/hide.js', array('version' => 'auto'));
+JHtml::_('script', 'templates/' . $this->template . '/javascript/respond.src.js', array('version' => 'auto'));
+JHtml::_('script', 'templates/' . $this->template . '/javascript/template.js', array('version' => 'auto'));
+
+// Check for a custom js file
+JHtml::_('script', 'templates/' . $this->template . '/javascript/user.js', array('version' => 'auto'));
+
+require __DIR__ . '/jsstrings.php';
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 ?>
-
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<?php require __DIR__ . '/jsstrings.php';?>
-
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
 		<meta name="HandheldFriendly" content="true" />
 		<meta name="apple-mobile-web-app-capable" content="YES" />
-
 		<jdoc:include type="head" />
-
-		<!--[if IE 7]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
-		<![endif]-->
 	</head>
 	<body id="shadow">
-		<?php if ($color == 'image'):?>
-			<style type="text/css">
-				.logoheader {
-					background:url('<?php echo $this->baseurl . '/' . htmlspecialchars($headerImage); ?>') no-repeat right;
-				}
-				body {
-					background: <?php echo $templateparams->get('backgroundcolor'); ?>;
-				}
-			</style>
-		<?php endif; ?>
-
 		<div id="all">
 			<div id="back">
 				<header id="header">
 					<div class="logoheader">
 						<h1 id="logo">
 						<?php if ($logo) : ?>
-							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($templateparams->get('sitetitle')); ?>" />
+							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>" />
 						<?php endif;?>
-						<?php if (!$logo AND $templateparams->get('sitetitle')) : ?>
-							<?php echo htmlspecialchars($templateparams->get('sitetitle')); ?>
+						<?php if (!$logo AND $this->params->get('sitetitle')) : ?>
+							<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>
 						<?php elseif (!$logo AND $config->get('sitename')) : ?>
 							<?php echo htmlspecialchars($config->get('sitename')); ?>
 						<?php endif; ?>
 						<span class="header1">
-						<?php echo htmlspecialchars($templateparams->get('sitedescription')); ?>
+						<?php echo htmlspecialchars($this->params->get('sitedescription')); ?>
 						</span></h1>
 					</div><!-- end logoheader -->
 					<ul class="skiplinks">
@@ -132,7 +137,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 						<jdoc:include type="modules" name="position-2" />
 					</div>
 
-					<?php if ($navposition == 'left' and $showleft) : ?>
+					<?php if ($navposition === 'left' and $showleft) : ?>
 						<nav class="left1 <?php if ($showRightColumn == null) { echo 'leftbigger';} ?>" id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
@@ -172,7 +177,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 						</aside><!-- end right -->
 					<?php endif; ?>
 
-					<?php if ($navposition == 'center' and $showleft) : ?>
+					<?php if ($navposition === 'center' and $showleft) : ?>
 						<nav class="left <?php if ($showRightColumn == null) { echo 'leftbigger'; } ?>" id="nav" >
 
 							<jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />

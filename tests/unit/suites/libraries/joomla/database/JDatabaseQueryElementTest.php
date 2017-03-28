@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/database/query.php';
 
 /**
  * Test class for JDatabaseQueryElement.
@@ -16,7 +14,7 @@ require_once JPATH_PLATFORM . '/joomla/database/query.php';
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
+class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test cases for append and __toString
@@ -246,8 +244,8 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 
 		$baseElement->testArray[] = 'a';
 
-		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertEquals(count($cloneElement->testArray), 0);
+		$this->assertNotSame($baseElement, $cloneElement);
+		$this->assertCount(0, $cloneElement->testArray);
 	}
 
 	/**
@@ -265,7 +263,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 
 		$cloneElement = clone($baseElement);
 
-		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
+		$this->assertNotSame($baseElement, $cloneElement);
+		$this->assertNotSame($baseElement->testObject, $cloneElement->testObject);
 	}
 }

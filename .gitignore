@@ -1,29 +1,141 @@
 # IDE & System Related Files #
 .buildpath
+.editorconfig
 .project
 .settings
 .DS_Store
 .idea
+.vscode
 
 # Local System Files (i.e. cache, logs, etc.) #
 /administrator/cache
+/administrator/logs
 /cache
-/logs
+/installation/cache
 /tmp
 /configuration.php
 /.htaccess
 /web.config
+/.php_cs.cache
 
 # Test Related Files #
 /phpunit.xml
-/tests/system/webdriver/tests/logs/
-/tests/system/servers/configdef.php
+
+# Node modules #
+node_modules/
 
 # phpDocumentor Logs #
 phpdoc-*
 
-# Patch Tester
-administrator/components/com_patchtester/
-administrator/templates/hathor/html/com_patchtester
-components/com_patchtester/
+# Patch Tester #
+/administrator/components/com_patchtester
+/administrator/templates/hathor/html/com_patchtester
+/components/com_patchtester
+/media/com_patchtester
 
+# Install from Web plugin #
+/plugins/installer/webinstaller
+
+# OSX #
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows #
+Thumbs.db
+Desktop.ini
+
+# Never ignore #
+# Only apply this rule to the main repository's gitignore files
+!/.gitignore
+!/build/.gitignore
+!/tests/unit/suites/libraries/joomla/archive/.gitignore
+!/tests/unit/tmp/.gitignore
+
+# Extra files installed by Composer not needed in the CMS environment
+# This should only ignore files like unit testing or READMEs, production
+# code must remain to ensure all libraries properly function
+/libraries/vendor/ircmaxell/password-compat/test
+/libraries/vendor/ircmaxell/password-compat/.travis.yml
+/libraries/vendor/ircmaxell/password-compat/composer.json
+/libraries/vendor/ircmaxell/password-compat/phpunit.xml.dist
+/libraries/vendor/ircmaxell/password-compat/README.md
+/libraries/vendor/ircmaxell/password-compat/version-test.php
+/libraries/vendor/joomla/*/.github
+/libraries/vendor/joomla/*/.gitignore
+/libraries/vendor/joomla/*/.gitmodules
+/libraries/vendor/joomla/*/docs
+/libraries/vendor/joomla/*/Tests
+/libraries/vendor/joomla/*/vendor
+/libraries/vendor/joomla/*/.travis.yml
+/libraries/vendor/joomla/*/CONTRIBUTING.md
+/libraries/vendor/joomla/*/composer.json
+/libraries/vendor/joomla/*/phpunit.xml.dist
+/libraries/vendor/joomla/*/README.md
+/libraries/vendor/joomla/session/Joomla/Session/.github
+/libraries/vendor/joomla/session/Joomla/Session/_Tests
+/libraries/vendor/joomla/session/Joomla/Session/build
+/libraries/vendor/joomla/session/Joomla/Session/Tests
+/libraries/vendor/joomla/session/Joomla/Session/CONTRIBUTING.md
+/libraries/vendor/joomla/session/Joomla/Session/composer.json
+/libraries/vendor/joomla/session/Joomla/Session/phpunit.xml.dist
+/libraries/vendor/joomla/session/Joomla/Session/README.md
+/libraries/vendor/leafo/lessphp/docs
+/libraries/vendor/leafo/lessphp/tests
+/libraries/vendor/leafo/lessphp/.gitignore
+/libraries/vendor/leafo/lessphp/.travis.yml
+/libraries/vendor/leafo/lessphp/composer.json
+/libraries/vendor/leafo/lessphp/Makefile
+/libraries/vendor/leafo/lessphp/package.sh
+/libraries/vendor/leafo/lessphp/README.md
+/libraries/vendor/paragonie/random_compat/.gitignore
+/libraries/vendor/paragonie/random_compat/.scrutinizer.yml
+/libraries/vendor/paragonie/random_compat/.travis.yml
+/libraries/vendor/paragonie/random_compat/dist
+/libraries/vendor/paragonie/random_compat/other
+/libraries/vendor/paragonie/random_compat/CHANGELOG.md
+/libraries/vendor/paragonie/random_compat/ERRATA.md
+/libraries/vendor/paragonie/random_compat/README.md
+/libraries/vendor/paragonie/random_compat/SECURITY.md
+/libraries/vendor/paragonie/random_compat/composer.json
+/libraries/vendor/paragonie/random_compat/tests
+/libraries/vendor/phpmailer/phpmailer/docs
+/libraries/vendor/phpmailer/phpmailer/examples
+/libraries/vendor/phpmailer/phpmailer/language
+/libraries/vendor/phpmailer/phpmailer/test
+/libraries/vendor/phpmailer/phpmailer/.gitignore
+/libraries/vendor/phpmailer/phpmailer/.scrutinizer.yml
+/libraries/vendor/phpmailer/phpmailer/.travis.yml
+/libraries/vendor/phpmailer/phpmailer/changelog.md
+/libraries/vendor/phpmailer/phpmailer/composer.json
+/libraries/vendor/phpmailer/phpmailer/README.md
+/libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
+/libraries/vendor/phpmailer/phpmailer/extras/README.md
+/libraries/vendor/phpmailer/phpmailer/get_oauth_token.php
+/libraries/vendor/psr/log/Psr/Log/Test
+/libraries/vendor/psr/log/.gitignore
+/libraries/vendor/psr/log/composer.json
+/libraries/vendor/psr/log/README.md
+/libraries/vendor/symfony/polyfill-php55/composer.json
+/libraries/vendor/symfony/polyfill-php55/README.md
+/libraries/vendor/symfony/polyfill-php56/composer.json
+/libraries/vendor/symfony/polyfill-php56/README.md
+/libraries/vendor/symfony/polyfill-util/composer.json
+/libraries/vendor/symfony/polyfill-util/README.md
+/libraries/vendor/symfony/polyfill-util/TestListener.php
+/libraries/vendor/symfony/yaml/Tests
+/libraries/vendor/symfony/yaml/.gitignore
+/libraries/vendor/symfony/yaml/CHANGELOG.md
+/libraries/vendor/symfony/yaml/composer.json
+/libraries/vendor/symfony/yaml/phpunit.xml.dist
+/libraries/vendor/symfony/yaml/README.md
+/libraries/vendor/simplepie/simplepie/demo
+/libraries/vendor/simplepie/simplepie/tests
+/libraries/vendor/simplepie/simplepie/README.markdown
+/libraries/vendor/simplepie/simplepie/phpunit.xml.dist
+/libraries/vendor/simplepie/simplepie/.gitignore
+/libraries/vendor/simplepie/simplepie/.travis.yml
+/libraries/vendor/simplepie/simplepie/compatibility_test
+/libraries/vendor/simplepie/simplepie/build
+/libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
+/libraries/vendor/simplepie/simplepie/composer.json

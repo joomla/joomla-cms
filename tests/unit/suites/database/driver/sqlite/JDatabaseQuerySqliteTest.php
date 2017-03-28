@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@
 class JDatabaseQuerySqliteTest extends TestCase
 {
 	/**
-	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
+	 * @var    JDatabaseDriverSqlite  A mock of the JDatabaseDriver object for testing purposes.
 	 * @since  13.1
 	 */
 	protected $dbo;
@@ -43,9 +43,25 @@ class JDatabaseQuerySqliteTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->dbo = $this->getMockDatabase();
+		$this->dbo = $this->getMockDatabase('Sqlite');
 
 		$this->_instance = new JDatabaseQuerySqlite($this->dbo);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
+		unset($this->_instance);
+		parent::tearDown();
 	}
 
 	/**
@@ -81,9 +97,88 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 */
 	public function testDateAdd($date, $interval, $datePart, $expected)
 	{
-		$this->assertThat(
-			$this->_instance->dateAdd($date, $interval, $datePart),
-			$this->equalTo($expected)
+		$this->assertEquals(
+			$expected,
+			$this->_instance->dateAdd($date, $interval, $datePart)
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuerySqlite::currentTimestamp method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuerySqlite::currentTimestamp
+	 * @since   3.4
+	 */
+	public function testCurrentTimestamp()
+	{
+		$this->assertEquals(
+			'CURRENT_TIMESTAMP',
+			$this->_instance->currentTimestamp()
+		);
+	}
+
+	/**
+	 * Test for the JDatabaseQuerySqlite::__string method for a 'selectRowNumber' case.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function test__toStringSelectRowNumber()
+	{
+		$this->_instance
+			->select('id')
+			->selectRowNumber('ordering', 'new_ordering')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, ROW_NUMBER() AS new_ordering" .
+			PHP_EOL . "FROM (" .
+			PHP_EOL . "SELECT id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering" .
+			PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear()
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'))
+			->select('id')
+			->from('a')
+			->where('catid = 1');
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT w.*, ROW_NUMBER() AS `ordering`" .
+			PHP_EOL . "FROM (" .
+			PHP_EOL . "SELECT id" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering DESC" .
+			PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
+		);
+
+		$this->_instance
+			->clear('select')
+			->selectRowNumber('ordering DESC', $this->_instance->quoteName('ordering'));
+
+		$this->assertEquals(
+			PHP_EOL . "SELECT ROW_NUMBER() AS `ordering`" .
+			PHP_EOL . "FROM (" .
+			PHP_EOL . "SELECT 1" .
+			PHP_EOL . "FROM a" .
+			PHP_EOL . "WHERE catid = 1" .
+			PHP_EOL . "ORDER BY ordering DESC" .
+			PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r" .
+			PHP_EOL . "ORDER BY NULL",
+			(string) $this->_instance
 		);
 	}
 }

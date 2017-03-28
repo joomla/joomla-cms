@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.newsfeeds
- * @since       1.6
+ * @since  1.6
  */
 class PlgSearchNewsfeeds extends JPlugin
 {
@@ -124,7 +122,7 @@ class PlgSearchNewsfeeds extends JPlugin
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
@@ -150,24 +148,24 @@ class PlgSearchNewsfeeds extends JPlugin
 		$query = $db->getQuery(true);
 
 		// SQLSRV changes.
-		$case_when = ' CASE WHEN ';
+		$case_when  = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
+		$a_id       = $query->castAsChar('a.id');
 		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when .= ' ELSE ';
 		$case_when .= $a_id . ' END as slug';
 
-		$case_when1 = ' CASE WHEN ';
+		$case_when1  = ' CASE WHEN ';
 		$case_when1 .= $query->charLength('c.alias', '!=', '0');
 		$case_when1 .= ' THEN ';
-		$c_id = $query->castAsChar('c.id');
+		$c_id        = $query->castAsChar('c.id');
 		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id . ' END as catslug';
 
-		$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when . "," . $case_when1)
-			->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), " / ") . ' AS section')
+		$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when . ',' . $case_when1)
+			->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), ' / ') . ' AS section')
 			->select('\'1\' AS browsernav')
 			->from('#__newsfeeds AS a')
 			->join('INNER', '#__categories as c ON c.id = a.catid')
@@ -175,7 +173,7 @@ class PlgSearchNewsfeeds extends JPlugin
 			->order($order);
 
 		// Filter by language.
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
@@ -183,7 +181,16 @@ class PlgSearchNewsfeeds extends JPlugin
 		}
 
 		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
 
 		if ($rows)
 		{

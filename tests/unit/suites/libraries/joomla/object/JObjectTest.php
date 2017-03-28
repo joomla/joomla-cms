@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@
  * @subpackage  Object
  * @since       11.1
  */
-class JObjectTest extends PHPUnit_Framework_TestCase
+class JObjectTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JObject
@@ -33,6 +33,21 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->o = new JObject;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->o);
+		parent::tearDown();
 	}
 
 	/**

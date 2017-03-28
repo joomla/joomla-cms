@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,11 +14,11 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id='.(int) $this->state->get('filter.user_id'));?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -33,7 +33,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('COM_USERS_SEARCH_ASSETS'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_RESET'); ?></button>
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_RESET'); ?></button>
 		</div>
 
 		<div class="filter-select fltrt">
@@ -67,7 +67,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 	<div>
 		<?php echo JText::_('COM_USERS_DEBUG_LEGEND'); ?>
-		<span class="swatch"><?php echo JText::sprintf('COM_USERS_DEBUG_NO_CHECK', '-');?></span>
 		<span class="check-0 swatch"><?php echo JText::sprintf('COM_USERS_DEBUG_IMPLICIT_DENY', '-');?></span>
 		<span class="check-a swatch"><?php echo JText::sprintf('COM_USERS_DEBUG_EXPLICIT_ALLOW', '&#10003;');?></span>
 		<span class="check-d swatch"><?php echo JText::sprintf('COM_USERS_DEBUG_EXPLICIT_DENY', '&#10007;');?></span>
@@ -84,7 +83,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</th>
 				<?php foreach ($this->actions as $key => $action) : ?>
 				<th class="width-5">
-					<span class="hasTooltip" title="<?php echo JHtml::tooltipText($key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
+					<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', $key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
 				</th>
 				<?php endforeach; ?>
 				<th class="width-5 nowrap">
@@ -108,20 +107,20 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<?php foreach ($this->actions as $action) : ?>
 					<?php
-					$name	= $action[0];
-					$check	= $item->checks[$name];
+					$name  = $action[0];
+					$check = $item->checks[$name];
 					if ($check === true) :
-						$class	= 'check-a';
-						$text	= '&#10003;';
+						$class = 'check-a';
+						$text  = '&#10003;';
 					elseif ($check === false) :
-						$class	= 'check-d';
-						$text	= '&#10007;';
+						$class = 'check-d';
+						$text  = '&#10007;';
 					elseif ($check === null) :
-						$class	= 'check-0';
-						$text	= '-';
+						$class = 'check-0';
+						$text  = '-';
 					else :
-						$class	= '';
-						$text	= '&#160;';
+						$class = '';
+						$text  = '&#160;';
 					endif;
 					?>
 				<td class="center <?php echo $class;?>">

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.7"
 	client="installation">
-	<name>Polski (PL)</name>
-	<version>3.2.0</version>
-	<creationDate>15/10/2012</creationDate>
-	<author>Polskie Centrum Joomla!: joomla.pl</author>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<name>Polish (PL)</name>
+	<version>3.7.0</version>
+	<creationDate>31-03-2017</creationDate>
+	<author>Polskie Centrum Joomla!</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>pl-PL.ini</filename>
 	</files>
 	<metadata>
-		<name>Polski (PL)</name>
+		<name>Polish (PL)</name>
+		<nativeName>Polski (PL)</nativeName>
 		<tag>pl-PL</tag>
 		<rtl>0</rtl>
 	</metadata>

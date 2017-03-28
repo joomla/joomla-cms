@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Messages Component Message Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesControllerMessage extends JControllerForm
 {
@@ -23,10 +21,12 @@ class MessagesControllerMessage extends JControllerForm
 	 *
 	 * Adjusts for the primary key name and hands off to the parent class.
 	 *
-	 * @param   array  An array of input data.
-	 * @param   string	The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
+	 *
+	 * @since   1.6
 	 */
 	protected function allowSave($data, $key = 'message_id')
 	{
@@ -37,6 +37,10 @@ class MessagesControllerMessage extends JControllerForm
 	 * Reply to an existing message.
 	 *
 	 * This is a simple redirect to the compose form.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function reply()
 	{

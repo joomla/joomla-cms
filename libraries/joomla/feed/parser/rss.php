@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RSS Feed Parser class.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @link        http://cyber.law.harvard.edu/rss/rss.html
- * @since       12.3
+ * @link   http://cyber.law.harvard.edu/rss/rss.html
+ * @since  12.3
  */
 class JFeedParserRss extends JFeedParser
 {
@@ -32,7 +30,7 @@ class JFeedParserRss extends JFeedParser
 	protected $version;
 
 	/**
-	 * Method to handle the <category> element for the feed.
+	 * Method to handle the `<category>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -51,7 +49,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <cloud> element for the feed.
+	 * Method to handle the `<cloud>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -73,7 +71,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <copyright> element for the feed.
+	 * Method to handle the `<copyright>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -88,7 +86,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <description> element for the feed.
+	 * Method to handle the `<description>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -103,7 +101,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <generator> element for the feed.
+	 * Method to handle the `<generator>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -118,7 +116,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <image> element for the feed.
+	 * Method to handle the `<image>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -148,7 +146,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <language> element for the feed.
+	 * Method to handle the `<language>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -163,7 +161,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <lastBuildDate> element for the feed.
+	 * Method to handle the `<lastBuildDate>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -178,7 +176,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <link> element for the feed.
+	 * Method to handle the `<link>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -195,7 +193,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <managingEditor> element for the feed.
+	 * Method to handle the `<managingEditor>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -210,7 +208,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <skipDays> element for the feed.
+	 * Method to handle the `<skipDays>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -234,7 +232,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <skipHours> element for the feed.
+	 * Method to handle the `<skipHours>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -258,7 +256,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <pubDate> element for the feed.
+	 * Method to handle the `<pubDate>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -273,7 +271,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <title> element for the feed.
+	 * Method to handle the `<title>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -288,7 +286,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <ttl> element for the feed.
+	 * Method to handle the `<ttl>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -303,7 +301,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the <webmaster> element for the feed.
+	 * Method to handle the `<webmaster>` element for the feed.
 	 *
 	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
 	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
@@ -350,7 +348,7 @@ class JFeedParserRss extends JFeedParser
 	}
 
 	/**
-	 * Method to handle the feed entry element for the feed: <item>.
+	 * Method to handle a `<item>` element for the feed.
 	 *
 	 * @param   JFeedEntry        $entry  The JFeedEntry object being built from the parsed feed entry.
 	 * @param   SimpleXMLElement  $el     The current XML element object to handle.

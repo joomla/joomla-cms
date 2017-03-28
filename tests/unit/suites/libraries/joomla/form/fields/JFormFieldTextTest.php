@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,7 +41,7 @@ class JFormFieldTextTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 
@@ -128,9 +128,11 @@ class JFormFieldTextTest extends TestCase
 			TestReflection::setValue($formField, $attr, $value);
 		}
 
+		$replaces = array("\n", "\r"," ", "\t");
+
 		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formField, 'getInput'),
+			str_replace($replaces, '', TestReflection::invoke($formField, 'getInput')),
+			str_replace($replaces, '', $expected),
 			'Line:' . __LINE__ . ' The field did not produce the right html'
 		);
 	}

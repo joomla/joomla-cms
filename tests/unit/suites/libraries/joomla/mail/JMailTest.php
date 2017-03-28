@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,82 +43,8 @@ class JMailTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetInstance().
-	 *
-	 * @return void
-	 */
-	public function testGetInstance()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSend().
-	 *
-	 * @return void
-	 */
-	public function testSend()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetSender().
-	 *
-	 * @return void
-	 */
-	public function testSetSender()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetSubject().
-	 *
-	 * @return void
-	 */
-	public function testSetSubject()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetBody().
-	 *
-	 * @return void
-	 */
-	public function testSetBody()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -218,41 +144,39 @@ class JMailTest extends TestCase
 	/**
 	 * Tests the addCC method.
 	 *
-	 * @covers  JMail::addCC
+	 * @covers  JMail::addCc
 	 *
 	 * @return void
 	 */
-	public function testAddCC()
+	public function testAddCc()
 	{
 		$recipient = 'test@example.com';
 		$name = 'test_name';
 		$expected = array(array('test@example.com', 'test_name'));
 
-		$this->object->addCC($recipient, $name);
+		$this->object->addCc($recipient, $name);
 		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, 'cc')));
 	}
 
 	/**
 	 * Tests the addBCC method.
 	 *
-	 * @covers  JMail::addBCC
+	 * @covers  JMail::addBcc
 	 *
 	 * @return void
 	 */
-	public function testAddBCC()
+	public function testAddBcc()
 	{
 		$recipient = 'test@example.com';
 		$name = 'test_name';
 		$expected = array(array('test@example.com', 'test_name'));
 
-		$this->object->addBCC($recipient, $name);
+		$this->object->addBcc($recipient, $name);
 		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, 'bcc')));
 	}
 
 	/**
 	 * Test...
-	 *
-	 * @todo Implement testAddAttachment().
 	 *
 	 * @return void
 	 */
@@ -270,8 +194,8 @@ class JMailTest extends TestCase
 
 		foreach ($actual as $attach)
 		{
-			array_push($actual_attachments, $attach[0]);
-			array_push($actual_names, $attach[2]);
+			$actual_attachments[] = $attach[0];
+			$actual_names[]       = $attach[2];
 		}
 
 		$this->assertThat($attachments, $this->equalTo($actual_attachments));
@@ -302,26 +226,11 @@ class JMailTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testIsHTML()
+	public function testIsHtml()
 	{
 		$this->object->isHtml(false);
 
 		$this->assertThat('text/plain', $this->equalTo($this->object->ContentType));
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testUseSendmail().
-	 *
-	 * @return void
-	 */
-	public function testUseSendmail()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -331,7 +240,7 @@ class JMailTest extends TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function dataUseSMTP()
+	public function dataUseSmtp()
 	{
 		return array(
 			'SMTP without Authentication' => array(
@@ -366,49 +275,20 @@ class JMailTest extends TestCase
 	 *
 	 * @dataProvider  dataUseSMTP
 	 */
-	public function testUseSMTP($auth, $host, $user, $pass, $secure, $port, $expected)
+	public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
 	{
-		$mail = $this->getMock('JMail', array('SetLanguage', 'IsSMTP', 'IsMail'));
-
+		// Build the mock object.
+		$mail  = $this->getMockBuilder('JMail')
+					->setMethods(array('SetLanguage', 'IsSMTP', 'IsMail'))
+					->getMock();
 		$mail->expects(
 			$this->once()
 		)
 			->method($expected['called']);
 
 		$this->assertThat(
-			$mail->useSMTP($auth, $host, $user, $pass, $secure, $port),
+			$mail->useSmtp($auth, $host, $user, $pass, $secure, $port),
 			$this->equalTo($expected['return'])
 		);
 	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSendMail().
-	 *
-	 * @return void
-	 */
-	public function testSendMail()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSendAdminMail().
-	 *
-	 * @return void
-	 */
-	public function testSendAdminMail()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
 }

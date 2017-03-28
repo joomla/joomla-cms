@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,17 +63,25 @@ class JTwitterUsersTest extends TestCase
 	 * @var    string  Sample JSON string.
 	 * @since  12.3
 	 */
-	protected $rateLimit = '{"resources": {"users": {
-			"/users/lookup": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/profile_banner": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/search": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/show": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/contributees": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/contributors": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/suggestions": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/suggestions/:slug": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/suggestions/:slug/members": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"}
+	protected $rateLimit = '{"resources":{"users":{
+			"/users/profile_banner":{"limit":180,"remaining":180,"reset":1403602426},
+			"/users/suggestions/:slug/members":{"limit":15,"remaining":15,"reset":1403602426},
+			"/users/show/:id":{"limit":180,"remaining":180,"reset":1403602426},
+			"/users/suggestions":{"limit":15,"remaining":15,"reset":1403602426},
+			"/users/lookup":{"limit":180,"remaining":180,"reset":1403602426},
+			"/users/search":{"limit":180,"remaining":180,"reset":1403602426},
+			"/users/contributors":{"limit":15,"remaining":15,"reset":1403602426},
+			"/users/contributees":{"limit":15,"remaining":15,"reset":1403602426},
+			"/users/suggestions/:slug":{"limit":15,"remaining":15,"reset":1403602426}
 			}}}';
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -85,6 +93,7 @@ class JTwitterUsersTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -98,7 +107,7 @@ class JTwitterUsersTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->oauth = new JTwitterOAuth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
 
@@ -108,6 +117,26 @@ class JTwitterUsersTest extends TestCase
 		$this->options->set('consumer_secret', $secret);
 		$this->options->set('callback', $my_url);
 		$this->options->set('sendheaders', true);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->options);
+		unset($this->input);
+		unset($this->client);
+		unset($this->oauth);
+		unset($this->object);
 	}
 
 	/**

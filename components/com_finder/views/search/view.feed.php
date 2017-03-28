@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Search feed view class for the Finder package.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewSearch extends JViewLegacy
 {
@@ -70,7 +68,7 @@ class FinderViewSearch extends JViewLegacy
 		}
 
 		// Set the document link.
-		$this->document->link = JRoute::_($query->toURI());
+		$this->document->link = JRoute::_($query->toUri());
 
 		// If we don't have any results, we are done.
 		if (empty($results))
@@ -86,7 +84,7 @@ class FinderViewSearch extends JViewLegacy
 			$item->title       = $result->title;
 			$item->link        = JRoute::_($result->route);
 			$item->description = $result->description;
-			$item->date        = (int) $result->start_date ? JHtml::date($result->start_date, 'l d F Y') : $result->indexdate;
+			$item->date        = (int) $result->start_date ? JHtml::_('date', $result->start_date, 'l d F Y') : $result->indexdate;
 
 			// Get the taxonomy data.
 			$taxonomy = $result->getTaxonomy();

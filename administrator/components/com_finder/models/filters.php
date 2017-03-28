@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Filters model class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelFilters extends JModelList
 {
@@ -24,7 +22,7 @@ class FinderModelFilters extends JModelList
 	 * @param   array  $config  An associative array of configuration settings. [optional]
 	 *
 	 * @since   2.5
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -57,30 +55,33 @@ class FinderModelFilters extends JModelList
 
 		// Select all fields from the table.
 		$query->select('a.*')
-			->from($db->quoteName('#__finder_filters') . ' AS a');
+			->from($db->quoteName('#__finder_filters', 'a'));
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', $db->quoteName('#__users') . ' AS uc ON uc.id=a.checked_out');
+		$query->select($db->quoteName('uc.name', 'editor'))
+			->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON ' . $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
 		// Join over the users for the author.
-		$query->select('ua.name AS user_name')
-			->join('LEFT', $db->quoteName('#__users') . ' AS ua ON ua.id = a.created_by');
+		$query->select($db->quoteName('ua.name', 'user_name'))
+			->join('LEFT', $db->quoteName('#__users', 'ua') . ' ON ' . $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'));
 
 		// Check for a search filter.
-		if ($this->getState('filter.search'))
+		if ($search = $this->getState('filter.search'))
 		{
-			$query->where('( a.title LIKE \'%' . $db->escape($this->getState('filter.search')) . '%\' )');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where($db->quoteName('a.title') . ' LIKE ' . $search);
 		}
 
 		// If the model is set to check item state, add to the query.
-		if (is_numeric($this->getState('filter.state')))
+		$state = $this->getState('filter.state');
+
+		if (is_numeric($state))
 		{
-			$query->where('a.state = ' . (int) $this->getState('filter.state'));
+			$query->where($db->quoteName('a.state') . ' = ' . (int) $state);
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering') . ' ' . $db->escape($this->getState('list.direction'))));
+		$query->order($db->escape($this->getState('list.ordering', 'a.title') . ' ' . $db->escape($this->getState('list.direction', 'ASC'))));
 
 		return $query;
 	}
@@ -117,20 +118,17 @@ class FinderModelFilters extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.title', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_finder');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 }

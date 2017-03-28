@@ -3,37 +3,37 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla! Administrator Application class
  *
- * @package     Joomla.Libraries
- * @subpackage  Application
- * @since       3.2
+ * @since  3.2
  */
 class JApplicationAdministrator extends JApplicationCms
 {
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
-	 *                          input object.  If the argument is a JInput object that object will become
-	 *                          the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config  An optional argument to provide dependency injection for the application's
-	 *                          config object.  If the argument is a JRegistry object that object will become
-	 *                          the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $client  An optional argument to provide dependency injection for the application's
-	 *                          client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                          the application's client object, otherwise a default client object is created.
+	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a JInput object that object will become
+	 *                                          the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
+	 *                                          config object.  If the argument is a Registry object that object will become
+	 *                                          the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
 		// Register the application name
 		$this->_name = 'administrator';
@@ -45,7 +45,7 @@ class JApplicationAdministrator extends JApplicationCms
 		parent::__construct($input, $config, $client);
 
 		// Set the root in the URI based on the application name
-		JUri::root(null, str_ireplace('/' . $this->getName(), '', JUri::base(true)));
+		JUri::root(null, rtrim(dirname(JUri::base(true)), '/\\'));
 	}
 
 	/**
@@ -112,8 +112,12 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	protected function doExecute()
 	{
+		// Get the language from the (login) form or user state
+		$login_lang = ($this->input->get('option') == 'com_login') ? $this->input->get('lang') : '';
+		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
+
 		// Initialise the application
-		$this->initialiseApp(array('language' => $this->getUserState('application.lang')));
+		$this->initialiseApp($options);
 
 		// Test for magic quotes
 		if (get_magic_quotes_gpc())
@@ -146,7 +150,7 @@ class JApplicationAdministrator extends JApplicationCms
 		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
 		 * ex: due of the sef urls
 		 */
-		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'profile.save,profile.apply');
+		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'com_admin/profile.save,com_admin/profile.apply,com_login/logout');
 
 		// Dispatch the application
 		$this->dispatch();
@@ -212,12 +216,12 @@ class JApplicationAdministrator extends JApplicationCms
 		$template = $db->loadObject();
 
 		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
-		$template->params = new JRegistry($template->params);
+		$template->params = new Registry($template->params);
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
 			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
-			$template->params = new JRegistry;
+			$template->params = new Registry;
 			$template->template = 'isis';
 		}
 
@@ -263,7 +267,7 @@ class JApplicationAdministrator extends JApplicationCms
 			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -275,11 +279,11 @@ class JApplicationAdministrator extends JApplicationCms
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language']))
+		if (!JLanguageHelper::exists($options['language']))
 		{
 			$lang = $this->get('language', 'en-GB');
 
-			if (JLanguage::exists($lang))
+			if (JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -292,9 +296,6 @@ class JApplicationAdministrator extends JApplicationCms
 
 		// Finish initialisation
 		parent::initialiseApp($options);
-
-		// Load Library language
-		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
@@ -328,9 +329,13 @@ class JApplicationAdministrator extends JApplicationCms
 
 		if (!($result instanceof Exception))
 		{
-			$lang = $this->input->getCmd('lang', 'en-GB');
+			$lang = $this->input->getCmd('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
-			$this->setUserState('application.lang', $lang);
+
+			if ($lang)
+			{
+				$this->setUserState('application.lang', $lang);
+			}
 
 			static::purgeMessages();
 		}
@@ -379,7 +384,7 @@ class JApplicationAdministrator extends JApplicationCms
 
 			$query->clear()
 				->delete($db->quoteName('#__messages'))
-				->where($db->quoteName('date_time') . ' < ' . $db->Quote($pastStamp), 'AND')
+				->where($db->quoteName('date_time') . ' < ' . $db->quote($pastStamp), 'AND')
 				->where($db->quoteName('user_id_to') . ' = ' . (int) $userid, 'AND');
 			$db->setQuery($query);
 			$db->execute();
@@ -411,8 +416,7 @@ class JApplicationAdministrator extends JApplicationCms
 		$this->set('themeFile', $file . '.php');
 
 		// Safety check for when configuration.php root_user is in use.
-		$config = JFactory::getConfig();
-		$rootUser = $config->get('root_user');
+		$rootUser = $this->get('root_user');
 
 		if (property_exists('JConfig', 'root_user')
 			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
@@ -420,7 +424,7 @@ class JApplicationAdministrator extends JApplicationCms
 			$this->enqueueMessage(
 				JText::sprintf(
 					'JWARNING_REMOVE_ROOT_USER',
-					'index.php?option=com_config&task=application.removeroot&' . JSession::getFormToken() . '=1'
+					'index.php?option=com_config&task=config.removeroot&' . JSession::getFormToken() . '=1'
 				),
 				'notice'
 			);
@@ -449,7 +453,7 @@ class JApplicationAdministrator extends JApplicationCms
 		{
 			// Forward to https
 			$uri->setScheme('https');
-			$this->redirect((string) $uri);
+			$this->redirect((string) $uri, 301);
 		}
 
 		// Trigger the onAfterRoute event.

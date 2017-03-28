@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Exception
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,28 +12,35 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Exception object.
  *
- * @package     Joomla.Legacy
- * @subpackage  Exception
- * @since       11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS)
+ * @since       1.5
+ * @deprecated  1.7
  */
 class JException extends Exception
 {
 	/**
-	 * @var    string  Error level.
-	 * @since  11.1
+	 * Error level.
+	 *
+	 * @var    string
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $level = null;
 
 	/**
-	 * @var    string  Error code.
-	 * @since  11.1
+	 * Error code.
+	 *
+	 * @var    string
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $code = null;
 
 	/**
-	 * @var    string  Error message.
-	 * @since  11.1
+	 * Error message.
+	 *
+	 * @var    string
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $message = null;
 
@@ -42,7 +49,8 @@ class JException extends Exception
 	 * for example, if a database connect fails, the dsn used
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $info = '';
 
@@ -50,15 +58,17 @@ class JException extends Exception
 	 * Name of the file the error occurred in [Available if backtrace is enabled]
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $file = null;
 
 	/**
 	 * Line number the error occurred in [Available if backtrace is enabled]
 	 *
-	 * @var    int
-	 * @since  11.1
+	 * @var    integer
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $line = 0;
 
@@ -66,7 +76,8 @@ class JException extends Exception
 	 * Name of the method the error occurred in [Available if backtrace is enabled]
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $function = null;
 
@@ -74,43 +85,57 @@ class JException extends Exception
 	 * Name of the class the error occurred in [Available if backtrace is enabled]
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $class = null;
 
 	/**
 	 * @var    string  Error type.
-	 * @since  11.1
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $type = null;
 
 	/**
-	 * Arguments recieved by the method the error occurred in [Available if backtrace is enabled]
+	 * Arguments received by the method the error occurred in [Available if backtrace is enabled]
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $args = array();
 
 	/**
-	 * @var    mixed  Backtrace information.
-	 * @since  11.1
+	 * Backtrace information.
+	 *
+	 * @var    mixed
+	 * @since  1.5
+	 * @deprecated  1.7
 	 */
 	protected $backtrace = null;
+
+	/**
+	 * Container holding the error messages
+	 *
+	 * @var    string[]
+	 * @since  1.6
+	 * @deprecated  1.7
+	 */
+	protected $_errors = array();
 
 	/**
 	 * Constructor
 	 * - used to set up the error with all needed error details.
 	 *
 	 * @param   string   $msg        The error message
-	 * @param   string   $code       The error code from the application
+	 * @param   integer  $code       The error code from the application
 	 * @param   integer  $level      The error level (use the PHP constants E_ALL, E_NOTICE etc.).
 	 * @param   string   $info       Optional: The additional error information.
 	 * @param   boolean  $backtrace  True if backtrace information is to be collected
 	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
+	 * @since   1.5
+	 * @deprecated  1.7
 	 */
 	public function __construct($msg, $code = 0, $level = null, $info = null, $backtrace = false)
 	{
@@ -132,32 +157,39 @@ class JException extends Exception
 			for ($i = count($this->backtrace) - 1; $i >= 0; --$i)
 			{
 				++$i;
+
 				if (isset($this->backtrace[$i]['file']))
 				{
 					$this->file = $this->backtrace[$i]['file'];
 				}
+
 				if (isset($this->backtrace[$i]['line']))
 				{
 					$this->line = $this->backtrace[$i]['line'];
 				}
+
 				if (isset($this->backtrace[$i]['class']))
 				{
 					$this->class = $this->backtrace[$i]['class'];
 				}
+
 				if (isset($this->backtrace[$i]['function']))
 				{
 					$this->function = $this->backtrace[$i]['function'];
 				}
+
 				if (isset($this->backtrace[$i]['type']))
 				{
 					$this->type = $this->backtrace[$i]['type'];
 				}
 
 				$this->args = false;
+
 				if (isset($this->backtrace[$i]['args']))
 				{
 					$this->args = $this->backtrace[$i]['args'];
 				}
+
 				break;
 			}
 		}
@@ -173,9 +205,8 @@ class JException extends Exception
 	 *
 	 * @return  string  Error message
 	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
+	 * @since   1.6
+	 * @deprecated  1.7
 	 */
 	public function __toString()
 	{
@@ -189,8 +220,8 @@ class JException extends Exception
 	 *
 	 * @return  string   Error message
 	 *
-	 * @since   11.1
-	 * @deprecated    12.1
+	 * @since   1.5
+	 * @deprecated  1.7
 	 */
 	public function toString()
 	{
@@ -207,9 +238,9 @@ class JException extends Exception
 	 *
 	 * @return  mixed  The value of the property or null
 	 *
-	 * @deprecated  12.1
-	 * @see         JException::getProperties()
-	 * @since       11.1
+	 * @since   1.6
+	 * @deprecated  1.7
+	 * @see     JException::getProperties()
 	 */
 	public function get($property, $default = null)
 	{
@@ -219,6 +250,7 @@ class JException extends Exception
 		{
 			return $this->$property;
 		}
+
 		return $default;
 	}
 
@@ -229,15 +261,16 @@ class JException extends Exception
 	 *
 	 * @return  array  Object properties
 	 *
-	 * @deprecated    12.1
+	 * @since   1.6
+	 * @deprecated  1.7
 	 * @see     JException::get()
-	 * @since   11.1
 	 */
 	public function getProperties($public = true)
 	{
 		JLog::add('JException::getProperties is deprecated.', JLog::WARNING, 'deprecated');
 
 		$vars = get_object_vars($this);
+
 		if ($public)
 		{
 			foreach ($vars as $key => $value)
@@ -248,6 +281,7 @@ class JException extends Exception
 				}
 			}
 		}
+
 		return $vars;
 	}
 
@@ -259,9 +293,8 @@ class JException extends Exception
 	 *
 	 * @return  string  Error message
 	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
+	 * @since   1.6
+	 * @deprecated  1.7
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -297,9 +330,8 @@ class JException extends Exception
 	 *
 	 * @return  array  Array of error messages or JErrors
 	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
+	 * @since   1.6
+	 * @deprecated  1.7
 	 */
 	public function getErrors()
 	{
@@ -316,9 +348,9 @@ class JException extends Exception
 	 *
 	 * @return  mixed  Previous value of the property
 	 *
-	 * @deprecated  12.1
-	 * @see         JException::setProperties()
-	 * @since       11.1
+	 * @since   1.6
+	 * @deprecated  1.7
+	 * @see     JException::setProperties()
 	 */
 	public function set($property, $value = null)
 	{
@@ -326,6 +358,7 @@ class JException extends Exception
 
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
+
 		return $previous;
 	}
 
@@ -336,9 +369,9 @@ class JException extends Exception
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  12.1
-	 * @see         JException::set()
-	 * @since       11.1
+	 * @since   1.6
+	 * @deprecated  1.7
+	 * @see     JException::set()
 	 */
 	public function setProperties($properties)
 	{
@@ -367,14 +400,13 @@ class JException extends Exception
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
+	 * @since   1.6
+	 * @deprecated  1.7
 	 */
 	public function setError($error)
 	{
 		JLog::add('JException::setErrors is deprecated.', JLog::WARNING, 'deprecated');
 
-		array_push($this->_errors, $error);
+		$this->_errors[] = $error;
 	}
 }

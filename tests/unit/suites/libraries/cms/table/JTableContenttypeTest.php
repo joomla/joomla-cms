@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,6 +38,20 @@ class JTableContenttypeTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
@@ -54,49 +68,47 @@ class JTableContenttypeTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests JTableContenttype::check with an empty dataset
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 * @expectedException         UnexpectedValueException
+	 * @expectedExceptionMessage  The title is empty
+	 */
+	public function testCheckFailsWithAnEmptyDataSet()
+	{
+		$this->object->check();
+	}
+
+	/**
+	 * Tests JTableContenttype::check with an empty alias
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 * @expectedException         UnexpectedValueException
+	 * @expectedExceptionMessage  The type_alias is empty
+	 */
+	public function testCheckFailsWithAnEmptyAlias()
+	{
+		$this->object->type_title = 'Unit Test';
+		$this->object->check();
+	}
+
+	/**
 	 * Tests JTableContenttype::check
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public function testCheck()
+	public function testCheckSucceedsWithMinimumRequiredData()
 	{
-		$table = $this->object;
+		$this->object->type_title = 'Unit Test';
+		$this->object->type_alias = 'com_unit.test';
 
-		try
-		{
-			$table->check();
-		}
-		catch (UnexpectedValueException $e)
-		{
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo('The title is empty')
-			);
-		}
-
-		$table->type_title = 'Unit Test';
-
-		try
-		{
-			$table->check();
-		}
-		catch (UnexpectedValueException $e)
-		{
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo('The type_alias is empty')
-			);
-		}
-
-		$table->type_alias = 'com_unit.test';
-
-		$this->assertThat(
-			$table->check(),
-			$this->isTrue(),
-			'Line: ' . __LINE__ . ' The check function should complete without issue.'
-		);
+		$this->assertTrue($this->object->check());
 	}
 
 	/**
@@ -106,22 +118,24 @@ class JTableContenttypeTest extends TestCaseDatabase
 	 *
 	 * @since   3.1
 	 */
-	public function testStore()
+	public function testStoreFailsWithADuplicateAlias()
 	{
-		$table = $this->object;
+		$this->object->type_title = 'Content';
+		$this->object->type_alias = 'com_content.article';
+		$this->assertFalse($this->object->store());
+	}
 
-		// Store a new language
-		$table->type_title = 'Content';
-		$table->type_alias = 'com_content.article';
-		$this->assertFalse(
-			$table->store(),
-			'Line: ' . __LINE__ . ' Table store should fail due to a duplicated type_alias field.'
-		);
-		$table->type_title = 'Unit Test Item';
-		$table->type_alias = 'com_test.item';
-		$this->assertTrue(
-			$table->store(),
-		'Line: ' . __LINE__ . ' Table store should successfully insert a record for the unit test item.'
-		);
+	/**
+	 * Tests JTableContenttype::store
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testStoreSucceedsWithCorrectDatay()
+	{
+		$this->object->type_title = 'Unit Test Item';
+		$this->object->type_alias = 'com_test.item';
+		$this->assertTrue($this->object->store());
 	}
 }

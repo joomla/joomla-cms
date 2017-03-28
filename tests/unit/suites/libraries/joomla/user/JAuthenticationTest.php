@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/user/authentication.php';
 
 /**
  * Tests for the JAuthentication class.
@@ -27,6 +25,14 @@ class JAuthenticationTest extends TestCase
 	protected $object;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.4.4
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture.
 	 *
 	 * This method is called before a test is executed.
@@ -38,6 +44,8 @@ class JAuthenticationTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
+
+		$this->backupServer = $_SERVER;
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '';
@@ -72,7 +80,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()
@@ -82,6 +90,8 @@ class JAuthenticationTest extends TestCase
 
 		// Reset the loaded plugins.
 		TestReflection::setValue('JPluginHelper', 'plugins', null);
+
+		$_SERVER = $this->backupServer;
 
 		parent::tearDown();
 	}
@@ -96,7 +106,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @since  11.3
 	 */
-	public function mockTrigger($event, $args = array())
+	public static function mockTrigger($event, $args = array())
 	{
 		switch ($event)
 		{
@@ -273,10 +283,9 @@ class JAuthenticationTest extends TestCase
 	 */
 	public function testAuthorise($input, $expect, $message)
 	{
-		$authentication = JAuthentication::getInstance();
 		$this->assertEquals(
 			$expect,
-			$authentication->authorise($input),
+			JAuthentication::authorise($input),
 			$message
 		);
 	}

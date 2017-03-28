@@ -2,12 +2,15 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set flag that this is a parent file.
 const _JEXEC = 1;
+
+// Set fixed precision value to avoid round related issues
+ini_set('precision', 14);
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -28,8 +31,7 @@ require_once JPATH_LIBRARIES . '/cms.php';
 /**
  * This script will recompile the CSS files for templates using Less to build their stylesheets.
  *
- * @package  Joomla.Build
- * @since    3.0
+ * @since  3.0
  */
 class GenerateCss extends JApplicationCli
 {
@@ -56,14 +58,8 @@ class GenerateCss extends JApplicationCli
 			__DIR__ . '/less/bootstrap-rtl.less' => JPATH_SITE . '/media/jui/css/bootstrap-rtl.css'
 		);
 
-		// Load the RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			require_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
-		$less = new FOFLess;
-		$less->setFormatter(new FOFLessFormatterJoomla);
+		$less = new JLess;
+		$less->setFormatter(new JLessFormatterJoomla);
 
 		foreach ($templates as $source => $output)
 		{

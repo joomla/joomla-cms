@@ -1,4 +1,4 @@
-tinymce.addI18n('zh_TW',{
+tinymce.addI18n('zh-TW',{
 "Cut": "\u526a\u4e0b",
 "Header 2": "\u6a19\u984c 2",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "\u60a8\u7684\u700f\u89bd\u5668\u4e0d\u652f\u63f4\u5b58\u53d6\u526a\u8cbc\u7c3f\uff0c\u53ef\u4ee5\u4f7f\u7528\u5feb\u901f\u9375 Ctrl + X\/C\/V \u4ee3\u66ff\u526a\u4e0b\u3001\u8907\u88fd\u8207\u8cbc\u4e0a\u3002",

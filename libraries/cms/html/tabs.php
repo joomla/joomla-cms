@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Tabs elements.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
  * @since       1.6
+ * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
  */
 abstract class JHtmlTabs
 {
@@ -27,6 +26,7 @@ abstract class JHtmlTabs
 	 * @return  string
 	 *
 	 * @since   1.6
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function start($group = 'tabs', $params = array())
 	{
@@ -41,6 +41,7 @@ abstract class JHtmlTabs
 	 * @return  string  HTML to close the pane
 	 *
 	 * @since   1.6
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function end()
 	{
@@ -56,6 +57,7 @@ abstract class JHtmlTabs
 	 * @return  string  HTML to start a new panel
 	 *
 	 * @since   1.6
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	public static function panel($text, $id)
 	{
@@ -71,6 +73,7 @@ abstract class JHtmlTabs
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @deprecated  3.7.0 These helpers are dependent on the deprecated MooTools support
 	 */
 	protected static function loadBehavior($group, $params = array())
 	{
@@ -81,12 +84,14 @@ abstract class JHtmlTabs
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
 
-			$opt['onActive']            = (isset($params['onActive'])) ? '\\' . $params['onActive'] : null;
-			$opt['onBackground']        = (isset($params['onBackground'])) ? '\\' . $params['onBackground'] : null;
-			$opt['display']             = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
-			$opt['useStorage']          = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : 'false';
-			$opt['titleSelector']       = "dt.tabs";
-			$opt['descriptionSelector'] = "dd.tabs";
+			$opt['onActive']            = isset($params['onActive']) ? '\\' . $params['onActive'] : null;
+			$opt['onBackground']        = isset($params['onBackground']) ? '\\' . $params['onBackground'] : null;
+			$opt['display']             = isset($params['startOffset']) ? (int) $params['startOffset'] : null;
+			$opt['titleSelector']       = 'dt.tabs';
+			$opt['descriptionSelector'] = 'dd.tabs';
+
+			// When use storage is set and value is false - By default we allow to use storage
+			$opt['useStorage'] = (isset($params['useCookie']) && !$params['useCookie']) ? false : true;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -98,7 +103,7 @@ abstract class JHtmlTabs
 
 			$document = JFactory::getDocument();
 			$document->addScriptDeclaration($js);
-			JHtml::_('script', 'system/tabs.js', false, true);
+			JHtml::_('script', 'system/tabs.js', array('version' => 'auto', 'relative' => true));
 
 			$loaded[(string) $group] = true;
 		}

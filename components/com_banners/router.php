@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_banners
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
- * @since       3.3
+ * @since  3.3
  */
 class BannersRouter extends JComponentRouterBase
 {
@@ -117,7 +115,7 @@ class BannersRouter extends JComponentRouterBase
  * @since   3.3
  * @deprecated  4.0  Use Class based routers instead
  */
-function BannersBuildRoute(&$query)
+function bannersBuildRoute(&$query)
 {
 	$router = new BannersRouter;
 
@@ -137,7 +135,7 @@ function BannersBuildRoute(&$query)
  * @since   3.3
  * @deprecated  4.0  Use Class based routers instead
  */
-function BannersParseRoute($segments)
+function bannersParseRoute($segments)
 {
 	$router = new BannersRouter;
 

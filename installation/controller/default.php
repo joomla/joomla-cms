@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Default controller class for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerDefault extends JControllerBase
 {
@@ -38,20 +36,20 @@ class InstallationControllerDefault extends JControllerBase
 		if (file_exists(JPATH_CONFIGURATION . '/configuration.php') && (filesize(JPATH_CONFIGURATION . '/configuration.php') > 10)
 			&& file_exists(JPATH_INSTALLATION . '/index.php'))
 		{
-			$default_view = 'remove';
+			$defaultView = 'remove';
 		}
 		else
 		{
-			$default_view = 'site';
+			$defaultView = 'site';
 		}
 
-		$vName   = $this->input->getWord('view', $default_view);
+		$vName   = $this->input->getWord('view', $defaultView);
 		$vFormat = $document->getType();
 		$lName   = $this->input->getWord('layout', 'default');
 
-		if (strcmp($vName, $default_view) == 0)
+		if (strcmp($vName, $defaultView) == 0)
 		{
-			$this->input->set('view', $default_view);
+			$this->input->set('view', $defaultView);
 		}
 
 		switch ($vName)
@@ -60,7 +58,7 @@ class InstallationControllerDefault extends JControllerBase
 				$model        = new InstallationModelSetup;
 				$sufficient   = $model->getPhpOptionsSufficient();
 				$checkOptions = false;
-				$options = $model->getOptions();
+				$options      = $model->getOptions();
 
 				if ($sufficient)
 				{
@@ -71,16 +69,17 @@ class InstallationControllerDefault extends JControllerBase
 
 			case 'languages':
 			case 'defaultlanguage':
-				$model = new InstallationModelLanguages;
+				$model        = new InstallationModelLanguages;
 				$checkOptions = false;
-				$options = array();
+				$options      = array();
+
 				break;
 
 			default:
 				$model        = new InstallationModelSetup;
 				$sufficient   = $model->getPhpOptionsSufficient();
 				$checkOptions = true;
-				$options = $model->getOptions();
+				$options      = $model->getOptions();
 
 				if (!$sufficient)
 				{
@@ -90,13 +89,10 @@ class InstallationControllerDefault extends JControllerBase
 				break;
 		}
 
-		if ($vName != $default_view && ($checkOptions && empty($options)))
+		if ($vName != $defaultView && ($checkOptions && empty($options)))
 		{
-			$this->setRedirect('index.php');
+			$app->redirect('index.php');
 		}
-
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helper/html');
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;

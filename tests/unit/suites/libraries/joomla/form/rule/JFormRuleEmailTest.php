@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,43 +17,32 @@
 class JFormRuleEmailTest extends TestCase
 {
 	/**
-	 * Test the JFormRuleEmail::test method.
+	 * Test if a valid EMail is accepted by the JFormRuleEmail::test method.
 	 *
 	 * @return void
 	 */
-	public function testEmail()
+	public function testValidEmail()
+	{
+		$rule = new JFormRuleEmail;
+		$xml = simplexml_load_string('<form><field name="email1" /><field name="email2" unique="true" /></form>');
+
+		$this->assertTrue($rule->test($xml->field[0], 'me@example.com'));
+	}
+
+	/**
+	 * Test if an invalid Email result in false for the testing method JFormRuleEmail::test method.
+	 *
+	 * @return void
+	 */
+	public function testAnInvalidEmail()
 	{
 		$rule = new JFormRuleEmail;
 		$xml = simplexml_load_string('<form><field name="email1" /><field name="email2" unique="true" /></form>');
 
 		// Test fail conditions.
-
-		$this->assertThat(
-			$rule->test($xml->field[0], 'bogus'),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' The rule should fail and return false.'
-		);
-
-		// Test pass conditions.
-
-		$this->assertThat(
-			$rule->test($xml->field[0], 'me@example.com'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The basic rule should pass and return true.'
-		);
-
-		$this->markTestIncomplete('More tests required');
-
-		/*
-		 TODO: Need to test the "field" attribute which adds to the unique test where clause.
-		 TODO: Database error is prevents the following tests from working properly.
-		*/
-		$this->assertThat(
-			$rule->test($xml->field[1], 'me@example.com'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The unique rule should pass and return true.'
-		);
+		$this->assertFalse($rule->test($xml->field[0], 'ThisIsNotALoveSong'));
 	}
+
 
 	/**
 	 * Data Provider  for email rule test with no multiple attribute and no tld attribute
@@ -137,6 +126,7 @@ class JFormRuleEmailTest extends TestCase
 			$emailAddress . ' should have returned ' . ($expectedResult ? 'true' : 'false') . ' but did not'
 		);
 	}
+
 	/**
 	 * Data Provider  for email rule test with tld attribute
 	 *
@@ -149,7 +139,7 @@ class JFormRuleEmailTest extends TestCase
 		return array(
 			array('test@example.com', true),
 			array('test3@localhost', false),
-			array('test3@example.c', false),
+			array('test3@example.c', true),
 			array('test3@example.ca', true),
 			array('test3@example.travel', true),
 		);

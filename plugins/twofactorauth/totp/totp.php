@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Two Factor Authentication using Google Authenticator TOTP Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Twofactorauth.totp
- * @since       3.2
+ * @since  3.2
  */
 class PlgTwofactorauthTotp extends JPlugin
 {
@@ -35,27 +33,6 @@ class PlgTwofactorauthTotp extends JPlugin
 	protected $methodName = 'totp';
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @since   3.2
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		parent::__construct($subject, $config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-	}
-
-	/**
 	 * This method returns the identification object for this two factor
 	 * authentication plugin.
 	 *
@@ -73,11 +50,11 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			$app = JFactory::getApplication();
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				$current_section = 2;
 			}
-			elseif ($app->isSite())
+			elseif ($app->isClient('site'))
 			{
 				$current_section = 1;
 			}
@@ -127,13 +104,13 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// These are used by Google Authenticator to tell accounts apart
 		$username = JFactory::getUser($user_id)->username;
-		$hostname = JFactory::getURI()->getHost();
+		$hostname = JUri::getInstance()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
 		$url = $totp->getUrl($username, $hostname, $secret);
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp = $otpConfig->method != 'totp';
+		$new_totp = $otpConfig->method !== 'totp';
 
 		// Start output buffering
 		@ob_start();
@@ -143,9 +120,9 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		JLoader::import('joomla.filesystem.file');
 
-		if (JFile::exists($path . 'form.php'))
+		if (JFile::exists($path . '/form.php'))
 		{
-			include_once $path . 'form.php';
+			include_once $path . '/form.php';
 		}
 		else
 		{
@@ -185,6 +162,12 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// Load raw data
 		$rawData = $input->get('jform', array(), 'array');
+
+		if (!isset($rawData['twofactor']['totp']))
+		{
+			return false;
+		}
+
 		$data = $rawData['twofactor']['totp'];
 
 		// Warn if the securitycode is empty

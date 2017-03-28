@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,7 @@ class JToolbarTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -52,6 +52,7 @@ class JToolbarTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		unset($this->object);
 
 		parent::tearDown();
 	}
@@ -166,19 +167,6 @@ class JToolbarTest extends TestCase
 		);
 	}
 
-	/**
-	 * @todo   Implement testRenderButton().
-	 */
-	public function testRenderButton()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testLoadButtonType().
-	 */
 	public function testLoadButtonType()
 	{
 		$this->assertThat(

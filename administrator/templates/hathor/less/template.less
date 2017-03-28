@@ -8,7 +8,11 @@
 @import "../../../../media/jui/less/component-animations.less";
 
 // Bootstrap Modals
-//@import "../../../../media/jui/less/modals.less";
+@import "modals.less";
+//@import "../../../../media/jui/less/modals.joomla.less";
+
+// Bootstrap Popovers
+@import "../../../../media/jui/less/popovers.less";
 
 // Icon Font
 @import "icomoon.less";
@@ -60,6 +64,8 @@ body {
 	font-size: 62.5%;
 	line-height: 1.5em;
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 body, td, th, span, a {
@@ -486,6 +492,15 @@ input#mm_subject {
 textarea#mm_message {
 	width: 100%;
 }
+textarea {
+	resize:both;
+}
+textarea.vert {
+	resize:vertical;
+}
+textarea.noResize {
+	resize:none;
+}
 
 /**
  * Pane Slider pane Toggler styles
@@ -739,7 +754,7 @@ p.tab-description {
 }
 
 #form-login {
-	float: right;
+	float: left;
 	padding: 1.1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1051,6 +1066,21 @@ fieldset.adminform-legacy span.faux-label {
 	min-width: 150px;
 	float: left;
 
+}
+
+
+fieldset.adminform,
+fieldset.panelform {
+	.input-prepend,
+	.input-append {
+		float: left;
+	}
+	.adminformlist .btn.modal,
+	.input-prepend > *,
+	.input-append > * {
+		float: none;
+		vertical-align: middle;
+	}
 }
 
 /* JParameter classes on radio button labels */
@@ -3039,6 +3069,9 @@ ul.helpmenu li {
 .menu-postinstall {
 	background-image: url(../images/menu/icon-16-generic.png);
 }
+.icon-32-cog {
+	background-image: url(../images/toolbar/icon-32-cog.png);
+}
 
 /**
  * Extra positioning rules for limited noscript keyboard accessibility
@@ -3201,6 +3234,7 @@ div#database-sliders {
 fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	min-height: 200px;
 }
 
 /* Installer Database */
@@ -3316,7 +3350,8 @@ fieldset.uploadform {
 }
 
 .row-striped .row-fluid {
-	width: 97%;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .row-striped .row-fluid [class*="span"] {
@@ -3505,4 +3540,18 @@ div.toggle-editor {
 }
 .text-center {
 	text-align: center;
+}
+.module-edit {
+	display: inline-block;
+}
+.break-word {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+.muted {
+	color: #999;
+}
+/* Popover minimum height - overwrite bootstrap default */
+.popover-content {
+    min-height: 33px;
 }

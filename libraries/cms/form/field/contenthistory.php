@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Field to select a user id from a modal list.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldContenthistory extends JFormField
 {
@@ -27,6 +25,41 @@ class JFormFieldContenthistory extends JFormField
 	public $type = 'ContentHistory';
 
 	/**
+	 * Layout to render the label
+	 *
+	 * @var  string
+	 */
+	protected $layout = 'joomla.form.field.contenthistory';
+
+	/**
+	 * Get the data that is going to be passed to the layout
+	 *
+	 * @return  array
+	 */
+	public function getLayoutData()
+	{
+		// Get the basic field data
+		$data = parent::getLayoutData();
+
+		$typeId = JTable::getInstance('Contenttype')->getTypeId($this->element['data-typeAlias']);
+		$itemId = $this->form->getValue('id');
+		$label  = JText::_('JTOOLBAR_VERSIONS');
+
+		$link   = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
+			. $this->id . '&amp;item_id=' . $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias='
+			. $this->element['data-typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
+
+		$extraData = array(
+				'type' => $typeId,
+				'item' => $itemId,
+				'label' => $label,
+				'link' => $link,
+		);
+
+		return array_merge($data, $extraData);
+	}
+
+	/**
 	 * Method to get the content history field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -35,23 +68,11 @@ class JFormFieldContenthistory extends JFormField
 	 */
 	protected function getInput()
 	{
-		$typeId = JTable::getInstance('Contenttype')->getTypeId($this->element['data-typeAlias']);
-		$itemId = $this->form->getValue('id');
-		$label = JText::_('JTOOLBAR_VERSIONS');
-		$html = array();
-		$link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
-			. $this->id . '&amp;item_id=' . $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias='
-			. $this->element['data-typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
 
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
-
-		$html[] = '		<a class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
-			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-		$html[] = '<i class="icon-archive"></i>';
-		$html[] = $label;
-		$html[] = '</a>';
-
-		return implode("\n", $html);
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 }

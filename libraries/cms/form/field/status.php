@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('predefinedlist');
 /**
  * Form Field to load a list of states
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldStatus extends JFormFieldPredefinedList
 {
@@ -39,6 +37,6 @@ class JFormFieldStatus extends JFormFieldPredefinedList
 		'0'  => 'JUNPUBLISHED',
 		'1'  => 'JPUBLISHED',
 		'2'  => 'JARCHIVED',
-		'*'  => 'JALL'
+		'*'  => 'JALL',
 	);
 }

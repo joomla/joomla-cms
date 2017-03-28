@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Version
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Version
  * @since       3.0
  */
-class JVersionTest extends PHPUnit_Framework_TestCase
+class JVersionTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Object under test
@@ -38,6 +38,20 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Tests the isCompatible method
 	 *
 	 * @return  void
@@ -46,11 +60,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsCompatible()
 	{
-		$this->assertThat(
-			$this->object->isCompatible('2.5'),
-			$this->isTrue(),
-			'Version 2.5 code should be compatible with 3.0.'
-		);
+		$this->assertTrue($this->object->isCompatible('2.5'));
 	}
 
 	/**
@@ -62,11 +72,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetHelpVersion()
 	{
-		$this->assertThat(
-			$this->object->getHelpVersion(),
-			$this->isType('string'),
-			'getHelpVersion should return a string with the version.'
-		);
+		$this->assertInternalType('string', $this->object->getHelpVersion());
 	}
 
 	/**
@@ -78,11 +84,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetShortVersion()
 	{
-		$this->assertThat(
-			$this->object->getShortVersion(),
-			$this->isType('string'),
-			'getShortVersion should return a string with the version.'
-		);
+		$this->assertEquals($this->object->RELEASE . '.' . $this->object->DEV_LEVEL, $this->object->getShortVersion());
 	}
 
 	/**
@@ -94,11 +96,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetLongVersion()
 	{
-		$this->assertThat(
-			$this->object->getLongVersion(),
-			$this->isType('string'),
-			'getLongVersion should return a string with the full version information.'
-		);
+		$this->assertInternalType('string', $this->object->getLongVersion());
 	}
 
 	/**
@@ -110,11 +108,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUserAgent_maskFalse()
 	{
-		$this->assertNotContains(
-			'Mozilla/5.0 ',
-			$this->object->getUserAgent(null, false, true),
-			'getUserAgent should return a string with the following information:Component=Framework+Mask different to Mozilla 5.0+Version'
-		);
+		$this->assertNotContains('Mozilla/5.0 ', $this->object->getUserAgent(null, false, true));
 	}
 
 	/**
@@ -126,11 +120,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUserAgent_maskTrue()
 	{
-		$this->assertContains(
-			'Mozilla/5.0 ',
-			$this->object->getUserAgent(null, true, true),
-			'getUserAgent should return a string with the following information:Component=Framework+Mask=Mozilla 5.0+Version'
-		);
+		$this->assertContains('Mozilla/5.0 ', $this->object->getUserAgent(null, true, true));
 	}
 
 	/**
@@ -142,11 +132,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUserAgent_ComponentNull()
 	{
-		$this->assertThat(
-			$this->object->getUserAgent(null, false, true),
-			$this->stringContains('Framework'),
-			'getUserAgent should return a string with the following information:Component=Framework+Mask different to Mozilla 5.0+Version'
-		);
+		$this->assertContains('Framework', $this->object->getUserAgent(null, false, true));
 	}
 
 	/**
@@ -158,10 +144,6 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUserAgent_ComponentNotNull()
 	{
-		$this->assertThat(
-			$this->object->getUserAgent('Component_test', false, true),
-			$this->stringContains('Component_test'),
-			'getUserAgent should return a string with the following information:Component=Component_Test+Mask different to Mozilla 5.0+Version'
-		);
+		$this->assertContains('Component_test', $this->object->getUserAgent('Component_test', false, true));
 	}
 }

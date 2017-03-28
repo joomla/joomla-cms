@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * This class provides a generic buffer stream.  It can be used to store/retrieve/manipulate
  * string buffers with the standard PHP filesystem I/O methods.
  *
- * @package     Joomla.Platform
- * @subpackage  Utilities
- * @since       11.1
+ * @since  11.1
  */
 class JBuffer
 {
@@ -151,48 +149,77 @@ class JBuffer
 	{
 		switch ($whence)
 		{
-			case SEEK_SET:
-				if ($offset < strlen($this->buffers[$this->name]) && $offset >= 0)
-				{
-					$this->position = $offset;
+			case SEEK_SET :
+				return $this->seek_set($offset);
 
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-				break;
+			case SEEK_CUR :
 
-			case SEEK_CUR:
-				if ($offset >= 0)
-				{
-					$this->position += $offset;
+				return $this->seek_cur($offset);
 
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-				break;
+			case SEEK_END :
 
-			case SEEK_END:
-				if (strlen($this->buffers[$this->name]) + $offset >= 0)
-				{
-					$this->position = strlen($this->buffers[$this->name]) + $offset;
-
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-				break;
-
-			default:
-				return false;
+				return $this->seek_end($offset);
 		}
+
+		return false;
+	}
+
+	/**
+	 * Set the position to the offset
+	 *
+	 * @param   integer  $offset  The offset in bytes
+	 *
+	 * @return bool
+	 */
+	protected function seek_set($offset)
+	{
+		if ($offset < 0 || $offset > strlen($this->buffers[$this->name]))
+		{
+			return false;
+		}
+
+		$this->position = $offset;
+
+		return true;
+	}
+
+	/**
+	 * Adds the offset to current position
+	 *
+	 * @param   integer  $offset  The offset in bytes
+	 *
+	 * @return bool
+	 */
+	protected function seek_cur($offset)
+	{
+		if ($offset < 0)
+		{
+			return false;
+		}
+
+		$this->position += $offset;
+
+		return true;
+	}
+
+	/**
+	 * Sets the position to the end of the current buffer + offset
+	 *
+	 * @param   integer  $offset  The offset in bytes
+	 *
+	 * @return bool
+	 */
+	protected function seek_end($offset)
+	{
+		$offset += strlen($this->buffers[$this->name]);
+		if ($offset < 0)
+		{
+			return false;
+		}
+
+		$this->position = $offset;
+
+		return true;
 	}
 }
 // Register the stream

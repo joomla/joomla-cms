@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Plugin helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Plugin
- * @since       1.5
+ * @since  1.5
  */
 abstract class JPluginHelper
 {
@@ -48,13 +46,13 @@ abstract class JPluginHelper
 			$temp = explode(':', $layout);
 			$template = ($temp[0] == '_') ? $template : $temp[0];
 			$layout = $temp[1];
-			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-		$bPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
-		$dPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/default.php';
+		$bPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
+		$dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath))
@@ -75,7 +73,7 @@ abstract class JPluginHelper
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
 	 *
-	 * @param   string  $type    The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
 	 * @param   string  $plugin  The plugin name.
 	 *
 	 * @return  mixed  An array of plugin data objects, or a plugin data object.
@@ -118,7 +116,7 @@ abstract class JPluginHelper
 	/**
 	 * Checks if a plugin is enabled.
 	 *
-	 * @param   string  $type    The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
 	 * @param   string  $plugin  The plugin name.
 	 *
 	 * @return  boolean
@@ -129,14 +127,14 @@ abstract class JPluginHelper
 	{
 		$result = static::getPlugin($type, $plugin);
 
-		return (!empty($result));
+		return !empty($result);
 	}
 
 	/**
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific plugin is loaded.
 	 *
-	 * @param   string            $type        The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string            $type        The plugin type, relates to the subdirectory in the plugins directory.
 	 * @param   string            $plugin      The plugin name.
 	 * @param   boolean           $autocreate  Autocreate the plugin.
 	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
@@ -254,7 +252,7 @@ abstract class JPluginHelper
 						}
 
 						// Instantiate and register the plugin.
-						new $className($dispatcher, (array) ($plugin));
+						new $className($dispatcher, (array) $plugin);
 					}
 				}
 			}
@@ -292,26 +290,34 @@ abstract class JPluginHelper
 			return static::$plugins;
 		}
 
-		$user = JFactory::getUser();
-		$cache = JFactory::getCache('com_plugins', '');
+		$levels = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 
-		$levels = implode(',', $user->getAuthorisedViewLevels());
+		/** @var JCacheControllerCallback $cache */
+		$cache = JFactory::getCache('com_plugins', 'callback');
 
-		if (!(static::$plugins = $cache->get($levels)))
+		$loader = function () use ($levels)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('folder AS type, element AS name, params')
+				->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
 				->from('#__extensions')
-				->where('enabled >= 1')
-				->where('type =' . $db->quote('plugin'))
-				->where('state >= 0')
+				->where('enabled = 1')
+				->where('type = ' . $db->quote('plugin'))
+				->where('state IN (0,1)')
 				->where('access IN (' . $levels . ')')
 				->order('ordering');
+			$db->setQuery($query);
 
-			static::$plugins = $db->setQuery($query)->loadObjectList();
+			return $db->loadObjectList();
+		};
 
-			$cache->store(static::$plugins, $levels);
+		try
+		{
+			static::$plugins = $cache->get($loader, array(), md5($levels), false);
+		}
+		catch (JCacheException $cacheException)
+		{
+			static::$plugins = $loader();
 		}
 
 		return static::$plugins;

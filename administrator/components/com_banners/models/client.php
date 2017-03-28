@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,17 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Client model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelClient extends JModelAdmin
 {
 	/**
 	 * The type alias for this content type.
 	 *
-	 * @var      string
-	 * @since    3.2
+	 * @var    string
+	 * @since  3.2
 	 */
 	public $typeAlias = 'com_banners.client';
 
@@ -41,7 +39,7 @@ class BannersModelClient extends JModelAdmin
 		{
 			if ($record->state != -2)
 			{
-				return;
+				return false;
 			}
 
 			$user = JFactory::getUser();
@@ -50,15 +48,13 @@ class BannersModelClient extends JModelAdmin
 			{
 				return $user->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
 			}
-			else
-			{
-				return $user->authorise('core.delete', 'com_banners');
-			}
+
+			return $user->authorise('core.delete', 'com_banners');
 		}
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -75,10 +71,8 @@ class BannersModelClient extends JModelAdmin
 		{
 			return $user->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
 		}
-		else
-		{
-			return $user->authorise('core.edit.state', 'com_banners');
-		}
+
+		return $user->authorise('core.edit.state', 'com_banners');
 	}
 
 	/**
@@ -88,7 +82,7 @@ class BannersModelClient extends JModelAdmin
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable	A database object
+	 * @return  JTable	A JTable object
 	 *
 	 * @since   1.6
 	 */
@@ -103,7 +97,7 @@ class BannersModelClient extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed    A JForm object on success, false on failure
+	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */

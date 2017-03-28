@@ -3,25 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * User notes table class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       2.5
+ * @since  2.5
  */
 class UsersTableNote extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param  JDatabaseDriver  &$db  Database object
+	 * @param   JDatabaseDriver  &$db  Database object
 	 *
 	 * @since  2.5
 	 */
@@ -46,17 +46,20 @@ class UsersTableNote extends JTable
 		$date = JFactory::getDate()->toSql();
 		$userId = JFactory::getUser()->get('id');
 
+		$this->modified_time = $date;
+		$this->modified_user_id = $userId;
+
+		if (!((int) $this->review_time))
+		{
+			// Null date.
+			$this->review_time = JFactory::getDbo()->getNullDate();
+		}
+
 		if (empty($this->id))
 		{
 			// New record.
 			$this->created_time = $date;
 			$this->created_user_id = $userId;
-		}
-		else
-		{
-			// Existing record.
-			$this->modified_time = $date;
-			$this->modified_user_id = $userId;
 		}
 
 		// Attempt to store the data.
@@ -74,7 +77,6 @@ class UsersTableNote extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/publish
 	 * @since   2.5
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -82,7 +84,7 @@ class UsersTableNote extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state  = (int) $state;
 
@@ -97,6 +99,7 @@ class UsersTableNote extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -129,6 +132,7 @@ class UsersTableNote extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($this->_db->getMessage());
+
 			return false;
 		}
 
@@ -149,6 +153,7 @@ class UsersTableNote extends JTable
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 }

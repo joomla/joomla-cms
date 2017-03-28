@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Language Code plugin class.
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.languagecode
- * @since       2.5
+ * @since  2.5
  */
 class PlgSystemLanguagecode extends JPlugin
 {
@@ -30,7 +28,7 @@ class PlgSystemLanguagecode extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Use this plugin only in site application.
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			// Get the response body.
 			$body = $app->getBody();
@@ -57,7 +55,7 @@ class PlgSystemLanguagecode extends JPlugin
 			else
 			{
 				$patterns = array();
-				$replace = array();
+				$replace  = array();
 			}
 
 			// Replace codes in <link hreflang="" /> attributes.
@@ -87,6 +85,20 @@ class PlgSystemLanguagecode extends JPlugin
 				}
 			}
 
+			// Replace codes in itemprop content
+			preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*/>)' . chr(1) . 'i', $body, $matches);
+
+			foreach ($matches[2] as $match)
+			{
+				$new_code = $this->params->get(strtolower($match));
+
+				if ($new_code)
+				{
+					$patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*/>)' . chr(1) . 'i';
+					$replace[] = '${1}' . $new_code . '${3}';
+				}
+			}
+
 			$app->setBody(preg_replace($patterns, $replace, $body));
 		}
 	}
@@ -95,7 +107,7 @@ class PlgSystemLanguagecode extends JPlugin
 	 * Prepare form.
 	 *
 	 * @param   JForm  $form  The form to be altered.
-	 * @param   array  $data  The associated data for the form.
+	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
@@ -112,13 +124,13 @@ class PlgSystemLanguagecode extends JPlugin
 		}
 
 		// Check we are manipulating the languagecode plugin.
-		if ($form->getName() != 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
+		if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
 		{
 			return true;
 		}
 
 		// Get site languages.
-		if ($languages = JLanguage::getKnownLanguages(JPATH_SITE))
+		if ($languages = JLanguageHelper::getKnownLanguages(JPATH_SITE))
 		{
 			// Inject fields into the form.
 			foreach ($languages as $tag => $language)

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,7 +83,7 @@ class JFeedTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertInstanceOf('JDate', $properties['updatedDate']);
-		$this->assertTrue($date === $properties['updatedDate']);
+		$this->assertSame($date, $properties['updatedDate']);
 	}
 
 	/**
@@ -102,7 +102,7 @@ class JFeedTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertInstanceOf('JFeedPerson', $properties['author']);
-		$this->assertTrue($person === $properties['author']);
+		$this->assertSame($person, $properties['author']);
 	}
 
 	/**
@@ -189,7 +189,7 @@ class JFeedTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		// Make sure we aren't adding the same contributor more than once.
-		$this->assertTrue(count($properties['contributors']) == 1);
+		$this->assertCount(1, $properties['contributors']);
 	}
 
 	/**
@@ -217,7 +217,7 @@ class JFeedTest extends TestCase
 		$entries = TestReflection::getValue($this->_instance, 'entries');
 
 		// Make sure we aren't adding the same entry more than once.
-		$this->assertTrue(count($entries) == 1);
+		$this->assertCount(1, $entries);
 	}
 
 	/**
@@ -229,9 +229,9 @@ class JFeedTest extends TestCase
 	 */
 	public function testOffsetExists()
 	{
-		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13')
+		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
 		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in PHP versions 5.4.29 and 5.5.13');
+			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
 		$offset = new stdClass;
@@ -258,9 +258,9 @@ class JFeedTest extends TestCase
 	 */
 	public function testOffsetGet()
 	{
-		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13')
+		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
 		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in PHP versions 5.4.29 and 5.5.13');
+			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
 		$offset = new stdClass;
@@ -428,7 +428,7 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
+	 * @see     \PHPUnit\Framework\TestCase::setUp()
 	 * @since   12.3
 	 */
 	protected function setUp()
@@ -443,13 +443,13 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   12.3
 	 */
 	protected function tearDown()
 	{
 		unset($this->_instance);
 
-		parent::teardown();
+		parent::tearDown();
 	}
 }

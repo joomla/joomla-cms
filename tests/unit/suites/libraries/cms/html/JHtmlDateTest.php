@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Html
  * @since       3.1
  */
-class JHtmlDateTest extends TestCase
+class JHtmlDateTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test data for the testRelative method
@@ -25,47 +25,47 @@ class JHtmlDateTest extends TestCase
 	 */
 	public function dataTestRelative()
 	{
+		$now1 = new JDate('now');
+		usleep(1);
+		$now2 = new JDate('now');
+
 		return array(
 			// Element order: result, date, unit, time
 			// result - 1 hour ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_HOURS',
-				JFactory::getDate('2011-10-18 11:00:00'),
+				new JDate('2011-10-18 11:00:00'),
 				null,
-				JFactory::getDate('2011-10-18 12:00:00')
+				new JDate('2011-10-18 12:00:00')
 			),
 			// Result - 10 days ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_DAYS',
-				JFactory::getDate('2011-10-08 12:00:00'),
+				new JDate('2011-10-08 12:00:00'),
 				'day',
-				JFactory::getDate('2011-10-18 12:00:00')
+				new JDate('2011-10-18 12:00:00')
 			),
 			// Result - 3 weeks ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_WEEKS',
-				JFactory::getDate('2011-09-27 12:00:00'),
+				new JDate('2011-09-27 12:00:00'),
 				'week',
-				JFactory::getDate('2011-10-18 12:00:00')
+				new JDate('2011-10-18 12:00:00')
 			),
 			// Result - 10 minutes ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_MINUTES',
-				JFactory::getDate('2011-10-18 11:50:00'),
+				new JDate('2011-10-18 11:50:00'),
 				'minute',
-				JFactory::getDate('2011-10-18 12:00:00')
+				new JDate('2011-10-18 12:00:00')
 			),
-
-			/*
-			 Cannot test this result while running the full suite
-			 because the getDate function returns the time the suite starts testing
-
-			 result - Less than a minute ago
+			// Result - Less than a minute ago
 			array(
-			'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
-			JFactory::getDate('now'),
+				'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
+				$now1,
+				null,
+				$now2
 			)
-			*/
 		);
 	}
 
@@ -85,9 +85,6 @@ class JHtmlDateTest extends TestCase
 	 */
 	public function testRelative($result, $date, $unit = null, $time = null)
 	{
-		$this->assertThat(
-			JHtml::_('date.relative', $date, $unit, $time),
-			$this->equalTo($result)
-		);
+		$this->assertEquals($result, JHtmlDate::relative($date, $unit, $time));
 	}
 }

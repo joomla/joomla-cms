@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
 ?>
-<div class="accordion" id="accordion1">
+<div class="accordion hidden-phone" id="accordion1">
 	<div class="accordion-group">
 		<div class="accordion-heading">
 			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#batch">
-				<?php echo JText::_('COM_REDIRECT_FIELD_NEW_URL_LABEL');?>
+				<?php echo JText::_('COM_REDIRECT_BATCH_UPDATE_WITH_NEW_URL'); ?>
 			</a>
 		</div>
 		<div id="batch" class="accordion-body collapse">
@@ -31,7 +32,7 @@ defined('_JEXEC') or die;
 							<input type="text" name="comment" id="comment" value="" size="50" title="<?php echo JText::_('COM_REDIRECT_FIELD_COMMENT_DESC'); ?>" />
 						</div>
 					</div>
-					<button class="btn btn-primary" type="button" onclick="this.form.task.value='links.activate';this.form.submit();"><?php echo JText::_('COM_REDIRECT_BUTTON_UPDATE_LINKS'); ?></button>
+					<button class="btn btn-primary" type="button" onclick="this.form.task.value='links.duplicateUrls';this.form.submit();"><?php echo JText::_('COM_REDIRECT_BUTTON_UPDATE_LINKS'); ?></button>
 				</fieldset>
 			</div>
 		</div>

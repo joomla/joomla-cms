@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Log
  * @since       11.1
  */
-class JLogLoggerEchoTest extends PHPUnit_Framework_TestCase
+class JLogLoggerEchoTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test the JLogLoggerEcho::addEntry method.

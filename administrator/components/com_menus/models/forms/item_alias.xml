@@ -5,10 +5,16 @@
 	<fields name="params">
 
 		<fieldset name="aliasoptions">
-			<field name="aliasoptions" type="menuitem"
+			<field name="aliasoptions" type="modal_menu"
 				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
 				label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
-				required="true" />
+				clientid="0"
+				required="true"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
+			/>
 		</fieldset>
 
 		<fieldset name="menu-options"
@@ -36,7 +42,18 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-
+			<field
+				name="menu_show"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
+				default="1"
+				filter="integer"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 		</fieldset>
 	</fields>
 	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_ALIAS" />

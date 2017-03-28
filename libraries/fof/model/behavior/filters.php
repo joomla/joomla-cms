@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -21,7 +21,7 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 	 * list in a model. It is used to apply automatic query filters.
 	 *
 	 * @param   FOFModel        &$model  The model which calls this event
-	 * @param   JDatabaseQuery  &$query  The model which calls this event
+	 * @param   FOFDatabaseQuery  &$query  The model which calls this event
 	 *
 	 * @return  void
 	 */
@@ -32,13 +32,20 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 		$tableKey = $table->getKeyName();
 		$db = $model->getDBO();
 
+		$filterzero = $model->getState('_emptynonzero', null);
+
 		$fields = $model->getTableFields();
+		$backlist = $model->blacklistFilters();
 
 		foreach ($fields as $fieldname => $fieldtype)
 		{
+			if (in_array($fieldname, $backlist)) {
+				continue;
+			}
 			$field = new stdClass;
 			$field->name = $fieldname;
 			$field->type = $fieldtype;
+			$field->filterzero = $filterzero;
 
 			$filterName = ($field->name == $tableKey) ? 'id' : $field->name;
 			$filterState = $model->getState($filterName, null);
@@ -71,10 +78,12 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 			{
 				case 'between':
 				case 'outside':
+				case 'range' :
 					$sql = $field->$method($options->get('from', null), $options->get('to'));
 					break;
 
 				case 'interval':
+				case 'modulo':
 					$sql = $field->$method($options->get('value', null), $options->get('interval'));
 					break;
 

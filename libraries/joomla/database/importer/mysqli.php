@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi import driver.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @since  11.1
  */
 class JDatabaseImporterMysqli extends JDatabaseImporter
 {
@@ -44,6 +42,49 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	}
 
 	/**
+	 * Get the SQL syntax to add a table.
+	 *
+	 * @param   SimpleXMLElement  $table  The table information.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 * @throws  RuntimeException
+	 */
+	protected function xmlToCreate(SimpleXMLElement $table)
+	{
+		$existingTables = $this->db->getTableList();
+		$tableName = (string) $table['name'];
+
+		if (in_array($tableName, $existingTables))
+		{
+			throw new RuntimeException('The table you are trying to create already exists');
+		}
+
+		$createTableStatement = 'CREATE TABLE ' . $this->db->quoteName($tableName) . ' (';
+
+		foreach ($table->xpath('field') as $field)
+		{
+			$createTableStatement .= $this->getColumnSQL($field) . ', ';
+		}
+
+		$newLookup = $this->getKeyLookup($table->xpath('key'));
+
+		// Loop through each key in the new structure.
+		foreach ($newLookup as $key)
+		{
+			$createTableStatement .= $this->getKeySQL($key) . ', ';
+		}
+
+		// Remove the comma after the last key
+		$createTableStatement = rtrim($createTableStatement, ', ');
+
+		$createTableStatement .= ')';
+
+		return $createTableStatement;
+	}
+
+	/**
 	 * Get the SQL syntax to add a column.
 	 *
 	 * @param   string            $table  The table name.
@@ -53,9 +94,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @since   11.1
 	 */
-	protected function getAddColumnSQL($table, SimpleXMLElement $field)
+	protected function getAddColumnSql($table, SimpleXMLElement $field)
 	{
-		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSQL($field);
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSql($field);
 	}
 
 	/**
@@ -68,9 +109,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @since   11.1
 	 */
-	protected function getAddKeySQL($table, $keys)
+	protected function getAddKeySql($table, $keys)
 	{
-		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD ' . $this->getKeySQL($keys);
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD ' . $this->getKeySql($keys);
 	}
 
 	/**
@@ -82,7 +123,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @since   11.1
 	 */
-	protected function getAlterTableSQL(SimpleXMLElement $structure)
+	protected function getAlterTableSql(SimpleXMLElement $structure)
 	{
 		$table = $this->getRealTableName($structure['name']);
 		$oldFields = $this->db->getTableColumns($table);
@@ -109,7 +150,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 
 				if ($change)
 				{
-					$alters[] = $this->getChangeColumnSQL($table, $field);
+					$alters[] = $this->getChangeColumnSql($table, $field);
 				}
 
 				// Unset this field so that what we have left are fields that need to be removed.
@@ -118,7 +159,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			else
 			{
 				// The field is new.
-				$alters[] = $this->getAddColumnSQL($table, $field);
+				$alters[] = $this->getAddColumnSql($table, $field);
 			}
 		}
 
@@ -126,7 +167,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 		foreach ($oldFields as $name => $column)
 		{
 			// Delete the column.
-			$alters[] = $this->getDropColumnSQL($table, $name);
+			$alters[] = $this->getDropColumnSql($table, $name);
 		}
 
 		// Get the lookups for the old and new keys.
@@ -192,8 +233,8 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 
 				if (!$same)
 				{
-					$alters[] = $this->getDropKeySQL($table, $name);
-					$alters[] = $this->getAddKeySQL($table, $keys);
+					$alters[] = $this->getDropKeySql($table, $name);
+					$alters[] = $this->getAddKeySql($table, $keys);
 				}
 
 				// Unset this field so that what we have left are fields that need to be removed.
@@ -202,7 +243,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			else
 			{
 				// This is a new key.
-				$alters[] = $this->getAddKeySQL($table, $keys);
+				$alters[] = $this->getAddKeySql($table, $keys);
 			}
 		}
 
@@ -211,11 +252,11 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 		{
 			if (strtoupper($name) == 'PRIMARY')
 			{
-				$alters[] = $this->getDropPrimaryKeySQL($table);
+				$alters[] = $this->getDropPrimaryKeySql($table);
 			}
 			else
 			{
-				$alters[] = $this->getDropKeySQL($table, $name);
+				$alters[] = $this->getDropKeySql($table, $name);
 			}
 		}
 
@@ -232,10 +273,10 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @since   11.1
 	 */
-	protected function getChangeColumnSQL($table, SimpleXMLElement $field)
+	protected function getChangeColumnSql($table, SimpleXMLElement $field)
 	{
 		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' CHANGE COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
-			. $this->getColumnSQL($field);
+			. $this->getColumnSql($field);
 	}
 
 	/**
@@ -247,7 +288,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @since   11.1
 	 */
-	protected function getColumnSQL(SimpleXMLElement $field)
+	protected function getColumnSql(SimpleXMLElement $field)
 	{
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
@@ -303,7 +344,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @since   11.1
 	 */
-	protected function getDropKeySQL($table, $name)
+	protected function getDropKeySql($table, $name)
 	{
 		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP KEY ' . $this->db->quoteName($name);
 	}
@@ -317,7 +358,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @since   11.1
 	 */
-	protected function getDropPrimaryKeySQL($table)
+	protected function getDropPrimaryKeySql($table)
 	{
 		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP PRIMARY KEY';
 	}
@@ -368,7 +409,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @since   11.1
 	 */
-	protected function getKeySQL($columns)
+	protected function getKeySql($columns)
 	{
 		// TODO Error checking on array and element types.
 

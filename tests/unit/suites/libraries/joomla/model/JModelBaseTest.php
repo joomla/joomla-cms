@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\Registry\Registry;
 
 JLoader::register('BaseModel', __DIR__ . '/stubs/tbase.php');
 
@@ -29,17 +31,16 @@ class JModelBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelBase::__construct
 	 * @since   12.1
 	 */
 	public function test__construct()
 	{
 		// @codingStandardsIgnoreStart
 		// @todo check the instanciating new classes without brackets sniff
-		$this->assertEquals(new JRegistry, $this->_instance->getState(), 'Checks default state.');
+		$this->assertEquals(new Registry, $this->_instance->getState(), 'Checks default state.');
 		// @codingStandardsIgnoreEnd
 
-		$state = new JRegistry(array('foo' => 'bar'));
+		$state = new Registry(array('foo' => 'bar'));
 		$class = new BaseModel($state);
 		$this->assertEquals($state, $class->getState(), 'Checks state injection.');
 	}
@@ -49,7 +50,6 @@ class JModelBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelBase::getState
 	 * @since   12.1
 	 */
 	public function testGetState()
@@ -65,12 +65,11 @@ class JModelBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelBase::setState
 	 * @since   12.1
 	 */
 	public function testSetState()
 	{
-		$state = new JRegistry(array('foo' => 'bar'));
+		$state = new Registry(array('foo' => 'bar'));
 		$this->_instance->setState($state);
 		$this->assertSame($state, $this->_instance->getState());
 	}
@@ -80,12 +79,11 @@ class JModelBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelBase::loadState
 	 * @since   12.1
 	 */
 	public function testLoadState()
 	{
-		$this->assertInstanceOf('JRegistry', TestReflection::invoke($this->_instance, 'loadState'));
+		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', TestReflection::invoke($this->_instance, 'loadState'));
 	}
 
 	/**
@@ -100,5 +98,20 @@ class JModelBaseTest extends TestCase
 		parent::setUp();
 
 		$this->_instance = new BaseModel;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->_instance);
+		parent::tearDown();
 	}
 }

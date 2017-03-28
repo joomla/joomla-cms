@@ -2,11 +2,9 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_TESTS . '/suites/libraries/joomla/application/stubs/JApplicationWebInspector.php';
 
 /**
  * Test class for JGoogleAuthOauth2Test .
@@ -47,6 +45,21 @@ class JGoogleAuthOauth2Test extends TestCase
 	 */
 	protected $object;
 
+
+	/**
+	 * Code that the app closes with.
+	 *
+	 * @var  int
+	 */
+	private static $closed;
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -57,18 +70,48 @@ class JGoogleAuthOauth2Test extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
-		$this->input = new JInput;
-		$this->application = new JApplicationWebInspector;
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
+		$this->input = $this->getMockInput();
+
+		$mockApplication = $this->getMockWeb();
+		$mockApplication->expects($this->any())
+			->method('close')
+			->willReturnCallback(array($this, 'mockClose'));
+		$this->application = $mockApplication;
+
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
 		$this->object = new JGoogleAuthOauth2($this->options, $this->oauth);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->options);
+		unset($this->http);
+		unset($this->input);
+		unset($this->application);
+		unset($this->oauth);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -85,13 +128,11 @@ class JGoogleAuthOauth2Test extends TestCase
 		$this->object->setOption('sendheaders', true);
 
 		$this->object->authenticate();
-		$this->assertEquals(0, $this->application->closed);
-
-		$this->markTestIncomplete('Unexpected test failure in CMS environment');
+		$this->assertEquals(0, self::$closed);
 
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('jsonGrantOauthCallback'));
+		$this->http->expects($this->once())->method('post')->willReturnCallback(array($this, 'jsonGrantOauthCallback'));
 		$result = $this->object->authenticate();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
@@ -138,14 +179,12 @@ class JGoogleAuthOauth2Test extends TestCase
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
 
-		$this->markTestIncomplete('Unexpected test failure in CMS environment');
-
-		$this->http->expects($this->once())->method('get')->will($this->returnCallback('getOauthCallback'));
+		$this->http->expects($this->once())->method('get')->willReturnCallback(array($this, 'getOauthCallback'));
 		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
 		$this->assertEquals(200, $result->code);
 
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('queryOauthCallback'));
+		$this->http->expects($this->once())->method('post')->willReturnCallback(array($this, 'queryOauthCallback'));
 		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'post');
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
 		$this->assertEquals(200, $result->code);
@@ -162,16 +201,14 @@ class JGoogleAuthOauth2Test extends TestCase
 		$this->assertEquals(null, $this->object->getOption('authurl'));
 		$this->assertEquals(null, $this->object->getOption('tokenurl'));
 
-		$this->markTestIncomplete('Unexpected test failure in CMS environment');
-
 		$token['access_token'] = 'accessvalue';
 		$token['refresh_token'] = 'refreshvalue';
 		$token['created'] = time() - 1800;
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
 
-		$this->http->expects($this->once())->method('get')->will($this->returnCallback('getOauthCallback'));
-		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
+		$this->http->expects($this->once())->method('get')->willReturnCallback(array($this, 'getOauthCallback'));
+		$this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
 
 		$this->assertEquals('https://accounts.google.com/o/oauth2/auth', $this->object->getOption('authurl'));
 		$this->assertEquals('https://accounts.google.com/o/oauth2/token', $this->object->getOption('tokenurl'));
@@ -207,5 +244,81 @@ class JGoogleAuthOauth2Test extends TestCase
 			$this->object->getOption('key'),
 			$this->equalTo('value')
 		);
+	}
+
+	/**
+	 * Dummy
+	 *
+	 * @param   string   $url      Path to the resource.
+	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request
+	 * @param   integer  $timeout  Read timeout in seconds.
+	 *
+	 * @return  JHttpResponse
+	 *
+	 * @since   12.3
+	 */
+	public static function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
+	{
+		$response = new stdClass;
+
+		$response->code = 200;
+		$response->headers = array('Content-Type' => 'application/json');
+		$response->body = '{"access_token":"accessvalue","refresh_token":"refreshvalue","expires_in":3600}';
+
+		return $response;
+	}
+
+	/**
+	 * Dummy
+	 *
+	 * @param   string   $url      Path to the resource.
+	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request
+	 * @param   integer  $timeout  Read timeout in seconds.
+	 *
+	 * @return  JHttpResponse
+	 *
+	 * @since   12.3
+	 */
+	public static function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
+	{
+		$response = new stdClass;
+
+		$response->code = 200;
+		$response->headers = array('Content-Type' => 'text/html');
+		$response->body = 'Lorem ipsum dolor sit amet.';
+
+		return $response;
+	}
+
+	/**
+	 * Dummy
+	 *
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
+	 *
+	 * @return  JHttpResponse
+	 *
+	 * @since   12.3
+	 */
+	public static function getOauthCallback($url, array $headers = null, $timeout = null)
+	{
+		$response = new stdClass;
+
+		$response->code = 200;
+		$response->headers = array('Content-Type' => 'text/html');
+		$response->body = 'Lorem ipsum dolor sit amet.';
+
+		return $response;
+	}
+
+	/**
+	 * @param   integer  $code  The exit code (optional; default is 0).
+	 */
+	public static function mockClose($code = 0)
+	{
+		self::$closed = $code;
 	}
 }

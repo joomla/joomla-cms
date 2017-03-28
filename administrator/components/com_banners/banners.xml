@@ -3,10 +3,8 @@
 	<name>com_banners</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.
-	</copyright>
-	<license>GNU General Public License version 2 or later; see
-		LICENSE.txt</license>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
@@ -26,7 +24,6 @@
 	<files folder="site">
 		<filename>banners.php</filename>
 		<filename>controller.php</filename>
-		<filename>index.html</filename>
 		<filename>router.php</filename>
 		<folder>helpers</folder>
 		<folder>models</folder>
@@ -38,21 +35,44 @@
 				Note that all & must be escaped to &amp; for the file to be valid
 				XML and be parsed by the installer
 			-->
-			<menu link="option=com_banners" view="banners" img="class:banners"
-				alt="Banners/Banners">com_banners_banners</menu>
-			<menu link="option=com_categories&amp;extension=com_banners"
-				view="categories" img="class:banners-cat" alt="Banners/Categories">com_banners_categories</menu>
-			<menu link="option=com_banners&amp;view=clients" view="clients"
-				img="class:banners-clients" alt="Banners/Clients">com_banners_clients</menu>
-			<menu link="option=com_banners&amp;view=tracks" view="tracks"
-				img="class:banners-tracks" alt="Banners/Tracks">com_banners_tracks</menu>
+			<menu
+				link="option=com_banners"
+				view="banners"
+				img="class:banners"
+				alt="Banners/Banners"
+				>
+				com_banners_banners
+			</menu>
+			<menu
+				link="option=com_categories&amp;extension=com_banners"
+				view="categories"
+				img="class:banners-cat"
+				alt="Banners/Categories"
+				>
+				com_banners_categories
+			</menu>
+			<menu
+				link="option=com_banners&amp;view=clients"
+				view="clients"
+				img="class:banners-clients"
+				alt="Banners/Clients"
+				>
+				com_banners_clients
+			</menu>
+			<menu
+				link="option=com_banners&amp;view=tracks"
+				view="tracks"
+				img="class:banners-tracks"
+				alt="Banners/Tracks"
+				>
+				com_banners_tracks
+			</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>banners.php</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>
@@ -65,4 +85,3 @@
 		</languages>
 	</administration>
 </extension>
-

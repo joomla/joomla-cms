@@ -5,16 +5,19 @@
 		label="COM_INSTALLER_PREFERENCES_LABEL"
 		description="COM_INSTALLER_PREFERENCES_DESCRIPTION"
 		>
+
 		<field
 			name="show_jed_info"
 			type="radio"
 			label="COM_INSTALLER_SHOW_JED_INFORMATION_LABEL"
 			description="COM_INSTALLER_SHOW_JED_INFORMATION_DESC"
 			class="btn-group btn-group-yesno"
-			default="1">
+			default="1"
+			>
 			<option value="1">COM_INSTALLER_SHOW_JED_INFORMATION_SHOW_MESSAGE</option>
 			<option value="0">COM_INSTALLER_SHOW_JED_INFORMATION_HIDE_MESSAGE</option>
 		</field>
+
 		<field
 			name="cachetimeout"
 			type="integer"
@@ -23,8 +26,25 @@
 			first="0"
 			last="24"
 			step="1"
-			default="6" />
+			default="6"
+		/>
+
+		<field
+			name="minimum_stability"
+			type="list"
+			label="COM_INSTALLER_MINIMUM_STABILITY_LABEL"
+			description="COM_INSTALLER_MINIMUM_STABILITY_DESC"
+			default="4"
+			>
+			<option value="0">COM_INSTALLER_MINIMUM_STABILITY_DEV</option>
+			<option value="1">COM_INSTALLER_MINIMUM_STABILITY_ALPHA</option>
+			<option value="2">COM_INSTALLER_MINIMUM_STABILITY_BETA</option>
+			<option value="3">COM_INSTALLER_MINIMUM_STABILITY_RC</option>
+			<option value="4">COM_INSTALLER_MINIMUM_STABILITY_STABLE</option>
+		</field>
+
 	</fieldset>
+
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
@@ -38,6 +58,8 @@
 			filter="rules"
 			validate="rules"
 			component="com_installer"
-			section="component" />
+			section="component"
+		/>
+
 	</fieldset>
 </config>

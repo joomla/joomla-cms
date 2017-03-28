@@ -3,24 +3,24 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-jimport('joomla.environment.uri');
+
+use Joomla\Registry\Registry;
 
 /**
  * Google API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
  * @since       12.3
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 abstract class JGoogleEmbed
 {
 	/**
-	 * @var    JRegistry  Options for the Google data object.
+	 * @var    Registry  Options for the Google data object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -34,15 +34,15 @@ abstract class JGoogleEmbed
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Google options object
-	 * @param   JUri       $uri      URL of the page being rendered
+	 * @param   Registry  $options  Google options object
+	 * @param   JUri      $uri      URL of the page being rendered
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JUri $uri = null)
+	public function __construct(Registry $options = null, JUri $uri = null)
 	{
-		$this->options = $options ? $options : new JRegistry;
-		$this->uri = $uri ? $uri : new JUri;
+		$this->options = $options ? $options : new Registry;
+		$this->uri = $uri ? $uri : JUri::getInstance();
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Versions helper class, provides methods to perform various tasks relevant
  * versioning of content.
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.2
+ * @since  3.2
  */
 class JHelperContenthistory extends JHelper
 {
@@ -144,7 +142,18 @@ class JHelperContenthistory extends JHelper
 
 		$result = $historyTable->store();
 
-		if ($maxVersions = JComponentHelper::getParams('com_content')->get('history_limit', 0))
+		// Load history_limit config from extension.
+		$aliasParts = explode('.', $this->typeAlias);
+
+		$context = isset($aliasParts[1]) ? $aliasParts[1] : '';
+
+		$maxVersionsContext = JComponentHelper::getParams($aliasParts[0])->get('history_limit' . '_' . $context, 0);
+
+		if ($maxVersionsContext)
+		{
+			$historyTable->deleteOldVersions($maxVersionsContext);
+		}
+		elseif ($maxVersions = JComponentHelper::getParams($aliasParts[0])->get('history_limit', 0))
 		{
 			$historyTable->deleteOldVersions($maxVersions);
 		}

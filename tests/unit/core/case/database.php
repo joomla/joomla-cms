@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -89,29 +89,26 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		try
 		{
 			// Attempt to instantiate the driver.
-			self::$driver = JDatabaseDriver::getInstance($options);
+			static::$driver = JDatabaseDriver::getInstance($options);
+			static::$driver->connect();
 
-			// Create a new PDO instance for an SQLite memory database and load the test schema into it.
-			$pdo = new PDO('sqlite::memory:');
-			$pdo->exec(file_get_contents(JPATH_TESTS . '/schema/ddl.sql'));
-
-			// Set the PDO instance to the driver using reflection whizbangery.
-			TestReflection::setValue(self::$driver, 'connection', $pdo);
+			// Get the PDO instance for an SQLite memory database and load the test schema into it.
+			static::$driver->getConnection()->exec(file_get_contents(JPATH_TESTS . '/schema/ddl.sql'));
 		}
 		catch (RuntimeException $e)
 		{
-			self::$driver = null;
+			static::$driver = null;
 		}
 
 		// If for some reason an exception object was returned set our database object to null.
-		if (self::$driver instanceof Exception)
+		if (static::$driver instanceof Exception)
 		{
-			self::$driver = null;
+			static::$driver = null;
 		}
 
 		// Setup the factory pointer for the driver and stash the old one.
 		self::$_stash = JFactory::$database;
-		JFactory::$database = self::$driver;
+		JFactory::$database = static::$driver;
 	}
 
 	/**
@@ -124,14 +121,19 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$_stash;
-		self::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**
 	 * Assigns mock callbacks to methods.
 	 *
-	 * @param   object  $mockObject  The mock object that the callbacks are being assigned to.
-	 * @param   array   $array       An array of methods names to mock with callbacks.
+	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   array                                    $array       An array of methods names to mock with callbacks.
 	 * This method assumes that the mock callback is named {mock}{method name}.
 	 *
 	 * @return  void
@@ -154,16 +156,16 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 			}
 
 			$mockObject->expects($this->any())
-			->method($methodName)
-			->will($this->returnCallback($callback));
+				->method($methodName)
+				->willReturnCallback($callback);
 		}
 	}
 
 	/**
 	 * Assigns mock values to methods.
 	 *
-	 * @param   object  $mockObject  The mock object.
-	 * @param   array   $array       An associative array of methods to mock with return values:<br />
+	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   array                                    $array       An associative array of methods to mock with return values:<br />
 	 * string (method name) => mixed (return value)
 	 *
 	 * @return  void
@@ -175,8 +177,8 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		foreach ($array as $method => $return)
 		{
 			$mockObject->expects($this->any())
-			->method($method)
-			->will($this->returnValue($return));
+				->method($method)
+				->willReturn($return);
 		}
 	}
 
@@ -198,18 +200,19 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock CMS application object.
 	 *
-	 * @param   array  $options  A set of options to configure the mock.
+	 * @param   array  $options      A set of options to configure the mock.
+	 * @param   array  $constructor  An array containing constructor arguments to inject into the mock.
 	 *
 	 * @return  JApplicationCms
 	 *
 	 * @since   3.2
 	 */
-	public function getMockCmsApp($options = array())
+	public function getMockCmsApp($options = array(), $constructor = array())
 	{
 		// Attempt to load the real class first.
 		class_exists('JApplicationCms');
 
-		return TestMockApplicationCms::create($this, $options);
+		return TestMockApplicationCms::create($this, $options, $constructor);
 	}
 
 	/**
@@ -227,16 +230,21 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Gets a mock database object.
 	 *
-	 * @return  JDatabase
+	 * @param   string  $driver        Optional driver to create a sub-class of JDatabaseDriver
+	 * @param   array   $extraMethods  An array of additional methods to add to the mock
+	 * @param   string  $nullDate      A null date string for the driver.
+	 * @param   string  $dateFormat    A date format for the driver.
+	 *
+	 * @return  JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function getMockDatabase()
+	public function getMockDatabase($driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
 		// Attempt to load the real class first.
 		class_exists('JDatabaseDriver');
 
-		return TestMockDatabaseDriver::create($this);
+		return TestMockDatabaseDriver::create($this, $driver, $extraMethods, $nullDate, $dateFormat);
 	}
 
 	/**
@@ -269,6 +277,26 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		class_exists('JDocument');
 
 		return TestMockDocument::create($this);
+	}
+
+	/**
+	 * Gets a mock input object.
+	 *
+	 * @param   array  $options  An associative array of options to configure the mock.
+	 *                           * methods => an array of additional methods to mock
+	 *
+	 * @return  JInput
+	 *
+	 * @since   3.4
+	 */
+	public function getMockInput(array $options = null)
+	{
+		// Attempt to load the real class first.
+		class_exists('JInput');
+
+		$mocker = new TestMockInput($this);
+
+		return $mocker->createInput($options);
 	}
 
 	/**
@@ -333,9 +361,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 */
 	protected function getConnection()
 	{
-		if (!is_null(self::$driver))
+		if (!is_null(static::$driver))
 		{
-			return $this->createDefaultDBConnection(self::$driver->getConnection(), ':memory:');
+			return $this->createDefaultDBConnection(static::$driver->getConnection(), ':memory:');
 		}
 		else
 		{
@@ -457,7 +485,6 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	protected function setErrorHandlers($errorHandlers)
 	{
 		$mode = null;
-		$options = null;
 
 		foreach ($errorHandlers as $type => $params)
 		{

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="3.6" method="upgrade">
+	<name>pkg_weblinks</name>
+	<packagename>weblinks</packagename>
+	<creationDate>December 2012</creationDate>
+	<packager>Joomla! Project</packager>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<packageremail>admin@joomla.org</packageremail>
+	<packagerurl>www.joomla.org</packagerurl>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.4.1</version>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<description>PKG_WEBLINKS_XML_DESCRIPTION</description>
+	<files>
+		<!-- The id for each extension is the element stored in the DB -->
+		<file type="component" id="com_weblinks">com_weblinks.zip</file>
+		<file type="module" id="mod_weblinks" client="site">mod_weblinks.zip</file>
+		<file type="plugin" id="weblinks" group="finder">plg_finder_weblinks.zip</file>
+		<file type="plugin" id="weblinks" group="search">plg_search_weblinks.zip</file>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.pkg_weblinks.sys.ini</language>
+	</languages>
+	<updateservers>
+		<!-- Note: No spaces or linebreaks allowed between the server tags -->
+		<server type="extension" name="Weblinks Update Site">https://raw.githubusercontent.com/joomla-extensions/weblinks/master/manifest.xml</server>
+	</updateservers>
+</extension>

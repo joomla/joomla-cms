@@ -2,9 +2,9 @@
 <extension type="component" version="3.1" method="upgrade">
 	<name>com_finder</name>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<creationDate>August 2011</creationDate>
-	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
@@ -12,7 +12,6 @@
 	<menu link="option=com_finder">COM_FINDER</menu>
 	<files folder="site">
 		<filename>controller.php</filename>
-		<filename>index.html</filename>
 		<filename>finder.php</filename>
 		<filename>router.php</filename>
 		<folder>controllers</folder>
@@ -22,9 +21,7 @@
 	</files>
 	<media destination="com_finder" folder="media">
 		<folder>js</folder>
-		<folder>images</folder>
 		<folder>css</folder>
-		<filename>index.html</filename>
 	</media>
 	<install>
 		<sql>
@@ -47,7 +44,6 @@
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>finder.php</filename>
-			<filename>index.html</filename>
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>

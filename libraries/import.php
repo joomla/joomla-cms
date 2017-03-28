@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,15 +22,10 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
+
 if (!defined('IS_UNIX'))
 {
 	define('IS_UNIX', (IS_WIN === false) ? true : false);
-}
-
-// Import the platform version library if necessary.
-if (!class_exists('JPlatform'))
-{
-	require_once JPATH_PLATFORM . '/platform.php';
 }
 
 // Import the library loader if necessary.
@@ -48,13 +43,10 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-// Import the base Joomla Platform libraries.
-JLoader::import('joomla.factory');
-
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))
 {
-	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
+	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
 
 // Register classes that don't follow one file per class naming conventions.

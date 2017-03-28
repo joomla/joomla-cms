@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  HTML
+ * @package     Joomla.Administrator
+ * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML utility class for creating text diffs using jQuery, diff_patch_match.js and jquery.pretty-text-diff.js JavaScript libraries.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contenthistory.HTML
- * @since       3.2
+ * @since  3.2
  */
 abstract class JHtmlTextdiff
 {
@@ -43,9 +41,9 @@ abstract class JHtmlTextdiff
 
 		// Depends on jQuery UI
 		JHtml::_('bootstrap.framework');
-		JHtml::_('script', 'com_contenthistory/diff_match_patch.js', false, true);
-		JHtml::_('script', 'com_contenthistory/jquery.pretty-text-diff.min.js', false, true);
-		JHtml::_('stylesheet', 'com_contenthistory/jquery.pretty-text-diff.css', false, true, false);
+		JHtml::_('script', 'com_contenthistory/diff_match_patch.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'com_contenthistory/jquery.pretty-text-diff.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'com_contenthistory/jquery.pretty-text-diff.css', array('version' => 'auto', 'relative' => true));
 
 		// Attach diff to document
 		JFactory::getDocument()->addScriptDeclaration("

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Modules Component Positions Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 class ModulesModelPositions extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
 	 * @since   1.6
@@ -44,9 +42,14 @@ class ModulesModelPositions extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'value', $direction = 'asc')
 	{
 		$app = JFactory::getApplication('administrator');
 
@@ -57,21 +60,23 @@ class ModulesModelPositions extends JModelList
 		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$clientId = $app->input->getInt('client_id', 0);
-		$this->setState('filter.client_id', $clientId);
-
 		$template = $this->getUserStateFromRequest($this->context . '.filter.template', 'filter_template', '', 'string');
 		$this->setState('filter.template', $template);
 
 		$type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string');
 		$this->setState('filter.type', $type);
 
+		// Special case for the client id.
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$clientId = (!in_array((int) $clientId, array (0, 1))) ? 0 : (int) $clientId;
+		$this->setState('client_id', $clientId);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('value', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -88,7 +93,7 @@ class ModulesModelPositions extends JModelList
 			$lang            = JFactory::getLanguage();
 			$search          = $this->getState('filter.search');
 			$state           = $this->getState('filter.state');
-			$clientId        = $this->getState('filter.client_id');
+			$clientId        = $this->getState('client_id');
 			$filter_template = $this->getState('filter.template');
 			$type            = $this->getState('filter.type');
 			$ordering        = $this->getState('list.ordering');
@@ -100,13 +105,15 @@ class ModulesModelPositions extends JModelList
 			if ($type != 'template')
 			{
 				// Get the database object and a new query object.
-				$query	= $this->_db->getQuery(true)
+				$query = $this->_db->getQuery(true)
 					->select('DISTINCT(position) as value')
 					->from('#__modules')
 					->where($this->_db->quoteName('client_id') . ' = ' . (int) $clientId);
+
 				if ($search)
 				{
-					$query->where('position LIKE ' . $this->_db->quote('%' . $this->_db->escape($search, true) . '%'));
+					$search = $this->_db->quote('%' . str_replace(' ', '%', $this->_db->escape(trim($search), true) . '%'));
+					$query->where('position LIKE ' . $search);
 				}
 
 				$this->_db->setQuery($query);
@@ -140,10 +147,12 @@ class ModulesModelPositions extends JModelList
 				if (file_exists($path))
 				{
 					$xml = simplexml_load_file($path);
+
 					if (isset($xml->positions[0]))
 					{
 						$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
+
 						foreach ($xml->positions[0] as $position)
 						{
 							$value = (string) $position['value'];
@@ -160,6 +169,7 @@ class ModulesModelPositions extends JModelList
 									$label = $altlabel;
 								}
 							}
+
 							if ($type == 'user' || ($state != '' && $state != $template->enabled))
 							{
 								unset($positions[$value]);
@@ -170,12 +180,14 @@ class ModulesModelPositions extends JModelList
 								{
 									$positions[$value] = array();
 								}
+
 								$positions[$value][$template->name] = $label;
 							}
 						}
 					}
 				}
 			}
+
 			$this->total = count($positions);
 
 			if ($limitstart >= $this->total)
@@ -206,6 +218,7 @@ class ModulesModelPositions extends JModelList
 					arsort($positions);
 				}
 			}
+
 			$this->items = array_slice($positions, $limitstart, $limit ? $limit : null);
 		}
 

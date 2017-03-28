@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Stemmer base class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerTaxonomy
 {
@@ -49,9 +47,9 @@ class FinderIndexerTaxonomy
 	public static function addBranch($title, $state = 1, $access = 1)
 	{
 		// Check to see if the branch is in the cache.
-		if (isset(self::$branches[$title]))
+		if (isset(static::$branches[$title]))
 		{
-			return self::$branches[$title]->id;
+			return static::$branches[$title]->id;
 		}
 
 		// Check to see if the branch is in the table.
@@ -70,9 +68,9 @@ class FinderIndexerTaxonomy
 		if (!empty($result) && $result->state == $state && $result->access == $access)
 		{
 			// The data matches, add the item to the cache.
-			self::$branches[$title] = $result;
+			static::$branches[$title] = $result;
 
-			return self::$branches[$title]->id;
+			return static::$branches[$title]->id;
 		}
 
 		/*
@@ -81,6 +79,7 @@ class FinderIndexerTaxonomy
 		 * out which case is true and deal with it.
 		 */
 		$branch = new JObject;
+
 		if (empty($result))
 		{
 			// Prepare the branch object.
@@ -101,12 +100,12 @@ class FinderIndexerTaxonomy
 		}
 
 		// Store the branch.
-		self::storeNode($branch);
+		static::storeNode($branch);
 
 		// Add the branch to the cache.
-		self::$branches[$title] = $branch;
+		static::$branches[$title] = $branch;
 
-		return self::$branches[$title]->id;
+		return static::$branches[$title]->id;
 	}
 
 	/**
@@ -125,13 +124,13 @@ class FinderIndexerTaxonomy
 	public static function addNode($branch, $title, $state = 1, $access = 1)
 	{
 		// Check to see if the node is in the cache.
-		if (isset(self::$nodes[$branch][$title]))
+		if (isset(static::$nodes[$branch][$title]))
 		{
-			return self::$nodes[$branch][$title]->id;
+			return static::$nodes[$branch][$title]->id;
 		}
 
 		// Get the branch id, insert it if it does not exist.
-		$branchId = self::addBranch($branch);
+		$branchId = static::addBranch($branch);
 
 		// Check to see if the node is in the table.
 		$db = JFactory::getDbo();
@@ -149,9 +148,9 @@ class FinderIndexerTaxonomy
 		if (!empty($result) && $result->state == $state && $result->access == $access)
 		{
 			// The data matches, add the item to the cache.
-			self::$nodes[$branch][$title] = $result;
+			static::$nodes[$branch][$title] = $result;
 
-			return self::$nodes[$branch][$title]->id;
+			return static::$nodes[$branch][$title]->id;
 		}
 
 		/*
@@ -160,6 +159,7 @@ class FinderIndexerTaxonomy
 		 * out which case is true and deal with it.
 		 */
 		$node = new JObject;
+
 		if (empty($result))
 		{
 			// Prepare the node object.
@@ -180,12 +180,12 @@ class FinderIndexerTaxonomy
 		}
 
 		// Store the node.
-		self::storeNode($node);
+		static::storeNode($node);
 
 		// Add the node to the cache.
-		self::$nodes[$branch][$title] = $node;
+		static::$nodes[$branch][$title] = $node;
 
-		return self::$nodes[$branch][$title]->id;
+		return static::$nodes[$branch][$title]->id;
 	}
 
 	/**
@@ -242,8 +242,7 @@ class FinderIndexerTaxonomy
 		$db = JFactory::getDbo();
 
 		// Set user variables
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 
 		// Create a query to get the taxonomy branch titles.
 		$query = $db->getQuery(true)
@@ -255,9 +254,8 @@ class FinderIndexerTaxonomy
 
 		// Get the branch titles.
 		$db->setQuery($query);
-		$results = $db->loadColumn();
 
-		return $results;
+		return $db->loadColumn();
 	}
 
 	/**
@@ -276,8 +274,7 @@ class FinderIndexerTaxonomy
 		$db = JFactory::getDbo();
 
 		// Set user variables
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 
 		// Create a query to get the node.
 		$query = $db->getQuery(true)
@@ -293,9 +290,8 @@ class FinderIndexerTaxonomy
 
 		// Get the node.
 		$db->setQuery($query, 0, 1);
-		$result = $db->loadObject();
 
-		return $result;
+		return $db->loadObject();
 	}
 
 	/**
@@ -333,11 +329,22 @@ class FinderIndexerTaxonomy
 	{
 		// Delete all orphaned nodes.
 		$db = JFactory::getDbo();
-		$query = 'DELETE t' .
-			' FROM ' . $db->quoteName('#__finder_taxonomy') . ' AS t' .
-			' LEFT JOIN ' . $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id' .
-			' WHERE t.parent_id > 1' .
-			' AND m.link_id IS NULL';
+		$query     = $db->getQuery(true);
+		$subquery  = $db->getQuery(true);
+		$subquery1 = $db->getQuery(true);
+
+		$subquery1->select($db->quoteName('t.id'))
+			->from($db->quoteName('#__finder_taxonomy', 't'))
+			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.node_id') . '=' . $db->quoteName('t.id'))
+			->where($db->quoteName('t.parent_id') . ' > 1 ')
+			->where($db->quoteName('m.link_id') . ' IS NULL');
+
+		$subquery->select($db->quoteName('id'))
+			->from('(' . $subquery1 . ') temp');
+
+		$query->delete($db->quoteName('#__finder_taxonomy'))
+			->where($db->quoteName('id') . ' IN (' . $subquery . ')');
+
 		$db->setQuery($query);
 		$db->execute();
 

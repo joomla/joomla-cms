@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,18 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds Component Controller
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- * @since       1.5
+ * @since  1.5
  */
 class NewsfeedsController extends JControllerLegacy
 {
 	/**
 	 * Method to show a newsfeeds view
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
+	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -37,12 +36,13 @@ class NewsfeedsController extends JControllerLegacy
 
 		$user = JFactory::getUser();
 
-		if ($user->get('id') || ($this->input->getMethod() == 'POST' && $vName = 'category' ))
+		if ($user->get('id') || ($this->input->getMethod() == 'POST' && $vName == 'category' ))
 		{
 			$cachable = false;
 		}
 
-		$safeurlparams = array('id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT', 'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
+		$safeurlparams = array('id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT',
+								'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
 
 		parent::display($cachable, $safeurlparams);
 	}

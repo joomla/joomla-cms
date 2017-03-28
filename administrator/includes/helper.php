@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
  * Joomla! Administrator Application helper class.
  * Provide many supporting API functions.
  *
- * @package     Joomla.Administrator
- * @subpackage  Application
  * @since       1.5
+ *
+ * @deprecated  4.0 Deprecated without replacement
  */
 class JAdministratorHelper
 {

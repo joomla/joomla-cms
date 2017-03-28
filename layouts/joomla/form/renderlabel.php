@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
+
+extract($displayData);
 
 /**
  * Layout variables
@@ -20,31 +22,39 @@ defined('_JEXEC') or die;
  * 	$position     : (string)  The tooltip position. Bottom for alias
  */
 
-$text		= $displayData['text'];
-$desc		= $displayData['description'];
-$for		= $displayData['for'];
-$req		= $displayData['required'];
-$classes	= array_filter((array) $displayData['classes']);
-$position	= $displayData['position'];
+$classes = array_filter((array) $classes);
 
 $id = $for . '-lbl';
 $title = '';
 
-// If a description is specified, use it to build a tooltip.
-if (!empty($desc))
+if (!empty($description))
 {
-	JHtml::_('bootstrap.tooltip');
-	$classes[] = 'hasTooltip';
-	$title = ' title="' . JHtml::tooltipText(trim($text, ':'), $desc, 0) . '"';
+	if ($text && $text !== $description)
+	{
+		JHtml::_('bootstrap.popover');
+		$classes[] = 'hasPopover';
+		$title     = ' title="' . htmlspecialchars(trim($text, ':')) . '"'
+			. ' data-content="'. htmlspecialchars($description) . '"';
+
+		if (!$position && JFactory::getLanguage()->isRtl())
+		{
+			$position = ' data-placement="left" ';
+		}
+	}
+	else
+	{
+		JHtml::_('bootstrap.tooltip');
+		$classes[] = 'hasTooltip';
+		$title     = ' title="' . JHtml::_('tooltipText', trim($text, ':'), $description, 0) . '"';
+	}
 }
 
-// If required, there's a class for that.
-if ($req)
+if ($required)
 {
 	$classes[] = 'required';
 }
 
 ?>
 <label id="<?php echo $id; ?>" for="<?php echo $for; ?>" class="<?php echo implode(' ', $classes); ?>"<?php echo $title; ?><?php echo $position; ?>>
-	<?php echo $text; ?><?php if ($req) : ?><span class="star">&#160;*</span><?php endif; ?>
+	<?php echo $text; ?><?php if ($required) : ?><span class="star">&#160;*</span><?php endif; ?>
 </label>

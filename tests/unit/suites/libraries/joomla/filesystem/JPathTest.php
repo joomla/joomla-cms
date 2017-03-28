@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filesystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,63 +40,11 @@ class JPathTest extends TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testCanChmod().
-	 *
-	 * @return void
-	 */
-	public function testCanChmod()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetPermissions().
-	 *
-	 * @return void
-	 */
-	public function testSetPermissions()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetPermissions().
-	 *
-	 * @return void
-	 */
-	public function testGetPermissions()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testCheck().
-	 *
-	 * @return void
-	 */
-	public function testCheck()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests the clean method.
 	 *
-	 * @param   string  $input     @todo
-	 * @param   string  $ds        @todo
-	 * @param   string  $expected  @todo
+	 * @param   string  $input
+	 * @param   string  $ds
+	 * @param   string  $expected
 	 *
 	 * @return  void
 	 *
@@ -122,31 +70,5 @@ class JPathTest extends TestCase
 	public function testCleanArrayPath()
 	{
 		JPath::clean(array('/path/to/folder') );
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsOwner().
-	 *
-	 * @return void
-	 */
-	public function testIsOwner()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testFind().
-	 *
-	 * @return void
-	 */
-	public function testFind()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

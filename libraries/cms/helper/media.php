@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Media helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.2
+ * @since  3.2
  */
 class JHelperMedia
 {
@@ -65,7 +63,7 @@ class JHelperMedia
 
 		if (empty($file['name']))
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
 
 			return false;
 		}
@@ -74,7 +72,7 @@ class JHelperMedia
 
 		if (str_replace(' ', '', $file['name']) != $file['name'] || $file['name'] !== JFile::makeSafe($file['name']))
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
 			return false;
 		}
@@ -84,7 +82,7 @@ class JHelperMedia
 		if (count($filetypes) < 2)
 		{
 			// There seems to be no extension
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -93,25 +91,27 @@ class JHelperMedia
 
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
-			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp','dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
+			'php', 'php3', 'php4', 'php5', 'php6', 'php7', 'pht', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade',
+			'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct',
+			'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
 		);
 
 		$check = array_intersect($filetypes, $executable);
 
 		if (!empty($check))
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+
 			return false;
 		}
 
 		$filetype = array_pop($filetypes);
-		$allowable = explode(',', $params->get('upload_extensions'));
-		$ignored   = explode(',', $params->get('ignore_extensions'));
+		$allowable = array_map('trim', explode(',', $params->get('upload_extensions')));
+		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -120,14 +120,14 @@ class JHelperMedia
 
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
-			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 			return false;
 		}
 
 		if ($params->get('restrict_uploads', 1))
 		{
-			$images = explode(',', $params->get('image_extensions'));
+			$images = array_map('trim', explode(',', $params->get('image_extensions')));
 
 			if (in_array($filetype, $images))
 			{
@@ -137,14 +137,14 @@ class JHelperMedia
 				{
 					if (($imginfo = getimagesize($file['tmp_name'])) === false)
 					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'notice');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
 
 						return false;
 					}
 				}
 				else
 				{
-					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
+					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 					return false;
 				}
@@ -152,8 +152,8 @@ class JHelperMedia
 			elseif (!in_array($filetype, $ignored))
 			{
 				// If it's not an image, and we're not ignoring it
-				$allowed_mime = explode(',', $params->get('upload_mime'));
-				$illegal_mime = explode(',', $params->get('upload_mime_illegal'));
+				$allowed_mime = array_map('trim', explode(',', $params->get('upload_mime')));
+				$illegal_mime = array_map('trim', explode(',', $params->get('upload_mime_illegal')));
 
 				if (function_exists('finfo_open') && $params->get('check_mime', 1))
 				{
@@ -163,7 +163,7 @@ class JHelperMedia
 
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
 						return false;
 					}
@@ -177,14 +177,14 @@ class JHelperMedia
 
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
 						return false;
 					}
 				}
 				elseif (!JFactory::getUser()->authorise('core.manage', $component))
 				{
-					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'notice');
+					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
 
 					return false;
 				}
@@ -201,7 +201,7 @@ class JHelperMedia
 			'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object',
 			'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar',
 			'small', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title',
-			'tr', 'tt', 'ul', 'var', 'wbr', 'xml', 'xmp', '!DOCTYPE', '!--'
+			'tr', 'tt', 'ul', 'var', 'wbr', 'xml', 'xmp', '!DOCTYPE', '!--',
 		);
 
 		foreach ($html_tags as $tag)
@@ -209,7 +209,7 @@ class JHelperMedia
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
 			if (stristr($xss_check, '<' . $tag . ' ') || stristr($xss_check, '<' . $tag . '>'))
 			{
-				$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'notice');
+				$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 
 				return false;
 			}
@@ -291,15 +291,15 @@ class JHelperMedia
 	}
 
 	/**
-	* Small helper function that properly converts any
-	* configuration options to their byte representation.
-	*
-	* @param   string|integer  $val  The value to be converted to bytes.
-	*
-	* @return integer The calculated bytes value from the input.
-	*
-	* @since 3.3
-	*/
+	 * Small helper function that properly converts any
+	 * configuration options to their byte representation.
+	 *
+	 * @param   string|integer  $val  The value to be converted to bytes.
+	 *
+	 * @return integer The calculated bytes value from the input.
+	 *
+	 * @since 3.3
+	 */
 	public function toBytes($val)
 	{
 		switch ($val[strlen($val) - 1])

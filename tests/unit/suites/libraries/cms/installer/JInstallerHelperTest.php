@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,10 +23,10 @@ class JInstallerHelperTest extends TestCase
 	 *
 	 * @return  void
 	 */
-	public function testGetFilenameFromURL()
+	public function testGetFilenameFromUrl()
 	{
 		$this->assertThat(
-			JInstallerHelper::getFilenameFromURL('http://update.joomla.org/core/list.xml'),
+			JInstallerHelper::getFilenameFromUrl('http://update.joomla.org/core/list.xml'),
 			$this->equalTo('list.xml'),
 			'JInstallerHelper::getFilenameFromURL should return the last portion of the URL'
 		);

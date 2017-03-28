@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP transport class for using cURL.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @since  11.3
  */
 class JHttpTransportCurl implements JHttpTransport
 {
 	/**
-	 * @var    JRegistry  The client options.
+	 * @var    Registry  The client options.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -27,13 +27,13 @@ class JHttpTransportCurl implements JHttpTransport
 	/**
 	 * Constructor. CURLOPT_FOLLOWLOCATION must be disabled when open_basedir or safe_mode are enabled.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   Registry  $options  Client options object.
 	 *
-	 * @see     http://www.php.net/manual/en/function.curl-setopt.php
+	 * @see     https://secure.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry $options)
+	public function __construct(Registry $options)
 	{
 		if (!function_exists('curl_init') || !is_callable('curl_init'))
 		{
@@ -63,8 +63,24 @@ class JHttpTransportCurl implements JHttpTransport
 		// Setup the cURL handle.
 		$ch = curl_init();
 
+		$options = array();
+
 		// Set the request method.
-		$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
+		switch (strtoupper($method))
+		{
+			case 'GET':
+				$options[CURLOPT_HTTPGET] = true;
+				break;
+
+			case 'POST':
+				$options[CURLOPT_POST] = true;
+				break;
+
+			case 'PUT':
+			default:
+				$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
+				break;
+		}
 
 		// Don't wait for body when $method is HEAD
 		$options[CURLOPT_NOBODY] = ($method === 'HEAD');
@@ -113,6 +129,12 @@ class JHttpTransportCurl implements JHttpTransport
 			$options[CURLOPT_HTTPHEADER] = $headerArray;
 		}
 
+		// Curl needs the accepted encoding header as option
+		if (isset($headers['Accept-Encoding']))
+		{
+			$options[CURLOPT_ENCODING] = $headers['Accept-Encoding'];
+		}
+
 		// If an explicit timeout is given user it.
 		if (isset($timeout))
 		{
@@ -139,11 +161,8 @@ class JHttpTransportCurl implements JHttpTransport
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
-		/*
-		 * Follow redirects if server config allows
-		 * @deprecated  safe_mode is removed in PHP 5.4, check will be dropped when PHP 5.3 support is dropped
-		 */
-		if (!ini_get('safe_mode') && !ini_get('open_basedir'))
+		// Follow redirects if server config allows
+		if ($this->redirectsAllowed())
 		{
 			$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
 		}
@@ -159,6 +178,19 @@ class JHttpTransportCurl implements JHttpTransport
 			{
 				$options[CURLOPT_PROXYUSERPWD] = $user . ':' . $config->get('proxy_pass');
 			}
+		}
+
+		// Set any custom transport options
+		foreach ($this->options->get('transport.curl', array()) as $key => $value)
+		{
+			$options[$key] = $value;
+		}
+
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$options[CURLOPT_USERPWD] = $this->options->get('userauth') . ':' . $this->options->get('passwordauth');
+			$options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
 		}
 
 		// Set the cURL options.
@@ -187,7 +219,20 @@ class JHttpTransportCurl implements JHttpTransport
 		// Close the connection.
 		curl_close($ch);
 
-		return $this->getResponse($content, $info);
+		$response = $this->getResponse($content, $info);
+
+		// Manually follow redirects if server doesn't allow to follow location using curl
+		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']))
+		{
+			$redirect_uri = new JUri($response->headers['Location']);
+			if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
+			{
+				throw new RuntimeException('Curl redirect cannot be used in file or scp requests.');
+			}
+			$response = $this->request($method, $redirect_uri, $data, $headers, $timeout, $userAgent);
+		}
+
+		return $response;
 	}
 
 	/**
@@ -207,21 +252,37 @@ class JHttpTransportCurl implements JHttpTransport
 		// Create the response object.
 		$return = new JHttpResponse;
 
-		// Get the number of redirects that occurred.
-		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
+		// Try to get header size
+		if (isset($info['header_size']))
+		{
+			$headerString = trim(substr($content, 0, $info['header_size']));
+			$headerArray  = explode("\r\n\r\n", $headerString);
 
-		/*
-		 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
-		 * also be included. So we split the response into header + body + the number of redirects and only use the last two
-		 * sections which should be the last set of headers and the actual body.
-		 */
-		$response = explode("\r\n\r\n", $content, 2 + $redirects);
+			// Get the last set of response headers as an array.
+			$headers = explode("\r\n", array_pop($headerArray));
 
-		// Set the body for the response.
-		$return->body = array_pop($response);
+			// Set the body for the response.
+			$return->body = substr($content, $info['header_size']);
+		}
+		// Fallback and try to guess header count by redirect count
+		else
+		{
+			// Get the number of redirects that occurred.
+			$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
 
-		// Get the last set of response headers as an array.
-		$headers = explode("\r\n", array_pop($response));
+			/*
+			 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
+			 * also be included. So we split the response into header + body + the number of redirects and only use the last two
+			 * sections which should be the last set of headers and the actual body.
+			 */
+			$response = explode("\r\n\r\n", $content, 2 + $redirects);
+
+			// Set the body for the response.
+			$return->body = array_pop($response);
+
+			// Get the last set of response headers as an array.
+			$headers = explode("\r\n", array_pop($response));
+		}
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
@@ -259,5 +320,47 @@ class JHttpTransportCurl implements JHttpTransport
 	public static function isSupported()
 	{
 		return function_exists('curl_version') && curl_version();
+	}
+
+	/**
+	 * Check if redirects are allowed
+	 *
+	 * @return  boolean
+	 *
+	 * @since   12.1
+	 */
+	private function redirectsAllowed()
+	{
+		$curlVersion = curl_version();
+
+		// In PHP 5.6.0 or later there are no issues with curl redirects
+		if (version_compare(PHP_VERSION, '5.6', '>='))
+		{
+			// But if open_basedir is enabled we also need to check if libcurl version is 7.19.4 or higher
+			if (!ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>='))
+			{
+				return true;
+			}
+		}
+
+		// From PHP 5.4.0 to 5.5.30 curl redirects are only allowed if open_basedir is disabled
+		elseif (version_compare(PHP_VERSION, '5.4', '>='))
+		{
+			if (!ini_get('open_basedir'))
+			{
+				return true;
+			}
+		}
+
+		// From PHP 5.1.5 to 5.3.30 curl redirects are only allowed if safe_mode and open_basedir are disabled
+		else
+		{
+			if (!ini_get('safe_mode') && !ini_get('open_basedir'))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

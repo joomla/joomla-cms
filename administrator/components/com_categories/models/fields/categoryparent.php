@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,17 +14,15 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldCategoryParent extends JFormFieldList
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var        string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'CategoryParent';
 
@@ -43,6 +41,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 
 		// Let's get the id for the current item, either category or content item.
 		$jinput = JFactory::getApplication()->input;
+
 		// For categories the old category is the category id 0 for new category.
 		if ($this->element['parent'])
 		{
@@ -65,6 +64,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 		{
 			$query->where('(a.extension = ' . $db->quote($extension) . ' OR a.parent_id = 0)');
 		}
+
 		if ($this->element['parent'])
 		{
 			// Prevent parenting to children of this item.
@@ -81,6 +81,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 				$row = $db->loadObject();
 			}
 		}
+
 		$query->where('a.published IN (0,1)')
 			->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id')
 			->order('a.lft ASC');
@@ -106,7 +107,22 @@ class JFormFieldCategoryParent extends JFormFieldList
 				$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 			}
 
+			// Displays language code if not set to All
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('language'))
+				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
+				->from($db->quoteName('#__categories'));
+
+			$db->setQuery($query);
+			$language = $db->loadResult();
+
 			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+
+			if ($language !== '*')
+			{
+				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
+			}
 		}
 
 		// Get the current user object.
@@ -117,9 +133,10 @@ class JFormFieldCategoryParent extends JFormFieldList
 		{
 			foreach ($options as $i => $option)
 			{
-				// To take save or create in a category you need to have create rights for that category
-				// unless the item is already in that category.
-				// Unset the option if the user isn't authorised for it. In this field assets are always categories.
+				/*
+				 * To take save or create in a category you need to have create rights for that category unless the item is already in that category.
+				 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
+				 */
 				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 				{
 					unset($options[$i]);
@@ -129,12 +146,13 @@ class JFormFieldCategoryParent extends JFormFieldList
 		// If you have an existing category id things are more complex.
 		else
 		{
-			//$categoryOld = $this->form->getValue($name);
 			foreach ($options as $i => $option)
 			{
-				// If you are only allowed to edit in this category but not edit.state, you should not get any
-				// option to change the category parent for a category or the category for a content item,
-				// but you should be able to save in that category.
+				/*
+				 * If you are only allowed to edit in this category but not edit.state, you should not get any
+				 * option to change the category parent for a category or the category for a content item,
+				 * but you should be able to save in that category.
+				 */
 				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true)
 				{
 					if ($option->value != $oldCat)
@@ -143,10 +161,11 @@ class JFormFieldCategoryParent extends JFormFieldList
 						unset($options[$i]);
 					}
 				}
-				// However, if you can edit.state you can also move this to another category for which you have
-				// create permission and you should also still be able to save in the current category.
-				elseif
-				(($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+				/*
+				 * However, if you can edit.state you can also move this to another category for which you have
+				 * create permission and you should also still be able to save in the current category.
+				 */
+				elseif (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					&& $option->value != $oldCat
 				)
 				{
@@ -167,8 +186,6 @@ class JFormFieldCategoryParent extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }

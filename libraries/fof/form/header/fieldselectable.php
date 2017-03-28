@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -24,6 +24,27 @@ class FOFFormHeaderFieldselectable extends FOFFormHeaderField
 	protected function getOptions()
 	{
 		$options = array();
+
+		// Get the field $options
+		foreach ($this->element->children() as $option)
+		{
+			// Only add <option /> elements.
+			if ($option->getName() != 'option')
+			{
+				continue;
+			}
+
+			// Create a new option object based on the <option /> element.
+			$options[] = JHtml::_(
+				'select.option',
+				(string) $option['value'],
+				JText::alt(
+					trim((string) $option),
+					preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)
+				),
+				'value', 'text', ((string) $option['disabled'] == 'true')
+			);
+		}
 
 		// Do we have a class and method source for our options?
 		$source_file = empty($this->element['source_file']) ? '' : (string) $this->element['source_file'];
@@ -57,7 +78,7 @@ class FOFFormHeaderFieldselectable extends FOFFormHeaderField
 					// Get the data from the class
 					if ($source_format == 'optionsobject')
 					{
-						$options = $source_class::$source_method();
+						$options = array_merge($options, $source_class::$source_method());
 					}
 					else
 					{
@@ -79,27 +100,6 @@ class FOFFormHeaderFieldselectable extends FOFFormHeaderField
 					}
 				}
 			}
-		}
-
-		// Get the field $options
-		foreach ($this->element->children() as $option)
-		{
-			// Only add <option /> elements.
-			if ($option->getName() != 'option')
-			{
-				continue;
-			}
-
-			// Create a new option object based on the <option /> element.
-			$options[] = JHtml::_(
-				'select.option',
-				(string) $option['value'],
-				JText::alt(
-					trim((string) $option),
-					preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)
-				),
-				'value', 'text', ((string) $option['disabled'] == 'true')
-			);
 		}
 
 		reset($options);

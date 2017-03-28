@@ -3,28 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-?>
-<script type="text/javascript">
-	function iFrameHeight()
-	{
-		var h = 0;
-		if (!document.all)
-		{
-			h = document.getElementById('blockrandom').contentDocument.height;
-			document.getElementById('blockrandom').style.height = h + 60 + 'px';
-		} else if (document.all)
-		{
-			h = document.frames('blockrandom').document.body.scrollHeight;
-			document.all.blockrandom.style.height = h + 20 + 'px';
-		}
-	}
-</script>
 
+JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
+?>
 <iframe <?php echo $load; ?>
 	id="blockrandom"
 	name="<?php echo $target; ?>"

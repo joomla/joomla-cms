@@ -2,8 +2,10 @@
 /**
  *  @package     FrameworkOnFramework
  *  @subpackage  include
- *  @copyright   Copyright (c)2010-2014 Nicholas K. Dionysopoulos
+ *  @copyright   Copyright (C) 2010-2015 Nicholas K. Dionysopoulos
  *  @license     GNU General Public License version 2, or later
+ *
+ *  @deprecated  4.0  Deprecated without replacement include FOF by your own if required
  *
  *  Initializes FOF
  */
@@ -12,10 +14,10 @@ defined('_JEXEC') or die();
 
 if (!defined('FOF_INCLUDED'))
 {
-    define('FOF_INCLUDED', '2.2.1');
+	define('FOF_INCLUDED', '2.5.5');
 
 	// Register the FOF autoloader
-    require_once __DIR__ . '/autoloader/fof.php';
+	require_once __DIR__ . '/autoloader/fof.php';
 	FOFAutoloaderFof::init();
 
 	// Register a debug log

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="site"
-	method="upgrade">
+<extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_search</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -17,7 +13,6 @@
 		<filename module="mod_search">mod_search.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>		<filename>mod_search.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_search.ini</language>
@@ -31,117 +26,140 @@
 					name="label"
 					type="label"
 					label="MOD_SEARCH_FIELD_LABEL_TEXT_LABEL"
-					description="MOD_SEARCH_FIELD_LABEL_TEXT_DESC" />
+					description="MOD_SEARCH_FIELD_LABEL_TEXT_DESC"
+				/>
+
 				<field
 					name="width"
 					type="text"
-					default="20"
 					label="MOD_SEARCH_FIELD_BOXWIDTH_LABEL"
-					description="MOD_SEARCH_FIELD_BOXWIDTH_DESC" />
+					description="MOD_SEARCH_FIELD_BOXWIDTH_DESC"
+				/>
+
 				<field
 					name="text"
 					type="text"
 					label="MOD_SEARCH_FIELD_TEXT_LABEL"
-					description="MOD_SEARCH_FIELD_TEXT_DESC" />
+					description="MOD_SEARCH_FIELD_TEXT_DESC"
+				/>
+
 				<field
 					name="button"
 					type="radio"
+					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
+					description="MOD_SEARCH_FIELD_BUTTON_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
-					description="MOD_SEARCH_FIELD_BUTTON_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 				<field
 					name="button_pos"
 					type="list"
-					default="left"
 					label="MOD_SEARCH_FIELD_BUTTONPOS_LABEL"
-					description="MOD_SEARCH_FIELD_BUTTONPOS_DESC">
-					<option
-						value="right">MOD_SEARCH_FIELD_VALUE_RIGHT</option>
-					<option
-						value="left">MOD_SEARCH_FIELD_VALUE_LEFT</option>
-					<option
-						value="top">MOD_SEARCH_FIELD_VALUE_TOP</option>
-					<option
-						value="bottom">MOD_SEARCH_FIELD_VALUE_BOTTOM</option>
+					description="MOD_SEARCH_FIELD_BUTTONPOS_DESC"
+					default="left"
+					showon="button:1"
+					>
+					<option value="right">MOD_SEARCH_FIELD_VALUE_RIGHT</option>
+					<option value="left">MOD_SEARCH_FIELD_VALUE_LEFT</option>
+					<option value="top">MOD_SEARCH_FIELD_VALUE_TOP</option>
+					<option value="bottom">MOD_SEARCH_FIELD_VALUE_BOTTOM</option>
 				</field>
+
 				<field
 					name="imagebutton"
 					type="radio"
+					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
+					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
-					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC">
+					showon="button:1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="button_text"
 					type="text"
 					label="MOD_SEARCH_FIELD_BUTTONTEXT_LABEL"
-					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC" />
+					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC"
+					showon="button:1"
+				/>
+
 				<field
 					name="opensearch"
 					type="radio"
-					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_LABEL"
 					description="MOD_SEARCH_FIELD_OPENSEARCH_DESC"
-					default="1">
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="opensearch_title"
 					type="text"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_LABEL"
-					description="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_DESC" />
+					description="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_DESC"
+					showon="opensearch:1"
+				/>
+
 				<field
 					name="set_itemid"
 					type="menuitem"
-					default="0"
 					label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
-					description="MOD_SEARCH_FIELD_SETITEMID_DESC">
+					description="MOD_SEARCH_FIELD_SETITEMID_DESC"
+					default="0"
+					>
 					<option value="0">MOD_SEARCH_SELECT_MENU_ITEMID</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
 				<field
 					name="cache"
 					type="list"
-					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					default="1"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
+
 				<field
 					name="cachemode"
 					type="hidden"
-					default="itemid">
-					<option
-						value="itemid"></option>
+					default="itemid"
+					>
+					<option value="itemid"></option>
 				</field>
 			</fieldset>
 		</fields>

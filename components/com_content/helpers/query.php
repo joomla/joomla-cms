@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,17 @@ defined('_JEXEC') or die;
 /**
  * Content Component Query Helper
  *
- * @static
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentHelperQuery
 {
 	/**
 	 * Translate an order code to a field for primary category ordering.
 	 *
-	 * @param   string	$orderby	The ordering code.
+	 * @param   string  $orderby  The ordering code.
 	 *
-	 * @return  string	The SQL field(s) to order by.
+	 * @return  string  The SQL field(s) to order by.
+	 *
 	 * @since   1.5
 	 */
 	public static function orderbyPrimary($orderby)
@@ -54,10 +52,11 @@ class ContentHelperQuery
 	/**
 	 * Translate an order code to a field for secondary category ordering.
 	 *
-	 * @param   string	$orderby	The ordering code.
-	 * @param   string	$orderDate	The ordering code for the date.
+	 * @param   string  $orderby    The ordering code.
+	 * @param   string  $orderDate  The ordering code for the date.
 	 *
-	 * @return  string	The SQL field(s) to order by.
+	 * @return  string  The SQL field(s) to order by.
+	 *
 	 * @since   1.5
 	 */
 	public static function orderbySecondary($orderby, $orderDate = 'created')
@@ -103,7 +102,43 @@ class ContentHelperQuery
 				break;
 
 			case 'front' :
-				$orderby = 'a.featured DESC, fp.ordering';
+				$orderby = 'a.featured DESC, fp.ordering, ' . $queryDate . ' DESC ';
+				break;
+
+			case 'random' :
+				$orderby = JFactory::getDbo()->getQuery(true)->Rand();
+				break;
+
+			case 'vote' :
+				$orderby = 'a.id DESC ';
+				if (JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$orderby = 'rating_count DESC ';
+				}
+				break;
+
+			case 'rvote' :
+				$orderby = 'a.id ASC ';
+				if (JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$orderby = 'rating_count ASC ';
+				}
+				break;
+
+			case 'rank' :
+				$orderby = 'a.id DESC ';
+				if (JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$orderby = 'rating DESC ';
+				}
+				break;
+
+			case 'rrank' :
+				$orderby = 'a.id ASC ';
+				if (JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$orderby = 'rating ASC ';
+				}
 				break;
 
 			default :
@@ -117,9 +152,10 @@ class ContentHelperQuery
 	/**
 	 * Translate an order code to a field for primary category ordering.
 	 *
-	 * @param   string	$orderDate	The ordering code.
+	 * @param   string  $orderDate  The ordering code.
 	 *
-	 * @return  string	The SQL field(s) to order by.
+	 * @return  string  The SQL field(s) to order by.
+	 *
 	 * @since   1.6
 	 */
 	public static function getQueryDate($orderDate)
@@ -132,7 +168,7 @@ class ContentHelperQuery
 				$queryDate = ' CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END';
 				break;
 
-			// use created if publish_up is not set
+			// Use created if publish_up is not set
 			case 'published' :
 				$queryDate = ' CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
 				break;
@@ -149,12 +185,13 @@ class ContentHelperQuery
 	/**
 	 * Get join information for the voting query.
 	 *
-	 * @param   JRegistry	$param	An options object for the article.
+	 * @param   \Joomla\Registry\Registry  $params  An options object for the article.
 	 *
-	 * @return  array  	A named array with "select" and "join" keys.
+	 * @return  array  A named array with "select" and "join" keys.
+	 * 
 	 * @since   1.5
 	 */
-	public static function buildVotingQuery($params=null)
+	public static function buildVotingQuery($params = null)
 	{
 		if (!$params)
 		{
@@ -165,7 +202,7 @@ class ContentHelperQuery
 
 		if ($voting)
 		{
-			// calculate voting count
+			// Calculate voting count
 			$select = ' , ROUND(v.rating_sum / v.rating_count) AS rating, v.rating_count';
 			$join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
 		}
@@ -175,9 +212,7 @@ class ContentHelperQuery
 			$join = '';
 		}
 
-		$results = array ('select' => $select, 'join' => $join);
-
-		return $results;
+		return array('select' => $select, 'join' => $join);
 	}
 
 	/**
@@ -188,24 +223,26 @@ class ContentHelperQuery
 	 * across columns in the layout, the result is that the
 	 * desired article ordering is achieved down the columns.
 	 *
-	 * @param   array  $articles	Array of intro text articles
-	 * @param   integer	$numColumns	Number of columns in the layout
+	 * @param   array    &$articles   Array of intro text articles
+	 * @param   integer  $numColumns  Number of columns in the layout
 	 *
 	 * @return  array  Reordered array to achieve desired ordering down columns
+	 *
 	 * @since   1.6
 	 */
 	public static function orderDownColumns(&$articles, $numColumns = 1)
 	{
 		$count = count($articles);
 
-		// just return the same array if there is nothing to change
+		// Just return the same array if there is nothing to change
 		if ($numColumns == 1 || !is_array($articles) || $count <= $numColumns)
 		{
 			$return = $articles;
 		}
-		// we need to re-order the intro articles array
-		else {
-			// we need to preserve the original array keys
+		// We need to re-order the intro articles array
+		else
+		{
+			// We need to preserve the original array keys
 			$keys = array_keys($articles);
 
 			$maxRows = ceil($count / $numColumns);
@@ -213,30 +250,32 @@ class ContentHelperQuery
 			$numEmpty = $numCells - $count;
 			$index = array();
 
-			// calculate number of empty cells in the array
+			// Calculate number of empty cells in the array
 
-			// fill in all cells of the array
-			// put -1 in empty cells so we can skip later
-
+			// Fill in all cells of the array
+			// Put -1 in empty cells so we can skip later
 			for ($row = 1, $i = 1; $row <= $maxRows; $row++)
 			{
 				for ($col = 1; $col <= $numColumns; $col++)
 				{
 					if ($numEmpty > ($numCells - $i))
 					{
-						// put -1 in empty cells
+						// Put -1 in empty cells
 						$index[$row][$col] = -1;
 					}
-					else {
-						// put in zero as placeholder
+					else
+					{
+						// Put in zero as placeholder
 						$index[$row][$col] = 0;
 					}
+
 					$i++;
 				}
 			}
 
-			// layout the articles in column order, skipping empty cells
+			// Layout the articles in column order, skipping empty cells
 			$i = 0;
+
 			for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++)
 			{
 				for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++)
@@ -249,10 +288,11 @@ class ContentHelperQuery
 				}
 			}
 
-			// now read the $index back row by row to get articles in right row/col
+			// Now read the $index back row by row to get articles in right row/col
 			// so that they will actually be ordered down the columns (when read by row in the layout)
 			$return = array();
 			$i = 0;
+
 			for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++)
 			{
 				for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++)
@@ -262,6 +302,7 @@ class ContentHelperQuery
 				}
 			}
 		}
+
 		return $return;
 	}
 }

@@ -2,16 +2,13 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-if (!class_exists('JFormFieldList'))
-{
-	require_once JPATH_LIBRARIES . '/joomla/form/fields/list.php';
-}
+JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for FOF
@@ -28,7 +25,7 @@ class FOFFormFieldActions extends JFormFieldList implements FOFFormField
 
 	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
 	public $rowid;
-	
+
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
 
@@ -60,7 +57,7 @@ class FOFFormFieldActions extends JFormFieldList implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:

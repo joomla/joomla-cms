@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.7"
 	client="installation">
-	<name>Chinese Simplified 简体中文</name>
-	<version>3.2.0</version>
-	<creationDate>2011.1.11</creationDate>
-	<author>Joomla! Project</author>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<name>Chinese Simplified (China)</name>
+	<version>3.7.0</version>
+	<creationDate>2017年3月</creationDate>
+	<author>Joomla! 中文社区 www.ijoomla.cn</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>zh-CN.ini</filename>
 	</files>
 	<metadata>
-		<name>Chinese Simplified 简体中文</name>
+		<name>Chinese Simplified (zh-CN)</name>
+		<nativeName>简体中文 (中国)</nativeName>
 		<tag>zh-CN</tag>
 		<rtl>0</rtl>
 	</metadata>

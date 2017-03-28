@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Users class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
  * @since       12.3
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterUsers extends JTwitterObject
 {
@@ -41,10 +40,12 @@ class JTwitterUsers extends JTwitterObject
 		{
 			$data['user_id'] = $id;
 		}
+
 		if ($screen_name)
 		{
 			$data['screen_name'] = $screen_name;
 		}
+
 		if ($id == null && $screen_name == null)
 		{
 			// We don't have a valid entry
@@ -122,7 +123,7 @@ class JTwitterUsers extends JTwitterObject
 		$data['q'] = rawurlencode($query);
 
 		// Check if page is specified.
-		if ($page > 0 )
+		if ($page > 0)
 		{
 			$data['page'] = $page;
 		}
@@ -160,7 +161,7 @@ class JTwitterUsers extends JTwitterObject
 	public function getUser($user, $entities = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit('users', 'show');
+		$this->checkRateLimit('users', 'show/:id');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))

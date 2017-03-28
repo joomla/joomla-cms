@@ -2,33 +2,56 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 include_once JPATH_PLATFORM . '/joomla/document/html/renderer/component.php';
 
 /**
- * Test class for JDocumentRendererComponent.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Document
- * @since       11.1
+ * Test class for JDocumentRendererComponent
  */
-class JDocumentRendererComponentTest extends PHPUnit_Framework_TestCase
+class JDocumentRendererComponentTest extends TestCase
 {
 	/**
-	 * Test Render
+	 * The instance of the object to test.
 	 *
-	 * @todo Implement testRender().
-	 *
-	 * @return void
+	 * @var  JDocumentRendererComponent
 	 */
-	public function testRender()
+	private $instance;
+
+	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$document = $this->getMockDocument();
+
+		$this->instance = new JDocumentRendererComponent(JFactory::getDocument());
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
+	/**
+	 * @testdox  Test the default return for render
+	 */
+	public function testTheDefaultReturnForRender()
+	{
+		$this->assertNull($this->instance->render());
 	}
 }

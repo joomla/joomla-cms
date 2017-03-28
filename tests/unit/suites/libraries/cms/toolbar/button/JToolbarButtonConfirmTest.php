@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,7 +55,7 @@ class JToolbarButtonConfirmTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 
@@ -74,6 +74,9 @@ class JToolbarButtonConfirmTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->toolbar);
+		unset($this->object);
 
 		$this->restoreFactoryState();
 
@@ -89,7 +92,7 @@ class JToolbarButtonConfirmTest extends TestCaseDatabase
 	 */
 	public function testFetchButton()
 	{
-		$html = "<button onclick=\"if (document.adminForm.boxchecked.value==0){alert('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');}else{if (confirm('Confirm action?')){Joomla.submitbutton('article.save');}}\" class=\"btn btn-small\">\n"
+		$html = "<button onclick=\"if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } else { if (confirm('Confirm action?')) { Joomla.submitbutton('article.save'); } }\" class=\"btn btn-small\">\n"
 			. "\t<span class=\"icon-confirm-test\"></span>\n"
 			. "\tConfirm?</button>\n";
 

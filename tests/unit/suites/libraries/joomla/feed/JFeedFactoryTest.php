@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,15 +15,33 @@ JLoader::register('JFeedParserMockNamespace', __DIR__ . '/stubs/JFeedParserMockN
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
  */
 class JFeedFactoryTest extends TestCase
 {
 	/**
 	 * @var    JFeedFactory
-	 * @since  12.3
 	 */
 	private $_instance;
+
+	/**
+	 * Setup the tests.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
+	{
+		$this->_instance = new JFeedFactory;
+	}
+
+	/**
+	 * Method to tear down whatever was set up before the test.
+	 *
+	 * @return  void
+	 */
+	protected function tearDown()
+	{
+		unset($this->_instance);
+	}
 
 	/**
 	 * Tests JFeedFactory::getFeed() with a bad feed.
@@ -31,12 +49,11 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  RuntimeException
-	 * @since              12.3
 	 */
 	public function testGetFeedBad()
 	{
-		$this->markTestSkipped('Unexpected failure testing in CMS environment');
-		$this->_instance->getFeed(JPATH_TESTS . '/tmp/test.bad.feed');
+		$this->markTestSkipped('This test is failing to execute and is locking up the test suite.');
+		$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.bad.feed');
 	}
 
 	/**
@@ -45,11 +62,10 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since              12.3
 	 */
 	public function testGetFeedNoParser()
 	{
-		$this->_instance->getFeed(JPATH_TESTS . '/tmp/test.myfeed.feed');
+		$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.myfeed.feed');
 	}
 
 	/**
@@ -57,12 +73,11 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @medium
 	 * @expectedException  RuntimeException
-	 * @since              3.1
 	 */
 	public function testGetFeedIdn()
 	{
-		$this->markTestSkipped('Unexpected failure testing in CMS environment');
 		$this->_instance->getFeed('http://джумла-тест.рф/master/article-category-blog?format=feed&type=rss');
 	}
 
@@ -70,36 +85,35 @@ class JFeedFactoryTest extends TestCase
 	 * Tests JFeedFactory::getFeed() with a feed parser.
 	 *
 	 * @return  void
-	 *
-	 * @since   12.3
 	 */
 	public function testGetFeedMockParser()
 	{
 		$this->_instance->registerParser('myfeed', 'JFeedParserMock', true);
-
 		JFeedParserMock::$parseReturn = 'test';
 
-		$this->assertEquals($this->_instance->getFeed(JPATH_TESTS . '/tmp/test.myfeed.feed'), 'test');
+		$this->assertEquals(
+			'test',
+			$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.myfeed.feed')
+		);
 	}
 
 	/**
 	 * Tests JFeedFactory::getFeed()
 	 *
 	 * @return  void
-	 *
-	 * @since   12.3
 	 */
 	public function testGetFeed()
 	{
-		$this->_instance->getFeed(JPATH_TESTS . '/tmp/test.feed');
+		$this->assertInstanceOf(
+			'JFeed',
+			$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.feed')
+		);
 	}
 
 	/**
 	 * Tests JFeedFactory::registerParser()
 	 *
 	 * @return  void
-	 *
-	 * @since   12.3
 	 */
 	public function testRegisterParser()
 	{
@@ -107,7 +121,9 @@ class JFeedFactoryTest extends TestCase
 
 		$this->_instance->registerParser('mock', 'JFeedParserMock');
 
-		$this->assertNotEmpty(TestReflection::getValue($this->_instance, 'parsers'));
+		$this->assertNotEmpty(
+			TestReflection::getValue($this->_instance, 'parsers')
+		);
 	}
 
 	/**
@@ -116,7 +132,6 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
 	 */
 	public function testRegisterParserWithInvalidClass()
 	{
@@ -124,7 +139,9 @@ class JFeedFactoryTest extends TestCase
 
 		$this->_instance->registerParser('mock', 'JFeedParserMocks');
 
-		$this->assertNotEmpty(TestReflection::getValue($this->_instance, 'parsers'));
+		$this->assertNotEmpty(
+			TestReflection::getValue($this->_instance, 'parsers')
+		);
 	}
 
 	/**
@@ -133,7 +150,6 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
 	 */
 	public function testRegisterParserWithInvalidTag()
 	{
@@ -148,16 +164,18 @@ class JFeedFactoryTest extends TestCase
 	 * Tests JFeedFactory::_fetchFeedParser()
 	 *
 	 * @return  void
-	 *
-	 * @since   12.3
 	 */
 	public function test_fetchFeedParser()
 	{
-		$parser = TestReflection::invoke($this->_instance, '_fetchFeedParser', 'rss', new XMLReader);
-		$this->assertInstanceOf('JFeedParserRss', $parser);
+		$this->assertInstanceOf(
+			'JFeedParserRss',
+			TestReflection::invoke($this->_instance, '_fetchFeedParser', 'rss', new XMLReader)
+		);
 
-		$parser = TestReflection::invoke($this->_instance, '_fetchFeedParser', 'feed', new XMLReader);
-		$this->assertInstanceOf('JFeedParserAtom', $parser);
+		$this->assertInstanceOf(
+			'JFeedParserAtom',
+			TestReflection::invoke($this->_instance, '_fetchFeedParser', 'feed', new XMLReader)
+		);
 	}
 
 	/**
@@ -166,40 +184,9 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since              12.3
 	 */
 	public function test_fetchFeedParserWithInvalidTag()
 	{
 		TestReflection::invoke($this->_instance, '_fetchFeedParser', 'foobar', new XMLReader);
-	}
-
-	/**
-	 * Setup the tests.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   12.3
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		$this->_instance = new JFeedFactory;
-	}
-
-	/**
-	 * Method to tear down whatever was set up before the test.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   12.3
-	 */
-	protected function tearDown()
-	{
-		unset($this->_instance);
-
-		parent::teardown();
 	}
 }

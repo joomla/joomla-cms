@@ -3,26 +3,24 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
 
-defined('JPATH_PLATFORM') or die();
-
+use Joomla\Registry\Registry;
 
 /**
  * Facebook API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
- *
  * @since       13.1
+ * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 abstract class JFacebookObject
 {
 	/**
-	 * @var    JRegistry  Options for the Facebook object.
+	 * @var    Registry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -42,15 +40,15 @@ abstract class JFacebookObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       $options  Facebook options object.
+	 * @param   Registry        $options  Facebook options object.
 	 * @param   JHttp           $client   The HTTP client object.
 	 * @param   JFacebookOAuth  $oauth    The OAuth client.
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JFacebookOAuth $oauth = null)
+	public function __construct(Registry $options = null, JHttp $client = null, JFacebookOAuth $oauth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);
 		$this->oauth = $oauth;
 	}

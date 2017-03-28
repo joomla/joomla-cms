@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,7 +41,7 @@ class JFormFieldUrlTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 
@@ -95,15 +95,32 @@ class JFormFieldUrlTest extends TestCaseDatabase
 	{
 		$formField = new JFormFieldUrl;
 
+		$xml = '<field ';
+		$curvalue = null;
 		foreach ($data as $attr => $value)
 		{
-			TestReflection::setValue($formField, $attr, $value);
+			if ($attr == 'value')
+			{
+				$curvalue = $value;
+			}
+			else
+			{
+				if ($value === false)
+				{
+					$value = 'false';
+				}
+				$xml .= $attr . '="' . $value . '" ';
+			}
 		}
+		$xml .= '/>';
+
+		$formField->setup(simplexml_load_string($xml), $curvalue);
+
+		$replaces = array("\n", "\r"," ", "\t");
 
 		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formField, 'getInput'),
-			'Line:' . __LINE__ . ' The field did not produce the right html'
-		);
+			str_replace($replaces, '', TestReflection::invoke($formField, 'getInput')),
+			str_replace($replaces, '', $expected),
+			'Line:' . __LINE__ . ' The field did not produce the right html');
 	}
 }

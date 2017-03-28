@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -123,7 +123,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$logger = new JLogLoggerDatabaseInspector($config);
 		$logger->connect();
 
-		$this->assertTrue($logger->db instanceof JDatabaseDriver, 'Line: ' . __LINE__);
+		$this->assertInstanceOf('\\JDatabaseDriver', $logger->db, 'Line: ' . __LINE__);
 	}
 
 	/**

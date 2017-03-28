@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/table/user.php';
 
 /**
  * Test class for JTableUser.
@@ -38,50 +36,7 @@ class JTableUserTest extends TestCaseDatabase
 	/**
 	 * Test...
 	 *
-	 * @covers JTableUser::load
-	 * @todo   Implement testLoad().
-	 *
-	 * @return void
-	 */
-	public function testLoad()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers JTableUser::bind
-	 * @todo   Implement testBind().
-	 *
-	 * @return void
-	 */
-	public function testBind()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers JTableUser::check
-	 * @todo   Implement testCheck().
-	 *
-	 * @return void
-	 */
-	public function testCheck()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
 	 * @covers JTableUser::store
-	 * @todo   Implement testStore().
 	 *
 	 * @return void
 	 */
@@ -130,36 +85,5 @@ class JTableUserTest extends TestCaseDatabase
 			$this->equalTo(array(1, 2)),
 			'Checks that the user group mapping was stored correctly.'
 		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test is incomplete.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers JTableUser::delete
-	 * @todo   Implement testDelete().
-	 *
-	 * @return void
-	 */
-	public function testDelete()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers JTableUser::setLastVisit
-	 * @todo   Implement testSetLastVisit().
-	 *
-	 * @return void
-	 */
-	public function testSetLastVisit()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

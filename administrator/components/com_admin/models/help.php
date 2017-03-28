@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Admin Component Help Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
- * @since       1.6
+ * @since  1.6
  */
 class AdminModelHelp extends JModelLegacy
 {
@@ -22,7 +22,6 @@ class AdminModelHelp extends JModelLegacy
 	 * The search string
 	 *
 	 * @var    string
-	 *
 	 * @since  1.6
 	 */
 	protected $help_search = null;
@@ -31,16 +30,14 @@ class AdminModelHelp extends JModelLegacy
 	 * The page to be viewed
 	 *
 	 * @var    string
-	 *
 	 * @since  1.6
 	 */
 	protected $page = null;
 
 	/**
-	 * The iso language tag
+	 * The ISO language tag
 	 *
 	 * @var    string
-	 *
 	 * @since  1.6
 	 */
 	protected $lang_tag = null;
@@ -49,7 +46,6 @@ class AdminModelHelp extends JModelLegacy
 	 * Table of contents
 	 *
 	 * @var    array
-	 *
 	 * @since  1.6
 	 */
 	protected $toc = null;
@@ -58,7 +54,6 @@ class AdminModelHelp extends JModelLegacy
 	 * URL for the latest version check
 	 *
 	 * @var    string
-	 *
 	 * @since  1.6
 	 */
 	protected $latest_version_check = null;
@@ -68,7 +63,7 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @return  string  Help search string
 	 *
-	 * @since  1.6
+	 * @since   1.6
 	 */
 	public function &getHelpSearch()
 	{
@@ -85,14 +80,13 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @return  string  The page
 	 *
-	 * @since  1.6
+	 * @since   1.6
 	 */
 	public function &getPage()
 	{
 		if (is_null($this->page))
 		{
-			$page = JFactory::getApplication()->input->get('page', 'JHELP_START_HERE');
-			$this->page = JHelp::createUrl($page);
+			$this->page = JHelp::createUrl(JFactory::getApplication()->input->get('page', 'JHELP_START_HERE'));
 		}
 
 		return $this->page;
@@ -109,12 +103,11 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (is_null($this->lang_tag))
 		{
-			$lang = JFactory::getLanguage();
-			$this->lang_tag = $lang->getTag();
+			$this->lang_tag = JFactory::getLanguage()->getTag();
 
 			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
 			{
-				// Use english as fallback
+				// Use English as fallback
 				$this->lang_tag = 'en-GB';
 			}
 		}
@@ -123,73 +116,76 @@ class AdminModelHelp extends JModelLegacy
 	}
 
 	/**
-	 * Method to get the toc
+	 * Method to get the table of contents
 	 *
 	 * @return  array  Table of contents
 	 */
 	public function &getToc()
 	{
-		if (is_null($this->toc))
+		if (!is_null($this->toc))
 		{
-			// Get vars
-			$lang_tag = $this->getLangTag();
-			$help_search = $this->getHelpSearch();
+			return $this->toc;
+		}
 
-			// New style - Check for a TOC JSON file
-			if (file_exists(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'))
+		// Get vars
+		$lang_tag    = $this->getLangTag();
+		$help_search = $this->getHelpSearch();
+
+		// New style - Check for a TOC JSON file
+		if (file_exists(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'))
+		{
+			$data = json_decode(file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'));
+
+			// Loop through the data array
+			foreach ($data as $key => $value)
 			{
-				$data = json_decode(file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'));
-
-				// Loop through the data array
-				foreach ($data as $key => $value)
-				{
-					$this->toc[$key] = JText::_('COM_ADMIN_HELP_' . $value);
-				}
-			}
-			else
-			{
-				// Get Help files
-				jimport('joomla.filesystem.folder');
-				$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
-				$this->toc = array();
-
-				foreach ($files as $file)
-				{
-					$buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
-
-					if (preg_match('#<title>(.*?)</title>#', $buffer, $m))
-					{
-						$title = trim($m[1]);
-
-						if ($title)
-						{
-							// Translate the page title
-							$title = JText::_($title);
-
-							// Strip the extension
-							$file = preg_replace('#\.xml$|\.html$#', '', $file);
-
-							if ($help_search)
-							{
-								if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false)
-								{
-									// Add an item in the Table of Contents
-									$this->toc[$file] = $title;
-								}
-							}
-							else
-							{
-								// Add an item in the Table of Contents
-								$this->toc[$file] = $title;
-							}
-						}
-					}
-				}
+				$this->toc[$key] = JText::_('COM_ADMIN_HELP_' . $value);
 			}
 
 			// Sort the Table of Contents
 			asort($this->toc);
+
+			return $this->toc;
 		}
+
+		// Get Help files
+		jimport('joomla.filesystem.folder');
+		$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
+		$this->toc = array();
+
+		foreach ($files as $file)
+		{
+			$buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
+
+			if (!preg_match('#<title>(.*?)</title>#', $buffer, $m))
+			{
+				continue;
+			}
+
+			$title = trim($m[1]);
+
+			if (!$title)
+			{
+				continue;
+			}
+
+			// Translate the page title
+			$title = JText::_($title);
+
+			// Strip the extension
+			$file = preg_replace('#\.xml$|\.html$#', '', $file);
+
+			if ($help_search && StringHelper::strpos(StringHelper::strtolower(strip_tags($buffer)), StringHelper::strtolower($help_search)) === false)
+			{
+				continue;
+			}
+
+			// Add an item in the Table of Contents
+			$this->toc[$file] = $title;
+		}
+
+		// Sort the Table of Contents
+		asort($this->toc);
 
 		return $this->toc;
 	}
@@ -203,7 +199,8 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (!$this->latest_version_check)
 		{
-			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
+			$override = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:'
+				. 'Joomla_Version_{major}_{minor}_{maintenance}/{langcode}&amp;lang={langcode}';
 			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}
 

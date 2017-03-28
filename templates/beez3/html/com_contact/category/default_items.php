@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <?php if (empty($this->items)) : ?>
 	<p> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?> </p>
@@ -33,6 +33,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php if ($this->params->get('show_headings')) : ?>
 		<thead><tr>
 
+			<?php if ($this->params->get('show_image_heading')) : ?>
+			<th class="item-image">
+			</th>
+			<?php endif; ?>
 			<th class="item-title">
 				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
 			</th>
@@ -93,6 +97,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php else: ?>
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
+
+					<?php if ($this->params->get('show_image_heading')) : ?>
+						<td class="item-image">
+							<?php if ($this->items[$i]->image) : ?>
+								<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?>
+							<?php endif; ?>
+						</td>
+					<?php endif; ?>
 
 					<td class="item-title">
 						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -133,10 +133,9 @@ class JDatabaseIteratorMysqliTest extends TestCaseDatabaseMysqli
 		$iterator = self::$driver->getIterator($column, $class);
 
 		// Run the Iterator pattern
-		$this->assertThat(
-			iterator_to_array($iterator),
-			$this->equalTo($expected),
-			__LINE__
+		$this->assertEquals(
+			$expected,
+			iterator_to_array($iterator)
 		);
 	}
 
@@ -150,24 +149,18 @@ class JDatabaseIteratorMysqliTest extends TestCaseDatabaseMysqli
 	public function testCount()
 	{
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'));
-		$this->assertThat(
-			count(self::$driver->getIterator()),
-			$this->equalTo(4),
-			__LINE__
+		$this->assertCount(
+			4, self::$driver->getIterator()
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 0, 2);
-		$this->assertThat(
-			count(self::$driver->getIterator()),
-			$this->equalTo(2),
-			__LINE__
+		$this->assertCount(
+			2, self::$driver->getIterator()
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 3, 2);
-		$this->assertThat(
-			count(self::$driver->getIterator()),
-			$this->equalTo(1),
-			__LINE__
+		$this->assertCount(
+			1, self::$driver->getIterator()
 		);
 	}
 }

@@ -1,9 +1,7 @@
 ================================================================================
 Historical note
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-On February 21st, 2013 FOF changed its license to GPLv2 or later (instead of v3
-or later) so that it can be distributed with the Joomla! CMS without causing
-licensing issues.
+On February 21st, 2013 FOF changed its license to GPLv2 or later.
 ================================================================================
 
                     GNU GENERAL PUBLIC LICENSE

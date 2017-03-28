@@ -3,24 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * JSON Response class
+ * JSON Response class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
  * @since       2.5
- * @deprecated	4.0
+ * @deprecated  4.0
  */
 class JJsonResponse
 {
 	/**
-	 * Determines whether the request was successful
+	 * Determines whether the request was successful.
 	 *
 	 * @var    boolean
 	 * @since  2.5
@@ -38,7 +36,7 @@ class JJsonResponse
 	public $error = false;
 
 	/**
-	 * The main response message
+	 * The main response message.
 	 *
 	 * @var    string
 	 * @since  2.5
@@ -46,7 +44,7 @@ class JJsonResponse
 	public $message = null;
 
 	/**
-	 * Array of messages gathered in the JApplication object
+	 * Array of messages gathered in the JApplication object.
 	 *
 	 * @var    array
 	 * @since  2.5
@@ -54,7 +52,7 @@ class JJsonResponse
 	public $messages = null;
 
 	/**
-	 * The response data
+	 * The response data.
 	 *
 	 * @var    mixed
 	 * @since  2.5
@@ -64,23 +62,30 @@ class JJsonResponse
 	/**
 	 * Constructor
 	 *
-	 * @param   mixed    $response  The Response data
-	 * @param   string   $message   The main response message
-	 * @param   boolean  $error     True, if the success flag shall be set to false, defaults to false
+	 * @param   mixed    $response  The Response data.
+	 * @param   string   $message   The main response message.
+	 * @param   boolean  $error     True, if the success flag shall be set to false, defaults to false.
 	 *
 	 * @since		2.5
-	 * @deprecated	4.0	 Use JResponseJson instead
+	 * @deprecated	4.0	 Use JResponseJson instead.
 	 */
 	public function __construct($response = null, $message = null, $error = false)
 	{
-		JLog::add('Class JJsonResponse is deprecated. Use class JResponseJson instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(sprintf('%s is deprecated, use JResponseJson instead.', __CLASS__), JLog::WARNING, 'deprecated');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		$this->message = $message;
 
-		// Get the message queue
+		// Get the message queue.
 		$messages = JFactory::getApplication()->getMessageQueue();
 
-		// Build the sorted messages list
+		// Build the sorted messages list.
 		if (is_array($messages) && count($messages))
 		{
 			foreach ($messages as $message)
@@ -92,33 +97,33 @@ class JJsonResponse
 			}
 		}
 
-		// If messages exist add them to the output
+		// If messages exist add them to the output.
 		if (isset($lists) && is_array($lists))
 		{
 			$this->messages = $lists;
 		}
 
-		// Check if we are dealing with an error
+		// Check if we are dealing with an error.
 		if ($response instanceof Exception)
 		{
-			// Prepare the error response
+			// Prepare the error response.
 			$this->success = false;
-			$this->error = true;
-			$this->message	= $response->getMessage();
+			$this->error   = true;
+			$this->message = $response->getMessage();
 		}
 		else
 		{
-			// Prepare the response data
+			// Prepare the response data.
 			$this->success = !$error;
-			$this->error = $error;
-			$this->data = $response;
+			$this->error   = $error;
+			$this->data    = $response;
 		}
 	}
 
 	/**
-	 * Magic toString method for sending the response in JSON format
+	 * Magic toString method for sending the response in JSON format.
 	 *
-	 * @return  string  The response in JSON format
+	 * @return  string  The response in JSON format.
 	 *
 	 * @since   2.5
 	 */

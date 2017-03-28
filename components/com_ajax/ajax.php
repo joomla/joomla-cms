@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /*
  * References
  *  Support plugins in your component
- * - http://docs.joomla.org/Supporting_plugins_in_your_component
+ * - https://docs.joomla.org/Supporting_plugins_in_your_component
  *
  * Best way for JSON output
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
@@ -29,7 +29,7 @@ $format = strtolower($input->getWord('format'));
 
 // Initialize default response and module name
 $results = null;
-$parts = null;
+$parts   = null;
 
 // Check for valid format
 if (!$format)
@@ -68,26 +68,34 @@ elseif ($input->get('module'))
 
 		if ($parts)
 		{
-			$class = 'mod';
+			$class = 'Mod';
+
 			foreach ($parts as $part)
 			{
 				$class .= ucfirst($part);
 			}
+
 			$class .= 'Helper';
 		}
 		else
 		{
-			$class = 'mod' . ucfirst($module) . 'Helper';
+			$class = 'Mod' . ucfirst($module) . 'Helper';
 		}
 
-		$method = $input->get('method') ? $input->get('method') : 'get';
+		$method = $input->get('method') ?: 'get';
 
 		if (is_file($helperFile))
 		{
-			require_once $helperFile;
+			JLoader::register($class, $helperFile);
 
 			if (method_exists($class, $method . 'Ajax'))
 			{
+				// Load language file for module
+				$basePath = JPATH_BASE;
+				$lang     = JFactory::getLanguage();
+				$lang->load('mod_' . $module, $basePath, null, false, true)
+				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+
 				try
 				{
 					$results = call_user_func($class . '::' . $method . 'Ajax');
@@ -116,7 +124,8 @@ elseif ($input->get('module'))
 	}
 }
 /*
- * Plugin support is based on the "Ajax" plugin group.
+ * Plugin support by default is based on the "Ajax" plugin group.
+ * An optional 'group' variable can be passed via the URL.
  *
  * The plugin event triggered is onAjaxFoo, where 'foo' is
  * the value of the 'plugin' variable passed via the URL
@@ -125,7 +134,8 @@ elseif ($input->get('module'))
  */
 elseif ($input->get('plugin'))
 {
-	JPluginHelper::importPlugin('ajax');
+	$group      = $input->get('group', 'ajax');
+	JPluginHelper::importPlugin($group);
 	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JEventDispatcher::getInstance();
 
@@ -143,18 +153,13 @@ elseif ($input->get('plugin'))
 switch ($format)
 {
 	// JSONinzed
-	case 'json':
+	case 'json' :
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
-		break;
 
-	// Human-readable format
-	case 'debug':
-		echo '<pre>' . print_r($results, true) . '</pre>';
-		$app->close();
 		break;
 
 	// Handle as raw format
-	default:
+	default :
 		// Output exception
 		if ($results instanceof Exception)
 		{

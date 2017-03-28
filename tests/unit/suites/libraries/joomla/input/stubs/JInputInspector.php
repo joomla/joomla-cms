@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,12 +25,12 @@ class JInputInspector extends JInput
 	public $inputs;
 
 	public static $registered;
+
 	/**
 	 * Test...
 	 *
 	 * @return void
 	 */
-
 	public static function register()
 	{
 		return parent::register();

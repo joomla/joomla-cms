@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="content">
+<extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>plg_content_loadmodule</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,6 @@
 	<description>PLG_LOADMODULE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="loadmodule">loadmodule.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_loadmodule.ini</language>
@@ -19,12 +18,14 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
-				<field name="style" type="list"
-					default="table"
+				<field
+					name="style"
+					type="list"
+					label="PLG_LOADMODULE_FIELD_STYLE_LABEL"
 					description="PLG_LOADMODULE_FIELD_STYLE_DESC"
-					label="PLG_LOADMODULE_FIELD_STYLE_LABEL">
+					default="table"
+					>
 					<option value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>
 					<option value="horz">PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL</option>
 					<option value="xhtml">PLG_LOADMODULE_FIELD_VALUE_DIVS</option>
@@ -32,7 +33,6 @@
 					<option value="none">PLG_LOADMODULE_FIELD_VALUE_RAW</option>
 				</field>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

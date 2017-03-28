@@ -3,29 +3,32 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JDocumentRenderer.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Document
- * @since       11.1
  */
-class JDocumentRendererTest extends PHPUnit_Framework_TestCase
+class JDocumentRendererTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * @var    JDocumentRenderer
+	 * @var  JDocumentRenderer
 	 */
 	protected $object;
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function setUp()
 	{
@@ -33,37 +36,37 @@ class JDocumentRendererTest extends PHPUnit_Framework_TestCase
 
 		$doc = new JDocument;
 		$this->object = new JDocumentRenderer($doc);
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
-	 * Test JDocumentRenderer::render().
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
 	 *
-	 * Empty test because the base class does nothing
-	 *
-	 * @since 11.3
-	 *
-	 * @return void
+	 * @return  void
 	 */
-	public function testRender()
+	protected function tearDown()
 	{
-		$this->assertThat(
-			$this->object->render('test'),
-			$this->equalTo(null)
-		);
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->object);
+		parent::tearDown();
 	}
 
-	/**
-	 * Test JDocumentRenderer::getContentType().
-	 *
-	 * @since 11.3
-	 *
-	 * @return void
-	 */
-	public function testGetContentType()
+	public function testRenderByDefaultReturnsNull()
 	{
-		$this->assertThat(
-			$this->object->getContentType(),
-			$this->equalTo('text/html')
+		$this->assertNull($this->object->render('test'));
+	}
+
+	public function testGetTheDefaultContentType()
+	{
+		$this->assertEquals(
+			'text/html',
+			$this->object->getContentType()
 		);
 	}
 }

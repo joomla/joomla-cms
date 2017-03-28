@@ -2,7 +2,7 @@
 /**
  *  @package     FrameworkOnFramework
  *  @subpackage  autoloader
- *  @copyright   Copyright (c)2010-2014 Nicholas K. Dionysopoulos
+ *  @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  *  @license     GNU General Public License version 2, or later
  */
 
@@ -173,14 +173,12 @@ class FOFAutoloaderComponent
 		$parts = explode('_', $class_modified);
 
 		// We need three parts in the name
-
 		if (count($parts) != 3)
 		{
 			return;
 		}
 
 		// We need the second part to be "controller"
-
 		if ($parts[1] != 'controller')
 		{
 			return;
@@ -192,7 +190,6 @@ class FOFAutoloaderComponent
 		$view = $parts[2];
 
 		// Is this an FOF 2.1 or later component?
-
 		if (!$this->isFOFComponent($component))
 		{
 			return;
@@ -212,35 +209,30 @@ class FOFAutoloaderComponent
 		$altPath = $componentPaths['alt'];
 
 		// Try to find the proper class in the proper path
-
 		if (file_exists($path . $file))
 		{
 			@include_once $path . $file;
 		}
 
 		// Try to find the proper class in the alternate path
-
 		if (!class_exists($class_name) && file_exists($altPath . $file))
 		{
 			@include_once $altPath . $file;
 		}
 
 		// Try to find the alternate class in the proper path
-
 		if (!class_exists($alt_class) && file_exists($path . $altFile))
 		{
 			@include_once $path . $altFile;
 		}
 
 		// Try to find the alternate class in the alternate path
-
 		if (!class_exists($alt_class) && file_exists($altPath . $altFile))
 		{
 			@include_once $altPath . $altFile;
 		}
 
 		// If the alternate class exists just map the class to the alternate
-
 		if (!class_exists($class_name) && class_exists($alt_class))
 		{
 			$this->class_alias($alt_class, $class_name);
@@ -290,14 +282,12 @@ class FOFAutoloaderComponent
 		$parts = explode('_', $class_modified);
 
 		// We need three parts in the name
-
 		if (count($parts) != 3)
 		{
 			return;
 		}
 
 		// We need the second part to be "model"
-
 		if ($parts[1] != 'model')
 		{
 			return;
@@ -309,7 +299,6 @@ class FOFAutoloaderComponent
 		$view = $parts[2];
 
 		// Is this an FOF 2.1 or later component?
-
 		if (!$this->isFOFComponent($component))
 		{
 			return;
@@ -328,35 +317,30 @@ class FOFAutoloaderComponent
 		$altPath = $componentPaths['alt'];
 
 		// Try to find the proper class in the proper path
-
 		if (file_exists($path . $file))
 		{
 			@include_once $path . $file;
 		}
 
 		// Try to find the proper class in the alternate path
-
 		if (!class_exists($class_name) && file_exists($altPath . $file))
 		{
 			@include_once $altPath . $file;
 		}
 
 		// Try to find the alternate class in the proper path
-
 		if (!class_exists($alt_class) && file_exists($path . $altFile))
 		{
 			@include_once $path . $altFile;
 		}
 
 		// Try to find the alternate class in the alternate path
-
 		if (!class_exists($alt_class) && file_exists($altPath . $altFile))
 		{
 			@include_once $altPath . $altFile;
 		}
 
 		// If the alternate class exists just map the class to the alternate
-
 		if (!class_exists($class_name) && class_exists($alt_class))
 		{
 			$this->class_alias($alt_class, $class_name);
@@ -435,7 +419,6 @@ class FOFAutoloaderComponent
 		}
 
 		// Is this an FOF 2.1 or later component?
-
 		if (!$this->isFOFComponent($component))
 		{
 			return;
@@ -466,28 +449,24 @@ class FOFAutoloaderComponent
 			$altFile = $protoAltFile . '.' . $currentFormat . '.php';
 
 			// Try to find the proper class in the proper path
-
 			if (!class_exists($class_name) && file_exists($path . $file))
 			{
 				@include_once $path . $file;
 			}
 
 			// Try to find the proper class in the alternate path
-
 			if (!class_exists($class_name) && file_exists($altPath . $file))
 			{
 				@include_once $altPath . $file;
 			}
 
 			// Try to find the alternate class in the proper path
-
 			if (!class_exists($alt_class) && file_exists($path . $altFile))
 			{
 				@include_once $path . $altFile;
 			}
 
 			// Try to find the alternate class in the alternate path
-
 			if (!class_exists($alt_class) && file_exists($altPath . $altFile))
 			{
 				@include_once $altPath . $altFile;
@@ -495,7 +474,6 @@ class FOFAutoloaderComponent
 		}
 
 		// If the alternate class exists just map the class to the alternate
-
 		if (!class_exists($class_name) && class_exists($alt_class))
 		{
 			$this->class_alias($alt_class, $class_name);
@@ -561,7 +539,6 @@ class FOFAutoloaderComponent
 		}
 
 		// We need the second part to be "model"
-
 		if ($parts[1] != 'table')
 		{
 			return;
@@ -573,7 +550,6 @@ class FOFAutoloaderComponent
 		$view = $parts[2];
 
 		// Is this an FOF 2.1 or later component?
-
 		if (!$this->isFOFComponent($component))
 		{
 			return;
@@ -591,21 +567,18 @@ class FOFAutoloaderComponent
 		$path = $componentPaths['admin'];
 
 		// Try to find the proper class in the proper path
-
 		if (file_exists($path . $file))
 		{
 			@include_once $path . $file;
 		}
 
 		// Try to find the alternate class in the proper path
-
 		if (!class_exists($alt_class) && file_exists($path . $altFile))
 		{
 			@include_once $path . $altFile;
 		}
 
 		// If the alternate class exists just map the class to the alternate
-
 		if (!class_exists($class_name) && class_exists($alt_class))
 		{
 			$this->class_alias($alt_class, $class_name);
@@ -655,14 +628,12 @@ class FOFAutoloaderComponent
 		$parts = explode('_', $class_modified);
 
 		// We need three parts in the name
-
 		if (count($parts) != 3)
 		{
 			return;
 		}
 
 		// We need the second part to be "model"
-
 		if ($parts[1] != 'helper')
 		{
 			return;
@@ -674,7 +645,6 @@ class FOFAutoloaderComponent
 		$view = $parts[2];
 
 		// Is this an FOF 2.1 or later component?
-
 		if (!$this->isFOFComponent($component))
 		{
 			return;
@@ -693,35 +663,30 @@ class FOFAutoloaderComponent
 		$altPath = $componentPaths['alt'];
 
 		// Try to find the proper class in the proper path
-
 		if (file_exists($path . $file))
 		{
 			@include_once $path . $file;
 		}
 
 		// Try to find the proper class in the alternate path
-
 		if (!class_exists($class_name) && file_exists($altPath . $file))
 		{
 			@include_once $altPath . $file;
 		}
 
 		// Try to find the alternate class in the proper path
-
 		if (!class_exists($alt_class) && file_exists($path . $altFile))
 		{
 			@include_once $path . $altFile;
 		}
 
 		// Try to find the alternate class in the alternate path
-
 		if (!class_exists($alt_class) && file_exists($altPath . $altFile))
 		{
 			@include_once $altPath . $altFile;
 		}
 
 		// If the alternate class exists just map the class to the alternate
-
 		if (!class_exists($class_name) && class_exists($alt_class))
 		{
 			$this->class_alias($alt_class, $class_name);
@@ -757,14 +722,12 @@ class FOFAutoloaderComponent
 		$parts = explode('_', $class_modified);
 
 		// We need two parts in the name
-
 		if (count($parts) != 2)
 		{
 			return;
 		}
 
 		// We need the second part to be "model"
-
 		if ($parts[1] != 'toolbar')
 		{
 			return;
@@ -789,14 +752,12 @@ class FOFAutoloaderComponent
 		}
 
 		// Try to find the proper class in the alternate path
-
 		if (!class_exists($class_name) && file_exists($altPath . $file))
 		{
 			@include_once $altPath . $file;
 		}
 
 		// No class found? Map to FOFToolbar
-
 		if (!class_exists($class_name))
 		{
 			$this->class_alias('FOFToolbar', $class_name, true);

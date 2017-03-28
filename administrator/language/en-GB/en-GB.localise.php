@@ -2,17 +2,16 @@
 /**
  * @package    Joomla.Language
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * en-GB localise class
+ * en-GB localise class.
  *
- * @package  Joomla.Language
- * @since    1.6
+ * @since  1.6
  */
 abstract class En_GBLocalise
 {

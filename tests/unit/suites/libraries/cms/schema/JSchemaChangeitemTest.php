@@ -1,48 +1,70 @@
 <?php
 /**
- * @package	    Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JSchemaChangeitem.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Schema
- * @since       3.0
  */
-class JSchemaChangeitemTest extends PHPUnit_Framework_TestCase
+class JSchemaChangeitemTest extends TestCase
 {
 	/**
-	 * @todo   Implement testGetInstance().
+	 * Data provider for the getInstance() test case
+	 *
+	 * @return  array
 	 */
-	public function testGetInstance()
+	public function dataGetInstance()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		return array(
+			'MySQL'      => array('Mysql', 'Mysql', 'mysql'),
+			'MySQLi'     => array('Mysqli', 'Mysql', 'mysql'),
+			'PDO MySQL'  => array('Pdomysql', 'Mysql', 'mysql'),
+			'PostgreSQL' => array('Postgresql', 'Postgresql', 'postgresql'),
+			'SQL Server' => array('Sqlsrv', 'Sqlsrv', 'sqlazure'),
+			'SQL Azure'  => array('Sqlazure', 'Sqlsrv', 'sqlazure'),
 		);
 	}
 
 	/**
-	 * @todo   Implement testCheck().
+	 * @testdox  getInstance() returns the correct object
+	 *
+	 * @param   string  $dbDriver      The database driver to be mocked
+	 * @param   string  $itemSubclass  The subclass of JSchemaChangeitem that is expected
+	 * @param   string  $dbFolder      The name of the folder where the stubs are located
+	 *
+	 * @covers  JSchemaChangeitem::__construct
+	 * @covers  JSchemaChangeitem::getInstance
+	 *
+	 * @dataProvider  dataGetInstance
 	 */
-	public function testCheck()
+	public function testGetInstanceReturnsTheCorrectObject($dbDriver, $itemSubclass, $dbFolder)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
+		$file    = __DIR__ . '/stubs/' . $dbFolder . '/3.5.0-2016-03-01.sql';
+		$dbo     = $this->getMockDatabase($dbDriver);
+		$queries = JDatabaseDriver::splitSql(file_get_contents($file));
+
+		$item = JSchemaChangeitem::getInstance($dbo, $file, $queries[0]);
+
+		$this->assertInstanceOf('JSchemaChangeitem' . $itemSubclass, $item, 'The correct JSchemaChangeitem subclass was not instantiated');
 	}
 
 	/**
-	 * @todo   Implement testFix().
+	 * @testdox  getInstance() throws an Exception for an unsupported driver
+	 *
+	 * @covers   JSchemaChangeitem::getInstance
+	 *
+	 * @expectedException  RuntimeException
 	 */
-	public function testFix()
+	public function testGetInstanceThrowsAnExceptionForAnUnsupportedDriver()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
+		$file  = __DIR__ . '/stubs/mysql/3.5.0-2016-03-01.sql';
+		$dbo   = $this->getMockDatabase('Sqlite');
+		$query = 'SELECT foo FROM bar';
+
+		JSchemaChangeitem::getInstance($dbo, $file, $query);
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  utils
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -521,8 +521,8 @@ abstract class FOFUtilsArray
 				$locale = self::$sortLocale[$i];
 			}
 
-			$va = $a->$key[$i];
-			$vb = $b->$key[$i];
+			$va = $a->{$key[$i]};
+			$vb = $b->{$key[$i]};
 
 			if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
 			{

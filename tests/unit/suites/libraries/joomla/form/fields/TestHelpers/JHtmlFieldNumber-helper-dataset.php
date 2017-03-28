@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@
  */
 class JHtmlFieldNumberTest_DataSet
 {
-	static public $getInputTest = array(
+	public static $getInputTest = array(
 		'NoValue' => array(
 			array(
 				'id' => 'myTestId',
@@ -40,7 +40,17 @@ class JHtmlFieldNumberTest_DataSet
 				'name' => 'myTestName',
 				'min' => 2,
 			),
-			'<input type="number" name="myTestName" id="myTestId" value="2" min="2" />',
+			'<input type="number" name="myTestName" id="myTestId" value="" min="2" />',
+		),
+
+		'MinRequired' => array(
+			array(
+				'id' => 'myTestId',
+				'name' => 'myTestName',
+				'required' => 'true',
+				'min' => 2,
+			),
+			'<input type="number" name="myTestName" id="myTestId" value="2" min="2" required aria-required="true" />',
 		),
 
 		'Max' => array(

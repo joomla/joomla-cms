@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,17 +42,13 @@ class TestMockCache
 			'store',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JCache',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JCache')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$test->assignMockCallbacks(
 			$mockObject,
@@ -74,7 +70,7 @@ class TestMockCache
 	 *
 	 * @since   12.1
 	 */
-	public function mockGet($id)
+	public static function mockGet($id)
 	{
 		return isset(self::$cache[$id]) ? self::$cache[$id] : null;
 	}
@@ -89,7 +85,7 @@ class TestMockCache
 	 *
 	 * @since   12.1
 	 */
-	public function mockStore($value, $id)
+	public static function mockStore($value, $id)
 	{
 		self::$cache[$id] = $value;
 	}

@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,7 +49,7 @@ class JToolbarButtonLinkTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -63,6 +63,8 @@ class JToolbarButtonLinkTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		unset($this->toolbar);
+		unset($this->object);
 
 		parent::tearDown();
 	}
@@ -78,7 +80,7 @@ class JToolbarButtonLinkTest extends TestCase
 	{
 		$name = 'jdotorg';
 		$text = 'Joomla.org';
-		$url = 'http://www.joomla.org';
+		$url = 'https://www.joomla.org';
 
 		$this->assertRegExp(
 			'#<button onclick="location.href=\'' . preg_quote($url, '#') . '\';" class="btn btn-small">\s*'

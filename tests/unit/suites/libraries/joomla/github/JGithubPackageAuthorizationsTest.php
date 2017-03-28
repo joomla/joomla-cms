@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@
  *
  * @since       11.1
  */
-class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
+class JGithubPackageAuthorizationsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
@@ -60,9 +60,25 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->client = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
 
 		$this->object = new JGithubPackageAuthorization($this->options, $this->client);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->client);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -81,7 +97,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 		$authorisation = new stdClass;
 		$authorisation->scopes = array('public_repo');
 		$authorisation->note = 'My test app';
-		$authorisation->note_url = 'http://www.joomla.org';
+		$authorisation->note_url = 'https://www.joomla.org';
 
 		$this->client->expects($this->once())
 			->method('post')
@@ -89,7 +105,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->create(array('public_repo'), 'My test app', 'http://www.joomla.org'),
+			$this->object->create(array('public_repo'), 'My test app', 'https://www.joomla.org'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -112,7 +128,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 		$authorisation = new stdClass;
 		$authorisation->scopes = array('public_repo');
 		$authorisation->note = 'My test app';
-		$authorisation->note_url = 'http://www.joomla.org';
+		$authorisation->note_url = 'https://www.joomla.org';
 
 		$this->client->expects($this->once())
 			->method('post')
@@ -121,7 +137,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 
 		try
 		{
-			$this->object->create(array('public_repo'), 'My test app', 'http://www.joomla.org');
+			$this->object->create(array('public_repo'), 'My test app', 'https://www.joomla.org');
 		}
 		catch (DomainException $e)
 		{
@@ -211,7 +227,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 		$authorisation = new stdClass;
 		$authorisation->add_scopes = array('public_repo', 'gist');
 		$authorisation->note = 'My test app';
-		$authorisation->note_url = 'http://www.joomla.org';
+		$authorisation->note_url = 'https://www.joomla.org';
 
 		$this->client->expects($this->once())
 			->method('patch')
@@ -219,7 +235,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->edit(42, array(), array('public_repo', 'gist'), array(), 'My test app', 'http://www.joomla.org'),
+			$this->object->edit(42, array(), array('public_repo', 'gist'), array(), 'My test app', 'https://www.joomla.org'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -240,7 +256,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 		$authorisation = new stdClass;
 		$authorisation->remove_scopes = array('public_repo', 'gist');
 		$authorisation->note = 'My test app';
-		$authorisation->note_url = 'http://www.joomla.org';
+		$authorisation->note_url = 'https://www.joomla.org';
 
 		$this->client->expects($this->once())
 			->method('patch')
@@ -248,7 +264,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->edit(42, array(), array(), array('public_repo', 'gist'), 'My test app', 'http://www.joomla.org'),
+			$this->object->edit(42, array(), array(), array('public_repo', 'gist'), 'My test app', 'https://www.joomla.org'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -269,7 +285,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 		$authorisation = new stdClass;
 		$authorisation->scopes = array('public_repo', 'gist');
 		$authorisation->note = 'My test app';
-		$authorisation->note_url = 'http://www.joomla.org';
+		$authorisation->note_url = 'https://www.joomla.org';
 
 		$this->client->expects($this->once())
 			->method('patch')
@@ -277,7 +293,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->edit(42, array('public_repo', 'gist'), array(), array(), 'My test app', 'http://www.joomla.org'),
+			$this->object->edit(42, array('public_repo', 'gist'), array(), array(), 'My test app', 'https://www.joomla.org'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -300,7 +316,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 		$authorisation = new stdClass;
 		$authorisation->add_scopes = array('public_repo', 'gist');
 		$authorisation->note = 'My test app';
-		$authorisation->note_url = 'http://www.joomla.org';
+		$authorisation->note_url = 'https://www.joomla.org';
 
 		$this->client->expects($this->once())
 			->method('patch')
@@ -309,7 +325,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 
 		try
 		{
-			$this->object->edit(42, array(), array('public_repo', 'gist'), array(), 'My test app', 'http://www.joomla.org');
+			$this->object->edit(42, array(), array('public_repo', 'gist'), array(), 'My test app', 'https://www.joomla.org');
 		}
 		catch (DomainException $e)
 		{
@@ -334,7 +350,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEditTooManyScopes()
 	{
-		$this->object->edit(42, array(), array('public_repo', 'gist'), array('public_repo', 'gist'), 'My test app', 'http://www.joomla.org');
+		$this->object->edit(42, array(), array('public_repo', 'gist'), array('public_repo', 'gist'), 'My test app', 'https://www.joomla.org');
 	}
 
 	/**

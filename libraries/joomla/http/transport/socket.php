@@ -3,18 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP transport class for using sockets directly.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @since  11.3
  */
 class JHttpTransportSocket implements JHttpTransport
 {
@@ -25,7 +25,7 @@ class JHttpTransportSocket implements JHttpTransport
 	protected $connections;
 
 	/**
-	 * @var    JRegistry  The client options.
+	 * @var    Registry  The client options.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -33,12 +33,12 @@ class JHttpTransportSocket implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Client options object.
+	 * @param   Registry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry $options)
+	public function __construct(Registry $options)
 	{
 		if (!self::isSupported())
 		{
@@ -124,11 +124,23 @@ class JHttpTransportSocket implements JHttpTransport
 			}
 		}
 
+		// Set any custom transport options
+		foreach ($this->options->get('transport.socket', array()) as $value)
+		{
+			$request[] = $value;
+		}
+
 		// If we have data to send add it to the request payload.
 		if (!empty($data))
 		{
 			$request[] = null;
 			$request[] = $data;
+		}
+
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$request[] = 'Authorization: Basic ' . base64_encode($this->options->get('userauth') . ':' . $this->options->get('passwordauth'));
 		}
 
 		// Send the request to the server.
@@ -142,7 +154,15 @@ class JHttpTransportSocket implements JHttpTransport
 			$content .= fgets($connection, 4096);
 		}
 
-		return $this->getResponse($content);
+		$content = $this->getResponse($content);
+
+		// Follow Http redirects
+		if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location']))
+		{
+			return $this->request($method, new JUri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
+		}
+
+		return $content;
 	}
 
 	/**
@@ -216,7 +236,7 @@ class JHttpTransportSocket implements JHttpTransport
 		$err = null;
 
 		// Get the host from the uri.
-		$host = ($uri->isSSL()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
+		$host = ($uri->isSsl()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
 
 		// If the port is not explicitly set in the URI detect it.
 		if (!$uri->getPort())
@@ -306,7 +326,6 @@ class JHttpTransportSocket implements JHttpTransport
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen');
+		return function_exists('fsockopen') && is_callable('fsockopen') && !JFactory::getConfig()->get('proxy_enable');
 	}
-
 }

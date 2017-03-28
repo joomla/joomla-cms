@@ -1,20 +1,18 @@
 <?php
 /**
- * @package     Joomla.Cms
- * @subpackage  View
+ * @package     Joomla.Site
+ * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 /**
  * Prototype admin view.
  *
- * @package     Joomla.Libraries
- * @subpackage  Model
- * @since       3.2
+ * @since  3.2
  */
 abstract class ConfigViewCmsHtml extends JViewHtml
 {
@@ -102,12 +100,6 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
-		// Change the template folder if alternative layout is in different template
-		/* if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
-		{
-			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
-		} */
-
 		// Prevents adding path twise
 		if (empty($this->_path['template']))
 		{
@@ -134,8 +126,7 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 		if ($this->_template != false)
 		{
 			// Unset so as not to introduce into template scope
-			unset($tpl);
-			unset($file);
+			unset($tpl, $file);
 
 			// Never allow a 'this' property
 			if (isset($this->this))
@@ -175,8 +166,6 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 	 */
 	protected function _createFileName($type, $parts = array())
 	{
-		$filename = '';
-
 		switch ($type)
 		{
 			case 'template':

@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_finder
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       3.3
+ * @since  3.3
  */
 class FinderRouter extends JComponentRouterBase
 {
@@ -29,15 +27,7 @@ class FinderRouter extends JComponentRouterBase
 	 */
 	public function build(&$query)
 	{
-		static $menu;
-
 		$segments = array();
-
-		// Load the menu if necessary.
-		if (!$menu)
-		{
-			$menu = JFactory::getApplication('site')->getMenu();
-		}
 
 		/*
 		 * First, handle menu item routes first. When the menu system builds a
@@ -59,22 +49,22 @@ class FinderRouter extends JComponentRouterBase
 		if (!empty($query['Itemid']))
 		{
 			// Get the menu item.
-			$item = $menu->getItem($query['Itemid']);
+			$item = $this->menu->getItem($query['Itemid']);
 
 			// Check if the view matches.
-			if ($item && @$item->query['view'] === @$query['view'])
+			if ($item && isset($item->query['view']) && isset($query['view']) && $item->query['view'] === $query['view'])
 			{
 				unset($query['view']);
 			}
 
 			// Check if the search query filter matches.
-			if ($item && @$item->query['f'] === @$query['f'])
+			if ($item && isset($item->query['f']) && isset($query['f']) && $item->query['f'] === $query['f'])
 			{
 				unset($query['f']);
 			}
 
 			// Check if the search query string matches.
-			if ($item && @$item->query['q'] === @$query['q'])
+			if ($item && isset($item->query['q']) && isset($query['q']) && $item->query['q'] === $query['q'])
 			{
 				unset($query['q']);
 			}
@@ -124,7 +114,7 @@ class FinderRouter extends JComponentRouterBase
 		}
 
 		// Check if the view segment is set and it equals search or advanced.
-		if (@$segments[0] === 'search' || @$segments[0] === 'advanced')
+		if (isset($segments[0]) && ($segments[0] === 'search' || $segments[0] === 'advanced'))
 		{
 			$vars['view'] = $segments[0];
 		}
@@ -139,6 +129,10 @@ class FinderRouter extends JComponentRouterBase
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
+ * @param   array  &$query  An array of URL arguments
+ *
+ * @return  array  The URL arguments to use to assemble the subsequent URL.
+ *
  * @deprecated  4.0  Use Class based routers instead
  */
 function FinderBuildRoute(&$query)
@@ -148,6 +142,18 @@ function FinderBuildRoute(&$query)
 	return $router->build($query);
 }
 
+/**
+ * Finder router functions
+ *
+ * These functions are proxys for the new router interface
+ * for old SEF extensions.
+ *
+ * @param   array  $segments  The segments of the URL to parse.
+ *
+ * @return  array  The URL attributes to be used by the application.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
 function FinderParseRoute($segments)
 {
 	$router = new FinderRouter;

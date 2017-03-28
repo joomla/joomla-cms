@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
 // Create shortcut to parameters.
@@ -45,19 +45,17 @@ endif;
 
 $assoc = JLanguageAssociations::isEnabled();
 
-?>
-
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 		{
-			<?php echo $this->form->getField('articletext')->save(); ?>
+			" . $this->form->getField('articletext')->save() . "
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 	}
-</script>
-
+");
+?>
 <div class="article-edit">
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -211,7 +209,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						</fieldset>
 				<?php endif ?>
 
-		<?php // The url and images fields only show if the configuration is set to allow them.  ?>
+		<?php // The URL and images fields only show if the configuration is set to allow them.  ?>
 		<?php // This is for legacy reasons. ?>
 		<?php if ($params['show_urls_images_backend']) : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES'), 'urls_and_images-options'); ?>
@@ -247,7 +245,7 @@ $assoc = JLanguageAssociations::isEnabled();
 			</fieldset>
 
 		<?php if ($assoc) : ?>
-			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
 			<?php echo $this->loadTemplate('associations'); ?>
 		<?php endif; ?>
 

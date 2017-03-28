@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field name="summary_email" type="radio" id="summary_email" class="btn-group" default="0"
+		<field
+			name="summary_email"
+			type="radio"
+			id="summary_email"
+			class="btn-group"
+			default="0"
 			label="INSTL_SUMMARY_EMAIL_LABEL"
 			filter="integer"
-			>
+		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="summary_email_passwords" type="radio" id="email_passwords" class="btn-group" default="0"
+		<field
+			name="summary_email_passwords"
+			type="radio"
+			id="email_passwords"
+			class="btn-group"
+			default="0"
 			label="INSTL_SUMMARY_EMAIL_PASSWORDS_LABEL"
 			filter="integer"
-			>
+		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-
 		<field name="db_type" type="hidden" />
-
-		<field name="sample_file" type="sample" class="inputbox"
+		<field
+			name="sample_file"
+			type="installation.sample"
+			class="inputbox"
 			label="INSTL_SITE_INSTALL_SAMPLE_LABEL"
 		/>
 	</fieldset>

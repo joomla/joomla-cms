@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\String\StringHelper;
 
 /**
  * Allows for quoting in language .ini files.
@@ -17,16 +19,14 @@ define('_QQ_', '"');
 /**
  * Languages/translation handler class
  *
- * @package     Joomla.Platform
- * @subpackage  Language
- * @since       11.1
+ * @since  11.1
  */
 class JLanguage
 {
 	/**
 	 * Array of JLanguage objects
 	 *
-	 * @var    array
+	 * @var    JLanguage[]
 	 * @since  11.1
 	 */
 	protected static $languages = array();
@@ -192,7 +192,8 @@ class JLanguage
 			$lang = $this->default;
 		}
 
-		$this->setLanguage($lang);
+		$this->lang = $lang;
+		$this->metadata = JLanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
 		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
@@ -369,8 +370,11 @@ class JLanguage
 		}
 		elseif ($interpretBackSlashes)
 		{
-			// Interpret \n and \t characters
-			$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			if (strpos($string, '\\') !== false)
+			{
+				// Interpret \n and \t characters
+				$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			}
 		}
 
 		return $string;
@@ -396,7 +400,7 @@ class JLanguage
 		}
 
 		$string = JLanguageTransliterate::utf8_latin_to_ascii($string);
-		$string = JString::strtolower($string);
+		$string = StringHelper::strtolower($string);
 
 		return $string;
 	}
@@ -579,20 +583,18 @@ class JLanguage
 	/**
 	 * Returns an upper limit integer for length of search words
 	 *
-	 * @return  integer  The upper limit integer for length of search words (20 if no value was set for a specific language).
+	 * @return  integer  The upper limit integer for length of search words (200 if no value was set or if default value is < 200).
 	 *
 	 * @since   11.1
 	 */
 	public function getUpperLimitSearchWord()
 	{
-		if ($this->upperLimitSearchWordCallback !== null)
+		if ($this->upperLimitSearchWordCallback !== null && call_user_func($this->upperLimitSearchWordCallback) > 200)
 		{
 			return call_user_func($this->upperLimitSearchWordCallback);
 		}
-		else
-		{
-			return 20;
-		}
+
+		return 200;
 	}
 
 	/**
@@ -683,29 +685,13 @@ class JLanguage
 	 * @return  boolean  True if the language exists.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::exists() instead.
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
-		static $paths = array();
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::exists() instead.', JLog::WARNING, 'deprecated');
 
-		// Return false if no language was specified
-		if (!$lang)
-		{
-			return false;
-		}
-
-		$path = $basePath . '/language/' . $lang;
-
-		// Return previous check results if it exists
-		if (isset($paths[$path]))
-		{
-			return $paths[$path];
-		}
-
-		// Check if the language exists
-		$paths[$path] = is_dir($path);
-
-		return $paths[$path];
+		return JLanguageHelper::exists($lang, $basePath);
 	}
 
 	/**
@@ -723,6 +709,12 @@ class JLanguage
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 	{
+		// If language is null set as the current language.
+		if (!$lang)
+		{
+			$lang = $this->lang;
+		}
+
 		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
 		// with $default set to true
 		if (!$this->debug && ($lang != $this->default) && $default)
@@ -730,12 +722,7 @@ class JLanguage
 			$this->load($extension, $basePath, $this->default, false, true);
 		}
 
-		if (!$lang)
-		{
-			$lang = $this->lang;
-		}
-
-		$path = self::getLanguagePath($basePath, $lang);
+		$path = JLanguageHelper::getLanguagePath($basePath, $lang);
 
 		$internal = $extension == 'joomla' || $extension == '';
 		$filename = $internal ? $lang : $lang . '.' . $extension;
@@ -758,14 +745,18 @@ class JLanguage
 				$oldFilename = $filename;
 
 				// Check the standard file name
-				$path = self::getLanguagePath($basePath, $this->default);
-				$filename = $internal ? $this->default : $this->default . '.' . $extension;
-				$filename = "$path/$filename.ini";
-
-				// If the one we tried is different than the new name, try again
-				if ($oldFilename != $filename)
+				if (!$this->debug)
 				{
-					$result = $this->loadLanguage($filename, $extension, false);
+					$path = JLanguageHelper::getLanguagePath($basePath, $this->default);
+
+					$filename = $internal ? $this->default : $this->default . '.' . $extension;
+					$filename = "$path/$filename.ini";
+
+					// If the one we tried is different than the new name, try again
+					if ($oldFilename != $filename)
+					{
+						$result = $this->loadLanguage($filename, $extension, false);
+					}
 				}
 			}
 		}
@@ -800,17 +791,9 @@ class JLanguage
 
 		if ($strings)
 		{
-			if (is_array($strings))
-			{
-				// Sort the underlying heap by key values to optimize merging
-				ksort($strings, SORT_STRING);
-				$this->strings = array_merge($this->strings, $strings);
-			}
-
 			if (is_array($strings) && count($strings))
 			{
-				// Do not bother with ksort here.  Since the originals were sorted, PHP will already have chosen the best heap.
-				$this->strings = array_merge($this->strings, $this->override);
+				$this->strings = array_replace($this->strings, $strings, $this->override);
 				$result = true;
 			}
 		}
@@ -837,79 +820,129 @@ class JLanguage
 	 */
 	protected function parse($filename)
 	{
+		// Capture hidden PHP errors from the parsing.
 		if ($this->debug)
 		{
-			// Capture hidden PHP errors from the parsing.
+			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
 			$php_errormsg = null;
-			$track_errors = ini_get('track_errors');
+
+			$trackErrors = ini_get('track_errors');
 			ini_set('track_errors', true);
 		}
 
-		$contents = file_get_contents($filename);
-		$contents = str_replace('_QQ_', '"\""', $contents);
-		$strings = @parse_ini_string($contents);
+		$strings = @parse_ini_file($filename);
 
-		if (!is_array($strings))
-		{
-			$strings = array();
-		}
-
+		// Restore error tracking to what it was before.
 		if ($this->debug)
 		{
-			// Restore error tracking to what it was before.
-			ini_set('track_errors', $track_errors);
+			ini_set('track_errors', $trackErrors);
 
-			// Initialise variables for manually parsing the file for common errors.
-			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
-			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-\.]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
-			$this->debug = false;
-			$errors = array();
-
-			// Open the file as a stream.
-			$file = new SplFileObject($filename);
-
-			foreach ($file as $lineNumber => $line)
-			{
-				// Avoid BOM error as BOM is OK when using parse_ini
-				if ($lineNumber == 0)
-				{
-					$line = str_replace("\xEF\xBB\xBF", '', $line);
-				}
-
-				// Check that the key is not in the blacklist and that the line format passes the regex.
-				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
-
-				// Workaround to reduce regex complexity when matching escaped quotes
-				$line = str_replace('\"', '_QQ_', $line);
-
-				if (!preg_match($regex, $line) || in_array($key, $blacklist))
-				{
-					$errors[] = $lineNumber;
-				}
-			}
-
-			// Check if we encountered any errors.
-			if (count($errors))
-			{
-				if (basename($filename) != $this->lang . '.ini')
-				{
-					$this->errorfiles[$filename] = $filename . JText::sprintf('JERROR_PARSING_LANGUAGE_FILE', implode(', ', $errors));
-				}
-				else
-				{
-					$this->errorfiles[$filename] = $filename . '&#160;: error(s) in line(s) ' . implode(', ', $errors);
-				}
-			}
-			elseif ($php_errormsg)
-			{
-				// We didn't find any errors but there's probably a parse notice.
-				$this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
-			}
-
-			$this->debug = true;
+			$this->debugFile($filename);
 		}
 
-		return $strings;
+		return is_array($strings) ? $strings : array();
+	}
+
+	/**
+	 * Debugs a language file
+	 *
+	 * @param   string  $filename  Absolute path to the file to debug
+	 *
+	 * @return  integer  A count of the number of parsing errors
+	 *
+	 * @since   3.6.3
+	 * @throws  InvalidArgumentException
+	 */
+	public function debugFile($filename)
+	{
+		// Make sure our file actually exists
+		if (!file_exists($filename))
+		{
+			throw new InvalidArgumentException(
+				sprintf('Unable to locate file "%s" for debugging', $filename)
+			);
+		}
+
+		// Initialise variables for manually parsing the file for common errors.
+		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+		$debug = $this->getDebug();
+		$this->debug = false;
+		$errors = array();
+		$php_errormsg = null;
+
+		// Open the file as a stream.
+		$file = new SplFileObject($filename);
+
+		foreach ($file as $lineNumber => $line)
+		{
+			// Avoid BOM error as BOM is OK when using parse_ini.
+			if ($lineNumber == 0)
+			{
+				$line = str_replace("\xEF\xBB\xBF", '', $line);
+			}
+
+			$line = trim($line);
+
+			// Ignore comment lines.
+			if (!strlen($line) || $line['0'] == ';')
+			{
+				continue;
+			}
+
+			// Ignore grouping tag lines, like: [group]
+			if (preg_match('#^\[[^\]]*\](\s*;.*)?$#', $line))
+			{
+				continue;
+			}
+
+			// Remove the "_QQ_" from the equation
+			$line = str_replace('"_QQ_"', '', $line);
+			$realNumber = $lineNumber + 1;
+
+			// Check for any incorrect uses of _QQ_.
+			if (strpos($line, '_QQ_') !== false)
+			{
+				$errors[] = $realNumber;
+				continue;
+			}
+
+			// Check for odd number of double quotes.
+			if (substr_count($line, '"') % 2 != 0)
+			{
+				$errors[] = $realNumber;
+				continue;
+			}
+
+			// Check that the line passes the necessary format.
+			if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+			{
+				$errors[] = $realNumber;
+				continue;
+			}
+
+			// Check that the key is not in the blacklist.
+			$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
+
+			if (in_array($key, $blacklist))
+			{
+				$errors[] = $realNumber;
+			}
+		}
+
+		// Check if we encountered any errors.
+		if (count($errors))
+		{
+			$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
+		}
+		elseif ($php_errormsg)
+		{
+			// We didn't find any errors but there's probably a parse notice.
+			$this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
+		}
+
+		$this->debug = $debug;
+
+		return count($errors);
 	}
 
 	/**
@@ -944,7 +977,7 @@ class JLanguage
 		// Try to determine the source if none was provided
 		if (!function_exists('debug_backtrace'))
 		{
-			return null;
+			return;
 		}
 
 		$backtrace = debug_backtrace();
@@ -1006,7 +1039,7 @@ class JLanguage
 				return $this->paths[$extension];
 			}
 
-			return null;
+			return;
 		}
 		else
 		{
@@ -1039,13 +1072,32 @@ class JLanguage
 	}
 
 	/**
+	 * Getter for the calendar type
+	 *
+	 * @return  string  The calendar type.
+	 *
+	 * @since   3.7.0
+	 */
+	public function getCalendar()
+	{
+		if (isset($this->metadata['calendar']))
+		{
+			return $this->metadata['calendar'];
+		}
+		else
+		{
+			return 'gregorian';
+		}
+	}
+
+	/**
 	 * Get the RTL property.
 	 *
 	 * @return  boolean  True is it an RTL language.
 	 *
 	 * @since   11.1
 	 */
-	public function isRTL()
+	public function isRtl()
 	{
 		return (bool) $this->metadata['rtl'];
 	}
@@ -1151,32 +1203,20 @@ class JLanguage
 	}
 
 	/**
-	 * Returns a associative array holding the metadata.
+	 * Returns an associative array holding the metadata.
 	 *
 	 * @param   string  $lang  The name of the language.
 	 *
 	 * @return  mixed  If $lang exists return key/value pair with the language metadata, otherwise return NULL.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::getMetadata() instead.
 	 */
 	public static function getMetadata($lang)
 	{
-		$path = self::getLanguagePath(JPATH_BASE, $lang);
-		$file = $lang . '.xml';
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::getMetadata() instead.', JLog::WARNING, 'deprecated');
 
-		$result = null;
-
-		if (is_file("$path/$file"))
-		{
-			$result = self::parseXMLLanguageFile("$path/$file");
-		}
-
-		if (empty($result))
-		{
-			return null;
-		}
-
-		return $result;
+		return JLanguageHelper::getMetadata($lang);
 	}
 
 	/**
@@ -1187,13 +1227,13 @@ class JLanguage
 	 * @return  array  key/value pair with the language file and real name.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::getKnownLanguages() instead.
 	 */
 	public static function getKnownLanguages($basePath = JPATH_BASE)
 	{
-		$dir = self::getLanguagePath($basePath);
-		$knownLanguages = self::parseLanguageFiles($dir);
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::getKnownLanguages() instead.', JLog::WARNING, 'deprecated');
 
-		return $knownLanguages;
+		return JLanguageHelper::getKnownLanguages($basePath);
 	}
 
 	/**
@@ -1205,17 +1245,13 @@ class JLanguage
 	 * @return  string  language related path or null.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::getLanguagePath() instead.
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
-		$dir = $basePath . '/language';
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::getLanguagePath() instead.', JLog::WARNING, 'deprecated');
 
-		if (!empty($language))
-		{
-			$dir .= '/' . $language;
-		}
-
-		return $dir;
+		return JLanguageHelper::getLanguagePath($basePath, $language);
 	}
 
 	/**
@@ -1228,12 +1264,15 @@ class JLanguage
 	 * @return  string  Previous value.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 (CMS) - Instantiate a new JLanguage object instead
 	 */
 	public function setLanguage($lang)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Instantiate a new JLanguage object instead.', JLog::WARNING, 'deprecated');
+
 		$previous = $this->lang;
 		$this->lang = $lang;
-		$this->metadata = $this->getMetadata($this->lang);
+		$this->metadata = JLanguageHelper::getMetadata($this->lang);
 
 		return $previous;
 	}
@@ -1296,41 +1335,13 @@ class JLanguage
 	 * @return  array  Array holding the found languages as filename => real name pairs.
 	 *
 	 * @since   11.1
+	 * @deprecated   3.7.0, use JLanguageHelper::parseLanguageFiles() instead.
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
-		$languages = array();
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::parseLanguageFiles() instead.', JLog::WARNING, 'deprecated');
 
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
-
-		foreach ($iterator as $file)
-		{
-			$langs    = array();
-			$fileName = $file->getFilename();
-
-			if (!$file->isFile() || !preg_match("/^([-_A-Za-z]*)\.xml$/", $fileName))
-			{
-				continue;
-			}
-
-			try
-			{
-				$metadata = self::parseXMLLanguageFile($file->getRealPath());
-
-				if ($metadata)
-				{
-					$lang = str_replace('.xml', '', $fileName);
-					$langs[$lang] = $metadata;
-				}
-
-				$languages = array_merge($languages, $langs);
-			}
-			catch (RuntimeException $e)
-			{
-			}
-		}
-
-		return $languages;
+		return JLanguageHelper::parseLanguageFiles($dir);
 	}
 
 	/**
@@ -1342,35 +1353,12 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
+	 * @deprecated   3.7.0, use JLanguageHelper::parseXMLLanguageFile() instead.
 	 */
 	public static function parseXMLLanguageFile($path)
 	{
-		if (!is_readable($path))
-		{
-			throw new RuntimeException('File not found or not readable');
-		}
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::parseXMLLanguageFile() instead.', JLog::WARNING, 'deprecated');
 
-		// Try to load the file
-		$xml = simplexml_load_file($path);
-
-		if (!$xml)
-		{
-			return null;
-		}
-
-		// Check that it's a metadata file
-		if ((string) $xml->getName() != 'metafile')
-		{
-			return null;
-		}
-
-		$metadata = array();
-
-		foreach ($xml->metadata->children() as $child)
-		{
-			$metadata[$child->getName()] = (string) $child;
-		}
-
-		return $metadata;
+		return JLanguageHelper::parseXMLLanguageFile($path);
 	}
 }

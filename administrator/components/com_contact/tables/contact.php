@@ -3,18 +3,30 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_contact
+ * Contact Table class.
+ *
+ * @since  1.0
  */
 class ContactTableContact extends JTable
 {
+	/**
+	 * Ensure the params and metadata in json encoded in the bind method
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	protected $_jsonEncode = array('params', 'metadata');
+
 	/**
 	 * Constructor
 	 *
@@ -31,37 +43,9 @@ class ContactTableContact extends JTable
 	}
 
 	/**
-	 * Overloaded bind function
+	 * Stores a contact.
 	 *
-	 * @param   array  $array   Named array to bind
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
-	 * @since   1.6
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
-	}
-
-	/**
-	 * Stores a contact
-	 *
-	 * @param   boolean  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -72,19 +56,19 @@ class ContactTableContact extends JTable
 		// Transform the params field
 		if (is_array($this->params))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($this->params);
+			$registry = new Registry($this->params);
 			$this->params = (string) $registry;
 		}
 
-		$date	= JFactory::getDate();
-		$user	= JFactory::getUser();
+		$date   = JFactory::getDate()->toSql();
+		$userId = JFactory::getUser()->id;
+
+		$this->modified = $date;
 
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified		= $date->toSql();
-			$this->modified_by	= $user->get('id');
+			$this->modified_by = $userId;
 		}
 		else
 		{
@@ -92,11 +76,12 @@ class ContactTableContact extends JTable
 			// so we don't touch either of these if they are set.
 			if (!(int) $this->created)
 			{
-				$this->created = $date->toSql();
+				$this->created = $date;
 			}
+
 			if (empty($this->created_by))
 			{
-				$this->created_by = $user->get('id');
+				$this->created_by = $userId;
 			}
 		}
 
@@ -126,6 +111,7 @@ class ContactTableContact extends JTable
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contact', 'ContactTable');
+
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
@@ -141,21 +127,21 @@ class ContactTableContact extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see JTable::check
-	 * @since 1.5
+	 * @see     JTable::check
+	 * @since   1.5
 	 */
 	public function check()
 	{
 		$this->default_con = (int) $this->default_con;
 
-		if (JFilterInput::checkAttribute(array ('href', $this->webpage)))
+		if (JFilterInput::checkAttribute(array('href', $this->webpage)))
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
 			return false;
 		}
 
-		/** check for valid name */
+		// Check for valid name
 		if (trim($this->name) == '')
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
@@ -166,12 +152,18 @@ class ContactTableContact extends JTable
 		// Generate a valid alias
 		$this->generateAlias();
 
-		/** check for valid category */
+		// Check for valid category
 		if (trim($this->catid) == '')
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));
 
 			return false;
+		}
+
+		// Sanity check for user_id
+		if (!($this->user_id))
+		{
+			$this->user_id = 0;
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -182,31 +174,42 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		// Clean up keywords -- eliminate extra spaces between phrases
-		// and cr (\r) and lf (\n) characters from string
+		/*
+		 * Clean up keywords -- eliminate extra spaces between phrases
+		 * and cr (\r) and lf (\n) characters from string.
+		 * Only process if not empty.
+		 */
 		if (!empty($this->metakey))
 		{
-			// Only process if not empty
-			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
-			$keys = explode(',', $after_clean); // create array using commas as delimiter
-			$clean_keys = array();
+			// Array of characters to remove.
+			$badCharacters = array("\n", "\r", "\"", '<', '>');
 
-			foreach($keys as $key)
+			// Remove bad characters.
+			$afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);
+
+			// Create array using commas as delimiter.
+			$keys = explode(',', $afterClean);
+			$cleanKeys = array();
+
+			foreach ($keys as $key)
 			{
-				if (trim($key)) {  // ignore blank keywords
-					$clean_keys[] = trim($key);
+				// Ignore blank keywords.
+				if (trim($key))
+				{
+					$cleanKeys[] = trim($key);
 				}
 			}
-			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
+
+			// Put array back together delimited by ", "
+			$this->metakey = implode(', ', $cleanKeys);
 		}
 
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
 			// Only process if not empty
-			$bad_characters = array("\"", "<", ">");
-			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
+			$badCharacters = array("\"", '<', '>');
+			$this->metadesc = StringHelper::str_ireplace($badCharacters, '', $this->metadesc);
 		}
 
 		return true;
@@ -225,11 +228,11 @@ class ContactTableContact extends JTable
 			$this->alias = $this->name;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return $this->alias;

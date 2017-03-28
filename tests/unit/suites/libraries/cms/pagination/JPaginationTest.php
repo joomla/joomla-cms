@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,6 +17,14 @@
 class JPaginationTest extends TestCase
 {
 	/**
+	 * An instance of the class to test.
+	 *
+	 * @var    JApplicationCmsInspector
+	 * @since  3.4
+	 */
+	protected $app;
+
+	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
@@ -27,11 +35,17 @@ class JPaginationTest extends TestCase
 	{
 		parent::setUp();
 
-		// We are only coupled to Application and Language in JFactory.
-		$this->saveFactoryState();
+		// Get mock CMS application
+		$app = $this->getMockCmsApp();
+		$app->expects($this->any())->method('getTemplate')->willReturn('foobar');
 
+		// Whilst we inject the application into this class we still need the language
+		// property to be set for JText and the application for inclusion of scripts (such as bootstrap for the tooltips)
+		$this->saveFactoryState();
 		JFactory::$language = $this->getMockLanguage();
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $app;
+
+		$this->app = $app;
 	}
 
 	/**
@@ -39,13 +53,13 @@ class JPaginationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.1
 	 */
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->app);
 		parent::tearDown();
 	}
 
@@ -140,7 +154,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testConstructor($total, $limitstart, $limit, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$this->assertEquals($expected['total'], $pagination->total, 'Wrong Total');
 
@@ -169,7 +183,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testSetAdditionalUrlParam()
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 
 		$pagination->setAdditionalUrlParam('Joomla', '//www.joomla.org');
 		$this->assertEquals(TestReflection::getValue($pagination, 'additionalUrlParams'), array('Joomla' => '//www.joomla.org'), 'The URL is not the value expected');
@@ -178,7 +192,7 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
-	 * This method tests the getAdditionalUrlParam function by setting a url with Reflection then retrieving it.
+	 * This method tests the getAdditionalUrlParam function by setting a URL with Reflection then retrieving it.
 	 *
 	 * @return  void
 	 *
@@ -187,7 +201,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetAdditionalUrlParam()
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 		$value = '//www.joomla.org';
 		$key = 'Joomla';
 
@@ -212,7 +226,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetRowOffset($index = 1, $limitstart = 50, $value = 52)
 	{
-		$pagination = new JPagination(100, $limitstart, 20);
+		$pagination = new JPagination(100, $limitstart, 20, '', $this->app);
 
 		$this->assertEquals($pagination->getRowOffset($index), $value);
 
@@ -229,7 +243,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testSetEmptyAdditionalUrlParam()
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 
 		$pagination->setAdditionalUrlParam('Joomla', '//www.joomla.org');
 		$this->assertEquals(TestReflection::getValue($pagination, 'additionalUrlParams'), array('Joomla' => '//www.joomla.org'), 'The URL is not the value expected');
@@ -316,53 +330,48 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetData($total, $limitstart, $limit, $active, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$object = $pagination->getData();
 
 		// Test the view all Object
-		$this->assertEquals($object->all->text, $expected["0"]["text"], 'This is not the expected view all text');
-		$this->assertEquals($object->all->base, $expected["0"]["base"], 'This is not the expected view all base value');
-		$this->assertEquals($object->all->link, $expected["0"]["link"], 'This is not the expected view all link value');
-		$this->assertEquals($object->all->prefix, $expected["0"]["prefix"], 'This is not the expected view all prefix value');
-		$this->assertEquals($object->all->active, $expected["0"]["active"], 'This is not the expected view all active value');
+		$this->assertEquals((array) $object->all, $expected["0"], 'This is not the expected view all');
 
 		// Test the start Object
-		$this->assertEquals($object->start->text, $expected["1"]["text"], 'This is not the expected start text');
-		$this->assertEquals($object->start->base, $expected["1"]["base"], 'This is not the expected start base value');
-		$this->assertEquals($object->start->link, $expected["1"]["link"], 'This is not the expected start link value');
-		$this->assertEquals($object->start->prefix, $expected["1"]["prefix"], 'This is not the expected start prefix value');
-		$this->assertEquals($object->start->active, $expected["1"]["active"], 'This is not the expected start active value');
+		$this->assertEquals((array) $object->start, $expected["1"], 'This is not the expected start');
 
 		// Test the previous Object
-		$this->assertEquals($object->previous->text, $expected["2"]["text"], 'This is not the expected previous text');
-		$this->assertEquals($object->previous->base, $expected["2"]["base"], 'This is not the expected previous base value');
-		$this->assertEquals($object->previous->link, $expected["2"]["link"], 'This is not the expected previous link value');
-		$this->assertEquals($object->previous->prefix, $expected["2"]["prefix"], 'This is not the expected previous prefix value');
-		$this->assertEquals($object->previous->active, $expected["2"]["active"], 'This is not the expected previous active value');
+		$this->assertEquals((array) $object->previous, $expected["2"], 'This is not the expected previous');
 
 		// Test the next Object
-		$this->assertEquals($object->next->text, $expected["3"]["text"], 'This is not the expected next text');
-		$this->assertEquals($object->next->base, $expected["3"]["base"], 'This is not the expected next base value');
-		$this->assertEquals($object->next->link, $expected["3"]["link"], 'This is not the expected next link value');
-		$this->assertEquals($object->next->prefix, $expected["3"]["prefix"], 'This is not the expected next prefix value');
-		$this->assertEquals($object->next->active, $expected["3"]["active"], 'This is not the expected next active value');
+		$this->assertEquals((array) $object->next, $expected["3"], 'This is not the expected next');
 
 		// Test the end Object
-		$this->assertEquals($object->end->text, $expected["4"]["text"], 'This is not the expected end text');
-		$this->assertEquals($object->end->base, $expected["4"]["base"], 'This is not the expected end base value');
-		$this->assertEquals($object->end->link, $expected["4"]["link"], 'This is not the expected end link value');
-		$this->assertEquals($object->end->prefix, $expected["4"]["prefix"], 'This is not the expected end prefix value');
-		$this->assertEquals($object->end->active, $expected["4"]["active"], 'This is not the expected end active value');
+		$this->assertEquals((array) $object->end, $expected["4"], 'This is not the expected end');
 
 		// Test the active object
-		$this->assertEquals($object->pages[$active]->text, $expected["5"]["text"], 'This is not the expected active text');
-		$this->assertEquals($object->pages[$active]->base, $expected["5"]["base"], 'This is not the expected active base value');
-		$this->assertEquals($object->pages[$active]->link, $expected["5"]["link"], 'This is not the expected active link value');
-		$this->assertEquals($object->pages[$active]->prefix, $expected["5"]["prefix"], 'This is not the expected active prefix value');
-		$this->assertEquals($object->pages[$active]->active, $expected["5"]["active"], 'This is not the expected active active value');
+		$this->assertEquals((array) $object->pages[$active], $expected["5"], 'This is not the expected active');
 
 		unset($pagination);
+	}
+
+	/**
+	 * Tests the getData method with multiple JPagination instances
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @link    https://github.com/joomla/joomla-cms/pull/4521
+	 */
+	public function testGetDataWithMultipleInstances()
+	{
+		$p1 = new JPagination(10, 0, 5, 'pref1');
+		$data1 = $p1->getData();
+		$p2 = new JPagination(20, 0, 10, 'pref2');
+		$data2 = $p2->getData();
+
+		$this->assertEquals(5, $data1->next->base, 'Assert the base value for the next page for object 1 is correct.');
+		$this->assertEquals(10, $data2->next->base, 'Assert the base value for the next page for object 2 is correct.');
 	}
 
 	/**
@@ -397,7 +406,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetPagesCounter($total, $limitstart, $limit, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$this->assertEquals($pagination->getPagesCounter(), $expected);
 
@@ -434,11 +443,11 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGetPagesLinks($total, $limitstart, $limit, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$result = $pagination->getPagesLinks();
 
-		$this->assertEquals($result, $expected, 'The expected output of the pagination is incorrect');
+		$this->assertXmlStringEqualsXmlString($result, $expected, 'The expected output of the pagination is incorrect');
 
 		unset($pagination);
 	}
@@ -453,8 +462,21 @@ class JPaginationTest extends TestCase
 	public function dataTestGetLimitBox()
 	{
 		return array(
-			array(100, 0, 20,
+			array(100, 0, 20, false,
 				"<select id=\"limit\" name=\"limit\" class=\"inputbox input-mini\" size=\"1\" onchange=\"this.form.submit()\">\n"
+				. "\t<option value=\"5\">5</option>\n"
+				. "\t<option value=\"10\">10</option>\n"
+				. "\t<option value=\"15\">15</option>\n"
+				. "\t<option value=\"20\" selected=\"selected\">20</option>\n"
+				. "\t<option value=\"25\">25</option>\n"
+				. "\t<option value=\"30\">30</option>\n"
+				. "\t<option value=\"50\">J50</option>\n"
+				. "\t<option value=\"100\">J100</option>\n"
+				. "\t<option value=\"0\">JALL</option>\n"
+				. "</select>\n"
+			),
+			array(100, 0, 20, true,
+				"<select id=\"limit\" name=\"limit\" class=\"inputbox input-mini\" size=\"1\" onchange=\"Joomla.submitform();\">\n"
 				. "\t<option value=\"5\">5</option>\n"
 				. "\t<option value=\"10\">10</option>\n"
 				. "\t<option value=\"15\">15</option>\n"
@@ -475,6 +497,7 @@ class JPaginationTest extends TestCase
 	 * @param   integer  $total       The total number of items.
 	 * @param   integer  $limitstart  The offset of the item to start at.
 	 * @param   integer  $limit       The number of items to display per page.
+	 * @param   boolean  $admin       Are we in the administrator area
 	 * @param   string   $expected    The expected results for the JPagination object
 	 *
 	 * @return  void
@@ -483,9 +506,13 @@ class JPaginationTest extends TestCase
 	 * @dataProvider  dataTestGetLimitBox
 	 * @since         3.1
 	 */
-	public function testGetLimitBox($total, $limitstart, $limit, $expected)
+	public function testGetLimitBox($total, $limitstart, $limit, $admin, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		// Set whether we are in the admin area or not
+		$app = $this->app;
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
+
+		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 
 		$this->assertEquals($pagination->getLimitBox(), $expected, 'The limit box results are not as expected');
 
@@ -502,8 +529,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderUpIcon()
 	{
 		return array(
-			array(0, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><i class="icon-uparrow"></i></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
-			array(2, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><i class="icon-uparrow"></i></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(0, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(2, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 			array(2, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 		);
 	}
@@ -527,7 +554,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testOrderUpIcon($i, $expected, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb')
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 		$string = $pagination->orderUpIcon($i, $condition, $task, $alt, $enabled, $checkbox);
 
 		$this->assertEquals($string, $expected, 'This is not the expected order up html');
@@ -543,8 +570,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderDownIcon()
 	{
 		return array(
-			array(0, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><i class="icon-downarrow"></i></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
-			array(2, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><i class="icon-downarrow"></i></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(0, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(2, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 			array(2, 100, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 		);
 	}
@@ -569,7 +596,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testOrderDownIcon($i, $n, $expected, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox = 'cb')
 	{
-		$pagination = new JPagination($n, 50, 20);
+		$pagination = new JPagination($n, 50, 20, '', $this->app);
 		$string = $pagination->orderDownIcon($i, $n, $condition, $task, $alt, $enabled, $checkbox);
 
 		$this->assertEquals($string, $expected, 'This is not the expected order up html');
@@ -620,11 +647,11 @@ class JPaginationTest extends TestCase
 	 */
 	public function testListRender($list, $total, $limitstart, $limit ,$expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$string = TestReflection::invoke($pagination, '_list_render', $list);
 
-		$this->assertEquals($string, $expected, 'The list render method is not outputting the expected results');
+		$this->assertXmlStringEqualsXmlString($string, $expected, 'The list render method is not outputting the expected results');
 
 		unset($pagination);
 	}
@@ -639,10 +666,9 @@ class JPaginationTest extends TestCase
 	public function dataTestItemActive()
 	{
 		return array(
-			array(
-				'JLIB_HTML_START', 100, 40, 20, '<a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a>',
-				'JLIB_HTML_VIEW_ALL', 100, 40, 20, '<a title="JLIB_HTML_VIEW_ALL" href="" class="hasTooltip pagenav">JLIB_HTML_VIEW_ALL</a>',
-			),
+			array('JLIB_HTML_START', 100, 40, 20, false, '<a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a>'),
+			array('JLIB_HTML_VIEW_ALL', 100, 40, 20, false, '<a title="JLIB_HTML_VIEW_ALL" href="" class="hasTooltip pagenav">JLIB_HTML_VIEW_ALL</a>'),
+			array('JLIB_HTML_START', 100, 40, 20, true, '<a title="JLIB_HTML_START" href="#" onclick="document.adminForm.limitstart.value=0; Joomla.submitform();return false;">JLIB_HTML_START</a>')
 		);
 	}
 
@@ -653,6 +679,7 @@ class JPaginationTest extends TestCase
 	 * @param   integer  $total       The total number of items.
 	 * @param   integer  $limitstart  The offset of the item to start at.
 	 * @param   integer  $limit       The number of items to display per page.
+	 * @param   boolean  $admin       Are we in the administrator area
 	 * @param   string   $expected    The expected results for the JPagination object
 	 *
 	 * @return  void
@@ -661,9 +688,13 @@ class JPaginationTest extends TestCase
 	 * @dataProvider  dataTestItemActive
 	 * @since         3.2
 	 */
-	public function testItemActive($text, $total, $limitstart, $limit ,$expected)
+	public function testItemActive($text, $total, $limitstart, $limit, $admin, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		// Set whether we are in the admin area or not
+		$app = $this->app;
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
+
+		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
 
 		$string = TestReflection::invoke($pagination, '_item_active', $paginationObject);
@@ -683,9 +714,8 @@ class JPaginationTest extends TestCase
 	public function dataTestItemInactive()
 	{
 		return array(
-			array(
-				'3', 100, 40, 20, '<span class="pagenav">3</span>',
-			),
+			array('3', 100, 40, 20, false, '<span class="pagenav">3</span>'),
+			array('3', 100, 40, 20, true, '<span>3</span>'),
 		);
 	}
 
@@ -696,6 +726,7 @@ class JPaginationTest extends TestCase
 	 * @param   integer  $total       The total number of items.
 	 * @param   integer  $limitstart  The offset of the item to start at.
 	 * @param   integer  $limit       The number of items to display per page.
+	 * @param   boolean  $admin       Are we in the administrator area
 	 * @param   string   $expected    The expected results for the JPagination object
 	 *
 	 * @return  void
@@ -704,9 +735,13 @@ class JPaginationTest extends TestCase
 	 * @dataProvider  dataTestItemInactive
 	 * @since         3.2
 	 */
-	public function testItemInactive($text, $total, $limitstart, $limit ,$expected)
+	public function testItemInactive($text, $total, $limitstart, $limit, $admin, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		// Set whether we are in the admin area or not
+		$app = $this->app;
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
+
+		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
 
 		$string = TestReflection::invoke($pagination, '_item_inactive', $paginationObject);
@@ -733,51 +768,27 @@ class JPaginationTest extends TestCase
 	 */
 	public function testBuildDataObject($total, $limitstart, $limit, $active, $expected)
 	{
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit, '', $this->app);
 
 		$object = TestReflection::invoke($pagination, '_buildDataObject');
 
 		// Test the view all Object
-		$this->assertEquals($object->all->text, $expected["0"]["text"], 'This is not the expected view all text');
-		$this->assertEquals($object->all->base, $expected["0"]["base"], 'This is not the expected view all base value');
-		$this->assertEquals($object->all->link, $expected["0"]["link"], 'This is not the expected view all link value');
-		$this->assertEquals($object->all->prefix, $expected["0"]["prefix"], 'This is not the expected view all prefix value');
-		$this->assertEquals($object->all->active, $expected["0"]["active"], 'This is not the expected view all active value');
+		$this->assertEquals((array) $object->all, $expected["0"], 'This is not the expected view all');
 
 		// Test the start Object
-		$this->assertEquals($object->start->text, $expected["1"]["text"], 'This is not the expected start text');
-		$this->assertEquals($object->start->base, $expected["1"]["base"], 'This is not the expected start base value');
-		$this->assertEquals($object->start->link, $expected["1"]["link"], 'This is not the expected start link value');
-		$this->assertEquals($object->start->prefix, $expected["1"]["prefix"], 'This is not the expected start prefix value');
-		$this->assertEquals($object->start->active, $expected["1"]["active"], 'This is not the expected start active value');
+		$this->assertEquals((array) $object->start, $expected["1"], 'This is not the expected start');
 
 		// Test the previous Object
-		$this->assertEquals($object->previous->text, $expected["2"]["text"], 'This is not the expected previous text');
-		$this->assertEquals($object->previous->base, $expected["2"]["base"], 'This is not the expected previous base value');
-		$this->assertEquals($object->previous->link, $expected["2"]["link"], 'This is not the expected previous link value');
-		$this->assertEquals($object->previous->prefix, $expected["2"]["prefix"], 'This is not the expected previous prefix value');
-		$this->assertEquals($object->previous->active, $expected["2"]["active"], 'This is not the expected previous active value');
+		$this->assertEquals((array) $object->previous, $expected["2"], 'This is not the expected previous');
 
 		// Test the next Object
-		$this->assertEquals($object->next->text, $expected["3"]["text"], 'This is not the expected next text');
-		$this->assertEquals($object->next->base, $expected["3"]["base"], 'This is not the expected next base value');
-		$this->assertEquals($object->next->link, $expected["3"]["link"], 'This is not the expected next link value');
-		$this->assertEquals($object->next->prefix, $expected["3"]["prefix"], 'This is not the expected next prefix value');
-		$this->assertEquals($object->next->active, $expected["3"]["active"], 'This is not the expected next active value');
+		$this->assertEquals((array) $object->next, $expected["3"], 'This is not the expected next');
 
 		// Test the end Object
-		$this->assertEquals($object->end->text, $expected["4"]["text"], 'This is not the expected end text');
-		$this->assertEquals($object->end->base, $expected["4"]["base"], 'This is not the expected end base value');
-		$this->assertEquals($object->end->link, $expected["4"]["link"], 'This is not the expected end link value');
-		$this->assertEquals($object->end->prefix, $expected["4"]["prefix"], 'This is not the expected end prefix value');
-		$this->assertEquals($object->end->active, $expected["4"]["active"], 'This is not the expected end active value');
+		$this->assertEquals((array) $object->end, $expected["4"], 'This is not the expected end');
 
 		// Test the active object
-		$this->assertEquals($object->pages[$active]->text, $expected["5"]["text"], 'This is not the expected active text');
-		$this->assertEquals($object->pages[$active]->base, $expected["5"]["base"], 'This is not the expected active base value');
-		$this->assertEquals($object->pages[$active]->link, $expected["5"]["link"], 'This is not the expected active link value');
-		$this->assertEquals($object->pages[$active]->prefix, $expected["5"]["prefix"], 'This is not the expected active prefix value');
-		$this->assertEquals($object->pages[$active]->active, $expected["5"]["active"], 'This is not the expected active active value');
+		$this->assertEquals((array) $object->pages[$active], $expected["5"], 'This is not the expected active');
 
 		unset($pagination);
 	}
@@ -813,7 +824,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testSet($property, $value, $expected)
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 
 		$pagination->set($property, $value);
 
@@ -821,7 +832,7 @@ class JPaginationTest extends TestCase
 		{
 			$result = TestReflection::getValue($pagination, $property);
 		}
-		elseif(strpos($property, '.'))
+		elseif (strpos($property, '.'))
 		{
 			$prop = explode('.', $property);
 			$prop[1] = ucfirst($prop[1]);
@@ -870,7 +881,7 @@ class JPaginationTest extends TestCase
 	 */
 	public function testGet($property, $default, $expected)
 	{
-		$pagination = new JPagination(100, 50, 20);
+		$pagination = new JPagination(100, 50, 20, '', $this->app);
 
 		$result = $pagination->get($property, $default);
 		$this->assertEquals($result, $expected, 'The expected output of the property is incorrect');

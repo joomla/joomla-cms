@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_logged
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_logged
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModLoggedHelper
 {
 	/**
 	 * Get a list of logged users.
 	 *
-	 * @param   JRegistry  &$params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of users, or false on error.
 	 *
@@ -69,7 +67,7 @@ abstract class ModLoggedHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param   JRegistry  $params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
 	 *
 	 * @return  string    The alternate title for the module.
 	 */

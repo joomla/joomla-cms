@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,23 +38,56 @@ class JComponentHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JComponentHelper::getComponent
 	 */
 	public function testGetComponent()
 	{
 		$component = JComponentHelper::getComponent('com_content');
 
-		$this->assertEquals(
-			$component->id,
-			22,
-			'com_content is extension ID 22'
-		);
+		$this->assertEquals(22, $component->id,	'com_content is extension ID 22');
+		$this->assertInstanceOf('Joomla\\Registry\\Registry', $component->params, 'Parameters need to be a Registry instance');
+		$this->assertEquals('1', $component->params->get('show_title'), 'The show_title parameter of com_content should be set to 1');
+		$this->assertSame($component, JComponentHelper::getComponent('com_content'), 'The object returned must always be the same');
 	}
+
+	/**
+	 * Test JComponentHelper::getComponent
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @covers  JComponentHelper::getComponent
+	 */
+	public function testGetComponent_falseComponent()
+	{
+		$component = JComponentHelper::getComponent('com_false');
+		$this->assertEmpty($component->id,	'Anonymous component has no extension ID');
+		$this->assertInstanceOf('Joomla\\Registry\\Registry', $component->params, 'Parameters need to be a Registry instance');
+		$this->assertEquals(0, $component->params->count(), 'Anonymous component does not have any set parameters');
+		$this->assertTrue($component->enabled, 'The anonymous component has to be enabled by default if not strict');
+	}
+
+	/**
+	 * Test JComponentHelper::getComponent
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @covers  JComponentHelper::getComponent
+	 */
+	public function testGetComponent_falseComponent_strict()
+	{
+		$component = JComponentHelper::getComponent('com_false', true);
+		$this->assertFalse($component->enabled, 'The anonymous component has to be disabled by default if strict');
+	}
+
 	/**
 	 * Test JComponentHelper::isEnabled
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JComponentHelper::isEnabled
 	 */
 	public function testIsEnabled()
 	{
@@ -63,12 +96,33 @@ class JComponentHelperTest extends TestCaseDatabase
 			'com_content should be enabled'
 		);
 	}
+
+	/**
+	 * Test JComponentHelper::isInstalled
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @covers  JComponentHelper::isInstalled
+	 */
+	public function testIsInstalled()
+	{
+		$this->assertTrue(
+			(bool) JComponentHelper::isInstalled('com_content'),
+			'com_content should be installed'
+		);
+
+		$this->assertFalse(
+			(bool) JComponentHelper::isInstalled('com_willneverhappen'),
+			'com_willneverhappen should not be enabled'
+		);
+	}
+
 	/**
 	 * Test JComponentHelper::getParams
 	 *
-	 * @todo    Implement testGetParams().
-	 *
 	 * @return  void
+	 * @covers  JComponentHelper::getParams
 	 */
 	public function testGetParams()
 	{
@@ -79,31 +133,5 @@ class JComponentHelperTest extends TestCaseDatabase
 			'1',
 			"com_content's show_print_icon param should be set to 1"
 		);
-	}
-
-	/**
-	 * Test JComponentHelper::filterText
-	 *
-	 * @todo    Implement testFilterText().
-	 *
-	 * @return  void
-	 */
-	public function testFilterText()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test JComponentHelper::renderComponent
-	 *
-	 * @todo    Implement testRenderComponent().
-	 *
-	 * @return  void
-	 */
-	public function testRenderComponent()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

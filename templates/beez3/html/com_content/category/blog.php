@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,15 +21,16 @@ $cparams = JComponentHelper::getParams('com_media');
 // It will be a separate class if the user starts it with a space
 ?>
 <section class="blog<?php echo $this->pageclass_sfx;?>">
-<?php if ($this->params->get('show_page_heading') != 0 or $this->params->get('show_category_title')) : ?>
+<?php if ($this->params->get('show_page_heading') != 0) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
-	<?php if ($this->params->get('show_category_title'))
-	{
-		echo '<span class="subheading-category">'.JHtml::_('content.prepare', $this->category->title, '', 'com_content.category.title').'</span>';
-	}
-	?>
 </h1>
+<?php endif; ?>
+
+<?php if ($this->params->get('show_category_title')) : ?>
+<h2 class="subheading-category">
+	<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_content.category.title'); ?>
+</h2>
 <?php endif; ?>
 
 <?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
@@ -65,7 +66,7 @@ $cparams = JComponentHelper::getParams('com_media');
 </div>
 <?php endif; ?>
 <?php
-	$introcount = (count($this->intro_items));
+	$introcount = count($this->intro_items);
 	$counter = 0;
 ?>
 <?php if (!empty($this->intro_items)) : ?>
@@ -100,7 +101,7 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<h3>
-			<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+			<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
 		</h3>
 	<?php endif; ?>
 	<?php echo $this->loadTemplate('children'); ?>

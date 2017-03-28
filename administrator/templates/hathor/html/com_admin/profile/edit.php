@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,22 +12,21 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
-?>
 
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'profile.cancel' || document.formvalidator.isValid(document.id('profile-form')))
+		if (task == 'profile.cancel' || document.formvalidator.isValid(document.getElementById('profile-form')))
 		{
 			Joomla.submitform(task, document.getElementById('profile-form'));
 		}
 	}
-</script>
-
+");
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id='.$this->item->id); ?>" method="post" name="adminForm" id="profile-form" class="form-validate" enctype="multipart/form-data">
 	<div class="col main-section">
 		<fieldset class="adminform">

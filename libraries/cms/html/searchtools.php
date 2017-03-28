@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Searchtools elements.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.2
+ * @since  3.2
  */
 abstract class JHtmlSearchtools
 {
@@ -43,8 +43,8 @@ abstract class JHtmlSearchtools
 			}
 
 			// Load the jQuery plugin && CSS
-			JHtml::_('script', 'jui/jquery.searchtools.min.js', false, true);
-			JHtml::_('stylesheet', 'jui/jquery.searchtools.css', false, true);
+			JHtml::_('script', 'jui/jquery.searchtools.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'jui/jquery.searchtools.css', array('version' => 'auto', 'relative' => true));
 
 			static::$loaded[__METHOD__] = true;
 		}
@@ -76,7 +76,7 @@ abstract class JHtmlSearchtools
 			$options['formSelector'] = $selector;
 
 			// Generate options with default values
-			$options = static::options2Jregistry($options);
+			$options = static::optionsToRegistry($options);
 
 			$doc = JFactory::getDocument();
 			$script = "
@@ -99,21 +99,21 @@ abstract class JHtmlSearchtools
 	/**
 	 * Function to receive & pre-process javascript options
 	 *
-	 * @param   mixed  $options  Associative array/JRegistry object with options
+	 * @param   mixed  $options  Associative array/Registry object with options
 	 *
-	 * @return  JRegistry        Options converted to JRegistry object
+	 * @return  Registry         Options converted to Registry object
 	 */
-	private static function options2Jregistry($options)
+	private static function optionsToRegistry($options)
 	{
 		// Support options array
 		if (is_array($options))
 		{
-			$options = new JRegistry($options);
+			$options = new Registry($options);
 		}
 
-		if (!($options instanceof Jregistry))
+		if (!($options instanceof Registry))
 		{
-			$options = new JRegistry;
+			$options = new Registry;
 		}
 
 		return $options;
@@ -134,7 +134,8 @@ abstract class JHtmlSearchtools
 	 *
 	 * @return  string
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '', $icon = null, $formName = 'adminForm')
+	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '', $icon = null,
+		$formName = 'adminForm')
 	{
 		$direction = strtolower($direction);
 		$orderIcons = array('icon-arrow-up-3', 'icon-arrow-down-3');

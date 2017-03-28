@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Form
  * @since       3.1
  */
-class JFormFieldHeadertagTest extends PHPUnit_Framework_TestCase
+class JFormFieldHeadertagTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Tests the getInput method.
@@ -25,26 +25,16 @@ class JFormFieldHeadertagTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JForm('form1');
-
-		$this->assertThat(
-			$form->load('<form><field name="headertag" type="headertag" label="Header Tag" description="Header Tag listing" /></form>'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldHeadertag($form);
-
-		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true.'
+		$field = new JFormFieldHeadertag;
+		$field->setup(
+			new SimpleXMLElement('<field name="headertag" type="headertag" label="Header Tag" description="Header Tag listing" />'),
+			'value'
 		);
 
 		$this->assertContains(
 			'<option value="h3">h3</option>',
 			$field->input,
-			'Line:' . __LINE__ . ' The getInput method should return an option with the header tags, verify H3 tag is in list.'
+			'The getInput method should return an option with the header tags, verify H3 tag is in list.'
 		);
 	}
 }

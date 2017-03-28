@@ -263,7 +263,8 @@ hr.hr-condensed {
 }
 
 .row-striped .row-fluid {
-	width: 97%; // lower than 100% since we have padding
+	width: 100%;
+	box-sizing: border-box; // box-sizing since we don't care about padding
 }
 .row-striped .row-fluid [class*="span"] {
 	min-height: 10px;
@@ -374,18 +375,6 @@ fieldset.radio.btn-group {
 }
 /* Input Prepend Chosen Select Boxes */
 /* Common styling for Chosen Select Boxes with Input Prepend/Append */
-.input-prepend .chzn-container-single .chzn-single,
-.input-append .chzn-container-single .chzn-single {
-	border-color: @inputBorder;
-	height: 26px;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-.input-prepend .chzn-container-single .chzn-drop,
-.input-append .chzn-container-single .chzn-drop {
-	border-color: @inputBorder;
-}
 .input-prepend > .add-on,
 .input-append > .add-on {
 	vertical-align: top;
@@ -431,6 +420,16 @@ fieldset.radio.btn-group {
 	overflow: hidden;
 }
 
+/* Make Accessible Hidden Elements visible on focus */
+.element-invisible:focus {
+	width:auto;
+	height:auto;
+	overflow:auto;
+	background:#eee;
+	color:#000;
+	padding:1em;
+}
+
 /* Form Vertical Overrides Form Horizontal */
 .form-vertical {
 	.control-label {
@@ -467,6 +466,11 @@ fieldset.radio.btn-group {
 }
 input.invalid {
 	border: 1px solid @red;
+}
+select.chzn-done.invalid + .chzn-container.chzn-container-single > a.chzn-single,
+select.chzn-done.invalid + .chzn-container.chzn-container-multi > ul.chzn-choices {
+	border-color: @red;
+	color: @red;
 }
 
 /* Tweaking of tooltips */
@@ -519,4 +523,26 @@ th .tooltip-inner {
 }
 .dropdown-menu {
 	text-align: left;
+}
+
+// Add Bootstrap 3 .alert-link
+.alert-link {
+  font-weight: bold;
+}
+
+.alert .alert-link {
+  color: darken(@warningText, 10%);
+}
+
+.alert-success .alert-link {
+  color: darken(@successText, 10%);
+}
+
+.alert-danger .alert-link,
+.alert-error .alert-link {
+  color: darken(@errorText, 10%);
+}
+
+.alert-info .alert-link {
+  color: darken(@infoText, 10%);
 }

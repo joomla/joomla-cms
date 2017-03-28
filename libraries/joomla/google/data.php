@@ -3,23 +3,24 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google API data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
  * @since       12.3
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 abstract class JGoogleData
 {
 	/**
-	 * @var    JRegistry  Options for the Google data object.
+	 * @var    Registry  Options for the Google data object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -33,14 +34,14 @@ abstract class JGoogleData
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object.
+	 * @param   Registry     $options  Google options object.
 	 * @param   JGoogleAuth  $auth     Google data http client object.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->auth = isset($auth) ? $auth : new JGoogleAuthOauth2($this->options);
 	}
 
@@ -78,7 +79,7 @@ abstract class JGoogleData
 	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
-	protected static function safeXML($data)
+	protected static function safeXml($data)
 	{
 		try
 		{
@@ -86,7 +87,7 @@ abstract class JGoogleData
 		}
 		catch (Exception $e)
 		{
-			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.");
+			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.", $e->getCode(), $e);
 		}
 	}
 
@@ -114,6 +115,7 @@ abstract class JGoogleData
 		{
 			$qurl .= 'pageToken=' . $token;
 		}
+
 		$jdata = $this->query($qurl);
 		$data = json_decode($jdata->body, true);
 
@@ -123,6 +125,7 @@ abstract class JGoogleData
 			{
 				$data['items'] = array_merge($data['items'], $this->listGetData($url, $maxpages - 1, $data['nextPageToken']));
 			}
+
 			return $data['items'];
 		}
 		elseif ($data)

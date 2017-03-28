@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * The HTML Joomla Core Install Remove View
  *
- * @package     Joomla.Installation
- * @subpackage  View
- * @since       3.1
+ * @since  3.1
  */
 class InstallationViewRemoveHtml extends JViewHtml
 {

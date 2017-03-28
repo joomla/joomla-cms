@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,9 +28,14 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getMenu',
 			'getPathway',
 			'getTemplate',
+			'getLanguageFilter',
 			'initialiseApp',
+			'isClient',
 			'isAdmin',
 			'isSite',
+			'getUserState',
+			'getUserStateFromRequest',
+			'setUserState',
 		);
 
 		return array_merge($methods, parent::getMethods());
@@ -39,9 +44,9 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	/**
 	 * Adds mock objects for some methods.
 	 *
-	 * @param  TestCase                                 $test        A test object.
-	 * @param  PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
-	 * @param  array                                    $options     A set of options to configure the mock.
+	 * @param   TestCase                                 $test        A test object.
+	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   array                                    $options     A set of options to configure the mock.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject  The object with the behaviours added
 	 *
@@ -49,6 +54,9 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 */
 	public static function addBehaviours($test, $mockObject, $options)
 	{
+		// Mock calls to JApplicationCms::getMenu();
+		$mockObject->expects($test->any())->method('getMenu')->will($test->returnValue(TestMockMenu::create($test)));
+
 		return parent::addBehaviours($test, $mockObject, $options);
 	}
 
@@ -63,14 +71,15 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 *
 	 * If any *Body methods are implemented in the test class, all should be implemented otherwise behaviour will be unreliable.
 	 *
-	 * @param   TestCase  $test     A test object.
-	 * @param   array     $options  A set of options to configure the mock.
+	 * @param   TestCase  $test         A test object.
+	 * @param   array     $options      A set of options to configure the mock.
+	 * @param   array     $constructor  An array containing constructor arguments to inject into the mock.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   3.2
 	 */
-	public static function create($test, $options = array())
+	public static function create($test, $options = array(), $constructor = array())
 	{
 		// Set expected server variables.
 		if (!isset($_SERVER['HTTP_HOST']))
@@ -80,17 +89,15 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 
 		$methods = self::getMethods();
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JApplicationCms',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			true
-		);
+		if (isset($options))
+		{
+			// Build the mock object & allow call to original constructor.
+			$mockObject = $test->getMockBuilder('JApplicationCms')
+						->setMethods($methods)
+						->setConstructorArgs($constructor)
+						->setMockClassName('')
+						->getMock();
+		}
 
 		$mockObject = self::addBehaviours($test, $mockObject, $options);
 

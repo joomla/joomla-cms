@@ -1,27 +1,27 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JPlugin Class
  *
- * @package     Joomla.Platform
- * @subpackage  Plugin
- * @since       1.5
+ * @since  1.5
  */
 abstract class JPlugin extends JEvent
 {
 	/**
-	 * A JRegistry object holding the parameters for the plugin
+	 * A Registry object holding the parameters for the plugin
 	 *
-	 * @var    JRegistry
+	 * @var    Registry
 	 * @since  1.5
 	 */
 	public $params = null;
@@ -65,14 +65,13 @@ abstract class JPlugin extends JEvent
 		// Get the parameters.
 		if (isset($config['params']))
 		{
-			if ($config['params'] instanceof JRegistry)
+			if ($config['params'] instanceof Registry)
 			{
 				$this->params = $config['params'];
 			}
 			else
 			{
-				$this->params = new JRegistry;
-				$this->params->loadString($config['params']);
+				$this->params = new Registry($config['params']);
 			}
 		}
 
@@ -133,12 +132,19 @@ abstract class JPlugin extends JEvent
 	{
 		if (empty($extension))
 		{
-			$extension = 'plg_' . $this->_type . '_' . $this->_name;
+			$extension = 'Plg_' . $this->_type . '_' . $this->_name;
 		}
 
-		$lang = JFactory::getLanguage();
+		$extension = strtolower($extension);
+		$lang      = JFactory::getLanguage();
 
-		return $lang->load(strtolower($extension), $basePath, null, false, true)
-			|| $lang->load(strtolower($extension), JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
+		// If language already loaded, don't load it again.
+		if ($lang->getPaths($extension))
+		{
+			return true;
+		}
+
+		return $lang->load($extension, $basePath, null, false, true)
+			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
 	}
 }

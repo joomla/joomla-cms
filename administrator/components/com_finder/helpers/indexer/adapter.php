@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
@@ -17,9 +19,7 @@ JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 /**
  * Prototype adapter class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 abstract class FinderIndexerAdapter extends JPlugin
 {
@@ -163,11 +163,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws    Exception on error.
+	 * @throws  Exception on error.
 	 */
 	public function onStartIndex()
 	{
-
 		// Get the indexer state.
 		$iState = FinderIndexer::getState();
 
@@ -272,7 +271,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws    Exception on database error.
+	 * @throws  Exception on database error.
 	 */
 	protected function change($id, $property, $value)
 	{
@@ -282,7 +281,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			return true;
 		}
 
-		// Get the url for the content id.
+		// Get the URL for the content id.
 		$item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Update the content items.
@@ -392,7 +391,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function categoryAccessChange($row)
 	{
-		$query = clone($this->getStateQuery());
+		$query = clone $this->getStateQuery();
 		$query->where('c.id = ' . (int) $row->id);
 
 		// Get the access level.
@@ -432,7 +431,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		 */
 		foreach ($pks as $pk)
 		{
-			$query = clone($this->getStateQuery());
+			$query = clone $this->getStateQuery();
 			$query->where('c.id = ' . (int) $pk);
 
 			// Get the published states.
@@ -520,7 +519,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Tweak the SQL query to make the total lookup faster.
 		if ($query instanceof JDatabaseQuery)
 		{
-			$query = clone($query);
+			$query = clone $query;
 			$query->clear('select')
 				->select('COUNT(*)')
 				->clear('order');
@@ -528,9 +527,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Get the total number of content items to index.
 		$this->db->setQuery($query);
-		$return = (int) $this->db->loadResult();
 
-		return $return;
+		return (int) $this->db->loadResult();
 	}
 
 	/**
@@ -554,7 +552,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$row = $this->db->loadAssoc();
 
 		// Convert the item to a result object.
-		$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
+		$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
 
 		// Set the item type.
 		$item->type_id = $this->type_id;
@@ -589,7 +587,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		foreach ($rows as $row)
 		{
 			// Convert the item to a result object.
-			$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
+			$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
 
 			// Set the item type.
 			$item->type_id = $this->type_id;
@@ -625,9 +623,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getListQuery($query = null)
 	{
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
-
-		return $query;
+		return $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
 	}
 
 	/**
@@ -647,9 +643,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->from($this->db->quoteName('#__extensions'))
 			->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
-		$type = $this->db->loadResult();
 
-		return $type;
+		return $this->db->loadResult();
 	}
 
 	/**
@@ -730,9 +725,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->from($this->db->quoteName('#__finder_types'))
 			->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
 		$this->db->setQuery($query);
-		$result = (int) $this->db->loadResult();
 
-		return $result;
+		return (int) $this->db->loadResult();
 	}
 
 	/**
@@ -747,7 +741,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @since   2.5
 	 */
-	protected function getURL($id, $extension, $view)
+	protected function getUrl($id, $extension, $view)
 	{
 		return 'index.php?option=' . $extension . '&view=' . $view . '&id=' . $id;
 	}
@@ -756,7 +750,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * Method to get the page title of any menu item that is linked to the
 	 * content item, if it exists and is set.
 	 *
-	 * @param   string  $url  The url of the item.
+	 * @param   string  $url  The URL of the item.
 	 *
 	 * @return  mixed  The title on success, null if not found.
 	 *
@@ -793,7 +787,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$params = json_decode($params);
 
 		// Get the page title if it is set.
-		if ($params->page_title)
+		if (isset($params->page_title) && $params->page_title)
 		{
 			$return = $params->page_title;
 		}
@@ -812,7 +806,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function itemAccessChange($row)
 	{
-		$query = clone($this->getStateQuery());
+		$query = clone $this->getStateQuery();
 		$query->where('a.id = ' . (int) $row->id);
 
 		// Get the access level.
@@ -845,7 +839,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		 */
 		foreach ($pks as $pk)
 		{
-			$query = clone($this->getStateQuery());
+			$query = clone $this->getStateQuery();
 			$query->where('a.id = ' . (int) $pk);
 
 			// Get the published states.
@@ -881,7 +875,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			if ($this->getPluginType($pk) == strtolower($this->context))
 			{
 				// Get all of the items to unindex them
-				$query = clone($this->getStateQuery());
+				$query = clone $this->getStateQuery();
 				$this->db->setQuery($query);
 				$items = $this->db->loadColumn();
 
@@ -924,7 +918,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			case 2:
 				return 1;
 
-			// All other states should return a unpublished state
+			// All other states should return an unpublished state
 			default:
 			case 0:
 				return 0;

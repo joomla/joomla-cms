@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu Types table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
+ * @since  1.6
  */
 class JTableMenuType extends JTable
 {
@@ -23,7 +21,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since  11.1
+	 * @since   1.6
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -36,11 +34,11 @@ class JTableMenuType extends JTable
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function check()
 	{
-		$this->menutype = JApplication::stringURLSafe($this->menutype);
+		$this->menutype = JApplicationHelper::stringURLSafe($this->menutype);
 
 		if (empty($this->menutype))
 		{
@@ -75,17 +73,15 @@ class JTableMenuType extends JTable
 
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
-	 * If a primary key value is set the row with that primary key value will be
-	 * updated with the instance property values.  If no primary key value is set
-	 * a new row will be inserted into the database with the properties from the
-	 * JTable instance.
+	 *
+	 * If a primary key value is set the row with that primary key value will be updated with the instance property values.
+	 * If no primary key value is set a new row will be inserted into the database with the properties from the JTable instance.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/store
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{
@@ -95,7 +91,7 @@ class JTableMenuType extends JTable
 			$userId = JFactory::getUser()->id;
 
 			// Get the old value of the table
-			$table = JTable::getInstance('Menutype', 'JTable');
+			$table = JTable::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
 			$table->load($this->id);
 
 			// Verify that no items are checked out
@@ -166,8 +162,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/delete
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function delete($pk = null)
 	{
@@ -181,7 +176,7 @@ class JTableMenuType extends JTable
 			$userId = JFactory::getUser()->id;
 
 			// Get the old value of the table
-			$table = JTable::getInstance('Menutype', 'JTable');
+			$table = JTable::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
 			$table->load($pk);
 
 			// Verify that no items are checked out
@@ -189,7 +184,6 @@ class JTableMenuType extends JTable
 				->select('id')
 				->from('#__menu')
 				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('client_id=0')
 				->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND language=' . $this->_db->quote('*') . ')');
 			$this->_db->setQuery($query);
 
@@ -220,8 +214,7 @@ class JTableMenuType extends JTable
 			// Delete the menu items
 			$query->clear()
 				->delete('#__menu')
-				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('client_id=0');
+				->where('menutype=' . $this->_db->quote($table->menutype));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
@@ -235,5 +228,58 @@ class JTableMenuType extends JTable
 		}
 
 		return parent::delete($pk);
+	}
+
+	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form table_name.id
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.6
+	 */
+	protected function _getAssetName()
+	{
+		return 'com_menus.menu.' . $this->id;
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.6
+	 */
+	protected function _getAssetTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Method to get the parent asset under which to register this one.
+	 * By default, all assets are registered to the ROOT node with ID,
+	 * which will default to 1 if none exists.
+	 * The extended class can define a table and id to lookup.  If the
+	 * asset does not exist it will be created.
+	 *
+	 * @param   JTable   $table  A JTable object for the asset parent.
+	 * @param   integer  $id     Id to look up
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.6
+	 */
+	protected function _getAssetParentId(JTable $table = null, $id = null)
+	{
+		$assetId = null;
+		$asset = JTable::getInstance('asset');
+
+		if ($asset->loadByName('com_menus'))
+		{
+			$assetId = $asset->id;
+		}
+
+		return is_null($assetId) ? parent::_getAssetParentId($table, $id) : $assetId;
 	}
 }

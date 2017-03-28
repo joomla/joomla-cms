@@ -2,25 +2,26 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+JLoader::register('JSubMenuHelper', JPATH_BASE . '/includes/subtoolbar.php');
+
 /**
  * Utility class for the button bar.
  *
- * @package  Joomla.Administrator
- * @since    1.5
+ * @since  1.5
  */
 abstract class JToolbarHelper
 {
 	/**
 	 * Title cell.
 	 * For the title and toolbar to be rendered correctly,
-	 * this title fucntion must be called before the starttable function and the toolbars icons
-	 * this is due to the nature of how the css has been used to postion the title in respect to the toolbar.
+	 * this title function must be called before the starttable function and the toolbars icons
+	 * this is due to the nature of how the css has been used to position the title in respect to the toolbar.
 	 *
 	 * @param   string  $title  The title.
 	 * @param   string  $icon   The space-separated names of the image.
@@ -36,7 +37,7 @@ abstract class JToolbarHelper
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
+		JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
 	}
 
 	/**
@@ -74,7 +75,7 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a custom option and task button for the button bar.
 	 *
-	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks.
+	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
 	 * @param   string  $icon        The image to display.
 	 * @param   string  $iconOver    The image to display when moused over.
 	 * @param   string  $alt         The alt text for the icon image.
@@ -153,9 +154,27 @@ abstract class JToolbarHelper
 	}
 
 	/**
+	 * Creates a button to redirect to a link
+	 *
+	 * @param   string  $url   The link url
+	 * @param   string  $text  Button text
+	 * @param   string  $name  Name to be used as apart of the id
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public static function link($url, $text, $name = 'link')
+	{
+		$bar = JToolbar::getInstance('toolbar');
+
+		$bar->appendButton('Link', $name, $text, $url);
+	}
+
+	/**
 	 * Writes a media_manager button.
 	 *
-	 * @param   string  $directory  The sub-directory to upload the media to.
+	 * @param   string  $directory  The subdirectory to upload the media to.
 	 * @param   string  $alt        An override for the alt text.
 	 *
 	 * @return  void
@@ -565,7 +584,7 @@ abstract class JToolbarHelper
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		$uri = (string) JUri::getInstance();
 		$return = urlencode(base64_encode($uri));
@@ -594,8 +613,8 @@ abstract class JToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
-
+		$lang = JFactory::getLanguage();
+		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 		$contentTypeTable = JTable::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
@@ -626,144 +645,11 @@ abstract class JToolbarHelper
 	 */
 	public static function modal($targetModalId, $icon, $alt)
 	{
-		JHtml::_('behavior.modal');
 		$title = JText::_($alt);
-		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
-			<i class='" . $icon . "' title='" . $title . "'></i> " . $title . "</button>";
+		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-small">
+			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button>';
 
 		$bar = JToolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);
-	}
-}
-
-/**
- * Utility class for the submenu.
- *
- * @package     Joomla.Administrator
- * @since       1.5
- * @deprecated  4.0  Use JHtmlSidebar instead.
- */
-abstract class JSubMenuHelper
-{
-	/**
-	 * Menu entries
-	 *
-	 * @var    array
-	 * @since  3.0
-	 * @deprecated  4.0
-	 */
-	protected static $entries = array();
-
-	/**
-	 * Filters
-	 *
-	 * @var    array
-	 * @since  3.0
-	 * @deprecated  4.0
-	 */
-	protected static $filters = array();
-
-	/**
-	 * Value for the action attribute of the form.
-	 *
-	 * @var    string
-	 * @since  3.0
-	 * @deprecated  4.0
-	 */
-	protected static $action = '';
-
-	/**
-	 * Method to add a menu item to submenu.
-	 *
-	 * @param   string   $name    Name of the menu item.
-	 * @param   string   $link    URL of the menu item.
-	 * @param   boolean  $active  True if the item is active, false otherwise.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use JHtmlSidebar::addEntry() instead.
-	 */
-	public static function addEntry($name, $link = '', $active = false)
-	{
-		JLog::add('JSubMenuHelper::addEntry() is deprecated. Use JHtmlSidebar::addEntry() instead.', JLog::WARNING, 'deprecated');
-		array_push(self::$entries, array($name, $link, $active));
-	}
-
-	/**
-	 * Returns an array of all submenu entries
-	 *
-	 * @return  array
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::getEntries() instead.
-	 */
-	public static function getEntries()
-	{
-		JLog::add('JSubMenuHelper::getEntries() is deprecated. Use JHtmlSidebar::getEntries() instead.', JLog::WARNING, 'deprecated');
-		return self::$entries;
-	}
-
-	/**
-	 * Method to add a filter to the submenu
-	 *
-	 * @param   string   $label      Label for the menu item.
-	 * @param   string   $name       name for the filter. Also used as id.
-	 * @param   string   $options    options for the select field.
-	 * @param   boolean  $noDefault  Don't the label as the empty option
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::addFilter() instead.
-	 */
-	public static function addFilter($label, $name, $options, $noDefault = false)
-	{
-		JLog::add('JSubMenuHelper::addFilter() is deprecated. Use JHtmlSidebar::addFilter() instead.', JLog::WARNING, 'deprecated');
-		array_push(self::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault));
-	}
-
-	/**
-	 * Returns an array of all filters
-	 *
-	 * @return  array
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::getFilters() instead.
-	 */
-	public static function getFilters()
-	{
-		JLog::add('JSubMenuHelper::getFilters() is deprecated. Use JHtmlSidebar::getFilters() instead.', JLog::WARNING, 'deprecated');
-		return self::$filters;
-	}
-
-	/**
-	 * Set value for the action attribute of the filter form
-	 *
-	 * @param   string  $action  Value for the action attribute of the form
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::setAction() instead.
-	 */
-	public static function setAction($action)
-	{
-		JLog::add('JSubMenuHelper::setAction() is deprecated. Use JHtmlSidebar::setAction() instead.', JLog::WARNING, 'deprecated');
-		self::$action = $action;
-	}
-
-	/**
-	 * Get value for the action attribute of the filter form
-	 *
-	 * @return  string  Value for the action attribute of the form
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0  Use JHtmlSidebar::getAction() instead.
-	 */
-	public static function getAction()
-	{
-		JLog::add('JSubMenuHelper::getAction() is deprecated. Use JHtmlSidebar::getAction() instead.', JLog::WARNING, 'deprecated');
-		return self::$action;
 	}
 }

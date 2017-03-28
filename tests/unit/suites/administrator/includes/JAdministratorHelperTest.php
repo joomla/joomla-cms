@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,14 @@ require_once JPATH_ADMINISTRATOR . '/includes/helper.php';
 class JAdministratorHelperTest extends TestCase
 {
 	/**
-	 * @var JAdministratorHelper
+	 * @var  JAdministratorHelper
 	 */
 	protected $object;
+
+	/**
+	 * @var  PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $user;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -27,9 +32,9 @@ class JAdministratorHelperTest extends TestCase
 		//$this->object = new JErrorPage;
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
-		JFactory::$application->input = new JInput(array());
-		$this->user = $this->getMock('Observer', array('get', 'authorise'));
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$application->input = $this->getMockInput();
+		$this->user = $this->getMockBuilder('JUser')->setMethods(array('get', 'authorise'))->getMock();
 
 		JFactory::$application->expects($this->once())
 			->method('getIdentity')
@@ -43,6 +48,7 @@ class JAdministratorHelperTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		unset($this->user);
 	}
 
 	/**
@@ -53,7 +59,8 @@ class JAdministratorHelperTest extends TestCase
 		$this->user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
-			->will($this->returnValue(true));
+			->willReturn(true);
+
 		$this->user->expects($this->never())
 			->method('authorise');
 
@@ -69,18 +76,19 @@ class JAdministratorHelperTest extends TestCase
 	}
 
 	/**
-	 * Tests the findOption() method simulating an user without login admin permissions.
+	 * Tests the findOption() method simulating a user without login admin permissions.
 	 */
 	public function testFindOptionCanNotLoginAdmin()
 	{
 		$this->user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
-			->will($this->returnValue(false));
+			->willReturn(false);
+
 		$this->user->expects($this->once())
 			->method('authorise')
 			->with($this->equalTo('core.login.admin'))
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->assertEquals(
 			'com_login',
@@ -94,18 +102,19 @@ class JAdministratorHelperTest extends TestCase
 	}
 
 	/**
-	 * Tests the findOption() method simulating an user who is able to log in to admin.
+	 * Tests the findOption() method simulating a user who is able to log in to admin.
 	 */
 	public function testFindOptionCanLoginAdmin()
 	{
 		$this->user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
-			->will($this->returnValue(false));
+			->willReturn(false);
+
 		$this->user->expects($this->once())
 			->method('authorise')
 			->with($this->equalTo('core.login.admin'))
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->assertEquals(
 			'com_cpanel',
@@ -126,21 +135,22 @@ class JAdministratorHelperTest extends TestCase
 		$this->user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
-			->will($this->returnValue(false));
+			->willReturn(false);
+
 		$this->user->expects($this->once())
 			->method('authorise')
 			->with($this->equalTo('core.login.admin'))
-			->will($this->returnValue(true));
+			->willReturn(false);
 
 		JFactory::$application->input->set('option', 'foo');
 
 		$this->assertEquals(
-			'foo',
+			'com_login',
 			JAdministratorHelper::findOption()
 		);
 
 		$this->assertEquals(
-			'foo',
+			'com_login',
 			JFactory::$application->input->get('option')
 		);
 	}

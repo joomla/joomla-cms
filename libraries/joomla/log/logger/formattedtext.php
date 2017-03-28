@@ -3,12 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -17,33 +18,32 @@ jimport('joomla.filesystem.folder');
  * This class is designed to use as a base for building formatted text files for output. By
  * default it emulates the Syslog style format output. This is a disk based output format.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @since  11.1
  */
 class JLogLoggerFormattedtext extends JLogLogger
 {
 	/**
-	 * @var    resource  The file pointer for the log file.
+	 * The format which each entry follows in the log file.
+	 *
+	 * All fields must be named in all caps and be within curly brackets eg. {FOOBAR}.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
-	protected $file;
+	protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
 	/**
-	 * @var    string  The format for which each entry follows in the log file.  All fields must be named
-	 * in all caps and be within curly brackets eg. {FOOBAR}.
-	 * @since  11.1
-	 */
-	protected $format = '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}';
-
-	/**
-	 * @var    array  The parsed fields from the format string.
+	 * The parsed fields from the format string.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $fields = array();
 
 	/**
-	 * @var    string  The full filesystem path for the log file.
+	 * The full filesystem path for the log file.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $path;
@@ -92,24 +92,11 @@ class JLogLoggerFormattedtext extends JLogLogger
 	}
 
 	/**
-	 * Destructor.
-	 *
-	 * @since   11.1
-	 */
-	public function __destruct()
-	{
-		if (is_resource($this->file))
-		{
-			fclose($this->file);
-		}
-	}
-
-	/**
 	 * Method to add an entry to the log.
 	 *
 	 * @param   JLogEntry  $entry  The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -117,15 +104,11 @@ class JLogLoggerFormattedtext extends JLogLogger
 	public function addEntry(JLogEntry $entry)
 	{
 		// Initialise the file if not already done.
-		if (!is_resource($this->file))
-		{
-			$this->initFile();
-		}
+		$this->initFile();
 
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
 		{
-
 			// Check for proxies as well.
 			if (isset($_SERVER['REMOTE_ADDR']))
 			{
@@ -144,7 +127,6 @@ class JLogLoggerFormattedtext extends JLogLogger
 		// If the time field is missing or the date field isn't only the date we need to rework it.
 		if ((strlen($entry->date) != 10) || !isset($entry->time))
 		{
-
 			// Get the date and time strings in GMT.
 			$entry->datetime = $entry->date->toISO8601();
 			$entry->time = $entry->date->format('H:i:s', false);
@@ -166,7 +148,9 @@ class JLogLoggerFormattedtext extends JLogLogger
 		}
 
 		// Write the new entry to the file.
-		if (!fwrite($this->file, $line . "\n"))
+		$line .= "\n";
+
+		if (!JFile::append($this->path, $line))
 		{
 			throw new RuntimeException('Cannot write to log file.');
 		}
@@ -192,6 +176,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 			$head[] = '#';
 			$head[] = '#<?php die(\'Forbidden.\'); ?>';
 		}
+
 		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
 		$head[] = '#Software: ' . JPlatform::getLongVersion();
 		$head[] = '';
@@ -215,32 +200,21 @@ class JLogLoggerFormattedtext extends JLogLogger
 	 */
 	protected function initFile()
 	{
-		// If the file doesn't already exist we need to create it and generate the file header.
-		if (!is_file($this->path))
+		// We only need to make sure the file exists
+		if (JFile::exists($this->path))
 		{
-
-			// Make sure the folder exists in which to create the log file.
-			JFolder::create(dirname($this->path));
-
-			// Build the log file header.
-			$head = $this->generateFileHeader();
-		}
-		else
-		{
-			$head = false;
+			return;
 		}
 
-		// Open the file for writing (append mode).
-		if (!$this->file = fopen($this->path, 'a'))
+		// Make sure the folder exists in which to create the log file.
+		JFolder::create(dirname($this->path));
+
+		// Build the log file header.
+		$head = $this->generateFileHeader();
+
+		if (!JFile::write($this->path, $head))
 		{
-			throw new RuntimeException('Cannot open file for writing log');
-		}
-		if ($head)
-		{
-			if (!fwrite($this->file, $head))
-			{
-				throw new RuntimeException('Cannot fput file for log');
-			}
+			throw new RuntimeException('Cannot write to log file.');
 		}
 	}
 
@@ -257,7 +231,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		$matches = array();
 
 		// Get all of the available fields in the format string.
-		preg_match_all("/{(.*?)}/i", $this->format, $matches);
+		preg_match_all('/{(.*?)}/i', $this->format, $matches);
 
 		// Build the parsed fields list based on the found fields.
 		foreach ($matches[1] as $match)

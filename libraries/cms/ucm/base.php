@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base class for implementing UCM
  *
- * @package     Joomla.Libraries
- * @subpackage  UCM
- * @since       3.1
+ * @since  3.1
  */
 class JUcmBase implements JUcm
 {
@@ -70,8 +68,8 @@ class JUcmBase implements JUcm
 			$table = JTable::getInstance('Ucm');
 		}
 
-		$ucmId		= isset($data['ucm_id']) ? $data['ucm_id'] : null;
-		$primaryKey	= $primaryKey ? $primaryKey : $ucmId;
+		$ucmId      = isset($data['ucm_id']) ? $data['ucm_id'] : null;
+		$primaryKey = $primaryKey ?: $ucmId;
 
 		if (isset($primaryKey))
 		{
@@ -84,7 +82,7 @@ class JUcmBase implements JUcm
 		}
 		catch (RuntimeException $e)
 		{
-			throw new Exception($e->getMessage(), 500);
+			throw new Exception($e->getMessage(), 500, $e);
 		}
 
 		try
@@ -93,7 +91,7 @@ class JUcmBase implements JUcm
 		}
 		catch (RuntimeException $e)
 		{
-			throw new Exception($e->getMessage(), 500);
+			throw new Exception($e->getMessage(), 500, $e);
 		}
 
 		return true;
@@ -102,15 +100,18 @@ class JUcmBase implements JUcm
 	/**
 	 * Get the UCM Content type.
 	 *
-	 * @return  object  The UCM content type
+	 * @return  JUcmType  The UCM content type
 	 *
 	 * @since   3.1
 	 */
 	public function getType()
 	{
-		$type = new JUcmType($this->alias);
+		if (!$this->type)
+		{
+			$this->type = new JUcmType($this->alias);
+		}
 
-		return $type;
+		return $this->type;
 	}
 
 	/**
@@ -125,12 +126,12 @@ class JUcmBase implements JUcm
 	 */
 	public function mapBase($original, JUcmType $type = null)
 	{
-		$type = $type ? $type : $this->type;
+		$type = $type ?: $this->type;
 
 		$data = array(
 			'ucm_type_id' => $type->id,
 			'ucm_item_id' => $original[$type->primary_key],
-			'ucm_language_id' => JHelperContent::getLanguageId($original['language'])
+			'ucm_language_id' => JHelperContent::getLanguageId($original['language']),
 		);
 
 		return $data;

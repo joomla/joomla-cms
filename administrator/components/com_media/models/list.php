@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,12 +15,20 @@ jimport('joomla.filesystem.file');
 /**
  * Media Component List Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.5
+ * @since  1.5
  */
 class MediaModelList extends JModelLegacy
 {
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Optional parameter name
+	 * @param   mixed   $default   Optional default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 *
+	 * @since   1.5
+	 */
 	public function getState($property = null, $default = null)
 	{
 		static $set;
@@ -31,7 +39,7 @@ class MediaModelList extends JModelLegacy
 			$folder = $input->get('folder', '', 'path');
 			$this->setState('folder', $folder);
 
-			$parent = str_replace("\\", "/", dirname($folder));
+			$parent = str_replace("\\", '/', dirname($folder));
 			$parent = ($parent == '.') ? null : $parent;
 			$this->setState('parent', $parent);
 			$set = true;
@@ -40,6 +48,13 @@ class MediaModelList extends JModelLegacy
 		return parent::getState($property, $default);
 	}
 
+	/**
+	 * Get the images on the current folder
+	 *
+	 * @return  array
+	 *
+	 * @since   1.5
+	 */
 	public function getImages()
 	{
 		$list = $this->getList();
@@ -47,6 +62,13 @@ class MediaModelList extends JModelLegacy
 		return $list['images'];
 	}
 
+	/**
+	 * Get the folders on the current folder
+	 *
+	 * @return  array
+	 *
+	 * @since   1.5
+	 */
 	public function getFolders()
 	{
 		$list = $this->getList();
@@ -54,6 +76,13 @@ class MediaModelList extends JModelLegacy
 		return $list['folders'];
 	}
 
+	/**
+	 * Get the documents on the current folder
+	 *
+	 * @return  array
+	 *
+	 * @since   1.5
+	 */
 	public function getDocuments()
 	{
 		$list = $this->getList();
@@ -64,7 +93,8 @@ class MediaModelList extends JModelLegacy
 	/**
 	 * Build imagelist
 	 *
-	 * @param string $listFolder The image directory to display
+	 * @return  array
+	 *
 	 * @since 1.5
 	 */
 	public function getList()
@@ -78,35 +108,23 @@ class MediaModelList extends JModelLegacy
 		}
 
 		// Get current path from request
-		$current = $this->getState('folder');
+		$current = (string) $this->getState('folder');
 
-		// If undefined, set to empty
-		if ($current == 'undefined')
-		{
-			$current = '';
-		}
+		$basePath  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
-		if (strlen($current) > 0)
-		{
-			$basePath = COM_MEDIA_BASE.'/'.$current;
-		}
-		else
-		{
-			$basePath = COM_MEDIA_BASE;
-		}
+		$images  = array ();
+		$folders = array ();
+		$docs    = array ();
+		$videos  = array ();
 
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE.'/');
-
-		$images		= array ();
-		$folders	= array ();
-		$docs		= array ();
-
-		$fileList = false;
+		$fileList   = false;
 		$folderList = false;
+
 		if (file_exists($basePath))
 		{
 			// Get the list of files and folders from the given folder
-			$fileList	= JFolder::files($basePath);
+			$fileList   = JFolder::files($basePath);
 			$folderList = JFolder::folders($basePath);
 		}
 
@@ -115,7 +133,7 @@ class MediaModelList extends JModelLegacy
 		{
 			foreach ($fileList as $file)
 			{
-				if (is_file($basePath.'/'.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
+				if (is_file($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
 					$tmp = new JObject;
 					$tmp->name = $file;
@@ -125,6 +143,7 @@ class MediaModelList extends JModelLegacy
 					$tmp->size = filesize($tmp->path);
 
 					$ext = strtolower(JFile::getExt($file));
+
 					switch ($ext)
 					{
 						// Image
@@ -137,10 +156,10 @@ class MediaModelList extends JModelLegacy
 						case 'jpeg':
 						case 'ico':
 							$info = @getimagesize($tmp->path);
-							$tmp->width		= @$info[0];
-							$tmp->height	= @$info[1];
-							$tmp->type		= @$info[2];
-							$tmp->mime		= @$info['mime'];
+							$tmp->width  = @$info[0];
+							$tmp->height = @$info[1];
+							$tmp->type   = @$info[2];
+							$tmp->mime   = @$info['mime'];
 
 							if (($info[0] > 60) || ($info[1] > 60))
 							{
@@ -148,7 +167,8 @@ class MediaModelList extends JModelLegacy
 								$tmp->width_60 = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
 							}
-							else {
+							else
+							{
 								$tmp->width_60 = $tmp->width;
 								$tmp->height_60 = $tmp->height;
 							}
@@ -159,7 +179,8 @@ class MediaModelList extends JModelLegacy
 								$tmp->width_16 = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
 							}
-							else {
+							else
+							{
 								$tmp->width_16 = $tmp->width;
 								$tmp->height_16 = $tmp->height;
 							}
@@ -167,10 +188,17 @@ class MediaModelList extends JModelLegacy
 							$images[] = $tmp;
 							break;
 
+						// Video
+						case 'mp4':
+							$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
+							$tmp->icon_16 = 'media/mime-icon-16/' . $ext . '.png';
+							$videos[] = $tmp;
+							break;
+
 						// Non-image document
 						default:
-							$tmp->icon_32 = "media/mime-icon-32/".$ext.".png";
-							$tmp->icon_16 = "media/mime-icon-16/".$ext.".png";
+							$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
+							$tmp->icon_16 = 'media/mime-icon-16/' . $ext . '.png';
 							$docs[] = $tmp;
 							break;
 					}
@@ -195,8 +223,22 @@ class MediaModelList extends JModelLegacy
 			}
 		}
 
-		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);
+		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images, 'videos' => $videos);
 
 		return $list;
+	}
+
+	/**
+	 * Get the videos on the current folder
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function getVideos()
+	{
+		$list = $this->getList();
+
+		return $list['videos'];
 	}
 }

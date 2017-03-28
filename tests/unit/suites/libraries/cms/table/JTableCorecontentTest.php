@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,7 +53,7 @@ class JTableCorecontentTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -76,16 +76,15 @@ class JTableCorecontentTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test JTableCorecontent::bind
-	 *
-	 * @todo   Implement testBind().
+	 * Tests JTableCorecontent::check with an empty dataset
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1
 	 */
-	public function testBind()
+	public function testCheckFailsWithAnEmptyDataSet()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertFalse($this->object->check());
 	}
 
 	/**
@@ -95,50 +94,45 @@ class JTableCorecontentTest extends TestCaseDatabase
 	 *
 	 * @since   3.1
 	 */
-	public function testCheck()
+	public function testCheckSucceedsWithMinimumData()
 	{
-		$table = $this->object;
+		$this->object->core_title = 'Test Title';
+		$this->assertTrue($this->object->check());
+	}
 
-		$this->assertThat(
-			$table->check(),
-			$this->isFalse(),
-			'Line: ' . __LINE__ . ' Checking an empty table should fail.'
-		);
+	/**
+	 * Tests JTableCorecontent::check
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testCheckCorrectlyCreatesTheItemAlias()
+	{
+		$this->object->core_title = 'Test Title';
+		$this->object->check();
+		$this->assertSame('test-title', $this->object->core_alias);
+	}
 
-		$table->core_title = 'Test Title';
-		$this->assertThat(
-			$table->check(),
-			$this->isTrue(),
-			'Line: ' . __LINE__ . ' Checking the table with just the title should pass.'
-		);
+	/**
+	 * Tests JTableCorecontent::check
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testCheckCorrectlyValidatesInjectedData()
+	{
+		$this->object->core_title = 'Test Title';
+		$this->object->core_body = 'The intro text object.';
+		$this->object->core_publish_down = '2001-01-01 00:00:00';
+		$this->object->core_publish_up = JFactory::getDate();
 
-		$this->assertThat(
-			$table->core_alias,
-			$this->equalTo('test-title'),
-			'Line: ' . __LINE__ . ' An empty alias should assume the value of the title.'
-		);
-
-		$table->core_body = '';
-		$this->assertThat(
-			$table->check(),
-			$this->isTrue(),
-			'Line: ' . __LINE__ . ' Checking with an empty body should pass.'
-		);
-
-		$table->core_body = 'The intro text object.';
-		$table->core_publish_down = '2001-01-01 00:00:00';
-		$table->core_publish_up = JFactory::getDate();
-
-		$this->assertThat(
-			$table->check(),
-			$this->isTrue(),
-			'Line: ' . __LINE__ . ' The check function should now complete without error.'
-		);
-
-		$this->assertThat(
-			$table->core_publish_up,
-			$this->equalTo('2001-01-01 00:00:00'),
-			'Line: ' . __LINE__ . ' The check function should have reversed the previously set publish_up and down times.'
+		$this->assertTrue($this->object->check());
+		$this->assertEquals(
+			'2001-01-01 00:00:00',
+			$this->object->core_publish_up,
+			'The check function should swap the dates if a later date is injected into publish_down than that in publish_up'
 		);
 	}
 
@@ -149,32 +143,36 @@ class JTableCorecontentTest extends TestCaseDatabase
 	 *
 	 * @since   3.1
 	 */
-	public function testStore()
+	public function testStoreCorrectlyUpdatesAnExistingRecord()
 	{
-		$table = $this->object;
-
 		// Handle updating an existing article
-		$table->load('3');
-		$originalAlias = $table->core_alias;
-		$table->core_title = 'New Title';
-		/* Alias check has been removed
-		$table->core_alias = 'archive-module';
-		$this->assertFalse($table->store(), 'Line: ' . __LINE__ . ' Table store should fail due to a duplicated alias');*/
-		$table->core_alias = 'article-categories-module';
-		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should succeed');
-		$table->reset();
-		$table->load('3');
-		$this->assertEquals('New Title', $table->core_title, 'Line: ' . __LINE__ . ' Title should be updated');
-		$this->assertEquals($originalAlias, $table->core_alias, 'Line: ' . __LINE__ . ' Alias should be the same as originally set');
+		$this->object->load('3');
+		$originalAlias            = $this->object->core_alias;
+		$this->object->core_title = 'New Title';
+		$this->object->core_alias = 'article-categories-module';
+		$this->assertTrue($this->object->store());
+		$this->object->reset();
+		$this->object->load('3');
+		$this->assertEquals('New Title', $this->object->core_title);
+		$this->assertEquals($originalAlias, $this->object->core_alias);
+	}
 
-		// Store a new article
-		$table->load('8');
-		$table->core_content_id = null;
-		$table->core_title = 'Beginners (Copy)';
-		$table->core_alias = 'beginners-copy';
-		$table->core_created_time = null;
-		$table->core_created_user_id = null;
-		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should succeed and insert a new record');
+	/**
+	 * Tests JTableCorecontent::store
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testStoreCorrectlyCreatesANewRecord()
+	{
+		$this->object->load('8');
+		$this->object->core_content_id = null;
+		$this->object->core_title = 'Beginners (Copy)';
+		$this->object->core_alias = 'beginners-copy';
+		$this->object->core_created_time = null;
+		$this->object->core_created_user_id = null;
+		$this->assertTrue($this->object->store());
 	}
 
 	/**
@@ -184,23 +182,25 @@ class JTableCorecontentTest extends TestCaseDatabase
 	 *
 	 * @since   3.1
 	 */
-	public function testPublish()
+	public function testPublishWithMultipleKeys()
 	{
-		$table = $this->object;
-
-		// Test with pk's in an array
 		$pks = array('18', '31');
-		$this->assertTrue($table->publish($pks, '0'), 'Line: ' . __LINE__ . ' Publish with an array of pks should work');
-		$table->load('18');
-		$this->assertEquals('0', $table->core_state, 'Line: ' . __LINE__ . ' Id 18 should be unpublished');
-		$table->reset();
-		$table->load('31');
-		$this->assertEquals('0', $table->core_state, 'Line: ' . __LINE__ . ' Id 31 should be unpublished');
-		$table->reset();
+		$this->assertTrue($this->object->publish($pks, '0'));
+		$this->object->load('18');
+		$this->assertEquals('0', $this->object->core_state);
+	}
 
-		// Test with a single pk
-		$this->assertTrue($table->publish('32', '1'), 'Line: ' . __LINE__ . ' Publish with a single pk should work');
-		$table->load('32');
-		$this->assertEquals('1', $table->core_state, 'Line: ' . __LINE__ . ' Id 32 should be published');
+	/**
+	 * Tests JTableCorecontent::publish
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testPublishWithSingleKey()
+	{
+		$this->assertTrue($this->object->publish(array('32'), '1'));
+		$this->object->load('32');
+		$this->assertEquals('1', $this->object->core_state);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@
  */
 class JHtmlFieldEmailTest_DataSet
 {
-	static public $getInputTest = array(
+	public static $getInputTest = array(
 		'NoValue' => array(
 			array(
 				'id' => 'myTestId',
@@ -119,7 +119,7 @@ class JHtmlFieldEmailTest_DataSet
 			array(
 				'id' => 'myTestId',
 				'name' => 'myTestName',
-				'maxLength' => 250,
+				'maxlength' => 250,
 			),
 			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" maxlength="250" />',
 		),
@@ -130,7 +130,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" required aria-required="true" />',
+			'<input type="email" name="myTestName" class="validate-email required" id="myTestId" value="" required aria-required="true" />',
 		),
 
 	);

@@ -3,25 +3,25 @@
  * @package     Joomla.Platform
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractApplication;
+
 /**
  * Joomla Platform Base Controller Class
  *
- * @package     Joomla.Platform
- * @subpackage  Controller
- * @since       12.1
+ * @since  12.1
  */
 abstract class JControllerBase implements JController
 {
 	/**
 	 * The application object.
 	 *
-	 * @var    JApplicationBase
+	 * @var    AbstractApplication
 	 * @since  12.1
 	 */
 	protected $app;
@@ -37,12 +37,12 @@ abstract class JControllerBase implements JController
 	/**
 	 * Instantiate the controller.
 	 *
-	 * @param   JInput            $input  The input object.
-	 * @param   JApplicationBase  $app    The application object.
+	 * @param   JInput               $input  The input object.
+	 * @param   AbstractApplication  $app    The application object.
 	 *
 	 * @since  12.1
 	 */
-	public function __construct(JInput $input = null, JApplicationBase $app = null)
+	public function __construct(JInput $input = null, AbstractApplication $app = null)
 	{
 		// Setup dependencies.
 		$this->app = isset($app) ? $app : $this->loadApplication();
@@ -52,7 +52,7 @@ abstract class JControllerBase implements JController
 	/**
 	 * Get the application object.
 	 *
-	 * @return  JApplicationBase  The application object.
+	 * @return  AbstractApplication  The application object.
 	 *
 	 * @since   12.1
 	 */
@@ -114,7 +114,7 @@ abstract class JControllerBase implements JController
 	/**
 	 * Load the application object.
 	 *
-	 * @return  JApplicationBase  The application object.
+	 * @return  AbstractApplication  The application object.
 	 *
 	 * @since   12.1
 	 */

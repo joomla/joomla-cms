@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,18 +13,20 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 $saveHistory = $this->state->get('params')->get('save_history', 0);
 
-JHtml::_('behavior.formvalidation');
-?>
-<script type="text/javascript">
+JHtml::_('behavior.formvalidator');
+
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'tag.cancel' || document.formvalidator.isValid(document.id('tag-form')))
+		if (task == 'tag.cancel' || document.formvalidator.isValid(document.getElementById('tag-form')))
 		{
-			<?php echo $this->form->getField('description')->save(); ?>
+			" . $this->form->getField('description')->save() . "
 			Joomla.submitform(task, document.getElementById('tag-form'));
 		}
 	}
-</script>
+");
+?>
+
 <div class="weblink-edit">
 
 <form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="tag-form" class="form-validate">

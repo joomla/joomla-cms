@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Filter
  * @since       11.1
  */
-class JFilterInputTest extends PHPUnit_Framework_TestCase
+class JFilterInputTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Produces the array of test cases common to all test runs.
@@ -45,7 +45,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'From generic cases'
 			),
 			'integer' => array(
-				'int',
+				'integer',
 				$input,
 				123456789,
 				'From generic cases'
@@ -104,10 +104,46 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				-789,
 				'From generic cases'
 			),
+			'int_11' => array(
+				'int',
+				'',
+				0,
+				'From generic cases'
+			),
+			'int_12' => array(
+				'int',
+				array(1, 3, 9),
+				array(1, 3, 9),
+				'From generic cases'
+			),
+			'int_13' => array(
+				'int',
+				array(1, 'ab-123ab', '-ab123.456ab'),
+				array(1, -123, 123),
+				'From generic cases'
+			),
 			'uint_1' => array(
 				'uint',
 				-789,
 				789,
+				'From generic cases'
+			),
+			'uint_2' => array(
+				'uint',
+				'',
+				0,
+				'From generic cases'
+			),
+			'uint_3' => array(
+				'uint',
+				array(-1, -3, -9),
+				array(1, 3, 9),
+				'From generic cases'
+			),
+			'uint_4' => array(
+				'uint',
+				array(1, 'ab-123ab', '-ab123.456ab'),
+				array(1, 123, 123),
 				'From generic cases'
 			),
 			'float_01' => array(
@@ -164,6 +200,36 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				-12,
 				'From generic cases'
 			),
+			'float_09' => array(
+				'float',
+				'',
+				0,
+				'From generic cases'
+			),
+			'float_10' => array(
+				'float',
+				'27.3e-34',
+				27.3e-34,
+				'From generic cases'
+			),
+			'float_11' => array(
+				'float',
+				array(1.0, 3.1, 6.2),
+				array(1.0, 3.1, 6.2),
+				'From generic cases'
+			),
+			'float_12' => array(
+				'float',
+				array(1.0, 'abc-12. 456', 'abc-12.456abc'),
+				array(1.0, -12, -12.456),
+				'From generic cases'
+			),
+			'float_13' => array(
+				'float',
+				array(1.0, 'abcdef-7E-10', '+27.3E-34', '+27.3e-34'),
+				array(1.0, -7E-10, 27.3E-34, 27.3e-34),
+				'From generic cases'
+			),
 			'bool_0' => array(
 				'bool',
 				$input,
@@ -218,6 +284,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				true,
 				'From generic cases'
 			),
+			'bool_8' => array(
+				'bool',
+				array('false', null, true, false, 1, 0, ''),
+				array(true, false, true, false, true, false, false),
+				'From generic cases'
+			),
 			'word_01' => array(
 				'word',
 				$input,
@@ -254,6 +326,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'word',
 				'From generic cases'
 			),
+			'word_07' => array(
+				'word',
+				array('w123o', '4567r89d'),
+				array('wo', 'rd'),
+				'From generic cases'
+			),
 			'alnum_01' => array(
 				'alnum',
 				$input,
@@ -272,16 +350,34 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'abc',
 				'From generic cases'
 			),
-			'cmd' => array(
+			'alnum_04' => array(
+				'alnum',
+				array('~!@#$%^abc', '&*()_+def'),
+				array('abc', 'def'),
+				'From generic cases'
+			),
+			'cmd_string' => array(
 				'cmd',
 				$input,
 				'-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz',
 				'From generic cases'
 			),
-			'base64' => array(
+			'cmd_array' => array(
+				'cmd',
+				array($input, $input),
+				array('-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz', '-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'),
+				'From generic cases'
+			),
+			'base64_string' => array(
 				'base64',
 				$input,
 				'+/0123456789=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+				'From generic cases'
+			),
+			'base64_array' => array(
+				'base64',
+				array($input, $input),
+				array('+/0123456789=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', '+/0123456789=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'),
 				'From generic cases'
 			),
 			'array' => array(
@@ -302,6 +398,24 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'',
 				'From generic cases'
 			),
+			'path_03' => array(
+				'path',
+				'',
+				'',
+				'From generic cases'
+			),
+			'path_04' => array(
+				'path',
+				'/images/system',
+				'/images/system',
+				'From generic cases'
+			),
+			'path_05' => array(
+				'path',
+				array('images/system', '/var/www/html/index.html'),
+				array('images/system', '/var/www/html/index.html'),
+				'From generic cases'
+			),
 			'user_01' => array(
 				'username',
 				'&<f>r%e\'d',
@@ -312,6 +426,30 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'username',
 				'fred',
 				'fred',
+				'From generic cases'
+			),
+			'user_03' => array(
+				'username',
+				array('&<f>r%e\'d', '$user69'),
+				array('fred', '$user69'),
+				'From generic cases'
+			),
+			'trim_01' => array(
+				'trim',
+				'nonbreaking nonbreaking',
+				'nonbreaking nonbreaking',
+				'From generic cases'
+			),
+			'trim_02' => array(
+				'trim',
+				'multi　multi',
+				'multi　multi',
+				'From generic cases'
+			),
+			'trim_03' => array(
+				'trim',
+				array('nonbreaking nonbreaking', 'multi　multi'),
+				array('nonbreaking nonbreaking', 'multi　multi'),
 				'From generic cases'
 			),
 			'string_01' => array(
@@ -342,6 +480,30 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'string',
 				'this is a "test\' of "odd number" of quotes',
 				'this is a "test\' of "odd number" of quotes',
+				'From generic cases'
+			),
+			'string_array' => array(
+				'string',
+				array('this is a "test\' of "odd number" of quotes', 'executed in an array'),
+				array('this is a "test\' of "odd number" of quotes', 'executed in an array'),
+				'From generic cases'
+			),
+			'raw_01' => array(
+				'raw',
+				'<script type="text/javascript">alert("foo");</script>',
+				'<script type="text/javascript">alert("foo");</script>',
+				'From generic cases'
+			),
+			'raw_02' => array(
+				'raw',
+				'<p>This is a test of a html <b>snippet</b></p>',
+				'<p>This is a test of a html <b>snippet</b></p>',
+				'From generic cases'
+			),
+			'raw_03' => array(
+				'raw',
+				'0123456789',
+				'0123456789',
 				'From generic cases'
 			),
 			'unknown_01' => array(

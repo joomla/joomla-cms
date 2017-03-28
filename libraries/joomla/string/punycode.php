@@ -3,13 +3,15 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert/idna_convert.class.php');
+use Joomla\Uri\UriHelper;
+
+JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.class.php');
 
 /**
  * Joomla Platform String Punycode Class
@@ -18,9 +20,7 @@ JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert/idna_con
  * Wraps the Punycode library
  * All functions assume the validity of utf-8 URLs.
  *
- * @package     Joomla.Platform
- * @subpackage  String
- * @since       3.1.2
+ * @since  3.1.2
  */
 abstract class JStringPunycode
 {
@@ -54,7 +54,6 @@ abstract class JStringPunycode
 		$idn = new idna_convert;
 
 		return $idn->decode($punycodeString);
-
 	}
 
 	/**
@@ -68,12 +67,12 @@ abstract class JStringPunycode
 	 */
 	public static function urlToPunycode($uri)
 	{
-		$parsed = JString::parse_url($uri);
+		$parsed = UriHelper::parse_url($uri);
 
 		if (!isset($parsed['host']) || $parsed['host'] == '')
 		{
 			// If there is no host we do not need to convert it.
-			return '';
+			return $uri;
 		}
 
 		$host = $parsed['host'];
@@ -115,6 +114,11 @@ abstract class JStringPunycode
 			$newuri .= '?' . $parsed['query'];
 		}
 
+		if (!empty($parsed['fragment']))
+		{
+			$newuri .= '#' . $parsed['fragment'];
+		}
+
 		return $newuri;
 	}
 
@@ -134,7 +138,7 @@ abstract class JStringPunycode
 			return;
 		}
 
-		$parsed = JString::parse_url($uri);
+		$parsed = UriHelper::parse_url($uri);
 
 		if (!isset($parsed['host']) || $parsed['host'] == '')
 		{
@@ -181,16 +185,21 @@ abstract class JStringPunycode
 			$newuri .= '?' . $parsed['query'];
 		}
 
+		if (!empty($parsed['fragment']))
+		{
+			$newuri .= '#' . $parsed['fragment'];
+		}
+
 		return $newuri;
 	}
 
 	/**
-	 * Transforms a UTF-8 e-mail to a Punycode e-mail
+	 * Transforms a UTF-8 email to a Punycode email
 	 * This assumes a valid email address
 	 *
-	 * @param   string  $email  The UTF-8 e-mail to transform
+	 * @param   string  $email  The UTF-8 email to transform
 	 *
-	 * @return  string  The punycode e-mail
+	 * @return  string  The punycode email
 	 *
 	 * @since   3.1.2
 	 */
@@ -220,12 +229,12 @@ abstract class JStringPunycode
 	}
 
 	/**
-	 * Transforms a Punycode e-mail to a UTF-8 e-mail
+	 * Transforms a Punycode email to a UTF-8 email
 	 * This assumes a valid email address
 	 *
-	 * @param   string  $email  The punycode e-mail to transform
+	 * @param   string  $email  The punycode email to transform
 	 *
-	 * @return  string  The punycode e-mail
+	 * @return  string  The punycode email
 	 *
 	 * @since   3.1.2
 	 */

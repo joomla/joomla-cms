@@ -3,97 +3,75 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Test class for JFormRuleBoolean.
+ * Test class for JFormRuleBoolean
  *
- * @package     Joomla.UnitTest
- * @subpackage  Form
  * @since       11.1
  */
 class JFormRuleBooleanTest extends TestCase
 {
 	/**
-	 * Test the JFormRuleBoolean::test method.
+	 * Data provider for the failure test case
 	 *
-	 * @return void
+	 * @return  array
 	 */
-	public function testBoolean()
+	public function casesRuleFailure()
+	{
+		return array(
+			'bogus'                  => array('bogus'),
+			'0_anything'             => array('0_anything'),
+			'anything_1_anything'    => array('anything_1_anything'),
+			'anything_true_anything' => array('anything_true_anything'),
+			'anything_false'         => array('anything_false'),
+		);
+	}
+
+	/**
+	 * Data provider for the success test case
+	 *
+	 * @return  array
+	 */
+	public function casesRuleSuccess()
+	{
+		return array(
+			'integer zero' => array(0),
+			'string zero'  => array('0'),
+			'integer one'  => array(1),
+			'string one'   => array('1'),
+			'string true'  => array('true'),
+			'string false' => array('false'),
+		);
+	}
+
+	/**
+	 * @testdox  The boolean rule fails values that do not represent boolean values
+	 *
+	 * @param   mixed  $value  The value to test
+	 *
+	 * @dataProvider  casesRuleFailure
+	 */
+	public function testRuleFailure($value)
 	{
 		$rule = new JFormRuleBoolean;
-		$xml = simplexml_load_string('<form><field name="foo" /></form>');
 
-		// Test fail conditions.
+		$this->assertFalse($rule->test(new SimpleXMLElement('<form><field name="foo" /></form>'), $value));
+	}
 
-		$this->assertThat(
-			$rule->test($xml->field, 'bogus'),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' The rule should fail and return false.'
-		);
+	/**
+	 * @testdox  The boolean rule passes values that represent boolean values
+	 *
+	 * @param   mixed  $value  The value to test
+	 *
+	 * @dataProvider  casesRuleSuccess
+	 */
+	public function testRuleSuccess($value)
+	{
+		$rule = new JFormRuleBoolean;
 
-		$this->assertThat(
-			$rule->test($xml->field, '0_anything'),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' The rule should fail and return false.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'anything_1_anything'),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' The rule should fail and return false.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'anything_true_anything'),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' The rule should fail and return false.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'anything_false'),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' The rule should fail and return false.'
-		);
-
-		// Test pass conditions.
-
-		$this->assertThat(
-			$rule->test($xml->field, 0),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, '0'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 1),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, '1'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'true'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The rule should pass and return true.'
-		);
-
-		$this->assertThat(
-			$rule->test($xml->field, 'false'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The rule should pass and return true.'
-		);
+		$this->assertTrue($rule->test(new SimpleXMLElement('<form><field name="foo" /></form>'), $value));
 	}
 }

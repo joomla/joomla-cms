@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -53,8 +53,8 @@ class FOFModelFieldDate extends FOFModelFieldText
 			$extra = '=';
 		}
 
-		$sql = '((' . $this->getFieldName() . ' >' . $extra . ' ' . $from . ') AND ';
-		$sql .= '(' . $this->getFieldName() . ' <' . $extra . ' ' . $to . '))';
+		$sql = '((' . $this->getFieldName() . ' >' . $extra . ' "' . $from . '") AND ';
+		$sql .= '(' . $this->getFieldName() . ' <' . $extra . ' "' . $to . '"))';
 
 		return $sql;
 	}
@@ -86,8 +86,8 @@ class FOFModelFieldDate extends FOFModelFieldText
 			$extra = '=';
 		}
 
-		$sql = '((' . $this->getFieldName() . ' <' . $extra . ' ' . $from . ') AND ';
-		$sql .= '(' . $this->getFieldName() . ' >' . $extra . ' ' . $to . '))';
+		$sql = '((' . $this->getFieldName() . ' <' . $extra . ' "' . $from . '") OR ';
+		$sql .= '(' . $this->getFieldName() . ' >' . $extra . ' "' . $to . '"))';
 
 		return $sql;
 	}
@@ -128,6 +128,43 @@ class FOFModelFieldDate extends FOFModelFieldText
 
 		$sql = '(' . $this->getFieldName() . ' >' . $extra . ' ' . $function;
 		$sql .= '(' . $this->getFieldName() . ', INTERVAL ' . $interval['value'] . ' ' . $interval['unit'] . '))';
+
+		return $sql;
+	}
+
+	/**
+	 * Perform a between limits match. When $include is true
+	 * the condition tested is:
+	 * $from <= VALUE <= $to
+	 * When $include is false the condition tested is:
+	 * $from < VALUE < $to
+	 *
+	 * @param   mixed    $from     The lowest value to compare to
+	 * @param   mixed    $to       The higherst value to compare to
+	 * @param   boolean  $include  Should we include the boundaries in the search?
+	 *
+	 * @return  string  The SQL where clause for this search
+	 */
+	public function range($from, $to, $include = true)
+	{
+		if ($this->isEmpty($from) && $this->isEmpty($to))
+		{
+			return '';
+		}
+
+		$extra = '';
+
+		if ($include)
+		{
+			$extra = '=';
+		}
+
+		if ($from)
+			$sql[] = '(' . $this->getFieldName() . ' >' . $extra . ' "' . $from . '")';
+		if ($to)
+			$sql[] = '(' . $this->getFieldName() . ' <' . $extra . ' "' . $to . '")';
+
+		$sql = '(' . implode(' AND ', $sql) . ')';
 
 		return $sql;
 	}

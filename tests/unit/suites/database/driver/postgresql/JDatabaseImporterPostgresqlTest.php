@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,56 +12,46 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       12.1
  */
-class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
-	 * @since  12.1
 	 */
 	protected $dbo = null;
 
 	/**
 	 * @var    string  The last query sent to the dbo setQuery method.
-	 * @since  12.1
 	 */
 	protected $lastQuery = '';
 
 	/**
 	 * Sets up the testing conditions
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
 	public function setup()
 	{
-		parent::setUp();
-
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverPostgresql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'getTableSequences',
-				'getAddSequenceSQL',
-				'getChangeSequenceSQL',
-				'getDropSequenceSQL',
-				'getAddIndexSQL',
-				'getVersion',
-				'quoteName',
-				'loadObjectList',
-				'quote',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverPostgresql')
+					->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'getTableSequences',
+						'getAddSequenceSQL',
+						'getChangeSequenceSQL',
+						'getDropSequenceSQL',
+						'getAddIndexSQL',
+						'getVersion',
+						'quoteName',
+						'loadObjectList',
+						'quote',
+						'setQuery',
+					))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$this->dbo->expects(
 			$this->any()
@@ -207,11 +197,23 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
+	}
+
+	/**
 	 * Callback for the dbo loadObjectList method.
 	 *
 	 * @return array  An array of results based on the setting of the last query.
-	 *
-	 * @since  12.1
 	 */
 	public function callbackLoadObjectList()
 	{
@@ -224,8 +226,6 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $value  The value to be quoted.
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
-	 *
-	 * @since  12.1
 	 */
 	public function callbackQuote($value)
 	{
@@ -238,8 +238,6 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $value  The value to be quoted.
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
-	 *
-	 * @since  12.1
 	 */
 	public function callbackQuoteName($value)
 	{
@@ -250,10 +248,6 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 * Callback for the dbo setQuery method.
 	 *
 	 * @param   string  $query  The query.
-	 *
-	 * @return  void
-	 *
-	 * @since  12.1
 	 */
 	public function callbackSetQuery($query)
 	{
@@ -264,10 +258,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 * Data for the testGetAlterTableSQL test.
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
-	 *
-	 * @since   12.1
 	 */
-	public function dataGetAlterTableSQL()
+	public function dataGetAlterTableSql()
 	{
 		$f1 = '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" ' .
 			'Comments="" />';
@@ -413,10 +405,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 * Data for the testGetColumnSQL test.
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
-	 *
-	 * @since   12.1
 	 */
-	public function dataGetColumnSQL()
+	public function dataGetColumnSql()
 	{
 		$sample = array(
 			'xml-id-field' => '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
@@ -458,10 +448,6 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the asXml method.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
 	 */
 	public function testAsXml()
 	{
@@ -485,62 +471,30 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the check method.
 	 *
-	 * @return void
-	 *
-	 * @since  12.1
+	 * @expectedException Exception
 	 */
 	public function testCheckWithNoDbo()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 
-		try
-		{
-			$instance->check();
-		}
-		catch (Exception $e)
-		{
-			// Exception expected.
-			return;
-		}
-
-		$this->fail(
-			'Check method should throw exception if DBO not set'
-		);
+		$instance->check();
 	}
 
 	/**
 	 * Tests the check method.
 	 *
-	 * @return void
-	 *
-	 * @since  12.1
+	 * @expectedException Exception
 	 */
 	public function testCheckWithNoFrom()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
 
-		try
-		{
-			$instance->check();
-		}
-		catch (Exception $e)
-		{
-			// Exception expected.
-			return;
-		}
-
-		$this->fail(
-			'Check method should throw exception if DBO not set'
-		);
+		$instance->check();
 	}
 
 	/**
 	 * Tests the check method.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
 	 */
 	public function testCheckWithGoodInput()
 	{
@@ -548,69 +502,43 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
-		try
-		{
-			$result = $instance->check();
+		$result = $instance->check();
 
-			$this->assertThat(
-				$result,
-				$this->identicalTo($instance),
-				'check must return an object to support chaining.'
-			);
-		}
-		catch (Exception $e)
-		{
-			$this->fail(
-				'Check method should not throw exception with good setup: ' . $e->getMessage()
-			);
-		}
+		$this->assertThat(
+			$result,
+			$this->identicalTo($instance),
+			'check must return an object to support chaining.'
+		);
 	}
 
 	/**
 	 * Tests the from method with expected good inputs.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
 	 */
 	public function testFromWithGoodInput()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 
-		try
-		{
-			$result = $instance->from('foobar');
+		$result = $instance->from('foobar');
 
-			$this->assertThat(
-				$result,
-				$this->identicalTo($instance),
-				'from must return an object to support chaining.'
-			);
+		$this->assertThat(
+			$result,
+			$this->identicalTo($instance),
+			'from must return an object to support chaining.'
+		);
 
-			$this->assertThat(
-				TestReflection::getValue($instance, 'from'),
-				$this->equalTo('foobar'),
-				'The from method did not store the value as expected.'
-			);
-		}
-		catch (Exception $e)
-		{
-			$this->fail(
-				'From method should not throw exception with good input: ' . $e->getMessage()
-			);
-		}
+		$this->assertThat(
+			TestReflection::getValue($instance, 'from'),
+			$this->equalTo('foobar'),
+			'The from method did not store the value as expected.'
+		);
 	}
 
 	/**
 	 * Tests the getAddColumnSQL method.
 	 *
 	 * Note that combinations of fields are tested in testGetColumnSQL.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
-	public function testGetAddColumnSQL()
+	public function testGetAddColumnSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -649,12 +577,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getAddSequenceSQL method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
-	public function testGetAddSequenceSQL()
+	public function testGetAddSequenceSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -673,12 +597,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getAddIndexSQL method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
-	public function testGetAddIndexSQL()
+	public function testGetAddIndexSql()
 	{
 		$xmlIndex = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" ' .
 			'Query="CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)" />';
@@ -712,13 +632,9 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 * @param   string            $expected   Expected string
 	 * @param   string            $message    Error message
 	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 *
 	 * @dataProvider dataGetAlterTableSQL
 	 */
-	public function testGetAlterTableSQL($structure, $expected, $message)
+	public function testGetAlterTableSql($structure, $expected, $message)
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -736,12 +652,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the getChangeColumnSQL method.
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
-	public function testGetChangeColumnSQL()
+	public function testGetChangeColumnSql()
 	{
 		$xmlTitleField = '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />';
 
@@ -761,12 +673,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getChangeSequenceSQL method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
-	public function testGetChangeSequenceSQL()
+	public function testGetChangeSequenceSql()
 	{
 		$xmlIdSeq = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" ' .
 			'Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" /> ';
@@ -790,13 +698,9 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 * @param   string            $expected  The expected result from the getColumnSQL method.
 	 * @param   string            $message   The error message to display if the result does not match the expected value.
 	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 *
 	 * @dataProvider dataGetColumnSQL
 	 */
-	public function testGetColumnSQL($field, $expected, $message)
+	public function testGetColumnSql($field, $expected, $message)
 	{
 		$instance	= new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -810,12 +714,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getDropColumnSQL method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
-	public function testGetDropColumnSQL()
+	public function testGetDropColumnSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -831,12 +731,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getDropKeySQL method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
-	public function testGetDropIndexSQL()
+	public function testGetDropIndexSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -852,12 +748,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getDropPrimaryKeySQL method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
-	public function testGetDropPrimaryKeySQL()
+	public function testGetDropPrimaryKeySql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -873,12 +765,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getDropSequenceSQL method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
-	public function testGetDropSequenceSQL()
+	public function testGetDropSequenceSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -894,10 +782,6 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getIdxLookup method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
 	public function testGetIdxLookup()
 	{
@@ -936,10 +820,6 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getRealTableName method with the wrong type of class.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
 	 */
 	public function testGetRealTableName()
 	{
@@ -955,67 +835,22 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the setDbo method with the wrong type of class.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
-	 */
-	public function testSetDboWithBadInput()
-	{
-		$instance	= new JDatabaseImporterPostgresql;
-
-		try
-		{
-			$instance->setDbo(new stdClass);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Expecting the error, so just ignore it.
-			return;
-		}
-
-		$this->fail(
-			'setDbo requires a JDatabaseDriverPostgresql object and should throw an exception.'
-		);
-	}
-
-	/**
-	 * Tests the setDbo method with the wrong type of class.
-	 *
-	 * @return void
-	 *
-	 * @since  12.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 
-		try
-		{
-			$result = $instance->setDbo($this->dbo);
+		$result = $instance->setDbo($this->dbo);
 
-			$this->assertThat(
-				$result,
-				$this->identicalTo($instance),
-				'setDbo must return an object to support chaining.'
-			);
-
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Unknown error has occurred.
-			$this->fail(
-				$e->getMessage()
-			);
-		}
+		$this->assertThat(
+			$result,
+			$this->identicalTo($instance),
+			'setDbo must return an object to support chaining.'
+		);
 	}
 
 	/**
 	 * Tests the withStructure method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
 	 */
 	public function testWithStructure()
 	{

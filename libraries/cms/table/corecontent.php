@@ -3,18 +3,20 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Core content table
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.1
+ * @since  3.1
  */
 class JTableCorecontent extends JTable
 {
@@ -46,36 +48,31 @@ class JTableCorecontent extends JTable
 	{
 		if (isset($array['core_params']) && is_array($array['core_params']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['core_params']);
+			$registry = new Registry($array['core_params']);
 			$array['core_params'] = (string) $registry;
 		}
 
 		if (isset($array['core_metadata']) && is_array($array['core_metadata']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['core_metadata']);
+			$registry = new Registry($array['core_metadata']);
 			$array['core_metadata'] = (string) $registry;
 		}
 
 		if (isset($array['core_images']) && is_array($array['core_images']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['core_images']);
+			$registry = new Registry($array['core_images']);
 			$array['core_images'] = (string) $registry;
 		}
 
 		if (isset($array['core_urls']) && is_array($array['core_urls']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['core_urls']);
+			$registry = new Registry($array['core_urls']);
 			$array['core_urls'] = (string) $registry;
 		}
 
 		if (isset($array['core_body']) && is_array($array['core_body']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['core_body']);
+			$registry = new Registry($array['core_body']);
 			$array['core_body'] = (string) $registry;
 		}
 
@@ -94,7 +91,7 @@ class JTableCorecontent extends JTable
 	{
 		if (trim($this->core_title) == '')
 		{
-			$this->setError(JText::_('LIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -104,13 +101,21 @@ class JTableCorecontent extends JTable
 			$this->core_alias = $this->core_title;
 		}
 
-		$this->core_alias = JApplication::stringURLSafe($this->core_alias);
+		$this->core_alias = JApplicationHelper::stringURLSafe($this->core_alias);
 
 		if (trim(str_replace('-', '', $this->core_alias)) == '')
 		{
 			$this->core_alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
-
+		// Not Null sanity check
+		if (empty($this->core_images))
+		{
+			$this->core_images = '{}';
+		}
+		if (empty($this->core_urls))
+		{
+			$this->core_urls = '{}';
+		}
 		// Check the publish down date is not earlier than publish up.
 		if ($this->core_publish_down > $this->_db->getNullDate() && $this->core_publish_down < $this->core_publish_up)
 		{
@@ -127,10 +132,10 @@ class JTableCorecontent extends JTable
 			// Only process if not empty
 
 			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", "<", ">");
+			$bad_characters = array("\n", "\r", "\"", '<', '>');
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->core_metakey);
+			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->core_metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -146,7 +151,7 @@ class JTableCorecontent extends JTable
 				}
 			}
 			// Put array back together delimited by ", "
-			$this->core_metakey = implode(", ", $clean_keys);
+			$this->core_metakey = implode(', ', $clean_keys);
 		}
 
 		return true;
@@ -186,6 +191,7 @@ class JTableCorecontent extends JTable
 		{
 			throw new UnexpectedValueException('Null content item key not allowed.');
 		}
+
 		if ($typeAlias === null)
 		{
 			throw new UnexpectedValueException('Null type alias not allowed.');
@@ -276,6 +282,12 @@ class JTableCorecontent extends JTable
 		$query = $db->getQuery(true);
 		$languageId = JHelperContent::getLanguageId($this->core_language);
 
+		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
+		if (!$languageId)
+		{
+			$languageId = '0';
+		}
+
 		if ($isNew)
 		{
 			$query->insert($db->quoteName('#__ucm_base'))
@@ -319,7 +331,7 @@ class JTableCorecontent extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state = (int) $state;
 
@@ -355,7 +367,11 @@ class JTableCorecontent extends JTable
 		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
 		{
 			$checkin = true;
-			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')');
+			$query->where(
+				' ('
+				. $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId
+				. ')'
+			);
 		}
 
 		$this->_db->setQuery($query);

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="3.1">
-	<name>Joomla! Platform</name>
+	<name>LIB_JOOMLA</name>
 	<libraryname>joomla</libraryname>
 	<version>13.1</version>
 	<description>LIB_JOOMLA_XML_DESCRIPTION</description>
 	<creationDate>2008</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>http://www.joomla.org</authorUrl>
+	<authorUrl>https://www.joomla.org</authorUrl>
 	<packager>Joomla!</packager>
-	<packagerurl>http://www.joomla.org</packagerurl>
+	<packagerurl>https://www.joomla.org</packagerurl>
 	<files folder="libraries">
 		<folder>compat</folder>
 		<folder>joomla</folder>

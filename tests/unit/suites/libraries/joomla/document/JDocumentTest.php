@@ -3,18 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JDocument.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Document
- * @since       11.1
  */
-class JDocumentTest extends PHPUnit_Framework_TestCase
+class JDocumentTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var  JDocument
@@ -24,10 +20,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets up the fixture, for example, open a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
 	 */
 	protected function setUp()
 	{
@@ -37,9 +29,20 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+		JDocument::$_buffer = null;
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
+	 * Provides constructor data for test methods
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public function constructData()
 	{
@@ -57,7 +60,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 				)
 			),
 			array(
-				array('charset' => "euc-jp"),
+				array('charset' => "euc-jp", 'mediaversion' => '1a2b3c4d'),
 				array(
 					'lineend' => "\12",
 					'charset' => 'euc-jp',
@@ -65,7 +68,8 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 					'direction' => 'ltr',
 					'tab' => "\11",
 					'link' => '',
-					'base' => ''
+					'base' => '',
+					'mediaversion' => '1a2b3c4d'
 				)
 			),
 			array(
@@ -86,745 +90,496 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @param   mixed  $options  @todo
-	 * @param   array  $expects  @todo
+	 * @param   array  $options  Options array to inject
+	 * @param   array  $expects  Expected data values
 	 *
 	 * @dataProvider constructData
-	 *
-	 * @return  void
 	 */
-	public function testConstruct($options, $expects)
+	public function testInjectingOptionsIntoTheObjectConstructor($options, $expects)
 	{
 		$object = new JDocument($options);
 
-		$this->assertThat(
-			$object->_getLineEnd(),
-			$this->equalTo($expects['lineend'])
-		);
-
-		$this->assertThat(
-			$object->getCharset(),
-			$this->equalTo($expects['charset'])
-		);
-
-		$this->assertThat(
-			$object->getLanguage(),
-			$this->equalTo($expects['language'])
-		);
-
-		$this->assertThat(
-			$object->getDirection(),
-			$this->equalTo($expects['direction'])
-		);
-
-		$this->assertThat(
-			$object->_getTab(),
-			$this->equalTo($expects['tab'])
-		);
-
-		$this->assertThat(
-			$object->getLink(),
-			$this->equalTo($expects['link'])
-		);
-
-		$this->assertThat(
-			$object->getBase(),
-			$this->equalTo($expects['base'])
-		);
+		$this->assertAttributeSame($expects['lineend'], '_lineEnd', $object);
+		$this->assertAttributeSame($expects['charset'], '_charset', $object);
+		$this->assertAttributeSame($expects['language'], 'language', $object);
+		$this->assertAttributeSame($expects['direction'], 'direction', $object);
+		$this->assertAttributeSame($expects['tab'], '_tab', $object);
+		$this->assertAttributeSame($expects['link'], 'link', $object);
+		$this->assertAttributeSame($expects['base'], 'base', $object);
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test retrieving an instance of JDocumentHtml
 	 */
-	public function testGetInstance()
+	public function testRetrievingAnInstanceOfTheHtmlDocument()
 	{
-		$object = JDocument::getInstance();
-
-		$this->assertThat(
-			$object,
-			$this->isInstanceOf('JDocumentHtml')
-		);
-
-		$object = JDocument::getInstance('custom');
-
-		$this->assertThat(
-			$object,
-			$this->isInstanceOf('JDocumentRaw')
-		);
-
-		$this->assertThat(
-			$object->getType(),
-			$this->equalTo('custom')
-		);
+		$this->assertInstanceOf('JDocumentHtml', JDocument::getInstance());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test retrieving non-existing JDocument type returns a JDocumentRaw instance
 	 */
-	public function testSetType()
+	public function testRetrievingANonExistantTypeFetchesARawDocument()
 	{
-		$this->object->setType('raw');
-		$this->assertThat(
-			$this->object->_type,
-			$this->equalTo('raw'),
-			'JDocument->setType failed'
-		);
+		$doc = JDocument::getInstance('custom');
+		$this->assertInstanceOf('JDocumentRaw', $doc);
+		$this->assertAttributeSame('custom', '_type', $doc);
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setType returns an instance of $this
 	 */
-	public function testGetType()
+	public function testEnsureSetTypeReturnsThisObject()
 	{
-		$this->object->_type = 'raw';
-		$this->assertThat(
-			$this->object->getType(),
-			$this->equalTo('raw'),
-			'JDocument->getType failed'
-		);
+		$this->assertSame($this->object, $this->object->setType('raw'));
 	}
 
 	/**
-	 * Test getBuffer
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for getType is null
 	 */
-	public function testGetSetBuffer()
+	public function testTheDefaultReturnForGetTypeIsNull()
 	{
-		$this->object->setBuffer('This is the content of my document');
-
-		$this->assertThat(
-			$this->object->getBuffer(),
-			$this->equalTo('This is the content of my document'),
-			'getBuffer did not properly return document contents'
-		);
+		$this->assertNull($this->object->getType());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setBuffer returns an instance of $this
 	 */
-	public function testGetSetMetaData()
+	public function testEnsureSetBufferReturnsThisObject()
 	{
-		$this->assertThat(
-			$this->object->getMetaData('generator'),
-			$this->equalTo('Joomla! - Open Source Content Management'),
-			'JDocument::getMetaData did not return generator properly'
-		);
+		$this->assertSame($this->object, $this->object->setBuffer('My awesome content'));
+	}
 
-		$this->object->setMetaData('generator', 'My Custom Generator');
+	/**
+	 * @testdox  Test the default return for getBuffer is null
+	 */
+	public function testTheDefaultReturnForGetBufferIsNull()
+	{
+		$this->assertNull($this->object->getBuffer());
+	}
 
-		$this->assertThat(
-			$this->object->getMetaData('generator'),
-			$this->equalTo('My Custom Generator'),
-			'JDocument::getMetaData did not return generator properly or setMetaData with generator did not work'
-		);
+	/**
+	 * @testdox  Test that setMetadata with the 'generator' param returns an instance of $this
+	 */
+	public function testEnsureSetMetadataForGeneratorReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setMetaData('generator', 'My Custom Generator'));
+	}
 
-		$this->assertThat(
-			$this->object->getMetaData('description'),
-			$this->equalTo(''),
-			'JDocument::getMetaData did not return description properly'
-		);
+	/**
+	 * @testdox  Test the default return for getMetaData with 'generator' param
+	 */
+	public function testTheDefaultReturnForGetMetaDataWithGenerator()
+	{
+		$this->assertSame('Joomla! - Open Source Content Management', $this->object->getMetaData('generator'));
+	}
 
-		$this->object->setMetaData('description', 'My Description');
+	/**
+	 * @testdox  Test that setMetadata with the 'description' param returns an instance of $this
+	 */
+	public function testEnsureSetMetadataForDescriptionReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setMetaData('description', 'My Description'));
+	}
 
-		$this->assertThat(
-			$this->object->getMetaData('description'),
-			$this->equalTo('My Description'),
-			'JDocument::getMetaData did not return description properly or setMetaData with description didn not set properly'
-		);
+	/**
+	 * @testdox  Test the default return for getMetaData with 'description' param
+	 */
+	public function testTheDefaultReturnForGetMetaDataWithDescription()
+	{
+		$this->assertEmpty($this->object->getMetaData('description'));
+	}
 
+	/**
+	 * @testdox  Test that setMetadata with a custom param returns an instance of $this
+	 */
+	public function testEnsureSetMetadataForCustomParamsReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setMetaData('myMetaTag', 'myMetaContent'));
+	}
+
+	/**
+	 * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag true with data not set to HTTP-Equiv
+	 */
+	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivTrueAndDataNotSet()
+	{
 		$this->object->setMetaData('myMetaTag', 'myMetaContent');
 
-		$this->assertThat(
-			$this->object->getMetaData('myMetaTag'),
-			$this->equalTo('myMetaContent'),
-			'JDocument::getMetaData or setMetaData failed'
-		);
-
-		$this->assertThat(
-			$this->object->getMetaData('myMetaTag', true),
-			$this->logicalNot($this->equalTo('myMetaContent')),
-			'JDocument::getMetaData or setMetaData returned http_equiv when it should not have'
-		);
-
-		$this->object->setMetaData('myOtherMetaTag', 'myOtherMetaContent', true);
-
-		$this->assertThat(
-			$this->object->getMetaData('myOtherMetaTag', true),
-			$this->equalTo('myOtherMetaContent'),
-			'JDocument::getMetaData or setMetaData failed'
-		);
-
-		$this->assertThat(
-			$this->object->getMetaData('myOtherMetaTag'),
-			$this->logicalNot($this->equalTo('myOtherMetaContent')),
-			'JDocument::getMetaData or setMetaData returned http_equiv when it should not have'
-		);
+		$this->assertEmpty($this->object->getMetaData('myMetaTag', true));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag true with data set to HTTP-Equiv
 	 */
-	public function testAddScript()
+	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivTrueAndDataSet()
 	{
-		$this->object->addScript('http://www.joomla.org');
-		$this->assertThat(
-			$this->object->_scripts['http://www.joomla.org']['mime'],
-			$this->equalTo('text/javascript'),
-			'JDocument->addScript failed'
-		);
-		$this->assertThat(
-			$this->object->_scripts['http://www.joomla.org']['defer'],
-			$this->equalTo(false),
-			'JDocument->addScript failed'
-		);
-		$this->assertThat(
-			$this->object->_scripts['http://www.joomla.org']['async'],
-			$this->equalTo(false),
-			'JDocument->addScript failed'
-		);
+		$this->object->setMetaData('myMetaTag', 'myMetaContent', true);
 
-		$this->object->addScript('http://test.joomla.org', 'My Type', true, true);
-		$this->assertThat(
-			$this->object->_scripts['http://test.joomla.org']['mime'],
-			$this->equalTo('My Type'),
-			'JDocument->addScript failed'
-		);
-		$this->assertThat(
-			$this->object->_scripts['http://test.joomla.org']['defer'],
-			$this->equalTo(true),
-			'JDocument->addScript failed'
-		);
-		$this->assertThat(
-			$this->object->_scripts['http://test.joomla.org']['async'],
-			$this->equalTo(true),
-			'JDocument->addScript failed'
-		);
+		$this->assertSame('myMetaContent', $this->object->getMetaData('myMetaTag', true));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag false with data set to HTTP-Equiv
 	 */
-	public function testAddScriptDeclaration()
+	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivFalseAndDataNotSet()
 	{
-		$this->object->addScriptDeclaration('My Script');
-		$this->assertThat(
-			$this->object->_script['text/javascript'],
-			$this->equalTo('My Script'),
-			'JDocument->addScriptDeclaration failed'
-		);
+		$this->object->setMetaData('myMetaTag', 'myMetaContent', true);
 
-		$this->object->addScriptDeclaration('My Script', 'my/type');
-		$this->assertThat(
-			$this->object->_script['my/type'],
-			$this->equalTo('My Script'),
-			'JDocument->addScriptDeclaration failed'
-		);
-
-		$this->object->addScriptDeclaration('My Second Script');
-		$this->assertThat(
-			$this->object->_script['text/javascript'],
-			$this->equalTo('My Script' . chr(13) . 'My Second Script'),
-			'JDocument->addScriptDeclaration failed'
-		);
+		$this->assertEmpty($this->object->getMetaData('myMetaTag'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the return for getMetaData with a custom param and HTTP-Equiv flag false with data not set to HTTP-Equiv
 	 */
-	public function testAddStyleSheet()
+	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivFalseAndDataSet()
 	{
-		$this->object->addStyleSheet(
-			'http://www.joomla.org', 'text/style', 'screen', array('attrib1' => 'value1')
-		);
+		$this->object->setMetaData('myMetaTag', 'myMetaContent');
 
-		$this->assertThat(
-			$this->object->_styleSheets['http://www.joomla.org']['mime'],
-			$this->equalTo('text/style')
-		);
-
-		$this->assertThat(
-			$this->object->_styleSheets['http://www.joomla.org']['media'],
-			$this->equalTo('screen')
-		);
-
-		$this->assertThat(
-			$this->object->_styleSheets['http://www.joomla.org']['attribs'],
-			$this->equalTo(array('attrib1' => 'value1'))
-		);
+		$this->assertSame('myMetaContent', $this->object->getMetaData('myMetaTag'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that addScript returns an instance of $this
 	 */
-	public function testAddStyleDeclaration()
+	public function testEnsureAddScriptReturnsThisObject()
 	{
-		$this->object->addStyleDeclaration('My Style');
-		$this->assertThat(
-			$this->object->_style['text/css'],
-			$this->equalTo('My Style'),
-			'JDocument->addStyleDeclaration failed'
-		);
-
-		$this->object->addStyleDeclaration('My Style', 'my/type');
-		$this->assertThat(
-			$this->object->_style['my/type'],
-			$this->equalTo('My Style'),
-			'JDocument->addStyleDeclaration failed'
-		);
-
-		$this->object->addStyleDeclaration('My Second Style');
-		$this->assertThat(
-			$this->object->_style['text/css'],
-			$this->equalTo('My Style' . chr(13) . 'My Second Style'),
-			'JDocument->addStyleDeclaration failed'
-		);
+		$this->assertSame($this->object, $this->object->addScript('https://www.joomla.org/media/system/js/core.js'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that addScriptVersion with default params returns an instance of $this
 	 */
-	public function testGetSetCharset()
+	public function testEnsureAddScriptVersionWithDefaultParamsReturnsThisObject()
 	{
-		$this->object->setCharset('My Character Set');
-
-		$this->assertThat(
-			$this->object->_charset,
-			$this->equalTo('My Character Set')
-		);
+		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.js'));
 	}
 
 	/**
-	 * Test...
+	 * @testdox  Test that addScriptVersion with default params and $this->mediaVersion set returns an instance of $this
 	 *
-	 * @return  void
+	 * @covers   JDocument::addScriptVersion
+	 * @uses     JDocument::addScript
+	 * @uses     JDocument::getMediaVersion
+	 * @uses     JDocument::setMediaVersion
 	 */
-	public function testGetCharset()
+	public function testEnsureAddScriptVersionWithDefaultParamsAndMediaVersionSetReturnsThisObject()
 	{
-		$this->object->_charset = 'My Character Set';
+		$this->object->setMediaVersion('1a2b3c4d');
 
-		$this->assertThat(
-			$this->object->getCharset(),
-			$this->equalTo('My Character Set')
-		);
+		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.js'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that addScriptDeclaration returns an instance of $this
 	 */
-	public function testSetLanguage()
+	public function testEnsureAddScriptDeclarationReturnsThisObject()
 	{
-		$this->object->setLanguage('My Character Set');
-
-		$this->assertThat(
-			$this->object->language,
-			$this->equalTo('my character set')
-		);
+		$this->assertSame($this->object, $this->object->addScriptDeclaration('<script>this.window.close();</script>'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that calling addScriptDeclaration twice returns an instance of $this
 	 */
-	public function testGetLanguage()
+	public function testEnsureTwoAddScriptDeclarationCallsReturnsThisObject()
 	{
-		$this->object->language = 'de-de';
-
-		$this->assertThat(
-			$this->object->getLanguage(),
-			$this->equalTo('de-de')
-		);
+		$this->assertSame($this->object, $this->object->addScriptDeclaration('<script>this.document.id();</script>'));
+		$this->assertSame($this->object, $this->object->addScriptDeclaration('<script>this.window.close();</script>'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that addStyleSheet returns an instance of $this
 	 */
-	public function testSetDirection()
+	public function testEnsureAddStylesheetReturnsThisObject()
 	{
-		$this->object->setDirection('rtl');
-
-		$this->assertThat(
-			$this->object->direction,
-			$this->equalTo('rtl')
-		);
+		$this->assertSame($this->object, $this->object->addStyleSheet('https://www.joomla.org/media/system/css/system.css'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that addStyleSheetVersion with default params returns an instance of $this
 	 */
-	public function testGetDirection()
+	public function testEnsureAddStylesheetVersionWithDefaultParamsReturnsThisObject()
 	{
-		$this->object->direction = 'rtl';
-
-		$this->assertThat(
-			$this->object->getDirection(),
-			$this->equalTo('rtl')
-		);
+		$this->assertSame($this->object, $this->object->addStyleSheetVersion('https://www.joomla.org/media/system/css/system.css'));
 	}
 
 	/**
-	 * Test...
+	 * @testdox  Test that addStyleSheetVersion with default params and $this->mediaVersion set returns an instance of $this
 	 *
-	 * @return  void
+	 * @covers   JDocument::addStyleSheetVersion
+	 * @uses     JDocument::addStylesheet
+	 * @uses     JDocument::getMediaVersion
+	 * @uses     JDocument::setMediaVersion
 	 */
-	public function testSetTitle()
+	public function testEnsureAddStylesheetVersionWithDefaultParamsAndMediaVersionSetReturnsThisObject()
 	{
-		$this->object->setTitle('My Title');
+		$this->object->setMediaVersion('1a2b3c4d');
 
-		$this->assertThat(
-			$this->object->title,
-			$this->equalTo('My Title')
-		);
+		$this->assertSame($this->object, $this->object->addStyleSheetVersion('https://www.joomla.org/media/system/css/system.css'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that addStyleDeclaration returns an instance of $this
 	 */
-	public function testGetTitle()
+	public function testEnsureAddStyleDeclarationReturnsThisObject()
 	{
-		$this->object->title = 'My Title';
-
-		$this->assertThat(
-			$this->object->getTitle(),
-			$this->equalTo('My Title')
-		);
+		$this->assertSame($this->object, $this->object->addStyleDeclaration('<style>div { padding: 0; }</style>'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that calling addStyleDeclaration twice returns an instance of $this
 	 */
-	public function testSetBase()
+	public function testEnsureTwoAddStyleDeclarationCallsReturnsThisObject()
 	{
-		$this->object->setBase('http://www.example.com/base');
-
-		$this->assertThat(
-			$this->object->base,
-			$this->equalTo('http://www.example.com/base')
-		);
+		$this->assertSame($this->object, $this->object->addStyleDeclaration('<style>div { padding: 0; }</style>'));
+		$this->assertSame($this->object, $this->object->addStyleDeclaration('<style>h1 { font-size: 4px; }</style>'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setCharset returns an instance of $this
 	 */
-	public function testGetBase()
+	public function testEnsureSetCharsetReturnsThisObject()
 	{
-		$this->object->base = 'http://www.example.com/base';
-
-		$this->assertThat(
-			$this->object->getBase(),
-			$this->equalTo('http://www.example.com/base')
-		);
+		$this->assertSame($this->object, $this->object->setCharset('utf-8'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for getCharset
 	 */
-	public function testSetDescription()
+	public function testTheDefaultReturnForGetCharset()
 	{
-		$this->object->setDescription('Joomla Rocks');
-
-		$this->assertThat(
-			$this->object->description,
-			$this->equalTo('Joomla Rocks')
-		);
+		$this->assertSame('utf-8', $this->object->getCharset());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setLanguage returns an instance of $this
 	 */
-	public function testGetDescription()
+	public function testEnsureSetLanguageReturnsThisObject()
 	{
-		$this->object->description = 'Joomla Rocks';
-
-		$this->assertThat(
-			$this->object->getDescription(),
-			$this->equalTo('Joomla Rocks')
-		);
+		$this->assertSame($this->object, $this->object->setLanguage('de-de'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for getLanguage
 	 */
-	public function testSetLink()
+	public function testTheDefaultReturnForGetLanguage()
 	{
-		$this->object->setLink('My Link String');
-
-		$this->assertThat(
-			$this->object->link,
-			$this->equalTo('My Link String')
-		);
+		$this->assertSame('en-gb', $this->object->getLanguage());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setDirection returns an instance of $this
 	 */
-	public function testGetLink()
+	public function testEnsureSetDirectionReturnsThisObject()
 	{
-		$this->object->link = 'My Link String';
-
-		$this->assertThat(
-			$this->object->getLink(),
-			$this->equalTo('My Link String')
-		);
+		$this->assertSame($this->object, $this->object->setDirection('rtl'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for getDirection
 	 */
-	public function testSetGenerator()
+	public function testTheDefaultReturnForGetDirection()
 	{
-		$this->object->setGenerator('Joomla Content Management');
-
-		$this->assertThat(
-			$this->object->_generator,
-			$this->equalTo('Joomla Content Management')
-		);
+		$this->assertSame('ltr', $this->object->getDirection());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setTitle returns an instance of $this
 	 */
-	public function testGetGenerator()
+	public function testEnsureSetTitleReturnsThisObject()
 	{
-		$this->object->setGenerator('Joomla Content Management');
-
-		$this->assertThat(
-			$this->object->getGenerator(),
-			$this->equalTo('Joomla Content Management')
-		);
+		$this->assertSame($this->object, $this->object->setTitle('Joomla! Rocks'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for getTitle
 	 */
-	public function testSetModifiedDate()
+	public function testTheDefaultReturnForGetTitle()
 	{
-		$this->object->setModifiedDate('2010-06-22');
-
-		$this->assertThat(
-			$this->object->_mdate,
-			$this->equalTo('2010-06-22')
-		);
+		$this->assertEmpty($this->object->getTitle());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setBase returns an instance of $this
 	 */
-	public function testGetModifiedDate()
+	public function testEnsureSetBaseReturnsThisObject()
 	{
-		$this->object->_mdate = '2010-06-22';
-
-		$this->assertThat(
-			$this->object->getModifiedDate(),
-			$this->equalTo('2010-06-22')
-		);
+		$this->assertSame($this->object, $this->object->setBase('https://www.joomla.org'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for getBase
 	 */
-	public function testSetMimeEncoding()
+	public function testTheDefaultReturnForGetBase()
 	{
-		$this->object->setMimeEncoding('text/xls');
-
-		$this->assertThat(
-			$this->object->_mime,
-			$this->equalTo('text/xls')
-		);
+		$this->assertEmpty($this->object->getBase());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setDescription returns an instance of $this
 	 */
-	public function testGetMimeEncoding()
+	public function testEnsureSetDescriptionReturnsThisObject()
 	{
-		$this->object->setMimeEncoding('image');
-		$this->assertEquals('image', $this->object->getMimeEncoding(), 'getMimeEncoding should be image');
-		$this->object->setMimeEncoding('zip');
-		$this->assertEquals('zip', $this->object->getMimeEncoding(), 'getMimeEncoding should be zip');
+		$this->assertSame($this->object, $this->object->setDescription('Joomla!'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for getDescription
 	 */
-	public function testSetLineEnd()
+	public function testTheDefaultReturnForGetDescription()
 	{
-		$this->object->setLineEnd('win');
-
-		$this->assertThat(
-			$this->object->_lineEnd,
-			$this->equalTo("\15\12")
-		);
-
-		$this->object->setLineEnd('unix');
-
-		$this->assertThat(
-			$this->object->_lineEnd,
-			$this->equalTo("\12")
-		);
-
-		$this->object->setLineEnd('mac');
-
-		$this->assertThat(
-			$this->object->_lineEnd,
-			$this->equalTo("\15")
-		);
-
-		$this->object->setLineEnd('<br />');
-
-		$this->assertThat(
-			$this->object->_lineEnd,
-			$this->equalTo("<br />")
-		);
+		$this->assertEmpty($this->object->getDescription());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setLink returns an instance of $this
 	 */
-	public function test_getLineEnd()
+	public function testEnsureSetLinkReturnsThisObject()
 	{
-		$this->object->_lineEnd = "\12";
-
-		$this->assertThat(
-			$this->object->_getLineEnd(),
-			$this->equalTo("\12")
-		);
+		$this->assertSame($this->object, $this->object->setLink('https://www.joomla.org'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for getLink
 	 */
-	public function testSetTab()
+	public function testTheDefaultReturnForGetLink()
 	{
-		$this->object->setTab('Crazy Indent');
-
-		$this->assertThat(
-			$this->object->_tab,
-			$this->equalTo('Crazy Indent')
-		);
+		$this->assertEmpty($this->object->getLink());
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that setGenerator returns an instance of $this
 	 */
-	public function test_getTab()
+	public function testEnsureSetGeneratorReturnsThisObject()
 	{
-		$this->object->_tab = 'Crazy Indent';
-
-		$this->assertThat(
-			$this->object->_getTab(),
-			$this->equalTo('Crazy Indent')
-		);
+		$this->assertSame($this->object, $this->object->setGenerator('Joomla! Content Management System'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test the default return for getGenerator
 	 */
-	public function testLoadRenderer()
+	public function testTheDefaultReturnForGetGenerator()
+	{
+		$this->assertSame('Joomla! - Open Source Content Management', $this->object->getGenerator());
+	}
+
+	/**
+	 * @testdox  Test that setModifiedDate returns an instance of $this
+	 */
+	public function testEnsureSetModifiedDateReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setModifiedDate('2014-10-17'));
+	}
+
+	/**
+	 * @testdox  Test the default return for getModifiedDate
+	 */
+	public function testTheDefaultReturnForGetModifiedDate()
+	{
+		$this->assertEmpty($this->object->getModifiedDate());
+	}
+
+	/**
+	 * @testdox  Test that setMimeEncoding returns an instance of $this
+	 */
+	public function testEnsureSetMimeEncodingReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setMimeEncoding('application/json'));
+	}
+
+	/**
+	 * @testdox  Test the default return for getMimeEncoding
+	 */
+	public function testTheDefaultReturnForGetMimeEncoding()
+	{
+		$this->assertEmpty($this->object->getMimeEncoding());
+	}
+
+	/**
+	 * @testdox  Test that setLineEnd with param 'win' returns an instance of $this
+	 */
+	public function testEnsureSetLineEndWinReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setLineEnd('win'));
+	}
+
+	/**
+	 * @testdox  Test that setLineEnd with param 'unix' returns an instance of $this
+	 */
+	public function testEnsureSetLineEndUnixReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setLineEnd('unix'));
+	}
+
+	/**
+	 * @testdox  Test that setLineEnd with param 'mac' returns an instance of $this
+	 */
+	public function testEnsureSetLineEndMacReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setLineEnd('mac'));
+	}
+
+	/**
+	 * @testdox  Test that setLineEnd with a custom param returns an instance of $this
+	 */
+	public function testEnsureSetLineEndCustomReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setLineEnd('special'));
+	}
+
+	/**
+	 * @testdox  Test the default return for _getLineEnd
+	 */
+	public function testTheDefaultReturnForGetLineEnd()
+	{
+		$this->assertSame("\12", $this->object->_getLineEnd());
+	}
+
+	/**
+	 * @testdox  Test that setTab with a custom param returns an instance of $this
+	 */
+	public function testEnsureSetTabReturnsThisObject()
+	{
+		$this->assertSame($this->object, $this->object->setTab("\t"));
+	}
+
+	/**
+	 * @testdox  Test the default return for _getTab
+	 */
+	public function testTheDefaultReturnForGetTab()
+	{
+		$this->assertSame("\11", $this->object->_getTab());
+	}
+
+	/**
+	 * @testdox  Test that loadRenderer returns the intended object
+	 *
+	 * @covers   JDocument::loadRenderer
+	 * @uses     JDocument::setType
+	 */
+	public function testEnsureLoadRendererReturnsCorrectObject()
 	{
 		$this->object->setType('html');
-		$renderer = $this->object->loadRenderer('head');
-		$this->assertThat(
-			$renderer,
-			$this->isInstanceOf('JDocumentRendererHead')
-		);
+		$this->assertInstanceOf('JDocumentRendererHtmlHead', $this->object->loadRenderer('head'));
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that loadRenderer throws an exception for an unknown renderer type
 	 * @expectedException  RuntimeException
+	 *
+	 * @covers   JDocument::loadRenderer
+	 * @uses     JDocument::setType
 	 */
-	public function testLoadRendererException()
+	public function testEnsureLoadRendererThrowsException()
 	{
 		$this->object->setType('html');
 		$this->object->loadRenderer('unknown');
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  void
+	 * @testdox  Test that parse returns an instance of $this
 	 */
-	public function testParse()
+	public function testEnsureParseReturnsThisObject()
 	{
-		$this->assertThat(
-			$this->object->parse(),
-			$this->isInstanceOf('JDocument')
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return  void
-	 */
-	public function testRender()
-	{
-		$this->markTestSkipped('Test not implemented.');
+		$this->assertSame($this->object, $this->object->parse());
 	}
 }

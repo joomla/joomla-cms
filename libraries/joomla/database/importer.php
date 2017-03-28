@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Importer Class
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  */
 abstract class JDatabaseImporter
 {
@@ -130,7 +128,7 @@ abstract class JDatabaseImporter
 	 *
 	 * @since   13.1
 	 */
-	protected function getDropColumnSQL($table, $name)
+	protected function getDropColumnSql($table, $name)
 	{
 		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
 	}
@@ -163,7 +161,7 @@ abstract class JDatabaseImporter
 	 * @since   13.1
 	 * @throws  RuntimeException on error.
 	 */
-	protected function mergeStructure()
+	public function mergeStructure()
 	{
 		$prefix = $this->db->getPrefix();
 		$tables = $this->db->getTableList();
@@ -189,24 +187,13 @@ abstract class JDatabaseImporter
 			if (in_array($tableName, $tables))
 			{
 				// The table already exists. Now check if there is any difference.
-				if ($queries = $this->getAlterTableSQL($xml->database->table_structure))
+				if ($queries = $this->getAlterTableSql($xml->database->table_structure))
 				{
 					// Run the queries to upgrade the data structure.
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-
-						try
-						{
-							$this->db->execute();
-						}
-						catch (RuntimeException $e)
-						{
-							$this->addLog('Fail: ' . $this->db->getQuery());
-							throw $e;
-						}
-
-						$this->addLog('Pass: ' . $this->db->getQuery());
+						$this->db->execute();
 					}
 				}
 			}
@@ -216,18 +203,7 @@ abstract class JDatabaseImporter
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-
-				try
-				{
-					$this->db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					$this->addLog('Fail: ' . $this->db->getQuery());
-					throw $e;
-				}
-
-				$this->addLog('Pass: ' . $this->db->getQuery());
+				$this->db->execute();
 			}
 		}
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,16 +14,14 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/mode
 /**
  * Helper for mod_latest
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_latest
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModLatestHelper
 {
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   JRegistry  &$params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
@@ -36,19 +34,19 @@ abstract class ModLatestHelper
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state');
+			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down');
 
 		// Set Ordering filter
 		switch ($params->get('ordering'))
 		{
 			case 'm_dsc':
-				$model->setState('list.ordering', 'modified DESC, created');
+				$model->setState('list.fullordering', 'modified DESC, created');
 				$model->setState('list.direction', 'DESC');
 				break;
 
 			case 'c_dsc':
 			default:
-				$model->setState('list.ordering', 'created');
+				$model->setState('list.fullordering', 'created');
 				$model->setState('list.direction', 'DESC');
 				break;
 		}
@@ -108,7 +106,7 @@ abstract class ModLatestHelper
 	/**
 	 * Get the alternate title for the module.
 	 *
-	 * @param   JRegistry  $params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
 	 *
 	 * @return  string  The alternate title for the module.
 	 */
@@ -136,6 +134,6 @@ abstract class ModLatestHelper
 			$title = '';
 		}
 
-		return JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? "_CATEGORY" : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

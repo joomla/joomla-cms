@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Package Manifest File
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerManifestPackage extends JInstallerManifest
 {
@@ -43,6 +41,14 @@ class JInstallerManifestPackage extends JInstallerManifest
 	public $scriptfile = '';
 
 	/**
+	 * Flag if the package blocks individual child extensions from being uninstalled
+	 *
+	 * @var    boolean
+	 * @since  3.7.0
+	 */
+	public $blockChildUninstall = false;
+
+	/**
 	 * Apply manifest data from a SimpleXMLElement to the object.
 	 *
 	 * @param   SimpleXMLElement  $xml  Data to load
@@ -65,6 +71,16 @@ class JInstallerManifestPackage extends JInstallerManifest
 		$this->scriptfile  = (string) $xml->scriptfile;
 		$this->version     = (string) $xml->version;
 
+		if (isset($xml->blockChildUninstall))
+		{
+			$value = (string) $xml->blockChildUninstall;
+
+			if ($value === '1' || $value === 'true')
+			{
+				$this->blockChildUninstall = true;
+			}
+		}
+
 		if (isset($xml->files->file) && count($xml->files->file))
 		{
 			foreach ($xml->files->file as $file)
@@ -72,6 +88,17 @@ class JInstallerManifestPackage extends JInstallerManifest
 				// NOTE: JInstallerExtension doesn't expect a string.
 				// DO NOT CAST $file
 				$this->filelist[] = new JInstallerExtension($file);
+			}
+		}
+
+		// Handle cases where package contains folders
+		if (isset($xml->files->folder) && count($xml->files->folder))
+		{
+			foreach ($xml->files->folder as $folder)
+			{
+				// NOTE: JInstallerExtension doesn't expect a string.
+				// DO NOT CAST $folder
+				$this->filelist[] = new JInstallerExtension($folder);
 			}
 		}
 	}

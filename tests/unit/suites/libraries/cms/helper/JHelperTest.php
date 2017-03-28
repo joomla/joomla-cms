@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,20 +51,21 @@ class JHelperTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
 		$this->object = new JHelper;
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
-	 * Tests the getCurrentLanguage()
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
 	 */
-	public function testGetCurrentLanguage()
+	protected function tearDown()
 	{
-		$this->markTestSkipped('Test not implemented.');
+		unset($this->object);
+		$this->restoreFactoryState();
+		parent::tearDown();
 	}
 
 	/**

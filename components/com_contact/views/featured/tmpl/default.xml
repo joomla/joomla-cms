@@ -24,8 +24,8 @@
 			<field name="show_pagination_limit" type="list"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -33,8 +33,8 @@
 			<field name="show_headings" type="list"
 				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -42,8 +42,8 @@
 		<field name="show_position_headings" type="list"
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
+			useglobal="true"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -51,8 +51,8 @@
 		<field name="show_email_headings" type="list"
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
+			useglobal="true"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -61,8 +61,8 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
+			useglobal="true"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -71,8 +71,8 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
+			useglobal="true"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -81,8 +81,8 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
+			useglobal="true"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -90,8 +90,8 @@
 		<field name="show_suburb_headings" type="list"
 			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
+			useglobal="true"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -100,8 +100,8 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
+			useglobal="true"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -110,8 +110,8 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
+			useglobal="true"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -119,23 +119,22 @@
 		<field name="show_pagination" type="list"
 			description="JGLOBAL_PAGINATION_DESC"
 			label="JGLOBAL_PAGINATION_LABEL"
+			useglobal="true"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 			<option value="2">JGLOBAL_AUTO</option>
 		</field>
 
 		<field
-				name="show_pagination_results"
-				type="list"
-				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-
+			name="show_pagination_results"
+			type="list"
+			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+			description="JGLOBAL_PAGINATION_RESULTS_DESC"
+			useglobal="true"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
@@ -145,17 +144,40 @@
 			<field name="presentation_style" type="list"
 				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
 				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
 				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
 				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
 			</field>
+
+			<field
+				name="show_tags"
+				type="list"
+				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
+				useglobal="true"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_info"
+				type="list"
+				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
+				useglobal="true"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 			<field name="show_name" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -163,8 +185,8 @@
 			<field name="show_position" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 
@@ -173,8 +195,8 @@
 			<field name="show_email" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 				label="JGLOBAL_EMAIL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -182,8 +204,8 @@
 			<field name="show_street_address" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -191,8 +213,8 @@
 			<field name="show_suburb" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -200,8 +222,8 @@
 			<field name="show_state" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -209,8 +231,8 @@
 			<field name="show_postcode" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -218,8 +240,8 @@
 			<field name="show_country" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -227,8 +249,8 @@
 			<field name="show_telephone" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -236,8 +258,8 @@
 			<field name="show_mobile" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -245,8 +267,8 @@
 			<field name="show_fax" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -254,17 +276,8 @@
 			<field name="show_webpage" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_misc" type="list"
-				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
-				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -272,8 +285,8 @@
 			<field name="show_image" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -281,8 +294,19 @@
 			<field name="allow_vcard" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_misc"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
+				useglobal="true"
+			>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -290,17 +314,39 @@
 			<field name="show_articles" type="list"
 				description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC"
 				label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="articles_display_num" type="list" default=""
+				label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
+				description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
+				useglobal="true"
+			>
+				<option value="use_contact">COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS</option>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="75">J75</option>
+				<option value="100">J100</option>
+				<option value="150">J150</option>
+				<option value="200">J200</option>
+				<option value="250">J250</option>
+				<option value="300">J300</option>
+				<option value="0">JALL</option>
 			</field>
 
 			<field name="show_links" type="list"
 				description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
 				label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -309,30 +355,35 @@
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 
 			<field name="linkb_name" type="text"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKB_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 
 			<field name="linkc_name" type="text"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 
 			<field name="linkd_name" type="text"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 
 			<field name="linke_name" type="text"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 	</fieldset>
 
@@ -341,8 +392,8 @@
 			<field name="show_email_form" type="list"
 				description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
 				label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -350,8 +401,8 @@
 			<field name="show_email_copy" type="list"
 				description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
 				label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -380,8 +431,8 @@
 			<field name="validate_session" type="list"
 				description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
 				label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -389,8 +440,8 @@
 			<field name="custom_reply" type="list"
 				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -399,6 +450,7 @@
 				description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC"
 				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
 				size="30"
+				useglobal="true"
 			/>
 	</fieldset>
 

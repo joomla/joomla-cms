@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Checks the database schema against one SQL Server DDL query to see if it has been run.
  *
- * @package     Joomla.Libraries
- * @subpackage  Schema
- * @since       2.5
+ * @since  2.5
  */
 class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 {
@@ -88,7 +86,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 
 		if ($command == 'CREATE TABLE')
 		{
-			$table = $wordArray[5];
+			$table = $wordArray[2];
 			$result = 'SELECT * FROM sys.TABLES WHERE NAME = ' . $this->fixQuote($table);
 			$this->queryType = 'CREATE_TABLE';
 			$this->msgElements = array($this->fixQuote($table));
@@ -134,7 +132,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	/**
 	 * Fixes up a string for inclusion in a query.
 	 * Replaces name quote character with normal quote for literal.
-	 * Drops trailing semi-colon. Injects the database prefix.
+	 * Drops trailing semicolon. Injects the database prefix.
 	 *
 	 * @param   string  $string  The input string to be cleaned up.
 	 *
@@ -144,6 +142,8 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	 */
 	private function fixQuote($string)
 	{
+		$string = str_replace('[', '', $string);
+		$string = str_replace(']', '', $string);
 		$string = str_replace('`', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);

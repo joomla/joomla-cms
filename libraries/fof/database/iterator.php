@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  database
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file is adapted from the Joomla! Platform. It is used to iterate a database cursor returning FOFTable objects
@@ -15,7 +15,7 @@ defined('FOF_INCLUDED') or die;
 /**
  * Database iterator
  */
-abstract class FOFDatabaseIterator implements Countable, Iterator
+abstract class FOFDatabaseIterator implements Iterator
 {
 	/**
 	 * The database cursor.
@@ -109,12 +109,19 @@ abstract class FOFDatabaseIterator implements Countable, Iterator
 	{
 		// Figure out the type and prefix of the class by the class name
 		$parts = FOFInflector::explode($class);
-		$this->_tableObject = FOFTable::getInstance($parts[2], ucfirst($parts[0]) . ucfirst($parts[1]));
 
-		$this->cursor = $cursor;
-		$this->class = 'stdClass';
-		$this->_column = $column;
+        if(count($parts) != 3)
+        {
+            throw new InvalidArgumentException('Invalid table name, expected a pattern like ComponentTableFoobar got '.$class);
+        }
+
+		$this->_tableObject = FOFTable::getInstance($parts[2], ucfirst($parts[0]) . ucfirst($parts[1]))->getClone();
+
+		$this->cursor   = $cursor;
+		$this->class    = 'stdClass';
+		$this->_column  = $column;
 		$this->_fetched = 0;
+
 		$this->next();
 	}
 

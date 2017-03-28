@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,16 +11,10 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
- * @since       11.1
  */
-class JLanguageTransliterateTest extends PHPUnit_Framework_TestCase
+class JLanguageTransliterateTest extends \PHPUnit\Framework\TestCase
 {
-	/**
-	 * Data provider for testUtf8_latin_to_ascii()
-	 *
-	 * @return array
-	 */
-	public function testData()
+	public function dataNames()
 	{
 		return array(
 			array('Weiß', 'Weiss', 0),
@@ -41,17 +35,13 @@ class JLanguageTransliterateTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
+	 * @param   string $word
+	 * @param   string $result
+	 * @param   string $case
 	 *
-	 * @param   string  $word    @todo
-	 * @param   string  $result  @todo
-	 * @param   string  $case    @todo
-	 *
-	 * @dataProvider testData
-	 *
-	 * @return void
+	 * @dataProvider dataNames
 	 */
-	public function testUtf8_latin_to_ascii($word, $result, $case)
+	public function testUtf8LatinToAscii($word, $result, $case)
 	{
 		$this->assertEquals($result, JLanguageTransliterate::utf8_latin_to_ascii($word, $case));
 	}

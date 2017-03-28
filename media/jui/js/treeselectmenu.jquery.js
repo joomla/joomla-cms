@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 jQuery(function($)
@@ -12,14 +12,14 @@ jQuery(function($)
 		$div = $li.find('div.treeselect-item:first');
 
 		// Add icons
-		$li.prepend('<i class="pull-left icon-"></i>');
+		$li.prepend('<span class="pull-left icon-"></span>');
 
 		// Append clearfix
 		$div.after('<div class="clearfix"></div>');
 
 		if ($li.find('ul.treeselect-sub').length) {
 			// Add classes to Expand/Collapse icons
-			$li.find('i').addClass('treeselect-toggle icon-minus');
+			$li.find('span.icon-').addClass('treeselect-toggle icon-minus');
 
 			// Append drop down menu in nodes
 			$div.find('label:first').after(treeselectmenu);
@@ -31,7 +31,7 @@ jQuery(function($)
 	});
 
 	// Takes care of the Expand/Collapse of a node
-	$('i.treeselect-toggle').click(function()
+	$('span.treeselect-toggle').click(function()
 	{
 		$i = $(this);
 
@@ -51,15 +51,23 @@ jQuery(function($)
 	$('#treeselectfilter').keyup(function()
 	{
 		var text = $(this).val().toLowerCase();
-		$('.treeselect li').each(function()
+		var hidden = 0;
+		$("#noresultsfound").hide();
+		var $list_elements = $('.treeselect li');
+		$list_elements.each(function()
 		{
 			if ($(this).text().toLowerCase().indexOf(text) == -1) {
 				$(this).hide();
+				hidden++;
 			}
 			else {
 				$(this).show();
 			}
 		});
+		if(hidden == $list_elements.length)
+		{
+			$("#noresultsfound").show();
+		}
 	});
 
 	// Checks all checkboxes the tree

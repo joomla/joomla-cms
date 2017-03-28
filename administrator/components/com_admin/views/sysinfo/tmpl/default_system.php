@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,6 +54,14 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
+					<strong><?php echo JText::_('COM_ADMIN_DATABASE_CONNECTION_COLLATION'); ?></strong>
+				</td>
+				<td>
+					<?php echo $this->info['dbconnectioncollation']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<strong><?php echo JText::_('COM_ADMIN_PHP_VERSION'); ?></strong>
 				</td>
 				<td>
@@ -97,7 +105,7 @@ defined('_JEXEC') or die;
 					<strong><?php echo JText::_('COM_ADMIN_USER_AGENT'); ?></strong>
 				</td>
 				<td>
-					<?php echo htmlspecialchars($this->info['useragent']); ?>
+					<?php echo htmlspecialchars($this->info['useragent'], ENT_COMPAT, 'UTF-8'); ?>
 				</td>
 			</tr>
 		</tbody>

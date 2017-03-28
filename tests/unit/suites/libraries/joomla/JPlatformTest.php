@@ -2,11 +2,9 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
-include_once JPATH_PLATFORM . '/platform.php';
 
 /**
  * JPlatformTest
@@ -18,7 +16,7 @@ include_once JPATH_PLATFORM . '/platform.php';
  * @subpackage  Utilities
  * @since       11.1
  */
-class JPlatformTest extends PHPUnit_Framework_TestCase
+class JPlatformTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JPlatform
@@ -45,7 +43,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 
 	protected $COPYRIGHT = 'Copyright (C) 2005 - 3109 Open Source Matters. All rights reserved.';
 
-	protected $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	protected $URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * This checks for the correct Short Version.
@@ -69,22 +67,22 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 	public function casesCompatibility()
 	{
 		return array(
-			'wrong' => array(
+			'wrong'         => array(
 				'0.3',
 				false,
 				'Should not be compatible with 0.3',
 			),
-			'empty' => array(
+			'empty'         => array(
 				'',
 				false,
 				'Should not be compatible with empty string',
 			),
-			'null' => array(
+			'null'          => array(
 				null,
 				false,
 				'Should not be compatible with null',
 			),
-			'itself' => array(
+			'itself'        => array(
 				JPlatform::RELEASE . '.' . JPlatform::MAINTENANCE,
 				true,
 				'Should be compatible with itself',
@@ -100,15 +98,14 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 				'Should not be compatible with 1.7.0',
 			),
 		);
-
 	}
 
 	/**
 	 * This checks the compatibility testing method.
 	 *
-	 * @param   string  $input    Version
-	 * @param   bool    $expect   expected result of version check
-	 * @param   string  $message  Test failure message
+	 * @param   string $input   Version
+	 * @param   bool   $expect  expected result of version check
+	 * @param   string $message Test failure message
 	 *
 	 * @dataProvider casesCompatibility
 	 * @return void
@@ -129,35 +126,36 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetState()
 	{
-		if (method_exists('JPlatform', '__set_state'))
+		if (!method_exists('JPlatform', '__set_state'))
 		{
-			$testData = array(
-				'PRODUCT' => 'Joomla!',
-				'RELEASE' => '1.6',
-				'DEV_STATUS' => 'Alpha',
-				'DEV_LEVEL' => '0',
-				'BUILD' => '',
-				'CODENAME' => 'Hope',
-				'RELDATE' => '22-June-2009',
-				'RELTIME' => '23:00',
-				'RELTZ' => 'GMT',
-				'COPYRIGHT' => 'Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.',
-				'URL' => '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
-			);
+			$this->markTestSkipped("Method JPlatform::__set_state() does not exist - skipping");
+		}
+		$testData = array(
+			'PRODUCT'    => 'Joomla!',
+			'RELEASE'    => '1.6',
+			'DEV_STATUS' => 'Alpha',
+			'DEV_LEVEL'  => '0',
+			'BUILD'      => '',
+			'CODENAME'   => 'Hope',
+			'RELDATE'    => '22-June-2009',
+			'RELTIME'    => '23:00',
+			'RELTZ'      => 'GMT',
+			'COPYRIGHT'  => 'Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.',
+			'URL'        => '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
+		);
 
-			$testInstance = $this->object->__set_state($testData);
+		$testInstance = $this->object->__set_state($testData);
 
-			foreach ($testData as $key => $value)
-			{
-				$this->assertThat(
-					$testInstance->$key,
-					$this->equalTo($value)
-				);
-			}
-			$this->assertThat(
-				$testInstance,
-				$this->isInstanceOf('JPlatform')
+		foreach ($testData as $key => $value)
+		{
+			$this->assertEquals(
+				$value,
+				$testInstance->$key
 			);
 		}
+		$this->assertInstanceOf(
+			'JPlatform',
+			$testInstance
+		);
 	}
 }

@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  Joomla.Config
+ * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Base Display Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
- * @note        Needed for front end view
+ * @since  3.2
+ * @note   Needed for front end view
  */
 class ConfigControllerComponentDisplay extends ConfigControllerDisplay
 {

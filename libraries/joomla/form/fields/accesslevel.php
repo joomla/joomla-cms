@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,10 +16,8 @@ JFormHelper::loadFieldClass('list');
  * Provides a list of access levels. Access levels control what users in specific
  * groups can see.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @see         JAccess
- * @since       11.1
+ * @see    JAccess
+ * @since  11.1
  */
 class JFormFieldAccessLevel extends JFormFieldList
 {

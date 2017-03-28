@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,6 +52,7 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 
 // System configuration.
 $config = new JConfig;
+define('JDEBUG', $config->debug);
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
@@ -68,9 +69,7 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
 /**
  * A command line cron job to run the Smart Search indexer.
  *
- * @package  Joomla.Cli
- *
- * @since    2.5
+ * @since  2.5
  */
 class FinderCli extends JApplicationCli
 {
@@ -144,6 +143,7 @@ class FinderCli extends JApplicationCli
 
 		// Total reporting.
 		$this->out(JText::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
+		$this->out(JText::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))));
 
 		// Print a blank line at the end.
 		$this->out();
@@ -158,7 +158,7 @@ class FinderCli extends JApplicationCli
 	 */
 	private function index()
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
+		JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 		// Disable caching.
 		$config = JFactory::getConfig();
@@ -168,7 +168,8 @@ class FinderCli extends JApplicationCli
 		// Reset the indexer state.
 		FinderIndexer::resetState();
 
-		// Import the finder plugins.
+		// Import the plugins.
+		JPluginHelper::importPlugin('system');
 		JPluginHelper::importPlugin('finder');
 
 		// Starting Indexer.
@@ -288,7 +289,7 @@ class FinderCli extends JApplicationCli
 				$query
 					->select('t.id')
 					->from($db->qn('#__finder_taxonomy') . ' AS t')
-					->leftjoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+					->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
 					->where($db->qn('t.title') . ' = ' . $db->q($element['title']))
 					->where($db->qn('p.title') . ' = ' . $db->q($element['parent']));
 				$taxonomy = $db->setQuery($query)->loadResult();
@@ -357,7 +358,7 @@ class FinderCli extends JApplicationCli
 			$query
 				->select('t.title, p.title AS parent')
 				->from($db->qn('#__finder_taxonomy') . ' AS t')
-				->leftjoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+				->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
 				->where($db->qn('t.id') . ' IN (' . $filter->data . ')');
 			$taxonomies = $db->setQuery($query)->loadObjectList();
 
@@ -365,9 +366,9 @@ class FinderCli extends JApplicationCli
 			foreach ($taxonomies as $taxonomy)
 			{
 				$this->filters[$filter->filter_id][] = array(
-					'filter'	=> $filter->title,
-					'title'		=> $taxonomy->title,
-					'parent'	=> $taxonomy->parent,
+					'filter' => $filter->title,
+					'title'  => $taxonomy->title,
+					'parent' => $taxonomy->parent,
 				);
 			}
 		}

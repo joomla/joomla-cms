@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base class for implementing UCM
  *
- * @package     Joomla.Libraries
- * @subpackage  UCM
- * @since       3.1
+ * @since  3.1
  */
 class JUcmContent extends JUcmBase
 {
@@ -45,11 +43,7 @@ class JUcmContent extends JUcmBase
 	 */
 	public function __construct(JTableInterface $table = null, $alias = null, JUcmType $type = null)
 	{
-		// Setup dependencies.
-		$input = JFactory::getApplication()->input;
-		$this->alias = isset($alias) ? $alias : $input->get('option') . '.' . $input->get('view');
-
-		$this->type = isset($type) ? $type : $this->getType();
+		parent::__construct($alias, $type);
 
 		if ($table)
 		{
@@ -74,7 +68,7 @@ class JUcmContent extends JUcmBase
 	 */
 	public function save($original = null, JUcmType $type = null)
 	{
-		$type    = $type ? $type : $this->type;
+		$type    = $type ?: $this->type;
 		$ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
 
 		// Store the Common fields
@@ -103,7 +97,7 @@ class JUcmContent extends JUcmBase
 	public function delete($pk, JUcmType $type = null)
 	{
 		$db   = JFactory::getDbo();
-		$type = $type ? $type : $this->type;
+		$type = $type ?: $this->type;
 
 		if (is_array($pk))
 		{
@@ -127,7 +121,7 @@ class JUcmContent extends JUcmBase
 	 * @param   array     $original  The original data array
 	 * @param   JUcmType  $type      Type object for this data
 	 *
-	 * @return  object  $ucmData  The mapped UCM data
+	 * @return  array  $ucmData  The mapped UCM data
 	 *
 	 * @since   3.1
 	 */
@@ -139,7 +133,7 @@ class JUcmContent extends JUcmBase
 
 		$ucmData = array();
 
-		$common = (is_object($fields->common)) ? $fields->common : $fields->common[0];
+		$common = is_object($fields->common) ? $fields->common : $fields->common[0];
 
 		foreach ($common as $i => $field)
 		{
@@ -151,7 +145,7 @@ class JUcmContent extends JUcmBase
 
 		if (array_key_exists('special', $ucmData))
 		{
-			$special = (is_object($fields->special)) ? $fields->special : $fields->special[0];
+			$special = is_object($fields->special) ? $fields->special : $fields->special[0];
 
 			foreach ($special as $i => $field)
 			{
@@ -188,10 +182,10 @@ class JUcmContent extends JUcmBase
 	 */
 	protected function store($data, JTableInterface $table = null, $primaryKey = null)
 	{
-		$table = $table ? $table : JTable::getInstance('Corecontent');
+		$table = $table ?: JTable::getInstance('Corecontent');
 
 		$typeId     = $this->getType()->type->type_id;
-		$primaryKey = $primaryKey ? $primaryKey : $this->getPrimaryKey($typeId, $data['core_content_item_id']);
+		$primaryKey = $primaryKey ?: $this->getPrimaryKey($typeId, $data['core_content_item_id']);
 
 		if (!$primaryKey)
 		{
@@ -229,12 +223,11 @@ class JUcmContent extends JUcmBase
 			->where(
 				array(
 					$db->quoteName('ucm_item_id') . ' = ' . $db->quote($contentItemId),
-					$db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId)
+					$db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId),
 				)
 			);
 		$db->setQuery($queryccid);
-		$primaryKey = $db->loadResult();
 
-		return $primaryKey;
+		return $db->loadResult();
 	}
 }

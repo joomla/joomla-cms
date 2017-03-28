@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
+
+extract($displayData);
 
 /**
  * Layout variables
@@ -17,19 +19,18 @@ defined('_JEXEC') or die;
  * 	$input           : (string) The input field html code
  */
 
-?>
-
-<?php
-if (!empty($displayData['options']['showonEnabled']))
+if (!empty($options['showonEnabled']))
 {
 	JHtml::_('jquery.framework');
-	JHtml::_('script', 'jui/cms.js', false, true);
+	JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
 }
-?>
 
-<div class="control-group <?php echo $displayData['options']['class']; ?>" <?php echo $displayData['options']['rel']; ?>>
-	<?php if (empty($displayData['options']['hiddenLabel'])) : ?>
-		<div class="control-label"><?php echo $displayData['label']; ?></div>
+$class = empty($options['class']) ? '' : ' ' . $options['class'];
+$rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
+?>
+<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
+	<?php if (empty($options['hiddenLabel'])) : ?>
+		<div class="control-label"><?php echo $label; ?></div>
 	<?php endif; ?>
-	<div class="controls"><?php echo $displayData['input']; ?></div>
+	<div class="controls"><?php echo $input; ?></div>
 </div>

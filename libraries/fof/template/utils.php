@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  template
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -351,7 +351,7 @@ class FOFTemplateUtils
 			if (strlen($file) > 4 && strrpos($file, '.min', '-4'))
 			{
 				$position = strrpos($file, '.min', '-4');
-				$filename = str_replace('.min', '.', $file, $position);
+				$filename = str_replace('.min', '.', $file, $position) . $ext;
 			}
 			else
 			{

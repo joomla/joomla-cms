@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
@@ -15,9 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * This class has influences and some method logic from the Horde Auth package
  *
- * @package     Joomla.Platform
- * @subpackage  User
- * @since       11.1
+ * @since  11.1
  */
 abstract class JUserHelper
 {
@@ -62,12 +62,12 @@ abstract class JUserHelper
 			$user->save();
 		}
 
-		if (session_id())
-		{
-			// Set the group data for any preloaded user objects.
-			$temp = JFactory::getUser((int) $userId);
-			$temp->groups = $user->groups;
+		// Set the group data for any preloaded user objects.
+		$temp         = JUser::getInstance((int) $userId);
+		$temp->groups = $user->groups;
 
+		if (JFactory::getSession()->getId())
+		{
 			// Set the group data for the user object in the session.
 			$temp = JFactory::getUser();
 
@@ -155,7 +155,7 @@ abstract class JUserHelper
 		$user = JUser::getInstance((int) $userId);
 
 		// Set the group ids.
-		JArrayHelper::toInteger($groups);
+		$groups = ArrayHelper::toInteger($groups);
 		$user->groups = $groups;
 
 		// Get the titles for the user groups.
@@ -207,12 +207,12 @@ abstract class JUserHelper
 	{
 		if ($userId == 0)
 		{
-			$user	= JFactory::getUser();
-			$userId	= $user->id;
+			$user   = JFactory::getUser();
+			$userId = $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher	= JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
@@ -243,7 +243,7 @@ abstract class JUserHelper
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('activation') . ' = ' . $db->quote($activation))
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'));
+			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 
@@ -327,9 +327,6 @@ abstract class JUserHelper
 	 */
 	public static function verifyPassword($password, $hash, $user_id = 0)
 	{
-		$rehash = false;
-		$match = false;
-
 		// If we are using phpass
 		if (strpos($hash, '$P$') === 0)
 		{
@@ -353,7 +350,6 @@ abstract class JUserHelper
 		{
 			// Check the password
 			$parts     = explode(':', $hash);
-			$crypt     = $parts[0];
 			$salt      = @$parts[1];
 			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
 
@@ -365,12 +361,13 @@ abstract class JUserHelper
 		{
 			// Check the password
 			$parts = explode(':', $hash);
-			$crypt = $parts[0];
 			$salt  = @$parts[1];
 
 			$rehash = true;
 
-			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : '');
+			// Compile the hash to compare
+			// If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
+			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : (strpos($hash, ':') !== false ? ':' : ''));
 
 			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
 		}
@@ -387,7 +384,7 @@ abstract class JUserHelper
 	}
 
 	/**
-	 * Formats a password using the current encryption.
+	 * Formats a password using the old encryption methods.
 	 *
 	 * @param   string   $plaintext     The plaintext password to encrypt.
 	 * @param   string   $salt          The salt to use to encrypt the password. []
@@ -450,6 +447,7 @@ abstract class JUserHelper
 				{
 					$context .= substr($binary, 0, ($i > 16 ? 16 : $i));
 				}
+
 				for ($i = $length; $i > 0; $i >>= 1)
 				{
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
@@ -465,10 +463,12 @@ abstract class JUserHelper
 					{
 						$new .= $salt;
 					}
+
 					if ($i % 7)
 					{
 						$new .= $plaintext;
 					}
+
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
 					$binary = static::_bin(md5($new));
 				}
@@ -484,6 +484,7 @@ abstract class JUserHelper
 					{
 						$j = 5;
 					}
+
 					$p[] = static::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
@@ -503,7 +504,7 @@ abstract class JUserHelper
 	}
 
 	/**
-	 * Returns a salt for the appropriate kind of password encryption.
+	 * Returns a salt for the appropriate kind of password encryption using the old encryption methods.
 	 * Optionally takes a seed and a plaintext password, to extract the seed
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
@@ -563,11 +564,11 @@ abstract class JUserHelper
 			case 'crypt-blowfish':
 				if ($seed)
 				{
-					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 16);
+					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 30);
 				}
 				else
 				{
-					return '$2$' . substr(md5(JCrypt::genRandomBytes()), 0, 12) . '$';
+					return '$2y$10$' . substr(md5(JCrypt::genRandomBytes()), 0, 22) . '$';
 				}
 				break;
 
@@ -606,7 +607,7 @@ abstract class JUserHelper
 
 					for ($i = 0; $i < 8; $i++)
 					{
-						$salt .= $APRMD5{rand(0, 63)};
+						$salt .= $APRMD5{mt_rand(0, 63)};
 					}
 
 					return $salt;
@@ -637,7 +638,7 @@ abstract class JUserHelper
 	 */
 	public static function genRandomPassword($length = 8)
 	{
-		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		$salt = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		$base = strlen($salt);
 		$makepass = '';
 
@@ -683,6 +684,7 @@ abstract class JUserHelper
 			$aprmd5 .= $APRMD5[$value & 0x3f];
 			$value >>= 6;
 		}
+
 		return $aprmd5;
 	}
 
@@ -705,6 +707,7 @@ abstract class JUserHelper
 			$tmp = sscanf(substr($hex, $i, 2), '%x');
 			$bin .= chr(array_shift($tmp));
 		}
+
 		return $bin;
 	}
 
@@ -802,5 +805,30 @@ abstract class JUserHelper
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
 		return md5(JUri::base() . $uaShort);
+	}
+
+	/**
+	 * Check if there is a super user in the user ids.
+	 *
+	 * @param   array  $userIds  An array of user IDs on which to operate
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @since   3.6.5
+	 */
+	public static function checkSuperUserInUsers(array $userIds)
+	{
+		foreach ($userIds as $userId)
+		{
+			foreach (static::getUserGroups($userId) as $userGroupId)
+			{
+				if (JAccess::checkGroup($userGroupId, 'core.admin'))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

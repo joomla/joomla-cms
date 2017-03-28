@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,9 +24,7 @@ defined('JPATH_PLATFORM') or die;
  * @property  JDate        $updatedDate    The last time the content of the feed entry changed.
  * @property  string       $uri            Universal, permanent identifier for the feed entry.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @since       12.3
+ * @since  12.3
  */
 class JFeedEntry
 {
@@ -41,7 +39,7 @@ class JFeedEntry
 		'content' => '',
 		'categories' => array(),
 		'contributors' => array(),
-		'links' => array()
+		'links' => array(),
 	);
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,6 +38,20 @@ class JArchiveTarTest extends JArchiveTestCase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Tests the extract Method.
 	 *
 	 * @return  void
@@ -47,17 +61,10 @@ class JArchiveTarTest extends JArchiveTestCase
 		if (!JArchiveTar::isSupported())
 		{
 			$this->markTestSkipped('Tar files can not be extracted.');
-
-			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.tar', static::$outputPath);
-		$this->assertTrue(is_file(static::$outputPath . '/logo-tar.png'));
-
-		if (is_file(static::$outputPath . '/logo-tar.png'))
-		{
-			unlink(static::$outputPath . '/logo-tar.png');
-		}
+		$this->object->extract(__DIR__ . '/logo.tar', $this->outputPath);
+		$this->assertFileExists($this->outputPath . '/logo-tar.png');
 	}
 
 	/**

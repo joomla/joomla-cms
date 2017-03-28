@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,17 +12,16 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
-?>
 
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'user.cancel' || document.formvalidator.isValid(document.id('user-form')))
+		if (task == 'user.cancel' || document.formvalidator.isValid(document.getElementById('user-form')))
 		{
 			Joomla.submitform(task, document.getElementById('user-form'));
 		}
@@ -43,7 +42,8 @@ $fieldsets = $this->form->getFieldsets();
 			}
 		});
 	}
-</script>
+");
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate" enctype="multipart/form-data">
 	<div class="col main-section">
@@ -92,7 +92,7 @@ $fieldsets = $this->form->getFieldsets();
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-					   title="<strong><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') ?></strong><br/><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC') ?>">
+						title="<?php echo '<strong>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong><br />' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC'); ?>">
 					<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>
@@ -101,7 +101,7 @@ $fieldsets = $this->form->getFieldsets();
 			</div>
 		</div>
 		<div id="com_users_twofactor_forms_container">
-			<?php foreach($this->tfaform as $form): ?>
+			<?php foreach ($this->tfaform as $form): ?>
 			<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
 			<div id="com_users_twofactor_<?php echo $form['method'] ?>" style="<?php echo $style; ?>">
 				<?php echo $form['form'] ?>

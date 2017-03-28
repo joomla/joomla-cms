@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMenuOrdering extends JFormFieldList
 {
@@ -33,6 +31,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 * The method requires that parent be set.
 	 *
 	 * @return  array  The field option objects or false if the parent field has not been set
+	 *
 	 * @since   1.7
 	 */
 	protected function getOptions()
@@ -41,17 +40,20 @@ class JFormFieldMenuOrdering extends JFormFieldList
 
 		// Get the parent
 		$parent_id = $this->form->getValue('parent_id', 0);
+
 		if (empty($parent_id))
 		{
 			return false;
 		}
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text')
+			->select('a.id AS value, a.title AS text, a.client_id AS clientId')
 			->from('#__menu AS a')
 
 			->where('a.published >= 0')
 			->where('a.parent_id =' . (int) $parent_id);
+
 		if ($menuType = $this->form->getValue('menutype'))
 		{
 			$query->where('a.menutype = ' . $db->quote($menuType));
@@ -75,6 +77,15 @@ class JFormFieldMenuOrdering extends JFormFieldList
 			JError::raiseWarning(500, $e->getMessage());
 		}
 
+		// Allow translation of custom admin menus
+		foreach ($options as &$option)
+		{
+			if ($option->clientId != 0)
+			{
+				$option->text = JText::_($option->text);
+			}
+		}
+
 		$options = array_merge(
 			array(array('value' => '-1', 'text' => JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
 			$options,
@@ -88,9 +99,10 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	}
 
 	/**
-	 * Method to get the field input markup
+	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
+	 *
 	 * @since   1.7
 	 */
 	protected function getInput()

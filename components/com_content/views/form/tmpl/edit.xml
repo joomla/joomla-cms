@@ -9,7 +9,9 @@
 		</message>
 	</layout>
 	<fields name="params">
-		<fieldset name="basic">
+		<fieldset name="basic"
+			addfieldpath="/administrator/components/com_categories/models/fields"
+		>
 			<field name="enable_category"
 				type="radio"
 				class="btn-group btn-group-yesno"
@@ -19,11 +21,30 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 			</field>
-			<field name="catid"
-				type="category"
+
+			<field
+				name="catid"
+				type="modal_category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
+				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
-				description="JGLOBAL_CHOOSE_CATEGORY_DESC" />
+				required="true"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
+				showon="enable_category:1"
+			/>
+
+
+			<field
+				name="redirect_menuitem"
+				type="modal_menu"
+				label="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_DESC"
+			>
+				<option value="">JDEFAULT</option>
+			</field>
 		</fieldset>
 	</fields>
 </metadata>

@@ -31,7 +31,9 @@
 			default="255"
 			filter="integer"
 			label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
-			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION" />
+			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION" 
+			showon="show_description:1"
+		/>
 		<field name="allow_empty_query"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -96,7 +98,9 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION">
+			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION"
+			showon="show_advanced:1"
+		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -106,9 +110,11 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
-			description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESCRIPTION">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESCRIPTION"
+			showon="show_advanced:1"
+		>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		<field
 			name="show_date_filters"
@@ -116,7 +122,9 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_DESCRIPTION">
+			description="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_DESCRIPTION"
+			showon="show_advanced:1"
+		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -243,7 +251,9 @@
 			type="list"
 			default="snowball"
 			label="COM_FINDER_CONFIG_STEMMER_LABEL"
-			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION" >
+			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION"
+			showon="stem:1" 
+		>
 			<option value="porter_en">COM_FINDER_CONFIG_STEMMER_PORTER_EN</option>
 			<option value="fr">COM_FINDER_CONFIG_STEMMER_FR</option>
 			<option value="snowball">COM_FINDER_CONFIG_STEMMER_SNOWBALL</option>

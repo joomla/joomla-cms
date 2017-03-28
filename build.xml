@@ -17,7 +17,7 @@
 	</target>
 
 	<target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
-		<exec executable="phpunit">
+		<exec executable="${basedir}/libraries/vendor/bin/phpunit">
 			<arg value="-d" />
 			<arg value="zend.enable_gc=0" />
 		</exec>
@@ -54,6 +54,13 @@
 		</exec>
 	</target>
 
+	<target name="installdep" description="Install build dependencies using composer">
+		<exec executable="composer">
+			<arg value="update" />
+			<arg value="--no-dev" />
+		</exec>
+	</target>
+
 	<target name="phpmd" description="Generate pmd.xml using PHPMD">
 		<exec executable="phpmd">
 			<arg path="${joomlasource}" />
@@ -66,8 +73,10 @@
 
 	<target name="phpdoc" description="Generate API documentation using phpDocumentor">
 		<exec executable="phpdoc">
+			<arg value="-i" />
+			<arg path="${basedir}/libraries/vendor/joomla/*/Tests/,${basedir}/libraries/vendor/joomla/string/src/phputf8/,${basedir}/libraries/vendor/composer/,${basedir}/libraries/vendor/joomla/event/vendor/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/_Tests/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/Tests/,${basedir}/libraries/idna_convert/" />
 			<arg value="-d" />
-			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/framework/Joomla/" />
+			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/vendor/joomla/" />
 			<arg value="-f" />
 			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php" />
 			<arg value="-t" />
@@ -75,11 +84,11 @@
 			<arg value="--template" />
 			<arg value="joomla" />
 			<arg value="--title" />
-			<arg value="Joomla! CMS API" />
+			<arg value="Joomla! CMS 3.7 API" />
 		</exec>
 	</target>
 
-	<target name="lint" description="Perform syntax check of sourcecode files">
+	<target name="lint" description="Perform syntax check of source code files">
 		<apply executable="php" failonerror="true">
 			<arg value="-l" />
 
@@ -130,6 +139,28 @@
 		</apply>
 	</target>
 
+	<target name="make-updatecomponent" description="Create an installable package from the com_joomlaupdate component" >
+		<delete dir="${basedir}/build/com_joomlaupdate-pkg" includeemptydirs="true" failonerror="false" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg" />
+		<echo message="Create com_joomlaupdate package" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging/admin" />
+		<copy todir="${basedir}/build/com_joomlaupdate-pkg/staging/admin">
+			<fileset dir="${basedir}/administrator/components/com_joomlaupdate" />
+		</copy>
+		<move file="${basedir}/build/com_joomlaupdate-pkg/staging/admin/joomlaupdate.xml" todir="${basedir}/build/com_joomlaupdate-pkg/staging" />
+		<echo message="Copy the media folder" />
+		<copy todir="${basedir}/build/com_joomlaupdate-pkg/staging/media/js">
+			<fileset dir="${basedir}/media/com_joomlaupdate/js" />
+		</copy>
+		<echo message="Copy language files" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language" />
+		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.ini"/>
+		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.sys.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.sys.ini"/>
+		<echo message="Archiving package" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/packages" />
+		<zip destfile="${basedir}/build/com_joomlaupdate-pkg/packages/com_joomlaupdate.zip" basedir="${basedir}/build/com_joomlaupdate-pkg/staging" />
+	</target>
 
 	<target name="build" depends="clean,phpunit,parallelTasks" />
 </project>

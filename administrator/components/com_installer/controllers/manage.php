@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Installer Manage Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerControllerManage extends JControllerLegacy
 {
@@ -49,7 +49,7 @@ class InstallerControllerManage extends JControllerLegacy
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
 		$task   = $this->getTask();
-		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
+		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids))
 		{
@@ -58,7 +58,7 @@ class InstallerControllerManage extends JControllerLegacy
 		else
 		{
 			// Get the model.
-			$model	= $this->getModel('manage');
+			$model = $this->getModel('manage');
 
 			// Change the state of the records.
 			if (!$model->publish($ids, $value))
@@ -75,6 +75,7 @@ class InstallerControllerManage extends JControllerLegacy
 				{
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
+
 				$this->setMessage(JText::plural($ntext, count($ids)));
 			}
 		}
@@ -91,13 +92,13 @@ class InstallerControllerManage extends JControllerLegacy
 	 */
 	public function remove()
 	{
-		// Check for request forgeries
+		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$eid   = $this->input->get('cid', array(), 'array');
 		$model = $this->getModel('manage');
 
-		JArrayHelper::toInteger($eid, array());
+		$eid = ArrayHelper::toInteger($eid, array());
 		$model->remove($eid);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
@@ -113,13 +114,13 @@ class InstallerControllerManage extends JControllerLegacy
 	 */
 	public function refresh()
 	{
-		// Check for request forgeries
+		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$uid   = $this->input->get('cid', array(), 'array');
 		$model = $this->getModel('manage');
 
-		JArrayHelper::toInteger($uid, array());
+		$uid = ArrayHelper::toInteger($uid, array());
 		$model->refresh($uid);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}

@@ -38,7 +38,7 @@
 
 // Links
 // -------------------------
-@linkColor:             #08c;
+@linkColor:             darken(#428bca, 10%);
 @linkColorHover:        darken(@linkColor, 15%);
 
 
@@ -75,7 +75,7 @@
 @paddingSmall:          2px 10px;  // 26px
 @paddingMini:           0 6px;   // 22px
 
-@baseBorderRadius:      4px;
+@baseBorderRadius:      3px;
 @borderRadiusLarge:     6px;
 @borderRadiusSmall:     3px;
 
@@ -84,31 +84,31 @@
 // -------------------------
 @tableBackground:                   transparent; // overall background-color
 @tableBackgroundAccent:             #f9f9f9; // for striping
-@tableBackgroundHover:              #f5f5f5; // for hover
+@tableBackgroundHover:              #F0F0F0; // for hover
 @tableBorder:                       #ddd; // table and cell border
 
 // Buttons
 // -------------------------
-@btnBackground:                     @white;
-@btnBackgroundHighlight:            darken(@white, 10%);
-@btnBorder:                         #bbb;
+@btnBackground:                     #f3f3f3;
+@btnBackgroundHighlight:            darken(@grayLighter, 3%);
+@btnBorder:                         lighten(@grayLight, 10%);
 
 // > Joomla JUI
 @btnPrimaryBackground:              #2384d3;
 @btnPrimaryBackgroundHighlight:     #15497c;
 // < Joomla JUI
 
-@btnInfoBackground:                 #5bc0de;
-@btnInfoBackgroundHighlight:        #2f96b4;
+@btnInfoBackground:                 #2f96b4;
+@btnInfoBackgroundHighlight:        darken(@btnInfoBackground, 10%);
 
-@btnSuccessBackground:              #62c462;
-@btnSuccessBackgroundHighlight:     #51a351;
+@btnSuccessBackground:              #46a546;
+@btnSuccessBackgroundHighlight:     darken(@btnSuccessBackground, 10%);
 
-@btnWarningBackground:              lighten(@orange, 15%);
-@btnWarningBackgroundHighlight:     @orange;
+@btnWarningBackground:              @orange;
+@btnWarningBackgroundHighlight:     darken(@btnWarningBackground, 10%);
 
-@btnDangerBackground:               #ee5f5b;
-@btnDangerBackgroundHighlight:      #bd362f;
+@btnDangerBackground:               #bd362f;
+@btnDangerBackgroundHighlight:      darken(@btnDangerBackground, 10%);
 
 @btnInverseBackground:              #444;
 @btnInverseBackgroundHighlight:     @grayDarker;
@@ -118,9 +118,10 @@
 // -------------------------
 @inputBackground:               @white;
 @inputBorder:                   #ccc;
+@inputBorderHighlight:			#3071A9;
 @inputBorderRadius:             3px;
 @inputDisabledBackground:       @grayLighter;
-@formActionsBackground:         #f5f5f5;
+@formActionsBackground:         #F0F0F0;
 @inputHeight:                   @baseLineHeight + 10px; // base line-height + 8px vertical padding + 2px top/bottom border
 
 
@@ -128,7 +129,7 @@
 // -------------------------
 @dropdownBackground:            @white;
 @dropdownBorder:                rgba(0,0,0,.2);
-@dropdownDividerTop:            #e5e5e5;
+@dropdownDividerTop:            #F0F0F0;
 @dropdownDividerBottom:         @white;
 
 @dropdownLinkColor:             @grayDark;
@@ -149,11 +150,11 @@
 // Used for a bird's eye view of components dependent on the z-axis
 // Try to avoid customizing these :)
 @zindexDropdown:          1000;
-@zindexPopover:           1010;
 @zindexTooltip:           1030;
 @zindexFixedNavbar:       1030;
 @zindexModalBackdrop:     1040;
 @zindexModal:             1050;
+@zindexPopover:           1060;
 
 
 // Sprite icons path
@@ -179,7 +180,7 @@
 
 // Wells
 // -------------------------
-@wellBackground:                  #f5f5f5;
+@wellBackground:                  #F0F0F0;
 
 
 // Navbar
@@ -187,7 +188,7 @@
 // > Joomla JUI
 @navbarCollapseWidth:             767px;
 // < Joomla JUI
-@navbarCollapseDesktopWidth:      @navbarCollapseWidth + 1;
+@navbarCollapseDesktopWidth:      (@navbarCollapseWidth + 1);
 
 @navbarHeight:                    40px;
 @navbarBackgroundHighlight:       #ffffff;
@@ -229,7 +230,7 @@
 // -------------------------
 @paginationBackground:                #fff;
 @paginationBorder:                    #ddd;
-@paginationActiveBackground:          #f5f5f5;
+@paginationActiveBackground:          #F0F0F0;
 
 
 // Hero unit
@@ -241,19 +242,19 @@
 
 // Form states and alerts
 // -------------------------
-@warningText:             #c09853;
+@warningText:             #8a6d3b;
 @warningBackground:       #fcf8e3;
-@warningBorder:           darken(spin(@warningBackground, -10), 3%);
+@warningBorder:           darken(spin(@warningBackground, -10), 5%);
 
-@errorText:               #b94a48;
+@errorText:               #a94442;
 @errorBackground:         #f2dede;
-@errorBorder:             darken(spin(@errorBackground, -10), 3%);
+@errorBorder:             darken(spin(@errorBackground, -10), 5%);
 
-@successText:             #468847;
+@successText:             #3c763d;
 @successBackground:       #dff0d8;
 @successBorder:           darken(spin(@successBackground, -10), 5%);
 
-@infoText:                #3a87ad;
+@infoText:                #31708f;
 @infoBackground:          #d9edf7;
 @infoBorder:              darken(spin(@infoBackground, -10), 7%);
 
@@ -300,8 +301,8 @@
 
 // Fluid grid
 // -------------------------
-@fluidGridColumnWidth:    percentage(@gridColumnWidth/@gridRowWidth);
-@fluidGridGutterWidth:    percentage(@gridGutterWidth/@gridRowWidth);
+@fluidGridColumnWidth:         percentage(@gridColumnWidth/@gridRowWidth);
+@fluidGridGutterWidth:         percentage(@gridGutterWidth/@gridRowWidth);
 
 // 1200px min
 @fluidGridColumnWidth1200:     percentage(@gridColumnWidth1200/@gridRowWidth1200);
@@ -311,11 +312,11 @@
 @fluidGridColumnWidth768:      percentage(@gridColumnWidth768/@gridRowWidth768);
 @fluidGridGutterWidth768:      percentage(@gridGutterWidth768/@gridRowWidth768);
 
+
 // > Joomla JUI
 // Login
 // -------------------------
-@loginBackground:                 #142849;
-@loginBackgroundHighlight:        #165387;
+@loginBackground:                  #17568c;
 
 // Header
 // -------------------------

@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\String\StringHelper;
 
 jimport('joomla.filesystem.path');
 
@@ -16,9 +18,7 @@ jimport('joomla.filesystem.path');
  * Provides a storage for filesystem's paths where JForm's entities reside and methods for creating those entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormHelper
 {
@@ -26,16 +26,14 @@ class JFormHelper
 	 * Array with paths where entities(field, rule, form) can be found.
 	 *
 	 * Array's structure:
-	 * <code>
+	 *
 	 * paths:
 	 * {ENTITY_NAME}:
 	 * - /path/1
 	 * - /path/2
-	 * </code>
 	 *
 	 * @var    array
 	 * @since  11.1
-	 *
 	 */
 	protected static $paths;
 
@@ -44,11 +42,9 @@ class JFormHelper
 	 * Prototypes for all fields and rules are here.
 	 *
 	 * Array's structure:
-	 * <code>
 	 * entities:
 	 * {ENTITY_NAME}:
 	 * {KEY}: {OBJECT}
-	 * </code>
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -61,7 +57,7 @@ class JFormHelper
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormField object on success, false otherwise.
+	 * @return  JFormField|boolean  JFormField object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -76,7 +72,7 @@ class JFormHelper
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormRule object on success, false otherwise.
+	 * @return  JFormRule|boolean  JFormRule object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -112,16 +108,16 @@ class JFormHelper
 		}
 
 		$class = self::loadClass($entity, $type);
-		if ($class !== false)
-		{
-			// Instantiate a new type object.
-			$types[$key] = new $class;
-			return $types[$key];
-		}
-		else
+
+		if ($class === false)
 		{
 			return false;
 		}
+
+		// Instantiate a new type object.
+		$types[$key] = new $class;
+
+		return $types[$key];
 	}
 
 	/**
@@ -130,7 +126,7 @@ class JFormHelper
 	 *
 	 * @param   string  $type  Type of a field whose class should be loaded.
 	 *
-	 * @return  mixed  Class name on success or false otherwise.
+	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -145,7 +141,7 @@ class JFormHelper
 	 *
 	 * @param   string  $type  Type of a rule whose class should be loaded.
 	 *
-	 * @return  mixed  Class name on success or false otherwise.
+	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -162,22 +158,20 @@ class JFormHelper
 	 * @param   string  $entity  One of the form entities (field or rule).
 	 * @param   string  $type    Type of an entity.
 	 *
-	 * @return  mixed  Class name on success or false otherwise.
+	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
 	 * @since   11.1
 	 */
 	protected static function loadClass($entity, $type)
 	{
+		$prefix = 'J';
+
 		if (strpos($type, '.'))
 		{
 			list($prefix, $type) = explode('.', $type);
 		}
-		else
-		{
-			$prefix = 'J';
-		}
 
-		$class = JString::ucfirst($prefix, '_') . 'Form' . JString::ucfirst($entity, '_') . JString::ucfirst($type, '_');
+		$class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
 
 		if (class_exists($class))
 		{
@@ -190,7 +184,6 @@ class JFormHelper
 		// If the type is complex, add the base type to the paths.
 		if ($pos = strpos($type, '_'))
 		{
-
 			// Add the complex type prefix to the paths.
 			for ($i = 0, $n = count($paths); $i < $n; $i++)
 			{
@@ -209,15 +202,21 @@ class JFormHelper
 
 		// Try to find the class file.
 		$type = strtolower($type) . '.php';
+
 		foreach ($paths as $path)
 		{
-			if ($file = JPath::find($path, $type))
+			$file = JPath::find($path, $type);
+
+			if (!$file)
 			{
-				require_once $file;
-				if (class_exists($class))
-				{
-					break;
-				}
+				continue;
+			}
+
+			require_once $file;
+
+			if (class_exists($class))
+			{
+				break;
 			}
 		}
 
@@ -308,8 +307,70 @@ class JFormHelper
 			{
 				array_unshift($paths, trim($path));
 			}
+
+			if (!is_dir($path))
+			{
+				array_unshift($paths, trim($path));
+			}
 		}
 
 		return $paths;
+	}
+
+	/**
+	 * Parse the show on conditions
+	 *
+	 * @param   string  $showOn       Show on conditions.
+	 * @param   string  $formControl  Form name.
+	 * @param   string  $group        The dot-separated form group path.
+	 *
+	 * @return  array   Array with show on conditions.
+	 *
+	 * @since   3.7.0
+	 */
+	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
+	{
+		// Process the showon data.
+		if (!$showOn)
+		{
+			return array();
+		}
+
+		$formPath = $formControl ?: '';
+
+		if ($formPath && $group)
+		{
+			$formPath .= '[' . $group . ']';
+		}
+
+		$showOnData  = array();
+		$showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$op          = '';
+
+		foreach ($showOnParts as $showOnPart)
+		{
+			if (($showOnPart === '[AND]') || $showOnPart === '[OR]')
+			{
+				$op = trim($showOnPart, '[]');
+				continue;
+			}
+
+			$compareEqual     = strpos($showOnPart, '!:') === false;
+			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
+
+			$showOnData[] = array(
+				'field'  => $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
+				'values' => explode(',', $showOnPartBlocks[1]),
+				'sign'   => $compareEqual === true ? '=' : '!=',
+				'op'     => $op,
+			);
+
+			if ($op !== '')
+			{
+				$op = '';
+			}
+		}
+
+		return $showOnData;
 	}
 }

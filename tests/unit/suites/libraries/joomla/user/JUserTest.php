@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,11 +36,15 @@ class JUserTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		// Clear JAccess static caches.
+		JAccess::clearStatics();
+
 		$this->saveFactoryState();
 
 		$this->object = new JUser('42');
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session     = $this->getMockSession();
 	}
 
 	/**
@@ -48,13 +52,13 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   12.1
 	 */
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -122,7 +126,7 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests JUser::getInstance() with an error
+	 * Tests JUser::getInstance() with an error. It should return an empty JUser object with an id of 0.
 	 *
 	 * @return  void
 	 *
@@ -132,8 +136,15 @@ class JUserTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceError()
 	{
-		$this->assertFalse(
-			JUser::getInstance('nobody')
+		$emptyUser = JUser::getInstance('nobody');
+		$this->assertInstanceOf(
+			'JUser',
+			$emptyUser
+		);
+
+		$this->assertEquals(
+			$emptyUser->id,
+			0
 		);
 	}
 
@@ -235,7 +246,7 @@ class JUserTest extends TestCaseDatabase
 	public function testAuthorise($userId, $action, $asset, $expected)
 	{
 		// Set up user 99 to be root_user from configuration
-		$testConfig = $this->getMock('JConfig', array('get'));
+		$testConfig = $this->getMockBuilder('JConfig')->setMethods(array('get'))->getMock();
 		$testConfig->expects(
 			$this->any()
 		)
@@ -251,22 +262,6 @@ class JUserTest extends TestCaseDatabase
 			'Line: ' . __LINE__ . ' Failed for user ' . $user->id
 		);
 
-	}
-
-	/**
-	 * Test getAuthorisedCategories
-	 *
-	 * @covers JUser::getAuthorisedCategories
-	 * @todo Implement testGetAuthorisedCategories().
-	 *
-	 * @return void
-	 */
-	public function testGetAuthorisedCategories()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -326,22 +321,6 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @covers JUser::getAuthorisedGroups
-	 * @todo Implement testGetAuthorisedGroups().
-	 *
-	 * @return void
-	 */
-	public function testGetAuthorisedGroups()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests JUser::setLastVisit().
 	 *
 	 * @return  void
@@ -362,42 +341,9 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test the setParameters method.
-	 *
-	 * @covers JUser::setParameters
-	 * @todo Implement testSetParameters().
-	 *
-	 * @return void
-	 */
-	public function testSetParameters()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers JUser::getTable
-	 * @todo Implement testGetTable().
-	 *
-	 * @return void
-	 */
-	public function testGetTable()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Test...
 	 *
 	 * @covers JUser::bind
-	 * @todo Implement testBind().
 	 *
 	 * @return void
 	 */
@@ -418,12 +364,6 @@ class JUserTest extends TestCaseDatabase
 			$result
 		);
 
-		$this->markTestIncomplete('Unexpected test failure in CMS environment');
-
-		$this->assertTrue(
-			(strlen($testUser->username) >= 1 && strlen($testUser->username) <= 150)
-		);
-
 		$this->assertTrue(
 			(strlen($testUser->password) >= 1 && strlen($testUser->password) <= 100)
 		);
@@ -434,38 +374,6 @@ class JUserTest extends TestCaseDatabase
 		$result = $testUser->bind($array);
 		$this->assertFalse(
 			$result
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers JUser::save
-	 * @todo Implement testSave().
-	 *
-	 * @return void
-	 */
-	public function testSave()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers JUser::delete
-	 * @todo Implement testDelete().
-	 *
-	 * @return void
-	 */
-	public function testDelete()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 

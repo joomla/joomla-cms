@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Viewlevels table class.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableViewlevel extends JTable
 {
@@ -67,6 +65,22 @@ class JTableViewlevel extends JTable
 		if ((trim($this->title)) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
+
+			return false;
+		}
+
+		// Check for a duplicate title.
+		$db = $this->_db;
+		$query = $db->getQuery(true)
+			->select('COUNT(title)')
+			->from($db->quoteName('#__viewlevels'))
+			->where($db->quoteName('title') . ' = ' . $db->quote($this->title))
+			->where($db->quoteName('id') . ' != ' . (int) $this->id);
+		$db->setQuery($query);
+
+		if ($db->loadResult() > 0)
+		{
+			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_USERLEVEL_NAME_EXISTS', $this->title));
 
 			return false;
 		}

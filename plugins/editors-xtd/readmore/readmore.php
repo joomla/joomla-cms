@@ -3,18 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.readmore
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Editor Readmore buton
+ * Editor Readmore button
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors-xtd.readmore
- * @since       1.5
+ * @since  1.5
  */
 class PlgButtonReadmore extends JPlugin
 {
@@ -31,42 +29,30 @@ class PlgButtonReadmore extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return array A two element array of (imageName, textToInsert)
+	 * @return  JObject  The button options as JObject
+	 *
+	 * @since   1.5
 	 */
 	public function onDisplay($name)
 	{
-		$doc = JFactory::getDocument();
+		JHtml::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
 
-		// Button is not active in specific content components
-
-		$getContent = $this->_subject->getContent($name);
-		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
-		$js = "
-			function insertReadmore(editor)
-			{
-				var content = $getContent
-				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
-				{
-					alert('$present');
-					return false;
-				} else {
-					jInsertEditorText('<hr id=\"system-readmore\" />', editor);
-				}
-			}
-			";
-
-		$doc->addScriptDeclaration($js);
+		// Pass some data to javascript
+		JFactory::getDocument()->addScriptOptions(
+			'xtd-readmore',
+			array(
+				'editor' => $this->_subject->getContent($name),
+				'exists' => JText::_('PLG_READMORE_ALREADY_EXISTS', true),
+			)
+		);
 
 		$button = new JObject;
-		$button->modal = false;
-		$button->class = 'btn';
+		$button->modal   = false;
+		$button->class   = 'btn';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
-		$button->text = JText::_('PLG_READMORE_BUTTON_READMORE');
-		$button->name = 'arrow-down';
-
-		// @TODO: The button writer needs to take into account the javascript directive
-		// $button->link', 'javascript:void(0)');
-		$button->link = '#';
+		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
+		$button->name    = 'arrow-down';
+		$button->link    = '#';
 
 		return $button;
 	}

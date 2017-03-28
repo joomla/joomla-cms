@@ -2,11 +2,9 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
-include_once JPATH_PLATFORM . '/joomla/mail/helper.php';
 
 /**
  * Test class for JMailHelper.
@@ -271,10 +269,13 @@ class JMailHelperTest extends TestCase
 			array(".joe@bob.com", false),
 			array("joe<>bob@bob.come", false),
 			array("joe&bob@bob.com", true),
-			array("~joe@bob.com", false),
-			array("joe$@bob.com", false),
+			array("joebob@bob.edu.co", true),
+			array("~joe@bob.com", true),
+			array("joe..bob@bob.com", false),
+			array("joe$@bob.com", true),
 			array("joe+bob@bob.com", true),
-			array("o'reilly@there.com", false)
+			array("o'reilly@there.com", true),
+			array("o’reilly@there.com", false)
 		);
 	}
 

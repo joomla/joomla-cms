@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,7 +55,7 @@ class JToolbarButtonTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 
@@ -74,7 +74,9 @@ class JToolbarButtonTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
+		unset($this->toolbar);
+		unset($this->object);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -122,7 +124,7 @@ class JToolbarButtonTest extends TestCaseDatabase
 		$type = array('Standard', 'test');
 
 		$expected = "<div class=\"btn-wrapper\"  id=\"toolbar-test\">\n"
-			. "\t<button onclick=\"if (document.adminForm.boxchecked.value==0){alert('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');}else{ Joomla.submitbutton('')}\" class=\"btn btn-small\">\n"
+			. "\t<button onclick=\"if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } else { Joomla.submitbutton(''); }\" class=\"btn btn-small\">\n"
 			. "\t<span class=\"icon-test\"></span>\n"
 			. "\t</button>\n"
 			. "</div>\n";

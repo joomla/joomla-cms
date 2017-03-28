@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utitlity class for multilang
  *
- * @package     Joomla.Libraries
- * @subpackage  Language
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JLanguageMultilang
 {
@@ -37,8 +35,8 @@ class JLanguageMultilang
 		// Get application object.
 		$app = JFactory::getApplication();
 
-		// If being called from the front-end, we can avoid the database query.
-		if ($app->isSite())
+		// If being called from the frontend, we can avoid the database query.
+		if ($app->isClient('site'))
 		{
 			$enabled = $app->getLanguageFilter();
 
@@ -48,7 +46,7 @@ class JLanguageMultilang
 		// If already tested, don't test again.
 		if (!$tested)
 		{
-			// Determine status of language filter plug-in.
+			// Determine status of language filter plugin.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('enabled')
@@ -62,6 +60,52 @@ class JLanguageMultilang
 			$tested = true;
 		}
 
-		return $enabled;
+		return (bool) $enabled;
+	}
+
+	/**
+	 * Method to return a list of published site languages.
+	 *
+	 * @return  array of language extension objects.
+	 *
+	 * @since   3.5
+	 * @deprecated   3.7.0  Use JLanguageHelper::getInstalledLanguages(0) instead.
+	 */
+	public static function getSiteLangs()
+	{
+		JLog::add(__METHOD__ . ' is deprecated. Use JLanguageHelper::getInstalledLanguages(0) instead.', JLog::WARNING, 'deprecated');
+
+		return JLanguageHelper::getInstalledLanguages(0);
+	}
+
+	/**
+	 * Method to return a list of language home page menu items.
+	 *
+	 * @return  array of menu objects.
+	 *
+	 * @since   3.5
+	 */
+	public static function getSiteHomePages()
+	{
+		// To avoid doing duplicate database queries.
+		static $multilangSiteHomePages = null;
+
+		if (!isset($multilangSiteHomePages))
+		{
+			// Check for Home pages languages.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('language')
+				->select('id')
+				->from($db->quoteName('#__menu'))
+				->where('home = 1')
+				->where('published = 1')
+				->where('client_id = 0');
+			$db->setQuery($query);
+
+			$multilangSiteHomePages = $db->loadObjectList('language');
+		}
+
+		return $multilangSiteHomePages;
 	}
 }

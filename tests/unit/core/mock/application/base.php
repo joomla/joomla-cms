@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,6 +46,11 @@ class TestMockApplicationBase
 	 */
 	public static function addBehaviours($test, $mockObject, $options)
 	{
+		$test->assignMockReturns(
+			$mockObject,
+			array('close' => true)
+		);
+
 		return $mockObject;
 	}
 
@@ -70,17 +75,12 @@ class TestMockApplicationBase
 		// Collect all the relevant methods in JApplicationBase.
 		$methods = self::getMethods();
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JApplicationBase',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			true
-		);
+		// Build the mock object & allow Call to original constructor
+		$mockObject = $test->getMockBuilder('JApplicationBase')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->getMock();
 
 		$mockObject = self::addBehaviours($test, $mockObject, $options);
 

@@ -2,7 +2,7 @@
 /**
  *  @package     FrameworkOnFramework
  *  @subpackage  config
- *  @copyright   Copyright (c)2010-2014 Nicholas K. Dionysopoulos
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  *  @license     GNU General Public License version 2, or later
  */
 

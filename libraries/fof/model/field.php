@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ abstract class FOFModelField
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db           The database object
+	 * @param   FOFDatabaseDriver  $db           The database object
 	 * @param   object           $field        The field informations as taken from the db
 	 * @param   string           $table_alias  The table alias to use when filtering
 	 */
@@ -60,6 +60,7 @@ abstract class FOFModelField
 
 		$this->name = $field->name;
 		$this->type = $field->type;
+		$this->filterzero = $field->filterzero;
 		$this->table_alias = $table_alias;
 	}
 
@@ -72,7 +73,8 @@ abstract class FOFModelField
 	 */
 	public function isEmpty($value)
 	{
-		return ($value === $this->null_value) || empty($value);
+		return (($value === $this->null_value) || empty($value))
+			&& !($this->filterzero && $value === "0");
 	}
 
 	/**
@@ -196,6 +198,33 @@ abstract class FOFModelField
 	 * @return  string  The SQL where clause for this search
 	 */
 	abstract public function interval($from, $interval);
+
+	/**
+	 * Perform a between limits match (usually: search for a value between
+	 * two numbers or a date between two preset dates). When $include is true
+	 * the condition tested is:
+	 * $from <= VALUE <= $to
+	 * When $include is false the condition tested is:
+	 * $from < VALUE < $to
+	 *
+	 * @param   mixed    $from     The lowest value to compare to
+	 * @param   mixed    $to       The higherst value to compare to
+	 * @param   boolean  $include  Should we include the boundaries in the search?
+	 *
+	 * @return  string  The SQL where clause for this search
+	 */
+	abstract public function range($from, $to, $include = true);
+
+	/**
+	 * Perform an modulo search
+	 *
+	 * @param   integer|float  $value     The starting value of the search space
+	 * @param   integer|float  $interval  The interval period of the search space
+	 * @param   boolean        $include   Should I include the boundaries in the search?
+	 *
+	 * @return  string  The SQL where clause
+	 */
+	abstract public function modulo($from, $interval, $include = true);
 
 	/**
 	 * Return the SQL where clause for a search

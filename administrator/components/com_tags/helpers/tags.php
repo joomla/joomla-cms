@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Tags helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
  * @since       3.1
+ * @deprecated  4.0
  */
 class TagsHelper extends JHelperContent
 {
@@ -25,7 +24,8 @@ class TagsHelper extends JHelperContent
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since       3.1
+	 * @deprecated  4.0
 	 */
 	public static function addSubmenu($extension)
 	{
@@ -43,9 +43,9 @@ class TagsHelper extends JHelperContent
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
 			$cName = 'TagsHelper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName))
 			{
@@ -56,7 +56,6 @@ class TagsHelper extends JHelperContent
 					// Loading language file from administrator/language directory then administrator/components/<extension>/language
 					$lang->load($component, JPATH_BASE, null, false, true)
 					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-
 				}
 			}
 		}

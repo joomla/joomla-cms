@@ -3,18 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Category table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
+ * @since  1.5
  */
 class JTableCategory extends JTableNested
 {
@@ -23,7 +23,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -42,7 +42,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetName()
 	{
@@ -56,7 +56,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetTitle()
 	{
@@ -71,7 +71,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
@@ -129,7 +129,7 @@ class JTableCategory extends JTableNested
 	 * @return  boolean
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function check()
 	{
@@ -148,7 +148,7 @@ class JTableCategory extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -168,21 +168,19 @@ class JTableCategory extends JTableNested
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     JTable::bind()
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['metadata']);
+			$registry = new Registry($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
@@ -203,30 +201,39 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
+		$this->modified_time = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing category
-			$this->modified_time = $date->toSql();
 			$this->modified_user_id = $user->get('id');
 		}
 		else
 		{
-			// New category
-			$this->created_time = $date->toSql();
-			$this->created_user_id = $user->get('id');
+			// New category. A category created_time and created_user_id field can be set by the user,
+			// so we don't touch either of these if they are set.
+			if (!(int) $this->created_time)
+			{
+				$this->created_time = $date->toSql();
+			}
+
+			if (empty($this->created_user_id))
+			{
+				$this->created_user_id = $user->get('id');
+			}
 		}
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
 
-		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
+		if ($table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));

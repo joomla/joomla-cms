@@ -1,11 +1,7 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <joshelp>
 	<sites>
-		<site
-			tag="en-GB"
-			url="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">English (GB) - Joomla help wiki</site>
-		<site
-			tag="fr-FR"
-			url="http://help.joomla.fr/3/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">Français (FR) - Aide de Joomla!</site>
+		<site tag="en-GB" url="https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&amp;lang={langcode}">English (GB) - Joomla help wiki</site>
+		<site tag="fr-FR" url="https://help.joomla.fr/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">FranÃ§ais (FR) - Aide de Joomla!</site>
 	</sites>
 </joshelp>

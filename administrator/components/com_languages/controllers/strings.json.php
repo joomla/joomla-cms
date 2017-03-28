@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Strings JSON Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       2.5
+ * @since  2.5
  */
 class LanguagesControllerStrings extends JControllerAdmin
 {

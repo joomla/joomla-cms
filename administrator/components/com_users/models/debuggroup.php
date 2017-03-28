@@ -3,27 +3,50 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/debug.php';
+JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
 
 /**
  * Methods supporting a list of user records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelDebuggroup extends JModelList
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   3.6.0
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'a.title',
+				'component', 'a.name',
+				'a.lft',
+				'a.id',
+				'level_start', 'level_end', 'a.level',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Get a list of the actions.
 	 *
 	 * @return  array
+	 *
 	 * @since   1.6
 	 */
 	public function getDebugActions()
@@ -37,15 +60,15 @@ class UsersModelDebuggroup extends JModelList
 	 * Override getItems method.
 	 *
 	 * @return  array
+	 *
 	 * @since   1.6
 	 */
 	public function getItems()
 	{
-		$groupId = $this->getState('filter.group_id');
+		$groupId = $this->getState('group_id');
 
 		if (($assets = parent::getItems()) && $groupId)
 		{
-
 			$actions = $this->getDebugActions();
 
 			foreach ($assets as &$asset)
@@ -80,46 +103,49 @@ class UsersModelDebuggroup extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
 		$app = JFactory::getApplication('administrator');
 
 		// Adjust the context to support modal layouts.
 		$layout = $app->input->get('layout', 'default');
+
 		if ($layout)
 		{
 			$this->context .= '.' . $layout;
 		}
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('group_id', $this->getUserStateFromRequest($this->context . '.group_id', 'group_id', 0, 'int', false));
 
-		$value = $this->getUserStateFromRequest($this->context . '.filter.group_id', 'group_id', 0, 'int', false);
-		$this->setState('filter.group_id', $value);
-
-		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', 0, 'int');
+		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', '', 'cmd');
 		$this->setState('filter.level_start', $levelStart);
 
-		$value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', 0, 'int');
+		$value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', '', 'cmd');
+
 		if ($value > 0 && $value < $levelStart)
 		{
 			$value = $levelStart;
 		}
+
 		$this->setState('filter.level_end', $value);
 
-		$component = $this->getUserStateFromRequest($this->context . '.filter.component', 'filter_component');
-		$this->setState('filter.component', $component);
+		$this->setState('filter.component', $this->getUserStateFromRequest($this->context . '.filter.component', 'filter_component', '', 'string'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.lft', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -129,14 +155,14 @@ class UsersModelDebuggroup extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
-	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
+		$id .= ':' . $this->getState('group_id');
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.level_start');
 		$id .= ':' . $this->getState('filter.level_end');
@@ -149,11 +175,12 @@ class UsersModelDebuggroup extends JModelList
 	 * Get the group being debugged.
 	 *
 	 * @return  JObject
+	 *
 	 * @since   1.6
 	 */
 	public function getGroup()
 	{
-		$groupId = (int) $this->getState('filter.group_id');
+		$groupId = (int) $this->getState('group_id');
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -170,6 +197,7 @@ class UsersModelDebuggroup extends JModelList
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -180,6 +208,7 @@ class UsersModelDebuggroup extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -195,18 +224,18 @@ class UsersModelDebuggroup extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from($db->quoteName('#__assets') . ' AS a');
+		$query->from($db->quoteName('#__assets', 'a'));
 
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search'))
 		{
 			// Escape the search token.
-			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
 
 			// Compile the different search clauses.
 			$searches = array();
-			$searches[] = 'a.name LIKE ' . $token;
-			$searches[] = 'a.title LIKE ' . $token;
+			$searches[] = 'a.name LIKE ' . $search;
+			$searches[] = 'a.title LIKE ' . $search;
 
 			// Add the clauses to the query.
 			$query->where('(' . implode(' OR ', $searches) . ')');
@@ -215,14 +244,17 @@ class UsersModelDebuggroup extends JModelList
 		// Filter on the start and end levels.
 		$levelStart = (int) $this->getState('filter.level_start');
 		$levelEnd = (int) $this->getState('filter.level_end');
+
 		if ($levelEnd > 0 && $levelEnd < $levelStart)
 		{
 			$levelEnd = $levelStart;
 		}
+
 		if ($levelStart > 0)
 		{
 			$query->where('a.level >= ' . $levelStart);
 		}
+
 		if ($levelEnd > 0)
 		{
 			$query->where('a.level <= ' . $levelEnd);

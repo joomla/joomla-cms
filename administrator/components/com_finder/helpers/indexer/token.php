@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Token class for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderIndexerToken
 {
@@ -109,7 +109,7 @@ class FinderIndexerToken
 			$this->numeric = false;
 			$this->common = false;
 			$this->phrase = true;
-			$this->length = JString::strlen($this->term);
+			$this->length = StringHelper::strlen($this->term);
 
 			/*
 			 * Calculate the weight of the token.
@@ -128,7 +128,7 @@ class FinderIndexerToken
 			$this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', $this->term));
 			$this->common = $this->numeric ? false : FinderIndexerHelper::isCommon($this->term, $lang);
 			$this->phrase = false;
-			$this->length = JString::strlen($this->term);
+			$this->length = StringHelper::strlen($this->term);
 
 			/*
 			 * Calculate the weight of the token.

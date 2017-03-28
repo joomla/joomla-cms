@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,22 +16,21 @@ $input = JFactory::getApplication()->input;
 
 $saveHistory = $this->state->get('params')->get('save_history', 0);
 
-JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
+JHtml::_('behavior.formvalidator');
 
-$assoc = JLanguageAssociations::isEnabled();
-
-?>
-
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			<?php echo $this->form->getField('description')->save(); ?>
+		if (task == 'category.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
+			" . $this->form->getField('description')->save() . "
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 	}
-</script>
+");
+$assoc = JLanguageAssociations::isEnabled();
+
+?>
 
 <div class="category-edit">
 	<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -144,7 +143,7 @@ $assoc = JLanguageAssociations::isEnabled();
 			<?php endforeach; ?>
 
 			<?php if ($assoc) : ?>
-				<?php echo JHtml::_('sliders.panel', JText::_('COM_CATEGORIES_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+				<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php endif; ?>
 

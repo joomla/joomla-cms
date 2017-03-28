@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contenthistory
- * @since       3.2
+ * @since  3.2
  */
 class ContenthistoryHelper
 {
@@ -122,7 +120,14 @@ class ContenthistoryHelper
 					if (isset($expandedObjectArray[$name]))
 					{
 						$optionFieldArray = $field->xpath('option[@value="' . $expandedObjectArray[$name] . '"]');
-						$valueText = trim((string) $optionFieldArray[0]);
+
+						$valueText = null;
+
+						if (is_array($optionFieldArray) && count($optionFieldArray))
+						{
+							$valueText = trim((string) $optionFieldArray[0]);
+						}
+
 						$values[(string) $field->attributes()->name] = JText::_($valueText);
 					}
 				}
@@ -262,7 +267,7 @@ class ContenthistoryHelper
 			$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
 			|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
-			// Force loading of back-end global language file
+			// Force loading of backend global language file
 			$lang->load('joomla', JPath::clean(JPATH_ADMINISTRATOR), null, false, true);
 		}
 	}

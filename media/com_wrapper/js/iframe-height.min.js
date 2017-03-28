@@ -1,0 +1,1 @@
+function iFrameHeight(){var a=0,b=document.getElementById("blockrandom"),c="contentDocument"in b?b.contentDocument:b.contentWindow.document;document.all?document.all&&(a=c.body.scrollHeight,document.all.blockrandom.style.height=parseInt(a)+20+"px"):(a=c.body.scrollHeight,b.style.height=parseInt(a)+60+"px")}

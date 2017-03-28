@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,102 +12,89 @@ defined('_JEXEC') or die;
 /**
  * Tracks list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersControllerTracks extends JControllerLegacy
 {
 	/**
-	 * @var    string  The context for persistent state.
+	 * The context for persistent state.
 	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $context = 'com_banners.tracks';
 
 	/**
-	 * Proxy for getModel.
+	 * Method to get a model object, loading it if required.
 	 *
 	 * @param   string  $name    The name of the model.
 	 * @param   string  $prefix  The prefix for the model class name.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModel
+	 * @return  JModelLegacy
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Tracks', $prefix = 'BannersModel', $config = array())
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-
-		return $model;
+		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 
 	/**
 	 * Display method for the raw track data.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController  This object to support chaining.
+	 * @return  BannersControllerTracks  This object to support chaining.
 	 *
 	 * @since   1.5
 	 * @todo    This should be done as a view, not here!
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the document object.
-		$document	= JFactory::getDocument();
-		$vName		= 'tracks';
-		$vFormat	= 'raw';
+		$vName = 'tracks';
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat))
+		if ($view = $this->getView($vName, 'raw'))
 		{
 			// Get the model for the view.
+			/** @var BannersModelTracks $model */
 			$model = $this->getModel($vName);
 
 			// Load the filter state.
 			$app = JFactory::getApplication();
 
-			$type = $app->getUserState($this->context . '.filter.type');
-			$model->setState('filter.type', $type);
-
-			$begin = $app->getUserState($this->context . '.filter.begin');
-			$model->setState('filter.begin', $begin);
-
-			$end = $app->getUserState($this->context . '.filter.end');
-			$model->setState('filter.end', $end);
-
-			$categoryId = $app->getUserState($this->context . '.filter.category_id');
-			$model->setState('filter.category_id', $categoryId);
-
-			$clientId = $app->getUserState($this->context . '.filter.client_id');
-			$model->setState('filter.client_id', $clientId);
-
+			$model->setState('filter.type', $app->getUserState($this->context . '.filter.type'));
+			$model->setState('filter.begin', $app->getUserState($this->context . '.filter.begin'));
+			$model->setState('filter.end', $app->getUserState($this->context . '.filter.end'));
+			$model->setState('filter.category_id', $app->getUserState($this->context . '.filter.category_id'));
+			$model->setState('filter.client_id', $app->getUserState($this->context . '.filter.client_id'));
 			$model->setState('list.limit', 0);
 			$model->setState('list.start', 0);
 
-			$input = JFactory::getApplication()->input;
-			$form  = $input->get('jform', array(), 'array');
+			$form = $this->input->get('jform', array(), 'array');
 
 			$model->setState('basename', $form['basename']);
 			$model->setState('compressed', $form['compressed']);
 
-			$config = JFactory::getConfig();
+			$config        = JFactory::getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');
-			$cookie_path = $config->get('cookie_path', '/');
+			$cookie_path   = $config->get('cookie_path', '/');
 
-			setcookie(JApplication::getHash($this->context . '.basename'), $form['basename'], time() + 365 * 86400, $cookie_path, $cookie_domain);
-			setcookie(JApplication::getHash($this->context . '.compressed'), $form['compressed'], time() + 365 * 86400, $cookie_path, $cookie_domain);
+			setcookie(JApplicationHelper::getHash($this->context . '.basename'), $form['basename'], time() + 365 * 86400, $cookie_path, $cookie_domain);
+			setcookie(JApplicationHelper::getHash($this->context . '.compressed'), $form['compressed'], time() + 365 * 86400, $cookie_path, $cookie_domain);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->document = $document;
+			$view->document = JFactory::getDocument();
 
 			$view->display();
 		}
+
+		return $this;
 	}
 }

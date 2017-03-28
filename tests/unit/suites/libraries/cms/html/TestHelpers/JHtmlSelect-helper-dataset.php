@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@
  */
 class JHtmlSelectTest_DataSet
 {
-	static public $genericTest = array(
+	public static $genericTest = array(
 		// @todo remove: array($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
 		// 						$selected = null, $idtag = false, $translate = false)
 		array(
@@ -72,7 +72,7 @@ class JHtmlSelectTest_DataSet
 		),
 	);
 
-	static public $radioTest = array(
+	public static $radioTest = array(
 		// @todo remove: array($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
 		// 						$translate = false)
 		array(
@@ -141,7 +141,7 @@ class JHtmlSelectTest_DataSet
 		),
 	);
 
-	static public $optionsTest = array(
+	public static $optionsTest = array(
 		// @todo remove: array($expected, $arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
 		array(
 			"<option value=\"1\">&nbsp;Test</option>\n",
@@ -209,7 +209,7 @@ class JHtmlSelectTest_DataSet
 		),
 	);
 
-	static public $optionTest = array(
+	public static $optionTest = array(
 		// @todo remove: array($expected, $value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
 		array(
 			array(

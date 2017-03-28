@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@
  * @package  Joomla.UnitTest
  * @since    11.1
  */
-class JLoaderTest extends PHPUnit_Framework_TestCase
+class JLoaderTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Container for JLoader static values during tests.
@@ -220,6 +220,41 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the JLoader::load method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testLoadForSinglePart()
+	{
+		JLoader::registerPrefix('Joomla', JPATH_TEST_STUBS . '/loader', true);
+
+		$this->assertTrue(class_exists('JoomlaPatch'), 'Tests that a class with a single part is loaded in the base path.');
+		$this->assertTrue(class_exists('JoomlaPatchTester'), 'Tests that a class with multiple parts is loaded from the correct path.');
+		$this->assertTrue(class_exists('JoomlaTester'), 'Tests that a class with a single part is loaded from a folder (legacy behavior).');
+		$this->assertFalse(class_exists('JoomlaNotPresent'), 'Tests that a non-existing class is not found.');
+	}
+
+	/**
+	 * Tests if JLoader::applyAliasFor runs automatically when loading a class by its real name
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testApplyAliasForAutorun()
+	{
+		JLoader::discover('Shuttle', JPATH_TEST_STUBS . '/discover2', true);
+
+		JLoader::registerAlias('ShuttleOV105', 'ShuttleEndeavour');
+
+		$this->assertThat(JLoader::load('ShuttleEndeavour'), $this->isTrue(), 'Tests that the class file was loaded.');
+
+		$this->assertTrue(class_exists('ShuttleOV105'), 'Tests that loading a class also loads its aliases');
+	}
+
+	/**
 	 * The success of this test depends on some files being in the file system to be imported. If the FS changes, this test may need revisited.
 	 *
 	 * @param   string   $filePath     Path to object
@@ -401,16 +436,40 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	{
 		// Clear the prefixes array for this test
 		TestReflection::setValue('JLoader', 'classAliases', array());
+		TestReflection::setValue('JLoader', 'classAliasesInverse', array());
 
 		JLoader::registerAlias('foo', 'bar');
 
 		// Get the current prefixes array
 		$aliases = TestReflection::getValue('JLoader', 'classAliases');
+		$aliasesInverse = TestReflection::getValue('JLoader', 'classAliasesInverse');
 
 		$this->assertEquals(
 			$aliases['foo'],
 			'bar',
 			'Assert the alias is set in the classAlias array.'
+		);
+
+		$this->assertArrayHasKey(
+			'bar',
+			$aliasesInverse,
+			'Assert the real class is set in the classAliasInverse array.'
+		);
+
+		$this->assertEquals(
+			array('foo'),
+			$aliasesInverse['bar'],
+			'Assert the alias is set in the classAliasInverse array for the real class.'
+		);
+
+		JLoader::registerAlias('baz', 'bar');
+
+		$aliasesInverse = TestReflection::getValue('JLoader', 'classAliasesInverse');
+
+		$this->assertEquals(
+			array('foo', 'baz'),
+			$aliasesInverse['bar'],
+			'Assert you can assign multiple aliases for each real class.'
 		);
 
 		$this->assertEquals(
@@ -668,5 +727,20 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	{
 		$this->bogusPath = JPATH_TEST_STUBS . '';
 		$this->bogusFullPath = JPATH_TEST_STUBS . '/bogusload.php';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->bogusPath);
+		unset($this->bogusFullPath);
 	}
 }

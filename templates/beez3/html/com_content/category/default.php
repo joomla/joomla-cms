@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,7 +67,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		echo '<h2>';
 	} ?>
     <?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
-		<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+		<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
 	{

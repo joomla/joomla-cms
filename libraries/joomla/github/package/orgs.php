@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,11 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Activity class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Orgs
  * @since       3.3 (CMS)
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  *
- * @documentation  http://developer.github.com/v3/orgs/
+ * @documentation  https://developer.github.com/v3/orgs/
  *
  * @property-read  JGithubPackageOrgsMembers  $members  GitHub API object for members.
  * @property-read  JGithubPackageOrgsTeams    $teams    GitHub API object for teams.
@@ -25,9 +24,7 @@ class JGithubPackageOrgs extends JGithubPackage
 {
 	protected $name = 'Orgs';
 
-	protected $packages = array(
-		'members', 'teams'
-	);
+	protected $packages = array('members', 'teams');
 
 	/**
 	 * List User Organizations.

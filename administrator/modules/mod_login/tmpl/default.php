@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,12 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
-JHtml::_('formbehavior.chosen');
 
+// Load chosen if we have language selector, ie, more than one administrator language installed and enabled.
+if ($langs)
+{
+	JHtml::_('formbehavior.chosen', '.advancedSelect');
+}
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login" class="form-inline">
 	<fieldset class="loginform">
@@ -20,14 +24,14 @@ JHtml::_('formbehavior.chosen');
 			<div class="controls">
 				<div class="input-prepend input-append">
 					<span class="add-on">
-						<i class="icon-user hasTooltip" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"></i>
+						<span class="icon-user hasTooltip" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"></span>
 						<label for="mod-login-username" class="element-invisible">
 							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
 						</label>
 					</span>
-					<input name="username" tabindex="1" id="mod-login-username" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15"/>
+					<input name="username" tabindex="1" id="mod-login-username" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true" />
 					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=remind" class="btn width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_REMIND'); ?>">
-						<i class="icon-help"></i>
+						<span class="icon-help"></span>
 					</a>
 				</div>
 			</div>
@@ -36,14 +40,14 @@ JHtml::_('formbehavior.chosen');
 			<div class="controls">
 				<div class="input-prepend input-append">
 					<span class="add-on">
-						<i class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"></i>
+						<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"></span>
 						<label for="mod-login-password" class="element-invisible">
 							<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
 						</label>
 					</span>
 					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15"/>
 					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset" class="btn width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_RESET'); ?>">
-						<i class="icon-help"></i>
+						<span class="icon-help"></span>
 					</a>
 				</div>
 			</div>
@@ -53,14 +57,14 @@ JHtml::_('formbehavior.chosen');
 			<div class="controls">
 				<div class="input-prepend input-append">
 					<span class="add-on">
-						<i class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"></i>
+						<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"></span>
 						<label for="mod-login-secretkey" class="element-invisible">
 							<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
 						</label>
 					</span>
 					<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15"/>
 					<span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-						<i class="icon-help"></i>
+						<span class="icon-help"></span>
 					</span>
 				</div>
 			</div>
@@ -71,7 +75,7 @@ JHtml::_('formbehavior.chosen');
 				<div class="controls">
 					<div class="input-prepend">
 						<span class="add-on">
-							<i class="icon-comment hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGIN_LANGUAGE'); ?>"></i>
+							<span class="icon-comment hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGIN_LANGUAGE'); ?>"></span>
 							<label for="lang" class="element-invisible">
 								<?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?>
 							</label>
@@ -83,9 +87,9 @@ JHtml::_('formbehavior.chosen');
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="controls">
-				<div class="btn-group pull-left">
-					<button tabindex="3" class="btn btn-primary btn-large">
-						<i class="icon-lock icon-white"></i> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
+				<div class="btn-group">
+					<button tabindex="3" class="btn btn-primary btn-block btn-large login-button">
+						<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 					</button>
 				</div>
 			</div>

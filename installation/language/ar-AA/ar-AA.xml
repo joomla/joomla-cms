@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.7"
 	client="installation">
 	<name>Arabic Unitag (العربية الموحدة)</name>
-	<version>3.2.0</version>
-	<creationDate>September 2012</creationDate>
+    <version>3.7.0</version>
+	<creationDate>February 2017</creationDate>
 	<author>Joomla! Arabic Unitag Translation team</author>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Arabic Unitag language installation files for Joomla! 3.0 ملفات اللغة العربية الموحدة لتنصيب نظام جوملا!</description>
 	<files>
 		<filename>ar-AA.ini</filename>
 	</files>
 	<metadata>
 		<name>Arabic Unitag (العربية الموحدة)</name>
+		<nativeName>Arabic Unitag (اللغة العربية)</nativeName>
 		<tag>ar-AA</tag>
 		<rtl>1</rtl>
 	</metadata>

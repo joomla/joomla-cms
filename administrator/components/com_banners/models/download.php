@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Download model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersModelDownload extends JModelForm
 {
+	/**
+	 * The model context
+	 *
+	 * @var  string
+	 */
 	protected $_context = 'com_banners.tracks';
 
 	/**
@@ -33,11 +36,8 @@ class BannersModelDownload extends JModelForm
 	{
 		$input = JFactory::getApplication()->input;
 
-		$basename = $input->cookie->getString(JApplication::getHash($this->_context . '.basename'), '__SITE__');
-		$this->setState('basename', $basename);
-
-		$compressed = $input->cookie->getInt(JApplication::getHash($this->_context . '.compressed'), 1);
-		$this->setState('compressed', $compressed);
+		$this->setState('basename', $input->cookie->getString(JApplicationHelper::getHash($this->_context . '.basename'), '__SITE__'));
+		$this->setState('compressed', $input->cookie->getInt(JApplicationHelper::getHash($this->_context . '.compressed'), 1));
 	}
 
 	/**
@@ -46,7 +46,7 @@ class BannersModelDownload extends JModelForm
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -73,8 +73,8 @@ class BannersModelDownload extends JModelForm
 	protected function loadFormData()
 	{
 		$data = array(
-			'basename'		=> $this->getState('basename'),
-			'compressed'	=> $this->getState('compressed')
+			'basename'   => $this->getState('basename'),
+			'compressed' => $this->getState('compressed'),
 		);
 
 		$this->preprocessData('com_banners.download', $data);

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Openstreetmap API Elements class for the Joomla Platform
  *
- * @package     Joomla.Platform
- * @subpackage  Openstreetmap
  * @since       13.1
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmapElements extends JOpenstreetmapObject
 {
@@ -36,7 +35,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -88,7 +87,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -152,7 +151,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -179,11 +178,11 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 		{
 			foreach ($members as $member)
 			{
-				if ($member['type'] == "node")
+				if ($member['type'] == 'node')
 				{
 					$member_list .= '<member type="' . $member['type'] . '" role="' . $member['role'] . '" ref="' . $member['ref'] . '"/>';
 				}
-				elseif ($member['type'] == "way")
+				elseif ($member['type'] == 'way')
 				{
 					$member_list .= '<member type="' . $member['type'] . '" ref="' . $member['ref'] . '"/>';
 				}
@@ -221,7 +220,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
-			throw new DomainException("Element should be a node, a way or a relation");
+			throw new DomainException('Element should be a node, a way or a relation');
 		}
 
 		// Set the API base
@@ -252,14 +251,14 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
-			throw new DomainException("Element should be a node, a way or a relation");
+			throw new DomainException('Element should be a node, a way or a relation');
 		}
 
 		$token = $this->oauth->getToken();
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -295,14 +294,14 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
-			throw new DomainException("Element should be a node, a way or a relation");
+			throw new DomainException('Element should be a node, a way or a relation');
 		}
 
 		$token = $this->oauth->getToken();
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -346,7 +345,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
-			throw new DomainException("Element should be a node, a way or a relation");
+			throw new DomainException('Element should be a node, a way or a relation');
 		}
 
 		// Set the API base
@@ -373,11 +372,11 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
-	public function versionOfElement($element, $id ,$version)
+	public function versionOfElement($element, $id, $version)
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
-			throw new DomainException("Element should be a node, a way or a relation");
+			throw new DomainException('Element should be a node, a way or a relation');
 		}
 
 		// Set the API base
@@ -407,14 +406,14 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	{
 		if ($element != 'nodes' && $element != 'ways' && $element != 'relations')
 		{
-			throw new DomainException("Element should be nodes, ways or relations");
+			throw new DomainException('Element should be nodes, ways or relations');
 		}
 
 		// Get singular word
 		$single_element = substr($element, 0, strlen($element) - 1);
 
-		// Set the API base, $params is a string with comma seperated values
-		$base = $element . '?' . $element . "=" . $params;
+		// Set the API base, $params is a string with comma separated values
+		$base = $element . '?' . $element . '=' . $params;
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;
@@ -440,7 +439,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
-			throw new DomainException("Element should be a node, a way or a relation");
+			throw new DomainException('Element should be a node, a way or a relation');
 		}
 
 		// Set the API base
@@ -493,7 +492,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	{
 		if ($element != 'way' && $element != 'relation')
 		{
-			throw new DomainException("Element should be a way or a relation");
+			throw new DomainException('Element should be a way or a relation');
 		}
 
 		// Set the API base
@@ -525,14 +524,14 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
-			throw new DomainException("Element should be a node, a way or a relation");
+			throw new DomainException('Element should be a node, a way or a relation');
 		}
 
 		$token = $this->oauth->getToken();
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base

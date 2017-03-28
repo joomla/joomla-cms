@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('file');
  * @subpackage  Form
  * @since       11.1
  */
-class JFormFieldFileTest extends TestCase
+class JFormFieldFileTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the SERVER superglobal
@@ -88,14 +88,10 @@ class JFormFieldFileTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		// $this->markTestIncomplete('Problems encountered in next assertion');
-
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
 			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }

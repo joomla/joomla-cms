@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Users component debugging helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersHelperDebug
 {
@@ -22,6 +22,7 @@ class UsersHelperDebug
 	 * Get a list of the components.
 	 *
 	 * @return  array
+	 *
 	 * @since   1.6
 	 */
 	public static function getComponents()
@@ -53,7 +54,7 @@ class UsersHelperDebug
 			}
 
 			// Sort by component name
-			JArrayHelper::sortObjects($items, 'text', 1, true, true);
+			$items = ArrayHelper::sortObjects($items, 'text', 1, true, true);
 		}
 
 		return $items;
@@ -62,9 +63,10 @@ class UsersHelperDebug
 	/**
 	 * Get a list of the actions for the component or code actions.
 	 *
-	 * @param   string    The name of the component.
+	 * @param   string  $component  The name of the component.
 	 *
 	 * @return  array
+	 *
 	 * @since   1.6
 	 */
 	public static function getDebugActions($component = null)
@@ -88,7 +90,7 @@ class UsersHelperDebug
 		// Use default actions from configuration if no component selected or component doesn't have actions
 		if (empty($actions))
 		{
-			$filename = JPATH_ADMINISTRATOR . '/components/com_config/models/forms/application.xml';
+			$filename = JPATH_ADMINISTRATOR . '/components/com_config/model/form/application.xml';
 
 			if (is_file($filename))
 			{
@@ -109,8 +111,7 @@ class UsersHelperDebug
 										(string) $action['description']
 									);
 								}
-								break;
-								break;
+
 								break;
 							}
 						}

@@ -903,7 +903,7 @@
 		</row>
 		<row>
 			<value>22</value>
-			<value>English (United Kingdom)</value>
+			<value>English (en-GB)</value>
 			<value>language</value>
 			<value>en-GB</value>
 			<value></value>
@@ -922,7 +922,7 @@
 		</row>
 		<row>
 			<value>23</value>
-			<value>English (United Kingdom)</value>
+			<value>English (en-GB)</value>
 			<value>language</value>
 			<value>en-GB</value>
 			<value></value>
@@ -2413,7 +2413,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value></value>
-			<value>{&quot;allowUserRegistration&quot;:&quot;1&quot;,&quot;new_usertype&quot;:&quot;2&quot;,&quot;useractivation&quot;:&quot;1&quot;,&quot;frontend_userparams&quot;:&quot;1&quot;,&quot;mailSubjectPrefix&quot;:&quot;&quot;,&quot;mailBodySuffix&quot;:&quot;&quot;}</value>
+			<value>{&quot;allowUserRegistration&quot;:&quot;0&quot;,&quot;new_usertype&quot;:&quot;2&quot;,&quot;useractivation&quot;:&quot;1&quot;,&quot;frontend_userparams&quot;:&quot;1&quot;,&quot;mailSubjectPrefix&quot;:&quot;&quot;,&quot;mailBodySuffix&quot;:&quot;&quot;}</value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -2453,8 +2453,8 @@
 		<row>
 			<value>1</value>
 			<value>en-GB</value>
-			<value>English (UK)</value>
-			<value>English (UK)</value>
+			<value>English (en-GB)</value>
+			<value>English (United Kingdom)</value>
 			<value>en-GB</value>
 			<value>en</value>
 			<value></value>
@@ -2463,8 +2463,8 @@
 		<row>
 			<value>2</value>
 			<value>en-US</value>
-			<value>English (US)</value>
-			<value>English (US)</value>
+			<value>English (en-US)</value>
+			<value>English (United States)</value>
 			<value>en-US</value>
 			<value>us</value>
 			<value></value>

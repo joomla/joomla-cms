@@ -3,16 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.6
+ * Languages controller Class.
+ *
+ * @since  1.6
  */
 class LanguagesControllerLanguages extends JControllerAdmin
 {
@@ -29,8 +31,7 @@ class LanguagesControllerLanguages extends JControllerAdmin
 	 */
 	public function getModel($name = 'Language', $prefix = 'LanguagesModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -42,25 +43,25 @@ class LanguagesControllerLanguages extends JControllerAdmin
 	 */
 	public function saveOrderAjax()
 	{
-		$pks = $this->input->post->get('cid', array(), 'array');
+		$pks   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
+		// Sanitize the input.
+		$pks   = ArrayHelper::toInteger($pks);
+		$order = ArrayHelper::toInteger($order);
 
-		// Get the model
+		// Get the model.
 		$model = $this->getModel();
 
-		// Save the ordering
+		// Save the ordering.
 		$return = $model->saveorder($pks, $order);
 
 		if ($return)
 		{
-			echo "1";
+			echo '1';
 		}
 
-		// Close the application
+		// Close the application.
 		JFactory::getApplication()->close();
 	}
 }

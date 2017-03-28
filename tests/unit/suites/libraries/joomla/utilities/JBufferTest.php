@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ require_once JPATH_PLATFORM . '/joomla/utilities/buffer.php';
  * @subpackage  Utilities
  * @since       11.1
  */
-class JBufferTest extends PHPUnit_Framework_TestCase
+class JBufferTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JBuffer
@@ -45,6 +45,8 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -163,7 +165,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 		$this->object->name = $name;
 		$this->object->position = $position;
 		$this->object->buffers[$name] = $buffer;
-		$output = $this->object->stream_write($write);
+		$this->object->stream_write($write);
 
 		$this->assertThat(
 			$expected,

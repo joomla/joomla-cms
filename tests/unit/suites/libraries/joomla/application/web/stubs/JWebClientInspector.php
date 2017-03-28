@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,9 +23,9 @@ class JWebClientInspector extends JApplicationWebClient
 	 *
 	 * @since   11.3
 	 */
-	public function detectRequestURI()
+	public function detectRequestUri()
 	{
-		return parent::detectRequestURI();
+		return parent::detectRequestUri();
 	}
 
 	/**

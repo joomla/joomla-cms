@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,16 +32,29 @@ class JCategoriesTest extends TestCaseDatabase
 	 *
 	 * @since   3.2
 	 */
-	protected function setUp()
+	public function setUp()
 	{
+		parent::setUp();
+
+		// Add JApplication and JLanguage dependencies
+		$this->saveFactoryState();
+		JFactory::$language = $this->getMockLanguage();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.2
 	 */
 	protected function tearDown()
 	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

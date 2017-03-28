@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ class JPluginTest extends TestCase
 	{
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$database    = $this->getMockDatabase();
 	}
 
@@ -47,6 +47,8 @@ class JPluginTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+	
+		parent::tearDown();
 	}
 
 	/**

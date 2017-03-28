@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@
  * @subpackage  Language
  * @since       11.1
  */
-class JLanguageHelperTest extends PHPUnit_Framework_TestCase
+class JLanguageHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test...
@@ -23,8 +23,8 @@ class JLanguageHelperTest extends PHPUnit_Framework_TestCase
 	public function testCreateLanguageList()
 	{
 		$option = array(
-			'text' => 'English (United Kingdom)',
-			'value' => 'en-GB',
+			'text'     => 'English (United Kingdom)',
+			'value'    => 'en-GB',
 			'selected' => 'selected="selected"'
 		);
 		$listCompareEqual = array(
@@ -50,21 +50,6 @@ class JLanguageHelperTest extends PHPUnit_Framework_TestCase
 		// Since we're running in a CLI context we can only check the defualt value
 		$this->assertNull(
 			$lang
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetLanguages().
-	 *
-	 * @return void
-	 */
-	public function testGetLanguages()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 }

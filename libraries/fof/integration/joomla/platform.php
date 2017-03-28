@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  platform
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -133,7 +133,8 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 				}
 				else
 				{
-					$isCLI = JFactory::getApplication() instanceof JException;
+                    $app = JFactory::getApplication();
+					$isCLI = $app instanceof JException || $app instanceof JApplicationCli;
 				}
 			}
 			catch (Exception $e)
@@ -443,7 +444,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 
     public function getDbo()
     {
-        return JFactory::getDbo();
+		return FOFDatabaseFactory::getInstance()->getDriver('joomla');
     }
 
 	/**
@@ -537,9 +538,23 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	{
 		if (!$this->isCli())
 		{
+			$app = JFactory::getApplication();
+
+			if (method_exists($app, 'triggerEvent'))
+			{
+				return $app->triggerEvent($event, $data);
+			}
+
 			// IMPORTANT: DO NOT REPLACE THIS INSTANCE OF JDispatcher WITH ANYTHING ELSE. WE NEED JOOMLA!'S PLUGIN EVENT
 			// DISPATCHER HERE, NOT OUR GENERIC EVENTS DISPATCHER
-			$dispatcher = JDispatcher::getInstance();
+			if (class_exists('JEventDispatcher'))
+			{
+				$dispatcher = JEventDispatcher::getInstance();
+			}
+			else
+			{
+				$dispatcher = JDispatcher::getInstance();
+			}
 
 			return $dispatcher->trigger($event, $data);
 		}
@@ -783,7 +798,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
         // if we're in Joomla 2.5.18+ or 3.2.1+
         if($response->status != JAuthentication::STATUS_SUCCESS && method_exists('JUserHelper', 'verifyPassword'))
         {
-            $db    = JFactory::getDbo();
+            $db    = $this->getDbo();
             $query = $db->getQuery(true)
                         ->select('id, password')
                         ->from('#__users')
@@ -852,6 +867,11 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 
     public function logAddLogger($file)
     {
+		if (!class_exists('JLog'))
+		{
+			return;
+		}
+
         JLog::addLogger(array('text_file' => $file), JLog::ALL, array('fof'));
     }
 
@@ -865,11 +885,21 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	 */
 	public function logDeprecated($message)
 	{
+		if (!class_exists('JLog'))
+		{
+			return;
+		}
+
 		JLog::add($message, JLog::WARNING, 'deprecated');
 	}
 
     public function logDebug($message)
     {
+		if (!class_exists('JLog'))
+		{
+			return;
+		}
+
         JLog::add($message, JLog::DEBUG, 'fof');
     }
 
@@ -914,11 +944,25 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
      */
     public function setHeader($name, $value, $replace = false)
     {
-        JResponse::setHeader($name, $value, $replace);
+		if (version_compare($this->version, '3.2', 'ge'))
+		{
+			JFactory::getApplication()->setHeader($name, $value, $replace);
+		}
+		else
+		{
+			JResponse::setHeader($name, $value, $replace);
+		}
     }
 
     public function sendHeaders()
     {
-        JResponse::sendHeaders();
+    	if (version_compare($this->version, '3.2', 'ge'))
+		{
+			JFactory::getApplication()->sendHeaders();
+		}
+		else
+		{
+			JResponse::sendHeaders();
+		}
     }
 }

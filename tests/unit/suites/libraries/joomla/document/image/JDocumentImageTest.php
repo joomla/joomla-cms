@@ -3,31 +3,23 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/document/image/image.php';
-
 /**
- * Test class for JDocumentImage.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Document
- * @since       13.1
+ * Test class for JDocumentImage
  */
 class JDocumentImageTest extends TestCase
 {
 	/**
-	 * @var    JDocumentImage
+	 * @var  JDocumentImage
 	 */
 	protected $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -43,101 +35,19 @@ class JDocumentImageTest extends TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
-	 *
-	 * @return void
 	 */
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
 
-		parent::teardown();
+		parent::tearDown();
 	}
 
 	/**
-	 * Tests the JDocumentImage::__construct method.
-	 *
-	 * @return void
+	 * @testdox  Test the default return for render
 	 */
-	public function test__construct()
+	public function testTheDefaultReturnForRender()
 	{
-		$documentImage = new JDocumentImage;
-
-		$this->assertThat(
-			$documentImage->_mime,
-			$this->equalTo('image/png'),
-			'JDocumentImage::__construct: Default Mime does not match'
-		);
-
-		$this->assertThat(
-			$documentImage->_type,
-			$this->equalTo('image'),
-			'JDocumentImage::__construct: Default Type does not match'
-		);
-	}
-
-	/**
-	 * Tests the JDocumentImage::render method.
-	 *
-	 * @return  void
-	 */
-	public function testRender()
-	{
-		JFactory::getApplication()->clearHeaders();
-
-		$testFiles = array(
-			'jpg' => array(
-				'file' => 'logo.jpg',
-				'mime' => 'image/jpeg'
-			),
-			'jpeg' => array(
-				'file' => 'logo.jpeg',
-				'mime' => 'image/jpeg'
-			),
-			'gif' => array(
-				'file' => 'logo.gif',
-				'mime' => 'image/gif'
-			),
-			'png' => array(
-				'file' => 'logo.png',
-				'mime' => 'image/png',
-			),
-			'bmp' => array(
-				'file' => 'logo.png',
-				'mime' => 'image/png'
-			)
-		);
-
-		foreach ($testFiles as $type => $info)
-		{
-			// Set type
-			JFactory::$application->input->set('type', $type);
-
-			$buffer = file_get_contents(__DIR__ . '/' . $info['file']);
-
-			// Render
-			$this->object->setBuffer($buffer);
-			$returnBuffer = $this->object->render();
-
-			// Check buffer return
-			$this->assertThat(
-				$returnBuffer,
-				$this->equalTo($buffer),
-				'JDocumentImage::render: Buffer does not match for type `' . $type . '`'
-			);
-
-			// Check Mime
-			$this->assertThat(
-				$this->object->_mime,
-				$this->equalTo($info['mime']),
-				'JDocumentImage::render: Mime does not match for type `' . $type . '`'
-			);
-		}
-
-		// Chek Charset
-		$this->assertThat(
-			$this->object->_charset,
-			$this->isNull(),
-			'JDocumentImage::render Charset is not null'
-		);
+		$this->assertEmpty($this->object->render());
 	}
 }

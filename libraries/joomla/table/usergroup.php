@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Usergroup table class.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableUsergroup extends JTable
 {
@@ -108,7 +106,11 @@ class JTableUsergroup extends JTable
 		$db->setQuery('UPDATE ' . $this->_tbl . ' SET lft=' . (int) $left . ', rgt=' . (int) $right . ' WHERE id=' . (int) $parent_id);
 
 		// If there is an update failure, return false to break out of the recursion
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -201,10 +203,10 @@ class JTableUsergroup extends JTable
 
 		foreach ($ids as $id)
 		{
-			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote("[") . ')';
-			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(",") . ')';
-			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote("]") . ')';
-			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote("[]") . ')';
+			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[') . ')';
+			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(',') . ')';
+			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote(']') . ')';
+			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote('[]') . ')';
 		}
 
 		$query->clear()

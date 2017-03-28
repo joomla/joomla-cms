@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Archive
  * @since       3.1
  */
-abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
+abstract class JArchiveTestCase extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Output path
@@ -22,7 +22,7 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 	 * @var    string
 	 * @since  3.1
 	 */
-	protected static $outputPath;
+	protected $outputPath;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -36,11 +36,16 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		static::$outputPath = __DIR__ . '/output';
+		$this->outputPath = __DIR__ . '/output';
 
-		if (!is_dir(static::$outputPath))
+		if (!is_dir($this->outputPath))
 		{
-			mkdir(static::$outputPath, 0777);
+			mkdir($this->outputPath, 0777);
+		}
+
+		if (! is_dir($this->outputPath))
+		{
+			$this->markTestSkipped('We can not create the output dir, so skip all tests');
 		}
 	}
 
@@ -54,11 +59,17 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		if (!is_dir(static::$outputPath))
+		if (is_dir($this->outputPath))
 		{
-			rmdir(static::$outputPath);
+			// delete files in output directory
+			foreach (glob("{$this->outputPath}/*") as $file)
+			{
+				unlink($file);
+			}
+			rmdir($this->outputPath);
 		}
 
+		unset($this->outputPath);
 		parent::tearDown();
 	}
 }

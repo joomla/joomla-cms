@@ -2,11 +2,9 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/factory.php';
 
 /**
  * Tests for JDate class.
@@ -15,7 +13,7 @@ require_once JPATH_PLATFORM . '/joomla/factory.php';
  * @subpackage  Utilities
  * @since       11.3
  */
-class JFactoryTest extends TestCase
+class JFactoryTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up the fixture.
@@ -50,22 +48,6 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFactory::getApplication method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetApplication().
-	 */
-	public function testGetApplication()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the JFactory::getConfig method.
 	 *
 	 * @return  void
@@ -79,7 +61,7 @@ class JFactoryTest extends TestCase
 		JFactory::$config = null;
 
 		$this->assertInstanceOf(
-			'JRegistry',
+			'\\Joomla\\Registry\\Registry',
 			JFactory::getConfig(JPATH_TESTS . '/config.php'),
 			'Line: ' . __LINE__
 		);
@@ -88,7 +70,7 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFactory::getLangauge method.
+	 * Tests the JFactory::getLanguage method.
 	 *
 	 * @return  void
 	 *
@@ -164,11 +146,11 @@ class JFactoryTest extends TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function testGetACL()
+	public function testGetAcl()
 	{
 		$this->assertInstanceOf(
 			'JAccess',
-			JFactory::getACL(),
+			JFactory::getAcl(),
 			'Line: ' . __LINE__
 		);
 	}
@@ -184,7 +166,7 @@ class JFactoryTest extends TestCase
 	{
 		$this->assertInstanceOf(
 			'JUri',
-			JFactory::getURI('http://www.joomla.org'),
+			JFactory::getUri('https://www.joomla.org'),
 			'Line: ' . __LINE__
 		);
 	}
@@ -198,7 +180,7 @@ class JFactoryTest extends TestCase
 	 */
 	public function testGetXml()
 	{
-		$xml = JFactory::getXML('<foo />', false);
+		$xml = JFactory::getXml('<foo />', false);
 
 		$this->assertInstanceOf(
 			'SimpleXMLElement',
@@ -230,6 +212,8 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
+	 * @medium
+	 *
 	 * @return  void
 	 *
 	 * @since   12.3
@@ -239,7 +223,7 @@ class JFactoryTest extends TestCase
 		JFactory::$language = $this->getMockLanguage();
 
 		$date = JFactory::getDate('now');
-		sleep(2);
+		usleep(1);
 		$date2 = JFactory::getDate('now');
 
 		$this->assertThat(
@@ -300,6 +284,8 @@ class JFactoryTest extends TestCase
 	 */
 	public function testGetUserInstance()
 	{
+		JFactory::$session = $this->getMockSession();
+
 		$this->assertInstanceOf(
 			'JUser',
 			JFactory::getUser(),

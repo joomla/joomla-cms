@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,15 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Helper class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderHelper
 {
 	/**
-	 * @var		string	The extension name.
-	 * @since	2.5
+	 * The extension name.
+	 *
+	 * @var    string
+	 * @since  2.5
 	 */
 	public static $extension = 'com_finder';
 
@@ -53,6 +53,35 @@ class FinderHelper
 	}
 
 	/**
+	 * Gets the finder system plugin extension id.
+	 *
+	 * @return  int  The finder system plugin extension id.
+	 *
+	 * @since   3.6.0
+	 */
+	public static function getFinderPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('content'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject  A JObject containing the allowed actions.
@@ -63,11 +92,20 @@ class FinderHelper
 	public static function getActions()
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions
-		$result = JHelperContent::getActions('com_finder');
-
-		return $result;
+		return JHelperContent::getActions('com_finder');
 	}
 }

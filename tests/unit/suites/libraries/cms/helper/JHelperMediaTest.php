@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,8 @@ class JHelperMediaTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session     = $this->getMockSession();
 
 		$this->object = new JHelperMedia;
 	}
@@ -54,7 +55,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -117,7 +118,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 */
 	public function testGetTypeIcon()
 	{
-		$name = $this->object->getTypeIcon('myfile.pdf');
+		$name = JHelperMedia::getTypeIcon('myfile.pdf');
 		$this->assertEquals($name, 'pdf');
 	}
 
@@ -207,7 +208,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 */
 	public function testImageResize($width, $height, $target, $expected)
 	{
-		$newSize = $this->object->imageResize($width, $height, $target);
+		$newSize = JHelperMedia::imageResize($width, $height, $target);
 		$this->assertEquals($newSize, $expected);
 	}
 }

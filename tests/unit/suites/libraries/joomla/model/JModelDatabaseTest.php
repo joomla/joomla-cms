@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,17 +29,26 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelDatabase::__construct
-	 * @since   12.1
+	 * @since   3.4
 	 */
-	public function test__construct()
+	public function testChecksDefaultDatabaseDriver()
 	{
-		$this->assertSame(JFactory::getDbo(), $this->_instance->getDb(), 'Checks default database driver.');
+		$this->assertSame(JFactory::getDbo(), $this->_instance->getDb());
+	}
 
+	/**
+	 * Tests the __construct method.
+	 *
+	 * @return  void
+	 *
+	 * @since   34
+	 */
+	public function testChecksInjectedDatabaseDriver()
+	{
 		// Create a new datbase mock for injection.
-		$db = TestMockDatabaseDriver::create($this);
+		$db = $this->getMockDatabase();
 		$class = new DatabaseModel(null, $db);
-		$this->assertSame($db, $class->getDb(), 'Checks injected database driver.');
+		$this->assertSame($db, $class->getDb());
 	}
 
 	/**
@@ -47,7 +56,6 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelDatabase::getDb
 	 * @since   12.1
 	 */
 	public function testGetDb()
@@ -63,7 +71,6 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelDatabase::setDb
 	 * @since   12.1
 	 */
 	public function testSetDb()
@@ -79,7 +86,6 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JModelDatabase::loadDb
 	 * @since   12.1
 	 */
 	public function testLoadDb()
@@ -101,7 +107,7 @@ class JModelDatabaseTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$database = TestMockDatabaseDriver::create($this);
+		JFactory::$database = $this->getMockDatabase();
 
 		$this->_instance = new DatabaseModel;
 	}
@@ -116,7 +122,7 @@ class JModelDatabaseTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
-		parent::teardown();
+		unset($this->_instance);
+		parent::tearDown();
 	}
 }

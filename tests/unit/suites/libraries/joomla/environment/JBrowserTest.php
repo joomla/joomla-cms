@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ require_once JPATH_PLATFORM . '/joomla/environment/browser.php';
  * @subpackage  Environment
  * @since       11.1
  */
-class JBrowserTest extends PHPUnit_Framework_TestCase
+class JBrowserTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JBrowser
@@ -37,213 +37,17 @@ class JBrowserTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
+	 * Overrides the parent tearDown method.
 	 *
-	 * @todo Implement testGetInstance().
+	 * @return  void
 	 *
-	 * @return void
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
 	 */
-	public function testGetInstance()
+	protected function tearDown()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testMatch().
-	 *
-	 * @return void
-	 */
-	public function testMatch()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetPlatform().
-	 *
-	 * @return void
-	 */
-	public function testGetPlatform()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetBrowser().
-	 *
-	 * @return void
-	 */
-	public function testSetBrowser()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetBrowser().
-	 *
-	 * @return void
-	 */
-	public function testGetBrowser()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetMajor().
-	 *
-	 * @return void
-	 */
-	public function testGetMajor()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetMinor().
-	 *
-	 * @return void
-	 */
-	public function testGetMinor()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetVersion().
-	 *
-	 * @return void
-	 */
-	public function testGetVersion()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetAgentString().
-	 *
-	 * @return void
-	 */
-	public function testGetAgentString()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetHTTPProtocol().
-	 *
-	 * @return void
-	 */
-	public function testGetHTTPProtocol()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsViewable().
-	 *
-	 * @return void
-	 */
-	public function testIsViewable()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsBrowser().
-	 *
-	 * @return void
-	 */
-	public function testIsBrowser()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsRobot().
-	 *
-	 * @return void
-	 */
-	public function testIsRobot()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsMobile().
-	 *
-	 * @return void
-	 */
-	public function testIsMobile()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

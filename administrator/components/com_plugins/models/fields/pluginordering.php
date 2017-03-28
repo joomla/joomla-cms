@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,9 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('ordering');
 
 /**
- * Supports an HTML select list of plugins
+ * Supports an HTML select list of plugins.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldPluginordering extends JFormFieldOrdering
 {
@@ -31,16 +29,24 @@ class JFormFieldPluginordering extends JFormFieldOrdering
 	/**
 	 * Builds the query for the ordering list.
 	 *
-	 * @return  JDatabaseQuery  The query for the ordering form field
+	 * @return  JDatabaseQuery  The query for the ordering form field.
 	 */
 	protected function getQuery()
 	{
-		$db = JFactory::getDbo();
-		$folder	= $this->form->getValue('folder');
+		$db     = JFactory::getDbo();
+		$folder = $this->form->getValue('folder');
 
 		// Build the query for the ordering list.
 		$query = $db->getQuery(true)
-			->select(array($db->quoteName('ordering', 'value'), $db->quoteName('name', 'text'), $db->quoteName('type'), $db->quote('folder'), $db->quote('extension_id')))
+			->select(
+				array(
+					$db->quoteName('ordering', 'value'),
+					$db->quoteName('name', 'text'),
+					$db->quoteName('type'),
+					$db->quote('folder'),
+					$db->quote('extension_id')
+				)
+			)
 			->from($db->quoteName('#__extensions'))
 			->where('(type =' . $db->quote('plugin') . 'AND folder=' . $db->quote($folder) . ')')
 			->order('ordering');
@@ -51,7 +57,7 @@ class JFormFieldPluginordering extends JFormFieldOrdering
 	/**
 	 * Retrieves the current Item's Id.
 	 *
-	 * @return  integer  The current item ID
+	 * @return  integer  The current item ID.
 	 */
 	protected function getItemId()
 	{

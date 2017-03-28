@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,51 +19,6 @@ JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
 class JFolderTest extends TestCase
 {
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testCopy().
-	 *
-	 * @return void
-	 */
-	public function testCopy()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testCreate().
-	 *
-	 * @return void
-	 */
-	public function testCreate()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testDelete().
-	 *
-	 * @return void
-	 */
-	public function testDelete()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the JFolder::delete method with an array as an input
 	 *
 	 * @return  void
@@ -74,21 +29,6 @@ class JFolderTest extends TestCase
 	public function testDeleteArrayPath()
 	{
 		JFolder::delete(array('/path/to/folder') );
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testMove().
-	 *
-	 * @return void
-	 */
-	public function testMove()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -321,21 +261,6 @@ class JFolderTest extends TestCase
 		rmdir(JPath::clean(JPATH_TESTS . '/tmp/test/foo1/bar1'));
 		rmdir(JPath::clean(JPATH_TESTS . '/tmp/test/foo1'));
 		rmdir(JPath::clean(JPATH_TESTS . '/tmp/test'));
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testListFolderTree().
-	 *
-	 * @return void
-	 */
-	public function testListFolderTree()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**

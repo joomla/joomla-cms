@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filesystem
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Event
  * @since       11.1
  */
-class JFilesystemHelperTest extends PHPUnit_Framework_TestCase
+class JFilesystemHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JFilesystemHelper
@@ -34,94 +34,19 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase
 		$this->object = new JFilesystemHelper;
 	}
 
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testRemotefsize().
-	 *
-	 * @return void
-	 */
-	public function testRemotefsize()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
 
 	/**
-	 * Test...
+	 * Overrides the parent tearDown method.
 	 *
-	 * @todo Implement testFtpChmod().
+	 * @return  void
 	 *
-	 * @return void
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
 	 */
-	public function testFtpChmod()
+	protected function tearDown()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetWriteModes().
-	 *
-	 * @return void
-	 */
-	public function testGetWriteModes()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetSupported().
-	 *
-	 * @return void
-	 */
-	public function testGetSupported()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetTransports().
-	 *
-	 * @return void
-	 */
-	public function testGetTransports()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetFilters().
-	 *
-	 * @return void
-	 */
-	public function testGetFilters()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

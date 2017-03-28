@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of template styles.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesViewStyles extends JViewLegacy
 {
@@ -29,14 +27,17 @@ class TemplatesViewStyles extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
-		$this->preview    = JComponentHelper::getParams('com_templates')->get('template_positions_display');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->total         = $this->get('Total');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->preview       = JComponentHelper::getParams('com_templates')->get('template_positions_display');
 
 		TemplatesHelper::addSubmenu('styles');
 
@@ -46,15 +47,6 @@ class TemplatesViewStyles extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
-		}
-
-			// Check if there are no matching items
-		if (!count($this->items))
-		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'),
-				'warning'
-			);
 		}
 
 		$this->addToolbar();
@@ -74,7 +66,15 @@ class TemplatesViewStyles extends JViewLegacy
 	{
 		$canDo = JHelperContent::getActions('com_templates');
 
-		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'eye thememanager');
+		// Set the title.
+		if ((int) $this->get('State')->get('client_id') === 1)
+		{
+			JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'eye thememanager');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'eye thememanager');
+		}
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -95,11 +95,11 @@ class TemplatesViewStyles extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'styles.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'styles.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_templates');
 			JToolbarHelper::divider();
@@ -109,22 +109,5 @@ class TemplatesViewStyles extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_templates&view=styles');
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_TEMPLATES_FILTER_TEMPLATE'),
-			'filter_template',
-			JHtml::_(
-				'select.options',
-				TemplatesHelper::getTemplateOptions($this->state->get('filter.client_id')),
-				'value',
-				'text',
-				$this->state->get('filter.template')
-			)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JGLOBAL_FILTER_CLIENT'),
-			'filter_client_id',
-			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
-		);
 	}
 }

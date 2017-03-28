@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ class JUcmTypeTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->object = new JUcmType('com_content.article');
 	}
@@ -52,7 +52,7 @@ class JUcmTypeTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -139,17 +139,5 @@ class JUcmTypeTest extends TestCaseDatabase
 			$this->object->getTypeId('com_content.article'),
 			'Articles are type_id = 1'
 		);
-	}
-
-	/**
-	 * Tests the __get() method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function test__get()
-	{
-		$this->markTestSkipped('Test not implemented.');
 	}
 }

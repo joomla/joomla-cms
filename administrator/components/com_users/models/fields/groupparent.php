@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldGroupParent extends JFormFieldList
 {
@@ -31,49 +29,31 @@ class JFormFieldGroupParent extends JFormFieldList
 	/**
 	 * Method to get the field options.
 	 *
-	 * @return  array  The field option objects.
+	 * @return  array  The field option objects
+	 *
 	 * @since   1.6
 	 */
 	protected function getOptions()
 	{
-		$options = array();
-
-		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
-		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
-			->from('#__usergroups AS a')
-			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$options = JHelperUsergroups::getInstance()->getAll();
 
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id'))
 		{
-			$query->join('LEFT', $db->quoteName('#__usergroups') . ' AS p ON p.id = ' . (int) $id)
-				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+			unset($options[$id]);
 		}
 
-		$query->group('a.id, a.title, a.lft, a.rgt')
-			->order('a.lft ASC');
-
-		// Get the options.
-		$db->setQuery($query);
-
-		try
-		{
-			$options = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
-		}
+		$options      = array_values($options);
+		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			// Show groups only if user is super admin or group is not super admin
-			if ($user->authorise('core.admin') || (!JAccess::checkGroup($options[$i]->value, 'core.admin')))
+			if ($isSuperAdmin || !JAccess::checkGroup($options[$i]->id, 'core.admin'))
 			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+				$options[$i]->value = $options[$i]->id;
+				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
 			}
 			else
 			{
@@ -82,8 +62,6 @@ class JFormFieldGroupParent extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }

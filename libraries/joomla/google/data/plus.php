@@ -3,48 +3,49 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       1234
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPlus extends JGoogleData
 {
 	/**
-	* @var    JGoogleDataPlusPeople  Google+ API object for people.
-	* @since  12.3
-	*/
+	 * @var    JGoogleDataPlusPeople  Google+ API object for people.
+	 * @since  12.3
+	 */
 	protected $people;
 
 	/**
-	* @var    JGoogleDataPlusActivities  Google+ API object for people.
-	* @since  12.3
-	*/
+	 * @var    JGoogleDataPlusActivities  Google+ API object for people.
+	 * @since  12.3
+	 */
 	protected $activities;
 
 	/**
-	* @var    JGoogleDataPlusComments  Google+ API object for people.
-	* @since  12.3
-	*/
+	 * @var    JGoogleDataPlusComments  Google+ API object for people.
+	 * @since  12.3
+	 */
 	protected $comments;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
+	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
 		// Setup the default API url if not already set.
 		$options->def('api.url', 'https://www.googleapis.com/plus/v1/');
@@ -75,6 +76,7 @@ class JGoogleDataPlus extends JGoogleData
 				{
 					$this->people = new JGoogleDataPlusPeople($this->options, $this->auth);
 				}
+
 				return $this->people;
 
 			case 'activities':
@@ -82,6 +84,7 @@ class JGoogleDataPlus extends JGoogleData
 				{
 					$this->activities = new JGoogleDataPlusActivities($this->options, $this->auth);
 				}
+
 				return $this->activities;
 
 			case 'comments':
@@ -89,6 +92,7 @@ class JGoogleDataPlus extends JGoogleData
 				{
 					$this->comments = new JGoogleDataPlusComments($this->options, $this->auth);
 				}
+
 				return $this->comments;
 		}
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,6 +38,20 @@ class JArchiveBzip2Test extends JArchiveTestCase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Tests the extract Method.
 	 *
 	 * @return  void
@@ -47,17 +61,10 @@ class JArchiveBzip2Test extends JArchiveTestCase
 		if (!JArchiveBzip2::isSupported())
 		{
 			$this->markTestSkipped('Bzip2 files can not be extracted.');
-
-			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo-bz2.png.bz2', static::$outputPath . '/logo-bz2.png');
-		$this->assertTrue(is_file(static::$outputPath . '/logo-bz2.png'));
-
-		if (is_file(static::$outputPath . '/logo-bz2.png'))
-		{
-			unlink(static::$outputPath . '/logo-bz2.png');
-		}
+		$this->object->extract(__DIR__ . '/logo-bz2.png.bz2', $this->outputPath . '/logo-bz2.png');
+		$this->assertFileExists($this->outputPath . '/logo-bz2.png');
 	}
 
 	/**
@@ -70,17 +77,10 @@ class JArchiveBzip2Test extends JArchiveTestCase
 		if (!JArchiveBzip2::isSupported())
 		{
 			$this->markTestSkipped('Bzip2 files can not be extracted.');
-
-			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo-bz2.png.bz2', static::$outputPath . '/logo-bz2.png', array('use_streams' => true));
-		$this->assertTrue(is_file(static::$outputPath . '/logo-bz2.png'));
-
-		if (is_file(static::$outputPath . '/logo-bz2.png'))
-		{
-			unlink(static::$outputPath . '/logo-bz2.png');
-		}
+		$this->object->extract(__DIR__ . '/logo-bz2.png.bz2', $this->outputPath . '/logo-bz2.png', array('use_streams' => true));
+		$this->assertFileExists($this->outputPath . '/logo-bz2.png');
 	}
 
 	/**

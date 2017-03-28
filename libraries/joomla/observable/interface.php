@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Observer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,10 +30,7 @@ defined('JPATH_PLATFORM') or die;
  * 4) in the methods that need to be observed, add, e.g. (name of event, params of event):
  * 		$this->_observers->update('onBeforeLoad', array($keys, $reset));
  *
- * @package     Joomla.Platform
- * @subpackage  Observer
- * @link        http://docs.joomla.org/JObservableInterface
- * @since       3.1.2
+ * @since  3.1.2
  */
 interface JObservableInterface
 {

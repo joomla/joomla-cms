@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached session storage handler for PHP
  *
- * @package     Joomla.Platform
- * @subpackage  Session
  * @since       11.1
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageMemcached extends JSessionStorage
 {
@@ -45,8 +44,8 @@ class JSessionStorageMemcached extends JSessionStorage
 		$this->_servers = array(
 			array(
 				'host' => $config->get('session_memcached_server_host', 'localhost'),
-				'port' => $config->get('session_memcached_server_port', 11211)
-			)
+				'port' => $config->get('session_memcached_server_port', 11211),
+			),
 		);
 
 		parent::__construct($options);
@@ -76,8 +75,8 @@ class JSessionStorageMemcached extends JSessionStorage
 	 *
 	 * @since   12.1
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
-		return (extension_loaded('memcached') && class_exists('Memcached'));
+		return extension_loaded('memcached') && class_exists('Memcached');
 	}
 }

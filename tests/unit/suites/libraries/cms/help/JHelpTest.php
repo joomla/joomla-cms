@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Help
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ class JHelpTest extends TestCase
 	/**
 	 * The mock config object
 	 *
-	 * @var    JRegistry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  3.0
 	 */
 	protected $config;
@@ -39,13 +39,14 @@ class JHelpTest extends TestCase
 		// Store the factory state so we can mock the necessary objects
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config      = $this->getMockConfig();
 		JFactory::$session     = $this->getMockSession();
+		JFactory::$language    = JLanguage::getInstance('en-GB');
 
 		// Set up our mock config
 		$this->config = JFactory::getConfig();
-		$this->config->set('helpurl', 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
+		$this->config->set('helpurl', 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}');
 
 		// Load the admin en-GB.ini language file
 		JFactory::getLanguage()->load('', JPATH_ADMINISTRATOR);
@@ -72,46 +73,52 @@ class JHelpTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JHelp::createURL
 	 * @since   3.0
 	 */
-	public function testCreateURL_com_content()
+	public function testCreateUrl()
 	{
-		$this->assertThat(
-			JHelp::createURL('JHELP_CONTENT_ARTICLE_MANAGER', false, null, 'com_content'),
-			$this->equalTo('help/en-GB/Content_Article_Manager.html'),
+		$this->assertEquals(
+			'help/en-GB/Content_Article_Manager.html',
+			JHelp::createUrl('JHELP_CONTENT_ARTICLE_MANAGER'),
+			'Creates a local help URL for com_content Article Manager.'
+		);
+
+		$this->assertEquals(
+			'components/com_content/help/en-GB/Content_Article_Manager.html',
+			JHelp::createUrl('JHELP_CONTENT_ARTICLE_MANAGER', true, null, 'com_content'),
+			'Creates a local help URL for com_content Article Manager in the component.'
+		);
+
+		$this->assertEquals(
+			'http://domain.tld/help',
+			JHelp::createUrl('JHELP_CONTENT_ARTICLE_MANAGER', true, 'http://domain.tld/help', 'com_content'),
+			'Creates a remote help URL via an override for com_content Article Manager.'
+		);
+
+		$this->assertEquals(
+			'help/en-GB/Content_Article_Manager.html',
+			JHelp::createUrl('JHELP_CONTENT_ARTICLE_MANAGER', false, null, 'com_content'),
 			'Creates a local help URL for com_content Article Manager.'
 		);
 	}
 
 	/**
-	 * Tests the createSiteList method with no XML file passed in the params
+	 * Tests the createSiteList method
 	 *
 	 * @return  void
 	 *
+	 * @covers  JHelp::createSiteList
 	 * @since   3.0
 	 */
-	public function testCreateSiteList_noXML()
+	public function testCreateSiteList()
 	{
-		$this->assertThat(
-			JHelp::createSiteList(null),
-			$this->isType('array'),
-			'Returns the default help site list'
+		$helpsite = array(
+			'text' => 'English (GB) help.joomla.org',
+			'value' => 'http://help.joomla.org'
 		);
-	}
+		$this->assertEquals(array($helpsite), JHelp::createSiteList(null), 'Returns the default help site list');
 
-	/**
-	 * Tests the createSiteList method with an XML file passed in the params
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function testCreateSiteList_withXML()
-	{
-		$this->assertThat(
-			JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml'),
-			$this->isType('array'),
-			'Returns the help site list defined in the XML file'
-		);
+		$this->assertInternalType('array', JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml'), 'Returns the help site list defined in the XML file');
 	}
 }

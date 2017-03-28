@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.log
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! System Logging Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.log
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemLog extends JPlugin
 {
@@ -34,12 +32,12 @@ class PlgSystemLog extends JPlugin
 		switch ($response['status'])
 		{
 			case JAuthentication::STATUS_SUCCESS:
-				$errorlog['status']  = $response['type'] . " CANCELED: ";
+				$errorlog['status']  = $response['type'] . ' CANCELED: ';
 				$errorlog['comment'] = $response['error_message'];
 				break;
 
 			case JAuthentication::STATUS_FAILURE:
-				$errorlog['status']  = $response['type'] . " FAILURE: ";
+				$errorlog['status']  = $response['type'] . ' FAILURE: ';
 
 				if ($this->params->get('log_username', 0))
 				{
@@ -52,7 +50,7 @@ class PlgSystemLog extends JPlugin
 				break;
 
 			default:
-				$errorlog['status']  = $response['type'] . " UNKNOWN ERROR: ";
+				$errorlog['status']  = $response['type'] . ' UNKNOWN ERROR: ';
 				$errorlog['comment'] = $response['error_message'];
 				break;
 		}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system">
+<extension version="3.1" type="plugin" group="system" method="upgrade">
 	<name>plg_system_languagecode</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2011</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,6 @@
 	<description>PLG_SYSTEM_LANGUAGECODE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="languagecode">languagecode.php</filename>
-		<filename>index.html</filename>
 		<folder>language</folder>
 	</files>
 	<languages>
@@ -20,8 +19,11 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<field name="languagecodeplugin" type="hidden" 
-				default="true" />
+			<field
+				name="languagecodeplugin"
+				type="hidden"
+				default="true"
+			/>
 		</fields>
 	</config>
 </extension>

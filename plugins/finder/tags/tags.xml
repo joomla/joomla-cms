@@ -3,16 +3,14 @@
 	<name>plg_finder_tags</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2013</creationDate>
-	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_FINDER_TAGS_XML_DESCRIPTION</description>
-	<scriptfile>script.php</scriptfile>
 	<files>
-		<file plugin="tags">tags.php</file>
-    	<filename>index.html</filename>
+		<filename plugin="tags">tags.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_finder_tags.ini</language>

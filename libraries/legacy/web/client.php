@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,11 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Deprecated class placeholder. You should use JApplicationWebClient instead.
  *
- * @package     Joomla.Legacy
- * @subpackage  Application
- * @since       11.3
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
- * @codeCoverageIgnore
+ * @since       1.7
+ * @deprecated  2.5
  */
 class JWebClient extends JApplicationWebClient
 {
@@ -27,7 +24,8 @@ class JWebClient extends JApplicationWebClient
 	 * @param   mixed  $acceptEncoding  The optional client accept encoding string to parse.
 	 * @param   mixed  $acceptLanguage  The optional client accept language string to parse.
 	 *
-	 * @since   11.3
+	 * @since   1.7
+	 * @deprecated  2.5
 	 */
 	public function __construct($userAgent = null, $acceptEncoding = null, $acceptLanguage = null)
 	{

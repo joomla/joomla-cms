@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,8 +43,14 @@ class JHtmlBehaviorTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
+		JFactory::$session = $this->getMockSession();
+
+		// We generate a random template name so that we don't collide or hit anything
+		JFactory::$application->expects($this->any())
+			->method('getTemplate')
+			->willReturn('mytemplate' . mt_rand(1, 10000));
 
 		$this->backupServer = $_SERVER;
 
@@ -63,7 +69,7 @@ class JHtmlBehaviorTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -78,7 +84,7 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function getFrameworkData()
 	{
-		$data = array(
+		return array(
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true))),
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true),
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true)), false, false),
@@ -86,8 +92,6 @@ class JHtmlBehaviorTest extends TestCase
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true, false),
 			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true, true)
 		);
-
-		return $data;
 	}
 
 	/**
@@ -104,25 +108,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testFramework($expected, $extras = false, $debug = null)
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::framework($extras, $debug);
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::framework($extras, $debug);
 		$this->assertEquals(
 			$expected,
-			JHtmlBehaviorInspector::getLoaded()
+			JHtmlBehaviorInspector::getLoaded(),
+			'The framework behavior is not loaded with all expected dependencies'
 		);
 	}
 
@@ -135,12 +126,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function getCaptionData()
 	{
-		$data = array(
+		return array(
 			array(array('JHtmlBehavior::caption' => array('img.caption' => true))),
 			array(array('JHtmlBehavior::caption' => array('img.caption2' => true)), 'img.caption2'),
 		);
-
-		return $data;
 	}
 
 	/**
@@ -156,25 +145,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testCaption($expected, $selector = 'img.caption')
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::caption($selector);
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::caption($selector);
 		$this->assertEquals(
 			$expected,
-			JHtmlBehaviorInspector::getLoaded()
+			JHtmlBehaviorInspector::getLoaded(),
+			'The caption behavior is not loaded with all expected dependencies'
 		);
 	}
 
@@ -187,25 +163,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testFormvalidation()
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::formvalidation();
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::formvalidation();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidation' => true),
-			JHtmlBehaviorInspector::getLoaded()
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidator' => true),
+			JHtmlBehaviorInspector::getLoaded(),
+			'The form validation behavior is not loaded with all dependencies'
 		);
 	}
 
@@ -218,25 +181,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testSwitcher()
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::switcher();
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::switcher();
 		$this->assertEquals(
 			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::switcher' => true),
-			JHtmlBehaviorInspector::getLoaded()
+			JHtmlBehaviorInspector::getLoaded(),
+			'The switcher behavior is not loaded with all dependencies'
 		);
 	}
 
@@ -249,25 +199,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testCombobox()
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::combobox();
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::combobox();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::combobox' => true),
-			JHtmlBehaviorInspector::getLoaded()
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::combobox' => true),
+			JHtmlBehaviorInspector::getLoaded(),
+			'The combobox behavior is not loaded with all dependencies'
 		);
 	}
 
@@ -330,25 +267,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testTooltip($expected, $selector = '.hasTooltip', $params = array())
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::tooltip($selector, $params);
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::tooltip($selector, $params);
 		$this->assertEquals(
 			$expected,
-			JHtmlBehaviorInspector::getLoaded()
+			JHtmlBehaviorInspector::getLoaded(),
+			'The tooltip behavior is not loaded with all dependencies'
 		);
 	}
 
@@ -411,25 +335,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testModal($expected, $selector = 'a.modal', $params = array())
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::modal($selector, $params);
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::modal($selector, $params);
 		$this->assertEquals(
 			$expected,
-			JHtmlBehaviorInspector::getLoaded()
+			JHtmlBehaviorInspector::getLoaded(),
+			'The modal behavior is not loaded with all dependencies'
 		);
 	}
 
@@ -446,14 +357,12 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
-					'JHtmlBehavior::framework' => array('core' => true),
 					'JHtmlBehavior::multiselect' => array('adminForm' => true),
 				)
 			),
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
-					'JHtmlBehavior::framework' => array('core' => true),
 					'JHtmlBehavior::multiselect' => array('adminForm2' => true),
 				),
 				'adminForm2'
@@ -476,25 +385,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testMultiselect($expected, $id = 'adminForm')
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::multiselect($id);
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::multiselect($id);
 		$this->assertEquals(
 			$expected,
-			JHtmlBehaviorInspector::getLoaded()
+			JHtmlBehaviorInspector::getLoaded(),
+			'The multiselect behavior is not loaded with all dependencies'
 		);
 	}
 
@@ -536,56 +432,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testTree($expected, $id, $params = array(), $root = array())
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::tree($id, $params, $root);
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::tree($id, $params, $root);
 		$this->assertEquals(
 			$expected,
-			JHtmlBehaviorInspector::getLoaded()
-		);
-	}
-
-	/**
-	 * Tests the calendar method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testCalendar()
-	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
-
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::calendar();
-		$this->assertEquals(
-			array('JHtmlBehavior::calendar' => true),
-			JHtmlBehaviorInspector::getLoaded()
+			JHtmlBehaviorInspector::getLoaded(),
+			'The tree behavior is not loaded with all dependencies'
 		);
 	}
 
@@ -598,25 +450,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testColorpicker()
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::colorpicker();
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::colorpicker();
 		$this->assertEquals(
 			array('JHtmlBehavior::colorpicker' => true),
-			JHtmlBehaviorInspector::getLoaded()
+			JHtmlBehaviorInspector::getLoaded(),
+			'The colorpicker behavior is not loaded with all dependencies'
 		);
 	}
 
@@ -629,25 +468,16 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testKeepalive()
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::keepalive();
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::keepalive();
 		$this->assertEquals(
-			array('JHtmlBehavior::keepalive' => true),
-			JHtmlBehaviorInspector::getLoaded()
+			array(
+				'JHtmlBehavior::keepalive' => true,
+				'JHtmlBehavior::core'      => true,
+				'JHtmlBehavior::polyfill'  => array(md5(serialize(array('event', 'lt IE 9'))) => true),
+			),
+			JHtmlBehaviorInspector::getLoaded(),
+			'The keepalive behavior is not loaded with all dependencies'
 		);
 	}
 
@@ -660,25 +490,12 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testNoFrames()
 	{
-		// We generate a random template name so that we don't collide or hit anything//
-		$template = 'mytemplate' . rand(1, 10000);
+		JHtmlBehavior::noframes();
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate', 'setHeader'));
-		$mock->expects($this->any())
-			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::noframes();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true, 'JHtmlBehavior::framework' => array('core' => true)),
-			JHtmlBehaviorInspector::getLoaded()
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true),
+			JHtmlBehaviorInspector::getLoaded(),
+			'The no frames behavior is not loaded with all dependencies'
 		);
 	}
 }

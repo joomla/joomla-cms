@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Template Helper class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       3.2
+ * @since  3.2
  */
 abstract class TemplateHelper
 {
@@ -64,7 +62,7 @@ abstract class TemplateHelper
 		);
 		$explodedFileName = explode('.', $file['name']);
 
-		if (count($explodedFileName > 2))
+		if (count($explodedFileName) > 2)
 		{
 			foreach ($executable as $extensionName)
 			{
@@ -90,10 +88,10 @@ abstract class TemplateHelper
 
 		$format = strtolower(JFile::getExt($file['name']));
 
-		$imageTypes		= explode(',', $params->get('image_formats'));
-		$sourceTypes	= explode(',', $params->get('source_formats'));
-		$fontTypes		= explode(',', $params->get('font_formats'));
-		$archiveTypes	= explode(',', $params->get('compressed_formats'));
+		$imageTypes   = explode(',', $params->get('image_formats'));
+		$sourceTypes  = explode(',', $params->get('source_formats'));
+		$fontTypes    = explode(',', $params->get('font_formats'));
+		$archiveTypes = explode(',', $params->get('compressed_formats'));
 
 		$allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
@@ -113,13 +111,13 @@ abstract class TemplateHelper
 			{
 				for ($i = 0; $i < $zip->numFiles; $i++)
 				{
-					$entry = $zip->getNameIndex($i);
+					$entry     = $zip->getNameIndex($i);
 					$endString = substr($entry, -1);
 
 					if ($endString != DIRECTORY_SEPARATOR)
 					{
 						$explodeArray = explode('.', $entry);
-						$ext = end($explodeArray);
+						$ext          = end($explodeArray);
 
 						if (!in_array($ext, $allowable))
 						{

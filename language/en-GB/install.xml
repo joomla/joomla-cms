@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.3" client="site" type="language" method="upgrade">
-	<name>English (United Kingdom)</name>
+<extension version="3.7" client="site" type="language" method="upgrade">
+	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>3.3.1</version>
-	<creationDate>2013-03-07</creationDate>
+	<version>3.7.0</version>
+	<creationDate>February 2017</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB site language</description>
 	<files>
@@ -28,12 +28,12 @@
 		<filename>en-GB.files_joomla.sys.ini</filename>
 		<filename>en-GB.finder_cli.ini</filename>
 		<filename>en-GB.ini</filename>
+		<filename>en-GB.lib_fof.ini</filename>
 		<filename>en-GB.lib_fof.sys.ini</filename>
 		<filename>en-GB.lib_idna_convert.sys.ini</filename>
 		<filename>en-GB.lib_joomla.ini</filename>
 		<filename>en-GB.lib_joomla.sys.ini</filename>
 		<filename>en-GB.lib_phpass.sys.ini</filename>
-		<filename>en-GB.lib_phpmailer.sys.ini</filename>
 		<filename>en-GB.lib_phputf8.sys.ini</filename>
 		<filename>en-GB.lib_simplepie.sys.ini</filename>
 		<filename>en-GB.localise.php</filename>
@@ -93,7 +93,6 @@
 		<filename>en-GB.tpl_beez3.sys.ini</filename>
 		<filename>en-GB.tpl_protostar.ini</filename>
 		<filename>en-GB.tpl_protostar.sys.ini</filename>
-		<filename>index.html</filename>
 		<filename file="meta">install.xml</filename>
 		<filename file="meta">en-GB.xml</filename>
 	</files>
