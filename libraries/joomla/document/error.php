@@ -206,13 +206,6 @@ class JDocumentError extends JDocument
 	 */
 	public function renderBacktrace()
 	{
-		$backtrace = $this->_error->getTrace();
-
-		if (!$backtrace || !is_array($backtrace))
-		{
-			return '';
-		}
-
-		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
+		return JHtml::_('debug.backtrace', $this->_error->getTrace());
 	}
 }
