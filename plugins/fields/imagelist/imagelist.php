@@ -19,9 +19,7 @@ JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINI
 class PlgFieldsImagelist extends FieldsListPlugin
 {
 	/**
-	 * Transforms the field into an XML element and appends it as child on the given parent. This
-	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element must implement the JFormDomfieldinterface.
+	 * Transforms the field into an DOM XML element and appends it as a child on the given parent.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
