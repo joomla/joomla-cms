@@ -312,14 +312,7 @@ class JSession implements IteratorAggregate
 		$app = JFactory::getApplication();
 
 		// Check from header first
-		$csrf = isset($_SERVER['HTTP_X_CSRF_TOKEN']) ? $_SERVER['HTTP_X_CSRF_TOKEN'] : null;
-
-		if ($csrf)
-		{
-			$csrf = JFilterInput::getInstance()->clean($csrf, 'alnum');
-		}
-
-		if ($token === $csrf)
+		if ($token === $app->input->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum'))
 		{
 			return true;
 		}
