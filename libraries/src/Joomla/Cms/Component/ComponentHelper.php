@@ -429,13 +429,13 @@ class ComponentHelper
 	{
 		try
 		{
-			JLog::add(
+			\JLog::add(
 				sprintf(
 					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
 					__METHOD__,
 					__CLASS__
 				),
-				JLog::WARNING,
+				\JLog::WARNING,
 				'deprecated'
 			);
 		}
