@@ -140,7 +140,7 @@ class JHtmlJqueryTest extends TestCase
 		$doc = JFactory::getDocument();
 		
 		$script = $doc->_script['text/javascript'];
-		$expected = ";(function ($) { $.ajaxSetup({ headers: { 'X-Csrf-Token': $('meta[name=\"csrf-token\"]').attr('content') } }); })(jQuery);";
+		$expected = ";(function ($) { $.ajaxSetup({ headers: { 'X-CSRF-Token': $('meta[name=\"csrf-token\"]').attr('content') } }); })(jQuery);";
 
 		self::assertEquals($expected, preg_replace('/\s+/', ' ', $script));
 	}

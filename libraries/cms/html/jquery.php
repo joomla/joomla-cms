@@ -137,7 +137,7 @@ abstract class JHtmlJquery
 ;(function ($) {
 	$.ajaxSetup({
 		headers: {
-			'X-Csrf-Token': $('meta[name="{$name}"]').attr('content')
+			'X-CSRF-Token': $('meta[name="{$name}"]').attr('content')
 		}
 	});
 })(jQuery);

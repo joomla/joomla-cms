@@ -843,7 +843,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 			if (options.method === 'POST') {
 				if (document.querySelector('meta[name="csrf-token"]').getAttribute('content')) {
-					xhr.setRequestHeader('X-Csrf-Token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+					xhr.setRequestHeader('X-CSRF-Token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 				}
 
 				if (!options.headers || !options.headers['Content-Type']) {
@@ -853,7 +853,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 			// Custom headers
 			if (options.headers){
-				for (var p in options.headers){
+				for (var p in options.headers) {
 					if (options.headers.hasOwnProperty(p)) {
 						xhr.setRequestHeader(p, options.headers[p]);
 					}
