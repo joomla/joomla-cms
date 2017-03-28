@@ -28,7 +28,7 @@ class JHtmlDebugTest extends TestCase
 		JHtmlDebug::$xdebugLinkFormat = 'XDebugLink: %f %l';
 
 		$link = JHtmlDebug::xdebuglink(JPath::clean(JPATH_ROOT . '/path/to/file'), 123);
-		$expected = sprintf('<a href="XDebugLink: %s 123" >JROOT/path/to/file:123</a>', JPath::clean(JPATH_ROOT . '/path/to/file'));
+		$expected = sprintf('<a href="XDebugLink: %s 123" >%s</a>', JPath::clean(JPATH_ROOT . '/path/to/file'), JPath::clean('JROOT/path/to/file:123'));
 
 		self::assertEquals($expected, $link);
 
@@ -36,7 +36,7 @@ class JHtmlDebugTest extends TestCase
 
 		$link = JHtmlDebug::xdebuglink(JPath::clean(JPATH_ROOT . '/path/to/file'), 123);
 
-		self::assertEquals('JROOT/path/to/file:123', $link);
+		self::assertEquals(JPath::clean('JROOT/path/to/file:123'), $link);
 	}
 
 	/**
