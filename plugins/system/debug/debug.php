@@ -1730,14 +1730,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function renderBacktrace($error)
 	{
-		$backtrace = $error->getTrace();
-
-		if (!$backtrace || !is_array($backtrace))
-		{
-			return '';
-		}
-
-		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
+		return JHtml::_('debug.backtrace', $error->getTrace());
 	}
 
 	/**
