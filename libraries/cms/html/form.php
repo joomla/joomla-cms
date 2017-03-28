@@ -23,7 +23,7 @@ abstract class JHtmlForm
 	 *
 	 * Use in conjunction with JSession::checkToken()
 	 *
-	 * @params  array   $attribs  Input element attributes.
+	 * @param   array  $attribs  Input element attributes.
 	 *
 	 * @return  string  A hidden input field with a token
 	 *

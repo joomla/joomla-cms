@@ -111,7 +111,7 @@ abstract class JHtmlJquery
 	/**
 	 * Auto set CSRF token to ajaxSetup so all jQuery ajax call will contains CSRF token.
 	 *
-	 * @param   string $name The CSRF meta tag name.
+	 * @param   string  $name  The CSRF meta tag name.
 	 *
 	 * @return  void
 	 *
