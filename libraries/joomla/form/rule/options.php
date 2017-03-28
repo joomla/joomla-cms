@@ -38,9 +38,24 @@ class JFormRuleOptions extends JFormRule
 		// Make an array of all available option values.
 		$options = array();
 
-		foreach ($element->option as $opt)
+		// Create the field
+		$field = $form->getField((string)$element->attributes()->name, $group);
+
+		// When the field exists, the real options are fetched.
+		// This is needed for fields which do have dynamic options like from a database.
+		if ($field && is_array($field->options))
 		{
-			$options[] = $opt->attributes()->value;
+			foreach ($field->options as $opt)
+			{
+				$options[] = $opt->value;
+			}
+		}
+		else
+		{
+			foreach ($element->option as $opt)
+			{
+				$options[] = $opt->attributes()->value;
+			}
 		}
 
 		// There may be multiple values in the form of an array (if the element is checkboxes, for example).
