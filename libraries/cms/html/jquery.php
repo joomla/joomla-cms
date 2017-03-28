@@ -121,6 +121,7 @@ abstract class JHtmlJquery
 	 */
 	public static function token($name = 'csrf-token')
 	{
+		static::framework();
 		JHtml::_('form.csrf', $name);
 
 		$doc = JFactory::getDocument();
