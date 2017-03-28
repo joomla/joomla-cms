@@ -206,64 +206,13 @@ class JDocumentError extends JDocument
 	 */
 	public function renderBacktrace()
 	{
-		// If no error object is set return null
-		if (!isset($this->_error))
-		{
-			return;
-		}
-
-		$contents = null;
 		$backtrace = $this->_error->getTrace();
 
-		if (is_array($backtrace))
+		if (!$backtrace || !is_array($backtrace))
 		{
-			ob_start();
-			$j = 1;
-			echo '<table cellpadding="0" cellspacing="0" class="Table">';
-			echo '	<tr>';
-			echo '		<td colspan="3" class="TD"><strong>Call stack</strong></td>';
-			echo '	</tr>';
-			echo '	<tr>';
-			echo '		<td class="TD"><strong>#</strong></td>';
-			echo '		<td class="TD"><strong>Function</strong></td>';
-			echo '		<td class="TD"><strong>Location</strong></td>';
-			echo '	</tr>';
-
-			// Add the position of the actual file
-			array_unshift($backtrace, array('file' => $this->_error->getFile(), 'line' => $this->_error->getLine(), 'function' => ''));
-
-			for ($i = count($backtrace) - 1; $i >= 0; $i--)
-			{
-				echo '	<tr>';
-				echo '		<td class="TD">' . $j . '</td>';
-
-				if (isset($backtrace[$i]['class']))
-				{
-					echo '	<td class="TD">' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
-				}
-				else
-				{
-					echo '	<td class="TD">' . $backtrace[$i]['function'] . '()</td>';
-				}
-
-				if (isset($backtrace[$i]['file']))
-				{
-					echo '		<td class="TD">' . $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . '</td>';
-				}
-				else
-				{
-					echo '		<td class="TD">&#160;</td>';
-				}
-
-				echo '	</tr>';
-				$j++;
-			}
-
-			echo '</table>';
-			$contents = ob_get_contents();
-			ob_end_clean();
+			return '';
 		}
 
-		return $contents;
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
 	}
 }
