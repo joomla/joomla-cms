@@ -7027,10 +7027,6 @@ h6 {
 .chzn-container .chzn-drop {
 	border-radius: 0 0 3px 3px;
 }
-.control-group .chzn-container {
-	width: 100% !important;
-	max-width: 220px;
-}
 .control-group .chzn-container .chzn-choices li.search-field,
 .control-group .chzn-container .chzn-choices li.search-field input {
 	width: 100% !important;
