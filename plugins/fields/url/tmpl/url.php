@@ -22,4 +22,4 @@ if (!JUri::isInternal($value))
 	$attributes = 'rel="nofollow noopener noreferrer" target="_blank"';
 }
 
-echo '<a href="' . $value . '" ' . $attributes . '>' . $value . '</a>';
+echo '<a href="' . htmlspecialchars($value) . '" ' . $attributes . '>' . htmlspecialchars($value) . '</a>';
