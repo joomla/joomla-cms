@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('jquery.token');
 JHtml::_('script', 'system/sendtestmail.js', array('version' => 'auto', 'relative' => true));
 
 JFactory::getDocument()->addScriptDeclaration('
-	var sendtestmail_url = "' . addslashes(JUri::base()) . 'index.php?option=com_config&task=config.sendtestmail.application&format=json&' . JSession::getFormToken() . '=1";
+	var sendtestmail_url = "' . addslashes(JUri::base()) . 'index.php?option=com_config&task=config.sendtestmail.application&format=json";
  ');
 ?>
 <div class="width-100">
