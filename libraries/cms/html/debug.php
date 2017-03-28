@@ -19,11 +19,13 @@ abstract class JHtmlDebug
 	/**
 	 * xdebug.file_link_format from the php.ini.
 	 *
+	 * Make this property public to support test.
+	 *
 	 * @var    string
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $xdebugLinkFormat;
+	public static $xdebugLinkFormat;
 
 	/**
 	 * Render backtrace table by JLayout.
@@ -34,7 +36,7 @@ abstract class JHtmlDebug
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function backtrace(array $backtrace)
+	public static function backtrace($backtrace)
 	{
 		if (!$backtrace)
 		{
