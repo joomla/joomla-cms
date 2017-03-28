@@ -39,6 +39,8 @@ class FieldsListPlugin extends FieldsPlugin
 			return $fieldNode;
 		}
 
+		$fieldNode->setAttribute('validate', 'options');
+
 		foreach ($this->getOptionsFromField($field) as $value => $name)
 		{
 			$option = new DOMElement('option', htmlentities($value));
