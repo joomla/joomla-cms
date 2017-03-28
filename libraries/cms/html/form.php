@@ -19,6 +19,15 @@ use Joomla\Utilities\ArrayHelper;
 abstract class JHtmlForm
 {
 	/**
+	 * Array containing information for loaded files.
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $loaded = array();
+
+	/**
 	 * Displays a hidden token field to reduce the risk of CSRF exploits
 	 *
 	 * Use in conjunction with JSession::checkToken()
@@ -51,6 +60,11 @@ abstract class JHtmlForm
 	 */
 	public static function csrf($name = 'csrf-token')
 	{
+		if (isset(static::$loaded[__METHOD__][$name]))
+		{
+			return;
+		}
+
 		/** @var JDocumentHtml $doc */
 		$doc = JFactory::getDocument();
 
@@ -60,5 +74,7 @@ abstract class JHtmlForm
 		}
 
 		$doc->setMetaData($name, JSession::getFormToken());
+
+		static::$loaded[__METHOD__][$name] = true;
 	}
 }

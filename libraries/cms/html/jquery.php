@@ -121,6 +121,12 @@ abstract class JHtmlJquery
 	 */
 	public static function token($name = 'csrf-token')
 	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$name]))
+		{
+			return;
+		}
+
 		static::framework();
 		JHtml::_('form.csrf', $name);
 
@@ -137,5 +143,7 @@ abstract class JHtmlJquery
 })(jQuery);
 JS
 		);
+
+		static::$loaded[__METHOD__][$name] = true;
 	}
 }
