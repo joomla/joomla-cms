@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- *  Installer Warnings Model
+ * Installer Warnings Model
  *
  * @since  1.6
  */
