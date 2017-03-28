@@ -21,4 +21,14 @@ define(['jquery', 'text!testsRoot/highlighter/fixtures/fixture.html', 'libs/high
 		onlyWords: false,
 		tag: 'span'
 	});
+	
+	highlighterAutohighlight = new Joomla.Highlighter({
+		autoUnhighlight: false,
+		startElement: start,
+		endElement: end,
+		caseSensitive: false,
+		className: 'highlight',
+		onlyWords: false,
+		tag: 'span'
+	});
 });
