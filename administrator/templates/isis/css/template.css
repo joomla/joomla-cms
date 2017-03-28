@@ -7024,10 +7024,6 @@ h6 {
 .chzn-container .chzn-drop {
 	border-radius: 0 0 3px 3px;
 }
-.control-group .chzn-container {
-	width: 100% !important;
-	max-width: 220px;
-}
 .chzn-container-single .chzn-single {
 	background-color: #fff;
 	background-clip: inherit;
