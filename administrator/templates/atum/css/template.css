@@ -8877,14 +8877,6 @@ small,
 .j-main-container .alert {
   margin: 10px; }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-15px); }
-  to {
-    opacity: 1;
-    transform: translateY(0); } }
-
 .notify-alerts {
   position: fixed;
   top: 15px;
@@ -8898,7 +8890,6 @@ small,
     min-width: 280px;
     max-width: 400px;
     margin-bottom: .5rem;
-    box-shadow: #8d8d8d;
     opacity: 0;
     animation: fadeIn ease-in 1;
     animation-duration: .35s;
@@ -8914,8 +8905,11 @@ small,
       max-width: none;
       margin-left: 0; }
   .notify-alerts .close {
+    position: relative;
+    right: -.5rem;
+    padding: .5rem;
     line-height: 1rem;
-    color: #fefefe;
+    color: #000;
     opacity: 1; }
 
 .closed .notify-alerts {
@@ -8926,6 +8920,14 @@ small,
 
 .wrapper0 .notify-alerts {
   margin-left: 0; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
 
 .form-control {
   max-width: 240px;

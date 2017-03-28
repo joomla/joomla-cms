@@ -18,59 +18,30 @@ $lang = JFactory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 
 $suffix = $params->get('moduleclass_sfx');
-$output = '<input type="text" name="q" class="js-finder-search-query input-medium" size="'
-	. $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
+$input = '<input type="text" name="q" class="js-finder-search-query form-control" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
 	. ' placeholder="' . JText::_('MOD_FINDER_SEARCH_VALUE') . '">';
 
 $showLabel  = $params->get('show_label', 1);
 $labelClass = (!$showLabel ? 'element-invisible ' : '') . 'finder' . $suffix;
 $label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . $labelClass . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
 
-switch ($params->get('label_pos', 'left'))
-{
-	case 'top' :
-		$output = $label . '<br>' . $output;
-		break;
-
-	case 'bottom' :
-		$output .= '<br>' . $label;
-		break;
-
-	case 'right' :
-		$output .= $label;
-		break;
-
-	case 'left' :
-	default :
-		$output = $label . $output;
-		break;
-}
+$output = '';
 
 if ($params->get('show_button'))
 {
-	$button = '<button class="btn btn-primary hasTooltip ' . $suffix . ' finder' . $suffix . '" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="icon-search icon-white"></span>' . JText::_('JSEARCH_FILTER_SUBMIT') . '</button>';
-
-	switch ($params->get('button_pos', 'left'))
-	{
-		case 'top' :
-			$output = $button . '<br>' . $output;
-			break;
-
-		case 'bottom' :
-			$output .= '<br>' . $button;
-			break;
-
-		case 'right' :
-			$output .= $button;
-			break;
-
-		case 'left' :
-		default :
-			$output = $button . $output;
-			break;
-	}
+	$output .= $label;
+	$output .= '<div class="input-group">';
+	$output .= $input;
+	$output .= '<span class="input-group-btn">';
+	$output .= '<button class="btn btn-primary hasTooltip ' . $suffix . ' finder' . $suffix . '" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="icon-search icon-white"></span> ' . JText::_('JSEARCH_FILTER_SUBMIT') . '</button>';
+	$output .= '</span>';
+	$output .= '</div>';
 }
-
+else
+{
+	$output .= $label;
+	$output .= $input;
+}
 
 JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
@@ -89,10 +60,8 @@ if ($params->get('show_autosuggest', 1))
 
 <form class="js-finder-searchform form-search" action="<?php echo JRoute::_($route); ?>" method="get">
 	<div class="finder<?php echo $suffix; ?>">
-		<?php
-		// Show the form fields.
-		echo $output;
-		?>
+
+		<?php echo $output; ?>
 
 		<?php $show_advanced = $params->get('show_advanced'); ?>
 		<?php if ($show_advanced == 2) : ?>
