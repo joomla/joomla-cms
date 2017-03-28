@@ -31,7 +31,7 @@ foreach ($value as $path)
 		continue;
 	}
 
-	$buffer .= '<img src="' . $path . '"' . $class . '/>';
+	$buffer .= '<img src="' . htmlentities($path) . '"' . $class . '/>';
 }
 
 echo $buffer;
