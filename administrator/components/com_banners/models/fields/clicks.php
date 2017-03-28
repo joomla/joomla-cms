@@ -10,7 +10,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Clicks Field class for the Joomla Framework.
+ * Clicks field.
  *
  * @since  1.6
  */
