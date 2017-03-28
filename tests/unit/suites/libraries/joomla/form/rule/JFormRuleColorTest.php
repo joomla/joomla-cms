@@ -26,7 +26,6 @@ class JFormRuleColorTest extends TestCase
 			'#GGGGGG'      => array('#GGGGGG'),
 			'FFFFFF'       => array('FFFFFF'),
 			'#GGG'         => array('#GGG'),
-			'empty string' => array(''),
 		);
 	}
 
@@ -43,6 +42,7 @@ class JFormRuleColorTest extends TestCase
 			'#FFFFFF' => array('#FFFFFF'),
 			'#EEE'    => array('#EEE'),
 			'#A0A0A0' => array('#A0A0A0'),
+			'empty string' => array(''),
 		);
 	}
 
