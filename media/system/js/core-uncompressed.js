@@ -829,19 +829,26 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}, options);
 
 		// Use POST for send the data
-		options.method = options.data ? 'POST' : options.method;
+		options.method = options.data ? 'POST' : options.method.toUpperCase();
 
 		// Set up XMLHttpRequest instance
 		try{
 			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
+
 			xhr.open(options.method, options.url, true);
 
 			// Set the headers
 			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
-			if (options.method === 'POST' && (!options.headers || !options.headers['Content-Type'])) {
-				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			if (options.method === 'POST') {
+				if (document.querySelector('meta[name="csrf-token"]').getAttribute('content')) {
+					xhr.setRequestHeader('X-Csrf-Token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+				}
+
+				if (!options.headers || !options.headers['Content-Type']) {
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				}
 			}
 
 			// Custom headers

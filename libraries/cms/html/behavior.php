@@ -87,6 +87,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		JHtml::_('form.csrf');
 		JHtml::_('script', 'system/core.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
 
