@@ -20,6 +20,17 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Extension extends Table
 {
+
+	/**
+	 * @var string
+	 */
+	public $custom_data = '';
+
+	/**
+	 * @var string
+	 */
+	public $system_data = '';
+
 	/**
 	 * Constructor
 	 *
