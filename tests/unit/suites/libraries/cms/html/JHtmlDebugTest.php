@@ -38,24 +38,4 @@ class JHtmlDebugTest extends TestCase
 
 		self::assertEquals(JPath::clean('JROOT/path/to/file:123'), $link);
 	}
-
-	/**
-	 * Test backtrace() method.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function testBacktrace()
-	{
-		JFactory::$application = $this->getMockCmsApp();
-		$trace = debug_backtrace();
-
-		self::assertEquals(
-			JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $trace)),
-			JHtml::_('debug.backtrace', $trace)
-		);
-
-		self::assertEquals('', JHtml::_('debug.backtrace', array()));
-	}
 }

@@ -10,8 +10,14 @@
 defined('_JEXEC') or die;
 
 /** @var $displayData array */
-$class = isset($displayData['class']) ? $displayData['class'] : 'table table-striped table-bordered';
 $backtraceList = $displayData['backtrace'];
+
+if (!$backtraceList)
+{
+	return;
+}
+
+$class = isset($displayData['class']) ? $displayData['class'] : 'table table-striped table-bordered';
 ?>
 <table cellpadding="0" cellspacing="0" class="Table <?php echo $class ?>">
 	<tr>

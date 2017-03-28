@@ -212,6 +212,6 @@ class JDocumentError extends JDocument
 			return;
 		}
 
-		return JHtml::_('debug.backtrace', $this->_error->getTrace());
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $this->_error->getTrace()));
 	}
 }

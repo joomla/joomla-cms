@@ -831,6 +831,6 @@ abstract class JError
 	{
 		JLog::add('JError::renderBacktrace() is deprecated.', JLog::WARNING, 'deprecated');
 
-		return JHtml::_('debug.backtrace', $error->getTrace());
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $error->getTrace()));
 	}
 }

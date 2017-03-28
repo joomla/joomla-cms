@@ -38,11 +38,6 @@ abstract class JHtmlDebug
 	 */
 	public static function backtrace($backtrace)
 	{
-		if (!$backtrace)
-		{
-			return '';
-		}
-
 		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
 	}
 
