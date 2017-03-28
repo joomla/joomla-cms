@@ -28,20 +28,6 @@ abstract class JHtmlDebug
 	public static $xdebugLinkFormat;
 
 	/**
-	 * Render backtrace table by JLayout.
-	 *
-	 * @param   array  $backtrace  The backtrace array from exception or debug_backtrace() function.
-	 *
-	 * @return  string  The backtrace table HTML.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function backtrace($backtrace)
-	{
-		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
-	}
-
-	/**
 	 * Replaces the Joomla! root with "JROOT" to improve readability.
 	 * Formats a link with a special value xdebug.file_link_format
 	 * from the php.ini file.
