@@ -10,7 +10,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Supports a modal article picker.
+ * Supports a modal category picker.
  *
  * @since  3.1
  */

@@ -14,7 +14,7 @@ JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_module
 JFormHelper::loadFieldClass('list');
 
 /**
- * ModulesModule Field class for the Joomla Framework.
+ * ModulesModule field.
  *
  * @since  3.4.2
  */
