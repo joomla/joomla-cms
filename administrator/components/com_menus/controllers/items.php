@@ -228,25 +228,23 @@ class MenusControllerItems extends JControllerAdmin
 				{
 					if ($errors)
 					{
-						$ntext = $this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING';
 						$app   = JFactory::getApplication();
-						$app->enqueueMessage(JText::plural($ntext, count($cid)), 'error');
+						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
 					}
 					else
 					{
-						$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
+						$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_PUBLISHED', count($cid)));
 					}
 				}
 				elseif ($value == 0)
 				{
-					$ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
+					$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_UNPUBLISHED', count($cid)));
 				}
 				else
 				{
-					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
+					$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_TRASHED', count($cid)));
+					
 				}
-
-				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
 			catch (Exception $e)
 			{
