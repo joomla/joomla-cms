@@ -105,6 +105,19 @@
 		</field>
 
 		<field
+			name="memcached_autodiscovery"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONFIG_FIELD_MEMCACHE_AUTODISCOVERY_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_AUTODISCOVERY_DESC"
+			showon="caching:1,2[AND]cache_handler:memcached"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="memcached_server_host"
 			type="text"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
