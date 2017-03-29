@@ -1747,11 +1747,20 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default.php',
-			// Joomla 3.7.0
 			'/administrator/modules/mod_menu/tmpl/default_enabled.php',
 			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
 			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
 			'/administrator/components/com_users/models/fields/components.php',
+			'/administrator/components/com_installer/controllers/languages.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_doc.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_folder.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_img.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_video.php',
+			'/media/editors/none/none.js',
+			'/media/editors/none/none.min.js',
+			'/media/editors/tinymce/plugins/media/moxieplayer.swf',
+			'/media/system/js/tiny-close.js',
+			'/media/system/js/tiny-close.min.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
