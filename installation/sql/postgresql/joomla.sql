@@ -479,8 +479,8 @@ CREATE TABLE "#__extensions" (
   "protected" smallint DEFAULT 0 NOT NULL,
   "manifest_cache" text NOT NULL,
   "params" text NOT NULL,
-  "custom_data" text DEFAULT '' NOT NULL,
-  "system_data" text DEFAULT '' NOT NULL,
+  "custom_data" text NOT NULL,
+  "system_data" text NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "ordering" bigint DEFAULT 0,
@@ -747,11 +747,9 @@ CREATE INDEX "#__fields_groups_idx_language" ON "#__fields_groups" ("language");
 CREATE TABLE "#__fields_values" (
 "field_id" bigint DEFAULT 0 NOT NULL,
 "item_id" varchar(255) DEFAULT '' NOT NULL,
-"context" varchar(255) DEFAULT '' NOT NULL,
 "value" text DEFAULT '' NOT NULL
 );
 CREATE INDEX "#__fields_values_idx_field_id" ON "#__fields_values" ("field_id");
-CREATE INDEX "#__fields_values_idx_context" ON "#__fields_values" ("context");
 CREATE INDEX "#__fields_values_idx_item_id" ON "#__fields_values" ("item_id");
 
 --
@@ -1543,7 +1541,7 @@ CREATE TABLE "#__newsfeeds" (
   "metakey" text NOT NULL,
   "metadesc" text NOT NULL,
   "metadata" text NOT NULL,
-  "xreference" varchar(50) NOT NULL,
+  "xreference" varchar(50) NOT NULL DEFAULT '',
   "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "description" text NOT NULL,
@@ -1858,7 +1856,7 @@ CREATE TABLE "#__updates" (
   "folder" varchar(20) DEFAULT '',
   "client_id" smallint DEFAULT 0,
   "version" varchar(32) DEFAULT '',
-  "data" text DEFAULT '' NOT NULL,
+  "data" text NOT NULL,
   "detailsurl" text NOT NULL,
   "infourl" text NOT NULL,
   "extra_query" varchar(1000) DEFAULT '',

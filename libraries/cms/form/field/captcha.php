@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Form Field class for the Joomla Framework.
+ * Captcha field.
  *
  * @since  2.5
  */

@@ -43,8 +43,6 @@ class ContactRouter extends JComponentRouterView
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 
-		$params = JComponentHelper::getParams('com_content');
-
 		if ($params->get('sef_advanced', 0))
 		{
 			$this->attachRule(new JComponentRouterRulesStandard($this));
@@ -61,7 +59,7 @@ class ContactRouter extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
 	 */
@@ -92,7 +90,7 @@ class ContactRouter extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
 	 */
@@ -105,7 +103,7 @@ class ContactRouter extends JComponentRouterView
 	 * Method to get the segment(s) for a contact
 	 *
 	 * @param   string  $id     ID of the contact to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
 	 */

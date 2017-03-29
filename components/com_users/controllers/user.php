@@ -214,6 +214,12 @@ class UsersControllerUser extends UsersController
 			}
 		}
 
+		// In case redirect url is not set, redirect user to homepage
+		if (empty($return))
+		{
+			$return = JUri::root();
+		}
+
 		// Redirect the user.
 		$app->redirect(JRoute::_($return, false));
 	}

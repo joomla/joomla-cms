@@ -14,7 +14,7 @@ JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_messa
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Message States field.
  *
  * @since  3.6.0
  */

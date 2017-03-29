@@ -120,5 +120,4 @@ class JTableLanguageTest extends TestCaseDatabase
 		$table->lang_code = 'en-US';
 		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should successfully insert a record for English (en-US).');
 	}
-
 }
