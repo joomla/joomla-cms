@@ -105,12 +105,12 @@ if ($saveOrder)
 									$disableClassName = 'inactive tip-top';
 								endif; ?>
 								<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
-									<span class="icon-menu" aria-hidden="true">
+									<span class="icon-menu" aria-hidden="true"></span>
 								</span>
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php else : ?>
 								<span class="sortable-handler inactive">
-									<span class="icon-menu" aria-hidden="true">
+									<span class="icon-menu" aria-hidden="true"></span>
 								</span>
 							<?php endif; ?>
 						</td>
