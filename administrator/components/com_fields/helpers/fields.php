@@ -145,6 +145,16 @@ class FieldsHelper
 				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 			}
 
+			$fieldIds = array_map(
+				function($f)
+				{
+					return $f->id;
+				},
+				$fields
+			);
+
+			$fieldValues = self::$fieldCache->getFieldValues($fieldIds, $item->id);
+
 			$new = array();
 
 			foreach ($fields as $key => $original)
@@ -163,12 +173,12 @@ class FieldsHelper
 				{
 					$field->value = $valuesToOverride[$field->id];
 				}
-				else
+				elseif (key_exists($field->id, $fieldValues))
 				{
-					$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
+					$field->value = $fieldValues[$field->id];
 				}
 
-				if ($field->value === '' || $field->value === null)
+				if (!isset($field->value) || $field->value === '')
 				{
 					$field->value = $field->default_value;
 				}
@@ -278,20 +288,22 @@ class FieldsHelper
 		$component = $parts[0];
 		$section   = $parts[1];
 
-		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : null);
+		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : $form->getValue('catid'));
 
-		if (!$assignedCatids && $form->getField('catid'))
+		if (!$assignedCatids && $formField = $form->getField('catid'))
 		{
+			$assignedCatids = $formField->getAttribute('default', null);
+
 			// Choose the first category available
 			$xml = new DOMDocument;
-			$xml->loadHTML($form->getField('catid')->__get('input'));
+			$xml->loadHTML($formField->__get('input'));
 			$options = $xml->getElementsByTagName('option');
 
-			if ($firstChoice = $options->item(0))
+			if (!$assignedCatids && $firstChoice = $options->item(0))
 			{
 				$assignedCatids = $firstChoice->getAttribute('value');
-				$data->fieldscatid = $assignedCatids;
 			}
+			$data->fieldscatid = $assignedCatids;
 		}
 
 		/*
@@ -358,9 +370,7 @@ class FieldsHelper
 		$fieldsNode->setAttribute('name', 'com_fields');
 
 		// Organizing the fields according to their group
-		$fieldsPerGroup = array(
-			0 => array()
-		);
+		$fieldsPerGroup = array(0 => array());
 
 		foreach ($fields as $field)
 		{
@@ -479,9 +489,7 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-				'ignore_request' => true)
-		);
+		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
 			&& JFactory::getApplication()->isClient('site'))
@@ -498,7 +506,7 @@ class FieldsHelper
 
 		foreach ($fields as $field)
 		{
-			$value = $model->getFieldValue($field->id, $field->context, $data->id);
+			$value = $model->getFieldValue($field->id, $data->id);
 
 			if ($value === null)
 			{

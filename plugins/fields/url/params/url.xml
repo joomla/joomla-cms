@@ -24,7 +24,7 @@
 				label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
 				description="PLG_FIELDS_URL_PARAMS_RELATIVE_DESC"
 			>
-				<option value="">PLG_FIELDS_URL_PARAMS_USE_GLOBAL</option>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>

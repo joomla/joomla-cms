@@ -16,7 +16,7 @@ require_once JPATH_PLATFORM . '/joomla/environment/browser.php';
  * @subpackage  Environment
  * @since       11.1
  */
-class JBrowserTest extends PHPUnit_Framework_TestCase
+class JBrowserTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JBrowser
@@ -41,7 +41,7 @@ class JBrowserTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
