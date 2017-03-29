@@ -145,6 +145,16 @@ class FieldsHelper
 				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 			}
 
+			$fieldIds = array_map(
+				function($f)
+				{
+					return $f->id;
+				},
+				$fields
+			);
+
+			$fieldValues = self::$fieldCache->getFieldValues($fieldIds, $item->id);
+
 			$new = array();
 
 			foreach ($fields as $key => $original)
@@ -163,12 +173,12 @@ class FieldsHelper
 				{
 					$field->value = $valuesToOverride[$field->id];
 				}
-				else
+				elseif (key_exists($field->id, $fieldValues))
 				{
-					$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
+					$field->value = $fieldValues[$field->id];
 				}
 
-				if ($field->value === '' || $field->value === null)
+				if (!isset($field->value) || $field->value === '')
 				{
 					$field->value = $field->default_value;
 				}
@@ -360,9 +370,7 @@ class FieldsHelper
 		$fieldsNode->setAttribute('name', 'com_fields');
 
 		// Organizing the fields according to their group
-		$fieldsPerGroup = array(
-			0 => array()
-		);
+		$fieldsPerGroup = array(0 => array());
 
 		foreach ($fields as $field)
 		{
@@ -498,7 +506,7 @@ class FieldsHelper
 
 		foreach ($fields as $field)
 		{
-			$value = $model->getFieldValue($field->id, $field->context, $data->id);
+			$value = $model->getFieldValue($field->id, $data->id);
 
 			if ($value === null)
 			{

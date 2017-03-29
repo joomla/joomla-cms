@@ -86,7 +86,7 @@ class PlgSystemFields extends JPlugin
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $item->id, $value);
+			$model->setFieldValue($field->id, $item->id, $value);
 		}
 
 		return true;
@@ -351,14 +351,12 @@ class PlgSystemFields extends JPlugin
 		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
 
 		// Adding the fields to the object
-		$item->fields = array();
+		$item->jcfields = array();
 
 		foreach ($fields as $key => $field)
 		{
-			$item->fields[$field->id] = $field;
+			$item->jcfields[$field->id] = $field;
 		}
-
-		return;
 	}
 
 	/**

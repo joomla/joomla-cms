@@ -121,17 +121,12 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__fields_values] (
 	[field_id] [bigint] NOT NULL DEFAULT 1,
-	[context] [nvarchar](255) NOT NULL DEFAULT '',
 	[item_id] [nvarchar](255) NOT NULL DEFAULT '',
 	[value] [nvarchar](max) NOT NULL DEFAULT '',
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX [idx_field_id] ON [#__fields_values](
 	[field_id] ASC)
-WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-CREATE NONCLUSTERED INDEX [idx_context] ON [#__fields_values](
-	[context] ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_item_id] ON [#__fields_values](

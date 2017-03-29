@@ -115,6 +115,9 @@ class FieldsModelField extends JModelAdmin
 			$data['state'] = 0;
 		}
 
+		// Load the fields plugins, perhaps they want to do something
+		JPluginHelper::importPlugin('fields');
+
 		if (!parent::save($data))
 		{
 			return false;
@@ -156,20 +159,49 @@ class FieldsModelField extends JModelAdmin
 		// If the options have changed delete the values
 		if ($field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
 		{
-			$oldParams = json_decode($field->fieldparams['options']);
-			$newParams = json_decode($data['fieldparams']['options']);
+			$oldParams = $this->getParams($field->fieldparams['options']);
+			$newParams = $this->getParams($data['fieldparams']['options']);
 
-			if (is_object($oldParams) && is_object($newParams) && $oldParams->name != $newParams->name)
+			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
+				$names = array();
+				foreach ($newParams as $param)
+				{
+					$names[] = $db->q($param['value']);
+				}
 				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where("value not in ('" . implode("','", $newParams->name) . "')");
+					->where('value NOT IN (' . implode(',', $names) . ')');
 				$db->setQuery($query);
 				$db->execute();
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Converts the unknown params into an object.
+	 *
+	 * @param   mixed  $params  The params.
+	 *
+	 * @return  stdClass  Object on success, false on failure.
+	 *
+	 * @since   3.7.0
+	 */
+	private function getParams($params)
+	{
+		if (is_string($params))
+		{
+			$params = json_decode($params);
+		}
+
+		if (is_array($params))
+		{
+			$params = (object) $params;
+		}
+
+		return $params;
 	}
 
 	/**
@@ -417,7 +449,6 @@ class FieldsModelField extends JModelAdmin
 	 * Setting the value for the gven field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
 	 * @param   string  $itemId   The ID of the item.
 	 * @param   string  $value    The value.
 	 *
@@ -425,7 +456,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @since   3.7.0
 	 */
-	public function setFieldValue($fieldId, $context, $itemId, $value)
+	public function setFieldValue($fieldId, $itemId, $value)
 	{
 		$field  = $this->getItem($fieldId);
 		$params = $field->params;
@@ -452,7 +483,7 @@ class FieldsModelField extends JModelAdmin
 		}
 		else
 		{
-			$oldValue = $this->getFieldValue($fieldId, $context, $itemId);
+			$oldValue = $this->getFieldValue($fieldId, $itemId);
 			$value    = (array) $value;
 
 			if ($oldValue === null)
@@ -481,7 +512,6 @@ class FieldsModelField extends JModelAdmin
 
 			$query->delete($query->qn('#__fields_values'))
 				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('context') . ' = ' . $query->q($context))
 				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 			$this->getDbo()->setQuery($query)->execute();
@@ -492,7 +522,6 @@ class FieldsModelField extends JModelAdmin
 			$newObj = new stdClass;
 
 			$newObj->field_id = (int) $fieldId;
-			$newObj->context  = $context;
 			$newObj->item_id  = $itemId;
 
 			foreach ($value as $v)
@@ -508,11 +537,10 @@ class FieldsModelField extends JModelAdmin
 			$updateObj = new stdClass;
 
 			$updateObj->field_id = (int) $fieldId;
-			$updateObj->context  = $context;
 			$updateObj->item_id  = $itemId;
 			$updateObj->value    = reset($value);
 
-			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id'));
+			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
 		}
 
 		$this->valueCache = array();
@@ -524,48 +552,88 @@ class FieldsModelField extends JModelAdmin
 	 * Returning the value for the given field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
 	 * @param   string  $itemId   The ID of the item.
 	 *
 	 * @return  NULL|string
 	 *
 	 * @since  3.7.0
 	 */
-	public function getFieldValue($fieldId, $context, $itemId)
+	public function getFieldValue($fieldId, $itemId)
 	{
-		$key = md5($fieldId . $context . $itemId);
+		$values = $this->getFieldValues(array($fieldId), $itemId);
 
-		if (!key_exists($key, $this->valueCache))
+		if (key_exists($fieldId, $values))
 		{
-			$this->valueCache[$key] = null;
-
-			$query = $this->getDbo()->getQuery(true);
-
-			$query->select($query->qn('value'))
-				->from($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('context') . ' = ' . $query->q($context))
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
-
-			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
-
-			if (count($rows) == 1)
-			{
-				$this->valueCache[$key] = array_shift($rows)->value;
-			}
-			elseif (count($rows) > 1)
-			{
-				$data = array();
-
-				foreach ($rows as $row)
-				{
-					$data[] = $row->value;
-				}
-
-				$this->valueCache[$key] = $data;
-			}
+			return $values[$fieldId];
 		}
 
+		return null;
+	}
+
+	/**
+	 * Returning the values for the given field ids, context and item id.
+	 *
+	 * @param   array   $fieldIds  The field Ids.
+	 * @param   string  $itemId    The ID of the item.
+	 *
+	 * @return  NULL|array
+	 *
+	 * @since  3.7.0
+	 */
+	public function getFieldValues(array $fieldIds, $itemId)
+	{
+		if (!$fieldIds)
+		{
+			return array();
+		}
+
+		// Create a unique key for the cache
+		$key = md5(serialize($fieldIds) . $itemId);
+
+		// Fill the cache when it doesn't exist
+		if (!key_exists($key, $this->valueCache))
+		{
+			// Create the query
+			$query = $this->getDbo()->getQuery(true);
+
+			$query->select(array($query->qn('field_id'), $query->qn('value')))
+				->from($query->qn('#__fields_values'))
+				->where($query->qn('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
+				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+
+			// Fetch the row from the database
+			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
+
+			$data = array();
+
+			// Fill the data container from the database rows
+			foreach ($rows as $row)
+			{
+				// If there are multiple values for a field, create an array
+				if (key_exists($row->field_id, $data))
+				{
+					// Transform it to an array
+					if (!is_array($data[$row->field_id]))
+					{
+						$data[$row->field_id] = array($data[$row->field_id]);
+					}
+
+					// Set the value in the array
+					$data[$row->field_id][] = $row->value;
+
+					// Go to the next row, otherwise the value gets overwritten in the data container
+					continue;
+				}
+
+				// Set the value
+				$data[$row->field_id] = $row->value;
+			}
+
+			// Assign it to the internal cache
+			$this->valueCache[$key] = $data;
+		}
+
+		// Return the value from the cache
 		return $this->valueCache[$key];
 	}
 
@@ -581,10 +649,16 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function cleanupValues($context, $itemId)
 	{
+		// Delete with inner join is not possible so we need to do a subquery
+		$fieldsQuery = $this->getDbo()->getQuery(true);
+		$fieldsQuery->select($fieldsQuery->qn('id'))
+			->from($fieldsQuery->qn('#__fields'))
+			->where($fieldsQuery->qn('context') . ' = ' . $fieldsQuery->q($context));
+
 		$query = $this->getDbo()->getQuery(true);
 
 		$query->delete($query->qn('#__fields_values'))
-			->where($query->qn('context') . ' = ' . $query->q($context))
+			->where($query->qn('field_id') . ' IN (' . $fieldsQuery . ')')
 			->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 		$this->getDbo()->setQuery($query)->execute();
@@ -617,7 +691,7 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -763,6 +837,19 @@ class FieldsModelField extends JModelAdmin
 			if ($dataObject->id)
 			{
 				$form->setFieldAttribute('type', 'readonly', 'true');
+			}
+
+			// Allow to override the default value label and description through the plugin
+			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
+			if (JFactory::getLanguage()->hasKey($key))
+			{
+				$form->setFieldAttribute('default_value', 'label', $key);
+			}
+
+			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
+			if (JFactory::getLanguage()->hasKey($key))
+			{
+				$form->setFieldAttribute('default_value', 'description', $key);
 			}
 		}
 

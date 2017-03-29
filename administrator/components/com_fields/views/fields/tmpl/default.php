@@ -20,7 +20,7 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');
-$listOrder = $this->escape($this->state->get('list.ordering'));
+$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
@@ -70,13 +70,13 @@ if ($saveOrder)
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 						</th>
 						<th>
-							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'group_title', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'g.title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
