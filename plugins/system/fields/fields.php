@@ -135,7 +135,7 @@ class PlgSystemFields extends JPlugin
 	{
 		$parts = FieldsHelper::extract($context, $item);
 
-		if (!$parts)
+		if (!$parts || empty($item->id))
 		{
 			return true;
 		}
