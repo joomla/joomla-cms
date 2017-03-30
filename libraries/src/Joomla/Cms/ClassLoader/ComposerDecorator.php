@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Class
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\ClassLoader;
 
 defined('_JEXEC') or die;
 
@@ -15,11 +16,11 @@ use Composer\Autoload\ClassLoader;
  * Decorate Composer ClassLoader for Joomla!
  *
  * For backward compatibility due to class aliasing in the CMS, the loadClass() method was modified to call
- * the JLoader::applyAliasFor() method.
+ * the \JLoader::applyAliasFor() method.
  *
  * @since  3.4
  */
-class JClassLoader
+class ComposerDecorator
 {
 	/**
 	 * The composer class loader
@@ -54,7 +55,7 @@ class JClassLoader
 	{
 		if ($result = $this->loader->loadClass($class))
 		{
-			JLoader::applyAliasFor($class);
+			\JLoader::applyAliasFor($class);
 		}
 
 		return $result;
