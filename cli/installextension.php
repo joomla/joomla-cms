@@ -49,14 +49,15 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.7
 	 */
 	public function doExecute()
 	{
 		$path = $this->input->get('path', $this->input->get('p', null, 'STRING'), 'STRING');
 		$url = $this->input->get('url', $this->input->get('u', null, 'STRING'), 'STRING');
 		jimport('joomla.filesystem.file');
-		if (strpos($path, DIRECTORY_SEPARATOR) !== 0) {
+		if (strpos($path, DIRECTORY_SEPARATOR) !== 0)
+		{
 			$path = getcwd() . DIRECTORY_SEPARATOR . $path;
 		}
 		JFactory::getApplication('InstallExtensionCli');
@@ -65,11 +66,12 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 		JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR
 			. '/components/com_installer/models/install.php');
 		$installer = new InstallerModelInstall();
-		if (JFile::exists($path)) {
+		if (JFile::exists($path))
+		{
 			$this->out('Trying to install from: ' . $path);
 			$input->set('installtype', 'folder');
-			try {
-
+			try
+			{
 				// Build the appropriate paths.
 				$config = JFactory::getConfig();
 				$tmp_dest = $config->get('tmp_path') . '/' . basename($path);
@@ -82,42 +84,90 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 				$package = JInstallerHelper::unpack($tmp_dest, true);
 				$input->set('install_directory', $package['extractdir']);
 				$installer->install();
-			} catch (Exception $exception) {
+			}
+			catch (Exception $exception)
+			{
 				echo "<pre>";
 				print_r($exception);
 				echo "</pre>";
 			}
-		} elseif ($url) {
+		}
+		elseif ($url)
+		{
 			$this->out('Trying to install from: ' . $path);
 			$input->set('installtype', 'url');
 			$input->set('install_url', $url);
-			try {
+			try
+			{
 				$installer->install();
-			} catch (Exception $exception) {
+			}
+			catch (Exception $exception)
+			{
 				echo "<pre>";
 				print_r($exception);
 				echo "</pre>";
 			}
-		} else {
+		}
+		else
+		{
 			$this->out('File ' . $path . ' do not exists');
 		}
 	}
 
+	/**
+	 * Alias for JInput->get as we have/need no session with cli
+	 *
+	 * @param   string  $key      The key of the user state variable.
+	 * @param   string  $request  The name of the variable passed in a request.
+	 * @param   string  $default  The default value for the variable if not found. Optional.
+	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 *
+	 * @return  The request user state.
+	 *
+	 * @since   3.7
+	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
 		return $this->input->get($request, $default, $type);
 	}
 
+	/**
+	 * Alias for JInput->set as we have/need no session with cli
+	 *
+	 * @param   string  $key      The key of the user state variable.
+	 * @param   string  $value    The value for the variable.
+	 *
+	 * @return  The request user state.
+	 *
+	 * @since   3.7
+	 */
 	public function setUserState($key, $value = null)
 	{
 		return $this->input->set($key, $value);
 	}
 
+	/**
+	 * Alias for CLI->out as have no other application messages
+	 *
+	 * @param   string  $msg      The message sting.
+	 * @param   string  $type    The message type/prefix.
+	 *
+	 * @return  The request user state.
+	 *
+	 * @since   3.7
+	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		$this->out(strtoupper($type) . ': ' . $msg);
 	}
 
+	/**
+	 * Dummy as this method is called on application but we are not in CMS application
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7
+	 */
 	public function flushAssets()
 	{
 		return true;
