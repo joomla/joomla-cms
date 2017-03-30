@@ -57,30 +57,34 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	public function doExecute()
 	{
 		$path = $this->input->get('path', $this->input->get('p', null, 'STRING'), 'STRING');
-		$url = $this->input->get('url', $this->input->get('u', null, 'STRING'), 'STRING');
+		$url  = $this->input->get('url', $this->input->get('u', null, 'STRING'), 'STRING');
+
 		jimport('joomla.filesystem.file');
+
 		if (strpos($path, DIRECTORY_SEPARATOR) !== 0)
 		{
 			$path = getcwd() . DIRECTORY_SEPARATOR . $path;
 		}
+
 		JFactory::getApplication('InstallExtensionCli');
 		$input = JFactory::getApplication()->input;
 		JFactory::getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
-		JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR
-			. '/components/com_installer/models/install.php');
+		JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/com_installer/models/install.php');
+
 		$installer = new InstallerModelInstall;
+
 		if (JFile::exists($path))
 		{
 			$this->out('Trying to install from: ' . $path);
 			$input->set('installtype', 'folder');
+
 			try
 			{
 				// Build the appropriate paths.
-				$config = JFactory::getConfig();
+				$config   = JFactory::getConfig();
 				$tmp_dest = $config->get('tmp_path') . '/' . basename($path);
 
 				// Move uploaded file.
-				jimport('joomla.filesystem.file');
 				JFile::copy($path, $tmp_dest);
 
 				// Unpack the downloaded package file.
@@ -90,9 +94,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 			}
 			catch (Exception $exception)
 			{
-				echo "<pre>";
-				print_r($exception);
-				echo "</pre>";
+				echo '<pre>' . print_r($exception) . '</pre>';
 			}
 		}
 		elseif ($url)
@@ -100,15 +102,14 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 			$this->out('Trying to install from: ' . $path);
 			$input->set('installtype', 'url');
 			$input->set('install_url', $url);
+
 			try
 			{
 				$installer->install();
 			}
 			catch (Exception $exception)
 			{
-				echo "<pre>";
-				print_r($exception);
-				echo "</pre>";
+				echo '<pre>' . print_r($exception) . '</pre>';
 			}
 		}
 		else
