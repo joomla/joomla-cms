@@ -192,7 +192,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 
 	/**
 	 * Dummy as this method is called on application but we in are in CLI,
-	 * so lets pretend we're in admin
+	 * so lets pretend we're in admin by default
 	 *
 	 * @return  void
 	 *
