@@ -243,7 +243,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function castAsChar($value, $len = null)
 	{
-		if(!$len)
+		if (!$len)
 		{			
 			return 'CAST(' . $value . ' as NVARCHAR(30))';
 		}
