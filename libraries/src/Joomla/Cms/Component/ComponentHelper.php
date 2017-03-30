@@ -1,9 +1,10 @@
 <?php
 /**
- * Joomla! Content Management System
+ * @package     Joomla.Libraries
+ * @subpackage  Component
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Cms\Component;
@@ -24,7 +25,7 @@ class ComponentHelper
 	/**
 	 * The component list cache
 	 *
-	 * @var    ComponentRecord[]
+	 * @var    JComponentRecord[]
 	 * @since  1.6
 	 */
 	protected static $components = array();
@@ -35,7 +36,7 @@ class ComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  ComponentRecord  An object with the information for the component.
+	 * @return  \JComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -49,7 +50,7 @@ class ComponentHelper
 			}
 			else
 			{
-				$result = new ComponentRecord;
+				$result = new \JComponentRecord;
 				$result->enabled = $strict ? false : true;
 				$result->setParams(new Registry);
 			}
@@ -87,7 +88,7 @@ class ComponentHelper
 	 */
 	public static function isInstalled($option)
 	{
-		$db = \JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		return (int) $db->setQuery(
 			$db->getQuery(true)
@@ -126,12 +127,12 @@ class ComponentHelper
 	public static function filterText($text)
 	{
 		// Punyencoding utf8 email addresses
-		$text = \JFilterInput::getInstance()->emailToPunycode($text);
+		$text = JFilterInput::getInstance()->emailToPunycode($text);
 
 		// Filter settings
 		$config     = static::getParams('com_config');
-		$user       = \JFactory::getUser();
-		$userGroups = Access::getGroupsByUser($user->get('id'));
+		$user       = JFactory::getUser();
+		$userGroups = JAccess::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');
 
@@ -246,7 +247,7 @@ class ComponentHelper
 			// Custom blacklist precedes Default blacklist
 			if ($customList)
 			{
-				$filter = \JFilterInput::getInstance(array(), array(), 1, 1);
+				$filter = JFilterInput::getInstance(array(), array(), 1, 1);
 
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags)
@@ -266,7 +267,7 @@ class ComponentHelper
 				$blackListTags       = array_diff($blackListTags, $whiteListTags);
 				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
-				$filter = \JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
 				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
@@ -283,12 +284,12 @@ class ComponentHelper
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean
-				$filter = \JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
 			{
-				$filter = \JFilterInput::getInstance();
+				$filter = JFilterInput::getInstance();
 			}
 
 			$text = $filter->clean($text, 'html');
@@ -306,26 +307,26 @@ class ComponentHelper
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @throws  MissingException
+	 * @throws  JComponentExceptionMissing
 	 */
 	public static function renderComponent($option, $params = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Load template language files.
 		$template = $app->getTemplate(true)->template;
-		$lang = \JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		if (empty($option))
 		{
-			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
+			JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
 		}
 
 		// Record the scope
@@ -359,7 +360,7 @@ class ComponentHelper
 		// If component is disabled throw error
 		if (!static::isEnabled($option) || !file_exists($path))
 		{
-			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		// Load common and local language files.
@@ -376,7 +377,7 @@ class ComponentHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
+			JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
 		}
 
 		return $contents;
@@ -407,7 +408,7 @@ class ComponentHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use ComponentHelper::load() instead
+	 * @deprecated  4.0  Use JComponentHelper::load() instead
 	 */
 	protected static function _load($option)
 	{
@@ -438,7 +439,7 @@ class ComponentHelper
 				'deprecated'
 			);
 		}
-		catch (\RuntimeException $e)
+		catch (RuntimeException $e)
 		{
 			// Informational log only
 		}
@@ -496,7 +497,7 @@ class ComponentHelper
 	/**
 	 * Get installed components
 	 *
-	 * @return  ComponentRecord[]  The components property
+	 * @return  JComponentRecord[]  The components property
 	 *
 	 * @since   3.6.3
 	 */
