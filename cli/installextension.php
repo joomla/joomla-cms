@@ -175,6 +175,32 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	{
 		return true;
 	}
+
+	/**
+	 * Dummy as this method is called on application but we in are in CLI,
+	 * so lets pretend we're in admin
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isSite()
+	{
+		return false;
+	}
+
+	/**
+	 * Dummy as this method is called on application but we in are in CLI,
+	 * so lets pretend we're in admin
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isAdmin()
+	{
+		return true;
+	}
 }
 
 // Instantiate the application object, passing the class name to JCli::getInstance
