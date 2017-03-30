@@ -118,6 +118,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	protected $_jsonEncode = array();
 
 	/**
+	 * Allow to refer to the parent asset instead of creating own fully inherits permissions.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_allowForeignAsset = false;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -834,45 +842,68 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 				return false;
 			}
-			else
+
+			// Specify how a new or moved node asset is inserted into the tree.
+			if (empty($this->asset_id) || $asset->parent_id != $parentId)
 			{
-				// Specify how a new or moved node asset is inserted into the tree.
-				if (empty($this->asset_id) || $asset->parent_id != $parentId)
+				$asset->setLocation($parentId, 'last-child');
+			}
+
+			// Prepare the asset to be stored.
+			$asset->parent_id = $parentId;
+			$asset->name      = $name;
+			$asset->title     = $title;
+
+			if ($this->_rules instanceof JAccessRules)
+			{
+				$asset->rules = (string) $this->_rules;
+			}
+
+			// This is designed for JTable instances with childless asset, certainly not for JTableNested instances.
+			if ($this->_allowForeignAsset && (empty($asset->rules) || $asset->rules === '{}'))
+			{
+				// Use the parent asset instead of creating own fully inherits permissions.
+				$parentAsset = new JTableAsset($this->_db);
+
+				if ($parentAsset->load($parentId, false))
 				{
-					$asset->setLocation($parentId, 'last-child');
-				}
+					// Remove own old asset.
+					if (!empty($asset->id))
+					{
+						$asset->delete();
+					}
 
-				// Prepare the asset to be stored.
-				$asset->parent_id = $parentId;
-				$asset->name      = $name;
-				$asset->title     = $title;
+					// Use already saved parent asset.
+					$asset = $parentAsset;
 
-				if ($this->_rules instanceof JAccessRules)
-				{
-					$asset->rules = (string) $this->_rules;
-				}
-
-				if (!$asset->check() || !$asset->store($updateNulls))
-				{
-					$this->setError($asset->getError());
-
-					return false;
+					// Re-inject the asset id.
+					$this->asset_id = $asset->id;
 				}
 				else
 				{
-					// Create an asset_id or heal one that is corrupted.
-					if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
-					{
-						// Update the asset_id field in this table.
-						$this->asset_id = (int) $asset->id;
+					$this->setError('Invalid Parent ID');
 
-						$query = $this->_db->getQuery(true)
-							->update($this->_db->quoteName($this->_tbl))
-							->set('asset_id = ' . (int) $this->asset_id);
-						$this->appendPrimaryKeys($query);
-						$this->_db->setQuery($query)->execute();
-					}
+					return false;
 				}
+			}
+			elseif (!$asset->check() || !$asset->store($updateNulls))
+			{
+				$this->setError($asset->getError());
+
+				return false;
+			}
+
+			// Create an asset_id or heal one that is corrupted.
+			if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
+			{
+				// Update the asset_id field in this table.
+				$this->asset_id = (int) $asset->id;
+
+				$query = $this->_db->getQuery(true)
+					->update($this->_db->quoteName($this->_tbl))
+					->set('asset_id = ' . (int) $this->asset_id);
+				$this->appendPrimaryKeys($query);
+				$this->_db->setQuery($query)->execute();
 			}
 		}
 

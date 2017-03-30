@@ -181,16 +181,15 @@ class ContentModelArticle extends JModelItem
 				if (!$user->get('guest'))
 				{
 					$userId = $user->get('id');
-					$asset = 'com_content.article.' . $data->id;
 
 					// Check general edit permission first.
-					if ($user->authorise('core.edit', $asset))
+					if ($user->authorise('core.edit', $data->asset_id))
 					{
 						$data->params->set('access-edit', true);
 					}
 
 					// Now check if edit.own is available.
-					elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+					elseif (!empty($userId) && $user->authorise('core.edit.own', $data->asset_id))
 					{
 						// Check for a valid user and that they are the owner.
 						if ($userId == $data->created_by)

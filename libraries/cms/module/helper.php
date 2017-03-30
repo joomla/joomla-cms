@@ -388,7 +388,7 @@ abstract class JModuleHelper
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
+			->select('m.id, m.asset_id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
 			->from('#__modules AS m')
 			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id')
 			->where('m.published = 1')

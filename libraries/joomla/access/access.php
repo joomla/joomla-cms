@@ -785,6 +785,44 @@ class JAccess
 			}
 		}
 
+		// To support JTable::allowForeignAsset, try to find asset_id in direct table.
+		if (empty($loaded[$assetKey]))
+		{
+			$assetType = self::getAssetType($assetKey);
+
+			if ($assetType === 'com_content.article')
+			{
+				$table    = '#__content';
+				$table_pk = 'id';
+			}
+			elseif ($assetType === '#__ucm_content')
+			{
+				$table    = '#__ucm_content';
+				$table_pk = 'core_content_id';
+			}
+			elseif ($assetType === 'com_modules.module')
+			{
+				$table    = '#__modules';
+				$table_pk = 'id';
+			}
+			else
+			{
+				$table = false;
+			}
+
+			if ($table)
+			{
+				$db = JFactory::getDbo();
+
+				$query = $db->getQuery(true)
+					->select('asset_id')
+					->from($db->quoteName($table))
+					->where($db->quoteName($table_pk) . ' = ' . (int) substr($assetKey, strlen($assetType) + 1));
+
+				$loaded[$assetKey] = (int) $db->setQuery($query)->loadResult();
+			}
+		}
+
 		return (int) $loaded[$assetKey];
 	}
 

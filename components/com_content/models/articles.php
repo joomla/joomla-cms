@@ -217,6 +217,7 @@ class ContentModelArticles extends JModelList
 			$query->select($this->getState('list.select', 'CASE WHEN badcats.id is not null THEN 0 ELSE a.state END AS state'));
 		}
 
+		$query->select('a.asset_id');
 		$query->from('#__content AS a');
 
 		$params = $this->getState('params');
@@ -650,16 +651,14 @@ class ContentModelArticles extends JModelList
 			// Technically guest could edit an article, but lets not check that to improve performance a little.
 			if (!$guest)
 			{
-				$asset = 'com_content.article.' . $item->id;
-
 				// Check general edit permission first.
-				if ($user->authorise('core.edit', $asset))
+				if ($user->authorise('core.edit', $item->asset_id))
 				{
 					$item->params->set('access-edit', true);
 				}
 
 				// Now check if edit.own is available.
-				elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+				elseif (!empty($userId) && $user->authorise('core.edit.own', $item->asset_id))
 				{
 					// Check for a valid user and that they are the owner.
 					if ($userId == $item->created_by)
