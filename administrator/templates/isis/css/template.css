@@ -1975,10 +1975,10 @@ table th[class*="span"],
 	border-top: 1px solid #eee;
 	border-bottom: 1px solid #eee;
 	background-color: #eee;
-	color: #666;
+	color: #555;
 	text-transform: capitalize;
 	font-size: 95%;
-    padding: 2px 0 24px;
+	padding: 2px 0 24px;
 }
 .dropdown-menu > li > a {
 	display: block;

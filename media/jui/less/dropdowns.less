@@ -71,6 +71,22 @@
     .nav-divider(@dropdownDividerTop, @dropdownDividerBottom);
   }
 
+  // Labelled Separator (group label for menu items group) within the dropdown
+  .menuitem-group {
+    *width: 100%;
+    height: 1px;
+    margin: 4px 1px;
+    *margin: -5px 0 5px;
+    overflow: hidden;
+    border-top: 1px solid @grayLighter;
+    border-bottom: 1px solid @grayLighter;
+    background-color: @grayLighter;
+    color: @gray;
+    text-transform: capitalize;
+    font-size: 95%;
+    padding: 2px 0 24px;
+  }
+
   // Links within the dropdown menu
   > li > a {
     display: block;
