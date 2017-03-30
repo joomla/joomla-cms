@@ -10,11 +10,13 @@
 const _JEXEC = 1;
 
 // Load system defines
-if (file_exists(dirname(__DIR__) . '/defines.php')) {
+if (file_exists(dirname(__DIR__) . '/defines.php'))
+{
 	require_once dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
+if (!defined('_JDEFINES'))
+{
 	define('JPATH_BASE', dirname(__DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
@@ -66,7 +68,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 		JFactory::getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
 		JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR
 			. '/components/com_installer/models/install.php');
-		$installer = new InstallerModelInstall();
+		$installer = new InstallerModelInstall;
 		if (JFile::exists($path))
 		{
 			$this->out('Trying to install from: ' . $path);
@@ -150,8 +152,8 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	/**
 	 * Alias for CLI->out as have no other application messages
 	 *
-	 * @param   string  $msg      The message sting.
-	 * @param   string  $type    The message type/prefix.
+	 * @param   string  $msg   The message sting.
+	 * @param   string  $type  The message type/prefix.
 	 *
 	 * @return  The request user state.
 	 *
