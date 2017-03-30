@@ -74,7 +74,9 @@ endif;
 					<?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
-
+			<?php if ($this->captchaEnabled) : ?>
+				<?php echo $this->form->renderField('captcha'); ?>
+			<?php endif; ?>
 			<?php echo $this->form->getInput('articletext'); ?>
 
 	</fieldset>
