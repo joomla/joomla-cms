@@ -23,12 +23,8 @@ if ($value == '')
 {
 	return;
 }
-
 ?>
-
-<dd class="field-entry <?php echo $class; ?>">
-	<?php if ($showlabel == 1) : ?>
+<?php if ($showlabel == 1) : ?>
 	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
-	<?php endif; ?>
-	<span class="field-value"><?php echo $value; ?></span>
-</dd>
+<?php endif; ?>
+<span class="field-value"><?php echo $value; ?></span>
