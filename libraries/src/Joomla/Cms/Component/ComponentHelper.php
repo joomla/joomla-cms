@@ -87,7 +87,7 @@ class ComponentHelper
 	 */
 	public static function isInstalled($option)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		return (int) $db->setQuery(
 			$db->getQuery(true)
@@ -126,12 +126,12 @@ class ComponentHelper
 	public static function filterText($text)
 	{
 		// Punyencoding utf8 email addresses
-		$text = JFilterInput::getInstance()->emailToPunycode($text);
+		$text = \JFilterInput::getInstance()->emailToPunycode($text);
 
 		// Filter settings
 		$config     = static::getParams('com_config');
-		$user       = JFactory::getUser();
-		$userGroups = JAccess::getGroupsByUser($user->get('id'));
+		$user       = \JFactory::getUser();
+		$userGroups = Access::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');
 
@@ -246,7 +246,7 @@ class ComponentHelper
 			// Custom blacklist precedes Default blacklist
 			if ($customList)
 			{
-				$filter = JFilterInput::getInstance(array(), array(), 1, 1);
+				$filter = \JFilterInput::getInstance(array(), array(), 1, 1);
 
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags)
@@ -266,7 +266,7 @@ class ComponentHelper
 				$blackListTags       = array_diff($blackListTags, $whiteListTags);
 				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
-				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = \JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
 				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
@@ -283,12 +283,12 @@ class ComponentHelper
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean
-				$filter = JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = \JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
 			{
-				$filter = JFilterInput::getInstance();
+				$filter = \JFilterInput::getInstance();
 			}
 
 			$text = $filter->clean($text, 'html');
@@ -306,26 +306,26 @@ class ComponentHelper
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @throws  JComponentExceptionMissing
+	 * @throws  MissingException
 	 */
 	public static function renderComponent($option, $params = array())
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Load template language files.
 		$template = $app->getTemplate(true)->template;
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		if (empty($option))
 		{
-			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
 		{
-			JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
+			\JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
 		}
 
 		// Record the scope
@@ -359,7 +359,7 @@ class ComponentHelper
 		// If component is disabled throw error
 		if (!static::isEnabled($option) || !file_exists($path))
 		{
-			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		// Load common and local language files.
@@ -376,7 +376,7 @@ class ComponentHelper
 
 		if (JDEBUG)
 		{
-			JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
+			\JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
 		}
 
 		return $contents;
@@ -407,7 +407,7 @@ class ComponentHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JComponentHelper::load() instead
+	 * @deprecated  4.0  Use ComponentHelper::load() instead
 	 */
 	protected static function _load($option)
 	{
@@ -438,7 +438,7 @@ class ComponentHelper
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Informational log only
 		}
@@ -452,7 +452,7 @@ class ComponentHelper
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', 'ComponentRecord');
+			return $db->loadObjectList('option', 'Joomla\\Cms\\Component\\ComponentRecord');
 		};
 
 		/** @var \JCacheControllerCallback $cache */
