@@ -52,6 +52,9 @@ class PlgSystemFields extends JPlugin
 		if ($context == 'com_categories.category')
 		{
 			$context = $item->extension . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			$item->catid = $item->id;
 		}
 
 		// Check the context
@@ -188,6 +191,16 @@ class PlgSystemFields extends JPlugin
 		if (strpos($context, 'com_categories.category') === 0)
 		{
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			if (is_array($data) && key_exists('id', $data))
+			{
+				$data['catid'] = $data['id'];
+			}
+			if (is_object($data) && isset($data->id))
+			{
+				$data->catid = $data->id;
+			}
 		}
 
 		$parts = FieldsHelper::extract($context, $form);
@@ -287,6 +300,12 @@ class PlgSystemFields extends JPlugin
 		if (!$parts)
 		{
 			return '';
+		}
+
+		// If we have a category, set the catid field to fetch only the fields which belong to it
+		if ($parts[1] == 'categories' && !isset($item->catid))
+		{
+			$item->catid = $item->id;
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
