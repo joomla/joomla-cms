@@ -6,6 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// Make sure we're being called from the command line, not a web interface
+if (PHP_SAPI !== 'cli')
+{
+	die('This is a command line only application.');
+}
+
 // Initialize Joomla framework
 const _JEXEC = 1;
 
