@@ -54,6 +54,7 @@ before_script:
 
 script:
   - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
+  - php cli/installextension.php -u https://www.akeebabackup.com/download/akeeba-backup/5-3-1/pkg_akeeba-5-3-1-core-zip.zip
 
 branches:
   except:
