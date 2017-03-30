@@ -43,7 +43,7 @@ $lang->load('files_joomla.sys', JPATH_SITE, null, false, false)
  * A command line end point to install extension with it.
  * From path or URL
  *
- * @since  DEPLOY_VERSION
+ * @since  __DEPLOY_VERSION__
  */
 class JApplicationInstallExtensionCli extends JApplicationCli
 {
@@ -52,7 +52,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function doExecute()
 	{
@@ -127,7 +127,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  The request user state.
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
@@ -142,7 +142,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  The request user state.
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setUserState($key, $value = null)
 	{
@@ -157,7 +157,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  The request user state.
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
@@ -169,7 +169,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function flushAssets()
 	{
