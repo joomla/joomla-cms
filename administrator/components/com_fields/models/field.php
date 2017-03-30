@@ -43,6 +43,16 @@ class FieldsModelField extends JModelAdmin
 	protected $batch_copymove = 'group_id';
 
 	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id'   => 'batchLanguage'
+	);
+
+	/**
 	 * @var array
 	 *
 	 * @since   3.7.0
