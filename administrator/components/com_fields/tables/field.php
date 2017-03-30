@@ -105,15 +105,15 @@ class FieldsTableField extends JTable
 
 		$this->name = str_replace(',', '-', $this->name);
 
- 		// Verify that the name is unique
- 		$table = JTable::getInstance('Field', 'FieldsTable', array('dbo' => $this->_db));
+		// Verify that the name is unique
+		$table = JTable::getInstance('Field', 'FieldsTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
- 		{
- 			$this->setError(JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+		{
+			$this->setError(JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
- 			return false;
- 		}
+			return false;
+		}
 
 		$this->name = str_replace(',', '-', $this->name);
 
@@ -189,7 +189,7 @@ class FieldsTableField extends JTable
 	 * Method to get the parent asset under which to register this one.
 	 * By default, all assets are registered to the ROOT node with ID,
 	 * which will default to 1 if none exists.
- 	 * The extended class can define a table and id to lookup.  If the
+	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
 	 * @param   JTable   $table  A JTable object for the asset parent.
