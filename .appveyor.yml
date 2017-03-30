@@ -118,3 +118,4 @@ before_test:
 test_script:
   - cd C:\projects\joomla-cms
   - libraries/vendor/bin/phpunit -c appveyor-phpunit.xml
+  - php cli/installextension.php -u https://www.akeebabackup.com//download/akeeba-backup/5-3-1/pkg_akeeba-5-3-1-core-zip.zip
