@@ -10,7 +10,14 @@
  * This is a CRON script which should be called from the command-line, not the
  * web. For example something like:
  * /usr/bin/php /path/to/site/cli/update_cron.php
+ * so we make sure we're being called from the command line, not a web interface
  */
+if (PHP_SAPI !== 'cli')
+{
+	die('This is a command line only application.');
+}
+
+
 
 // Set flag that this is a parent file.
 const _JEXEC = 1;
