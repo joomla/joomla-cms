@@ -7027,6 +7027,9 @@ h6 {
 .chzn-container .chzn-drop {
 	border-radius: 0 0 3px 3px;
 }
+.control-group .chzn-container {
+	max-width: 100%;
+}
 .control-group .chzn-container .chzn-choices li.search-field,
 .control-group .chzn-container .chzn-choices li.search-field input {
 	width: 100% !important;
@@ -7351,19 +7354,31 @@ h6 {
 .form-inline-header .controls {
 	padding-right: 20px;
 }
+fieldset[class^="form-"] {
+	min-width: 100%;
+}
 fieldset.checkboxes input {
 	float: left;
 }
 fieldset.checkboxes li {
 	list-style: none;
 }
+.control-group,
+.controls,
+.controls input[type="text"],
+.controls input[type="number"],
+.controls input[type="email"],
+.controls select,
+.controls textarea {
+	max-width: 100%;
+}
 .controls .btn-group > .btn {
 	min-width: 50px;
 	margin-left: -1px;
 }
 .controls .btn-group.btn-group-yesno {
-	width: 100%;
-	max-width: 220px;
+	width: 220px;
+	max-width: 100%;
 }
 .controls .btn-group.btn-group-yesno > .btn {
 	width: 50%;

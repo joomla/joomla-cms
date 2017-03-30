@@ -88,6 +88,11 @@
 		padding-right: 20px;
 	}
 }
+/* Make fieldsets responsive */
+fieldset[class^="form-"] {
+	min-width: 100%;
+}
+
 /* Display checkboxes without bullets in list */
 fieldset.checkboxes input {
 	float: left;
@@ -97,6 +102,18 @@ fieldset.checkboxes li {
 	list-style: none;
 }
 
+/* Make form elements responsive */
+.control-group,
+.controls,
+.controls input[type="text"],
+.controls input[type="number"],
+.controls input[type="email"],
+.controls select,
+.controls textarea
+{
+	max-width: 100%;
+}
+
 /* Min-width on buttons */
 .controls .btn-group > .btn {
 	min-width: 50px;
@@ -104,8 +121,8 @@ fieldset.checkboxes li {
 }
 
 .controls .btn-group.btn-group-yesno {
-	width: 100%;
-	max-width: 220px;
+	width: 220px;
+	max-width: 100%;
 	> .btn {
 		width: 50%;
 		min-width: 40px;
