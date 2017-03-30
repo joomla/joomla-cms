@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Component
+ * Joomla! Content Management System
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
@@ -25,7 +24,7 @@ class ComponentHelper
 	/**
 	 * The component list cache
 	 *
-	 * @var    JComponentRecord[]
+	 * @var    ComponentRecord[]
 	 * @since  1.6
 	 */
 	protected static $components = array();
@@ -36,7 +35,7 @@ class ComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  \JComponentRecord  An object with the information for the component.
+	 * @return  ComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -50,7 +49,7 @@ class ComponentHelper
 			}
 			else
 			{
-				$result = new \JComponentRecord;
+				$result = new ComponentRecord;
 				$result->enabled = $strict ? false : true;
 				$result->setParams(new Registry);
 			}
@@ -453,7 +452,7 @@ class ComponentHelper
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', '\JComponentRecord');
+			return $db->loadObjectList('option', 'ComponentRecord');
 		};
 
 		/** @var \JCacheControllerCallback $cache */
@@ -497,7 +496,7 @@ class ComponentHelper
 	/**
 	 * Get installed components
 	 *
-	 * @return  JComponentRecord[]  The components property
+	 * @return  ComponentRecord[]  The components property
 	 *
 	 * @since   3.6.3
 	 */
