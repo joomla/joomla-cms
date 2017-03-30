@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Table;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,12 +15,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.1
  */
-class JTableContenttype extends JTable
+class ContentType extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
@@ -34,28 +35,28 @@ class JTableContenttype extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function check()
 	{
 		// Check for valid name.
 		if (trim($this->type_title) == '')
 		{
-			throw new UnexpectedValueException(sprintf('The title is empty'));
+			throw new \UnexpectedValueException(sprintf('The title is empty'));
 		}
 
 		$this->type_title = ucfirst($this->type_title);
 
 		if (empty($this->type_alias))
 		{
-			throw new UnexpectedValueException(sprintf('The type_alias is empty'));
+			throw new \UnexpectedValueException(sprintf('The type_alias is empty'));
 		}
 
 		return true;
 	}
 
 	/**
-	 * Overridden JTable::store.
+	 * Overridden Table::store.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -66,11 +67,11 @@ class JTableContenttype extends JTable
 	public function store($updateNulls = false)
 	{
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Contenttype', 'JTable');
+		$table = new ContentType($this->getDbo());
 
 		if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0))
 		{
-			$this->setError(JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}
@@ -114,13 +115,13 @@ class JTableContenttype extends JTable
 	}
 
 	/**
-	 * Method to get the JTable object for the content type from the table object.
+	 * Method to get the Table object for the content type from the table object.
 	 *
-	 * @return  mixed  JTable object on success, otherwise false.
+	 * @return  mixed  Table object on success, otherwise false.
 	 *
 	 * @since   3.2
 	 *
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function getContentTable()
 	{
@@ -131,12 +132,12 @@ class JTableContenttype extends JTable
 		{
 			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
 			{
-				$class = isset($tableInfo->special->class) ? $tableInfo->special->class : 'JTable';
+				$class = isset($tableInfo->special->class) ? $tableInfo->special->class : 'Joomla\\Cms\\Table\\Table';
 
-				if (!class_implements($class, 'JTableInterface'))
+				if (!class_implements($class, 'Joomla\\Cms\\Table\\TableInterface'))
 				{
-					// This isn't an instance of JTableInterface. Abort.
-					throw new RuntimeException('Class must be an instance of JTableInterface');
+					// This isn't an instance of TableInterface. Abort.
+					throw new \RuntimeException('Class must be an instance of TableInterface');
 				}
 
 				$result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);

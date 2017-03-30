@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Table;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -18,12 +19,12 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.1
  */
-class JTableCorecontent extends JTable
+class CoreContent extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
@@ -41,7 +42,7 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable::bind()
+	 * @see     Table::bind()
 	 * @since   3.1
 	 */
 	public function bind($array, $ignore = '')
@@ -84,14 +85,14 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     JTable::check()
+	 * @see     Table::check()
 	 * @since   3.1
 	 */
 	public function check()
 	{
 		if (trim($this->core_title) == '')
 		{
-			$this->setError(JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(\JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -101,11 +102,11 @@ class JTableCorecontent extends JTable
 			$this->core_alias = $this->core_title;
 		}
 
-		$this->core_alias = JApplicationHelper::stringURLSafe($this->core_alias);
+		$this->core_alias = \JApplicationHelper::stringURLSafe($this->core_alias);
 
 		if (trim(str_replace('-', '', $this->core_alias)) == '')
 		{
-			$this->core_alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->core_alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 		// Not Null sanity check
 		if (empty($this->core_images))
@@ -165,11 +166,11 @@ class JTableCorecontent extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function delete($pk = null)
 	{
-		$baseTable = JTable::getInstance('Ucm');
+		$baseTable = new Ucm($this->getDbo());
 
 		return parent::delete($pk) && $baseTable->delete($pk);
 	}
@@ -189,12 +190,12 @@ class JTableCorecontent extends JTable
 	{
 		if ($contentItemId === null || ((int) $contentItemId) === 0)
 		{
-			throw new UnexpectedValueException('Null content item key not allowed.');
+			throw new \UnexpectedValueException('Null content item key not allowed.');
 		}
 
 		if ($typeAlias === null)
 		{
-			throw new UnexpectedValueException('Null type alias not allowed.');
+			throw new \UnexpectedValueException('Null type alias not allowed.');
 		}
 
 		$db = $this->getDbo();
@@ -216,7 +217,7 @@ class JTableCorecontent extends JTable
 	}
 
 	/**
-	 * Overrides JTable::store to set modified data and user id.
+	 * Overrides Table::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -226,8 +227,8 @@ class JTableCorecontent extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		if ($this->core_content_id)
 		{
@@ -280,7 +281,7 @@ class JTableCorecontent extends JTable
 		// Store the ucm_base row
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$languageId = JHelperContent::getLanguageId($this->core_language);
+		$languageId = \JHelperContent::getLanguageId($this->core_language);
 
 		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
 		if (!$languageId)
@@ -345,7 +346,7 @@ class JTableCorecontent extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -380,7 +381,7 @@ class JTableCorecontent extends JTable
 		{
 			$this->_db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
