@@ -134,7 +134,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!($this->connection = @ sqlsrv_connect($this->options['host'], $config)))
 		{
-			throw new JDatabaseExceptionConnecting('Database sqlsrv_connect failed');
+			throw new JDatabaseExceptionConnecting('Database sqlsrv_connect failed, ' . print_r( sqlsrv_errors(), true));
 		}
 
 		// Make sure that DB warnings are not returned as errors.
