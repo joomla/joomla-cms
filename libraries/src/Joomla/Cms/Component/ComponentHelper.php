@@ -317,7 +317,7 @@ class ComponentHelper
 		$template = $app->getTemplate(true)->template;
 		$lang = JFactory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		if (empty($option))
 		{
