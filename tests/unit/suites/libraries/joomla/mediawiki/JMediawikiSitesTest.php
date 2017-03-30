@@ -15,7 +15,7 @@
  *
  * @since       12.3
  */
-class JMediawikiSitesTest extends PHPUnit_Framework_TestCase
+class JMediawikiSitesTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Mediawiki object.
@@ -69,7 +69,7 @@ class JMediawikiSitesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

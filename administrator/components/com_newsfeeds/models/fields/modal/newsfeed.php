@@ -124,7 +124,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED') . '">'
-				. '<span class="icon-file"></span> ' . JText::_('JSELECT')
+				. '<span class="icon-file" aria-hidden="true"></span> ' . JText::_('JSELECT')
 				. '</a>';
 		}
 
@@ -138,7 +138,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_NEW_NEWSFEED') . '">'
-				. '<span class="icon-new"></span> ' . JText::_('JACTION_CREATE')
+				. '<span class="icon-new" aria-hidden="true"></span> ' . JText::_('JACTION_CREATE')
 				. '</a>';
 		}
 
@@ -152,7 +152,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') . '">'
-				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
+				. '<span class="icon-edit" aria-hidden="true"></span> ' . JText::_('JACTION_EDIT')
 				. '</a>';
 		}
 
@@ -164,7 +164,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. ' id="' . $this->id . '_clear"'
 				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
+				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
 				. '</a>';
 		}
 
@@ -255,7 +255,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		// Add class='required' for client side validation
 		$class = $this->required ? ' class="required modal-value"' : '';
 
-		$html .= '<input type="hidden" id="' . $this->id . '_id"' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name . '"'
+		$html .= '<input type="hidden" id="' . $this->id . '_id"' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
 			. '" data-text="' . htmlspecialchars(JText::_('COM_NEWSFEEDS_SELECT_A_FEED', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
 
 		return $html;

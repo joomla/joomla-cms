@@ -479,8 +479,8 @@ CREATE TABLE "#__extensions" (
   "protected" smallint DEFAULT 0 NOT NULL,
   "manifest_cache" text NOT NULL,
   "params" text NOT NULL,
-  "custom_data" text DEFAULT '' NOT NULL,
-  "system_data" text DEFAULT '' NOT NULL,
+  "custom_data" text NOT NULL,
+  "system_data" text NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "ordering" bigint DEFAULT 0,
@@ -747,11 +747,9 @@ CREATE INDEX "#__fields_groups_idx_language" ON "#__fields_groups" ("language");
 CREATE TABLE "#__fields_values" (
 "field_id" bigint DEFAULT 0 NOT NULL,
 "item_id" varchar(255) DEFAULT '' NOT NULL,
-"context" varchar(255) DEFAULT '' NOT NULL,
 "value" text DEFAULT '' NOT NULL
 );
 CREATE INDEX "#__fields_values_idx_field_id" ON "#__fields_values" ("field_id");
-CREATE INDEX "#__fields_values_idx_context" ON "#__fields_values" ("context");
 CREATE INDEX "#__fields_values_idx_item_id" ON "#__fields_values" ("item_id");
 
 --
@@ -1102,7 +1100,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('am', 'en'),
 ('an', 'en'),
 ('and', 'en'),
-('ani', 'en'),
 ('any', 'en'),
 ('are', 'en'),
 ('aren''t', 'en'),
@@ -1132,7 +1129,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('no', 'en'),
 ('none', 'en'),
 ('not', 'en'),
-('noth', 'en'),
 ('nothing', 'en'),
 ('of', 'en'),
 ('off', 'en'),
@@ -1141,7 +1137,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('on', 'en'),
 ('onc', 'en'),
 ('once', 'en'),
-('onli', 'en'),
 ('only', 'en'),
 ('or', 'en'),
 ('other', 'en'),
@@ -1181,7 +1176,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('use', 'en'),
 ('user', 'en'),
 ('users', 'en'),
-('veri', 'en'),
 ('version', 'en'),
 ('very', 'en'),
 ('via', 'en'),
@@ -1192,7 +1186,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 ('what', 'en'),
 ('when', 'en'),
 ('where', 'en'),
-('whi', 'en'),
 ('which', 'en'),
 ('who', 'en'),
 ('whom', 'en'),
@@ -1548,7 +1541,7 @@ CREATE TABLE "#__newsfeeds" (
   "metakey" text NOT NULL,
   "metadesc" text NOT NULL,
   "metadata" text NOT NULL,
-  "xreference" varchar(50) NOT NULL,
+  "xreference" varchar(50) NOT NULL DEFAULT '',
   "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "description" text NOT NULL,
@@ -1863,7 +1856,7 @@ CREATE TABLE "#__updates" (
   "folder" varchar(20) DEFAULT '',
   "client_id" smallint DEFAULT 0,
   "version" varchar(32) DEFAULT '',
-  "data" text DEFAULT '' NOT NULL,
+  "data" text NOT NULL,
   "detailsurl" text NOT NULL,
   "infourl" text NOT NULL,
   "extra_query" varchar(1000) DEFAULT '',

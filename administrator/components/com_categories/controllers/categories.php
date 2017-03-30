@@ -161,7 +161,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		// Process parent checkin method.
 		$result = parent::checkin();
 
-		// Overrride the redirect Uri.
+		// Override the redirect Uri.
 		$redirectUri = 'index.php?option=' . $this->option . '&view=' . $this->view_list . '&extension=' . $this->input->get('extension', '', 'CMD');
 		$this->setRedirect(JRoute::_($redirectUri, false), $this->message, $this->messageType);
 
