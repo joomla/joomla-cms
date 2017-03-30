@@ -2012,10 +2012,8 @@ table th[class*="span"],
 	border-bottom: 1px solid #fff;
 }
 .dropdown-menu .menuitem-group {
-	*width: 100%;
 	height: 1px;
 	margin: 4px 1px;
-	*margin: -5px 0 5px;
 	overflow: hidden;
 	border-top: 1px solid #eee;
 	border-bottom: 1px solid #eee;
