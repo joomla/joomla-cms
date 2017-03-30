@@ -137,8 +137,8 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	/**
 	 * Alias for JInput->set as we have/need no session with cli
 	 *
-	 * @param   string  $key      The key of the user state variable.
-	 * @param   string  $value    The value for the variable.
+	 * @param   string  $key    The key of the user state variable.
+	 * @param   string  $value  The value for the variable.
 	 *
 	 * @return  The request user state.
 	 *
