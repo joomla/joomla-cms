@@ -38,9 +38,10 @@ $lang->load('files_joomla.sys', JPATH_SITE, null, false, false)
 || $lang->load('files_joomla.sys', JPATH_SITE, null, true);
 
 /**
- * A command line cron job to attempt to remove files that should have been deleted at update.
+ * A command line end point to install extension with it.
+ * From path or URL
  *
- * @since  3.0
+ * @since  DEPLOY_VERSION
  */
 class JApplicationInstallExtensionCli extends JApplicationCli
 {
@@ -49,7 +50,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7
+	 * @since   DEPLOY_VERSION
 	 */
 	public function doExecute()
 	{
@@ -124,7 +125,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  The request user state.
 	 *
-	 * @since   3.7
+	 * @since   DEPLOY_VERSION
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
@@ -139,7 +140,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  The request user state.
 	 *
-	 * @since   3.7
+	 * @since   DEPLOY_VERSION
 	 */
 	public function setUserState($key, $value = null)
 	{
@@ -154,7 +155,7 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 *
 	 * @return  The request user state.
 	 *
-	 * @since   3.7
+	 * @since   DEPLOY_VERSION
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
@@ -162,11 +163,11 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	}
 
 	/**
-	 * Dummy as this method is called on application but we are not in CMS application
+	 * Dummy as this method is called on application but we
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7
+	 * @since   DEPLOY_VERSION
 	 */
 	public function flushAssets()
 	{
