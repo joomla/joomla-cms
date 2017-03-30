@@ -1255,7 +1255,7 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= '</div>';
 
 		// Prepare instance specific options, actually the ext-buttons
-		if ($buttons !== true && !empty($buttons) && empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
+		if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
 		{
 			$btns = $this->tinyButtons($id, $buttons);
 
@@ -1276,15 +1276,6 @@ class PlgEditorTinymce extends JPlugin
 		if (!empty($options['tinyMCE']['default']))
 		{
 			return $editor;
-		}
-
-		// Load all ext-buttons, the default instance always have all ext-buttons
-		$btns = $this->tinyButtons($id, true);
-
-		if (!empty($btns['names']))
-		{
-			$scriptOptions['joomlaExtButtons'] = $btns;
-			JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
 		}
 
 		$app      = JFactory::getApplication();
