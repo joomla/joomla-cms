@@ -211,6 +211,8 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 * Dummy as this method is called on application but we in are in CLI,
 	 * so lets pretend we're in admin
 	 *
+	 * @param   string  $option  The name of the application.
+	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -236,7 +238,8 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	 * @since   __DEPLOY_VERSION__
 	 * @deprecated  4.0
 	 */
-	public static function getRouter($name = null, array $options = array()){
+	public static function getRouter($name = null, array $options = array())
+	{
 		return;
 	}
 }
