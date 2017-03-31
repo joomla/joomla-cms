@@ -118,6 +118,13 @@ class FieldsModelField extends JModelAdmin
 		// Load the fields plugins, perhaps they want to do something
 		JPluginHelper::importPlugin('fields');
 
+		$message = $this->checkDefaultValue($data);
+		if ($message !== true)
+		{
+			$this->setError($message);
+			return false;
+		}
+
 		if (!parent::save($data))
 		{
 			return false;
@@ -178,6 +185,68 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * Checks if the default value is valid of the given data. If a string is returned then
+	 * it can be assumed that the default value is invalid.
+	 *
+	 * @param   array  $data  The data.
+	 *
+	 * @return  true|string  true if valid, a string when not.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function checkDefaultValue($data)
+	{
+		if (empty($data['default_value']))
+		{
+			return true;
+		}
+
+		$types = FieldsHelper::getFieldTypes();
+
+		if (!key_exists($data['type'], $types))
+		{
+			return true;
+		}
+
+		if ($path = $types[$data['type']]['rules'])
+		{
+			// Add the lookup path for the rule
+			JFormHelper::addRulePath($path);
+		}
+
+		$rule = JFormHelper::loadRuleType($data['type']);
+
+		if (!$rule)
+		{
+			return true;
+		}
+
+		$obj = (object) $data;
+		$obj->params = new Registry($obj->params);
+		$obj->fieldparams = new Registry($obj->fieldparams);
+
+		$dom = new DOMDocument();
+		$node = $dom->appendChild(new DOMElement('form'));
+		JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($obj, $node, new JForm($data['context'])));
+
+		if (!$node->firstChild)
+		{
+			return true;
+		}
+
+		try
+		{
+			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
+			return $result ? : 'Invalid default value';
+		}
+		catch(UnexpectedValueException $e)
+		{
+			return $e->getMessage();
+		}
 	}
 
 	/**
