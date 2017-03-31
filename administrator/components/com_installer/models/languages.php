@@ -114,26 +114,13 @@ class InstallerModelLanguages extends JModelList
 		$updateSite = $this->getUpdateSite();
 
 		$jhttp = new JHttp;
-
-		try
-		{
-			$response = $jhttp->get($updateSite);
-		}
-		catch (RuntimeException $e)
-		{
-			$response = null;
-		}
-
-		if ($response === null || $response->code !== 200)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGE_UPDATESERVER_FOUND'), 'warning');
-
-			return;
-		}
+		$response = $jhttp->get($updateSite);
 
 		$updateSiteXML = simplexml_load_string($response->body);
-		$languages     = array();
-		$search        = strtolower($this->getState('filter.search'));
+
+		$languages = array();
+
+		$search = strtolower($this->getState('filter.search'));
 
 		foreach ($updateSiteXML->extension as $extension)
 		{
