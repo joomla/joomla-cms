@@ -100,7 +100,6 @@ class JCacheStorageMemcachedaws extends JCacheStorageMemcached
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  RuntimeException
 	 */
 	protected function getDynamicClientConnection()
 	{
