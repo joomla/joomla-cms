@@ -72,7 +72,6 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 		$session = JFactory::getSession();
 		$session->initialise($this->input);
 
-		$input = JFactory::getApplication()->input;
 		JFactory::getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
 		JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/com_installer/models/install.php');
 
