@@ -8,14 +8,20 @@
  * -------------------------------------------------------------------------
  * THIS SHOULD ONLY BE USED AS A LAST RESORT WHEN THE WEB INSTALLER FAILS
  *
- * If you are installing Joomla! manually i.e. not using the web browser installer
- * then rename this file to configuration.php e.g.
+ * If you are installing Joomla! manually ie not using the web browser installer
+ * then rename this file to configuration.php eg
  *
  * UNIX -> mv configuration.php-dist configuration.php
  * Windows -> rename configuration.php-dist configuration.php
  *
  * Now edit this file and configure the parameters for your site and
  * database.
+ *
+ * Finally move this file to the root folder of your Joomla installation eg
+ *
+ * UNIX -> mv configuration.php ../
+ * Windows -> copy configuration.php ../
+ *
  */
 class JConfig
 {
