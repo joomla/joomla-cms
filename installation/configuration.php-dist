@@ -42,7 +42,7 @@ class JConfig
 	public $secret = 'FBVtggIk5lAzEU9H';     // Change this to something more secure
 	public $gzip = '0';
 	public $error_reporting = 'default';
-	public $helpurl = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}';
+	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 	public $ftp_host = '';
 	public $ftp_port = '';
 	public $ftp_user = '';
