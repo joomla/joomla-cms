@@ -196,7 +196,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @param   array  $data  The data.
 	 *
-	 * @return  true|string  true if valid, a string containing the expection message when not.
+	 * @return  true|string  true if valid, a string containing the exception message when not.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
