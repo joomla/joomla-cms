@@ -537,6 +537,8 @@ class JUser extends JObject
 	 * If the user didn't set a timezone, it will return the server timezone
 	 *
 	 * @return DateTimeZone
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getTimezone()
 	{
