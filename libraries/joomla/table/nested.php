@@ -1505,7 +1505,7 @@ class JTableNested extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException on database error.
 	 */
 	protected function recursiveUpdatePublishedColumn($pk, $newState = null)

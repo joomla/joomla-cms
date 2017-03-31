@@ -74,7 +74,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function tearDown()
 	{

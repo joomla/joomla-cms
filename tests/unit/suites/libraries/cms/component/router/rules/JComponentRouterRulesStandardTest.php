@@ -15,7 +15,7 @@ require_once __DIR__ . '/stubs/MockJComponentRouterRulesMenuMenuObject.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Component
- * @since       __DEPLOY_VERSION__
+ * @since       3.7.0
  */
 class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 
@@ -23,7 +23,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 * Object under test
 	 *
 	 * @var    JComponentRouterRulesStandard
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $object;
 
@@ -32,7 +32,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getDataSet()
 	{
@@ -52,7 +52,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function setUp()
 	{
@@ -92,7 +92,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function tearDown()
 	{
@@ -107,7 +107,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 * @return  void
 	 *
 	 * @covers  JComponentRouterRulesStandard::__construct
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function testConstruct()
 	{
@@ -120,7 +120,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function dataTestBuild()
 	{
@@ -218,7 +218,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @covers        JComponentRouterRulesStandard::build
 	 * @dataProvider  dataTestBuild
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.7.0
 	 */
 	public function testBuild($query, $expectedQuery, $expectedSegments, $error)
 	{
@@ -233,7 +233,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function dataTestParse()
 	{
@@ -277,7 +277,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @covers        JComponentRouterRulesStandard::parse
 	 * @dataProvider  dataTestParse
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.7.0
 	 */
 	public function testParse($segments, $expectedVars, $activeMenu, $error)
 	{

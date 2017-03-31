@@ -72,7 +72,7 @@ class InstallerControllerInstall extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function ajax_upload()
 	{
