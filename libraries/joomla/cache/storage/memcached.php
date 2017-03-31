@@ -71,7 +71,7 @@ class JCacheStorageMemcached extends JCacheStorage
 
 		$host = $config->get('memcached_server_host', 'localhost');
 		$port = $config->get('memcached_server_port', 11211);
-		$autodiscovery = $config->get('memcached_autodiscovery', 0); //This will need to be included in the configuration.php file
+
 
 		// Create the memcached connection
 		if ($config->get('memcached_persist', true))
@@ -79,24 +79,15 @@ class JCacheStorageMemcached extends JCacheStorage
 			static::$_db = new Memcached($this->_hash);
 			$servers = static::$_db->getServerList();
 
-			if($autodiscovery)
+			if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port))
 			{
-				static::$_db->setOption(Memcached::OPT_CLIENT_MODE, Memcached::DYNAMIC_CLIENT_MODE);
+				static::$_db->resetServerList();
+				$servers = array();
 			}
-			else
+
+			if (!$servers)
 			{
-				static::$_db->setOption(Memcached::OPT_CLIENT_MODE, Memcached::STATIC_CLIENT_MODE);
-
-				if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port))
-				{
-					static::$_db->resetServerList();
-					$servers = array();
-				}
-
-				if (!$servers)
-				{
-					static::$_db->addServer($host, $port);
-				}
+				static::$_db->addServer($host, $port);
 			}
 		}
 		else
