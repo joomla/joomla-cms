@@ -200,6 +200,7 @@ class FieldsModelField extends JModelAdmin
 	 */
 	private function checkDefaultValue($data)
 	{
+		// Empty default values are correct
 		if (empty($data['default_value']))
 		{
 			return true;
@@ -207,41 +208,56 @@ class FieldsModelField extends JModelAdmin
 
 		$types = FieldsHelper::getFieldTypes();
 
+		// Check if type exists
 		if (!key_exists($data['type'], $types))
 		{
 			return true;
 		}
 
+		// Add the path for the rules of the plugin when available
 		if ($path = $types[$data['type']]['rules'])
 		{
 			// Add the lookup path for the rule
 			JFormHelper::addRulePath($path);
 		}
 
-		$rule = JFormHelper::loadRuleType($data['type']);
+		// Create the fields object
+		$obj              = (object) $data;
+		$obj->params      = new Registry($obj->params);
+		$obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : array());
 
-		if (!$rule)
+		// Prepare the dom
+		$dom  = new DOMDocument();
+		$node = $dom->appendChild(new DOMElement('form'));
+
+		// Trigger the event to create the field dom node
+		JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($obj, $node, new JForm($data['context'])));
+
+		// Check if a node is created
+		if (!$node->firstChild)
 		{
 			return true;
 		}
 
-		$obj = (object) $data;
-		$obj->params = new Registry($obj->params);
-		$obj->fieldparams = new Registry($obj->fieldparams);
+		// Define the type either from the field or from the data
+		$type = $node->firstChild->getAttribute('validate') ? : $data['type'];
 
-		$dom = new DOMDocument();
-		$node = $dom->appendChild(new DOMElement('form'));
-		JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($obj, $node, new JForm($data['context'])));
+		// Load the rule
+		$rule = JFormHelper::loadRuleType($type);
 
-		if (!$node->firstChild)
+		// When no rule exists, we allow the default value
+		if (!$rule)
 		{
 			return true;
 		}
 
 		try
 		{
+			// Perform the check
 			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
-			return $result ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+
+			// Check if the test succeeded
+			return $result === true ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
 		}
 		catch(UnexpectedValueException $e)
 		{
