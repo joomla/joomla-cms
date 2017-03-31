@@ -41,10 +41,12 @@
 
 				<field
 					name="maxlength"
-					type="text"
-					filter="integer"
+					type="number"
 					label="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_LABEL"
 					description="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_DESC"
+					min="0"
+					filter="integer"
+					validate="number"
 				/>
 			</fieldset>
 		</fields>
