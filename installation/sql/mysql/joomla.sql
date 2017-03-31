@@ -683,7 +683,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   KEY `idx_state` (`state`),
   KEY `idx_created_user_id` (`created_user_id`),
   KEY `idx_access` (`access`),
-  KEY `idx_context` (`context`),
+  KEY `idx_context` (`context` (100)),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -727,7 +727,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   KEY `idx_state` (`state`),
   KEY `idx_created_by` (`created_by`),
   KEY `idx_access` (`access`),
-  KEY `idx_context` (`context`),
+  KEY `idx_context` (`context` (100)),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -742,7 +742,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_values` (
   `item_id` varchar(255) NOT NULL COMMENT 'Allow references to items which have strings as ids, eg. none db systems.',
   `value` text NOT NULL DEFAULT '',
   KEY (`field_id`),
-  KEY (`item_id`)
+  KEY (`item_id` (100))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
