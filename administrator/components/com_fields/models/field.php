@@ -123,6 +123,7 @@ class FieldsModelField extends JModelAdmin
 		if ($message !== true)
 		{
 			$this->setError($message);
+
 			return false;
 		}
 
@@ -195,7 +196,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @param   array  $data  The data.
 	 *
-	 * @return  true|string  true if valid, a string when not.
+	 * @return  true|string  true if valid, a string containing the expection message when not.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -215,8 +216,10 @@ class FieldsModelField extends JModelAdmin
 			return true;
 		}
 
+		$path = $types[$data['type']]['rules'];
+
 		// Add the path for the rules of the plugin when available
-		if ($path = $types[$data['type']]['rules'])
+		if ($path)
 		{
 			// Add the lookup path for the rule
 			JFormHelper::addRulePath($path);
@@ -228,7 +231,7 @@ class FieldsModelField extends JModelAdmin
 		$obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : array());
 
 		// Prepare the dom
-		$dom  = new DOMDocument();
+		$dom  = new DOMDocument;
 		$node = $dom->appendChild(new DOMElement('form'));
 
 		// Trigger the event to create the field dom node
@@ -260,7 +263,7 @@ class FieldsModelField extends JModelAdmin
 			// Check if the test succeeded
 			return $result === true ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
 		}
-		catch(UnexpectedValueException $e)
+		catch (UnexpectedValueException $e)
 		{
 			return $e->getMessage();
 		}
