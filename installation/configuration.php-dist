@@ -29,6 +29,7 @@ class JConfig
 	public $captcha = '0';
 	public $list_limit = '20';
 	public $access = '1';
+	public $frontediting = '1';
 
 	/* Database Settings */
 	public $dbtype = 'mysqli';               // Normally mysqli
@@ -42,13 +43,13 @@ class JConfig
 	public $secret = 'FBVtggIk5lAzEU9H';     // Change this to something more secure
 	public $gzip = '0';
 	public $error_reporting = 'default';
-	public $helpurl = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}';
+	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 	public $ftp_host = '';
 	public $ftp_port = '';
 	public $ftp_user = '';
 	public $ftp_pass = '';
 	public $ftp_root = '';
-	public $ftp_enable = '';
+	public $ftp_enable = '0';
 	public $tmp_path = '/tmp';                // Please check with your host that this is the correct path to the temp directory. This path needs to be writable by Joomla!
 	public $log_path = '/var/logs';           // Please check with your host that this is the correct path to the logs directory. This path needs to be writable by Joomla!
 	public $live_site = '';                   // Optional, full URL to Joomla install.
@@ -60,11 +61,19 @@ class JConfig
 	/* Session settings */
 	public $lifetime = '15';                  // Session time
 	public $session_handler = 'database';
+	public $shared_session = '0';
+	public $session_memcache_server_host = 'localhost';
+	public $session_memcache_server_port = '11211';
+	public $session_memcached_server_host = 'localhost';
+	public $session_memcached_server_port = '11211';
+
 
 	/* Mail Settings */
+	public $mailonline = '1';
 	public $mailer      = 'mail';
 	public $mailfrom    = '';
 	public $fromname    = '';
+	public $massmailoff = '0';
 	public $replyto     = '';
 	public $replytoname = '';
 	public $sendmail    = '/usr/sbin/sendmail';
@@ -78,6 +87,26 @@ class JConfig
 	public $cachetime = '15';
 	public $cache_handler = 'file';
 	public $cache_platformprefix = '0';
+	public $memcache_persist = '1';
+	public $memcache_compress = '0';
+	public $memcache_server_host = 'localhost';
+	public $memcache_server_port = '11211';
+	public $memcached_persist = '1';
+	public $memcached_compress = '0';
+	public $memcached_server_host = 'localhost';
+	public $memcached_server_port = '11211';
+	public $redis_persist = '1';
+	public $redis_server_host = 'localhost';
+	public $redis_server_port = '6379';
+	public $redis_server_auth = '';
+	public $redis_server_db = '0';
+
+	/* Proxy Settings */
+	public $proxy_enable = '0';
+	public $proxy_host = '';
+	public $proxy_port = '';
+	public $proxy_user = '';
+	public $proxy_pass = '';
 
 	/* Debug Settings */
 	public $debug = '0';
@@ -89,7 +118,9 @@ class JConfig
 	public $MetaTitle = '1';
 	public $MetaAuthor = '1';
 	public $MetaVersion = '0';
+	public $MetaRights = '';
 	public $robots = '';
+	public $sitename_pagetitles = '0';
 
 	/* SEO Settings */
 	public $sef = '1';
@@ -100,4 +131,11 @@ class JConfig
 	/* Feed Settings */
 	public $feed_limit = 10;
 	public $feed_email = 'none';
+
+	/* Cookie Settings */
+	public $cookie_domain = '';
+	public $cookie_path = '';
+
+	/* Miscellaneous Settings */
+	public $asset_id = '1';
 }
