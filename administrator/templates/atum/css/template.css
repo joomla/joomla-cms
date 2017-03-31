@@ -9637,7 +9637,11 @@ iframe {
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); }
       .subhead .btn-toolbar .btn-sm [class^="icon-"], .subhead .btn-toolbar .btn-group-sm > .btn [class^="icon-"],
       .subhead .btn-toolbar .btn-sm [class*=" icon-"],
-      .subhead .btn-toolbar .btn-group-sm > .btn [class*=" icon-"] {
+      .subhead .btn-toolbar .btn-group-sm > .btn [class*=" icon-"],
+      .subhead .btn-toolbar .btn-sm [class^="fa-"],
+      .subhead .btn-toolbar .btn-group-sm > .btn [class^="fa-"],
+      .subhead .btn-toolbar .btn-sm [class*=" fa-"],
+      .subhead .btn-toolbar .btn-group-sm > .btn [class*=" fa-"] {
         z-index: -1;
         display: inline-block;
         width: 28px;
@@ -9653,28 +9657,48 @@ iframe {
         border-color: #ccc; }
     .subhead .btn-toolbar .btn-primary [class^="icon-"],
     .subhead .btn-toolbar .btn-primary [class*=" icon-"],
+    .subhead .btn-toolbar .btn-primary [class^="fa-"],
+    .subhead .btn-toolbar .btn-primary [class*=" fa-"],
     .subhead .btn-toolbar .btn-outline-primary [class^="icon-"],
-    .subhead .btn-toolbar .btn-outline-primary [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-outline-primary [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-primary [class^="fa-"],
+    .subhead .btn-toolbar .btn-outline-primary [class*=" fa-"] {
       color: #006898; }
     .subhead .btn-toolbar .btn-success [class^="icon-"],
     .subhead .btn-toolbar .btn-success [class*=" icon-"],
+    .subhead .btn-toolbar .btn-success [class^="fa-"],
+    .subhead .btn-toolbar .btn-success [class*=" fa-"],
     .subhead .btn-toolbar .btn-outline-success [class^="icon-"],
-    .subhead .btn-toolbar .btn-outline-success [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-outline-success [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-success [class^="fa-"],
+    .subhead .btn-toolbar .btn-outline-success [class*=" fa-"] {
       color: #348534; }
     .subhead .btn-toolbar .btn-info [class^="icon-"],
     .subhead .btn-toolbar .btn-info [class*=" icon-"],
+    .subhead .btn-toolbar .btn-info [class^="fa-"],
+    .subhead .btn-toolbar .btn-info [class*=" fa-"],
     .subhead .btn-toolbar .btn-outline-info [class^="icon-"],
-    .subhead .btn-toolbar .btn-outline-info [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-outline-info [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-info [class^="fa-"],
+    .subhead .btn-toolbar .btn-outline-info [class*=" fa-"] {
       color: #5bc0de; }
     .subhead .btn-toolbar .btn-danger [class^="icon-"],
     .subhead .btn-toolbar .btn-danger [class*=" icon-"],
+    .subhead .btn-toolbar .btn-danger [class^="fa-"],
+    .subhead .btn-toolbar .btn-danger [class*=" fa-"],
     .subhead .btn-toolbar .btn-outline-danger [class^="icon-"],
-    .subhead .btn-toolbar .btn-outline-danger [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-outline-danger [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-danger [class^="fa-"],
+    .subhead .btn-toolbar .btn-outline-danger [class*=" fa-"] {
       color: #d9534f; }
     .subhead .btn-toolbar .btn-warning [class^="icon-"],
     .subhead .btn-toolbar .btn-warning [class*=" icon-"],
+    .subhead .btn-toolbar .btn-warning [class^="fa-"],
+    .subhead .btn-toolbar .btn-warning [class*=" fa-"],
     .subhead .btn-toolbar .btn-outline-warning [class^="icon-"],
-    .subhead .btn-toolbar .btn-outline-warning [class*=" icon-"] {
+    .subhead .btn-toolbar .btn-outline-warning [class*=" icon-"],
+    .subhead .btn-toolbar .btn-outline-warning [class^="fa-"],
+    .subhead .btn-toolbar .btn-outline-warning [class*=" fa-"] {
       color: #f0ad4e; }
     .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) {
       width: 140px;
@@ -9682,7 +9706,9 @@ iframe {
       background-color: #348534;
       border-color: rgba(0, 0, 0, 0.2); }
       .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class^="icon-"],
-      .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class*=" icon-"] {
+      .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class*=" icon-"],
+      .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class^="fa-"],
+      .subhead .btn-toolbar .btn-success:not(.dropdown-toggle) [class*=" fa-"] {
         width: 16px;
         margin-right: 0;
         margin-left: 0;

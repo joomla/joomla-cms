@@ -47,7 +47,9 @@
       box-shadow: 0 1px 2px rgba(0,0,0,.05);
 
       [class^="icon-"],
-	  [class*=" icon-"] {
+	    [class*=" icon-"],
+      [class^="fa-"],
+	    [class*=" fa-"] {
         z-index: -1;
         display: inline-block;
         width: 28px;
@@ -71,7 +73,9 @@
 	.btn-outline-primary {
 
       [class^="icon-"],
-	  [class*=" icon-"] {
+	    [class*=" icon-"],
+      [class^="fa-"],
+	    [class*=" fa-"] {
         color: $brand-primary;
       }
 
@@ -81,7 +85,9 @@
 	.btn-outline-success {
 
       [class^="icon-"],
-	  [class*=" icon-"] {
+	    [class*=" icon-"],
+      [class^="fa-"],
+	    [class*=" fa-"] {
         color: $brand-success;
       }
 
@@ -91,7 +97,9 @@
 	.btn-outline-info {
 
       [class^="icon-"],
-	  [class*=" icon-"] {
+	    [class*=" icon-"],
+      [class^="fa-"],
+	    [class*=" fa-"] {
         color: $brand-info;
       }
 
@@ -101,7 +109,9 @@
 	.btn-outline-danger {
 
       [class^="icon-"],
-	  [class*=" icon-"] {
+	    [class*=" icon-"],
+      [class^="fa-"],
+	    [class*=" fa-"] {
         color: $brand-danger;
       }
 
@@ -111,7 +121,9 @@
     .btn-outline-warning {
 
       [class^="icon-"],
-	  [class*=" icon-"] {
+	    [class*=" icon-"],
+      [class^="fa-"],
+	    [class*=" fa-"] {
         color: $brand-warning;
       }
 
@@ -124,7 +136,9 @@
       border-color: rgba(0,0,0,.2);
 
       [class^="icon-"],
-	  [class*=" icon-"] {
+	    [class*=" icon-"],
+      [class^="fa-"],
+	    [class*=" fa-"] {
         width: 16px;
         margin-right: 0;
         margin-left: 0;
