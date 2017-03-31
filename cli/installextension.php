@@ -67,6 +67,11 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 		}
 
 		JFactory::getApplication('InstallExtensionCli');
+		JFactory::getApplication()->input->cookie = new JInputCookie;
+		$input = JFactory::getApplication()->input;
+		$session = JFactory::getSession();
+		$session->initialise($this->input);
+
 		$input = JFactory::getApplication()->input;
 		JFactory::getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
 		JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/com_installer/models/install.php');
@@ -201,6 +206,39 @@ class JApplicationInstallExtensionCli extends JApplicationCli
 	public function isAdmin()
 	{
 		return true;
+	}
+
+	/**
+	 * Dummy as this method is called on application but we in are in CLI,
+	 * so lets pretend we're in admin
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isClient($option)
+	{
+		if ($option == 'site')
+		{
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
+	 * Dummy for the application JRouter object.
+	 *
+	 * @param   string  $name     The name of the application.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  null  Instead of JRouter object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @deprecated  4.0
+	 */
+	public static function getRouter($name = null, array $options = array()){
+		return;
 	}
 }
 
