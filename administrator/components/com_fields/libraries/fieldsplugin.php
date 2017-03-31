@@ -73,6 +73,14 @@ abstract class FieldsPlugin extends JPlugin
 				$data['path'] = $path;
 			}
 
+			$path = $root . '/rules';
+
+			// Add the path when it exists
+			if (file_exists($path))
+			{
+				$data['rules'] = $path;
+			}
+
 			$types[] = $data;
 		}
 
