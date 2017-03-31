@@ -241,7 +241,7 @@ class FieldsModelField extends JModelAdmin
 		try
 		{
 			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
-			return $result ? : 'Invalid default value';
+			return $result ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
 		}
 		catch(UnexpectedValueException $e)
 		{
