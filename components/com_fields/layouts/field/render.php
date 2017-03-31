@@ -16,7 +16,6 @@ if (!key_exists('field', $displayData))
 $field = $displayData['field'];
 $label = JText::_($field->label);
 $value = $field->value;
-$class = $field->params->get('render_class');
 $showlabel = $field->params->get('showlabel');
 
 if ($value == '')
