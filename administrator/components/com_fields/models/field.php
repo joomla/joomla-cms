@@ -119,6 +119,7 @@ class FieldsModelField extends JModelAdmin
 		JPluginHelper::importPlugin('fields');
 
 		$message = $this->checkDefaultValue($data);
+
 		if ($message !== true)
 		{
 			$this->setError($message);
