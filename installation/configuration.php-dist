@@ -17,7 +17,7 @@
  * Now edit this file and configure the parameters for your site and
  * database.
  *
- * Finally move this file to the root folder of your Joomla Installation eg
+ * Finally move this file to the root folder of your Joomla installation eg
  *
  * UNIX -> mv configuration.php ../
  * Windows -> copy configuration.php ../
