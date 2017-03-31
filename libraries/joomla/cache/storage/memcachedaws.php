@@ -12,17 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler using AWS ElastiCache PHP Client
  *
- * @see http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/AutoDiscovery.html
- * @see https://github.com/awslabs/aws-elasticache-cluster-client-memcached-for-php
- * @author jdolinski Douglas-Omaha Technology Commission
+ * @see    http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/AutoDiscovery.html
+ * @see    https://github.com/awslabs/aws-elasticache-cluster-client-memcached-for-php
+ * @since  __DEPLOY_VERSION__
  */
-class JCacheStorageMemcachedaws extends JCacheStorageMemcached {
-
-    /**
-     * Constructor
-     *
-     * @param   array  $options  Optional parameters.
-     */
+class JCacheStorageMemcachedaws extends JCacheStorageMemcached
+{
+	/**
+	 * Constructor
+	 *
+	 * @param   array  $options  Optional parameters.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
     public function __construct($options = array())
     {
         JCacheStorage::__construct($options);
@@ -33,9 +35,14 @@ class JCacheStorageMemcachedaws extends JCacheStorageMemcached {
         }
     }
 
-    /**
-     * Create memcached connection.
-     */
+	/**
+	 * Create the MemcachedAWS connection
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
+	 */
     protected function getConnection()
     {
         if (!static::isSupported())
@@ -51,7 +58,7 @@ class JCacheStorageMemcachedaws extends JCacheStorageMemcached {
         if ($config->get('memcached_persist', true))
         {
             parent::$_db = new Memcached($this->_hash);
-            $servers = parent::$_db->getServerList();
+            $servers     = parent::$_db->getServerList();
 
             if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port))
             {
@@ -72,7 +79,7 @@ class JCacheStorageMemcachedaws extends JCacheStorageMemcached {
 
         parent::$_db->setOption(Memcached::OPT_COMPRESSION, $config->get('memcached_compress', false) ? Memcached::OPT_COMPRESSION : 0);
 
-        if(JFactory::getConfig()->get('memcached_autodiscovery', 0))
+        if (JFactory::getConfig()->get('memcached_autodiscovery', 0))
         {
             $this->getDynamicClientConnection();
         }
@@ -90,8 +97,13 @@ class JCacheStorageMemcachedaws extends JCacheStorageMemcached {
      * cluster configuration. This allows scaling the cache cluster up or down in number of nodes
      * without requiring any changes to the PHP application.
      *
-     */
-    protected function getDynamicClientConnection() {
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
+	 */
+    protected function getDynamicClientConnection()
+    {
         parent::$_db->setOption(Memcached::OPT_CLIENT_MODE, Memcached::DYNAMIC_CLIENT_MODE);
         parent::$_db->setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT);
 
@@ -101,8 +113,13 @@ class JCacheStorageMemcachedaws extends JCacheStorageMemcached {
     /**
      * Configuring the client with Static client mode disables the usage of Auto Discovery
      * and the client operates as it did before the introduction of Auto Discovery.
-     */
-    protected function getStaticClientConnection() {
+	 *
+     * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+    protected function getStaticClientConnection()
+    {
         parent::$_db->setOption(Memcached::OPT_CLIENT_MODE, Memcached::STATIC_CLIENT_MODE);
 
         $this->checkConnection();
@@ -110,7 +127,12 @@ class JCacheStorageMemcachedaws extends JCacheStorageMemcached {
 
     /**
      * Check connection to memcached server.
-     */
+     *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  JCacheExceptionConnecting
+	 */
     protected function checkConnection()
     {
         $config = JFactory::getConfig();
