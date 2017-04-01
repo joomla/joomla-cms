@@ -137,7 +137,7 @@ abstract class JHtmlJquery
 ;(function ($) {
 	$.ajaxSetup({
 		headers: {
-			'X-CSRF-Token': $('meta[name="{$name}"]').attr('content')
+			'X-CSRF-Token': Joomla.getOptions('joomla.core')['csrf-token']
 		}
 	});
 })(jQuery);

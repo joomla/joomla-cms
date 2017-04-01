@@ -842,8 +842,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
 			if (options.method === 'POST') {
-				if (document.querySelector('meta[name="csrf-token"]').getAttribute('content')) {
-					xhr.setRequestHeader('X-CSRF-Token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+				var token = Joomla.getOptions('joomla.core', {})['csrf-token'];
+
+				if (token) {
+					xhr.setRequestHeader('X-CSRF-Token', token);
 				}
 
 				if (!options.headers || !options.headers['Content-Type']) {

@@ -98,7 +98,8 @@ class JHtmlFormTest extends TestCase
 		JHtmlForm::csrf();
 
 		$doc = JFactory::getDocument();
+		$options = $this->getObjectAttribute($doc, 'scriptOptions');
 
-		$this->assertEquals(JSession::getFormToken(), $doc->_metaTags['name']['csrf-token']);
+		$this->assertEquals(JSession::getFormToken(), $options['joomla.core']['csrf-token']);
 	}
 }

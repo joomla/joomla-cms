@@ -73,7 +73,7 @@ abstract class JHtmlForm
 			return;
 		}
 
-		$doc->setMetaData($name, JSession::getFormToken());
+		$doc->addScriptOptions('joomla.core', array($name => JSession::getFormToken()));
 
 		static::$loaded[__METHOD__][$name] = true;
 	}
