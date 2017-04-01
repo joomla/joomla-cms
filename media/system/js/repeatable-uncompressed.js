@@ -436,7 +436,11 @@
         self.clearScripts = function($row){
         	// destroy chosen if any
         	if($.fn.chosen){
-        		$row.find('select.chzn-done').chosen('destroy');
+                $row.find('select').each(function(){
+                	if ($(this).data('chosen')) {
+                        $(this).chosen('destroy');
+					}
+				});
         	}
         	// colorpicker
         	if($.fn.minicolors){
@@ -449,10 +453,6 @@
         // method for hack the scripts that can be related
         // to the one of field that in given $row
         self.fixScripts = function($row){
-        	// chosen hack
-        	if($.fn.chosen){
-        		$row.find('select').chosen()
-        	}
 
         	//color picker
         	$row.find('.minicolors').each(function() {
@@ -478,7 +478,7 @@
         	});
 
         	// another modals
-        	if(window.SqueezeBox){
+        	if(window.SqueezeBox && window.SqueezeBox.assign){
         		SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
         	}
         };
