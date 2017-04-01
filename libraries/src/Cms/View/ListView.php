@@ -113,7 +113,7 @@ class ListView extends HtmlView
 		}
 		else
 		{
-			$this->toolbarTitle = strtoupper($this->option.'_MANAGERS_'.$this->getName());
+			$this->toolbarTitle = strtoupper($this->option . '_MANAGERS_' . $this->getName());
 		}
 
 		if (isset($config['toolbar_icon']))
