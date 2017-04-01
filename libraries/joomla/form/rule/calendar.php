@@ -31,7 +31,7 @@ class JFormRuleCalendar extends JFormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
