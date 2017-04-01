@@ -225,7 +225,7 @@ abstract class JPluginHelper
 						$dispatcher = JFactory::getApplication()->getDispatcher();
 					}
 
-					$className = 'Plg' . $plugin->type . $plugin->name;
+					$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
 
 					if (class_exists($className))
 					{

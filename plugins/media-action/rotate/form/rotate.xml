@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="rotate" label="PLG_MEDIA-ACTION_ROTATE_LABEL">
+		<field
+			name="rotate_options"
+			type="radio"
+			class="btn-group"
+			label="PLG_MEDIA-ACTION_ROTATE_PARAM_DIRECTION" >
+			<option value="right">PLG_MEDIA-ACTION_ROTATE_PARAM_DIRECTION_RIGHT</option>
+			<option value="left">PLG_MEDIA-ACTION_ROTATE_PARAM_DIRECTION_LEFT</option>
+		</field>
+	</fieldset>
+</form>

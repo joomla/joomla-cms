@@ -21,6 +21,7 @@ $config = array(
 	'csrfToken'               => JSession::getFormToken(),
 	'filePath'                => $params->get('file_path', 'images'),
 	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
+	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file',
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 );
