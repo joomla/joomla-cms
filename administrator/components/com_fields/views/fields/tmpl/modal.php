@@ -91,7 +91,7 @@ fieldgroupIns = function(id) {
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
+							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 						</td>
 						<td class="has-context">
 							<a class="btn btn-small btn-block btn-success" href="#" onclick="fieldIns('<?php echo $this->escape($item->id); ?>');"><?php echo $this->escape($item->title); ?></a>
