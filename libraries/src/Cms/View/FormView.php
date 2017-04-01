@@ -78,16 +78,13 @@ class FormView extends HtmlView
 	{
 		parent::__construct($config);
 
-		// Set class properties from config data passed in constructor
-		if (isset($config['canDo']))
-		{
-			$this->canDo = $config['canDo'];
-		}
-
 		if (isset($config['help_link']))
 		{
 			$this->helpLink = $config['help_link'];
 		}
+
+		// Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
+		$this->canDo = new \JObject;
 	}
 
 	/**

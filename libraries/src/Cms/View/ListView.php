@@ -70,18 +70,25 @@ class ListView extends HtmlView
 	protected $sidebar;
 
 	/**
-	 * The flag which determine whether we want to show batch button
-	 *
-	 * @var bool
-	 */
-	protected $supportsBatch = true;
-
-	/**
 	 * The toolbar title
 	 *
 	 * @var string
 	 */
 	protected $toolbarTitle;
+
+	/**
+	 * The toolbar icon
+	 *
+	 * @var string
+	 */
+	protected $toolbarIcon;
+
+	/**
+	 * The flag which determine whether we want to show batch button
+	 *
+	 * @var bool
+	 */
+	protected $supportsBatch = true;
 
 	/**
 	 * The help link for the view
@@ -100,9 +107,22 @@ class ListView extends HtmlView
 		parent::__construct($config);
 
 		// Set class properties from config data passed in constructor
-		if (isset($config['canDo']))
+		if (isset($config['toolbar_title']))
 		{
-			$this->canDo = $config['canDo'];
+			$this->toolbarTitle = $config['toolbar_title'];
+		}
+		else
+		{
+			$this->toolbarTitle = strtoupper($this->option.'_MANAGERS_'.$this->getName());
+		}
+
+		if (isset($config['toolbar_icon']))
+		{
+			$this->toolbarIcon = $config['toolbar_icon'];
+		}
+		else
+		{
+			$this->toolbarIcon = strtolower($this->getName());
 		}
 
 		if (isset($config['supports_batch']))
@@ -114,6 +134,9 @@ class ListView extends HtmlView
 		{
 			$this->helpLink = $config['help_link'];
 		}
+
+		// Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
+		$this->canDo = new \JObject;
 	}
 
 	/**
@@ -150,7 +173,7 @@ class ListView extends HtmlView
 	{
 		if ($this->getLayout() !== 'modal')
 		{
-			$helperClass = ucfirst(substr($this->option, 4));
+			$helperClass = '\\' . ucfirst(substr($this->option, 4));
 
 			if (is_callable($helperClass . '::addSubmenu'))
 			{
@@ -165,12 +188,6 @@ class ListView extends HtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		// Property $canDo should be built by the child class before, if not, generate default value
-		if (!empty($this->canDo))
-		{
-			$this->canDo = new \JObject;
-		}
 	}
 
 	/**
@@ -191,12 +208,7 @@ class ListView extends HtmlView
 		$viewName = $this->getName();
 		$singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
 
-		if (empty($this->toolbarTitle))
-		{
-			$this->toolbarTitle = \JText::_(strtoupper($this->option . '_' . $viewName . '_TITLE'));
-		}
-
-		\JToolbarHelper::title($this->toolbarTitle, 'stack ' . $singularViewName);
+		\JToolbarHelper::title($this->toolbarTitle, $this->toolbarIcon);
 
 		if ($canDo->get('core.create'))
 		{
@@ -219,8 +231,8 @@ class ListView extends HtmlView
 				\JToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			}
 
-			\JToolbarHelper::archiveList('articles.archive');
-			\JToolbarHelper::checkin('articles.checkin');
+			\JToolbarHelper::archiveList($viewName . '.archive');
+			\JToolbarHelper::checkin($viewName . '.checkin');
 		}
 
 		// Add a batch button
