@@ -737,10 +737,12 @@ class FieldsHelper
 				{
 					$fieldDescription['path'] = null;
 				}
+
 				if (!array_key_exists('rules', $fieldDescription))
 				{
 					$fieldDescription['rules'] = null;
 				}
+
 				$data[$fieldDescription['type']] = $fieldDescription;
 			}
 		}
