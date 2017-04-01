@@ -122,12 +122,6 @@ class FormView extends HtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-
-		// Property $canDo should be built by the child class before, if not, generate default value
-		if (!empty($this->canDo))
-		{
-			$this->canDo = new \JObject;
-		}
 	}
 
 	/**
