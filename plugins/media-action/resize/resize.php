@@ -18,4 +18,21 @@ JLoader::import('components.com_media.libraries.media.plugin.mediaaction', JPATH
  */
 class PlgMediaActionResize extends MediaActionPlugin
 {
+	/**
+	 * Load the javascript files of the plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadJs()
+	{
+		parent::loadJs();
+
+		JHtml::_(
+			'script',
+			'plg_media-action_' . $this->_name . '/interact.min.js',
+			array('version' => 'auto', 'relative' => true)
+		);
+	}
 }

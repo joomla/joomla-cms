@@ -45,14 +45,8 @@ class MediaActionPlugin extends JPlugin
 			return;
 		}
 
-		// Get the layout file to add the JS code
-		$layout = JPluginHelper::getLayoutPath('media-action', $this->_name, $this->_name);
-
-		// If there is a layout, include it
-		if ($layout)
-		{
-			include $layout;
-		}
+		$this->loadCss();
+		$this->loadJs();
 
 		// The file with the params for the edit view
 		$paramsFile = JPATH_PLUGINS . '/media-action/' . $this->_name . '/form/' . $this->_name . '.xml';
@@ -62,5 +56,37 @@ class MediaActionPlugin extends JPlugin
 		{
 			$form->loadFile($paramsFile);
 		}
+	}
+
+	/**
+	 * Load the javascript files of the plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadJs()
+	{
+		JHtml::_(
+		'script',
+			'plg_media-action_' . $this->_name . '/' . $this->_name . '.js',
+			array('version' => 'auto', 'relative' => true)
+		);
+	}
+
+	/**
+	 * Load the CSS files of the plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadCss()
+	{
+		JHtml::_(
+		'stylesheet',
+			'plg_media-action_' . $this->_name . '/' . $this->_name . '.css',
+			array('version' => 'auto', 'relative' => true)
+		);
 	}
 }

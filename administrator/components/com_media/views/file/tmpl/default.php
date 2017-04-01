@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 JHtml::_('behavior.formvalidator');
 
-JHtml::_('script', 'media/com_media/js/EventBus.js', true, false);
-JHtml::_('script', 'media/com_media/js/edit.js');
+JHtml::_('script', 'com_media/EventBus.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_media/edit.js', array('version' => 'auto', 'relative' => true));
 
 /**
  * @var JForm $form
