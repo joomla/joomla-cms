@@ -191,7 +191,7 @@ class FieldsModelField extends JModelAdmin
 
 
 	/**
-	 * Checks if the default value is valid of the given data. If a string is returned then
+	 * Checks if the default value is valid for the given data. If a string is returned then
 	 * it can be assumed that the default value is invalid.
 	 *
 	 * @param   array  $data  The data.
