@@ -23,8 +23,8 @@ class StandardRules implements RulesInterface
 	/**
 	 * Router this rule belongs to
 	 *
-	 * @var RouterView
-	 * @since 3.4
+	 * @var    RouterView
+	 * @since  3.4
 	 */
 	protected $router;
 
@@ -66,7 +66,7 @@ class StandardRules implements RulesInterface
 	public function parse(&$segments, &$vars)
 	{
 		// Get the views and the currently active query vars
-		$views = $this->router->getViews();
+		$views  = $this->router->getViews();
 		$active = $this->router->menu->getActive();
 
 		if ($active)
@@ -81,10 +81,10 @@ class StandardRules implements RulesInterface
 		}
 
 		// Copy the segments, so that we can iterate over all of them and at the same time modify the original segments
-		$temp_segments = $segments;
+		$tempSegments = $segments;
 
 		// Iterate over the segments as long as a segment fits
-		foreach ($temp_segments as $segment)
+		foreach ($tempSegments as $segment)
 		{
 			// Our current view is nestable. We need to check first if the segment fits to that
 			if ($views[$vars['view']]->nestable)
@@ -97,7 +97,9 @@ class StandardRules implements RulesInterface
 					if ($key)
 					{
 						$vars[$views[$vars['view']]->key] = $key;
+
 						array_shift($segments);
+
 						continue;
 					}
 				}
@@ -110,6 +112,7 @@ class StandardRules implements RulesInterface
 
 			// Lets find the right view that belongs to this segment
 			$found = false;
+
 			foreach ($views[$vars['view']]->children as $view)
 			{
 				if (!$view->key)
@@ -117,45 +120,44 @@ class StandardRules implements RulesInterface
 					if ($view->name == $segment)
 					{
 						// The segment is a view name
-						$parent = $views[$vars['view']];
+						$parent       = $views[$vars['view']];
 						$vars['view'] = $view->name;
-						$found = true;
+						$found        = true;
 
 						if ($view->parent_key && isset($vars[$parent->key]))
 						{
-							$parent_key = $vars[$parent->key];
-							unset($vars[$parent->key]);
+							$parent_key              = $vars[$parent->key];
 							$vars[$view->parent_key] = $parent_key;
+
+							unset($vars[$parent->key]);
 						}
 
 						break;
 					}
 				}
-				else
+				elseif (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
 				{
-					if (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
+					// Hand the data over to the router specific method and see if there is a content item that fits
+					$key = call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+
+					if ($key)
 					{
-						// Hand the data over to the router specific method and see if there is a content item that fits
-						$key = call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+						// Found the right view and the right item
+						$parent       = $views[$vars['view']];
+						$vars['view'] = $view->name;
+						$found        = true;
 
-						if ($key)
+						if ($view->parent_key && isset($vars[$parent->key]))
 						{
-							// Found the right view and the right item
-							$parent = $views[$vars['view']];
-							$vars['view'] = $view->name;
-							$found = true;
+							$parent_key              = $vars[$parent->key];
+							$vars[$view->parent_key] = $parent_key;
 
-							if ($view->parent_key && isset($vars[$parent->key]))
-							{
-								$parent_key = $vars[$parent->key];
-								unset($vars[$parent->key]);
-								$vars[$view->parent_key] = $parent_key;
-							}
-
-							$vars[$view->key] = $key;
-
-							break;
+							unset($vars[$parent->key]);
 						}
+
+						$vars[$view->key] = $key;
+
+						break;
 					}
 				}
 			}
@@ -164,10 +166,8 @@ class StandardRules implements RulesInterface
 			{
 				return;
 			}
-			else
-			{
-				array_shift($segments);
-			}
+
+			array_shift($segments);
 		}
 	}
 
@@ -202,11 +202,14 @@ class StandardRules implements RulesInterface
 			if (isset($item->query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
+
 				while ($view)
 				{
 					unset($query[$view->parent_key]);
+
 					$view = $view->parent;
 				}
+
 				unset($query['view']);
 
 				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] == $query['layout'])
@@ -223,22 +226,26 @@ class StandardRules implements RulesInterface
 				{
 					unset($query['view']);
 					unset($query['layout']);
+
 					return;
 				}
 			}
 		}
 
 		// Get the path from the view of the current URL and parse it to the menu item
-		$path = array_reverse($this->router->getPath($query), true);
-		$found = false;
+		$path   = array_reverse($this->router->getPath($query), true);
+		$found  = false;
 		$found2 = false;
+
 		for ($i = 0, $j = count($path); $i < $j; $i++)
 		{
 			reset($path);
 			$view = key($path);
+
 			if ($found)
 			{
 				$ids = array_shift($path);
+
 				if ($views[$view]->nestable)
 				{
 					foreach (array_reverse($ids, true) as $id => $segment)
@@ -247,51 +254,43 @@ class StandardRules implements RulesInterface
 						{
 							$segments[] = str_replace(':', '-', $segment);
 						}
-						else
+						elseif ((int) $item->query[$views[$view]->key] == (int) $id)
 						{
-							if ((int) $item->query[$views[$view]->key] == (int) $id)
-							{
-								$found2 = true;
-							}
+							$found2 = true;
 						}
 					}
 				}
+				elseif (is_bool($ids))
+				{
+					$segments[] = $views[$view]->name;
+				}
 				else
 				{
-					if (is_bool($ids))
-					{
-						$segments[] = $views[$view]->name;
-					}
-					else
-					{
-						$segments[] = str_replace(':', '-', array_shift($ids));
-					}
+					$segments[] = str_replace(':', '-', array_shift($ids));
 				}
+			}
+			elseif ($item->query['view'] != $view)
+			{
+				array_shift($path);
 			}
 			else
 			{
-				if ($item->query['view'] != $view)
+				if (!$views[$view]->nestable)
 				{
 					array_shift($path);
 				}
 				else
 				{
-					if (!$views[$view]->nestable)
-					{
-						array_shift($path);
-					}
-					else
-					{
-						$i--;
-						$found2 = false;
-					}
+					$i--;
+					$found2 = false;
+				}
 
-					if (count($views[$view]->children))
-					{
-						$found = true;
-					}
+				if (count($views[$view]->children))
+				{
+					$found = true;
 				}
 			}
+
 			unset($query[$views[$view]->parent_key]);
 		}
 

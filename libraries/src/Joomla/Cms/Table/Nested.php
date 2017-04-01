@@ -296,16 +296,17 @@ class Nested extends Table
 	/**
 	 * Method to move a node and its children to a new location in the tree.
 	 *
-	 * @param   integer  $referenceId  The primary key of the node to reference new location by.
-	 * @param   string   $position     Location type string. ['before', 'after', 'first-child', 'last-child']
-	 * @param   integer  $pk           The primary key of the node to move.
+	 * @param   integer  $referenceId      The primary key of the node to reference new location by.
+	 * @param   string   $position         Location type string. ['before', 'after', 'first-child', 'last-child']
+	 * @param   integer  $pk               The primary key of the node to move.
+	 * @param   boolean  $recursiveUpdate  Flag indicate that method recursiveUpdatePublishedColumn should be call.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  \RuntimeException on database error.
 	 */
-	public function moveByReference($referenceId, $position = 'after', $pk = null)
+	public function moveByReference($referenceId, $position = 'after', $pk = null, $recursiveUpdate = true)
 	{
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
@@ -508,6 +509,11 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
+		if (property_exists($this, 'published') && $recursiveUpdate)
+		{
+			$this->recursiveUpdatePublishedColumn($node->$k);
+		}
+
 		// Set the object values.
 		$this->parent_id = $repositionData->new_parent_id;
 		$this->level = $repositionData->new_level;
@@ -686,7 +692,7 @@ class Nested extends Table
 			}
 
 			$query = $this->_db->getQuery(true)
-				->select('COUNT(' . $this->_tbl_key . ')')
+				->select('1')
 				->from($this->_tbl)
 				->where($this->_tbl_key . ' = ' . $this->parent_id);
 
@@ -834,7 +840,8 @@ class Nested extends Table
 			// If the location has been set, move the node to its new location.
 			if ($this->_location_id > 0)
 			{
-				if (!$this->moveByReference($this->_location_id, $this->_location, $this->$k))
+				// Skip recursiveUpdatePublishedColumn method, it will be called later.
+				if (!$this->moveByReference($this->_location_id, $this->_location, $this->$k, false))
 				{
 					// Error message set in move method.
 					return false;
@@ -880,6 +887,11 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
+		if (property_exists($this, 'published'))
+		{
+			$this->recursiveUpdatePublishedColumn($this->$k);
+		}
+
 		// Implement \JObservableInterface: Post-processing by observers
 		// 2.5 upgrade issue - check if property_exists before executing
 		if (property_exists($this, '_observers'))
@@ -910,12 +922,16 @@ class Nested extends Table
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
 		$k = $this->_tbl_key;
-		$query = $this->_db->getQuery(true);
+
+		$query     = $this->_db->getQuery(true);
+		$table     = $this->_db->quoteName($this->_tbl);
+		$published = $this->_db->quoteName($this->getColumnAlias('published'));
+		$key       = $this->_db->quoteName($k);
 
 		// Sanitize input.
-		$pks = ArrayHelper::toInteger($pks);
+		$pks    = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
-		$state = (int) $state;
+		$state  = (int) $state;
 
 		// If $state > 1, then we allow state changes even if an ancestor has lower state
 		// (for example, can change a child state to Archived (2) if an ancestor is Published (1)
@@ -979,19 +995,17 @@ class Nested extends Table
 			{
 				// Get any ancestor nodes that have a lower publishing state.
 				$query->clear()
-					->select('n.' . $k)
-					->from($this->_db->quoteName($this->_tbl) . ' AS n')
-					->where('n.lft < ' . (int) $node->lft)
-					->where('n.rgt > ' . (int) $node->rgt)
-					->where('n.parent_id > 0')
-					->where($this->_db->qn('n.' . $this->getColumnAlias('published')) . ' < ' . (int) $compareState);
+					->select('1')
+					->from($table)
+					->where('lft < ' . (int) $node->lft)
+					->where('rgt > ' . (int) $node->rgt)
+					->where('parent_id > 0')
+					->where($published . ' < ' . (int) $compareState);
 
 				// Just fetch one row (one is one too many).
 				$this->_db->setQuery($query, 0, 1);
 
-				$rows = $this->_db->loadColumn();
-
-				if (!empty($rows))
+				if ($this->_db->loadResult())
 				{
 					$e = new \UnexpectedValueException(
 						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks[0], $state, $userId)
@@ -1002,12 +1016,7 @@ class Nested extends Table
 				}
 			}
 
-			// Update and cascade the publishing state.
-			$query->clear()
-				->update($this->_db->quoteName($this->_tbl))
-				->set($this->_db->qn($this->getColumnAlias('published')) . ' = ' . (int) $state)
-				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ') OR ' . $k . ' = ' . (int) $pk);
-			$this->_db->setQuery($query)->execute();
+			$this->recursiveUpdatePublishedColumn($pk, $state);
 
 			// If checkout support exists for the object, check the row in.
 			if ($checkoutSupport)
@@ -1487,6 +1496,83 @@ class Nested extends Table
 			$this->_unlock();
 			throw $e;
 		}
+	}
+
+	/**
+	 * Method to recursive update published column for children rows.
+	 *
+	 * @param   integer  $pk        Id number of row which published column was changed.
+	 * @param   integer  $newState  An optional value for published column of row identified by $pk.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.7.0
+	 * @throws  RuntimeException on database error.
+	 */
+	protected function recursiveUpdatePublishedColumn($pk, $newState = null)
+	{
+		$query     = $this->_db->getQuery(true);
+		$table     = $this->_db->quoteName($this->_tbl);
+		$key       = $this->_db->quoteName($this->_tbl_key);
+		$published = $this->_db->quoteName($this->getColumnAlias('published'));
+
+		if ($newState !== null)
+		{
+			// Use a new published state in changed row.
+			$newState = "(CASE WHEN p2.$key = " . (int) $pk . " THEN " . (int) $newState . " ELSE p2.$published END)";
+		}
+		else
+		{
+			$newState = "p2.$published";
+		}
+
+		/**
+		 * We have to calculate the correct value for c2.published
+		 * based on p2.published and own c2.published column,
+		 * where (p2) is parent category is and (c2) current category
+		 *
+		 * p2.published <= c2.published AND p2.published > 0 THEN c2.published
+		 *            2 <=  2 THEN  2 (If archived in archived then archived)
+		 *            1 <=  2 THEN  2 (If archived in published then archived)
+		 *            1 <=  1 THEN  1 (If published in published then published)
+		 *
+		 * p2.published >  c2.published AND c2.published > 0 THEN p2.published
+		 *            2 >   1 THEN  2 (If published in archived then archived)
+		 *
+		 * p2.published >  c2.published THEN c2.published ELSE p2.published
+		 *            2 >  -2 THEN -2 (If trashed in archived then trashed)
+		 *            2 >   0 THEN  0 (If unpublished in archived then unpublished)
+		 *            1 >   0 THEN  0 (If unpublished in published then unpublished)
+		 *            0 >  -2 THEN -2 (If trashed in unpublished then trashed)
+		 * ELSE
+		 *            0 <=  2 THEN  0 (If archived in unpublished then unpublished)
+		 *            0 <=  1 THEN  0 (If published in unpublished then unpublished)
+		 *            0 <=  0 THEN  0 (If unpublished in unpublished then unpublished)
+		 *           -2 <= -2 THEN -2 (If trashed in trashed then trashed)
+		 *           -2 <=  0 THEN -2 (If unpublished in trashed then trashed)
+		 *           -2 <=  1 THEN -2 (If published in trashed then trashed)
+		 *           -2 <=  2 THEN -2 (If archived in trashed then trashed)
+		 */
+
+		// Prepare a list of correct published states.
+		$subquery = (string) $query->clear()
+			->select("c2.$key AS newId")
+			->select("CASE WHEN MIN($newState) > 0 THEN MAX($newState) ELSE MIN($newState) END AS newPublished")
+			->from("$table AS node")
+			->innerJoin("$table AS c2 ON node.lft <= c2.lft AND c2.rgt <= node.rgt")
+			->innerJoin("$table AS p2 ON p2.lft <= c2.lft AND c2.rgt <= p2.rgt")
+			->where("node.$key = " . (int) $pk)
+			->group("c2.$key");
+
+		// Update and cascade the publishing state.
+		$query->clear()
+			->update("$table AS c")
+			->innerJoin("($subquery) AS c2 ON c2.newId = c.$key")
+			->set("$published = c2.newPublished");
+
+		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
+
+		return true;
 	}
 
 	/**

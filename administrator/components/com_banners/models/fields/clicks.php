@@ -10,7 +10,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Clicks Field class for the Joomla Framework.
+ * Clicks field.
  *
  * @since  1.6
  */
@@ -37,6 +37,6 @@ class JFormFieldClicks extends JFormField
 
 		return '<input class="input-small" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly" /> <a class="btn" ' . $onclick . '>'
-			. '<span class="icon-refresh"></span> ' . JText::_('COM_BANNERS_RESET_CLICKS') . '</a>';
+			. '<span class="icon-refresh" aria-hidden="true"></span> ' . JText::_('COM_BANNERS_RESET_CLICKS') . '</a>';
 	}
 }

@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('textarea');
 
 /**
- * Form Field class for the Joomla CMS.
  * A textarea field for content creation
  *
  * @see    JEditor

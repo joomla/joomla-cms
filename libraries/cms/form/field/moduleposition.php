@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('text');
 
 /**
- * Form Field class for the Joomla! CMS.
+ * Module Position field.
  *
  * @since  1.6
  */

@@ -288,7 +288,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 				if ($tryThis = \JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
 					// Import the class file.
-					\JLoader::register($tableClass, $tryThis);
+					include_once $tryThis;
 				}
 			}
 
