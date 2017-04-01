@@ -32,6 +32,17 @@ class TagsModelTag extends JModelAdmin
 	public $typeAlias = 'com_tags.tag';
 
 	/**
+	 * Allowed batch commands
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id' => 'batchLanguage',
+	);
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
