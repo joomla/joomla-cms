@@ -62,7 +62,7 @@ abstract class JLoader
 	 * @var    array
 	 * @since  12.3
 	 */
-	protected static $namespaces = array('psr0' => array(), 'psr4' => array());
+	protected static $namespaces = array('psr4' => array());
 
 	/**
 	 * Holds a reference for all deprecated aliases (mainly for use by a logging platform).
@@ -158,11 +158,11 @@ abstract class JLoader
 	 *
 	 * @since   12.3
 	 */
-	public static function getNamespaces($type = 'psr0')
+	public static function getNamespaces($type = 'psr4')
 	{
-		if ($type !== 'psr0' && $type !== 'psr4')
+		if ($type !== 'psr4')
 		{
-			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
+			throw new InvalidArgumentException('Type needs to be psr4!');
 		}
 
 		return self::$namespaces[$type];
@@ -397,14 +397,13 @@ abstract class JLoader
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @note    The default argument of $type will be changed in J4 to be 'psr4'
 	 * @since   12.3
 	 */
-	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
+	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr4')
 	{
-		if ($type !== 'psr0' && $type !== 'psr4')
+		if ($type !== 'psr4')
 		{
-			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
+			throw new InvalidArgumentException('Type needs to be psr4!');
 		}
 
 		// Verify the library path exists.
@@ -470,7 +469,6 @@ abstract class JLoader
 		if ($enablePsr)
 		{
 			// Register the PSR-0 based autoloader.
-			spl_autoload_register(array('JLoader', 'loadByPsr0'));
 			spl_autoload_register(array('JLoader', 'loadByPsr4'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
@@ -522,65 +520,6 @@ abstract class JLoader
 				foreach ($paths as $path)
 				{
 					$classFilePath = $path . DIRECTORY_SEPARATOR . str_replace($nsPath, '', $classPath);
-
-					// We check for class_exists to handle case-sensitive file systems
-					if (file_exists($classFilePath) && !class_exists($class, false))
-					{
-						return (bool) include_once $classFilePath;
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Method to autoload classes that are namespaced to the PSR-0 standard.
-	 *
-	 * @param   string  $class  The fully qualified class name to autoload.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   13.1
-	 *
-	 * @deprecated 4.0 this method will be removed
-	 */
-	public static function loadByPsr0($class)
-	{
-		// Remove the root backslash if present.
-		if ($class[0] == '\\')
-		{
-			$class = substr($class, 1);
-		}
-
-		// Find the location of the last NS separator.
-		$pos = strrpos($class, '\\');
-
-		// If one is found, we're dealing with a NS'd class.
-		if ($pos !== false)
-		{
-			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
-			$className = substr($class, $pos + 1);
-		}
-		// If not, no need to parse path.
-		else
-		{
-			$classPath = null;
-			$className = $class;
-		}
-
-		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-		// Loop through registered namespaces until we find a match.
-		foreach (self::$namespaces['psr0'] as $ns => $paths)
-		{
-			if (strpos($class, $ns) === 0)
-			{
-				// Loop through paths registered to this namespace until we find a match.
-				foreach ($paths as $path)
-				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))

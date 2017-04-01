@@ -516,7 +516,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		$foundLoad = false;
 		$foundAutoload = false;
-		$foundLoadByPsr0 = false;
+		$foundLoadByPsr4 = false;
 		$foundLoadByAlias = false;
 
 		// We search the list of autoload functions to see if our methods are there.
@@ -534,9 +534,9 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 					$foundAutoload = true;
 				}
 
-				if ($loader[1] === 'loadByPsr0')
+				if ($loader[1] === 'loadByPsr4')
 				{
-					$foundLoadByPsr0 = true;
+					$foundLoadByPsr4 = true;
 				}
 
 				if ($loader[1] === 'loadByAlias')
@@ -557,7 +557,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue($foundAutoload);
 
 		// Assert the PSR-0 loader is found.
-		$this->assertTrue($foundLoadByPsr0);
+		$this->assertTrue($foundLoadByPsr4);
 
 		// Assert the Alias loader is found.
 		$this->assertTrue($foundLoadByAlias);
@@ -661,7 +661,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		// Get the autoload functions
 		$loaders = spl_autoload_functions();
 
-		$foundLoadPsr0 = false;
+		$foundLoadPsr4 = false;
 		$foundLoadAlias = false;
 
 		// We search the list of autoload functions to see if our method is here.
@@ -669,7 +669,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		{
 			if (is_array($loader) && $loader[0] === 'JLoader')
 			{
-				if ($loader[1] === 'loadByPsr0')
+				if ($loader[1] === 'loadByPsr4')
 				{
 					$foundLoadPsr0 = true;
 				}
@@ -706,7 +706,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 			if (is_array($loader) && $loader[0] === 'JLoader'
 				&& ($loader[1] === 'load'
 				|| $loader[1] === '_autoload'
-				|| $loader[1] === 'loadByPsr0'
+				|| $loader[1] === 'loadByPsr4'
 				|| $loader[1] === 'loadByAlias'))
 			{
 				spl_autoload_unregister($loader);
