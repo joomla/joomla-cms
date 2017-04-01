@@ -42,7 +42,7 @@
 			name="admin_password"
 			type="password"
 			id="admin_password"
-			class="form-control validate-password-strength"
+			class="form-control"
 			label="INSTL_ADMIN_PASSWORD_LABEL"
 			required="true"
 			strengthmeter="true"
