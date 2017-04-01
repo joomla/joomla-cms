@@ -124,5 +124,4 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		}
 		return true;
 	}
-
 }

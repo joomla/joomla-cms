@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -15,12 +15,12 @@ JHtml::_('formbehavior.chosen', '.advancedSelect');
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+				<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.access'); ?>
+				<?php echo JLayoutHelper::render('joomla.html.batch.access', array()); ?>
 			</div>
 		</div>
 	</div>

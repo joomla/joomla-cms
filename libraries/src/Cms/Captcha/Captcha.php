@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Captcha;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -24,14 +25,18 @@ use Joomla\Registry\Registry;
  * @subpackage  Captcha
  * @since       2.5
  */
+<<<<<<< HEAD:libraries/cms/captcha/captcha.php
 class JCaptcha implements DispatcherAwareInterface
+=======
+class Captcha extends JObject
+>>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Captcha/Captcha.php
 {
 	use DispatcherAwareTrait;
 
 	/**
 	 * Captcha Plugin object
 	 *
-	 * @var	   JPlugin
+	 * @var	   \JPlugin
 	 * @since  2.5
 	 */
 	private $_captcha;
@@ -47,7 +52,7 @@ class JCaptcha implements DispatcherAwareInterface
 	/**
 	 * Array of instances of this class.
 	 *
-	 * @var	   JCaptcha[]
+	 * @var	   Captcha[]
 	 * @since  2.5
 	 */
 	private static $_instances = array();
@@ -74,7 +79,7 @@ class JCaptcha implements DispatcherAwareInterface
 	 * @param   string  $captcha  The plugin to use.
 	 * @param   array   $options  Associative array of options.
 	 *
-	 * @return  JCaptcha|null  Instance of this class.
+	 * @return  Captcha|null  Instance of this class.
 	 *
 	 * @since   2.5
 	 */
@@ -86,11 +91,15 @@ class JCaptcha implements DispatcherAwareInterface
 		{
 			try
 			{
+<<<<<<< HEAD:libraries/cms/captcha/captcha.php
 				self::$_instances[$signature] = new static($captcha, $options);
+=======
+				self::$_instances[$signature] = new Captcha($captcha, $options);
+>>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Captcha/Captcha.php
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return;
 			}
@@ -121,7 +130,7 @@ class JCaptcha implements DispatcherAwareInterface
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -210,23 +219,23 @@ class JCaptcha implements DispatcherAwareInterface
 	private function _load(array $options = array())
 	{
 		// Build the path to the needed captcha plugin
-		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Require plugin file
 		require_once $path;
 
 		// Get the plugin
-		$plugin = JPluginHelper::getPlugin('captcha', $this->_name);
+		$plugin = \JPluginHelper::getPlugin('captcha', $this->_name);
 
 		if (!$plugin)
 		{
-			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Check for already loaded params
@@ -238,7 +247,125 @@ class JCaptcha implements DispatcherAwareInterface
 
 		// Build captcha plugin classname
 		$name = 'PlgCaptcha' . $this->_name;
+<<<<<<< HEAD:libraries/cms/captcha/captcha.php
 		$dispatcher     = $this->getDispatcher();
 		$this->_captcha = new $name($dispatcher, (array) $plugin, $options);
+=======
+		$this->_captcha = new $name($this, (array) $plugin, $options);
+	}
+
+	/**
+	 * Get the state of the \JEditor object
+	 *
+	 * @return  mixed  The state of the object.
+	 *
+	 * @since   2.5
+	 */
+	public function getState()
+	{
+		return $this->_state;
+	}
+
+	/**
+	 * Attach an observer object
+	 *
+	 * @param   object  $observer  An observer object to attach
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	public function attach($observer)
+	{
+		if (is_array($observer))
+		{
+			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this array as an observer
+			foreach ($this->_observers as $check)
+			{
+				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			end($this->_observers);
+			$methods = array($observer['event']);
+		}
+		else
+		{
+			if (!($observer instanceof \JEditor))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this object as an observer
+			$class = get_class($observer);
+
+			foreach ($this->_observers as $check)
+			{
+				if ($check instanceof $class)
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			$methods = array_diff(get_class_methods($observer), get_class_methods('\JPlugin'));
+		}
+
+		$key = key($this->_observers);
+
+		foreach ($methods as $method)
+		{
+			$method = strtolower($method);
+
+			if (!isset($this->_methods[$method]))
+			{
+				$this->_methods[$method] = array();
+			}
+
+			$this->_methods[$method][] = $key;
+		}
+	}
+
+	/**
+	 * Detach an observer object
+	 *
+	 * @param   object  $observer  An observer object to detach.
+	 *
+	 * @return  boolean  True if the observer object was detached.
+	 *
+	 * @since   2.5
+	 */
+	public function detach($observer)
+	{
+		$retval = false;
+
+		$key = array_search($observer, $this->_observers);
+
+		if ($key !== false)
+		{
+			unset($this->_observers[$key]);
+			$retval = true;
+
+			foreach ($this->_methods as &$method)
+			{
+				$k = array_search($key, $method);
+
+				if ($k !== false)
+				{
+					unset($method[$k]);
+				}
+			}
+		}
+
+		return $retval;
+>>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Captcha/Captcha.php
 	}
 }

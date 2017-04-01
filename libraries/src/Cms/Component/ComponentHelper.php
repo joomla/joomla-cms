@@ -3,12 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Component;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Access\Access;
+use Joomla\Cms\Component\Exception\MissingException;
 use Joomla\Registry\Registry;
 use Joomla\Cms\Dispatcher\DispatcherInterface;
 
@@ -17,7 +21,7 @@ use Joomla\Cms\Dispatcher\DispatcherInterface;
  *
  * @since  1.5
  */
-class JComponentHelper
+class ComponentHelper
 {
 	/**
 	 * The component list cache
@@ -33,7 +37,7 @@ class JComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  JComponentRecord  An object with the information for the component.
+	 * @return  \JComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -47,7 +51,7 @@ class JComponentHelper
 			}
 			else
 			{
-				$result = new JComponentRecord;
+				$result = new \JComponentRecord;
 				$result->enabled = $strict ? false : true;
 				$result->setParams(new Registry);
 			}
@@ -455,13 +459,13 @@ class JComponentHelper
 	{
 		try
 		{
-			JLog::add(
+			\JLog::add(
 				sprintf(
 					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
 					__METHOD__,
 					__CLASS__
 				),
-				JLog::WARNING,
+				\JLog::WARNING,
 				'deprecated'
 			);
 		}
@@ -472,24 +476,24 @@ class JComponentHelper
 
 		$loader = function ()
 		{
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'namespace', 'enabled'), array('id', 'option', null, null, null)))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', 'JComponentRecord');
+			return $db->loadObjectList('option', '\JComponentRecord');
 		};
 
-		/** @var JCacheControllerCallback $cache */
-		$cache = JFactory::getCache('_system', 'callback');
+		/** @var \JCacheControllerCallback $cache */
+		$cache = \JFactory::getCache('_system', 'callback');
 
 		try
 		{
 			static::$components = $cache->get($loader, array(), __METHOD__);
 		}
-		catch (JCacheException $e)
+		catch (\JCacheException $e)
 		{
 			static::$components = $loader();
 		}
@@ -499,20 +503,20 @@ class JComponentHelper
 			/*
 			 * Fatal error
 			 *
-			 * It is possible for this error to be reached before the global JLanguage instance has been loaded so we check for its presence
+			 * It is possible for this error to be reached before the global \JLanguage instance has been loaded so we check for its presence
 			 * before logging the error to ensure a human friendly message is always given
 			 */
 
-			if (JFactory::$language)
+			if (\JFactory::$language)
 			{
-				$msg = JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+				$msg = \JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, \JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
 			}
 			else
 			{
 				$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
 			}
 
-			JLog::add($msg, JLog::WARNING, 'jerror');
+			\JLog::add($msg, \JLog::WARNING, 'jerror');
 
 			return false;
 		}

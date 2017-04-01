@@ -14,7 +14,6 @@ JFormHelper::loadFieldClass('groupedlist');
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
- * Form Field class for the Joomla CMS.
  * Supports a select grouped list of finder content map.
  *
  * @since  3.6.0
