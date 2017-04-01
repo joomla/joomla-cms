@@ -386,7 +386,6 @@ abstract class Model extends \JObject
 		// Clean the model name
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_\\\\]/i', '', $prefix);
-
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))
 		{
@@ -499,7 +498,7 @@ abstract class Model extends \JObject
 					$name = $inflector->toSingular($name);
 				}
 
-				$prefix = $this->namespace . '\\Administrator\\Table\\';
+				$prefix = $this->namespace . 'Administrator\\Table\\';
 			}
 			else
 			{
