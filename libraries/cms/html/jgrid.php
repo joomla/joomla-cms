@@ -70,7 +70,7 @@ abstract class JHtmlJGrid
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<span class="icon-' . $active_class . '"></span>';
+			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
 		}
 		else

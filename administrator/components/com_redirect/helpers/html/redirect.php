@@ -53,7 +53,7 @@ class JHtmlRedirect
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3]) . '"><span class="icon-'	. $icon . '"></span></a>';
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3]) . '"><span class="icon-'	. $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;
