@@ -47,9 +47,9 @@
       box-shadow: 0 1px 2px rgba(0,0,0,.05);
 
       [class^="icon-"],
-	    [class*=" icon-"],
-      [class^="fa-"],
-	    [class*=" fa-"] {
+      [class*=" icon-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         z-index: -1;
         display: inline-block;
         width: 28px;
@@ -73,9 +73,9 @@
 	.btn-outline-primary {
 
       [class^="icon-"],
-	    [class*=" icon-"],
-      [class^="fa-"],
-	    [class*=" fa-"] {
+      [class*=" icon-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         color: $brand-primary;
       }
 
@@ -85,9 +85,9 @@
 	.btn-outline-success {
 
       [class^="icon-"],
-	    [class*=" icon-"],
-      [class^="fa-"],
-	    [class*=" fa-"] {
+      [class*=" icon-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         color: $brand-success;
       }
 
@@ -97,9 +97,9 @@
 	.btn-outline-info {
 
       [class^="icon-"],
-	    [class*=" icon-"],
-      [class^="fa-"],
-	    [class*=" fa-"] {
+      [class*=" icon-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         color: $brand-info;
       }
 
@@ -109,9 +109,9 @@
 	.btn-outline-danger {
 
       [class^="icon-"],
-	    [class*=" icon-"],
-      [class^="fa-"],
-	    [class*=" fa-"] {
+      [class*=" icon-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         color: $brand-danger;
       }
 
@@ -121,9 +121,9 @@
     .btn-outline-warning {
 
       [class^="icon-"],
-	    [class*=" icon-"],
-      [class^="fa-"],
-	    [class*=" fa-"] {
+      [class*=" icon-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         color: $brand-warning;
       }
 
@@ -136,9 +136,9 @@
       border-color: rgba(0,0,0,.2);
 
       [class^="icon-"],
-	    [class*=" icon-"],
-      [class^="fa-"],
-	    [class*=" fa-"] {
+      [class*=" icon-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         width: 16px;
         margin-right: 0;
         margin-left: 0;
