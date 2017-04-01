@@ -22,11 +22,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-<<<<<<< HEAD:libraries/cms/editor/editor.php
-class JEditor implements DispatcherAwareInterface
-=======
-class Editor extends \JObject
->>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Editor/Editor.php
+class Editor implements DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
@@ -118,136 +114,13 @@ class Editor extends \JObject
 
 		if (empty(self::$instances[$signature]))
 		{
-<<<<<<< HEAD:libraries/cms/editor/editor.php
 			self::$instances[$signature] = new static($editor);
-=======
-			self::$instances[$signature] = new Editor($editor);
->>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Editor/Editor.php
 		}
 
 		return self::$instances[$signature];
 	}
 
 	/**
-<<<<<<< HEAD:libraries/cms/editor/editor.php
-=======
-	 * Get the state of the Editor object
-	 *
-	 * @return  mixed    The state of the object.
-	 *
-	 * @since   1.5
-	 */
-	public function getState()
-	{
-		return $this->_state;
-	}
-
-	/**
-	 * Attach an observer object
-	 *
-	 * @param   array|object  $observer  An observer object to attach or an array with handler and event keys
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function attach($observer)
-	{
-		if (is_array($observer))
-		{
-			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this array as an observer
-			foreach ($this->_observers as $check)
-			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
-				{
-					return;
-				}
-			}
-
-			$this->_observers[] = $observer;
-			end($this->_observers);
-			$methods = array($observer['event']);
-		}
-		else
-		{
-			if (!($observer instanceof Editor))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this object as an observer
-			$class = get_class($observer);
-
-			foreach ($this->_observers as $check)
-			{
-				if ($check instanceof $class)
-				{
-					return;
-				}
-			}
-
-			$this->_observers[] = $observer;
-
-			// @todo We require a Editor object above but get the methods from \JPlugin - something isn't right here!
-			$methods = array_diff(get_class_methods($observer), get_class_methods('\JPlugin'));
-		}
-
-		$key = key($this->_observers);
-
-		foreach ($methods as $method)
-		{
-			$method = strtolower($method);
-
-			if (!isset($this->_methods[$method]))
-			{
-				$this->_methods[$method] = array();
-			}
-
-			$this->_methods[$method][] = $key;
-		}
-	}
-
-	/**
-	 * Detach an observer object
-	 *
-	 * @param   object  $observer  An observer object to detach.
-	 *
-	 * @return  boolean  True if the observer object was detached.
-	 *
-	 * @since   1.5
-	 */
-	public function detach($observer)
-	{
-		$retval = false;
-
-		$key = array_search($observer, $this->_observers);
-
-		if ($key !== false)
-		{
-			unset($this->_observers[$key]);
-			$retval = true;
-
-			foreach ($this->_methods as &$method)
-			{
-				$k = array_search($key, $method);
-
-				if ($k !== false)
-				{
-					unset($method[$k]);
-				}
-			}
-		}
-
-		return $retval;
-	}
-
-	/**
->>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Editor/Editor.php
 	 * Initialise the editor
 	 *
 	 * @return  void
@@ -311,11 +184,7 @@ class Editor extends \JObject
 		// Check whether editor is already loaded
 		if (is_null(($this->_editor)))
 		{
-<<<<<<< HEAD:libraries/cms/editor/editor.php
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
-=======
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'error');
->>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Editor/Editor.php
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
 			return;
 		}

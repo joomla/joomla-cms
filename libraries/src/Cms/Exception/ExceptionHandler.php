@@ -69,7 +69,6 @@ class ExceptionHandler
 					$app->redirect('index.php');
 				}
 
-<<<<<<< HEAD:libraries/cms/error/page.php
 				/*
 				 * Try and determine the format to render the error page in
 				 *
@@ -77,32 +76,12 @@ class ExceptionHandler
 				 * If a type doesn't exist for that format, we try to use the format from the application's JInput object
 				 * Lastly, if all else fails, we default onto the HTML format to at least render something
 				 */
-				if (JFactory::$document)
+				if (\JFactory::$document)
 				{
 					// We're probably in an CLI environment
-					$format = JFactory::getDocument()->getType();
+					$format = \JFactory::getDocument()->getType();
 				}
 				else
-=======
-				$attributes = array(
-					'charset'   => 'utf-8',
-					'lineend'   => 'unix',
-					'tab'       => "\t",
-					'language'  => 'en-GB',
-					'direction' => 'ltr',
-				);
-
-				// If there is a \JLanguage instance in \JFactory then let's pull the language and direction from its metadata
-				if (\JFactory::$language)
-				{
-					$attributes['language']  = \JFactory::getLanguage()->getTag();
-					$attributes['direction'] = \JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr';
-				}
-
-				$document = \JDocument::getInstance('error', $attributes);
-
-				if (!$document)
->>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Exception/ExceptionHandler.php
 				{
 					$format = $app->input->getString('format', 'html');
 				}
@@ -111,26 +90,13 @@ class ExceptionHandler
 				{
 					$renderer = AbstractRenderer::getRenderer($format);
 				}
-				catch (InvalidArgumentException $e)
+				catch (\InvalidArgumentException $e)
 				{
 					// Default to the HTML renderer
 					$renderer = AbstractRenderer::getRenderer('html');
 				}
 
-<<<<<<< HEAD:libraries/cms/error/page.php
 				$data = $renderer->render($error);
-=======
-				$document->setTitle(\JText::_('ERROR') . ': ' . $error->getCode());
-
-				$data = $document->render(
-					false,
-					array(
-						'template'  => $template,
-						'directory' => JPATH_THEMES,
-						'debug'     => JDEBUG,
-					)
-				);
->>>>>>> 3.8-dev:libraries/src/Joomla/Cms/Exception/ExceptionHandler.php
 
 				// Do not allow cache
 				$app->allowCache(false);
