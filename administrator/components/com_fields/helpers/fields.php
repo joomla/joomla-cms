@@ -391,6 +391,12 @@ class FieldsHelper
 				JFormHelper::addFieldPath($path);
 			}
 
+			if ($path = $fieldTypes[$field->type]['rules'])
+			{
+				// Add the lookup path for the rule
+				JFormHelper::addRulePath($path);
+			}
+
 			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
@@ -731,6 +737,12 @@ class FieldsHelper
 				{
 					$fieldDescription['path'] = null;
 				}
+
+				if (!array_key_exists('rules', $fieldDescription))
+				{
+					$fieldDescription['rules'] = null;
+				}
+
 				$data[$fieldDescription['type']] = $fieldDescription;
 			}
 		}
