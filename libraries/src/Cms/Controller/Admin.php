@@ -100,14 +100,7 @@ class Admin extends Controller
 		// Guess the list view as the suffix, eg: OptionControllerSuffix.
 		if (empty($this->view_list))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->view_list = strtolower($r[2]);
+			$this->view_list = strtolower($this->getControllerName());
 		}
 	}
 
