@@ -61,7 +61,7 @@ $attributes = array(
 	$autocomplete,
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$maxlength ? 'maxlength="' . $maxlength . '"' : ''
+	$maxlength ? $maxlength: ''
 
 );
 ?>

@@ -40,6 +40,10 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	{
 		parent::setUp();
 
+		// Getting categories relies on the user access which relies on the session.
+		$this->saveFactoryState();
+		JFactory::$session = $this->getMockSession();
+
 		$app = $this->getMockCmsApp();
 		JFactory::$application = $app;
 		$router = new JComponentRouterViewInspector($app, $app->getMenu());
@@ -62,6 +66,21 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 		$router->menu = new MockJComponentRouterRulesMenuMenuObject();
 
 		$this->object = new JComponentRouterRulesMenuInspector($router);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.7.0
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

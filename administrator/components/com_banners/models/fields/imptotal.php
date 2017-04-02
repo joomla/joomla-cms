@@ -10,7 +10,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Impressions Field class for the Joomla Framework.
+ * Total Impressions field.
  *
  * @since  1.6
  */

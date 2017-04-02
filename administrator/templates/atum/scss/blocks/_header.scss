@@ -159,11 +159,11 @@
 
     span {
       position: relative;
-      top: 2px;
-      margin-right: 12px;
+      top: 3px;
+      margin-right: 15px;
       margin-left: 5px;
       font-size: $font-size-h1;
-      color: lighten($atum-template-color-light, 10%);
+      color: $white-offset;
     }
 
   }

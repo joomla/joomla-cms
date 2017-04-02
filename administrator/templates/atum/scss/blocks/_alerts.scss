@@ -1,24 +1,9 @@
 // Alerts
 
-
 .j-main-container {
 
   .alert {
     margin: 10px;
-  }
-
-}
-
-@keyframes fadeIn {
-
-  from {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 
 }
@@ -37,7 +22,6 @@
     min-width: 280px;
     max-width: 400px;
     margin-bottom: .5rem;
-    box-shadow: #8d8d8d;
     opacity: 0;
     animation: fadeIn ease-in 1;
     animation-duration: .35s;
@@ -63,8 +47,11 @@
   }
 
   .close {
+    position: relative;
+    right: -.5rem;
+    padding: .5rem;
     line-height: 1rem;
-    color: $white-offset;
+    color: $black;
     opacity: 1;
   }
 
@@ -86,6 +73,20 @@
 
   .notify-alerts {
     margin-left: 0;
+  }
+
+}
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 
 }

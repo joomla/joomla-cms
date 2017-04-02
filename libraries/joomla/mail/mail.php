@@ -466,17 +466,17 @@ class JMail extends PHPMailer
 					{
 						if (!empty($name))
 						{
-							$result = parent::addAttachment($file, $name[$key], $encoding, $type);
+							$result = parent::addAttachment($file, $name[$key], $encoding, $type, $disposition);
 						}
 						else
 						{
-							$result = parent::addAttachment($file, $name, $encoding, $type);
+							$result = parent::addAttachment($file, $name, $encoding, $type, $disposition);
 						}
 					}
 				}
 				else
 				{
-					$result = parent::addAttachment($path, $name, $encoding, $type);
+					$result = parent::addAttachment($path, $name, $encoding, $type, $disposition);
 				}
 
 				// Check for boolean false return if exception handling is disabled
