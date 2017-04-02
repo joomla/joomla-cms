@@ -600,7 +600,13 @@ class PlgEditorTinymce extends JPlugin
 
 			if (!empty($tempPath))
 			{
-				$tempPath = ltrim(rtrim($tempPath, '/'));
+				// List the skins
+				$uplloadDirs = glob(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path') . '/*', GLOB_ONLYDIR);
+
+				if ((int) $tempPath < count($uplloadDirs))
+				{
+					$tempPath = basename($uplloadDirs[(int) $tempPath - 1]);
+				}
 			}
 
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
