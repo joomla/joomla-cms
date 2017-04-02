@@ -71,7 +71,7 @@ class Form extends Controller
 		{
 			if (empty($config['text_prefix']))
 			{
-				$this->text_prefix = strtoupper($this->option);
+				$this->text_prefix = strtoupper($this->option . '_' . $this->getControllerName());
 			}
 			else
 			{
