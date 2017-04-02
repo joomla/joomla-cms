@@ -20,7 +20,7 @@ class FieldsListPlugin extends FieldsPlugin
 	/**
 	 * Transforms the field into an XML element and appends it as child on the given parent. This
 	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 * an XML Element must implement the JFormDomfieldinterface.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
@@ -41,8 +41,8 @@ class FieldsListPlugin extends FieldsPlugin
 
 		foreach ($this->getOptionsFromField($field) as $value => $name)
 		{
-			$option = new DOMElement('option', $value);
-			$option->nodeValue = JText::_($name);
+			$option = new DOMElement('option', htmlentities($value));
+			$option->nodeValue = htmlentities(JText::_($name));
 
 			$element = $fieldNode->appendChild($option);
 			$element->setAttribute('value', $value);

@@ -61,16 +61,24 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 								</th>
 								<th width="3%" class="nowrap text-center hidden-sm-down">
-									<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"></i>
+                                    <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
+                                        <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
+                                    </span>
 								</th>
 								<th width="3%" class="nowrap text-center hidden-sm-down">
-									<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
+                                    <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>">
+                                        <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+                                    </span>
 								</th>
 								<th width="3%" class="nowrap text-center hidden-sm-down">
-									<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></i>
+                                    <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>">
+                                        <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
+                                    </span>
 								</th>
 								<th width="3%" class="nowrap text-center hidden-sm-down">
-									<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></i>
+                                    <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>">
+                                        <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
+                                    </span>
 								</th>
 								<th width="10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>

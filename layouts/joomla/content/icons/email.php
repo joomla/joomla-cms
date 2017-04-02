@@ -17,7 +17,7 @@ $legacy = $displayData['legacy'];
 	<?php if ($legacy) : ?>
 		<?php echo JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), null, true); ?>
 	<?php else : ?>
-		<span class="icon-envelope"></span>
+		<span class="fa fa-envelope"></span>
 		<?php echo JText::_('JGLOBAL_EMAIL'); ?>
 	<?php endif; ?>
 <?php else : ?>

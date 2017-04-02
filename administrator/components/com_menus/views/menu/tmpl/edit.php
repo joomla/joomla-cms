@@ -17,19 +17,8 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.tabstate');
 
 JText::script('ERROR');
-
-JFactory::getDocument()->addScriptDeclaration("
-		Joomla.submitbutton = function(task)
-		{
-			var form = document.getElementById('item-form');
-			if (task == 'menu.cancel' || document.formvalidator.isValid(form))
-			{
-				Joomla.submitform(task, form);
-			}
-		};
-");
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

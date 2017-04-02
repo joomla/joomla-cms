@@ -15,14 +15,14 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
-$user       = JFactory::getUser();
-$app        = JFactory::getApplication();
-$userId     = $user->get('id');
-$listOrder  = $this->escape($this->state->get('list.ordering'));
-$listDirn   = $this->escape($this->state->get('list.direction'));
-$ordering   = ($listOrder == 'a.lft');
-$saveOrder  = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$menuType   = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
+$user      = JFactory::getUser();
+$app       = JFactory::getApplication();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$ordering  = ($listOrder == 'a.lft');
+$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
 
 if ($saveOrder && $menuType)
 {
@@ -39,7 +39,8 @@ if ($menuType == '')
 }
 ?>
 <?php // Set up the filter bar. ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm"
+      id="adminForm">
 	<div class="row">
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -47,76 +48,79 @@ if ($menuType == '')
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
-				<?php if ($this->total > 0) : ?>
+				<?php if (empty($this->items)) : ?>
+					<div class="alert alert-warning alert-no-items">
+						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
+				<?php else : ?>
 					<table class="table table-striped" id="itemList">
 						<thead>
-							<tr>
-								<?php if ($menuType) : ?>
-									<th width="1%" class="nowrap text-center hidden-sm-down">
-										<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-									</th>
-								<?php endif; ?>
-								<th width="1%" class="nowrap text-center">
-									<?php echo JHtml::_('grid.checkall'); ?>
+						<tr>
+							<?php if ($menuType) : ?>
+								<th width="1%" class="nowrap text-center hidden-sm-down">
+									<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th width="1%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
-								</th>
-								<th class="title">
-									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
-								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
-								</th>
-								<?php if ($this->state->get('filter.client_id') == 0) : ?>
+							<?php endif; ?>
+							<th width="1%" class="nowrap text-center">
+								<?php echo JHtml::_('grid.checkall'); ?>
+							</th>
+							<th width="1%" class="nowrap text-center">
+								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
+							</th>
+							<th class="title">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+							</th>
+							<th width="10%" class="nowrap hidden-sm-down text-center">
+								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
+							</th>
+							<?php if ($this->state->get('filter.client_id') == 0) : ?>
 								<th width="10%" class="text-center nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 								</th>
-								<?php endif; ?>
-								<?php if ($this->state->get('filter.client_id') == 0) : ?>
+							<?php endif; ?>
+							<?php if ($this->state->get('filter.client_id') == 0) : ?>
 								<th width="10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
-								<?php endif; ?>
-								<?php if ($assoc) : ?>
-									<th width="10%" class="nowrap hidden-sm-down text-center">
-										<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-									</th>
-								<?php endif; ?>
-								<?php if ($this->state->get('filter.client_id') == 0) : ?>
+							<?php endif; ?>
+							<?php if ($assoc) : ?>
+								<th width="10%" class="nowrap hidden-sm-down text-center">
+									<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+								</th>
+							<?php endif; ?>
+							<?php if ($this->state->get('filter.client_id') == 0) : ?>
 								<th width="10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
-								<?php endif; ?>
-								<th width="5%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-								</th>
-							</tr>
+							<?php endif; ?>
+							<th width="5%" class="nowrap hidden-sm-down text-center">
+								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+							</th>
+						</tr>
 						</thead>
 						<tfoot>
-							<tr>
-								<td colspan="<?php echo $colSpan; ?>">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
+						<tr>
+							<td colspan="<?php echo $colSpan; ?>">
+								<?php echo $this->pagination->getListFooter(); ?>
+							</td>
+						</tr>
 						</tfoot>
 
-						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
+						<tbody <?php if ($saveOrder && $menuType) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 						<?php
-
 						foreach ($this->items as $i => $item) :
-							$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
-							$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $item->menutype_id);
-							$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $item->menutype_id);
-							$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-							$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $item->menutype_id) && $canCheckin;
+							$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
+							$canCreate = $user->authorise('core.create', 'com_menus.menu.' . $item->menutype_id);
+							$canEdit = $user->authorise('core.edit', 'com_menus.menu.' . $item->menutype_id);
+							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+							$canChange = $user->authorise('core.edit.state', 'com_menus.menu.' . $item->menutype_id) && $canCheckin;
 
 							// Get the parents of item for sorting
 							if ($item->level > 1)
 							{
-								$parentsStr = '';
+								$parentsStr       = '';
 								$_currentParentId = $item->parent_id;
-								$parentsStr = ' ' . $_currentParentId;
+								$parentsStr       = ' ' . $_currentParentId;
 
 								for ($j = 0; $j < $item->level; $j++)
 								{
@@ -139,7 +143,9 @@ if ($menuType == '')
 								$parentsStr = '';
 							}
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
+							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>"
+							    item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
+							    level="<?php echo $item->level; ?>">
 								<?php if ($menuType) : ?>
 									<td class="order nowrap text-center hidden-sm-down">
 										<?php
@@ -155,10 +161,11 @@ if ($menuType == '')
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="icon-menu"></span>
+											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
-											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">
+											<input type="text" style="display:none" name="order[]" size="5"
+											       value="<?php echo $orderkey + 1; ?>">
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
@@ -178,7 +185,9 @@ if ($menuType == '')
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 									<?php endif; ?>
 									<?php if ($canEdit && !$item->protected) : ?>
-										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+										<a class="hasTooltip"
+										   href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
+										   title="<?php echo JText::_('JACTION_EDIT'); ?>">
 											<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
@@ -197,7 +206,8 @@ if ($menuType == '')
 									<?php echo JHtml::_('MenusHtml.Menus.visibility', $item->params); ?>
 									<div title="<?php echo $this->escape($item->path); ?>">
 										<?php echo $prefix; ?>
-										<span class="small"  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
+										<span class="small"
+										      title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 											<?php echo $this->escape($item->item_type); ?></span>
 									</div>
 								</td>
@@ -205,32 +215,34 @@ if ($menuType == '')
 									<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
 								</td>
 								<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<td class="text-center hidden-sm-down">
-									<?php if ($item->type == 'component') : ?>
-										<?php if ($item->language == '*' || $item->home == '0') : ?>
-											<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
-										<?php elseif ($canChange) : ?>
-											<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
-												<?php if ($item->language_image) : ?>
-													<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
-												<?php else : ?>
-													<span class="label" title="<?php echo JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
-												<?php endif; ?>
-											</a>
-										<?php else : ?>
-											<?php if ($item->language_image) : ?>
-												<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+									<td class="text-center hidden-sm-down">
+										<?php if ($item->type == 'component') : ?>
+											<?php if ($item->language == '*' || $item->home == '0') : ?>
+												<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
+											<?php elseif ($canChange) : ?>
+												<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
+													<?php if ($item->language_image) : ?>
+														<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+													<?php else : ?>
+														<span class="label"
+														      title="<?php echo JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+													<?php endif; ?>
+												</a>
 											<?php else : ?>
-												<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+												<?php if ($item->language_image) : ?>
+													<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+												<?php else : ?>
+													<span class="label"
+													      title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+												<?php endif; ?>
 											<?php endif; ?>
 										<?php endif; ?>
-									<?php endif; ?>
-								</td>
+									</td>
 								<?php endif; ?>
 								<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<td class="small hidden-sm-down text-center">
-									<?php echo $this->escape($item->access_level); ?>
-								</td>
+									<td class="small hidden-sm-down text-center">
+										<?php echo $this->escape($item->access_level); ?>
+									</td>
 								<?php endif; ?>
 								<?php if ($assoc) : ?>
 									<td class="small hidden-sm-down text-center">
@@ -240,9 +252,9 @@ if ($menuType == '')
 									</td>
 								<?php endif; ?>
 								<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<td class="small hidden-sm-down text-center">
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-								</td>
+									<td class="small hidden-sm-down text-center">
+										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									</td>
 								<?php endif; ?>
 								<td class="hidden-sm-down text-center">
 									<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
@@ -250,7 +262,7 @@ if ($menuType == '')
 									</span>
 								</td>
 							</tr>
-							<?php endforeach; ?>
+						<?php endforeach; ?>
 						</tbody>
 					</table>
 					<?php // Load the batch processing form if user is allowed ?>
@@ -259,7 +271,7 @@ if ($menuType == '')
 							'bootstrap.renderModal',
 							'collapseModal',
 							array(
-								'title' => JText::_('COM_MENUS_BATCH_OPTIONS'),
+								'title'  => JText::_('COM_MENUS_BATCH_OPTIONS'),
 								'footer' => $this->loadTemplate('batch_footer')
 							),
 							$this->loadTemplate('batch_body')

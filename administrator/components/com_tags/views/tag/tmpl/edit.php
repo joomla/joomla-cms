@@ -13,16 +13,6 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'tag.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
-			" . $this->form->getField('description')->save() . "
-			Joomla.submitform(task, document.getElementById('item-form'));
-		}
-	};
-");
-
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('jmetadata');
 ?>
@@ -62,6 +52,7 @@ $this->ignore_fieldsets = array('jmetadata');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>

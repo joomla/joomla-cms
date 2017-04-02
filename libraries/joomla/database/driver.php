@@ -253,8 +253,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
-		// If the selected driver is `mysql` and we are on PHP 7 or greater, switch to the `mysqli` driver.
-		if ($options['driver'] === 'mysql' && PHP_MAJOR_VERSION >= 7)
+		// If the selected driver is `mysql`, switch to one of the other available MySQL drivers.
+		if ($options['driver'] === 'mysql')
 		{
 			// Check if we have support for the other MySQL drivers
 			$mysqliSupported   = JDatabaseDriverMysqli::isSupported();
@@ -264,7 +264,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			if (!$mysqliSupported && !$pdoMysqlSupported)
 			{
 				throw new JDatabaseExceptionUnsupported(
-					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.'
+					'Support for the PHP `ext/mysql` extension has been removed, cannot use the `mysql` driver.'
 					. ' Also, this system does not support MySQLi or PDO MySQL.  Cannot instantiate database driver.'
 				);
 			}
@@ -273,7 +273,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			if ($mysqliSupported)
 			{
 				JLog::add(
-					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `mysqli` instead.',
+					'Support for the PHP `ext/mysql` extension has been removed, cannot use the `mysql` driver.  Trying `mysqli` instead.',
 					JLog::WARNING,
 					'deprecated'
 				);
@@ -283,7 +283,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			else
 			{
 				JLog::add(
-					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `pdomysql` instead.',
+					'Support for the PHP `ext/mysql` extension has been removed, cannot use the `mysql` driver.  Trying `pdomysql` instead.',
 					JLog::WARNING,
 					'deprecated'
 				);
@@ -1830,7 +1830,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @param   mixed    $text    A string or an array of strings to quote.
 	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
 	 *
-	 * @return  string  The quoted input string.
+	 * @return  string|array  The quoted input.
 	 *
 	 * @note    Accepting an array of strings was added in 12.3.
 	 * @since   11.1

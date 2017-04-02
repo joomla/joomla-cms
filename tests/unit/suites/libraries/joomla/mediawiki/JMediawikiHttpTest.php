@@ -15,12 +15,11 @@
  *
  * @since       12.3
  */
-class JMediawikiHttpTest extends PHPUnit_Framework_TestCase
+class JMediawikiHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Tests the constructor to ensure only arrays or ArrayAccess objects are allowed
 	 *
-	 * @return  void
 	 *
 	 * @expectedException  \InvalidArgumentException
 	 */

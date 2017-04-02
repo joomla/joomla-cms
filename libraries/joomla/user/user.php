@@ -509,6 +509,22 @@ class JUser extends JObject
 	}
 
 	/**
+	 * Method to get the user timezone.
+	 *
+	 * If the user didn't set a timezone, it will return the server timezone
+	 *
+	 * @return DateTimeZone
+	 *
+	 * @since 3.7.0
+	 */
+	public function getTimezone()
+	{
+		$timezone = $this->getParam('timezone', JFactory::getApplication()->get('offset', 'GMT'));
+
+		return new DateTimeZone($timezone);
+	}
+
+	/**
 	 * Method to get the user parameters
 	 *
 	 * @param   object  $params  The user parameters object

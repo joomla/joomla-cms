@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Web\WebClient;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
@@ -38,20 +39,20 @@ final class JApplicationSite extends JApplicationCms
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input      An optional argument to provide dependency injection for the application's
-	 *                                             input object.  If the argument is a JInput object that object will become
-	 *                                             the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config     An optional argument to provide dependency injection for the application's
-	 *                                             config object.  If the argument is a Registry object that object will become
-	 *                                             the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client     An optional argument to provide dependency injection for the application's
-	 *                                             client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                                             the application's client object, otherwise a default client object is created.
-	 * @param   Container              $container  Dependency injection container.
+	 * @param   JInput     $input      An optional argument to provide dependency injection for the application's input
+	 *                                 object.  If the argument is a JInput object that object will become the
+	 *                                 application's input object, otherwise a default input object is created.
+	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
+	 *                                 object.  If the argument is a Registry object that object will become the
+	 *                                 application's config object, otherwise a default config object is created.
+	 * @param   WebClient  $client     An optional argument to provide dependency injection for the application's client
+	 *                                 object.  If the argument is a WebClient object that object will become the
+	 *                                 application's client object, otherwise a default client object is created.
+	 * @param   Container  $container  Dependency injection container.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
+	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name
 		$this->name = 'site';
@@ -528,6 +529,18 @@ final class JApplicationSite extends JApplicationCms
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
 			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+
+			// Try to find data for 'aurora' template
+			$original_tmpl = $template->template;
+
+			foreach ($templates as $tmpl)
+			{
+				if ($tmpl->template == 'aurora')
+				{
+					$template = $tmpl;
+					break;
+				}
+			}
 
 			// Check, the data were found and if template really exists
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))

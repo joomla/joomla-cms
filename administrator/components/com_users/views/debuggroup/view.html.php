@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * View class for a list of users.
+ * View class for a list of User Group ACL permissions.
  *
  * @since  1.6
  */
@@ -131,7 +131,16 @@ class UsersViewDebuggroup extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
+		$canDo = JHelperContent::getActions('com_users');
+
 		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->group->title), 'users groups');
+		JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::preferences('com_users');
+			JToolbarHelper::divider();
+		}
 
 		JToolbarHelper::help('JHELP_USERS_DEBUG_GROUPS');
 	}

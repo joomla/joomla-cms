@@ -8,102 +8,59 @@
  */
 
 defined('_JEXEC') or die;
+
 JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
 
-$input = JFactory::getApplication()->input;
-$field = $input->getCmd('field');
-$function = 'jSelectContenthistory_' . $field;
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
-$message = JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
-$compareMessage = JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
+$input          = JFactory::getApplication()->input;
+$field          = $input->getCmd('field');
+$function       = 'jSelectContenthistory_' . $field;
+$listOrder      = $this->escape($this->state->get('list.ordering'));
+$listDirn       = $this->escape($this->state->get('list.direction'));
+$deleteMessage  = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
+$aliasArray     = explode('.', $this->state->type_alias);
+$option         = (end($aliasArray) == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
+$filter         = JFilterInput::getInstance();
+$task           = $filter->clean(end($aliasArray)) . '.loadhistory';
+$loadUrl        = JRoute::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
+$deleteUrl      = JRoute::_('index.php?option=com_contenthistory&task=history.delete');
+$hash           = $this->state->get('sha1_hash');
+$formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
+					. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . JSession::getFormToken() . '=1';
+
+JText::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
+JText::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
 JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-$deleteMessage = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
-$aliasArray = explode('.', $this->state->type_alias);
-$option = (end($aliasArray) == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
-$filter = JFilterInput::getInstance();
-$task = $filter->clean(end($aliasArray)) . '.loadhistory';
-$loadUrl = JRoute::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
-$deleteUrl = JRoute::_('index.php?option=com_contenthistory&task=history.delete');
-$hash = $this->state->get('sha1_hash');
-$formUrl = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
-	. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . JSession::getFormToken() . '=1';
 
-JFactory::getDocument()->addScriptDeclaration("
-	(function ($){
-		$(document).ready(function (){
-			$('#toolbar-load').click(function() {
-				var ids = $('input[id*=\'cb\']:checked');
-				if (ids.length == 1) {
-					// Add version item id to URL
-					var url = $('#toolbar-load').attr('data-url') + '&version_id=' + ids[0].value;
-					$('#content-url').attr('data-url', url);
-					if (window.parent) {
-						window.parent.location = url;
-					}
-				} else {
-					alert('" . $message . "');
-				}
-			});
-
-		$('#toolbar-preview').click(function() {
-				var windowSizeArray = ['width=800, height=600, resizable=yes, scrollbars=yes'];
-				var ids = $('input[id*=\'cb\']:checked');
-				if (ids.length == 1) {
-					// Add version item id to URL
-					var url = $('#toolbar-preview').attr('data-url') + '&version_id=' + ids[0].value;
-					$('#content-url').attr('data-url', url);
-					if (window.parent) {
-						window.open(url, '', windowSizeArray);
-						return false;
-					}
-				} else {
-					alert('" . $message . "');
-				}
-			});
-
-			$('#toolbar-compare').click(function() {
-				var windowSizeArray = ['width=1000, height=600, resizable=yes, scrollbars=yes'];
-				var ids = $('input[id*=\'cb\']:checked');
-				if (ids.length == 2) {
-					// Add version item ids to URL
-					var url = $('#toolbar-compare').attr('data-url') + '&id1=' + ids[0].value + '&id2=' + ids[1].value;
-					$('#content-url').attr('data-url', url);
-					if (window.parent) {
-						window.open(url, '', windowSizeArray);
-						return false;
-					}
-				} else {
-					alert('" . $compareMessage . "');
-				}
-			});
-		});
-	})(jQuery);
-	"
-);
-
+JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="container-popup">
 
-	<div class="btn-group float-right">
+	<div class="btn-group float-right mb-3">
 		<button id="toolbar-load" type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo JRoute::_($loadUrl); ?>">
-			<span class="icon-upload"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span></button>
+			<span class="icon-upload" aria-hidden="true"></span>
+			<span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>
+		</button>
 		<button id="toolbar-preview" type="button" class="btn btn-secondary hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
-			<span class="icon-search"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span></button>
+			<span class="icon-search" aria-hidden="true"></span>
+			<span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span>
+		</button>
 		<button id="toolbar-compare" type="button" class="btn btn-secondary hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
-			<span class="icon-zoom-in"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span></button>
+			<span class="icon-zoom-in" aria-hidden="true"></span>
+			<span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span>
+		</button>
 		<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.keep')}" class="btn btn-secondary pointer hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
-			<span class="icon-lock"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span></button>
+			<span class="icon-lock" aria-hidden="true"></span>
+			<span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span>
+		</button>
 		<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.delete')}" class="btn btn-secondary pointer hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
-			<span class="icon-delete"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span></button>
+			<span class="icon-delete" aria-hidden="true"></span>
+			<span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span>
+		</button>
 	</div>
-
-	<hr>
 
 	<form action="<?php echo JRoute::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table table-striped table-sm">
@@ -149,7 +106,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>
-							<span class="icon-featured"></span>&nbsp;
+							<span class="icon-featured" aria-hidden="true"><span class="sr-only"><?php echo JText::_('JFEATURED'); ?></span></span>&nbsp;
 						<?php endif; ?>
 					</td>
 					<td class="hidden-sm-down">
@@ -160,7 +117,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
 								onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
 								data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
-								<?php echo JText::_('JYES'); ?>&nbsp;<span class="icon-lock"></span>
+								<?php echo JText::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
 							</a>
 						<?php else : ?>
 							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"

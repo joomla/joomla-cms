@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * List of Tags field.
  *
  * @since  3.1
  */

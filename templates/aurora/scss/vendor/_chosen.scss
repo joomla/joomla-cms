@@ -1,0 +1,71 @@
+// Chosen
+
+.chzn-container.chzn-container-single {
+
+  .chzn-single {
+    display: inline-block;
+    max-width: 100%;
+    $select-border-width: ($border-width * 2);
+    height: calc(#{$input-height} - #{$select-border-width});
+    padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
+    padding-right: $custom-select-padding-x \9;
+    line-height: 1.5;
+    color: $custom-select-color;
+    vertical-align: middle;
+    background: $custom-select-bg $custom-select-indicator no-repeat right $custom-select-padding-x center;
+    background-image: none \9;
+    background-size: $custom-select-bg-size;
+    border: $custom-select-border-width solid $custom-select-border-color;
+    @include border-radius($custom-select-border-radius);
+    box-shadow: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    abbr {
+      top: 10px;
+    }
+
+    &:focus {
+      border-color: $custom-select-focus-border-color;
+      outline: none;
+      @include box-shadow($custom-select-focus-box-shadow);
+    }
+
+    &:disabled {
+      color: $custom-select-disabled-color;
+      cursor: $cursor-disabled;
+      background-color: $custom-select-disabled-bg;
+    }
+
+    div b {
+      background: none;
+    }
+
+  }
+
+  .chzn-drop {
+    background: $white-offset;
+    border: $custom-select-border-width solid $custom-select-border-color;
+  }
+
+  &.chzn-container-active .chzn-single {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+}
+
+// TEMPORARY
+.chzn-container-single {
+  width: auto !important;
+}
+// END TEMPORARY
+
+.card .chzn-container.chzn-container-single {
+  width: 100% !important;
+
+  .chzn-single {
+    width: 100% !important;
+  }
+
+}

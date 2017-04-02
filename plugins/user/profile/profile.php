@@ -131,7 +131,7 @@ class PlgUserProfile extends JPlugin
 	/**
 	 * Returns an anchor tag generated from a given value
 	 *
-	 * @param   string  $value  url to use
+	 * @param   string  $value  URL to use
 	 *
 	 * @return mixed|string
 	 */
@@ -143,7 +143,7 @@ class PlgUserProfile extends JPlugin
 		}
 		else
 		{
-			// Convert website url to utf8 for display
+			// Convert website URL to utf8 for display
 			$value = JStringPunycode::urlToUTF8(htmlspecialchars($value));
 
 			if (substr($value, 0, 4) === 'http')
@@ -328,6 +328,14 @@ class PlgUserProfile extends JPlugin
 					$form->removeField($field, 'profile');
 				}
 			}
+		}
+
+		// Drop the profile form entirely if there aren't any fields to display.
+		$remainingfields = $form->getGroup('profile');
+
+		if (!count($remainingfields))
+		{
+			$form->removeGroup('profile');
 		}
 
 		return true;

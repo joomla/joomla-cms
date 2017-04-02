@@ -20,19 +20,19 @@ $canEdit = $displayData['params']->get('access-edit');
 
 		<?php if ($canEdit || $displayData['params']->get('show_print_icon') || $displayData['params']->get('show_email_icon')) : ?>
 			<div class="btn-group float-right">
-				<a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" href="#"> <span class="icon-cog"></span><span class="caret"></span> </a>
+				<a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" href="#"> <span class="fa fa-cog"></span><span class="caret"></span> </a>
 				<?php // Note the actions class is deprecated. Use dropdown-menu instead. ?>
-				<ul class="dropdown-menu">
+				<div class="dropdown-menu">
 					<?php if ($displayData['params']->get('show_print_icon')) : ?>
-						<li class="print-icon"> <?php echo JHtml::_('icon.print_popup', $displayData['item'], $displayData['params']); ?> </li>
+						<?php echo JHtml::_('icon.print_popup', $displayData['item'], $displayData['params']); ?>
 					<?php endif; ?>
 					<?php if ($displayData['params']->get('show_email_icon')) : ?>
-						<li class="email-icon"> <?php echo JHtml::_('icon.email', $displayData['item'], $displayData['params']); ?> </li>
+						<?php echo JHtml::_('icon.email', $displayData['item'], $displayData['params']); ?>
 					<?php endif; ?>
 					<?php if ($canEdit) : ?>
-						<li class="edit-icon"> <?php echo JHtml::_('icon.edit', $displayData['item'], $displayData['params']); ?> </li>
+						<?php echo JHtml::_('icon.edit', $displayData['item'], $displayData['params']); ?>
 					<?php endif; ?>
-				</ul>
+				</div>
 			</div>
 		<?php endif; ?>
 

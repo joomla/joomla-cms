@@ -21,21 +21,6 @@ $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "newsfeed.cancel" || document.formvalidator.isValid(document.getElementById("newsfeed-form"))) {
-			Joomla.submitform(task, document.getElementById("newsfeed-form"));
-
-			// @deprecated 4.0  The following js is not needed since 3.7.0.
-			if (task !== "newsfeed.apply")
-			{
-				window.parent.jQuery("#newsfeedEdit' . $this->item->id . 'Modal").modal("hide");
-			}
-		}
-	};
-');
-
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associations');
 
