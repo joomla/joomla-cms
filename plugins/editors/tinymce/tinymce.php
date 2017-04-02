@@ -596,9 +596,10 @@ class PlgEditorTinymce extends JPlugin
 			// Get specific path
 			$tempPath = $levelParams->get('path', '');
 
-			if ($tempPath === '-1')
+			if (!empty($tempPath) && $tempPath !== '-1')
 			{
-				$tempPath = '';
+				// Remove the root images path
+				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
 			}
 
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
@@ -1869,10 +1870,10 @@ class PlgEditorTinymce extends JPlugin
 			// Get specific path
 			$tempPath = $this->params->get('path', '');
 
-			if (!empty($tempPath))
+			if (!empty($tempPath) && $tempPath !== '-1')
 			{
-				$tempPath = rtrim($tempPath, '/');
-				$tempPath = ltrim($tempPath, '/');
+				// Remove the root images path
+				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
 			}
 
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
