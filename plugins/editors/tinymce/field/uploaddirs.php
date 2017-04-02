@@ -76,6 +76,12 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
+		// Reset the non selected value to null
+		if ($options[0]->value === '-1')
+		{
+			$options[0]->value = '';
+		}
+
 		// Create a regular list.
 		$html[] = JHtml::_('select.genericlist', $options, $this->name, '', 'value', 'text', $this->value, $this->id);
 
