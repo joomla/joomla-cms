@@ -39,21 +39,7 @@
 					description="PLG_TINY_FIELD_NUMBER_OF_SETS_DESC"
 					default="3"
 				/>
-				<field
-					name="html_height"
-					type="text"
-					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
-					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
-					default="550"
-				/>
 
-				<field
-					name="html_width"
-					type="text"
-					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
-					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
-					default=""
-				/>
 			</fieldset>
 		</fields>
 	</config>
