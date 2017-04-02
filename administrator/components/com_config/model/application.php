@@ -669,7 +669,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 			if (!$asset->check() || !$asset->store())
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_RULES_DATABASE_FAILURE'), 'error');
 
 				return false;
 			}
