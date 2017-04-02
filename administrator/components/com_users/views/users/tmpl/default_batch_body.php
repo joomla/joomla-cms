@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -24,25 +24,27 @@ $resetOptions = array(
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 
-<div class="row-fluid">
-	<div id="batch-choose-action" class="combo control-group">
-		<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
-			<?php echo JText::_('COM_USERS_BATCH_GROUP') ?>
-		</label>
-	</div>
-	<div id="batch-choose-action" class="combo controls">
-		<div class="control-group">
-			<select name="batch[group_id]" id="batch-group-id">
-				<option value=""><?php echo JText::_('JSELECT') ?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
-			</select>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div id="batch-choose-action" class="combo control-group">
+			<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
+				<?php echo JText::_('COM_USERS_BATCH_GROUP'); ?>
+			</label>
+		</div>
+		<div id="batch-choose-action" class="combo controls">
+			<div class="control-group">
+				<select name="batch[group_id]" id="batch-group-id">
+					<option value=""><?php echo JText::_('JSELECT'); ?></option>
+					<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
+				</select>
+			</div>
+		</div>
+		<div class="control-group radio">
+			<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add'); ?>
 		</div>
 	</div>
+	<label><?php echo JText::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
 	<div class="control-group radio">
-		<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add') ?>
+		<?php echo JHtml::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
 	</div>
-</div>
-<label><?php echo JText::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
-<div class="control-group radio">
-	<?php echo JHtml::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', '') ?>
 </div>

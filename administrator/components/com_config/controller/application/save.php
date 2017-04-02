@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -71,7 +71,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
-		// Save the data in the session.
+		// Save the posted data in the session.
 		$this->app->setUserState('com_config.config.global.data', $data);
 
 		// Check for validation errors.
@@ -89,15 +89,15 @@ class ConfigControllerApplicationSave extends JControllerBase
 		$data   = $return;
 		$return = $model->save($data);
 
+		// Save the validated data in the session.
+		$this->app->setUserState('com_config.config.global.data', $data);
+
 		// Check the return value.
 		if ($return === false)
 		{
 			/*
 			 * The save method enqueued all messages for us, so we just need to redirect back.
 			 */
-
-			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
 			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));

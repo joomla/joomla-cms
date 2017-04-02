@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -149,14 +149,18 @@ class JErrorPage
 
 		if ($isException)
 		{
-			$message .= ': ';
-
-			if (isset($e))
+			// Make sure we do not display sensitive data in production environments
+			if (ini_get('display_errors'))
 			{
-				$message .= $e->getMessage() . ': ';
-			}
+				$message .= ': ';
 
-			$message .= $error->getMessage();
+				if (isset($e))
+				{
+					$message .= $e->getMessage() . ': ';
+				}
+
+				$message .= $error->getMessage();
+			}
 		}
 
 		echo $message;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,6 +32,17 @@ class TagsModelTag extends JModelAdmin
 	public $typeAlias = 'com_tags.tag';
 
 	/**
+	 * Allowed batch commands
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id' => 'batchLanguage',
+	);
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -46,7 +57,7 @@ class TagsModelTag extends JModelAdmin
 		{
 			if ($record->published != -2)
 			{
-				return;
+				return false;
 			}
 
 			return parent::canDelete($record);
@@ -227,25 +238,6 @@ class TagsModelTag extends JModelAdmin
 		$this->preprocessData('com_tags.tag', $data);
 
 		return $data;
-	}
-
-	/**
-	 * Method to preprocess the form.
-	 *
-	 * @param   JForm   $form   A JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import.
-	 *
-	 * @return  void
-	 *
-	 * @see     JFormField
-	 * @since   3.1
-	 * @throws  Exception if there is an error in the form event.
-	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
-	{
-		// Trigger the default form events.
-		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**

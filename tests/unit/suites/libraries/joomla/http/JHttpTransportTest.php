@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Http
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Http
  * @since       3.4
  */
-class JHttpTransportTest extends PHPUnit_Framework_TestCase
+class JHttpTransportTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    \Joomla\Registry\Registry  Options for the JHttpTransport object.
@@ -45,7 +45,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 		else
 		{
 			parent::setUp();
-			$this->options = $this->getMock('\\Joomla\\Registry\\Registry', array('get', 'set'));
+			$this->options = $this->getMockBuilder('\\Joomla\\Registry\\Registry')->setMethods(array('get', 'set'))->getMock();
 			$this->stubUrl = defined('JTEST_HTTP_STUB') ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
 		}
 	}
@@ -56,7 +56,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -141,7 +141,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	public function testRequestGet404($transportClass)
 	{
 		$transport = new $transportClass($this->options);
-		$response = $transport->request('get', new JUri($this->stubUrl . ':80'));
+		$transport->request('get', new JUri($this->stubUrl . ':80'));
 	}
 
 	/**

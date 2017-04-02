@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  HTML
  * @since       3.1
  */
-class JHtmlStringTest extends PHPUnit_Framework_TestCase
+class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test cases for truncate.
@@ -208,6 +208,14 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				false,
 				'Plain',
 			),
+			'Do not split within a tag' => array(
+				'Some text is <div class="test"><span><i>Plain</i></span></div>',
+				20,
+				true,
+				true,
+				'Some text is...',
+			),
+
 		);
 	}
 

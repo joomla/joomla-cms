@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('list');
+
 /**
- * Form Field class for the Joomla Framework.
+ * List of Tags field.
  *
  * @since  3.1
  */
-class JFormFieldTag extends JFormAbstractlist
+class JFormFieldTag extends JFormFieldList
 {
 	/**
 	 * A flexible tag list that respects access controls
@@ -108,7 +110,9 @@ class JFormFieldTag extends JFormAbstractlist
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']? $this->element['published'] : array(0, 1);
+		$published = $this->element['published']?: array(0, 1);
+		$app       = JFactory::getApplication();
+		$tag       = $app->getLanguage()->getTag();
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -116,8 +120,18 @@ class JFormFieldTag extends JFormAbstractlist
 			->from('#__tags AS a')
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
+		// Limit Options in multilanguage
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+		{
+			$lang = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
+
+			if ($lang == 'current_language')
+			{
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+			}
+		}
 		// Filter language
-		if (!empty($this->element['language']))
+		elseif (!empty($this->element['language']))
 		{
 			if (strpos($this->element['language'], ',') !== false)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,11 +34,18 @@ class JHtmlMessages
 	public static function state($value = 0, $i = 0, $canChange = false)
 	{
 		// Log deprecated message
-		JLog::add(
-			'JHtmlMessages::state() is deprecated. Use JHtmlMessages::status() instead.',
-			JLog::WARNING,
-			'deprecated'
-		);
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHtmlMessages::status() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
 		if (null === $i)
@@ -81,7 +88,7 @@ class JHtmlMessages
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-'	. $icon . '"></span></a>';
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3]) . '"><span class="icon-'	. $icon . '"></span></a>';
 		}
 
 		return $html;

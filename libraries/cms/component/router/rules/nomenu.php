@@ -3,9 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Rule to process URLs without a menu item
@@ -36,11 +38,11 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 
 	/**
 	 * Dummymethod to fullfill the interface requirements
-	 * 
+	 *
 	 * @param   array  &$query  The query array to process
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.4
 	 * @codeCoverageIgnore
 	 */

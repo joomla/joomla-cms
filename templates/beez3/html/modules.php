@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
 	class="no"><img src="templates/beez3/images/plus.png"
 	alt="<?php if ($state == 1) { echo JText::_('TPL_BEEZ3_ALTOPEN');} else {echo JText::_('TPL_BEEZ3_ALTCLOSE');} ?>" />
 </span></a></h<?php echo $headerLevel; ?>> <?php endif; ?>
-<div class="module_content <?php if ($state == 1){echo "open";} ?>"
+<div class="module_content <?php if ($state == 1){echo 'open';} ?>"
 	id="module_<?php echo $module->id; ?>" tabindex="-1"><?php echo $module->content; ?></div>
 </div>
 	<?php }

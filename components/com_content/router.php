@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,8 +45,6 @@ class ContentRouter extends JComponentRouterView
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 
-		$params = JComponentHelper::getParams('com_content');
-
 		if ($params->get('sef_advanced', 0))
 		{
 			$this->attachRule(new JComponentRouterRulesStandard($this));
@@ -63,7 +61,7 @@ class ContentRouter extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
 	 */
@@ -73,20 +71,18 @@ class ContentRouter extends JComponentRouterView
 
 		if ($category)
 		{
+			$path = array_reverse($category->getPath(), true);
+			$path[0] = '1:root';
+
 			if ($this->noIDs)
 			{
-				$path = array_reverse($category->getPath(), true);
 				foreach ($path as &$segment)
 				{
 					list($id, $segment) = explode(':', $segment, 2);
 				}
+			}
 
-				return $path;
-			}
-			else
-			{
-				return array_reverse($category->getPath(), true);
-			}
+			return $path;
 		}
 
 		return array();
@@ -96,7 +92,7 @@ class ContentRouter extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 *
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
 	 */
@@ -109,31 +105,29 @@ class ContentRouter extends JComponentRouterView
 	 * Method to get the segment(s) for an article
 	 *
 	 * @param   string  $id     ID of the article to retrieve the segments for
-	 * @param   array   $query  The request that is build right now
+	 * @param   array   $query  The request that is built right now
 	 *
 	 * @return  array|string  The segments of this item
 	 */
 	public function getArticleSegment($id, $query)
 	{
+		if (!strpos($id, ':'))
+		{
+			$db = JFactory::getDbo();
+			$dbquery = $db->getQuery(true);
+			$dbquery->select($dbquery->qn('alias'))
+				->from($dbquery->qn('#__content'))
+				->where('id = ' . $dbquery->q($id));
+			$db->setQuery($dbquery);
+
+			$id .= ':' . $db->loadResult();
+		}
+
 		if ($this->noIDs)
 		{
-			if (strpos($id, ':'))
-			{
-				list($void, $segment) = explode(':', $id, 2);
+			list($void, $segment) = explode(':', $id, 2);
 
-				return array($void => $segment);
-			}
-			else
-			{
-				$db = JFactory::getDbo();
-				$dbquery = $db->getQuery(true);
-				$dbquery->select($dbquery->qn('alias'))
-					->from($dbquery->qn('#__content'))
-					->where('id = ' . $dbquery->q($id));
-				$db->setQuery($dbquery);
-
-				return array($id => $id . ':' . $db->loadResult());
-			}
+			return array($void => $segment);
 		}
 
 		return array((int) $id => $id);

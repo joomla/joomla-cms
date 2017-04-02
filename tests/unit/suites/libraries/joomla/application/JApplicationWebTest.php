@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -126,7 +126,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()
@@ -181,18 +181,33 @@ class JApplicationWebTest extends TestCase
 			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
-		$mockInput = $this->getMock('JInput', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockInput = $this->getMockBuilder('JInput')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockInput->expects($this->any())
 			->method('test')
 			->willReturn('ok');
 
-		$mockConfig = $this->getMock('\\Joomla\\Registry\\Registry', array('test'), array(null), '', true);
+		$mockConfig = $this->getMockBuilder('\\Joomla\\Registry\\Registry')
+					->setMethods(array('test'))
+					->setConstructorArgs(array(null))
+					->setMockClassName('')
+					->getMock();
 		$mockConfig
 			->expects($this->any())
 			->method('test')
 			->willReturn('ok');
 
-		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
+		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockClient->expects($this->any())
 			->method('test')
 			->willReturn('ok');
@@ -274,7 +289,7 @@ class JApplicationWebTest extends TestCase
 	public function testClose()
 	{
 		// Make sure the application is not already closed.
-		$this->assertSame($this->class->closed, null);
+		$this->assertNull($this->class->closed);
 
 		$this->class->close(3);
 
@@ -829,25 +844,46 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testInitialiseWithInjection()
 	{
-		$mockSession = $this->getMock('JSession', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockSession = $this->getMockBuilder('JSession')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockSession
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockDocument = $this->getMock('JDocument', array('test'), array(), '', false);
+		$mockDocument = $this->getMockBuilder('JDocument')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockDocument
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockLanguage = $this->getMock('JLanguage', array('test'), array(), '', false);
+		$mockLanguage = $this->getMockBuilder('JLanguage')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockLanguage
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
+		$mockDispatcher = $this->getMockBuilder('JEventDispatcher')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')
@@ -1050,12 +1086,32 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 303 See other', true, null),
-				array('Location: ' . $base . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 303 See other', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -1142,12 +1198,32 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 301 Moved Permanently', true, null),
-				array('Location: ' . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 301 Moved Permanently', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 

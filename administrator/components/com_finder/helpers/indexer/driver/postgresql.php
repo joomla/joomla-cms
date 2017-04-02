@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -298,7 +298,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				' ) AS t1' .
 				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
 				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
-				' WHERE t2.context = %d' .
+				' WHERE t2.context = %d AND t.term_id IS NOT NULL' .
 				' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 				' ORDER BY t1.term DESC';
 
@@ -354,7 +354,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
 			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term')
-			->set('ta.term_id = t.term_id')
+			->set('term_id = t.term_id')
 			->where('ta.term_id = 0');
 		$db->setQuery($query);
 		$db->execute();
@@ -370,7 +370,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$query->clear()
 			->update($db->quoteName('#__finder_terms') . ' AS t')
 			->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id')
-			->set('t.' . $db->quoteName('links') . ' = t.links + 1');
+			->set($db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -416,7 +416,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
 				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
 				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
-				' GROUP BY ' . $db->quoteName('term') .
+				' GROUP BY ' . $db->quoteName('term') . ', ' . $db->quoteName('term_id') .
 				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
 			$db->execute();
@@ -470,9 +470,10 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			$query->update($db->quoteName('#__finder_terms') . ' AS t')
+			$query->clear()
+				->update($db->quoteName('#__finder_terms') . ' AS t')
 				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
-				->set('t.links = t.links - 1')
+				->set('links = t.links - 1')
 				->where('m.link_id = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
 			$db->execute();
@@ -544,8 +545,16 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			$db->execute();
 		}
 
-		// Optimize the terms mapping table.
-		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms'));
+		// Optimize the filters table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_filters'));
+		$db->execute();
+
+		// Optimize the terms common table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_terms_common'));
+		$db->execute();
+		
+		// Optimize the types table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_types'));
 		$db->execute();
 
 		// Remove the orphaned taxonomy nodes.
@@ -553,6 +562,10 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 		// Optimize the taxonomy mapping table.
 		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
+		$db->execute();
+
+		// Optimize the taxonomy table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy'));
 		$db->execute();
 
 		return true;

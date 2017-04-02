@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ extract($displayData);
  *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
  *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
  *                             - footer       string   Optional markup for the modal footer
- * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
+ * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  *
  */
 
@@ -39,14 +39,14 @@ $modalClasses = array('modal', 'hide');
 
 if (!isset($params['animation']) || $params['animation'])
 {
-	array_push($modalClasses, 'fade');
+	$modalClasses[] = 'fade';
 }
 
 $modalWidth = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
 
 if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
 {
-	array_push($modalClasses, 'jviewport-width' . $modalWidth);
+	$modalClasses[] = 'jviewport-width' . $modalWidth;
 }
 
 $modalAttributes = array(
@@ -73,7 +73,7 @@ if (isset($params['keyboard']))
  *      - max-height    .modal-body     Max-height for the modal body
  *                                      When height of the modal is too high for the window viewport height.
  *      - max-height    .iframe         Max-height for the iframe (Deducting the padding of the modal-body)
- *                                      When url option is set and height of the iframe is higher than max-height of the modal body.
+ *                                      When URL option is set and height of the iframe is higher than max-height of the modal body.
  *
  * Fix iOS scrolling inside bootstrap modals
  *      - overflow-y    .modal-body     When max-height is set for modal-body

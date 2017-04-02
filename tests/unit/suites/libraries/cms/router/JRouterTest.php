@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,7 +62,7 @@ class JRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   4.0
 	 */
 	protected function tearDown()
@@ -396,7 +396,7 @@ class JRouterTest extends TestCase
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -459,7 +459,7 @@ class JRouterTest extends TestCase
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -534,7 +534,7 @@ class JRouterTest extends TestCase
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = $this->getMockBuilder('JUri')->getMock();
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -653,7 +653,7 @@ class JRouterTest extends TestCase
 			$this->object->attachBuildRule($function, $stage);
 		}
 
-		$this->assertEquals($expected, (string)$this->object->build($url));
+		$this->assertEquals($expected, (string) $this->object->build($url));
 	}
 
 	/**
@@ -728,7 +728,7 @@ class JRouterTest extends TestCase
 			JRouter::PROCESS_AFTER
 		);
 
-		$this->assertEquals($expected, (string)$this->object->build($url));
+		$this->assertEquals($expected, (string) $this->object->build($url));
 	}
 
 	/**
@@ -811,7 +811,7 @@ class JRouterTest extends TestCase
 
 		$createUriMethod = new ReflectionMethod('JRouter', 'createUri');
 		$createUriMethod->setAccessible(true);
-		$this->assertEquals($expected, (string)($createUriMethod->invoke($this->object, $url)));
+		$this->assertEquals($expected, (string) ($createUriMethod->invoke($this->object, $url)));
 	}
 
 	/**

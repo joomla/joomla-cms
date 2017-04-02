@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ JHtml::_('stylesheet', 'colour_' . $colour . '.css', array('version' => 'auto', 
 if ($this->direction === 'rtl')
 {
 	JHtml::_('stylesheet', 'template_rtl.css', array('version' => 'auto', 'relative' => true));
-	JHtml::_('stylesheet', 'colour_' . $colour . '_rtl.css', array('version' => 'auto', 'relative' => true));;
+	JHtml::_('stylesheet', 'colour_' . $colour . '_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
 // Load additional CSS styles for bold Text
@@ -93,7 +93,7 @@ else
 	<div id="containerwrap">
 		<!-- Header Logo -->
 		<div id="header">
-			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->get('sitename') . " " . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION'); ?></h1>
+			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->get('sitename') . ' ' . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION'); ?></h1>
 		</div><!-- end header -->
 		<!-- Content Area -->
 		<div id="content">
@@ -126,11 +126,11 @@ else
 			// Fix wrong display of Joomla!® in RTL language
 			if ($lang->isRtl())
 			{
-				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+				$joomla = '<a href="https://www.joomla.org" target="_blank" rel="noopener noreferrer">Joomla!</a><sup>&#174;&#x200E;</sup>';
 			}
 			else
 			{
-				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+				$joomla = '<a href="https://www.joomla.org" target="_blank" rel="noopener noreferrer">Joomla!</a><sup>&#174;</sup>';
 			}
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla);
 			?>

@@ -3,19 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Form Field class for the Joomla CMS.
  * Provides a modal media selector including upload mechanism
  *
  * @since  1.6
  */
-class JFormFieldMedia extends JFormField implements JFormDomfieldinterface
+class JFormFieldMedia extends JFormField
 {
 	/**
 	 * The form field type.
@@ -190,7 +189,7 @@ class JFormFieldMedia extends JFormField implements JFormDomfieldinterface
 			$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
 			$this->authorField   = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-			$this->asset         = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
+			$this->asset         = $this->form->getValue($assetField) ?: (string) $this->element['asset_id'];
 			$this->link          = (string) $this->element['link'];
 			$this->width  	     = isset($this->element['width']) ? (int) $this->element['width'] : 800;
 			$this->height 	     = isset($this->element['height']) ? (int) $this->element['height'] : 500;
@@ -266,44 +265,5 @@ class JFormFieldMedia extends JFormField implements JFormDomfieldinterface
 		);
 
 		return array_merge($data, $extraData);
-	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('hide_default', 'true');
-
-		if ($field->fieldparams->get('home'))
-		{
-			$userName = JFactory::getUser()->username;
-			$root     = $field->fieldparams->get('directory');
-
-			if (!$root)
-			{
-				$root = 'images';
-			}
-
-			$directory = JPATH_ROOT . '/images/' . $root . '/' . $userName;
-
-			if (!JFolder::exists($directory))
-			{
-				JFolder::create($directory);
-			}
-
-			$fieldNode->setAttribute('directory', str_replace(JPATH_ROOT . '/images', '', $directory));
-		}
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

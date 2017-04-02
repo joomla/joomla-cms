@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,13 +12,12 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('textarea');
 
 /**
- * Form Field class for the Joomla CMS.
  * A textarea field for content creation
  *
  * @see    JEditor
  * @since  1.6
  */
-class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterface
+class JFormFieldEditor extends JFormFieldTextarea
 {
 	/**
 	 * The form field type.
@@ -205,7 +204,7 @@ class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterf
 			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
 			$this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 			$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-			$this->asset       = $this->form->getValue($this->assetField) ? $this->form->getValue($this->assetField) : (string) $this->element['asset_id'];
+			$this->asset       = $this->form->getValue($this->assetField) ?: (string) $this->element['asset_id'];
 
 			$buttons    = (string) $this->element['buttons'];
 			$hide       = (string) $this->element['hide'];
@@ -317,25 +316,5 @@ class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterf
 	public function save()
 	{
 		return $this->getEditor()->save($this->id);
-	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', 0) ? 'true' : 'false');
-		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

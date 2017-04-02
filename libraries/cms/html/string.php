@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,7 +95,7 @@ abstract class JHtmlString
 				$openedTags = $result[1];
 
 				// Some tags self close so they do not need a separate close tag.
-				$openedTags = array_diff($openedTags, array("img", "hr", "br"));
+				$openedTags = array_diff($openedTags, array('img', 'hr', 'br'));
 				$openedTags = array_values($openedTags);
 
 				// Put all closed tags into an array
@@ -104,26 +104,31 @@ abstract class JHtmlString
 
 				$numOpened = count($openedTags);
 
-				// All tags are closed so trim the text and finish.
-				if (count($closedTags) == $numOpened)
+				// Not all tags are closed so trim the text and finish.
+				if (count($closedTags) != $numOpened)
 				{
-					return trim($tmp) . '...';
+					// Closing tags need to be in the reverse order of opening tags.
+					$openedTags = array_reverse($openedTags);
+
+					// Close tags
+					for ($i = 0; $i < $numOpened; $i++)
+					{
+						if (!in_array($openedTags[$i], $closedTags))
+						{
+							$tmp .= '</' . $openedTags[$i] . '>';
+						}
+						else
+						{
+							unset($closedTags[array_search($openedTags[$i], $closedTags)]);
+						}
+					}
 				}
 
-				// Closing tags need to be in the reverse order of opening tags.
-				$openedTags = array_reverse($openedTags);
-
-				// Close tags
-				for ($i = 0; $i < $numOpened; $i++)
+				// Check if we are within a tag
+				if (StringHelper::strrpos($tmp, '<') > StringHelper::strrpos($tmp, '>'))
 				{
-					if (!in_array($openedTags[$i], $closedTags))
-					{
-						$tmp .= "</" . $openedTags[$i] . ">";
-					}
-					else
-					{
-						unset($closedTags[array_search($openedTags[$i], $closedTags)]);
-					}
+					$offset = StringHelper::strrpos($tmp, '<');
+					$tmp = StringHelper::trim(StringHelper::substr($tmp, 0, $offset));
 				}
 			}
 

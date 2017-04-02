@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -281,7 +281,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			return true;
 		}
 
-		// Get the url for the content id.
+		// Get the URL for the content id.
 		$item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Update the content items.
@@ -750,7 +750,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * Method to get the page title of any menu item that is linked to the
 	 * content item, if it exists and is set.
 	 *
-	 * @param   string  $url  The url of the item.
+	 * @param   string  $url  The URL of the item.
 	 *
 	 * @return  mixed  The title on success, null if not found.
 	 *

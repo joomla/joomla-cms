@@ -3,20 +3,21 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
- * Form Field class for the Joomla Platform.
  * Provides a list of published content languages with home pages
  *
  * @see    JFormFieldLanguage for a select list of application languages.
  * @since  3.5
  */
-class JFormFieldFrontend_Language extends JFormAbstractlist
+class JFormFieldFrontend_Language extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -69,11 +70,9 @@ class JFormFieldFrontend_Language extends JFormAbstractlist
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(
+		return array_merge(
 			parent::getOptions(),
 			$languages
 		);
-
-		return $options;
 	}
 }

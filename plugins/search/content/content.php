@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,7 +115,7 @@ class PlgSearchContent extends JPlugin
 					$wheres[]  = implode(' OR ', $wheres2);
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
@@ -170,28 +170,31 @@ class PlgSearchContent extends JPlugin
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
-				->select('GROUP_CONCAT(fv.value SEPARATOR \', \') AS fields')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
-
 				->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid')
-				->join('INNER', '#__fields AS f ON f.context = ' . $db->q('com_content.article'))
-				->join('LEFT', '#__fields_values AS fv ON fv.item_id = a.id AND fv.field_id = f.id AND fv.context = ' . $db->q('com_content.article'))
 				->where(
-					'(' . $where . ') AND a.state=1 AND f.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
-						. 'AND c.access IN (' . $groups . ') AND f.access IN (' . $groups . ') '
+					'(' . $where . ') AND a.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
+						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
 				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.language, a.catid, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
 				->order($order);
 
+			// Join over Fields.
+			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
+				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
+				->where('(fv.context IS NULL OR fv.context = ' . $db->q('com_content.article') . ')')
+				->where('(f.state IS NULL OR f.state = 1)')
+				->where('(f.access IS NULL OR f.access IN (' . $groups . '))');
+
 			// Filter by language.
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
-					->where('f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+					->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 			}
 
 			$db->setQuery($query, 0, $limit);
@@ -242,31 +245,35 @@ class PlgSearchContent extends JPlugin
 
 			$query->select(
 				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
-					. $query->concatenate(array("a.introtext", "a.fulltext")) . ' AS text,'
+					. $query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text,'
 					. $case_when . ',' . $case_when1 . ', '
 					. 'c.title AS section, \'2\' AS browsernav'
-			)
-			->select('GROUP_CONCAT(fv.value SEPARATOR \', \') AS fields');
+			);
 
 			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
 			$query->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN (' . $groups . ')')
-				->join('INNER', '#__fields AS f ON f.context = ' . $db->q('com_content.article'))
-				->join('LEFT', '#__fields_values AS fv ON fv.item_id = a.id AND fv.field_id = f.id AND fv.context = ' . $db->q('com_content.article'))
 				->where(
-					'(' . $where . ') AND a.state = 2 AND f.state=1 AND c.published = 1 AND a.access IN (' . $groups
-						. ') AND c.access IN (' . $groups . ') AND f.access IN (' . $groups . ') '
+					'(' . $where . ') AND a.state = 2 AND c.published = 1 AND a.access IN (' . $groups
+						. ') AND c.access IN (' . $groups . ') '
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
 				->order($order);
 
+			// Join over Fields.
+			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
+				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
+				->where('(fv.context IS NULL OR fv.context = ' . $db->q('com_content.article') . ')')
+				->where('(f.state IS NULL OR f.state = 1)')
+				->where('(f.access IS NULL OR f.access IN (' . $groups . '))');
+
 			// Filter by language.
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
-					->where('f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+					->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 			}
 
 			$db->setQuery($query, 0, $limit);
@@ -291,8 +298,8 @@ class PlgSearchContent extends JPlugin
 				{
 					$date = JFactory::getDate($item->created);
 
-					$created_month = $date->format("n");
-					$created_year  = $date->format("Y");
+					$created_month = $date->format('n');
+					$created_year  = $date->format('Y');
 
 					$list3[$key]->href = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
 				}
@@ -311,6 +318,15 @@ class PlgSearchContent extends JPlugin
 
 				foreach ($row as $article)
 				{
+					// Lookup field values so they can be checked, GROUP_CONCAT would work in above queries, but isn't supported by non-MySQL DBs.
+					$query = $db->getQuery(true);
+					$query->select('value')
+						->from('#__fields_values')
+						->where('context = ' . $db->quote('com_content.article'))
+						->where('item_id = ' . $db->quote((int) $article->slug));
+					$db->setQuery($query);
+					$article->jcfields = implode(',', $db->loadColumn());
+
 					if (SearchHelper::checkNoHtml($article, $searchText, array('text', 'title', 'fields', 'metadesc', 'metakey')))
 					{
 						$new_row[] = $article;

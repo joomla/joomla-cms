@@ -3,14 +3,14 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JLayoutBase.
  */
-class JLayoutBaseTest extends PHPUnit_Framework_TestCase
+class JLayoutBaseTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JLayoutBase
@@ -30,7 +30,7 @@ class JLayoutBaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -75,7 +75,7 @@ class JLayoutBaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.3.7
 	 */
-	public function testJlayoutbaseGetOptionsReturnsAJregistryObjectWhenOptionsParamaterIsEmpty()
+	public function testJlayoutbaseGetOptionsReturnsAJregistryObjectWhenOptionsParameterIsEmpty()
 	{
 		$this->layoutBase->setOptions();
 
@@ -88,7 +88,7 @@ class JLayoutBaseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.3.7
 	 */
-	public function testJlayoutbaseGetOptionsReturnsAJregistryObjectWhenOptionsParamaterIsAnArray()
+	public function testJlayoutbaseGetOptionsReturnsAJregistryObjectWhenOptionsParameterIsAnArray()
 	{
 		$options = array();
 		$this->layoutBase->setOptions($options);

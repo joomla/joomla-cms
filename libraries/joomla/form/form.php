@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -401,7 +401,7 @@ class JForm
 		else
 		{
 			// Get an array of <fieldset /> elements and fieldset attributes.
-			$sets = $this->xml->xpath('//fieldset[@name] | //field[@fieldset]/@fieldset');
+			$sets = $this->xml->xpath('//fieldset[@name and not(ancestor::field/form/*)] | //field[@fieldset and not(ancestor::field/form/*)]/@fieldset');
 		}
 
 		// If no fieldsets are found return empty.
@@ -1192,8 +1192,8 @@ class JForm
 			// Check for an error.
 			if ($valid instanceof Exception)
 			{
-				array_push($this->errors, $valid);
-				$return = false;
+				$this->errors[] = $valid;
+				$return         = false;
 			}
 		}
 
@@ -1298,7 +1298,16 @@ class JForm
 					$offset = JFactory::getConfig()->get('offset');
 
 					// Return an SQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
+					try
+					{
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 'warning');
+
+						$return = '';
+					}
 				}
 				else
 				{
@@ -1328,10 +1337,19 @@ class JForm
 					}
 
 					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
+					$offset = JFactory::getUser()->getTimezone();
 
 					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
+					try
+					{
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 'warning');
+
+						$return = '';
+					}
 				}
 				else
 				{
@@ -1498,10 +1516,20 @@ class JForm
 					$return = call_user_func($filter, $value);
 				}
 
-				// Filter using JFilterInput. All HTML code is filtered by default.
+				// Check for empty value and return empty string if no value is required,
+				// otherwise filter using JFilterInput. All HTML code is filtered by default.
 				else
 				{
-					$return = JFilterInput::getInstance()->clean($value, $filter);
+					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+					if (($value === '' || $value === null) && ! $required)
+					{
+						$return = '';
+					}
+					else
+					{
+						$return = JFilterInput::getInstance()->clean($value, $filter);
+					}
 				}
 				break;
 		}
@@ -1540,7 +1568,7 @@ class JForm
 			foreach ($elements as $el)
 			{
 				// If there are matching field elements add them to the fields array.
-				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '"]'))
+				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '" and not(ancestor::field/form/*)]'))
 				{
 					$fields = array_merge($fields, $tmp);
 				}
@@ -1572,7 +1600,7 @@ class JForm
 		else
 		{
 			// Get an array of fields with the correct name.
-			$fields = $this->xml->xpath('//field[@name="' . $name . '"]');
+			$fields = $this->xml->xpath('//field[@name="' . $name . '" and not(ancestor::field/form/*)]');
 
 			// Make sure something was found.
 			if (!$fields)
@@ -1701,7 +1729,7 @@ class JForm
 		else
 		{
 			// Get an array of all the <field /> elements.
-			$fields = $this->xml->xpath('//field');
+			$fields = $this->xml->xpath('//field[not(ancestor::field/form/*)]');
 		}
 
 		return $fields;
@@ -1734,7 +1762,7 @@ class JForm
 		if (!empty($group))
 		{
 			// Get any fields elements with the correct group name.
-			$elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '"]');
+			$elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 
 			// Check to make sure that there are no parent groups for each element.
 			foreach ($elements as $element)

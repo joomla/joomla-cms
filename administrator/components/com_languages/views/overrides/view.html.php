@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,7 +113,6 @@ class LanguagesViewOverrides extends JViewLegacy
 		JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
 
 		JHtmlSidebar::addFilter(
-			// @todo need a label here
 			'',
 			'filter_language_client',
 			JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),

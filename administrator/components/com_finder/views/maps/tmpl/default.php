@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,7 +45,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
@@ -71,11 +71,11 @@ JFactory::getDocument()->addScriptDeclaration('
 					</th>
 					<?php endif; ?>
 					<th width="1%" class="nowrap center">
-						<i class="icon-publish"></i>
+						<span class="icon-publish" aria-hidden="true"></span>
 						<span class="hidden-phone"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 					</th>
 					<th width="1%" class="nowrap center">
-						<i class="icon-unpublish"></i>
+						<span class="icon-unpublish" aria-hidden="true"></span>
 						<span class="hidden-phone"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 					</th>
 				</tr>
@@ -123,7 +123,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<td class="center btns">
 					<?php if ((int) $item->num_children !== 0) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
-							<span class="badge <?php if ($item->num_children > 0) echo "badge-info"; ?>"><?php echo $item->num_children; ?></span></a>
+							<span class="badge <?php if ($item->num_children > 0) echo 'badge-info'; ?>"><?php echo $item->num_children; ?></span></a>
 					<?php else : ?>
 						-
 					<?php endif; ?>
@@ -131,7 +131,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php endif; ?>
 					<td class="center btns">
 					<?php if ((int) $item->num_children === 0) : ?>
-						<a class="badge <?php if ((int) $item->count_published > 0) echo "badge-success"; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
+						<a class="badge <?php if ((int) $item->count_published > 0) echo 'badge-success'; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
 						<?php echo (int) $item->count_published; ?></a>
 					<?php else : ?>
 						-
@@ -139,7 +139,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					</td>
 					<td class="center btns">
 					<?php if ((int) $item->num_children === 0) : ?>
-						<a class="badge <?php if ((int) $item->count_unpublished > 0) echo "badge-important"; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
+						<a class="badge <?php if ((int) $item->count_unpublished > 0) echo 'badge-important'; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
 						<?php echo (int) $item->count_unpublished; ?></a>
 					<?php else : ?>
 						-

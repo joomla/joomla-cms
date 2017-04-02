@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('list');
+
 /**
- * Form Field class for the Joomla Framework.
+ * Menu Type field.
  *
  * @since  1.6
  */
-class JFormFieldMenutype extends JFormAbstractlist
+class JFormFieldMenutype extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -37,14 +39,12 @@ class JFormFieldMenutype extends JFormAbstractlist
 	{
 		$html     = array();
 		$recordId = (int) $this->form->getValue('id');
-		$size     = ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class    = ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
-		$required = ($v = $this->element['required']) ? ' required="required"' : '';
+		$size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
+		$class    = (string) ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
+		$required = (string) $this->element['required'] ? ' required="required"' : '';
+		$clientId = (int) $this->element['clientid'] ?: 0;
 
 		// Get a reverse lookup of the base link URL to Title
-		$model = JModelLegacy::getInstance('menutypes', 'menusModel');
-		$rlu   = $model->getReverseLookup();
-
 		switch ($this->value)
 		{
 			case 'url':
@@ -63,13 +63,24 @@ class JFormFieldMenutype extends JFormAbstractlist
 				$value = JText::_('COM_MENUS_TYPE_HEADING');
 				break;
 
+			case 'container':
+				$value = JText::_('COM_MENUS_TYPE_CONTAINER');
+				break;
+
 			default:
 				$link = $this->form->getValue('link');
+
+				/** @var  MenusModelMenutypes $model */
+				$model = JModelLegacy::getInstance('Menutypes', 'MenusModel', array('ignore_request' => true));
+				$model->setState('client_id', $clientId);
+
+				$rlu   = $model->getReverseLookup();
 
 				// Clean the link back to the option, view and layout
 				$value = JText::_(ArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
+
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
@@ -80,11 +91,11 @@ class JFormFieldMenutype extends JFormAbstractlist
 			}
 		');
 
-		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId=' . $recordId);
+		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
-			. '" value="' . $value . '"' . $size . $class . ' />';
+			. '" value="' . $value . '" ' . $size . $class . ' />';
 		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
-			. '<span class="icon-list icon-white"></span> '
+			. '<span class="icon-list icon-white" aria-hidden="true"></span> '
 			. JText::_('JSELECT') . '</a></span>';
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
@@ -97,7 +108,7 @@ class JFormFieldMenutype extends JFormAbstractlist
 				'modalWidth' => '80',
 				'bodyHeight' => '70',
 				'footer'     => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 			)
 		);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'

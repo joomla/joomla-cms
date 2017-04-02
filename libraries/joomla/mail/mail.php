@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -457,24 +457,24 @@ class JMail extends PHPMailer
 				{
 					if (!empty($name) && count($path) != count($name))
 					{
-						throw new InvalidArgumentException("The number of attachments must be equal with the number of name");
+						throw new InvalidArgumentException('The number of attachments must be equal with the number of name');
 					}
 
 					foreach ($path as $key => $file)
 					{
 						if (!empty($name))
 						{
-							$result = parent::addAttachment($file, $name[$key], $encoding, $type);
+							$result = parent::addAttachment($file, $name[$key], $encoding, $type, $disposition);
 						}
 						else
 						{
-							$result = parent::addAttachment($file, $name, $encoding, $type);
+							$result = parent::addAttachment($file, $name, $encoding, $type, $disposition);
 						}
 					}
 				}
 				else
 				{
-					$result = parent::addAttachment($path, $name, $encoding, $type);
+					$result = parent::addAttachment($path, $name, $encoding, $type, $disposition);
 				}
 
 				// Check for boolean false return if exception handling is disabled

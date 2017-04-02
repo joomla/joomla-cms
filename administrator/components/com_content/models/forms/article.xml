@@ -68,6 +68,7 @@
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC"
 			translateformat="true"
+			weeknumbers="true"
 			showtime="true"
 			size="22"
 			filter="user_utc" />
@@ -98,15 +99,19 @@
 
 		<field name="checked_out_time" type="hidden" filter="unset" />
 
-		<field name="publish_up" type="calendar"
-			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
+		<field name="publish_up"
+			type="calendar"
+			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
+			description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"
 			filter="user_utc" />
 
-		<field name="publish_down" type="calendar"
-			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
+		<field name="publish_down"
+			type="calendar"
+			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL"
+			description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -160,6 +165,14 @@
 
 	<fields name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 		<fieldset name="basic" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+
+			<field name="article_layout" type="componentlayout"
+			       label="JFIELD_ALT_LAYOUT_LABEL"
+			       description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+			       useglobal="true"
+			       extension="com_content" view="article"
+			/>
+
 			<field
 				name="show_title"
 				type="list"
@@ -277,7 +290,7 @@
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
 			</field>
-			
+
 			<field
 				name="show_associations"
 				type="list"
@@ -462,12 +475,6 @@
 				description="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_DESC"
 				size="25" />
 
-			<field name="article_layout" type="componentlayout"
-				label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-				useglobal="true"
-				extension="com_content" view="article"
-			/>
 		</fieldset>
 
 		<fieldset name="editorConfig" label="COM_CONTENT_EDITORCONFIG_FIELDSET_LABEL">
