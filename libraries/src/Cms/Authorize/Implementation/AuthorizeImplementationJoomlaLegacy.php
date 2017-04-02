@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Legacy authorization implementation
  *
- * @since       4.0.
+ * @since       __DEPLOY_VERSION__
  * @deprecated  No replacement, to be removed in 4.2. Use AuthorizeImplementationJoomla instead.
  */
 class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla implements AuthorizeInterface
@@ -37,7 +37,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 * Array of permissions
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $permCache = array();
 
@@ -49,7 +49,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 *
 	 * @return  self
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __set($name, $value)
 	{
@@ -67,7 +67,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 *
 	 * @return  void
 	 *
-	 * @since  4.0.
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function clearStatics()
 	{
@@ -92,7 +92,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 *
 	 * @return  mixed  True if authorised and assetId is numeric/named. An array of boolean values if assetId is array.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check($actor, $target, $action, $actorType)
 	{
@@ -161,7 +161,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 *
 	 * @return  Rules|array   AccessRules object for the asset or array of AccessRules objects.
 	 *
-	 * @since  4.0.
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getRules($recursive = false, $groups = null, $action = null )
 	{
@@ -228,7 +228,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 * @param   array    $groups     Array of group ids to get permissions for
 	 * @param   string   &$action    Action name used for id calculation
 	 *
-	 * @since  4.0.
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return string
 	 */
@@ -271,7 +271,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 * @param   array    $groups     Array of group ids to get permissions for
 	 * @param   string   $action     Action name to limit results
 	 *
-	 * @since  4.0.
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
 	 */
@@ -341,7 +341,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 			$assetwhere = $this->assetWhere();
 			$query->where($assetwhere);
 		}
-		$test = (string) $query;
+
 		$this->db->setQuery($query);
 		$result = $this->db->loadObjectList();
 
@@ -352,7 +352,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	/**
 	 * Query root asset permissions
 	 *
-	 * @since  4.0.
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
 	 */
@@ -382,7 +382,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 *
 	 * @param   object  $results  database query result object with permissions and rules
 	 *
-	 * @since  4.0.
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return  array   authorisation matrix
 	 */
@@ -428,7 +428,7 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 	 *
 	 * @return  mixed database query object or false if this function is not implemented
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function appendFilterQuery(\JDatabaseQuery &$query, $joincolumn, $action, $orWhere = null, $groups = null)
 	{

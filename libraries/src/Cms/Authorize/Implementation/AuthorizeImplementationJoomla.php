@@ -18,7 +18,7 @@ use Joomla\Cms\Table\Table;
 /**
  * Joomla authorization implementation
  *
- * @since  4.0.
+ * @since  __DEPLOY_VERSION__
  */
 class AuthorizeImplementationJoomla extends AuthorizeImplementation implements AuthorizeInterface
 {
@@ -27,7 +27,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 * Root asset permissions
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $rootAsset = null;
 
@@ -36,7 +36,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 * _ suffixed to force usage of setters, use property name without_ to set the value
 	 *
 	 * @var    mixed string or integer or array
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $assetId_ = 1;
 
@@ -45,7 +45,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 * all permissions will be loaded as query runs much faster this way
 	 *
 	 * @var    integer
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $optimizeLimit = 100;
 
@@ -55,7 +55,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 * @param   mixed             $assetId  Assets id, can be integer or string or array of string/integer values
 	 * @param   \JDatabaseDriver  $db       Database object
 	 *
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 
 	public function __construct($assetId = 1, \JDatabaseDriver $db = null)
@@ -83,7 +83,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return  self
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __set($name, $value)
 	{
@@ -128,7 +128,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __get($key)
 	{
@@ -150,7 +150,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return  void
 	 *
-	 * @since  4.0.
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function clearStatics()
 	{
@@ -170,7 +170,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return  mixed  True if authorised and assetId is numeric/named. An array of boolean values if assetId is array.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check($actor, $target, $action, $actorType)
 	{
@@ -278,7 +278,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function loadPermissions($recursive = false, $groups = array(), $action = null )
 	{
@@ -307,7 +307,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return  boolean true if authorized
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function calculate($asset, $action, $identities)
 	{
@@ -375,7 +375,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getAssetPermissions($recursive = false, $groups = array(), $action = null)
 	{
@@ -457,7 +457,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function assetGroupQuery($groups)
 	{
@@ -477,7 +477,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function assetWhere()
 	{
@@ -522,7 +522,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return mixed   Db query result - the return value or null if the query failed.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getRootAssetPermissions()
 	{
@@ -552,7 +552,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function prefillMatrix($results)
 	{
@@ -591,7 +591,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return  mixed database query object or false if this function is not implemented
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function appendFilterQuery(\JDatabaseQuery &$query, $joincolumn, $action, $orWhere = null, $groups = null)
 	{
@@ -643,7 +643,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function checkRootGroups($groups)
 	{

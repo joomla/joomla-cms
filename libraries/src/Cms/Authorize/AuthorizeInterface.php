@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Authorize interface
  *
- * @since  4.0.
+ * @since  __DEPLOY_VERSION__
  */
 interface AuthorizeInterface
 {
@@ -25,7 +25,7 @@ interface AuthorizeInterface
 	 *
 	 * @return  self
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __set($name, $value);
 
@@ -36,7 +36,7 @@ interface AuthorizeInterface
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __get($key);
 
@@ -50,7 +50,7 @@ interface AuthorizeInterface
 	 *
 	 * @return  boolean  True if authorised.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check($actor, $target, $action, $actorType);
 
@@ -65,7 +65,7 @@ interface AuthorizeInterface
 	 *
 	 * @return  mixed database query object or false if this function is not implemented
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function appendFilterQuery(\JDatabaseQuery &$query, $joincolumn, $action, $orWhere = null, $groups = null);
 

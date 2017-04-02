@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Authorize helper class
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class AuthorizeHelper
 {
@@ -152,7 +152,7 @@ class AuthorizeHelper
 	 *
 	 * @return  int|string  Asset Id
 	 *
-	 * @since    4.0
+	 * @since    __DEPLOY_VERSION__
 	 */
 	public static function cleanAssetId($assetId)
 	{
@@ -168,7 +168,7 @@ class AuthorizeHelper
 	 *
 	 * @return  string  Action
 	 *
-	 * @since    4.0
+	 * @since    __DEPLOY_VERSION__
 	 */
 	public static function cleanAction($action)
 	{
@@ -182,7 +182,7 @@ class AuthorizeHelper
 	 *
 	 * @return  int|string  Cleaned variable
 	 *
-	 * @since    4.0
+	 * @since    __DEPLOY_VERSION__
 	 */
 	private static function cleanRegex($idToClean)
 	{

@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Authorize class
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 final class Authorize implements AuthorizeInterface
 {
@@ -27,7 +27,7 @@ final class Authorize implements AuthorizeInterface
 	 * _ suffixed to force usage of getters and setters even from within the class, use property name without_ to get or set the value
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $implementation_ = null;
 
@@ -36,7 +36,7 @@ final class Authorize implements AuthorizeInterface
 	 *
 	 * @param   AuthorizeInterface  $implementation  Implementation object
 	 *
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct(AuthorizeInterface $implementation)
 	{
@@ -52,7 +52,7 @@ final class Authorize implements AuthorizeInterface
 	 *
 	 * @return  self
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getInstance($implementationName = null)
 	{
@@ -92,7 +92,7 @@ final class Authorize implements AuthorizeInterface
 	 *
 	 * @return  self
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __set($name, $value)
 	{
@@ -123,7 +123,7 @@ final class Authorize implements AuthorizeInterface
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __get($key)
 	{
@@ -143,7 +143,7 @@ final class Authorize implements AuthorizeInterface
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __call($method, $parameters)
 	{
@@ -167,7 +167,7 @@ final class Authorize implements AuthorizeInterface
 	 *
 	 * @return  mixed  True if authorised and assetId is numeric/named. An array of boolean values if assetId is array.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check($actor, $target, $action, $actorType)
 	{
@@ -184,7 +184,7 @@ final class Authorize implements AuthorizeInterface
 	 *
 	 * @return  mixed database query object or false if this function is not implemented
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function appendFilterQuery(\JDatabaseQuery &$query, $joincolumn, $action, $orWhere = null, $groups = null)
 	{

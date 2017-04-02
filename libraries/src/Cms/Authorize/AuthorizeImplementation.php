@@ -21,7 +21,7 @@ abstract class AuthorizeImplementation
 	 * A multidimensional array with authorization matryx [authorizationclass][assetid][action1][group] = value
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static $authorizationMatrix = array();
 
@@ -29,7 +29,7 @@ abstract class AuthorizeImplementation
 	 * Database object
 	 *
 	 * @var    object
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $db = null;
 
@@ -41,7 +41,7 @@ abstract class AuthorizeImplementation
 	 *
 	 * @return  mixed   Value | null if doesn't exist
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __get($key)
 	{
@@ -83,7 +83,7 @@ abstract class AuthorizeImplementation
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	final private static function getMatrix($class)
 	{
@@ -98,7 +98,7 @@ abstract class AuthorizeImplementation
 	 *
 	 * @return  self
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __set($name, $value)
 	{
@@ -150,7 +150,7 @@ abstract class AuthorizeImplementation
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	final private static function setMatrix($value, $class)
 	{
@@ -167,7 +167,7 @@ abstract class AuthorizeImplementation
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function allow($actor, $target, $action)
 	{
@@ -190,7 +190,7 @@ abstract class AuthorizeImplementation
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function deny($actor, $target, $action)
 	{
@@ -214,7 +214,7 @@ abstract class AuthorizeImplementation
 	 *
 	 * @return  mixed database query object or false if this function is not implemented
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function appendFilterQuery(\JDatabaseQuery &$query, $joincolumn, $action, $orWhere = null, $groups = null)
 	{
