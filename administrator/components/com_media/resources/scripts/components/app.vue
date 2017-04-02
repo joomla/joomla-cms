@@ -14,6 +14,7 @@
 
 <script>
     import * as types from "./../store/mutation-types";
+    
     export default {
         name: 'media-app',
         data() {
