@@ -361,7 +361,7 @@ CREATE TABLE `jos_modules_menu` (
 );
 
 --
--- Table structure for table `#__permissions`
+-- Table structure for table `jos_permissions`
 --
 
 CREATE TABLE `jos_permissions` (
