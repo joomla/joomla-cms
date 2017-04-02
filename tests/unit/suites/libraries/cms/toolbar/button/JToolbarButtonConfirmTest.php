@@ -93,7 +93,7 @@ class JToolbarButtonConfirmTest extends TestCaseDatabase
 	public function testFetchButton()
 	{
 		$html = "<button onclick=\"if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } else { if (confirm('Confirm action?')) { Joomla.submitbutton('article.save'); } }\" class=\"btn btn-small\">\n"
-			. "\t<span class=\"icon-confirm-test\"></span>\n"
+			. "\t<span class=\"icon-confirm-test\" aria-hidden=\"true\"></span>\n"
 			. "\tConfirm?</button>\n";
 
 		$this->assertEquals(
