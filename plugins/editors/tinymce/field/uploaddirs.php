@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.form.helper');
 
-JFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('folderlist');
 
 /**
  * Generates the list of directories  available for drag and drop upload.
@@ -20,36 +20,33 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Editors.tinymce
  * @since       __DEPLOY_VERSION__
  */
-class JFormFieldUploaddirs extends JFormFieldList
+class JFormFieldUploaddirs extends JFormFieldFolderList
 {
 	protected $type = 'uploaddirs';
+
+
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$return = parent::setup($element, $value, $group);
+
+		// Get the path in which to search for file options.
+		$this->directory   = JComponentHelper::getParams('com_media')->get('image_path');
+		$this->recursive   = true;
+		$this->hideDefault = true;
+
+		return $return;
+	}
 
 	/**
 	 * Method to get the directories options.
 	 *
-	 * @return  array  The skins option objects.
+	 * @return  array  The dirs option objects.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getOptions()
 	{
-		$options = array();
-		$root    = JComponentHelper::getParams('com_media')->get('image_path');
-
-
-		$directories = glob(JPATH_ROOT . '/' . $root . '/*', GLOB_ONLYDIR);
-
-		$options[] = JHtml::_('select.option', '', '');
-
-		for ($i = 0; $i < count($directories); ++$i)
-		{
-			$dir = basename($directories[$i]);
-			$options[] = JHtml::_('select.option', $i, $dir);
-		}
-
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return parent::getOptions();
 	}
 
 	/**
