@@ -355,7 +355,7 @@ if ($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
+						<span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
@@ -368,7 +368,7 @@ if ($this->type == 'font')
 			<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
 				<li class="component-folder">
 					<a href="#" class="component-folder-url">
-						<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
+						<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 					</a>
 					<ul class="nav nav-list">
 						<?php foreach ($value as $view) : ?>
@@ -378,7 +378,7 @@ if ($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a class="component-file-url" href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-									<span class="icon-copy"></span>&nbsp;<?php echo $view->name; ?>
+									<span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -398,7 +398,7 @@ if ($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
+						<span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
