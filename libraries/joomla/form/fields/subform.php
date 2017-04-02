@@ -356,5 +356,4 @@ class JFormFieldSubform extends JFormField
 
 		return $name;
 	}
-
 }

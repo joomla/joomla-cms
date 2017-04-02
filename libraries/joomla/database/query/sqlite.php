@@ -332,9 +332,12 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 					$table = $this->update->getElements();
 					$table = $table[0];
 
+					$tableName = explode(' ', $table);
+					$tableName = $tableName[0];
+
 					if ($this->columns === null)
 					{
-						$fields = $this->db->getTableColumns($table);
+						$fields = $this->db->getTableColumns($tableName);
 
 						foreach ($fields as $key => $value)
 						{
@@ -367,7 +370,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 					$select->join  = $this->join;
 					$select->where = $this->where;
 
-					return 'INSERT OR REPLACE INTO ' . $table
+					return 'INSERT OR REPLACE INTO ' . $tableName
 						. ' (' . implode(',', array_keys($fields)) . ')'
 						. (string) $select;
 				}

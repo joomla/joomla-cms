@@ -109,7 +109,7 @@ if ($saveOrder)
 										}
 										?>
 										<span class="sortable-handler <?php echo $iconClass ?>">
-											<span class="icon-menu"></span>
+											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" style="display:none" name="order[]" size="5"

@@ -8877,14 +8877,6 @@ small,
 .j-main-container .alert {
   margin: 10px; }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-15px); }
-  to {
-    opacity: 1;
-    transform: translateY(0); } }
-
 .notify-alerts {
   position: fixed;
   top: 15px;
@@ -8898,7 +8890,6 @@ small,
     min-width: 280px;
     max-width: 400px;
     margin-bottom: .5rem;
-    box-shadow: #8d8d8d;
     opacity: 0;
     animation: fadeIn ease-in 1;
     animation-duration: .35s;
@@ -8914,8 +8905,11 @@ small,
       max-width: none;
       margin-left: 0; }
   .notify-alerts .close {
+    position: relative;
+    right: -.5rem;
+    padding: .5rem;
     line-height: 1rem;
-    color: #fefefe;
+    color: #000;
     opacity: 1; }
 
 .closed .notify-alerts {
@@ -8926,6 +8920,14 @@ small,
 
 .wrapper0 .notify-alerts {
   margin-left: 0; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
 
 .form-control {
   max-width: 240px;
@@ -9797,6 +9799,46 @@ iframe {
 .awesomplete {
   display: block; }
 
+.alert-success, .alert-message {
+  background-color: #eef8ee;
+  border-color: #6dc66d;
+  border-left: 10px solid #6dc66d;
+  color: #292b2c; }
+  .alert-success hr, .alert-message hr {
+    border-top-color: #5bbf5b; }
+  .alert-success .alert-link, .alert-message .alert-link {
+    color: #49b849; }
+
+.alert-info {
+  background-color: #f0f9fc;
+  border-color: #5bc0de;
+  border-left: 10px solid #5bc0de;
+  color: #292b2c; }
+  .alert-info hr {
+    border-top-color: #46b8da; }
+  .alert-info .alert-link {
+    color: #31b0d5; }
+
+.alert-warning {
+  background-color: #fef9f3;
+  border-color: #f0ad4e;
+  border-left: 10px solid #f0ad4e;
+  color: #292b2c; }
+  .alert-warning hr {
+    border-top-color: #eea236; }
+  .alert-warning .alert-link {
+    color: #ec971f; }
+
+.alert-danger {
+  background-color: #f9e2e2;
+  border-color: #d9534f;
+  border-left: 10px solid #d9534f;
+  color: #292b2c; }
+  .alert-danger hr {
+    border-top-color: #d43f3a; }
+  .alert-danger .alert-link {
+    color: #c9302c; }
+
 .btn.btn-xs,
 .btn-group-xs > .btn {
   padding: .09rem .4rem;
@@ -10210,6 +10252,9 @@ iframe {
   border: 1px solid rgba(0, 0, 0, 0.17);
   border-radius: 0.25rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
+
+.row-selected {
+  background-color: #d9edf7; }
 
 .chzn-container-single {
   width: auto !important; }

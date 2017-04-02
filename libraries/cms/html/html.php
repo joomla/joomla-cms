@@ -776,7 +776,7 @@ abstract class JHtml
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+			$date->setTimezone($user->getTimezone());
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)

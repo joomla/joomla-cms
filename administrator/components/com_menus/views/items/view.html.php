@@ -396,15 +396,29 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.title'     => JText::_('JGLOBAL_TITLE'),
-			'a.home'      => JText::_('COM_MENUS_HEADING_HOME'),
-			'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
-			'association' => JText::_('COM_MENUS_HEADING_ASSOCIATION'),
-			'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => JText::_('JGRID_HEADING_ID')
-		);
+		$this->state = $this->get('State');
+
+		if ($this->state->get('filter.client_id') == 0)
+		{
+			return array(
+				'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published' => JText::_('JSTATUS'),
+				'a.title'     => JText::_('JGLOBAL_TITLE'),
+				'a.home'      => JText::_('COM_MENUS_HEADING_HOME'),
+				'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
+				'association' => JText::_('COM_MENUS_HEADING_ASSOCIATION'),
+				'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'        => JText::_('JGRID_HEADING_ID')
+			);
+		}
+		else
+		{
+			return array(
+				'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published' => JText::_('JSTATUS'),
+				'a.title'     => JText::_('JGLOBAL_TITLE'),
+				'a.id'        => JText::_('JGRID_HEADING_ID')
+			);
+		}
 	}
 }

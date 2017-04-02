@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+
+$usersConfig = JComponentHelper::getParams('com_users');
+
 ?>
 <div class="login<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -86,22 +89,17 @@ JHtml::_('behavior.formvalidator');
 	</form>
 </div>
 <div>
-	<ul class="nav nav-tabs nav-stacked">
-		<li>
-			<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
-			<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
-		</li>
-		<li>
-			<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
-			<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?></a>
-		</li>
-		<?php
-		$usersConfig = JComponentHelper::getParams('com_users');
-		if ($usersConfig->get('allowUserRegistration')) : ?>
-		<li>
-			<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
-				<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?></a>
-		</li>
+	<div class="list-group">
+		<a class="list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
+			<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?>
+		</a>
+		<a class="list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
+			<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?>
+		</a>
+		<?php if ($usersConfig->get('allowUserRegistration')) : ?>
+			<a class="list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
+				<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?>
+			</a>
 		<?php endif; ?>
-	</ul>
+	</div>
 </div>

@@ -1337,7 +1337,7 @@ class JForm
 					}
 
 					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
+					$offset = JFactory::getUser()->getTimezone();
 
 					// Return a MySQL formatted datetime string in UTC.
 					try

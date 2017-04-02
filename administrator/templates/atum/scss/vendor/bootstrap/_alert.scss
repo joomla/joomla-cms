@@ -1,0 +1,28 @@
+// Alerts
+
+@mixin alert-variant($background, $border, $body-color) {
+  background-color: lighten($background, 35%);
+  border-color: $background;
+  border-left: 10px solid $background;
+  color: $body-color;
+
+  hr {
+    border-top-color: darken($background, 5%);
+  }
+  .alert-link {
+    color: darken($background, 10%);
+  }
+}
+
+.alert-success {
+  @include alert-variant(lighten($alert-success-bg, 24%), $alert-success-border, $gray-dark);
+}
+.alert-info {
+  @include alert-variant($alert-info-bg, $alert-info-border, $gray-dark);
+}
+.alert-warning {
+  @include alert-variant($alert-warning-bg, $alert-warning-border, $gray-dark);
+}
+.alert-danger {
+  @include alert-variant($alert-danger-bg, $alert-danger-border, $gray-dark);
+}

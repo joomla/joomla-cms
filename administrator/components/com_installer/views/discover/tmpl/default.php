@@ -112,7 +112,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</tbody>
 					</table>
 					<?php endif; ?>
-					<div><?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?></div>
+					<div class="p-3"><?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?></div>
 					<input type="hidden" name="task" value="">
 					<input type="hidden" name="boxchecked" value="0">
 					<?php echo JHtml::_('form.token'); ?>

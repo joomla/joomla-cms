@@ -108,29 +108,7 @@ class Form extends Controller
 		// Guess the list view as the plural of the item view.
 		if (empty($this->view_list))
 		{
-			// @TODO Probably worth moving to an inflector class based on
-			// http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
-
-			// Simple pluralisation based on public domain snippet by Paul Osman
-			// For more complex types, just manually set the variable in your class.
-			$plural = array(
-				array('/(x|ch|ss|sh)$/i', "$1es"),
-				array('/([^aeiouy]|qu)y$/i', "$1ies"),
-				array('/([^aeiouy]|qu)ies$/i', "$1y"),
-				array('/(bu)s$/i', "$1ses"),
-				array('/s$/i', 's'),
-				array('/$/', 's'),
-			);
-
-			// Check for matches using regular expressions
-			foreach ($plural as $pattern)
-			{
-				if (preg_match($pattern[0], $this->view_item))
-				{
-					$this->view_list = preg_replace($pattern[0], $pattern[1], $this->view_item);
-					break;
-				}
-			}
+			$this->view_list = \Joomla\String\Inflector::getInstance()->toPlural($this->view_item);
 		}
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
