@@ -166,6 +166,16 @@ class PlgEditorTinymce extends JPlugin
 		$doc     = JFactory::getDocument();
 		$options = $doc->getScriptOptions('plg_editor_tinymce');
 
+		if (empty($width))
+		{
+			$width = "100%";
+		}
+
+		if (empty($height))
+		{
+			$height = "500px";
+		}
+
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width))
 		{
@@ -393,14 +403,6 @@ class PlgEditorTinymce extends JPlugin
 			$invalid_elements  = trim($levelParams->get('invalid_elements', 'script,applet,iframe'));
 			$extended_elements = trim($levelParams->get('extended_elements', ''));
 			$valid_elements    = trim($levelParams->get('valid_elements', ''));
-		}
-
-		$html_height = $this->params->get('html_height', '550');
-		$html_width  = $this->params->get('html_width', '');
-
-		if ($html_width == 750)
-		{
-			$html_width = '';
 		}
 
 		// The param is true for vertical resizing only, false or both
@@ -652,8 +654,6 @@ class PlgEditorTinymce extends JPlugin
 			'paste_data_images'  => $allowImgPaste,
 			'importcss_append'   => true,
 			'image_title'        => true,
-			'height'             => $html_height,
-			'width'              => $html_width,
 			'resize'             => $resizing,
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
