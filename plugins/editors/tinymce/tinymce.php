@@ -159,7 +159,14 @@ class PlgEditorTinymce extends JPlugin
 			$id = $name;
 		}
 
-		$id = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
+		$id            = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
+		$nameGroup     = explode('[', preg_replace('/\[\]|\]/', '', $name));
+		$fieldName     = end($nameGroup);
+		$scriptOptions = array();
+
+		// Check for existing options
+		$doc     = JFactory::getDocument();
+		$options = $doc->getScriptOptions('plg_editor_tinymce');
 
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width))
@@ -189,9 +196,23 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
-		// Setup Default options for the Editor script
-		$doc      = JFactory::getDocument();
-		$options  = $doc->getScriptOptions('plg_editor_tinymce');
+		// Prepare the instance specific options, actually the ext-buttons
+		if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
+		{
+			$btns = $this->tinyButtons($id, $buttons);
+
+			if (!empty($btns['names']))
+			{
+				JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+			}
+
+			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
+			$options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+
+			$doc->addScriptOptions('plg_editor_tinymce', $options, false);
+		}
+
+		// Setup Default (common) options for the Editor script
 
 		// Check whether we already have them
 		if (!empty($options['tinyMCE']['default']))
@@ -549,19 +570,6 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
 		}
 
-		// We shall put the XTD button inside tinymce
-		$btns      = $this->tinyButtons($id, $buttons);
-		$btnsNames = $btns['names'];
-		$tinyBtns  = implode('; ', $btns['script']);
-
-		if (!empty($btnsNames))
-		{
-			// Add them to the first toolbar
-			$toolbar1 = array_merge($toolbar1, array('|'), $btnsNames);
-
-			JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
-		}
-
 		// Drag and drop Images
 		$allowImgPaste = false;
 		$dragdrop      = $levelParams->get('drag_drop', 1);
@@ -609,7 +617,9 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Build the final options set
-		$scriptOptions = array(
+		$scriptOptions = array_merge(
+			$scriptOptions,
+			array(
 			'suffix'  => '.min',
 			'baseURL' => JUri::root(true) . '/media/vendor/tinymce',
 			'directionality' => $text_direction,
@@ -656,9 +666,7 @@ class PlgEditorTinymce extends JPlugin
 			// Drag and drop specific
 			'dndEnabled' => $dragdrop,
 			'dndPath'    => JUri::root() . 'media/editors/tinymce/js/dragdrop/plugin.min.js',
-
-			// @TODO make it better, do not generate JavaScript in PHP !!!
-			'setupCallbackString' => $tinyBtns,
+			)
 		);
 
 		if ($levelParams->get('newlines'))
@@ -777,8 +785,7 @@ class PlgEditorTinymce extends JPlugin
 				$icon = 'none icon-' . $icon;
 
 				// Now we can built the script
-				$tempConstructor = '
-			!(function(){';
+				$tempConstructor = '!(function(){';
 
 				// Get the modal width/height
 				if ($options && is_scalar($options))
@@ -1218,6 +1225,8 @@ class PlgEditorTinymce extends JPlugin
 	 * @return  string
 	 *
 	 * @since  3.7.0
+	 *
+	 * @deprecated 4.0
 	 */
 	private function onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
 	{
@@ -1226,7 +1235,14 @@ class PlgEditorTinymce extends JPlugin
 			$id = $name;
 		}
 
-		$id = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
+		$id            = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
+		$nameGroup     = explode('[', preg_replace('/\[\]|\]/', '', $name));
+		$fieldName     = end($nameGroup);
+		$scriptOptions = array();
+
+		// Check for existing options
+		$doc     = JFactory::getDocument();
+		$options = $doc->getScriptOptions('plg_editor_tinymce');
 
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width))
@@ -1251,14 +1267,28 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->content = $content;
 
 		// Render Editor markup
-		$editor = '<div class="editor">';
+		$editor = '<div class="editor js-editor-tinymce">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
+		// Prepare instance specific options, actually the ext-buttons
+		if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
+		{
+			$btns = $this->tinyButtons($id, $buttons);
+
+			if (!empty($btns['names']))
+			{
+				JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+			}
+
+			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
+			$options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+
+			$doc->addScriptOptions('plg_editor_tinymce', $options, false);
+		}
+
 		// Setup Default options for the Editor script
-		$doc      = JFactory::getDocument();
-		$options  = $doc->getScriptOptions('plg_editor_tinymce');
 
 		// Check whether we already have them
 		if (!empty($options['tinyMCE']['default']))
@@ -1830,19 +1860,8 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
-		// We shall put the XTD button inside tinymce
-		$btns      = $this->tinyButtons($id, $buttons);
-		$btnsNames = $btns['names'];
-		$tinyBtns  = $btns['script'];
-
-		if (!empty($btnsNames))
-		{
-			JHtml::_('script', 'system/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
-		}
-
 		// Drag and drop Images
 		$allowImgPaste = false;
-		$dragDropPlg   = '';
 		$dragdrop      = $this->params->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
@@ -1875,8 +1894,6 @@ class PlgEditorTinymce extends JPlugin
 				$tempPath = ltrim($tempPath, '/');
 			}
 
-			$dragDropPlg = 'jdragdrop';
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			$doc->addScriptDeclaration(
 				"
@@ -1900,17 +1917,14 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar1 = implode(' ', $toolbar1_add) . ' | '
 					. implode(' ', $toolbar2_add) . ' | '
 					. implode(' ', $toolbar3_add) . ' | '
-					. implode(' ', $toolbar4_add) . ' | '
-					. implode(" | ", $btnsNames);
-		$toolbar5 = implode(" | ", $btnsNames);
-
-		// The buttons script
-		$tinyBtns = implode("; ", $tinyBtns);
+					. implode(' ', $toolbar4_add);
 
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
 
-		$scriptOptions = array(
+		$scriptOptions = array_merge(
+			$scriptOptions,
+			array(
 			'suffix'  => '.min',
 			'baseURL' => JUri::root(true) . '/media/editors/tinymce',
 			'directionality' => $text_direction,
@@ -1934,8 +1948,7 @@ class PlgEditorTinymce extends JPlugin
 			'content_css'        => $content_css,
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
-
-			'setupCallbackString' => $tinyBtns,
+		)
 		);
 
 		if ($this->params->get('newlines'))
@@ -1970,7 +1983,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				$scriptOptions['menubar']  = false;
-				$scriptOptions['toolbar1'] = 'bold italic underline strikethrough | undo redo | bullist numlist | code | ' . $toolbar5;
+				$scriptOptions['toolbar1'] = 'bold italic underline strikethrough | undo redo | bullist numlist | code';
 				$scriptOptions['plugins']  = ' code';
 				$scriptOptions['external_plugins']  = $externalPlugins;
 
@@ -1986,7 +1999,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['invalid_elements'] = $invalid_elements;
 				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ';
 				$scriptOptions['external_plugins']  = $externalPlugins;
-				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . $toolbar5;
+				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['importcss_append']  = true;
 				$scriptOptions['height'] = $html_height;

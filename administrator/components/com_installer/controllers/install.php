@@ -66,4 +66,25 @@ class InstallerControllerInstall extends JControllerLegacy
 
 		$this->setRedirect($redirect_url);
 	}
+
+	/**
+	 * Install an extension from drag & drop ajax upload.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function ajax_upload()
+	{
+		$this->install();
+
+		$app = JFactory::getApplication();
+		$redirect = $this->redirect;
+
+		header('Content-Type: application/json');
+
+		echo new JResponseJson(array('redirect' => $redirect), $app->getUserState('com_installer.message'));
+
+		exit();
+	}
 }

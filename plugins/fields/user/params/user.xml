@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<field
-		name="default_value"
-		type="textarea"
-		filter="raw"
-		label="PLG_FIELDS_USER_DEFAULT_VALUE_LABEL"
-		description="PLG_FIELDS_USER_DEFAULT_VALUE_DESC"
-	/>
+	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
+		<fieldset name="basic">
+			<field
+				name="show_on"
+				type="hidden"
+				filter="unset"
+			/>
+		</fieldset>
+	</fields>
 </form>

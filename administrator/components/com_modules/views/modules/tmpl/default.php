@@ -113,7 +113,9 @@ $colSpan = $clientId === 1 ? 9 : 10;
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<button class="btn btn-xs btn-secondary hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
+								<button class="btn btn-xs btn-secondary hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
+									<span class="icon-ban-circle" aria-hidden="true"></span>
+								</button>
 							<?php endif; ?>
 							</div>
 						</td>

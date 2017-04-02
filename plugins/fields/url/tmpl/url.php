@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.Url
+ * @subpackage  Fields.URL
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -19,7 +19,7 @@ $attributes = '';
 
 if (!JUri::isInternal($value))
 {
-	$attributes = 'rel="nofollow" target="_blank"';
+	$attributes = 'rel="nofollow noopener noreferrer" target="_blank"';
 }
 
 echo '<a href="' . $value . '" ' . $attributes . '>' . $value . '</a>';
