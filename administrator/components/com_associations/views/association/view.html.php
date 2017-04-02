@@ -192,7 +192,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($languageKey)), 'contract');
+		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($languageKey)), 'contract assoc');
 
 		$bar = JToolbar::getInstance('toolbar');
 
