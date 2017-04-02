@@ -71,7 +71,7 @@ JFactory::getDocument()->addStyleDeclaration('
 						<?php echo $this->form->renderField('map_count'); ?>
 					</div>
 					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
-						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
+						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
 					<button class="btn btn-default pull-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 					<hr>
