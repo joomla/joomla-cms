@@ -2,8 +2,8 @@
   "name": "com_media",
   "version": "3.0.0",
   "description": "Component for managing site media",
-  "author": "",
   "license": "GPL-3.0",
+  "author": "",
   "scripts": {
     "build": "npm run build-css & npm run build-js",
     "build-css": "node-sass ./resources/styles/mediamanager.scss ../../../media/com_media/css/mediamanager.css",
@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "vue": "^2.2.4",
-    "vuex": "^2.2.1"
+    "vuex": "^2.2.1",
+    "vue-focus": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.0",

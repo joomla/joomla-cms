@@ -5,7 +5,7 @@
             <form class="form">
                 <div class="form-group">
                     <label for="folder">{{ translate('COM_MEDIA_FOLDER') }}</label>
-                    <input type="text" id="folder" class="form-control" placeholder="Folder" v-model="folder">
+                    <input type="text" id="folder" v-focus="true" class="form-control" placeholder="Folder" v-model="folder">
                 </div>
             </form>
         </div>
@@ -18,8 +18,11 @@
 
 <script>
     import * as types from "./../../store/mutation-types";
+    import { focus } from 'vue-focus';
+
     export default {
         name: 'create-folder-modal',
+        directives: { focus: focus },
         methods: {
             /* Close the modal instance */
             close() {
@@ -32,7 +35,7 @@
                     parent: this.$store.state.selectedDirectory,
                 });
                 this.folder = '';
-            }
-        }
+            },
+        },
     }
 </script>
