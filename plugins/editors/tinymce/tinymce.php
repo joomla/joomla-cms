@@ -573,7 +573,9 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$plugins[]     = 'jdragdrop';
+			$externalPlugins['jdragdrop'] = ($app->isClient('site') ? JUri::root(false)  :
+					str_replace('/administrator', '', JUri::root(false)))
+					. '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -598,18 +600,14 @@ class PlgEditorTinymce extends JPlugin
 
 			if (!empty($tempPath))
 			{
-				$tempPath = rtrim($tempPath, '/');
-				$tempPath = ltrim($tempPath, '/');
+				$tempPath = ltrim(rtrim($tempPath, '/'));
 			}
 
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			$doc->addScriptDeclaration(
-				"
-		var setCustomDir    = '" . $isSubDir . "';
-		var mediaUploadPath = '" . $tempPath . "';
-		var uploadUri       = '" . $uploadUrl . "';
-			"
-			);
+
+			$scriptOptions['setCustomDir']    = $isSubDir;
+			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 
 		// Build the final options set
@@ -657,6 +655,8 @@ class PlgEditorTinymce extends JPlugin
 			'resize'             => $resizing,
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
+			'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+
 		)
 		);
 
@@ -1843,9 +1843,9 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Drag and drop Images
-		$allowImgPaste = false;
-		$dragDropPlg   = '';
-		$dragdrop      = $this->params->get('drag_drop', 1);
+		$externalPlugins = array();
+		$allowImgPaste   = false;
+		$dragdrop        = $this->params->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
@@ -1877,15 +1877,15 @@ class PlgEditorTinymce extends JPlugin
 				$tempPath = ltrim($tempPath, '/');
 			}
 
-			$dragDropPlg = 'jdragdrop';
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			$doc->addScriptDeclaration(
-				"
-		var setCustomDir    = '" . $isSubDir . "';
-		var mediaUploadPath = '" . $tempPath . "';
-		var uploadUri       = '" . $uploadUrl . "';
-			"
+
+			$scriptOptions['setCustomDir']    = $isSubDir;
+			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['uploadUri']       = $uploadUrl;
+
+			$externalPlugins = array(
+				array('jdragdrop' => ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', JUri::root(false)))
+					. '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
 			);
 		}
 
@@ -1928,6 +1928,7 @@ class PlgEditorTinymce extends JPlugin
 			'content_css'        => $content_css,
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
+			'externalPlugins'    => json_encode($externalPlugins),
 		)
 		);
 
@@ -1964,7 +1965,7 @@ class PlgEditorTinymce extends JPlugin
 			case 0: /* Simple mode*/
 				$scriptOptions['menubar']  = false;
 				$scriptOptions['toolbar1'] = 'bold italic underline strikethrough | undo redo | bullist numlist | code';
-				$scriptOptions['plugins']  = $dragDropPlg . ' code';
+				$scriptOptions['plugins']  = ' code';
 
 				break;
 
@@ -1976,7 +1977,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg;
+				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ';
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['importcss_append']  = true;
@@ -1990,7 +1991,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = $plugins . ' ' . $dragDropPlg;
+				$scriptOptions['plugins']  = $plugins;
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
