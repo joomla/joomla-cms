@@ -74,7 +74,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// Check if file exists
 		if (!file_exists($basePath))
 		{
-			throw new MediaFileAdapterFilenotfoundexception();
+			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
 		return $this->getPathInformation($basePath);
@@ -112,7 +112,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		// Check if file exists
 		if (!file_exists($basePath))
 		{
-			throw new MediaFileAdapterFilenotfoundexception();
+			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
 		// Check if the path points to a file
@@ -189,7 +189,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	{
 		if (!JFile::exists($this->rootPath . $path . '/' . $name))
 		{
-			throw new MediaFileAdapterFilenotfoundexception();
+			throw new MediaFileAdapterFilenotfoundexception;
 		}
 
 		JFile::write($this->rootPath . $path . '/' . $name, $data);
@@ -212,7 +212,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		{
 			if (!JFile::exists($this->rootPath . $path))
 			{
-				throw new MediaFileAdapterFilenotfoundexception();
+				throw new MediaFileAdapterFilenotfoundexception;
 			}
 
 			$success = JFile::delete($this->rootPath . $path);
@@ -221,7 +221,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		{
 			if (!JFolder::exists($this->rootPath . $path))
 			{
-				throw new MediaFileAdapterFilenotfoundexception();
+				throw new MediaFileAdapterFilenotfoundexception;
 			}
 
 			$success = JFolder::delete($this->rootPath . $path);
@@ -272,9 +272,13 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$obj->extension               = !$isDir ? JFile::getExt($obj->name) : '';
 		$obj->size                    = !$isDir ? filesize($path) : 0;
 		$obj->create_date             = $createDate->format('c', true);
-		$obj->create_date_formatted   = (string) $createDate; // TODO use format from config
+
+		// TODO use format from config
+		$obj->create_date_formatted   = (string) $createDate;
 		$obj->modified_date           = $modifiedDate->format('c', true);
-		$obj->modified_date_formatted = (string) $modifiedDate; // TODO use format from config
+
+		// TODO use format from config
+		$obj->modified_date_formatted = (string) $modifiedDate;
 		$obj->mime_type               = mime_content_type($path);
 		$obj->width                   = 0;
 		$obj->height                  = 0;

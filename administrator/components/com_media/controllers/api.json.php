@@ -215,7 +215,7 @@ class MediaControllerApi extends Controller
 
 		$params = JComponentHelper::getParams('com_media');
 
-		$helper = new JHelperMedia();
+		$helper = new JHelperMedia;
 		$serverlength = $this->input->server->get('CONTENT_LENGTH');
 
 		if ($serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024)
@@ -234,7 +234,7 @@ class MediaControllerApi extends Controller
 			throw new Exception(JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
 		}
 
-		if (!$helper->canUpload(array('name' => $name, 'size' => sizeof($mediaContent), 'tmp_name' => $tmpFile), 'com_media'))
+		if (!$helper->canUpload(array('name' => $name, 'size' => count($mediaContent), 'tmp_name' => $tmpFile), 'com_media'))
 		{
 			JFile::delete($tmpFile);
 
