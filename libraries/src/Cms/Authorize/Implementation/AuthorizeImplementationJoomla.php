@@ -10,7 +10,7 @@ namespace Joomla\Cms\Authorize\Implementation;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Authorize\AuthorizeImplementation;
+use Joomla\Cms\Authorize\AbstractAuthorizeImplementation;
 use Joomla\Cms\Authorize\AuthorizeInterface;
 use Joomla\Cms\Authorize\AuthorizeHelper;
 use Joomla\Cms\Table\Table;
@@ -20,7 +20,7 @@ use Joomla\Cms\Table\Table;
  *
  * @since  __DEPLOY_VERSION__
  */
-class AuthorizeImplementationJoomla extends AuthorizeImplementation implements AuthorizeInterface
+class AuthorizeImplementationJoomla extends AbstractAuthorizeImplementation implements AuthorizeInterface
 {
 
 	/**
@@ -139,7 +139,7 @@ class AuthorizeImplementationJoomla extends AuthorizeImplementation implements A
 				break;
 
 			default:
-				return AuthorizeImplementation::__get($key);
+				return AbstractAuthorizeImplementation::__get($key);
 				break;
 		}
 

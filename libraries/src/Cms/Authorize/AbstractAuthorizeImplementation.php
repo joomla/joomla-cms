@@ -11,11 +11,11 @@ namespace Joomla\Cms\Authorize;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * AuthorizeImplementation class.
+ * AbstractAuthorizeImplementation class.
  *
  * @since  1.0
  */
-abstract class AuthorizeImplementation
+abstract class AbstractAuthorizeImplementation
 {
 	/**
 	 * A multidimensional array with authorization matryx [authorizationclass][assetid][action1][group] = value
