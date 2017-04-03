@@ -9139,6 +9139,8 @@ exports.default = {
 
             return this.$store.state.directories.filter(function (directory) {
                 return directory.directory === _this.root;
+            }).sort(function (a, b) {
+                return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
             });
         }
     }

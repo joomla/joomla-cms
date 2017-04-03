@@ -12,7 +12,11 @@
             /* Get the directories */
             directories() {
                 return this.$store.state.directories
-                    .filter(directory => (directory.directory === this.root));
+                    .filter(directory => (directory.directory === this.root))
+                    .sort((a, b) => {
+                        // Sort alphabetically
+                        return (a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1
+                    });
             },
         }
     }
