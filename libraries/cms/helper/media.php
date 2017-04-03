@@ -25,9 +25,9 @@ class JHelperMedia
 	 *
 	 * @since   3.2
 	 */
-	public function isImage($fileName)
+	public static function isImage($fileName)
 	{
-		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+		static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp';
 
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
 	}
