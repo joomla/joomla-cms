@@ -50,9 +50,9 @@ class TagsHelper extends CmsHelper
 	/**
 	 * Method to add tag rows to mapping table.
 	 *
-	 * @param   integer          $ucmId  ID of the #__ucm_content item being tagged
-	 * @param   TableInterface  $table  JTable object being tagged
-	 * @param   array            $tags   Array of tags to be applied.
+	 * @param   integer         $ucmId  ID of the #__ucm_content item being tagged
+	 * @param   TableInterface  $table  Table object being tagged
+	 * @param   array           $tags   Array of tags to be applied.
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -365,10 +365,10 @@ class TagsHelper extends CmsHelper
 	/**
 	 * Method to delete the tag mappings and #__ucm_content record for for an item
 	 *
-	 * @param   TableInterface  $table          JTable object of content table where delete occurred
-	 * @param   integer|array    $contentItemId  ID of the content item. Or an array of key/value pairs with array key
-	 *                                           being a primary key name and value being the content item ID. Note
-	 *                                           multiple primary keys are not supported
+	 * @param   TableInterface  $table          Table object of content table where delete occurred
+	 * @param   integer|array   $contentItemId  ID of the content item. Or an array of key/value pairs with array key
+	 *                                          being a primary key name and value being the content item ID. Note
+	 *                                          multiple primary keys are not supported
 	 *
 	 * @return  boolean  true on success, false on failure
 	 *
@@ -1061,7 +1061,7 @@ class TagsHelper extends CmsHelper
 	 * Method to untag an item
 	 *
 	 * @param   integer         $contentId  ID of the content item being untagged
-	 * @param   TableInterface  $table      JTable object being untagged
+	 * @param   TableInterface  $table      Table object being untagged
 	 * @param   array           $tags       Array of tags to be untagged. Use an empty array to untag all existing tags.
 	 *
 	 * @return  boolean  true on success, otherwise false.

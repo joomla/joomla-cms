@@ -9,6 +9,7 @@
 namespace Joomla\Cms\Helper;
 
 use Joomla\Cms\Access\Access;
+use Joomla\Cms\Component\ComponentHelper;
 use Joomla\Cms\Table\Table;
 
 defined('JPATH_PLATFORM') or die;
@@ -90,7 +91,7 @@ class ContentHelper
 	 * @param   string   $section    The access section name.
 	 * @param   integer  $id         The item ID.
 	 *
-	 * @return  \RObject
+	 * @return  \JObject
 	 *
 	 * @since   3.2
 	 */
@@ -144,7 +145,7 @@ class ContentHelper
 	 * @return  string  The language string
 	 *
 	 * @since   3.1
-	 * @note    JHelper::getCurrentLanguage is the preferred method
+	 * @note    CmsHelper::getCurrentLanguage is the preferred method
 	 */
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
@@ -160,7 +161,7 @@ class ContentHelper
 			}
 			else
 			{
-				$langCode = \JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				$langCode = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 		}
 
@@ -175,7 +176,7 @@ class ContentHelper
 	 * @return  integer  The language ID
 	 *
 	 * @since   3.1
-	 * @note    JHelper::getLanguage() is the preferred method.
+	 * @note    CmsHelper::getLanguage() is the preferred method.
 	 */
 	public static function getLanguageId($langCode)
 	{
@@ -192,7 +193,7 @@ class ContentHelper
 	/**
 	 * Gets a row of data from a table
 	 *
-	 * @param   Table  $table  JTable instance for a row.
+	 * @param   Table  $table  Table instance for a row.
 	 *
 	 * @return  array  Associative array of all columns and values for a row in a table.
 	 *

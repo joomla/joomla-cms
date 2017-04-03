@@ -74,7 +74,7 @@ class CmsHelper
 	/**
 	 * Gets a row of data from a table
 	 *
-	 * @param   TableInterface  $table  JTable instance for a row.
+	 * @param   TableInterface  $table  Table instance for a row.
 	 *
 	 * @return  array  Associative array of all columns and values for a row in a table.
 	 *
@@ -98,9 +98,9 @@ class CmsHelper
 	/**
 	 * Method to get an object containing all of the table columns and values.
 	 *
-	 * @param   TableInterface  $table  JTable object.
+	 * @param   TableInterface  $table  Table object.
 	 *
-	 * @return  stdClass  Contains all of the columns and values.
+	 * @return  \stdClass  Contains all of the columns and values.
 	 *
 	 * @since   3.2
 	 */

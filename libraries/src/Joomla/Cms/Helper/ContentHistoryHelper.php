@@ -94,7 +94,7 @@ class ContentHistoryHelper extends CmsHelper
 	/**
 	 * Method to save a version snapshot to the content history table.
 	 *
-	 * @param   Table  $table  JTable object being versioned
+	 * @param   Table  $table  Table object being versioned
 	 *
 	 * @return  boolean  True on success, otherwise false.
 	 *
