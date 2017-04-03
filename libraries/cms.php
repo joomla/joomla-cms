@@ -37,7 +37,7 @@ $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
+spl_autoload_register(array(new Joomla\Cms\ClassLoader\ComposerDecorator($loader), 'loadClass'), true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once JPATH_LIBRARIES . '/classmap.php';
