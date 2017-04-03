@@ -191,7 +191,7 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 			</p>
 			<p>
 				<button id="select-file-button" type="button" class="btn btn-success">
-					<span class="icon-copy" aria-hidden="true></span>
+					<span class="icon-copy" aria-hidden="true"></span>
 					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
 				</button>
 			</p>
