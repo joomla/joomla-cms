@@ -25,7 +25,7 @@ class ComponentHelper
 	/**
 	 * The component list cache
 	 *
-	 * @var    \JComponentRecord[]
+	 * @var    ComponentRecord[]
 	 * @since  1.6
 	 */
 	protected static $components = array();
@@ -36,7 +36,7 @@ class ComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  \JComponentRecord  An object with the information for the component.
+	 * @return  ComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -50,7 +50,7 @@ class ComponentHelper
 			}
 			else
 			{
-				$result = new \JComponentRecord;
+				$result = new ComponentRecord;
 				$result->enabled = $strict ? false : true;
 				$result->setParams(new Registry);
 			}
@@ -497,7 +497,7 @@ class ComponentHelper
 	/**
 	 * Get installed components
 	 *
-	 * @return  \JComponentRecord[]  The components property
+	 * @return  ComponentRecord[]  The components property
 	 *
 	 * @since   3.6.3
 	 */
