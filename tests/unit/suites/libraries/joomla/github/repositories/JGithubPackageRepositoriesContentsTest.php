@@ -184,5 +184,4 @@ class JGithubPackageRepositoriesContentsTest extends \PHPUnit\Framework\TestCase
 
 			$this->object->getArchiveLink('joomla', 'joomla-platform', 'invalid');
 	}
-
 }

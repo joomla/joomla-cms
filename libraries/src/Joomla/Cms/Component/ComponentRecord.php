@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Component
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Component;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,16 +15,16 @@ use Joomla\Registry\Registry;
 /**
  * Object representing a component extension record
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  * @note   As of 4.0 this class will no longer extend JObject
  */
-class JComponentRecord extends JObject
+class ComponentRecord extends \JObject
 {
 	/**
 	 * Primary key
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $id;
 
@@ -31,7 +32,7 @@ class JComponentRecord extends JObject
 	 * The component name
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $option;
 
@@ -39,7 +40,7 @@ class JComponentRecord extends JObject
 	 * The component parameters
 	 *
 	 * @var    string|Registry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 * @note   This field is protected to require reading this field to proxy through the getter to convert the params to a Registry instance
 	 */
 	protected $params;
@@ -48,7 +49,7 @@ class JComponentRecord extends JObject
 	 * Indicates if this component is enabled
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $enabled;
 
@@ -57,7 +58,7 @@ class JComponentRecord extends JObject
 	 *
 	 * @param   array  $data  The component record data to load
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($data = array())
 	{
@@ -74,7 +75,7 @@ class JComponentRecord extends JObject
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @deprecated  4.0  Access the item parameters through the `getParams()` method
 	 */
 	public function __get($name)
@@ -95,7 +96,7 @@ class JComponentRecord extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @deprecated  4.0  Set the item parameters through the `setParams()` method
 	 */
 	public function __set($name, $value)
@@ -115,7 +116,7 @@ class JComponentRecord extends JObject
 	 *
 	 * @return  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getParams()
 	{
@@ -134,7 +135,7 @@ class JComponentRecord extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setParams($params)
 	{
