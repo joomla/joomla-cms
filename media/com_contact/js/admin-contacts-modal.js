@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -30,8 +30,8 @@
 		tag = '<a' + hreflang + ' href="' + link + '">' + title + '</a>';
 
 		/** Use the API, if editor supports it **/
-		if (window.Joomla && window.Joomla.editors && Joomla.editors.instances && Joomla.editors.instances.hasOwnProperty(editor)) {
-			Joomla.editors.instances[editor].replaceSelection(tag)
+		if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
+			window.parent.Joomla.editors.instances[editor].replaceSelection(tag)
 		} else {
 			window.parent.jInsertEditorText(tag, editor);
 		}

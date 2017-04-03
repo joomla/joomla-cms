@@ -10,12 +10,6 @@
 
 // @deprecated  4.0  Deprecated without replacement
 
-// Make sure we're being called from the command line, not a web interface
-if (PHP_SAPI !== 'cli')
-{
-	die('This is a command line only application.');
-}
-
 // We are a valid entry point.
 define('_JEXEC', 1);
 

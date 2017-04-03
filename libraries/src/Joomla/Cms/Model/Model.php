@@ -189,7 +189,7 @@ abstract class Model extends \JObject
 				return false;
 			}
 
-			\JLoader::register($modelClass, $path);
+			require_once $path;
 
 			if (!class_exists($modelClass))
 			{

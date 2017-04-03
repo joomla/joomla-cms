@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
 /**
  * Object representing a component extension record
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  * @note   As of 4.0 this class will no longer extend JObject
  */
 class ComponentRecord extends \JObject
@@ -24,7 +24,7 @@ class ComponentRecord extends \JObject
 	 * Primary key
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $id;
 
@@ -32,7 +32,7 @@ class ComponentRecord extends \JObject
 	 * The component name
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $option;
 
@@ -40,7 +40,7 @@ class ComponentRecord extends \JObject
 	 * The component parameters
 	 *
 	 * @var    string|Registry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 * @note   This field is protected to require reading this field to proxy through the getter to convert the params to a Registry instance
 	 */
 	protected $params;
@@ -49,7 +49,7 @@ class ComponentRecord extends \JObject
 	 * Indicates if this component is enabled
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $enabled;
 
@@ -58,7 +58,7 @@ class ComponentRecord extends \JObject
 	 *
 	 * @param   array  $data  The component record data to load
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($data = array())
 	{
@@ -75,7 +75,7 @@ class ComponentRecord extends \JObject
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @deprecated  4.0  Access the item parameters through the `getParams()` method
 	 */
 	public function __get($name)
@@ -96,7 +96,7 @@ class ComponentRecord extends \JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @deprecated  4.0  Set the item parameters through the `setParams()` method
 	 */
 	public function __set($name, $value)
@@ -116,7 +116,7 @@ class ComponentRecord extends \JObject
 	 *
 	 * @return  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getParams()
 	{
@@ -135,7 +135,7 @@ class ComponentRecord extends \JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setParams($params)
 	{

@@ -2440,6 +2440,9 @@ input[type="submit"].btn.btn-mini {
 .btn-group:first-child {
 	*margin-left: 0;
 }
+.btn-group .btn + .btn {
+	margin-left: -1px;
+}
 .btn-group + .btn-group {
 	margin-left: 5px;
 }
@@ -7028,6 +7031,10 @@ h6 {
 	width: 100% !important;
 	max-width: 220px;
 }
+.control-group .chzn-container .chzn-choices li.search-field,
+.control-group .chzn-container .chzn-choices li.search-field input {
+	width: 100% !important;
+}
 .chzn-container-single .chzn-single {
 	background-color: #fff;
 	background-clip: inherit;
@@ -7238,6 +7245,35 @@ h6 {
 .chzn-color.chzn-single[rel="value_show_with_link"]:active,
 .chzn-color.chzn-single[rel="value_show_with_link"].active {
 	background-color: #46a546;
+}
+.chzn-color-state.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_-2"] {
+	background-color: #bd362f;
+	*background-color: #bd362f;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+	color: #ffffff;
+}
+.chzn-color-state.chzn-single[rel="value_0"]:hover,
+.chzn-color-state.chzn-single[rel="value_0"]:focus,
+.chzn-color-state.chzn-single[rel="value_0"]:active,
+.chzn-color-state.chzn-single[rel="value_0"].active,
+.chzn-color-state.chzn-single[rel="value_0"].disabled,
+.chzn-color-state.chzn-single[rel="value_0"][disabled],
+.chzn-color-state.chzn-single[rel="value_-2"]:hover,
+.chzn-color-state.chzn-single[rel="value_-2"]:focus,
+.chzn-color-state.chzn-single[rel="value_-2"]:active,
+.chzn-color-state.chzn-single[rel="value_-2"].active,
+.chzn-color-state.chzn-single[rel="value_-2"].disabled,
+.chzn-color-state.chzn-single[rel="value_-2"][disabled] {
+	color: #fff;
+	background-color: #802420;
+	*background-color: #802420;
+}
+.chzn-color-state.chzn-single[rel="value_0"]:active,
+.chzn-color-state.chzn-single[rel="value_0"].active,
+.chzn-color-state.chzn-single[rel="value_-2"]:active,
+.chzn-color-state.chzn-single[rel="value_-2"].active {
+	background-color: #bd362f;
 }
 .CodeMirror {
 	height: calc(100vh - 400px);
@@ -9838,6 +9874,8 @@ a.grid_true {
 }
 @media (max-width: 767px) {
 	.j-sidebar-container {
+		position: relative;
+		padding: 0;
 		border-right: 0;
 		border-left: 0;
 	}

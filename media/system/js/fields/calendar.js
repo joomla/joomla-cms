@@ -631,10 +631,10 @@
 		if (this.params.compressedHeader === false) {                                                        // Head - year
 			row = createElement("tr", thead);
 			row.className = "calendar-head-row";
-			this._nav_py = hh("&lsaquo;", 1, -2, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-prev-year');                   // Previous year button
-			this.title = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
+			this._nav_py = hh("&lsaquo;", 1, -2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-prev-year');                   // Previous year button
+			this.title = hh('<div style="text-align:center;font-size:18px"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
 			this.title.className = "title";
-			this._nav_ny = hh(" &rsaquo;", 1, 2, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-next-year');                   // Next year button
+			this._nav_ny = hh(" &rsaquo;", 1, 2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-next-year');                   // Next year button
 		}
 
 		row = createElement("tr", thead);                                                                   // Head - month

@@ -193,7 +193,13 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 					{
 						$joinElem = $join->getElements();
 
-						$joinArray = preg_split('/\sON\s/i', $joinElem[0], 2);
+						$joinArray = preg_split('/\sON\s/i', $joinElem[0]);
+
+						if (count($joinArray) > 2)
+						{
+							$condition = array_pop($joinArray);
+							$joinArray = array(implode(' ON ', $joinArray), $condition);
+						}
 
 						$this->from($joinArray[0]);
 
@@ -335,16 +341,26 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * Usage:
 	 * $query->select($query->castAsChar('a'));
+	 * $query->select($query->castAsChar('a', 40));
 	 *
 	 * @param   string  $value  The value to cast as a char.
+	 *
+	 * @param   string  $len    The lenght of the char.
 	 *
 	 * @return  string  Returns the cast value.
 	 *
 	 * @since   11.3
 	 */
-	public function castAsChar($value)
+	public function castAsChar($value, $len = null)
 	{
-		return $value . '::text';
+		if (!$len)
+		{
+			return $value . '::text';
+		}
+		else
+		{
+			return ' CAST(' . $value . ' AS CHAR(' . $len . '))';
+		}
 	}
 
 	/**

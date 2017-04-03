@@ -1,9 +1,10 @@
 <?php
 /**
- * Joomla! Content Management System
+ * @package     Joomla.Libraries
+ * @subpackage  Component
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Cms\Component;
@@ -24,7 +25,7 @@ class ComponentHelper
 	/**
 	 * The component list cache
 	 *
-	 * @var    ComponentRecord[]
+	 * @var    \JComponentRecord[]
 	 * @since  1.6
 	 */
 	protected static $components = array();
@@ -35,7 +36,7 @@ class ComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  ComponentRecord  An object with the information for the component.
+	 * @return  \JComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -49,7 +50,7 @@ class ComponentHelper
 			}
 			else
 			{
-				$result = new ComponentRecord;
+				$result = new \JComponentRecord;
 				$result->enabled = $strict ? false : true;
 				$result->setParams(new Registry);
 			}
@@ -407,7 +408,7 @@ class ComponentHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use ComponentHelper::load() instead
+	 * @deprecated  4.0  Use JComponentHelper::load() instead
 	 */
 	protected static function _load($option)
 	{
@@ -452,7 +453,7 @@ class ComponentHelper
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', 'Joomla\\Cms\\Component\\ComponentRecord');
+			return $db->loadObjectList('option', '\JComponentRecord');
 		};
 
 		/** @var \JCacheControllerCallback $cache */
@@ -496,7 +497,7 @@ class ComponentHelper
 	/**
 	 * Get installed components
 	 *
-	 * @return  ComponentRecord[]  The components property
+	 * @return  \JComponentRecord[]  The components property
 	 *
 	 * @since   3.6.3
 	 */
