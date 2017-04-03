@@ -192,7 +192,7 @@ class MediaModelApi extends Model
 
 		// Transform filename to punycode, then neglect other than non-alphanumeric characters & underscores.
 		// Also transform extension to lowercase.
-		$name = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_]/'), array('_', ''), $name) . $extension;
+		$name = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_]/'), array('_', ''), substr($name, 0, strlen($name) - strlen($extension))) . $extension;
 
 		return $name;
 	}
