@@ -63,6 +63,7 @@ JLoader::registerAlias('JLanguageAssociations',             '\\Joomla\\Cms\\Lang
 JLoader::registerAlias('JLanguageMultilang',                '\\Joomla\\Cms\\Language\\Multilanguage', '4.0');
 
 JLoader::registerAlias('JComponentHelper',                  '\\Joomla\\Cms\\Component\\ComponentHelper', '4.0');
+JLoader::registerAlias('JComponentRecord',                  '\\Joomla\\Cms\\Component\\ComponentRecord', '4.0');
 JLoader::registerAlias('JComponentExceptionMissing',        '\\Joomla\\Cms\\Component\\Exception\\MissingException', '4.0');
 JLoader::registerAlias('JComponentRouterBase',              '\\Joomla\\Cms\\Component\\Router\\RouterBase', '4.0');
 JLoader::registerAlias('JComponentRouterInterface',         '\\Joomla\\Cms\\Component\\Router\\RouterInterface', '4.0');
