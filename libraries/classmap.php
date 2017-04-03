@@ -54,8 +54,6 @@ JLoader::registerAlias('JAccessExceptionNotallowed',        '\\Joomla\\Cms\\Acce
 JLoader::registerAlias('JRule',                             '\\Joomla\\Cms\\Access\\Rule', '4.0');
 JLoader::registerAlias('JRules',                            '\\Joomla\\Cms\\Access\\Rules', '4.0');
 
-JLoader::registerAlias('JAuthenticationHelper',             '\\Joomla\\Cms\\Authentication\\AuthenticationHelper', '4.0');
-
 JLoader::registerAlias('JHelp',                             '\\Joomla\\Cms\\Help\\Help', '4.0');
 JLoader::registerAlias('JCaptcha',                          '\\Joomla\\Cms\\Captcha\\Captcha', '4.0');
 
@@ -79,6 +77,7 @@ JLoader::registerAlias('JEditor',                           '\\Joomla\\Cms\\Edit
 
 JLoader::registerAlias('JErrorPage',                        '\\Joomla\\Cms\\Exception\\ExceptionHandler', '4.0');
 
+JLoader::registerAlias('JAuthenticationHelper',             '\\Joomla\\Cms\\Helper\\AuthenticationHelper', '4.0');
 JLoader::registerAlias('JHelperContent',                    '\\Joomla\\Cms\\Helper\\ContentHelper', '4.0');
 JLoader::registerAlias('JHelperContenthistory',             '\\Joomla\\Cms\\Helper\\ContentHistoryHelper', '4.0');
 JLoader::registerAlias('JHelper',                           '\\Joomla\\Cms\\Helper\\CmsHelper', '4.0');
