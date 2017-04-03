@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
- * Chrome Styles Form Field class for the Joomla Platform.
+ * Chrome Styles field.
  *
  * @since  3.0
  */

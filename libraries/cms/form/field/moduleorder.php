@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Form Field class for the Joomla! CMS.
+ * Module Order field.
  *
  * @since  1.6
  */

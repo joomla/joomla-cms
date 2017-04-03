@@ -16,6 +16,23 @@ defined('_JEXEC') or die;
 class FieldsModelGroup extends JModelAdmin
 {
 	/**
+	 * @var null|string
+	 *
+	 * @since   3.7.0
+	 */
+	public $typeAlias = null;
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id'   => 'batchLanguage'
+	);
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.

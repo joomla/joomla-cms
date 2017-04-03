@@ -2011,6 +2011,18 @@ table th[class*="span"],
 	background-color: #e5e5e5;
 	border-bottom: 1px solid #fff;
 }
+.dropdown-menu .menuitem-group {
+	height: 1px;
+	margin: 4px 1px;
+	overflow: hidden;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	background-color: #eee;
+	color: #555;
+	text-transform: capitalize;
+	font-size: 95%;
+	padding: 2px 0 24px;
+}
 .dropdown-menu > li > a {
 	display: block;
 	padding: 3px 20px;

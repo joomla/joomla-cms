@@ -43,6 +43,16 @@ class FieldsModelField extends JModelAdmin
 	protected $batch_copymove = 'group_id';
 
 	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id'   => 'batchLanguage'
+	);
+
+	/**
 	 * @var array
 	 *
 	 * @since   3.7.0
@@ -118,6 +128,15 @@ class FieldsModelField extends JModelAdmin
 		// Load the fields plugins, perhaps they want to do something
 		JPluginHelper::importPlugin('fields');
 
+		$message = $this->checkDefaultValue($data);
+
+		if ($message !== true)
+		{
+			$this->setError($message);
+
+			return false;
+		}
+
 		if (!parent::save($data))
 		{
 			return false;
@@ -178,6 +197,86 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * Checks if the default value is valid for the given data. If a string is returned then
+	 * it can be assumed that the default value is invalid.
+	 *
+	 * @param   array  $data  The data.
+	 *
+	 * @return  true|string  true if valid, a string containing the exception message when not.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function checkDefaultValue($data)
+	{
+		// Empty default values are correct
+		if (empty($data['default_value']))
+		{
+			return true;
+		}
+
+		$types = FieldsHelper::getFieldTypes();
+
+		// Check if type exists
+		if (!key_exists($data['type'], $types))
+		{
+			return true;
+		}
+
+		$path = $types[$data['type']]['rules'];
+
+		// Add the path for the rules of the plugin when available
+		if ($path)
+		{
+			// Add the lookup path for the rule
+			JFormHelper::addRulePath($path);
+		}
+
+		// Create the fields object
+		$obj              = (object) $data;
+		$obj->params      = new Registry($obj->params);
+		$obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : array());
+
+		// Prepare the dom
+		$dom  = new DOMDocument;
+		$node = $dom->appendChild(new DOMElement('form'));
+
+		// Trigger the event to create the field dom node
+		JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($obj, $node, new JForm($data['context'])));
+
+		// Check if a node is created
+		if (!$node->firstChild)
+		{
+			return true;
+		}
+
+		// Define the type either from the field or from the data
+		$type = $node->firstChild->getAttribute('validate') ? : $data['type'];
+
+		// Load the rule
+		$rule = JFormHelper::loadRuleType($type);
+
+		// When no rule exists, we allow the default value
+		if (!$rule)
+		{
+			return true;
+		}
+
+		try
+		{
+			// Perform the check
+			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
+
+			// Check if the test succeeded
+			return $result === true ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+		}
+		catch (UnexpectedValueException $e)
+		{
+			return $e->getMessage();
+		}
 	}
 
 	/**
