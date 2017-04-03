@@ -298,7 +298,7 @@ function picasaAlbumCallback($url, array $headers = null, $timeout = null)
 
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
-	$response->body = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'album.txt');
+	$response->body = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'album.txt');
 
 	return $response;
 }
@@ -345,7 +345,7 @@ function picasaAlbumlistCallback($url, array $headers = null, $timeout = null)
 
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
-	$response->body = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'albumlist.txt');
+	$response->body = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'albumlist.txt');
 
 	return $response;
 }
