@@ -8944,6 +8944,7 @@ exports.default = {
             return this.folder;
         },
         close: function close() {
+            this.reset();
             this.$store.commit(types.HIDE_CREATE_FOLDER_MODAL);
         },
         save: function save() {
@@ -8956,6 +8957,10 @@ exports.default = {
                 name: this.folder,
                 parent: this.$store.state.selectedDirectory
             });
+
+            this.reset();
+        },
+        reset: function reset() {
             this.folder = '';
         }
     }

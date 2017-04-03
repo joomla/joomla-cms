@@ -37,6 +37,7 @@
             },
             /* Close the modal instance */
             close() {
+                this.reset();
                 this.$store.commit(types.HIDE_CREATE_FOLDER_MODAL);
             },
             /* Save the form and create the folder */
@@ -56,8 +57,12 @@
                 });
 
                 // Reset the form
-                this.folder = '';
+                this.reset();
             },
+            /* Reset the form */
+            reset() {
+                this.folder = '';
+            }
         },
     }
 </script>
