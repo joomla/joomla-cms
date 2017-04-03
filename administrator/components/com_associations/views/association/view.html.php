@@ -198,13 +198,13 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white" aria-hidden="true"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white" aria-hidden="true"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 
