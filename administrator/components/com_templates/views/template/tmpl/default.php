@@ -251,10 +251,10 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-								<i class="fa-fw fa fa-folder"></i>&nbsp;<?php echo $file; ?>
+								<i class="fa-fw fa fa-folder" aria-hidden="true"></i>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<i class="fa-fw fa fa-file-o"></i>&nbsp;<?php echo $file; ?>
+								<i class="fa-fw fa fa-file-o" aria-hidden="true"></i>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>

@@ -7,14 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Component\Router\Rules;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JComponentRouterRules interface for Joomla
+ * RouterRules interface for Joomla
  *
  * @since  3.4
  */
-interface JComponentRouterRulesInterface
+interface RulesInterface
 {
 	/**
 	 * Prepares a query set to be handed over to the build() method.

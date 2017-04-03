@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Captcha
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Captcha;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -24,14 +25,14 @@ use Joomla\Registry\Registry;
  * @subpackage  Captcha
  * @since       2.5
  */
-class JCaptcha implements DispatcherAwareInterface
+class Captcha implements DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
 	/**
 	 * Captcha Plugin object
 	 *
-	 * @var	   JPlugin
+	 * @var	   \JPlugin
 	 * @since  2.5
 	 */
 	private $_captcha;
@@ -47,7 +48,7 @@ class JCaptcha implements DispatcherAwareInterface
 	/**
 	 * Array of instances of this class.
 	 *
-	 * @var	   JCaptcha[]
+	 * @var	   Captcha[]
 	 * @since  2.5
 	 */
 	private static $_instances = array();
@@ -74,7 +75,7 @@ class JCaptcha implements DispatcherAwareInterface
 	 * @param   string  $captcha  The plugin to use.
 	 * @param   array   $options  Associative array of options.
 	 *
-	 * @return  JCaptcha|null  Instance of this class.
+	 * @return  Captcha|null  Instance of this class.
 	 *
 	 * @since   2.5
 	 */
@@ -90,7 +91,7 @@ class JCaptcha implements DispatcherAwareInterface
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return;
 			}
@@ -121,7 +122,7 @@ class JCaptcha implements DispatcherAwareInterface
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -205,28 +206,28 @@ class JCaptcha implements DispatcherAwareInterface
 	 * @return  void
 	 *
 	 * @since	2.5
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	private function _load(array $options = array())
 	{
 		// Build the path to the needed captcha plugin
-		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Require plugin file
 		require_once $path;
 
 		// Get the plugin
-		$plugin = JPluginHelper::getPlugin('captcha', $this->_name);
+		$plugin = \JPluginHelper::getPlugin('captcha', $this->_name);
 
 		if (!$plugin)
 		{
-			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Check for already loaded params

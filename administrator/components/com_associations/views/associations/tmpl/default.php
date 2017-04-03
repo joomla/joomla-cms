@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$listOrder        = $this->escape($this->state->get('list.ordering'));
+$listOrder        = $this->escape($this->state->get('list.fullordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = JFactory::getUser()->authorise('core.manage', 'com_checkin');
 $colSpan          = 5;
@@ -81,10 +81,10 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
 					<th width="5%" class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+						<?php echo JText::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 					</th>
 					<th width="15%" class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+						<?php echo JText::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<th width="10%" class="nowrap">

@@ -1830,7 +1830,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @param   mixed    $text    A string or an array of strings to quote.
 	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
 	 *
-	 * @return  string  The quoted input string.
+	 * @return  string|array  The quoted input.
 	 *
 	 * @note    Accepting an array of strings was added in 12.3.
 	 * @since   11.1

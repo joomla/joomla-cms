@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Component
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Component\Router;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Cms\Component\Router\Rules\RulesInterface;
 
 /**
  * View-based component routing class
  *
  * @since  3.5
  */
-abstract class JComponentRouterView extends JComponentRouterBase
+abstract class RouterView extends RouterBase
 {
 	/**
 	 * Name of the router of the component
@@ -27,7 +30,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Array of rules
 	 *
-	 * @var    JComponentRouterRulesInterface[]
+	 * @var    RulesInterface[]
 	 * @since  3.5
 	 */
 	protected $rules = array();
@@ -35,7 +38,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Views of the component
 	 *
-	 * @var    JComponentRouterViewconfiguration[]
+	 * @var    RouterViewConfiguration[]
 	 * @since  3.5
 	 */
 	protected $views = array();
@@ -43,13 +46,13 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Register the views of a component
 	 *
-	 * @param   JComponentRouterViewconfiguration  $view  View configuration object
+	 * @param   RouterViewConfiguration  $view  View configuration object
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	public function registerView(JComponentRouterViewconfiguration $view)
+	public function registerView(RouterViewConfiguration $view)
 	{
 		$this->views[$view->name] = $view;
 	}
@@ -57,7 +60,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Return an array of registered view objects
 	 *
-	 * @return  JComponentRouterViewconfiguration[] Array of registered view objects
+	 * @return  RouterViewConfiguration[] Array of registered view objects
 	 *
 	 * @since   3.5
 	 */
@@ -67,7 +70,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	}
 
 	/**
-	 * Get the path of views from target view to root view 
+	 * Get the path of views from target view to root view
 	 * including content items of a nestable view
 	 *
 	 * @param   array  $query  Array of query elements
@@ -138,7 +141,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Get all currently attached rules
 	 *
-	 * @return  JComponentRouterRulesInterface[]  All currently attached rules in an array
+	 * @return  RulesInterface[]  All currently attached rules in an array
 	 *
 	 * @since   3.5
 	 */
@@ -150,7 +153,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Add a number of router rules to the object
 	 *
-	 * @param   JComponentRouterRulesInterface[]  $rules  Array of JComponentRouterRulesInterface objects
+	 * @param   RulesInterface[]  $rules  Array of JComponentRouterRulesInterface objects
 	 *
 	 * @return  void
 	 *
@@ -167,13 +170,13 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Attach a build rule
 	 *
-	 * @param   JComponentRouterRulesInterface  $rule  The function to be called.
+	 * @param   RulesInterface  $rule  The function to be called.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	public function attachRule(JComponentRouterRulesInterface $rule)
+	public function attachRule(RulesInterface $rule)
 	{
 		$this->rules[] = $rule;
 	}
@@ -181,13 +184,13 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Remove a build rule
 	 *
-	 * @param   JComponentRouterRulesInterface  $rule  The rule to be removed.
+	 * @param   RulesInterface  $rule  The rule to be removed.
 	 *
 	 * @return   boolean  Was a rule removed?
 	 *
 	 * @since   3.5
 	 */
-	public function detachRule(JComponentRouterRulesInterface $rule)
+	public function detachRule(RulesInterface $rule)
 	{
 		foreach ($this->rules as $id => $r)
 		{
@@ -281,7 +284,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 
 			if (!preg_match('/(.*)Router/i', get_class($this), $r))
 			{
-				throw new Exception('JLIB_APPLICATION_ERROR_ROUTER_GET_NAME', 500);
+				throw new \Exception('JLIB_APPLICATION_ERROR_ROUTER_GET_NAME', 500);
 			}
 
 			$this->name = strtolower($r[1]);

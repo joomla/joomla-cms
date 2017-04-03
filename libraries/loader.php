@@ -246,7 +246,7 @@ abstract class JLoader
 	public static function load($class)
 	{
 		// Sanitize class name.
-		$class = strtolower($class);
+		$key = strtolower($class);
 
 		// If the class already exists do nothing.
 		if (class_exists($class, false))
@@ -255,9 +255,22 @@ abstract class JLoader
 		}
 
 		// If the class is registered include the file.
-		if (isset(self::$classes[$class]))
+		if (isset(self::$classes[$key]))
 		{
-			include_once self::$classes[$class];
+			include_once self::$classes[$key];
+
+			// If the class doesn't exists, we probably have a class alias available
+			if (!class_exists($class, false))
+			{
+				// Search the alias class, first none namespaced and then namespaced
+				$original = array_search($class, self::$classAliases) ? : array_search('\\' . $class, self::$classAliases);
+
+				// When we have an original and the class exists an alias should be created
+				if ($original && class_exists($original, false))
+				{
+					class_alias($original, $class);
+				}
+			}
 
 			return true;
 		}
@@ -278,6 +291,12 @@ abstract class JLoader
 	 */
 	public static function register($class, $path, $force = true)
 	{
+		// When an alias exists, register it as well
+		if (key_exists($class, self::$classAliases))
+		{
+			self::register(self::stripFirstBackslash(self::$classAliases[$class]), $path, $force);
+		}
+
 		// Sanitize class name.
 		$class = strtolower($class);
 
@@ -357,11 +376,7 @@ abstract class JLoader
 		{
 			self::$classAliases[$alias] = $original;
 
-			// Remove the root backslash if present.
-			if ($original[0] == '\\')
-			{
-				$original = substr($original, 1);
-			}
+			$original = self::stripFirstBackslash($original);
 
 			if (!isset(self::$classAliasesInverse[$original]))
 			{
@@ -469,7 +484,7 @@ abstract class JLoader
 
 		if ($enablePsr)
 		{
-			// Register the PSR-0 based autoloader.
+			// Register the PSR based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr0'));
 			spl_autoload_register(array('JLoader', 'loadByPsr4'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
@@ -487,11 +502,7 @@ abstract class JLoader
 	 */
 	public static function loadByPsr4($class)
 	{
-		// Remove the root backslash if present.
-		if ($class[0] == '\\')
-		{
-			$class = substr($class, 1);
-		}
+		$class = self::stripFirstBackslash($class);
 
 		// Find the location of the last NS separator.
 		$pos = strrpos($class, '\\');
@@ -548,11 +559,7 @@ abstract class JLoader
 	 */
 	public static function loadByPsr0($class)
 	{
-		// Remove the root backslash if present.
-		if ($class[0] == '\\')
-		{
-			$class = substr($class, 1);
-		}
+		$class = self::stripFirstBackslash($class);
 
 		// Find the location of the last NS separator.
 		$pos = strrpos($class, '\\');
@@ -605,11 +612,7 @@ abstract class JLoader
 	 */
 	public static function loadByAlias($class)
 	{
-		// Remove the root backslash if present.
-		if ($class[0] == '\\')
-		{
-			$class = substr($class, 1);
-		}
+		$class = self::stripFirstBackslash($class);
 
 		if (isset(self::$classAliases[$class]))
 		{
@@ -636,11 +639,7 @@ abstract class JLoader
 	 */
 	public static function applyAliasFor($class)
 	{
-		// Remove the root backslash if present.
-		if ($class[0] == '\\')
-		{
-			$class = substr($class, 1);
-		}
+		$class = self::stripFirstBackslash($class);
 
 		if (isset(self::$classAliasesInverse[$class]))
 		{
@@ -678,7 +677,7 @@ abstract class JLoader
 	/**
 	 * Load a class based on name and lookup array.
 	 *
-	 * @param   string  $class   The class to be loaded (wihtout prefix).
+	 * @param   string  $class   The class to be loaded (without prefix).
 	 * @param   array   $lookup  The array of base paths to use for finding the class file.
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
@@ -719,6 +718,20 @@ abstract class JLoader
 		}
 
 		return false;
+	}
+
+	/**
+	 * Strips the first backslash from the given class if present.
+	 *
+	 * @param   string  $class  The class to strip the first prefix from.
+	 *
+	 * @return  string  The striped class name.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private static function stripFirstBackslash($class)
+	{
+		return $class && $class[0] == '\\' ? substr($class, 1) : $class;
 	}
 }
 

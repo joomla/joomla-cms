@@ -7,19 +7,24 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Cms\Component\Router\Rules;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Cms\Component\ComponentHelper;
+use Joomla\Cms\Component\Router\RouterView;
 
 /**
  * Rule to identify the right Itemid for a view in a component
  *
  * @since  3.4
  */
-class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
+class MenuRules implements RulesInterface
 {
 	/**
 	 * Router this rule belongs to
 	 *
-	 * @var   JComponentRouterView
+	 * @var   RouterView
 	 * @since 3.4
 	 */
 	protected $router;
@@ -35,11 +40,11 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JComponentRouterView  $router  Router this rule belongs to
+	 * @param   RouterView  $router  Router this rule belongs to
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JComponentRouterView $router)
+	public function __construct(RouterView $router)
 	{
 		$this->router = $router;
 
@@ -121,7 +126,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 		$active = $this->router->menu->getActive();
 
 		if ($active && $active->component == 'com_' . $this->router->getName()
-			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+			&& ($language == '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
 			return;
@@ -152,7 +157,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 		{
 			$this->lookup[$language] = array();
 
-			$component  = JComponentHelper::getComponent('com_' . $this->router->getName());
+			$component  = ComponentHelper::getComponent('com_' . $this->router->getName());
 			$views = $this->router->getViews();
 
 			$attributes = array('component_id');
