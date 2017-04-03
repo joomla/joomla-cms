@@ -78,9 +78,10 @@ JLoader::registerAlias('JEditor',                           '\\Joomla\\Cms\\Edit
 JLoader::registerAlias('JErrorPage',                        '\\Joomla\\Cms\\Exception\\ExceptionHandler', '4.0');
 
 JLoader::registerAlias('JAuthenticationHelper',             '\\Joomla\\Cms\\Helper\\AuthenticationHelper', '4.0');
+JLoader::registerAlias('JHelper',                           '\\Joomla\\Cms\\Helper\\CmsHelper', '4.0');
 JLoader::registerAlias('JHelperContent',                    '\\Joomla\\Cms\\Helper\\ContentHelper', '4.0');
 JLoader::registerAlias('JHelperContenthistory',             '\\Joomla\\Cms\\Helper\\ContentHistoryHelper', '4.0');
-JLoader::registerAlias('JHelper',                           '\\Joomla\\Cms\\Helper\\CmsHelper', '4.0');
 JLoader::registerAlias('JHelperRoute',                      '\\Joomla\\Cms\\Helper\\RouteHelper', '4.0');
+JLoader::registerAlias('JHelperMedia',                      '\\Joomla\\Cms\\Helper\\MediaHelper', '4.0');
 JLoader::registerAlias('JHelperTags',                       '\\Joomla\\Cms\\Helper\\TagsHelper', '4.0');
 JLoader::registerAlias('JHelperUsergroups',                 '\\Joomla\\Cms\\Helper\\UserGroupsHelper', '4.0');
