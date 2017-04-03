@@ -128,7 +128,7 @@ abstract class Dispatcher implements DispatcherInterface
 		else
 		{
 			// Do we have a controller?
-			$controller = $this->input->get('controller', ucwords(substr($this->app->scope, 4)));
+			$controller = $this->input->get('controller', 'controller');
 			$task       = $command;
 		}
 
@@ -154,7 +154,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 * Get a controller from the component
 	 *
 	 * @param   string  $name    Controller name
-	 * @param   string  $client  Optional client (like Admin, Site etc.)
+	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
 	 * @return  Controller|null
@@ -163,11 +163,16 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function getController($name, $client = null, $config = array())
 	{
-		$client = $client ? $client : ucfirst($this->app->getName()) . '\\';
+		$client = $client ? $client : ucfirst($this->app->getName());
 
-		$controllerName = $this->namespace . $client . 'Controller\\' . ucfirst($name);
+		$controllerClass = $this->namespace . $client . '\\Controller\\' . ucfirst($name);
 
-		$controller = new $controllerName($config, $this->app, $this->input);
+		if (!class_exists($controllerClass))
+		{
+			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
+		}
+
+		$controller = new $controllerClass($config, $this->app, $this->input);
 
 		return $controller;
 	}
