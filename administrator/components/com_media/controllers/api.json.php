@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Cms\Controller\Controller;
 
+JLoader::import('joomla.filesystem.file');
+
 /**
  * Api Media Controller
  *
