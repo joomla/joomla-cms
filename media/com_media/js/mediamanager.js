@@ -8938,6 +8938,11 @@ exports.default = {
             this.$store.commit(types.HIDE_CREATE_FOLDER_MODAL);
         },
         save: function save() {
+            if (!this.folder) {
+                Joomla.renderMessages({ "error": [this.translate('JLIB_FORM_FIELD_REQUIRED_VALUE')] });
+                return;
+            }
+
             this.$store.dispatch('createDirectory', {
                 name: this.folder,
                 parent: this.$store.state.selectedDirectory
@@ -8950,7 +8955,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showCreateFolderModal)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_CREATE_NEW_FOLDER')))]),_vm._v(" "),_c('div',{slot:"body"},[_c('form',{staticClass:"form"},[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"folder"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('input',{directives:[{name:"focus",rawName:"v-focus",value:(true),expression:"true"},{name:"model",rawName:"v-model",value:(_vm.folder),expression:"folder"}],staticClass:"form-control",attrs:{"type":"text","id":"folder","placeholder":"Folder"},domProps:{"value":(_vm.folder)},on:{"input":function($event){if($event.target.composing){ return; }_vm.folder=$event.target.value}}})])])]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-success",on:{"click":function($event){_vm.save()}}},[_vm._v(_vm._s(_vm.translate('JAPPLY')))])])]):_vm._e()}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.$store.state.showCreateFolderModal)?_c('media-modal',{attrs:{"size":'sm'},on:{"close":function($event){_vm.close()}}},[_c('h3',{staticClass:"modal-title",slot:"header"},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_CREATE_NEW_FOLDER')))]),_vm._v(" "),_c('div',{slot:"body"},[_c('form',{staticClass:"form",on:{"submit":function($event){$event.preventDefault();_vm.save($event)}}},[_c('div',{staticClass:"form-group"},[_c('label',{attrs:{"for":"folder"}},[_vm._v(_vm._s(_vm.translate('COM_MEDIA_FOLDER')))]),_vm._v(" "),_c('input',{directives:[{name:"focus",rawName:"v-focus",value:(true),expression:"true"},{name:"model",rawName:"v-model",value:(_vm.folder),expression:"folder"}],staticClass:"form-control",attrs:{"type":"text","id":"folder","placeholder":"Folder"},domProps:{"value":(_vm.folder)},on:{"input":function($event){if($event.target.composing){ return; }_vm.folder=$event.target.value}}})])])]),_vm._v(" "),_c('div',{slot:"footer"},[_c('button',{staticClass:"btn btn-link",on:{"click":function($event){_vm.close()}}},[_vm._v(_vm._s(_vm.translate('JCANCEL')))]),_vm._v(" "),_c('button',{staticClass:"btn btn-success",on:{"click":function($event){_vm.save()}}},[_vm._v(_vm._s(_vm.translate('JAPPLY')))])])]):_vm._e()}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
