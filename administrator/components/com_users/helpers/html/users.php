@@ -55,7 +55,7 @@ class JHtmlUsers
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="'
-			. $title . '"><span class="icon-vcard"></span><span class="hidden-phone">' . $title . '</span></a>';
+			. $title . '"><span class="icon-vcard" aria-hidden="true"></span><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**
@@ -101,7 +101,7 @@ class JHtmlUsers
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
 		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="'
-			. $title . '"><span class="icon-drawer-2"></span><span class="hidden-phone">' . $title . '</span></a>';
+			. $title . '"><span class="icon-drawer-2" aria-hidden="true"></span><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**
