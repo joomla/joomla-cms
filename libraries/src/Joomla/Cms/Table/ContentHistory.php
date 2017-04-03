@@ -94,7 +94,7 @@ class ContentHistory extends Table
 	 * Utility method to get the hash after removing selected values. This lets us detect changes other than
 	 * modified date (which will change on every save).
 	 *
-	 * @param   mixed              $jsonData   Either an object or a string with json-encoded data
+	 * @param   mixed        $jsonData   Either an object or a string with json-encoded data
 	 * @param   ContentType  $typeTable  Table object with data for this content type
 	 *
 	 * @return  string  SHA1 hash on success. Empty string on failure.
