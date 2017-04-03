@@ -45,7 +45,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 			<div class="controls">
 				<div class="input-prepend input-append">
 					<span class="add-on">
-						<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?> aria-hidden="true"></span>
+						<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" aria-hidden="true"></span>
 						<label for="mod-login-password" class="element-invisible">
 							<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
 						</label>
