@@ -562,40 +562,23 @@ abstract class JHtmlBootstrap
 
 			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
-			// Build the script.
-			$script = array();
-			$script[] = "jQuery(function($){";
-			$script[] = "\t$('#" . $selector . "').collapse(" . $options . ")";
-
-			if ($onShow)
-			{
-				$script[] = "\t.on('show', " . $onShow . ")";
-			}
-
-			if ($onShown)
-			{
-				$script[] = "\t.on('shown', " . $onShown . ")";
-			}
-
-			if ($onHide)
-			{
-				$script[] = "\t.on('hideme', " . $onHide . ")";
-			}
-
-			if ($onHidden)
-			{
-				$script[] = "\t.on('hidden', " . $onHidden . ")";
-			}
-
-			$script[] = "});";
+			$layoutData = array(
+				'options'  => $options,
+				'selector' => $selector,
+				'onShow'   => $onShow,
+				'onShown'  => $onShown,
+				'onHide'   => $onHide,
+				'onHidden' => $onHidden,
+			);
 
 			// Attach accordion to document
-			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+			JFactory::getDocument()
+				->addScriptDeclaration(JLayoutHelper::render('joomla.accordion.startaccordionscript', $layoutData));
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = $opt;
 
-			return '<div id="' . $selector . '" class="accordion" role="tablist">';
+			return JLayoutHelper::render('joomla.accordion.startaccordion', array('selector' => $selector));
 		}
 	}
 
@@ -608,7 +591,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endAccordion()
 	{
-		return '</div>';
+		return JLayoutHelper::render('joomla.accordion.endaccordion');
 	}
 
 	/**
@@ -631,14 +614,16 @@ abstract class JHtmlBootstrap
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="card mb-2' . $class . '">'
-			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
-			. $text
-			. '</a>'
-			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
-			. '<div class="card-block">';
+		$layoutData = array(
+			'id'        => $id,
+			'in'        => $in,
+			'collapsed' => $collapsed,
+			'parent'    => $parent,
+			'class'     => $class,
+			'text'      => $text,
+		);
 
-		return $html;
+		return JLayoutHelper::render('joomla.accordion.addslide', $layoutData);
 	}
 
 	/**
@@ -650,7 +635,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endSlide()
 	{
-		return '</div></div></div>';
+		return JLayoutHelper::render('joomla.accordion.endslide');
 	}
 
 	/**
