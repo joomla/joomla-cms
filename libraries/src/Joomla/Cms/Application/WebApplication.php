@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Application;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -18,7 +19,7 @@ use Joomla\String\StringHelper;
  * @since  11.4
  * @note   As of 4.0 this class will be abstract
  */
-class JApplicationWeb extends JApplicationBase
+class WebApplication extends BaseApplication
 {
 	/**
 	 * @var    string  Character encoding string.
@@ -33,31 +34,31 @@ class JApplicationWeb extends JApplicationBase
 	public $mimeType = 'text/html';
 
 	/**
-	 * @var    JDate  The body modified date for response headers.
+	 * @var    \JDate  The body modified date for response headers.
 	 * @since  11.3
 	 */
 	public $modifiedDate;
 
 	/**
-	 * @var    JApplicationWebClient  The application client object.
+	 * @var    \JApplicationWebClient  The application client object.
 	 * @since  11.3
 	 */
 	public $client;
 
 	/**
-	 * @var    JDocument  The application document object.
+	 * @var    \JDocument  The application document object.
 	 * @since  11.3
 	 */
 	protected $document;
 
 	/**
-	 * @var    JLanguage  The application language object.
+	 * @var    \JLanguage  The application language object.
 	 * @since  11.3
 	 */
 	protected $language;
 
 	/**
-	 * @var    JSession  The application session object.
+	 * @var    \JSession  The application session object.
 	 * @since  11.3
 	 */
 	protected $session;
@@ -69,7 +70,7 @@ class JApplicationWeb extends JApplicationBase
 	protected $response;
 
 	/**
-	 * @var    JApplicationWeb  The application instance.
+	 * @var    WebApplication  The application instance.
 	 * @since  11.3
 	 */
 	protected static $instance;
@@ -96,7 +97,7 @@ class JApplicationWeb extends JApplicationBase
 	/**
          * A map of HTTP Response headers which may only send a single value, all others
          * are considered to allow multiple
-         * 
+         *
          * @var    object
          * @since  3.5.2
          * @see    https://tools.ietf.org/html/rfc7230
@@ -123,29 +124,29 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a JInput object that object will become
+	 * @param   \JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a \JInput object that object will become
 	 *                                          the application's input object, otherwise a default input object is created.
 	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
 	 *                                          config object.  If the argument is a Registry object that object will become
 	 *                                          the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a \JApplicationWebClient object that object will become
 	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
+	public function __construct(\JInput $input = null, Registry $config = null, \JApplicationWebClient $client = null)
 	{
 		// If an input object is given use it.
-		if ($input instanceof JInput)
+		if ($input instanceof \JInput)
 		{
 			$this->input = $input;
 		}
 		// Create the input based on the application logic.
 		else
 		{
-			$this->input = new JInput;
+			$this->input = new \JInput;
 		}
 
 		// If a config object is given use it.
@@ -160,14 +161,14 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		// If a client object is given use it.
-		if ($client instanceof JApplicationWebClient)
+		if ($client instanceof \JApplicationWebClient)
 		{
 			$this->client = $client;
 		}
 		// Instantiate a new web client object.
 		else
 		{
-			$this->client = new JApplicationWebClient;
+			$this->client = new \JApplicationWebClient;
 		}
 
 		// Load the configuration object.
@@ -178,7 +179,7 @@ class JApplicationWeb extends JApplicationBase
 		$this->set('execution.timestamp', time());
 
 		// Setup the response object.
-		$this->response = new stdClass;
+		$this->response = new \stdClass;
 		$this->response->cachable = false;
 		$this->response->headers = array();
 		$this->response->body = array();
@@ -188,13 +189,13 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Returns a reference to the global JApplicationWeb object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global WebApplication object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as: $web = JApplicationWeb::getInstance();
+	 * This method must be invoked as: $web = WebApplication::getInstance();
 	 *
 	 * @param   string  $name  The name (optional) of the JApplicationWeb class to instantiate.
 	 *
-	 * @return  JApplicationWeb
+	 * @return  WebApplication
 	 *
 	 * @since   11.3
 	 */
@@ -203,13 +204,13 @@ class JApplicationWeb extends JApplicationBase
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'JApplicationWeb')))
+			if (class_exists($name) && (is_subclass_of($name, 'WebApplication')))
 			{
 				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JApplicationWeb;
+				self::$instance = new WebApplication;
 			}
 		}
 
@@ -220,32 +221,32 @@ class JApplicationWeb extends JApplicationBase
 	 * Initialise the application.
 	 *
 	 * @param   mixed  $session     An optional argument to provide dependency injection for the application's
-	 *                              session object.  If the argument is a JSession object that object will become
+	 *                              session object.  If the argument is a \JSession object that object will become
 	 *                              the application's session object, if it is false then there will be no session
 	 *                              object, and if it is null then the default session object will be created based
 	 *                              on the application's loadSession() method.
 	 * @param   mixed  $document    An optional argument to provide dependency injection for the application's
-	 *                              document object.  If the argument is a JDocument object that object will become
+	 *                              document object.  If the argument is a \JDocument object that object will become
 	 *                              the application's document object, if it is false then there will be no document
 	 *                              object, and if it is null then the default document object will be created based
 	 *                              on the application's loadDocument() method.
 	 * @param   mixed  $language    An optional argument to provide dependency injection for the application's
-	 *                              language object.  If the argument is a JLanguage object that object will become
+	 *                              language object.  If the argument is a \JLanguage object that object will become
 	 *                              the application's language object, if it is false then there will be no language
 	 *                              object, and if it is null then the default language object will be created based
 	 *                              on the application's loadLanguage() method.
 	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
+	 *                              event dispatcher.  If the argument is a \JEventDispatcher object that object will become
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
 	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
-	 * @see     JApplicationWeb::loadSession()
-	 * @see     JApplicationWeb::loadDocument()
-	 * @see     JApplicationWeb::loadLanguage()
-	 * @see     JApplicationBase::loadDispatcher()
+	 * @see     WebApplication::loadSession()
+	 * @see     WebApplication::loadDocument()
+	 * @see     WebApplication::loadLanguage()
+	 * @see     WebApplication::loadDispatcher()
 	 * @since   11.3
 	 */
 	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
@@ -292,7 +293,7 @@ class JApplicationWeb extends JApplicationBase
 		$this->triggerEvent('onAfterExecute');
 
 		// If we have an application document object, render it.
-		if ($this->document instanceof JDocument)
+		if ($this->document instanceof \JDocument)
 		{
 			// Trigger the onBeforeRender event.
 			$this->triggerEvent('onBeforeRender');
@@ -465,7 +466,7 @@ class JApplicationWeb extends JApplicationBase
 			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
 
 			// Last modified.
-			if ($this->modifiedDate instanceof JDate)
+			if ($this->modifiedDate instanceof \JDate)
 			{
 				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s'));
 			}
@@ -496,7 +497,7 @@ class JApplicationWeb extends JApplicationBase
 		if (preg_match('#^index\.php#', $url))
 		{
 			// We changed this from "$this->get('uri.base.full') . $url" due to the inability to run the system tests with the original code
-			$url = JUri::base() . $url;
+			$url = \JUri::base() . $url;
 		}
 
 		// Perform a basic sanity check to make sure we don't have any CRLF garbage.
@@ -510,8 +511,8 @@ class JApplicationWeb extends JApplicationBase
 		 */
 		if (!preg_match('#^[a-z]+\://#i', $url))
 		{
-			// Get a JUri instance for the requested URI.
-			$uri = JUri::getInstance($this->get('uri.request'));
+			// Get a \JUri instance for the requested URI.
+			$uri = \JUri::getInstance($this->get('uri.request'));
 
 			// Get a base URL to prepend from the requested URI.
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
@@ -539,7 +540,7 @@ class JApplicationWeb extends JApplicationBase
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !StringHelper::is_ascii($url))
+			if (($this->client->engine == \JApplicationWebClient::TRIDENT) && !StringHelper::is_ascii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -558,7 +559,7 @@ class JApplicationWeb extends JApplicationBase
 				}
 
 				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
-				// @deprecated 4.0 From 4.0 if no valid status code is given an InvalidArgumentException will be thrown
+				// @deprecated 4.0 From 4.0 if no valid status code is given an \InvalidArgumentException will be thrown
 				if (!is_int($status) || is_int($status) && !isset($this->responseMap[$status]))
 				{
 					$status = 303;
@@ -582,7 +583,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -630,7 +631,7 @@ class JApplicationWeb extends JApplicationBase
 	 * @param   string   $value    The value of the header to set.
 	 * @param   boolean  $replace  True to replace any headers with the same name.
 	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -679,7 +680,7 @@ class JApplicationWeb extends JApplicationBase
 	 * to the client.
 	 *
 	 * @return  array	 *
-	 * 
+	 *
 	 * @since   11.3
 	 */
 	public function getHeaders()
@@ -690,7 +691,7 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Method to clear any set response headers.
 	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -704,7 +705,7 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Send the response headers.
 	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -737,7 +738,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @param   string  $content  The content to set as the response body.
 	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -753,7 +754,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @param   string  $content  The content to prepend to the response body.
 	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -769,7 +770,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @param   string  $content  The content to append to the response body.
 	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -797,7 +798,7 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Method to get the application document object.
 	 *
-	 * @return  JDocument  The document object
+	 * @return  \JDocument  The document object
 	 *
 	 * @since   11.3
 	 */
@@ -809,7 +810,7 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Method to get the application language object.
 	 *
-	 * @return  JLanguage  The language object
+	 * @return  \JLanguage  The language object
 	 *
 	 * @since   11.3
 	 */
@@ -821,7 +822,7 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Method to get the application session object.
 	 *
-	 * @return  JSession  The session object
+	 * @return  \JSession  The session object
 	 *
 	 * @since   11.3
 	 */
@@ -921,9 +922,9 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
+	protected function fetchConfigurationData($file = '', $class = '\JConfig')
 	{
 		// Instantiate variables.
 		$config = array();
@@ -942,7 +943,7 @@ class JApplicationWeb extends JApplicationBase
 
 		if (!empty($file))
 		{
-			JLoader::register($class, $file);
+			\JLoader::register($class, $file);
 
 			if (class_exists($class))
 			{
@@ -950,7 +951,7 @@ class JApplicationWeb extends JApplicationBase
 			}
 			else
 			{
-				throw new RuntimeException('Configuration class does not exist.');
+				throw new \RuntimeException('Configuration class does not exist.');
 			}
 		}
 
@@ -966,7 +967,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function flushAssets()
 	{
-		$version = new JVersion;
+		$version = new \JVersion;
 		$version->refreshMediaVersion();
 	}
 
@@ -1011,15 +1012,15 @@ class JApplicationWeb extends JApplicationBase
 	 * but for many applications it will make sense to override this method and create a document,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   JDocument  $document  An optional document object. If omitted, the factory document is created.
+	 * @param   \JDocument  $document  An optional document object. If omitted, the factory document is created.
 	 *
-	 * @return  JApplicationWeb This method is chainable.
+	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   11.3
 	 */
-	public function loadDocument(JDocument $document = null)
+	public function loadDocument(\JDocument $document = null)
 	{
-		$this->document = ($document === null) ? JFactory::getDocument() : $document;
+		$this->document = ($document === null) ? \JFactory::getDocument() : $document;
 
 		return $this;
 	}
@@ -1031,15 +1032,15 @@ class JApplicationWeb extends JApplicationBase
 	 * but for many applications it will make sense to override this method and create a language,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   JLanguage  $language  An optional language object. If omitted, the factory language is created.
+	 * @param   \JLanguage  $language  An optional language object. If omitted, the factory language is created.
 	 *
-	 * @return  JApplicationWeb This method is chainable.
+	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   11.3
 	 */
-	public function loadLanguage(JLanguage $language = null)
+	public function loadLanguage(\JLanguage $language = null)
 	{
-		$this->language = ($language === null) ? JFactory::getLanguage() : $language;
+		$this->language = ($language === null) ? \JFactory::getLanguage() : $language;
 
 		return $this;
 	}
@@ -1051,13 +1052,13 @@ class JApplicationWeb extends JApplicationBase
 	 * but for many applications it will make sense to override this method and create a session,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
+	 * @param   \JSession  $session  An optional session object. If omitted, the session is created.
 	 *
-	 * @return  JApplicationWeb This method is chainable.
+	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   11.3
 	 */
-	public function loadSession(JSession $session = null)
+	public function loadSession(\JSession $session = null)
 	{
 		if ($session !== null)
 		{
@@ -1075,7 +1076,7 @@ class JApplicationWeb extends JApplicationBase
 		// Get the session handler from the configuration.
 		$handler = $this->get('sess_handler', 'none');
 
-		// Initialize the options for JSession.
+		// Initialize the options for \JSession.
 		$options = array(
 			'name' => $name,
 			'expire' => $lifetime,
@@ -1085,7 +1086,7 @@ class JApplicationWeb extends JApplicationBase
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
 		// Instantiate the session object.
-		$session = JSession::getInstance($handler, $options);
+		$session = \JSession::getInstance($handler, $options);
 		$session->initialise($this->input, $this->dispatcher);
 
 		if ($session->getState() == 'expired')
@@ -1112,12 +1113,12 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function afterSessionStart()
 	{
-		$session = JFactory::getSession();
+		$session = \JFactory::getSession();
 
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry);
-			$session->set('user', new JUser);
+			$session->set('user', new \JUser);
 		}
 	}
 
@@ -1150,14 +1151,14 @@ class JApplicationWeb extends JApplicationBase
 
 		if ($siteUri != '')
 		{
-			$uri = JUri::getInstance($siteUri);
+			$uri = \JUri::getInstance($siteUri);
 			$path = $uri->toString(array('path'));
 		}
 		// No explicit base URI was set so we need to detect it.
 		else
 		{
 			// Start with the requested URI.
-			$uri = JUri::getInstance($this->get('uri.request'));
+			$uri = \JUri::getInstance($this->get('uri.request'));
 
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
 			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))

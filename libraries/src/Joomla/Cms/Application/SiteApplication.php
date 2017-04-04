@@ -1,14 +1,16 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Application
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Component\ComponentHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +18,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-final class JApplicationSite extends JApplicationCms
+final class SiteApplication extends CmsApplication
 {
 	/**
 	 * Option to filter by language
@@ -39,19 +41,19 @@ final class JApplicationSite extends JApplicationCms
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a JInput object that object will become
+	 * @param   \JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a \JInput object that object will become
 	 *                                          the application's input object, otherwise a default input object is created.
 	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
 	 *                                          config object.  If the argument is a Registry object that object will become
 	 *                                          the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a \JApplicationWebClient object that object will become
 	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
+	public function __construct(\JInput $input = null, Registry $config = null, \JApplicationWebClient $client = null)
 	{
 		// Register the application name
 		$this->_name = 'site';
@@ -72,23 +74,23 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @since   3.2
 	 *
-	 * @throws  Exception When you are not authorised to view the home page menu item
+	 * @throws  \Exception When you are not authorised to view the home page menu item
 	 */
 	protected function authorise($itemid)
 	{
 		$menus = $this->getMenu();
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if (!$menus->authorise($itemid))
 		{
 			if ($user->get('id') == 0)
 			{
 				// Set the data
-				$this->setUserState('users.login.form.data', array('return' => JUri::getInstance()->toString()));
+				$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
 
-				$url = JRoute::_('index.php?option=com_users&view=login', false);
+				$url = \JRoute::_('index.php?option=com_users&view=login', false);
 
-				$this->enqueueMessage(JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+				$this->enqueueMessage(\JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 				$this->redirect($url);
 			}
 			else
@@ -99,12 +101,12 @@ final class JApplicationSite extends JApplicationCms
 				// If we are already in the homepage raise an exception
 				if ($menus->getActive()->id == $home_item->id)
 				{
-					throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+					throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 				}
 
 				// Otherwise redirect to the homepage and show an error
-				$this->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-				$this->redirect(JRoute::_('index.php?Itemid=' . $home_item->id, false));
+				$this->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->redirect(\JRoute::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
 	}
@@ -134,15 +136,15 @@ final class JApplicationSite extends JApplicationCms
 		$router   = static::getRouter();
 		$params   = $this->getParams();
 
-		// Register the document object with JFactory
-		JFactory::$document = $document;
+		// Register the document object with \JFactory
+		\JFactory::$document = $document;
 
 		switch ($document->getType())
 		{
 			case 'html':
 				// Get language
 				$lang_code = $this->getLanguage()->getTag();
-				$languages = JLanguageHelper::getLanguages('lang_code');
+				$languages = \JLanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
 				if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey)
@@ -158,7 +160,7 @@ final class JApplicationSite extends JApplicationCms
 
 				if ($router->getMode() == JROUTER_MODE_SEF)
 				{
-					$document->setBase(htmlspecialchars(JUri::current()));
+					$document->setBase(htmlspecialchars(\JUri::current()));
 				}
 
 				// Get the template
@@ -171,7 +173,7 @@ final class JApplicationSite extends JApplicationCms
 				break;
 
 			case 'feed':
-				$document->setBase(htmlspecialchars(JUri::current()));
+				$document->setBase(htmlspecialchars(\JUri::current()));
 				break;
 		}
 
@@ -188,11 +190,11 @@ final class JApplicationSite extends JApplicationCms
 			$document->setGenerator('Joomla! - Open Source Content Management');
 		}
 
-		$contents = JComponentHelper::renderComponent($component);
+		$contents = ComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
 
 		// Trigger the onAfterDispatch event.
-		JPluginHelper::importPlugin('system');
+		\JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterDispatch');
 	}
 
@@ -258,12 +260,12 @@ final class JApplicationSite extends JApplicationCms
 	}
 
 	/**
-	 * Return a reference to the JMenu object.
+	 * Return a reference to the \JMenu object.
 	 *
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JMenu  JMenu object.
+	 * @return  \JMenu  \JMenu object.
 	 *
 	 * @since   3.2
 	 */
@@ -316,7 +318,7 @@ final class JApplicationSite extends JApplicationCms
 			}
 
 			// Get new instance of component global parameters
-			$params[$hash] = clone JComponentHelper::getParams($option);
+			$params[$hash] = clone ComponentHelper::getParams($option);
 
 			// Get menu parameters
 			$menus = $this->getMenu();
@@ -324,7 +326,7 @@ final class JApplicationSite extends JApplicationCms
 
 			// Get language
 			$lang_code = $this->getLanguage()->getTag();
-			$languages = JLanguageHelper::getLanguages('lang_code');
+			$languages = \JLanguageHelper::getLanguages('lang_code');
 
 			$title = $this->get('sitename');
 
@@ -341,7 +343,7 @@ final class JApplicationSite extends JApplicationCms
 			$robots = $this->get('robots');
 
 			// Retrieve com_menu global settings
-			$temp = clone JComponentHelper::getParams('com_menus');
+			$temp = clone ComponentHelper::getParams('com_menus');
 
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu))
@@ -371,12 +373,12 @@ final class JApplicationSite extends JApplicationCms
 	}
 
 	/**
-	 * Return a reference to the JPathway object.
+	 * Return a reference to the \JPathway object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JPathway  A JPathway object
+	 * @return  \JPathway  A \JPathway object
 	 *
 	 * @since   3.2
 	 */
@@ -386,18 +388,18 @@ final class JApplicationSite extends JApplicationCms
 	}
 
 	/**
-	 * Return a reference to the JRouter object.
+	 * Return a reference to the \JRouter object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return	JRouter
+	 * @return	\JRouter
 	 *
 	 * @since	3.2
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = JFactory::getConfig()->get('sef');
+		$options['mode'] = \JFactory::getConfig()->get('sef');
 
 		return parent::getRouter($name, $options);
 	}
@@ -410,7 +412,7 @@ final class JApplicationSite extends JApplicationCms
 	 * @return  string  The name of the template.
 	 *
 	 * @since   3.2
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function getTemplate($params = false)
 	{
@@ -418,7 +420,7 @@ final class JApplicationSite extends JApplicationCms
 		{
 			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
-				throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+				throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 			}
 
 			if ($params)
@@ -453,7 +455,7 @@ final class JApplicationSite extends JApplicationCms
 			$id = (int) $tid;
 		}
 
-		$cache = JFactory::getCache('com_templates', '');
+		$cache = \JFactory::getCache('com_templates', '');
 
 		if ($this->_language_filter)
 		{
@@ -473,7 +475,7 @@ final class JApplicationSite extends JApplicationCms
 		else
 		{
 			// Load styles
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('id, home, template, s.params')
 				->from('#__template_styles as s')
@@ -537,12 +539,12 @@ final class JApplicationSite extends JApplicationCms
 		}
 
 		// Need to filter the default value as well
-		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
+		$template->template = \JFilterInput::getInstance()->clean($template->template, 'cmd');
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
 			// Try to find data for 'beez3' template
 			$original_tmpl = $template->template;
@@ -559,7 +561,7 @@ final class JApplicationSite extends JApplicationCms
 			// Check, the data were found and if template really exists
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
-				throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
+				throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 			}
 		}
 
@@ -585,12 +587,12 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
 		{
-			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			$user->groups = array($guestUsergroup);
 		}
 
@@ -600,9 +602,9 @@ final class JApplicationSite extends JApplicationCms
 		 *
 		 * @TODO - Remove the hardcoded dependency to the languagefilter plugin
 		 */
-		if (JPluginHelper::isEnabled('system', 'languagefilter'))
+		if (\JPluginHelper::isEnabled('system', 'languagefilter'))
 		{
-			$plugin = JPluginHelper::getPlugin('system', 'languagefilter');
+			$plugin = \JPluginHelper::getPlugin('system', 'languagefilter');
 
 			$pluginParams = new Registry($plugin->params);
 
@@ -616,7 +618,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = $this->input->getString('language', null);
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguageHelper::exists($lang))
+			if ($lang && \JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -628,7 +630,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguageHelper::exists($lang))
+			if ($lang && \JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -640,7 +642,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = $user->getParam('language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguageHelper::exists($lang))
+			if ($lang && \JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -649,10 +651,10 @@ final class JApplicationSite extends JApplicationCms
 		if ($this->getDetectBrowser() && empty($options['language']))
 		{
 			// Detect browser language
-			$lang = JLanguageHelper::detectLanguage();
+			$lang = \JLanguageHelper::detectLanguage();
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguageHelper::exists($lang))
+			if ($lang && \JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -661,16 +663,16 @@ final class JApplicationSite extends JApplicationCms
 		if (empty($options['language']))
 		{
 			// Detect default language
-			$params = JComponentHelper::getParams('com_languages');
+			$params = ComponentHelper::getParams('com_languages');
 			$options['language'] = $params->get('site', $this->get('language', 'en-GB'));
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguageHelper::exists($options['language']))
+		if (!\JLanguageHelper::exists($options['language']))
 		{
 			$lang = $this->config->get('language', 'en-GB');
 
-			if (JLanguageHelper::exists($lang))
+			if (\JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -717,7 +719,7 @@ final class JApplicationSite extends JApplicationCms
 		// Set the application login entry point
 		if (!array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = JUri::base() . 'index.php?option=com_users&task=user.login';
+			$options['entry_url'] = \JUri::base() . 'index.php?option=com_users&task=user.login';
 		}
 
 		// Set the access control action to check.
@@ -753,9 +755,9 @@ final class JApplicationSite extends JApplicationCms
 					$this->set('themeFile', 'index.php');
 				}
 
-				if ($this->get('offline') && !JFactory::getUser()->authorise('core.login.offline'))
+				if ($this->get('offline') && !\JFactory::getUser()->authorise('core.login.offline'))
 				{
-					$this->setUserState('users.login.form.data', array('return' => JUri::getInstance()->toString()));
+					$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
 					$this->set('themeFile', 'offline.php');
 					$this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}
@@ -846,7 +848,7 @@ final class JApplicationSite extends JApplicationCms
 	{
 		if (is_dir(JPATH_THEMES . '/' . $template))
 		{
-			$this->template = new stdClass;
+			$this->template = new \stdClass;
 			$this->template->template = $template;
 
 			if ($styleParams instanceof Registry)

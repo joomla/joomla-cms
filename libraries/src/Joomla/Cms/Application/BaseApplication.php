@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Application;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -19,12 +20,12 @@ use Joomla\Registry\Registry;
  *
  * @since  12.1
  */
-abstract class JApplicationBase extends AbstractApplication
+abstract class BaseApplication extends AbstractApplication
 {
 	/**
 	 * The application dispatcher object.
 	 *
-	 * @var    JEventDispatcher
+	 * @var    \JEventDispatcher
 	 * @since  12.1
 	 */
 	protected $dispatcher;
@@ -32,7 +33,7 @@ abstract class JApplicationBase extends AbstractApplication
 	/**
 	 * The application identity object.
 	 *
-	 * @var    JUser
+	 * @var    \JUser
 	 * @since  12.1
 	 */
 	protected $identity;
@@ -40,8 +41,8 @@ abstract class JApplicationBase extends AbstractApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput    $input   An optional argument to provide dependency injection for the application's
-	 *                             input object.  If the argument is a JInput object that object will become
+	 * @param   \JInput    $input   An optional argument to provide dependency injection for the application's
+	 *                             input object.  If the argument is a \JInput object that object will become
 	 *                             the application's input object, otherwise a default input object is created.
 	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's
 	 *                             config object.  If the argument is a Registry object that object will become
@@ -49,9 +50,9 @@ abstract class JApplicationBase extends AbstractApplication
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(JInput $input = null, Registry $config = null)
+	public function __construct(\JInput $input = null, Registry $config = null)
 	{
-		$this->input = $input instanceof JInput ? $input : new JInput;
+		$this->input = $input instanceof \JInput ? $input : new \JInput;
 		$this->config = $config instanceof Registry ? $config : new Registry;
 
 		$this->initialise();
@@ -60,7 +61,7 @@ abstract class JApplicationBase extends AbstractApplication
 	/**
 	 * Get the application identity.
 	 *
-	 * @return  mixed  A JUser object or null.
+	 * @return  mixed  A \JUser object or null.
 	 *
 	 * @since   12.1
 	 */
@@ -75,13 +76,13 @@ abstract class JApplicationBase extends AbstractApplication
 	 * @param   string    $event    The event name.
 	 * @param   callable  $handler  The handler, a function or an instance of an event object.
 	 *
-	 * @return  JApplicationBase  The application to allow chaining.
+	 * @return  BaseApplication  The application to allow chaining.
 	 *
 	 * @since   12.1
 	 */
 	public function registerEvent($event, $handler)
 	{
-		if ($this->dispatcher instanceof JEventDispatcher)
+		if ($this->dispatcher instanceof \JEventDispatcher)
 		{
 			$this->dispatcher->register($event, $handler);
 		}
@@ -101,7 +102,7 @@ abstract class JApplicationBase extends AbstractApplication
 	 */
 	public function triggerEvent($event, array $args = null)
 	{
-		if ($this->dispatcher instanceof JEventDispatcher)
+		if ($this->dispatcher instanceof \JEventDispatcher)
 		{
 			return $this->dispatcher->trigger($event, $args);
 		}
@@ -116,15 +117,15 @@ abstract class JApplicationBase extends AbstractApplication
 	 * but for many applications it will make sense to override this method and create event
 	 * dispatchers, if required, based on more specific needs.
 	 *
-	 * @param   JEventDispatcher  $dispatcher  An optional dispatcher object. If omitted, the factory dispatcher is created.
+	 * @param   \JEventDispatcher  $dispatcher  An optional dispatcher object. If omitted, the factory dispatcher is created.
 	 *
-	 * @return  JApplicationBase This method is chainable.
+	 * @return  BaseApplication This method is chainable.
 	 *
 	 * @since   12.1
 	 */
-	public function loadDispatcher(JEventDispatcher $dispatcher = null)
+	public function loadDispatcher(\JEventDispatcher $dispatcher = null)
 	{
-		$this->dispatcher = ($dispatcher === null) ? JEventDispatcher::getInstance() : $dispatcher;
+		$this->dispatcher = ($dispatcher === null) ? \JEventDispatcher::getInstance() : $dispatcher;
 
 		return $this;
 	}
@@ -136,15 +137,15 @@ abstract class JApplicationBase extends AbstractApplication
 	 * but for many applications it will make sense to override this method and create an identity,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   JUser  $identity  An optional identity object. If omitted, the factory user is created.
+	 * @param   \JUser  $identity  An optional identity object. If omitted, the factory user is created.
 	 *
-	 * @return  JApplicationBase This method is chainable.
+	 * @return  BaseApplication This method is chainable.
 	 *
 	 * @since   12.1
 	 */
-	public function loadIdentity(JUser $identity = null)
+	public function loadIdentity(\JUser $identity = null)
 	{
-		$this->identity = ($identity === null) ? JFactory::getUser() : $identity;
+		$this->identity = ($identity === null) ? \JFactory::getUser() : $identity;
 
 		return $this;
 	}

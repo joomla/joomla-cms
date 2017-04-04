@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Application
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Application;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,10 +17,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-class JApplicationCms extends JApplicationWeb
+class CmsApplication extends WebApplication
 {
 	/**
-	 * Array of options for the JDocument object
+	 * Array of options for the \JDocument object
 	 *
 	 * @var    array
 	 * @since  3.2
@@ -29,7 +30,7 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Application instances container.
 	 *
-	 * @var    JApplicationCms[]
+	 * @var    CmsApplication[]
 	 * @since  3.2
 	 */
 	protected static $instances = array();
@@ -72,7 +73,7 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * The profiler instance
 	 *
-	 * @var    JProfiler
+	 * @var    \JProfiler
 	 * @since  3.2
 	 */
 	protected $profiler = null;
@@ -88,19 +89,19 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a JInput object that object will become
+	 * @param   \JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a \JInput object that object will become
 	 *                                          the application's input object, otherwise a default input object is created.
 	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
 	 *                                          config object.  If the argument is a Registry object that object will become
 	 *                                          the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a \JApplicationWebClient object that object will become
 	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
+	public function __construct(\JInput $input = null, Registry $config = null, \JApplicationWebClient $client = null)
 	{
 		parent::__construct($input, $config, $client);
 
@@ -110,7 +111,7 @@ class JApplicationCms extends JApplicationWeb
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
 		{
-			$this->profiler = JProfiler::getInstance('Application');
+			$this->profiler = \JProfiler::getInstance('Application');
 		}
 
 		// Enable sessions by default.
@@ -141,12 +142,12 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function afterSessionStart()
 	{
-		$session = JFactory::getSession();
+		$session = \JFactory::getSession();
 
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry);
-			$session->set('user', new JUser);
+			$session->set('user', new \JUser);
 		}
 	}
 
@@ -159,13 +160,13 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function checkSession()
 	{
-		$db = JFactory::getDbo();
-		$session = JFactory::getSession();
-		$user = JFactory::getUser();
+		$db = \JFactory::getDbo();
+		$session = \JFactory::getSession();
+		$user = \JFactory::getUser();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('session_id'))
@@ -215,9 +216,9 @@ class JApplicationCms extends JApplicationWeb
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
+				throw new \RuntimeException(\JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
 			}
 		}
 	}
@@ -265,7 +266,7 @@ class JApplicationCms extends JApplicationWeb
 		$this->doExecute();
 
 		// If we have an application document object, render it.
-		if ($this->document instanceof JDocument)
+		if ($this->document instanceof \JDocument)
 		{
 			// Render the application output.
 			$this->render();
@@ -301,7 +302,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	protected function checkUserRequireReset($option, $view, $layout, $tasks)
 	{
-		if (JFactory::getUser()->get('requireReset', 0))
+		if (\JFactory::getUser()->get('requireReset', 0))
 		{
 			$redirect = false;
 
@@ -351,8 +352,8 @@ class JApplicationCms extends JApplicationWeb
 			if ($redirect)
 			{
 				// Redirect to the profile edit page
-				$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-				$this->redirect(JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+				$this->enqueueMessage(\JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+				$this->redirect(\JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
 			}
 		}
 	}
@@ -386,27 +387,27 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
-	 * Returns a reference to the global JApplicationCms object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global CmsApplication object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as: $web = JApplicationCms::getInstance();
+	 * This method must be invoked as: $web = CmsApplication::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationCms class to instantiate.
+	 * @param   string  $name  The name (optional) of the CmsApplication class to instantiate.
 	 *
-	 * @return  JApplicationCms
+	 * @return  CmsApplication
 	 *
 	 * @since   3.2
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function getInstance($name = null)
 	{
 		if (empty(static::$instances[$name]))
 		{
-			// Create a JApplicationCms object.
-			$classname = 'JApplication' . ucfirst($name);
+			// Create a CmsApplication object.
+			$classname = '\JApplication' . ucfirst($name);
 
 			if (!class_exists($classname))
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
+				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
 			static::$instances[$name] = new $classname;
@@ -416,12 +417,12 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
-	 * Returns the application JMenu object.
+	 * Returns the application \JMenu object.
 	 *
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JMenu|null
+	 * @return  \JMenu|null
 	 *
 	 * @since   3.2
 	 */
@@ -432,7 +433,7 @@ class JApplicationCms extends JApplicationWeb
 			$name = $this->getName();
 		}
 
-		// Inject this application object into the JMenu tree if one isn't already specified
+		// Inject this application object into the \JMenu tree if one isn't already specified
 		if (!isset($options['app']))
 		{
 			$options['app'] = $this;
@@ -440,9 +441,9 @@ class JApplicationCms extends JApplicationWeb
 
 		try
 		{
-			$menu = JMenu::getInstance($name, $options);
+			$menu = \JMenu::getInstance($name, $options);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			return;
 		}
@@ -464,7 +465,7 @@ class JApplicationCms extends JApplicationWeb
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->_messageQueue))
 		{
-			$session = JFactory::getSession();
+			$session = \JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
 
 			if (count($sessionQueue))
@@ -473,9 +474,9 @@ class JApplicationCms extends JApplicationWeb
 				$session->set('application.queue', null);
 			}
 		}
-		
+
 		$messageQueue = $this->_messageQueue;
-		
+
 		if ($clear)
 		{
 			$this->_messageQueue = array();
@@ -497,12 +498,12 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
-	 * Returns the application JPathway object.
+	 * Returns the application \JPathway object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JPathway|null
+	 * @return  \JPathway|null
 	 *
 	 * @since   3.2
 	 */
@@ -515,9 +516,9 @@ class JApplicationCms extends JApplicationWeb
 
 		try
 		{
-			$pathway = JPathway::getInstance($name, $options);
+			$pathway = \JPathway::getInstance($name, $options);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			return;
 		}
@@ -526,12 +527,12 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
-	 * Returns the application JRouter object.
+	 * Returns the application \JRouter object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JRouter|null
+	 * @return  \JRouter|null
 	 *
 	 * @since   3.2
 	 */
@@ -539,15 +540,15 @@ class JApplicationCms extends JApplicationWeb
 	{
 		if (!isset($name))
 		{
-			$app = JFactory::getApplication();
+			$app = \JFactory::getApplication();
 			$name = $app->getName();
 		}
 
 		try
 		{
-			$router = JRouter::getInstance($name, $options);
+			$router = \JRouter::getInstance($name, $options);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			return;
 		}
@@ -566,7 +567,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function getTemplate($params = false)
 	{
-		$template = new stdClass;
+		$template = new \stdClass;
 
 		$template->template = 'system';
 		$template->params   = new Registry;
@@ -591,7 +592,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function getUserState($key, $default = null)
 	{
-		$session = JFactory::getSession();
+		$session = \JFactory::getSession();
 		$registry = $session->get('registry');
 
 		if (!is_null($registry))
@@ -608,7 +609,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   string  $key      The key of the user state variable.
 	 * @param   string  $request  The name of the variable passed in a request.
 	 * @param   string  $default  The default value for the variable if not found. Optional.
-	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 * @param   string  $type     Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
 	 *
 	 * @return  mixed  The request user state.
 	 *
@@ -642,7 +643,7 @@ class JApplicationCms extends JApplicationWeb
 	protected function initialiseApp($options = array())
 	{
 		// Set the configuration in the API.
-		$this->config = JFactory::getConfig();
+		$this->config = \JFactory::getConfig();
 
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
@@ -651,26 +652,26 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Build our language object
-		$lang = JLanguage::getInstance($this->get('language'), $this->get('debug_lang'));
+		$lang = \JLanguage::getInstance($this->get('language'), $this->get('debug_lang'));
 
 		// Load the language to the API
 		$this->loadLanguage($lang);
 
-		// Register the language object with JFactory
-		JFactory::$language = $this->getLanguage();
+		// Register the language object with \JFactory
+		\JFactory::$language = $this->getLanguage();
 
 		// Load the library language files
 		$this->loadLibraryLanguage();
 
 		// Set user specific editor.
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
 
-		if (!JPluginHelper::isEnabled('editors', $editor))
+		if (!\JPluginHelper::isEnabled('editors', $editor))
 		{
 			$editor = $this->get('editor');
 
-			if (!JPluginHelper::isEnabled('editors', $editor))
+			if (!\JPluginHelper::isEnabled('editors', $editor))
 			{
 				$editor = 'none';
 			}
@@ -679,7 +680,7 @@ class JApplicationCms extends JApplicationWeb
 		$this->set('editor', $editor);
 
 		// Trigger the onAfterInitialise event.
-		JPluginHelper::importPlugin('system');
+		\JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterInitialise');
 	}
 
@@ -742,13 +743,13 @@ class JApplicationCms extends JApplicationWeb
 	 * but for many applications it will make sense to override this method and create a session,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
+	 * @param   \JSession  $session  An optional session object. If omitted, the session is created.
 	 *
-	 * @return  JApplicationCms  This method is chainable.
+	 * @return  CmsApplication  This method is chainable.
 	 *
 	 * @since   3.2
 	 */
-	public function loadSession(JSession $session = null)
+	public function loadSession(\JSession $session = null)
 	{
 		if ($session !== null)
 		{
@@ -758,12 +759,12 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Generate a session name.
-		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
+		$name = \JApplicationHelper::getHash($this->get('session_name', get_class($this)));
 
 		// Calculate the session lifetime.
 		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);
 
-		// Initialize the options for JSession.
+		// Initialize the options for \JSession.
 		$options = array(
 			'name'   => $name,
 			'expire' => $lifetime,
@@ -791,17 +792,17 @@ class JApplicationCms extends JApplicationWeb
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
 		/*
-		 * Note: The below code CANNOT change from instantiating a session via JFactory until there is a proper dependency injection container supported
+		 * Note: The below code CANNOT change from instantiating a session via \JFactory until there is a proper dependency injection container supported
 		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated.
 		 * https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and burn if you ever attempt to make this change
 		 * without a proper dependency injection container.
 		 */
 
-		$session = JFactory::getSession($options);
+		$session = \JFactory::getSession($options);
 		$session->initialise($this->input, $this->dispatcher);
 
 		// TODO: At some point we need to get away from having session data always in the db.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Remove expired sessions from the database.
 		$time = time();
@@ -848,27 +849,27 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean|JException  True on success, false if failed or silent handling is configured, or a JException object on authentication error.
+	 * @return  boolean|\JException  True on success, false if failed or silent handling is configured, or a \JException object on authentication error.
 	 *
 	 * @since   3.2
 	 */
 	public function login($credentials, $options = array())
 	{
-		// Get the global JAuthentication object.
-		$authenticate = JAuthentication::getInstance();
+		// Get the global \JAuthentication object.
+		$authenticate = \JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.
-		JPluginHelper::importPlugin('user');
+		\JPluginHelper::importPlugin('user');
 
-		if ($response->status === JAuthentication::STATUS_SUCCESS)
+		if ($response->status === \JAuthentication::STATUS_SUCCESS)
 		{
 			/*
 			 * Validate that the user should be able to login (different to being authenticated).
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
-			$denied_states = JAuthentication::STATUS_EXPIRED | JAuthentication::STATUS_DENIED;
+			$denied_states = \JAuthentication::STATUS_EXPIRED | \JAuthentication::STATUS_DENIED;
 
 			foreach ($authorisations as $authorisation)
 			{
@@ -886,14 +887,14 @@ class JApplicationCms extends JApplicationWeb
 					// Return the error.
 					switch ($authorisation->status)
 					{
-						case JAuthentication::STATUS_EXPIRED:
-							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
+						case \JAuthentication::STATUS_EXPIRED:
+							return \JError::raiseWarning('102002', \JText::_('JLIB_LOGIN_EXPIRED'));
 
-						case JAuthentication::STATUS_DENIED:
-							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
+						case \JAuthentication::STATUS_DENIED:
+							return \JError::raiseWarning('102003', \JText::_('JLIB_LOGIN_DENIED'));
 
 						default:
-							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
+							return \JError::raiseWarning('102004', \JText::_('JLIB_LOGIN_AUTHORISATION'));
 					}
 				}
 			}
@@ -908,7 +909,7 @@ class JApplicationCms extends JApplicationWeb
 			 * Any errors raised should be done in the plugin as this provides the ability
 			 * to provide much more information about why the routine may have failed.
 			 */
-			$user = JFactory::getUser();
+			$user = \JFactory::getUser();
 
 			if ($response->type == 'Cookie')
 			{
@@ -937,9 +938,9 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// If status is success, any error will have been raised by the user plugin
-		if ($response->status !== JAuthentication::STATUS_SUCCESS)
+		if ($response->status !== \JAuthentication::STATUS_SUCCESS)
 		{
-			JLog::add($response->error_message, JLog::WARNING, 'jerror');
+			\JLog::add($response->error_message, \JLog::WARNING, 'jerror');
 		}
 
 		return false;
@@ -964,8 +965,8 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Get a user object from the JApplication.
-		$user = JFactory::getUser($userid);
+		// Get a user object from the \JApplication.
+		$user = \JFactory::getUser($userid);
 
 		// Build the credentials array.
 		$parameters['username'] = $user->get('username');
@@ -978,7 +979,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Import the user plugin group.
-		JPluginHelper::importPlugin('user');
+		\JPluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event.
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
@@ -1030,10 +1031,10 @@ class JApplicationCms extends JApplicationWeb
 			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
 			{
 				// Log that passing the message to the function is deprecated
-				JLog::add(
-					'Passing a message and message type to JFactory::getApplication()->redirect() is deprecated. '
-					. 'Please set your message via JFactory::getApplication()->enqueueMessage() prior to calling redirect().',
-					JLog::WARNING,
+				\JLog::add(
+					'Passing a message and message type to \JFactory::getApplication()->redirect() is deprecated. '
+					. 'Please set your message via \JFactory::getApplication()->enqueueMessage() prior to calling redirect().',
+					\JLog::WARNING,
 					'deprecated'
 				);
 
@@ -1060,7 +1061,7 @@ class JApplicationCms extends JApplicationWeb
 		// Persist messages if they exist.
 		if (count($this->_messageQueue))
 		{
-			$session = JFactory::getSession();
+			$session = \JFactory::getSession();
 			$session->set('application.queue', $this->_messageQueue);
 		}
 
@@ -1098,12 +1099,12 @@ class JApplicationCms extends JApplicationWeb
 		$this->document->parse($this->docOptions);
 
 		// Trigger the onBeforeRender event.
-		JPluginHelper::importPlugin('system');
+		\JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onBeforeRender');
 
 		$caching = false;
 
-		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !\JFactory::getUser()->get('id'))
 		{
 			$caching = true;
 		}
@@ -1136,7 +1137,7 @@ class JApplicationCms extends JApplicationWeb
 	protected function route()
 	{
 		// Get the full request URI.
-		$uri = clone JUri::getInstance();
+		$uri = clone \JUri::getInstance();
 
 		$router = static::getRouter();
 		$result = $router->parse($uri);
@@ -1147,7 +1148,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Trigger the onAfterRoute event.
-		JPluginHelper::importPlugin('system');
+		\JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
 	}
 
@@ -1163,7 +1164,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function setUserState($key, $value)
 	{
-		$session = JFactory::getSession();
+		$session = \JFactory::getSession();
 		$registry = $session->get('registry');
 
 		if (!is_null($registry))
