@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Cms\Help;
+namespace Joomla\CMS\Help;
 
 defined('JPATH_PLATFORM') or die;
 

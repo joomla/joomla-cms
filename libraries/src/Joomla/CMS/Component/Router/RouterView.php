@@ -6,11 +6,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Cms\Component\Router;
+namespace Joomla\CMS\Component\Router;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Component\Router\Rules\RulesInterface;
+use Joomla\CMS\Component\Router\Rules\RulesInterface;
 
 /**
  * View-based component routing class

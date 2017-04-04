@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Application
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Application;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Application helper functions
  *
  * @since  1.5
  */
-class JApplicationHelper
+class ApplicationHelper
 {
 	/**
 	 * Client information array
@@ -42,7 +45,7 @@ class JApplicationHelper
 			return $option;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$option = strtolower($input->get('option'));
 
 		if (empty($option))
@@ -66,7 +69,7 @@ class JApplicationHelper
 	 */
 	public static function getHash($seed)
 	{
-		return md5(JFactory::getConfig()->get('secret') . $seed);
+		return md5(\JFactory::getConfig()->get('secret') . $seed);
 	}
 
 	/**
@@ -83,18 +86,18 @@ class JApplicationHelper
 	 */
 	public static function stringURLSafe($string, $language = '')
 	{
-		if (JFactory::getConfig()->get('unicodeslugs') == 1)
+		if (\JFactory::getConfig()->get('unicodeslugs') == 1)
 		{
-			$output = JFilterOutput::stringURLUnicodeSlug($string);
+			$output = \JFilterOutput::stringURLUnicodeSlug($string);
 		}
 		else
 		{
 			if ($language == '*' || $language == '')
 			{
-				$languageParams = JComponentHelper::getParams('com_languages');
+				$languageParams = ComponentHelper::getParams('com_languages');
 				$language = $languageParams->get('site');
 			}
-			$output = JFilterOutput::stringURLSafe($string, $language);
+			$output = \JFilterOutput::stringURLSafe($string, $language);
 		}
 
 		return $output;
@@ -119,7 +122,7 @@ class JApplicationHelper
 		// Only create the array if it is empty
 		if (empty(self::$_clients))
 		{
-			$obj = new stdClass;
+			$obj = new \stdClass;
 
 			// Site Client
 			$obj->id = 0;
@@ -211,13 +214,13 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since       1.5
-	 * @deprecated  4.0 Use JInstaller::parseXMLInstallFile instead.
+	 * @deprecated  4.0 Use \JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLInstallFile($path)
 	{
-		JLog::add('JApplicationHelper::parseXMLInstallFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+		\JLog::add('ApplicationHelper::parseXMLInstallFile is deprecated. Use \JInstaller::parseXMLInstallFile instead.', \JLog::WARNING, 'deprecated');
 
-		return JInstaller::parseXMLInstallFile($path);
+		return \JInstaller::parseXMLInstallFile($path);
 	}
 
 	/**
@@ -230,11 +233,11 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since       1.5
-	 * @deprecated  4.0 Use JInstaller::parseXMLInstallFile instead.
+	 * @deprecated  4.0 Use \JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLLangMetaFile($path)
 	{
-		JLog::add('JApplicationHelper::parseXMLLangMetaFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+		\JLog::add('ApplicationHelper::parseXMLLangMetaFile is deprecated. Use \JInstaller::parseXMLInstallFile instead.', \JLog::WARNING, 'deprecated');
 
 		// Check if meta file exists.
 		if (!file_exists($path))
@@ -267,8 +270,8 @@ class JApplicationHelper
 		$data['name'] = (string) $xml->name;
 		$data['type'] = $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ?: JText::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ?: JText::_('JLIB_UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ?: \JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ?: \JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;

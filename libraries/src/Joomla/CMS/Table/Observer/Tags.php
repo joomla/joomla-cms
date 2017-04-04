@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Cms\Table\Observer;
+namespace Joomla\CMS\Table\Observer;
 
 defined('JPATH_PLATFORM') or die;
 

@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Cms\Access\Exception;
+namespace Joomla\CMS\Access\Exception;
 
 defined('JPATH_PLATFORM') or die;
 

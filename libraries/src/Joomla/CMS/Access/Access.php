@@ -6,12 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Cms\Access;
+namespace Joomla\CMS\Access;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Cms\Table\Asset;
+use Joomla\CMS\Table\Asset;
 
 /**
  * Class that handles all access authorisation routines.

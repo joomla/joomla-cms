@@ -6,11 +6,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Cms\Component\Router\Rules;
+namespace Joomla\CMS\Component\Router\Rules;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Component\Router\RouterView;
+use Joomla\CMS\Component\Router\RouterView;
 
 /**
  * Rule to process URLs without a menu item

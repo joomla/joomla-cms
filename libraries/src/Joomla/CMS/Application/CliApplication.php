@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -18,7 +19,7 @@ use Joomla\Registry\Registry;
  * @since  11.4
  * @note   As of 4.0 this class will be abstract
  */
-class JApplicationCli extends JApplicationBase
+class CliApplication extends BaseApplication
 {
 	/**
 	 * @var    CliOutput  The output type.
@@ -27,7 +28,7 @@ class JApplicationCli extends JApplicationBase
 	protected $output;
 
 	/**
-	 * @var    JApplicationCli  The application instance.
+	 * @var    CliApplication  The application instance.
 	 * @since  11.1
 	 */
 	protected static $instance;
@@ -35,21 +36,21 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInputCli         $input       An optional argument to provide dependency injection for the application's
-	 *                                         input object.  If the argument is a JInputCli object that object will become
+	 * @param   \JInputCli         $input       An optional argument to provide dependency injection for the application's
+	 *                                         input object.  If the argument is a \JInputCli object that object will become
 	 *                                         the application's input object, otherwise a default input object is created.
-	 * @param   Registry          $config      An optional argument to provide dependency injection for the application's
+	 * @param   Registry           $config      An optional argument to provide dependency injection for the application's
 	 *                                         config object.  If the argument is a Registry object that object will become
 	 *                                         the application's config object, otherwise a default config object is created.
-	 * @param   JEventDispatcher  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                                         event dispatcher.  If the argument is a JEventDispatcher object that object will become
+	 * @param   \JEventDispatcher  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                                         event dispatcher.  If the argument is a \JEventDispatcher object that object will become
 	 *                                         the application's event dispatcher, if it is null then the default event dispatcher
 	 *                                         will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     JApplicationBase::loadDispatcher()
+	 * @see     BaseApplication::loadDispatcher()
 	 * @since   11.1
 	 */
-	public function __construct(JInputCli $input = null, Registry $config = null, JEventDispatcher $dispatcher = null)
+	public function __construct(\JInputCli $input = null, Registry $config = null, \JEventDispatcher $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
@@ -60,16 +61,16 @@ class JApplicationCli extends JApplicationBase
 		// @codeCoverageIgnoreEnd
 
 		// If an input object is given use it.
-		if ($input instanceof JInput)
+		if ($input instanceof \JInput)
 		{
 			$this->input = $input;
 		}
 		// Create the input based on the application logic.
 		else
 		{
-			if (class_exists('JInput'))
+			if (class_exists('\JInput'))
 			{
-				$this->input = new JInputCli;
+				$this->input = new \JInputCli;
 			}
 		}
 
@@ -98,13 +99,13 @@ class JApplicationCli extends JApplicationBase
 	}
 
 	/**
-	 * Returns a reference to the global JApplicationCli object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global CliApplication object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as: $cli = JApplicationCli::getInstance();
+	 * This method must be invoked as: $cli = CliApplication::getInstance();
 	 *
 	 * @param   string  $name  The name (optional) of the JApplicationCli class to instantiate.
 	 *
-	 * @return  JApplicationCli
+	 * @return  CliApplication
 	 *
 	 * @since   11.1
 	 */
@@ -113,13 +114,13 @@ class JApplicationCli extends JApplicationBase
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'JApplicationCli')))
+			if (class_exists($name) && (is_subclass_of($name, '\\Joomla\\CMS\\Application\\CliApplication')))
 			{
 				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JApplicationCli;
+				self::$instance = new CliApplication;
 			}
 		}
 
@@ -150,7 +151,7 @@ class JApplicationCli extends JApplicationBase
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 * @return  CliApplication  Instance of $this to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -175,7 +176,7 @@ class JApplicationCli extends JApplicationBase
 	 * @param   string   $text  The text to display.
 	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
 	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 * @return  CliApplication  Instance of $this to allow chaining.
 	 *
 	 * @codeCoverageIgnore
 	 * @since   11.1
@@ -213,7 +214,7 @@ class JApplicationCli extends JApplicationBase
 	 *
 	 * @param   CliOutput  $output  CliOutput object
 	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 * @return  CliApplication  Instance of $this to allow chaining.
 	 *
 	 * @since   3.3
 	 */
@@ -250,7 +251,7 @@ class JApplicationCli extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
+	protected function fetchConfigurationData($file = '', $class = '\JConfig')
 	{
 		// Instantiate variables.
 		$config = array();
@@ -268,7 +269,7 @@ class JApplicationCli extends JApplicationBase
 
 		if (!empty($file))
 		{
-			JLoader::register($class, $file);
+			\JLoader::register($class, $file);
 
 			if (class_exists($class))
 			{
@@ -276,7 +277,7 @@ class JApplicationCli extends JApplicationBase
 			}
 			else
 			{
-				throw new RuntimeException('Configuration class does not exist.');
+				throw new \RuntimeException('Configuration class does not exist.');
 			}
 		}
 

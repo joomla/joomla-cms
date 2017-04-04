@@ -6,11 +6,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Cms\Access\Wrapper;
+namespace Joomla\CMS\Access\Wrapper;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Access\Access as StaticAccess;
+use Joomla\CMS\Access\Access as StaticAccess;
 
 /**
  * Wrapper class for Access

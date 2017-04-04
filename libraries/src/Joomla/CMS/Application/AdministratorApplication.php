@@ -1,14 +1,16 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Application
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,24 +18,24 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-class JApplicationAdministrator extends JApplicationCms
+class AdministratorApplication extends CmsApplication
 {
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a JInput object that object will become
+	 * @param   \JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a \JInput object that object will become
 	 *                                          the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
+	 * @param   Registry                $config  An optional argument to provide dependency injection for the application's
 	 *                                          config object.  If the argument is a Registry object that object will become
 	 *                                          the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a \JApplicationWebClient object that object will become
 	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
+	public function __construct(\JInput $input = null, Registry $config = null, \JApplicationWebClient $client = null)
 	{
 		// Register the application name
 		$this->_name = 'administrator';
@@ -45,7 +47,7 @@ class JApplicationAdministrator extends JApplicationCms
 		parent::__construct($input, $config, $client);
 
 		// Set the root in the URI based on the application name
-		JUri::root(null, rtrim(dirname(JUri::base(true)), '/\\'));
+		\JUri::root(null, rtrim(dirname(\JUri::base(true)), '/\\'));
 	}
 
 	/**
@@ -61,17 +63,17 @@ class JApplicationAdministrator extends JApplicationCms
 	{
 		if ($component === null)
 		{
-			$component = JAdministratorHelper::findOption();
+			$component = \JAdministratorHelper::findOption();
 		}
 
 		// Load the document to the API
 		$this->loadDocument();
 
 		// Set up the params
-		$document = JFactory::getDocument();
+		$document = \JFactory::getDocument();
 
-		// Register the document object with JFactory
-		JFactory::$document = $document;
+		// Register the document object with \JFactory
+		\JFactory::$document = $document;
 
 		switch ($document->getType())
 		{
@@ -91,15 +93,15 @@ class JApplicationAdministrator extends JApplicationCms
 				break;
 		}
 
-		$document->setTitle($this->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
+		$document->setTitle($this->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
 		$document->setDescription($this->get('MetaDesc'));
 		$document->setGenerator('Joomla! - Open Source Content Management');
 
-		$contents = JComponentHelper::renderComponent($component);
+		$contents = ComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
 
 		// Trigger the onAfterDispatch event.
-		JPluginHelper::importPlugin('system');
+		\JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterDispatch');
 	}
 
@@ -126,7 +128,7 @@ class JApplicationAdministrator extends JApplicationCms
 
 			if ($lang->hasKey('JERROR_MAGIC_QUOTES'))
 			{
-				$this->enqueueMessage(JText::_('JERROR_MAGIC_QUOTES'), 'error');
+				$this->enqueueMessage(\JText::_('JERROR_MAGIC_QUOTES'), 'error');
 			}
 			else
 			{
@@ -160,12 +162,12 @@ class JApplicationAdministrator extends JApplicationCms
 	}
 
 	/**
-	 * Return a reference to the JRouter object.
+	 * Return a reference to the \JRouter object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JRouter
+	 * @return  \JRouter
 	 *
 	 * @since	3.2
 	 */
@@ -182,7 +184,7 @@ class JApplicationAdministrator extends JApplicationCms
 	 * @return  string  The name of the template.
 	 *
 	 * @since   3.2
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function getTemplate($params = false)
 	{
@@ -196,10 +198,10 @@ class JApplicationAdministrator extends JApplicationCms
 			return $this->template->template;
 		}
 
-		$admin_style = JFactory::getUser()->getParam('admin_style');
+		$admin_style = \JFactory::getUser()->getParam('admin_style');
 
 		// Load the template name from the database
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('template, s.params')
 			->from('#__template_styles as s')
@@ -215,12 +217,12 @@ class JApplicationAdministrator extends JApplicationCms
 		$db->setQuery($query);
 		$template = $db->loadObject();
 
-		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
+		$template->template = \JFilterInput::getInstance()->clean($template->template, 'cmd');
 		$template->params = new Registry($template->params);
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'isis';
 		}
@@ -230,7 +232,7 @@ class JApplicationAdministrator extends JApplicationCms
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+			throw new \InvalidArgumentException(\JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
 		}
 
 		if ($params)
@@ -252,12 +254,12 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
 		{
-			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			$user->groups = array($guestUsergroup);
 		}
 
@@ -267,23 +269,23 @@ class JApplicationAdministrator extends JApplicationCms
 			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguageHelper::exists($lang))
+			if ($lang && \JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
 			else
 			{
-				$params = JComponentHelper::getParams('com_languages');
+				$params = ComponentHelper::getParams('com_languages');
 				$options['language'] = $params->get('administrator', $this->get('language', 'en-GB'));
 			}
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguageHelper::exists($options['language']))
+		if (!\JLanguageHelper::exists($options['language']))
 		{
 			$lang = $this->get('language', 'en-GB');
 
-			if (JLanguageHelper::exists($lang))
+			if (\JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -319,7 +321,7 @@ class JApplicationAdministrator extends JApplicationCms
 		// Set the application login entry point
 		if (!array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = JUri::base() . 'index.php?option=com_users&task=login';
+			$options['entry_url'] = \JUri::base() . 'index.php?option=com_users&task=login';
 		}
 
 		// Set the access control action to check.
@@ -327,7 +329,7 @@ class JApplicationAdministrator extends JApplicationCms
 
 		$result = parent::login($credentials, $options);
 
-		if (!($result instanceof Exception))
+		if (!($result instanceof \Exception))
 		{
 			$lang = $this->input->getCmd('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
@@ -352,10 +354,10 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	public static function purgeMessages()
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$userid = $user->get('id');
 
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__messages_cfg'))
@@ -379,7 +381,7 @@ class JApplicationAdministrator extends JApplicationCms
 		if ($purge > 0)
 		{
 			// Purge old messages at day set in message configuration
-			$past = JFactory::getDate(time() - $purge * 86400);
+			$past = \JFactory::getDate(time() - $purge * 86400);
 			$pastStamp = $past->toSql();
 
 			$query->clear()
@@ -402,7 +404,7 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	protected function render()
 	{
-		// Get the JInput object
+		// Get the \JInput object
 		$input = $this->input;
 
 		$component = $input->getCmd('option', 'com_login');
@@ -418,13 +420,13 @@ class JApplicationAdministrator extends JApplicationCms
 		// Safety check for when configuration.php root_user is in use.
 		$rootUser = $this->get('root_user');
 
-		if (property_exists('JConfig', 'root_user')
-			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
+		if (property_exists('\JConfig', 'root_user')
+			&& (\JFactory::getUser()->get('username') == $rootUser || \JFactory::getUser()->id === (string) $rootUser))
 		{
 			$this->enqueueMessage(
-				JText::sprintf(
+				\JText::sprintf(
 					'JWARNING_REMOVE_ROOT_USER',
-					'index.php?option=com_config&task=config.removeroot&' . JSession::getFormToken() . '=1'
+					'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
 				),
 				'notice'
 			);
@@ -447,7 +449,7 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	protected function route()
 	{
-		$uri = JUri::getInstance();
+		$uri = \JUri::getInstance();
 
 		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
 		{
@@ -457,7 +459,7 @@ class JApplicationAdministrator extends JApplicationCms
 		}
 
 		// Trigger the onAfterRoute event.
-		JPluginHelper::importPlugin('system');
+		\JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
 	}
 }
