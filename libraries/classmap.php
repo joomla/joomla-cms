@@ -19,6 +19,17 @@ JLoader::registerAlias('JData',                             '\\Joomla\\Data\\Dat
 JLoader::registerAlias('JDataSet',                          '\\Joomla\\Data\\DataSet', '4.0');
 JLoader::registerAlias('JDataDumpable',                     '\\Joomla\\Data\\DumpableInterface', '4.0');
 
+JLoader::registerAlias('JApplicationAdministrator',         '\\Joomla\\CMS\\Application\\AdministratorApplication', '4.0');
+JLoader::registerAlias('JApplicationHelper',                '\\Joomla\\CMS\\Application\\ApplicationHelper', '4.0');
+JLoader::registerAlias('JApplicationBase',                  '\\Joomla\\CMS\\Application\\BaseApplication', '4.0');
+JLoader::registerAlias('JApplicationCli',                   '\\Joomla\\CMS\\Application\\CliApplication', '4.0');
+JLoader::registerAlias('JApplicationCms',                   '\\Joomla\\CMS\\Application\\CmsApplication', '4.0');
+JLoader::registerAlias('JApplicationDaemon',                '\\Joomla\\CMS\\Application\\DaemonApplication', '4.0');
+JLoader::registerAlias('JApplicationSite',                  '\\Joomla\\CMS\\Application\\SiteApplication', '4.0');
+JLoader::registerAlias('JApplicationWeb',                   '\\Joomla\\CMS\\Application\\WebApplication', '4.0');
+JLoader::registerAlias('JDaemon',                           '\\Joomla\\CMS\\Application\\DaemonApplication', '4.0');
+JLoader::registerAlias('JCli',                              '\\Joomla\\CMS\\Application\\CliApplication', '4.0');
+
 JLoader::registerAlias('JModelAdmin',                       '\\Joomla\\CMS\\Model\\Admin', '4.0');
 JLoader::registerAlias('JModelForm',                        '\\Joomla\\CMS\\Model\\Form', '4.0');
 JLoader::registerAlias('JModelItem',                        '\\Joomla\\CMS\\Model\\Item', '4.0');
@@ -49,17 +60,6 @@ JLoader::registerAlias('JTableUcm',                         '\\Joomla\\Cms\\Tabl
 JLoader::registerAlias('JTableObserver',                    '\\Joomla\\CMS\\Table\\Observer\\AbstractObserver', '4.0');
 JLoader::registerAlias('JTableObserverContenthistory',      '\\Joomla\\CMS\\Table\\Observer\\ContentHistory', '4.0');
 JLoader::registerAlias('JTableObserverTags',                '\\Joomla\\CMS\\Table\\Observer\\Tags', '4.0');
-
-JLoader::registerAlias('JApplicationAdministrator',         '\\Joomla\\CMS\\Application\\AdministratorApplication', '4.0');
-JLoader::registerAlias('JApplicationHelper',                '\\Joomla\\CMS\\Application\\ApplicationHelper', '4.0');
-JLoader::registerAlias('JApplicationBase',                  '\\Joomla\\CMS\\Application\\BaseApplication', '4.0');
-JLoader::registerAlias('JApplicationCli',                   '\\Joomla\\CMS\\Application\\CliApplication', '4.0');
-JLoader::registerAlias('JApplicationCms',                   '\\Joomla\\CMS\\Application\\CmsApplication', '4.0');
-JLoader::registerAlias('JApplicationDaemon',                '\\Joomla\\CMS\\Application\\DaemonApplication', '4.0');
-JLoader::registerAlias('JApplicationSite',                  '\\Joomla\\CMS\\Application\\SiteApplication', '4.0');
-JLoader::registerAlias('JApplicationWeb',                   '\\Joomla\\CMS\\Application\\WebApplication', '4.0');
-JLoader::registerAlias('JDaemon',                           '\\Joomla\\CMS\\Application\\DaemonApplication', '4.0');
-JLoader::registerAlias('JCli',                              '\\Joomla\\CMS\\Application\\CliApplication', '4.0');
 
 JLoader::registerAlias('JAccess',                           '\\Joomla\\CMS\\Access\\Access', '4.0');
 JLoader::registerAlias('JAccessRule',                       '\\Joomla\\CMS\\Access\\Rule', '4.0');
