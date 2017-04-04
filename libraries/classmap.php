@@ -27,6 +27,8 @@ JLoader::registerAlias('JApplicationCms',                   '\\Joomla\\CMS\\Appl
 JLoader::registerAlias('JApplicationDaemon',                '\\Joomla\\CMS\\Application\\DaemonApplication', '4.0');
 JLoader::registerAlias('JApplicationSite',                  '\\Joomla\\CMS\\Application\\SiteApplication', '4.0');
 JLoader::registerAlias('JApplicationWeb',                   '\\Joomla\\CMS\\Application\\WebApplication', '4.0');
+JLoader::registerAlias('JDaemon',                           '\\Joomla\\CMS\\Application\\DaemonApplication', '4.0');
+JLoader::registerAlias('JCli',                              '\\Joomla\\CMS\\Application\\CliApplication', '4.0');
 
 JLoader::registerAlias('JModelAdmin',                       '\\Joomla\\CMS\\Model\\Admin', '4.0');
 JLoader::registerAlias('JModelForm',                        '\\Joomla\\CMS\\Model\\Form', '4.0');
