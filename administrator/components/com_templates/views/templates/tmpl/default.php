@@ -47,7 +47,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="15%" class="hidden-phone">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th width="25%" class="hidden-phone" >
+					<th width="25%" class="hidden-phone">
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
 				</tr>
