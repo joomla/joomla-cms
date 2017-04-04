@@ -242,7 +242,7 @@ class JFormFieldList extends JFormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __get($name)
 	{
