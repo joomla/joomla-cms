@@ -47,7 +47,12 @@ class JFormRuleOptions extends JFormRule
 		$options = array();
 
 		// Create the field
-		$field = $form->getField((string) $element->attributes()->name, $group);
+		$field = null;
+
+		if ($form)
+		{
+			$field = $form->getField((string) $element->attributes()->name, $group);
+		}
 
 		// When the field exists, the real options are fetched.
 		// This is needed for fields which do have dynamic options like from a database.
