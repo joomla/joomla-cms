@@ -114,7 +114,7 @@ class CliApplication extends BaseApplication
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'CliApplication')))
+			if (class_exists($name) && (is_subclass_of($name, '\\Joomla\\CMS\\Application\\CliApplication')))
 			{
 				self::$instance = new $name;
 			}

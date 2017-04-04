@@ -204,7 +204,7 @@ class WebApplication extends BaseApplication
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'WebApplication')))
+			if (class_exists($name) && (is_subclass_of($name, '\\Joomla\\CMS\\Application\\WebApplication')))
 			{
 				self::$instance = new $name;
 			}
