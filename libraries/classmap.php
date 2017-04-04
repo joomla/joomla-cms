@@ -19,14 +19,14 @@ JLoader::registerAlias('JData',                             '\\Joomla\\Data\\Dat
 JLoader::registerAlias('JDataSet',                          '\\Joomla\\Data\\DataSet', '4.0');
 JLoader::registerAlias('JDataDumpable',                     '\\Joomla\\Data\\DumpableInterface', '4.0');
 
-JLoader::registerAlias('JApplicationAdministrator',         '\\Joomla\\Cms\\Application\\AdministratorApplication', '4.0');
-JLoader::registerAlias('JApplicationHelper',                '\\Joomla\\Cms\\Application\\ApplicationHelper', '4.0');
-JLoader::registerAlias('JApplicationBase',                  '\\Joomla\\Cms\\Application\\BaseApplication', '4.0');
-JLoader::registerAlias('JApplicationCli',                   '\\Joomla\\Cms\\Application\\CliApplication', '4.0');
-JLoader::registerAlias('JApplicationCms',                   '\\Joomla\\Cms\\Application\\CmsApplication', '4.0');
-JLoader::registerAlias('JApplicationDaemon',                '\\Joomla\\Cms\\Application\\DaemonApplication', '4.0');
-JLoader::registerAlias('JApplicationSite',                  '\\Joomla\\Cms\\Application\\SiteApplication', '4.0');
-JLoader::registerAlias('JApplicationWeb',                   '\\Joomla\\Cms\\Application\\WebApplication', '4.0');
+JLoader::registerAlias('JApplicationAdministrator',         '\\Joomla\\CMS\\Application\\AdministratorApplication', '4.0');
+JLoader::registerAlias('JApplicationHelper',                '\\Joomla\\CMS\\Application\\ApplicationHelper', '4.0');
+JLoader::registerAlias('JApplicationBase',                  '\\Joomla\\CMS\\Application\\BaseApplication', '4.0');
+JLoader::registerAlias('JApplicationCli',                   '\\Joomla\\CMS\\Application\\CliApplication', '4.0');
+JLoader::registerAlias('JApplicationCms',                   '\\Joomla\\CMS\\Application\\CmsApplication', '4.0');
+JLoader::registerAlias('JApplicationDaemon',                '\\Joomla\\CMS\\Application\\DaemonApplication', '4.0');
+JLoader::registerAlias('JApplicationSite',                  '\\Joomla\\CMS\\Application\\SiteApplication', '4.0');
+JLoader::registerAlias('JApplicationWeb',                   '\\Joomla\\CMS\\Application\\WebApplication', '4.0');
 
 JLoader::registerAlias('JModelAdmin',                       '\\Joomla\\CMS\\Model\\Admin', '4.0');
 JLoader::registerAlias('JModelForm',                        '\\Joomla\\CMS\\Model\\Form', '4.0');
