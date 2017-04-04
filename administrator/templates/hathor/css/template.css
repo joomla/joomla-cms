@@ -3261,6 +3261,9 @@ ul.helpmenu li {
 .menu-article {
 	background-image: url(../images/menu/icon-16-article.png);
 }
+.menu-associations {
+	background-image: url(../images/menu/icon-16-assoc.png);
+}
 .menu-banners {
 	background-image: url(../images/menu/icon-16-banner.png);
 }
