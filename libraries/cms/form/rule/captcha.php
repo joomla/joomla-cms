@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Captcha\Captcha;
+use Joomla\CMS\Captcha\Captcha;
 use Joomla\Registry\Registry;
 
 /**
