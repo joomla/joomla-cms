@@ -32,7 +32,7 @@ JHtml::_('bootstrap.tooltip');
 				</small>
 				<span class="badge badge-default badge-pill ml-auto">
 					<span class="small">
-						<span class="icon-calendar"></span>
+						<span class="icon-calendar" aria-hidden="true"></span>
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
 					</span>
 				</span>

@@ -1,20 +1,21 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Component
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Component\Router\Rules;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JComponentRouterRules interface for Joomla
+ * RouterRules interface for Joomla
  *
  * @since  3.4
  */
-interface JComponentRouterRulesInterface
+interface RulesInterface
 {
 	/**
 	 * Prepares a query set to be handed over to the build() method.

@@ -3,8 +3,8 @@
  * @package     Joomla.Cms
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Cms\Controller;
@@ -292,19 +292,18 @@ class Controller  implements ControllerInterface
 		// Include the class if not present.
 		if (!class_exists($class))
 		{
-			\JLoader::register($class, $path);
-
-			if (!class_exists($class))
+			// If the controller file path exists, include it.
+			if (file_exists($path))
 			{
-				if (isset($backuppath) && file_exists($backuppath))
-				{
-					\JLoader::register($class, $backuppath);
-				}
-
-				if (!class_exists($class))
-				{
-					throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
-				}
+				require_once $path;
+			}
+			elseif (isset($backuppath) && file_exists($backuppath))
+			{
+				require_once $backuppath;
+			}
+			else
+			{
+				throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
@@ -598,7 +597,7 @@ class Controller  implements ControllerInterface
 				return null;
 			}
 
-			\JLoader::register($viewClass, $path);
+			require_once $path;
 
 			if (!class_exists($viewClass))
 			{

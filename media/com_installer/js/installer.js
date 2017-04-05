@@ -94,4 +94,106 @@
 
 	});
 
-})();
+}());
+
+
+jQuery(document).ready(function($) {
+
+	if (typeof FormData === 'undefined') {
+		$('#legacy-uploader').show();
+		$('#uploader-wrapper').hide();
+		return;
+	}
+
+	var dragZone  = $('#dragarea'),
+		fileInput = $('#install_package'),
+		loading   = $('#loading'),
+		button    = $('#select-file-button'),
+		returnUrl = $('#installer-return').val(),
+		token     = $('#installer-token').val(),
+		url       = 'index.php?option=com_installer&task=install.ajax_upload';
+
+	if (returnUrl) {
+		url += '&return=' + returnUrl;
+	}
+
+	button.on('click', function(e) {
+		fileInput.click();
+	});
+
+	fileInput.on('change', function (e) {
+		Joomla.submitbuttonpackage();
+	});
+
+	dragZone.on('dragenter', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		dragZone.addClass('hover');
+
+		return false;
+	});
+
+	// Notify user when file is over the drop area
+	dragZone.on('dragover', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		dragZone.addClass('hover');
+
+		return false;
+	});
+
+	dragZone.on('dragleave', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		dragZone.removeClass('hover');
+
+		return false;
+	});
+
+	dragZone.on('drop', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		dragZone.removeClass('hover');
+
+		var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
+
+		if (!files.length) {
+			return;
+		}
+
+		var file = files[0],
+			data = new FormData;
+
+		data.append('install_package', file);
+		data.append('installtype', 'upload');
+		data.append(token, 1);
+
+		loading.css('display', 'block');
+
+		$.ajax({
+			url: url,
+			data: data,
+			type: 'post',
+			processData: false,
+			cache: false,
+			contentType: false
+		}).done(function(res) {
+			if (res.success) {
+				if (res.data.redirect) {
+					location.href = res.data.redirect;
+				} else {
+					location.href = 'index.php?option=com_installer&view=install';
+				}
+			} else {
+				loading.css('display', 'none');
+				alert(res.message);
+			}
+		}).fail(function(error) {
+			loading.css('display', 'none');
+			alert(error.statusText);
+		});
+	});
+});

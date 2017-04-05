@@ -10253,6 +10253,9 @@ iframe {
   border-radius: 0.25rem;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
 
+.row-selected {
+  background-color: #d9edf7; }
+
 .chzn-container-single {
   width: auto !important; }
 

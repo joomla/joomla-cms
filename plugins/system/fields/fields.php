@@ -42,7 +42,8 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		if (!is_array($data) || empty($data['com_fields']))
+		// Check if data is an array and the item has an id
+		if (!is_array($data) || empty($item->id))
 		{
 			return true;
 		}
@@ -51,51 +52,44 @@ class PlgSystemFields extends JPlugin
 		if ($context == 'com_categories.category')
 		{
 			$context = $item->extension . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			$item->catid = $item->id;
 		}
 
-		$fieldsData = $data['com_fields'];
-		$parts      = FieldsHelper::extract($context, $item);
+		// Check the context
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
 			return true;
 		}
 
+		// Compile the right context for the fields
 		$context = $parts[0] . '.' . $parts[1];
 
 		// Loading the fields
-		$fieldsObjects = FieldsHelper::getFields($context, $item);
+		$fields = FieldsHelper::getFields($context, $item);
 
-		if (!$fieldsObjects)
+		if (!$fields)
 		{
 			return true;
 		}
 
+		// Get the fields data
+		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
+
 		// Loading the model
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
-		foreach ($fieldsObjects as $field)
+		// Loop over the fields
+		foreach ($fields as $field)
 		{
-			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $fieldsData))
-			{
-				continue;
-			}
-
-			$id = null;
-
-			if (isset($item->id))
-			{
-				$id = $item->id;
-			}
-
-			if (!$id)
-			{
-				continue;
-			}
+			// Determine the value if it is available from the data
+			$value = key_exists($field->alias, $fieldsData) ? $fieldsData[$field->alias] : null;
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fieldsData[$field->alias]);
+			$model->setFieldValue($field->id, $item->id, $value);
 		}
 
 		return true;
@@ -144,7 +138,7 @@ class PlgSystemFields extends JPlugin
 	{
 		$parts = FieldsHelper::extract($context, $item);
 
-		if (!$parts)
+		if (!$parts || empty($item->id))
 		{
 			return true;
 		}
@@ -197,6 +191,16 @@ class PlgSystemFields extends JPlugin
 		if (strpos($context, 'com_categories.category') === 0)
 		{
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			if (is_array($data) && key_exists('id', $data))
+			{
+				$data['catid'] = $data['id'];
+			}
+			if (is_object($data) && isset($data->id))
+			{
+				$data->catid = $data->id;
+			}
 		}
 
 		$parts = FieldsHelper::extract($context, $form);
@@ -298,6 +302,12 @@ class PlgSystemFields extends JPlugin
 			return '';
 		}
 
+		// If we have a category, set the catid field to fetch only the fields which belong to it
+		if ($parts[1] == 'categories' && !isset($item->catid))
+		{
+			$item->catid = $item->id;
+		}
+
 		$context = $parts[0] . '.' . $parts[1];
 
 		if (is_string($params) || !$params)
@@ -360,14 +370,12 @@ class PlgSystemFields extends JPlugin
 		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
 
 		// Adding the fields to the object
-		$item->fields = array();
+		$item->jcfields = array();
 
 		foreach ($fields as $key => $field)
 		{
-			$item->fields[$field->id] = $field;
+			$item->jcfields[$field->id] = $field;
 		}
-
-		return;
 	}
 
 	/**
