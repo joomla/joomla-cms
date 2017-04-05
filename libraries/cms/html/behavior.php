@@ -440,8 +440,11 @@ JS
 		static::core();
 
 		// Add keepalive script options.
-		JFactory::getDocument()->addScriptOptions('system.keepalive',
-			array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
+		$options = array(
+			'interval' => $refreshTime * 1000,
+			'uri'      => JRoute::_($uri),
+		);
+		JFactory::getDocument()->addScriptOptions('system.keepalive', $options);
 
 		// Add script.
 		JHtml::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
