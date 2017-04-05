@@ -1,13 +1,16 @@
 /* General layout */
 .media-container {
-  border-top: 1px solid #ccc;
-  margin: 0 -15px !important;
 }
 
 .media-main {
-  background: #f2f2f2;
+	position: relative;
+	height: calc(100vh - 260px);
+	min-height: 400px;
+	border: 1px solid rgba(0, 0, 0, 0.17);
+    border-radius: 0.25rem;
+    background-color: #fff;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.075);
 }
 
 .media-sidebar {
-  border-right: 1px solid #ccc;
 }

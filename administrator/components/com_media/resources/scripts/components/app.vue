@@ -1,12 +1,14 @@
 <template>
-    <div class="media-container row no-gutters" :style="{minHeight: fullHeight}">
+    <div class="media-container row" :style="{minHeight: fullHeight}">
         <div class="media-sidebar col-md-2 hidden-sm-down">
             <media-tree :root="'/'"></media-tree>
         </div>
-        <div class="media-main col-md-10">
-            <media-toolbar></media-toolbar>
-            <media-browser></media-browser>
-            <media-infobar></media-infobar>
+        <div class="col-md-10">
+            <div class="media-main">
+                <media-toolbar></media-toolbar>
+                <media-browser></media-browser>
+                <media-infobar></media-infobar>
+            </div>
         </div>
         <media-create-folder-modal></media-create-folder-modal>
     </div>

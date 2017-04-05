@@ -1,6 +1,6 @@
 <template>
     <div class="media-browser">
-        <div class="media-browser-items col-md-8" ref="browserItems">
+        <div class="media-browser-items" ref="browserItems">
             <media-browser-item v-for="item in items" :item="item"></media-browser-item>
         </div>
     </div>

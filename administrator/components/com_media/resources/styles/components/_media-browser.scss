@@ -1,6 +1,7 @@
 /* Media browser */
 .media-browser {
-  padding: 15px;
+  width: 75%;
+  padding: 15px 0 15px 15px;
 }
 
 .media-browser-items {
@@ -12,7 +13,7 @@
   position: relative;
   margin-bottom: 15px;
   margin-right: 15px;
-  width: calc(25% - 15px);
+  width: calc(16.66% - 15px);
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -20,20 +21,15 @@
 
 .media-browser-item-preview {
   position: relative;
-  border-radius: 1px;
-  width: 100%;
-  height: 100px;
-  background: #fff;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 60px;
   color: #007eb7;
 }
 
 .media-browser-item-info {
-  padding: 8px 5px;
+  padding: 0 5px;
+  font-size: .9rem;
+  font-weight: bold;
+  line-height: 34px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -48,8 +44,6 @@
 }
 
 .image-brackground {
-  width: 100%;
-  height: 100%;
   background-position: 0px 0px, 10px 10px;
   background-size: 20px 20px;
   background-color: white;
@@ -57,9 +51,54 @@
 }
 
 .image-cropped {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
+  padding-bottom: 100%;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.file-background, .folder-background {
+  padding-bottom: 100%;
+  background-color: #F5F5F5;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.file-icon, .folder-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: #BBB;
+}
+
+@media only screen and (max-width: 1140px) {
+  .media-browser-item {
+    width: calc(20% - 15px);
+  }
+  .media-browser-item-preview {
+    font-size: 50px;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .media-browser-item {
+    width: calc(25% - 15px);
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .media-browser-item {
+    width: calc(33.33% - 15px);
+  }
+  .media-browser-item-preview {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .media-browser-item {
+    width: calc(50% - 15px);
+  }
 }
