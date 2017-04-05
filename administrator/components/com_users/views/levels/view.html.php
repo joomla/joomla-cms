@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * The HTML Users access levels view.
+ * View class for a list of view levels.
  *
  * @since  1.6
  */

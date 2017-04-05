@@ -3,8 +3,8 @@
  * @package     Joomla.Cms
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Cms\Model;
@@ -191,7 +191,7 @@ abstract class Model extends \JObject
 				return false;
 			}
 
-			\JLoader::register($modelClass, $path);
+			require_once $path;
 
 			if (!class_exists($modelClass))
 			{

@@ -69,7 +69,7 @@ class TagsViewTags extends JViewLegacy
 			}
 			elseif ($feedEmail === 'author')
 			{
-				$item->authorEmail = $row->author_email;
+				$item->authorEmail = $item->author_email;
 			}
 
 			// Loads item info into RSS array

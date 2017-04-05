@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Editor
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Editor;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,11 +18,11 @@ use Joomla\Event\AbstractEvent;
 use Joomla\Registry\Registry;
 
 /**
- * JEditor class to handle WYSIWYG editors
+ * Editor class to handle WYSIWYG editors
  *
  * @since  1.5
  */
-class JEditor implements DispatcherAwareInterface
+class Editor implements DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
@@ -58,9 +59,9 @@ class JEditor implements DispatcherAwareInterface
 	protected $author = null;
 
 	/**
-	 * JEditor instances container.
+	 * Editor instances container.
 	 *
-	 * @var    JEditor[]
+	 * @var    Editor[]
 	 * @since  2.5
 	 */
 	protected static $instances = array();
@@ -78,7 +79,7 @@ class JEditor implements DispatcherAwareInterface
 		// Set the dispatcher
 		if (!is_object($dispatcher))
 		{
-			$dispatcher = JFactory::getContainer()->get('dispatcher');
+			$dispatcher = \JFactory::getContainer()->get('dispatcher');
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -103,7 +104,7 @@ class JEditor implements DispatcherAwareInterface
 	 *
 	 * @param   string  $editor  The editor to use.
 	 *
-	 * @return  JEditor The Editor object.
+	 * @return  Editor The Editor object.
 	 *
 	 * @since   1.5
 	 */
@@ -147,7 +148,7 @@ class JEditor implements DispatcherAwareInterface
 			}
 		}
 
-		$document = JFactory::getDocument();
+		$document = \JFactory::getDocument();
 
 		if (method_exists($document, 'addCustomTag') && !empty($return))
 		{
@@ -183,7 +184,7 @@ class JEditor implements DispatcherAwareInterface
 		// Check whether editor is already loaded
 		if (is_null(($this->_editor)))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
 			return;
 		}
@@ -377,7 +378,7 @@ class JEditor implements DispatcherAwareInterface
 		}
 
 		// Get plugins
-		$plugins = JPluginHelper::getPlugin('editors-xtd');
+		$plugins = \JPluginHelper::getPlugin('editors-xtd');
 
 		foreach ($plugins as $plugin)
 		{
@@ -386,7 +387,7 @@ class JEditor implements DispatcherAwareInterface
 				continue;
 			}
 
-			JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
+			\JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
 			$className = 'PlgEditorsXtd' . $plugin->name;
 
 			if (!class_exists($className))
@@ -443,12 +444,12 @@ class JEditor implements DispatcherAwareInterface
 		}
 
 		// Build the path to the needed editor plugin
-		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -457,7 +458,7 @@ class JEditor implements DispatcherAwareInterface
 		require_once $path;
 
 		// Get the plugin
-		$plugin = JPluginHelper::getPlugin('editors', $this->_name);
+		$plugin = \JPluginHelper::getPlugin('editors', $this->_name);
 
 		// If no plugin is published we get an empty array and there not so much to do with it
 		if (empty($plugin))
@@ -478,7 +479,7 @@ class JEditor implements DispatcherAwareInterface
 		{
 			// Load plugin parameters
 			$this->initialise();
-			JPluginHelper::importPlugin('editors-xtd');
+			\JPluginHelper::importPlugin('editors-xtd');
 		}
 	}
 }

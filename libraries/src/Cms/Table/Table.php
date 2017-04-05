@@ -3,7 +3,7 @@
  * Joomla! Content Management System
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Cms\Table;
@@ -279,7 +279,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 				if ($tryThis = \JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
 					// Import the class file.
-					\JLoader::register($tableClass, $tryThis);
+					include_once $tryThis;
 				}
 			}
 

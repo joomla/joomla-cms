@@ -39,6 +39,9 @@ foreach ($tmp as $customField)
 			<?php if (isset($fieldset->label) && strlen($legend = trim(JText::_($fieldset->label)))) : ?>
 				<legend><?php echo $legend; ?></legend>
 			<?php endif; ?>
+			<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
+				<p><?php echo $this->escape(JText::_($fieldset->description)); ?></p>
+			<?php endif; ?>
 			<dl class="dl-horizontal">
 				<?php foreach ($fields as $field) : ?>
 					<?php if (!$field->hidden && $field->type !== 'Spacer') : ?>

@@ -100,6 +100,9 @@
   box-shadow: 0 0 3px rgba(0,0,0,.075);
 }
 
+.row-selected {
+  background-color: $table-row-selected;
+}
 
 // Chosen (TEMPORARY)
 .chzn-container-single {

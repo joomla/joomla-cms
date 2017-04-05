@@ -1,14 +1,17 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Component
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Cms\Component;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Access\Access;
+use Joomla\Cms\Component\Exception\MissingException;
 use Joomla\Registry\Registry;
 use Joomla\Cms\Dispatcher\DispatcherInterface;
 
@@ -17,12 +20,12 @@ use Joomla\Cms\Dispatcher\DispatcherInterface;
  *
  * @since  1.5
  */
-class JComponentHelper
+class ComponentHelper
 {
 	/**
 	 * The component list cache
 	 *
-	 * @var    JComponentRecord[]
+	 * @var    ComponentRecord[]
 	 * @since  1.6
 	 */
 	protected static $components = array();
@@ -33,7 +36,7 @@ class JComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  JComponentRecord  An object with the information for the component.
+	 * @return  ComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -47,7 +50,7 @@ class JComponentHelper
 			}
 			else
 			{
-				$result = new JComponentRecord;
+				$result = new ComponentRecord;
 				$result->enabled = $strict ? false : true;
 				$result->setParams(new Registry);
 			}
@@ -85,7 +88,7 @@ class JComponentHelper
 	 */
 	public static function isInstalled($option)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		return (int) $db->setQuery(
 			$db->getQuery(true)
@@ -124,12 +127,12 @@ class JComponentHelper
 	public static function filterText($text)
 	{
 		// Punyencoding utf8 email addresses
-		$text = JFilterInput::getInstance()->emailToPunycode($text);
+		$text = \JFilterInput::getInstance()->emailToPunycode($text);
 
 		// Filter settings
 		$config     = static::getParams('com_config');
-		$user       = JFactory::getUser();
-		$userGroups = JAccess::getGroupsByUser($user->get('id'));
+		$user       = \JFactory::getUser();
+		$userGroups = Access::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');
 
@@ -244,7 +247,7 @@ class JComponentHelper
 			// Custom blacklist precedes Default blacklist
 			if ($customList)
 			{
-				$filter = JFilterInput::getInstance(array(), array(), 1, 1);
+				$filter = \JFilterInput::getInstance(array(), array(), 1, 1);
 
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags)
@@ -264,7 +267,7 @@ class JComponentHelper
 				$blackListTags       = array_diff($blackListTags, $whiteListTags);
 				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
-				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = \JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
 				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
@@ -281,12 +284,12 @@ class JComponentHelper
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean
-				$filter = JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = \JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
 			{
-				$filter = JFilterInput::getInstance();
+				$filter = \JFilterInput::getInstance();
 			}
 
 			$text = $filter->clean($text, 'html');
@@ -304,26 +307,26 @@ class JComponentHelper
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @throws  JComponentExceptionMissing
+	 * @throws  MissingException
 	 */
 	public static function renderComponent($option, $params = array())
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Load template language files.
 		$template = $app->getTemplate(true)->template;
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
 
 		if (empty($option))
 		{
-			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		if (JDEBUG)
 		{
-			JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
+			\JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
 		}
 
 		// Record the scope
@@ -355,7 +358,7 @@ class JComponentHelper
 		// If component is disabled throw error
 		if (!static::isEnabled($option))
 		{
-			throw new JComponentExceptionMissing(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			throw new MissingException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		// Handle template preview outlining.
@@ -400,7 +403,7 @@ class JComponentHelper
 
 		if (JDEBUG)
 		{
-			JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
+			\JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
 		}
 
 		return $contents;
@@ -455,41 +458,41 @@ class JComponentHelper
 	{
 		try
 		{
-			JLog::add(
+			\JLog::add(
 				sprintf(
 					'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
 					__METHOD__,
 					__CLASS__
 				),
-				JLog::WARNING,
+				\JLog::WARNING,
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Informational log only
 		}
 
 		$loader = function ()
 		{
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'namespace', 'enabled'), array('id', 'option', null, null, null)))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', 'JComponentRecord');
+			return $db->loadObjectList('option', '\JComponentRecord');
 		};
 
-		/** @var JCacheControllerCallback $cache */
-		$cache = JFactory::getCache('_system', 'callback');
+		/** @var \JCacheControllerCallback $cache */
+		$cache = \JFactory::getCache('_system', 'callback');
 
 		try
 		{
 			static::$components = $cache->get($loader, array(), __METHOD__);
 		}
-		catch (JCacheException $e)
+		catch (\JCacheException $e)
 		{
 			static::$components = $loader();
 		}
@@ -499,20 +502,20 @@ class JComponentHelper
 			/*
 			 * Fatal error
 			 *
-			 * It is possible for this error to be reached before the global JLanguage instance has been loaded so we check for its presence
+			 * It is possible for this error to be reached before the global \JLanguage instance has been loaded so we check for its presence
 			 * before logging the error to ensure a human friendly message is always given
 			 */
 
-			if (JFactory::$language)
+			if (\JFactory::$language)
 			{
-				$msg = JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+				$msg = \JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, \JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
 			}
 			else
 			{
 				$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
 			}
 
-			JLog::add($msg, JLog::WARNING, 'jerror');
+			\JLog::add($msg, \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -523,7 +526,7 @@ class JComponentHelper
 	/**
 	 * Get installed components
 	 *
-	 * @return  JComponentRecord[]  The components property
+	 * @return  ComponentRecord[]  The components property
 	 *
 	 * @since   3.6.3
 	 */
