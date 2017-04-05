@@ -52,7 +52,7 @@ $options = array(
 				</div>
 				<iframe id="target-association" name="target-association"
 					src="<?php echo $this->defaultTargetSrc; ?>"
-					style="width:400px; height:400px"
+					width="400" height="400"
 					data-action="<?php echo $this->targetAction; ?>"
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->targetId; ?>"
