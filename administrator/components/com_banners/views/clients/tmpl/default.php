@@ -48,42 +48,42 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th width="1%" class="text-center">
+								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="15%" class="hidden-sm-down text-center">
+								<th style="width:15%" class="hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 								</th>
-								<th width="3%" class="nowrap text-center hidden-sm-down">
+								<th style="width:3%" class="nowrap text-center hidden-sm-down">
                                     <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>">
                                         <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
                                     </span>
 								</th>
-								<th width="3%" class="nowrap text-center hidden-sm-down">
+								<th style="width:3%" class="nowrap text-center hidden-sm-down">
                                     <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>">
                                         <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
                                     </span>
 								</th>
-								<th width="3%" class="nowrap text-center hidden-sm-down">
+								<th style="width:3%" class="nowrap text-center hidden-sm-down">
                                     <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>">
                                         <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
                                     </span>
 								</th>
-								<th width="3%" class="nowrap text-center hidden-sm-down">
+								<th style="width:3%" class="nowrap text-center hidden-sm-down">
                                     <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>">
                                         <span class="sr-only"><?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
                                     </span>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
 								</th>
-								<th width="3%" class="nowrap hidden-sm-down text-center">
+								<th style="width:3%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

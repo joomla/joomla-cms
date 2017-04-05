@@ -43,8 +43,7 @@ $baseurl = JUri::base();
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
 								alt="<?php echo $alt; ?>"
-								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
-								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+								style="<?php if (!empty($width)) echo 'width:' . $width . 'px;'; ?><?php if (!empty($height)) echo 'height:' . $height . 'px'; ?>"
 							>
 						</a>
 					<?php elseif ($target == 2) : ?>
@@ -57,8 +56,7 @@ $baseurl = JUri::base();
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
 								alt="<?php echo $alt; ?>"
-								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
-								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+								style="<?php if (!empty($width)) echo 'width:' . $width . 'px;'; ?><?php if (!empty($height)) echo 'height:' . $height . 'px'; ?>"
 							>
 						</a>
 					<?php else : ?>
@@ -69,8 +67,7 @@ $baseurl = JUri::base();
 							<img
 								src="<?php echo $baseurl . $imageurl; ?>"
 								alt="<?php echo $alt; ?>"
-								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
-								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+								style="<?php if (!empty($width)) echo 'width:' . $width . 'px;'; ?><?php if (!empty($height)) echo 'height:' . $height . 'px'; ?>"
 							>
 						</a>
 					<?php endif; ?>
@@ -79,8 +76,7 @@ $baseurl = JUri::base();
 					<img
 						src="<?php echo $baseurl . $imageurl; ?>"
 						alt="<?php echo $alt; ?>"
-						<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
-						<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+						style="<?php if (!empty($width)) echo 'width:' . $width . 'px;'; ?><?php if (!empty($height)) echo 'height:' . $height . 'px'; ?>"
 					>
 				<?php endif; ?>
 			<?php elseif (BannerHelper::isFlash($imageurl)) : ?>

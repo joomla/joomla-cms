@@ -66,22 +66,22 @@ JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('versi
 		<table class="table table-striped table-sm">
 			<thead>
 				<tr>
-					<th width="1%" class="text-center">
+					<th style="width:1%" class="text-center">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
 					</th>
-					<th width="15%">
+					<th style="width:15%">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th width="15%" class="nowrap hidden-sm-down">
+					<th style="width:15%" class="nowrap hidden-sm-down">
 						<?php echo JText::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
-					<th width="10%" class="nowrap">
+					<th style="width:10%" class="nowrap">
 						<?php echo JText::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
-					<th width="15%" class="nowrap hidden-sm-down">
+					<th style="width:15%" class="nowrap hidden-sm-down">
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
-					<th width="10%" class="nowrap text-center">
+					<th style="width:10%" class="nowrap text-center">
 						<?php echo JText::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>

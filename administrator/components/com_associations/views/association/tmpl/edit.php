@@ -34,7 +34,7 @@ $options = array(
 				<h3><?php echo JText::_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
 				<iframe id="reference-association" name="reference-association"
 					src="<?php echo JRoute::_($this->editUri . '&task=' . $this->typeName . '.edit&id=' . (int) $this->referenceId); ?>"
-					height="400" width="400"
+					style="width:400px; height:400px"
 					data-action="edit"
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->referenceId; ?>"
@@ -52,7 +52,7 @@ $options = array(
 				</div>
 				<iframe id="target-association" name="target-association"
 					src="<?php echo $this->defaultTargetSrc; ?>"
-					height="400" width="400"
+					style="width:400px; height:400px"
 					data-action="<?php echo $this->targetAction; ?>"
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->targetId; ?>"

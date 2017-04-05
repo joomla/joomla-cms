@@ -57,7 +57,7 @@ $type      = $this->state->get('filter.type');
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th class="title" width="20%">
+				<th class="title" style="width:20%">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'value', $direction, $ordering); ?>
 				</th>
 				<th>

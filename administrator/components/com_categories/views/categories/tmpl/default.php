@@ -67,13 +67,13 @@ if ($saveOrder)
 					<table class="table table-striped" id="categoryList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th width="1%" class="text-center">
+								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
@@ -81,7 +81,7 @@ if ($saveOrder)
 								</th>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :
 									$columns++; ?>
-									<th width="3%" class="nowrap text-center hidden-sm-down">
+									<th style="width:3%" class="nowrap text-center hidden-sm-down">
                                         <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>">
                                             <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
                                         </span>
@@ -89,7 +89,7 @@ if ($saveOrder)
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :
 									$columns++; ?>
-									<th width="3%" class="nowrap text-center hidden-sm-down">
+									<th style="width:3%" class="nowrap text-center hidden-sm-down">
                                         <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>">
                                             <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
                                         </span>
@@ -97,7 +97,7 @@ if ($saveOrder)
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :
 									$columns++; ?>
-									<th width="3%" class="nowrap text-center hidden-sm-down">
+									<th style="width:3%" class="nowrap text-center hidden-sm-down">
                                         <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>">
                                             <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
                                         </span>
@@ -105,25 +105,25 @@ if ($saveOrder)
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :
 									$columns++; ?>
-									<th width="3%" class="nowrap text-center hidden-sm-down">
+									<th style="width:3%" class="nowrap text-center hidden-sm-down">
                                         <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>">
                                             <span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
                                         </span>
 									</th>
 								<?php endif; ?>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->assoc) :
 									$columns++; ?>
-									<th width="10%" class="nowrap hidden-sm-down text-center">
+									<th style="width:10%" class="nowrap hidden-sm-down text-center">
 										<?php echo JHtml::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 								</th>
-								<th width="5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
