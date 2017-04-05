@@ -209,7 +209,7 @@ class JFormFieldList extends JFormField
 
 		return $options;
 	}
-
+	
 	/**
 	 * Method to add an option to the list field.
 	 *
@@ -225,13 +225,13 @@ class JFormFieldList extends JFormField
 		if ($text && $this->element instanceof SimpleXMLElement)
 		{
 			$child = $this->element->addChild('option', $text);
-
+	
 			foreach ($attributes as $name => $value)
 			{
 				$child->addAttribute($name, $value);
 			}
 		}
-
+	
 		return $this;
 	}
 }
