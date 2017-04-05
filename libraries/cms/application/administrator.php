@@ -215,30 +215,30 @@ class JApplicationAdministrator extends JApplicationCms
 		$db->setQuery($query);
 		$template = $db->loadObject();
 
-		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
-		$template->params = new Registry($template->params);
-
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		// Found a default template and it exists, use it.
+		if (is_object($template) && file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		{
+			$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
+			$template->params   = new Registry($template->params);
+		}
+		// Fallback to ISIS template with warning if it exists.
+		elseif (file_exists(JPATH_THEMES . '/isis/index.php'))
 		{
 			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
-			$template->params = new Registry;
+			$template = new stdClass;
+			$template->params   = new Registry;
 			$template->template = 'isis';
+		}
+		// We don't have a fallback either, give up!
+		else
+		{
+			throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
 		}
 
 		// Cache the result
 		$this->template = $template;
 
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
-		{
-			throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
-		}
-
-		if ($params)
-		{
-			return $template;
-		}
-
-		return $template->template;
+		return $params ? $template : $template->template;
 	}
 
 	/**
