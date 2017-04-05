@@ -106,7 +106,7 @@ class MediaControllerApi extends Controller
 				case 'post':
 					$content      = $this->input->json;
 					$name         = $content->getString('name');
-					$mediaContent = base64_decode($content->get('content'));
+					$mediaContent = base64_decode($content->get('content', '', 'raw'));
 
 					if ($mediaContent)
 					{
@@ -126,13 +126,13 @@ class MediaControllerApi extends Controller
 				case 'put':
 					$content      = $this->input->json;
 					$name         = basename($path);
-					$mediaContent = base64_decode($content->get('content'));
+					$mediaContent = base64_decode($content->get('content', '', 'raw'));
 
 					$this->checkContent($name, $mediaContent);
 
 					$this->getModel()->updateFile($name, str_replace($name, '', $path), $mediaContent);
 
-					$data = $this->getModel()->getFile($path . '/' . $name);
+					$data = $this->getModel()->getFile($path);
 					break;
 				default:
 					throw new BadMethodCallException('Method not supported yet!');

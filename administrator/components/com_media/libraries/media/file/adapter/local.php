@@ -265,23 +265,21 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 		$modifiedDate = $this->getDate(filemtime($path));
 
 		// Set the values
-		$obj                          = new stdClass;
-		$obj->type                    = $isDir ? 'dir' : 'file';
-		$obj->name                    = basename($path);
-		$obj->path                    = str_replace($this->rootPath, '/', $path);
-		$obj->extension               = !$isDir ? JFile::getExt($obj->name) : '';
-		$obj->size                    = !$isDir ? filesize($path) : 0;
+		$obj            = new stdClass;
+		$obj->type      = $isDir ? 'dir' : 'file';
+		$obj->name      = basename($path);
+		$obj->path      = str_replace($this->rootPath, '/', $path);
+		$obj->extension = !$isDir ? JFile::getExt($obj->name) : '';
+		$obj->size      = !$isDir ? filesize($path) : 0;
+		$obj->mime_type = mime_content_type($path);
+		$obj->width     = 0;
+		$obj->height    = 0;
+
+		// Dates
 		$obj->create_date             = $createDate->format('c', true);
-
-		// TODO use format from config
-		$obj->create_date_formatted   = (string) $createDate;
+		$obj->create_date_formatted   = $createDate->format(JText::_('DATE_FORMAT_LC5'), true);
 		$obj->modified_date           = $modifiedDate->format('c', true);
-
-		// TODO use format from config
-		$obj->modified_date_formatted = (string) $modifiedDate;
-		$obj->mime_type               = mime_content_type($path);
-		$obj->width                   = 0;
-		$obj->height                  = 0;
+		$obj->modified_date_formatted = $modifiedDate->format(JText::_('DATE_FORMAT_LC5'), true);
 
 		if (strpos($obj->mime_type, 'image/') === 0 && JHelperMedia::isImage($obj->name))
 		{
