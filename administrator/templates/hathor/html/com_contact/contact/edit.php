@@ -181,7 +181,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</fieldset>
 
 			<?php if ($assoc) : ?>
-				<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+				<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php endif; ?>
 
