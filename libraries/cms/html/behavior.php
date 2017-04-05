@@ -416,7 +416,6 @@ JS
 		}
 
 		$app            = JFactory::getApplication();
-		$session        = $app->getSession();
 		$sessionHandler = $app->get('session_handler', 'database');
 
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
@@ -424,7 +423,7 @@ JS
 
 		if ($sessionHandler === 'database')
 		{
-			$lifeTime    = $session->getExpire();
+			$lifeTime    = $app->getSession()->getExpire();
 			$refreshTime = $lifeTime <= 60 ? 45 : $lifeTime - 60;
 
 			// The longest refresh period is one hour to prevent integer overflow.
