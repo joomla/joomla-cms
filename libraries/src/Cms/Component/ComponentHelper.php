@@ -373,7 +373,7 @@ class ComponentHelper
 			// Check the class exists and implements the dispatcher interface
 			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
 			{
-				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
+				throw new \LogicException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
 			}
 
 			$namespace = self::getComponent($option)->namespace;
@@ -388,7 +388,7 @@ class ComponentHelper
 			// If component file doesn't exist throw error
 			if (!file_exists($path))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 			}
 
 			// Load common and local language files.
