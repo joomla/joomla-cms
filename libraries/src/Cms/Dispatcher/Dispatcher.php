@@ -95,8 +95,8 @@ abstract class Dispatcher implements DispatcherInterface
 		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
 
 		// Autoload the component
-		$autoLoader->addPsr4($this->namespace . 'Administrator\\', JPATH_ADMINISTRATOR . '/components/' . $this->app->scope);
-		$autoLoader->setPsr4($this->namespace . 'Site\\', JPATH_BASE . '/components/' . $this->app->scope);
+		$autoLoader->addPsr4($this->namespace . '\\Administrator\\', JPATH_ADMINISTRATOR . '/components/' . $this->app->scope);
+		$autoLoader->setPsr4($this->namespace . '\\Site\\', JPATH_BASE . '/components/' . $this->app->scope);
 	}
 
 	/**
@@ -165,7 +165,7 @@ abstract class Dispatcher implements DispatcherInterface
 	{
 		$client = $client ? $client : ucfirst($this->app->getName());
 
-		$controllerClass = $this->namespace . $client . '\\Controller\\' . ucfirst($name);
+		$controllerClass = $this->namespace . '\\' . $client . '\\Controller\\' . ucfirst($name);
 
 		if (!class_exists($controllerClass))
 		{
