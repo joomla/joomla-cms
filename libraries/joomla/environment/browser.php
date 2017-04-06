@@ -307,9 +307,9 @@ class JBrowser
 				$this->setBrowser('msie');
 
 				// Special case for IE 11+
-				if (strpos($version[0], 'Trident') !== false && (preg_match('|rv:([0-9.]+)|', $this->agent, $version)))
+				if (strpos($version[0], 'Trident') !== false && strpos($version[0], 'rv:') !== false)
 				{
-					list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+					preg_match('|rv:([0-9.]+)|', $this->agent, $version);
 				}
 
 				if (strpos($version[1], '.') !== false)
