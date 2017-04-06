@@ -248,12 +248,7 @@ class JFormFieldRules extends JFormField
 		foreach ($groups as $group)
 		{
 			// Initial Active Tab
-			$active = '';
-
-			if ((int) $group->value === 1)
-			{
-				$active = ' class="active"';
-			}
+			$active = (int) $group->value === 1 ? ' class="active"' : '';
 
 			$html[] = '<li' . $active . '>';
 			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
@@ -270,12 +265,7 @@ class JFormFieldRules extends JFormField
 		foreach ($groups as $group)
 		{
 			// Initial Active Pane
-			$active = '';
-
-			if ((int) $group->value === 1)
-			{
-				$active = ' active';
-			}
+			$active = (int) $group->value === 1 ? ' active' : '';
 
 			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
 			$html[] = '<table class="table table-striped">';
