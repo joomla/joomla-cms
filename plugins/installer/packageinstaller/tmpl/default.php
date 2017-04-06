@@ -126,10 +126,10 @@ JFactory::getDocument()->addScriptDeclaration(
 
 				// Always redirect that can show message queue from session 
 				if (res.data.redirect) {
-                    location.href = res.data.redirect;
-                } else {
-                    location.href = 'index.php?option=com_installer&view=install';
-                }
+					location.href = res.data.redirect;
+				} else {
+					location.href = 'index.php?option=com_installer&view=install';
+				}
 			}).error (function (error) {
 				JoomlaInstaller.hideLoading();
 				alert(error.statusText);
