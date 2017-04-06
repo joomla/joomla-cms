@@ -976,6 +976,7 @@ abstract class Admin extends Form
 		$user = \JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
+		$checkedOutField = $table->getColumnAlias('checked_out');
 
 		// Include the plugins for the change of state event.
 		\JPluginHelper::importPlugin($this->events_map['change_state']);
@@ -998,7 +999,7 @@ abstract class Admin extends Form
 				}
 
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
-				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				if (property_exists($table, $checkedOutField) && $table->{$checkedOutField} && ($table->{$checkedOutField} != $user->id))
 				{
 					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), \JLog::WARNING, 'jerror');
 
