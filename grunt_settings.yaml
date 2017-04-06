@@ -3,10 +3,6 @@ vendors:
     'jquery':
                  'version': '3.1.1'
                  'dependencies': ''
-
-    'jquery-migrate':
-                  'version': '1.4.1'
-                  'dependencies': 'jquery'
     'bootstrap':
                   'version': '~4.0.0-alpha.6'
                   'dependencies': 'jquery, tether'

@@ -31,13 +31,12 @@ abstract class JHtmlJquery
 	 *
 	 * @param   boolean  $noConflict  True to load jQuery in noConflict mode [optional]
 	 * @param   mixed    $debug       Is debugging mode on? [optional]
-	 * @param   boolean  $migrate     True to enable the jQuery Migrate plugin
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function framework($noConflict = true, $debug = null, $migrate = false)
+	public static function framework($noConflict = true, $debug = null)
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))
@@ -57,12 +56,6 @@ abstract class JHtmlJquery
 		if ($noConflict)
 		{
 			JHtml::_('script', 'system/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true));
-		}
-
-		// Check if we are loading Migrate
-		if ($migrate)
-		{
-			JHtml::_('script', 'vendor/jquery/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
 
 		static::$loaded[__METHOD__] = true;
