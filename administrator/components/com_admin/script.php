@@ -112,7 +112,7 @@ class JoomlaInstallerScript
 			if (!empty($this->fromVersion) && version_compare($this->fromVersion, '3.7.0', 'lt'))
 			{
 				/*
-				 * Do a check if this site is using the harthor template, if yes switch to isis and notify the user
+				 * Do a check if this site is using the hathor template, if yes switch to isis and notify the user
 				 */
 				$db = JFactory::getDbo();
 
@@ -129,13 +129,13 @@ class JoomlaInstallerScript
 					$query = $db->getQuery(true)
 						->update($db->quoteName('#__template_styles'))
 						->set($db->quoteName('home') . ' = 0')
-						->where($db->quoteName('template') . ' = "harthor"')
+						->where($db->quoteName('template') . ' = "hathor"')
 						->where($db->quoteName('client_id') . ' = 1');
 
 					if (!$db->setQuery($query)->execute())
 					{
 						// Install failed, roll back changes
-						$installer->abort(JText::_('JLIB_INSTALLER_ABORT_HARTHOR_DISABLE_ROLLBACK'));
+						$installer->abort(JText::_('JLIB_INSTALLER_ABORT_HATHOR_DISABLE_ROLLBACK'));
 
 						return false;
 					}
