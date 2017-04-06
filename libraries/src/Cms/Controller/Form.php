@@ -28,14 +28,6 @@ class Form extends Controller
 	protected $context;
 
 	/**
-	 * The URL option for the component.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $option;
-
-	/**
 	 * The URL view item variable.
 	 *
 	 * @var    string
@@ -74,29 +66,23 @@ class Form extends Controller
 	{
 		parent::__construct($config, $app, $input);
 
-		// Guess the option as com_NameOfController
-		if (empty($this->option))
-		{
-			$this->option = 'com_' . strtolower($this->getName());
-		}
-
 		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
-			$this->text_prefix = strtoupper($this->option);
+			if (empty($config['text_prefix']))
+			{
+				$this->text_prefix = strtoupper($this->option . '_' . $this->getControllerName());
+			}
+			else
+			{
+				$this->text_prefix = strtoupper($config['text_prefix']);
+			}
 		}
 
 		// Guess the context as the suffix, eg: OptionControllerContent.
 		if (empty($this->context))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->context = strtolower($r[2]);
+			$this->context = strtolower($this->getControllerName());
 		}
 
 		// Guess the item view as the context.
@@ -213,10 +199,8 @@ class Form extends Controller
 		{
 			return $this->allowEdit($data, $key);
 		}
-		else
-		{
-			return $this->allowAdd($data);
-		}
+
+		return $this->allowAdd($data);
 	}
 
 	/**
@@ -258,12 +242,10 @@ class Form extends Controller
 
 			return true;
 		}
-		else
-		{
-			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
 
-			return false;
-		}
+		$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
+
+		return false;
 	}
 
 	/**
@@ -293,7 +275,7 @@ class Form extends Controller
 		// Attempt to check-in the current record.
 		if ($recordId)
 		{
-			if (property_exists($table, 'checked_out'))
+			if (property_exists($table, $table->getColumnAlias('checked_out')))
 			{
 				if ($model->checkin($recordId) === false)
 				{
@@ -393,21 +375,19 @@ class Form extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Check-out succeeded, push the new record id into the session.
-			$this->holdEditId($context, $recordId);
-			\JFactory::getApplication()->setUserState($context . '.data', null);
 
-			$this->setRedirect(
-				\JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
-				)
-			);
+		// Check-out succeeded, push the new record id into the session.
+		$this->holdEditId($context, $recordId);
+		\JFactory::getApplication()->setUserState($context . '.data', null);
 
-			return true;
-		}
+		$this->setRedirect(
+			\JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_item
+				. $this->getRedirectToItemAppend($recordId, $urlVar), false
+			)
+		);
+
+		return true;
 	}
 
 	/**

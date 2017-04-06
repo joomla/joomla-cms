@@ -87,20 +87,20 @@ class Admin extends Controller
 		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
-			$this->text_prefix = strtoupper($this->option);
+			if (empty($config['text_prefix']))
+			{
+				$this->text_prefix = strtoupper($this->option . '_' . $this->getControllerName());
+			}
+			else
+			{
+				$this->text_prefix = strtoupper($config['text_prefix']);
+			}
 		}
 
 		// Guess the list view as the suffix, eg: OptionControllerSuffix.
 		if (empty($this->view_list))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->view_list = strtolower($r[2]);
+			$this->view_list = strtolower($this->getControllerName());
 		}
 	}
 
@@ -281,14 +281,12 @@ class Admin extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Reorder succeeded.
-			$message = \JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
-			return true;
-		}
+		// Reorder succeeded.
+		$message = \JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+		return true;
 	}
 
 	/**
@@ -325,14 +323,12 @@ class Admin extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Reorder succeeded.
-			$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
-			return true;
-		}
+		// Reorder succeeded.
+		$this->setMessage(\JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
+		return true;
 	}
 
 	/**
@@ -360,14 +356,12 @@ class Admin extends Controller
 
 			return false;
 		}
-		else
-		{
-			// Checkin succeeded.
-			$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
-			return true;
-		}
+		// Checkin succeeded.
+		$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
+		return true;
 	}
 
 	/**
@@ -400,5 +394,28 @@ class Admin extends Controller
 
 		// Close the application
 		$this->app->close();
+	}
+
+	/**
+	 * Method to get an admin model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  \Joomla\Cms\Model\Admin |boolean  Model object on success; otherwise false on failure.
+	 *
+	 * @since   3.0
+	 */
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	{
+		if (empty($name))
+		{
+			$name = $this->getControllerName();
+
+			$name = \Joomla\String\Inflector::getInstance()->toSingular($name);
+		}
+
+		return parent::getModel($name, $prefix, $config);
 	}
 }
