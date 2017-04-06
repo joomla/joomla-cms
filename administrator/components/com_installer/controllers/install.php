@@ -87,7 +87,8 @@ class InstallerControllerInstall extends JControllerLegacy
 		// Get redirect URL
 		$redirect = $this->redirect;
 
-		// Push message queue to session because will will redirect page by JS, not $app->redirect().
+		// Push message queue to session because we will redirect page by Javascript, not $app->redirect().
+		// The "application.queue" is only set in redirect() method, so we must manually store it.
 		$app->getSession()->set('application.queue', $app->getMessageQueue());
 
 		header('Content-Type: application/json');
