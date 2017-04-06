@@ -120,16 +120,16 @@ JFactory::getDocument()->addScriptDeclaration(
 				cache: false,
 				contentType: false
 			}).done(function (res) {
-				if (res.success) {
-					if (res.data.redirect) {
-						location.href = res.data.redirect;
-					} else {
-						location.href = 'index.php?option=com_installer&view=install';
-					}
-				} else {
-					JoomlaInstaller.hideLoading();
-					alert(res.message);
+				if (!res.success) {
+					console.log(res.message, res.messages);
 				}
+
+				// Always redirect that can show message queue from session 
+				if (res.data.redirect) {
+                    location.href = res.data.redirect;
+                } else {
+                    location.href = 'index.php?option=com_installer&view=install';
+                }
 			}).error (function (error) {
 				JoomlaInstaller.hideLoading();
 				alert(error.statusText);
