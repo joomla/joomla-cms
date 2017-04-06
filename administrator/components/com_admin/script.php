@@ -119,7 +119,8 @@ class JoomlaInstallerScript
 				$query = $db->getQuery(true)
 					->select('home')
 					->from($db->quoteName('#__template_styles'))
-					->where($db->quoteName('hathor') . ' = 1')
+                    ->where($db->quoteName('home') . ' = 1')
+                    ->where($db->quoteName('template') . ' = "hathor"')
 					->where($db->quoteName('client_id') . ' = 1');
 
 				$result = $db->setQuery($query)->loadResult();
@@ -129,7 +130,7 @@ class JoomlaInstallerScript
 					$query = $db->getQuery(true)
 						->update($db->quoteName('#__template_styles'))
 						->set($db->quoteName('home') . ' = 0')
-						->where($db->quoteName('template') . ' = "harthor"')
+						->where($db->quoteName('template') . ' = "hathor"')
 						->where($db->quoteName('client_id') . ' = 1');
 
 					if (!$db->setQuery($query)->execute())
