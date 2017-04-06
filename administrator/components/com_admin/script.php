@@ -119,7 +119,6 @@ class JoomlaInstallerScript
 				$query = $db->getQuery(true)
 					->select('home')
 					->from($db->quoteName('#__template_styles'))
-                    ->where($db->quoteName('home') . ' = 1')
                     ->where($db->quoteName('template') . ' = "hathor"')
 					->where($db->quoteName('client_id') . ' = 1');
 
