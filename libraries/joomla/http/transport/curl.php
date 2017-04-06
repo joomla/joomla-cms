@@ -222,7 +222,7 @@ class JHttpTransportCurl implements JHttpTransport
 		$response = $this->getResponse($content, $info);
 
 		// Manually follow redirects if server doesn't allow to follow location using curl
-		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']))
+		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']) && (bool) $this->options->get('follow_location', true))
 		{
 			$redirect_uri = new JUri($response->headers['Location']);
 			if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
