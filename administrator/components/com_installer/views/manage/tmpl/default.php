@@ -38,37 +38,37 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table table-striped" id="manageList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap">
+								<th style="width:1%" class="nowrap">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="text-center">
+								<th style="width:10%" class="text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="text-center">
+								<th style="width:10%" class="text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
-								<th width="5%" class="hidden-sm-down text-center">
+								<th style="width:5%" class="hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th class="hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
 								</th>
-								<th width="1%" class="nowrap hidden-sm-down text-center">
+								<th style="width:1%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

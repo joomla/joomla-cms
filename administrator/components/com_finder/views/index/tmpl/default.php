@@ -61,25 +61,25 @@ JFactory::getDocument()->addScriptDeclaration('
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th width="1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo JHtml::_('grid.checkall'); ?>
 							</th>
-							<th width="1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="nowrap hidden-sm-down text-center">
+							<th style="width:10%" class="nowrap hidden-sm-down text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="nowrap hidden-sm-down text-center">
+							<th style="width:10%" class="nowrap hidden-sm-down text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 							</th>
-							<th width="15%" class="nowrap text-center hidden-sm-down text-center">
+							<th style="width:15%" class="nowrap text-center hidden-sm-down text-center">
 								<?php echo JText::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 							</th>
-							<th width="30%" class="nowrap hidden-sm-down">
+							<th style="width:30%" class="nowrap hidden-sm-down">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 							</th>
 						</tr>

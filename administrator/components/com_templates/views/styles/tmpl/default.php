@@ -34,24 +34,24 @@ $colSpan = $clientId === 1 ? 5 : 6;
 					<table class="table table-striped" id="styleList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									&#160;
 								</th>
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th width="12%" class="nowrap text-center">
+								<th style="width:12%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($clientId === 0) : ?>
-								<th width="12%" class="nowrap hidden-sm-down text-center">
+								<th style="width:12%" class="nowrap hidden-sm-down text-center">
 									<?php echo JText::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 								</th>
 								<?php endif; ?>
-								<th width="12%" class="hidden-sm-down text-center">
+								<th style="width:12%" class="hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 								</th>
-								<th width="5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -70,7 +70,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								$canChange = $user->authorise('core.edit.state', 'com_templates');
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td width="1%" class="text-center">
+								<td style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td>

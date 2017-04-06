@@ -68,13 +68,13 @@ if ($saveOrder)
 			<table class="table table-striped" id="categoryList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap hidden-sm-down center">
+						<th style="width:1%" class="nowrap hidden-sm-down center">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%">
+						<th style="width:1%">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap text-center">
+						<th style="width:1%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th>
@@ -82,37 +82,37 @@ if ($saveOrder)
 						</th>
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
-							<th width="1%" class="nowrap text-center hidden-sm-down">
+							<th style="width:1%" class="nowrap text-center hidden-sm-down">
 								<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
-							<th width="1%" class="nowrap text-center hidden-sm-down">
+							<th style="width:1%" class="nowrap text-center hidden-sm-down">
 								<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
-							<th width="1%" class="nowrap text-center hidden-sm-down">
+							<th style="width:1%" class="nowrap text-center hidden-sm-down">
 								<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="sr-only"><?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
-							<th width="1%" class="nowrap text-center hidden-sm-down">
+							<th style="width:1%" class="nowrap text-center hidden-sm-down">
 								<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"><span class="sr-only"><?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?></span></span>
 							</th>
 							<?php $columns++; ?>
 						<?php endif; ?>
  
-						<th width="10%" class="nowrap hidden-sm-down text-center">
+						<th style="width:10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down text-center">
+						<th style="width:10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-sm-down text-center">
+						<th style="width:5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>

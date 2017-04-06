@@ -97,17 +97,17 @@ $doc->addScriptDeclaration(
 		<thead>
 			<tr>
 				<?php if ($this->canDelete) : ?>
-					<th width="1%">
+					<th style="width:1%">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 				<?php endif; ?>
-				<th width="1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
+				<th style="width:1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
 				<th><?php echo JText::_('COM_MEDIA_NAME'); ?></th>
-				<th width="15%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
-				<th width="8%"><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
+				<th style="width:15%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
+				<th style="width:8%"><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
 
 				<?php if ($this->canDelete) : ?>
-					<th width="8%">
+					<th style="width:8%">
 						<?php echo JText::_('JACTION_DELETE'); ?>
 					</th>
 				<?php endif; ?>

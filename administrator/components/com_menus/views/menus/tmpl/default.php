@@ -59,29 +59,29 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 					<table class="table table-striped" id="menuList">
 						<thead>
 							<tr>
-								<th width="1%">
+								<th style="width:1%">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-publish" aria-hidden="true"></span>
 									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-unpublish" aria-hidden="true"></span>
 									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-trash" aria-hidden="true"></span>
 									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-cube" aria-hidden="true"></span>
 									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
-								<th width="5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

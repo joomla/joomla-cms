@@ -60,44 +60,44 @@ if ($saveOrder)
 					<table class="table table-striped" id="articleList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th width="1%" class="text-center">
+								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="1%" style="min-width:85px" class="nowrap text-center">
+								<th style="width:1%; min-width:85px" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<th width="3%" class="nowrap hidden-sm-down text-center">
+								<th style="width:3%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->vote) : ?>
 									<?php $columns++; ?>
-									<th width="3%" class="nowrap hidden-sm-down text-center">
+									<th style="width:3%" class="nowrap hidden-sm-down text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 									</th>
 									<?php $columns++; ?>
-									<th width="3%" class="nowrap hidden-sm-down text-center">
+									<th style="width:3%" class="nowrap hidden-sm-down text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th width="3%" class="nowrap hidden-sm-down text-center">
+								<th style="width:3%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
