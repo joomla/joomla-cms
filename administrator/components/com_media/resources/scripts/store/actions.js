@@ -40,3 +40,19 @@ export const createDirectory = ({commit}, payload) => {
         })
 }
 
+/**
+ * Create a new folder
+ * @param commit
+ * @param payload object with the new folder name and its parent directory
+ */
+export const uploadFile = ({commit}, payload) => {
+    api.upload(payload.name, payload.parent, payload.content)
+        .then(file => {
+            commit(types.UPLOAD_SUCCESS, file);
+        })
+        .catch(error => {
+            // TODO error handling
+            console.log("error", error);
+        })
+}
+

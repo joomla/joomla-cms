@@ -32,7 +32,7 @@ export default {
             const parentDirectory = state.directories.find((directory) => (directory.path === newDirectories[0].directory));
             const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
-            // Add the new directories to the directories
+            // Add the new directories to the directories array
             state.directories.push(...newDirectories);
 
             // Update the relation to the parent directory
@@ -47,12 +47,36 @@ export default {
             const parentDirectory = state.directories.find((directory) => (directory.path === newFiles[0].directory));
             const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
 
-            // Add the new files to the files
+            // Add the new files to the files array
             state.files.push(...newFiles);
 
             // Update the relation to the parent directory
             state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
                 files: [...parentDirectory.files, ...newFileIds]
+            }));
+        }
+    },
+
+    /**
+     * The upload success mutation
+     * @param state
+     * @param payload
+     */
+    [types.UPLOAD_SUCCESS]: (state, payload) => {
+        const file = payload;
+        const isNew = (!state.files.some(existing => (existing.path === file.path)));
+
+        // TODO handle file_exists
+        if (isNew) {
+            const parentDirectory = state.directories.find((existing) => (existing.path === file.directory));
+            const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
+
+            // Add the new file to the files array
+            state.files.push(file);
+
+            // Update the relation to the parent directory
+            state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
+                files: [...parentDirectory.files, file.path]
             }));
         }
     },
@@ -88,7 +112,6 @@ export default {
      */
     [types.SELECT_BROWSER_ITEM]: (state, payload) => {
         state.selectedItems.push(payload);
-        const selectedItemIndex = state.selectedItems.indexOf(payload);
     },
 
     /**

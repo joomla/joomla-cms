@@ -16,7 +16,7 @@ export default {
          * Return the correct item type component
          */
         function itemType() {
-            let imageExtensions = ['jpg', 'png', 'gif'];
+            let imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
             // Render directory items
             if (item.type === 'dir') return Directory;

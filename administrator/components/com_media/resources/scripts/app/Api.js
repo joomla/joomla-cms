@@ -63,6 +63,35 @@ class Api {
     }
 
     /**
+     * Upload a file
+     * @param name
+     * @param parent
+     * @param content base64 encoded string
+     * @return {Promise.<T>}
+     */
+    upload(name, parent, content) {
+        // Wrap the jquery call into a real promise
+        return new Promise((resolve, reject) => {
+            const url = this._baseUrl + '&task=api.files&path=' + parent;
+            const data = {
+                [this._csrfToken]: '1',
+                name: name,
+                content: content,
+            };
+            jQuery.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+            })
+                .done((json) => resolve(this._normalizeItem(json.data)))
+                .fail((xhr, status, error) => {
+                    reject(xhr)
+                })
+        }).catch(this._handleError);
+    }
+
+    /**
      * Normalize a single item
      * @param item
      * @returns {*}
