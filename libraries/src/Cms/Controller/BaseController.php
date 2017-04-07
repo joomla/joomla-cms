@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Cms
- * @subpackage  Controller
+ * Joomla! Content Management System
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -22,7 +21,7 @@ use Joomla\Cms\View\View;
  *
  * @since  2.5.5
  */
-class Controller  implements ControllerInterface
+class BaseController  implements ControllerInterface
 {
 	/**
 	 * The base path of the controller

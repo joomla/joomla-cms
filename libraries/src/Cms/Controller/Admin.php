@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Cms
- * @subpackage  Controller
+ * Joomla! Content Management System
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -21,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Admin extends Controller
+class Admin extends BaseController
 {
 	/**
 	 * The URL option for the component.
