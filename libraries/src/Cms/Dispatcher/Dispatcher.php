@@ -8,7 +8,7 @@
 
 namespace Joomla\Cms\Dispatcher;
 
-use Joomla\Cms\Controller\Controller;
+use Joomla\Cms\Controller\BaseController;
 
 defined('_JEXEC') or die;
 
@@ -114,6 +114,8 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \JAccessExceptionNotallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
+		$config['option']    = $this->app->scope;
+
 		$command = $this->input->getCmd('task', 'display');
 
 		// Check for a controller.task command.
@@ -132,8 +134,14 @@ abstract class Dispatcher implements DispatcherInterface
 			$task       = $command;
 		}
 
+		// Set name of controller if it is passed in the request
+		if ($this->input->exists('controller'))
+		{
+			$config['name'] = strtolower($this->input->get('controller'));
+		}
+
 		// Execute the task for this component
-		$controller = $this->getController($controller);
+		$controller = $this->getController($controller, ucfirst($this->app->getName()), $config);
 		$controller->execute($task);
 		$controller->redirect();
 	}
@@ -157,7 +165,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  Controller|null
+	 * @return  BaseController|null
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
