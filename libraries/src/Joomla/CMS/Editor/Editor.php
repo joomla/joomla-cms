@@ -339,6 +339,8 @@ class Editor extends \JObject
 	 * @return  string
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Bind functionality to form submit through javascript
 	 */
 	public function save($editor)
 	{
@@ -375,6 +377,8 @@ class Editor extends \JObject
 	 * @return  string
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Use Joomla.editors API, see core.js
 	 */
 	public function getContent($editor)
 	{
@@ -406,6 +410,8 @@ class Editor extends \JObject
 	 * @return  string
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Use Joomla.editors API, see core.js
 	 */
 	public function setContent($editor, $html)
 	{
