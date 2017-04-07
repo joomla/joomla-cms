@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class Admin extends Controller
+class Admin extends BaseController
 {
 	/**
 	 * The URL option for the component.

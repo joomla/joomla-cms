@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @since  1.6
  * @todo   Add ability to set redirect manually to better cope with frontend usage.
  */
-class Form extends Controller
+class Form extends BaseController
 {
 	/**
 	 * The context for storing internal data, e.g. record.
