@@ -130,10 +130,12 @@ class PlgEditorTinymce extends JPlugin
 	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
 	 * @param   string   $asset    The object asset
 	 * @param   object   $author   The author.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay(
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		$app = JFactory::getApplication();
 
