@@ -162,13 +162,6 @@ class PlgEditorTinymce extends JPlugin
 		$fieldName     = end($nameGroup);
 		$scriptOptions = array();
 
-		// Set editor to readonly mode
-		if (!empty($params['readonly']))
-		{
-			// Do something funny here to put TinyMCE into readonly mode.
-			// Joomla.editors.instances['article_text'].instance.setMode('readonly');
-		}
-
 		// Check for existing options
 		$doc     = JFactory::getDocument();
 		$options = $doc->getScriptOptions('plg_editor_tinymce');
@@ -679,6 +672,12 @@ class PlgEditorTinymce extends JPlugin
 			$scriptOptions['force_br_newlines'] = false;
 			$scriptOptions['force_p_newlines']  = true;
 			$scriptOptions['forced_root_block'] = 'p';
+		}
+
+		// Set editor to readonly mode
+		if (!empty($params['readonly']))
+		{
+			$scriptOptions['readonly'] = 1;
 		}
 
 		$scriptOptions['rel_list'] = array(
