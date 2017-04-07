@@ -45,7 +45,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th style="width:25%" class="hidden-sm-down text-center" >
+								<th style="width:25%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
 							</tr>
@@ -62,6 +62,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center hidden-sm-down">
 									<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
+									<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 								</td>
 								<td class="template-name">
 									<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
@@ -97,7 +98,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<div><a href="<?php echo $this->escape($url); ?>"><?php echo $this->escape($url); ?></a></div>
 									<?php endif; ?>
 								</td>
-								<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 							</tr>
 							<?php endforeach; ?>
 						</tbody>

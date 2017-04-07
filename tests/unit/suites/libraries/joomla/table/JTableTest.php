@@ -204,7 +204,7 @@ class JTableTest extends TestCaseDatabase
 		$expected = array(
 			'/dummy/',
 			'dir/not/exist',
-			realpath(JPATH_PLATFORM . '/src/Cms/Table')
+			realpath(JPATH_PLATFORM . '/src/CMS/Table')
 		);
 
 		// Add dummy paths

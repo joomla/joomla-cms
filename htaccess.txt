@@ -17,7 +17,9 @@
 ##
 
 ## No directory listings
-IndexIgnore *
+<IfModule autoindex>
+  IndexIgnore *
+</IfModule>
 
 ## Can be commented out if causes errors, see notes above.
 Options +FollowSymlinks
