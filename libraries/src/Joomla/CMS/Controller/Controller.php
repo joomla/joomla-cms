@@ -8,8 +8,8 @@
 
 namespace Joomla\CMS\Controller;
 
-use Joomla\CMS\Mvc\LegacyFactory;
-use Joomla\CMS\Mvc\MvcFactoryInterface;
+use Joomla\CMS\Mvc\Factory\LegacyFactory;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 defined('JPATH_PLATFORM') or die;
 

@@ -6,48 +6,23 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Mvc;
+namespace Joomla\CMS\Mvc\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Model\Model;
+use Joomla\CMS\Table\Table;
 
 /**
- * Factory to create MVC objects based on a namespace.
+ * Factory to create MVC objects in legacy mode.
+ * Uses the static getInstance function on the classes itself. Behavior of the old none
+ * namespaced extension set up.
  *
  * @since  __DEPLOY_VERSION__
  */
-class MvcFactory implements MvcFactoryInterface
+class LegacyFactory implements MvcFactoryInterface
 {
-	/**
-	 * The namespace to create the objects from.
-	 *
-	 * @var string
-	 */
-	private $namespace = null;
-
-	/**
-	 * The application.
-	 *
-	 * @var \JApplicationCms
-	 */
-	private $application = null;
-
-	/**
-	 * The namespace must be like:
-	 * Joomla\Component\Content
-	 *
-	 * @param   string            $namespace    The namespace.
-	 * @param   \JApplicationCms  $application  The application
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function __construct($namespace, \JApplicationCms $application)
-	{
-		$this->namespace   = $namespace;
-		$this->application = $application;
-	}
 
 	/**
 	 * Method to load and return a model object.
@@ -63,7 +38,11 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createModel($name, $prefix = '', array $config = array())
 	{
-		return $this->createInstance('Model\\' . ucfirst($name), $prefix, $config);
+		// Clean the model name
+		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		return Model::getInstance($modelName, $classPrefix, $config);
 	}
 
 	/**
@@ -81,7 +60,33 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = array())
 	{
-		return $this->createInstance('View\\' . ucfirst($name) . '\\' . ucfirst($type), $prefix, $config);
+		// Clean the view name
+		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
+
+		// Build the view class name
+		$viewClass = $classPrefix . $viewName;
+
+		if (!class_exists($viewClass))
+		{
+			jimport('joomla.filesystem.path');
+			$path = \JPath::find($config['paths'], Controller::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+
+			if (!$path)
+			{
+				return null;
+			}
+
+			\JLoader::register($viewClass, $path);
+
+			if (!class_exists($viewClass))
+			{
+				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
+			}
+		}
+
+		return new $viewClass($config);
 	}
 
 	/**
@@ -96,34 +101,12 @@ class MvcFactory implements MvcFactoryInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function createTable($name, $prefix = '', array $config = array())
+	public function createTable($name, $prefix = 'Table', array $config = array())
 	{
-		return $this->createInstance('Table\\' . ucfirst($name), $prefix, $config);
-	}
+		// Clean the model name
+		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-	/**
-	 * Creates a standard classname and returns an instance of this class.
-	 *
-	 * @param  string  $suffix  The suffix
-	 * @param  string  $prefix  The prefix
-	 * @param  array   $config  The config
-	 *
-	 * @return object  The instance
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function createInstance($suffix, $prefix, array $config)
-	{
-		if (!$prefix)
-		{
-			$prefix = $this->application->getName();
-		}
-
-		$className = $this->namespace . '\\' . ucfirst($prefix) . '\\' . $suffix;
-		if (!class_exists($className))
-		{
-			return null;
-		}
-		return new $className($config);
+		return Table::getInstance($name, $prefix, $config);
 	}
 }

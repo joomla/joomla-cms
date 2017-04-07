@@ -10,8 +10,8 @@ namespace Joomla\CMS\Model;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Mvc\LegacyFactory;
-use Joomla\CMS\Mvc\MvcFactoryInterface;
+use Joomla\CMS\Mvc\Factory\LegacyFactory;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
