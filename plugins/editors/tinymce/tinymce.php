@@ -133,7 +133,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		$app = JFactory::getApplication();
 
@@ -161,6 +161,13 @@ class PlgEditorTinymce extends JPlugin
 		$nameGroup     = explode('[', preg_replace('/\[\]|\]/', '', $name));
 		$fieldName     = end($nameGroup);
 		$scriptOptions = array();
+
+		// Set editor to readonly mode
+		if (!empty($params['readonly']))
+		{
+			// Do something funny here to put TinyMCE into readonly mode.
+			// Joomla.editors.instances['article_text'].instance.setMode('readonly');
+		}
 
 		// Check for existing options
 		$doc     = JFactory::getDocument();
