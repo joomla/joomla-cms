@@ -92,18 +92,18 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				<?php $status = 'unpublished '; ?>
 			<?php endif; ?>
 			<tr class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
-				<td id="<?php echo $module->id; ?>" width="40%">
+				<td id="<?php echo $module->id; ?>" style="width:40%">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
 					<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>" id="title-<?php echo $module->id; ?>">
 						<?php echo $this->escape($module->title); ?></a>
 				</td>
-				<td id="access-<?php echo $module->id; ?>" width="15%" class="text-center">
+				<td id="access-<?php echo $module->id; ?>" style="width:15%" class="text-center">
 					<?php echo $this->escape($module->access_title); ?>
 				</td>
-				<td id="position-<?php echo $module->id; ?>" width="15%" class="text-center">
+				<td id="position-<?php echo $module->id; ?>" style="width:15%" class="text-center">
 					<?php echo $this->escape($module->position); ?>
 				</td>
-				<td id="menus-<?php echo $module->id; ?>" width="15%" class="text-center">
+				<td id="menus-<?php echo $module->id; ?>" style="width:15%" class="text-center">
 					<?php if (is_null($module->menuid)) : ?>
 						<?php if ($module->except) : ?>
 							<span class="badge badge-success">

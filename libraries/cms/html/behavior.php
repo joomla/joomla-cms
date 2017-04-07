@@ -415,17 +415,16 @@ JS
 			return;
 		}
 
-		$app = JFactory::getApplication();
+		$app            = JFactory::getApplication();
+		$sessionHandler = $app->get('session_handler', 'database');
 
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		if ($app->get('session_handler', 'filesystem') != 'database')
+		$refreshTime = 300;
+
+		if ($sessionHandler === 'database')
 		{
-			$refreshTime = 300000;
-		}
-		else
-		{
-			$life_time   = $app->getSession()->getExpire() * 1000;
-			$refreshTime = ($life_time <= 60000) ? 45000 : $life_time - 60000;
+			$lifeTime    = $app->getSession()->getExpire();
+			$refreshTime = $lifeTime <= 60 ? 45 : $lifeTime - 60;
 
 			// The longest refresh period is one hour to prevent integer overflow.
 			if ($refreshTime > 3600 || $refreshTime <= 0)
@@ -435,13 +434,17 @@ JS
 		}
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		$uri = 'index.php' . (JFactory::getApplication()->isClient('site') || !JFactory::getUser()->guest ? '?option=com_ajax&format=json' : '');
+		$uri = 'index.php' . ($app->isClient('site') || !JFactory::getUser()->guest ? '?option=com_ajax&format=json' : '');
 
-		// Include core and polyfill for browsers lower than IE 9.
+		// Include core
 		static::core();
 
 		// Add keepalive script options.
-		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
+		$options = array(
+			'interval' => $refreshTime * 1000,
+			'uri'      => JRoute::_($uri),
+		);
+		JFactory::getDocument()->addScriptOptions('system.keepalive', $options);
 
 		// Add script.
 		JHtml::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));

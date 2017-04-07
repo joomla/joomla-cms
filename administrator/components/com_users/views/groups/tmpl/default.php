@@ -57,21 +57,21 @@ JFactory::getDocument()->addScriptDeclaration('
 					<table class="table table-striped" id="groupList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap">
+								<th style="width:1%" class="nowrap">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
                                     <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
 									<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
                                     <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
 									<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

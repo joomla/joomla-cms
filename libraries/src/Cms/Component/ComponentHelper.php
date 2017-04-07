@@ -1,10 +1,9 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Component
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Cms\Component;
@@ -26,7 +25,7 @@ class ComponentHelper
 	/**
 	 * The component list cache
 	 *
-	 * @var    \JComponentRecord[]
+	 * @var    ComponentRecord[]
 	 * @since  1.6
 	 */
 	protected static $components = array();
@@ -37,7 +36,7 @@ class ComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  \JComponentRecord  An object with the information for the component.
+	 * @return  ComponentRecord  An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -51,7 +50,7 @@ class ComponentHelper
 			}
 			else
 			{
-				$result = new \JComponentRecord;
+				$result = new ComponentRecord;
 				$result->enabled = $strict ? false : true;
 				$result->setParams(new Registry);
 			}
@@ -374,7 +373,7 @@ class ComponentHelper
 			// Check the class exists and implements the dispatcher interface
 			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
 			{
-				throw new LogicException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
+				throw new \LogicException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
 			}
 
 			$namespace = self::getComponent($option)->namespace;
@@ -389,7 +388,7 @@ class ComponentHelper
 			// If component file doesn't exist throw error
 			if (!file_exists($path))
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 			}
 
 			// Load common and local language files.
@@ -527,7 +526,7 @@ class ComponentHelper
 	/**
 	 * Get installed components
 	 *
-	 * @return  \JComponentRecord[]  The components property
+	 * @return  ComponentRecord[]  The components property
 	 *
 	 * @since   3.6.3
 	 */

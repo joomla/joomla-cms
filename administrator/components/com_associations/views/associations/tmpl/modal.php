@@ -65,30 +65,30 @@ $app->getDocument()->addScriptDeclaration(
 			<thead>
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
-						<th width="1%" class="center nowrap">
+						<th style="width:1%" class="center nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
 					<?php endif; ?>
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="nowrap">
+					<th style="width:15%" class="nowrap">
 						<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
-					<th width="5%" class="nowrap">
+					<th style="width:5%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
-						<th width="10%" class="nowrap">
+						<th style="width:10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
-						<th width="5%" class="nowrap hidden-phone">
+						<th style="width:5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
 					<?php endif; ?>
-					<th width="1%" class="nowrap hidden-phone">
+					<th style="width:1%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>

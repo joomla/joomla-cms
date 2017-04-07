@@ -33,14 +33,14 @@ $colSpan   = 4 + count($this->actions);
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
-						<th width="6%" class="text-center">
+						<th style="width:6%" class="text-center">
 							<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', $key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
 						</th>
 						<?php endforeach; ?>
-						<th width="6%" class="nowrap text-center">
+						<th style="width:6%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 						</th>
-						<th width="3%" class="nowrap text-center">
+						<th style="width:3%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>

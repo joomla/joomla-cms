@@ -57,22 +57,22 @@ if (!empty($editor))
 			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
-						<th width="1%" class="text-center nowrap">
+						<th style="width:1%" class="text-center nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th style="width:10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="nowrap">
+						<th style="width:15%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-sm-down">
+						<th style="width:5%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
