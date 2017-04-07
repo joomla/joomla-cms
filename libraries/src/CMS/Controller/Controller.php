@@ -330,11 +330,10 @@ class Controller implements ControllerInterface
 		}
 		else
 		{
-			self::$instance = new $class($config, $app, $input);
+			self::$instance = new $class($config, null, $app, $input);
 		}
 
-		// Instantiate the class, store it to the static container, and return it
-		return self::$instance = new $class($config, $app, $input);
+		return self::$instance;
 	}
 
 	/**
