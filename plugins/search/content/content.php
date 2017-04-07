@@ -179,7 +179,7 @@ class PlgSearchContent extends JPlugin
 			// Join over Fields.
 			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
 				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
-				->where('(fv.context IS NULL OR fv.context = ' . $db->q('com_content.article') . ')')
+				->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
 				->where('(f.state IS NULL OR f.state = 1)')
 				->where('(f.access IS NULL OR f.access IN (' . $groups . '))');
 
@@ -247,7 +247,7 @@ class PlgSearchContent extends JPlugin
 			// Join over Fields.
 			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
 				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
-				->where('(fv.context IS NULL OR fv.context = ' . $db->q('com_content.article') . ')')
+				->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
 				->where('(f.state IS NULL OR f.state = 1)')
 				->where('(f.access IS NULL OR f.access IN (' . $groups . '))');
 
@@ -303,14 +303,15 @@ class PlgSearchContent extends JPlugin
 				{
 					// Lookup field values so they can be checked, GROUP_CONCAT would work in above queries, but isn't supported by non-MySQL DBs.
 					$query = $db->getQuery(true);
-					$query->select('value')
-						->from('#__fields_values')
-						->where('context = ' . $db->quote('com_content.article'))
-						->where('item_id = ' . $db->quote((int) $article->slug));
+					$query->select('fv.value')
+						->from('#__fields_values as fv')
+						->join('left', '#__fields as f on fv.field_id = f.id')
+						->where('f.context = ' . $db->quote('com_content.article'))
+						->where('fv.item_id = ' . $db->quote((int) $article->slug));
 					$db->setQuery($query);
 					$article->jcfields = implode(',', $db->loadColumn());
 
-					if (SearchHelper::checkNoHtml($article, $searchText, array('text', 'title', 'fields', 'metadesc', 'metakey')))
+					if (SearchHelper::checkNoHtml($article, $searchText, array('text', 'title', 'jcfields', 'metadesc', 'metakey')))
 					{
 						$new_row[] = $article;
 					}
