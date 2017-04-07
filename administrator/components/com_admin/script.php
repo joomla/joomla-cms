@@ -1806,6 +1806,8 @@ class JoomlaInstallerScript
 			'/media/system/js/tiny-close.js',
 			'/media/system/js/tiny-close.min.js',
 			'/administrator/components/com_messages/layouts/toolbar/mysettings.php',
+			'/media/editors/tinymce/plugins/jdragdrop/plugin.js',
+			'/media/editors/tinymce/plugins/jdragdrop/plugin.min.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
