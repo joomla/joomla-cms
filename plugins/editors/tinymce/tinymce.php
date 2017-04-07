@@ -204,6 +204,12 @@ class PlgEditorTinymce extends JPlugin
 				JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
 			}
 
+			// Set editor to readonly mode
+			if (!empty($params['readonly']))
+			{
+				$options['tinyMCE'][$fieldName]['readonly'] = 1;
+			}
+
 			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
 			$options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
 
@@ -672,12 +678,6 @@ class PlgEditorTinymce extends JPlugin
 			$scriptOptions['force_br_newlines'] = false;
 			$scriptOptions['force_p_newlines']  = true;
 			$scriptOptions['forced_root_block'] = 'p';
-		}
-
-		// Set editor to readonly mode
-		if (!empty($params['readonly']))
-		{
-			$scriptOptions['readonly'] = 1;
 		}
 
 		$scriptOptions['rel_list'] = array(
