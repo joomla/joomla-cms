@@ -10,8 +10,9 @@ namespace Joomla\Cms\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Component\ComponentHelper;
 use Joomla\Cms\Model\Model;
-use Joomla\Cms\View\View;
+use Joomla\Cms\View\AbstractView;
 
 /**
  * Base class for a Joomla Controller
@@ -21,7 +22,7 @@ use Joomla\Cms\View\View;
  *
  * @since  2.5.5
  */
-class Controller  implements ControllerInterface
+class BaseController  implements ControllerInterface
 {
 	/**
 	 * The base path of the controller
@@ -138,7 +139,7 @@ class Controller  implements ControllerInterface
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    \Joomla\Cms\View\View[]
+	 * @var    \Joomla\Cms\View\AbstractView[]
 	 * @since  3.4
 	 */
 	protected static $views;
@@ -150,6 +151,29 @@ class Controller  implements ControllerInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
+
+	/**
+	 * The prefix of the views
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $viewPrefix;
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  1.6
+	 */
+	protected $option;
+
+	/**
+	 * The component namespace
+	 *
+	 * @var string
+	 */
+	protected $namespace = null;
 
 	/**
 	 * Adds to the stack of model paths in LIFO order.
@@ -272,6 +296,7 @@ class Controller  implements ControllerInterface
 
 			// Reset the task without the controller context.
 			$input->set('task', $task);
+			$config['name'] = $type;
 		}
 		else
 		{
@@ -329,11 +354,11 @@ class Controller  implements ControllerInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param   array             $config  An optional associative array of configuration settings.
-	 *                                     Recognized key values include 'name', 'default_task', 'model_path', and
-	 *                                     'view_path' (this list is not meant to be comprehensive).
-	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
-	 * @param   \JInput           $input   Input
+	 * @param   array             $config     An optional associative array of configuration settings.
+	 *                                        Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                        'view_path' (this list is not meant to be comprehensive).
+	 * @param   \JApplicationCms  $app        The JApplication for the dispatcher
+	 * @param   \JInput           $input      Input
 	 *
 	 * @since   3.0
 	 */
@@ -346,8 +371,26 @@ class Controller  implements ControllerInterface
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		$this->app   = $app ? $app : \JFactory::getApplication();
-		$this->input = $input ? $input : $this->app->input;
+		$this->app       = $app ? $app : \JFactory::getApplication();
+		$this->input     = $input ? $input : $this->app->input;
+
+		if (!empty($config['option']))
+		{
+			$this->option = $config['option'];
+		}
+		else
+		{
+			$this->option = $this->input->getCmd('option');
+		}
+
+		// If option is not provided, try to detect it from class name
+		if (empty($this->option))
+		{
+			$this->option = ComponentHelper::getComponentName(get_class($this));
+		}
+
+		// Store component namespace
+		$this->namespace = ComponentHelper::getComponent($this->option)->namespace;
 
 		if (defined('JDEBUG') && JDEBUG)
 		{
@@ -355,7 +398,7 @@ class Controller  implements ControllerInterface
 		}
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('\JControllerLegacy');
+		$xMethods = get_class_methods('\\Joomla\\Cms\\Controller\\BaseController');
 
 		// Get the public methods in this class using reflection.
 		$r = new \ReflectionClass($this);
@@ -416,9 +459,31 @@ class Controller  implements ControllerInterface
 				// User-defined prefix
 				$this->model_prefix = $config['model_prefix'];
 			}
+			elseif ($this->namespace)
+			{
+				$this->model_prefix = $this->namespace . '\\' . ucfirst($this->app->getName()) . '\\Model\\';
+			}
 			else
 			{
-				$this->model_prefix = ucfirst($this->name) . 'Model';
+				$this->model_prefix = ucfirst(substr($this->option, 4)) . 'Model';
+			}
+		}
+
+		// Set the views prefix
+		if (empty($this->viewPrefix))
+		{
+			if (array_key_exists('view_prefix', $config))
+			{
+				// User-defined prefix
+				$this->viewPrefix = $config['view_prefix'];
+			}
+			elseif ($this->namespace)
+			{
+				$this->viewPrefix = $this->namespace . '\\' . ucfirst($this->app->getName()) . '\\View\\';
+			}
+			else
+			{
+				$this->viewPrefix = ucfirst(substr($this->option, 4)) . 'View';
 			}
 		}
 
@@ -552,8 +617,12 @@ class Controller  implements ControllerInterface
 	protected function createModel($name, $prefix = '', $config = array())
 	{
 		// Clean the model name
-		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$modelName   = ucfirst(preg_replace('/[^A-Z0-9_]/i', '', $name));
+		$classPrefix = preg_replace('/[^A-Z0-9_\\\\]/i', '', $prefix);
+
+		// Basic model configuration data
+		$config['name']   = strtolower($modelName);
+		$config['option'] = $this->option;
 
 		return Model::getInstance($modelName, $classPrefix, $config);
 	}
@@ -571,7 +640,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  View|null  View object on success; null or error result on failure.
+	 * @return  AbstractView|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -580,8 +649,25 @@ class Controller  implements ControllerInterface
 	{
 		// Clean the view name
 		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$classPrefix = preg_replace('/[^A-Z0-9_\\\\]/i', '', $prefix);
 		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
+
+		// Basic view configuration data
+		$config['name']   = strtolower($viewName);
+		$config['option'] = $this->option;
+
+		// If this is a namespace controller, create namespace view class
+		if ($this->namespace)
+		{
+			$viewClass = $classPrefix . ucfirst($viewName) . '\\' . ucfirst($viewType);
+
+			if (class_exists($viewClass))
+			{
+				return new $viewClass($config);
+			}
+
+			return null;
+		}
 
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
@@ -620,9 +706,9 @@ class Controller  implements ControllerInterface
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
+	 * @return  static  A controller object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -747,6 +833,10 @@ class Controller  implements ControllerInterface
 		{
 			$prefix = $this->model_prefix;
 		}
+		elseif ($prefix == 'Site' || $prefix == 'Administrator')
+		{
+			$prefix = $this->namespace . '\\' . $prefix . '\\Model\\';
+		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
 		{
@@ -774,7 +864,7 @@ class Controller  implements ControllerInterface
 	/**
 	 * Method to get the controller name
 	 *
-	 * The dispatcher name is set by default parsed using the classname, or it can be set
+	 * The controller name is set by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return  string  The name of the dispatcher
@@ -786,14 +876,7 @@ class Controller  implements ControllerInterface
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->name = strtolower($r[1]);
+			$this->name = strtolower(substr($this->option, 4));
 		}
 
 		return $this->name;
@@ -831,7 +914,7 @@ class Controller  implements ControllerInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  View  Reference to the view or an error.
+	 * @return  AbstractView  Reference to the view or an error.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
@@ -851,7 +934,11 @@ class Controller  implements ControllerInterface
 
 		if (empty($prefix))
 		{
-			$prefix = $this->getName() . 'View';
+			$prefix = $this->viewPrefix;
+		}
+		elseif ($prefix == 'Site' || $prefix == 'Administrator')
+		{
+			$prefix = $this->namespace . '\\' . $prefix . '\\View\\';
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))
