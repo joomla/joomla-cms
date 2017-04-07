@@ -11,16 +11,25 @@ jQuery(document).ready(function($) {
 	Joomla.submitbutton = function(task)
 	{
 		// Using close button, normal joomla submit.
-		if (task == 'association.cancel')
+		if (task === 'association.cancel')
 		{
 			Joomla.submitform(task);
 		}
-		else if(task == 'copy')
+		else if(task === 'copy')
 		{
+			Joomla.loadingLayer('show');
+
+			var targetLang     = document.getElementById('target-association').getAttribute('data-language'),
+				referlangInput = window.frames['reference-association'].document.getElementById('jform_language');
+
+			// Set target language, to get correct content language in the copy
+			referlangInput.removeAttribute('disabled');
+			referlangInput.value = targetLang;
+
 			window.frames['reference-association'].Joomla.submitbutton(document.getElementById('adminForm').getAttribute('data-associatedview') + '.save2copy');
 		}
 		// Undo association
-		else if (task == 'undo-association')
+		else if (task === 'undo-association')
 		{
 			var reference     = document.getElementById('reference-association');
 			var target        = document.getElementById('target-association');
@@ -30,16 +39,16 @@ jQuery(document).ready(function($) {
 			var targetLang    = target.getAttribute('data-language').replace(/-/,'_');
 			reference         = $(reference).contents();
 			target            = $(target).contents();
-			
+
 			// Remove it on the reference
 			// - For modal association selectors.
 			reference.find('#jform_associations_' + targetLang + '_id').val('');
 			reference.find('#jform_associations_' + targetLang + '_name').val('');
-			
+
 			// - For chosen association selectors (menus).
 			reference.find('#jform_associations_' + targetLang + '_chzn').remove();
 			reference.find('#jform_associations_' + targetLang).val('').change().chosen();
-			
+
 			var lang = '';
 
 			// Remove it on the target
@@ -56,16 +65,16 @@ jQuery(document).ready(function($) {
 					target.find('#jform_associations_' + lang).val('').change().chosen();
 				}
 			});
-			
+
 			// Same as above but reference language is not in the selector
 			// - For modal association selectors.
 			target.find('#jform_associations_' + referenceLang + '_id').val('');
 			target.find('#jform_associations_' + referenceLang + '_name').val('');
-			
+
 			// - For chosen association selectors (menus).
 			target.find('#jform_associations_' + referenceLang + '_chzn').remove();
 			target.find('#jform_associations_' + referenceLang).val('').change().chosen();
-			
+
 			// Reset switcher after removing association
 			var currentSwitcher = $('#jform_itemlanguage').val();
 			var currentLang = targetLang.replace(/_/,'-');
@@ -86,13 +95,13 @@ jQuery(document).ready(function($) {
 		}
 
 		return false;
-	}
+	};
 
 	// Preload Joomla loading layer.
 	Joomla.loadingLayer('load');
 
 	// Attach behaviour to toggle button.
-	$('body').on('click', '#toogle-left-panel', function()
+	$(document).on('click', '#toogle-left-panel', function()
 	{
 		var referenceHide = this.getAttribute('data-hide-reference');
 		var referenceShow = this.getAttribute('data-show-reference');
@@ -105,18 +114,18 @@ jQuery(document).ready(function($) {
 		{
 			$(this).text(referenceHide);
 		}
-		
+
 		$('#left-panel').toggle();
 		$('#right-panel').toggleClass('full-width');
 	});
 
 	// Attach behaviour to language selector change event.
-	$('body').on('change', '#jform_itemlanguage', function() {
+	$(document).on('change', '#jform_itemlanguage', function() {
 		var target   = document.getElementById('target-association');
 		var selected = $(this).val();
 
 		// Populate the data attributes and load the the edit page in target frame.
-		if (selected != '' && typeof selected !== 'undefined')
+		if (selected !== '' && typeof selected !== 'undefined')
 		{
 			target.setAttribute('data-action', selected.split(':')[2]);
 			target.setAttribute('data-id', selected.split(':')[1]);
@@ -161,7 +170,7 @@ jQuery(document).ready(function($) {
 
 		// Remove modal buttons on the reference
 		reference.find('#associations').find('.btn').remove();
-		
+
 		var parse = '';
 
 		$('#jform_itemlanguage option').each(function()
@@ -221,7 +230,7 @@ jQuery(document).ready(function($) {
 				document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-select');
 			}
 			// If we are editing a association.
-			else 
+			else
 			{
 				// Show change language button
 				document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-change');

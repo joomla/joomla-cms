@@ -17,11 +17,6 @@
         "forum":"https://forum.joomla.org/",
         "docs":"https://docs.joomla.org"
     },
-    "autoload": {
-        "psr-4": {
-            "Joomla\\": "libraries/src/Joomla"
-        }
-    },
     "require": {
         "php": ">=5.3.10",
         "joomla/application": "~1.5",

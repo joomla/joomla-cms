@@ -8,7 +8,7 @@
  */
 
 /**
- * Test class for \Joomla\Cms\Access\Rules.
+ * Test class for \Joomla\CMS\Access\Rules.
  *
  * @package     Joomla.Platform
  * @subpackage  Access
@@ -40,7 +40,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 		$string = json_encode($array);
 
 		// Test input as string.
-		$rules = new \Joomla\Cms\Access\Rules($string);
+		$rules = new \Joomla\CMS\Access\Rules($string);
 		$this->assertThat(
 			(string) $rules,
 			$this->equalTo($string),
@@ -49,7 +49,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the \Joomla\Cms\Access\Rules::getData method.
+	 * Tests the \Joomla\CMS\Access\Rules::getData method.
 	 *
 	 * @return  void
 	 *
@@ -65,7 +65,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 			)
 		);
 
-		$rule = new \Joomla\Cms\Access\Rules($array);
+		$rule = new \Joomla\CMS\Access\Rules($array);
 
 		$data = $rule->getData();
 
@@ -75,13 +75,13 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 		);
 
 		$this->assertInstanceOf(
-			'\Joomla\Cms\Access\Rule',
+			'\Joomla\CMS\Access\Rule',
 			$data['edit']
 		);
 	}
 
 	/**
-	 * Tests the \Joomla\Cms\Access\Rules constructor
+	 * Tests the \Joomla\CMS\Access\Rules constructor
 	 *
 	 * @return  void
 	 *
@@ -99,7 +99,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 
 		$string = json_encode($array);
 
-		$rules = new \Joomla\Cms\Access\Rules($array);
+		$rules = new \Joomla\CMS\Access\Rules($array);
 		$this->assertThat(
 			(string) $rules,
 			$this->equalTo($string),
@@ -108,7 +108,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the \Joomla\Cms\Access\Rules constructor
+	 * Tests the \Joomla\CMS\Access\Rules constructor
 	 *
 	 * @return  void
 	 *
@@ -128,7 +128,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 
 		$object = (object) $array;
 
-		$rules = new \Joomla\Cms\Access\Rules($object);
+		$rules = new \Joomla\CMS\Access\Rules($object);
 		$this->assertThat(
 			(string) $rules,
 			$this->equalTo($string),
@@ -137,7 +137,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the \Joomla\Cms\Access\Rules::mergeAction method.
+	 * Tests the \Joomla\CMS\Access\Rules::mergeAction method.
 	 *
 	 * @return  void
 	 *
@@ -159,8 +159,8 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 			)
 		);
 
-		// Construct and empty \Joomla\Cms\Access\Rules.
-		$rules = new \Joomla\Cms\Access\Rules('');
+		// Construct and empty \Joomla\CMS\Access\Rules.
+		$rules = new \Joomla\CMS\Access\Rules('');
 		$rules->mergeAction('edit', $identities);
 
 		$this->assertThat(
@@ -195,7 +195,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the \Joomla\Cms\Access\Rules::merge method.
+	 * Tests the \Joomla\CMS\Access\Rules::merge method.
 	 *
 	 * @return  void
 	 *
@@ -236,8 +236,8 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 		);
 
 		// Test construction by string
-		$rules1 = new \Joomla\Cms\Access\Rules($string1);
-		$rules2 = new \Joomla\Cms\Access\Rules($array2);
+		$rules1 = new \Joomla\CMS\Access\Rules($string1);
+		$rules2 = new \Joomla\CMS\Access\Rules($array2);
 		$rules1->merge($rules2);
 
 		$this->assertThat(
@@ -248,7 +248,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the \Joomla\Cms\Access\Rules::merge method
+	 * Tests the \Joomla\CMS\Access\Rules::merge method
 	 *
 	 * @return  void
 	 *
@@ -266,19 +266,19 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 		);
 		$string1 = json_encode($array1);
 
-		// Test merge by \Joomla\Cms\Access\Rules.
-		$rules1 = new \Joomla\Cms\Access\Rules($array1);
-		$rules2 = new \Joomla\Cms\Access\Rules('');
+		// Test merge by \Joomla\CMS\Access\Rules.
+		$rules1 = new \Joomla\CMS\Access\Rules($array1);
+		$rules2 = new \Joomla\CMS\Access\Rules('');
 		$rules2->merge($rules1);
 		$this->assertThat(
 			(string) $rules2,
 			$this->equalTo($string1),
-			'Merge by \Joomla\Cms\Access\Rules where second rules are empty'
+			'Merge by \Joomla\CMS\Access\Rules where second rules are empty'
 		);
 	}
 
 	/**
-	 * Tests the \Joomla\Cms\Access\Rules::merge method
+	 * Tests the \Joomla\CMS\Access\Rules::merge method
 	 *
 	 * @return  void
 	 *
@@ -317,18 +317,18 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 			),
 		);
 
-		$rules1 = new \Joomla\Cms\Access\Rules($array1);
+		$rules1 = new \Joomla\CMS\Access\Rules($array1);
 		$rules1->merge($array2);
 		$this->assertThat(
 			(string) $rules1,
 			$this->equalTo(json_encode($result2)),
-			'Input as a \Joomla\Cms\Access\Rules'
+			'Input as a \Joomla\CMS\Access\Rules'
 		);
 
 	}
 
 	/**
-	 * Tests the \Joomla\Cms\Access\Rules::allow method.
+	 * Tests the \Joomla\CMS\Access\Rules::allow method.
 	 *
 	 * @return  void
 	 *
@@ -346,7 +346,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 			)
 		);
 
-		$rules = new \Joomla\Cms\Access\Rules($array1);
+		$rules = new \Joomla\CMS\Access\Rules($array1);
 
 		// Explicit allow.
 		$this->assertTrue(
@@ -385,7 +385,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the \Joomla\Cms\Access\Rules::getAllowed method.
+	 * Tests the \Joomla\CMS\Access\Rules::getAllowed method.
 	 *
 	 * @return  void
 	 *
@@ -410,7 +410,7 @@ class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 		$result->set('create', true);
 		$result->set('edit', true);
 
-		$rules = new \Joomla\Cms\Access\Rules($array1);
+		$rules = new \Joomla\CMS\Access\Rules($array1);
 		$allowed = $rules->getAllowed(-42);
 
 		$this->assertThat(
