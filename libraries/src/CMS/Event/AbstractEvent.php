@@ -39,7 +39,7 @@ abstract class AbstractEvent extends BaseEvent
 	/**
 	 * Creates a new CMS event object for a given event name and subject. The following arguments must be given:
 	 * subject		object	The subject of the event. This is the core object you are going to manipulate.
-	 * eventClass	string	The Event class name. If you do not provide it Joomla\Cms\Events\<eventNameWithoutOnPrefix>
+	 * eventClass	string	The Event class name. If you do not provide it Joomla\CMS\Events\<eventNameWithoutOnPrefix>
 	 *                      will be used.
 	 *
 	 * @param   string  $eventName  The name of the event, e.g. onTableBeforeLoad

@@ -607,7 +607,7 @@ abstract class Admin extends Form
 				$table->load($pk);
 				$tags = array($value);
 
-				$setTagsEvent = \Joomla\Cms\Event\AbstractEvent::create(
+				$setTagsEvent = \Joomla\CMS\Event\AbstractEvent::create(
 					'TableSetNewTags',
 					array(
 						'subject'     => $this,

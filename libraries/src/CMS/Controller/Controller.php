@@ -138,7 +138,7 @@ class Controller  implements ControllerInterface
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    \Joomla\Cms\View\View[]
+	 * @var    \Joomla\CMS\View\View[]
 	 * @since  3.4
 	 */
 	protected static $views;
