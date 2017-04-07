@@ -113,7 +113,7 @@ class ListView extends HtmlView
 		}
 		else
 		{
-			$this->toolbarTitle = strtoupper($this->option . '_MANAGERS_' . $this->getName());
+			$this->toolbarTitle = strtoupper($this->option . '_MANAGER_' . $this->getName());
 		}
 
 		if (isset($config['toolbar_icon']))
@@ -171,13 +171,18 @@ class ListView extends HtmlView
 	 */
 	protected function initializeView()
 	{
+		$componentName = substr($this->option, 4);
+		$helperClass = ucfirst($componentName . 'Helper');
+
+		// Include the component helpers.
+		\JLoader::register($helperClass, JPATH_COMPONENT . '/helpers/' . $componentName . '.php');
+		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
 		if ($this->getLayout() !== 'modal')
 		{
-			$helperClass = '\\' . ucfirst(substr($this->option, 4));
-
 			if (is_callable($helperClass . '::addSubmenu'))
 			{
-				call_user_func(array($helperClass, 'getActions'), $this->getName());
+				call_user_func(array($helperClass, 'addSubmenu'), $this->getName());
 			}
 
 			$this->sidebar = \JHtmlSidebar::render();
@@ -208,7 +213,7 @@ class ListView extends HtmlView
 		$viewName = $this->getName();
 		$singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
 
-		\JToolbarHelper::title($this->toolbarTitle, $this->toolbarIcon);
+		\JToolbarHelper::title(\JText::_($this->toolbarTitle), $this->toolbarIcon);
 
 		if ($canDo->get('core.create'))
 		{

@@ -11,6 +11,7 @@ namespace Joomla\Cms\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Component\ComponentHelper;
 /**
  * Base class for a Joomla Form View
  *
@@ -56,6 +57,13 @@ class FormView extends HtmlView
 	protected $toolbarTitle;
 
 	/**
+	 * The toolbar icon
+	 *
+	 * @var string
+	 */
+	protected $toolbarIcon;
+
+	/**
 	 * The preview link
 	 *
 	 * @var string
@@ -81,6 +89,15 @@ class FormView extends HtmlView
 		if (isset($config['help_link']))
 		{
 			$this->helpLink = $config['help_link'];
+		}
+
+		if (isset($config['toolbar_icon']))
+		{
+			$this->toolbarIcon = $config['toolbar_icon'];
+		}
+		else
+		{
+			$this->toolbarIcon = 'pencil-2 ' . $this->getName() . '-add';
 		}
 
 		// Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
@@ -122,6 +139,16 @@ class FormView extends HtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
+
+		// Set default toolbar title
+		if ($this->item->id)
+		{
+			$this->toolbarTitle = \JText::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_EDIT'));
+		}
+		else
+		{
+			$this->toolbarTitle = \JText::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_NEW'));
+		}
 	}
 
 	/**
@@ -142,15 +169,9 @@ class FormView extends HtmlView
 		$checkedOut = $this->getModel()->isCheckedOut($this->item);
 		$canDo      = $this->canDo;
 
-		if (empty($this->toolbarTitle))
-		{
-			$langKey = strtoupper($this->option . '_PAGE_' . ($checkedOut ? 'VIEW_' . $viewName : ($isNew ? 'ADD_' . $viewName : 'EDIT_' . $viewName)));
-			$this->toolbarTitle = \JText::_($langKey);
-		}
-
 		\JToolbarHelper::title(
 			$this->toolbarTitle,
-			'pencil-2 ' . $viewName . '-add'
+			$this->toolbarIcon
 		);
 
 		// For new records, check the create permission.
@@ -205,7 +226,7 @@ class FormView extends HtmlView
 				'btn-success'
 			);
 
-			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				\JToolbarHelper::versions($this->option . '.' . $viewName, $this->item->id);
 			}
