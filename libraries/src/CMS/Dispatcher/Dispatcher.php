@@ -11,6 +11,8 @@ namespace Joomla\CMS\Dispatcher;
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Application\CmsApplication;
 use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Mvc\Factory\MvcFactory;
 
 defined('_JEXEC') or die;
 
@@ -52,6 +54,15 @@ abstract class Dispatcher implements DispatcherInterface
 	protected $namespace;
 
 	/**
+	 * The extension namespace
+	 *
+	 * @var    MvcFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $factory;
+
+	/**
 	 * Constructor for Dispatcher
 	 *
 	 * @param   string          $namespace  Namespace of the Extension
@@ -60,11 +71,12 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, CmsApplication $app, \JInput $input = null)
+	public function __construct($namespace, CmsApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
 	{
 		$this->namespace = $namespace;
 		$this->app       = $app;
 		$this->input     = $input ? $input : $app->input;
+		$this->factory   = $factory ? $factory : new MvcFactory($namespace, $this->app);
 
 		$this->loadLanguage();
 		$this->autoLoad();
@@ -169,8 +181,18 @@ abstract class Dispatcher implements DispatcherInterface
 
 		$controllerName = $this->namespace . $client . 'Controller\\' . ucfirst($name);
 
-		$controller = new $controllerName($config, null, $this->app, $this->input);
+		$controller = new $controllerName($config, $this->factory, $this->app, $this->input);
 
 		return $controller;
+	}
+
+	/**
+	 * Method to get factory object
+	 *
+	 * @return  MvcFactoryInterface
+	 */
+	public function getFactory()
+	{
+		return $this->factory;
 	}
 }
