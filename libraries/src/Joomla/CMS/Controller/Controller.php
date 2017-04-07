@@ -8,8 +8,8 @@
 
 namespace Joomla\CMS\Controller;
 
-use Joomla\Cms\Mvc\LegacyFactory;
-use Joomla\Cms\Mvc\MvcFactoryInterface;
+use Joomla\CMS\Mvc\LegacyFactory;
+use Joomla\CMS\Mvc\MvcFactoryInterface;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -176,7 +176,7 @@ class Controller extends \JObject
 	 *
 	 * @since   3.0
 	 */
-	protected static function createFileName($type, $parts = array())
+	public static function createFileName($type, $parts = array())
 	{
 		$filename = '';
 
@@ -316,13 +316,14 @@ class Controller extends \JObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		$this->methods = array();
 		$this->message = null;
@@ -437,6 +438,8 @@ class Controller extends \JObject
 		{
 			$this->default_view = $this->getName();
 		}
+
+		$this->factory = $factory ? : new LegacyFactory;
 	}
 
 	/**
