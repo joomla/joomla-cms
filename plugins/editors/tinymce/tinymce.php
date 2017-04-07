@@ -188,6 +188,9 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
+		// Set editor to readonly mode
+		$textarea->readonly = !empty($params['readonly']);
+
 		// Render Editor markup
 		$editor = '<div class="js-editor-tinymce">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
