@@ -2351,7 +2351,7 @@ class JForm
 	 *
 	 * @return  SimpleXMLElement|boolean  The XML element object for the field or boolean false on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getFieldXml($name, $group = null)
 	{

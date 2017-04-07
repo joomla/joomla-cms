@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('folderlist');
  *
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
- * @since       __DEPLOY_VERSION__
+ * @since       3.7.0
  */
 class JFormFieldUploaddirs extends JFormFieldFolderList
 {
@@ -36,7 +36,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 	 * @return  boolean  True on success.
 	 *
 	 * @see     JFormField::setup()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -55,7 +55,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 	 *
 	 * @return  array  The dirs option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getOptions()
 	{
@@ -67,7 +67,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getInput()
 	{

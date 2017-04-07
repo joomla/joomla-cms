@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extended Utility class for render debug information.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 abstract class JHtmlDebug
 {
@@ -23,7 +23,7 @@ abstract class JHtmlDebug
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public static $xdebugLinkFormat;
 
@@ -39,7 +39,7 @@ abstract class JHtmlDebug
 	 *
 	 * @throws  \InvalidArgumentException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function xdebuglink($file, $line = '')
 	{
