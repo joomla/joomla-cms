@@ -22,11 +22,7 @@ use Joomla\Registry\Registry;
  * @see    https://secure.php.net/manual/en/features.commandline.php
  * @since  11.1
  */
-<<<<<<< HEAD:libraries/joomla/application/daemon.php
-abstract class JApplicationDaemon extends JApplicationCli
-=======
-class DaemonApplication extends CliApplication
->>>>>>> 3.8-dev:libraries/src/Joomla/CMS/Application/DaemonApplication.php
+abstract class DaemonApplication extends CliApplication
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
@@ -99,8 +95,7 @@ class DaemonApplication extends CliApplication
 	/**
 	 * Class constructor.
 	 *
-<<<<<<< HEAD:libraries/joomla/application/daemon.php
-	 * @param   JInputCli            $input       An optional argument to provide dependency injection for the application's
+	 * @param   \JInputCli           $input       An optional argument to provide dependency injection for the application's
 	 *                                            input object.  If the argument is a JInputCli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
@@ -114,24 +109,7 @@ class DaemonApplication extends CliApplication
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
 	 */
-	public function __construct(JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
-=======
-	 * @param   \JInputCli         $input       An optional argument to provide dependency injection for the application's
-	 *                                         input object.  If the argument is a \JInputCli object that object will become
-	 *                                         the application's input object, otherwise a default input object is created.
-	 * @param   Registry           $config      An optional argument to provide dependency injection for the application's
-	 *                                         config object.  If the argument is a Registry object that object will become
-	 *                                         the application's config object, otherwise a default config object is created.
-	 * @param   \JEventDispatcher  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                                         event dispatcher.  If the argument is a \JEventDispatcher object that object will become
-	 *                                         the application's event dispatcher, if it is null then the default event dispatcher
-	 *                                         will be created based on the application's loadDispatcher() method.
-	 *
-	 * @since   11.1
-	 * @throws  \RuntimeException
-	 */
-	public function __construct(\JInputCli $input = null, Registry $config = null, \JEventDispatcher $dispatcher = null)
->>>>>>> 3.8-dev:libraries/src/Joomla/CMS/Application/DaemonApplication.php
+	public function __construct(\JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		// @codeCoverageIgnoreStart
