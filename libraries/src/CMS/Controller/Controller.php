@@ -10,7 +10,10 @@ namespace Joomla\CMS\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CmsApplication;
 use Joomla\CMS\Model\Model;
+use Joomla\CMS\Mvc\Factory\LegacyFactory;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\View\View;
 
 /**
@@ -21,7 +24,7 @@ use Joomla\CMS\View\View;
  *
  * @since  2.5.5
  */
-class Controller  implements ControllerInterface
+class Controller implements ControllerInterface
 {
 	/**
 	 * The base path of the controller
@@ -128,6 +131,14 @@ class Controller  implements ControllerInterface
 	protected $input;
 
 	/**
+	 * The factory.
+	 *
+	 * @var    MvcFactoryInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $factory;
+
+	/**
 	 * Instance container.
 	 *
 	 * @var    static
@@ -176,7 +187,7 @@ class Controller  implements ControllerInterface
 	 *
 	 * @since   3.0
 	 */
-	protected static function createFileName($type, $parts = array())
+	public static function createFileName($type, $parts = array())
 	{
 		$filename = '';
 
@@ -329,15 +340,16 @@ class Controller  implements ControllerInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param   array             $config  An optional associative array of configuration settings.
-	 *                                     Recognized key values include 'name', 'default_task', 'model_path', and
-	 *                                     'view_path' (this list is not meant to be comprehensive).
-	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
-	 * @param   \JInput           $input   Input
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), $app = null, $input = null)
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		$this->methods = array();
 		$this->message = null;
@@ -453,6 +465,8 @@ class Controller  implements ControllerInterface
 		{
 			$this->default_view = $this->getName();
 		}
+
+		$this->factory = $factory ? : new LegacyFactory;
 	}
 
 	/**
@@ -551,11 +565,14 @@ class Controller  implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		// Clean the model name
-		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$model = $this->factory->createModel($name, $prefix, $config);
 
-		return Model::getInstance($modelName, $classPrefix, $config);
+		if ($model === null)
+		{
+			return false;
+		}
+
+		return $model;
 	}
 
 	/**
@@ -578,39 +595,8 @@ class Controller  implements ControllerInterface
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		// Clean the view name
-		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
-
-		// Build the view class name
-		$viewClass = $classPrefix . $viewName;
-
-		if (!class_exists($viewClass))
-		{
-			jimport('joomla.filesystem.path');
-			$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
-
-			if (!$path)
-			{
-				return null;
-			}
-
-			require_once $path;
-
-			if (!class_exists($viewClass))
-			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
-			}
-		}
-
-		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($viewClass))
-		{
-			return \JFactory::getContainer()->get($viewClass);
-		}
-
-		return new $viewClass($config);
+		$config['paths'] = $this->paths['view'];
+		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
 	/**
