@@ -12,7 +12,7 @@ namespace Joomla\Component\Content\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Cms\Controller\Form;
+use Joomla\CMS\Controller\Form;
 
 /**
  * The article controller

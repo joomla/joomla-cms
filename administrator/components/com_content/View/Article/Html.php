@@ -11,7 +11,7 @@ namespace Joomla\Component\Content\Administrator\View\Article;
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\View\View;
+use Joomla\CMS\View\View;
 
 /**
  * View to edit an article.

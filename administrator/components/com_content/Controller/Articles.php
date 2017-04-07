@@ -12,7 +12,7 @@ namespace Joomla\Component\Content\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Cms\Controller\Admin;
+use Joomla\CMS\Controller\Admin;
 
 /**
  * Articles list controller class.
@@ -26,7 +26,7 @@ class Articles extends Admin
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     \Joomla\Cms\Controller\Controller
+	 * @see     \Joomla\CMS\Controller\Controller
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -117,7 +117,7 @@ class Articles extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\Cms\Model\Model
+	 * @return  \Joomla\CMS\Model\Model
 	 *
 	 * @since   1.6
 	 */

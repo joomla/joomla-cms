@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Cms\Model\Admin;
+use Joomla\CMS\Model\Admin;
 use Joomla\Component\Content\Administrator\Table\Article as ArticleTable;
 
 /**
@@ -214,7 +214,7 @@ class Article extends Admin
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   Joomla\Cms\Table\Table  $table  A Table object.
+	 * @param   Joomla\CMS\Table\Table  $table  A Table object.
 	 *
 	 * @return  void
 	 *
@@ -250,7 +250,7 @@ class Article extends Admin
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\Cms\Table\Table    A database object
+	 * @return  \Joomla\CMS\Table\Table    A database object
 	 */
 	public function getTable($type = 'Content', $prefix = 'JTable', $config = array())
 	{

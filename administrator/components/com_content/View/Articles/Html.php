@@ -11,7 +11,7 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\View\View;
+use Joomla\CMS\View\View;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 /**

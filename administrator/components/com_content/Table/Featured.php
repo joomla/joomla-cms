@@ -11,7 +11,7 @@ namespace Joomla\Component\Content\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Table\Table;
+use Joomla\CMS\Table\Table;
 
 /**
  * Featured Table class.

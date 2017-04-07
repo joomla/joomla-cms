@@ -25,7 +25,7 @@ class Featured extends Articles
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     Joomla\Cms\Controller\Controller
+	 * @see     Joomla\CMS\Controller\Controller
 	 * @since   1.6
 	 */
 	public function __construct($config = array())

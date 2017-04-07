@@ -551,6 +551,13 @@ class Controller  implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
+		$reflect = new \ReflectionClass($this);
+		if ($reflect->getNamespaceName())
+		{
+			$modelClass = str_replace('\\Controller', '\\Model', $reflect->getNamespaceName()) . '\\' . ucfirst($name);
+			return new $modelClass($config);
+		}
+
 		// Clean the model name
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
@@ -578,29 +585,37 @@ class Controller  implements ControllerInterface
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		// Clean the view name
-		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
-
-		// Build the view class name
-		$viewClass = $classPrefix . $viewName;
-
-		if (!class_exists($viewClass))
+		$reflect = new \ReflectionClass($this);
+		if ($reflect->getNamespaceName())
 		{
-			jimport('joomla.filesystem.path');
-			$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+			$viewClass = str_replace('\\Controller', '\\View', $reflect->getNamespaceName()) . '\\' . ucfirst($name) . '\\' . ucfirst($type);
+		}
+		else
+		{
+			// Clean the view name
+			$viewName    = preg_replace('/[^A-Z0-9_]/i', '', $name);
+			$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+			$viewType    = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
-			if (!$path)
-			{
-				return null;
-			}
-
-			require_once $path;
+			// Build the view class name
+			$viewClass = $classPrefix . $viewName;
 
 			if (!class_exists($viewClass))
 			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
+				jimport('joomla.filesystem.path');
+				$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+
+				if (!$path)
+				{
+					return null;
+				}
+
+				require_once $path;
+
+				if (!class_exists($viewClass))
+				{
+					throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
+				}
 			}
 		}
 
