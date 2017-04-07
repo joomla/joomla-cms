@@ -202,7 +202,7 @@ abstract class MultilangstatusHelper
 			->from('#__users AS u')
 			->join('LEFT', '#__contact_details AS cd ON cd.user_id=u.id')
 			->where('EXISTS (SELECT 1 from #__content as c where  c.created_by=u.id)')
-			->group('u.id');
+			->group('u.id, u.name');
 
 		$db->setQuery($query);
 		$warnings = $db->loadObjectList();

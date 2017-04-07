@@ -248,7 +248,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('protostar', $template->template);
+		$this->assertEquals('aurora', $template->template);
 	}
 
 	/**
@@ -346,12 +346,12 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testSetTemplate()
 	{
-		$this->class->setTemplate('protostar');
+		$this->class->setTemplate('aurora');
 
 		$template = $this->class->getTemplate(true);
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('protostar', $template->template);
+		$this->assertEquals('aurora', $template->template);
 	}
 }

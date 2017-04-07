@@ -38,7 +38,7 @@ $fieldsets = $this->form->getFieldsets();
 $settings = array();
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 

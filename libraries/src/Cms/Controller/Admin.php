@@ -3,8 +3,8 @@
  * @package     Joomla.Cms
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Cms\Controller;
@@ -118,14 +118,12 @@ class Admin extends Controller
 		// Check for request forgeries
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = \JFactory::getApplication();
-
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -194,8 +192,6 @@ class Admin extends Controller
 		// Check for request forgeries
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = \JFactory::getApplication();
-
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
 		$data  = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
@@ -204,7 +200,7 @@ class Admin extends Controller
 
 		if (empty($cid))
 		{
-			$app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+			$this->app->getLogger()->warning(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -405,6 +401,6 @@ class Admin extends Controller
 		}
 
 		// Close the application
-		\JFactory::getApplication()->close();
+		$this->app->close();
 	}
 }

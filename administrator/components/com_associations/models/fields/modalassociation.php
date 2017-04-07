@@ -69,7 +69,7 @@ class JFormFieldModalAssociation extends JFormField
 			. ' data-change="' . JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' role="button"'
 			. ' href="#associationSelect' . $this->id . 'Modal">'
-			. '<span class="icon-file"></span>'
+			. '<span class="icon-file" aria-hidden="true"></span>'
 			. '<span id="select-change-text"></span>'
 			. '</a>';
 
@@ -78,7 +78,7 @@ class JFormFieldModalAssociation extends JFormField
  				. ' class="btn' . ($value ? '' : ' hidden') . '"'
  				. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
  				. ' id="remove-assoc">'
- 				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
+ 				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
  				. '</button>';
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '">';

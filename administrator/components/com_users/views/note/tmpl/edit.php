@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="note-form">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="note-form" class="form-validate">
 	<fieldset class="adminform">
 		<div class="control-group">
 			<div class="control-label">

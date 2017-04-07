@@ -93,5 +93,4 @@ class JMediawikiObjectTest extends \PHPUnit\Framework\TestCase
 			$this->equalTo('Joomla|Joomla|Joomla')
 		);
 	}
-
 }

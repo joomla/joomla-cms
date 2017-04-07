@@ -1728,13 +1728,6 @@ class JoomlaInstallerScript
 			'/components/com_users/views/remind/metadata.xml',
 			'/components/com_users/views/reset/metadata.xml',
 			'/components/com_wrapper/metadata.xml',
-			'/media/jui/js/bootstrap-tooltip-extended.js',
-			'/media/jui/js/bootstrap-tooltip-extended.min.js',
-			'/media/jui/js/icomoon-lte-ie7.js',
-			'/media/jui/css/bootstrap-extended.css',
-			'/media/jui/css/bootstrap-tooltip-extended.css',
-			'/media/jui/css/bootstrap-responsive.css',
-			'/media/jui/css/bootstrap-responsive.min.css',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
@@ -1856,10 +1849,6 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/mode/jade',
 			// Joomla! 3.7.0
 			'/libraries/joomla/data',
-			'/templates/beez3',
-			'/administrator/templates/isis',
-			'/administrator/templates/hathor',
-			'/media/jui/less',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default',
 			'/administrator/components/com_cache/layouts/joomla/searchtools',
 			'/administrator/components/com_cache/layouts/joomla',
@@ -1876,6 +1865,11 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts/joomla',
 			'/administrator/components/com_templates/layouts',
 			'/administrator/templates/hathor/html/mod_menu',
+			// Joomla! 4.0
+			'/templates/beez3',
+			'/administrator/templates/isis',
+			'/administrator/templates/hathor',
+			'/media/jui/less',
 		);
 
 		jimport('joomla.filesystem.file');

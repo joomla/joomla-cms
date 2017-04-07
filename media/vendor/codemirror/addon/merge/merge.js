@@ -49,17 +49,17 @@
       if (Object.prototype.toString.call(classLocation) != "[object Array]") classLocation = [classLocation]
       this.classes.classLocation = classLocation
 
-      this.diff = getDiff(asString(orig), asString(options.value));
+      this.diff = getDiff(asString(orig), asString(options.value), this.mv.options.ignoreWhitespace);
       this.chunks = getChunks(this.diff);
       this.diffOutOfDate = this.dealigned = false;
       this.needsScrollSync = null
 
       this.showDifferences = options.showDifferences !== false;
     },
-    registerEvents: function() {
+    registerEvents: function(otherDv) {
       this.forceUpdate = registerUpdate(this);
       setScrollLock(this, true, false);
-      registerScroll(this);
+      registerScroll(this, otherDv);
     },
     setShowDifferences: function(val) {
       val = val !== false;
@@ -72,7 +72,7 @@
 
   function ensureDiff(dv) {
     if (dv.diffOutOfDate) {
-      dv.diff = getDiff(dv.orig.getValue(), dv.edit.getValue());
+      dv.diff = getDiff(dv.orig.getValue(), dv.edit.getValue(), dv.mv.options.ignoreWhitespace);
       dv.chunks = getChunks(dv.diff);
       dv.diffOutOfDate = false;
       CodeMirror.signal(dv.edit, "updateDiff", dv.diff);
@@ -128,6 +128,7 @@
     }
     function swapDoc() {
       dv.diffOutOfDate = true;
+      dv.dealigned = true;
       update("full");
     }
     dv.edit.on("change", change);
@@ -144,12 +145,13 @@
     return update;
   }
 
-  function registerScroll(dv) {
+  function registerScroll(dv, otherDv) {
     dv.edit.on("scroll", function() {
       syncScroll(dv, true) && makeConnections(dv);
     });
     dv.orig.on("scroll", function() {
       syncScroll(dv, false) && makeConnections(dv);
+      if (otherDv) syncScroll(otherDv, true) && makeConnections(otherDv);
     });
   }
 
@@ -352,11 +354,11 @@
     var result = []
     for (var i = 0;; i++) {
       var chunk = chunks[i]
-      var chunkStart = !chunk ? cm.lastLine() + 1 : isOrig ? chunk.origFrom : chunk.editFrom
+      var chunkStart = !chunk ? 1e9 : isOrig ? chunk.origFrom : chunk.editFrom
       for (; trackI < tracker.alignable.length; trackI += 2) {
         var n = tracker.alignable[trackI] + 1
         if (n <= start) continue
-        if (n < chunkStart) result.push(n)
+        if (n <= chunkStart) result.push(n)
         else break
       }
       if (!chunk) break
@@ -370,14 +372,22 @@
   // lines that need to be aligned with each other.
   function mergeAlignable(result, origAlignable, chunks, setIndex) {
     var rI = 0, origI = 0, chunkI = 0, diff = 0
-    for (;; rI++) {
+    outer: for (;; rI++) {
       var nextR = result[rI], nextO = origAlignable[origI]
       if (!nextR && nextO == null) break
 
       var rLine = nextR ? nextR[0] : 1e9, oLine = nextO == null ? 1e9 : nextO
       while (chunkI < chunks.length) {
         var chunk = chunks[chunkI]
-        if (chunk.editTo > rLine) break
+        if (chunk.origFrom <= oLine && chunk.origTo > oLine) {
+          origI++
+          rI--
+          continue outer;
+        }
+        if (chunk.editTo > rLine) {
+          if (chunk.editFrom <= rLine) continue outer;
+          break
+        }
         diff += (chunk.origTo - chunk.origFrom) - (chunk.editTo - chunk.editFrom)
         chunkI++
       }
@@ -467,7 +477,7 @@
     var elt = document.createElement("div");
     elt.className = "CodeMirror-merge-spacer";
     elt.style.height = size + "px"; elt.style.minWidth = "1px";
-    return cm.addLineWidget(line, elt, {height: size, above: above, mergeSpacer: true});
+    return cm.addLineWidget(line, elt, {height: size, above: above, mergeSpacer: true, handleMouseEvents: true});
   }
 
   function drawConnectorsForChunk(dv, chunk, sTopOrig, sTopEdit, w) {
@@ -567,8 +577,8 @@
       this.aligners = [];
       alignChunks(this.left || this.right, true);
     }
-    if (left) left.registerEvents()
-    if (right) right.registerEvents()
+    if (left) left.registerEvents(right)
+    if (right) right.registerEvents(left)
 
 
     var onResize = function() {
@@ -636,12 +646,12 @@
   // Operations on diffs
 
   var dmp = new diff_match_patch();
-  function getDiff(a, b) {
+  function getDiff(a, b, ignoreWhitespace) {
     var diff = dmp.diff_main(a, b);
     // The library sometimes leaves in empty parts, which confuse the algorithm
     for (var i = 0; i < diff.length; ++i) {
       var part = diff[i];
-      if (!part[1]) {
+      if (ignoreWhitespace ? !/[^ \t]/.test(part[1]) : !part[1]) {
         diff.splice(i--, 1);
       } else if (i && diff[i - 1][0] == part[0]) {
         diff.splice(i--, 1);
@@ -658,7 +668,7 @@
     for (var i = 0; i < diff.length; ++i) {
       var part = diff[i], tp = part[0];
       if (tp == DIFF_EQUAL) {
-        var startOff = startOfLineClean(diff, i) ? 0 : 1;
+        var startOff = !startOfLineClean(diff, i) || edit.line < startEdit || orig.line < startOrig ? 1 : 0;
         var cleanFromEdit = edit.line + startOff, cleanFromOrig = orig.line + startOff;
         moveOver(edit, part[1], null, orig);
         var endOff = endOfLineClean(diff, i) ? 1 : 0;
@@ -826,6 +836,7 @@
   function TrackAlignable(cm) {
     this.cm = cm
     this.alignable = []
+    this.height = cm.doc.height
     var self = this
     cm.on("markerAdded", function(_, marker) {
       if (!marker.collapsed) return
@@ -855,11 +866,15 @@
       self.check(end, F_MARKER, self.hasMarker)
       if (nBefore || nAfter) self.check(change.from.line, F_MARKER, self.hasMarker)
     })
+    cm.on("viewportChange", function() {
+      if (self.cm.doc.height != self.height) self.signal()
+    })
   }
 
   TrackAlignable.prototype = {
     signal: function() {
       CodeMirror.signal(this, "realign")
+      this.height = this.cm.doc.height
     },
 
     set: function(n, flags) {

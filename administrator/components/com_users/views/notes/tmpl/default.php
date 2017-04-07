@@ -34,22 +34,22 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th width="1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo JHtml::_('grid.checkall'); ?>
 							</th>
-							<th width="1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 							</th>
-							<th width="20%" class="nowrap hidden-sm-down">
+							<th style="width:20%" class="nowrap hidden-sm-down">
 								<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_USER', 'u.name', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="nowrap hidden-sm-down">
+							<th style="width:10%" class="nowrap hidden-sm-down">
 								<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REVIEW', 'a.review_time', $listDirn, $listOrder); ?>
 							</th>
-							<th width="1%" class="nowrap hidden-sm-down">
+							<th style="width:1%" class="nowrap hidden-sm-down">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>

@@ -33,19 +33,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table table-striped" id="template-mgr">
 						<thead>
 							<tr>
-								<th class="col1template hidden-sm-down" width="20%">
+								<th class="col1template hidden-sm-down" style="width:20%">
 									<?php echo JText::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
-								<th width="30%">
+								<th style="width:30%">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th width="25%" class="hidden-sm-down text-center" >
+								<th style="width:25%" class="hidden-sm-down text-center" >
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
 							</tr>

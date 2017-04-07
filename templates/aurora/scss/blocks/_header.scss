@@ -1,0 +1,128 @@
+// Header
+
+.header {
+  position: relative;
+  z-index: 5;
+  padding: 15px 0;
+  background: $aurora-template-color-light;
+
+  &::after {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    height: 3px;
+    content: "";
+    background-color: $brand-primary;
+    background-image: linear-gradient(to right, $aurora-hl-grad-inner 0%, $aurora-hl-grad-outer 100%);
+  }
+
+  .site-description {
+    font-size: 1rem;
+    color: $white-offset;
+  }
+
+  .navbar-brand {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    margin-right: 3rem;
+    font-size: 2rem;
+    color: $white-offset;
+
+    img {
+      width: 200px;
+      min-width: 200px;
+    }
+
+    &:hover,
+    &:focus {
+      color: darken($white-offset, 6%);
+    }
+  }
+
+  .navbar-nav.flex-column {
+    flex-direction: row !important;
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column !important;
+    }
+  }
+
+  .navbar-nav li {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 3px;
+    margin-right: 20px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &::after {
+      display: block;
+      width: 0;
+      height: 3px;
+      margin: auto;
+      content: "";
+      background: transparent;
+      transition: width .5s ease, background-color .5s ease;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+
+    &.active::after,
+    &:hover::after {
+      width: 100%;
+      background: $white;
+    }
+
+    a {
+      position: relative;
+      display: block;
+      padding: .5rem 0;
+      color: $white;
+      text-decoration: none;
+    }
+  }
+
+  .navbar-toggler {
+    color: $white-offset;
+    border: 1px solid $white-offset;
+
+    .fa {
+      font-size: 24px;
+    }
+  }
+
+}
+
+.container-title {
+  padding-top: 13px;
+  padding-bottom: 13px;
+  color: $white;
+  background-color: $aurora-template-color-light;
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .page-title {
+    margin-bottom: 0;
+    font-size: 1.3rem;
+    font-weight: normal;
+
+    span {
+      position: relative;
+      top: 2px;
+      margin-right: 12px;
+      margin-left: 5px;
+      font-size: $font-size-h1;
+      color: lighten($aurora-template-color-light, 10%);
+    }
+
+  }
+
+}

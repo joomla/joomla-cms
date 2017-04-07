@@ -3,8 +3,8 @@
  * @package     Joomla.Cms
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Cms\Controller;
@@ -292,19 +292,18 @@ class Controller  implements ControllerInterface
 		// Include the class if not present.
 		if (!class_exists($class))
 		{
-			\JLoader::register($class, $path);
-
-			if (!class_exists($class))
+			// If the controller file path exists, include it.
+			if (file_exists($path))
 			{
-				if (isset($backuppath) && file_exists($backuppath))
-				{
-					\JLoader::register($class, $backuppath);
-				}
-
-				if (!class_exists($class))
-				{
-					throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
-				}
+				require_once $path;
+			}
+			elseif (isset($backuppath) && file_exists($backuppath))
+			{
+				require_once $backuppath;
+			}
+			else
+			{
+				throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
@@ -553,38 +552,6 @@ class Controller  implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		$reflect = new \ReflectionClass($this);
-		if ($reflect->getNamespaceName())
-		{
-			// The model namespace
-			$ns = str_replace('\\Controller', '\\Model', $reflect->getNamespaceName());
-
-			// Set up the prefix in the format we can use it
-			$prefix = ucfirst($prefix);
-
-			// If the admin class is needed, we replace Site with Admin
-			if ($prefix == 'Admin')
-			{
-				$ns = str_replace('\\Site\\', '\\' . $prefix . '\\', $ns);
-			}
-
-			// If the site class is needed, we replace Admin with Site
-			if ($prefix == 'Site')
-			{
-				$ns = str_replace('\\Administrator\\', '\\' . $prefix . '\\', $ns);
-			}
-
-			// Compile the model class name
-			$modelClass = $ns . '\\' . ucfirst($name);
-
-			if (!class_exists($modelClass))
-			{
-				return false;
-			}
-
-			return new $modelClass($config);
-		}
-
 		// Clean the model name
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
@@ -610,64 +577,31 @@ class Controller  implements ControllerInterface
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	protected function createView($name, $prefix = '', $type = 'html', $config = array())
+	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		$reflect = new \ReflectionClass($this);
-		if ($reflect->getNamespaceName())
+		// Clean the view name
+		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
+
+		// Build the view class name
+		$viewClass = $classPrefix . $viewName;
+
+		if (!class_exists($viewClass))
 		{
-			// The view namespace
-			$ns = str_replace('\\Controller', '\\View', $reflect->getNamespaceName());
+			jimport('joomla.filesystem.path');
+			$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
 
-			// Set up the prefix in the format we can use it
-			$prefix = ucfirst($prefix);
-
-			// If the admin class is needed, we replace Site with Admin
-			if ($prefix == 'Admin')
-			{
-				$ns = str_replace('\\Site\\', '\\' . $prefix . '\\', $ns);
-			}
-
-			// If the site class is needed, we replace Admin with Site
-			if ($prefix == 'Site')
-			{
-				$ns = str_replace('\\Administrator\\', '\\' . $prefix . '\\', $ns);
-			}
-
-			// Compile the model class name
-			$viewClass = $ns . '\\' . ucfirst($name) . '\\' . ucfirst($type);
-
-			if (!class_exists($viewClass))
+			if (!$path)
 			{
 				return null;
 			}
-		}
-		else
-		{
-			// Legacy view set up
-			// Clean the view name
-			$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
-			$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-			$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
-			// Build the view class name
-			$viewClass = $classPrefix . $viewName;
+			require_once $path;
 
 			if (!class_exists($viewClass))
 			{
-				jimport('joomla.filesystem.path');
-				$path = \JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
-
-				if (!$path)
-				{
-					return null;
-				}
-
-				\JLoader::register($viewClass, $path);
-
-				if (!class_exists($viewClass))
-				{
-					throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
-				}
+				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
 			}
 		}
 
@@ -715,9 +649,6 @@ class Controller  implements ControllerInterface
 		if ($cachable && $viewType != 'feed' && \JFactory::getConfig()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
-
-			/** @var \JCacheControllerView $cache */
-			$cache = \JFactory::getCache($option, 'view');
 
 			if (is_array($urlparams))
 			{
@@ -856,11 +787,9 @@ class Controller  implements ControllerInterface
 	{
 		if (empty($this->name))
 		{
-			$reflect = new \ReflectionClass($this);
+			$r = null;
 
-			$r = array(0 => '', 1 => $reflect->getShortName());
-
-			if (!$reflect->getNamespaceName() && !preg_match('/(.*)Controller/i', $reflect->getShortName(), $r))
+			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}

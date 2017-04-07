@@ -30,13 +30,6 @@
 				/>
 
 				<field
-					name="width"
-					type="text"
-					label="MOD_SEARCH_FIELD_BOXWIDTH_LABEL"
-					description="MOD_SEARCH_FIELD_BOXWIDTH_DESC"
-				/>
-
-				<field
 					name="text"
 					type="text"
 					label="MOD_SEARCH_FIELD_TEXT_LABEL"
@@ -53,19 +46,6 @@
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
-				</field>
-				<field
-					name="button_pos"
-					type="list"
-					label="MOD_SEARCH_FIELD_BUTTONPOS_LABEL"
-					description="MOD_SEARCH_FIELD_BUTTONPOS_DESC"
-					default="left"
-					showon="button:1"
-					>
-					<option value="right">MOD_SEARCH_FIELD_VALUE_RIGHT</option>
-					<option value="left">MOD_SEARCH_FIELD_VALUE_LEFT</option>
-					<option value="top">MOD_SEARCH_FIELD_VALUE_TOP</option>
-					<option value="bottom">MOD_SEARCH_FIELD_VALUE_BOTTOM</option>
 				</field>
 
 				<field

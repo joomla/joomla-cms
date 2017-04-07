@@ -32,17 +32,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th width="5%"></th>
+								<th style="width:5%"></th>
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
-								<th width="15%" class="text-center">
+								<th style="width:15%" class="text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th width="35%" class="nowrap hidden-sm-down">
+								<th style="width:35%" class="nowrap hidden-sm-down">
 									<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 								</th>
 							</tr>

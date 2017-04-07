@@ -44,13 +44,26 @@
 			    defaultOptions = tinyMCEOptions['default'] || {},
 			    options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
 
-			// Avoid unexpected changes
-			options = Joomla.extend({}, options);
+			// Avoid an unexpected changes, and copy the options object
+			if (options.joomlaMergeDefaults) {
+				options = Joomla.extend(Joomla.extend({}, defaultOptions), options);
+			} else {
+				options = Joomla.extend({}, options);
+			}
 
 			if (element) {
 				// We already have the Target, so reset the selector and assign given element as target
 				options.selector = null;
 				options.target   = element;
+			}
+
+			// @TODO: the ext-buttons should be as TinyMCE plugins, not the callback hack
+			if (options.joomlaExtButtons && options.joomlaExtButtons.names && options.joomlaExtButtons.names.length) {
+				options.toolbar1 += ' | ' + options.joomlaExtButtons.names.join(' ');
+				var callbackString = options.joomlaExtButtons.script.join(';');
+				options.setupCallbackString = options.setupCallbackString || '';
+				options.setupCallbackString = options.setupCallbackString + ';' + callbackString;
+				options.joomlaExtButtons = null;
 			}
 
 			if (options.setupCallbackString && !options.setup) {

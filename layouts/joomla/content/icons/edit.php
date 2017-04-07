@@ -27,12 +27,12 @@ if ($legacy)
 }
 else
 {
-	$icon = $article->state ? 'edit' : 'eye-close';
+	$icon = $article->state ? 'pencil-square-o' : 'eye-slash';
 
 	if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
 		|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
 	{
-		$icon = 'eye-close';
+		$icon = 'eye-slash';
 	}
 }
 
@@ -40,6 +40,6 @@ else
 <?php if ($legacy) : ?>
 	<?php echo JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), null, true); ?>
 <?php else : ?>
-	<span class="hasTooltip icon-<?php echo $icon; ?> tip" title="<?php echo JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
+	<span class="hasTooltip fa fa-<?php echo $icon; ?>" title="<?php echo JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
 	<?php echo JText::_('JGLOBAL_EDIT'); ?>
 <?php endif; ?>

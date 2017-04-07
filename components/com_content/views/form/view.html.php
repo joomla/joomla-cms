@@ -147,12 +147,6 @@ class ContentViewForm extends JViewLegacy
 		$this->params->merge($this->item->params);
 		$this->user   = $user;
 
-		if ($params->get('enable_category') == 1)
-		{
-			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
-			$this->form->setFieldAttribute('catid', 'readonly', 'true');
-		}
-
 		// Propose current language as default when creating new article
 		if (empty($this->item->id) && JLanguageMultilang::isEnabled())
 		{

@@ -60,25 +60,25 @@ if ($saveOrder)
 					<table class="table table-striped" id="groupList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th width="1%" class="text-center">
+								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down">
+								<th style="width:10%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
-								<th width="5%" class="nowrap hidden-sm-down">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+								<th style="width:5%" class="nowrap hidden-sm-down">
+									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 								</th>
-								<th width="1%" class="nowrap hidden-sm-down">
+								<th style="width:1%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -106,7 +106,7 @@ if ($saveOrder)
 											<?php $iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED'); ?>
 										<?php endif; ?>
 										<span class="sortable-handler<?php echo $iconClass; ?>">
-											<span class="icon-menu"></span>
+											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>">

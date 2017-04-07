@@ -8,7 +8,7 @@
 				label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
 				description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
 			>
-				<option value="">PLG_FIELDS_EDITOR_PARAMS_USE_GLOBAL</option>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>

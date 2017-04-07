@@ -14,13 +14,17 @@ $message1 = $state->get('message');
 $message2 = $state->get('extension_message');
 ?>
 
-<?php if ($message1) : ?> 
-	<div class="col-md-12"> 
-		<strong><?php echo $message1; ?></strong>
+<?php if ($message1) : ?>
+	<div class="container-fluid">
+		<div class="col-md-12">
+			<strong><?php echo $message1; ?></strong>
+		</div>
 	</div> 
 <?php endif; ?> 
 <?php if ($message2) : ?> 
-	<div class="col-md-12"> 
-		<?php echo $message2; ?>
-	</div> 
+	<div class="container-fluid">
+		<div class="col-md-12">
+			<?php echo $message2; ?>
+		</div> 
+	</div>
 <?php endif; ?>

@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('radio');
 
 /**
- * Sample data Form Field class.
+ * Install Sample Data field.
  *
  * @since  1.6
  */

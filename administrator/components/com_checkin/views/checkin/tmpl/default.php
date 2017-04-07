@@ -28,7 +28,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table id="global-checkin" class="table table-striped">
 						<thead>
 							<tr>
-								<th width="1%"><?php echo JHtml::_('grid.checkall'); ?></th>
+								<th style="width:1%"><?php echo JHtml::_('grid.checkall'); ?></th>
 								<th><?php echo JHtml::_('searchtools.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?></th>
 								<th><?php echo JHtml::_('searchtools.sort', 'COM_CHECKIN_ITEMS_TO_CHECK_IN', 'count', $listDirn, $listOrder); ?></th>
 							</tr>
