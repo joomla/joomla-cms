@@ -41,8 +41,10 @@
 
 /* Media browser */
 .media-browser {
-  width: 75%;
-  padding: 15px 0 15px 15px; }
+  height: calc(100% - 52px);
+  overflow-y: auto;
+  padding: 15px 0 15px 15px;
+  width: 75%; }
 
 .media-browser-items {
   display: flex;
