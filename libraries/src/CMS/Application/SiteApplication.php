@@ -10,12 +10,9 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
-<<<<<<< HEAD:libraries/cms/application/site.php
 use Joomla\Application\Web\WebClient;
-use Joomla\DI\Container;
-=======
 use Joomla\CMS\Component\ComponentHelper;
->>>>>>> 3.8-dev:libraries/src/Joomla/CMS/Application/SiteApplication.php
+use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
 /**
@@ -44,8 +41,7 @@ final class SiteApplication extends CmsApplication
 	/**
 	 * Class constructor.
 	 *
-<<<<<<< HEAD:libraries/cms/application/site.php
-	 * @param   JInput     $input      An optional argument to provide dependency injection for the application's input
+	 * @param   \JInput    $input      An optional argument to provide dependency injection for the application's input
 	 *                                 object.  If the argument is a JInput object that object will become the
 	 *                                 application's input object, otherwise a default input object is created.
 	 * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
@@ -58,22 +54,7 @@ final class SiteApplication extends CmsApplication
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
-=======
-	 * @param   \JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a \JInput object that object will become
-	 *                                          the application's input object, otherwise a default input object is created.
-	 * @param   Registry                $config  An optional argument to provide dependency injection for the application's
-	 *                                          config object.  If the argument is a Registry object that object will become
-	 *                                          the application's config object, otherwise a default config object is created.
-	 * @param   \JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a \JApplicationWebClient object that object will become
-	 *                                          the application's client object, otherwise a default client object is created.
-	 *
-	 * @since   3.2
-	 */
-	public function __construct(\JInput $input = null, Registry $config = null, \JApplicationWebClient $client = null)
->>>>>>> 3.8-dev:libraries/src/Joomla/CMS/Application/SiteApplication.php
+	public function __construct(\JInput $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
 		// Register the application name
 		$this->name = 'site';
@@ -601,25 +582,6 @@ final class SiteApplication extends CmsApplication
 			$user->groups = array($guestUsergroup);
 		}
 
-<<<<<<< HEAD:libraries/cms/application/site.php
-=======
-		/*
-		 * If a language was specified it has priority, otherwise use user or default language settings
-		 * Check this only if the languagefilter plugin is enabled
-		 *
-		 * @TODO - Remove the hardcoded dependency to the languagefilter plugin
-		 */
-		if (\JPluginHelper::isEnabled('system', 'languagefilter'))
-		{
-			$plugin = \JPluginHelper::getPlugin('system', 'languagefilter');
-
-			$pluginParams = new Registry($plugin->params);
-
-			$this->setLanguageFilter(true);
-			$this->setDetectBrowser($pluginParams->get('detect_browser', '1') == '1');
-		}
-
->>>>>>> 3.8-dev:libraries/src/Joomla/CMS/Application/SiteApplication.php
 		if (empty($options['language']))
 		{
 			// Detect the specified language

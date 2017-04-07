@@ -466,7 +466,7 @@ class AdministratorApplication extends CmsApplication
 
 		if (!$user)
 		{
-			$app->loadIdentity(JFactory::getUser());
+			$app->loadIdentity(\JFactory::getUser());
 			$user = $app->getIdentity();
 		}
 
