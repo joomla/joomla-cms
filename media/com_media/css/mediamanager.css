@@ -23,12 +23,16 @@
 /* General layout */
 .media-main {
   position: relative;
-  height: calc(100vh - 260px);
+  height: calc(100vh - 220px);
   min-height: 400px;
   border: 1px solid rgba(0, 0, 0, 0.17);
   border-radius: 0.25rem;
   background-color: #fff;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.075); }
+
+.media-sidebar {
+  height: calc(100vh - 220px);
+  overflow-y: auto; }
 
 .media-breadcrumb.breadcrumb {
   margin: 0;
@@ -150,25 +154,52 @@ ul.media-tree {
   padding: 0;
   margin: 0;
   overflow-x: hidden; }
+  ul.media-tree ul {
+    margin-left: 2px; }
+
+.media-sidebar > ul > li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14); }
+  .media-sidebar > ul > li:before, .media-sidebar > ul > li:after {
+    display: none; }
+  .media-sidebar > ul > li:first-of-type {
+    border-top: 1px solid rgba(0, 0, 0, 0.14); }
 
 .media-tree-item {
   position: relative;
   display: block; }
+  .media-tree-item:before {
+    content: '';
+    height: 1px;
+    width: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 16px;
+    left: 15px;
+    margin: auto; }
+  .media-tree-item:after {
+    content: '';
+    width: 1px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px; }
+  .media-tree-item:last-child:after {
+    height: 16px; }
+  .media-tree-item li {
+    padding-left: 25px; }
 
 .media-tree-item a {
   display: block;
-  position: relative;
-  padding: 5px 10px;
-  margin-bottom: 2px;
+  padding: 3px 7px;
   cursor: pointer;
-  border-left: 4px solid transparent;
   text-decoration: none;
   line-height: 26px;
   white-space: nowrap; }
 
 .media-tree-item a:hover {
   background-color: #e1e1e1;
-  border-color: #646464;
   text-decoration: none; }
 
 .media-tree-item.active > a {

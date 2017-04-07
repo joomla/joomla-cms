@@ -4,20 +4,58 @@ ul.media-tree {
   padding: 0;
   margin: 0;
   overflow-x: hidden;
+  ul {
+    margin-left: 2px;
+  }
+}
+
+.media-sidebar > ul > li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+  &:before, &:after {
+    display: none;
+  }
+  &:first-of-type {
+    border-top: 1px solid rgba(0, 0, 0, 0.14);
+  }
 }
 
 .media-tree-item {
   position: relative;
   display: block;
+  &:before {
+    content: '';
+    height: 1px;
+    width: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 16px;
+    left: 15px;
+    margin: auto;
+  }
+  &:after {
+    content:'';
+    width: 1px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+  }
+  &:last-child {
+    &:after {
+      height: 16px;
+    }
+  }
+  li {
+    padding-left: 25px;
+  }
 }
 
 .media-tree-item a {
   display: block;
-  position: relative;
-  padding: 5px 10px;
-  margin-bottom: 2px;
+  padding: 3px 7px;
   cursor: pointer;
-  border-left: 4px solid transparent;
   text-decoration: none;
   line-height: 26px;
   white-space: nowrap;
@@ -25,7 +63,6 @@ ul.media-tree {
 
 .media-tree-item a:hover {
   background-color: #e1e1e1;
-  border-color: #646464;
   text-decoration: none;
 }
 

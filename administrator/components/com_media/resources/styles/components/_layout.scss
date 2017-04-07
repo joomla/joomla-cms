@@ -4,7 +4,7 @@
 
 .media-main {
 	position: relative;
-	height: calc(100vh - 260px);
+	height: calc(100vh - 220px);
 	min-height: 400px;
 	border: 1px solid rgba(0, 0, 0, 0.17);
     border-radius: 0.25rem;
@@ -13,4 +13,6 @@
 }
 
 .media-sidebar {
+	height: calc(100vh - 220px);
+	overflow-y: auto;
 }
