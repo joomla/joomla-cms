@@ -152,3 +152,11 @@ a.js-btn.btn.btn-danger.btn-exit, a.js-btn.btn.btn-primary.btn-today, a.js-btn.b
 .calendar-container .btn-row td:last-of-type {
 	padding-right: 8px;
 }
+
+/* Adjusts the calendar field to fill the entire row
+	42px is the size of the calendar button
+*/
+
+.calendar-adjust {
+	width: calc(100% - 42px);
+}
