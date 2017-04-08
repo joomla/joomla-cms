@@ -15,7 +15,7 @@ use BadMethodCallException;
 /**
  * This class implements the immutable base Event object used system-wide to offer orthogonality.
  *
- * @see    Joomla\Cms\Event\AbstractEvent
+ * @see    Joomla\CMS\Event\AbstractEvent
  * @since  __DEPLOY_VERSION__
  */
 class AbstractImmutableEvent extends AbstractEvent

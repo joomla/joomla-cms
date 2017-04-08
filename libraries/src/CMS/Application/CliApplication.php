@@ -63,7 +63,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 			$this->close();
 		}
 
-		$this->input    = $input ?: new JInputCli;
+		$this->input    = $input ?: new \JInputCli;
 		$this->config   = $config ?: new Registry;
 		$this->output   = $output ?: new Stdout;
 		$this->cliInput = $cliInput ?: new CliInput;

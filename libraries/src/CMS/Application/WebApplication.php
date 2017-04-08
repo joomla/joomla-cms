@@ -119,7 +119,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function __construct(\JInput $input = null, Registry $config = null, WebClient $client = null, ResponseInterface $response = null)
 	{
-		// Ensure we have a \JInput object otherwise the DI for \Joomla\Cms\Session\Storage\JoomlaStorage fails
+		// Ensure we have a \JInput object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
 		$input = $input ?: new \JInput;
 
 		parent::__construct($input, $config, $client, $response);

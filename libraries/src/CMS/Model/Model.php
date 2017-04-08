@@ -10,6 +10,8 @@ namespace Joomla\CMS\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Mvc\Factory\LegacyFactory;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
@@ -69,6 +71,14 @@ abstract class Model extends \JObject
 	 * @since  3.0
 	 */
 	protected $event_clean_cache = null;
+
+	/**
+	 * The factory.
+	 *
+	 * @var    MvcFactoryInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $factory;
 
 	/**
 	 * Add a directory where \JModelLegacy should search for models. You may
@@ -212,12 +222,13 @@ abstract class Model extends \JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
@@ -294,6 +305,8 @@ abstract class Model extends \JObject
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
+
+		$this->factory = $factory ? : new LegacyFactory;
 	}
 
 	/**
@@ -371,10 +384,6 @@ abstract class Model extends \JObject
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
-		// Clean the model name
-		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))
 		{

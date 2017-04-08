@@ -8,7 +8,11 @@
 
 namespace Joomla\CMS\Dispatcher;
 
+use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Application\CmsApplication;
 use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Mvc\Factory\MvcFactory;
 
 defined('_JEXEC') or die;
 
@@ -25,7 +29,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The JApplication instance
 	 *
-	 * @var    \JApplicationCms
+	 * @var    CmsApplication
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -50,19 +54,29 @@ abstract class Dispatcher implements DispatcherInterface
 	protected $namespace;
 
 	/**
+	 * The extension namespace
+	 *
+	 * @var    MvcFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $factory;
+
+	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   string            $namespace  Namespace of the Extension
-	 * @param   \JApplicationCms  $app        The JApplication for the dispatcher
-	 * @param   \JInput           $input      JInput
+	 * @param   string          $namespace  Namespace of the Extension
+	 * @param   CmsApplication  $app        The JApplication for the dispatcher
+	 * @param   \JInput         $input      JInput
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, \JApplicationCms $app, \JInput $input = null)
+	public function __construct($namespace, CmsApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
 	{
 		$this->namespace = rtrim($namespace, '\\') . '\\';
 		$this->app       = $app;
 		$this->input     = $input ? $input : $app->input;
+		$this->factory   = $factory ? $factory : new MvcFactory($namespace, $this->app);
 
 		$this->loadLanguage();
 		$this->autoLoad();
@@ -111,7 +125,7 @@ abstract class Dispatcher implements DispatcherInterface
 		// Check the user has permission to access this component if in the backend
 		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->app->scope))
 		{
-			throw new \JAccessExceptionNotallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$command = $this->input->getCmd('task', 'display');
@@ -141,7 +155,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The application the dispatcher is working with.
 	 *
-	 * @return  \JApplicationCms
+	 * @return  CmsApplication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -167,8 +181,18 @@ abstract class Dispatcher implements DispatcherInterface
 
 		$controllerName = $this->namespace . $client . 'Controller\\' . ucfirst($name);
 
-		$controller = new $controllerName($config, $this->app, $this->input);
+		$controller = new $controllerName($config, $this->factory, $this->app, $this->input);
 
 		return $controller;
+	}
+
+	/**
+	 * Method to get factory object
+	 *
+	 * @return  MvcFactoryInterface
+	 */
+	public function getFactory()
+	{
+		return $this->factory;
 	}
 }
