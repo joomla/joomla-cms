@@ -417,11 +417,11 @@ function initElements()
 					}
 					else if (input.val() == 0)
 					{
-						label.addClass('active btn-danger');
+						label.addClass('active btn-success');
 					}
 					else
 					{
-						label.addClass('active btn-success');
+						label.addClass('active btn-danger');
 					}
 				}
 				else
@@ -432,11 +432,11 @@ function initElements()
 					}
 					else if (input.val() == 0)
 					{
-						label.addClass('active btn-success');
+						label.addClass('active btn-danger');
 					}
 					else
 					{
-						label.addClass('active btn-danger');
+						label.addClass('active btn-success');
 					}
 				}
 				input.prop('checked', true);
@@ -456,11 +456,11 @@ function initElements()
 				}
 				else if ($self.val() == 0)
 				{
-					$('label[for="' + attrId + '"]').addClass('active btn-danger');
+					$('label[for="' + attrId + '"]').addClass('active btn-success');
 				}
 				else
 				{
-					$('label[for="' + attrId + '"]').addClass('active btn-success');
+					$('label[for="' + attrId + '"]').addClass('active btn-danger');
 				}
 			}
 			else
@@ -471,11 +471,11 @@ function initElements()
 				}
 				else if ($self.val() == 0)
 				{
-					$('label[for="' + attrId + '"]').addClass('active btn-success');
+					$('label[for="' + attrId + '"]').addClass('active btn-danger');
 				}
 				else
 				{
-					$('label[for="' + attrId + '"]').addClass('active btn-danger');
+					$('label[for="' + attrId + '"]').addClass('active btn-success');
 				}
 			}
 		});
