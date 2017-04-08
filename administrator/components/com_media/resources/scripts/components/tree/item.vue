@@ -23,10 +23,6 @@
             isOpen () {
                 return this.$store.state.selectedDirectory.includes(this.item.path);
             },
-            /* Get the current level */
-            level() {
-                return this.item.path.split('/').length - 1;
-            },
             /* Whether or not the item has children */
             hasChildren() {
                 return this.item.directories.length > 0;
