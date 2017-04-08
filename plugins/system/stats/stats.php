@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Uncomment the following line to enable debug mode (update notification email sent every single time)
+// Uncomment the following line to enable debug mode for testing purposes. Note statistics will be sent on every page load.
 // define('PLG_SYSTEM_STATS_DEBUG', 1);
 
 /**
