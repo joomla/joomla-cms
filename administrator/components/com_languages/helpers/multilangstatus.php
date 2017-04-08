@@ -202,7 +202,7 @@ abstract class MultilangstatusHelper
 			->from('#__users AS u')
 			->join('LEFT', '#__contact_details AS cd ON cd.user_id=u.id')
 			->where('EXISTS (SELECT 1 from #__content as c where  c.created_by=u.id)')
-			->group('u.id');
+			->group('u.id, u.name');
 
 		$db->setQuery($query);
 		$warnings = $db->loadObjectList();
@@ -233,7 +233,7 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  boolean True if the module is published, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getDefaultHomeModule()
 	{
@@ -287,7 +287,7 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  stdClass  The Module object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getModule($moduleName, $instanceTitle = null)
 	{

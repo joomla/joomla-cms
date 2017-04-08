@@ -1,0 +1,16 @@
+// Utilities
+
+.element-invisible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 0 none;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}

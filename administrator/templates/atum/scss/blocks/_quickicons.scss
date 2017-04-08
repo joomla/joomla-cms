@@ -53,9 +53,12 @@
 
     span {
       z-index: 1;
-      padding-left: .9rem;
       font-size: 1.2rem;
-      line-height: 4.7rem;
+
+      &.j-links-link {
+        padding-left: 1rem;
+
+      }
 
       @include media-breakpoint-only(xs) {
         padding: 0;
@@ -64,7 +67,7 @@
       }
 
       &[class*=" icon-"],
-	  &[class^="icon-"] {
+	    &[class^="icon-"] {
         width: 5rem;
         height: 4.7rem;
         padding-left: 2px;

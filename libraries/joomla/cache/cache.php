@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Web\WebClient;
 use Joomla\String\StringHelper;
 
 /**
@@ -763,7 +764,7 @@ class JCache
 			return '';
 		}
 
-		$webclient = new JApplicationWebClient;
+		$webclient = new WebClient;
 
 		if ($webclient->mobile)
 		{

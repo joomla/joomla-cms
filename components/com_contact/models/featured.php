@@ -79,15 +79,15 @@ class ContactModelFeatured extends JModelList
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'))
-			->from($db->quoteName('#__contact_details') . ' AS a')
+			->from($db->quoteName('#__contact_details', 'a'))
+			->where('a.featured = 1')
 			->where('a.access IN (' . $groups . ')')
-			->where('a.featured=1')
-			->join('INNER', '#__categories AS c ON c.id = a.catid')
+			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 			->where('c.access IN (' . $groups . ')');
 
 		// Filter by category.
@@ -96,20 +96,8 @@ class ContactModelFeatured extends JModelList
 			$query->where('a.catid = ' . (int) $categoryId);
 		}
 
-		// Change for sqlsrv... aliased c.published to cat_published
-		// Join to check for category published state in parent categories up the tree
-		$query->select('c.published as cat_published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
-		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
-		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_contact');
-
-		// Find any up-path categories that are not published
-		// If all categories are published, badcats.id will be null, and we just use the contact state
-		$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
-
-		// Select state to unpublished if up-path category is unpublished
-		$publishedWhere = 'CASE WHEN badcats.id is null THEN a.published ELSE 0 END';
-		$query->join('LEFT OUTER', '(' . $subquery . ') AS badcats ON badcats.id = c.id');
+		$query->select('c.published as cat_published, c.published AS parents_published')
+			->where('c.published = 1');
 
 		// Filter by state
 		$state = $this->getState('filter.published');
@@ -121,9 +109,9 @@ class ContactModelFeatured extends JModelList
 			$nullDate = $db->quote($db->getNullDate());
 			$date = JFactory::getDate();
 			$nowDate = $db->quote($date->toSql());
+
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
-				->where($publishedWhere . ' = ' . (int) $state);
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 
 		// Filter by language

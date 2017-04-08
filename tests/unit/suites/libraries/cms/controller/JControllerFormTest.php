@@ -62,7 +62,9 @@ class JControllerFormTest extends TestCase
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar'
-			)
+			),
+			JFactory::getApplication(),
+			null
 		);
 
 		$this->assertAttributeEquals('com_minces', 'option', $object, 'Checks the _option variable was created properly.');
@@ -78,7 +80,9 @@ class JControllerFormTest extends TestCase
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar'
-			)
+			),
+			JFactory::getApplication(),
+			null
 		);
 
 		$this->assertAttributeEquals('minies', 'view_list', $object, 'Check the _view_list variable was created properly');
@@ -87,7 +91,9 @@ class JControllerFormTest extends TestCase
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar'
-			)
+			),
+			JFactory::getApplication(),
+			null
 		);
 
 		$this->assertAttributeEquals('mints', 'view_list', $object, 'Check the _view_list variable was created properly');

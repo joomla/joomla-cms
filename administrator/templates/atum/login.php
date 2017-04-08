@@ -102,9 +102,12 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 				<a href="<?php echo JUri::root(); ?>" target="_blank" class="float-left"><span class="fa fa-external-link"></span> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 			</li>
 			<li class="nav-item">
-				<a class="login-joomla hasTooltip" href="https://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ATUM_ISFREESOFTWARE'); ?>"><span class="fa fa-joomla"></span></a>
+				<a class="login-joomla hasTooltip" href="https://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ATUM_ISFREESOFTWARE'); ?>">
+					<span class="fa fa-joomla"></span>
+					<span class="sr-only"><?php echo JText::_('TPL_ATUM_GOTO_JOOMLA_HOME_PAGE'); ?></span>
+				</a>
 			</li>
-			<li class="nav-item">	
+			<li class="nav-item">
 				<span class="text-white float-right">&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
 			</li>
 		</ul>

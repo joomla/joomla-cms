@@ -8,9 +8,6 @@
 
 defined('_JEXEC') or die;
 
-// Joomla system checks.
-@ini_set('magic_quotes_runtime', 0);
-
 // System includes
 require_once JPATH_LIBRARIES . '/bootstrap.php';
 

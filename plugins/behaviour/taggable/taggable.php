@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Event\DispatcherInterface;
-use Joomla\Cms\Event as CmsEvent;
+use Joomla\CMS\Event as CmsEvent;
 
 /**
  * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.

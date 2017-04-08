@@ -16,14 +16,6 @@ JHtml::_('behavior.formvalidator');
 
 
 JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'user.cancel' || document.formvalidator.isValid(document.getElementById('user-form')))
-		{
-			Joomla.submitform(task, document.getElementById('user-form'));
-		}
-	};
-
 	Joomla.twoFactorMethodChange = function(e)
 	{
 		var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();
@@ -46,7 +38,7 @@ $fieldsets = $this->form->getFieldsets();
 $settings = array();
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 

@@ -36,7 +36,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function dataTestQuoteName()
 	{
@@ -152,7 +152,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestQuoteName
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.7.0
 	 */
 	public function testQuoteName($text, $asPart, $expected)
 	{

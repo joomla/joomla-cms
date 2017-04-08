@@ -16,18 +16,18 @@ $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
 
 JHtml::_('behavior.core');
 JFactory::getDocument()->addScriptDeclaration('
-		setmenutype = function(type) {
-			var tmpl = ' . json_encode($tmpl) . ';
-			if (tmpl)
-			{
-				window.parent.Joomla.submitbutton("item.setType", type);
-				window.parent.jQuery("#menuTypeModal").modal("hide");
-			}
-			else
-			{
-				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=" + type;
-			}
-		};
+	setmenutype = function(type) {
+		var tmpl = ' . json_encode($tmpl) . ';
+		if (tmpl)
+		{
+			window.parent.Joomla.submitbutton("item.setType", type);
+			window.parent.jQuery("#menuTypeModal").modal("hide");
+		}
+		else
+		{
+			window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=" + type;
+		}
+	};
 ');
 
 ?>

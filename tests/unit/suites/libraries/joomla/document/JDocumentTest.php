@@ -10,7 +10,7 @@
 /**
  * Test class for JDocument.
  */
-class JDocumentTest extends PHPUnit_Framework_TestCase
+class JDocumentTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var  JDocument

@@ -483,8 +483,8 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertEquals(
+			'jQuery(function($){' . "\n\t" . '$(\'#myAccordian\').collapse({"parent": "","toggle": false})' . "\n" . '});',
 			$document->_script['text/javascript'],
-			'jQuery(function($){' . "\n\t" . '$(\'#myAccordian\').collapse({"parent": false,"toggle": false})' . "\n" . '});',
 			'Verify that the startAccordion script is initialised'
 		);
 
@@ -548,8 +548,8 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertEquals(
+			'jQuery(function($){' . "\n\t" . '$(\'#myAccordian\').collapse({"parent": "","toggle": false})' . "\n" . '});',
 			$document->_script['text/javascript'],
-			'jQuery(function($){' . "\n\t" . '$(\'#myAccordian\').collapse({"parent": false,"toggle": false})' . "\n" . '});',
 			'Verify that the addSlide script is initialised'
 		);
 

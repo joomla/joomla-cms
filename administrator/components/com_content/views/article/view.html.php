@@ -64,12 +64,6 @@ class ContentViewArticle extends JViewLegacy
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			// TODO: This is really dodgy - should change this one day.
-			$eName = JFactory::getApplication()->input->getCmd('e_name');
-			$eName    = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
-			$this->document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
-			$this->eName = &$eName;
-
 			return parent::display($tpl);
 		}
 

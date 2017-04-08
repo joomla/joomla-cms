@@ -16,15 +16,6 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 
 $user = JFactory::getUser();
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'style.cancel' || document.formvalidator.isValid(document.getElementById('style-form'))) {
-			Joomla.submitform(task, document.getElementById('style-form'));
-		}
-	};
-");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">

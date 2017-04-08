@@ -12,7 +12,7 @@
  * @package  Joomla.UnitTest
  * @since    11.1
  */
-class JLoaderTest extends PHPUnit_Framework_TestCase
+class JLoaderTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Container for JLoader static values during tests.
@@ -217,6 +217,66 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(JLoader::load('Mir'), $this->isFalse(), 'Tests that an unknown class is ignored.');
 
 		$this->assertThat(JLoader::load('JLoaderTest'), $this->isTrue(), 'Tests that a loaded class returns true.');
+	}
+
+	/**
+	 * Tests the JLoader::register method with an override of an alias.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadOverrideAliasClass()
+	{
+		// Normally register the class
+		JLoader::register('AliasNewClass', JPATH_TEST_STUBS . '/loaderoverride/aliasnewclass.php');
+
+		// Register the alias
+		JLoader::registerAlias('AliasOldClass', 'AliasNewClass');
+
+		// Register an override for the alias class
+		JLoader::register('AliasOldClass', JPATH_TEST_STUBS . '/loaderoverride/aliasoverrideclass.php');
+
+		// Check if the classes do exist
+		$this->assertTrue(class_exists('AliasNewClass'));
+		$this->assertTrue(class_exists('AliasOldClass'));
+
+		$newClass = new AliasNewClass();
+		$oldClass = new AliasOldClass();
+
+		// Check if really the override is used
+		$this->assertEquals('Alias Override Class', $newClass->getName());
+		$this->assertEquals('Alias Override Class', $oldClass->getName());
+	}
+
+	/**
+	 * Tests the JLoader::register method with an override of the original class.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadOverrideOriginalClass()
+	{
+		// Normally register the class
+		JLoader::register('OriginalNewClass', JPATH_TEST_STUBS . '/loaderoverride/originalnewclass.php');
+
+		// Register the alias
+		JLoader::registerAlias('OriginalOldClass', 'OriginalNewClass');
+
+		// Register an override for the alias class
+		JLoader::register('OriginalNewClass', JPATH_TEST_STUBS . '/loaderoverride/originaloverrideclass.php');
+
+		// Check if the classes do exist
+		$this->assertTrue(class_exists('OriginalNewClass'));
+		$this->assertTrue(class_exists('OriginalOldClass'));
+
+		$newClass = new OriginalNewClass();
+		$oldClass = new OriginalOldClass();
+
+		// Check if really the override is used
+		$this->assertEquals('Original Override Class', $newClass->getName());
+		$this->assertEquals('Original Override Class', $oldClass->getName());
 	}
 
 	/**
@@ -735,7 +795,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

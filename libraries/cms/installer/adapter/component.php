@@ -453,6 +453,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->extension->name = $manifest_details['name'];
 		$this->extension->enabled = 1;
 		$this->extension->params = $this->parent->getParams();
+		$this->extension->namespace = $manifest_details['namespace'];
 
 		$stored = false;
 
@@ -621,6 +622,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			}
 		}
 
+		$this->extension->namespace = (string) $this->manifest->namespace;
+
 		// If there is not already a row, generate a heap of defaults
 		if (!$this->currentExtensionId)
 		{
@@ -630,8 +633,6 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->extension->access    = 0;
 			$this->extension->client_id = 1;
 			$this->extension->params    = $this->parent->getParams();
-			$this->extension->custom_data = '';
-			$this->extension->system_data = '';
 		}
 
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -1135,7 +1136,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to update menu database entries for a component in case if the component has been uninstalled before.
+	 * Method to update menu database entries for a component in case the component has been uninstalled before.
 	 * NOTE: This will not update admin menus. Use _updateMenus() instead to update admin menus ase well.
 	 *
 	 * @param   int|null  $component_id  The component ID.
@@ -1238,6 +1239,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
+				$extension->set('namespace', $manifest_details['namespace']);
+
 				$results[] = $extension;
 			}
 		}
@@ -1258,6 +1261,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
+				$extension->set('namespace', $manifest_details['namespace']);
 				$results[] = $extension;
 			}
 		}
@@ -1284,6 +1288,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->namespace = $manifest_details['namespace'];
 
 		try
 		{

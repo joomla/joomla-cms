@@ -21,23 +21,6 @@ $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
-		{
-			' . $this->form->getField('misc')->save() . '
-			Joomla.submitform(task, document.getElementById("contact-form"));
-
-			// @deprecated 4.0  The following js is not needed since 3.7.0.
-			if (task !== "contact.apply")
-			{
-				window.parent.jQuery("#contactEdit' . $this->item->id . 'Modal").modal("hide");
-			}
-		}
-	};
-');
-
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
 

@@ -35,32 +35,16 @@ class PlgButtonMenu extends JPlugin
 	public function onDisplay($name)
 	{
 		/*
-		 * Javascript to insert the link
-		 * View element calls jSelectMenuItem when a menu item is clicked
-		 * jSelectMenuItem creates the link tag, sends it to the editor,
-		 * and closes the select frame.
-		 */
-		$js = "
-		function jSelectMenuItem(id, title, tree, object, uri, language)
-		{
-			var thislang = '';
-			if (language !== '')
-			{
-				var thislang = '&lang=';
-			}
-			var tag = '<a href=\"' + uri + thislang + language + '\">' + title + '</a>';
-			jInsertEditorText(tag, '" . $name . "');
-			jModalClose();
-		}";
-
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
-
-		/*
 		 * Use the built-in element view to select the menu item.
 		 * Currently uses blank class.
 		 */
-		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+		$user  = JFactory::getUser();
+
+		if ($user->authorise('core.create', 'com_menus')
+			|| $user->authorise('core.edit', 'com_menus'))
+		{
+		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
+			. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
 		$button          = new JObject;
 		$button->modal   = true;
@@ -75,5 +59,6 @@ class PlgButtonMenu extends JPlugin
 		);
 
 		return $button;
+		}
 	}
 }

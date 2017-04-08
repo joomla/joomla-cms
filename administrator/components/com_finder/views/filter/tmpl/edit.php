@@ -14,14 +14,6 @@ JHtml::_('behavior.keepalive');
 
 
 JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "filter.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
-		{
-			Joomla.submitform(task, document.getElementById("adminForm"));
-		}
-	};
-
 	jQuery(document).ready(function($) {
 		$("#rightbtn").on("click", function() {
 			if($(this).text() == "' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '") {
@@ -71,7 +63,7 @@ JFactory::getDocument()->addStyleDeclaration('
 						<?php echo $this->form->renderField('map_count'); ?>
 					</div>
 					<button class="btn btn-secondary" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
-						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
+						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
 					<button class="btn btn-secondary float-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 					<hr>

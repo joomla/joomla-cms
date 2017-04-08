@@ -394,22 +394,18 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		else
 		{
 			// Store in the extensions table (1.6)
-			$this->extension->name = $this->name;
-			$this->extension->type = 'plugin';
-			$this->extension->ordering = 0;
-			$this->extension->element = $this->element;
-			$this->extension->folder = $this->group;
-			$this->extension->enabled = 0;
+			$this->extension->name      = $this->name;
+			$this->extension->type      = 'plugin';
+			$this->extension->ordering  = 0;
+			$this->extension->element   = $this->element;
+			$this->extension->folder    = $this->group;
+			$this->extension->enabled   = 0;
 			$this->extension->protected = 0;
-			$this->extension->access = 1;
+			$this->extension->access    = 1;
 			$this->extension->client_id = 0;
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->params    = $this->parent->getParams();
 
-			// Custom data
-			$this->extension->custom_data = '';
-
-			// System data
-			$this->extension->system_data = '';
+			// Update the manifest cache for the entry
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			// Editor plugins are published by default

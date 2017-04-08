@@ -55,15 +55,6 @@
 				</field>
 
 				<field
-					name="field_size"
-					type="text"
-					label="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION"
-					default="25"
-					filter="integer"
-				/>
-
-				<field
 					name="show_label"
 					type="radio"
 					class="switcher"
@@ -73,19 +64,6 @@
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="label_pos"
-					type="list"
-					label="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION"
-					default="left"
-					>
-					<option value="right">JGLOBAL_RIGHT</option>
-					<option value="left">JGLOBAL_LEFT</option>
-					<option value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
-					<option value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
 				</field>
 
 				<field
@@ -105,19 +83,6 @@
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="button_pos"
-					type="list"
-					label="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION"
-					default="left"
-					>
-					<option value="right">JGLOBAL_RIGHT</option>
-					<option value="left">JGLOBAL_LEFT</option>
-					<option value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
-					<option value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
 				</field>
 
 				<field

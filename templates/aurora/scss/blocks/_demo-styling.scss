@@ -1,0 +1,42 @@
+// Demo Styling
+
+$inverted-color: rgba(255,255,255,.9);
+
+.demo-module {
+  color: #666;
+  text-align: center;
+
+  .demo-title {
+    font-size: 20px;
+    color: $brand-primary;
+  }
+
+  .fa-joomla {
+    font-size: 32px;
+    color: $brand-primary;
+  }
+
+  .badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+.card-primary,
+.card-info,
+.card-success,
+.card-warning,
+.card-danger {
+  .demo-module {
+    color: $inverted-color;
+
+    .demo-title {
+      color: $inverted-color;
+    }
+
+    .fa-joomla {
+      color: $inverted-color;
+    }
+  }
+}

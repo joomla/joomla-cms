@@ -30,7 +30,7 @@ $userRequired    = (int) $input->get('required', 0, 'int');
 /**
  * Mootools compatibility
  *
- * There is an extra option passed in the url for the iframe &ismoo=0 for the bootstraped field.
+ * There is an extra option passed in the URL for the iframe &ismoo=0 for the bootstraped field.
  * By default the value will be 1 or defaults to mootools behaviour using function jSelectUser()
  *
  * This should be removed when mootools won't be shipped by Joomla.
@@ -63,19 +63,19 @@ if ($isMoo)
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="25%" class="nowrap">
+					<th style="width:25%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap text-center">
+					<th style="width:1%" class="nowrap text-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap text-center">
+					<th style="width:1%" class="nowrap text-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 					</th>
-					<th width="25%" class="nowrap">
+					<th style="width:25%" class="nowrap">
 						<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 					</th>
-					<th width="1%" class="nowrap">
+					<th style="width:1%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>

@@ -33,15 +33,7 @@ $script = "
 	Joomla.submitbutton = function(task) {
 			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form')))
 			{
-";
-if ($hasContent)
-{
-	$script .= $this->form->getField($hasContentFieldName)->save();
-}
-$script .= "
 			Joomla.submitform(task, document.getElementById('module-form'));
-
-				jQuery('#permissions-sliders select').attr('disabled', 'disabled');
 
 				if (self != top)
 				{

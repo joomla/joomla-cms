@@ -67,7 +67,7 @@ function modChrome_well($module, &$params, &$attribs)
 			if ($canEdit)
 			{
 				echo '<div class="btn-group module-dropdown">';
-				echo '<a href="#" data-toggle="dropdown"><span class="fa fa-cog"></span></a>';
+				echo '<a href="#" data-toggle="dropdown"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
 				echo '<div class="dropdown-menu dropdown-menu-right">';
 				echo '<a class="dropdown-item" href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) . '">' . JText::_('JACTION_EDIT') . '</a>';
 				echo '</div>';

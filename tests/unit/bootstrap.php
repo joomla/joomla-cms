@@ -25,9 +25,6 @@ function jexit($message = 0)
 
 define('_JEXEC', 1);
 
-// Fix magic quotes.
-ini_set('magic_quotes_runtime', 0);
-
 // Maximise error reporting.
 ini_set('zend.ze1_compatibility_mode', '0');
 error_reporting(E_ALL);

@@ -211,20 +211,25 @@ class UsersModelUser extends JModelAdmin
 		$iAmSuperAdmin = $my->authorise('core.admin');
 
 		// User cannot modify own user groups
-		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin)
+		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin && isset($data['groups']))
 		{
-			if ($data['groups'] != null)
-			{
-				// Form was probably tampered with
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
+			// Form was probably tampered with
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
 
-				$data['groups'] = null;
-			}
+			$data['groups'] = null;
 		}
 
 		if ($data['block'] && $pk == $my->id && !$my->block)
 		{
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
+
+			return false;
+		}
+
+		// Make sure user groups is selected when add/edit an account
+		if (empty($data['groups']) && ((int) $user->id != (int) $my->id || $iAmSuperAdmin))
+		{
+			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
 
 			return false;
 		}

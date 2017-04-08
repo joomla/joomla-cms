@@ -701,7 +701,6 @@ ENDDATA;
 			$row->set('access', 0);
 			$row->set('client_id', 0);
 			$row->set('params', '');
-			$row->set('system_data', '');
 			$row->set('manifest_cache', $installer->generateManifestCache());
 
 			if (!$row->store())

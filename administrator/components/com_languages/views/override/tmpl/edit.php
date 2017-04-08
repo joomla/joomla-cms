@@ -38,13 +38,6 @@ JFactory::getDocument()->addScriptDeclaration('
 			$(this).removeClass("invalid");
 		});
 	});
-
-	Joomla.submitbutton = function(task) {
-		if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))
-		{
-			Joomla.submitform(task, document.getElementById("override-form"));
-		}
-	};
 ');
 ?>
 

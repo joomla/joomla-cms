@@ -77,9 +77,11 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			$value      = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
 			$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
 		?>
-
-		<label for="<?php echo $oid; ?>" class="form-check-inline">
-			<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
-		<?php echo $option->text; ?></label>
+		<div class="form-check form-check-inline">
+			<label for="<?php echo $oid; ?>" class="form-check-label">
+				<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
+				<?php echo $option->text; ?>
+			</label>
+		</div>
 	<?php endforeach; ?>
 </fieldset>

@@ -33,19 +33,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table table-striped" id="template-mgr">
 						<thead>
 							<tr>
-								<th class="col1template hidden-sm-down" width="20%">
+								<th class="col1template hidden-sm-down" style="width:20%">
 									<?php echo JText::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
-								<th width="30%">
+								<th style="width:30%">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th width="25%" class="hidden-sm-down text-center" >
+								<th style="width:25%" class="hidden-sm-down text-center">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
 							</tr>
@@ -62,6 +62,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center hidden-sm-down">
 									<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
+									<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 								</td>
 								<td class="template-name">
 									<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
@@ -97,7 +98,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<div><a href="<?php echo $this->escape($url); ?>"><?php echo $this->escape($url); ?></a></div>
 									<?php endif; ?>
 								</td>
-								<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 							</tr>
 							<?php endforeach; ?>
 						</tbody>

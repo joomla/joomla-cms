@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Application\Web\WebClient;
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JApplicationCmsInspector.php';
@@ -117,7 +118,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -168,7 +169,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->assertInstanceOf('JInput', $this->class->input);
 
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Application\\Web\\WebClient', 'client', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Event\\DispatcherInterface', 'dispatcher', $this->class);
 	}
 
@@ -192,7 +193,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('session', false);
 
 		// Build the mock object.
-		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+		$mockClient = $this->getMockBuilder('\\Joomla\\Application\\Web\\WebClient')
 					->setMethods(array('test'))
 					->setConstructorArgs(array())
 					->setMockClassName('')
@@ -385,7 +386,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -444,7 +445,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -513,7 +514,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -607,7 +608,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::TRIDENT,
+				'engine' => WebClient::TRIDENT,
 			)
 		);
 
@@ -640,7 +641,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -696,7 +697,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 

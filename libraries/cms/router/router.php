@@ -413,7 +413,7 @@ class JRouter
 	}
 
 	/**
-	 * Create a uri based on a full or partial url string
+	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   string  $url  The URI or an associative array
 	 *

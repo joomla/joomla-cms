@@ -69,7 +69,7 @@
 		$('body').addClass('modal-open');
 
 		var self = this; // save context
-		$iframe.load(function(){
+		$iframe.on('load', function(){
 			var content = $(this).contents();
 
 			// bind insert

@@ -36,7 +36,7 @@
 			type="category"
 			label="JCATEGORY"
 			extension="com_content"
-			description="JFIELD_CATEGORY_DESC"
+			description="JFIELD_FIELDS_CATEGORY_DESC"
 			multiple="true"
 		>
 			<option value="">JALL</option>
@@ -53,11 +53,11 @@
 		/>
 
 		<field
-			name="alias"
+			name="name"
 			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
+			label="JFIELD_NAME_LABEL"
+			description="JFIELD_NAME_DESC"
+			hint="JFIELD_NAME_PLACEHOLDER"
 			size="45"
 		/>
 
@@ -182,7 +182,7 @@
 			label="COM_FIELDS_FIELD_LABEL_LABEL"
 			description="COM_FIELDS_FIELD_LABEL_DESC"
 			size="40"
-			required="true"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
 
 		<field
@@ -248,17 +248,17 @@
 				class="input-xxlarge"
 				size="40"
 			/>
-			
+
 			<field
 				name="showlabel"
 				type="radio"
-				class="btn-group btn-group-yesno"
+				class="switcher"
 				default="1"
 				label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
 				description="COM_FIELDS_FIELD_SHOWLABEL_DESC"
 			>
-				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field

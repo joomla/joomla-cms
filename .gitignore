@@ -5,6 +5,7 @@
 .settings
 .DS_Store
 .idea
+.vscode
 
 # Local System Files (i.e. cache, logs, etc.) #
 /administrator/cache
@@ -30,8 +31,6 @@ administrator/templates/isis
 administrator/templates/hathor
 templates/beez3
 build/generatecss.php
-media/editors/codemirror
-media/editors/tinymce
 media/jui/less
 
 # CSS map files #

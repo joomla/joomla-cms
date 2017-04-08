@@ -54,10 +54,10 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					<table class="table table-striped" id="overrideList">
 						<thead>
 							<tr>
-								<th width="1%" class="text-center">
+								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="30%">
+								<th style="width:30%">
 									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 								</th>
 								<th class="hidden-sm-down">

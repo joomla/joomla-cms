@@ -15,7 +15,7 @@
  * @subpackage  Object
  * @since       11.1
  */
-class JObjectTest extends PHPUnit_Framework_TestCase
+class JObjectTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JObject
@@ -41,7 +41,7 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

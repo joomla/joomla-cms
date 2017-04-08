@@ -167,8 +167,8 @@
 		<filename>en-GB.plg_fields_color.sys.ini</filename>
 		<filename>en-GB.plg_fields_editor.ini</filename>
 		<filename>en-GB.plg_fields_editor.sys.ini</filename>
-		<filename>en-GB.plg_fields_gallery.ini</filename>
-		<filename>en-GB.plg_fields_gallery.sys.ini</filename>
+		<filename>en-GB.plg_fields_image.ini</filename>
+		<filename>en-GB.plg_fields_image.sys.ini</filename>
 		<filename>en-GB.plg_fields_imagelist.ini</filename>
 		<filename>en-GB.plg_fields_imagelist.sys.ini</filename>
 		<filename>en-GB.plg_fields_integer.ini</filename>
@@ -265,8 +265,6 @@
 		<filename>en-GB.plg_user_joomla.sys.ini</filename>
 		<filename>en-GB.plg_user_profile.ini</filename>
 		<filename>en-GB.plg_user_profile.sys.ini</filename>
-		<filename>en-GB.tpl_atum.ini</filename>
-		<filename>en-GB.tpl_atum.sys.ini</filename>
 		<filename file="meta">en-GB.xml</filename>
 		<filename file="meta">install.xml</filename>
 	</files>

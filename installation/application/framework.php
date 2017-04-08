@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
  */
 
 const JDEBUG = false;
-@ini_set('magic_quotes_runtime', 0);
 
 /*
  * Check if a configuration file already exists.

@@ -50,7 +50,7 @@
 	* Find the information you need: https://docs.joomla.org/Start_here
 	* Find help and other users: https://www.joomla.org/about-joomla/create-and-share.html
 	* Post questions at our forums: https://forum.joomla.org
-	* Joomla! Resources Directory (JRD): http://resources.joomla.org/
+	* Joomla! Resources Directory (JRD): https://resources.joomla.org/
 
 11- Do you already have a Joomla! site that's not built with Joomla! 4.x ?
 	* What's new in Joomla! 4.x: https://www.joomla.org/4

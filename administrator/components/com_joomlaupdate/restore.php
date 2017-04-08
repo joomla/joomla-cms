@@ -97,11 +97,6 @@ function getQueryParam($key, $default = null)
 		$value = $_REQUEST[$key];
 	}
 
-	if (get_magic_quotes_gpc() && !is_null($value))
-	{
-		$value = stripslashes($value);
-	}
-
 	return $value;
 }
 

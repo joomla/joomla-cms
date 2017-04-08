@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 class ModLoginHelper
 {
 	/**
-	 * Retrieve the url where the user should be returned after logging in
+	 * Retrieve the URL where the user should be returned after logging in
 	 *
 	 * @param   \Joomla\Registry\Registry  $params  module parameters
 	 * @param   string                     $type    return type

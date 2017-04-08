@@ -15,10 +15,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
-
-$user      = JFactory::getUser();
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$user        = JFactory::getUser();
+$listOrder   = $this->escape($this->state->get('list.ordering'));
+$listDirn    = $this->escape($this->state->get('list.direction'));
+$debugGroups = $this->state->get('params')->get('debugGroups', 1);
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
@@ -57,21 +57,21 @@ JFactory::getDocument()->addScriptDeclaration('
 					<table class="table table-striped" id="groupList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap">
+								<th style="width:1%" class="nowrap">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap text-center">
-									<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></i>
+								<th style="width:10%" class="nowrap text-center">
+                                    <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
 									<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
-								<th width="10%" class="nowrap text-center">
-									<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></i>
+								<th style="width:10%" class="nowrap text-center">
+                                    <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
 									<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -109,7 +109,7 @@ JFactory::getDocument()->addScriptDeclaration('
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<?php if (JDEBUG) : ?>
+									<?php if ($debugGroups) : ?>
 										<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
 										<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
 									<?php endif; ?>

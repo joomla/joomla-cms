@@ -16,6 +16,7 @@ JHtml::_('behavior.tabstate');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
+$debugUsers = $this->state->get('params')->get('debugUsers', 1);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -36,34 +37,34 @@ $loggeduser = JFactory::getUser();
 					<table class="table table-striped" id="userList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
-								<th width="5%" class="nowrap text-center">
+								<th style="width:5%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 								</th>
-								<th width="5%" class="nowrap text-center hidden-sm-down">
+								<th style="width:5%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
-								<th width="12%" class="nowrap text-center">
+								<th style="width:12%" class="nowrap text-center">
 									<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th width="12%" class="nowrap hidden-md-down text-center">
+								<th style="width:12%" class="nowrap hidden-md-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th width="12%" class="nowrap hidden-md-down text-center">
+								<th style="width:12%" class="nowrap hidden-md-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th width="12%" class="nowrap hidden-md-down text-center">
+								<th style="width:12%" class="nowrap hidden-md-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
-								<th width="5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -111,7 +112,7 @@ $loggeduser = JFactory::getUser();
 									<?php if ($item->requireReset == '1') : ?>
 										<span class="badge badge-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 									<?php endif; ?>
-									<?php if (JDEBUG) : ?>
+									<?php if ($debugUsers) : ?>
 										<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
 										<?php echo JText::_('COM_USERS_DEBUG_USER'); ?></a></div>
 									<?php endif; ?>

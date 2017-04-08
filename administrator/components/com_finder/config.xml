@@ -113,8 +113,8 @@
 			description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESCRIPTION"
 			showon="show_advanced:1"
 		>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		<field
 			name="show_date_filters"

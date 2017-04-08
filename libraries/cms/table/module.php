@@ -180,7 +180,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function store($updateNulls = false)
 	{

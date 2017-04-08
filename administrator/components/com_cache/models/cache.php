@@ -117,42 +117,55 @@ class CacheModelCache extends JModelList
 	{
 		if (empty($this->_data))
 		{
-			$cache = $this->getCache();
-			$data  = $cache->getAll();
-
-			if ($data && count($data) > 0)
+			try
 			{
-				// Process filter by search term.
-				if ($search = $this->getState('filter.search'))
+				$cache = $this->getCache();
+				$data  = $cache->getAll();
+
+				if ($data && count($data) > 0)
 				{
-					foreach ($data as $key => $cacheItem)
+					// Process filter by search term.
+					if ($search = $this->getState('filter.search'))
 					{
-						if (stripos($cacheItem->group, $search) === false)
+						foreach ($data as $key => $cacheItem)
 						{
-							unset($data[$key]);
-							continue;
+							if (stripos($cacheItem->group, $search) === false)
+							{
+								unset($data[$key]);
+								continue;
+							}
 						}
 					}
+
+					// Process ordering.
+					$listOrder = $this->getState('list.ordering', 'group');
+					$listDirn  = $this->getState('list.direction', 'ASC');
+
+					$this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+
+					// Process pagination.
+					$limit = (int) $this->getState('list.limit', 25);
+
+					if ($limit !== 0)
+					{
+						$start = (int) $this->getState('list.start', 0);
+
+						return array_slice($this->_data, $start, $limit);
+					}
 				}
-
-				// Process ordering.
-				$listOrder = $this->getState('list.ordering', 'group');
-				$listDirn  = $this->getState('list.direction', 'ASC');
-
-				$this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
-
-				// Process pagination.
-				$limit = (int) $this->getState('list.limit', 25);
-
-				if ($limit !== 0)
+				else
 				{
-					$start = (int) $this->getState('list.start', 0);
-
-					return array_slice($this->_data, $start, $limit);
+					$this->_data = array();
 				}
 			}
-			else
+			catch (JCacheExceptionConnecting $exception)
 			{
+				$this->setError(JText::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
+				$this->_data = array();
+			}
+			catch (JCacheExceptionUnsupported $exception)
+			{
+				$this->setError(JText::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
 				$this->_data = array();
 			}
 		}
@@ -163,7 +176,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache instance.
 	 *
-	 * @return object
+	 * @return JCacheController
 	 */
 	public function getCache($clientId = null)
 	{
@@ -181,9 +194,7 @@ class CacheModelCache extends JModelList
 			'cachebase'    => (int) $clientId === 1 ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
-		$cache = JCache::getInstance('', $options);
-
-		return $cache;
+		return JCache::getInstance('', $options);
 	}
 
 	/**
@@ -204,7 +215,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get a pagination object for the cache.
 	 *
-	 * @return  integer
+	 * @return  JPagination
 	 */
 	public function getPagination()
 	{
@@ -226,7 +237,18 @@ class CacheModelCache extends JModelList
 	 */
 	public function clean($group = '')
 	{
-		return $this->getCache()->clean($group);
+		try
+		{
+			return $this->getCache()->clean($group);
+		}
+		catch (JCacheExceptionConnecting $exception)
+		{
+			return false;
+		}
+		catch (JCacheExceptionUnsupported $exception)
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -258,6 +280,17 @@ class CacheModelCache extends JModelList
 	 */
 	public function purge()
 	{
-		return JFactory::getCache('')->gc();
+		try
+		{
+			return JFactory::getCache('')->gc();
+		}
+		catch (JCacheExceptionConnecting $exception)
+		{
+			return false;
+		}
+		catch (JCacheExceptionUnsupported $exception)
+		{
+			return false;
+		}
 	}
 }

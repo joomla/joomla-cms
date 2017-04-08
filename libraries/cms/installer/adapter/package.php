@@ -404,21 +404,17 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 		else
 		{
-			$this->extension->name = $this->name;
-			$this->extension->type = 'package';
+			$this->extension->name    = $this->name;
+			$this->extension->type    = 'package';
 			$this->extension->element = $this->element;
 
 			// There is no folder for packages
-			$this->extension->folder = '';
-			$this->extension->enabled = 1;
+			$this->extension->folder    = '';
+			$this->extension->enabled   = 1;
 			$this->extension->protected = 0;
-			$this->extension->access = 1;
+			$this->extension->access    = 1;
 			$this->extension->client_id = 0;
-
-			// Custom data
-			$this->extension->custom_data = '';
-			$this->extension->system_data = '';
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->params    = $this->parent->getParams();
 		}
 
 		// Update the manifest cache for the entry

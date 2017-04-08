@@ -157,6 +157,7 @@ class JUpdater extends JAdapter
 				/** @var JTableUpdate $update */
 				foreach ($updateObjects as $update)
 				{
+					$update->check();
 					$update->store();
 				}
 			}

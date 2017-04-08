@@ -112,6 +112,70 @@ class JoomlaInstallerScript
 			if (!empty($this->fromVersion) && version_compare($this->fromVersion, '3.7.0', 'lt'))
 			{
 				/*
+				 * Do a check if this site is using the hathor template, if yes switch to isis and notify the user
+				 */
+				$db = JFactory::getDbo();
+
+				$query = $db->getQuery(true)
+					->select('home')
+					->from($db->quoteName('#__template_styles'))
+                    ->where($db->quoteName('template') . ' = "hathor"')
+					->where($db->quoteName('client_id') . ' = 1');
+
+				$result = $db->setQuery($query)->loadResult();
+
+				if ($result == 1)
+				{
+					$query = $db->getQuery(true)
+						->update($db->quoteName('#__template_styles'))
+						->set($db->quoteName('home') . ' = 0')
+						->where($db->quoteName('template') . ' = "hathor"')
+						->where($db->quoteName('client_id') . ' = 1');
+
+					if (!$db->setQuery($query)->execute())
+					{
+						// Install failed, roll back changes
+						$installer->abort(JText::_('JLIB_INSTALLER_ABORT_HATHOR_DISABLE_ROLLBACK'));
+
+						return false;
+					}
+
+					$query = $db->getQuery(true)
+						->update($db->quoteName('#__template_styles'))
+						->set($db->quoteName('home') . ' = 1')
+						->where($db->quoteName('template') . ' = "isis"')
+						->where($db->quoteName('client_id') . ' = 1');
+
+					if (!$db->setQuery($query)->execute())
+					{
+						// Install failed, roll back changes
+						$installer->abort(JText::_('JLIB_INSTALLER_ABORT_ISIS_ENABLE_ROLLBACK'));
+
+						return false;
+					}
+				}
+
+				/*
+				 * Do a check if the menu item exists, skip if it does. Only needed when we are in pre stable state.
+				 */
+				$db = JFactory::getDbo();
+
+				$query = $db->getQuery(true)
+					->select('id')
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('menutype') . ' = ' . $db->quote('main'))
+					->where($db->quoteName('title') . ' = ' . $db->quote('com_associations'))
+					->where($db->quoteName('client_id') . ' = 1')
+					->where($db->quoteName('component_id') . ' = 34');
+
+				$result = $db->setQuery($query)->loadResult();
+
+				if (!empty($result))
+				{
+					return true;
+				}
+
+				/*
 				 * Add a menu item for com_associations, we need to do that here because with a plain sql statement we
 				 * damage the nested set structure for the menu table
 				 */
@@ -286,6 +350,7 @@ class JoomlaInstallerScript
 				->where('name = ' . $db->quote('PLG_EOSNOTIFY'))
 		)->loadResult();
 
+		// Skip update when id doesn’t exists
 		if (!$id)
 		{
 			return;
@@ -323,6 +388,12 @@ class JoomlaInstallerScript
 					->from($db->quoteName('#__update_sites'))
 					->where($db->quoteName('location') . ' = ' . $db->quote('https://update.joomla.org/jed/list.xml'))
 			)->loadResult();
+
+			// Skip delete when id doesn’t exists
+			if (!$id)
+			{
+				return;
+			}
 
 			// Delete from update sites
 			$db->setQuery(
@@ -497,7 +568,6 @@ class JoomlaInstallerScript
 			array('plugin', 'checkboxes', 'fields', 0),
 			array('plugin', 'color', 'fields', 0),
 			array('plugin', 'editor', 'fields', 0),
-			array('plugin', 'gallery', 'fields', 0),
 			array('plugin', 'imagelist', 'fields', 0),
 			array('plugin', 'integer', 'fields', 0),
 			array('plugin', 'list', 'fields', 0),
@@ -1702,27 +1772,29 @@ class JoomlaInstallerScript
 			'/components/com_users/views/remind/metadata.xml',
 			'/components/com_users/views/reset/metadata.xml',
 			'/components/com_wrapper/metadata.xml',
-			'/media/jui/js/bootstrap-tooltip-extended.js',
-			'/media/jui/js/bootstrap-tooltip-extended.min.js',
-			'/media/jui/js/icomoon-lte-ie7.js',
-			'/media/jui/css/bootstrap-extended.css',
-			'/media/jui/css/bootstrap-tooltip-extended.css',
-			'/media/jui/css/bootstrap-responsive.css',
-			'/media/jui/css/bootstrap-responsive.min.css',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default.php',
-			'/administrator/components/com_menus/layouts/joomla/searchtools/default/bar.php',
-			'/administrator/components/com_menus/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default.php',
-			// Joomla 3.7.0
 			'/administrator/modules/mod_menu/tmpl/default_enabled.php',
 			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
 			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
+			'/administrator/components/com_users/models/fields/components.php',
+			'/administrator/components/com_installer/controllers/languages.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_doc.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_folder.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_img.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_video.php',
+			'/media/editors/none/none.js',
+			'/media/editors/none/none.min.js',
+			'/media/editors/tinymce/plugins/media/moxieplayer.swf',
+			'/media/system/js/tiny-close.js',
+			'/media/system/js/tiny-close.min.js',
+			'/administrator/components/com_messages/layouts/toolbar/mysettings.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1831,10 +1903,6 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/mode/jade',
 			// Joomla! 3.7.0
 			'/libraries/joomla/data',
-			'/templates/beez3',
-			'/administrator/templates/isis',
-			'/administrator/templates/hathor',
-			'/media/jui/less',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default',
 			'/administrator/components/com_cache/layouts/joomla/searchtools',
 			'/administrator/components/com_cache/layouts/joomla',
@@ -1843,8 +1911,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_languages/layouts/joomla/searchtools',
 			'/administrator/components/com_languages/layouts/joomla',
 			'/administrator/components/com_languages/layouts',
-			'/administrator/components/com_menus/layouts/joomla/searchtools/default',
-			'/administrator/components/com_menus/layouts/joomla/searchtools',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default',
 			'/administrator/components/com_modules/layouts/joomla/searchtools',
 			'/administrator/components/com_modules/layouts/joomla',
@@ -1853,6 +1919,13 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts/joomla',
 			'/administrator/components/com_templates/layouts',
 			'/administrator/templates/hathor/html/mod_menu',
+			'/administrator/components/com_messages/layouts/toolbar',
+			'/administrator/components/com_messages/layouts',
+			// Joomla! 4.0
+			'/templates/beez3',
+			'/administrator/templates/isis',
+			'/administrator/templates/hathor',
+			'/media/jui/less',
 		);
 
 		jimport('joomla.filesystem.file');

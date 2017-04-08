@@ -259,7 +259,7 @@ abstract class ConfigModelCms extends JModelDatabase
 		{
 			if ($record->published != -2)
 			{
-				return;
+				return false;
 			}
 
 			$user = JFactory::getUser();

@@ -20,13 +20,6 @@ $app = JFactory::getApplication();
 $input = $app->input;
 
 JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "field.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
-		{
-			Joomla.submitform(task, document.getElementById("item-form"));
-		}
-	};
 	jQuery(document).ready(function() {
 		jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
 		jQuery("#jform_title").change(function(data, handler) {
@@ -50,6 +43,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div class="row">
 		<div class="col-md-9">
 			<?php echo $this->form->renderField('type'); ?>
+			<?php echo $this->form->renderField('name'); ?>
 			<?php echo $this->form->renderField('label'); ?>
 			<?php echo $this->form->renderField('description'); ?>
 			<?php echo $this->form->renderField('required'); ?>

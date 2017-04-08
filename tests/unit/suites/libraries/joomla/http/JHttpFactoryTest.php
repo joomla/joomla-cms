@@ -14,7 +14,7 @@
  * @subpackage  Http
  * @since       3.4
  */
-class JHttpFactoryTest extends PHPUnit_Framework_TestCase
+class JHttpFactoryTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Tests the getHttp method.

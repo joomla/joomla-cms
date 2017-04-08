@@ -129,7 +129,6 @@ class LanguagesViewOverrides extends JViewLegacy
 		JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
 
 		JHtmlSidebar::addFilter(
-			// @todo need a label here
 			'',
 			'filter_language_client',
 			JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),

@@ -80,6 +80,7 @@ abstract class JHtmlIcon
 		$attribs['title']   = JText::_('JGLOBAL_EMAIL_TITLE');
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
+		$attribs['class']   = 'dropdown-item';
 
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
@@ -115,6 +116,9 @@ abstract class JHtmlIcon
 		{
 			return;
 		}
+
+		// Set the link class
+		$attribs['class'] = 'dropdown-item';
 
 		// Show checked_out icon if the article is checked out by a different user
 		if (property_exists($article, 'checked_out')
@@ -188,6 +192,7 @@ abstract class JHtmlIcon
 		$attribs['title']   = JText::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
+		$attribs['class']   = 'dropdown-item';
 
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}

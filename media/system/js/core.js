@@ -10,7 +10,37 @@ Joomla = window.Joomla || {};
 Joomla.editors = Joomla.editors || {};
 
 // An object to hold each editor instance on page, only define if not defined.
-Joomla.editors.instances = Joomla.editors.instances || {};
+Joomla.editors.instances = Joomla.editors.instances || {
+	/**
+	 * *****************************************************************
+	 * All Editors MUST register, per instance, the following callbacks:
+	 * *****************************************************************
+	 *
+	 * getValue         Type  Function  Should return the complete data from the editor
+	 *                                  Example: function () { return this.element.value; }
+	 * setValue         Type  Function  Should replace the complete data of the editor
+	 *                                  Example: function (text) { return this.element.value = text; }
+	 * replaceSelection Type  Function  Should replace the selected text of the editor
+	 *                                  If nothing selected, will insert the data at the cursor
+	 *                                  Example: function (text) { return insertAtCursor(this.element, text); }
+	 *
+	 * USAGE (assuming that jform_articletext is the textarea id)
+	 * {
+	 *   To get the current editor value:
+	 *      Joomla.editors.instances['jform_articletext'].getValue();
+	 *   To set the current editor value:
+	 *      Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
+	 *   To replace(selection) or insert a value at  the current editor cursor:
+	 *      replaceSelection: Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
+	 * }
+	 *
+	 * *********************************************************
+	 * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
+	 * *********************************************************
+	 *
+	 * jInsertEditorText() @deprecated 4.0
+	 */
+	};
 
 (function( Joomla, document ) {
 	"use strict";
@@ -46,10 +76,28 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * Default function. Usually would be overriden by the component
+	 * Default function. Can be overriden by the component to add custom logic
 	 */
-	Joomla.submitbutton = function( pressbutton ) {
-		Joomla.submitform( pressbutton );
+	Joomla.submitbutton = function( task ) {
+		var form = document.querySelectorAll( 'form.form-validate' );
+
+		if (form.length > 0) {
+			for (var i = 0, j = form.length; i < j; i++) {
+				var pressbutton = task.split('.'),
+				    cancelTask = form[i].getAttribute( 'data-cancel-task' );
+
+				if (!cancelTask) {
+					cancelTask = pressbutton[0] + '.cancel';
+				}
+
+				if ((task == cancelTask ) || document.formvalidator.isValid( form[i] ))
+				{
+					Joomla.submitform( task, form[i] );
+				}
+			}
+		} else {
+			Joomla.submitform( task );
+		}
 	};
 
 	/**
