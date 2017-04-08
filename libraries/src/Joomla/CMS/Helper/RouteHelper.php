@@ -1,11 +1,15 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Helper
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Helper;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Multilanguage;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.1
  */
-class JHelperRoute
+class RouteHelper
 {
 	/**
 	 * @var    array  Holds the reverse lookup
@@ -67,8 +71,8 @@ class JHelperRoute
 		}
 		else
 		{
-			$this->view = JFactory::getApplication()->input->getString('view');
-			$this->extension = JFactory::getApplication()->input->getCmd('option');
+			$this->view = \JFactory::getApplication()->input->getString('view');
+			$this->extension = \JFactory::getApplication()->input->getCmd('option');
 		}
 
 		$name = ucfirst(substr_replace($this->extension, '', 0, 4));
@@ -88,7 +92,7 @@ class JHelperRoute
 
 		if ($catid > 1)
 		{
-			$categories = JCategories::getInstance($name);
+			$categories = \JCategories::getInstance($name);
 
 			if ($categories)
 			{
@@ -104,7 +108,7 @@ class JHelperRoute
 		}
 
 		// Deal with languages only if needed
-		if (!empty($language) && $language != '*' && JLanguageMultilang::isEnabled())
+		if (!empty($language) && $language != '*' && Multilanguage::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 			$needles['language'] = $language;
@@ -129,7 +133,7 @@ class JHelperRoute
 	 */
 	protected function findItem($needles = array())
 	{
-		$app      = JFactory::getApplication();
+		$app      = \JFactory::getApplication();
 		$menus    = $app->getMenu('site');
 		$language = isset($needles['language']) ? $needles['language'] : '*';
 
@@ -144,7 +148,7 @@ class JHelperRoute
 		{
 			static::$lookup[$language] = array();
 
-			$component = JComponentHelper::getComponent($this->extension);
+			$component = ComponentHelper::getComponent($this->extension);
 
 			$attributes = array('component_id');
 			$values     = array($component->id);
@@ -208,7 +212,7 @@ class JHelperRoute
 
 		$active = $menus->getActive();
 
-		if ($active && $active->component == $this->extension && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		if ($active && $active->component == $this->extension && ($active->language == '*' || !Multilanguage::isEnabled()))
 		{
 			return $active->id;
 		}
@@ -222,7 +226,7 @@ class JHelperRoute
 	/**
 	 * Fetches the category route
 	 *
-	 * @param   mixed   $catid      Category ID or JCategoryNode instance
+	 * @param   mixed   $catid      Category ID or \JCategoryNode instance
 	 * @param   mixed   $language   Language code
 	 * @param   string  $extension  Extension to lookup
 	 *
@@ -230,17 +234,17 @@ class JHelperRoute
 	 *
 	 * @since   3.2
 	 *
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public static function getCategoryRoute($catid, $language = 0, $extension = '')
 	{
 		// Note: $extension is required but has to be an optional argument in the function call due to argument order
 		if (empty($extension))
 		{
-			throw new InvalidArgumentException('$extension is a required argument in JHelperRoute::getCategoryRoute');
+			throw new \InvalidArgumentException('$extension is a required argument in RouteHelper::getCategoryRoute');
 		}
 
-		if ($catid instanceof JCategoryNode)
+		if ($catid instanceof \JCategoryNode)
 		{
 			$id       = $catid->id;
 			$category = $catid;
@@ -249,7 +253,7 @@ class JHelperRoute
 		{
 			$extensionName = ucfirst(substr($extension, 4));
 			$id            = (int) $catid;
-			$category      = JCategories::getInstance($extensionName)->get($id);
+			$category      = \JCategories::getInstance($extensionName)->get($id);
 		}
 
 		if ($id < 1)
@@ -264,7 +268,7 @@ class JHelperRoute
 				'category' => array($id),
 			);
 
-			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
+			if ($language && $language != '*' && Multilanguage::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 				$needles['language'] = $language;
