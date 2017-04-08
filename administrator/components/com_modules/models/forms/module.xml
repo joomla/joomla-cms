@@ -63,7 +63,6 @@
 			filter="user_utc"
 			translateformat="true"
 			showtime="true"
-
 		/>
 
 		<field
