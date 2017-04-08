@@ -108,7 +108,7 @@ class MvcFactory implements MvcFactoryInterface
 	 * @param   string  $prefix  The prefix
 	 * @param   array   $config  The config
 	 *
-	 * @return object  The instance
+	 * @return  object  The instance
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
