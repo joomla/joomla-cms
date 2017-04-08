@@ -294,8 +294,15 @@ class FinderIndexerHelper
 		$db->setQuery($query);
 		$db->execute();
 
+		$type = new stdClass;
+		$type->title = $title;
+		$type->mime  = $mime;
+		$type->id    = (int) $db->insertid();
+
+		$types[$title] = $type;
+
 		// Return the new id.
-		return (int) $db->insertid();
+		return $type->id;
 	}
 
 	/**
