@@ -1,17 +1,16 @@
 <?php
 /**
- * @package     Joomla.Cms
- * @subpackage  View
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Cms\View;
+namespace Joomla\CMS\View;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Model\Model;
+use Joomla\CMS\Model\Model;
 
 /**
  * Base class for a Joomla View
