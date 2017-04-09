@@ -11,8 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Cms\Authorize\Authorize;
-use Joomla\Cms\Access\Access;
+use Joomla\CMS\Authorize\Authorize;
+use Joomla\CMS\Access\Access;
 
 /**
  * User class.  Handles all application interaction with a user

@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\Cms\Authorize;
+namespace Joomla\CMS\Authorize;
 
-use Joomla\Cms\Table\Table;
+use Joomla\CMS\Table\Table;
 
 defined('JPATH_PLATFORM') or die;
 

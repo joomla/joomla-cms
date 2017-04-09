@@ -6,12 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\Cms\Authorize\Implementation;
+namespace Joomla\CMS\Authorize\Implementation;
 
-use Joomla\Cms\Authorize\AuthorizeInterface;
-use Joomla\Cms\Authorize\AuthorizeHelper;
-use Joomla\Cms\Table\Table;
-use Joomla\Cms\Access\Rules;
+use Joomla\CMS\Authorize\AuthorizeInterface;
+use Joomla\CMS\Authorize\AuthorizeHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Access\Rules;
 
 
 defined('JPATH_PLATFORM') or die;

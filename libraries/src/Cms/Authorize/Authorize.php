@@ -6,10 +6,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\Cms\Authorize;
+namespace Joomla\CMS\Authorize;
 
 use Joomla\String\StringHelper;
-use Joomla\Cms\Authorize\AuthorizeInterface;
+use Joomla\CMS\Authorize\AuthorizeInterface;
 
 defined('JPATH_PLATFORM') or die;
 
