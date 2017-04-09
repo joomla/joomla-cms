@@ -89,8 +89,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas"/>
-	<jdoc:include type="styles"/>
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
 </head>
 
 <body class="site <?php echo $option
@@ -215,6 +215,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</footer>
 
 	<jdoc:include type="modules" name="debug" style="none" />
-	<jdoc:include type="scripts"/>
+	<jdoc:include type="scripts" />
 </body>
 </html>
