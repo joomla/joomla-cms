@@ -517,6 +517,10 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @param   JUpdate       $update  An update definition
 	 * @param   JTableUpdate  $table   The update instance from the database
+	 *
+	 * @return  void
+	 *
+	 * @since	__DEPLOY_VERSION__
 	 */
 	protected function preparePreUpdate($update, $table)
 	{
@@ -530,7 +534,7 @@ class InstallerModelUpdate extends JModelList
 				$fname = $ename . '.php';
 				$cname = ucfirst($ename) . 'Helper';
 
-				$path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' .  $fname;
+				$path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
 				
 				if (JFile::exists($path))
 				{
