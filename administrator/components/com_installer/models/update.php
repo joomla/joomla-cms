@@ -524,7 +524,7 @@ class InstallerModelUpdate extends JModelList
 		
 		switch ($table->type)
 		{
-			// Components could have a helper with the credentials
+			// Components could have a helper which adds additional datas
 			case 'component':
 				$ename = str_replace('com_', '', $table->element);
 				$fname = $ename . '.php';
@@ -543,7 +543,8 @@ class InstallerModelUpdate extends JModelList
 				}
 
 				break;
-				
+
+			// Modules could have a helper which adds additional datas
 			case 'module':
 				$cname = str_replace('_', '', $table->element) . 'Helper';
 				$path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
@@ -560,9 +561,9 @@ class InstallerModelUpdate extends JModelList
 			
 				break;
 				
+			// If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
+			// But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
 			case 'plugin':
-				// If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
-				// But we should make sure, that our plugin is loaded, so we don't need two plugins
 				$cname = str_replace('plg_', '', $table->element);
 				JPluginHelper::importPlugin($table->folder, $cname);
 				break;
