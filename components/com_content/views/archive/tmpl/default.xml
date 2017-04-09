@@ -16,6 +16,17 @@
 		<fieldset name="basic" label="JGLOBAL_ARCHIVE_OPTIONS"
 		>
 
+			<field	name="catid"
+				type="category"
+				extension="com_content"
+				multiple="true"
+				size="5"
+				label="JCATEGORY"
+				description="JFIELD_CATEGORY_DESC"
+			>
+				<option value="">JOPTION_ALL_CATEGORIES</option>
+			</field>
+
 			<field name="orderby_sec" type="list"
 				default="alpha"
 				description="JGLOBAL_ARTICLE_ORDER_DESC"
