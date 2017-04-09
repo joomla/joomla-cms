@@ -146,12 +146,6 @@ class JDocumentRendererHtmlStyles extends JDocumentRenderer
 			$buffer .= '</script>' . $lnEnd;
 		}
 
-		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
-		foreach (array_unique($this->_doc->_custom) as $custom)
-		{
-			$buffer .= $tab . $custom . $lnEnd;
-		}
-
 		return ltrim($buffer, $tab);
 	}
 }
