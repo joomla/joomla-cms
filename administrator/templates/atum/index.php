@@ -64,6 +64,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
@@ -262,6 +263,6 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 	</div>
 
 	<jdoc:include type="modules" name="debug" style="none" />
-	<jdoc:include type="scripts" />
+
 </body>
 </html>
