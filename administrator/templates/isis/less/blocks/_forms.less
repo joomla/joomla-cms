@@ -92,6 +92,10 @@
 fieldset[class^="form-"] {
 	min-width: 100%;
 }
+/* Make fieldsets responsive in Firefox. See http://getbootstrap.com/css/#tables-responsive */
+@-moz-document url-prefix() {
+  fieldset[class^="form-"] { display: table-cell; }
+}
 
 /* Display checkboxes without bullets in list */
 fieldset.checkboxes input {

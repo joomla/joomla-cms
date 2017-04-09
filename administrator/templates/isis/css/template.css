@@ -7354,6 +7354,11 @@ h6 {
 fieldset[class^="form-"] {
 	min-width: 100%;
 }
+@-moz-document url-prefix() {
+	fieldset[class^="form-"] {
+		display: table-cell;
+	}
+}
 fieldset.checkboxes input {
 	float: left;
 }
