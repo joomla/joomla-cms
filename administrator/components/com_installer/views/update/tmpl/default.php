@@ -40,7 +40,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<table class="table table-striped">
 							<thead>
 							<tr>
-								<th width="1%" class="nowrap">
+								<th style="width:1%" class="nowrap">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th class="nowrap">
@@ -64,7 +64,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th class="nowrap hidden-sm-down">
 									<?php echo JText::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 								</th>
-								<th width="40%" class="nowrap hidden-sm-down">
+								<th style="width:40%" class="nowrap hidden-sm-down">
 									<?php echo JText::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
 								</th>
 							</tr>

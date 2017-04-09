@@ -1715,59 +1715,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function renderBacktrace($error)
 	{
-		$backtrace = $error->getTrace();
-
-		$html = array();
-
-		if (is_array($backtrace))
-		{
-			$j = 1;
-
-			$html[] = '<table cellpadding="0" cellspacing="0">';
-			$html[] = '<thead>';
-			$html[] = '<tr>';
-			$html[] = '<th colspan="3"><strong>Call stack</strong></th>';
-			$html[] = '</tr>';
-
-			$html[] = '<tr>';
-			$html[] = '<th>#</th>';
-			$html[] = '<th>Function</th>';
-			$html[] = '<th>Location</th>';
-			$html[] = '</tr>';
-			$html[] = '</thead>';
-			$html[] = '<tbody>';
-
-			for ($i = count($backtrace) - 1; $i >= 0; $i--)
-			{
-				$link = '&#160;';
-
-				if (isset($backtrace[$i]['file']))
-				{
-					$link = $this->formatLink($backtrace[$i]['file'], $backtrace[$i]['line']);
-				}
-
-				$html[] = '<tr>';
-				$html[] = '<td>' . $j . '</td>';
-
-				if (isset($backtrace[$i]['class']))
-				{
-					$html[] = '<td>' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
-				}
-				else
-				{
-					$html[] = '<td>' . $backtrace[$i]['function'] . '()</td>';
-				}
-
-				$html[] = '<td>' . $link . '</td>';
-
-				$html[] = '</tr>';
-				$j++;
-			}
-			$html[] = '</tbody>';
-			$html[] = '</table>';
-		}
-
-		return implode('', $html);
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $error->getTrace()));
 	}
 
 	/**
@@ -1784,23 +1732,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function formatLink($file, $line = '')
 	{
-		$link = str_replace(JPATH_ROOT, 'JROOT', $file);
-		$link .= $line ? ':' . $line : '';
-
-		if ($this->linkFormat)
-		{
-			$href = $this->linkFormat;
-			$href = str_replace('%f', $file, $href);
-			$href = str_replace('%l', $line, $href);
-
-			$html = '<a href="' . $href . '">' . $link . '</a>';
-		}
-		else
-		{
-			$html = $link;
-		}
-
-		return $html;
+		return JHtml::_('debug.xdebuglink', $file, $line);
 	}
 
 	/**

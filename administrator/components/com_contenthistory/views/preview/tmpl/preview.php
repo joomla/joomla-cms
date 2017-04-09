@@ -20,7 +20,7 @@ JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th width="25%"><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+			<th style="width:25%"><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
 			<th><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_VALUE'); ?></th>
 		</tr>
 	</thead>

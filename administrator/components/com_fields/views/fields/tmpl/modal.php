@@ -49,25 +49,25 @@ fieldgroupIns = function(id) {
 			<table class="table table-striped" id="moduleList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center">
+						<th style="width:1%" class="nowrap center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="nowrap hidden-sm-down">
+						<th style="width:15%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'group_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th style="width:10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th style="width:10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th style="width:10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>

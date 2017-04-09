@@ -652,9 +652,9 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
   `context` varchar(255) NOT NULL DEFAULT '',
-  `group_id` int(10) NOT NULL DEFAULT 0,
+  `group_id` int(10) unsigned NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
   `label` varchar(255) NOT NULL DEFAULT '',
   `default_value` text NOT NULL DEFAULT '',
   `type` varchar(255) NOT NULL DEFAULT 'text',
@@ -678,7 +678,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   KEY `idx_state` (`state`),
   KEY `idx_created_user_id` (`created_user_id`),
   KEY `idx_access` (`access`),
-  KEY `idx_context` (`context`),
+  KEY `idx_context` (`context`(191)),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -722,7 +722,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   KEY `idx_state` (`state`),
   KEY `idx_created_by` (`created_by`),
   KEY `idx_access` (`access`),
-  KEY `idx_context` (`context`),
+  KEY `idx_context` (`context`(191)),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -736,8 +736,8 @@ CREATE TABLE IF NOT EXISTS `#__fields_values` (
   `field_id` int(10) unsigned NOT NULL,
   `item_id` varchar(255) NOT NULL COMMENT 'Allow references to items which have strings as ids, eg. none db systems.',
   `value` text NOT NULL DEFAULT '',
-  KEY (`field_id`),
-  KEY (`item_id`)
+  KEY `idx_field_id` (`field_id`),
+  KEY `idx_item_id` (`item_id`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1484,7 +1484,7 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
 --
 
 INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `publish_up`, `publish_down`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`, `language`) VALUES
-(1, 39, 'Main Menu', '', '', 1, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
+(1, 39, 'Main Menu', '', '', 1, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
 (2, 40, 'Login', '', '', 1, 'login', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
 (3, 41, 'Popular Articles', '', '', 3, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (4, 42, 'Recently Added Articles', '', '', 4, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),

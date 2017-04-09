@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Event\BeforeExecuteEvent;
+use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 

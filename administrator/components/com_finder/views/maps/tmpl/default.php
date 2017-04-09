@@ -53,25 +53,25 @@ JFactory::getDocument()->addScriptDeclaration('
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th width="1%" class="text-center nowrap">
+							<th style="width:1%" class="text-center nowrap">
 								<?php echo JHtml::_('grid.checkall'); ?>
 							</th>
-							<th width="1%" class="text-center nowrap">
+							<th style="width:1%" class="text-center nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'd.branch_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
-							<th width="1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo JText::_('COM_FINDER_HEADING_CHILDREN'); ?>
 							</th>
 							<?php endif; ?>
-							<th width="1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-publish" aria-hidden="true"></span>
 								<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
-							<th width="1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-unpublish" aria-hidden="true"></span>
 								<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>

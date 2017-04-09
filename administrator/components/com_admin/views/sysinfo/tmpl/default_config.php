@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="300">
+				<th style="width:300px">
 					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th>

@@ -53,11 +53,11 @@
 		/>
 
 		<field
-			name="alias"
+			name="name"
 			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
+			label="JFIELD_NAME_LABEL"
+			description="JFIELD_NAME_DESC"
+			hint="JFIELD_NAME_PLACEHOLDER"
 			size="45"
 		/>
 
@@ -248,7 +248,7 @@
 				class="input-xxlarge"
 				size="40"
 			/>
-			
+
 			<field
 				name="showlabel"
 				type="radio"

@@ -30,31 +30,31 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="text-center nowrap">
+						<th style="width:1%" class="text-center nowrap">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="text-center nowrap">
+						<th style="width:1%" class="text-center nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap title">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_OLD_URL', 'a.old_url', $listDirn, $listOrder); ?>
 						</th>
-						<th width="30%" class="nowrap">
+						<th style="width:30%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_NEW_URL', 'a.new_url', $listDirn, $listOrder); ?>
 						</th>
-						<th width="30%" class="nowrap hidden-sm-down">
+						<th style="width:30%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_REFERRER', 'a.referer', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_STATUS_CODE', 'a.header', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
