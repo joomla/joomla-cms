@@ -7186,9 +7186,6 @@ h6 {
 	margin: 1px 0;
 	padding: 0 !important;
 }
-#jform_tags_chzn.chzn-container {
-	max-width: 440px;
-}
 .chzn-color.chzn-single[rel="value_1"],
 .chzn-color-reverse.chzn-single[rel="value_0"],
 .chzn-color-state.chzn-single[rel="value_1"],
