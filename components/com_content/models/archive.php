@@ -82,6 +82,7 @@ class ContentModelArchive extends ContentModelArticles
 	protected function getListQuery()
 	{
 		$params = $this->state->params;
+		$catids = $params->get('catid', array());
 		$articleOrderDate = $params->get('order_date');
 
 		// Create a new query object.
@@ -120,6 +121,11 @@ class ContentModelArchive extends ContentModelArticles
 		if ($year = $this->getState('filter.year'))
 		{
 			$query->where($query->year($queryDate) . ' = ' . $year);
+		}
+
+		if (count($catids))
+		{
+			$query->where('c.id IN (' .  implode($catids, ', ') .')');
 		}
 
 		return $query;
