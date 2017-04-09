@@ -528,7 +528,7 @@ class InstallerModelUpdate extends JModelList
 		
 		switch ($table->type)
 		{
-			// Components could have a helper which adds additional datas
+			// Components could have a helper which adds additional data
 			case 'component':
 				$ename = str_replace('com_', '', $table->element);
 				$fname = $ename . '.php';
@@ -548,7 +548,7 @@ class InstallerModelUpdate extends JModelList
 
 				break;
 
-			// Modules could have a helper which adds additional datas
+			// Modules could have a helper which adds additional data
 			case 'module':
 				$cname = str_replace('_', '', $table->element) . 'Helper';
 				$path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
