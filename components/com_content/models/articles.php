@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Cms\Authorize\Authorize;
+use Joomla\CMS\Authorize\Authorize;
 
 /**
  * This models supports retrieving lists of articles.
