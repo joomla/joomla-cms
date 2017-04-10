@@ -1,11 +1,15 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Layout
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Layout;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
  * @see    https://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since  3.0
  */
-class JLayoutFile extends JLayoutBase
+class FileLayout extends BaseLayout
 {
 	/**
 	 * Cached layout paths
@@ -134,7 +138,7 @@ class JLayoutFile extends JLayoutBase
 	 */
 	protected function getPath()
 	{
-		JLoader::import('joomla.filesystem.path');
+		\JLoader::import('joomla.filesystem.path');
 
 		$layoutId     = $this->getLayoutId();
 		$includePaths = $this->getIncludePaths();
@@ -184,7 +188,7 @@ class JLayoutFile extends JLayoutBase
 				$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
 				$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-				if ($foundLayout = JPath::find($this->includePaths, $rawPath))
+				if ($foundLayout = \JPath::find($this->includePaths, $rawPath))
 				{
 					$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
 
@@ -199,7 +203,7 @@ class JLayoutFile extends JLayoutBase
 		$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
 		$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-		$foundLayout = JPath::find($this->includePaths, $rawPath);
+		$foundLayout = \JPath::find($this->includePaths, $rawPath);
 
 		if (!$foundLayout)
 		{
@@ -328,7 +332,7 @@ class JLayoutFile extends JLayoutBase
 	 */
 	public function loadLanguageSuffixes()
 	{
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		$langTag = $lang->getTag();
 		$langParts = explode('-', $langTag);
@@ -351,7 +355,7 @@ class JLayoutFile extends JLayoutBase
 	 */
 	public function loadVersionSuffixes()
 	{
-		$cmsVersion = new JVersion;
+		$cmsVersion = new \JVersion;
 
 		// Example j311
 		$fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());
@@ -423,7 +427,7 @@ class JLayoutFile extends JLayoutBase
 		if (!empty($component) && substr_count($component, 'com_'))
 		{
 			// Latest check: component exists and is enabled
-			return JComponentHelper::isEnabled($component);
+			return ComponentHelper::isEnabled($component);
 		}
 
 		return false;
@@ -449,7 +453,7 @@ class JLayoutFile extends JLayoutBase
 				break;
 
 			case 'auto':
-				$component = JApplicationHelper::getComponentName();
+				$component = ApplicationHelper::getComponentName();
 				break;
 
 			default:
@@ -494,7 +498,7 @@ class JLayoutFile extends JLayoutBase
 				break;
 
 			default:
-				$client = (int) JFactory::getApplication()->isClient('administrator');
+				$client = (int) \JFactory::getApplication()->isClient('administrator');
 				break;
 		}
 
@@ -518,7 +522,7 @@ class JLayoutFile extends JLayoutBase
 	public function setLayout($layoutId)
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JLayoutFile::setLayoutId() instead.', JLog::WARNING, 'deprecated');
+		\JLog::add(__METHOD__ . '() is deprecated, use FileLayout::setLayoutId() instead.', \JLog::WARNING, 'deprecated');
 
 		return $this->setLayoutId($layoutId);
 	}
@@ -547,12 +551,12 @@ class JLayoutFile extends JLayoutBase
 	 *
 	 * @since   3.2
 	 *
-	 * @deprecated  3.5  Use JLayoutFile::clearIncludePaths()
+	 * @deprecated  3.5  Use FileLayout::clearIncludePaths()
 	 */
 	protected function refreshIncludePaths()
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JLayoutFile::clearIncludePaths() instead.', JLog::WARNING, 'deprecated');
+		\JLog::add(__METHOD__ . '() is deprecated, use FileLayout::clearIncludePaths() instead.', \JLog::WARNING, 'deprecated');
 
 		$this->clearIncludePaths();
 
@@ -583,7 +587,7 @@ class JLayoutFile extends JLayoutBase
 		if (!empty($component))
 		{
 			// (2) Component template overrides path
-			$paths[] = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $component;
+			$paths[] = JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/layouts/' . $component;
 
 			// (3) Component path
 			if ($this->options->get('client') == 0)
@@ -597,7 +601,7 @@ class JLayoutFile extends JLayoutBase
 		}
 
 		// (4) Standard Joomla! layouts overriden
-		$paths[] = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts';
+		$paths[] = JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/layouts';
 
 		// (5 - lower priority) Frontend base layouts
 		$paths[] = JPATH_ROOT . '/layouts';
