@@ -1774,14 +1774,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * NOTE: Choosing to key the result array by a non-unique field can result in unwanted
 	 * behavior and should be avoided.
 	 *
-	 * @param   string  $key  The name of a field on which to key the result array.
+	 * @param   integer  $index  The index of a field on which to key the result array.
 	 *
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function loadRowList($key = null)
+	public function loadRowList($index = null)
 	{
 		$this->connect();
 
@@ -1796,9 +1796,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Get all of the rows from the result set as arrays.
 		while ($row = $this->fetchArray($cursor))
 		{
-			if ($key !== null)
+			if ($index !== null)
 			{
-				$array[$row[$key]] = $row;
+				$array[$row[$index]] = $row;
 			}
 			else
 			{
