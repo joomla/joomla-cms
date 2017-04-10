@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Model\Admin;
-use Joomla\Component\Content\Administrator\Table\Article as ArticleTable;
 
 /**
  * Item Model for an Article.
