@@ -152,7 +152,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		// Only create the object if it doesn't exist.
 		if (empty(static::$instance))
 		{
-			if (!class_exists($name) && (is_subclass_of($name, '\\Joomla\\CMS\\Application\\WebApplication')))
+			if (!class_exists($name) || is_subclass_of($name, '\\Joomla\\CMS\\Application\\WebApplication'))
 			{
 				throw new \RuntimeException(sprintf('Unable to load application: %s', $name), 500);
 			}
