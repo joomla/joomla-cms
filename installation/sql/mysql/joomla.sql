@@ -20,10 +20,12 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
-  PRIMARY KEY (`id`,`lft`,`rgt`,`name`,`rules`),
+  PRIMARY KEY (`id`,`lft`,`rgt`,`name`,`rules`(190)),
   UNIQUE KEY `idx_asset_name` (`name`),
   UNIQUE KEY `idx_lft_rgt_id` (`lft`,`rgt`,`id`),
-  KEY `idx_parent_id` (`parent_id`)
+  KEY `idx_parent_id` (`parent_id`),
+  KEY `idx_id_level` ( `level` , `id` ),
+  UNIQUE KEY `idx_rgt_lft_id` ( `rgt` , `lft` , `id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2117,12 +2119,12 @@ CREATE TABLE `#__permissions` (
   `assetid` int(10) unsigned NOT NULL ,
   KEY ( `ugroup` ),
   KEY ( `value` ),
-  UNIQUE KEY `idx_aid_per_val`( `assetid`, `permission` , `value` ),
+  UNIQUE KEY `idx_aid_per_val_group`( `assetid`, `permission` , `value`, `ugroup` ),
   UNIQUE KEY `uniq` ( `permission` , `ugroup` , `assetid` )
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT = 'Joomla permission table';
 
 --
--- Dumping data for table `#__viewlevels`
+-- Dumping data for table `#__permissions`
 --
 
 INSERT INTO `#__permissions` (`id`, `permission`, `value`, `ugroup`, `assetid`) VALUES
@@ -2178,11 +2180,10 @@ INSERT INTO `#__permissions` (`id`, `permission`, `value`, `ugroup`, `assetid`) 
   (50, 'core.manage', 1, 6, 33);
 
 
--- To be moved to change sql later and merged with tables sql
-ALTER TABLE `#__contact_details` ADD KEY `idx_user_id` ( `user_id` );
-ALTER TABLE `#__assets` ADD KEY `idx_id_level` ( `level` , `id` );
-ALTER TABLE `#__assets` ADD UNIQUE KEY `idx_rgt_lft_id` ( `rgt` , `lft` , `id` );
+-- To be moved to change sql later
+-- ALTER TABLE `#__assets` ADD KEY `idx_id_level` ( `level` , `id` );
+-- ALTER TABLE `#__assets` ADD UNIQUE KEY `idx_rgt_lft_id` ( `rgt` , `lft` , `id` );
 
--- TESTING ONLY
+-- TESTING ONLY - for easier #__assets merges
 UPDATE `#__assets` SET `rules`='{}';
 
