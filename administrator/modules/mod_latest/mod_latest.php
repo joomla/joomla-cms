@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 // Include dependencies.
 JLoader::register('ModLatestHelper', __DIR__ . '/helper.php');
 
-$list = ModLatestHelper::getList($params);
+JLoader::registerNamespace('Joomla\Component\Content\Administrator', JPATH_ADMINISTRATOR . '/components/com_content', false, false, 'psr4');
+
+$list = ModLatestHelper::getList($params, new \Joomla\CMS\Mvc\Factory\MvcFactory('Joomla\\Component\\Content', JFactory::getApplication()));
 
 if ($params->get('automatic_title', 0))
 {

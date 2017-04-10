@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::registerNamespace('Joomla\Component\Content\Administrator', JPATH_ADMINISTRATOR . '/components/com_content', false, false, 'psr4');
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_popular
@@ -19,18 +20,19 @@ JLoader::registerNamespace('Joomla\Component\Content\Administrator', JPATH_ADMIN
 abstract class ModPopularHelper
 {
 	/**
-	 * Get a list of the most popular articles
+	 * Get a list of articles.
 	 *
-	 * @param   JObject  &$params  The module parameters.
+	 * @param   Registry             &$params  The module parameters.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @return  array
+	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList(&$params)
+	public static function getList(Registry &$params, MvcFactoryInterface $factory)
 	{
-		$user = JFactory::getuser();
+		$user = JFactory::getUser();
 
 		// Get an instance of the generic articles model
-		$model = new \Joomla\Component\Content\Administrator\Model\Articles(array('ignore_request' => true));
+		$model = $factory->createModel('Articles', 'Administrator', array('ignore_request' => true));
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .

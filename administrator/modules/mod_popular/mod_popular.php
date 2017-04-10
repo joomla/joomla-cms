@@ -12,8 +12,11 @@ defined('_JEXEC') or die;
 // Include the mod_popular functions only once.
 JLoader::register('ModPopularHelper', __DIR__ . '/helper.php');
 
+JLoader::registerNamespace('Joomla\Component\Content\Administrator', JPATH_ADMINISTRATOR . '/components/com_content', false, false, 'psr4');
+
+
 // Get module data.
-$list = ModPopularHelper::getList($params);
+$list = ModPopularHelper::getList($params, new \Joomla\CMS\Mvc\Factory\MvcFactory('Joomla\\Component\\Content', JFactory::getApplication()));
 
 if ($params->get('automatic_title', 0))
 {
