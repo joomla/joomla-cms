@@ -65,9 +65,10 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   string          $namespace  Namespace of the Extension
-	 * @param   CmsApplication  $app        The JApplication for the dispatcher
-	 * @param   \JInput         $input      JInput
+	 * @param   string               $namespace  Namespace of the Extension
+	 * @param   CmsApplication       $app        The JApplication for the dispatcher
+	 * @param   \JInput              $input      JInput
+	 * @param   MvcFactoryInterface  $factory    The factory object for the component
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

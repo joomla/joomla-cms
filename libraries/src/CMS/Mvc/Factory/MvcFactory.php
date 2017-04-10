@@ -10,9 +10,6 @@ namespace Joomla\CMS\Mvc\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Model\Model;
-
 /**
  * Factory to create MVC objects based on a namespace.
  *
@@ -104,11 +101,11 @@ class MvcFactory implements MvcFactoryInterface
 	/**
 	 * Creates a standard classname and returns an instance of this class.
 	 *
-	 * @param  string  $suffix  The suffix
-	 * @param  string  $prefix  The prefix
-	 * @param  array   $config  The config
+	 * @param   string  $suffix  The suffix
+	 * @param   string  $prefix  The prefix
+	 * @param   array   $config  The config
 	 *
-	 * @return object  The instance
+	 * @return  object  The instance
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
