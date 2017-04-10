@@ -60,7 +60,7 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createModel($name, $prefix = '', array $config = array())
 	{
-		return $this->createInstance('Model\\' . ucfirst($name), $prefix, $config);
+		return $this->createInstance('Model\\' . ucfirst($name), $prefix, $config, $this);
 	}
 
 	/**
@@ -101,18 +101,20 @@ class MvcFactory implements MvcFactoryInterface
 	/**
 	 * Creates a standard classname and returns an instance of this class.
 	 *
-	 * @param   string  $suffix  The suffix
-	 * @param   string  $prefix  The prefix
-	 * @param   array   $config  The config
+	 * @param   string               $suffix   The suffix
+	 * @param   string               $prefix   The prefix
+	 * @param   array                $config   The config
+	 * @param   MvcFactoryInterface  $factory  The factory
 	 *
 	 * @return  object  The instance
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function createInstance($suffix, $prefix, array $config)
+	private function createInstance($suffix, $prefix, array $config, MvcFactoryInterface $factory = null)
 	{
 		// @todo decide what todo with the prefix as it doesn't fit into the namespace approach
 		$prefix = '';
+
 		if (!$prefix)
 		{
 			$prefix = $this->application->getName();
@@ -120,10 +122,12 @@ class MvcFactory implements MvcFactoryInterface
 
 		$className = $this->namespace . '\\' . ucfirst($prefix) . '\\' . $suffix;
 		$className = str_replace('\\\\', '\\', $className);
+
 		if (!class_exists($className))
 		{
 			return null;
 		}
-		return new $className($config);
+
+		return new $className($config, $factory);
 	}
 }
