@@ -81,8 +81,10 @@ class ContentModelArchive extends ContentModelArticles
 	 */
 	protected function getListQuery()
 	{
-		$params = $this->state->params;
-		$catids = $params->get('catid', array());
+		$params           = $this->state->params;
+		$app              = JFactory::getApplication('site');
+		$catids           = $app->input->getVar('catid', array());
+		$catids           = array_values(array_diff($catids, array('')));
 		$articleOrderDate = $params->get('order_date');
 
 		// Create a new query object.
@@ -123,9 +125,9 @@ class ContentModelArchive extends ContentModelArticles
 			$query->where($query->year($queryDate) . ' = ' . $year);
 		}
 
-		if (count($catids))
+		if (count($catids)>0)
 		{
-			$query->where('c.id IN (' .  implode($catids, ', ') .')');
+			$query->where('c.id IN (' .  implode($catids, ', ') . ')');
 		}
 
 		return $query;
