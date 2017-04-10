@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Controller\Admin;
 
@@ -24,14 +25,18 @@ class Articles extends Admin
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
-	 * @see     \Joomla\CMS\Controller\Controller
-	 * @since   1.6
+	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 
 		// Articles default form can come from the articles or featured view.
 		// Adjust the redirect view on the value of 'view' in the request.
