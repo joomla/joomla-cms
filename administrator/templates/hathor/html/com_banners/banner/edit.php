@@ -96,7 +96,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS'), 'otherparams'); ?>
 		<fieldset class="panelform">
-		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+		<legend class="element-invisible"><?php echo JText::_('COM_BANNERS_BANNER_DETAILS'); ?></legend>
 
 		<ul class="adminformlist">
 			<?php foreach ($this->form->getFieldset('otherparams') as $field) : ?>
