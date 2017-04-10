@@ -10,6 +10,7 @@ namespace Joomla\CMS\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -49,17 +50,18 @@ class Admin extends Controller
 	/**
 	 * Constructor.
 	 *
-	 * @param   array             $config  An optional associative array of configuration settings.
-	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
-	 * @param   \JInput           $input   Input
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
-	 * @see     \JControllerLegacy
-	 * @since   1.6
-	 * @throws  \Exception
+	 * @since   3.0
 	 */
-	public function __construct($config = array(), $app = null, $input = null)
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config, $app, $input);
+		parent::__construct($config, $factory, $app, $input);
 
 		// Define standard task mappings.
 
