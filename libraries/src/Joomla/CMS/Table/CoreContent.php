@@ -170,7 +170,7 @@ class CoreContent extends Table
 	 */
 	public function delete($pk = null)
 	{
-		$baseTable = Table::getInstance('Ucm', array('dbo' => $this->getDbo()));
+		$baseTable = Table::getInstance('Ucm', 'JTable', array('dbo' => $this->getDbo()));
 
 		return parent::delete($pk) && $baseTable->delete($pk);
 	}

@@ -53,10 +53,10 @@ JLoader::registerAlias('JTableUpdatesite',                  '\\Joomla\\CMS\\Tabl
 JLoader::registerAlias('JTableUser',                        '\\Joomla\\CMS\\Table\\User', '4.0');
 JLoader::registerAlias('JTableUsergroup',                   '\\Joomla\\CMS\\Table\\Usergroup', '4.0');
 JLoader::registerAlias('JTableViewlevel',                   '\\Joomla\\CMS\\Table\\ViewLevel', '4.0');
-JLoader::registerAlias('JTableContenthistory',              '\\Joomla\\Cms\\Table\\ContentHistory', '4.0');
-JLoader::registerAlias('JTableContenttype',                 '\\Joomla\\Cms\\Table\\ContentType', '4.0');
-JLoader::registerAlias('JTableCorecontent',                 '\\Joomla\\Cms\\Table\\CoreContent', '4.0');
-JLoader::registerAlias('JTableUcm',                         '\\Joomla\\Cms\\Table\\Ucm', '4.0');
+JLoader::registerAlias('JTableContenthistory',              '\\Joomla\\CMS\\Table\\ContentHistory', '4.0');
+JLoader::registerAlias('JTableContenttype',                 '\\Joomla\\CMS\\Table\\ContentType', '4.0');
+JLoader::registerAlias('JTableCorecontent',                 '\\Joomla\\CMS\\Table\\CoreContent', '4.0');
+JLoader::registerAlias('JTableUcm',                         '\\Joomla\\CMS\\Table\\Ucm', '4.0');
 JLoader::registerAlias('JTableObserver',                    '\\Joomla\\CMS\\Table\\Observer\\AbstractObserver', '4.0');
 JLoader::registerAlias('JTableObserverContenthistory',      '\\Joomla\\CMS\\Table\\Observer\\ContentHistory', '4.0');
 JLoader::registerAlias('JTableObserverTags',                '\\Joomla\\CMS\\Table\\Observer\\Tags', '4.0');
