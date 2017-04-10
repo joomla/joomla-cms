@@ -27,7 +27,7 @@ class Featured extends Table
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__content_frontpage', 'content_id', $db);
 	}

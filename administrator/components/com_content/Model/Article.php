@@ -252,10 +252,9 @@ class Article extends Admin
 	 *
 	 * @return  \Joomla\CMS\Table\Table    A database object
 	 */
-	public function getTable($type = 'Content', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Article', $prefix = 'ContentTable', $config = array())
 	{
-		$db = isset($config['dbo']) ? $config['dbo'] : \JFactory::getDbo();
-		return new ArticleTable($db);
+		return parent::getTable($type, $prefix, $config);
 	}
 
 	/**
