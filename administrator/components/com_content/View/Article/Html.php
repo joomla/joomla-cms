@@ -11,14 +11,14 @@ namespace Joomla\Component\Content\Administrator\View\Article;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\View;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View to edit an article.
  *
  * @since  1.6
  */
-class Html extends View
+class Html extends HtmlView
 {
 	/**
 	 * The \JForm object

@@ -11,7 +11,7 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\View;
+use Joomla\CMS\View\HtmlView;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\Component\Content\Administrator\Helper\ContentHelper;
  *
  * @since  1.6
  */
-class Html extends View
+class Html extends HtmlView
 {
 	/**
 	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
