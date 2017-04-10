@@ -127,7 +127,7 @@ class ContentModelArchive extends ContentModelArticles
 
 		if (count($catids)>0)
 		{
-			$query->where('c.id IN (' .  implode($catids, ', ') . ')');
+			$query->where('c.id IN (' . implode($catids, ', ') . ')');
 		}
 
 		return $query;
