@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 abstract class ModPopularHelper
 {
 	/**
-	 * Get a list of articles.
+	 * Get a list of the most popular articles.
 	 *
 	 * @param   Registry             &$params  The module parameters.
 	 * @param   MvcFactoryInterface  $factory  The factory.
