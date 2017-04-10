@@ -66,8 +66,12 @@ JFactory::getDocument()->addScriptDeclaration("
 				</div>
 				</li>
 
-				<li><?php echo $this->form->getLabel('description'); ?>
-				<?php echo $this->form->getInput('description'); ?></li>
+				<li>
+				<?php echo $this->form->getLabel('description'); ?>
+				<div class="clr"></div>
+				<?php echo $this->form->getInput('description'); ?>
+				<div class="clr"></div>
+				</li>
 
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
