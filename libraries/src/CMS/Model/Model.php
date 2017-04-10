@@ -240,7 +240,7 @@ abstract class Model extends \JObject
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->option = $this->option = \JComponentHelper::getComponentName($this, $r[1]);
+			$this->option = \JComponentHelper::getComponentName($this, $r[1]);
 		}
 
 		// Set the view name
