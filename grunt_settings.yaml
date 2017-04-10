@@ -44,7 +44,7 @@ vendors:
                   'version': '5.24.2'
                   'dependencies': ''
     'cropperjs':
-                  'version': '1.0.0-beta.2'
+                  'version': '1.0.0-rc'
                   'dependencies': ''
     'flying-focus-a11y':
                   'version': '1.5.4'

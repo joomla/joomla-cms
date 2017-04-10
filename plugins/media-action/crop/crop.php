@@ -29,11 +29,7 @@ class PlgMediaActionCrop extends MediaActionPlugin
 	{
 		parent::loadJs();
 
-		JHtml::_(
-			'script',
-			'plg_media-action_' . $this->_name . '/cropper.min.js',
-			array('version' => 'auto', 'relative' => true)
-		);
+		JHtml::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -47,10 +43,6 @@ class PlgMediaActionCrop extends MediaActionPlugin
 	{
 		parent::loadCss();
 
-		JHtml::_(
-			'stylesheet',
-			'plg_media-action_' . $this->_name . '/cropper.min.css',
-			array('version' => 'auto', 'relative' => true)
-		);
+		JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
 	}
 }
