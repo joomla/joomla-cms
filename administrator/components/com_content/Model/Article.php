@@ -244,20 +244,6 @@ class Article extends Admin
 	}
 
 	/**
-	 * Returns a Table object, always creating it.
-	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  \Joomla\CMS\Table\Table    A database object
-	 */
-	public function getTable($type = 'Article', $prefix = 'ContentTable', $config = array())
-	{
-		return parent::getTable($type, $prefix, $config);
-	}
-
-	/**
 	 * Method to get a single record.
 	 *
 	 * @param   integer  $pk  The id of the primary key.
