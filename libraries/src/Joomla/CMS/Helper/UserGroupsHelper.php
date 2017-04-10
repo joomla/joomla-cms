@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Helper
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.6.3
  */
-final class JHelperUsergroups
+final class UserGroupsHelper
 {
 	/**
 	 * @const  integer
@@ -191,7 +192,7 @@ final class JHelperUsergroups
 	{
 		if (null === $this->total)
 		{
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 
 			$query = $db->getQuery(true)
 				->select('count(id)')
@@ -216,7 +217,7 @@ final class JHelperUsergroups
 	 */
 	public function load($id)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('*')
@@ -283,9 +284,9 @@ final class JHelperUsergroups
 	/**
 	 * Populate data for a specific user group.
 	 *
-	 * @param   stdClass  $group  Group
+	 * @param   \stdClass  $group  Group
 	 *
-	 * @return  stdClass
+	 * @return  \stdClass
 	 *
 	 * @since   3.6.3
 	 */

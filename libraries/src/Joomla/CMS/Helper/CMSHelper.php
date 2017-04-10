@@ -1,11 +1,15 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Helper
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Helper;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Table\TableInterface;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class JHelper
+class CMSHelper
 {
 	/**
 	 * Gets the current language
@@ -27,19 +31,19 @@ class JHelper
 	 */
 	public function getCurrentLanguage($detectBrowser = true)
 	{
-		$app = JFactory::getApplication();
-		$langCode = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
+		$app = \JFactory::getApplication();
+		$langCode = $app->input->cookie->getString(\JApplicationHelper::getHash('language'));
 
 		// No cookie - let's try to detect browser language or use site default
 		if (!$langCode)
 		{
 			if ($detectBrowser)
 			{
-				$langCode = JLanguageHelper::detectLanguage();
+				$langCode = \JLanguageHelper::detectLanguage();
 			}
 			else
 			{
-				$langCode = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				$langCode = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 		}
 
@@ -57,7 +61,7 @@ class JHelper
 	 */
 	public function getLanguageId($langCode)
 	{
-		$db    = JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('lang_id')
 			->from('#__languages')
@@ -70,13 +74,13 @@ class JHelper
 	/**
 	 * Gets a row of data from a table
 	 *
-	 * @param   JTableInterface  $table  JTable instance for a row.
+	 * @param   TableInterface  $table  Table instance for a row.
 	 *
 	 * @return  array  Associative array of all columns and values for a row in a table.
 	 *
 	 * @since   3.2
 	 */
-	public function getRowData(JTableInterface $table)
+	public function getRowData(TableInterface $table)
 	{
 		$fields = $table->getFields();
 		$data = array();
@@ -94,16 +98,16 @@ class JHelper
 	/**
 	 * Method to get an object containing all of the table columns and values.
 	 *
-	 * @param   JTableInterface  $table  JTable object.
+	 * @param   TableInterface  $table  Table object.
 	 *
-	 * @return  stdClass  Contains all of the columns and values.
+	 * @return  \stdClass  Contains all of the columns and values.
 	 *
 	 * @since   3.2
 	 */
-	public function getDataObject(JTableInterface $table)
+	public function getDataObject(TableInterface $table)
 	{
 		$fields = $table->getFields();
-		$dataObject = new stdClass;
+		$dataObject = new \stdClass;
 
 		foreach ($fields as $field)
 		{

@@ -53,6 +53,10 @@ JLoader::registerAlias('JTableUpdatesite',                  '\\Joomla\\CMS\\Tabl
 JLoader::registerAlias('JTableUser',                        '\\Joomla\\CMS\\Table\\User', '4.0');
 JLoader::registerAlias('JTableUsergroup',                   '\\Joomla\\CMS\\Table\\Usergroup', '4.0');
 JLoader::registerAlias('JTableViewlevel',                   '\\Joomla\\CMS\\Table\\ViewLevel', '4.0');
+JLoader::registerAlias('JTableContenthistory',              '\\Joomla\\CMS\\Table\\ContentHistory', '4.0');
+JLoader::registerAlias('JTableContenttype',                 '\\Joomla\\CMS\\Table\\ContentType', '4.0');
+JLoader::registerAlias('JTableCorecontent',                 '\\Joomla\\CMS\\Table\\CoreContent', '4.0');
+JLoader::registerAlias('JTableUcm',                         '\\Joomla\\CMS\\Table\\Ucm', '4.0');
 JLoader::registerAlias('JTableObserver',                    '\\Joomla\\CMS\\Table\\Observer\\AbstractObserver', '4.0');
 JLoader::registerAlias('JTableObserverContenthistory',      '\\Joomla\\CMS\\Table\\Observer\\ContentHistory', '4.0');
 JLoader::registerAlias('JTableObserverTags',                '\\Joomla\\CMS\\Table\\Observer\\Tags', '4.0');
@@ -64,8 +68,6 @@ JLoader::registerAlias('JAccessWrapperAccess',              '\\Joomla\\CMS\\Acce
 JLoader::registerAlias('JAccessExceptionNotallowed',        '\\Joomla\\CMS\\Access\\Exception\\Notallowed', '4.0');
 JLoader::registerAlias('JRule',                             '\\Joomla\\CMS\\Access\\Rule', '4.0');
 JLoader::registerAlias('JRules',                            '\\Joomla\\CMS\\Access\\Rules', '4.0');
-
-JLoader::registerAlias('JAuthenticationHelper',             '\\Joomla\\CMS\\Authentication\\AuthenticationHelper', '4.0');
 
 JLoader::registerAlias('JHelp',                             '\\Joomla\\CMS\\Help\\Help', '4.0');
 JLoader::registerAlias('JCaptcha',                          '\\Joomla\\CMS\\Captcha\\Captcha', '4.0');
@@ -89,3 +91,12 @@ JLoader::registerAlias('JComponentRouterRulesStandard',     '\\Joomla\\CMS\\Comp
 JLoader::registerAlias('JEditor',                           '\\Joomla\\CMS\\Editor\\Editor', '4.0');
 
 JLoader::registerAlias('JErrorPage',                        '\\Joomla\\CMS\\Exception\\ExceptionHandler', '4.0');
+
+JLoader::registerAlias('JAuthenticationHelper',             '\\Joomla\\CMS\\Helper\\AuthenticationHelper', '4.0');
+JLoader::registerAlias('JHelper',                           '\\Joomla\\CMS\\Helper\\CMSHelper', '4.0');
+JLoader::registerAlias('JHelperContent',                    '\\Joomla\\CMS\\Helper\\ContentHelper', '4.0');
+JLoader::registerAlias('JHelperContenthistory',             '\\Joomla\\CMS\\Helper\\ContentHistoryHelper', '4.0');
+JLoader::registerAlias('JHelperRoute',                      '\\Joomla\\CMS\\Helper\\RouteHelper', '4.0');
+JLoader::registerAlias('JHelperMedia',                      '\\Joomla\\CMS\\Helper\\MediaHelper', '4.0');
+JLoader::registerAlias('JHelperTags',                       '\\Joomla\\CMS\\Helper\\TagsHelper', '4.0');
+JLoader::registerAlias('JHelperUsergroups',                 '\\Joomla\\CMS\\Helper\\UserGroupsHelper', '4.0');

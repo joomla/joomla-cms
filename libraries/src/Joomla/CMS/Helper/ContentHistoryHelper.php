@@ -1,11 +1,15 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Helper
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Helper;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Table\Table;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class JHelperContenthistory extends JHelper
+class ContentHistoryHelper extends CMSHelper
 {
 	/**
 	 * Alias for storing type in versions table
@@ -40,7 +44,7 @@ class JHelperContenthistory extends JHelper
 	/**
 	 * Method to delete the history for an item.
 	 *
-	 * @param   JTable  $table  JTable object being versioned
+	 * @param   Table  $table  Table object being versioned
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -50,9 +54,9 @@ class JHelperContenthistory extends JHelper
 	{
 		$key = $table->getKeyName();
 		$id = $table->$key;
-		$typeTable = JTable::getInstance('Contenttype', 'JTable');
+		$typeTable = Table::getInstance('Contenttype', 'JTable');
 		$typeId = $typeTable->getTypeId($this->typeAlias);
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->delete($db->quoteName('#__ucm_history'))
 			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $id)
@@ -74,7 +78,7 @@ class JHelperContenthistory extends JHelper
 	 */
 	public function getHistory($typeId, $id)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
 			->from($db->quoteName('#__ucm_history') . ' AS h ')
@@ -90,7 +94,7 @@ class JHelperContenthistory extends JHelper
 	/**
 	 * Method to save a version snapshot to the content history table.
 	 *
-	 * @param   JTable  $table  JTable object being versioned
+	 * @param   Table  $table  Table object being versioned
 	 *
 	 * @return  boolean  True on success, otherwise false.
 	 *
@@ -99,8 +103,8 @@ class JHelperContenthistory extends JHelper
 	public function store($table)
 	{
 		$dataObject = $this->getDataObject($table);
-		$historyTable = JTable::getInstance('Contenthistory', 'JTable');
-		$typeTable = JTable::getInstance('Contenttype', 'JTable');
+		$historyTable = Table::getInstance('Contenthistory', 'JTable');
+		$typeTable = Table::getInstance('Contenttype', 'JTable');
 		$typeTable->load(array('type_alias' => $this->typeAlias));
 		$historyTable->set('ucm_type_id', $typeTable->type_id);
 
@@ -114,13 +118,13 @@ class JHelperContenthistory extends JHelper
 		}
 
 		$historyTable->set('version_data', json_encode($dataObject));
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$data = $input->get('jform', array(), 'array');
 		$versionName = false;
 
 		if (isset($data['version_note']))
 		{
-			$versionName = JFilterInput::getInstance()->clean($data['version_note'], 'string');
+			$versionName = \JFilterInput::getInstance()->clean($data['version_note'], 'string');
 			$historyTable->set('version_note', $versionName);
 		}
 
@@ -147,13 +151,13 @@ class JHelperContenthistory extends JHelper
 
 		$context = isset($aliasParts[1]) ? $aliasParts[1] : '';
 
-		$maxVersionsContext = JComponentHelper::getParams($aliasParts[0])->get('history_limit' . '_' . $context, 0);
+		$maxVersionsContext = ComponentHelper::getParams($aliasParts[0])->get('history_limit' . '_' . $context, 0);
 
 		if ($maxVersionsContext)
 		{
 			$historyTable->deleteOldVersions($maxVersionsContext);
 		}
-		elseif ($maxVersions = JComponentHelper::getParams($aliasParts[0])->get('history_limit', 0))
+		elseif ($maxVersions = ComponentHelper::getParams($aliasParts[0])->get('history_limit', 0))
 		{
 			$historyTable->deleteOldVersions($maxVersions);
 		}
