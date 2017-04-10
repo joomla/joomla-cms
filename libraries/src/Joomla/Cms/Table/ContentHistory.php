@@ -72,7 +72,7 @@ class ContentHistory extends Table
 	public function store($updateNulls = false)
 	{
 		$this->set('character_count', strlen($this->get('version_data')));
-		$typeTable = new ContentType($this->getDbo());
+		$typeTable = Table::getInstance('Contenttype', array('dbo' => $this->getDbo()));
 		$typeTable->load($this->ucm_type_id);
 
 		if (!isset($this->sha1_hash))

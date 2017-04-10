@@ -67,7 +67,7 @@ class ContentType extends Table
 	public function store($updateNulls = false)
 	{
 		// Verify that the alias is unique
-		$table = new ContentType($this->getDbo());
+		$table = Table::getInstance('Contenttype', array('dbo' => $this->getDbo()));
 
 		if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0))
 		{
