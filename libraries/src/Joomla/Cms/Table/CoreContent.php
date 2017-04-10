@@ -184,7 +184,7 @@ class CoreContent extends Table
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function deleteByContentId($contentItemId = null, $typeAlias = null)
 	{
