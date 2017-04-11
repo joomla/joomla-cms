@@ -37,6 +37,6 @@ class ContentDispatcher extends Dispatcher
 			$namespace = 'Joomla\\Component\\Content';
 		}
 
-		parent::__construct('Joomla\\Component\\Content', $app, $input, $factory);
+		parent::__construct($namespace, $app, $input, $factory);
 	}
 }
