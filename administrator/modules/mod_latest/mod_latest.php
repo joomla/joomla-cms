@@ -12,9 +12,14 @@ defined('_JEXEC') or die;
 // Include dependencies.
 JLoader::register('ModLatestHelper', __DIR__ . '/helper.php');
 
-JLoader::registerNamespace('Joomla\Component\Content\Administrator', JPATH_ADMINISTRATOR . '/components/com_content', false, false, 'psr4');
+JLoader::register('ContentDispatcher', JPATH_ADMINISTRATOR . '/components/com_content/dispatcher.php');
+$oldScope = $app->scope;
+$app->scope = 'com_content';
+$namespace = \Joomla\CMS\Component\ComponentHelper::getComponent($app->scope)->namespace;
+$dispatcher = new ContentDispatcher($namespace, JFactory::getApplication());
 
-$list = ModLatestHelper::getList($params, new \Joomla\CMS\Mvc\Factory\MvcFactory('Joomla\\Component\\Content', JFactory::getApplication()));
+$list = ModLatestHelper::getList($params, $dispatcher->getFactory());
+$app->scope = $oldScope;
 
 if ($params->get('automatic_title', 0))
 {
