@@ -8,12 +8,12 @@
 
 namespace Joomla\CMS\Dispatcher;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Application\CmsApplication;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Mvc\Factory\MvcFactory;
-
-defined('_JEXEC') or die;
 
 /**
  * Base class for a Joomla Dispatcher
