@@ -7,28 +7,36 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Controller\Admin;
 
 /**
  * Articles list controller class.
  *
  * @since  1.6
  */
-class ContentControllerArticles extends JControllerAdmin
+class Articles extends Admin
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
-	 * @see     JControllerLegacy
-	 * @since   1.6
+	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 
 		// Articles default form can come from the articles or featured view.
 		// Adjust the redirect view on the value of 'view' in the request.
@@ -50,9 +58,9 @@ class ContentControllerArticles extends JControllerAdmin
 	public function featured()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$user   = JFactory::getUser();
+		$user   = \JFactory::getUser();
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
@@ -65,13 +73,13 @@ class ContentControllerArticles extends JControllerAdmin
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				\JError::raiseNotice(403, \JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 			}
 		}
 
 		if (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			\JError::raiseWarning(500, \JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else
 		{
@@ -82,16 +90,16 @@ class ContentControllerArticles extends JControllerAdmin
 			// Publish the items.
 			if (!$model->featured($ids, $value))
 			{
-				JError::raiseWarning(500, $model->getError());
+				\JError::raiseWarning(500, $model->getError());
 			}
 
 			if ($value == 1)
 			{
-				$message = JText::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+				$message = \JText::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
 			}
 			else
 			{
-				$message = JText::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+				$message = \JText::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
 			}
 		}
 
@@ -99,11 +107,11 @@ class ContentControllerArticles extends JControllerAdmin
 
 		if ($view == 'featured')
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_content&view=featured', false), $message);
+			$this->setRedirect(\JRoute::_('index.php?option=com_content&view=featured', false), $message);
 		}
 		else
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles', false), $message);
+			$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles', false), $message);
 		}
 	}
 
@@ -114,7 +122,7 @@ class ContentControllerArticles extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  JModelLegacy
+	 * @return  \Joomla\CMS\Model\Model
 	 *
 	 * @since   1.6
 	 */

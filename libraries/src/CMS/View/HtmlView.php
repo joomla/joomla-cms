@@ -10,6 +10,8 @@ namespace Joomla\CMS\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Model\Model;
+
 /**
  * Base class for a Joomla Html View
  *
@@ -124,11 +126,11 @@ class HtmlView extends AbstractView
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
-		elseif (is_dir($this->_basePath . '/View'))
+		elseif (is_dir($this->_basePath . '/View/' . $this->getName() . '/tmpl'))
 		{
 			$this->_setPath('template', $this->_basePath . '/View/' . $this->getName() . '/tmpl');
 		}
-		elseif (is_dir($this->_basePath . '/view'))
+		elseif (is_dir($this->_basePath . '/view/' . $this->getName() . '/tmpl'))
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}

@@ -60,7 +60,14 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createModel($name, $prefix = '', array $config = array())
 	{
-		return $this->createInstance('Model\\' . ucfirst($name), $prefix, $config);
+		$className = $this->getClassName('Model\\' . ucfirst($name), $prefix);
+
+		if (!$className)
+		{
+			return null;
+		}
+
+		return new $className($config, $this);
 	}
 
 	/**
@@ -78,7 +85,14 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = array())
 	{
-		return $this->createInstance('View\\' . ucfirst($name) . '\\' . ucfirst($type), $prefix, $config);
+		$className = $this->getClassName('View\\' . ucfirst($name) . '\\' . ucfirst($type), $prefix);
+
+		if (!$className)
+		{
+			return null;
+		}
+
+		return new $className($config);
 	}
 
 	/**
@@ -95,32 +109,54 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createTable($name, $prefix = '', array $config = array())
 	{
-		return $this->createInstance('Table\\' . ucfirst($name), $prefix, $config);
+		$className = $this->getClassName('Table\\' . ucfirst($name), $prefix);
+
+		if (!$className)
+		{
+			return null;
+		}
+
+		$db = null;
+		if (array_key_exists('dbo', $config))
+		{
+			$db = $config['dbo'];
+		}
+		else
+		{
+			$db = \JFactory::getDbo();
+		}
+
+		return new $className($db);
 	}
 
 	/**
-	 * Creates a standard classname and returns an instance of this class.
+	 * Returns a standard classname, if the class doesn't exist null is returned.
 	 *
 	 * @param   string  $suffix  The suffix
 	 * @param   string  $prefix  The prefix
-	 * @param   array   $config  The config
 	 *
-	 * @return  object  The instance
+	 * @return  string|null  The class name
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function createInstance($suffix, $prefix, array $config)
+	private function getClassName($suffix, $prefix)
 	{
+		// @todo decide what todo with the prefix as it doesn't fit into the namespace approach
+		$prefix = '';
+
 		if (!$prefix)
 		{
 			$prefix = $this->application->getName();
 		}
 
 		$className = $this->namespace . '\\' . ucfirst($prefix) . '\\' . $suffix;
+		$className = str_replace('\\\\', '\\', $className);
+
 		if (!class_exists($className))
 		{
 			return null;
 		}
-		return new $className($config);
+
+		return $className;
 	}
 }
