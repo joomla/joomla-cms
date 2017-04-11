@@ -6,18 +6,18 @@
 
 // Core CSS
 @import "columns";
-@import "tables";
-@import "forms";
 @import "buttons";
+@import "forms";
+@import "tables";
 
 // Components
+@import "badge";
 @import "button-group";
+@import "description-list";
 @import "input-group";
+@import "list-group";
 @import "nav";
 @import "pagination";
-@import "badge";
-@import "list-group";
-@import "description-list";
 
 // Utility classes
 @import "utilities";

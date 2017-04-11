@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 			codemirror    : 'media/vendor/codemirror',
 			adminTemplate : 'administrator/templates/atum',
 			siteTemplate  : 'templates/aurora',
-			jui  		  : 'media/jui',
+			jui           : 'media/jui',
 			node_module   : 'build/assets_tmp/node_modules/',
 			editors       : 'media/editors',
 			media         : 'media'
