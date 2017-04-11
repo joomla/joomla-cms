@@ -226,11 +226,17 @@ class JBrowser
 		{
 			$this->_setPlatform();
 
+			/**
+			 * Determine if mobile. Note: Some Handhelds have their screen resolution in the
+			 * user agent string, which we can use to look for mobile agents.
+			 */
 			if (strpos($this->lowerAgent, 'mobileexplorer') !== false
 				|| strpos($this->lowerAgent, 'openwave') !== false
 				|| strpos($this->lowerAgent, 'opera mini') !== false
 				|| strpos($this->lowerAgent, 'opera mobi') !== false
-				|| strpos($this->lowerAgent, 'operamini') !== false)
+				|| strpos($this->lowerAgent, 'operamini') !== false
+				|| preg_match('/(iPhone|iPod|iPad|Android|Mobile|Phone|BlackBerry)/i', $this->agent);
+			    || preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->agent))
 			{
 				$this->mobile = true;
 			}
@@ -248,15 +254,6 @@ class JBrowser
 				{
 					$this->majorVersion = $version[1];
 					$this->minorVersion = 0;
-				}
-
-				/* Some Handhelds have their screen resolution in the
-				 * user agent string, which we can use to look for
-				 * mobile agents.
-				 */
-				if (preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->agent))
-				{
-					$this->mobile = true;
 				}
 			}
 			elseif (preg_match('|Opera[/ ]([0-9.]+)|', $this->agent, $version))
@@ -320,15 +317,6 @@ class JBrowser
 				{
 					$this->majorVersion = $version[1];
 					$this->minorVersion = 0;
-				}
-
-				/* Some Handhelds have their screen resolution in the
-				 * user agent string, which we can use to look for
-				 * mobile agents.
-				 */
-				if (preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->agent))
-				{
-					$this->mobile = true;
 				}
 			}
 			elseif (preg_match('|amaya/([0-9.]+)|', $this->agent, $version))
