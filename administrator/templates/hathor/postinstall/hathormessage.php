@@ -18,22 +18,22 @@
  */
 function hathormessage_postinstall_condition()
 {
-	$db           = JFactory::getDbo();
-	$user         = JFactory::getUser();
-	$globalHathor = false;
-	$template     = 'n/a';
+	$db             = JFactory::getDbo();
+	$user           = JFactory::getUser();
+	$globalTemplate = 'n/a';
+	$template       = 'n/a';
 
 	// We can only do that if you have edit permissions in com_templates
 	if ($user->authorise('core.edit.state', 'com_templates'))
 	{
 		$query = $db->getQuery(true)
-			->select('home')
+			->select('template')
 			->from($db->quoteName('#__template_styles'))
-			->where($db->quoteName('template') . ' = "hathor"')
+			->where($db->quoteName('home') . ' = 1')
 			->where($db->quoteName('client_id') . ' = 1');
 
 		// Get the global setting about the default template
-		$globalHathor = $db->setQuery($query)->loadResult();
+		$globalTemplate = $db->setQuery($query)->loadResult();
 	}
 
 	// Get the current user admin style
@@ -51,7 +51,7 @@ function hathormessage_postinstall_condition()
 		$template = $db->setquery($query)->loadResult();
 	}
 
-	if (!$globalHathor && ($template != 'hathor'))
+	if (($globalTemplate != 'hathor') && ($template != 'hathor'))
 	{
 		// Hathor is not default not global and not in the user so no message needed
 		return false;
