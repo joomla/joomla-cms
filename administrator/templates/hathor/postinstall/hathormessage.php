@@ -75,7 +75,7 @@ function hathormessage_postinstall_action()
 	$user = JFactory::getUser();
 
 	$query = $db->getQuery(true)
-		->select('id')
+		->select('id', 'title')
 		->from($db->quoteName('#__template_styles'))
 		->where($db->quoteName('template') . ' = "isis"')
 		->where($db->quoteName('client_id') . ' = 1');
@@ -126,5 +126,5 @@ function hathormessage_postinstall_action()
 	}
 
 	// Template was successfully changed to isis
-	JFactory::getApplication()->enqueueMessage(JText::_('TLP_HATHOR_CHANGED_DEFAULT_TEMPLATE_TO_ISIS'), 'message');
+	JFactory::getApplication()->enqueueMessage(JText::sprintf('TLP_HATHOR_CHANGED_DEFAULT_TEMPLATE_TO_ISIS', $adminstyle[1]), 'message');
 }
