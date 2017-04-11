@@ -158,7 +158,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$this->addSeparator();
 
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS_ALL_ITEMS'), 'index.php?option=com_menus&view=items&menutype=', 'class:allmenu'));
-	$this->addSeparator();
+	$this->addSeparator(JText::_('JSITE'));
 
 	// Menu Types
 	$menuTypes = ModMenuHelper::getMenus();
@@ -199,7 +199,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 		if (isset($menuTypes[$mti - 1]) && $menuTypes[$mti - 1]->client_id != $menuType->client_id)
 		{
-			$this->addSeparator();
+			$this->addSeparator(JText::_('JADMINISTRATOR'));
 		}
 
 		$this->addChild(
@@ -430,7 +430,7 @@ if ($showhelp == 1)
 	$this->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_TRANSLATIONS'), 'https://community.joomla.org/translations.html', 'class:help-trans', false, '_blank')
 	);
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'http://resources.joomla.org', 'class:help-jrd', false, '_blank'));
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'https://resources.joomla.org', 'class:help-jrd', false, '_blank'));
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_COMMUNITY'), 'https://community.joomla.org', 'class:help-community', false, '_blank'));
 	$this->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_SECURITY'), 'https://developer.joomla.org/security-centre.html', 'class:help-security', false, '_blank')

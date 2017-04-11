@@ -292,7 +292,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		$row->set('params', $this->parent->getParams());
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 
-		if (!$row->store())
+		if (!$row->check() || !$row->store())
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
@@ -537,7 +537,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
+		$eid = $row->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
 
 		if ($eid)
 		{
@@ -564,7 +564,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		// Clean installed languages cache.
 		JFactory::getCache()->clean('com_languages');
 
-		if (!$row->store())
+		if (!$row->check() || !$row->store())
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
@@ -794,6 +794,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		// @todo remove code: $this->parent->extension->params = $this->parent->getParams();
 		try
 		{
+			$this->parent->extension->check();
 			$this->parent->extension->store();
 		}
 		catch (RuntimeException $e)

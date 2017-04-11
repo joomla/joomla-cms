@@ -491,7 +491,7 @@ CREATE TABLE "#__content" (
   "metadata" nvarchar(max) NOT NULL,
   "featured" tinyint NOT NULL DEFAULT 0,
   "language" nvarchar(7) NOT NULL,
-  "xreference" nvarchar(50) NOT NULL,
+  "xreference" nvarchar(50) NOT NULL DEFAULT '',
  CONSTRAINT "PK_#__content_id" PRIMARY KEY CLUSTERED
 (
   "id" ASC
@@ -671,7 +671,7 @@ CREATE TABLE "#__extensions" (
   "manifest_cache" nvarchar(max) NOT NULL,
   "params" nvarchar(max) NOT NULL,
   "custom_data" nvarchar(max) NOT NULL,
-  "system_data" nvarchar(max) NOT NULL DEFAULT '',
+  "system_data" nvarchar(max) NOT NULL,
   "checked_out" bigint NOT NULL DEFAULT 0,
   "checked_out_time" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "ordering" int NULL DEFAULT 0,
@@ -880,11 +880,11 @@ SET IDENTITY_INSERT "#__extensions" OFF;
 
 CREATE TABLE "#__fields" (
   "id" int IDENTITY(1,1) NOT NULL,
-  "asset_id" int NOT NULL DEFAULT 0,
+  "asset_id" bigint NOT NULL DEFAULT 0,
   "context" nvarchar(255) NOT NULL DEFAULT '',
   "group_id" int NOT NULL DEFAULT 0,
   "title" nvarchar(255) NOT NULL DEFAULT '',
-  "alias" nvarchar(255) NOT NULL DEFAULT '',
+  "name" nvarchar(255) NOT NULL DEFAULT '',
   "label" nvarchar(255) NOT NULL DEFAULT '',
   "default_value" nvarchar(max) NOT NULL DEFAULT '',
   "type" nvarchar(255) NOT NULL DEFAULT '',
@@ -949,7 +949,7 @@ WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW
 
 CREATE TABLE "#__fields_groups" (
   "id" int IDENTITY(1,1) NOT NULL,
-  "asset_id" int NOT NULL DEFAULT 0,
+  "asset_id" bigint NOT NULL DEFAULT 0,
   "context" nvarchar(255) NOT NULL DEFAULT '',
   "title" nvarchar(255) NOT NULL DEFAULT '',
   "note" nvarchar(255) NOT NULL DEFAULT '',
@@ -999,17 +999,12 @@ WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, O
 
 CREATE TABLE "#__fields_values" (
   "field_id" bigint NOT NULL DEFAULT 1,
-  "context" nvarchar(255) NOT NULL DEFAULT '',
   "item_id" nvarchar(255) NOT NULL DEFAULT '',
   "value" nvarchar(max) NOT NULL DEFAULT '',
 ) ON [PRIMARY];
 
 CREATE NONCLUSTERED INDEX "idx_field_id" ON "#__fields_values" (
   "field_id" ASC)
-WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-CREATE NONCLUSTERED INDEX "idx_context" ON "#__fields_values" (
-  "context" ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX "idx_item_id" ON "#__fields_values" (
@@ -1885,20 +1880,14 @@ CREATE TABLE "#__languages" (
   "published" int NOT NULL DEFAULT 0,
   "access" bigint NOT NULL DEFAULT 0,
   "ordering" int NOT NULL DEFAULT 0,
- CONSTRAINT "PK_#__languages_lang_id" PRIMARY KEY CLUSTERED
-(
-  "lang_id" ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT "#__languages$idx_sef" UNIQUE NONCLUSTERED
-(
-  "sef" ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY];
+  CONSTRAINT "PK_#__languages_lang_id" PRIMARY KEY ("lang_id") ON [PRIMARY],
+  CONSTRAINT "#__languages$idx_sef" UNIQUE ("sef") ON [PRIMARY],
+  CONSTRAINT "#__languages$idx_langcode" UNIQUE ("lang_code") ON [PRIMARY]
+)
+ON [PRIMARY];
 
-CREATE UNIQUE INDEX "idx_access" ON "#__languages"
-(
-  "access" ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+CREATE INDEX "idx_ordering" ON "#__languages" ("ordering");
+CREATE INDEX "idx_access" ON "#__languages" ("access");
 
 --
 -- Dumping data for table `#__languages`
@@ -2159,7 +2148,7 @@ CREATE NONCLUSTERED INDEX "published" ON "#__modules"
 SET IDENTITY_INSERT "#__modules" ON;
 
 INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "ordering", "position", "checked_out", "checked_out_time", "publish_up", "publish_down", "published", "module", "access", "showtitle", "params", "client_id", "language") VALUES
-(1, 39, 'Main Menu', '', '', 1, 'position-7', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
+(1, 39, 'Main Menu', '', '', 1, 'position-7', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
 (2, 40, 'Login', '', '', 1, 'login', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
 (3, 41, 'Popular Articles', '', '', 3, 'cpanel', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (4, 42, 'Recently Added Articles', '', '', 4, 'cpanel', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
@@ -2242,7 +2231,7 @@ CREATE TABLE "#__newsfeeds" (
   "metakey" nvarchar(max) NOT NULL,
   "metadesc" nvarchar(max) NOT NULL,
   "metadata" nvarchar(max) NOT NULL,
-  "xreference" nvarchar(50) NOT NULL,
+  "xreference" nvarchar(50) NOT NULL DEFAULT '',
   "publish_up" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "publish_down" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "description" nvarchar(max) NOT NULL,
@@ -2730,7 +2719,7 @@ CREATE TABLE "#__updates" (
   "folder" nvarchar(20) DEFAULT '',
   "client_id" smallint DEFAULT 0,
   "version" nvarchar(32) DEFAULT '',
-  "data" nvarchar(max) NOT NULL DEFAULT '',
+  "data" nvarchar(max) NOT NULL,
   "detailsurl" nvarchar(max) NOT NULL,
   "infourl" nvarchar(max) NOT NULL,
   "extra_query" nvarchar(1000) NULL DEFAULT '',
