@@ -14,3 +14,5 @@ defined('_JEXEC') or die;
  */
 
 $autoLoader->addPsr4('Joomla\\Component\\Content\\Administrator\\', JPATH_ADMINISTRATOR . '/components/com_content');
+
+JLoader::registerAlias('ContentHelper' , '\\Joomla\\Component\\Content\\Administrator\\Helper\\ContentHelper');
