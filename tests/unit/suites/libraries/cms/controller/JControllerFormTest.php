@@ -63,6 +63,7 @@ class JControllerFormTest extends TestCase
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar'
 			),
+			null,
 			JFactory::getApplication(),
 			null
 		);
@@ -81,6 +82,7 @@ class JControllerFormTest extends TestCase
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar'
 			),
+			null,
 			JFactory::getApplication(),
 			null
 		);
@@ -92,6 +94,7 @@ class JControllerFormTest extends TestCase
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar'
 			),
+			null,
 			JFactory::getApplication(),
 			null
 		);
