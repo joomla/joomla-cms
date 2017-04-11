@@ -8,9 +8,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Session\Storage\JoomlaStorage;
-use Joomla\Cms\Session\Validator\AddressValidator;
-use Joomla\Cms\Session\Validator\ForwardedValidator;
+use Joomla\CMS\Session\Storage\JoomlaStorage;
+use Joomla\CMS\Session\Validator\AddressValidator;
+use Joomla\CMS\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler\FilesystemHandler;

@@ -34,16 +34,16 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<th class="title">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_NAME', 'b.name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="20%" class="nowrap">
+								<th style="width:20%" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'cl.name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down">
+								<th style="width:10%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_TYPE', 'a.track_type', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down">
+								<th style="width:10%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_COUNT', 'a.count', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down">
+								<th style="width:10%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.track_date', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

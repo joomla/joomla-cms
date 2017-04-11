@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Cms\Error\Renderer\JsonRenderer;
+use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 

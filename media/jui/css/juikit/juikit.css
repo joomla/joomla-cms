@@ -809,11 +809,5 @@ article {
 .mh-100 {
   max-height: 100% !important; }
 
-body {
-  font-family: 'Lato', sans-serif; }
-
-h2 {
-  font-family: 'Open Sans', sans-serif; }
-
 .counter {
   padding: .4rem 1rem .4rem 0; }

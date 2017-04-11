@@ -27,16 +27,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th width="1%" class="nowrap text-center">
+							<th style="width:1%" class="nowrap text-center">
 								<?php echo JHtml::_('grid.checkall'); ?>
 							</th>
 							<th class="title nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="nowrap text-center">
+							<th style="width:10%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="nowrap text-center">
+							<th style="width:10%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 							</th>
 						</tr>

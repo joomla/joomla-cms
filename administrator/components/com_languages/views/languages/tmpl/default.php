@@ -42,13 +42,13 @@ if ($saveOrder)
 					<table class="table table-striped" id="contentList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th width="1%"  class="nowrap text-center">
+								<th style="width:1%"  class="nowrap text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th class="title nowrap">
@@ -57,22 +57,22 @@ if ($saveOrder)
 								<th class="title nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'a.lang_code', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_CODE', 'a.sef', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_HOMEPAGE', 'l.home', $listDirn, $listOrder); ?>
 								</th>
-								<th width="5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -102,12 +102,12 @@ if ($saveOrder)
 											$disableClassName = 'inactive tip-top';
 										endif; ?>
 										<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
-											<span class="icon-menu"></span>
+											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 									<?php else : ?>
 										<span class="sortable-handler inactive">
-											<span class="icon-menu"></span>
+											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 									<?php endif; ?>
 								</td>

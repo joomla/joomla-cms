@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * View class for a list of users.
+ * View class for a list of User Group ACL permissions.
  *
  * @since  1.6
  */

@@ -45,10 +45,10 @@ if ($saveOrder)
 					<table class="table table-striped" id="levelList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th width="1%">
+								<th style="width:1%">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th>
@@ -57,7 +57,7 @@ if ($saveOrder)
 								<th class="nowrap hidden-sm-down">
 									<?php echo JText::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?>
 								</th>
-								<th width="1%" class="nowrap hidden-sm-down">
+								<th style="width:1%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -91,7 +91,7 @@ if ($saveOrder)
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
-										<span class="icon-menu"></span>
+										<span class="icon-menu" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
