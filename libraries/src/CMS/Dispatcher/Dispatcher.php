@@ -74,7 +74,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function __construct($namespace, CmsApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
 	{
-		$this->namespace = $namespace;
+		$this->namespace = rtrim($namespace, '\\') . '\\';
 		$this->app       = $app;
 		$this->input     = $input ? $input : $app->input;
 		$this->factory   = $factory ? $factory : new MvcFactory($namespace, $this->app);

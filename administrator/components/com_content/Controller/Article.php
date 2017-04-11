@@ -7,27 +7,36 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Controller\Form;
 
 /**
  * The article controller
  *
  * @since  1.6
  */
-class ContentControllerArticle extends JControllerForm
+class Article extends Form
 {
 	/**
-	 * Class constructor.
+	 * Constructor.
 	 *
-	 * @param   array  $config  A named array of configuration variables.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
-	 * @since   1.6
+	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 
 		// An article edit form can come from the articles or featured view.
 		// Adjust the redirect view on the value of 'return' in the request.
@@ -55,7 +64,7 @@ class ContentControllerArticle extends JControllerForm
 		if ($categoryId)
 		{
 			// If the category has been passed in the data or URL check it.
-			$allow = JFactory::getUser()->authorise('core.create', 'com_content.category.' . $categoryId);
+			$allow = \JFactory::getUser()->authorise('core.create', 'com_content.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -80,7 +89,7 @@ class ContentControllerArticle extends JControllerForm
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
@@ -123,14 +132,14 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		/** @var ContentModelArticle $model */
 		$model = $this->getModel('Article', '', array());
 
 		// Preset the redirect
-		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

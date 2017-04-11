@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-JLoader::registerNamespace('Joomla\\Component\\Content\\Administrator', JPATH_ADMINISTRATOR . '/components/com_content', false, false, 'psr4');
+use Joomla\CMS\Dispatcher\Dispatcher;
 
 /**
- * Content component helper.
+ * Dispatcher class for com_content
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
-class ContentHelper extends \Joomla\Component\Content\Administrator\Helper\ContentHelper
+class ContentDispatcher extends Dispatcher
 {
 }

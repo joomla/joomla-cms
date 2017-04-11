@@ -10,6 +10,7 @@ namespace Joomla\CMS\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -39,14 +40,15 @@ abstract class Form extends Model
 	protected $events_map = null;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \JModelLegacy
 	 * @since   3.6
+	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		$config['events_map'] = isset($config['events_map']) ? $config['events_map'] : array();
 
@@ -57,7 +59,7 @@ abstract class Form extends Model
 			$config['events_map']
 		);
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
