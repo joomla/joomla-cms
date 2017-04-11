@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-class AdministratorApplication extends CmsApplication
+class AdministratorApplication extends CMSApplication
 {
 	/**
 	 * Class constructor.

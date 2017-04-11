@@ -17,7 +17,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-class CmsApplication extends WebApplication
+class CMSApplication extends WebApplication
 {
 	/**
 	 * Array of options for the \JDocument object
@@ -30,7 +30,7 @@ class CmsApplication extends WebApplication
 	/**
 	 * Application instances container.
 	 *
-	 * @var    CmsApplication[]
+	 * @var    CMSApplication[]
 	 * @since  3.2
 	 */
 	protected static $instances = array();
@@ -387,13 +387,13 @@ class CmsApplication extends WebApplication
 	}
 
 	/**
-	 * Returns a reference to the global CmsApplication object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global CMSApplication object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as: $web = CmsApplication::getInstance();
+	 * This method must be invoked as: $web = CMSApplication::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the CmsApplication class to instantiate.
+	 * @param   string  $name  The name (optional) of the CMSApplication class to instantiate.
 	 *
-	 * @return  CmsApplication
+	 * @return  CMSApplication
 	 *
 	 * @since   3.2
 	 * @throws  \RuntimeException
@@ -402,7 +402,7 @@ class CmsApplication extends WebApplication
 	{
 		if (empty(static::$instances[$name]))
 		{
-			// Create a CmsApplication object.
+			// Create a CMSApplication object.
 			$classname = '\JApplication' . ucfirst($name);
 
 			if (!class_exists($classname))
@@ -745,7 +745,7 @@ class CmsApplication extends WebApplication
 	 *
 	 * @param   \JSession  $session  An optional session object. If omitted, the session is created.
 	 *
-	 * @return  CmsApplication  This method is chainable.
+	 * @return  CMSApplication  This method is chainable.
 	 *
 	 * @since   3.2
 	 */
