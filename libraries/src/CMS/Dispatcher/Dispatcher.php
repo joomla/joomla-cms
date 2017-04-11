@@ -12,7 +12,6 @@ use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Application\CmsApplication;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Mvc\Factory\MvcFactory;
-use SebastianBergmann\GlobalState\RuntimeException;
 
 defined('_JEXEC') or die;
 
@@ -65,7 +64,7 @@ abstract class Dispatcher implements DispatcherInterface
 	{
 		if (empty($this->namespace))
 		{
-			throw new RuntimeException('Namespace can not be empty!');
+			throw new \RuntimeException('Namespace can not be empty!');
 		}
 
 		$this->app   = $app;
