@@ -99,6 +99,7 @@
 				<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
 				<option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
 				<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
+				<option value="random">JGLOBAL_RANDOM_ORDER</option>
 			</field>
 
 			<field name="order_date" type="list"
