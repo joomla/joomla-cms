@@ -1,0 +1,39 @@
+//
+// Mixins
+//
+
+// Toggles
+
+@mixin box-shadow($shadow...) {
+  @if $enable-shadows {
+    box-shadow: $shadow;
+  }
+}
+
+@mixin transition($transition...) {
+  @if $enable-transitions {
+    @if length($transition) == 0 {
+      transition: $transition-base;
+    } @else {
+      transition: $transition;
+    }
+  }
+}
+
+// Utilities
+@import "mixins/hover";
+@import "mixins/badge";
+
+// // Components
+@import "mixins/buttons";
+@import "mixins/pagination";
+@import "mixins/list-group";
+@import "mixins/forms";
+@import "mixins/table-row";
+
+// // Skins
+@import "mixins/border-radius";
+
+// // Layout
+@import "mixins/clearfix";
+@import "mixins/float";

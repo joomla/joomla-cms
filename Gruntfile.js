@@ -34,6 +34,7 @@ module.exports = function(grunt) {
 			codemirror    : 'media/vendor/codemirror',
 			adminTemplate : 'administrator/templates/atum',
 			siteTemplate  : 'templates/aurora',
+			jui  		  : 'media/jui',
 			node_module   : 'build/assets_tmp/node_modules/',
 			editors       : 'media/editors',
 			media         : 'media'
@@ -196,6 +197,7 @@ module.exports = function(grunt) {
 				files: {
 					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
 					'<%= folder.siteTemplate %>/css/template.css' : '<%= folder.siteTemplate %>/scss/template.scss',
+					'<%= folder.jui %>/css/juikit/juikit.css'     : '<%= folder.jui %>/scss/juikit/juikit.scss',
 				}
 			}
 		},
@@ -205,6 +207,7 @@ module.exports = function(grunt) {
 			allFiles: [
 				'<%= folder.adminTemplate %>/scss',
 				'<%= folder.siteTemplate %>/scss',
+				'<%= folder.jui %>/scss/juikit/juikit.scss',
 			],
 			options: {
 				config: 'scss-lint.yml',
@@ -314,7 +317,8 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'<%= folder.adminTemplate %>/css/template.css',
-					'<%= folder.siteTemplate %>/css/template.css'
+					'<%= folder.siteTemplate %>/css/template.css',
+					'<%= folder.jui %>/css/juikit/juikit.css'
 				]
 			}
 		},
@@ -347,6 +351,18 @@ module.exports = function(grunt) {
 						'!theme/*.css'
 					],
 					dest: '<%= folder.adminTemplate %>/css',
+				}]
+			},
+			juiKit: {
+				files: [{
+					expand: true,
+					matchBase: true,
+					ext: '.min.css',
+					cwd: '<%= folder.jui %>/css/juikit/',
+					src: [
+						'juikit.css'
+					],
+					dest: '<%= folder.jui %>/css/juikit',
 				}]
 			},
 			siteTemplate: {
@@ -427,7 +443,8 @@ module.exports = function(grunt) {
 			'sass:dist',
 			'postcss',
 			'cssmin:adminTemplate',
-			'cssmin:siteTemplate'
+			'cssmin:siteTemplate',
+			'cssmin:juiKit'
 		]);
 	 });
 

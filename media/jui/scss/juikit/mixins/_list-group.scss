@@ -1,0 +1,30 @@
+//
+// List Groups
+//
+
+@mixin j-list-group-item-variant($state, $background, $color) {
+  .j-list-group-item-#{$state} {
+    color: $color;
+    background-color: $background;
+  }
+
+  a.j-list-group-item-#{$state},
+  button.j-list-group-item-#{$state} {
+    color: $color;
+
+    .j-list-group-item-heading {
+      color: inherit;
+    }
+
+    @include hover-focus {
+      color: $color;
+      background-color: darken($background, 5%);
+    }
+
+    &.j-active {
+      color: #fff;
+      background-color: $color;
+      border-color: $color;
+    }
+  }
+}

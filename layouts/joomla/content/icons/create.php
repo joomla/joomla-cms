@@ -20,7 +20,7 @@ $legacy = $displayData['legacy'];
 		<?php echo JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true); ?>
 	<?php else : ?>
 		<span class="icon-plus"></span>
-		<?php echo JText::_('JNEW'); ?>
+		<!-- <?php echo JText::_('JNEW'); ?> -->
 	<?php endif; ?>
 <?php else : ?>
 	<?php echo JText::_('JNEW') . '&#160;'; ?>

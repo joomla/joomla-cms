@@ -1,0 +1,13 @@
+//
+// Description List
+//
+
+.j-dl {
+  dd {
+    padding: $dd-padding-y $dd-padding-x;
+    margin: $dd-margin-y $dd-margin-x;
+    line-height: $dd-line-height;
+    color: $dd-color;
+    border-left: $dd-border-left;
+  }
+}

@@ -43,7 +43,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 ?>
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
-	<fieldset class="filters btn-toolbar clearfix">
+	<fieldset class="filters j-btn-toolbar j-mb-3 clearfix">
 		<legend class="hide"><?php echo JText::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 			<div class="btn-group">
@@ -61,7 +61,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="btn-group pull-right">
+			<div class="j-btn-group j-float-right">
 				<label for="limit" class="element-invisible">
 					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>
@@ -75,9 +75,9 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<input type="hidden" name="task" value="">
 	</fieldset>
 
-	<div class="control-group hide pull-right">
-		<div class="controls">
-			<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
+	<div class="j-form-control-group hide ">
+		<div class="j-form-controls">
+			<button type="submit" name="filter_submit" class="j-btn j-btn-primary"><?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
 		</div>
 	</div>
 
@@ -89,7 +89,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 	<?php endif; ?>
 <?php else : ?>
 
-	<table class="category table table-striped table-bordered table-hover">
+	<table class="category j-table j-table-striped j-table-bordered j-table-hover">
 		<?php
 		$headerTitle    = '';
 		$headerDate     = '';
@@ -240,21 +240,21 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_hits', 1)) : ?>
 				<td headers="categorylist_header_hits" class="list-hits">
-							<span class="badge badge-info">
+							<span class="j-badge j-badge-primary">
 								<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
 							</span>
 						</td>
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_votes" class="list-votes">
-					<span class="badge badge-success">
+					<span class="j-badge j-badge-success">
 						<?php echo JText::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
 					</span>
 				</td>
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_ratings" class="list-ratings">
-					<span class="badge badge-warning">
+					<span class="j-badge j-badge-warning">
 						<?php echo JText::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
 					</span>
 				</td>
@@ -283,7 +283,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<div class="pagination">
 
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-				<p class="counter pull-right">
+				<p class="counter j-float-right">
 					<?php echo $this->pagination->getPagesCounter(); ?>
 				</p>
 			<?php endif; ?>

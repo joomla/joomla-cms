@@ -18,10 +18,10 @@ if ($tagId = $params->get('tag_id', ''))
 
 // The menu class is deprecated. Use nav instead
 ?>
-<ul<?php echo $id; ?> class="nav flex-column<?php echo $class_sfx; ?>">
+<ul<?php echo $id; ?> class="j-nav j-flex-column<?php echo $class_sfx; ?>">
 <?php foreach ($list as $i => &$item)
 {
-	$class = 'nav-item';
+	$class = 'j-nav-item';
 
 	if ($item->id == $default_id)
 	{
@@ -30,12 +30,12 @@ if ($tagId = $params->get('tag_id', ''))
 
 	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
 	{
-		$class .= ' current';
+		$class .= ' j-current';
 	}
 
 	if (in_array($item->id, $path))
 	{
-		$class .= ' active';
+		$class .= ' j-active';
 	}
 	elseif ($item->type === 'alias')
 	{
@@ -43,27 +43,27 @@ if ($tagId = $params->get('tag_id', ''))
 
 		if (count($path) > 0 && $aliasToId == $path[count($path) - 1])
 		{
-			$class .= ' active';
+			$class .= ' j-active';
 		}
 		elseif (in_array($aliasToId, $path))
 		{
-			$class .= ' alias-parent-active';
+			$class .= ' j-alias-parent-active';
 		}
 	}
 
-	if ($item->type === 'separator')
+	if ($item->type === 'j-separator')
 	{
-		$class .= ' divider';
+		$class .= ' j-divider';
 	}
 
 	if ($item->deeper)
 	{
-		$class .= ' deeper';
+		$class .= ' j-deeper';
 	}
 
 	if ($item->parent)
 	{
-		$class .= ' parent';
+		$class .= ' j-parent';
 	}
 
 	echo '<li class="' . $class . '">';
@@ -84,7 +84,7 @@ if ($tagId = $params->get('tag_id', ''))
 	// The next item is deeper.
 	if ($item->deeper)
 	{
-		echo '<ul class="list-unstyled small">';
+		echo '<ul class="j-list-unstyled j-small">';
 	}
 	// The next item is shallower.
 	elseif ($item->shallower)

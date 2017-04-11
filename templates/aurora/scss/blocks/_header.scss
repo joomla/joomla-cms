@@ -40,7 +40,7 @@
     }
   }
 
-  .navbar-nav.flex-column {
+  .navbar-nav.j-flex-column {
     flex-direction: row !important;
 
     @include media-breakpoint-down(md) {

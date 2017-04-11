@@ -43,7 +43,7 @@ $params = $this->params;
 			|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')); ?>
 		<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 			<div class="article-info muted">
-				<dl class="article-info">
+				<dl class="article-info j-dl">
 				<dt class="article-info-term">
 					<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
 				</dt>
@@ -134,7 +134,7 @@ $params = $this->params;
 
 		<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
 			<div class="article-info muted">
-				<dl class="article-info">
+				<dl class="article-info j-dl">
 				<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
 				<?php if ($info == 1) : ?>

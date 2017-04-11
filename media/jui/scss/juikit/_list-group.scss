@@ -1,0 +1,69 @@
+//
+// List Group
+//
+
+.j-list-group {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+// Individual list items
+
+.j-list-group-item {
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  padding: $list-group-item-padding-y $list-group-item-padding-x;
+  margin-bottom: -$list-group-border-width;
+  background-color: $list-group-bg;
+  border: $list-group-border-width solid $list-group-border-color;
+
+  &:first-child {
+    @include border-top-radius($list-group-border-radius);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+    @include border-bottom-radius($list-group-border-radius);
+  }
+
+  @include hover-focus {
+    text-decoration: none;
+  }
+
+  &.j-disabled,
+  &:disabled {
+    color: $list-group-disabled-color;
+    cursor: $cursor-disabled;
+    background-color: $list-group-disabled-bg;
+
+    // Force color to inherit for custom content
+    .list-group-item-heading {
+      color: inherit;
+    }
+    .list-group-item-text {
+      color: $list-group-disabled-text-color;
+    }
+  }
+
+  &.j-active {
+    z-index: 2; 
+    color: $list-group-active-color;
+    background-color: $list-group-active-bg;
+    border-color: $list-group-active-border;
+
+    // Force color to inherit for custom content
+    .j-list-group-item-heading,
+    .j-list-group-item-heading > small,
+    .j-list-group-item-heading > .j-small {
+      color: inherit;
+    }
+
+    .j-list-group-item-text {
+      color: $list-group-active-text-color;
+    }
+  }
+}

@@ -1,0 +1,84 @@
+//
+// Buttons
+//
+
+.j-btn {
+  display: inline-block;
+  font-weight: $btn-font-weight;
+  line-height: $btn-line-height;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  // background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,.05) 100%);
+  border: $input-btn-border-width solid transparent;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), -1px -1px 10px rgba(0, 0, 0, 0.03) inset;
+  @include button-size($btn-padding-y, $btn-padding-x, $font-size-base, $btn-border-radius);
+  @include transition($btn-transition);
+
+  // Share hover and focus styles
+  @include hover-focus {
+    text-decoration: none;
+    cursor: pointer;
+  }
+  &:focus,
+  &.j-focus {
+    outline: 0;
+    box-shadow: $btn-focus-box-shadow;
+  }
+
+  // Disabled comes first so active can properly restyle
+  &.j-disabled,
+  &:disabled {
+    cursor: $cursor-disabled;
+    opacity: .65;
+    @include box-shadow(none);
+  }
+
+  &:active,
+  &.j-active {
+    background-image: none;
+    @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
+  }
+}
+
+// Future-proof disabling of clicks on `<a>` elements
+a.j-btn.j-disabled,
+fieldset[j-disabled] a.j-btn {
+  pointer-events: none;
+}
+
+
+// Alternate buttons
+
+.j-btn-primary {
+  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+}
+.j-btn-secondary {
+  @include button-variant($btn-secondary-color, $btn-secondary-bg, $btn-secondary-border);
+}
+.j-btn-success {
+  @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
+}
+.j-btn-danger {
+  @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+}
+
+
+// Vertically space out multiple block buttons
+.j-btn-block + .j-btn-block {
+  margin-top: $btn-block-spacing-y;
+}
+
+// Specificity overrides
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  &.j-btn-block {
+    width: 100%;
+  }
+}
+
+.icons .j-btn {
+  padding: 0.4rem .8rem;
+}

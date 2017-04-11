@@ -1,0 +1,158 @@
+//
+// Forms
+//
+
+.j-form-control {
+  display: block;
+  width: 100%;
+  padding: $input-padding-y $input-padding-x;
+  font-size: $font-size-base;
+  line-height: $input-line-height;
+  color: $input-color;
+  background-color: $input-bg;
+  background-image: none;
+  background-clip: padding-box;
+  border: $input-btn-border-width solid $input-border-color;
+  border-radius: $border-radius;
+  @include box-shadow($input-box-shadow);
+  @include transition($input-transition);
+
+  // Unstyle the caret on `<select>`s in IE10+.
+  &::-ms-expand {
+    background-color: transparent;
+    border: 0;
+  }
+
+  // Customize the `:focus` state to imitate native WebKit styles.
+  @include form-control-focus();
+
+  // Placeholder
+  &::placeholder {
+    color: $input-color-placeholder;
+    opacity: 1;
+  }
+
+  // Disabled and read-only inputs
+  &:disabled,
+  &[readonly] {
+    background-color: $input-bg-disabled;
+    opacity: 1;
+  }
+
+  &:disabled {
+    cursor: $cursor-disabled;
+  }
+}
+
+select.j-form-control {
+  &:not([size]):not([multiple]) {
+    $select-border-width: ($border-width * 2);
+    height: calc(#{$input-height} + #{$select-border-width});
+  }
+
+  &:focus::-ms-value {
+    color: $input-color;
+    background-color: $input-bg;
+  }
+}
+
+
+// Form groups
+
+.j-form-group {
+  margin-bottom: $form-group-margin-bottom;
+}
+
+.j-form-text {
+  display: block;
+  margin-top: $form-text-margin-top;
+}
+
+
+// Control groups
+
+.j-form-control-group {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.j-form-control-label {
+  width: 220px;
+  padding-top: calc(#{$input-padding-y} - #{$input-btn-border-width} * 2);
+}
+
+
+// Checkboxes and radios
+
+.j-form-check {
+  position: relative;
+  display: block;
+  margin-bottom: $form-check-margin-bottom;
+
+  &.disabled {
+    .form-check-label {
+      color: $text-muted;
+      cursor: $cursor-disabled;
+    }
+  }
+}
+
+.j-form-check-label {
+  padding-left: $form-check-input-gutter;
+  margin-bottom: 0; 
+  cursor: pointer;
+}
+
+.j-form-check-input {
+  position: absolute;
+  margin-top: $form-check-input-margin-y;
+  margin-left: -$form-check-input-gutter;
+
+  &:only-child {
+    position: static;
+  }
+}
+
+
+// Select
+
+.j-form-select {
+  display: inline-block;
+  max-width: 100%;
+  $select-border-width: ($border-width * 2);
+  height: calc(#{$input-height} + #{$select-border-width});
+  padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
+  line-height: $custom-select-line-height;
+  color: $custom-select-color;
+  vertical-align: middle;
+  background: $custom-select-bg url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23333\' d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E") no-repeat scroll right 0.75rem center / 8px 10px;
+  background-size: $custom-select-bg-size;
+  box-shadow: $custom-select-box-shadow;
+  border: $custom-select-border-width solid $custom-select-border-color;
+  @include border-radius($custom-select-border-radius);
+  -moz-appearance: none;
+  -webkit-appearance: none;
+
+  &:focus {
+    border-color: $custom-select-focus-border-color;
+    outline: none;
+    @include box-shadow($custom-select-focus-box-shadow);
+  }
+
+  &:disabled {
+    color: $custom-select-disabled-color;
+    cursor: $cursor-disabled;
+    background-color: $custom-select-disabled-bg;
+  }
+
+  // Hides the default caret in IE11
+  &::-ms-expand {
+    opacity: 0;
+  }
+}
+
+
+// Validated
+
+.j-validated {
+  min-height: ($input-height * 2);
+}

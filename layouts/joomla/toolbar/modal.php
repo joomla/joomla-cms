@@ -35,7 +35,7 @@ echo JHtml::_('bootstrap.renderModal',
 		'modalWidth'  => 80,
 		'bodyHeight'  => 60,
 		'closeButton' => true,
-		'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
+		'footer'      => '<a class="j-btn j-btn-secondary" data-dismiss="modal" type="button"'
 						. ' onclick="window.parent.jQuery(\'#modal_downloadModal\').modal(\'hide\');">'
 						. JText::_("COM_BANNERS_CANCEL") . '</a>'
 						. '<button class="btn btn-success" type="button"'

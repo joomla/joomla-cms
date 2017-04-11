@@ -1,0 +1,25 @@
+//
+// Nav
+//
+
+.j-nav {
+  display: flex;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.j-nav-link {
+  display: block;
+  padding: $nav-link-padding;
+
+  @include hover-focus {
+    text-decoration: none;
+  }
+
+  // Disabled state lightens text and removes hover/tab effects
+  &.j-disabled {
+    color: $nav-disabled-link-color;
+    cursor: $cursor-disabled;
+  }
+}

@@ -19,8 +19,8 @@ $legacy = $displayData['legacy'];
 		<?php echo JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true); ?>
 	<?php else : ?>
 		<span class="fa fa-print"></span>
-		<?php echo JText::_('JGLOBAL_PRINT'); ?>
+		<!-- <?php echo JText::_('JGLOBAL_PRINT'); ?> -->
 	<?php endif; ?>
 <?php else : ?>
-	<?php echo JText::_('JGLOBAL_PRINT'); ?>
+	<!-- <?php echo JText::_('JGLOBAL_PRINT'); ?> -->
 <?php endif; ?>

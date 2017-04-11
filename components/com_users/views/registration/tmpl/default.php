@@ -35,14 +35,14 @@ JHtml::_('behavior.formvalidator');
 					<?php if ($field->hidden) : ?>
 						<?php echo $field->input; ?>
 					<?php else : ?>
-						<div class="control-group">
-							<div class="control-label">
+						<div class="j-form-control-group">
+							<div class="j-form-control-label">
 							<?php echo $field->label; ?>
 							<?php if (!$field->required && $field->type != 'Spacer') : ?>
 								<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
 							<?php endif; ?>
 							</div>
-							<div class="controls">
+							<div class="j-form-controls">
 								<?php echo $field->input; ?>
 							</div>
 						</div>
@@ -51,10 +51,10 @@ JHtml::_('behavior.formvalidator');
 				</fieldset>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<div class="control-group">
-			<div class="controls">
+		<div class="j-form-control-group">
+			<div class="j-form-controls">
 				<button type="submit" class="btn btn-primary validate"><?php echo JText::_('JREGISTER'); ?></button>
-				<a class="btn" href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
+				<a class="j-btn" href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
 				<input type="hidden" name="option" value="com_users">
 				<input type="hidden" name="task" value="registration.register">
 			</div>

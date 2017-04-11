@@ -1,0 +1,72 @@
+//
+// Columns
+//
+
+.j-column-container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+    position: relative;
+}
+
+.j-column-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  margin-right: -10px;
+  margin-left: -10px;
+}
+
+.j-column-3, .j-column-2, .j-column-1, .j-column {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 10px;
+  padding-left: 10px; 
+  > .icons {
+    right: 10px !important;
+  }
+}
+
+.j-column {
+  -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+  max-width: 100%; 
+}
+
+.j-column-3 {
+  -ms-flex: 0 0 33.33333%;
+      flex: 0 0 33.33333%;
+  max-width: 33.33333%; 
+}
+
+.j-column-2 {
+  -ms-flex: 0 0 50%;
+      flex: 0 0 50%;
+  max-width: 50%; 
+}
+
+.j-column-1 {
+  -ms-flex: 0 0 100%;
+      flex: 0 0 100%;
+  max-width: 100%; 
+}
+
+@media only screen and ( max-width: $breakpoint-md ) {
+  [class^='j-column'], [class*=' j-column'] {
+    -ms-flex: 0 0 100%;
+      flex: 0 0 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

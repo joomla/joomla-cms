@@ -1,0 +1,35 @@
+// Joomla UI Kit
+
+// Core variables and mixins
+@import "variables";
+@import "mixins";
+
+// Core CSS
+@import "columns";
+@import "tables";
+@import "forms";
+@import "buttons";
+
+// Components
+@import "button-group";
+@import "input-group";
+@import "nav";
+@import "pagination";
+@import "badge";
+@import "list-group";
+@import "description-list";
+
+// Utility classes
+@import "utilities";
+
+// @import url('https://fonts.googleapis.com/css?family=Lato|Open+Sans');
+body {
+  font-family: 'Lato', sans-serif;
+}
+h2 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.counter {
+  padding: .4rem 1rem .4rem 0;
+}

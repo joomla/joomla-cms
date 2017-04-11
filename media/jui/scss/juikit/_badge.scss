@@ -1,0 +1,37 @@
+//
+// Badge
+//
+
+.j-badge {
+  display: inline-block;
+  padding: $badge-padding-y $badge-padding-x;
+  font-size: $badge-font-size;
+  font-weight: $badge-font-weight;
+  line-height: 1;
+  color: $badge-color;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  @include border-radius();
+
+  // Empty badges collapse automatically
+  &:empty {
+    display: none;
+  }
+}
+
+// Quick fix for badges in buttons
+.j-btn .j-badge {
+  position: relative;
+  top: -1px;
+}
+
+// Colors
+
+.j-badge-default {
+  @include badge-variant($badge-default-bg);
+}
+
+.j-badge-primary {
+  @include badge-variant($badge-primary-bg);
+}

@@ -1,0 +1,57 @@
+//
+// Pagination
+//
+
+.j-pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  @include border-radius();
+}
+
+.j-page-item {
+  &:first-child {
+    .j-page-link {
+      margin-left: 0;
+      @include border-left-radius($border-radius);
+    }
+  }
+  &:last-child {
+    .j-page-link {
+      @include border-right-radius($border-radius);
+    }
+  }
+
+  &.j-active .j-page-link {
+    z-index: 2;
+    color: $pagination-active-color;
+    background-color: $pagination-active-bg;
+    border-color: $pagination-active-border;
+  }
+
+  &.j-disabled .j-page-link {
+    color: $pagination-disabled-color;
+    pointer-events: none;
+    cursor: $cursor-disabled; // While `pointer-events: none` removes the cursor in modern browsers, we provide a disabled cursor as a fallback.
+    background-color: $pagination-disabled-bg;
+    border-color: $pagination-disabled-border;
+  }
+}
+
+.j-page-link {
+  position: relative;
+  display: block;
+  padding: $pagination-padding-y $pagination-padding-x;
+  margin-left: -1px;
+  line-height: $pagination-line-height;
+  background-color: $pagination-bg;
+  box-shadow: $pagination-box-shadow;
+  border: $pagination-border-width solid $pagination-border-color;
+
+  @include hover-focus {
+    text-decoration: none;
+    background-color: $pagination-hover-bg;
+    border-color: $pagination-hover-border;
+  }
+}
+

@@ -8804,6 +8804,9 @@ small,
 .small {
   font-size: 0.8rem; }
 
+article {
+  margin-bottom: 2rem; }
+
 .j-main-container .alert {
   margin: 10px; }
 
@@ -9003,11 +9006,11 @@ legend {
       min-width: 200px; }
     .header .navbar-brand:hover, .header .navbar-brand:focus {
       color: #efefef; }
-  .header .navbar-nav.flex-column {
+  .header .navbar-nav.j-flex-column {
     -ms-flex-direction: row !important;
         flex-direction: row !important; }
     @media (max-width: 991px) {
-      .header .navbar-nav.flex-column {
+      .header .navbar-nav.j-flex-column {
         -ms-flex-direction: column !important;
             flex-direction: column !important; } }
   .header .navbar-nav li {

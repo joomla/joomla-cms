@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
+$doc = JFactory::getDocument();
+
 // Getting params from template
 $params = $app->getTemplate(true)->params;
 
@@ -32,6 +34,7 @@ JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true)
 
 // Add Stylesheets
 JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
+$doc->addStyleSheetVersion($this->baseurl . '/media/jui/css/juikit/juikit.min.css');
 
 // Check for a custom CSS file
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));

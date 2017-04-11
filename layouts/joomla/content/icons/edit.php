@@ -41,5 +41,5 @@ else
 	<?php echo JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), null, true); ?>
 <?php else : ?>
 	<span class="hasTooltip fa fa-<?php echo $icon; ?>" title="<?php echo JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
-	<?php echo JText::_('JGLOBAL_EDIT'); ?>
+	<!-- <?php echo JText::_('JGLOBAL_EDIT'); ?> -->
 <?php endif; ?>

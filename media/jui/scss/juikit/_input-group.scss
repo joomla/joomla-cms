@@ -1,0 +1,130 @@
+//
+// Input Groups
+//
+
+.j-input-group {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  .j-form-control {
+    position: relative;
+    z-index: 2;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-bottom: 0;
+
+    @include hover-focus-active {
+      z-index: 3;
+    }
+  }
+}
+
+.j-input-group-addon,
+.j-input-group-btn,
+.j-input-group .form-control {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: -1px -1px 10px rgba(0, 0, 0, 0.03) inset;
+
+  &:not(:first-child):not(:last-child) {
+    @include border-radius(0);
+  }
+}
+
+.j-input-group-addon,
+.j-input-group-btn {
+  white-space: nowrap;
+  vertical-align: middle; // Match the inputs
+}
+
+
+// Text input groups
+
+.j-input-group-addon {
+  padding: $input-padding-y $input-padding-x;
+  margin-bottom: 0; // Allow use of <label> elements by overriding our default margin-bottom
+  font-size: $font-size-base; // Match inputs
+  font-weight: $font-weight-normal;
+  line-height: $input-line-height;
+  color: $input-color;
+  text-align: center;
+  background-color: $input-group-addon-bg;
+  border: $input-btn-border-width solid $input-group-addon-border-color;
+  @include border-radius($input-border-radius);
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    margin-top: 0;
+  }
+
+}
+
+
+// Reset rounded corners
+
+.j-input-group .j-form-control:not(:last-child),
+.j-input-group-addon:not(:last-child),
+.j-input-group-btn:not(:last-child) > .j-btn,
+.j-input-group-btn:not(:last-child) > .j-btn-group > .btn,
+.j-input-group-btn:not(:last-child) > .j-dropdown-toggle,
+.j-input-group-btn:not(:first-child) > .j-btn:not(:last-child):not(.dropdown-toggle),
+.j-input-group-btn:not(:first-child) > .j-btn-group:not(:last-child) > .btn {
+  @include border-right-radius(0);
+}
+.j-input-group-addon:not(:last-child) {
+  border-right: 0;
+}
+.j-input-group .j-form-control:not(:first-child),
+.j-input-group-addon:not(:first-child),
+.j-input-group-btn:not(:first-child) > .j-btn,
+.j-input-group-btn:not(:first-child) > .j-btn-group > .btn,
+.j-input-group-btn:not(:first-child) > .j-dropdown-toggle,
+.j-input-group-btn:not(:last-child) > .j-btn:not(:first-child),
+.j-input-group-btn:not(:last-child) > .j-btn-group:not(:first-child) > .btn {
+  @include border-left-radius(0);
+}
+.j-form-control + .j-input-group-addon:not(:first-child) {
+  border-left: 0;
+}
+
+
+// Button input groups
+
+.j-input-group-btn {
+  position: relative;
+  font-size: 0;
+  white-space: nowrap;
+
+  > .j-btn {
+    position: relative;
+    flex: 1;
+
+    + .j-btn {
+      margin-left: (-$input-btn-border-width);
+    }
+
+    @include hover-focus-active {
+      z-index: 3;
+    }
+  }
+
+  &:not(:last-child) {
+    > .j-btn,
+    > .j-btn-group {
+      margin-right: (-$input-btn-border-width);
+    }
+  }
+
+  &:not(:first-child) {
+    > .j-btn,
+    > .j-btn-group {
+      z-index: 2;
+      margin-left: (-$input-btn-border-width);
+      @include hover-focus-active {
+        z-index: 3;
+      }
+    }
+  }
+}

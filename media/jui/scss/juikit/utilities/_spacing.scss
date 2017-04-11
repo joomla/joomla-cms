@@ -1,0 +1,22 @@
+//
+// Margin and Padding
+//
+
+.j-ml-auto {
+    margin-left: auto !important;
+}
+.j-mr-auto {
+    margin-right: auto !important;
+}
+
+.j-mb-1 {
+	margin-bottom: ($spacer-y * .25) !important
+}
+.j-mb-2 {
+	margin-bottom: ($spacer-y * .5) !important
+}
+.j-mb-3 {
+	margin-bottom: $spacer-y !important
+}
+
+

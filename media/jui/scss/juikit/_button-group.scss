@@ -1,0 +1,68 @@
+//
+// Button Group
+//
+
+.j-btn-group {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle; 
+
+  > .j-btn {
+    position: relative;
+    flex: 0 1 auto;
+
+    @include hover {
+      z-index: 2;
+    }
+    &:focus,
+    &:active,
+    &.active {
+      z-index: 2;
+    }
+  }
+
+  // Prevent double borders when buttons are next to each other
+  .j-btn + .j-btn,
+  .j-btn + .j-btn-group,
+  .j-btn-group + .j-btn,
+  .j-btn-group + .j-btn-group {
+    margin-left: -$input-btn-border-width;
+  }
+}
+
+// Optional: Group multiple button groups together for a toolbar
+.j-btn-toolbar {
+  display: flex;
+  justify-content: flex-start;
+
+  .j-input-group {
+    width: auto;
+  }
+}
+
+.j-btn-group > .j-btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+  border-radius: 0;
+}
+
+// Set corners individual because sometimes a single button can be in a .j-btn-group and we need :first-child and :last-child to both match
+.j-btn-group > .j-btn:first-child {
+  margin-left: 0;
+
+  &:not(:last-child) {
+    @include border-right-radius(0);
+  }
+}
+// Need .dropdown-toggle since :last-child doesn't apply given a .dropdown-menu immediately after it
+.j-btn-group > .j-btn:last-child:not(:first-child), {
+  @include border-left-radius(0);
+}
+
+// Position icons to top right of <article> - @todo REFACTOR
+article {
+  position: relative;
+  > .icons {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

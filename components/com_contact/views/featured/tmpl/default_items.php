@@ -34,7 +34,7 @@ $params = &$this->item->params;
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
 	</fieldset>
 
-	<table class="category">
+	<table class="j-table j-table-striped">
 		<?php if ($this->params->get('show_headings')) : ?>
 		<thead><tr>
 			<th class="item-num">

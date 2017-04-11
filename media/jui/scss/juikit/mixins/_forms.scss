@@ -1,0 +1,64 @@
+//
+// Form validation states
+//
+
+
+@mixin form-control-validation($color) {
+  .j-form-control-feedback,
+  .j-form-control-label,
+  .j-col-form-label,
+  .j-form-check-label,
+  .j-custom-control {
+    color: $color;
+  }
+
+  // Set the border and box shadow on specific inputs to match
+  .j-form-control {
+    border-color: $color;
+
+    &:focus {
+      @include box-shadow($input-box-shadow, 0 0 6px lighten($color, 20%));
+    }
+  }
+
+  // Set validation states also for addons
+  .input-group-addon {
+    color: $color;
+    border-color: $color;
+    background-color: lighten($color, 40%);
+  }
+}
+
+// Form control focus state
+
+@mixin form-control-focus() {
+  &:focus {
+    color: $input-color-focus;
+    background-color: $input-bg-focus;
+    border-color: $input-border-focus;
+    outline: none;
+    @include box-shadow($input-box-shadow-focus);
+  }
+}
+
+// Form control sizing
+
+@mixin input-size($parent, $input-height, $padding-y, $padding-x, $font-size, $line-height, $border-radius) {
+  #{$parent} {
+    height: $input-height;
+    padding: $padding-y $padding-x;
+    font-size: $font-size;
+    line-height: $line-height;
+    @include border-radius($border-radius);
+  }
+
+  select#{$parent} {
+    height: $input-height;
+    line-height: $input-height;
+  }
+
+  textarea#{$parent},
+  select[multiple]#{$parent} {
+    height: auto;
+  }
+}
