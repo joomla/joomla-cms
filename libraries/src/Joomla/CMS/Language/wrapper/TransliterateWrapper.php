@@ -1,22 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Language\Wrapper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Transliterate;
+
 /**
- * Wrapper class for JLanguageTransliterate
+ * Wrapper class for Transliterate
  *
  * @package     Joomla.Platform
  * @subpackage  Language
  * @since       3.4
  */
-class JLanguageWrapperTransliterate
+class TransliterateWrapper
 {
 	/**
 	 * Helper wrapper method for utf8_latin_to_ascii
@@ -26,11 +29,11 @@ class JLanguageWrapperTransliterate
 	 *
 	 * @return  string  Transliterated string.
 	 *
-	 * @see     JLanguageTransliterate::utf8_latin_to_ascii()
+	 * @see     Transliterate::utf8_latin_to_ascii()
 	 * @since   3.4
 	 */
 	public function utf8_latin_to_ascii($string, $case = 0)
 	{
-		return JLanguageTransliterate::utf8_latin_to_ascii($string, $case);
+		return Transliterate::utf8_latin_to_ascii($string, $case);
 	}
 }

@@ -1,14 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  11.1
  */
-class JLanguageHelper
+class LanguageHelper
 {
 	/**
 	 * Builds a list of the system languages which can be used in a select option
@@ -114,7 +116,7 @@ class JLanguageHelper
 		if (empty($languages))
 		{
 			// Installation uses available languages
-			if (JFactory::getApplication()->getClientId() == 2)
+			if (\JFactory::getApplication()->getClientId() == 2)
 			{
 				$languages[$key] = array();
 				$knownLangs = self::getKnownLanguages(JPATH_BASE);
@@ -129,7 +131,7 @@ class JLanguageHelper
 			}
 			else
 			{
-				$cache = JFactory::getCache('com_languages', '');
+				$cache = \JFactory::getCache('com_languages', '');
 
 				if ($cache->contains('languages'))
 				{
@@ -137,7 +139,7 @@ class JLanguageHelper
 				}
 				else
 				{
-					$db = JFactory::getDbo();
+					$db = \JFactory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
 						->from('#__languages')
@@ -187,7 +189,7 @@ class JLanguageHelper
 
 		if ($installedLanguages === null)
 		{
-			$cache = JFactory::getCache('com_languages', '');
+			$cache = \JFactory::getCache('com_languages', '');
 
 			if ($cache->contains('installedlanguages'))
 			{
@@ -195,7 +197,7 @@ class JLanguageHelper
 			}
 			else
 			{
-				$db = JFactory::getDbo();
+				$db = \JFactory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select($db->quoteName(array('element', 'name', 'client_id', 'extension_id')))
@@ -241,7 +243,7 @@ class JLanguageHelper
 					// Not able to process xml language file. Fail silently.
 					catch (Exception $e)
 					{
-						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
+						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
 
 						continue;
 					}
@@ -249,7 +251,7 @@ class JLanguageHelper
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->metadata))
 					{
-						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), JLog::WARNING, 'language');
+						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
 
 						continue;
 					}
@@ -260,12 +262,12 @@ class JLanguageHelper
 				{
 					try
 					{
-						$lang->manifest = JInstaller::parseXMLInstallFile($metafile);
+						$lang->manifest = \JInstaller::parseXMLInstallFile($metafile);
 					}
 					// Not able to process xml language file. Fail silently.
 					catch (Exception $e)
 					{
-						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
+						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
 
 						continue;
 					}
@@ -273,7 +275,7 @@ class JLanguageHelper
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->manifest))
 					{
-						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), JLog::WARNING, 'language');
+						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
 
 						continue;
 					}
@@ -338,7 +340,7 @@ class JLanguageHelper
 
 		if ($contentLanguages === null)
 		{
-			$cache = JFactory::getCache('com_languages', '');
+			$cache = \JFactory::getCache('com_languages', '');
 
 			if ($cache->contains('contentlanguages'))
 			{
@@ -346,7 +348,7 @@ class JLanguageHelper
 			}
 			else
 			{
-				$db = JFactory::getDbo();
+				$db = \JFactory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select('*')
@@ -405,7 +407,7 @@ class JLanguageHelper
 	 */
 	public static function saveToIniFile($filename, array $strings)
 	{
-		JLoader::register('JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
+		\JLoader::register('\JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
 
 		// Escape double quotes.
 		foreach ($strings as $key => $string)
@@ -414,9 +416,9 @@ class JLanguageHelper
 		}
 
 		// Write override.ini file with the strings.
-		$registry = new Joomla\Registry\Registry($strings);
+		$registry = new Registry($strings);
 
-		return JFile::write($filename, $registry->toString('INI'));
+		return \JFile::write($filename, $registry->toString('INI'));
 	}
 
 	/**

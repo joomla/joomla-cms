@@ -1,22 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Language\Wrapper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\LanguageHelper;
+
 /**
- * Wrapper class for JLanguageHelper
+ * Wrapper class for LanguageHelper
  *
  * @package     Joomla.Platform
  * @subpackage  Language
  * @since       3.4
  */
-class JLanguageWrapperHelper
+class LanguageHelperWrapper
 {
 	/**
 	 * Helper wrapper method for createLanguageList
@@ -28,12 +31,12 @@ class JLanguageWrapperHelper
 	 *
 	 * @return  array  List of system languages.
 	 *
-	 * @see     JLanguageHelper::createLanguageList
+	 * @see     LanguageHelper::createLanguageList
 	 * @since   3.4
 	 */
 	public function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
-		return JLanguageHelper::createLanguageList($actualLanguage, $basePath, $caching, $installed);
+		return LanguageHelper::createLanguageList($actualLanguage, $basePath, $caching, $installed);
 	}
 
 	/**
@@ -41,12 +44,12 @@ class JLanguageWrapperHelper
 	 *
 	 * @return  string  locale or null if not found.
 	 *
-	 * @see     JLanguageHelper::detectLanguage
+	 * @see     LanguageHelper::detectLanguage
 	 * @since   3.4
 	 */
 	public function detectLanguage()
 	{
-		return JLanguageHelper::detectLanguage();
+		return LanguageHelper::detectLanguage();
 	}
 
 	/**
@@ -56,11 +59,11 @@ class JLanguageWrapperHelper
 	 *
 	 * @return  array  An array of published languages.
 	 *
-	 * @see     JLanguageHelper::getLanguages
+	 * @see     LanguageHelper::getLanguages
 	 * @since   3.4
 	 */
 	public function getLanguages($key = 'default')
 	{
-		return JLanguageHelper::getLanguages($key);
+		return LanguageHelper::getLanguages($key);
 	}
 }

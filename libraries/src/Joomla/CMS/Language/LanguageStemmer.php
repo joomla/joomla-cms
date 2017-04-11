@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.1
  */
-abstract class JLanguageStemmer
+abstract class LanguageStemmer
 {
 	/**
 	 * An internal cache of stemmed tokens.
@@ -25,7 +26,7 @@ abstract class JLanguageStemmer
 	protected $cache = array();
 
 	/**
-	 * @var    array  JLanguageStemmer instances.
+	 * @var    array  LanguageStemmer instances.
 	 * @since  12.1
 	 */
 	protected static $instances = array();
@@ -35,10 +36,10 @@ abstract class JLanguageStemmer
 	 *
 	 * @param   string  $adapter  The type of stemmer to load.
 	 *
-	 * @return  JLanguageStemmer  A JLanguageStemmer instance.
+	 * @return  LanguageStemmer  A LanguageStemmer instance.
 	 *
 	 * @since   12.1
-	 * @throws  RuntimeException on invalid stemmer.
+	 * @throws  \RuntimeException on invalid stemmer.
 	 */
 	public static function getInstance($adapter)
 	{
@@ -49,13 +50,13 @@ abstract class JLanguageStemmer
 		}
 
 		// Setup the adapter for the stemmer.
-		$class = 'JLanguageStemmer' . ucfirst(trim($adapter));
+		$class = 'Joomla\\CMS\\Language\\Stemmer\\' . ucfirst(trim($adapter));
 
 		// Check if a stemmer exists for the adapter.
 		if (!class_exists($class))
 		{
 			// Throw invalid adapter exception.
-			throw new RuntimeException(JText::sprintf('JLIB_STEMMER_INVALID_STEMMER', $adapter));
+			throw new \RuntimeException(\JText::sprintf('JLIB_STEMMER_INVALID_STEMMER', $adapter));
 		}
 
 		self::$instances[$adapter] = new $class;
