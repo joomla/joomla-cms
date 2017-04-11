@@ -126,6 +126,9 @@ function hathormessage_postinstall_action()
 		$db->setQuery($query)->execute();
 	}
 
+	// The postinstall component load the language to late... so we need to make sure it is loaded here.
+	JFactory::getLanguage()->load('tpl_hathor', JPATH_ADMINISTRATOR, 'en-GB', true);
+
 	// Template was successfully changed to isis
 	JFactory::getApplication()->enqueueMessage(JText::sprintf('TLP_HATHOR_CHANGED_DEFAULT_TEMPLATE_TO_ISIS', $isisStyleName[0]), 'message');
 }
