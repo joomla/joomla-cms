@@ -61,7 +61,7 @@ class PostinstallViewMessages extends JViewLegacy
 		// Options button.
 		if (JFactory::getUser()->authorise('core.admin', 'com_postinstall'))
 		{
-			JToolBarHelper::preferences('com_postinstall', 550, 875);
+			JToolbarHelper::preferences('com_postinstall', 550, 875);
 			JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
 		}
 	}
