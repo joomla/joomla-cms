@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Language\Wrapper;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Language
  * @since       3.4
  */
-class JLanguageWrapperText
+class JTextWrapper
 {
 	/**
 	 * Helper wrapper method for _
@@ -28,12 +29,12 @@ class JLanguageWrapperText
 	 *
 	 * @return  string  The translated string or the key is $script is true.
 	 *
-	 * @see     JText::_
+	 * @see     \JText::_
 	 * @since   3.4
 	 */
 	public function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		return JText::_($string, $jsSafe, $interpretBackSlashes, $script);
+		return \JText::_($string, $jsSafe, $interpretBackSlashes, $script);
 	}
 
 	/**
@@ -47,12 +48,12 @@ class JLanguageWrapperText
 	 *
 	 * @return  string  The translated string or the key if $script is true.
 	 *
-	 * @see     JText::alt
+	 * @see     \JText::alt
 	 * @since   3.4
 	 */
 	public function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		return JText::alt($string, $alt, $jsSafe, $interpretBackSlashes, $script);
+		return \JText::alt($string, $alt, $jsSafe, $interpretBackSlashes, $script);
 	}
 
 	/**
@@ -63,12 +64,12 @@ class JLanguageWrapperText
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options.
 	 *
-	 * @see     JText::plural
+	 * @see     \JText::plural
 	 * @since   3.4
 	 */
 	public function plural($string, $n)
 	{
-		return JText::plural($string, $n);
+		return \JText::plural($string, $n);
 	}
 
 	/**
@@ -78,12 +79,12 @@ class JLanguageWrapperText
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options.
 	 *
-	 * @see     JText::sprintf
+	 * @see     \JText::sprintf
 	 * @since   3.4
 	 */
 	public function sprintf($string)
 	{
-		return JText::sprintf($string);
+		return \JText::sprintf($string);
 	}
 
 	/**
@@ -93,28 +94,28 @@ class JLanguageWrapperText
 	 *
 	 * @return  mixed
 	 *
-	 * @see     JText::printf
+	 * @see     \JText::printf
 	 * @since   3.4
 	 */
 	public function printf($string)
 	{
-		return JText::printf($string);
+		return \JText::printf($string);
 	}
 
 	/**
 	 * Helper wrapper method for script
 	 *
-	 * @param   string   $string                The JText key.
+	 * @param   string   $string                The \JText key.
 	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
 	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
 	 *
 	 * @return  string
 	 *
-	 * @see     JText::script
+	 * @see     \JText::script
 	 * @since   3.4
 	 */
 	public function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
 	{
-		return JText::script($string, $jsSafe, $interpretBackSlashes);
+		return \JText::script($string, $jsSafe, $interpretBackSlashes);
 	}
 }
