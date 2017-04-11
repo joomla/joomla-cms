@@ -327,7 +327,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testGetInstance()
 	{
-		$app = JApplicationWeb::getInstance('\\JApplicationWebInspector');
+		$app = JApplicationWeb::getInstance('JApplicationWebInspector');
 
 		$this->assertInstanceOf('JApplicationWebInspector', $app);
 		$this->assertSame($app, JApplicationWeb::getInstance('JApplicationWebInspector'), 'The same application object was not returned.');
