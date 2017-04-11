@@ -112,6 +112,13 @@
 	// Initialise all defaults
 	$(document).ready(function(){
 		$('.field-user-wrapper').fieldUser();
+		window.parent.jSelectUser = function(element)
+		{
+			var $el = $('#'+$(element).data('user-field')).parent().parent(),
+				instance = $el.data('fieldUser');
+			instance.setValue($(element).data('user-value'), $(element).data('user-name'));
+			instance.modalClose();
+		}
 	});
 
 })(jQuery);

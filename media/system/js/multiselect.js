@@ -43,13 +43,18 @@ Joomla.JMultiSelect = function(table) {
 			}
 
 			last = current;
-	};
+		};
 	initialize(table);
 };
 
 document.addEventListener('DOMContentLoaded', function(event) {
 	'use strict';
 	var rows = document.querySelectorAll('tr[class^="row"]');
+	var checkallBtn = document.getElementsByName('checkall-toggle');
+
+	if(checkallBtn.length === 0) {
+		return;
+	}
 
 	// Changes the background-color on every <td> inside a <tr>
 	function changeBg(item, checkall) {
@@ -65,8 +70,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 			});
 		}
 	}
-
-	document.getElementsByName('checkall-toggle')[0].addEventListener('click', function(event) {
+	checkallBtn[0].addEventListener('click', function(event) {
 		var checkall = this;
 
 		rows.forEach(function(row, index) {
@@ -82,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 				cbClicked.checked = !cbClicked.checked;
 				Joomla.isChecked(cbClicked.checked);
 			}
-	
+
 			changeBg(this, cbClicked);
 		});
 	});
