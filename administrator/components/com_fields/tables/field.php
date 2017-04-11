@@ -98,7 +98,7 @@ class FieldsTableField extends JTable
 
 		$this->name = JApplicationHelper::stringURLSafe($this->name, $this->language);
 
-    if (trim(str_replace('-', '', $this->name)) == '')
+		if (trim(str_replace('-', '', $this->name)) == '')
 		{
 			$this->name = Joomla\String\StringHelper::increment($this->name, 'dash');
 		}
