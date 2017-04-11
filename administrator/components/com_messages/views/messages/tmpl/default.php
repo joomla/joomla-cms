@@ -43,19 +43,19 @@ JFactory::getDocument()->addStyleDeclaration(
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap text-center">
+						<th style="width:1%" class="nowrap text-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="title nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MESSAGES_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap text-center">
+						<th style="width:1%" class="nowrap text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MESSAGES_HEADING_READ', 'a.state', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="nowrap">
+						<th style="width:15%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MESSAGES_HEADING_FROM', 'a.user_id_from', $listDirn, $listOrder); ?>
 						</th>
-						<th width="20%" class="nowrap hidden-sm-down">
+						<th style="width:20%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.date_time', $listDirn, $listOrder); ?>
 						</th>
 					</tr>

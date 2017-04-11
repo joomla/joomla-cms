@@ -40,28 +40,28 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 		<table class="table table-striped" id="moduleList">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap text-center">
+					<th style="width:1%" class="nowrap text-center">
 						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 					</th>
 					<th class="title">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="nowrap hidden-sm-down">
+					<th style="width:15%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-sm-down">
+					<th style="width:10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-sm-down">
+					<th style="width:10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-sm-down">
+					<th style="width:10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-sm-down">
+					<th style="width:10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap hidden-sm-down">
+					<th style="width:1%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>

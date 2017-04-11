@@ -109,16 +109,16 @@ class FieldsModelField extends JModelAdmin
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
+				list($title, $name) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
 				$data['title'] = $title;
 				$data['label'] = $title;
-				$data['alias'] = $alias;
+				$data['name'] = $name;
 			}
 			else
 			{
-				if ($data['alias'] == $origTable->alias)
+				if ($data['name'] == $origTable->name)
 				{
-					$data['alias'] = '';
+					$data['name'] = '';
 				}
 			}
 
@@ -208,7 +208,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  true|string  true if valid, a string containing the exception message when not.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function checkDefaultValue($data)
 	{
@@ -399,30 +399,30 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Method to change the title & alias.
+	 * Method to change the title & name.
 	 *
 	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
+	 * @param   string   $name         The name.
 	 * @param   string   $title        The title.
 	 *
-	 * @return  array  Contains the modified title and alias.
+	 * @return  array  Contains the modified title and name.
 	 *
 	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($category_id, $name, $title)
 	{
-		// Alter the title & alias
+		// Alter the title & name
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias)))
+		while ($table->load(array('name' => $name)))
 		{
 			$title = StringHelper::increment($title);
-			$alias = StringHelper::increment($alias, 'dash');
+			$name = StringHelper::increment($name, 'dash');
 		}
 
 		return array(
 			$title,
-			$alias,
+			$name,
 		);
 	}
 

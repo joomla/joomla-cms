@@ -150,12 +150,12 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						<div class="dropdown-menu">
 							<h5 class="dropdown-header"><?php echo JText::_('COM_MODULES_SUBITEMS'); ?></h5>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item checkall" href="javascript://"><span class="icon-checkbox"></span> <?php echo JText::_('JSELECT'); ?></a>
-							<a class="dropdown-item uncheckall" href="javascript://"><span class="icon-checkbox-unchecked"></span> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
+							<a class="dropdown-item checkall" href="javascript://"><span class="icon-checkbox" aria-hidden="true"></span> <?php echo JText::_('JSELECT'); ?></a>
+							<a class="dropdown-item uncheckall" href="javascript://"><span class="icon-checkbox-unchecked" aria-hidden="true"></span> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
 							<div class="treeselect-menu-expand">
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item expandall" href="javascript://"><span class="icon-plus"></span> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a>
-								<a class="dropdown-item collapseall" href="javascript://"><span class="icon-minus"></span> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a>
+								<a class="dropdown-item expandall" href="javascript://"><span class="icon-plus" aria-hidden="true"></span> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a>
+								<a class="dropdown-item collapseall" href="javascript://"><span class="icon-minus" aria-hidden="true"></span> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a>
 							</div>
 						</div>
 					</div>

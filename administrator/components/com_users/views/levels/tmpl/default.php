@@ -45,10 +45,10 @@ if ($saveOrder)
 					<table class="table table-striped" id="levelList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th width="1%">
+								<th style="width:1%">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th>
@@ -57,7 +57,7 @@ if ($saveOrder)
 								<th class="nowrap hidden-sm-down">
 									<?php echo JText::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?>
 								</th>
-								<th width="1%" class="nowrap hidden-sm-down">
+								<th style="width:1%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

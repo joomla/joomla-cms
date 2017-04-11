@@ -57,7 +57,7 @@
 
     <field
             name="path"
-            type="text"
+            type="uploaddirs"
             label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
             description="PLG_TINY_FIELD_CUSTOM_PATH_DESC"
             class="input-xxlarge"

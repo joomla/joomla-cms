@@ -35,34 +35,34 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th width="1%">
+							<th style="width:1%">
 								&#160;
 							</th>
-							<th width="15%" class="nowrap">
+							<th style="width:15%" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 							</th>
-							<th width="15%" class="hidden-phone">
+							<th style="width:15%" class="hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
 							</th>
-							<th width="5%" class="nowrap text-center">
+							<th style="width:5%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
 							</th>
-							<th width="5%" class="nowrap text-center">
+							<th style="width:5%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="hidden-sm-down text-center">
+							<th style="width:10%" class="hidden-sm-down text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DATE', 'creationDate', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="hidden-sm-down text-center">
+							<th style="width:10%" class="hidden-sm-down text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR', 'author', $listDirn, $listOrder); ?>
 							</th>
-							<th width="10%" class="hidden-sm-down text-center">
+							<th style="width:10%" class="hidden-sm-down text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 							</th>
-							<th width="5%" class="nowrap hidden-sm-down text-center">
+							<th style="width:5%" class="nowrap hidden-sm-down text-center">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>

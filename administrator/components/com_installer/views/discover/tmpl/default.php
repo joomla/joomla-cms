@@ -39,7 +39,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th class="nowrap">
@@ -51,19 +51,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down">
+								<th style="width:10%" class="hidden-sm-down">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down">
+								<th style="width:10%" class="hidden-sm-down">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th width="15%" class="hidden-sm-down">
+								<th style="width:15%" class="hidden-sm-down">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
 								<th class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th width="1%" class="nowrap hidden-sm-down">
+								<th style="width:1%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
