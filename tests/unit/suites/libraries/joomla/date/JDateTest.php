@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Date
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,7 @@ class JDateTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -208,36 +208,36 @@ class JDateTest extends TestCase
 				false,
 				'122007 164456',
 			),
- 			'Long' => array(
- 				'D F j, Y H:i:s',
+			'Long' => array(
+				'D F j, Y H:i:s',
 				true,
- 				'Thu December 20, 2007 11:44:56',
- 			),
- 			'LongGMT' => array(
- 				'D F j, Y H:i:s',
- 				false,
- 				'Thu December 20, 2007 16:44:56',
- 			),
- 			'Long2' => array(
- 				'H:i:s D F j, Y',
- 				false,
- 				'16:44:56 Thu December 20, 2007',
- 			),
- 			'Long3' => array(
- 				'H:i:s l F j, Y',
- 				false,
- 				'16:44:56 Thursday December 20, 2007',
- 			),
- 			'Long4' => array(
- 				'H:i:s l M j, Y',
- 				false,
- 				'16:44:56 Thursday Dec 20, 2007',
- 			),
- 			'RFC822' => array(
- 				'r',
- 				false,
- 				'Thu, 20 Dec 2007 16:44:56 +0000',
- 			),
+				'Thu December 20, 2007 11:44:56',
+			),
+			'LongGMT' => array(
+				'D F j, Y H:i:s',
+				false,
+				'Thu December 20, 2007 16:44:56',
+			),
+			'Long2' => array(
+				'H:i:s D F j, Y',
+				false,
+				'16:44:56 Thu December 20, 2007',
+			),
+			'Long3' => array(
+				'H:i:s l F j, Y',
+				false,
+				'16:44:56 Thursday December 20, 2007',
+			),
+			'Long4' => array(
+				'H:i:s l M j, Y',
+				false,
+				'16:44:56 Thursday Dec 20, 2007',
+			),
+			'RFC822' => array(
+				'r',
+				false,
+				'Thu, 20 Dec 2007 16:44:56 +0000',
+			),
 		);
 	}
 
@@ -535,10 +535,10 @@ class JDateTest extends TestCase
 			$this->equalTo($expectedTime)
 		);
 
- 		$this->assertThat(
- 			$jdate->format('D m/d/Y H:i', true, false),
- 			$this->equalTo($expectedTime)
- 		);
+		$this->assertThat(
+			$jdate->format('D m/d/Y H:i', true, false),
+			$this->equalTo($expectedTime)
+		);
 	}
 
 	/**

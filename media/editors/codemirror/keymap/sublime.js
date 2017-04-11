@@ -166,17 +166,23 @@
 
   var mirror = "(){}[]";
   function selectBetweenBrackets(cm) {
-    var pos = cm.getCursor(), opening = cm.scanForBracket(pos, -1);
-    if (!opening) return;
-    for (;;) {
-      var closing = cm.scanForBracket(pos, 1);
-      if (!closing) return;
-      if (closing.ch == mirror.charAt(mirror.indexOf(opening.ch) + 1)) {
-        cm.setSelection(Pos(opening.pos.line, opening.pos.ch + 1), closing.pos, false);
-        return true;
+    var ranges = cm.listSelections(), newRanges = []
+    for (var i = 0; i < ranges.length; i++) {
+      var range = ranges[i], pos = range.head, opening = cm.scanForBracket(pos, -1);
+      if (!opening) return false;
+      for (;;) {
+        var closing = cm.scanForBracket(pos, 1);
+        if (!closing) return false;
+        if (closing.ch == mirror.charAt(mirror.indexOf(opening.ch) + 1)) {
+          newRanges.push({anchor: Pos(opening.pos.line, opening.pos.ch + 1),
+                          head: closing.pos});
+          break;
+        }
+        pos = Pos(closing.pos.line, closing.pos.ch + 1);
       }
-      pos = Pos(closing.pos.line, closing.pos.ch + 1);
     }
+    cm.setSelections(newRanges);
+    return true;
   }
 
   cmds[map["Shift-" + ctrl + "Space"] = "selectScope"] = function(cm) {
@@ -294,7 +300,7 @@
     });
   };
 
-  map[ctrl + "T"] = "transposeChars";
+  if (!mac) map[ctrl + "T"] = "transposeChars";
 
   function sortLines(cm, caseSensitive) {
     if (cm.isReadOnly()) return CodeMirror.Pass
@@ -304,7 +310,8 @@
       if (range.empty()) continue;
       var from = range.from().line, to = range.to().line;
       while (i < ranges.length - 1 && ranges[i + 1].from().line == to)
-        to = range[++i].to().line;
+        to = ranges[++i].to().line;
+      if (!ranges[i].to().ch) to--;
       toSort.push(from, to);
     }
     if (toSort.length) selected = true;
@@ -325,7 +332,7 @@
             return a < b ? -1 : a == b ? 0 : 1;
           });
         cm.replaceRange(lines, start, end);
-        if (selected) ranges.push({anchor: start, head: end});
+        if (selected) ranges.push({anchor: start, head: Pos(to + 1, 0)});
       }
       if (selected) cm.setSelections(ranges, 0);
     });
@@ -570,7 +577,7 @@
 
   map["Shift-" + ctrl + "["] = "fold";
   map["Shift-" + ctrl + "]"] = "unfold";
-  map[cK + ctrl + "0"] = map[cK + ctrl + "j"] = "unfoldAll";
+  map[cK + ctrl + "0"] = map[cK + ctrl + "J"] = "unfoldAll";
 
   map[ctrl + "I"] = "findIncremental";
   map["Shift-" + ctrl + "I"] = "findIncrementalReverse";

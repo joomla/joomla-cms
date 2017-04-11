@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,6 +61,12 @@ Joomla.submitbutton = function(task, type){
 	} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 	{
 		Joomla.submitform(task, document.getElementById('item-form'));
+
+		// @deprecated 4.0  The following js is not needed since 3.7.0.
+		if (task !== 'item.apply')
+		{
+			window.parent.jQuery('#menuEdit" . (int) $this->item->id . "Modal').modal('hide');
+		}
 	}
 	else
 	{
@@ -80,10 +86,13 @@ $input = JFactory::getApplication()->input;
 
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
-$tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+// In case of modal
+$isModal  = $input->get('layout') == 'modal' ? true : false;
+$layout   = $isModal ? 'modal' : 'edit';
+$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$clientId = $this->state->get('item.client_id', 0);
 ?>
-
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=edit' . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -113,6 +122,11 @@ $tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 
 				echo $this->form->renderField('browserNav');
 				echo $this->form->renderField('template_style_id');
+
+				if (!$isModal && $this->item->type == 'container')
+				{
+					echo $this->loadTemplate('container');
+				}
 				?>
 			</div>
 			<div class="span3">
@@ -120,6 +134,7 @@ $tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 				// Set main fields.
 				$this->fields = array(
 					'id',
+					'client_id',
 					'menutype',
 					'parent_id',
 					'menuordering',
@@ -134,8 +149,8 @@ $tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 				{
 					$this->fields = array_diff($this->fields, array('home'));
 				}
-				?>
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+
+				echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -146,13 +161,15 @@ $tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 
-		<?php if ($assoc) : ?>
+		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
 				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
+		<?php elseif ($isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
+			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 
 		<?php if (!empty($this->modules)) : ?>
@@ -165,6 +182,7 @@ $tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 	</div>
 
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
