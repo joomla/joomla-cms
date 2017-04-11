@@ -235,7 +235,7 @@ class JBrowser
 				|| strpos($this->lowerAgent, 'opera mini') !== false
 				|| strpos($this->lowerAgent, 'opera mobi') !== false
 				|| strpos($this->lowerAgent, 'operamini') !== false
-				|| preg_match('/(iPhone|iPod|iPad|Android|Mobile|Phone|BlackBerry)/i', $this->agent);
+				|| preg_match('/(iPhone|iPod|iPad|Android|Mobile|Phone|BlackBerry)/i', $this->agent)
 				|| preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->agent))
 			{
 				$this->mobile = true;
