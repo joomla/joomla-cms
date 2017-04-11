@@ -58,7 +58,7 @@ function hathormessage_postinstall_condition()
 	}
 
 	// Hathor is default please add the message
- 	return true;
+	return true;
 }
 
 /**
