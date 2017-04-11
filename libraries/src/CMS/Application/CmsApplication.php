@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Helper\ExtensionHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -372,6 +373,8 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
+		$this->autoloadExtensions();
+
 		\JPluginHelper::importPlugin('system');
 
 		// Trigger the onBeforeExecute event.
@@ -413,6 +416,50 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 
 		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
+	}
+
+	/**
+	 * Autoloads the enabled extensions.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function autoloadExtensions()
+	{
+		$roots = array(
+			JPATH_ADMINISTRATOR . '/components/',
+			JPATH_SITE . '/components/',
+			JPATH_ADMINISTRATOR . '/modules/',
+			JPATH_SITE . '/modules/',
+			JPATH_PLUGINS .'/'
+		);
+
+		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
+
+		// Loop over the extensions
+		foreach (ExtensionHelper::getExtensions() as $extension)
+		{
+			$folder = '';
+
+			// Set up the folder
+			if ($extension->folder)
+			{
+				$folder = $extension->folder . '/';
+			}
+
+			// Loop over the possible root folders
+			foreach ($roots as $root)
+			{
+				if (!file_exists($root . $folder . $extension->element . '/autoload.php'))
+				{
+					continue;
+				}
+
+				// Run the autoload
+				require_once $root . $folder . $extension->element . '/autoload.php';
+			}
+		}
 	}
 
 	/**

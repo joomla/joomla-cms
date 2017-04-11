@@ -27,7 +27,16 @@ defined('_JEXEC') or die;
 abstract class Dispatcher implements DispatcherInterface
 {
 	/**
-	 * The JApplication instance
+	 * The extension namespace
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $namespace;
+
+	/**
+	 * The CmsApplication instance
 	 *
 	 * @var    CmsApplication
 	 *
@@ -47,15 +56,6 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The extension namespace
 	 *
-	 * @var    string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $namespace;
-
-	/**
-	 * The extension namespace
-	 *
 	 * @var    MvcFactoryInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
@@ -65,22 +65,17 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   string               $namespace  Namespace of the Extension
 	 * @param   CmsApplication       $app        The JApplication for the dispatcher
 	 * @param   \JInput              $input      JInput
-	 * @param   MvcFactoryInterface  $factory    The factory object for the component
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, CmsApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
+	public function __construct(CmsApplication $app, \JInput $input = null)
 	{
-		$this->namespace = rtrim($namespace, '\\') . '\\';
-		$this->app       = $app;
-		$this->input     = $input ? $input : $app->input;
-		$this->factory   = $factory ? $factory : new MvcFactory($namespace, $this->app);
+		$this->app   = $app;
+		$this->input = $input ? $input : $app->input;
 
 		$this->loadLanguage();
-		$this->autoLoad();
 	}
 
 	/**
@@ -95,23 +90,6 @@ abstract class Dispatcher implements DispatcherInterface
 		// Load common and local language files.
 		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
 		$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
-	}
-
-
-	/**
-	 * Autoload the extension files
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function autoLoad()
-	{
-		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
-
-		// Autoload the component
-		$autoLoader->addPsr4($this->namespace . 'Administrator\\', JPATH_ADMINISTRATOR . '/components/' . $this->app->scope);
-		$autoLoader->setPsr4($this->namespace . 'Site\\', JPATH_BASE . '/components/' . $this->app->scope);
 	}
 
 	/**
@@ -178,22 +156,15 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function getController($name, $client = null, $config = array())
 	{
+		// Set up the namespace
+		$namespace = rtrim($this->namespace, '\\') . '\\';
+
+		// Set up the client
 		$client = $client ? $client : ucfirst($this->app->getName()) . '\\';
 
-		$controllerName = $this->namespace . $client . 'Controller\\' . ucfirst($name);
+		// Compile the controller class name
+		$controllerName = $namespace . $client . 'Controller\\' . ucfirst($name);
 
-		$controller = new $controllerName($config, $this->factory, $this->app, $this->input);
-
-		return $controller;
-	}
-
-	/**
-	 * Method to get factory object
-	 *
-	 * @return  MvcFactoryInterface
-	 */
-	public function getFactory()
-	{
-		return $this->factory;
+		return new $controllerName($config, new MvcFactory($namespace, $this->app), $this->app, $this->input);
 	}
 }
