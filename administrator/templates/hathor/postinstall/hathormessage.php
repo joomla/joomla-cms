@@ -47,7 +47,7 @@ function hathormessage_postinstall_condition()
 			->where($db->quoteName('id') . ' = ' . $adminstyle[0])
 			->where($db->quoteName('client_id') . ' = 1');
 
-		// Get the template name assiciated to the admin style
+		// Get the template name associated to the admin style
 		$template = $db->setquery($query)->loadResult();
 	}
 
