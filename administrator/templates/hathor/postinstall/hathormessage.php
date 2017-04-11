@@ -18,22 +18,22 @@
  */
 function hathormessage_postinstall_condition()
 {
-	$db           = JFactory::getDbo();
-	$user         = JFactory::getUser();
-	$globalHathor = false;
-	$template     = 'n/a';
+	$db             = JFactory::getDbo();
+	$user           = JFactory::getUser();
+	$globalTemplate = 'n/a';
+	$template       = 'n/a';
 
 	// We can only do that if you have edit permissions in com_templates
 	if ($user->authorise('core.edit.state', 'com_templates'))
 	{
 		$query = $db->getQuery(true)
-			->select('home')
+			->select('template')
 			->from($db->quoteName('#__template_styles'))
-			->where($db->quoteName('template') . ' = "hathor"')
+			->where($db->quoteName('home') . ' = 1')
 			->where($db->quoteName('client_id') . ' = 1');
 
 		// Get the global setting about the default template
-		$globalHathor = $db->setQuery($query)->loadResult();
+		$globalTemplate = $db->setQuery($query)->loadResult();
 	}
 
 	// Get the current user admin style
@@ -51,7 +51,7 @@ function hathormessage_postinstall_condition()
 		$template = $db->setquery($query)->loadResult();
 	}
 
-	if (!$globalHathor && ($template != 'hathor'))
+	if (($globalTemplate != 'hathor') && ($template != 'hathor'))
 	{
 		// Hathor is not default not global and not in the user so no message needed
 		return false;
@@ -75,13 +75,14 @@ function hathormessage_postinstall_action()
 	$user = JFactory::getUser();
 
 	$query = $db->getQuery(true)
-		->select('id', 'title')
+		->select(array('id', 'title'))
 		->from($db->quoteName('#__template_styles'))
 		->where($db->quoteName('template') . ' = "isis"')
 		->where($db->quoteName('client_id') . ' = 1');
 
-	$isisStyle  = $db->setQuery($query)->loadColumn();
-	$adminstyle = $user->getParam('admin_style', '');
+	$isisStyleId   = $db->setQuery($query)->loadColumn();
+	$isisStyleName = $db->setQuery($query)->loadColumn(1);
+	$adminstyle    = $user->getParam('admin_style', '');
 
 	// The user uses the system setting so no need to change that.
 	if ($adminstyle != '')
@@ -97,7 +98,7 @@ function hathormessage_postinstall_action()
 		// The current user uses hathor
 		if ($template == 'hathor')
 		{
-			$user->setParam('admin_style', $isisStyle['0']);
+			$user->setParam('admin_style', $isisStyleId['0']);
 			$user->save();
 		}
 	}
@@ -119,12 +120,15 @@ function hathormessage_postinstall_action()
 			->set($db->quoteName('home') . ' = 1')
 			->where($db->quoteName('template') . ' = "isis"')
 			->where($db->quoteName('client_id') . ' = 1')
-			->where($db->quoteName('id') . ' = ' . $isisStyle[0]);
+			->where($db->quoteName('id') . ' = ' . $isisStyleId[0]);
 
 		// Execute
 		$db->setQuery($query)->execute();
 	}
 
+	// The postinstall component load the language to late... so we need to make sure it is loaded here.
+	JFactory::getLanguage()->load('tpl_hathor', JPATH_ADMINISTRATOR, 'en-GB', true);
+
 	// Template was successfully changed to isis
-	JFactory::getApplication()->enqueueMessage(JText::sprintf('TLP_HATHOR_CHANGED_DEFAULT_TEMPLATE_TO_ISIS', $adminstyle[1]), 'message');
+	JFactory::getApplication()->enqueueMessage(JText::sprintf('TLP_HATHOR_CHANGED_DEFAULT_TEMPLATE_TO_ISIS', $isisStyleName[0]), 'message');
 }
