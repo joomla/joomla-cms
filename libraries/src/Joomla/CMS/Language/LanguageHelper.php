@@ -241,7 +241,7 @@ class LanguageHelper
 						$lang->metadata = self::parseXMLLanguageFile($metafile);
 					}
 					// Not able to process xml language file. Fail silently.
-					catch (Exception $e)
+					catch (\Exception $e)
 					{
 						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
 
@@ -265,7 +265,7 @@ class LanguageHelper
 						$lang->manifest = \JInstaller::parseXMLInstallFile($metafile);
 					}
 					// Not able to process xml language file. Fail silently.
-					catch (Exception $e)
+					catch (\Exception $e)
 					{
 						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
 
@@ -548,7 +548,7 @@ class LanguageHelper
 						$languages = array_replace($languages, array($dirPathParts['filename'] => $metadata));
 					}
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 				}
 			}
@@ -565,13 +565,13 @@ class LanguageHelper
 	 * @return  array  Array holding the found metadata as a key => value pair.
 	 *
 	 * @since   3.7.0
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function parseXMLLanguageFile($path)
 	{
 		if (!is_readable($path))
 		{
-			throw new RuntimeException('File not found or not readable');
+			throw new \RuntimeException('File not found or not readable');
 		}
 
 		// Try to load the file

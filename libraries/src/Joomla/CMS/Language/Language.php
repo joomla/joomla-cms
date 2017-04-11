@@ -852,14 +852,14 @@ class Language
 	 * @return  integer  A count of the number of parsing errors
 	 *
 	 * @since   3.6.3
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function debugFile($filename)
 	{
 		// Make sure our file actually exists
 		if (!file_exists($filename))
 		{
-			throw new InvalidArgumentException(
+			throw new \InvalidArgumentException(
 				sprintf('Unable to locate file "%s" for debugging', $filename)
 			);
 		}
@@ -872,7 +872,7 @@ class Language
 		$php_errormsg = null;
 
 		// Open the file as a stream.
-		$file = new SplFileObject($filename);
+		$file = new \SplFileObject($filename);
 
 		foreach ($file as $lineNumber => $line)
 		{
