@@ -292,7 +292,7 @@ class Asset extends Nested
 				$rules[$permission->permission] = array();
 			}
 
-			$rules[$permission->permission][$permission->group] = $permission->value;
+			$rules[$permission->permission][$permission->ugroup] = $permission->value;
 		}
 
 		if (isset($rules) && is_array($rules) && !empty($rules))
@@ -387,12 +387,13 @@ class Asset extends Nested
 			return true;
 		}
 
+		$query = $this->_db->getQuery(true);
+
 		// Only delete on update
 		if (!empty($this->$key))
 		{
 			try
 			{    // Delete the old permissions.
-				$query = $this->_db->getQuery(true);
 
 				$query->delete('#__permissions');
 				$query->where('assetid = ' . (int) $assetId);
