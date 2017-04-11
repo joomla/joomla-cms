@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.2
  */
-class PostinstallControllerMessage extends FOFController
+class PostinstallControllerMessage extends JControllerLegacy
 {
 	/**
 	 * Resets all post-installation messages of the specified extension.
@@ -26,9 +26,9 @@ class PostinstallControllerMessage extends FOFController
 	public function reset()
 	{
 		/** @var PostinstallModelMessages $model */
-		$model = $this->getThisModel();
+		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
 
-		$eid = (int) $model->getState('eid', '700', 'int');
+		$eid = (int) $model->getState('eid', '700');
 
 		if (empty($eid))
 		{
@@ -36,6 +36,33 @@ class PostinstallControllerMessage extends FOFController
 		}
 
 		$model->resetMessages($eid);
+
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+	}
+
+	/**
+	 * Unpublishes post-installation message of the specified extension.
+	 *
+	 * @return   void
+	 *
+	 * @since   3.2
+	 */
+	public function unpublish()
+	{
+		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
+
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get('id');
+
+		$eid = (int) $model->getState('eid', '700');
+
+		if (empty($eid))
+		{
+			$eid = 700;
+		}
+
+		$model->setState('published', 0);
+		$model->unpublishMessage($id);
 
 		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
 	}
@@ -49,20 +76,13 @@ class PostinstallControllerMessage extends FOFController
 	 */
 	public function action()
 	{
-		// CSRF prevention.
-		if ($this->csrfProtection)
-		{
-			$this->_csrfProtection();
-		}
+		require_once JPATH_ADMINISTRATOR . '/components/com_postinstall/helpers/postinstall.php';
+		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
 
-		$model = $this->getThisModel();
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get('id');
 
-		if (!$model->getId())
-		{
-			$model->setIDsFromRequest();
-		}
-
-		$item = $model->getItem();
+		$item = $model->getItem($id);
 
 		switch ($item->type)
 		{
@@ -76,7 +96,8 @@ class PostinstallControllerMessage extends FOFController
 			case 'action':
 				jimport('joomla.filesystem.file');
 
-				$file = FOFTemplateUtils::parsePath($item->action_file, true);
+				$helper = new PostinstallHelper;
+				$file = $helper->parsePath($item->action_file);
 
 				if (JFile::exists($file))
 				{
