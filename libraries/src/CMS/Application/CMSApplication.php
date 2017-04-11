@@ -24,7 +24,7 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.2
  */
-abstract class CmsApplication extends WebApplication implements ContainerAwareInterface
+abstract class CMSApplication extends WebApplication implements ContainerAwareInterface
 {
 	use ContainerAwareTrait;
 
@@ -103,7 +103,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * Application instances container.
 	 *
-	 * @var    CmsApplication[]
+	 * @var    CMSApplication[]
 	 * @since  3.2
 	 */
 	protected static $instances = array();
@@ -514,15 +514,15 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Returns a reference to the global CmsApplication object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global CMSApplication object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as: $web = CmsApplication::getInstance();
+	 * This method must be invoked as: $web = CMSApplication::getInstance();
 	 *
-	 * @param   string     $name       The name (optional) of the CmsApplication class to instantiate.
+	 * @param   string     $name       The name (optional) of the CMSApplication class to instantiate.
 	 * @param   string     $prefix     The class name prefix of the object.
 	 * @param   Container  $container  An optional dependency injection container to inject into the application.
 	 *
-	 * @return  CmsApplication
+	 * @return  CMSApplication
 	 *
 	 * @since   3.2
 	 * @throws  \RuntimeException
@@ -531,7 +531,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	{
 		if (empty(static::$instances[$name]))
 		{
-			// Create a CmsApplication object.
+			// Create a CMSApplication object.
 			$classname = $prefix . ucfirst($name);
 
 			if (!class_exists($classname))
