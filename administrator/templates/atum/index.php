@@ -117,21 +117,20 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 								</a>
 							</li>
 							<?php
-								/*
-								 * @TODO: Remove FOF call as it's being removed in core
-								 */
-								try
-								{
-									$messagesModel = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
-									$messages      = $messagesModel->getItemList();
-								}
-								catch (RuntimeException $e)
-								{
-									$messages = array();
+                                try
+                                {
+                                    JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_postinstall/models');
+                                    $messages_model = JModelLegacy::getInstance('Messages', 'PostinstallModel', array('ignore_request' => true));
 
-									// Still render the error message from the Exception object
-									JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
-								}
+                                    $messages       = $messages_model->getItems();
+                                }
+                                catch (RuntimeException $e)
+                                {
+                                    $messages = array();
+
+                                    // Still render the error message from the Exception object
+                                    JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                                }
 								$lang->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
 							?>
 							<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
