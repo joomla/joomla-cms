@@ -75,13 +75,14 @@ function hathormessage_postinstall_action()
 	$user = JFactory::getUser();
 
 	$query = $db->getQuery(true)
-		->select('id', 'title')
+		->select(array('id', 'title'))
 		->from($db->quoteName('#__template_styles'))
 		->where($db->quoteName('template') . ' = "isis"')
 		->where($db->quoteName('client_id') . ' = 1');
 
-	$isisStyle  = $db->setQuery($query)->loadColumn();
-	$adminstyle = $user->getParam('admin_style', '');
+	$isisStyleId   = $db->setQuery($query)->loadColumn();
+	$isisStyleName = $db->setQuery($query)->loadColumn(1);
+	$adminstyle    = $user->getParam('admin_style', '');
 
 	// The user uses the system setting so no need to change that.
 	if ($adminstyle != '')
@@ -97,7 +98,7 @@ function hathormessage_postinstall_action()
 		// The current user uses hathor
 		if ($template == 'hathor')
 		{
-			$user->setParam('admin_style', $isisStyle['0']);
+			$user->setParam('admin_style', $isisStyleId['0']);
 			$user->save();
 		}
 	}
@@ -119,12 +120,12 @@ function hathormessage_postinstall_action()
 			->set($db->quoteName('home') . ' = 1')
 			->where($db->quoteName('template') . ' = "isis"')
 			->where($db->quoteName('client_id') . ' = 1')
-			->where($db->quoteName('id') . ' = ' . $isisStyle[0]);
+			->where($db->quoteName('id') . ' = ' . $isisStyleId[0]);
 
 		// Execute
 		$db->setQuery($query)->execute();
 	}
 
 	// Template was successfully changed to isis
-	JFactory::getApplication()->enqueueMessage(JText::sprintf('TLP_HATHOR_CHANGED_DEFAULT_TEMPLATE_TO_ISIS', $adminstyle[1]), 'message');
+	JFactory::getApplication()->enqueueMessage(JText::sprintf('TLP_HATHOR_CHANGED_DEFAULT_TEMPLATE_TO_ISIS', $isisStyleName[0]), 'message');
 }
