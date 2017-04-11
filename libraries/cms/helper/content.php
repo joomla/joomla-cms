@@ -61,8 +61,15 @@ class JHelperContent
 
 		$user = JFactory::getUser();
 
+		$file = JPATH_ADMINISTRATOR . '/components/' . $component . '/etc/access.xml';
+
+		if (!file_exists($file))
+		{
+			$file = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
+		}
+
 		$actions = JAccess::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
+			$file, '/access/section[@name="component"]/'
 		);
 
 		if ($actions === false)

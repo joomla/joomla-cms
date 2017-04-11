@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::registerNamespace('Joomla\\Component\\Content\\Administrator', JPATH_ADMINISTRATOR . '/components/com_content', false, false, 'psr4');
+JLoader::registerNamespace('Joomla\\Component\\Content\\Administrator', JPATH_ADMINISTRATOR . '/components/com_content/src', false, false, 'psr4');
 
 /**
  * Content component helper.
