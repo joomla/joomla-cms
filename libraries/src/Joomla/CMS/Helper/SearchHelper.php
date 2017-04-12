@@ -32,9 +32,9 @@ class SearchHelper
 	public static function logSearch($term, $component)
 	{
 		// Initialise our variables
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$enable_log_searches = JComponentHelper::getParams($component)->get('enabled');
+		$enable_log_searches = ComponentHelper::getParams($component)->get('enabled');
 
 		// Sanitise the term for the database
 		$search_term = $db->escape(trim(strtolower($term)));
