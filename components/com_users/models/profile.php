@@ -332,8 +332,8 @@ class UsersModelProfile extends JModelForm
 			if ($twoFactorMethod != 'none')
 			{
 				// Run the plugins
-				FOFPlatform::getInstance()->importPlugin('twofactorauth');
-				$otpConfigReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
+				JPluginHelper::importPlugin('twofactorauth');
+				$otpConfigReplies = JFactory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
 
 				// Look for a valid reply
 				foreach ($otpConfigReplies as $reply)
@@ -419,9 +419,9 @@ class UsersModelProfile extends JModelForm
 
 		$otpConfig = $model->getOtpConfig($user_id);
 
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+		JPluginHelper::importPlugin('twofactorauth');
 
-		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return JFactory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
 	}
 
 	/**
