@@ -26,7 +26,7 @@ abstract class ModuleHelper
 	 * @param   string  $name   The name of the module
 	 * @param   string  $title  The title of the module, optional
 	 *
-	 * @return  stdClass  The Module object
+	 * @return  \stdClass  The Module object
 	 *
 	 * @since   1.5
 	 */
@@ -54,7 +54,7 @@ abstract class ModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
-			$result            = new stdClass;
+			$result            = new \stdClass;
 			$result->id        = 0;
 			$result->title     = '';
 			$result->module    = $name;
@@ -560,7 +560,7 @@ abstract class ModuleHelper
 				{
 					$input   = \JFactory::getApplication()->input;
 					$uri     = $input->getArray();
-					$safeuri = new stdClass;
+					$safeuri = new \stdClass;
 					$noHtmlFilter = \JFilterInput::getInstance();
 
 					foreach ($cacheparams->modeparams as $key => $value)
