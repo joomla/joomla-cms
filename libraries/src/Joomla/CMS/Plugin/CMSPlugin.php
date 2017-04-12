@@ -1,22 +1,23 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Plugin
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
 /**
- * JPlugin Class
+ * Plugin Class
  *
  * @since  1.5
  */
-abstract class JPlugin extends JEvent
+abstract class CMSPlugin extends \JEvent
 {
 	/**
 	 * A Registry object holding the parameters for the plugin
@@ -95,23 +96,23 @@ abstract class JPlugin extends JEvent
 
 		if (property_exists($this, 'app'))
 		{
-			$reflection = new ReflectionClass($this);
+			$reflection = new \ReflectionClass($this);
 			$appProperty = $reflection->getProperty('app');
 
 			if ($appProperty->isPrivate() === false && is_null($this->app))
 			{
-				$this->app = JFactory::getApplication();
+				$this->app = \JFactory::getApplication();
 			}
 		}
 
 		if (property_exists($this, 'db'))
 		{
-			$reflection = new ReflectionClass($this);
+			$reflection = new \ReflectionClass($this);
 			$dbProperty = $reflection->getProperty('db');
 
 			if ($dbProperty->isPrivate() === false && is_null($this->db))
 			{
-				$this->db = JFactory::getDbo();
+				$this->db = \JFactory::getDbo();
 			}
 		}
 
@@ -136,7 +137,7 @@ abstract class JPlugin extends JEvent
 		}
 
 		$extension = strtolower($extension);
-		$lang      = JFactory::getLanguage();
+		$lang      = \JFactory::getLanguage();
 
 		// If language already loaded, don't load it again.
 		if ($lang->getPaths($extension))
