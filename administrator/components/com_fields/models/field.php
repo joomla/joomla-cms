@@ -208,7 +208,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  true|string  true if valid, a string containing the exception message when not.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function checkDefaultValue($data)
 	{
