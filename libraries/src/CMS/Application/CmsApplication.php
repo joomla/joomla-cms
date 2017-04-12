@@ -435,8 +435,6 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 			JPATH_PLUGINS .'/'
 		);
 
-		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
-
 		// Loop over the extensions
 		foreach (ExtensionHelper::getExtensions() as $extension)
 		{

@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
-/**
- * @var \Composer\Autoload\ClassLoader $autoloader
- */
-
-$autoLoader->addPsr4('Joomla\\Component\\Content\\Administrator\\', JPATH_ADMINISTRATOR . '/components/com_content');
+JLoader::registerNamespace(
+	'Joomla\\Component\\Content\\Administrator\\',
+	JPATH_ADMINISTRATOR . '/components/com_content',
+	false,
+	false,
+	'psr4'
+);
 
 JLoader::registerAlias('ContentHelper' , '\\Joomla\\Component\\Content\\Administrator\\Helper\\ContentHelper');
