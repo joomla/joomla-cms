@@ -109,6 +109,7 @@ JLoader::registerAlias('JHelperMedia',                      '\\Joomla\\CMS\\Help
 JLoader::registerAlias('JModuleHelper',                     '\\Joomla\\CMS\\Helper\\ModuleHelper', '4.0');
 JLoader::registerAlias('JHelperTags',                       '\\Joomla\\CMS\\Helper\\TagsHelper', '4.0');
 JLoader::registerAlias('JHelperUsergroups',                 '\\Joomla\\CMS\\Helper\\UserGroupsHelper', '4.0');
+JLoader::registerAlias('JLibraryHelper',                    '\\Joomla\\CMS\\Helper\\LibraryHelper', '4.0');
 
 JLoader::registerAlias('JLayoutBase',                       '\\Joomla\\CMS\\Layout\\BaseLayout', '4.0');
 JLoader::registerAlias('JLayoutFile',                       '\\Joomla\\CMS\\Layout\\FileLayout', '4.0');

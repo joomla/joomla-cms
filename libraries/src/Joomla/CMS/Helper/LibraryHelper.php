@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Library
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +17,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-class JLibraryHelper
+class LibraryHelper
 {
 	/**
 	 * The component list cache
@@ -32,7 +33,7 @@ class JLibraryHelper
 	 * @param   string   $element  Element of the library in the extensions table.
 	 * @param   boolean  $strict   If set and the library does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  stdClass   An object with the library's information.
+	 * @return  \stdClass   An object with the library's information.
 	 *
 	 * @since   3.2
 	 */
@@ -51,7 +52,7 @@ class JLibraryHelper
 		}
 		else
 		{
-			$result = new stdClass;
+			$result = new \stdClass;
 			$result->enabled = $strict ? false : true;
 			$result->params = new Registry;
 		}
@@ -105,7 +106,7 @@ class JLibraryHelper
 		if (static::isEnabled($element))
 		{
 			// Save params in DB
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__extensions'))
 				->set($db->quoteName('params') . ' = ' . $db->quote($params->toString()))
@@ -135,7 +136,7 @@ class JLibraryHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use JLibraryHelper::loadLibrary() instead
+	 * @deprecated  4.0  Use LibraryHelper::loadLibrary() instead
 	 */
 	protected static function _load($element)
 	{
@@ -155,7 +156,7 @@ class JLibraryHelper
 	{
 		$loader = function($element)
 		{
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 				->from($db->quoteName('#__extensions'))
@@ -166,14 +167,14 @@ class JLibraryHelper
 			return $db->loadObject();
 		};
 
-		/** @var JCacheControllerCallback $cache */
-		$cache = JFactory::getCache('_system', 'callback');
+		/** @var \JCacheControllerCallback $cache */
+		$cache = \JFactory::getCache('_system', 'callback');
 
 		try
 		{
 			static::$libraries[$element] = $cache->get($loader, array($element), __METHOD__ . $element);
 		}
-		catch (JCacheException $e)
+		catch (\JCacheException $e)
 		{
 			static::$libraries[$element] = $loader($element);
 		}
@@ -181,8 +182,8 @@ class JLibraryHelper
 		if (empty(static::$libraries[$element]))
 		{
 			// Fatal error.
-			$error = JText::_('JLIB_APPLICATION_ERROR_LIBRARY_NOT_FOUND');
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), JLog::WARNING, 'jerror');
+			$error = \JText::_('JLIB_APPLICATION_ERROR_LIBRARY_NOT_FOUND');
+			\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
