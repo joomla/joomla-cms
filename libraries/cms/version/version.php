@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '0-rc2';
+	const DEV_LEVEL = '0-rc3';
 
 	/**
 	 * Development status.
