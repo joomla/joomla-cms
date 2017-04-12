@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Response
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Response;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.1
  */
-class JResponseJson
+class JsonResponse
 {
 	/**
 	 * Determines whether the request was successful
@@ -36,7 +37,7 @@ class JResponseJson
 	public $message = null;
 
 	/**
-	 * Array of messages gathered in the JApplication object
+	 * Array of messages gathered in the \JApplication object
 	 *
 	 * @var    array
 	 * @since  3.1
@@ -66,7 +67,7 @@ class JResponseJson
 		$this->message = $message;
 
 		// Get the message queue if requested and available
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		if (!$ignoreMessages && !is_null($app) && is_callable(array($app, 'getMessageQueue')))
 		{
@@ -92,7 +93,7 @@ class JResponseJson
 		}
 
 		// Check if we are dealing with an error
-		if ($response instanceof Exception || $response instanceof Throwable)
+		if ($response instanceof \Exception || $response instanceof \Throwable)
 		{
 			// Prepare the error response
 			$this->success = false;
