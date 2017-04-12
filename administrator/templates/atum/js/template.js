@@ -192,8 +192,8 @@
 		var somemem = document.querySelector('.btn-group label:not(.active)');
 		if (somemem) {
 			somemem.addEventListener('click', function(event) {
-				var label = event.target;
-				var input = document.getElementById(label.getAttribute('for'));
+				var label = event.target,
+					input = document.getElementById(label.getAttribute('for'));
 
 				if (input.getAttribute('checked') !== "checked") {
 					var aa = closest(label, '.btn-group').querySelector('label');
@@ -240,7 +240,7 @@
 
 		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
 
-		for(var i = 0, l = btsGrouped.length; l>i; i++) {
+		for (var i = 0, l = btsGrouped.length; l>i; i++) {
 			var self   = btsGrouped[i],
 			    attrId = self.id;
 			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
