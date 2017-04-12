@@ -3,7 +3,7 @@
 node('master') {
     try {
 	    stage('codestyles') {
-	    	sh "echo stage codestyles"
+	    	sh "docker run -it --rm -v $(pwd):/opt -w /opt joomlaprojects/docker-phpcs /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla ."
 	    }
 	    stage('test') {
 	        sh "echo stage test"
