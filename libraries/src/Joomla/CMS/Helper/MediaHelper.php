@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Media helper class
