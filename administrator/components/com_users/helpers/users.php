@@ -168,8 +168,8 @@ class UsersHelper
 	 */
 	public static function getTwoFactorMethods()
 	{
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
-		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
+		JPluginHelper::importPlugin('twofactorauth');
+		$identities = JFactory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
 
 		$options = array(
 			JHtml::_('select.option', 'none', JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
