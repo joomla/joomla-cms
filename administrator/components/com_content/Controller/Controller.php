@@ -11,14 +11,14 @@ namespace Joomla\Component\Content\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Controller\Controller as BaseController;
 
 /**
  * Component Controller
  *
  * @since  1.5
  */
-class Content extends Controller
+class Controller extends BaseController
 {
 	/**
 	 * The default view.
