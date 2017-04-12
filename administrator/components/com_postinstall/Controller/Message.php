@@ -57,7 +57,7 @@ class Message extends Controller
 	{
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
-		$id = \JFactory::getApplication()->input->get('id');
+		$id = $this->input->get('id');
 
 		$eid = (int) $model->getState('eid', '700');
 
