@@ -1221,7 +1221,8 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @deprecated 4.0
 	 */
-	private function onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	private function onDisplayLegacy(
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id))
 		{
