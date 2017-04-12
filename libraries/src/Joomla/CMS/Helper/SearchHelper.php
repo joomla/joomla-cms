@@ -39,8 +39,8 @@ class SearchHelper
 		}
 
 		// Initialise our variables
-		$db                = \JFactory::getDbo();
-		$query             = $db->getQuery(true);
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		// Sanitise the term for the database
 		$searchTerm = $db->escape(trim(strtolower($term)));
