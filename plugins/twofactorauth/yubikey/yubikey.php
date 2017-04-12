@@ -105,18 +105,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		@ob_start();
 
 		// Include the form.php from a template override. If none is found use the default.
-		$path = FOFPlatform::getInstance()->getTemplateOverridePath('plg_twofactorauth_yubikey', true);
-
-		JLoader::import('joomla.filesystem.file');
-
-		if (JFile::exists($path . '/form.php'))
-		{
-			include_once $path . '/form.php';
-		}
-		else
-		{
-			include_once __DIR__ . '/tmpl/form.php';
-		}
+		include_once JPluginHelper::getLayoutPath('twofactorauth', 'yubikey', 'form');
 
 		// Stop output buffering and get the form contents
 		$html = @ob_get_clean();

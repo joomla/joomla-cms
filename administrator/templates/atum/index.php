@@ -117,20 +117,19 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 								</a>
 							</li>
 							<?php
-								/*
-								 * @TODO: Remove FOF call as it's being removed in core
-								 */
 								try
 								{
-									$messagesModel = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
-									$messages      = $messagesModel->getItemList();
+									JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_postinstall/models');
+									$messages_model = JModelLegacy::getInstance('Messages', 'PostinstallModel', array('ignore_request' => true));
+
+									$messages       = $messages_model->getItems();
 								}
 								catch (RuntimeException $e)
 								{
 									$messages = array();
 
 									// Still render the error message from the Exception object
-									JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+									JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 								}
 								$lang->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
 							?>
@@ -219,9 +218,9 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 				<?php // Begin Content ?>
 				<jdoc:include type="modules" name="top" style="xhtml" />
 				<div class="row">
-                    <div class="col-md-12">
-                        <jdoc:include type="component" />
-                    </div>
+					<div class="col-md-12">
+						<jdoc:include type="component" />
+					</div>
 
 					<?php if ($this->countModules('bottom')) : ?>
 						<jdoc:include type="modules" name="bottom" style="xhtml" />
