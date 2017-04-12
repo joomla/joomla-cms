@@ -49,7 +49,7 @@ class ConfigHelperConfig extends JHelperContent
 	public static function hasComponentConfig($component)
 	{
 		return is_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/config.xml') ||
-			is_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/etc/config.xml');
+			is_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/config/config.xml');
 	}
 
 	/**

@@ -187,7 +187,7 @@ abstract class JHtmlAccess
 
 		$count++;
 
-		$file = JPATH_ADMINISTRATOR . '/components/' . $component . '/etc/access.xml';
+		$file = JPATH_ADMINISTRATOR . '/components/' . $component . '/config/access.xml';
 
 		if (!file_exists($file))
 		{
