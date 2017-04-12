@@ -672,7 +672,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Destructor.
 	 *
-	 * @since   CMS 3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __destruct()
 	{
