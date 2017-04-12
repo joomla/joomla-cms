@@ -8,14 +8,13 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\Cms\View\View;
 
 /**
  * Media List View
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaViewMedia extends View
+class MediaViewMedia extends JViewLegacy
 {
 	/**
 	 * Execute and display a template script.
