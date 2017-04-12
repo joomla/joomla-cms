@@ -155,14 +155,14 @@ class SearchHelper
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JSearchHelper::logSearch() instead.
+	 * @deprecated  4.0  Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.
 	 */
 	public static function logSearch($search_term)
 	{
 		try
 		{
 			JLog::add(
-				sprintf('%s() is deprecated. Use JSearchHelper::logSearch() instead.', __METHOD__),
+				sprintf('%s() is deprecated. Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.', __METHOD__),
 				JLog::WARNING,
 				'deprecated'
 			);
@@ -172,7 +172,7 @@ class SearchHelper
 			// Informational log only
 		}
 
-		JSearchHelper::logSearch($search_term, 'com_search');
+		\Joomla\CMS\Helper\SearchHelper::logSearch($search_term, 'com_search');
 	}
 
 	/**
