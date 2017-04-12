@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
+use Joomla\CMS\View\HtmlView;
+
+JLoader::import('joomla.filesystem.file');
 
 /**
  * View to edit an file.
@@ -18,7 +20,7 @@ jimport('joomla.filesystem.file');
  *
  * @since  __DEPLOY_VERSION__
  */
-class MediaViewFile extends JViewLegacy
+class MediaViewFile extends HtmlView
 {
 
 	/**

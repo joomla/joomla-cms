@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Model\Form;
+use Joomla\CMS\Model\Form;
 
 /**
  * File Model
