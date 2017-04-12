@@ -1,14 +1,16 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Module
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +18,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class JModuleHelper
+abstract class ModuleHelper
 {
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
@@ -79,7 +81,7 @@ abstract class JModuleHelper
 	{
 		$position = strtolower($position);
 		$result = array();
-		$input  = JFactory::getApplication()->input;
+		$input  = \JFactory::getApplication()->input;
 
 		$modules =& static::load();
 
@@ -95,7 +97,7 @@ abstract class JModuleHelper
 
 		if (count($result) == 0)
 		{
-			if ($input->getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
+			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
 				$result[0] = static::getModule('mod_' . $position);
 				$result[0]->title = $position;
@@ -145,8 +147,8 @@ abstract class JModuleHelper
 		{
 			if (JDEBUG)
 			{
-				JLog::addLogger(array('text_file' => 'jmodulehelper.log.php'), JLog::ALL, array('modulehelper'));
-				JLog::add('JModuleHelper::renderModule($module) expects a module object', JLog::DEBUG, 'modulehelper');
+				\JLog::addLogger(array('text_file' => 'jmodulehelper.log.php'), \JLog::ALL, array('modulehelper'));
+				\JLog::add('ModuleHelper::renderModule($module) expects a module object', \JLog::DEBUG, 'modulehelper');
 			}
 
 			return;
@@ -154,10 +156,10 @@ abstract class JModuleHelper
 
 		if (JDEBUG)
 		{
-			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
+			\JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Record the scope.
 		$scope = $app->scope;
@@ -178,7 +180,7 @@ abstract class JModuleHelper
 		// Load the module
 		if (file_exists($path))
 		{
-			$lang = JFactory::getLanguage();
+			$lang = \JFactory::getLanguage();
 
 			$coreLanguageDirectory      = JPATH_BASE;
 			$extensionLanguageDirectory = dirname($path);
@@ -234,7 +236,7 @@ abstract class JModuleHelper
 		}
 
 		// Dynamically add outline style
-		if ($app->input->getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
+		if ($app->input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 		{
 			$attribs['style'] .= ' outline';
 		}
@@ -270,7 +272,7 @@ abstract class JModuleHelper
 
 		if (JDEBUG)
 		{
-			JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
+			\JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		return $module->content;
@@ -288,7 +290,7 @@ abstract class JModuleHelper
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
-		$template = JFactory::getApplication()->getTemplate();
+		$template = \JFactory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
 
 		if (strpos($layout, ':') !== false)
@@ -325,7 +327,7 @@ abstract class JModuleHelper
 	 * @return  array
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JModuleHelper::load() instead
+	 * @deprecated  4.0  Use ModuleHelper::load() instead
 	 */
 	protected static function &_load()
 	{
@@ -348,7 +350,7 @@ abstract class JModuleHelper
 			return $modules;
 		}
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$modules = null;
 
@@ -376,16 +378,16 @@ abstract class JModuleHelper
 	 */
 	public static function getModuleList()
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$Itemid = $app->input->getInt('Itemid');
-		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
-		$lang = JFactory::getLanguage()->getTag();
+		$groups = implode(',', \JFactory::getUser()->getAuthorisedViewLevels());
+		$lang = \JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
 		$cacheId = $groups . $clientId . (int) $Itemid;
 
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
@@ -395,7 +397,7 @@ abstract class JModuleHelper
 			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
 			->where('e.enabled = 1');
 
-		$date = JFactory::getDate();
+		$date = \JFactory::getDate();
 		$now = $date->toSql();
 		$nullDate = $db->getNullDate();
 		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
@@ -418,14 +420,14 @@ abstract class JModuleHelper
 
 		try
 		{
-			/** @var JCacheControllerCallback $cache */
-			$cache = JFactory::getCache('com_modules', 'callback');
+			/** @var \JCacheControllerCallback $cache */
+			$cache = \JFactory::getCache('com_modules', 'callback');
 
 			$modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), \JLog::WARNING, 'jerror');
 
 			return array();
 		}
@@ -443,7 +445,7 @@ abstract class JModuleHelper
 	public static function cleanModuleList($modules)
 	{
 		// Apply negative selections and eliminate duplicates
-		$Itemid = JFactory::getApplication()->input->getInt('Itemid');
+		$Itemid = \JFactory::getApplication()->input->getInt('Itemid');
 		$negId = $Itemid ? -(int) $Itemid : false;
 		$clean = array();
 		$dupes = array();
@@ -504,7 +506,7 @@ abstract class JModuleHelper
 	 *
 	 * @return  string
 	 *
-	 * @see     JFilterInput::clean()
+	 * @see     \JFilterInput::clean()
 	 * @since   1.6
 	 */
 	public static function moduleCache($module, $moduleparams, $cacheparams)
@@ -519,11 +521,11 @@ abstract class JModuleHelper
 			$cacheparams->cachegroup = $module->module;
 		}
 
-		$user = JFactory::getUser();
-		$conf = JFactory::getConfig();
+		$user = \JFactory::getUser();
+		$conf = \JFactory::getConfig();
 
-		/** @var JCacheControllerCallback $cache */
-		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
+		/** @var \JCacheControllerCallback $cache */
+		$cache = \JFactory::getCache($cacheparams->cachegroup, 'callback');
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
 		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
@@ -556,10 +558,10 @@ abstract class JModuleHelper
 
 				if (is_array($cacheparams->modeparams))
 				{
-					$input   = JFactory::getApplication()->input;
+					$input   = \JFactory::getApplication()->input;
 					$uri     = $input->getArray();
 					$safeuri = new stdClass;
-					$noHtmlFilter = JFilterInput::getInstance();
+					$noHtmlFilter = \JFilterInput::getInstance();
 
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
@@ -607,7 +609,7 @@ abstract class JModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . JFactory::getApplication()->input->getInt('Itemid', null),
+					$module->id . $view_levels . \JFactory::getApplication()->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);
