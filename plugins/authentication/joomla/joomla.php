@@ -145,9 +145,9 @@ class PlgAuthenticationJoomla extends JPlugin
 			}
 
 			// Try to validate the OTP
-			FOFPlatform::getInstance()->importPlugin('twofactorauth');
+			JPluginHelper::importPlugin('twofactorauth');
 
-			$otpAuthReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorAuthenticate', array($credentials, $options));
+			$otpAuthReplies = JFactory::getApplication()->triggerEvent('onUserTwofactorAuthenticate', array($credentials, $options));
 
 			$check = false;
 

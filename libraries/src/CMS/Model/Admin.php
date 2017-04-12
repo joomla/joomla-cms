@@ -10,6 +10,7 @@ namespace Joomla\CMS\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -100,16 +101,17 @@ abstract class Admin extends Form
 	protected $associationsContext = null;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \JModelLegacy
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		if (isset($config['event_after_delete']))
 		{

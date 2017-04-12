@@ -65,15 +65,16 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   string          $namespace  Namespace of the Extension
-	 * @param   CmsApplication  $app        The JApplication for the dispatcher
-	 * @param   \JInput         $input      JInput
+	 * @param   string               $namespace  Namespace of the Extension
+	 * @param   CmsApplication       $app        The JApplication for the dispatcher
+	 * @param   \JInput              $input      JInput
+	 * @param   MvcFactoryInterface  $factory    The factory object for the component
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($namespace, CmsApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
 	{
-		$this->namespace = $namespace;
+		$this->namespace = rtrim($namespace, '\\') . '\\';
 		$this->app       = $app;
 		$this->input     = $input ? $input : $app->input;
 		$this->factory   = $factory ? $factory : new MvcFactory($namespace, $this->app);
@@ -109,7 +110,7 @@ abstract class Dispatcher implements DispatcherInterface
 		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
 
 		// Autoload the component
-		$autoLoader->addPsr4($this->namespace . '\\Administrator\\', JPATH_ADMINISTRATOR . '/components/' . $this->app->scope);
+		$autoLoader->setPsr4($this->namespace . '\\Administrator\\', JPATH_ADMINISTRATOR . '/components/' . $this->app->scope);
 		$autoLoader->setPsr4($this->namespace . '\\Site\\', JPATH_BASE . '/components/' . $this->app->scope);
 	}
 

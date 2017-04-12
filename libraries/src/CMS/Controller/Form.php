@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Controller;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -61,22 +63,23 @@ class Form extends Controller
 	/**
 	 * Constructor.
 	 *
-	 * @param   array             $config  An optional associative array of configuration settings.
-	 * @param   \JApplicationCms  $app     The JApplication for the dispatcher
-	 * @param   \JInput           $input   Input
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
-	 * @see     \JControllerLegacy
-	 * @since   1.6
-	 * @throws  \Exception
+	 * @since   3.0
 	 */
-	public function __construct($config = array(), $app = null, $input = null)
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config, $app, $input);
+		parent::__construct($config, $factory, $app, $input);
 
 		// Guess the option as com_NameOfController
 		if (empty($this->option))
 		{
-			$this->option = 'com_' . strtolower($this->getName());
+			$this->option = \JComponentHelper::getComponentName($this, $this->getName());
 		}
 
 		// Guess the \JText message prefix. Defaults to the option.
@@ -95,7 +98,7 @@ class Form extends Controller
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
-			$this->context = strtolower($r[2]);
+			$this->context = str_replace('\\', '', strtolower($r[2]));
 		}
 
 		// Guess the item view as the context.

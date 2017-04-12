@@ -240,7 +240,7 @@ abstract class Model extends \JObject
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->option = 'com_' . strtolower($r[1]);
+			$this->option = \JComponentHelper::getComponentName($this, $r[1]);
 		}
 
 		// Set the view name
@@ -390,7 +390,7 @@ abstract class Model extends \JObject
 			$config['dbo'] = $this->getDbo();
 		}
 
-		return Table::getInstance($name, $prefix, $config);
+		return $this->factory->createTable($name, $prefix, $config);
 	}
 
 	/**
@@ -427,7 +427,7 @@ abstract class Model extends \JObject
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->name = strtolower($r[1]);
+			$this->name = str_replace('\\', '', strtolower($r[1]));
 		}
 
 		return $this->name;
@@ -533,6 +533,26 @@ abstract class Model extends \JObject
 		$this->setState('version_note', $historyTable->version_note);
 
 		return $table->bind($rowArray);
+	}
+
+	/**
+	 * Method to check if the given record is checked out by the current user
+	 *
+	 * @param   \stdClass  $item  The record to check
+	 *
+	 * @return  bool
+	 */
+	public function isCheckedOut($item)
+	{
+		$table = $this->getTable();
+		$checkedOutField = $table->getColumnAlias('checked_out');
+
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != \JFactory::getUser()->id)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
