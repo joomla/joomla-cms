@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Plugin
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.5
  */
-abstract class JPluginHelper
+abstract class PluginHelper
 {
 	/**
 	 * A persistent cache of the loaded plugins.
@@ -37,7 +38,7 @@ abstract class JPluginHelper
 	 */
 	public static function getLayoutPath($type, $name, $layout = 'default')
 	{
-		$template = JFactory::getApplication()->getTemplate();
+		$template = \JFactory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
 
 		if (strpos($layout, ':') !== false)
@@ -134,16 +135,16 @@ abstract class JPluginHelper
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific plugin is loaded.
 	 *
-	 * @param   string            $type        The plugin type, relates to the subdirectory in the plugins directory.
-	 * @param   string            $plugin      The plugin name.
-	 * @param   boolean           $autocreate  Autocreate the plugin.
-	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param   string             $type        The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string             $plugin      The plugin name.
+	 * @param   boolean            $autocreate  Autocreate the plugin.
+	 * @param   \JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.5
 	 */
-	public static function importPlugin($type, $plugin = null, $autocreate = true, JEventDispatcher $dispatcher = null)
+	public static function importPlugin($type, $plugin = null, $autocreate = true, \JEventDispatcher $dispatcher = null)
 	{
 		static $loaded = array();
 
@@ -187,16 +188,16 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   object            $plugin      The plugin.
-	 * @param   boolean           $autocreate  True to autocreate.
-	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param   object             $plugin      The plugin.
+	 * @param   boolean            $autocreate  True to autocreate.
+	 * @param   \JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JPluginHelper::import() instead
+	 * @deprecated  4.0  Use PluginHelper::import() instead
 	 */
-	protected static function _import($plugin, $autocreate = true, JEventDispatcher $dispatcher = null)
+	protected static function _import($plugin, $autocreate = true, \JEventDispatcher $dispatcher = null)
 	{
 		static::import($plugin, $autocreate, $dispatcher);
 	}
@@ -204,15 +205,15 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   object            $plugin      The plugin.
-	 * @param   boolean           $autocreate  True to autocreate.
-	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param   object             $plugin      The plugin.
+	 * @param   boolean            $autocreate  True to autocreate.
+	 * @param   \JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	protected static function import($plugin, $autocreate = true, JEventDispatcher $dispatcher = null)
+	protected static function import($plugin, $autocreate = true, \JEventDispatcher $dispatcher = null)
 	{
 		static $paths = array();
 
@@ -237,7 +238,7 @@ abstract class JPluginHelper
 					// Makes sure we have an event dispatcher
 					if (!is_object($dispatcher))
 					{
-						$dispatcher = JEventDispatcher::getInstance();
+						$dispatcher = \JEventDispatcher::getInstance();
 					}
 
 					$className = 'Plg' . $plugin->type . $plugin->name;
@@ -269,7 +270,7 @@ abstract class JPluginHelper
 	 * @return  array  An array of published plugins
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JPluginHelper::load() instead
+	 * @deprecated  4.0  Use PluginHelper::load() instead
 	 */
 	protected static function _load()
 	{
@@ -290,14 +291,14 @@ abstract class JPluginHelper
 			return static::$plugins;
 		}
 
-		$levels = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$levels = implode(',', \JFactory::getUser()->getAuthorisedViewLevels());
 
-		/** @var JCacheControllerCallback $cache */
-		$cache = JFactory::getCache('com_plugins', 'callback');
+		/** @var \JCacheControllerCallback $cache */
+		$cache = \JFactory::getCache('com_plugins', 'callback');
 
 		$loader = function () use ($levels)
 		{
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
 				->from('#__extensions')
@@ -315,7 +316,7 @@ abstract class JPluginHelper
 		{
 			static::$plugins = $cache->get($loader, array(), md5($levels), false);
 		}
-		catch (JCacheException $cacheException)
+		catch (\JCacheException $cacheException)
 		{
 			static::$plugins = $loader();
 		}
