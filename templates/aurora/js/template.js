@@ -100,7 +100,6 @@
 		}
 
 		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
-
 		for (var i = 0, l = btsGrouped.length; l>i; i++) {
 			var self   = btsGrouped[i],
 			    attrId = self.id;
@@ -149,8 +148,6 @@
 				event.preventDefault();
 				window.scrollTo(0, 0);
 			});
-
 		}
-
 	});
 })();
