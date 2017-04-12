@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Helper;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Route Helper
