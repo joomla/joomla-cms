@@ -10,16 +10,38 @@
 defined('_JEXEC') or die;
 
 // Add javascripts
-JHtml::_('jquery.framework');
-JHtml::_('behavior.formvalidator');
 
-JHtml::_('script', 'com_media/EventBus.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'com_media/edit.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('behavior.core');
+JHtml::_('behavior.formvalidator');
+JHtml::_('bootstrap.framework');
+
+JHtml::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true)); // @TODO logic to load plugins per media type
+
+$params = JComponentHelper::getParams('com_media');
 
 /**
  * @var JForm $form
  */
 $form = $this->form;
+
+// Populate the media config
+$config = [
+	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
+	'csrfToken'               => JSession::getFormToken(),
+	'filePath'                => $params->get('file_path', 'images'),
+	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
+	'uploadPath'              => $this->file,
+	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file',
+	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
+	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
+	'contents'                => base64_encode(file_get_contents(JPATH_ROOT . '/images' . $this->file)),
+];
+
+JFactory::getDocument()->addScriptOptions('com_media', $config);
+JFactory::getDocument()->addStyleDeclaration("	.btn-group {
+		display: block;
+	}");
+
 ?>
 <form action="#" method="post" name="adminForm" id="media-form" class="form-validate">
 <?php
@@ -35,7 +57,4 @@ if ($fieldSets)
 }
 ?>
 </form>
-
-<span class="image-container">
-    <img id="media-edit-file" src="<?php echo $this->fullFilePath ?>"/>
-</span>
+<div id="media-manager-edit-container"></div>

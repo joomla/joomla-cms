@@ -25,5 +25,17 @@
 			pattern="\d*\.?\d*"
 			label="PLG_MEDIA-ACTION_CROP_PARAM_HEIGHT"
 		/>
+
+		<field name="aspectRatio"
+		       type="radio"
+		       class="btn-group"
+		       default=""
+		>
+			<option value="1.7777777777777777">aspectRatio: 16 / 9</option>
+			<option value="1.3333333333333333">aspectRatio: 4 / 3</option>
+			<option value="0.6666666666666666">aspectRatio: 2 / 3</option>
+
+		</field>
+
 	</fieldset>
 </form>
