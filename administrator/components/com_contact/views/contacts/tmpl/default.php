@@ -44,33 +44,33 @@ if ($saveOrder)
 					<table class="table table-striped" id="contactList">
 						<thead>
 							<tr>
-								<th width="1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="1%" style="min-width:85px" class="nowrap text-center">
+								<th style="width:1%; min-width:85px" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
-								<th width="10%" class="nowrap text-center">
+								<th style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 								<?php endif; ?>
-								<th width="10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 								</th>
-								<th width="5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

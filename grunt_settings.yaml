@@ -1,7 +1,7 @@
 vendors:
 #### PLEASE ALTER ONLY THE VERSIONS NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
     'jquery':
-                 'version': '3.1.1'
+                 'version': '3.2.0'
                  'dependencies': ''
 
     'jquery-migrate':
@@ -32,7 +32,7 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.5.5'
+                  'version': '4.5.6'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.1'
@@ -41,10 +41,10 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.24.2'
+                  'version': '5.25.0'
                   'dependencies': ''
     'cropperjs':
-                  'version': '1.0.0-beta.2'
+                  'version': '1.0.0-rc'
                   'dependencies': ''
     'flying-focus-a11y':
                   'version': '1.5.4'

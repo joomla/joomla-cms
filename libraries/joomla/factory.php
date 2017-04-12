@@ -120,7 +120,7 @@ abstract class JFactory
 	 * @param   string     $prefix     Application prefix
 	 * @param   Container  $container  An optional dependency injection container to inject into the application.
 	 *
-	 * @return  JApplicationCms object
+	 * @return  \Joomla\CMS\Application\CmsApplication object
 	 *
 	 * @see     JApplication
 	 * @since   11.1
@@ -591,10 +591,10 @@ abstract class JFactory
 	protected static function createContainer()
 	{
 		$container = (new Container)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Application)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Database)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Dispatcher)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Session);
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session);
 
 		return $container;
 	}

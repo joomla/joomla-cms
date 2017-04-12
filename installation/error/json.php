@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Error\AbstractRenderer;
+use Joomla\CMS\Error\AbstractRenderer;
 
 /**
  * JSON error page renderer for the installation application

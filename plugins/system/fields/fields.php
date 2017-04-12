@@ -86,7 +86,7 @@ class PlgSystemFields extends JPlugin
 		foreach ($fields as $field)
 		{
 			// Determine the value if it is available from the data
-			$value = key_exists($field->alias, $fieldsData) ? $fieldsData[$field->alias] : null;
+			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->id, $value);
@@ -427,10 +427,10 @@ class PlgSystemFields extends JPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->alias);
+						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->name);
 
 						// Adding the field value as a field
-						$item->{$field->alias} = $field->value;
+						$item->{$field->name} = $field->value;
 					}
 				}
 			}

@@ -33,28 +33,28 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th width="1%" class="text-center">
+								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th width="1%" class="nowrap text-center">
+								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 								</th>
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="20%" class="nowrap hidden-sm-down text-center">
+								<th style="width:20%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th width="10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th width="5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'update_site_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

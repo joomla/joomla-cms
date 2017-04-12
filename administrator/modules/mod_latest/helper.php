@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models', 'ContentModel');
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_latest
@@ -21,16 +22,17 @@ abstract class ModLatestHelper
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 * @param   Registry             &$params  The module parameters.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList(&$params)
+	public static function getList(Registry &$params, MvcFactoryInterface $factory)
 	{
-		$user = JFactory::getuser();
+		$user = JFactory::getUser();
 
 		// Get an instance of the generic articles model
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = $factory->createModel('Articles', 'Administrator', array('ignore_request' => true));
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .

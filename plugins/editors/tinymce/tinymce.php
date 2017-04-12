@@ -577,7 +577,7 @@ class PlgEditorTinymce extends JPlugin
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
 			$externalPlugins['jdragdrop'] = ($app->isClient('site') ? JUri::root(false)  : str_replace('/administrator', '', JUri::root(false)))
-				. '/media/editors/tinymce/js/plugins/jdragdrop/plugin.min.js';
+				. '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -602,18 +602,15 @@ class PlgEditorTinymce extends JPlugin
 
 			if (!empty($tempPath))
 			{
-				$tempPath = rtrim($tempPath, '/');
-				$tempPath = ltrim($tempPath, '/');
+				// Remove the root images path
+				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
 			}
 
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			$doc->addScriptDeclaration(
-				"
-		var setCustomDir    = '" . $isSubDir . "';
-		var mediaUploadPath = '" . $tempPath . "';
-		var uploadUri       = '" . $uploadUrl . "';
-			"
-			);
+
+			$scriptOptions['setCustomDir']    = $isSubDir;
+			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 
 		// Build the final options set
@@ -1861,8 +1858,9 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Drag and drop Images
-		$allowImgPaste = false;
-		$dragdrop      = $this->params->get('drag_drop', 1);
+		$externalPlugins = array();
+		$allowImgPaste   = false;
+		$dragdrop        = $this->params->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
@@ -1890,17 +1888,18 @@ class PlgEditorTinymce extends JPlugin
 
 			if (!empty($tempPath))
 			{
-				$tempPath = rtrim($tempPath, '/');
-				$tempPath = ltrim($tempPath, '/');
+				// Remove the root images path
+				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
 			}
 
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			$doc->addScriptDeclaration(
-				"
-		var setCustomDir    = '" . $isSubDir . "';
-		var mediaUploadPath = '" . $tempPath . "';
-		var uploadUri       = '" . $uploadUrl . "';
-			"
+
+			$scriptOptions['setCustomDir']    = $isSubDir;
+			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['uploadUri']       = $uploadUrl;
+
+			$externalPlugins = array(
+				array('jdragdrop' => JUri::root() . '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
 			);
 		}
 
@@ -1948,6 +1947,7 @@ class PlgEditorTinymce extends JPlugin
 			'content_css'        => $content_css,
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
+			'externalPlugins'    => json_encode($externalPlugins),
 		)
 		);
 
