@@ -428,11 +428,12 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	private function autoloadExtensions()
 	{
 		$roots = array(
-			JPATH_ADMINISTRATOR . '/components/',
-			JPATH_SITE . '/components/',
-			JPATH_ADMINISTRATOR . '/modules/',
-			JPATH_SITE . '/modules/',
-			JPATH_PLUGINS .'/'
+			'component' => JPATH_ADMINISTRATOR . '/components/',
+			'module0'   => JPATH_ADMINISTRATOR . '/modules/',
+			'module1'   => JPATH_SITE . '/modules/',
+			'plugin'    => JPATH_PLUGINS .'/',
+			'library'   => JPATH_LIBRARIES .'/',
+			'template'  => JPATH_THEMES .'/'
 		);
 
 		// Loop over the extensions
@@ -446,17 +447,29 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 				$folder = $extension->folder . '/';
 			}
 
-			// Loop over the possible root folders
-			foreach ($roots as $root)
-			{
-				if (!file_exists($root . $folder . $extension->element . '/autoload.php'))
-				{
-					continue;
-				}
+			// The key
+			$key = $extension->type;
 
-				// Run the autoload
-				require_once $root . $folder . $extension->element . '/autoload.php';
+			// Handle modules special, as they can be on the front or admin side
+			if ($key == 'module')
+			{
+				$key .= $extension->client_id;
 			}
+
+			// An extension we don't support
+			if (!key_exists($key, $roots))
+			{
+				continue;
+			}
+
+			// Check if an autoload file is available
+			if (!file_exists($roots[$key] . $folder . $extension->element . '/autoload.php'))
+			{
+				continue;
+			}
+
+			// Run the autoload
+			require_once $roots[$key] . $folder . $extension->element . '/autoload.php';
 		}
 	}
 

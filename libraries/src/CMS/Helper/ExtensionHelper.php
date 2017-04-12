@@ -48,7 +48,7 @@ class ExtensionHelper
 		{
 			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'type', 'element', 'folder')))
+				->select($db->quoteName(array('extension_id', 'type', 'element', 'folder', 'client_id')))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('enabled') . ' = 1');
 			$db->setQuery($query);
