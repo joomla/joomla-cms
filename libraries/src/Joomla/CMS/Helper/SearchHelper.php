@@ -31,46 +31,43 @@ class SearchHelper
 	 */
 	public static function logSearch($term, $component)
 	{
-		$enableLogSearches = ComponentHelper::getParams($component)->get('enabled');
-
-		if (!$enableLogSearches)
-		{
-			return;
-		}
-
 		// Initialise our variables
-		$db    = \JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
+		$enable_log_searches = JComponentHelper::getParams($component)->get('enabled');
 
 		// Sanitise the term for the database
-		$searchTerm = $db->escape(trim(strtolower($term)));
+		$search_term = $db->escape(trim(strtolower($term)));
 
-		// Query the table to determine if the term has been searched previously
-		$query->select($db->quoteName('hits'))
-			->from($db->quoteName('#__core_log_searches'))
-			->where($db->quoteName('search_term') . ' = ' . $db->quote($searchTerm));
-		$db->setQuery($query);
-		$hits = intval($db->loadResult());
-
-		// Reset the $query object
-		$query->clear();
-
-		// Update the table based on the results
-		if ($hits)
+		if ($enable_log_searches)
 		{
-			$query->update($db->quoteName('#__core_log_searches'))
-				->set('hits = (hits + 1)')
-				->where($db->quoteName('search_term') . ' = ' . $db->quote($searchTerm));
-		}
-		else
-		{
-			$query->insert($db->quoteName('#__core_log_searches'))
-				->columns(array($db->quoteName('search_term'), $db->quoteName('hits')))
-				->values($db->quote($searchTerm) . ', 1');
-		}
+			// Query the table to determine if the term has been searched previously
+			$query->select($db->quoteName('hits'))
+				->from($db->quoteName('#__core_log_searches'))
+				->where($db->quoteName('search_term') . ' = ' . $db->quote($search_term));
+			$db->setQuery($query);
+			$hits = intval($db->loadResult());
 
-		// Execute the update query
-		$db->setQuery($query);
-		$db->execute();
+			// Reset the $query object
+			$query->clear();
+
+			// Update the table based on the results
+			if ($hits)
+			{
+				$query->update($db->quoteName('#__core_log_searches'))
+					->set('hits = (hits + 1)')
+					->where($db->quoteName('search_term') . ' = ' . $db->quote($search_term));
+			}
+			else
+			{
+				$query->insert($db->quoteName('#__core_log_searches'))
+					->columns(array($db->quoteName('search_term'), $db->quoteName('hits')))
+					->values($db->quote($search_term) . ', 1');
+			}
+
+			// Execute the update query
+			$db->setQuery($query);
+			$db->execute();
+		}
 	}
 }
