@@ -9807,6 +9807,21 @@ iframe {
 .treeselect-sub {
   padding-left: 0; }
 
+.tree-holder ul ul li::before, .tree-holder ul ul li::after {
+  left: 8px;
+  display: block; }
+
+.tree-holder ul ul li::before {
+  top: 12px; }
+
+.tree-holder ul ul li:last-child::after {
+  height: 12px; }
+
+.tree-holder li {
+  line-height: 1.8rem; }
+  .tree-holder li li {
+    padding-left: 20px; }
+
 .element-invisible {
   position: absolute;
   width: 1px;
