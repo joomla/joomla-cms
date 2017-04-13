@@ -7,14 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Postinstall\Administrator\Controller;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Controller;
+use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
+use Joomla\Component\Postinstall\Administrator\Model\Messages;
 
 /**
  * Postinstall message controller.
  *
  * @since  3.2
  */
-class PostinstallControllerMessage extends JControllerLegacy
+class Message extends Controller
 {
 	/**
 	 * Resets all post-installation messages of the specified extension.
@@ -25,8 +31,8 @@ class PostinstallControllerMessage extends JControllerLegacy
 	 */
 	public function reset()
 	{
-		/** @var PostinstallModelMessages $model */
-		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
+		/** @var Messages $model */
+		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
 		$eid = (int) $model->getState('eid', '700');
 
@@ -49,10 +55,9 @@ class PostinstallControllerMessage extends JControllerLegacy
 	 */
 	public function unpublish()
 	{
-		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
-		$jinput = JFactory::getApplication()->input;
-		$id = $jinput->get('id');
+		$id = $this->input->get('id');
 
 		$eid = (int) $model->getState('eid', '700');
 
@@ -76,11 +81,9 @@ class PostinstallControllerMessage extends JControllerLegacy
 	 */
 	public function action()
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_postinstall/helpers/postinstall.php';
-		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
-		$jinput = JFactory::getApplication()->input;
-		$id = $jinput->get('id');
+		$id = $this->input->get('id');
 
 		$item = $model->getItem($id);
 
@@ -99,7 +102,7 @@ class PostinstallControllerMessage extends JControllerLegacy
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->action_file);
 
-				if (JFile::exists($file))
+				if (\JFile::exists($file))
 				{
 					require_once $file;
 

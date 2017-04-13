@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Postinstall\Administrator\View\Messages;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Postinstall\Administrator\Model\Messages;
 
 /**
  * Model class to display postinstall messages
  *
  * @since  3.2
  */
-class PostinstallViewMessages extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * Executes before rendering the page for the Browse task.
@@ -27,7 +31,7 @@ class PostinstallViewMessages extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		/** @var PostinstallModelMessages $model */
+		/** @var Messages $model */
 		$model = $this->getModel();
 
 		$this->items = $model->getItems();
@@ -41,10 +45,10 @@ class PostinstallViewMessages extends JViewLegacy
 
 		$this->toolbar();
 
-		$this->token = JFactory::getSession()->getFormToken();
+		$this->token = \JFactory::getSession()->getFormToken();
 		$this->extension_options = $model->getComponentOptions();
 
-		JToolbarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
+		\JToolbarHelper::title(\JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
 
 		return parent::display($tpl);
 	}
@@ -59,10 +63,10 @@ class PostinstallViewMessages extends JViewLegacy
 	private function toolbar()
 	{
 		// Options button.
-		if (JFactory::getUser()->authorise('core.admin', 'com_postinstall'))
+		if (\JFactory::getUser()->authorise('core.admin', 'com_postinstall'))
 		{
-			JToolbarHelper::preferences('com_postinstall', 550, 875);
-			JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+			\JToolbarHelper::preferences('com_postinstall', 550, 875);
+			\JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
 		}
 	}
 }
