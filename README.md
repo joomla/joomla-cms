@@ -7,6 +7,8 @@ Travis-CI: [![Build Status](https://travis-ci.org/joomla-projects/media-manager-
 
 Drone-CI: [![Build Status](http://213.160.72.75/api/badges/joomla-projects/media-manager-improvement/status.svg)](http://213.160.72.75/joomla-projects/media-manager-improvement)
 
+[![Taylor Swift](https://img.shields.io/badge/secured%20by-taylor%20swift-brightgreen.svg)](https://twitter.com/SwiftOnSecurity)
+
 What is this?
 ---------------------
 This is the official New Media Manager repository. Please have a look on the [wiki](https://github.com/joomla-projects/media-manager-improvement/wiki) for the roadmap of the project.
