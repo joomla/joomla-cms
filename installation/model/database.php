@@ -364,19 +364,19 @@ class InstallationModelDatabase extends JModelBase
 		// Get database's UTF support.
 		$utfSupport = $db->hasUTFSupport();
 
-		// Ensure that InnoDB support is enable in MySQL
+		// Ensure that InnoDB support is enable in MySQL.
 		$serverType = $db->getServerType();
-		// MySQL only: Attempt to run only in MySQL.
+		// MySQL only:Attempt to run only in MySQL.
 		if ($serverType === 'mysql')
 		{
 			try
 			{
-				// Attempt to find InnoDB storage engine support
+				// Attempt to find InnoDB storage engine support.
 				$db->setQuery("SELECT SUPPORT FROM INFORMATION_SCHEMA.ENGINES WHERE ENGINE = 'InnoDB'");
 
 				$value = $db->loadResult();
 
-				// If default InnoDB support enable in database platform, needs to return 'DEFAULT'
+				// If default InnoDB support enable in database platform, needs to return 'DEFAULT'.
 				if ($value != 'DEFAULT')
 				{
 					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ENABLE_INNODB'), 'error');
