@@ -64,7 +64,7 @@ defined('_JEXEC') or die;
 
 <?php // Display the pagination ?>
 <div class="search-pagination">
-	<div class="pagination">
+	<div class="w-100">
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 	<div class="search-pages-counter">
