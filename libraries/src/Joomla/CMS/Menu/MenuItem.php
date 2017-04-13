@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Menu
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +17,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class JMenuItem extends JObject
+class MenuItem extends \JObject
 {
 	/**
 	 * Primary key
