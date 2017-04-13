@@ -134,6 +134,10 @@ class HtmlView extends AbstractView
 		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
 		}
+		elseif (is_dir($this->_basePath . '/tmpl/' . $this->getName()))
+		{
+			$this->_setPath('template', $this->_basePath . '/tmpl/' . $this->getName());
+		}
 		else
 		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName());
