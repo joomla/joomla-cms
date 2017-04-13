@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,13 +55,13 @@ $fieldsets = $this->form->getFieldsets();
 			continue;
 		}
 		?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, JText::_($fieldset->label, true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, JText::_($fieldset->label)); ?>
 		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
 			<?php if ($field->hidden) : ?>
 				<div class="control-group">
 					<div class="controls"><?php echo $field->input; ?></div>
 				</div>
-			<?php else: ?>
+			<?php else : ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $field->label; ?></div>
 					<div class="controls"><?php echo $field->input; ?></div>

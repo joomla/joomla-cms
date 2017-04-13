@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Statuses class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterStatuses extends JTwitterObject
 {
@@ -34,7 +35,7 @@ class JTwitterStatuses extends JTwitterObject
 	public function getTweetById($id, $trim_user = null, $entities = null, $my_retweet = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit("statuses", "show/:id");
+		$this->checkRateLimit('statuses', 'show/:id');
 
 		// Set the API base
 		$path = '/statuses/show/' . $id . '.json';
@@ -513,7 +514,7 @@ class JTwitterStatuses extends JTwitterObject
 		// Set POST data.
 		$data = array(
 			'status' => utf8_encode($status),
-			'media[]' => "@{$media}"
+			'media[]' => "@{$media}",
 		);
 
 		$header = array('Content-Type' => 'multipart/form-data');

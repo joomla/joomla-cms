@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,7 +53,7 @@ class JCacheStorageCachelite extends JCacheStorage
 			'automaticCleaningFactor' => isset($options['autoclean']) ? $options['autoclean'] : 200,
 			'fileNameProtection'      => false,
 			'hashedDirectoryLevel'    => 0,
-			'caching'                 => $options['caching']
+			'caching'                 => $options['caching'],
 		);
 
 		if (static::$CacheLiteInstance === null)
@@ -81,6 +81,21 @@ class JCacheStorageCachelite extends JCacheStorage
 		static::$CacheLiteInstance = new Cache_Lite($cloptions);
 
 		return static::$CacheLiteInstance;
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		return $this->get($id, $group) !== false;
 	}
 
 	/**

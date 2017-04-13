@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="multiple"
+				type="list"
+				label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
+				description="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_DESC"
+			>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="first"
+				type="number"
+				label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"
+				description="PLG_FIELDS_INTEGER_PARAMS_FIRST_DESC"
+				size="5"
+			/>
+
+			<field
+				name="last"
+				type="number"
+				label="PLG_FIELDS_INTEGER_PARAMS_LAST_LABEL"
+				description="PLG_FIELDS_INTEGER_PARAMS_LAST_DESC"
+				size="5"
+			/>
+
+			<field
+				name="step"
+				type="number"
+				label="PLG_FIELDS_INTEGER_PARAMS_STEP_LABEL"
+				description="PLG_FIELDS_INTEGER_PARAMS_STEP_DESC"
+				size="5"
+			/>
+		</fieldset>
+	</fields>
+</form>

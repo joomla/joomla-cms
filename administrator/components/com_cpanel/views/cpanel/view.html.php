@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,12 +46,6 @@ class CpanelViewCpanel extends JViewLegacy
 
 		// Display the cpanel modules
 		$this->modules = JModuleHelper::getModules('cpanel');
-
-		// Load the RAD layer and count the number of post-installation messages
-		if (!defined('FOF_INCLUDED'))
-		{
-			require_once JPATH_LIBRARIES . '/fof/include.php';
-		}
 
 		try
 		{

@@ -3,11 +3,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
+require_once JPATH_TESTS . '/suites/libraries/joomla/database/stubs/nosqldriver.php';
 
 use Joomla\Registry\Registry;
 
@@ -49,7 +50,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	{
 		// Restore the factory state
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -93,7 +94,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceSqlazure()
 	{
-		JFactory::$database->name = 'sqlazure';
+		JFactory::$database = $this->getMockDatabase('Sqlazure');
 
 		$this->assertInstanceOf(
 			'FinderIndexerDriverSqlsrv',
@@ -111,7 +112,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceException()
 	{
-		JFactory::$database->name = 'nosql';
+		JFactory::$database = $this->getMockDatabase('Nosql');
 
 		FinderIndexer::getInstance();
 	}

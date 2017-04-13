@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\String\StringHelper;
 
 jimport('joomla.utilities.utility');
 
@@ -29,14 +31,6 @@ jimport('joomla.utilities.utility');
 class PlgContentPagebreak extends JPlugin
 {
 	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.1
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Plugin that adds a pagebreak into the text and truncates text at that point
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
@@ -50,7 +44,7 @@ class PlgContentPagebreak extends JPlugin
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
-		$canProceed = $context == 'com_content.article';
+		$canProceed = $context === 'com_content.article';
 
 		if (!$canProceed)
 		{
@@ -80,7 +74,7 @@ class PlgContentPagebreak extends JPlugin
 		}
 
 		// Simple performance check to determine whether bot should process further.
-		if (JString::strpos($row->text, 'class="system-pagebreak') === false)
+		if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false)
 		{
 			return true;
 		}
@@ -93,18 +87,21 @@ class PlgContentPagebreak extends JPlugin
 			$page = 0;
 		}
 
-		if ($params->get('intro_only') || $params->get('popup') || $full || $view != 'article')
+		if ($params->get('intro_only') || $params->get('popup') || $full || $view !== 'article')
 		{
 			$row->text = preg_replace($regex, '', $row->text);
 
 			return;
 		}
 
+		// Load plugin language files only when needed (ex: not needed if no system-pagebreak class exists).
+		$this->loadLanguage();
+
 		// Find all instances of plugin and put in $matches.
 		$matches = array();
 		preg_match_all($regex, $row->text, $matches, PREG_SET_ORDER);
 
-		if (($showall && $this->params->get('showall', 1)))
+		if ($showall && $this->params->get('showall', 1))
 		{
 			$hasToc = $this->params->get('multipage_toc', 1);
 
@@ -161,7 +158,7 @@ class PlgContentPagebreak extends JPlugin
 			// Reset the text, we already hold it in the $text array.
 			$row->text = '';
 
-			if ($style == 'pages')
+			if ($style === 'pages')
 			{
 				// Display TOC.
 				if ($hasToc)
@@ -356,7 +353,7 @@ class PlgContentPagebreak extends JPlugin
 		{
 			$page_next = $page + 1;
 
-			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($page_next));
+			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_next);
 
 			// Next >>
 			$next = '<a href="' . $link_next . '">' . JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') . JText::_('JGLOBAL_GT') . '</a>';
@@ -370,7 +367,7 @@ class PlgContentPagebreak extends JPlugin
 		{
 			$page_prev = $page - 1 == 0 ? '' : $page - 1;
 
-			$link_prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($page_prev));
+			$link_prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_prev);
 
 			// << Prev
 			$prev = '<a href="' . $link_prev . '">' . JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>';

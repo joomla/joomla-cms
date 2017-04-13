@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Helper for mod_syndicate
@@ -33,7 +35,7 @@ class ModSyndicateHelper
 
 		foreach ($document->_links as $link => $value)
 		{
-			$value = JArrayHelper::toString($value);
+			$value = ArrayHelper::toString($value);
 
 			if (strpos($value, 'application/' . $params->get('format') . '+xml'))
 			{

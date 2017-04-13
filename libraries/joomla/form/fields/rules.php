@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -139,7 +139,7 @@ class JFormFieldRules extends JFormField
 		JHtml::_('bootstrap.tooltip');
 
 		// Add Javascript for permission change
-		JHtml::_('script', 'system/permissions.js', false, true);
+		JHtml::_('script', 'system/permissions.js', array('version' => 'auto', 'relative' => true));
 
 		// Load JavaScript message titles
 		JText::script('ERROR');
@@ -170,8 +170,11 @@ class JFormFieldRules extends JFormField
 		{
 			if ($el->getName() == 'action')
 			{
-				$actions[] = (object) array('name' => (string) $el['name'], 'title' => (string) $el['title'],
-					'description' => (string) $el['description']);
+				$actions[] = (object) array(
+					'name' => (string) $el['name'],
+					'title' => (string) $el['title'],
+					'description' => (string) $el['description'],
+				);
 			}
 		}
 
@@ -313,7 +316,7 @@ class JFormFieldRules extends JFormField
 				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small novalidate"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
-					. ' title="' . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
+					. ' title="' . strip_tags(JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text))) . '">';
 
 				/**
 				 * Possible values:
@@ -378,7 +381,7 @@ class JFormFieldRules extends JFormField
 
 					/**
 					 * @to do: incorrect info
-					 * If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+					 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 					 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 					 */
 
@@ -403,6 +406,7 @@ class JFormFieldRules extends JFormField
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
+
 					/**
 					 * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
 					 * Or some parent group has an explicit "Denied".
@@ -428,7 +432,7 @@ class JFormFieldRules extends JFormField
 		$html[] = '<div class="clr"></div>';
 		$html[] = '<div class="alert">';
 
-		if ($section === 'component' || $section === null)
+		if ($section === 'component' || !$section)
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
 		}
@@ -451,16 +455,14 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getUserGroups()
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
-			->from('#__usergroups AS a')
-			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
-			->order('a.lft ASC');
-		$db->setQuery($query);
-		$options = $db->loadObjectList();
+		$options = JHelperUsergroups::getInstance()->getAll();
 
-		return $options;
+		foreach ($options as &$option)
+		{
+			$option->value = $option->id;
+			$option->text  = $option->title;
+		}
+
+		return array_values($options);
 	}
 }

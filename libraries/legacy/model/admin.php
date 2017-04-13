@@ -3,18 +3,20 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype admin model.
  *
- * @since  12.2
+ * @since  1.6
  */
 abstract class JModelAdmin extends JModelForm
 {
@@ -22,7 +24,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $text_prefix = null;
 
@@ -30,7 +32,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger after deleting the data.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $event_after_delete = null;
 
@@ -38,7 +40,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger after saving the data.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $event_after_save = null;
 
@@ -46,7 +48,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger before deleting the data.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $event_before_delete = null;
 
@@ -54,7 +56,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger before saving the data.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $event_before_save = null;
 
@@ -62,7 +64,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger after changing the published state of the data.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  1.6
 	 */
 	protected $event_change_state = null;
 
@@ -70,19 +72,21 @@ abstract class JModelAdmin extends JModelForm
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.4
 	 */
 	protected $batch_copymove = 'category_id';
 
 	/**
 	 * Allowed batch commands
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.4
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag'
+		'tag' => 'batchTag',
 	);
 
 	/**
@@ -99,7 +103,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -181,13 +185,13 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   1.7
 	 */
 	public function batch($commands, $pks, $contexts)
 	{
 		// Sanitize ids.
 		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 
 		// Remove any values of zero.
 		if (array_search(0, $pks, true))
@@ -222,7 +226,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+			$cmd = ArrayHelper::getValue($commands, 'move_copy', 'c');
 
 			if ($cmd == 'c')
 			{
@@ -251,7 +255,7 @@ abstract class JModelAdmin extends JModelForm
 
 		foreach ($this->batch_commands as $identifier => $command)
 		{
-			if (strlen($commands[$identifier]) > 0)
+			if (!empty($commands[$identifier]))
 			{
 				if (!$this->$command($commands[$identifier], $pks, $contexts))
 				{
@@ -284,7 +288,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   12.2
+	 * @since   1.7
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
@@ -339,9 +343,9 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 * @return  array|boolean  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	12.2
+	 * @since	1.7
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -357,7 +361,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$categoryId = $value;
 
-		if (!static::checkCategoryId($categoryId))
+		if (!$this->checkCategoryId($categoryId))
 		{
 			return false;
 		}
@@ -390,7 +394,7 @@ abstract class JModelAdmin extends JModelForm
 				}
 			}
 
-			static::generateTitle($categoryId, $this->table);
+			$this->generateTitle($categoryId, $this->table);
 
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
@@ -403,6 +407,13 @@ abstract class JModelAdmin extends JModelForm
 			elseif (isset($this->table->state))
 			{
 				$this->table->state = 0;
+			}
+
+			$hitsAlias = $this->table->getColumnAlias('hits');
+
+			if (isset($this->table->$hitsAlias))
+			{
+				$this->table->$hitsAlias = 0;
 			}
 
 			// New category ID
@@ -454,7 +465,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   11.3
+	 * @since   2.5
 	 */
 	protected function batchLanguage($value, $pks, $contexts)
 	{
@@ -511,7 +522,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since	12.2
+	 * @since	1.7
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
@@ -527,7 +538,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$categoryId = (int) $value;
 
-		if (!static::checkCategoryId($categoryId))
+		if (!$this->checkCategoryId($categoryId))
 		{
 			return false;
 		}
@@ -598,7 +609,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  void.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   3.1
 	 */
@@ -650,29 +661,25 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', $this->option);
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -680,9 +687,9 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   mixed  $pks  The ID of the primary key or an array of IDs
 	 *
-	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
+	 * @return  integer|boolean  Boolean false if there is an error, otherwise the count of records checked in.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function checkin($pks = array())
 	{
@@ -695,12 +702,14 @@ abstract class JModelAdmin extends JModelForm
 			$pks = array((int) $this->getState($this->getName() . '.id'));
 		}
 
+		$checkedOutField = $table->getColumnAlias('checked_out');
+
 		// Check in all items.
 		foreach ($pks as $pk)
 		{
 			if ($table->load($pk))
 			{
-				if ($table->checked_out > 0)
+				if ($table->{$checkedOutField} > 0)
 				{
 					if (!parent::checkin($pk))
 					{
@@ -728,7 +737,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function checkout($pk = null)
 	{
@@ -744,7 +753,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function delete(&$pks)
 	{
@@ -777,8 +786,7 @@ abstract class JModelAdmin extends JModelForm
 					// Multilanguage: if associated, delete the item in the _associations table
 					if ($this->associationsContext && JLanguageAssociations::isEnabled())
 					{
-
-						$db = JFactory::getDbo();
+						$db = $this->getDbo();
 						$query = $db->getQuery(true)
 							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
 							->from($db->quoteName('#__associations') . ' AS as1')
@@ -860,7 +868,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since	12.2
+	 * @since	1.7
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -869,8 +877,8 @@ abstract class JModelAdmin extends JModelForm
 
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
-			$title = JString::increment($title);
-			$alias = JString::increment($alias, 'dash');
+			$title = StringHelper::increment($title);
+			$alias = StringHelper::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);
@@ -881,9 +889,9 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  mixed    Object on success, false on failure.
+	 * @return  JObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function getItem($pk = null)
 	{
@@ -906,12 +914,11 @@ abstract class JModelAdmin extends JModelForm
 
 		// Convert to the JObject before adding other data.
 		$properties = $table->getProperties(1);
-		$item = JArrayHelper::toObject($properties, 'JObject');
+		$item = ArrayHelper::toObject($properties, 'JObject');
 
 		if (property_exists($item, 'params'))
 		{
-			$registry = new Registry;
-			$registry->loadString($item->params);
+			$registry = new Registry($item->params);
 			$item->params = $registry->toArray();
 		}
 
@@ -925,7 +932,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -937,7 +944,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -960,7 +967,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function prepareTable($table)
 	{
@@ -975,7 +982,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function publish(&$pks, $value = 1)
 	{
@@ -1052,9 +1059,9 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   integer  $pks    The ID of the primary key to move.
 	 * @param   integer  $delta  Increment, usually +1 or -1
 	 *
-	 * @return  mixed  False on failure or error, true on success, null if the $pk is empty (no items selected).
+	 * @return  boolean|null  False on failure or error, true on success, null if the $pk is empty (no items selected).
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function reorder($pks, $delta = 0)
 	{
@@ -1121,7 +1128,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function save($data)
 	{
@@ -1171,7 +1178,7 @@ abstract class JModelAdmin extends JModelForm
 			}
 
 			// Trigger the before save event.
-			$result = $dispatcher->trigger($this->event_before_save, array($context, $table, $isNew));
+			$result = $dispatcher->trigger($this->event_before_save, array($context, $table, $isNew, $data));
 
 			if (in_array(false, $result, true))
 			{
@@ -1192,7 +1199,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->cleanCache();
 
 			// Trigger the after save event.
-			$dispatcher->trigger($this->event_after_save, array($context, $table, $isNew));
+			$dispatcher->trigger($this->event_after_save, array($context, $table, $isNew, $data));
 		}
 		catch (Exception $e)
 		{
@@ -1213,7 +1220,7 @@ abstract class JModelAdmin extends JModelForm
 			$associations = $data['associations'];
 
 			// Unset any invalid associations
-			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+			$associations = ArrayHelper::toInteger($associations);
 
 			// Unset any invalid associations
 			foreach ($associations as $tag => $id)
@@ -1224,28 +1231,50 @@ abstract class JModelAdmin extends JModelForm
 				}
 			}
 
-			// Show a notice if the item isn't assigned to a language but we have associations.
+			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && ($table->language == '*'))
 			{
 				JFactory::getApplication()->enqueueMessage(
 					JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
-					'notice'
+					'warning'
 				);
 			}
 
-			// Adding self to the association
-			$associations[$table->language] = (int) $table->$key;
-
-			// Deleting old association for these items
+			// Get associationskey for edited item
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__associations'))
+				->select($db->qn('key'))
+				->from($db->qn('#__associations'))
 				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->qn('id') . ' IN (' . implode(',', $associations) . ')');
+				->where($db->qn('id') . ' = ' . (int) $table->$key);
+			$db->setQuery($query);
+			$old_key = $db->loadResult();
+
+			// Deleting old associations for the associated items
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__associations'))
+				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext));
+
+			if ($associations)
+			{
+				$query->where('(' . $db->qn('id') . ' IN (' . implode(',', $associations) . ') OR '
+					. $db->qn('key') . ' = ' . $db->q($old_key) . ')');
+			}
+			else
+			{
+				$query->where($db->qn('key') . ' = ' . $db->q($old_key));
+			}
+
 			$db->setQuery($query);
 			$db->execute();
 
-			if ((count($associations) > 1) && ($table->language != '*'))
+			// Adding self to the association
+			if ($table->language != '*')
+			{
+				$associations[$table->language] = (int) $table->$key;
+			}
+
+			if ((count($associations)) > 1)
 			{
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));
@@ -1271,11 +1300,11 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  +1 or -1
 	 *
-	 * @return  mixed
+	 * @return  boolean|JException  Boolean true on success, false on failure, or JException if no items are selected
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
-	public function saveorder($pks = null, $order = null)
+	public function saveorder($pks = array(), $order = null)
 	{
 		$table = $this->getTable();
 		$tableClassName = get_class($table);
@@ -1289,6 +1318,8 @@ abstract class JModelAdmin extends JModelForm
 			return JError::raiseWarning(500, JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
 		}
 
+		$orderingField = $table->getColumnAlias('ordering');
+
 		// Update ordering values
 		foreach ($pks as $i => $pk)
 		{
@@ -1301,9 +1332,9 @@ abstract class JModelAdmin extends JModelForm
 				unset($pks[$i]);
 				JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 			}
-			elseif ($table->ordering != $order[$i])
+			elseif ($table->$orderingField != $order[$i])
 			{
-				$table->ordering = $order[$i];
+				$table->$orderingField = $order[$i];
 
 				if ($type)
 				{

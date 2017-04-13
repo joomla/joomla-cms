@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,12 +57,14 @@ class JFormRuleEquals extends JFormRule
 			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
 		}
 
-		// Test the two values against each other.
-		if ($value == $input->get($field))
+		$test = $input->get($field);
+
+		if (isset($group) && $group !== '')
 		{
-			return true;
+			$test = $input->get($group . '.' . $field);
 		}
 
-		return false;
+		// Test the two values against each other.
+		return $value == $test;
 	}
 }

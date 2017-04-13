@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="filter">
+	<fields name="filter" addfieldpath="/administrator/components/com_banners/models/fields">
 		<field
 			name="search"
 			type="text"

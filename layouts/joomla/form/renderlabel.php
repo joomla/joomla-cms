@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,9 +29,24 @@ $title = '';
 
 if (!empty($description))
 {
-	JHtml::_('bootstrap.tooltip');
-	$classes[] = 'hasTooltip';
-	$title     = ' title="' . JHtml::tooltipText(trim($text, ':'), $description, 0) . '"';
+	if ($text && $text !== $description)
+	{
+		JHtml::_('bootstrap.popover');
+		$classes[] = 'hasPopover';
+		$title     = ' title="' . htmlspecialchars(trim($text, ':')) . '"'
+			. ' data-content="'. htmlspecialchars($description) . '"';
+
+		if (!$position && JFactory::getLanguage()->isRtl())
+		{
+			$position = ' data-placement="left" ';
+		}
+	}
+	else
+	{
+		JHtml::_('bootstrap.tooltip');
+		$classes[] = 'hasTooltip';
+		$title     = ' title="' . JHtml::_('tooltipText', trim($text, ':'), $description, 0) . '"';
+	}
 }
 
 if ($required)

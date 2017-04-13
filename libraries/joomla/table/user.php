@@ -3,13 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Users table
@@ -88,7 +89,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		// Convert e-mail from punycode
+		// Convert email from punycode
 		$data['email'] = JStringPunycode::emailToUTF8($data['email']);
 
 		// Bind the data to the table.
@@ -126,8 +127,7 @@ class JTableUser extends JTable
 	{
 		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
@@ -138,7 +138,7 @@ class JTableUser extends JTable
 		if ($return && !empty($this->groups))
 		{
 			// Set the group ids.
-			JArrayHelper::toInteger($this->groups);
+			$this->groups = ArrayHelper::toInteger($this->groups);
 
 			// Get the titles for the user groups.
 			$query = $this->_db->getQuery(true)
@@ -195,14 +195,14 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if (($filterInput->clean($this->email, 'TRIM') == "") || !JMailHelper::isEmailAddress($this->email))
+		if (($filterInput->clean($this->email, 'TRIM') == '') || !JMailHelper::isEmailAddress($this->email))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 
 			return false;
 		}
 
-		// Convert e-mail to punycode for storage
+		// Convert email to punycode for storage
 		$this->email = JStringPunycode::emailToPunycode($this->email);
 
 		// Set the registration timestamp

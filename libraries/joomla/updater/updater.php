@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -157,6 +157,7 @@ class JUpdater extends JAdapter
 				/** @var JTableUpdate $update */
 				foreach ($updateObjects as $update)
 				{
+					$update->check();
 					$update->store();
 				}
 			}
@@ -316,7 +317,7 @@ class JUpdater extends JAdapter
 								'element'   => $current_update->get('element'),
 								'type'      => $current_update->get('type'),
 								'client_id' => $current_update->get('client_id'),
-								'folder'    => $current_update->get('folder')
+								'folder'    => $current_update->get('folder'),
 							)
 						);
 
@@ -326,7 +327,7 @@ class JUpdater extends JAdapter
 								'element'   => $current_update->get('element'),
 								'type'      => $current_update->get('type'),
 								'client_id' => $current_update->get('client_id'),
-								'folder'    => $current_update->get('folder')
+								'folder'    => $current_update->get('folder'),
 							)
 						);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -163,7 +163,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws    Exception on error.
+	 * @throws  Exception on error.
 	 */
 	public function onStartIndex()
 	{
@@ -271,7 +271,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws    Exception on database error.
+	 * @throws  Exception on database error.
 	 */
 	protected function change($id, $property, $value)
 	{
@@ -281,7 +281,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			return true;
 		}
 
-		// Get the url for the content id.
+		// Get the URL for the content id.
 		$item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Update the content items.
@@ -527,9 +527,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Get the total number of content items to index.
 		$this->db->setQuery($query);
-		$return = (int) $this->db->loadResult();
 
-		return $return;
+		return (int) $this->db->loadResult();
 	}
 
 	/**
@@ -624,9 +623,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getListQuery($query = null)
 	{
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
-
-		return $query;
+		return $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
 	}
 
 	/**
@@ -646,9 +643,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->from($this->db->quoteName('#__extensions'))
 			->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
-		$type = $this->db->loadResult();
 
-		return $type;
+		return $this->db->loadResult();
 	}
 
 	/**
@@ -729,9 +725,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->from($this->db->quoteName('#__finder_types'))
 			->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
 		$this->db->setQuery($query);
-		$result = (int) $this->db->loadResult();
 
-		return $result;
+		return (int) $this->db->loadResult();
 	}
 
 	/**
@@ -755,7 +750,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * Method to get the page title of any menu item that is linked to the
 	 * content item, if it exists and is set.
 	 *
-	 * @param   string  $url  The url of the item.
+	 * @param   string  $url  The URL of the item.
 	 *
 	 * @return  mixed  The title on success, null if not found.
 	 *

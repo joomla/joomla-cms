@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Microdata
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -849,11 +849,11 @@ class JMicrodata
 		// Depending on the case, the $scope must precede the $property, or otherwise
 		if ($invert)
 		{
-			$tmp = join(' ', array($property, $scope));
+			$tmp = implode(' ', array($property, $scope));
 		}
 		else
 		{
-			$tmp = join(' ', array($scope, $property));
+			$tmp = implode(' ', array($scope, $property));
 		}
 
 		$tmp = trim($tmp);
@@ -865,7 +865,7 @@ class JMicrodata
 			return "<meta$tmp content='$content'/>";
 		}
 
-		return "<" . $tag . $tmp . ">" . $content . "</" . $tag . ">";
+		return '<' . $tag . $tmp . '>' . $content . '</' . $tag . '>';
 	}
 
 	/**

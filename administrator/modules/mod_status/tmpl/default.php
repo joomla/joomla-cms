@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_status
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,8 +24,8 @@ if ($params->get('show_viewsite', 1))
 		. '<a href="' . $frontEndUri->toString() . '" target="_blank">'
 		. '<span class="icon-out-2"></span>' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
-		. '</div>'
-		. '<div class="btn-group divider"></div>';
+		. '<span class="btn-group separator"></span>'
+		. '</div>';
 }
 
 // Print the link to open a new Administrator window.
@@ -35,39 +35,56 @@ if ($params->get('show_viewadmin', 0))
 		. '<a href="' . JUri::base() . 'index.php" target="_blank">'
 		. '<span class="icon-out-2"></span>' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
 		. '</a>'
-		. '</div>'
-		. '<div class="btn-group divider"></div>';
-}
-
-// Print the frontend logged in  users.
-if ($params->get('show_loggedin_users', 1))
-{
-	$output[] = '<div class="btn-group loggedin-users">'
-		. '<span class="badge">' . $online_num . '</span> '
-		. JText::plural('MOD_STATUS_USERS', $online_num)
+		. '<span class="btn-group separator"></span>'
 		. '</div>';
 }
 
-// Print the back-end logged in users.
-if ($params->get('show_loggedin_users_admin', 1))
+// Print logged in user count based on the shared session state
+if (JFactory::getConfig()->get('shared_session', '0'))
 {
-	$output[] = '<div class="btn-group backloggedin-users">'
-		. '<span class="badge">' . $count . '</span> '
-		. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
-		. '</div>';
+	// Print the frontend logged in  users.
+	if ($params->get('show_loggedin_users', 1))
+	{
+		$output[] = '<div class="btn-group loggedin-users">'
+			. '<span class="badge">' . $total_users . '</span>'
+			. JText::plural('MOD_STATUS_TOTAL_USERS', $total_users)
+			. '<span class="btn-group separator"></span>'
+			. '</div>';
+	}
+}
+else
+{
+	// Print the frontend logged in  users.
+	if ($params->get('show_loggedin_users', 1))
+	{
+		$output[] = '<div class="btn-group loggedin-users">'
+			. '<span class="badge">' . $online_num . '</span>'
+			. JText::plural('MOD_STATUS_USERS', $online_num)
+			. '<span class="btn-group separator"></span>'
+			. '</div>';
+	}
+
+	// Print the backend logged in users.
+	if ($params->get('show_loggedin_users_admin', 1))
+	{
+		$output[] = '<div class="btn-group backloggedin-users">'
+			. '<span class="badge">' . $count . '</span>'
+			. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
+			. '<span class="btn-group separator"></span>'
+			. '</div>';
+	}
 }
 
 //  Print the inbox message.
 if ($params->get('show_messages', 1))
 {
 	$active   = $unread ? ' badge-warning' : '';
-	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
-		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
+	$output[] = '<div class="btn-group ' . $inboxClass . '">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
-		. '<span class="icon-envelope"></span>'
 		. '<span class="badge' . $active . '">' . $unread . '</span>'
+		. JText::plural('MOD_STATUS_MESSAGES_LABEL', $unread)
 		. ($hideLinks ? '' : '</a>')
-		. '<div class="btn-group divider"></div>'
+		. '<span class="btn-group separator"></span>'
 		. '</div>';
 }
 

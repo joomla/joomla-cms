@@ -3,9 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JComponentRouterRules interface for Joomla
@@ -19,11 +21,11 @@ interface JComponentRouterRulesInterface
 	 * This should complete a partial query set to work as a complete non-SEFed
 	 * URL and in general make sure that all information is present and properly
 	 * formatted. For example, the Itemid should be retrieved and set here.
-	 * 
+	 *
 	 * @param   array  &$query  The query array to process
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.4
 	 */
 	public function preprocess(&$query);

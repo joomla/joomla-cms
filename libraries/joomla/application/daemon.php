@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,7 +63,7 @@ class JApplicationDaemon extends JApplicationCli
 		'SIGBABY',
 		'SIG_BLOCK',
 		'SIG_UNBLOCK',
-		'SIG_SETMASK'
+		'SIG_SETMASK',
 	);
 
 	/**
@@ -888,7 +888,7 @@ class JApplicationDaemon extends JApplicationCli
 	 * @see     pcntl_signal()
 	 * @since   11.3
 	 */
-	protected function pcntlSignal($signal , $handler, $restart = true)
+	protected function pcntlSignal($signal, $handler, $restart = true)
 	{
 		return pcntl_signal($signal, $handler, $restart);
 	}

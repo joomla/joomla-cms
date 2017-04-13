@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -742,7 +742,7 @@ abstract class JFactory
 		$lang = self::getLanguage();
 
 		$input = self::getApplication()->input;
-		$type = $input->get('format', 'html', 'word');
+		$type = $input->get('format', 'html', 'cmd');
 
 		$version = new JVersion;
 
@@ -752,7 +752,7 @@ abstract class JFactory
 			'tab'          => "\t",
 			'language'     => $lang->getTag(),
 			'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
-			'mediaversion' => $version->getMediaVersion()
+			'mediaversion' => $version->getMediaVersion(),
 		);
 
 		return JDocument::getInstance($type, $attributes);

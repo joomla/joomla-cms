@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,23 +62,23 @@ abstract class TestCaseCache extends TestCase
 
 		if ($this->handler instanceof JCacheStorage)
 		{
+			// Deprecated, temporary have to stay because flush method is not implemented in all storages.
 			$this->handler->clean($this->group);
+			$this->handler->flush();
 		}
 
 		parent::tearDown();
 	}
 
 	/**
-	 * Check if the adapter is blacklisted in an environment
-	 *
-	 * @param   string  $name  The name of the adapter
-	 *
-	 * @return  boolean
+	 * @testdox  Data is correctly stored to the cache store and reported as existing
 	 */
-	protected function isBlacklisted($name)
+	public function testCacheContains()
 	{
-		// Memcached & Redis test as supported on the Jenkins server but data processing fails, temporarily block them only in this environment
-		return in_array($name, array('memcached', 'redis')) && isset($_ENV['BUILD_TAG']) && strpos($_ENV['BUILD_TAG'], 'jenkins-cms-') === 0;
+		$data = 'testData';
+
+		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
+		$this->assertTrue($this->handler->contains($this->id, $this->group), 'Failed validating data exists in the cache store');
 	}
 
 	/**
@@ -109,13 +109,34 @@ abstract class TestCaseCache extends TestCase
 	{
 		$data = 'testData';
 
-		$this->handler->_lifetime = 2;
+		if ($this->handler->_lifetime > 1)
+		{
+			// Minimum lifetime for memcache(-d) and redis can be only 1
+			$this->handler->_lifetime = 1;
+		}
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
 
-		sleep(5);
+		// Test whether data was stored.
+		$this->assertEquals($data, $this->handler->get($this->id, $this->group), 'Some data should be available in lifetime.');
 
-		$this->assertFalse($this->handler->get($this->id, $this->group), 'No data should be returned from the cache store when expired.');
+		// Timer and testing interval (in seconds)
+		$timer    = 0;
+		$interval = 0.05;
+
+		// Wait for lifetime minus the first interval.
+		usleep(($this->handler->_lifetime - $interval) * 1000000);
+
+		do
+		{
+			usleep($interval * 1000000);
+
+			$cache  = $this->handler->get($this->id, $this->group);
+			$timer += $interval;
+		}
+		while ($cache === $data && $timer < 5);
+
+		$this->assertFalse($cache, 'No data should be returned from the cache store when expired.');
 	}
 
 	/**
@@ -152,7 +173,7 @@ abstract class TestCaseCache extends TestCase
 		$secondGroup = 'group2';
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
-		$this->assertTrue($this->handler->store($secondId, $data, $secondGroup), 'Initial Store Failed');
+		$this->assertTrue($this->handler->store($secondId, $secondGroup, $data), 'Initial Store Failed');
 		$this->assertTrue($this->handler->clean($this->group, 'notgroup'), 'Removal Failed');
 		$this->assertSame($this->handler->get($this->id, $this->group), $data, 'Data in the group specified in JCacheStorage::clean() should still exist');
 		$this->assertFalse($this->handler->get($secondId, $secondGroup), 'Data in the groups not specified in JCacheStorage::clean() should not exist');
@@ -163,6 +184,55 @@ abstract class TestCaseCache extends TestCase
 	 */
 	public function testIsSupported()
 	{
-		$this->assertTrue($this->handler->isSupported(), 'Claims the cache handler is not supported.');
+		$class = get_class($this->handler);
+		$this->assertTrue($class::isSupported(), 'Claims the cache handler is not supported.');
+	}
+
+	/**
+	 * @testdox  Check if lock cache data work properly
+	 */
+	public function testCacheLock()
+	{
+		$returning = (object) array('locklooped' => false, 'locked' => true);
+		$expected  = $this->logicalOr($this->equalTo($returning), $this->isFalse());
+		$result    = $this->handler->lock($this->id, $this->group, 3);
+		$data      = 'testData';
+
+		$this->assertThat($result, $expected, 'Initial Lock Failed');
+
+		if ($result === false)
+		{
+			$returning = false;
+		}
+		else
+		{
+			$returning->locklooped = true;
+			$returning->locked     = false;
+
+			$this->assertEquals($returning, $this->handler->lock($this->id, $this->group, 3), 'Re-attempt Lock Failed');
+		}
+
+		// Checks whether I can store the file locked by myself (see flock on Windows system)
+		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
+
+		if ($result === false)
+		{
+			$this->assertFalse($this->handler->unlock($this->id, $this->group), 'False Unlock Failed');
+		}
+		else
+		{
+			$this->assertTrue($this->handler->unlock($this->id, $this->group), 'Non False Unlock Failed');
+		}
+
+		if ($result !== false)
+		{
+			$returning->locklooped = false;
+			$returning->locked     = true;
+		}
+
+		$this->assertEquals($returning, $this->handler->lock($this->id, $this->group, 3), 'Second Lock Failed');
+
+		// Checks whether I can read the file locked by myself (see flock on Windows system)
+		$this->assertSame('testData', $this->handler->get($this->id, $this->group), 'Failed retrieving data from the cache store');
 	}
 }

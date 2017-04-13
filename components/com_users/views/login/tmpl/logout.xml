@@ -23,10 +23,14 @@
 		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 			<field
 				name="logout"
-				type="menuitem"
+				type="modal_menu"
 				disable="separator,alias,heading,url"
 				label="JFIELD_LOGOUT_REDIRECT_PAGE_LABEL"
 				description="JFIELD_LOGOUT_REDIRECT_PAGE_DESC"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
 			>
 				<option value="">JDEFAULT</option>
 			</field>
