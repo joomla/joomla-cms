@@ -1,27 +1,28 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Menu
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
 /**
- * JMenu class
+ * Menu class
  *
  * @since  1.5
  */
-class JMenu
+class Menu
 {
 	/**
 	 * Array to hold the menu items
 	 *
-	 * @var    JMenuItem[]
+	 * @var    MenuItem[]
 	 * @since  1.5
 	 * @deprecated  4.0  Will convert to $items
 	 */
@@ -46,9 +47,9 @@ class JMenu
 	protected $_active = 0;
 
 	/**
-	 * JMenu instances container.
+	 * Menu instances container.
 	 *
-	 * @var    JMenu[]
+	 * @var    Menu[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();
@@ -56,7 +57,7 @@ class JMenu
 	/**
 	 * User object to check access levels for
 	 *
-	 * @var    JUser
+	 * @var    \JUser
 	 * @since  3.5
 	 */
 	protected $user;
@@ -81,49 +82,49 @@ class JMenu
 			}
 		}
 
-		$this->user = isset($options['user']) && $options['user'] instanceof JUser ? $options['user'] : JFactory::getUser();
+		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : \JFactory::getUser();
 	}
 
 	/**
-	 * Returns a JMenu object
+	 * Returns a Menu object
 	 *
 	 * @param   string  $client   The name of the client
 	 * @param   array   $options  An associative array of options
 	 *
-	 * @return  JMenu  A menu object.
+	 * @return  Menu  A menu object.
 	 *
 	 * @since   1.5
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public static function getInstance($client, $options = array())
 	{
 		if (empty(self::$instances[$client]))
 		{
-			// Create a JMenu object
+			// Create a Menu object
 			$classname = 'JMenu' . ucfirst($client);
 
 			if (!class_exists($classname))
 			{
 				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the menu object
-				$info = JApplicationHelper::getClientInfo($client, true);
+				$info = \JApplicationHelper::getClientInfo($client, true);
 
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/menu.php';
 
-					JLoader::register($classname, $path);
+					\JLoader::register($classname, $path);
 
 					if (class_exists($classname))
 					{
-						JLog::add('Non-autoloadable JMenu subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
+						\JLog::add('Non-autoloadable Menu subclasses are deprecated, support will be removed in 4.0.', \JLog::WARNING, 'deprecated');
 					}
 				}
 			}
 
 			if (!class_exists($classname))
 			{
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
+				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 			}
 
 			self::$instances[$client] = new $classname($options);
@@ -137,7 +138,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  JMenuItem|null  The item object if the ID exists or null if not found
+	 * @return  MenuItem|null  The item object if the ID exists or null if not found
 	 *
 	 * @since   1.5
 	 */
@@ -180,7 +181,7 @@ class JMenu
 	 *
 	 * @param   string  $language  The language code, default value of * means all.
 	 *
-	 * @return  JMenuItem|null  The item object or null when not found for given language
+	 * @return  MenuItem|null  The item object or null when not found for given language
 	 *
 	 * @since   1.5
 	 */
@@ -204,7 +205,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  JMenuItem|null  The menu item representing the given ID if present or null otherwise
+	 * @return  MenuItem|null  The menu item representing the given ID if present or null otherwise
 	 *
 	 * @since   1.5
 	 */
@@ -223,7 +224,7 @@ class JMenu
 	/**
 	 * Get menu item by id.
 	 *
-	 * @return  JMenuItem|null  The item object if an active menu item has been set or null
+	 * @return  MenuItem|null  The item object if an active menu item has been set or null
 	 *
 	 * @since   1.5
 	 */
@@ -245,7 +246,7 @@ class JMenu
 	 *                                each attribute may have multiple values to lookup for.
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
-	 * @return  JMenuItem|JMenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
+	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
 	 * @since   1.5
 	 */
@@ -321,7 +322,7 @@ class JMenu
 	/**
 	 * Getter for the menu array
 	 *
-	 * @return  JMenuItem[]
+	 * @return  MenuItem[]
 	 *
 	 * @since   1.5
 	 */
@@ -331,7 +332,7 @@ class JMenu
 	}
 
 	/**
-	 * Method to check JMenu object authorization against an access control object and optionally an access extension object
+	 * Method to check Menu object authorization against an access control object and optionally an access extension object
 	 *
 	 * @param   integer  $id  The menu id
 	 *

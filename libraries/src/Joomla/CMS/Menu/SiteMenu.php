@@ -1,25 +1,30 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Menu
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Multilanguage;
+
 /**
- * JMenu class
+ * Menu class
  *
  * @since  1.5
  */
-class JMenuSite extends JMenu
+class SiteMenu extends Menu
 {
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 * @since  3.5
 	 */
 	protected $app;
@@ -27,7 +32,7 @@ class JMenuSite extends JMenu
 	/**
 	 * Database driver
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  3.5
 	 */
 	protected $db;
@@ -35,7 +40,7 @@ class JMenuSite extends JMenu
 	/**
 	 * Language object
 	 *
-	 * @var    JLanguage
+	 * @var    Language
 	 * @since  3.5
 	 */
 	protected $language;
@@ -50,9 +55,9 @@ class JMenuSite extends JMenu
 	public function __construct($options = array())
 	{
 		// Extract the internal dependencies before calling the parent constructor since it calls $this->load()
-		$this->app      = isset($options['app']) && $options['app'] instanceof JApplicationCms ? $options['app'] : JFactory::getApplication();
-		$this->db       = isset($options['db']) && $options['db'] instanceof JDatabaseDriver ? $options['db'] : JFactory::getDbo();
-		$this->language = isset($options['language']) && $options['language'] instanceof JLanguage ? $options['language'] : JFactory::getLanguage();
+		$this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : \JFactory::getApplication();
+		$this->db       = isset($options['db']) && $options['db'] instanceof \JDatabaseDriver ? $options['db'] : \JFactory::getDbo();
+		$this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : \JFactory::getLanguage();
 
 		parent::__construct($options);
 	}
@@ -85,32 +90,32 @@ class JMenuSite extends JMenu
 			// Set the query
 			$db->setQuery($query);
 
-			return $db->loadObjectList('id', 'JMenuItem');
+			return $db->loadObjectList('id', 'Joomla\\CMS\\Menu\\MenuItem');
 		};
 
 		try
 		{
-			/** @var JCacheControllerCallback $cache */
-			$cache = JFactory::getCache('com_menus', 'callback');
+			/** @var \JCacheControllerCallback $cache */
+			$cache = \JFactory::getCache('com_menus', 'callback');
 
 			$this->_items = $cache->get($loader, array(), md5(get_class($this)), false);
 		}
-		catch (JCacheException $e)
+		catch (\JCacheException $e)
 		{
 			try
 			{
 				$this->_items = $loader();
 			}
-			catch (JDatabaseExceptionExecuting $databaseException)
+			catch (\JDatabaseExceptionExecuting $databaseException)
 			{
-				JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()));
+				\JError::raiseWarning(500, \JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()));
 
 				return false;
 			}
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (\JDatabaseExceptionExecuting $e)
 		{
-			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
+			\JError::raiseWarning(500, \JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
 
 			return false;
 		}
@@ -146,7 +151,7 @@ class JMenuSite extends JMenu
 	 * @param   string   $values      The value of the field
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
-	 * @return  JMenuItem|JMenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
+	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
 	 * @since   1.6
 	 */
@@ -160,10 +165,10 @@ class JMenuSite extends JMenu
 			// Filter by language if not set
 			if (($key = array_search('language', $attributes)) === false)
 			{
-				if (JLanguageMultilang::isEnabled())
+				if (Multilanguage::isEnabled())
 				{
 					$attributes[] = 'language';
-					$values[]     = array(JFactory::getLanguage()->getTag(), '*');
+					$values[]     = array(\JFactory::getLanguage()->getTag(), '*');
 				}
 			}
 			elseif ($values[$key] === null)
@@ -197,7 +202,7 @@ class JMenuSite extends JMenu
 	 *
 	 * @param   string  $language  The language code.
 	 *
-	 * @return  JMenuItem|null  The item object or null when not found for given language
+	 * @return  MenuItem|null  The item object or null when not found for given language
 	 *
 	 * @since   1.6
 	 */
