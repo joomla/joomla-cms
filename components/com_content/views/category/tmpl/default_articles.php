@@ -61,7 +61,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="btn-group pull-right">
+			<div class="btn-group float-right">
 				<label for="limit" class="element-invisible">
 					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>
@@ -75,7 +75,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<input type="hidden" name="task" value="">
 	</fieldset>
 
-	<div class="control-group hide pull-right">
+	<div class="control-group hide float-right">
 		<div class="controls">
 			<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
 		</div>
@@ -283,7 +283,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<div class="pagination">
 
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-				<p class="counter pull-right">
+				<p class="counter float-right">
 					<?php echo $this->pagination->getPagesCounter(); ?>
 				</p>
 			<?php endif; ?>
