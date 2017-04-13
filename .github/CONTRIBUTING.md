@@ -2,7 +2,7 @@ Contributing to the Joomla! CMS™
 ===============
 You are welcome to submit a contribution for review and possible inclusion in the Joomla! CMS but, before it will be accepted, we ask that you follow these simple steps:
 
-1) Open an issue on our [Issue Tracker](https://issues.joomla.org/) or here on GitHub. If you can, please provide a fix and create a pull request (PR) instead; this will automatically create an issue for you.
+1) Open an issue on our [Issue Tracker](https://issues.joomla.org/) or here on GitHub. If you can, please provide a fix and create a pull request (PR) instead; this will automatically create an issue for you so you do not have to create an issue if you are creating a pull request.
 
 2) Follow the [Joomla! Coding Standards](https://developer.joomla.org/coding-standards.html).
 
