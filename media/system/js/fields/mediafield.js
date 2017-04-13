@@ -58,34 +58,21 @@
 
 	// display modal for select the file
 	$.fieldMedia.prototype.modalOpen = function() {
-		var $iframe = $('<iframe>', {
-			name: 'field-media-modal',
-			src: this.options.url.replace('{field-media-id}', this.$input.attr('id')),
-			width: this.options.modalWidth,
-			height: this.options.modalHeight
-		});
-		this.$modalBody.append($iframe);
 		this.$modal.modal('show');
 		$('body').addClass('modal-open');
 
 		var self = this; // save context
-		$iframe.on('load', function(){
-			var content = $(this).contents();
 
-			// bind insert
-			content.on('click', self.options.buttonSaveSelected, function(){
-				var value = content.find('#f_url').val();
-				if (value) {
-					self.setValue(value);
-				}
-				self.modalClose.call(self);
-			});
+		this.$container.find(this.options.buttonSaveSelected).on('click', function(e){
+			e.stopPropagation();
+			self.setValue(self.options.rootFolder + self.selectedPath);
+			self.modalClose();
+			return false;
+		});
 
-			// bind cancel
-			content.on('click', '.button-cancel', function(){
-				$('body').removeClass('modal-open');
-				self.modalClose.bind(self);
-			});
+
+		window.document.addEventListener('onMediaFileSelected', function (e) {
+			self.selectedPath = e.item.path;
 		});
 	};
 
@@ -155,6 +142,7 @@
 	// default options
 	$.fieldMedia.defaults = {
 		basepath: '', // base path to file
+		rootFolder: '', // the root folder
 		buttonClear: '.button-clear', // selector for button to clear the value
 		buttonSelect: '.button-select', // selector for button to change the value
 		buttonSaveSelected: '.button-save-selected', // selector for button to save the selected value

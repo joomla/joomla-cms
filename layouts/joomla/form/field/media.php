@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Layout variables
  * ---------------------
@@ -85,12 +87,13 @@ if ($showPreview)
 // The url for the modal
 $url    = ($readonly ? ''
 	: ($link ? $link
-		: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
+		: 'index.php?option=com_media&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;ismoo=0&amp;folder=' . $folder);
+	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
 ?>
 <div class="field-media-wrapper"
 	data-basepath="<?php echo JUri::root(); ?>"
+	data-root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
 	data-url="<?php echo $url; ?>"
 	data-modal=".modal"
 	data-modal-width="100%"
@@ -117,7 +120,7 @@ $url    = ($readonly ? ''
 			'width'  => '100%',
 			'modalWidth'  => '80',
 			'bodyHeight'  => '60',
-			'footer'      => '<button class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+			'footer'      => '<button class="btn btn-secondary button-save-selected">' . JText::_('JSELECT') . '</button><button class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
 		)
 	);
 

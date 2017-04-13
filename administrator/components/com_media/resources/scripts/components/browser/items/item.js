@@ -43,6 +43,10 @@ export default {
          * @param event
          */
         function handleClick(event) {
+            var e = new Event('onMediaFileSelected');
+            e.item = item;
+	        window.parent.document.dispatchEvent(e);
+
             // Handle clicks when the item was not selected
             if (!isSelected()) {
                 // Unselect all other selected items, if the shift key was not pressed during the click event
@@ -55,7 +59,7 @@ export default {
 
             // If more than one item was selected and the user clicks again on the selected item,
             // he most probably wants to unselect all other items.
-            if (selectedItems.length > 1) {
+            if (store.state.selectedItems.length > 1) {
                 store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
                 store.commit(types.SELECT_BROWSER_ITEM, item);
             }

@@ -15,26 +15,35 @@ $params = JComponentHelper::getParams('com_media');
 JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
 
+// Add javascripts
+JHtml::_('script', 'media/com_media/js/mediamanager.js');
+
+// Add stylesheets
+JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
+
+// Populate the language
+$this->loadTemplate('texts');
+
+$tmpl = JFactory::getApplication()->input->getCmd('tmpl');
+
+// Load the toolbar when we are in an iframe
+if ($tmpl == 'component')
+{
+	echo JToolbar::getInstance('toolbar')->render();
+
+	$tmpl = '&tmpl=' . $tmpl;
+}
+
 // Populate the media config
 $config = array(
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
 	'csrfToken'               => JSession::getFormToken(),
 	'filePath'                => $params->get('file_path', 'images'),
 	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
-	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file',
+	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . $tmpl,
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 );
 $doc->addScriptOptions('com_media', $config);
-
-// Populate the language
-$this->loadTemplate('texts');
-
-// Add javascripts
-JHtml::_('script', 'media/com_media/js/mediamanager.js');
-
-// Add stylesheets
-JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
 ?>
 <div id="com-media"></div>
-

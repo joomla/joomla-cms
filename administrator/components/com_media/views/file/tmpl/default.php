@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 // Add javascripts
-
 JHtml::_('behavior.core');
 JHtml::_('behavior.formvalidator');
 JHtml::_('bootstrap.framework');
@@ -24,6 +23,16 @@ $params = JComponentHelper::getParams('com_media');
  */
 $form = $this->form;
 
+$tmpl = JFactory::getApplication()->input->getCmd('tmpl');
+
+// Load the toolbar when we are in an iframe
+if ($tmpl == 'component')
+{
+	echo JToolbar::getInstance('toolbar')->render();
+
+	$tmpl = '&tmpl=' . $tmpl;
+}
+
 // Populate the media config
 $config = [
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
@@ -31,7 +40,7 @@ $config = [
 	'filePath'                => $params->get('file_path', 'images'),
 	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
 	'uploadPath'              => $this->file,
-	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file',
+	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . $tmpl,
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'contents'                => base64_encode(file_get_contents(JPATH_ROOT . '/images' . $this->file)),

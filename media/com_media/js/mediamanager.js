@@ -8589,9 +8589,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-02393475", __vue__options__)
+    hotAPI.createRecord("data-v-4b37c38f", __vue__options__)
   } else {
-    hotAPI.reload("data-v-02393475", __vue__options__)
+    hotAPI.reload("data-v-4b37c38f", __vue__options__)
   }
 })()}
 },{"./../store/mutation-types":28,"vue":5,"vue-hot-reload-api":4}],11:[function(require,module,exports){
@@ -8640,9 +8640,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5a2cfde3", __vue__options__)
+    hotAPI.createRecord("data-v-a0d88b06", __vue__options__)
   } else {
-    hotAPI.reload("data-v-5a2cfde3", __vue__options__)
+    hotAPI.reload("data-v-a0d88b06", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],12:[function(require,module,exports){
@@ -8701,9 +8701,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-cd88c8d6", __vue__options__)
+    hotAPI.createRecord("data-v-81ab58a2", __vue__options__)
   } else {
-    hotAPI.reload("data-v-cd88c8d6", __vue__options__)
+    hotAPI.reload("data-v-81ab58a2", __vue__options__)
   }
 })()}
 },{"./../../store/mutation-types":28,"vue":5,"vue-hot-reload-api":4}],13:[function(require,module,exports){
@@ -8733,9 +8733,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3c2c1b4b", __vue__options__)
+    hotAPI.createRecord("data-v-5a53cd36", __vue__options__)
   } else {
-    hotAPI.reload("data-v-3c2c1b4b", __vue__options__)
+    hotAPI.reload("data-v-5a53cd36", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],14:[function(require,module,exports){
@@ -8760,9 +8760,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-744344e4", __vue__options__)
+    hotAPI.createRecord("data-v-04e07734", __vue__options__)
   } else {
-    hotAPI.reload("data-v-744344e4", __vue__options__)
+    hotAPI.reload("data-v-04e07734", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],15:[function(require,module,exports){
@@ -8780,7 +8780,9 @@ exports.default = {
             var fileBaseUrl = Joomla.getOptions('com_media').fileBaseUrl || '/images';
 
             return fileBaseUrl + this.item.path;
-        },
+        }
+    },
+    methods: {
         openEditView: function openEditView() {
             var fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
 
@@ -8799,9 +8801,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-12aad239", __vue__options__)
+    hotAPI.createRecord("data-v-9828255a", __vue__options__)
   } else {
-    hotAPI.reload("data-v-12aad239", __vue__options__)
+    hotAPI.reload("data-v-9828255a", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],16:[function(require,module,exports){
@@ -8873,6 +8875,10 @@ exports.default = {
          * @param event
          */
         function handleClick(event) {
+            var e = new Event('onMediaFileSelected');
+            e.item = item;
+            window.parent.document.dispatchEvent(e);
+
             // Handle clicks when the item was not selected
             if (!isSelected()) {
                 // Unselect all other selected items, if the shift key was not pressed during the click event
@@ -8885,7 +8891,7 @@ exports.default = {
 
             // If more than one item was selected and the user clicks again on the selected item,
             // he most probably wants to unselect all other items.
-            if (selectedItems.length > 1) {
+            if (store.state.selectedItems.length > 1) {
                 store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
                 store.commit(types.SELECT_BROWSER_ITEM, item);
             }
@@ -8941,9 +8947,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-06984c8f", __vue__options__)
+    hotAPI.createRecord("data-v-2c8704a9", __vue__options__)
   } else {
-    hotAPI.reload("data-v-06984c8f", __vue__options__)
+    hotAPI.reload("data-v-2c8704a9", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],18:[function(require,module,exports){
@@ -9008,9 +9014,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1e731972", __vue__options__)
+    hotAPI.createRecord("data-v-0eac2d18", __vue__options__)
   } else {
-    hotAPI.reload("data-v-1e731972", __vue__options__)
+    hotAPI.reload("data-v-0eac2d18", __vue__options__)
   }
 })()}
 },{"./../../store/mutation-types":28,"vue":5,"vue-focus":3,"vue-hot-reload-api":4}],19:[function(require,module,exports){
@@ -9076,9 +9082,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-afa4aac0", __vue__options__)
+    hotAPI.createRecord("data-v-729578c6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-afa4aac0", __vue__options__)
+    hotAPI.reload("data-v-729578c6", __vue__options__)
   }
 })()}
 },{"./../../store/mutation-types":28,"vue":5,"vue-hot-reload-api":4,"vueify/lib/insert-css":6}],20:[function(require,module,exports){
@@ -9102,9 +9108,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2ba1163b", __vue__options__)
+    hotAPI.createRecord("data-v-518fce55", __vue__options__)
   } else {
-    hotAPI.reload("data-v-2ba1163b", __vue__options__)
+    hotAPI.reload("data-v-518fce55", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],21:[function(require,module,exports){
@@ -9152,9 +9158,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4c306eb8", __vue__options__)
+    hotAPI.createRecord("data-v-5929c252", __vue__options__)
   } else {
-    hotAPI.reload("data-v-4c306eb8", __vue__options__)
+    hotAPI.reload("data-v-5929c252", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],22:[function(require,module,exports){
@@ -9190,9 +9196,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-58a029c3", __vue__options__)
+    hotAPI.createRecord("data-v-65997d5d", __vue__options__)
   } else {
-    hotAPI.reload("data-v-58a029c3", __vue__options__)
+    hotAPI.reload("data-v-65997d5d", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],23:[function(require,module,exports){
@@ -9295,9 +9301,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-f6c333ba", __vue__options__)
+    hotAPI.createRecord("data-v-07305cbd", __vue__options__)
   } else {
-    hotAPI.reload("data-v-f6c333ba", __vue__options__)
+    hotAPI.reload("data-v-07305cbd", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],24:[function(require,module,exports){
