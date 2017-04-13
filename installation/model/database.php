@@ -366,6 +366,7 @@ class InstallationModelDatabase extends JModelBase
 
 		// Ensure that InnoDB support is enable in MySQL.
 		$serverType = $db->getServerType();
+
 		// MySQL only:Attempt to run only in MySQL.
 		if ($serverType === 'mysql')
 		{
@@ -376,7 +377,7 @@ class InstallationModelDatabase extends JModelBase
 
 				$value = $db->loadResult();
 
-				// If default InnoDB support enable in database platform, needs to return 'DEFAULT'.
+				// If InnoDB support is enabled in database it returns 'DEFAULT'.
 				if ($value != 'DEFAULT')
 				{
 					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ENABLE_INNODB'), 'error');
