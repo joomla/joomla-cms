@@ -160,27 +160,21 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function getController($name, $client = null, $config = array())
 	{
-		$client = $client ? $client : ucfirst($this->app->getName());
+		// Set up the namespace
+		$namespace = rtrim($this->namespace, '\\') . '\\';
 
-		$controllerClass = $this->namespace . $client . '\\Controller\\' . ucfirst($name);
+		// Set up the client
+		$client = $client ? $client : ucfirst($this->app->getName()) . '\\';
+
+		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
 
 		if (!class_exists($controllerClass))
 		{
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$controller = new $controllerClass($config, $this->factory, $this->app, $this->input);
+		$controller = new $controllerClass($config, new MvcFactory($namespace, $this->app), $this->app, $this->input);
 
 		return $controller;
-	}
-
-	/**
-	 * Method to get factory object
-	 *
-	 * @return  MvcFactoryInterface
-	 */
-	public function getFactory()
-	{
-		return $this->factory;
 	}
 }
