@@ -67,7 +67,7 @@ class Form extends Controller
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MvcFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.0
