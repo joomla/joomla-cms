@@ -4,8 +4,6 @@
   list-style: none;
 
   .nav-header {
-    display: inline-block;
-    margin-bottom: 0;
     font-weight: $font-weight-bold;
     color: $gray-dark;
   }
@@ -15,6 +13,7 @@
     display: block;
     line-height: $treeselect-line-height;
     list-style: none;
+
     &::before {
       position: absolute;
       top: 14px;
@@ -24,7 +23,9 @@
       margin: auto;
       content: "";
       background-color: rgba(0, 0, 0, .2);
+
     }
+
     &::after {
       position: absolute;
       top: 0;
@@ -34,12 +35,15 @@
       height: 100%;
       content: "";
       background-color: rgba(0, 0, 0, .2);
+
     }
+
     &:last-child {
       &::after {
         height: 14px;
       }
     }
+
     li {
       padding-left: $treeselect-indent;
     }
@@ -59,9 +63,8 @@
     margin-right: .1rem;
     text-align: center;
     cursor: pointer;
+
   }
-
-
 
   .treeselect-menu {
     display: inline-block;
@@ -69,12 +72,12 @@
 
   .treeselect-item {
     display: inline-block;
-    line-height: $treeselect-line-height;
 
     input {
       position: relative;
       top: 1px;
       margin-right: .2rem;
+
     }
 
     label {
@@ -95,16 +98,9 @@
 
   }
 
-
 }
-
 
 .treeselect-sub {
   padding-left: 0;
-
-  .treeselect-toggle {
-    cursor: pointer;
-
-  }
 
 }

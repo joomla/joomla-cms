@@ -9747,8 +9747,6 @@ iframe {
   padding-left: 0;
   list-style: none; }
   .treeselect .nav-header {
-    display: inline-block;
-    margin-bottom: 0;
     font-weight: bold;
     color: #292b2c; }
   .treeselect li {
@@ -9791,8 +9789,7 @@ iframe {
   .treeselect .treeselect-menu {
     display: inline-block; }
   .treeselect .treeselect-item {
-    display: inline-block;
-    line-height: 2.2rem; }
+    display: inline-block; }
     .treeselect .treeselect-item input {
       position: relative;
       top: 1px;
@@ -9809,8 +9806,6 @@ iframe {
 
 .treeselect-sub {
   padding-left: 0; }
-  .treeselect-sub .treeselect-toggle {
-    cursor: pointer; }
 
 .element-invisible {
   position: absolute;
