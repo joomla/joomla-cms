@@ -114,20 +114,4 @@ class Articles extends Admin
 			$this->setRedirect(\JRoute::_('index.php?option=com_content&view=articles', false), $message);
 		}
 	}
-
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  The array of possible config values. Optional.
-	 *
-	 * @return  \Joomla\CMS\Model\Model
-	 *
-	 * @since   1.6
-	 */
-	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
 }
