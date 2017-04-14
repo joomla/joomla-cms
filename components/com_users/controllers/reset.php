@@ -67,7 +67,7 @@ class UsersControllerReset extends UsersController
 
 		// The request succeeded.
 		// Proceed to step two.
-		$message = JText::sprintf('COM_USERS_RESET_REQUEST', $model->getError());
+		$message = JText::_('COM_USERS_RESET_REQUEST');
 		$this->setRedirect(JRoute::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
 
 		return true;
