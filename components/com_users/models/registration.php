@@ -326,7 +326,7 @@ class UsersModelRegistration extends JModelForm
 	{
 		$data = $this->getData();
 
-		if (empty($data->language))
+		if (JLanguageMultilang::isEnabled() && empty($data->language))
 		{
 			$data->language = JFactory::getLanguage()->getTag();
 		}
