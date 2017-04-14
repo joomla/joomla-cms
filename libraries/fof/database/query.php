@@ -1429,7 +1429,7 @@ abstract class FOFDatabaseQuery
 	 *
 	 * @return  mixed    The FOFDatabaseQuery object on success or boolean false on failure.
 	 *
-	 * @link http://dev.mysql.com/doc/refman/5.0/en/union.html
+	 * @see  http://dev.mysql.com/doc/refman/5.0/en/union.html
 	 *
 	 * @since   12.1
 	 */
