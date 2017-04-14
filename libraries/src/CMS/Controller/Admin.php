@@ -134,8 +134,8 @@ class Admin extends Controller
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
-	 * @param   Model  $model  The data model object.
-	 * @param   integer        $id     The validated data.
+	 * @param   Model    $model  The data model object.
+	 * @param   integer  $id     The validated data.
 	 *
 	 * @return  void
 	 *
