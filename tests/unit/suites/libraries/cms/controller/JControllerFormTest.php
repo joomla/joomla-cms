@@ -62,7 +62,8 @@ class JControllerFormTest extends TestCase
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
 				'base_path' => JPATH_BASE . '/component/com_foobar',
-				'option' => 'com_minces'
+				'option' => 'com_minces',
+				'name'	=> 'mince'	
 			),
 			null,
 			JFactory::getApplication(),
