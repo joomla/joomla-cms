@@ -134,7 +134,7 @@ class PlgSystemSef extends JPlugin
 			$regex = '#\s+srcset="([^"]+)"#m';
 			$buffer = preg_replace_callback($regex, function ($match) use ($base, $protocols) {
 				$data = array();
-				foreach (explode(",", $match[1]) as $url) 
+				foreach (explode(",", $match[1]) as $url)
 				{
 					$data[] = preg_replace('#(?!/|' . $protocols . '|\#|\')([^\s]+)\s+(.*)#', $base . '$1 $2', $url);
 				}
