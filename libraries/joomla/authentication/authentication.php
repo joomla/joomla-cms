@@ -316,10 +316,10 @@ class JAuthentication extends JObject
 	/**
 	 * Authorises that a particular user should be able to login
 	 *
-	 * @param   JAuthenticationResponse   $response  response including username of the user to authorise
-	 * @param   array                     $options   list of options
+	 * @param   JAuthenticationResponse    $response  response including username of the user to authorise
+	 * @param   array                      $options   list of options
 	 *
-	 * @return  JAuthenticationResponse[] Array of authentication response objects
+	 * @return  JAuthenticationResponse[]  Array of authentication response objects
 	 *
 	 * @since  11.2
 	 */
