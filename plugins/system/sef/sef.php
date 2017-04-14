@@ -117,16 +117,30 @@ class PlgSystemSef extends JPlugin
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
-		$attributes = array('href=', 'src=', 'srcset=', 'poster=');
-
-		foreach ($attributes as $attribute)
+		$attributes = array('href=', 'src=', 'poster=');
+        
+		foreach ($attributes as $attribute) 
 		{
-			if (strpos($buffer, $attribute) !== false)
+		    if (strpos($buffer, $attribute) !== false) 
+		    {
+			$regex = '#\s+' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+			$buffer = preg_replace($regex, ' ' . $attribute . '"' . $base . '$1"', $buffer);
+			$this->checkBuffer($buffer);
+		    }
+		}
+		
+		if (strpos($buffer, 'srcset=') !== false) 
+		{
+		    $regex = '#\s+srcset="([^"]+)"#m';
+		    $buffer = preg_replace_callback($regex, function ($match) use ($base, $protocols) {
+			$data = array();
+			foreach (explode(",", $match[1]) as $url) 
 			{
-				$regex  = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-				$buffer = preg_replace($regex, ' ' . $attribute . '"' . $base . '$1"', $buffer);
-				$this->checkBuffer($buffer);
+			    $data[] = preg_replace('#(?!/|' . $protocols . '|\#|\')([^\s]+)\s+(.*)#', $base . '$1 $2', $url);
 			}
+			return ' srcset="' . implode(",", $data) . '"';
+		    }, $buffer);
+		    $this->checkBuffer($buffer);
 		}
 
 		// Replace all unknown protocals in javascript window open events.
