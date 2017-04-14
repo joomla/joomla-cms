@@ -118,6 +118,14 @@ class PlgSystemFields extends JPlugin
 
 		$user = JFactory::getUser($userData['id']);
 
+		$task = JFactory::getApplication()->input->get('task');
+
+		// Skip fields save when we activate a user, because we will lose the saved data
+		if ($task === 'activate')
+		{
+			return true;
+		}
+
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
 
