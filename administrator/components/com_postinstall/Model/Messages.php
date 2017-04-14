@@ -7,16 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Postinstall\Administrator\Model;
+
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_postinstall/helpers/postinstall.php';
+use Joomla\CMS\Model\Model;
+use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 
 /**
  * Model class to manage postinstall messages
  *
  * @since  3.2
  */
-class PostinstallModelMessages extends JModelLegacy
+class Messages extends Model
 {
 	/**
 	 * Gets an item with the given id from the database
@@ -165,11 +168,11 @@ class PostinstallModelMessages extends JModelLegacy
 			$basePath = JPATH_SITE;
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load($extension->element, $basePath);
 
 		// Return the localised name
-		return JText::_(strtoupper($extension->name));
+		return \JText::_(strtoupper($extension->name));
 	}
 
 	/**
@@ -226,7 +229,7 @@ class PostinstallModelMessages extends JModelLegacy
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->condition_file);
 
-				if (JFile::exists($file))
+				if (\JFile::exists($file))
 				{
 					require_once $file;
 
@@ -247,7 +250,7 @@ class PostinstallModelMessages extends JModelLegacy
 				if (!in_array($hash, $language_extensions))
 				{
 					$language_extensions[] = $hash;
-					JFactory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
+					\JFactory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
 				}
 			}
 		}
@@ -281,11 +284,11 @@ class PostinstallModelMessages extends JModelLegacy
 
 		$options = array();
 
-		JFactory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
+		\JFactory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
 
 		foreach ($extension_ids as $eid)
 		{
-			$options[] = JHtml::_('select.option', $eid, $this->getExtensionName($eid));
+			$options[] = \JHtml::_('select.option', $eid, $this->getExtensionName($eid));
 		}
 
 		return $options;
@@ -357,14 +360,14 @@ class PostinstallModelMessages extends JModelLegacy
 	 *
 	 * @return  $this
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function addPostInstallationMessage(array $options)
 	{
 		// Make sure there are options set
 		if (!is_array($options))
 		{
-			throw new Exception('Post-installation message definitions must be of type array', 500);
+			throw new \Exception('Post-installation message definitions must be of type array', 500);
 		}
 
 		// Initialise array keys
@@ -413,37 +416,37 @@ class PostinstallModelMessages extends JModelLegacy
 		// Make sure there's an extension_id
 		if (!(int) $options['extension_id'])
 		{
-			throw new Exception('Post-installation message definitions need an extension_id', 500);
+			throw new \Exception('Post-installation message definitions need an extension_id', 500);
 		}
 
 		// Make sure there's a valid type
 		if (!in_array($options['type'], array('message', 'link', 'action')))
 		{
-			throw new Exception('Post-installation message definitions need to declare a type of message, link or action', 500);
+			throw new \Exception('Post-installation message definitions need to declare a type of message, link or action', 500);
 		}
 
 		// Make sure there's a title key
 		if (empty($options['title_key']))
 		{
-			throw new Exception('Post-installation message definitions need a title key', 500);
+			throw new \Exception('Post-installation message definitions need a title key', 500);
 		}
 
 		// Make sure there's a description key
 		if (empty($options['description_key']))
 		{
-			throw new Exception('Post-installation message definitions need a description key', 500);
+			throw new \Exception('Post-installation message definitions need a description key', 500);
 		}
 
 		// If the type is anything other than message you need an action key
 		if (($options['type'] != 'message') && empty($options['action_key']))
 		{
-			throw new Exception('Post-installation message definitions need an action key when they are of type "' . $options['type'] . '"', 500);
+			throw new \Exception('Post-installation message definitions need an action key when they are of type "' . $options['type'] . '"', 500);
 		}
 
 		// You must specify the language extension
 		if (empty($options['language_extension']))
 		{
-			throw new Exception('Post-installation message definitions need to specify which extension contains their language keys', 500);
+			throw new \Exception('Post-installation message definitions need to specify which extension contains their language keys', 500);
 		}
 
 		// The action file and method are only required for the "action" type
@@ -451,7 +454,7 @@ class PostinstallModelMessages extends JModelLegacy
 		{
 			if (empty($options['action_file']))
 			{
-				throw new Exception('Post-installation message definitions need an action file when they are of type "action"', 500);
+				throw new \Exception('Post-installation message definitions need an action file when they are of type "action"', 500);
 			}
 
 			$helper = new PostinstallHelper;
@@ -459,12 +462,12 @@ class PostinstallModelMessages extends JModelLegacy
 
 			if (!@is_file($file_path))
 			{
-				throw new Exception('The action file ' . $options['action_file'] . ' of your post-installation message definition does not exist', 500);
+				throw new \Exception('The action file ' . $options['action_file'] . ' of your post-installation message definition does not exist', 500);
 			}
 
 			if (empty($options['action']))
 			{
-				throw new Exception('Post-installation message definitions need an action (function name) when they are of type "action"', 500);
+				throw new \Exception('Post-installation message definitions need an action (function name) when they are of type "action"', 500);
 			}
 		}
 
@@ -472,7 +475,7 @@ class PostinstallModelMessages extends JModelLegacy
 		{
 			if (empty($options['link']))
 			{
-				throw new Exception('Post-installation message definitions need an action (URL) when they are of type "link"', 500);
+				throw new \Exception('Post-installation message definitions need an action (URL) when they are of type "link"', 500);
 			}
 		}
 
@@ -481,7 +484,7 @@ class PostinstallModelMessages extends JModelLegacy
 		{
 			if (empty($options['condition_file']))
 			{
-				throw new Exception('Post-installation message definitions need a condition file when they are of type "' . $options['type'] . '"', 500);
+				throw new \Exception('Post-installation message definitions need a condition file when they are of type "' . $options['type'] . '"', 500);
 			}
 
 			$helper = new PostinstallHelper;
@@ -489,12 +492,12 @@ class PostinstallModelMessages extends JModelLegacy
 
 			if (!@is_file($file_path))
 			{
-				throw new Exception('The condition file ' . $options['condition_file'] . ' of your post-installation message definition does not exist', 500);
+				throw new \Exception('The condition file ' . $options['condition_file'] . ' of your post-installation message definition does not exist', 500);
 			}
 
 			if (empty($options['condition_method']))
 			{
-				throw new Exception(
+				throw new \Exception(
 					'Post-installation message definitions need a condition method (function name) when they are of type "'
 					. $options['type'] . '"',
 					500
