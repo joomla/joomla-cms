@@ -23,7 +23,7 @@ class JFormRuleEmail extends JFormRule
 	 *
 	 * @var    string
 	 * @since  11.1
-	 * @see    http://www.w3.org/TR/html-markup/input.email.html
+	 * @link   http://www.w3.org/TR/html-markup/input.email.html
 	 */
 	protected $regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
 

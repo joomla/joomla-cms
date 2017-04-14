@@ -44,12 +44,12 @@ class JFormRuleTel extends JFormRule
 		}
 
 		/*
-		 * @see http://www.nanpa.com/
-		 * @see http://tools.ietf.org/html/rfc4933
-		 * @see http://www.itu.int/rec/T-REC-E.164/en
+		 * @link http://www.nanpa.com/
+		 * @link http://tools.ietf.org/html/rfc4933
+		 * @link http://www.itu.int/rec/T-REC-E.164/en
 		 *
 		 * Regex by Steve Levithan
-		 * @see http://blog.stevenlevithan.com/archives/validate-phone-number
+		 * @link http://blog.stevenlevithan.com/archives/validate-phone-number
 		 * @note that valid ITU-T and EPP must begin with +.
 		 */
 		$regexarray = array(

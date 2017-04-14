@@ -52,7 +52,7 @@ class RedirectViewLink extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

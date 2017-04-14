@@ -274,7 +274,7 @@ class PlgSystemStats extends JPlugin
 	/**
 	 * Get the layout paths
 	 *
-	 * @return  array()
+	 * @return  array
 	 *
 	 * @since   3.5
 	 */
@@ -309,7 +309,7 @@ class PlgSystemStats extends JPlugin
 	/**
 	 * Get the data that will be sent to the stats server.
 	 *
-	 * @return  array.
+	 * @return  array
 	 *
 	 * @since   3.5
 	 */

@@ -350,7 +350,7 @@ class FieldsModelFields extends JModelList
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  JForm/false  the JForm object or false
+	 * @return  JForm / false  the JForm object or false
 	 *
 	 * @since   3.7.0
 	 */
