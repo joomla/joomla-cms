@@ -8,7 +8,11 @@
 
 namespace Joomla\CMS\Controller;
 
+use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Model\Model;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+
 
 defined('JPATH_PLATFORM') or die;
 
@@ -27,14 +31,6 @@ class Form extends Controller
 	 * @since  1.6
 	 */
 	protected $context;
-
-	/**
-	 * The URL option for the component.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $option;
 
 	/**
 	 * The URL view item variable.
@@ -76,12 +72,6 @@ class Form extends Controller
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		// Guess the option as com_NameOfController
-		if (empty($this->option))
-		{
-			$this->option = \JComponentHelper::getComponentName($this, $this->getName());
-		}
-
 		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
@@ -91,14 +81,7 @@ class Form extends Controller
 		// Guess the context as the suffix, eg: OptionControllerContent.
 		if (empty($this->context))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->context = str_replace('\\', '', strtolower($r[2]));
+			$this->context = strtolower($this->getName());
 		}
 
 		// Guess the item view as the context.
@@ -224,7 +207,7 @@ class Form extends Controller
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   \JModelLegacy  $model  The model of the component being processed.
+	 * @param   Admin  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -281,6 +264,7 @@ class Form extends Controller
 	{
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
+		/* @var \Joomla\CMS\Model\Form $model */
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$context = "$this->option.edit.$this->context";
@@ -295,7 +279,7 @@ class Form extends Controller
 		// Attempt to check-in the current record.
 		if ($recordId)
 		{
-			if (property_exists($table, 'checked_out'))
+			if (property_exists($table->getColumnAlias('checked_out'), 'checked_out'))
 			{
 				if ($model->checkin($recordId) === false)
 				{
@@ -419,7 +403,7 @@ class Form extends Controller
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy  The model.
+	 * @return  \Joomla\CMS\Model\Form  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -500,14 +484,14 @@ class Form extends Controller
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   \JModelLegacy  $model      The data model object.
-	 * @param   array          $validData  The validated data.
+	 * @param   Model  $model      The data model object.
+	 * @param   array  $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(\JModelLegacy $model, $validData = array())
+	protected function postSaveHook(Model $model, $validData = array())
 	{
 	}
 
@@ -560,12 +544,14 @@ class Form extends Controller
 					. $this->getRedirectToListAppend(), false
 				)
 			);
+
 			$table->checkin();
 
 			return false;
 		}
 
 		$table->store();
+
 		$this->setRedirect(
 			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item
@@ -601,6 +587,8 @@ class Form extends Controller
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$app   = \JFactory::getApplication();
+
+		/* @var \Joomla\CMS\Model\Admin $model */
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data  = $this->input->post->get('jform', array(), 'array');

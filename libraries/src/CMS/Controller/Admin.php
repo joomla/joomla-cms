@@ -10,6 +10,8 @@ namespace Joomla\CMS\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Model\Model;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -23,14 +25,6 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Admin extends Controller
 {
-	/**
-	 * The URL option for the component.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $option;
-
 	/**
 	 * The prefix to use with controller messages.
 	 *
@@ -79,12 +73,6 @@ class Admin extends Controller
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
-		// Guess the option as com_NameOfController.
-		if (empty($this->option))
-		{
-			$this->option = \JComponentHelper::getComponentName($this, $this->getName());
-		}
-
 		// Guess the \JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
@@ -94,16 +82,7 @@ class Admin extends Controller
 		// Guess the list view as the suffix, eg: OptionControllerSuffix.
 		if (empty($this->view_list))
 		{
-			$reflect = new \ReflectionClass($this);
-
-			$r = array(0 => '', 1 => '', 2 => $reflect->getShortName());
-
-			if (!$reflect->getNamespaceName() && !preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->view_list = strtolower($r[2]);
+			$this->view_list = strtolower($this->getName());
 		}
 	}
 
@@ -155,14 +134,14 @@ class Admin extends Controller
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
-	 * @param   \JModelLegacy  $model  The data model object.
+	 * @param   Model  $model  The data model object.
 	 * @param   integer        $id     The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postDeleteHook(\JModelLegacy $model, $id = null)
+	protected function postDeleteHook(Model $model, $id = null)
 	{
 	}
 
@@ -172,7 +151,7 @@ class Admin extends Controller
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 * @return  \Joomla\CMS\Controller\Admin  A controller object to support chaining.
 	 *
 	 * @since   1.6
 	 */
@@ -403,5 +382,28 @@ class Admin extends Controller
 
 		// Close the application
 		$this->app->close();
+	}
+
+	/**
+	 * Method to get an admin model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  \Joomla\Cms\Model\Admin |boolean  Model object on success; otherwise false on failure.
+	 *
+	 * @since   3.0
+	 */
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	{
+		if (empty($name))
+		{
+			$name = $this->getName();
+
+			$name = \Joomla\String\Inflector::getInstance()->toSingular($name);
+		}
+
+		return parent::getModel($name, $prefix, $config);
 	}
 }
