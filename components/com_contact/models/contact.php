@@ -116,7 +116,7 @@ class ContactModelContact extends JModelForm
 	{
 		$data = (array) JFactory::getApplication()->getUserState('com_contact.contact.data', array());
 
-		if (empty($data['language'])&& JLanguageMultilang::isEnabled())
+		if (empty($data['language']) && JLanguageMultilang::isEnabled())
 		{
 			$data['language'] = JFactory::getLanguage()->getTag();
 		}
