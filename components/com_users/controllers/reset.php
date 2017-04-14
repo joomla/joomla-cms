@@ -38,7 +38,7 @@ class UsersControllerReset extends UsersController
 		$return	= $model->processResetRequest($data);
 
 		// Check for a hard error.
-		if ($return instanceof Exception)
+		if ($return instanceof Exception && JDEBUG)
 		{
 			// Get the error message to display.
 			if ($app->get('error_reporting'))
@@ -55,7 +55,7 @@ class UsersControllerReset extends UsersController
 
 			return false;
 		}
-		elseif ($return === false)
+		elseif ($return === false && JDEBUG)
 		{
 			// The request failed.
 			// Go back to the request form.
@@ -64,14 +64,13 @@ class UsersControllerReset extends UsersController
 
 			return false;
 		}
-		else
-		{
-			// The request succeeded.
-			// Proceed to step two.
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=reset&layout=confirm', false));
 
-			return true;
-		}
+		// The request succeeded.
+		// Proceed to step two.
+		$message = JText::sprintf('COM_USERS_RESET_REQUEST', $model->getError());
+		$this->setRedirect(JRoute::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
+
+		return true;
 	}
 
 	/**
