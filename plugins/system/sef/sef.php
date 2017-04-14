@@ -132,14 +132,21 @@ class PlgSystemSef extends JPlugin
 		if (strpos($buffer, 'srcset=') !== false) 
 		{
 			$regex = '#\s+srcset="([^"]+)"#m';
-			$buffer = preg_replace_callback($regex, function ($match) use ($base, $protocols) {
-				$data = array();
-				foreach (explode(",", $match[1]) as $url)
+			
+			$buffer = preg_replace_callback(
+				$regex,
+				function ($match) use ($base, $protocols)
 				{
-					$data[] = preg_replace('#(?!/|' . $protocols . '|\#|\')([^\s]+)\s+(.*)#', $base . '$1 $2', $url);
-				}
-				return ' srcset="' . implode(",", $data) . '"';
-			}, $buffer);
+					$data = array();
+					foreach (explode(",", $match[1]) as $url)
+					{
+						$data[] = preg_replace('#(?!/|' . $protocols . '|\#|\')([^\s]+)\s+(.*)#', $base . '$1 $2', $url);
+					}
+					return ' srcset="' . implode(",", $data) . '"';
+				},
+				$buffer
+			);	
+
 			$this->checkBuffer($buffer);
 		}
 
