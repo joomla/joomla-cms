@@ -286,27 +286,27 @@ abstract class JHtmlJGrid
 
 		if (!array_key_exists('published', $config) || $config['published'])
 		{
-			$options[] = JHtml::_('select.option', '1', 'JPUBLISHED');
+			$options[] = JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
 		}
 
 		if (!array_key_exists('unpublished', $config) || $config['unpublished'])
 		{
-			$options[] = JHtml::_('select.option', '0', 'JUNPUBLISHED');
+			$options[] = JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
 		}
 
 		if (!array_key_exists('archived', $config) || $config['archived'])
 		{
-			$options[] = JHtml::_('select.option', '2', 'JARCHIVED');
+			$options[] = JHtml::_('select.option', '2', JText::_('JARCHIVED'));
 		}
 
 		if (!array_key_exists('trash', $config) || $config['trash'])
 		{
-			$options[] = JHtml::_('select.option', '-2', 'JTRASHED');
+			$options[] = JHtml::_('select.option', '-2', JText::_('JTRASHED'));
 		}
 
 		if (!array_key_exists('all', $config) || $config['all'])
 		{
-			$options[] = JHtml::_('select.option', '*', 'JALL');
+			$options[] = JHtml::_('select.option', '*', JText::_('JALL'));
 		}
 
 		return $options;
