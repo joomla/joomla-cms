@@ -39,7 +39,7 @@
 					folder="editors-xtd"
 					multiple="true"
 					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_DESC"
+					description="JGLOBAL_SELECT_SOME_OPTIONS"
 				/>
 
 				<field

@@ -159,7 +159,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('format' => 'json', 'option' => 'com_test3', 'Itemid' => '45'),
-				'expUrl'  => 'joomla/blog/test'
+				'expUrl'  => 'joomla/blog/test.json'
 			),
 			array(
 				'url'     => '/joomla/blog/test.json/',
@@ -167,7 +167,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('option' => 'com_test3', 'Itemid' => '45'),
-				'expUrl'  => 'joomla/blog/test'
+				'expUrl'  => 'joomla/blog/test.json'
 			),
 			array(
 				'url'     => '/joomla/blog/test%202',
