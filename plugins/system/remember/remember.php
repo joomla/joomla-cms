@@ -23,7 +23,7 @@ class PlgSystemRemember extends JPlugin
 	 * @var    JApplicationCms
 	 * @since  3.2
 	 */
-	protected $app;
+	protected $app = null;
 
 	/**
 	 * Remember me method to run onAfterInitialise
