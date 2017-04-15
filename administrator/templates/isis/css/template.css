@@ -4656,7 +4656,7 @@ a.badge:focus {
 		margin-left: 0;
 	}
 	.thumbnails > li {
-		float: none;
+		float: left;
 		margin-left: 0;
 	}
 	[class*="span"],
