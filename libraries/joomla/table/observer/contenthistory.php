@@ -100,8 +100,13 @@ class JTableObserverContenthistory extends JTableObserver
 	 * @since   3.2
 	 * @throws  UnexpectedValueException
 	 */
-	public function onBeforeDelete($pk)
+	public function onBeforeDelete($pk, $tableKey)
 	{
+		if (!isset($tableKey))
+		{
+			$tableKey = $this->table->getKeyName();
+		}
+
 		$this->parseTypeAlias();
 		$aliasParts = explode('.', $this->contenthistoryHelper->typeAlias);
 
