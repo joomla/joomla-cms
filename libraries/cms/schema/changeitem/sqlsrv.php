@@ -69,6 +69,13 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 				$this->queryType = 'ADD';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
+			elseif ($alterCommand == 'DROP COLUMN')
+			{
+				$result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
+				$this->queryType = 'DROP_COLUMN';
+				$this->checkQueryExpected = 0;
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+			}
 			elseif ($alterCommand == 'CREATE INDEX')
 			{
 				$index = $this->fixQuote(substr($wordArray[5], 0, strpos($wordArray[5], '(')));
