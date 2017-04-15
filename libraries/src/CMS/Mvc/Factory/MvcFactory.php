@@ -10,6 +10,8 @@ namespace Joomla\CMS\Mvc\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CmsApplication;
+
 /**
  * Factory to create MVC objects based on a namespace.
  *
@@ -27,7 +29,7 @@ class MvcFactory implements MvcFactoryInterface
 	/**
 	 * The application.
 	 *
-	 * @var \JApplicationCms
+	 * @var CmsApplication
 	 */
 	private $application = null;
 
@@ -35,12 +37,12 @@ class MvcFactory implements MvcFactoryInterface
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string            $namespace    The namespace.
-	 * @param   \JApplicationCms  $application  The application
+	 * @param   string          $namespace    The namespace.
+	 * @param   CmsApplication  $application  The application
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, \JApplicationCms $application)
+	public function __construct($namespace, CmsApplication $application)
 	{
 		$this->namespace   = $namespace;
 		$this->application = $application;
@@ -78,7 +80,7 @@ class MvcFactory implements MvcFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\View\View  The view object
+	 * @return  \Joomla\CMS\View\AbstractView  The view object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
@@ -109,6 +111,12 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createTable($name, $prefix = '', array $config = array())
 	{
+		// For table class, $prefix should always be Administrator
+		if ($prefix !== 'Site')
+		{
+			$prefix = 'Administrator';
+		}
+
 		$className = $this->getClassName('Table\\' . ucfirst($name), $prefix);
 
 		if (!$className)
@@ -116,7 +124,6 @@ class MvcFactory implements MvcFactoryInterface
 			return null;
 		}
 
-		$db = null;
 		if (array_key_exists('dbo', $config))
 		{
 			$db = $config['dbo'];
@@ -141,10 +148,7 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	private function getClassName($suffix, $prefix)
 	{
-		// @todo decide what todo with the prefix as it doesn't fit into the namespace approach
-		$prefix = '';
-
-		if (!$prefix)
+		if (!in_array($prefix, array('Administrator', 'Site')))
 		{
 			$prefix = $this->application->getName();
 		}
