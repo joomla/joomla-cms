@@ -714,6 +714,12 @@ abstract class JHtmlSelect
 
 				if (is_array($options['list.select']))
 				{
+					// Select multiple values comma separated
+					if (is_string($options['list.select']) && strpos($options['list.select'], ',') !== false)
+					{
+						$options['list.select'] = explode(",", $options['list.select']);
+					}
+
 					foreach ($options['list.select'] as $val)
 					{
 						$key2 = is_object($val) ? $val->{$options['option.key']} : $val;
