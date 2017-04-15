@@ -70,6 +70,11 @@ if ($displayData->get('show_options', 1))
 			echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
 		}
 
+		if (isset($fieldSet->description) && trim($fieldSet->description))
+		{
+			echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+		}
+
 		$displayData->fieldset = $name;
 		echo JLayoutHelper::render('joomla.edit.fieldset', $displayData);
 
