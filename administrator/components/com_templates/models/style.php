@@ -586,6 +586,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$dispatcher->trigger($this->event_after_save, array('com_templates.style', &$table, $isNew));
 
 		$this->setState('style.id', $table->id);
+		$this->setState('item.template', $table->template);
 
 		return true;
 	}
