@@ -619,10 +619,10 @@ class JPaginationTest extends TestCase
 					'next' => array('data' => '<a title="JNEXT" href="" class="hasTooltip page-link">JNEXT</a>'),
 					'end' => array('data' => '<a title="JLIB_HTML_END" href="" class="hasTooltip page-link">JLIB_HTML_END</a>'),
 					'pages' => array(
-						'1' => array('data' => '<a href="" class="page-link">1</a>'),
-						'2' => array('data' => '<span class="page-link">2</span>'),
-						'3' => array('data' => '<a href="" class="page-link">3</a>'),
-						'4' => array('data' => '<a href="" class="page-link">4</a>'),
+						'1' => array('data' => '<a href="" class="page-link">1</a>', 'active' => true),
+						'2' => array('data' => '<span class="page-link">2</span>', 'active' => false),
+						'3' => array('data' => '<a href="" class="page-link">3</a>', 'active' => true),
+						'4' => array('data' => '<a href="" class="page-link">4</a>', 'active' => true),
 					),
 				), 80, 20, 20,
 				'<ul><li class="pagination-start"><a title="JLIB_HTML_START" href="" class="hasTooltip page-link">JLIB_HTML_START</a></li><li class="pagination-prev"><a title="JPREV" href="" class="hasTooltip page-link">JPREV</a></li><li><a href="" class="page-link">1</a></li><li><span class="page-link">2</span></li><li><a href="" class="page-link">3</a></li><li><a href="" class="page-link">4</a></li><li class="pagination-next"><a title="JNEXT" href="" class="hasTooltip page-link">JNEXT</a></li><li class="pagination-end"><a title="JLIB_HTML_END" href="" class="hasTooltip page-link">JLIB_HTML_END</a></li></ul>'
