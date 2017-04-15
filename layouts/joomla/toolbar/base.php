@@ -9,6 +9,6 @@
 
 defined('JPATH_BASE') or die;
 ?>
-<div class="btn-wrapper" <?php echo $displayData['id']; ?>>
+<div class="btn-wrapper<?php echo $displayData['rightposition'] ? ' pull-right' : '' ?>" <?php echo $displayData['id']; ?>>
 	<?php echo $displayData['action']; ?>
 </div>

@@ -22,6 +22,17 @@ class JToolbarButtonHelp extends JToolbarButton
 	protected $_name = 'Help';
 
 	/**
+	 * Constructor
+	 *
+	 * @param   object  $parent  The parent
+	 */
+	public function __construct($parent = null)
+	{
+		$this->rightPosition = true;
+		parent::__construct($parent);
+	}
+
+	/**
 	 * Fetches the button HTML code.
 	 *
 	 * @param   string   $type       Unused string.

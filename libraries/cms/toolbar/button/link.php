@@ -42,6 +42,11 @@ class JToolbarButtonLink extends JToolbarButton
 		$options['class'] = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($url);
 
+		if ($name == 'options')
+		{
+			$this->rightPosition = true;
+		}
+
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.toolbar.link');
 
