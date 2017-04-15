@@ -123,8 +123,6 @@ class JToolbarButtonTest extends TestCaseDatabase
 	{
 		$type = array('Standard', 'test');
 
-		$alert = JText::_('WARNING');
-
 		$expected = "\n<button onclick=\"if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'warning': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton(''); }\" class=\"btn btn-sm btn-outline-primary\">\n\t<span class=\"icon-test\"></span>\n\t</button>\n";
 
 		$this->assertEquals(
