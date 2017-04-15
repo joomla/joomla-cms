@@ -59,7 +59,7 @@ class BannersViewClients extends JViewLegacy
 		{
 			JError::raiseError(500, implode("\n", $errors));
 
-			return false;
+			return;
 		}
 
 		BannersHelper::addSubmenu('clients');
