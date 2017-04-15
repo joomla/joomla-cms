@@ -433,6 +433,8 @@ class JRouterSite extends JRouter
 
 				$this->setVars($vars);
 			}
+
+			$route = implode('/', $segments);
 		}
 		else
 		{
@@ -442,6 +444,8 @@ class JRouterSite extends JRouter
 				$vars = $item->query;
 			}
 		}
+
+		$uri->setPath($route);
 
 		return $vars;
 	}
