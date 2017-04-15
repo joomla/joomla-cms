@@ -776,6 +776,7 @@ class ContentModelArticle extends JModelAdmin
 		parent::cleanCache('mod_articles_latest');
 		parent::cleanCache('mod_articles_news');
 		parent::cleanCache('mod_articles_popular');
+		parent::cleanCache('page');
 	}
 
 	/**
