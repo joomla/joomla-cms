@@ -1986,6 +1986,7 @@ table th[class*="span"],
 	line-height: 18px;
 	color: #333;
 	white-space: nowrap;
+	text-align: right;
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus,
