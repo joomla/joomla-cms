@@ -123,7 +123,9 @@ class JToolbarButtonTest extends TestCaseDatabase
 	{
 		$type = array('Standard', 'test');
 
-		$expected = "\n<button onclick=\"if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } else { Joomla.submitbutton(''); }\" class=\"btn btn-sm btn-outline-primary\">\n"
+		$alert = JText::_('WARNING');
+
+		$expected = "<button onclick=\"if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'warning': ['JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST', '<h4>" . $alert . "</h4>']}) } else { Joomla.submitbutton(''); }\" class=\"btn btn-sm btn-outline-primary\">\n"
 			. "\t<span class=\"icon-test\"></span>\n"
 			. "\t</button>\n";
 
