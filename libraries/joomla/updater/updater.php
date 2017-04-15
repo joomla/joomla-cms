@@ -170,31 +170,6 @@ class JUpdater extends JAdapter
 	}
 
 	/**
-	 * Finds an update for an extension
-	 *
-	 * @param   integer  $id  Id of the extension
-	 *
-	 * @return  mixed
-	 *
-	 * @since   3.6.0
-	 *
-	 * @deprecated  4.0  No replacement.
-	 */
-	public function update($id)
-	{
-		$updaterow = JTable::getInstance('update');
-		$updaterow->load($id);
-		$update = new JUpdate;
-
-		if ($update->loadFromXml($updaterow->detailsurl))
-		{
-			return $update->install();
-		}
-
-		return false;
-	}
-
-	/**
 	 * Returns the update site records for an extension with ID $eid. If $eid is zero all enabled update sites records
 	 * will be returned.
 	 *
