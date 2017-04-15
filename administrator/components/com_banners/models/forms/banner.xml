@@ -83,7 +83,7 @@
 			class="span12"
 			size="45"
 			labelclass="control-label"
-		/>
+			/>
 
 		<field
 			name="description"
