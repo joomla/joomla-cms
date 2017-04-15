@@ -111,7 +111,6 @@ if (!$readonly)
 						'bootstrap.renderModal',
 						'userModal_' . $id,
 						array(
-							'url'         => $uri,
 							'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
 							'closeButton' => true,
 							'height'      => '100%',

@@ -39,7 +39,7 @@ $isMoo = $input->getInt('ismoo', 1);
 
 if ($isMoo)
 {
-	$onClick = "window.parent.jSelectUser(this);window.parent.jQuery('.modal.in').modal('hide');";
+	$onClick = "typeof window.parent.jSelectUser === 'function' && window.parent.jSelectUser(this) && window.parent.jQuery('.modal.in').modal('hide')";
 }
 
 ?>

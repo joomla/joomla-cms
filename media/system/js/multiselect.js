@@ -49,10 +49,11 @@ Joomla.JMultiSelect = function(table) {
 
 document.addEventListener('DOMContentLoaded', function(event) {
 	'use strict';
-	var rows = document.querySelectorAll('tr[class^="row"]');
-	var checkallBtn = document.getElementsByName('checkall-toggle');
 
-	if(checkallBtn.length === 0) {
+	var rows = document.querySelectorAll('tr[class^="row"]'),
+	    checkallBtn = document.getElementsByName('checkall-toggle');
+
+	if (checkallBtn.length === 0) {
 		return;
 	}
 

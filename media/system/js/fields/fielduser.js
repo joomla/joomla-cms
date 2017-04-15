@@ -36,18 +36,14 @@
 
 	// display modal for select the file
 	$.fieldUser.prototype.modalOpen = function() {
-		var $iframe = $('<iframe>', {
-			name: 'field-user-modal',
-			src: this.options.url.replace('{field-user-id}', this.$input.attr('id')),
-			width: this.options.modalWidth,
-			height: this.options.modalHeight
-		});
-		this.$modalBody.append($iframe);
-		this.$modal.modal('show');
-		$('body').addClass('modal-open');
+		var iframe = document.createElement('iframe');
+		iframe.name = 'field-user-modal';
+		iframe.src = this.options.url.replace('{field-user-id}', this.$input.attr('id'));
+		iframe.width = this.options.modalWidth;
+		iframe.height = this.options.modalHeight;
 
 		var self = this; // save context
-		$iframe.load(function(){
+		iframe.onload = function() {
 			var content = $(this).contents();
 
 			// handle value select
@@ -56,7 +52,11 @@
 				self.modalClose();
 				$('body').removeClass('modal-open');
 			});
-		});
+		};
+
+		this.$modalBody.append(iframe);
+		this.$modal.modal('show');
+		$('body').addClass('modal-open');
 	};
 
 	// close modal
@@ -112,13 +112,6 @@
 	// Initialise all defaults
 	$(document).ready(function(){
 		$('.field-user-wrapper').fieldUser();
-		window.parent.jSelectUser = function(element)
-		{
-			var $el = $('#'+$(element).data('user-field')).parent().parent(),
-				instance = $el.data('fieldUser');
-			instance.setValue($(element).data('user-value'), $(element).data('user-name'));
-			instance.modalClose();
-		}
 	});
 
 })(jQuery);
