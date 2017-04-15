@@ -30,8 +30,9 @@ abstract class JHtmlCategory
 	 * Returns an array of categories for the given extension.
 	 *
 	 * @param   string  $extension  The extension option e.g. com_something.
-	 * @param   array   $config     An array of configuration options. By default, only
-	 *                              published and unpublished categories are returned.
+	 * @param   array   $config     An array of configuration options.
+	 *                              filter.published: filter publish status. By default, only published and unpublished categories are returned.
+	 *                              filter.cats: filter included categories.
 	 *
 	 * @return  array
 	 *
@@ -58,6 +59,19 @@ abstract class JHtmlCategory
 			
 			// Filter on user access level
 			$query->where('a.access IN (' . $groups . ')');
+
+			// Filter on included categories
+			if (isset($config['filter.cats']))
+			{
+				if (is_numeric($config['filter.cats']))
+				{
+					$query->where('a.id = ' . (int) $config['filter.cats']);
+				}
+				elseif (is_array($config['filter.cats']))
+				{
+					$query->where('a.id IN (' . implode(',', $config['filter.cats']) . ')');
+				}
+			}
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
@@ -138,7 +152,9 @@ abstract class JHtmlCategory
 	 * Returns an array of categories for the given extension.
 	 *
 	 * @param   string  $extension  The extension option.
-	 * @param   array   $config     An array of configuration options. By default, only published and unpublished categories are returned.
+	 * @param   array   $config     An array of configuration options.
+	 *                              filter.published: filter publish status. By default, only published and unpublished categories are returned.
+	 *                              filter.cats: filter included categories.
 	 *
 	 * @return  array   Categories for the extension
 	 *
@@ -164,6 +180,19 @@ abstract class JHtmlCategory
 			// Filter on user level.
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
+
+			// Filter on included categories
+			if (isset($config['filter.cats']))
+			{
+				if (is_numeric($config['filter.cats']))
+				{
+					$query->where('a.id = ' . (int) $config['filter.cats']);
+				}
+				elseif (is_array($config['filter.cats']))
+				{
+					$query->where('a.id IN (' . implode(',', $config['filter.cats']) . ')');
+				}
+			}
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
@@ -193,6 +222,7 @@ abstract class JHtmlCategory
 				$item->title = str_repeat('- ', $repeat) . $item->title;
 				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
+
 			// Special "Add to root" option:
 			static::$items[$hash][] = JHtml::_('select.option', '1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
 		}
