@@ -197,7 +197,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php
 					// We need to make a separate space for the configuration
 					// so that those fields always show to those wih permissions
-					if ( $this->canDo->get('core.admin')   ):  ?>
+					if ($this->canDo->get('core.admin') && $this->form->getFieldset('editorConfig')): ?>
 					<?php  echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'), 'configure-sliders'); ?>
 						<fieldset  class="panelform" >
 							<ul class="adminformlist">
