@@ -725,7 +725,7 @@ class JForm
 		{
 			try
 			{
-				$data = new SimpleXMLElement(html_entity_decode($data, ENT_QUOTES, 'UTF-8'));
+				$data = new SimpleXMLElement($data);
 			}
 			catch (Exception $e)
 			{
