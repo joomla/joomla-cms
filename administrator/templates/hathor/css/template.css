@@ -3090,6 +3090,7 @@ ul.config-option-list fieldset {
 }
 #permissions-sliders {
 	margin-top: 15px;
+	text-align: left;
 }
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
