@@ -155,6 +155,7 @@ class JViewCategory extends JViewLegacy
 		$cparams          = $category->getParams();
 		$category->params = clone $params;
 		$category->params->merge($cparams);
+		$category->params->merge($category->getMetadata());
 
 		$children = array($category->id => $children);
 
@@ -283,20 +284,34 @@ class JViewCategory extends JViewLegacy
 		}
 
 		$this->document->setTitle($title);
-
-		if ($this->params->get('menu-meta_description'))
+		
+		// If this is the active menu item, use the menu item metadata, else fall back to the category metadata
+		if ($this->menu && $this->menu->query['option'] == $this->category->extension && $this->menu->query['view'] == 'category' && $this->menu->query['id'] == $this->category->id)
 		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
+			$metadesc	= (trim($this->params->get('menu-meta_description')) != '' ? trim($this->params->get('menu-meta_description')) : trim($this->category->metadesc));
+			$metakey	= (trim($this->params->get('menu-meta_keywords')) != '' ? trim($this->params->get('menu-meta_keywords')) : trim($this->category->metakey));
+			$robots		= ($this->params->get('robots') ?: $this->category->params->get('robots'));
+		}
+		else 
+		{
+			$metadesc	= trim($this->category->metadesc);
+			$metakey	= trim($this->category->metakey);
+			$robots		= $this->category->params->get('robots');
+		}
+				
+		if ($metadesc)
+		{
+			$this->document->setDescription($metadesc);
 		}
 
-		if ($this->params->get('menu-meta_keywords'))
+		if ($metakey)
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetadata('keywords', $metakey);
 		}
 
-		if ($this->params->get('robots'))
+		if ($robots)
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetadata('robots', $robots);
 		}
 	}
 
