@@ -177,6 +177,8 @@ class JUpdater extends JAdapter
 	 * @return  mixed
 	 *
 	 * @since   3.6.0
+	 *
+	 * @deprecated  4.0  No replacement.
 	 */
 	public function update($id)
 	{

@@ -9,7 +9,7 @@
 namespace Joomla\CMS\Dispatcher;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Mvc\Factory\MvcFactory;
@@ -29,7 +29,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The JApplication instance
 	 *
-	 * @var    CmsApplication
+	 * @var    CMSApplication
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -66,13 +66,13 @@ abstract class Dispatcher implements DispatcherInterface
 	 * Constructor for Dispatcher
 	 *
 	 * @param   string               $namespace  Namespace of the Extension
-	 * @param   CmsApplication       $app        The JApplication for the dispatcher
+	 * @param   CMSApplication       $app        The JApplication for the dispatcher
 	 * @param   \JInput              $input      JInput
 	 * @param   MvcFactoryInterface  $factory    The factory object for the component
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, CmsApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
+	public function __construct($namespace, CMSApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
 	{
 		$this->namespace = rtrim($namespace, '\\') . '\\';
 		$this->app       = $app;
@@ -165,7 +165,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The application the dispatcher is working with.
 	 *
-	 * @return  CmsApplication
+	 * @return  CMSApplication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

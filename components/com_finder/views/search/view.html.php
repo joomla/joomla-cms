@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\SearchHelper;
+
 /**
  * Search HTML view class for the Finder package.
  *
@@ -152,7 +154,7 @@ class FinderViewSearch extends JViewLegacy
 		}
 
 		// Log the search
-		JSearchHelper::logSearch($this->query->input, 'com_finder');
+		SearchHelper::logSearch($this->query->input, 'com_finder');
 
 		// Push out the query data.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');

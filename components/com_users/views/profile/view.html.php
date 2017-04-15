@@ -134,7 +134,7 @@ class UsersViewProfile extends JViewLegacy
 		}
 
 		$this->data->tags = new JHelperTags;
-		$this->data->tags->getItemTags('com_users.user.', $this->data->id);
+		$this->data->tags->getItemTags('com_users.user', $this->data->id);
 
 		JPluginHelper::importPlugin('content');
 		$this->data->text = '';
