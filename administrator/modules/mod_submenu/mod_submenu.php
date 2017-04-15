@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$list    = JSubMenuHelper::getEntries();
-$filters = JSubMenuHelper::getFilters();
-$action  = JSubMenuHelper::getAction();
+$list    = JHtmlSidebar::getEntries();
+$filters = JHtmlSidebar::getFilters();
+$action  = JHtmlSidebar::getAction();
 
 $displayMenu    = count($list);
 $displayFilters = count($filters);
