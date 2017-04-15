@@ -143,6 +143,12 @@ class JForm
 	 */
 	protected function bindLevel($group, $data)
 	{
+		if (is_object($data) && $data instanceof JObject)
+		{
+			// Handle a JObject.
+			$data = $data->getProperties();
+		}
+		
 		// Ensure the input data is an array.
 		if (is_object($data))
 		{
