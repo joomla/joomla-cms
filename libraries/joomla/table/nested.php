@@ -483,22 +483,8 @@ class JTableNested extends JTable
 		if ($node->parent_id != $repositionData->new_parent_id)
 		{
 			$query = $this->_db->getQuery(true)
-				->update($this->_tbl);
-
-			// Update the title and alias fields if they exist for the table.
-			$fields = $this->getFields();
-
-			if (property_exists($this, 'title') && $this->title !== null)
-			{
-				$query->set('title = ' . $this->_db->quote($this->title));
-			}
-
-			if (array_key_exists('alias', $fields)  && $this->alias !== null)
-			{
-				$query->set('alias = ' . $this->_db->quote($this->alias));
-			}
-
-			$query->set('parent_id = ' . (int) $repositionData->new_parent_id)
+				->update($this->_tbl)
+				->set('parent_id = ' . (int) $repositionData->new_parent_id)
 				->where($this->_tbl_key . ' = ' . (int) $node->$k);
 			$this->_db->setQuery($query);
 
