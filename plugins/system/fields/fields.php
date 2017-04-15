@@ -121,7 +121,7 @@ class PlgSystemFields extends JPlugin
 		$task = JFactory::getApplication()->input->getCmd('task');
 
 		// Skip fields save when we activate a user, because we will lose the saved data
-		if ($task === 'activate')
+		if (in_array($task, array('activate', 'block', 'unblock')))
 		{
 			return true;
 		}
