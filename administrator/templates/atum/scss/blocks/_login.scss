@@ -1,0 +1,80 @@
+// Login page
+
+.view-login {
+  background: $atum-template-color-light;
+
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 330px;
+    margin-top: -240px;
+    margin-left: -165px;
+
+    @include media-breakpoint-only(xs) {
+      top: 10px;
+      width: 320px;
+      margin-top: 0 !important;
+      margin-left: -160px;
+    }
+
+  }
+
+  .login-logo {
+    margin: 0 0 3rem;
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      margin: 1rem 0;
+    }
+
+  }
+
+  h2 {
+    font-size: 1.9rem;
+    font-weight: 300;
+  }
+
+  .forgot {
+    text-align: center;
+  }
+
+  .card-img-top {
+    max-width: 100%;
+  }
+
+  .navbar {
+
+    p,
+    a {
+      margin-bottom: 0;
+      color: $white;
+    }
+
+  }
+
+  .navbar-fixed-bottom {
+    bottom: 10px;
+    text-align: center;
+  }
+
+  .login-joomla {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    font-size: 22px;
+  }
+
+  .btn {
+
+    @include media-breakpoint-only(xs) {
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+
+  }
+
+}

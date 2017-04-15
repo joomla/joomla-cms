@@ -60,7 +60,7 @@
 
 		<field name="state" type="list" label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
-			class="chzn-color-state"
+			   class="custom-select-color-state"
 			filter="intval" size="1" default="1" >
 			<option value="1">
 				JPUBLISHED</option>

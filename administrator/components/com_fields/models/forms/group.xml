@@ -110,7 +110,7 @@
 			type="text"
 			label="COM_FIELDS_FIELD_NOTE_LABEL"
 			description="COM_FIELDS_FIELD_NOTE_DESC"
-			class="span12"
+			class="col-md-12"
 			size="40"
 		/>
 
@@ -143,7 +143,6 @@
 		<field
 			name="ordering"
 			type="text"
-			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
 		/>

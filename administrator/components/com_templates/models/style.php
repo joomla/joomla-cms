@@ -101,7 +101,6 @@ class TemplatesModelStyle extends JModelAdmin
 		$pks        = (array) $pks;
 		$user       = JFactory::getUser();
 		$table      = $this->getTable();
-		$dispatcher = JEventDispatcher::getInstance();
 		$context    = $this->option . '.' . $this->name;
 
 		JPluginHelper::importPlugin($this->events_map['delete']);
@@ -126,7 +125,7 @@ class TemplatesModelStyle extends JModelAdmin
 				}
 
 				// Trigger the before delete event.
-				$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+				$result = JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 				if (in_array(false, $result, true) || !$table->delete($pk))
 				{
@@ -136,7 +135,7 @@ class TemplatesModelStyle extends JModelAdmin
 				}
 
 				// Trigger the after delete event.
-				$dispatcher->trigger($this->event_after_delete, array($context, $table));
+				JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 			}
 			else
 			{
@@ -171,7 +170,6 @@ class TemplatesModelStyle extends JModelAdmin
 			throw new Exception(JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
-		$dispatcher = JEventDispatcher::getInstance();
 		$context    = $this->option . '.' . $this->name;
 
 		// Include the plugins for the save events.
@@ -199,7 +197,7 @@ class TemplatesModelStyle extends JModelAdmin
 				}
 
 				// Trigger the before save event.
-				$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, true));
+				$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, true));
 
 				if (in_array(false, $result, true) || !$table->store())
 				{
@@ -207,7 +205,7 @@ class TemplatesModelStyle extends JModelAdmin
 				}
 
 				// Trigger the after save event.
-				$dispatcher->trigger($this->event_after_save, array($context, &$table, true));
+				JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, true));
 			}
 			else
 			{
@@ -479,7 +477,6 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		$app        = JFactory::getApplication();
-		$dispatcher = JEventDispatcher::getInstance();
 		$table      = $this->getTable();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('style.id');
 		$isNew      = true;
@@ -521,7 +518,7 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Trigger the before save event.
-		$result = $dispatcher->trigger($this->event_before_save, array('com_templates.style', &$table, $isNew));
+		$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array('com_templates.style', &$table, $isNew));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -583,7 +580,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$this->cleanCache();
 
 		// Trigger the after save event.
-		$dispatcher->trigger($this->event_after_save, array('com_templates.style', &$table, $isNew));
+		JFactory::getApplication()->triggerEvent($this->event_after_save, array('com_templates.style', &$table, $isNew));
 
 		$this->setState('style.id', $table->id);
 

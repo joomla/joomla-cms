@@ -27,6 +27,6 @@ JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 })(jQuery);
 </script>
 
-<button onclick="deleteMedia()" class="btn btn-small">
+<button onclick="deleteMedia()" class="btn btn-outline-danger btn-sm">
 	<span class="icon-remove" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
 </button>

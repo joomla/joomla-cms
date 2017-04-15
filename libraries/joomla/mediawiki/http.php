@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\Http\TransportInterface;
 
 /**
  * HTTP client class for connecting to a MediaWiki instance.
@@ -19,90 +19,47 @@ use Joomla\Registry\Registry;
 class JMediawikiHttp extends JHttp
 {
 	/**
-     * Constructor.
-     *
-     * @param   Registry        $options    Client options object.
-     * @param   JHttpTransport  $transport  The HTTP transport object.
-     *
-     * @since   12.3
-     */
-	public function __construct(Registry $options = null, JHttpTransport $transport = null)
+	 * Constructor.
+	 *
+	 * @param   array|ArrayAccess   $options    Client options array. If the registry contains any headers.* elements,
+	 *                                          these will be added to the request headers.
+	 * @param   TransportInterface  $transport  The HTTP transport object.
+	 *
+	 * @since   11.3
+	 * @throws  InvalidArgumentException
+	 */
+	public function __construct($options = [], TransportInterface $transport = null)
 	{
+		if (!is_array($options) && !($options instanceof ArrayAccess))
+		{
+			throw new InvalidArgumentException(
+				'The options param must be an array or implement the ArrayAccess interface.'
+			);
+		}
+
+		$this->options = $options;
+
 		// Override the JHttp contructor to use JHttpTransportStream.
-		$this->options = isset($options) ? $options : new Registry;
-		$this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
+		if (!isset($transport))
+		{
+			$transport = JHttpFactory::getAvailableDriver($this->options, 'stream');
+		}
+
+		// Ensure the transport is a TransportInterface instance or bail out
+		if (!($transport instanceof TransportInterface))
+		{
+			throw new InvalidArgumentException('A valid TransportInterface object was not set.');
+		}
+
+		$this->transport = $transport;
 
 		// Make sure the user agent string is defined.
-		$this->options->def('api.useragent', 'JMediawiki/1.0');
+		$this->setOption('api.useragent', 'JMediawiki/1.0');
 
 		// Set the default timeout to 120 seconds.
-		$this->options->def('api.timeout', 120);
-	}
-
-	/**
-	 * Method to send the GET command to the server.
-	 *
-	 * @param   string   $url      Path to the resource.
-	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer  $timeout  Read timeout in seconds.
-	 *
-	 * @return  JHttpResponse
-	 *
-	 * @since   12.3
-	 */
-	public function get($url, array $headers = null, $timeout = null)
-	{
-		// Look for headers set in the options.
-		$temp = (array) $this->options->get('headers');
-
-		foreach ($temp as $key => $val)
+		if (!$this->getOption('api.timeout'))
 		{
-			if (!isset($headers[$key]))
-			{
-				$headers[$key] = $val;
-			}
+			$this->setOption('api.timeout', 120);
 		}
-
-		// Look for timeout set in the options.
-		if ($timeout === null && $this->options->exists('api.timeout'))
-		{
-			$timeout = $this->options->get('api.timeout');
-		}
-
-		return $this->transport->request('GET', new JUri($url), null, $headers, $timeout, $this->options->get('api.useragent'));
-	}
-
-	/**
-	 * Method to send the POST command to the server.
-	 *
-	 * @param   string   $url      Path to the resource.
-	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
-	 * @param   array    $headers  An array of name-value pairs to include in the header of the request
-	 * @param   integer  $timeout  Read timeout in seconds.
-	 *
-	 * @return  JHttpResponse
-	 *
-	 * @since   12.3
-	 */
-	public function post($url, $data, array $headers = null, $timeout = null)
-	{
-		// Look for headers set in the options.
-		$temp = (array) $this->options->get('headers');
-
-		foreach ($temp as $key => $val)
-		{
-			if (!isset($headers[$key]))
-			{
-				$headers[$key] = $val;
-			}
-		}
-
-		// Look for timeout set in the options.
-		if ($timeout === null && $this->options->exists('api.timeout'))
-		{
-			$timeout = $this->options->get('api.timeout');
-		}
-
-		return $this->transport->request('POST', new JUri($url), $data, $headers, $timeout, $this->options->get('api.useragent'));
 	}
 }

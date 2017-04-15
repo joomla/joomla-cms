@@ -21,11 +21,11 @@ $resetOptions = array(
 	JHtml::_('select.option', 'yes', JText::_('JYES')),
 	JHtml::_('select.option', 'no', JText::_('JNO'))
 );
-JHtml::_('formbehavior.chosen', 'select');
+
 ?>
 
-<div class="container-fluid">
-	<div class="row-fluid">
+<div class="container">
+	<div class="row">
 		<div id="batch-choose-action" class="combo control-group">
 			<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
 				<?php echo JText::_('COM_USERS_BATCH_GROUP'); ?>
@@ -33,18 +33,15 @@ JHtml::_('formbehavior.chosen', 'select');
 		</div>
 		<div id="batch-choose-action" class="combo controls">
 			<div class="control-group">
-				<select name="batch[group_id]" id="batch-group-id">
+				<select class="custom-select" name="batch[group_id]" id="batch-group-id">
 					<option value=""><?php echo JText::_('JSELECT'); ?></option>
 					<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
 				</select>
 			</div>
 		</div>
+		<label><?php echo JText::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
 		<div class="control-group radio">
-			<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add'); ?>
+			<?php echo JHtml::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
 		</div>
-	</div>
-	<label><?php echo JText::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
-	<div class="control-group radio">
-		<?php echo JHtml::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
 	</div>
 </div>

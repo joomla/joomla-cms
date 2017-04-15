@@ -125,9 +125,8 @@ class SearchModelSearch extends JModelLegacy
 	}
 
 	/**
-	 * Method to get weblink item data for the category
+	 * Method to get search results for a given query
 	 *
-	 * @access public
 	 * @return array
 	 */
 	public function getData()
@@ -138,8 +137,7 @@ class SearchModelSearch extends JModelLegacy
 			$areas = $this->getAreas();
 
 			JPluginHelper::importPlugin('search');
-			$dispatcher = JEventDispatcher::getInstance();
-			$results = $dispatcher->trigger('onContentSearch', array(
+			$results = JFactory::getApplication()->triggerEvent('onContentSearch', array(
 				$this->getState('keyword'),
 				$this->getState('match'),
 				$this->getState('ordering'),
@@ -199,8 +197,7 @@ class SearchModelSearch extends JModelLegacy
 	/**
 	 * Method to get a pagination object of the weblink items for the category
 	 *
-	 * @access public
-	 * @return  integer
+	 * @return  JPagination
 	 */
 	public function getPagination()
 	{
@@ -228,8 +225,7 @@ class SearchModelSearch extends JModelLegacy
 			$areas = array();
 
 			JPluginHelper::importPlugin('search');
-			$dispatcher  = JEventDispatcher::getInstance();
-			$searchareas = $dispatcher->trigger('onContentSearchAreas');
+			$searchareas = JFactory::getApplication()->triggerEvent('onContentSearchAreas');
 
 			foreach ($searchareas as $area)
 			{

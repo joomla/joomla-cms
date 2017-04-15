@@ -15,7 +15,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.core');
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 
 JText::script('ERROR');
@@ -96,13 +95,13 @@ $clientId = $this->state->get('item.client_id', 0);
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<div>
 
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS')); ?>
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php
 				echo $this->form->renderField('type');
 
@@ -129,28 +128,30 @@ $clientId = $this->state->get('item.client_id', 0);
 				}
 				?>
 			</div>
-			<div class="span3">
-				<?php
-				// Set main fields.
-				$this->fields = array(
-					'id',
-					'client_id',
-					'menutype',
-					'parent_id',
-					'menuordering',
-					'published',
-					'home',
-					'access',
-					'language',
-					'note',
-				);
+			<div class="col-md-3">
+				<div class="card card-block card-light">
+					<?php
+					// Set main fields.
+					$this->fields = array(
+						'id',
+						'client_id',
+						'menutype',
+						'parent_id',
+						'menuordering',
+						'published',
+						'home',
+						'access',
+						'language',
+						'note',
+					);
 
-				if ($this->item->type != 'component')
-				{
-					$this->fields = array_diff($this->fields, array('home'));
-				}
+					if ($this->item->type != 'component')
+					{
+						$this->fields = array_diff($this->fields, array('home'));
+					}
 
-				echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -181,9 +182,9 @@ $clientId = $this->state->get('item.client_id', 0);
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
+	<input type="hidden" name="task" value="">
+	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>">
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
-	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
+	<input type="hidden" id="fieldtype" name="fieldtype" value="">
 </form>

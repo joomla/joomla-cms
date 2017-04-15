@@ -64,7 +64,7 @@
 	<field
 		name="title"
 		type="text"
-		class="input-xxlarge input-large-text"
+		class="input-xxlarge"
 		label="JGLOBAL_TITLE"
 		description="JFIELD_TITLE_DESC"
 		size="40"
@@ -75,7 +75,6 @@
 		name="note"
 		type="text"
 		maxlength="255"
-		class="span12"
 		label="COM_TAGS_FIELD_NOTE_LABEL"
 		description="COM_TAGS_FIELD_NOTE_DESC"
 		size="40"
@@ -94,7 +93,7 @@
 	<field
 		name="published"
 		type="list"
-		class="chzn-color-state"
+		class="custom-select-color-state"
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC"
 		default="1"
@@ -215,7 +214,7 @@
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 		maxlength="255"
-		class="span12" size="45"
+		size="45"
 		labelclass="control-label"
 	/>
 

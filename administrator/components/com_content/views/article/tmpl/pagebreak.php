@@ -20,19 +20,25 @@ $this->eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $this->eName);
 $document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 ?>
 <div class="container-popup">
-	<form class="form-horizontal">
-
+	<form>
 		<div class="control-group">
-			<label for="title" class="control-label"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
-			<div class="controls"><input type="text" id="title" name="title" /></div>
+			<div class="control-label">
+				<label for="title"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
+			</div>
+			<div class="controls">
+				<input type="text" id="title" name="title">
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<label for="alias"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TOC'); ?></label>
+			</div>
+			<div class="controls">
+				<input type="text" id="alt" name="alt">
+			</div>
 		</div>
 
-		<div class="control-group">
-			<label for="alias" class="control-label"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TOC'); ?></label>
-			<div class="controls"><input type="text" id="alt" name="alt" /></div>
-		</div>
-
-		<button onclick="insertPagebreak('<?php echo $this->eName; ?>');" class="btn btn-success pull-right">
+		<button onclick="insertPagebreak('<?php echo $this->eName; ?>');" class="btn btn-success pull-xs-right">
 			<?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?>
 		</button>
 

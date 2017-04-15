@@ -124,17 +124,17 @@ class PlgContentPagenavigation extends JPlugin
 			// Array of articles in same category correctly ordered.
 			$query = $db->getQuery(true);
 
-			// Sqlsrv changes
-			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0');
-			$a_id = $query->castAsChar('a.id');
-			$case_when .= ' THEN ' . $query->concatenate(array($a_id, 'a.alias'), ':');
-			$case_when .= ' ELSE ' . $a_id . ' END as slug';
+			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
+				. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
+				. ' ELSE a.id END AS slug';
 
-			$case_when1 = ' CASE WHEN ' . $query->charLength('cc.alias', '!=', '0');
-			$c_id = $query->castAsChar('cc.id');
-			$case_when1 .= ' THEN ' . $query->concatenate(array($c_id, 'cc.alias'), ':');
-			$case_when1 .= ' ELSE ' . $c_id . ' END as catslug';
-			$query->select('a.id, a.title, a.catid, a.language,' . $case_when . ',' . $case_when1)
+			$case_when1 = ' CASE WHEN ' . $query->charLength('cc.alias', '!=', '0')
+				. ' THEN ' . $query->concatenate(array($query->castAsChar('cc.id'), 'cc.alias'), ':')
+				. ' ELSE cc.id END AS catslug';
+
+			$query->select('a.id, a.title, a.catid, a.language')
+				->select($case_when)
+				->select($case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(

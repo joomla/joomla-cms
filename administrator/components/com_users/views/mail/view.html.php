@@ -17,7 +17,9 @@ defined('_JEXEC') or die;
 class UsersViewMail extends JViewLegacy
 {
 	/**
-	 * @var object form object
+	 * The JForm object
+	 *
+	 * @var  JForm
 	 */
 	protected $form;
 

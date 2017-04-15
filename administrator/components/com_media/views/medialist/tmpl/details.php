@@ -93,21 +93,21 @@ $doc->addScriptDeclaration(
 	</div>
 
 	<div class="manager">
-		<table class="table table-striped table-condensed">
+		<table class="table table-striped table-sm">
 		<thead>
 			<tr>
 				<?php if ($this->canDelete) : ?>
-					<th width="1%">
+					<th style="width:1%">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 				<?php endif; ?>
-				<th width="1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
+				<th style="width:1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
 				<th><?php echo JText::_('COM_MEDIA_NAME'); ?></th>
-				<th width="15%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
-				<th width="8%"><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
+				<th style="width:15%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
+				<th style="width:8%"><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
 
 				<?php if ($this->canDelete) : ?>
-					<th width="8%">
+					<th style="width:8%">
 						<?php echo JText::_('JACTION_DELETE'); ?>
 					</th>
 				<?php endif; ?>
@@ -125,9 +125,9 @@ $doc->addScriptDeclaration(
 		</table>
 	</div>
 
-	<input type="hidden" name="task" value="list" />
-	<input type="hidden" name="username" value="" />
-	<input type="hidden" name="password" value="" />
-	<input type="hidden" name="boxchecked" value="" />
+	<input type="hidden" name="task" value="list">
+	<input type="hidden" name="username" value="">
+	<input type="hidden" name="password" value="">
+	<input type="hidden" name="boxchecked" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

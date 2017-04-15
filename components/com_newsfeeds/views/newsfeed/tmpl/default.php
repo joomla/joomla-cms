@@ -71,7 +71,7 @@ else
 		<?php if ($images->image_first_caption) :
 			echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"';
 		endif; ?>
-		src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
+		src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"> </div>
 	<?php endif; ?>
 
 	<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
@@ -80,7 +80,7 @@ else
 	<?php if ($images->image_second_caption) :
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_second_caption) . '"';
 	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
+	src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?>"> </div>
 	<?php endif; ?>
 	<!-- Show Description from Component -->
 	<?php echo $this->item->description; ?>
@@ -95,7 +95,7 @@ else
 	<!-- Show Image -->
 	<?php if (isset($this->rssDoc->image) && isset($this->rssDoc->imagetitle) && $this->params->get('show_feed_image')) : ?>
 	<div>
-			<img src="<?php echo $this->rssDoc->image; ?>" alt="<?php echo $this->rssDoc->image->decription; ?>" />
+			<img src="<?php echo $this->rssDoc->image; ?>" alt="<?php echo $this->rssDoc->image->decription; ?>">
 </div>
 <?php endif; ?>
 

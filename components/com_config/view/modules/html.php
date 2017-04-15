@@ -18,8 +18,20 @@ defined('_JEXEC') or die;
  */
 class ConfigViewModulesHtml extends ConfigViewCmsHtml
 {
+	/**
+	 * The module to be rendered
+	 *
+	 * @var   array
+	 * @since 3.2
+	 */
 	public $item;
 
+	/**
+	 * The form object
+	 *
+	 * @var   JForm
+	 * @since 3.2
+	 */
 	public $form;
 
 	/**

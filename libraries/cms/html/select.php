@@ -141,56 +141,6 @@ abstract class JHtmlSelect
 	}
 
 	/**
-	 * Method to build a list with suggestions
-	 *
-	 * @param   array    $data       An array of objects, arrays, or values.
-	 * @param   string   $optKey     The name of the object variable for the option value. If
-	 *                               set to null, the index of the value array is used.
-	 * @param   string   $optText    The name of the object variable for the option text.
-	 * @param   mixed    $idtag      Value of the field id or null by default
-	 * @param   boolean  $translate  True to translate
-	 *
-	 * @return  string  HTML for the select list
-	 *
-	 * @since       3.2
-	 * @deprecated  4.0  Just create the `<datalist>` directly instead
-	 */
-	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag = null, $translate = false)
-	{
-		// Log deprecated message
-		JLog::add(
-			'JHtmlSelect::suggestionlist() is deprecated. Create the <datalist> tag directly instead.',
-			JLog::WARNING,
-			'deprecated'
-		);
-
-		// Note: $idtag is requried but has to be an optional argument in the funtion call due to argument order
-		if (!$idtag)
-		{
-			throw new InvalidArgumentException('$idtag is a required argument in deprecated JHtmlSelect::suggestionlist');
-		}
-
-		// Set default options
-		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
-
-		// Get options from the parameters
-		$options['id'] = $idtag;
-		$options['list.attr'] = null;
-		$options['list.translate'] = $translate;
-		$options['option.key'] = $optKey;
-		$options['option.text'] = $optText;
-		$options['list.select'] = null;
-
-		$id = ' id="' . $idtag . '"';
-
-		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
-		$html = $baseIndent . '<datalist' . $id . '>' . $options['format.eol']
-			. static::options($data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
-
-		return $html;
-	}
-
-	/**
 	 * Generates a grouped HTML selection list from nested arrays.
 	 *
 	 * @param   array   $data     An array of groups, each of which is an array of options.
@@ -262,7 +212,8 @@ abstract class JHtmlSelect
 		$options['groups'] = false;
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
-		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol'];
+		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '')
+				. ' name="' . $name . '"' . $attribs . ' class="custom-select">' . $options['format.eol'];
 		$groupIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 
 		foreach ($data as $dataKey => $group)
@@ -385,46 +336,6 @@ abstract class JHtmlSelect
 		$options['option.key'] = null;
 
 		return JHtml::_('select.genericlist', $data, $name, $options);
-	}
-
-	/**
-	 * Create a placeholder for an option group.
-	 *
-	 * @param   string  $text     The text for the option
-	 * @param   string  $optKey   The returned object property name for the value
-	 * @param   string  $optText  The returned object property name for the text
-	 *
-	 * @return  stdClass
-	 *
-	 * @deprecated  4.0  Use JHtmlSelect::groupedList()
-	 * @see     JHtmlSelect::groupedList()
-	 * @since   1.5
-	 */
-	public static function optgroup($text, $optKey = 'value', $optText = 'text')
-	{
-		JLog::add('JHtmlSelect::optgroup() is deprecated, use JHtmlSelect::groupedList() instead.', JLog::WARNING, 'deprecated');
-
-		// Set initial state
-		static $state = 'open';
-
-		// Toggle between open and close states:
-		switch ($state)
-		{
-			case 'open':
-				$obj = new stdClass;
-				$obj->$optKey = '<OPTGROUP>';
-				$obj->$optText = $text;
-				$state = 'close';
-				break;
-			case 'close':
-				$obj = new stdClass;
-				$obj->$optKey = '</OPTGROUP>';
-				$obj->$optText = $text;
-				$state = 'open';
-				break;
-		}
-
-		return $obj;
 	}
 
 	/**
@@ -804,7 +715,7 @@ abstract class JHtmlSelect
 
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
 			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
-				. $attribs . ' />' . $t;
+				. $attribs . '>' . $t;
 			$html .= "\n\t" . '</label>';
 		}
 

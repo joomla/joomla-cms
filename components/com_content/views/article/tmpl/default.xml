@@ -55,8 +55,8 @@
 			<option value="0">JNO</option>
 		</field>
 
-		<field 
-			name="show_intro" 
+		<field
+			name="show_intro"
 			type="list"
 			description="JGLOBAL_SHOW_INTRO_DESC"
 			label="JGLOBAL_SHOW_INTRO_LABEL"

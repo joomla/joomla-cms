@@ -58,9 +58,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -101,21 +99,28 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		JToolbarHelper::title($isNew ? JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT'), 'feed newsfeeds');
 
+		$toolbarButtons = [];
+
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0))
 		{
-			JToolbarHelper::apply('newsfeed.apply');
-			JToolbarHelper::save('newsfeed.save');
+			$toolbarButtons[] = ['apply', 'newsfeed.apply'];
+			$toolbarButtons[] = ['save', 'newsfeed.save'];
 		}
 		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
-			JToolbarHelper::save2new('newsfeed.save2new');
+			$toolbarButtons[] = ['save2new', 'newsfeed.save2new'];
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::save2copy('newsfeed.save2copy');
+			$toolbarButtons[] = ['save2copy', 'newsfeed.save2copy'];
 		}
+		
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if (empty($this->item->id))
 		{

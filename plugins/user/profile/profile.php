@@ -74,22 +74,20 @@ class PlgUserProfile extends JPlugin
 			{
 				// Load the profile data from the database.
 				$db = JFactory::getDbo();
-				$db->setQuery(
-					'SELECT profile_key, profile_value FROM #__user_profiles'
-						. ' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'"
-						. ' ORDER BY ordering'
-				);
+				$query = $db->getQuery(true)
+					->select(
+						array(
+							$db->qn('profile_key'),
+							$db->qn('profile_value'),
+						)
+					)
+					->from('#__user_profiles')
+					->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
+					->where($db->qn('profile_key') . ' LIKE ' . $db->q('profile.%'))
+					->order($db->qn('ordering'));
 
-				try
-				{
-					$results = $db->loadRowList();
-				}
-				catch (RuntimeException $e)
-				{
-					$this->_subject->setError($e->getMessage());
-
-					return false;
-				}
+				$db->setQuery($query);
+				$results = $db->loadRowList();
 
 				// Merge the profile data.
 				$data->profile = array();
@@ -228,9 +226,7 @@ class PlgUserProfile extends JPlugin
 	{
 		if (!($form instanceof JForm))
 		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
+			throw new RuntimeException(JText::_('JERROR_NOT_A_FORM'), 500);
 		}
 
 		// Check we are manipulating a valid form.
@@ -412,36 +408,52 @@ class PlgUserProfile extends JPlugin
 
 		if ($userId && $result && isset($data['profile']) && count($data['profile']))
 		{
-			try
+			$db = JFactory::getDbo();
+
+			// Sanitize the date
+			$data['profile']['dob'] = $this->date;
+
+			$keys = array_keys($data['profile']);
+
+			foreach ($keys as &$key)
 			{
-				// Sanitize the date
-				$data['profile']['dob'] = $this->date;
+				$key = 'profile.' . $key;
+				$key = $db->quote($key);
+			}
 
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->delete($db->quoteName('#__user_profiles'))
-					->where($db->quoteName('user_id') . ' = ' . (int) $userId)
-					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
-				$db->setQuery($query);
-				$db->execute();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('user_id') . ' = ' . (int) $userId)
+				->where($db->quoteName('profile_key') . ' IN (' . implode(',', $keys) . ')');
+			$db->setQuery($query);
+			$db->execute();
 
-				$tuples = array();
-				$order = 1;
+			$query = $db->getQuery(true)
+				->select($db->quoteName('ordering'))
+				->from($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('user_id') . ' = ' . (int) $userId);
+			$db->setQuery($query);
+			$usedOrdering = $db->loadColumn();
 
-				foreach ($data['profile'] as $k => $v)
+			$tuples = array();
+			$order = 1;
+
+			foreach ($data['profile'] as $k => $v)
+			{
+				while (in_array($order, $usedOrdering))
 				{
-					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++) . ')';
+					$order++;
 				}
 
-				$db->setQuery('INSERT INTO #__user_profiles VALUES ' . implode(', ', $tuples));
-				$db->execute();
+				$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++) . ')';
 			}
-			catch (RuntimeException $e)
-			{
-				$this->_subject->setError($e->getMessage());
 
-				return false;
-			}
+			$query = $db->getQuery(true)
+				->insert($db->qn('#__user_profiles'))
+				->values($tuples);
+
+			$db->setQuery($query);
+			$db->execute();
 		}
 
 		return true;
@@ -469,22 +481,14 @@ class PlgUserProfile extends JPlugin
 
 		if ($userId)
 		{
-			try
-			{
-				$db = JFactory::getDbo();
-				$db->setQuery(
-					'DELETE FROM #__user_profiles WHERE user_id = ' . $userId
-						. " AND profile_key LIKE 'profile.%'"
-				);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__user_profiles'))
+				->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
+				->where($db->qn('profile_key') . ' LIKE ' . $db->q('profile.%'));
 
-				$db->execute();
-			}
-			catch (Exception $e)
-			{
-				$this->_subject->setError($e->getMessage());
-
-				return false;
-			}
+			$db->setQuery($query);
+			$db->execute();
 		}
 
 		return true;

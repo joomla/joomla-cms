@@ -33,17 +33,16 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$app = JFactory::getApplication();
 
 		// Get data from the model.
-		$this->state = $this->get('State');
-		$this->changeSet = $this->get('Items');
-		$this->errors = $this->changeSet->check();
-		$this->results = $this->changeSet->getStatus();
+		$this->changeSet     = $this->get('Items');
+		$this->errors        = $this->changeSet->check();
+		$this->results       = $this->changeSet->getStatus();
 		$this->schemaVersion = $this->get('SchemaVersion');
 		$this->updateVersion = $this->get('UpdateVersion');
 		$this->filterParams  = $this->get('DefaultTextFilters');
 		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : JText::_('JNONE');
 		$this->updateVersion = ($this->updateVersion) ?  $this->updateVersion : JText::_('JNONE');
-		$this->pagination = $this->get('Pagination');
-		$this->errorCount = count($this->errors);
+		$this->pagination    = $this->get('Pagination');
+		$this->errorCount    = count($this->errors);
 
 		if ($this->schemaVersion != $this->changeSet->getSchema())
 		{
@@ -62,7 +61,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 
 		if ($this->errorCount === 0)
 		{
-			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'info');
 		}
 		else
 		{

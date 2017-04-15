@@ -14,20 +14,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen', '.advancedSelect');
 
 $app = JFactory::getApplication();
 $input = $app->input;
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "group.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
-		{
-			Joomla.submitform(task, document.getElementById("item-form"));
-		}
-	};
-');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_fields&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -77,7 +67,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php endif; ?>
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		<?php echo $this->form->getInput('context'); ?>
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

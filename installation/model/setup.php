@@ -106,7 +106,7 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @param   string  $page  The view being checked.
 	 *
-	 * @return  array  Validated form data.
+	 * @return  array|boolean  Array with the validated form data or boolean false on a validation failure.
 	 *
 	 * @since   3.1
 	 */
@@ -127,18 +127,13 @@ class InstallationModelSetup extends JModelBase
 		// Check for validation errors.
 		if ($return === false)
 		{
-			// Redirect back to the previous page.
-			$r = new stdClass;
-			$r->view = $page;
-			JFactory::getApplication()->sendJsonResponse($r);
+			return false;
 		}
 
 		unset($return['admin_password2']);
 
 		// Store the options in the session.
-		$vars = $this->storeOptions($return);
-
-		return $vars;
+		return $this->storeOptions($return);
 	}
 
 	/**
@@ -228,20 +223,6 @@ class InstallationModelSetup extends JModelBase
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for magic quotes gpc.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_MAGIC_QUOTES_GPC');
-		$option->state  = (ini_get('magic_quotes_gpc') == false);
-		$option->notice = null;
-		$options[] = $option;
-
-		// Check for register globals.
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_REGISTER_GLOBALS');
-		$option->state  = (ini_get('register_globals') == false);
-		$option->notice = null;
-		$options[] = $option;
-
 		// Check for zlib support.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
@@ -261,7 +242,7 @@ class InstallationModelSetup extends JModelBase
 		$available = JDatabaseDriver::getConnectors();
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
-		$option->label .= '<br />(' . implode(', ', $available) . ')';
+		$option->label .= '<br>(' . implode(', ', $available) . ')';
 		$option->state  = count($available);
 		$option->notice = null;
 		$options[] = $option;
@@ -371,13 +352,6 @@ class InstallationModelSetup extends JModelBase
 		$setting->label = JText::_('INSTL_FILE_UPLOADS');
 		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
-		$settings[] = $setting;
-
-		// Check for magic quotes runtimes.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
-		$setting->state = (bool) ini_get('magic_quotes_runtime');
-		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for output buffering.

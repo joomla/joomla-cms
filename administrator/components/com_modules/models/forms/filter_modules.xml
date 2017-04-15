@@ -113,7 +113,6 @@
 			type="limitbox"
 			label="COM_MODULES_LIST_LIMIT"
 			description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
-			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

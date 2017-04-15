@@ -37,14 +37,14 @@
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 		<field
-                	name="author_id"
-                	type="author"
-                	label="COM_CONTENT_FILTER_AUTHOR"
-                	description="COM_CONTENT_FILTER_AUTHOR_DESC"
-                	onchange="this.form.submit();"
-                	>
-        		<option value="">JOPTION_SELECT_AUTHOR</option>
-        	</field>
+			name="author_id"
+			type="author"
+			label="COM_CONTENT_FILTER_AUTHOR"
+			description="COM_CONTENT_FILTER_AUTHOR_DESC"
+			onchange="this.form.submit();"
+			>
+		<option value="">JOPTION_SELECT_AUTHOR</option>
+		</field>
 		<field
 			name="language"
 			type="contentlanguage"
@@ -121,7 +121,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
 			default="25"
 			label="COM_CONTENT_LIST_LIMIT"
 			description="COM_CONTENT_LIST_LIMIT_DESC"

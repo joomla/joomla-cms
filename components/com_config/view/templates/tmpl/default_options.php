@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Load chosen.css
-JHtml::_('formbehavior.chosen', 'select');
+
 
 ?>
 <?php

@@ -24,7 +24,6 @@
 			default="0"
 			description="COM_USERS_MAIL_FIELD_GROUP_DESC"
 			label="COM_USERS_MAIL_FIELD_GROUP_LABEL"
-			size="10"
 		>
 			<option value="0">COM_USERS_MAIL_FIELD_VALUE_ALL_USERS_GROUPS</option>
 		</field>
@@ -37,16 +36,15 @@
 		/>
 
 		<field name="subject" type="text"
-			class="span8"
 			description="COM_USERS_MAIL_FIELD_SUBJECT_DESC"
 			label="COM_USERS_MAIL_FIELD_SUBJECT_LABEL"
 			maxlength="150"
+			class="input-xlarge"
 			size="30"
 		/>
 
 		<field name="message" type="textarea"
-			class="span11 vert"
-			cols="70"
+			class="vert input-full"
 			description="COM_USERS_MAIL_FIELD_MESSAGE_DESC"
 			label="COM_USERS_MAIL_FIELD_MESSAGE_LABEL"
 			rows="20"

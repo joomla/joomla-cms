@@ -265,8 +265,8 @@ class UsersModelUser extends JModelAdmin
 			if ($twoFactorMethod != 'none')
 			{
 				// Run the plugins
-				FOFPlatform::getInstance()->importPlugin('twofactorauth');
-				$otpConfigReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
+				JPluginHelper::importPlugin('twofactorauth');
+				$otpConfigReplies = JFactory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
 
 				// Look for a valid reply
 				foreach ($otpConfigReplies as $reply)
@@ -345,7 +345,6 @@ class UsersModelUser extends JModelAdmin
 		$iAmSuperAdmin = $user->authorise('core.admin');
 
 		JPluginHelper::importPlugin($this->events_map['delete']);
-		$dispatcher = JEventDispatcher::getInstance();
 
 		if (in_array($user->id, $pks))
 		{
@@ -371,7 +370,7 @@ class UsersModelUser extends JModelAdmin
 					$user_to_delete = JFactory::getUser($pk);
 
 					// Fire the before delete event.
-					$dispatcher->trigger($this->event_before_delete, array($table->getProperties()));
+					JFactory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
 
 					if (!$table->delete($pk))
 					{
@@ -382,7 +381,7 @@ class UsersModelUser extends JModelAdmin
 					else
 					{
 						// Trigger the after delete event.
-						$dispatcher->trigger($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
+						JFactory::getApplication()->triggerEvent($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
 					}
 				}
 				else
@@ -416,7 +415,6 @@ class UsersModelUser extends JModelAdmin
 	public function block(&$pks, $value = 1)
 	{
 		$app        = JFactory::getApplication();
-		$dispatcher = JEventDispatcher::getInstance();
 		$user       = JFactory::getUser();
 
 		// Check if I am a Super Admin
@@ -476,7 +474,7 @@ class UsersModelUser extends JModelAdmin
 						}
 
 						// Trigger the before save event.
-						$result = $dispatcher->trigger($this->event_before_save, array($old, false, $table->getProperties()));
+						$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
 
 						if (in_array(false, $result, true))
 						{
@@ -493,7 +491,7 @@ class UsersModelUser extends JModelAdmin
 						}
 
 						// Trigger the after save event
-						$dispatcher->trigger($this->event_after_save, array($table->getProperties(), false, true, null));
+						JFactory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (Exception $e)
 					{
@@ -531,8 +529,7 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function activate(&$pks)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
-		$user       = JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
@@ -573,7 +570,7 @@ class UsersModelUser extends JModelAdmin
 						}
 
 						// Trigger the before save event.
-						$result = $dispatcher->trigger($this->event_before_save, array($old, false, $table->getProperties()));
+						$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
 
 						if (in_array(false, $result, true))
 						{
@@ -590,7 +587,7 @@ class UsersModelUser extends JModelAdmin
 						}
 
 						// Fire the after save event
-						$dispatcher->trigger($this->event_after_save, array($table->getProperties(), false, true, null));
+						JFactory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (Exception $e)
 					{
@@ -1151,9 +1148,9 @@ class UsersModelUser extends JModelAdmin
 
 		$otpConfig = $this->getOtpConfig($user_id);
 
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+		JPluginHelper::importPlugin('twofactorauth');
 
-		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return JFactory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
 	}
 
 	/**
@@ -1298,9 +1295,9 @@ class UsersModelUser extends JModelAdmin
 		);
 
 		// Try to validate the OTP
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+		JPluginHelper::importPlugin('twofactorauth');
 
-		$otpAuthReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorAuthenticate', array($credentials, $options));
+		$otpAuthReplies = JFactory::getApplication()->triggerEvent('onUserTwofactorAuthenticate', array($credentials, $options));
 
 		$check = false;
 

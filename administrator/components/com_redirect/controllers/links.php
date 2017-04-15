@@ -107,7 +107,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	 * @param   string  $prefix  The prefix of the model.
 	 * @param   array   $config  An array of settings.
 	 *
-	 * @return  JModel instance
+	 * @return  JModelLegacy instance
 	 *
 	 * @since   1.6
 	 */

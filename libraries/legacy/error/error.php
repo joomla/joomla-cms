@@ -245,7 +245,7 @@ abstract class JError
 			// This is required to prevent a very unhelpful white-screen-of-death
 			jexit(
 				'JError::raise -> Static method JError::' . $function . ' does not exist. Contact a developer to debug' .
-				'<br /><strong>Error was</strong> <br />' . $exception->getMessage()
+				'<br><strong>Error was</strong> <br>' . $exception->getMessage()
 			);
 		}
 		// We don't need to store the error, since JException already does that for us!
@@ -582,8 +582,8 @@ abstract class JError
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// Output as html
-			echo "<br /><b>jos-$level_human</b>: "
-				. $error->get('message') . "<br />\n"
+			echo "<br><b>jos-$level_human</b>: "
+				. $error->get('message') . "<br>\n"
 				. (JDEBUG ? nl2br($trace) : '');
 		}
 		else
@@ -635,11 +635,11 @@ abstract class JError
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// Output as html
-			echo "<br /><b>J$level_human</b>: " . $error->get('message') . "<br />\n";
+			echo "<br><b>J$level_human</b>: " . $error->get('message') . "<br>\n";
 
 			if ($info != null)
 			{
-				echo '&#160;&#160;&#160;' . $info . "<br />\n";
+				echo '&#160;&#160;&#160;' . $info . "<br>\n";
 			}
 
 			echo $error->getBacktrace(true);
@@ -680,7 +680,7 @@ abstract class JError
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// Output as html
-			jexit("<br /><b>J$level_human</b>: " . $error->get('message') . "<br />\n");
+			jexit("<br><b>J$level_human</b>: " . $error->get('message') . "<br>\n");
 		}
 		else
 		{

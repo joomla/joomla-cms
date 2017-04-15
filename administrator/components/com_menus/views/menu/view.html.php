@@ -17,21 +17,28 @@ defined('_JEXEC') or die;
 class MenusViewMenu extends JViewLegacy
 {
 	/**
+	 * The JForm object
+	 *
 	 * @var  JForm
 	 */
 	protected $form;
 
 	/**
-	 * @var  mixed
+	 * The active item
+	 *
+	 * @var  object
 	 */
 	protected $item;
 
 	/**
+	 * The model state
+	 *
 	 * @var  JObject
 	 */
 	protected $state;
 
 	/**
+	 * The actions the user is authorised to perform
 	 *
 	 * @var  JObject
 	 */
@@ -57,9 +64,7 @@ class MenusViewMenu extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		parent::display($tpl);
@@ -82,29 +87,36 @@ class MenusViewMenu extends JViewLegacy
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
 
+		$toolbarButtons = [];
+
 		// If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
 		if ($isNew && $this->canDo->get('core.create'))
 		{
 			if ($this->canDo->get('core.edit'))
 			{
-				JToolbarHelper::apply('menu.apply');
+				$toolbarButtons[] = ['apply', 'menu.apply'];
 			}
 
-			JToolbarHelper::save('menu.save');
+			$toolbarButtons[] = ['save', 'menu.save'];
 		}
 
 		// If user can edit, can save the item.
 		if (!$isNew && $this->canDo->get('core.edit'))
 		{
-			JToolbarHelper::apply('menu.apply');
-			JToolbarHelper::save('menu.save');
+			$toolbarButtons[] = ['apply', 'menu.apply'];
+			$toolbarButtons[] = ['save', 'menu.save'];
 		}
 
 		// If the user can create new items, allow them to see Save & New
 		if ($this->canDo->get('core.create'))
 		{
-			JToolbarHelper::save2new('menu.save2new');
+			$toolbarButtons[] = ['save2new', 'menu.save2new'];
 		}
+
+		JToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 
 		if ($isNew)
 		{

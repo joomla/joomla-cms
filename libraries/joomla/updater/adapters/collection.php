@@ -214,7 +214,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	 *
 	 * @param   array  $options  Options to use: update_site_id: the unique ID of the update site to look at
 	 *
-	 * @return  array  Update_sites and updates discovered
+	 * @return  array|boolean  Update_sites and updates discovered. False on failure
 	 *
 	 * @since   11.1
 	 */
@@ -241,9 +241,8 @@ class JUpdaterCollection extends JUpdateAdapter
 				return $this->findUpdate($options);
 			}
 
-			JLog::add('Error parsing url: ' . $this->_url, JLog::WARNING, 'updater');
-
 			$app = JFactory::getApplication();
+			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
 			return false;

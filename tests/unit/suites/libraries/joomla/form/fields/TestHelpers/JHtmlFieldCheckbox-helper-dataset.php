@@ -22,7 +22,7 @@ class JHtmlFieldCheckboxTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="1" />',
+			'<div class="form-check"><label class="form-check-label"><input type="checkbox" name="myTestName" id="myTestId" value="1" class="form-check-input"></label></div>',
 		),
 
 		'ValueNoChecked' => array(
@@ -32,7 +32,7 @@ class JHtmlFieldCheckboxTest_DataSet
 				'default' => 'red',
 				'value' => 'red',
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="red" checked />',
+			'<div class="form-check"><label class="form-check-label"><input type="checkbox" name="myTestName" id="myTestId" value="red" class="form-check-input" checked></label></div>',
 		),
 
 		'NoValueChecked' => array(
@@ -42,7 +42,7 @@ class JHtmlFieldCheckboxTest_DataSet
 				'default' => 'red',
 				'checked' => true,
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="red" checked />',
+			'<div class="form-check"><label class="form-check-label"><input type="checkbox" name="myTestName" id="myTestId" value="red" class="form-check-input" checked></label></div>',
 		),
 
 		'Disabled' => array(
@@ -51,7 +51,7 @@ class JHtmlFieldCheckboxTest_DataSet
 				'name' => 'myTestName',
 				'disabled' => true,
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="1" disabled />',
+			'<div class="form-check"><label class="form-check-label"><input type="checkbox" name="myTestName" id="myTestId" value="1" class="form-check-input" disabled></label></div>',
 		),
 
 		'Class' => array(
@@ -60,7 +60,7 @@ class JHtmlFieldCheckboxTest_DataSet
 				'name' => 'myTestName',
 				'class' => 'foo bar',
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="1" class="foo bar" />',
+			'<div class="form-check"><label class="form-check-label"><input type="checkbox" name="myTestName" id="myTestId" value="1" class="form-check-input foo bar"></label></div>',
 		),
 
 		'Autofocus' => array(
@@ -69,7 +69,7 @@ class JHtmlFieldCheckboxTest_DataSet
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="1" autofocus />',
+			'<div class="form-check"><label class="form-check-label"><input type="checkbox" name="myTestName" id="myTestId" value="1" class="form-check-input" autofocus></label></div>',
 		),
 
 		'OnchangeOnclick' => array(
@@ -79,7 +79,7 @@ class JHtmlFieldCheckboxTest_DataSet
 				'onchange' => 'bar();',
 				'onclick' => 'foo();',
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="1" onclick="foo();" onchange="bar();" />',
+			'<div class="form-check"><label class="form-check-label"><input type="checkbox" name="myTestName" id="myTestId" value="1" class="form-check-input" onclick="foo();" onchange="bar();"></label></div>',
 		),
 
 		'Required' => array(
@@ -88,7 +88,7 @@ class JHtmlFieldCheckboxTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="1" required aria-required="true" />',
+			'<div class="form-check"><label class="form-check-label"><input type="checkbox" name="myTestName" id="myTestId" value="1" class="form-check-input" required aria-required="true"></label></div>',
 		),
 
 	);

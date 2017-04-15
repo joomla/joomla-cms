@@ -476,7 +476,7 @@ class JPaginationTest extends TestCase
 				. "</select>\n"
 			),
 			array(100, 0, 20, true,
-				"<select id=\"limit\" name=\"limit\" class=\"inputbox input-mini\" size=\"1\" onchange=\"Joomla.submitform();\">\n"
+				"<select id=\"limit\" name=\"limit\" class=\"custom-select\" onchange=\"Joomla.submitform();\">\n"
 				. "\t<option value=\"5\">5</option>\n"
 				. "\t<option value=\"10\">10</option>\n"
 				. "\t<option value=\"15\">15</option>\n"
@@ -529,8 +529,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderUpIcon()
 	{
 		return array(
-			array(0, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
-			array(2, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(0, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(2, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 			array(2, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 		);
 	}
@@ -570,8 +570,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderDownIcon()
 	{
 		return array(
-			array(0, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
-			array(2, 100, '<a class="btn btn-micro" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(0, 100, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(2, 100, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 			array(2, 100, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 		);
 	}
@@ -789,102 +789,6 @@ class JPaginationTest extends TestCase
 
 		// Test the active object
 		$this->assertEquals((array) $object->pages[$active], $expected["5"], 'This is not the expected active');
-
-		unset($pagination);
-	}
-
-	/**
-	 * Provides the data to test the set method.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.2
-	 */
-	public function dataSet()
-	{
-		return array(
-			array('limitstart', 40, 40),
-			array('viewall', true, true),
-			array('pages.start', 30, 30),
-		);
-	}
-
-	/**
-	 * This method tests the set method.
-	 *
-	 * @param   integer  $property  The property to set
-	 * @param   string   $value     The value of the property to set
-	 * @param   array    $expected  The expected results for the JPagination object
-	 *
-	 * @return  void
-	 *
-	 * @covers        JPagination::set
-	 * @dataProvider  dataSet
-	 * @since         3.2
-	 */
-	public function testSet($property, $value, $expected)
-	{
-		$pagination = new JPagination(100, 50, 20, '', $this->app);
-
-		$pagination->set($property, $value);
-
-		if ($property == 'viewall')
-		{
-			$result = TestReflection::getValue($pagination, $property);
-		}
-		elseif (strpos($property, '.'))
-		{
-			$prop = explode('.', $property);
-			$prop[1] = ucfirst($prop[1]);
-			$property = implode($prop);
-			$result = $pagination->$property;
-		}
-		else
-		{
-			$result = $pagination->$property;
-		}
-
-		$this->assertEquals($result, $expected, 'The expected output of the property is incorrect');
-
-		unset($pagination);
-	}
-
-	/**
-	 * Provides the data to test the get method.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.2
-	 */
-	public function dataGet()
-	{
-		return array(
-			array('limitstart', '', 50),
-			array('viewall', '', false),
-			array('falseproperty', null, null),
-			array('pages.stop', null, 5),
-		);
-	}
-
-	/**
-	 * This method tests the get method.
-	 *
-	 * @param   integer  $property  The property to get.
-	 * @param   string   $default   The default value if the property doesn't exist
-	 * @param   array    $expected  The expected results for the JPagination object
-	 *
-	 * @return  void
-	 *
-	 * @covers        JPagination::get
-	 * @dataProvider  dataGet
-	 * @since         3.2
-	 */
-	public function testGet($property, $default, $expected)
-	{
-		$pagination = new JPagination(100, 50, 20, '', $this->app);
-
-		$result = $pagination->get($property, $default);
-		$this->assertEquals($result, $expected, 'The expected output of the property is incorrect');
 
 		unset($pagination);
 	}

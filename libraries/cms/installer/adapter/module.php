@@ -374,9 +374,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$this->extension->client_id = $this->clientId;
 			$this->extension->params    = $this->parent->getParams();
 
-			// Custom data
-			$this->extension->custom_data    = '';
-			$this->extension->system_data    = '';
+			// Update the manifest cache for the entry
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			if (!$this->extension->store())
@@ -781,15 +779,4 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			return false;
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterModule instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerModule extends JInstallerAdapterModule
-{
 }

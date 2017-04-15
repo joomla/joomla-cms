@@ -24,11 +24,10 @@ class TagsTableTag extends JTableNested
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
+		$this->typeAlias = 'com_tags.tag';
 		parent::__construct('#__tags', 'id', $db);
-
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_tags.tag'));
 	}
 
 	/**
@@ -82,6 +81,17 @@ class TagsTableTag extends JTableNested
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Check for valid name.
 		if (trim($this->title) == '')
 		{

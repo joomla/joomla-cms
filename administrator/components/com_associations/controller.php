@@ -21,7 +21,7 @@ class AssociationsController extends JControllerLegacy
 	 *
 	 * @var     string
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	protected $default_view = 'associations';
 }

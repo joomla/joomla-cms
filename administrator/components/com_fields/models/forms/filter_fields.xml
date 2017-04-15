@@ -90,7 +90,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
 			default="25"
 			label="COM_FIELDS_LIST_LIMIT" description="COM_FIELDS_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"

@@ -5,9 +5,7 @@
 			name="language"
 			type="installation.language"
 			id="language"
-			class="chzn-select-deselect"
 			label="INSTL_LANGUAGE_LABEL"
-			size="20"
 			default="en-GB"
 			onchange="Install.setlanguage();"
 		/>
@@ -16,7 +14,7 @@
 			name="site_name"
 			type="text"
 			id="site_name"
-			class="inputbox"
+			class="form-control"
 			label="INSTL_SITE_NAME_LABEL"
 			required="true"
 		/>
@@ -25,7 +23,7 @@
 			name="admin_email"
 			type="email"
 			id="admin_email"
-			class="inputbox"
+			class="form-control"
 			label="INSTL_ADMIN_EMAIL_LABEL"
 			validate="email"
 			required="true"
@@ -35,7 +33,7 @@
 			name="admin_user"
 			type="text"
 			id="admin_user"
-			class="inputbox"
+			class="form-control"
 			label="INSTL_ADMIN_USER_LABEL"
 			required="true"
 		/>
@@ -44,10 +42,11 @@
 			name="admin_password"
 			type="password"
 			id="admin_password"
-			class="inputbox"
+			class="form-control validate-password-strength"
 			label="INSTL_ADMIN_PASSWORD_LABEL"
 			required="true"
-			filter="raw"
+			strengthmeter="true"
+			forcePassword="true"
 			autocomplete="off"
 		/>
 
@@ -55,7 +54,7 @@
 			name="admin_password2"
 			type="password"
 			id="admin_password2"
-			class="inputbox"
+			class="form-control"
 			label="INSTL_ADMIN_PASSWORD2_LABEL"
 			required="true"
 			filter="raw"
@@ -68,7 +67,7 @@
 			name="site_metadesc"
 			type="textarea"
 			id="site_metadesc"
-			class="text_area noResize"
+			class="form-control text_area noResize"
 			label="INSTL_SITE_METADESC_LABEL"
 			rows="3"
 		/>

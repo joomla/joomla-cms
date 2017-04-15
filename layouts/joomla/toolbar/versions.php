@@ -9,11 +9,26 @@
 
 defined('JPATH_BASE') or die;
 
-JHtml::_('behavior.framework');
+extract($displayData);
+
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'versionsModal',
+	array(
+		'url'    => "index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id="
+			. (int) $displayData['itemId']. "&amp;type_id=" . $displayData['typeId'] . "&amp;type_alias=" . $displayData['typeAlias']
+			. "&amp;" . JSession::getFormToken() . "=1",
+		'title'  => $displayData['title'],
+		'height' => '100%',
+		'width'  => '100%',
+		'modalWidth'  => '80',
+		'bodyHeight'  => '60',
+		'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+	)
+);
 
 ?>
-<a rel="{handler: 'iframe', size: {x: <?php echo $displayData['height']; ?>, y: <?php echo $displayData['width']; ?>}}"
-	href="index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id=<?php echo (int) $displayData['itemId']; ?>&amp;type_id=<?php echo $displayData['typeId']; ?>&amp;type_alias=<?php echo $displayData['typeAlias']; ?>&amp;<?php echo JSession::getFormToken(); ?>=1"
-	title="<?php echo $displayData['title']; ?>" class="btn btn-small modal_jform_contenthistory">
-	<span class="icon-archive"></span> <?php echo $displayData['title']; ?>
-</a>
+<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-sm btn-outline-primary" data-toggle="modal" title="<?php echo $displayData['title']; ?>">
+	<span class="icon-archive"></span><?php echo $displayData['title']; ?>
+</button>

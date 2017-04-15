@@ -220,3 +220,4 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 	<input id="installer-return" name="return" type="hidden" value="<?php echo $return; ?>" />
 	<input id="installer-token" name="return" type="hidden" value="<?php echo $token; ?>" />
 </div>
+

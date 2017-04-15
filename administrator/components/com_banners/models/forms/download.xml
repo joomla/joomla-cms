@@ -6,13 +6,13 @@
 		<field
 			name="compressed"
 			type="radio"
+			class="switcher"
 			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
 			description="COM_BANNERS_FIELD_COMPRESSED_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

@@ -29,19 +29,16 @@ class InstallerViewInstall extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		$paths = new stdClass;
+		$paths        = new stdClass;
 		$paths->first = '';
-		$state = $this->get('state');
 
-		$this->paths = &$paths;
-		$this->state = &$state;
+		$this->paths  = &$paths;
 
 		$this->showJedAndWebInstaller = JComponentHelper::getParams('com_installer')->get('show_jed_info', 1);
 
 		JPluginHelper::importPlugin('installer');
 
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onInstallerBeforeDisplay', array(&$this->showJedAndWebInstaller, $this));
+		JFactory::getApplication()->triggerEvent('onInstallerBeforeDisplay', array(&$this->showJedAndWebInstaller, $this));
 
 		parent::display($tpl);
 	}

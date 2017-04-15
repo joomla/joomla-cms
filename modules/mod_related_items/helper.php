@@ -109,7 +109,6 @@ abstract class ModRelatedItemsHelper
 					->select('cc.access AS cat_access')
 					->select('cc.published AS cat_state');
 
-				// Sqlsrv changes
 				$case_when = ' CASE WHEN ';
 				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
@@ -179,12 +178,8 @@ abstract class ModRelatedItemsHelper
 			// Prepare data for display using display options
 			foreach ($related as &$item)
 			{
-				$item->slug    = $item->id . ':' . $item->alias;
-
-				/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
-				$item->catslug = $item->catid . ':' . $item->category_alias;
-
-				$item->route   = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->slug  = $item->id . ':' . $item->alias;
+				$item->route = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 

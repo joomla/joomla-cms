@@ -13,10 +13,6 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: 5.3
-      env: INSTALL_APC="yes"
-    - php: 5.4
-      env: INSTALL_APC="yes"
     - php: 5.5
       env: INSTALL_APCU="yes"
     - php: 5.6

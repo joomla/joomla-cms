@@ -1,29 +1,29 @@
 {
-	"name": "joomla-cms",
-	"version": "1.0.0",
-	"description": "Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)\r ====================",
-	"main": "index.js",
-	"directories": {
-		"test": "tests"
-	},
-	"scripts": {
-		"test": "node node_modules/karma/bin/karma start ../../karma.conf.js --single-run"
-	},
-	"author": "Thanuditha Ruchiranga Wickramasinghe",
-	"license": "GPL-2.0",
-	"private": true,
-	"devDependencies": {
-		"jasmine-core": "^2.4.1",
-		"jasmine-jquery": "^2.1.1",
-		"jquery": "^1.12.4",
-		"karma": "^0.13.22",
-		"karma-coverage": "^1.0.0",
-		"karma-firefox-launcher": "^0.1.7",
-		"karma-jasmine": "^0.3.8",
-		"karma-jasmine-ajax": "^0.1.13",
-		"karma-requirejs": "^1.0.0",
-		"karma-verbose-reporter": "0.0.3",
-		"requirejs": "^2.2.0",
-		"text": "requirejs/text"
-	}
+  "name": "joomla-cms",
+  "version": "1.0.0",
+  "description": "Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)\r ====================",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node node_modules/karma/bin/karma start ../../karma.conf.js --single-run"
+  },
+  "author": "Thanuditha Ruchiranga Wickramasinghe",
+  "license": "GPL-2.0",
+  "private": true,
+  "devDependencies": {
+    "jasmine-core": "^2.4.1",
+    "jasmine-jquery": "^2.1.1",
+    "jquery": "^1.12.4",
+    "karma": "^0.13.22",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.8",
+    "karma-jasmine-ajax": "^0.1.13",
+    "karma-requirejs": "^1.0.0",
+    "karma-verbose-reporter": "0.0.3",
+    "requirejs": "^2.2.0",
+    "text": "requirejs/text"
+  }
 }

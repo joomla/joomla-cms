@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\SearchHelper;
+
 /**
  * Search HTML view class for the Finder package.
  *
@@ -16,13 +18,82 @@ defined('_JEXEC') or die;
  */
 class FinderViewSearch extends JViewLegacy
 {
+	/**
+	 * The query indexer object
+	 *
+	 * @var    FinderIndexerQuery
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $query;
 
-	protected $params;
+	/**
+	 * The page parameters
+	 *
+	 * @var  \Joomla\Registry\Registry|null
+	 */
+	protected $params = null;
 
+	/**
+	 * The model state
+	 *
+	 * @var    JObject
+	 */
 	protected $state;
 
-	protected $user;
+	/**
+	 * The logged in user
+	 *
+	 * @var    JUser|null
+	 */
+	protected $user = null;
+
+	/**
+	 * The results of the search
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $results = array();
+
+	/**
+	 * The total number of results for the search query
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $total = 0;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pagination = null;
+
+	/**
+	 * The suggested search query
+	 *
+	 * @var   string|false
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $suggested = false;
+
+	/**
+	 * The explained (human-readable) search query
+	 *
+	 * @var   string|null
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $explained = null;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Method to display the view.
@@ -52,14 +123,13 @@ class FinderViewSearch extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Configure the pathway.
 		if (!empty($query->input))
 		{
-			$app->getPathWay()->addItem($this->escape($query->input));
+			$app->getPathway()->addItem($this->escape($query->input));
 		}
 
 		// Push out the view data.
@@ -84,7 +154,7 @@ class FinderViewSearch extends JViewLegacy
 		}
 
 		// Log the search
-		JSearchHelper::logSearch($this->query->input, 'com_finder');
+		SearchHelper::logSearch($this->query->input, 'com_finder');
 
 		// Push out the query data.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -140,7 +210,7 @@ class FinderViewSearch extends JViewLegacy
 		{
 			if (is_scalar($v))
 			{
-				$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
+				$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '">';
 			}
 		}
 

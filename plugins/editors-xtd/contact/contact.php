@@ -45,13 +45,18 @@ class PlgButtonContact extends JPlugin
 			$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;'
 				. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
-			$button          = new JObject;
-			$button->modal   = true;
-			$button->class   = 'btn';
-			$button->link    = $link;
-			$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
-			$button->name    = 'address';
-			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		$button = new JObject;
+		$button->modal   = true;
+		$button->class = 'btn btn-secondary';
+		$button->link    = $link;
+		$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
+		$button->name    = 'address';
+		$button->options = array(
+			'height' => '300px',
+			'width'  => '800px',
+			'bodyHeight'  => '70',
+			'modalWidth'  => '80',
+		);
 
 			return $button;
 		}

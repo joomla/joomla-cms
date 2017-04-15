@@ -16,11 +16,34 @@ defined('_JEXEC') or die;
  */
 class UsersViewRemind extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The page parameters
+	 *
+	 * @var  \Joomla\Registry\Registry|null
+	 */
 	protected $params;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
 
 	/**
 	 * Method to display the view.
@@ -41,9 +64,7 @@ class UsersViewRemind extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Check for layout override

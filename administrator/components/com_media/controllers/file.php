@@ -127,7 +127,6 @@ class MediaControllerFile extends JControllerLegacy
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 		JPluginHelper::importPlugin('content');
-		$dispatcher = JEventDispatcher::getInstance();
 
 		foreach ($files as &$file)
 		{
@@ -143,12 +142,12 @@ class MediaControllerFile extends JControllerLegacy
 
 			// Trigger the onContentBeforeSave event.
 			$object_file = new JObject($file);
-			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
+			$result = JFactory::getApplication()->triggerEvent('onContentBeforeSave', array('com_media.file', &$object_file, true));
 
 			if (in_array(false, $result, true))
 			{
 				// There are some errors in the plugins
-				JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
+				JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br>', $errors)));
 
 				return false;
 			}
@@ -162,7 +161,7 @@ class MediaControllerFile extends JControllerLegacy
 			}
 
 			// Trigger the onContentAfterSave event.
-			$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
+			JFactory::getApplication()->triggerEvent('onContentAfterSave', array('com_media.file', &$object_file, true));
 			$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 		}
 
@@ -242,7 +241,6 @@ class MediaControllerFile extends JControllerLegacy
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher = JEventDispatcher::getInstance();
 
 		$ret = true;
 
@@ -264,13 +262,13 @@ class MediaControllerFile extends JControllerLegacy
 			if (is_file($object_file->filepath))
 			{
 				// Trigger the onContentBeforeDelete event.
-				$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.file', &$object_file));
+				$result = JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array('com_media.file', &$object_file));
 
 				if (in_array(false, $result, true))
 				{
 					// There are some errors in the plugins
 					$errors = $object_file->getErrors();
-					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
+					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br>', $errors)));
 
 					continue;
 				}
@@ -278,8 +276,10 @@ class MediaControllerFile extends JControllerLegacy
 				$ret &= JFile::delete($object_file->filepath);
 
 				// Trigger the onContentAfterDelete event.
-				$dispatcher->trigger('onContentAfterDelete', array('com_media.file', &$object_file));
-				$app->enqueueMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+				JFactory::getApplication()->triggerEvent('onContentAfterDelete', array('com_media.file', &$object_file));
+				$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+
+				continue;
 			}
 			elseif (is_dir($object_file->filepath))
 			{
@@ -295,13 +295,13 @@ class MediaControllerFile extends JControllerLegacy
 				}
 
 				// Trigger the onContentBeforeDelete event.
-				$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.folder', &$object_file));
+				$result = JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array('com_media.folder', &$object_file));
 
 				if (in_array(false, $result, true))
 				{
 					// There are some errors in the plugins
 					$errors = $object_file->getErrors();
-					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
+					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br>', $errors)));
 
 					continue;
 				}
@@ -309,8 +309,8 @@ class MediaControllerFile extends JControllerLegacy
 				$ret &= !JFolder::delete($object_file->filepath);
 
 				// Trigger the onContentAfterDelete event.
-				$dispatcher->trigger('onContentAfterDelete', array('com_media.folder', &$object_file));
-				$app->enqueueMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+				JFactory::getApplication()->triggerEvent('onContentAfterDelete', array('com_media.folder', &$object_file));
+				$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 			}
 		}
 

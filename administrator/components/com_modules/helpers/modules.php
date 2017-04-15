@@ -31,44 +31,6 @@ abstract class ModulesHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   integer  $moduleId  The module ID.
-	 *
-	 * @return  JObject
-	 *
-	 * @deprecated  3.2  Use JHelperContent::getActions() instead
-	 */
-	public static function getActions($moduleId = 0)
-	{
-		// Log usage of deprecated function
-		try
-		{
-			JLog::add(
-				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions
-		if (empty($moduleId))
-		{
-			$result = JHelperContent::getActions('com_modules');
-		}
-		else
-		{
-			$result = JHelperContent::getActions('com_modules', 'module', $moduleId);
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Get a list of filter options for the state of a module.
 	 *
 	 * @return  array  An array of JHtmlOption elements.

@@ -23,7 +23,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * var      array   $extensionsSupport
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static $extensionsSupport = null;
 
@@ -32,7 +32,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * var      array   $supportedExtensionsList
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static $supportedExtensionsList = array();
 
@@ -45,7 +45,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  array
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function getAssociationList($extensionName, $typeName, $itemId)
 	{
@@ -68,7 +68,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  HelperClass|null
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function getExtensionHelper($extensionName)
 	{
@@ -91,7 +91,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  JTable|null
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.00
 	 */
 	public static function getItem($extensionName, $typeName, $itemId)
 	{
@@ -113,7 +113,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  bool
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function hasSupport($extensionName)
 	{
@@ -132,7 +132,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  bool
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	private static function getExtensionHelperClassName($extensionName)
 	{
@@ -148,7 +148,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  string
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	private static function getExtensionRealName($extensionName)
 	{
@@ -167,7 +167,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  string   The language HTML
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocLanguages = true)
 	{
@@ -292,7 +292,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  array  The extensions.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function getSupportedExtensions()
 	{
@@ -327,7 +327,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  Joomla\Registry\Registry  The item properties.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function getSupportedExtension($extensionName)
 	{
@@ -418,7 +418,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  mixed
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	private static function getEnabledExtensions()
 	{
@@ -440,7 +440,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  array  Array of objects all content languages by language code.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function getContentLanguages()
 	{
@@ -467,7 +467,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  bool
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function allowEdit($extensionName, $typeName, $itemId)
 	{
@@ -495,7 +495,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True on allowed.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function allowAdd($extensionName, $typeName)
 	{
@@ -601,7 +601,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True on allowed.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function typeSupportsCheckout($extensionName, $typeName)
 	{
@@ -627,7 +627,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True on allowed.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public static function getTypeFieldName($extensionName, $typeName, $fieldName)
 	{

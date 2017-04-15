@@ -80,6 +80,8 @@ class ContentViewCategory extends JViewCategory
 		$this->vote = JPluginHelper::isEnabled('content', 'vote');
 
 		JPluginHelper::importPlugin('content');
+		
+		$app     = JFactory::getApplication();
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
@@ -97,35 +99,31 @@ class ContentViewCategory extends JViewCategory
 			$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->event   = new stdClass;
 
-			$dispatcher = JEventDispatcher::getInstance();
-
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))
 			{
 				$item->text = $item->introtext;
 			}
 
-			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$item->params, 0));
+			$app->triggerEvent('onContentPrepare', array('com_content.category', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
+			$results = $app->triggerEvent('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
+			$results = $app->triggerEvent('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
+			$results = $app->triggerEvent('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
 		// Check for layout override only if this is not the active menu item
-		// If it is the active menu item, then the view and category id will match
-		$app     = JFactory::getApplication();
+		// If it is the active menu item, then the view and category id will match		
 		$active  = $app->getMenu()->getActive();
 		$menus   = $app->getMenu();
-		$pathway = $app->getPathway();
 		$title   = null;
 
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
@@ -190,8 +188,6 @@ class ContentViewCategory extends JViewCategory
 		}
 
 		$title = $this->params->get('page_title', '');
-
-		$id = (int) @$menu->query['id'];
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))

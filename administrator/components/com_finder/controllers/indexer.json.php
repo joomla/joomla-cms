@@ -74,7 +74,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		try
 		{
 			// Trigger the onStartIndex event.
-			JEventDispatcher::getInstance()->trigger('onStartIndex');
+			JFactory::getApplication()->triggerEvent('onStartIndex');
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();
@@ -184,10 +184,10 @@ class FinderControllerIndexer extends JControllerLegacy
 		try
 		{
 			// Trigger the onBeforeIndex event.
-			JEventDispatcher::getInstance()->trigger('onBeforeIndex');
+			JFactory::getApplication()->triggerEvent('onBeforeIndex');
 
 			// Trigger the onBuildIndex event.
-			JEventDispatcher::getInstance()->trigger('onBuildIndex');
+			JFactory::getApplication()->triggerEvent('onBuildIndex');
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();

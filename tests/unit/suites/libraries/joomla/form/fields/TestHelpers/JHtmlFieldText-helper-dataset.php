@@ -22,7 +22,7 @@ class JHtmlFieldTextTest_DataSet
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control">',
 		),
 
 		'Value' => array(
@@ -31,7 +31,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'value' => 'foobar',
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="foobar" />',
+			'<input type="text" name="myTestName" id="myTestId" value="foobar" class="form-control">',
 		),
 
 		'Class' => array(
@@ -40,7 +40,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'class' => 'foo bar',
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" class="foo bar" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control foo bar">',
 		),
 
 		'Size' => array(
@@ -49,7 +49,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'size' => 60,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" size="60" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" size="60">',
 		),
 
 		'Disabled' => array(
@@ -58,7 +58,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'disabled' => true,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" disabled />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" disabled>',
 		),
 
 		'Readonly' => array(
@@ -67,7 +67,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'readonly' => true,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" readonly />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" readonly>',
 		),
 
 		'Hint' => array(
@@ -76,7 +76,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'hint' => 'Type any text.',
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" placeholder="Type any text." />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" placeholder="Type any text.">',
 		),
 
 		'Autocomplete' => array(
@@ -85,7 +85,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'autocomplete' => false,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" autocomplete="off" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" autocomplete="off">',
 		),
 
 		'Autofocus' => array(
@@ -94,7 +94,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" autofocus />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" autofocus>',
 		),
 
 		'Spellcheck' => array(
@@ -103,7 +103,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'spellcheck' => false,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" spellcheck="false" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" spellcheck="false">',
 		),
 
 		'Onchange' => array(
@@ -112,7 +112,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'onchange' => 'foobar();',
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" onchange="foobar();" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" onchange="foobar();">',
 		),
 
 		'Maxlength' => array(
@@ -121,7 +121,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'maxLength' => 250,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" maxlength="250" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" maxlength="250">',
 		),
 
 		'Required' => array(
@@ -130,7 +130,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" required aria-required="true" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="form-control" required aria-required="true">',
 		),
 
 	);

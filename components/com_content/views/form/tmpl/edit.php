@@ -13,7 +13,6 @@ JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0));
-JHtml::_('formbehavior.chosen', 'select');
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
 
@@ -144,8 +143,8 @@ JFactory::getDocument()->addScriptDeclaration("
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
+			<input type="hidden" name="task" value="">
+			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>">
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
 		<div class="btn-toolbar">

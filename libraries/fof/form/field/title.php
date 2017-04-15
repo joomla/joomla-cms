@@ -58,7 +58,7 @@ class FOFFormFieldTitle extends FOFFormFieldText implements FOFFormField
 
 		$slug = $this->item->$slug_field;
 
-		$html .= '<br />' . '<span class="' . $slug_class . '">';
+		$html .= '<br>' . '<span class="' . $slug_class . '">';
 		$html .= JText::sprintf($slug_format, $slug);
 		$html .= '</span>';
 

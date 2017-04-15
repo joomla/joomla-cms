@@ -17,24 +17,56 @@ defined('_JEXEC') or die;
 class MenusViewMenus extends JViewLegacy
 {
 	/**
-	 * @var  mixed
+	 * An array of items
+	 *
+	 * @var  array
 	 */
 	protected $items;
 
 	/**
+	 * List of all mod_mainmenu modules collated by menutype
+	 *
 	 * @var  array
 	 */
 	protected $modules;
 
 	/**
+	 * The pagination object
+	 *
 	 * @var  JPagination
 	 */
 	protected $pagination;
 
 	/**
+	 * The model state
+	 *
 	 * @var  JObject
 	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
+
+	/**
+	 * The sidebar markup
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $sidebar;
 
 	/**
 	 * Display the view
@@ -63,9 +95,7 @@ class MenusViewMenus extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();

@@ -21,19 +21,19 @@ defined('_JEXEC') or die;
 	<table class="adminform">
 		<tbody>
 			<tr>
-				<td width="120">
+				<td style="width:120">
 					<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
 				</td>
 				<td>
-					<input type="text" id="username" name="username" class="input_box" size="70" value="" />
+					<input type="text" id="username" name="username" class="form-control" size="70" value="">
 				</td>
 			</tr>
 			<tr>
-				<td width="120">
+				<td style="width:120">
 					<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 				</td>
 				<td>
-					<input type="password" id="password" name="password" class="input_box" size="70" value="" />
+					<input type="password" id="password" name="password" class="form-control" size="70" value="">
 				</td>
 			</tr>
 		</tbody>

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="250">
+				<th style="width:250px">
 					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th>
@@ -67,22 +67,6 @@ defined('_JEXEC') or die;
 				</td>
 				<td>
 					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['file_uploads']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_MAGIC_QUOTES'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['magic_quotes_gpc']); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_ADMIN_REGISTER_GLOBALS'); ?>
-				</td>
-				<td>
-					<?php echo JHtml::_('phpsetting.boolean', $this->php_settings['register_globals']); ?>
 				</td>
 			</tr>
 			<tr>

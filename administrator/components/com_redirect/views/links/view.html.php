@@ -16,15 +16,56 @@ defined('_JEXEC') or die;
  */
 class RedirectViewLinks extends JViewLegacy
 {
+	/**
+	 * True if "System - Redirect Plugin" is enabled
+	 *
+	 * @var  boolean
+	 */
 	protected $enabled;
 
+	/**
+	 * True if "Collect URLs" is enabled
+	 *
+	 * @var  boolean
+	 */
 	protected $collect_urls_enabled;
 
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
 
 	/**
 	 * Display the view.
@@ -50,9 +91,7 @@ class RedirectViewLinks extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Show messages about the enabled plugin and if the plugin should collect URLs

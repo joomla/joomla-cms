@@ -9,7 +9,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/subform-repeatable/fixtures/fixture.html', 'libs/subform-repeatable'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/subform-repeatable/fixtures/fixture.html', 'fields/subform-repeatable'], function ($, fixture) {
 	$('body').append(fixture);
 
 	spy_subform_ready = jasmine.createSpy('subform-ready');

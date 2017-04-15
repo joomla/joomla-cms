@@ -21,15 +21,14 @@ class UsersTableNote extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database object
+	 * @param   JDatabaseDriver  $db  Database object
 	 *
 	 * @since  2.5
 	 */
-	public function __construct(&$db)
+	public function __construct(JDatabaseDriver $db)
 	{
+		$this->typeAlias = 'com_users.note';
 		parent::__construct('#__user_notes', 'id', $db);
-
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_users.note'));
 	}
 
 	/**

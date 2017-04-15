@@ -82,33 +82,6 @@ class UsersHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 *
-	 * @deprecated  3.2  Use JHelperContent::getActions() instead
-	 */
-	public static function getActions()
-	{
-		// Log usage of deprecated function
-		try
-		{
-			JLog::add(
-				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions
-		return JHelperContent::getActions('com_users');
-	}
-
-	/**
 	 * Get a list of filter options for the blocked state of a user.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
@@ -195,8 +168,8 @@ class UsersHelper
 	 */
 	public static function getTwoFactorMethods()
 	{
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
-		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
+		JPluginHelper::importPlugin('twofactorauth');
+		$identities = JFactory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
 
 		$options = array(
 			JHtml::_('select.option', 'none', JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),

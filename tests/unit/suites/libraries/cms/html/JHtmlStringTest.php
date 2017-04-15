@@ -370,10 +370,10 @@ class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 				'<div><span><i>Plain</i></span></div>'
 			),
 			'Text is all HTML' => array(
-				'<img src="myimage.jpg" />',
+				'<img src="myimage.jpg">',
 				5,
 				true,
-				'<img src="myimage.jpg" />'
+				'<img src="myimage.jpg">'
 			),
 			'Text with no spaces, split, maxlength 3' => array(
 				'thisistextwithnospace',

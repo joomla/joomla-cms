@@ -23,7 +23,7 @@ class RedirectTableLink extends JTable
 	 *
 	 * @since   1.6
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__redirect_links', 'id', $db);
 	}
@@ -37,6 +37,17 @@ class RedirectTableLink extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->old_url = trim(rawurldecode($this->old_url));
 		$this->new_url = trim(rawurldecode($this->new_url));
 

@@ -24,16 +24,16 @@ $version = new JVersion;
 </script>
 
 <?php echo JHtml::_('InstallationHtml.helper.stepbarlanguages'); ?>
-<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
-	<div class="btn-toolbar">
-		<div class="btn-group pull-right">
+<form action="index.php" method="post" id="adminForm" class="form-validate">
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
 			<a
-				class="btn"
+				class="btn btn-secondary"
 				href="#"
 				onclick="return Install.goToPage('remove');"
 				rel="prev"
 				title="<?php echo JText::_('JPREVIOUS'); ?>">
-				<span class="icon-arrow-left"></span>
+				<span class="fa fa-arrow-left"></span>
 				<?php echo JText::_('JPREVIOUS'); ?>
 			</a>
 			<a
@@ -42,7 +42,7 @@ $version = new JVersion;
 				onclick="installLanguages()"
 				rel="next"
 				title="<?php echo JText::_('JNEXT'); ?>">
-				<span class="icon-arrow-right icon-white"></span>
+				<span class="fa fa-arrow-right icon-white"></span>
 				<?php echo JText::_('JNEXT'); ?>
 			</a>
 		</div>
@@ -55,7 +55,7 @@ $version = new JVersion;
 			<a href="#"
 			class="btn btn-primary"
 			onclick="return Install.goToPage('remove');">
-			<span class="icon-arrow-left icon-white"></span>
+			<span class="fa fa-arrow-left icon-white"></span>
 			<?php echo JText::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
 			</a>
 		</p>
@@ -63,13 +63,13 @@ $version = new JVersion;
 	<?php else : ?>
 		<p id="install_languages_desc"><?php echo JText::_('INSTL_LANGUAGES_DESC'); ?></p>
 		<p id="wait_installing" style="display: none;">
-			<?php echo JText::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br />
+			<?php echo JText::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br>
 			<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
 		</p>
-		<table class="table table-striped table-condensed">
+		<table class="table table-striped table-sm">
 			<thead>
 					<tr>
-						<th width="1%" class="center">
+						<th width="1%" class="text-center">
 							&nbsp;
 						</th>
 						<th>
@@ -78,7 +78,7 @@ $version = new JVersion;
 						<th width="15%">
 							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
 						</th>
-						<th width="5%" class="center">
+						<th width="5%" class="text-center">
 							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
 						</th>
 					</tr>
@@ -92,7 +92,7 @@ $version = new JVersion;
 					<?php $language->code = $element[1]; ?>
 					<tr>
 						<td>
-							<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>" />
+							<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>">
 						</td>
 						<td>
 							<label for="cb<?php echo $i; ?>"><?php echo $language->name; ?></label>
@@ -100,43 +100,41 @@ $version = new JVersion;
 						<td>
 							<?php echo $language->code; ?>
   						</td>
-						<td class="center">
+						<td class="text-center">
 						<?php // Display a Note if language pack version is not equal to Joomla version ?>
 						<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $currentShortVersion) : ?>
-							<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+							<span class="badge badge-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 						<?php else : ?>
-							<span class="label label-success"><?php echo $language->version; ?></span>
+							<span class="badge badge-success"><?php echo $language->version; ?></span>
 						<?php endif; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-		<input type="hidden" name="task" value="InstallLanguages" />
+		<input type="hidden" name="task" value="InstallLanguages">
 		<?php echo JHtml::_('form.token'); ?>
 	<?php endif; ?>
-	<div class="row-fluid">
-		<div class="btn-toolbar">
-			<div class="btn-group pull-right">
-				<a
-					class="btn"
-					href="#"
-					onclick="return Install.goToPage('remove');"
-					rel="prev"
-					title="<?php echo JText::_('JPREVIOUS'); ?>">
-					<span class="icon-arrow-left"></span>
-					<?php echo JText::_('JPREVIOUS'); ?>
-				</a>
-				<a
-					class="btn btn-primary"
-					href="#"
-					onclick="installLanguages()"
-					rel="next"
-					title="<?php echo JText::_('JNEXT'); ?>">
-					<span class="icon-arrow-right icon-white"></span>
-					<?php echo JText::_('JNEXT'); ?>
-				</a>
-			</div>
+	<div class="btn-toolbar justify-content-end">
+		<div class="btn-group">
+			<a
+				class="btn btn-secondary"
+				href="#"
+				onclick="return Install.goToPage('remove');"
+				rel="prev"
+				title="<?php echo JText::_('JPREVIOUS'); ?>">
+				<span class="fa fa-arrow-left"></span>
+				<?php echo JText::_('JPREVIOUS'); ?>
+			</a>
+			<a
+				class="btn btn-primary"
+				href="#"
+				onclick="installLanguages()"
+				rel="next"
+				title="<?php echo JText::_('JNEXT'); ?>">
+				<span class="fa fa-arrow-right icon-white"></span>
+				<?php echo JText::_('JNEXT'); ?>
+			</a>
 		</div>
 	</div>
 </form>

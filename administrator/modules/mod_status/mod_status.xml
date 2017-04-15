@@ -24,7 +24,7 @@
 			<field
 					name="show_viewsite"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_VIEWSITE_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_VIEWSITE_DESC">
@@ -34,7 +34,7 @@
 			<field
 					name="show_viewadmin"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					label="MOD_STATUS_FIELD_SHOW_VIEWADMIN_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_VIEWADMIN_DESC">
@@ -44,7 +44,7 @@
 				<field
 					name="show_loggedin_users"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_DESC">
@@ -54,7 +54,7 @@
 				<field
 					name="show_loggedin_users_admin"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_DESC">
@@ -64,7 +64,7 @@
 				<field
 					name="show_messages"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_MESSAGES_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_MESSAGES_DESC">

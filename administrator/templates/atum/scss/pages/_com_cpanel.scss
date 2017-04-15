@@ -1,0 +1,96 @@
+// com_cpanel
+
+.com_cpanel {
+
+  .content {
+    margin-top: 0;
+    background: none;
+  }
+
+  .card {
+    box-shadow: $atum-box-shadow;
+
+    .list-group {
+      margin-top: 0;
+      margin-right: - $card-spacer-x;
+      margin-bottom: - $card-spacer-x;
+      margin-left: - $card-spacer-x;
+
+      > li {
+        padding: .6rem $card-spacer-x;
+        overflow: hidden;
+      }
+
+      > .published {
+        padding-left: .9rem;
+        border-left: 5px solid $brand-success;
+      }
+
+      > .unpublished {
+        padding-left: .9rem;
+        border-left: 5px solid $brand-danger;
+      }
+
+      &:first-of-type {
+        border-top: 0;
+      }
+
+    }
+
+    .list-group-item:first-child {
+      border-top: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    .list-group-item:last-child {
+      border-bottom: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+  }
+
+  .card-title {
+    position: relative;
+    padding: .9em $card-spacer-x $card-spacer-y;
+    margin-top: - $card-spacer-x;
+    margin-right: - $card-spacer-x;
+    margin-bottom: 0;
+    margin-left: - $card-spacer-x;
+    color: $atum-template-color-light;
+    background-color: $atum-card-title-bg;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    border-radius: $border-radius $border-radius 0 0;
+    box-shadow: 0 1px $white-offset inset, 0 2px 3px -3px rgba(0,0,0,.15);
+  }
+
+  .module-dropdown {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+
+    > a {
+      display: inline-block;
+      width: 2.6em;
+      height: 2.6em;
+      line-height: 2.6em;
+      color: $gray;
+      text-align: center;
+      background-color: $atum-card-title-icon-bg;
+      border-left: 1px solid $atum-border-color;
+      border-top-right-radius: $border-radius;
+      box-shadow: 1px 0 $white-offset inset;
+
+      &:hover,
+      &[aria-expanded*="true"] {
+        background-color: $atum-card-title-icon-bg-hover;
+        box-shadow: none;
+      }
+
+    }
+
+  }
+
+}

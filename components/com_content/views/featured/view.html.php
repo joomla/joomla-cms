@@ -16,22 +16,55 @@ defined('_JEXEC') or die;
  */
 class ContentViewFeatured extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state = null;
 
-	protected $item = null;
-
+	/**
+	 * The featured articles array
+	 *
+	 * @var  stdClass[]
+	 */
 	protected $items = null;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination = null;
 
+	/**
+	 * The featured articles to be displayed as lead items.
+	 *
+	 * @var  stdClass[]
+	 */
 	protected $lead_items = array();
 
+	/**
+	 * The featured articles to be displayed as intro items.
+	 *
+	 * @var  stdClass[]
+	 */
 	protected $intro_items = array();
 
+	/**
+	 * The featured articles to be displayed as link items.
+	 *
+	 * @var  stdClass[]
+	 */
 	protected $link_items = array();
 
+	/**
+	 * The number of columns to show introduction articles in.
+	 *
+	 * @var  integer
+	 */
 	protected $columns = 1;
-	
+
 	/**
 	 * An instance of JDatabaseDriver.
 	 *
@@ -39,6 +72,29 @@ class ContentViewFeatured extends JViewLegacy
 	 * @since  3.6.3
 	 */
 	 protected $db;
+
+	/**
+	 * The user object
+	 *
+	 * @var  JUser|null
+	 */
+	protected $user = null;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
 
 	/**
 	 * Execute and display a template script.
@@ -58,11 +114,10 @@ class ContentViewFeatured extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
+		/** @var \Joomla\Registry\Registry $params */
 		$params = &$state->params;
 
 		// PREPARE THE DATA
@@ -87,7 +142,6 @@ class ContentViewFeatured extends JViewLegacy
 			}
 
 			$item->event = new stdClass;
-			$dispatcher  = JEventDispatcher::getInstance();
 
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))
@@ -95,23 +149,23 @@ class ContentViewFeatured extends JViewLegacy
 				$item->text = $item->introtext;
 			}
 
-			$dispatcher->trigger('onContentPrepare', array ('com_content.featured', &$item, &$item->params, 0));
+			JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.featured', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.featured', &$item, &$item->params, 0));
+			$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.featured', &$item, &$item->params, 0));
+			$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
+			$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
 		// Preprocess the breakdown of leading, intro and linked articles.
-		// This makes it much easier for the designer to just interogate the arrays.
+		// This makes it much easier for the designer to just integrate the arrays.
 		$max = count($items);
 
 		// The first group is the leading articles.
@@ -208,12 +262,12 @@ class ContentViewFeatured extends JViewLegacy
 
 		if ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		// Add feed links

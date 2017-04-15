@@ -43,6 +43,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	public function setUp()
 	{
 		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -54,6 +58,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 
@@ -66,17 +72,18 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	{
 		$mockInstaller = $this->getMockBuilder('JInstaller')->getMock();
 		$mockDatabase = $this->getMockDatabase();
-		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('foo' => 'bar')));
+		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('type' => 'component')));
 
 		$this->assertAttributeInstanceOf('JTableExtension', 'extension', $object);
 
 		$this->assertAttributeSame($mockDatabase, 'db', $object);
 		$this->assertAttributeSame($mockInstaller, 'parent', $object);
 
-		$this->assertEquals(
-			'bar',
-			$object->foo,
-			'Tests any options are set as class variables by JObject'
+		$this->assertAttributeSame(
+			'component',
+			'type',
+			$object,
+			'Options which are valid class variables should be set'
 		);
 	}
 

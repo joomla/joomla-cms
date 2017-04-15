@@ -43,14 +43,14 @@ class ModFinderHelper
 		// Create hidden input elements for each part of the URI.
 		foreach ($uri->getQuery(true) as $n => $v)
 		{
-			$fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
+			$fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '">';
 		}
 
 		// Add a field for Itemid if we need one.
 		if ($needId)
 		{
 			$id       = $paramItem ?: JFactory::getApplication()->input->get('Itemid', '0', 'int');
-			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '" />';
+			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '">';
 		}
 
 		return implode('', $fields);

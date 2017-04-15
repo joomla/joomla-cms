@@ -21,11 +21,11 @@ class FinderTableMap extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  JDatabaseDriver connector object.
+	 * @param   JDatabaseDriver  $db  JDatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
-	public function __construct(&$db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__finder_taxonomy', 'id', $db);
 	}

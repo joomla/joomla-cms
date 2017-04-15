@@ -8,6 +8,15 @@
 
 defined('_JEXEC') or die;
 
+trigger_error(
+	sprintf(
+		'Bootstrapping Joomla using the %1$s file is deprecated.  Use %2$s instead.',
+		__FILE__,
+		__DIR__ . '/bootstrap.php'
+	),
+	E_USER_DEPRECATED
+);
+
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {

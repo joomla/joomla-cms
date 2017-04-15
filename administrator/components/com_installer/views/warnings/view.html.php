@@ -39,7 +39,7 @@ class InstallerViewWarnings extends InstallerViewDefault
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_NONE'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_NONE'), 'info');
 		}
 	}
 

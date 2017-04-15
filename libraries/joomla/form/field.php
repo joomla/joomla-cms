@@ -167,6 +167,14 @@ abstract class JFormField
 	protected $pattern;
 
 	/**
+	 * The validation text of invalid value of the form field.
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected $validationtext;
+
+	/**
 	 * The name of the form field.
 	 *
 	 * @var    string
@@ -404,6 +412,7 @@ abstract class JFormField
 			case 'autofocus':
 			case 'autocomplete':
 			case 'spellcheck':
+			case 'validationtext':
 			case 'showon':
 				return $this->$name;
 
@@ -459,6 +468,7 @@ abstract class JFormField
 			case 'onclick':
 			case 'validate':
 			case 'pattern':
+			case 'validationtext':
 			case 'group':
 			case 'showon':
 			case 'default':
@@ -581,7 +591,7 @@ abstract class JFormField
 		$this->group = $group;
 
 		$attributes = array(
-			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'default',
+			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext', 'default',
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
 			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
 
@@ -986,30 +996,31 @@ abstract class JFormField
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
 		return array(
-			'autocomplete' => $this->autocomplete,
-			'autofocus'    => $this->autofocus,
-			'class'        => $this->class,
-			'description'  => $description,
-			'disabled'     => $this->disabled,
-			'field'        => $this,
-			'group'        => $this->group,
-			'hidden'       => $this->hidden,
-			'hint'         => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
-			'id'           => $this->id,
-			'label'        => $label,
-			'labelclass'   => $this->labelclass,
-			'multiple'     => $this->multiple,
-			'name'         => $this->name,
-			'onchange'     => $this->onchange,
-			'onclick'      => $this->onclick,
-			'pattern'      => $this->pattern,
-			'readonly'     => $this->readonly,
-			'repeat'       => $this->repeat,
-			'required'     => (bool) $this->required,
-			'size'         => $this->size,
-			'spellcheck'   => $this->spellcheck,
-			'validate'     => $this->validate,
-			'value'        => $this->value,
+			'autocomplete'   => $this->autocomplete,
+			'autofocus'      => $this->autofocus,
+			'class'          => $this->class,
+			'description'    => $description,
+			'disabled'       => $this->disabled,
+			'field'          => $this,
+			'group'          => $this->group,
+			'hidden'         => $this->hidden,
+			'hint'           => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
+			'id'             => $this->id,
+			'label'          => $label,
+			'labelclass'     => $this->labelclass,
+			'multiple'       => $this->multiple,
+			'name'           => $this->name,
+			'onchange'       => $this->onchange,
+			'onclick'        => $this->onclick,
+			'pattern'        => $this->pattern,
+			'validationtext' => $this->validationtext,
+			'readonly'       => $this->readonly,
+			'repeat'         => $this->repeat,
+			'required'       => (bool) $this->required,
+			'size'           => $this->size,
+			'spellcheck'     => $this->spellcheck,
+			'validate'       => $this->validate,
+			'value'          => $this->value,
 		);
 	}
 

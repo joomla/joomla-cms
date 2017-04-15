@@ -49,7 +49,7 @@ $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $au
 $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
-	!empty($class) ? 'class="' . $class . '"' : '',
+	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
@@ -69,16 +69,13 @@ if (is_numeric($value))
 }
 else
 {
-	$value = "";
+	$value = '';
 	$value = ($required && isset($min)) ? $min : $value;
 }
-
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-
 ?>
-<input type="number" name="<?php
-echo $name; ?>" id="<?php
-echo $id; ?>" value="<?php echo
-htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?> />
+<input
+	type="number"
+	name="<?php echo $name; ?>"
+	id="<?php echo $id; ?>"
+	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+	<?php echo implode(' ', $attributes); ?>>

@@ -34,7 +34,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	protected function getOptions()
 	{

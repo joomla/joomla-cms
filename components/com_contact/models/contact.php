@@ -135,9 +135,9 @@ class ContactModelContact extends JModelForm
 	 *
 	 * @since   1.6.0
 	 */
-	public function &getItem($pk = null)
+	public function getItem($pk = null)
 	{
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
+		$pk = $pk ?: (int) $this->getState('contact.id');
 
 		if ($this->_item === null)
 		{
@@ -148,36 +148,22 @@ class ContactModelContact extends JModelForm
 		{
 			try
 			{
-				$db = $this->getDbo();
+				$db    = $this->getDbo();
 				$query = $db->getQuery(true);
 
-				// Changes for sqlsrv
-				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias', '!=', '0');
-				$case_when .= ' THEN ';
-				$a_id = $query->castAsChar('a.id');
-				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-				$case_when .= ' ELSE ';
-				$case_when .= $a_id . ' END as slug';
-
-				$case_when1 = ' CASE WHEN ';
-				$case_when1 .= $query->charLength('c.alias', '!=', '0');
-				$case_when1 .= ' THEN ';
-				$c_id = $query->castAsChar('c.id');
-				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-				$case_when1 .= ' ELSE ';
-				$case_when1 .= $c_id . ' END as catslug';
-
-				$query->select($this->getState('item.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
-					->from('#__contact_details AS a')
+				$query->select($this->getState('item.select', 'a.*'))
+					->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
+					->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
+					->from($db->quoteName('#__contact_details', 'a'))
 
 					// Join on category table.
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
-					->join('LEFT', '#__categories AS c on c.id = a.catid')
+					->leftJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
+
 
 					// Join over the categories to get parent category titles
-					->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
-					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id')
+					->select('parent.title AS parent_title, parent.id AS parent_id, parent.path AS parent_route, parent.alias AS parent_alias')
+					->leftJoin($db->quoteName('#__categories', 'parent') . ' ON parent.id = c.parent_id')
 
 					->where('a.id = ' . (int) $pk);
 
@@ -275,6 +261,7 @@ class ContactModelContact extends JModelForm
 		$user      = JFactory::getUser();
 		$groups    = implode(',', $user->getAuthorisedViewLevels());
 		$published = $this->getState('filter.published');
+		$query     = $db->getQuery(true);
 
 		// If we are showing a contact list, then the contact parameters take priority
 		// So merge the contact parameters with the merged parameters
@@ -287,33 +274,17 @@ class ContactModelContact extends JModelForm
 		if ((int) $contact->user_id && $this->getState('params')->get('show_articles'))
 		{
 
-			$query = $db->getQuery(true)
-				->select('a.id')
+			$query->select('a.id')
 				->select('a.title')
 				->select('a.state')
 				->select('a.access')
 				->select('a.catid')
 				->select('a.created')
-				->select('a.language');
-
-			// SQL Server changes
-			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias', '!=', '0');
-			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
-			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-			$case_when .= ' ELSE ';
-			$case_when .= $a_id . ' END as slug';
-			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('c.alias', '!=', '0');
-			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('c.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id . ' END as catslug';
-			$query->select($case_when1 . ',' . $case_when)
-				->from('#__content as a')
-				->join('LEFT', '#__categories as c on a.catid=c.id')
+				->select('a.language')
+				->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
+				->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
+				->from($db->quoteName('#__content', 'a'))
+				->leftJoin($db->quoteName('#__categories', 'c') . ' ON a.catid = c.id')
 				->where('a.created_by = ' . (int) $contact->user_id)
 				->where('a.access IN (' . $groups . ')')
 				->order('a.state DESC, a.created DESC');
@@ -347,8 +318,7 @@ class ContactModelContact extends JModelForm
 			}
 
 			$db->setQuery($query, 0, (int) $articles_display_num);
-			$articles = $db->loadObjectList();
-			$contact->articles = $articles;
+			$contact->articles = $db->loadObjectList();
 		}
 		else
 		{
@@ -363,18 +333,36 @@ class ContactModelContact extends JModelForm
 		JPluginHelper::importPlugin('user');
 		$form = new JForm('com_users.profile');
 
-		// Get the dispatcher.
-		$dispatcher = JEventDispatcher::getInstance();
-
 		// Trigger the form preparation event.
-		$dispatcher->trigger('onContentPrepareForm', array($form, $data));
+		JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 
 		// Trigger the data preparation event.
-		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
+		JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $data));
 
 		// Load the data into the form after the plugins have operated.
 		$form->bind($data);
 		$contact->profile = $form;
+	}
+
+	/**
+	* Generate column expression for slug or catslug.
+	*
+	* @param   JDatabaseQuery  $query  Current query instance.
+	* @param   string          $id     Column id name.
+	* @param   string          $alias  Column alias name.
+	*
+	* @return  string
+	*
+	* @since   __DEPLOY_VERSION__
+	*/
+	private function getSlugColumn($query, $id, $alias)
+	{
+		return 'CASE WHEN '
+			. $query->charLength($alias, '!=', '0')
+			. ' THEN '
+			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
+			. ' ELSE '
+			. $id . ' END';
 	}
 
 	/**
@@ -393,36 +381,17 @@ class ContactModelContact extends JModelForm
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate  = $db->quote(JFactory::getDate()->toSql());
 		$user     = JFactory::getUser();
-		$pk       = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
+		$pk       = $pk ?: (int) $this->getState('contact.id');
 		$query    = $db->getQuery(true);
 
 		if ($pk)
 		{
-			// Sqlsrv changes
-			$case_when  = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias', '!=', '0');
-			$case_when .= ' THEN ';
-
-			$a_id       = $query->castAsChar('a.id');
-			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-			$case_when .= ' ELSE ';
-			$case_when .= $a_id . ' END as slug';
-
-			$case_when1  = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('cc.alias', '!=', '0');
-			$case_when1 .= ' THEN ';
-
-			$c_id        = $query->castAsChar('cc.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id . ' END as catslug';
-
-			$query->select(
-				'a.*, cc.access as category_access, cc.title as category_name, '
-				. $case_when . ',' . $case_when1
-			)
-				->from('#__contact_details AS a')
-				->join('INNER', '#__categories AS cc on cc.id = a.catid')
+			$query->select('a.*')
+				->select('cc.access AS category_access, cc.title AS category_name')
+				->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
+				->select($this->getSlugColumn($query, 'cc.id', 'cc.alias') . ' AS catslug')
+				->from($db->quoteName('#__contact_details', 'a'))
+				->innerJoin($db->quoteName('#__categories', 'cc') . ' ON cc.id = a.catid')
 				->where('a.id = ' . (int) $pk);
 
 			$published = $this->getState('filter.published');
@@ -468,34 +437,18 @@ class ContactModelContact extends JModelForm
 				// Get the com_content articles by the linked user
 				if ((int) $result->user_id && $this->getState('params')->get('show_articles'))
 				{
-
-					$query = $db->getQuery(true)
+					$query->clear()
 						->select('a.id')
 						->select('a.title')
 						->select('a.state')
 						->select('a.access')
 						->select('a.catid')
 						->select('a.created')
-						->select('a.language');
-
-					// SQL Server changes
-					$case_when = ' CASE WHEN ';
-					$case_when .= $query->charLength('a.alias', '!=', '0');
-					$case_when .= ' THEN ';
-					$a_id = $query->castAsChar('a.id');
-					$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-					$case_when .= ' ELSE ';
-					$case_when .= $a_id . ' END as slug';
-					$case_when1 = ' CASE WHEN ';
-					$case_when1 .= $query->charLength('c.alias', '!=', '0');
-					$case_when1 .= ' THEN ';
-					$c_id = $query->castAsChar('c.id');
-					$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-					$case_when1 .= ' ELSE ';
-					$case_when1 .= $c_id . ' END as catslug';
-					$query->select($case_when1 . ',' . $case_when)
-						->from('#__content as a')
-						->join('LEFT', '#__categories as c on a.catid=c.id')
+						->select('a.language')
+						->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
+						->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
+						->from($db->quoteName('#__content', 'a'))
+						->leftJoin($db->quoteName('#__categories', 'c') . ' ON a.catid = c.id')
 						->where('a.created_by = ' . (int) $result->user_id)
 						->where('a.access IN (' . $groups . ')')
 						->order('a.state DESC, a.created DESC');
@@ -529,8 +482,7 @@ class ContactModelContact extends JModelForm
 					}
 
 					$db->setQuery($query, 0, (int) $articles_display_num);
-					$articles = $db->loadObjectList();
-					$result->articles = $articles;
+					$result->articles = $db->loadObjectList();
 				}
 				else
 				{
@@ -545,14 +497,11 @@ class ContactModelContact extends JModelForm
 				JPluginHelper::importPlugin('user');
 				$form = new JForm('com_users.profile');
 
-				// Get the dispatcher.
-				$dispatcher = JEventDispatcher::getInstance();
-
 				// Trigger the form preparation event.
-				$dispatcher->trigger('onContentPrepareForm', array($form, $data));
+				JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 
 				// Trigger the data preparation event.
-				$dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
+				JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $data));
 
 				// Load the data into the form after the plugins have operated.
 				$form->bind($data);
@@ -582,7 +531,7 @@ class ContactModelContact extends JModelForm
 
 		if ($hitcount)
 		{
-			$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
+			$pk = $pk ?: (int) $this->getState('contact.id');
 
 			$table = JTable::getInstance('Contact', 'ContactTable');
 			$table->load($pk);

@@ -188,7 +188,7 @@ abstract class JHtmlFilter
 				$html .= '<label class="checkbox" tax-'
 					. $bk . '>';
 				$html .= '<input type="checkbox" class="selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $bk . '"' . $checked . ' />';
+					. $bk . '"' . $checked . '>';
 				$html .= $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';
@@ -397,7 +397,7 @@ abstract class JHtmlFilter
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="control-label">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
-			$html .= '<br />';
+			$html .= '<br>';
 			$html .= JHtml::_(
 				'select.genericlist',
 				$branches[$bk]->nodes, 't[]', 'class="inputbox advancedSelect"', 'id', 'title', $active,
@@ -453,7 +453,7 @@ abstract class JHtmlFilter
 			$html .= '<label for="filter_date1" class="hasTooltip" title ="' . JText::_('COM_FINDER_FILTER_DATE1_DESC') . '">';
 			$html .= JText::_('COM_FINDER_FILTER_DATE1');
 			$html .= '</label>';
-			$html .= '<br />';
+			$html .= '<br>';
 			$html .= JHtml::_(
 				'select.genericlist',
 				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
@@ -466,7 +466,7 @@ abstract class JHtmlFilter
 			$html .= '<label for="filter_date2" class="hasTooltip" title ="' . JText::_('COM_FINDER_FILTER_DATE2_DESC') . '">';
 			$html .= JText::_('COM_FINDER_FILTER_DATE2');
 			$html .= '</label>';
-			$html .= '<br />';
+			$html .= '<br>';
 			$html .= JHtml::_(
 				'select.genericlist',
 				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'

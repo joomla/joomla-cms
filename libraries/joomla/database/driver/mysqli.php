@@ -63,7 +63,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * @var    string  The minimum supported database version.
 	 * @since  12.2
 	 */
-	protected static $dbMinimum = '5.0.4';
+	protected static $dbMinimum = '5.5.3';
 
 	/**
 	 * Constructor.
@@ -183,8 +183,16 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
 		}
 
-		// Set sql_mode to non_strict mode
-		mysqli_query($this->connection, "SET @@SESSION.sql_mode = '';");
+		// Set sql_mode to MySql 5.7.8+ default strict mode.
+		$sqlModes = array(
+			'ONLY_FULL_GROUP_BY',
+			'STRICT_TRANS_TABLES',
+			'ERROR_FOR_DIVISION_BY_ZERO',
+			'NO_AUTO_CREATE_USER',
+			'NO_ENGINE_SUBSTITUTION',
+		);
+
+		mysqli_query($this->connection, "SET @@SESSION.sql_mode = '" . implode(',', $sqlModes) . "';");
 
 		// If auto-select is enabled select the given database.
 		if ($this->options['select'] && !empty($this->options['database']))
@@ -954,25 +962,15 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	private function serverClaimsUtf8mb4Support()
 	{
 		$client_version = mysqli_get_client_info();
-		$server_version = $this->getVersion();
 
-		if (version_compare($server_version, '5.5.3', '<'))
+		if (strpos($client_version, 'mysqlnd') !== false)
 		{
-			return false;
-		}
-		else
-		{
-			if (strpos($client_version, 'mysqlnd') !== false)
-			{
-				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+			$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
 
-				return version_compare($client_version, '5.0.9', '>=');
-			}
-			else
-			{
-				return version_compare($client_version, '5.5.3', '>=');
-			}
+			return version_compare($client_version, '5.0.9', '>=');
 		}
+
+		return version_compare($client_version, '5.5.3', '>=');
 	}
 
 	/**

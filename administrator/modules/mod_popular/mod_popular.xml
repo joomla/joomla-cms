@@ -71,14 +71,12 @@
 				<field
 					name="automatic_title"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
 					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

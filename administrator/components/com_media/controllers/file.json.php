@@ -117,10 +117,9 @@ class MediaControllerFile extends JControllerLegacy
 
 		// Trigger the onContentBeforeSave event.
 		JPluginHelper::importPlugin('content');
-		$dispatcher  = JEventDispatcher::getInstance();
 		$object_file = new JObject($file);
 		$object_file->filepath = $filepath;
-		$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
+		$result = JFactory::getApplication()->triggerEvent('onContentBeforeSave', array('com_media.file', &$object_file, true));
 
 			if (in_array(false, $result, true))
 			{
@@ -140,8 +139,8 @@ class MediaControllerFile extends JControllerLegacy
 
 				$response = array(
 					'status'  => '0',
-					'message' => JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)),
-					'error'   => JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors))
+					'message' => JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br>', $errors)),
+					'error'   => JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br>', $errors))
 				);
 
 				echo json_encode($response);
@@ -220,7 +219,7 @@ class MediaControllerFile extends JControllerLegacy
 			else
 			{
 				// Trigger the onContentAfterSave event.
-				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
+				JFactory::getApplication()->triggerEvent('onContentAfterSave', array('com_media.file', &$object_file, true));
 
 				try
 				{

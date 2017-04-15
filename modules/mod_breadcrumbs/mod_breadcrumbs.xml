@@ -25,96 +25,13 @@
 				<field
 					name="showHere"
 					type="radio"
+					class="switcher"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWHERE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="showHome"
-					type="radio"
-					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
-					>
 					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="homeText"
-					type="text"
-					label="MOD_BREADCRUMBS_FIELD_HOMETEXT_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC"
-					showon="showHome:1"
-				/>
-
-				<field
-					name="showLast"
-					type="radio"
-					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC"
-					default="1"
-					class="btn-group btn-group-yesno"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="separator"
-					type="text"
-					label="MOD_BREADCRUMBS_FIELD_SEPARATOR_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SEPARATOR_DESC"
-				/>
-
-			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-				/>
-
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
-					rows="3"
-				/>
-
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-					default="0"
-					>
-					<option value="1">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
-
-				<field
-					name="cache_time"
-					type="text"
-					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
-					default="0"
-				/>
-
-				<field
-					name="cachemode"
-					type="hidden"
-					default="itemid"
-					>
-					<option value="itemid"></option>
 				</field>
 			</fieldset>
 		</fields>

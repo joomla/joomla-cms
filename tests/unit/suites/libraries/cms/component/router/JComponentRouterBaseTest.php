@@ -28,8 +28,8 @@ class JComponentRouterBaseTest extends TestCase
 	 */
 	public function testConstruct()
 	{
-		$app_bkp = JFactory::$application;
-		$app = TestMockApplication::create($this);
+		$this->saveFactoryState();
+		$app = $this->getMockCmsApp();
 		JFactory::$application = $app;
 		$menu = TestMockMenu::create($this);
 
@@ -48,7 +48,7 @@ class JComponentRouterBaseTest extends TestCase
 		 * Test if the setup works when an app object is handed over
 		 * Especially test if the app objects are different
 		 */
-		$app2 = TestMockApplication::create($this);
+		$app2 = $this->getMockCmsApp();
 		$object = new JComponentRouterBaseInspector($app2);
 		$this->assertEquals($app2, $object->app);
 		//The original $app is not the same object as $app2, thus we did not use JFactory
@@ -69,7 +69,7 @@ class JComponentRouterBaseTest extends TestCase
 		$this->assertEquals($app, $object->app);
 		$this->assertEquals($menu, $object->menu);
 
-		JFactory::$language = $app_bkp;
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -82,7 +82,7 @@ class JComponentRouterBaseTest extends TestCase
 	 */
 	public function testPreprocess()
 	{
-		$app = TestMockApplication::create($this);
+		$app = $this->getMockCmsApp();
 		$menu = TestMockMenu::create($this);
 		$object = new JComponentRouterBaseInspector($app, $menu);
 

@@ -15,19 +15,28 @@
 			size="30"
 		/>
 
+		<field name="email" type="email"
+		       description="COM_USERS_USER_FIELD_EMAIL_DESC"
+		       label="JGLOBAL_EMAIL"
+		       required="true"
+		       size="30"
+		       validate="email"
+		/>
+
 		<field name="password" type="password"
 			autocomplete="off"
-			class="validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
-			validate="password"
+			class="validate-password-strength"
+			strengthmeter="true"
+			force="on"
 			label="JGLOBAL_PASSWORD"
 			size="30"
 		/>
 
 		<field name="password2" type="password"
 			autocomplete="off"
-			class="validate-password"
+			class="validate-passwordExtra"
 			description="COM_USERS_USER_FIELD_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
@@ -35,14 +44,6 @@
 			size="30"
 			validate="equals"
 			field="password"
-		/>
-
-		<field name="email" type="email"
-			description="COM_USERS_USER_FIELD_EMAIL_DESC"
-			label="JGLOBAL_EMAIL"
-			required="true"
-			size="30"
-			validate="email"
 		/>
 
 		<field
@@ -97,34 +98,34 @@
 		<field
 				name="sendEmail"
 				type="radio"
+				class="switcher"
 				default="0"
-				class="btn-group btn-group-yesno"
 				label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 				description="COM_USERS_USER_FIELD_SENDEMAIL_DESC">
-				<option value="1">JYES</option>
 				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 		</field>
 
 		<field
 				name="block"
 				type="radio"
-				class="btn-group btn-group-yesno btn-group-reversed"
+				class="switcher switcher-danger"
 				default="0"
 				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 				description="COM_USERS_USER_FIELD_BLOCK_DESC">
-				<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
 				<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
+				<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
 		</field>
 
 		<field
 			name="requireReset"
 			type="radio"
+			class="switcher"
 			default="0"
-			class="btn-group btn-group-yesno"
 			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
 			description="COM_USERS_USER_FIELD_REQUIRERESET_DESC">
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

@@ -171,7 +171,7 @@ abstract class FOFDatabase
 		if ($this->errorNum != 0)
 		{
 			return JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $this->errorNum, $this->errorMsg)
-			. ($showSQL ? "<br />SQL = <pre>$this->sql</pre>" : '');
+			. ($showSQL ? "<br>SQL = <pre>$this->sql</pre>" : '');
 		}
 		else
 		{

@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JHtml::_('behavior.tabstate');
 
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;

@@ -34,13 +34,13 @@
 				<field
 					name="multiple"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
 					description="PLG_FIELDS_SQL_PARAMS_MULTIPLE_DESC"
 				>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

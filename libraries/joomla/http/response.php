@@ -9,28 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Http\Response;
+
 /**
  * HTTP response data object class.
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  5.0  Use Joomla\Http\Response instead
  */
-class JHttpResponse
+class JHttpResponse extends Response
 {
-	/**
-	 * @var    integer  The server response code.
-	 * @since  11.3
-	 */
-	public $code;
-
-	/**
-	 * @var    array  Response headers.
-	 * @since  11.3
-	 */
-	public $headers = array();
-
-	/**
-	 * @var    string  Server response body.
-	 * @since  11.3
-	 */
-	public $body;
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="tests/unit/bootstrap.php" colors="true">
 	<php>
-		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=127.0.0.1;dbname=joomla_ut;user=root;pass=Password12!" />
 		<const name="JTEST_DATABASE_MYSQLI_DSN" value="host=127.0.0.1;dbname=joomla_ut;user=root;pass=Password12!" />
 		<const name="JTEST_DATABASE_PDO_MYSQL_DSN" value="host=127.0.0.1;dbname=joomla_ut;user=root;pass=Password12!" />
 		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=127.0.0.1;port=5432;dbname=joomla_ut;user=postgres;pass=Password12!" />

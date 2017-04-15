@@ -40,6 +40,7 @@
 			required="true"
 			addfieldpath="/administrator/components/com_categories/models/fields"
 			default=""
+			class="advancedSelect"
 		/>
 
 		<field
@@ -47,7 +48,7 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_BANNERS_FIELD_STATE_DESC"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			size="1"
 			default="1"
 			>
@@ -80,7 +81,6 @@
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			maxlength="255"
-			class="span12"
 			size="45"
 			labelclass="control-label"
 		/>
@@ -215,13 +215,13 @@
 		<field
 			name="sticky"
 			type="radio"
+			class="switcher"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 
@@ -311,13 +311,13 @@
 		<field
 			name="own_prefix"
 			type="radio"
+			class="switcher"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_BANNEROWNPREFIX_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

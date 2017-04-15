@@ -41,11 +41,11 @@ $baseurl = JUri::base();
 							href="<?php echo $link; ?>" target="_blank" rel="noopener noreferrer"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
-								src="<?php echo $baseurl . $imageurl;?>"
-								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
-							/>
+								src="<?php echo $baseurl . $imageurl; ?>"
+								alt="<?php echo $alt; ?>"
+								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
+								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+							>
 						</a>
 					<?php elseif ($target == 2) : ?>
 						<?php // Open in a popup window ?>
@@ -55,11 +55,11 @@ $baseurl = JUri::base();
 								return false"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
-								src="<?php echo $baseurl . $imageurl;?>"
-								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
-							/>
+								src="<?php echo $baseurl . $imageurl; ?>"
+								alt="<?php echo $alt; ?>"
+								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
+								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+							>
 						</a>
 					<?php else : ?>
 						<?php // Open in parent window ?>
@@ -67,21 +67,21 @@ $baseurl = JUri::base();
 							href="<?php echo $link; ?>"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
-								src="<?php echo $baseurl . $imageurl;?>"
-								alt="<?php echo $alt;?>"
-								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
-							/>
+								src="<?php echo $baseurl . $imageurl; ?>"
+								alt="<?php echo $alt; ?>"
+								<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
+								<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+							>
 						</a>
 					<?php endif; ?>
 				<?php else : ?>
 					<?php // Just display the image if no link specified ?>
 					<img
-						src="<?php echo $baseurl . $imageurl;?>"
-						alt="<?php echo $alt;?>"
-						<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-						<?php if (!empty($height)) echo ' height="' . $height . '"';?>
-					/>
+						src="<?php echo $baseurl . $imageurl; ?>"
+						alt="<?php echo $alt; ?>"
+						<?php if (!empty($width)) echo 'width="' . $width . '"'; ?>
+						<?php if (!empty($height)) echo 'height="' . $height . '"'; ?>
+					>
 				<?php endif; ?>
 			<?php elseif (BannerHelper::isFlash($imageurl)) : ?>
 				<object

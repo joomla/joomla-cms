@@ -34,19 +34,11 @@ class ModStatsHelper
 
 		$serverinfo = $params->get('serverinfo');
 		$siteinfo   = $params->get('siteinfo');
-		$counter    = $params->get('counter');
-		$increase   = $params->get('increase');
 
 		$i = 0;
 
 		if ($serverinfo)
 		{
-			$rows[$i]        = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_OS');
-			$rows[$i]->icon  = 'screen';
-			$rows[$i]->data  = substr(php_uname(), 0, 7);
-			$i++;
-
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_PHP');
 			$rows[$i]->icon  = 'cogs';
@@ -57,12 +49,6 @@ class ModStatsHelper
 			$rows[$i]->title = JText::_($db->name);
 			$rows[$i]->icon  = 'database';
 			$rows[$i]->data  = $db->getVersion();
-			$i++;
-
-			$rows[$i]        = new stdClass;
-			$rows[$i]->title = JText::_('MOD_STATS_TIME');
-			$rows[$i]->icon  = 'clock';
-			$rows[$i]->data  = JHtml::_('date', 'now', 'H:i');
 			$i++;
 
 			$rows[$i]        = new stdClass;
@@ -121,33 +107,6 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
-				$i++;
-			}
-		}
-
-		if ($counter)
-		{
-			$query->clear()
-				->select('SUM(hits) AS count_hits')
-				->from('#__content')
-				->where('state = 1');
-			$db->setQuery($query);
-
-			try
-			{
-				$hits = $db->loadResult();
-			}
-			catch (RuntimeException $e)
-			{
-				$hits = false;
-			}
-
-			if ($hits)
-			{
-				$rows[$i]        = new stdClass;
-				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
-				$rows[$i]->icon  = 'eye';
-				$rows[$i]->data  = number_format($hits + $increase, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'));
 				$i++;
 			}
 		}

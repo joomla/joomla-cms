@@ -2154,7 +2154,7 @@ class JForm
 			}
 
 			// Instantiate the form.
-			$forms[$name] = new JForm($name, $options);
+			$forms[$name] = new static($name, $options);
 
 			// Load the data.
 			if (substr($data, 0, 1) == '<')

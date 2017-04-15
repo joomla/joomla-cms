@@ -46,7 +46,7 @@ class UsersControllerMail extends JControllerLegacy
 		}
 
 		$msg = $model->getError();
-		$this->setredirect('index.php?option=com_users&view=mail', $msg, $type);
+		$this->setRedirect('index.php?option=com_users&view=mail', $msg, $type);
 	}
 
 	/**

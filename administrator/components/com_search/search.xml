@@ -20,7 +20,7 @@
 		<language tag="en-GB">language/en-GB.com_search.ini</language>
 	</languages>
 	<administration>
-		<menu link="option=com_search" img="class:search">Search</menu>
+		<menu link="option=com_search">Search</menu>
 		<files folder="admin">
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>

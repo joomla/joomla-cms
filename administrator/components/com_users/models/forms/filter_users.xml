@@ -84,7 +84,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
 			default="25"
 			label="COM_CONTENT_LIST_LIMIT"
 			description="COM_CONTENT_LIST_LIMIT_DESC"

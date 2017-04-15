@@ -35,7 +35,7 @@ class JFormFieldSkins extends JFormFieldList
 	{
 		$options = array();
 
-		$directories = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
 		for ($i = 0; $i < count($directories); ++$i)
 		{
@@ -61,9 +61,12 @@ class JFormFieldSkins extends JFormFieldList
 
 		// Get the field options.
 		$options = (array) $this->getOptions();
+		$attrbs  = array(
+			'class' => 'custom-select'
+		);
 
 		// Create a regular list.
-		$html[] = JHtml::_('select.genericlist', $options, $this->name, '', 'value', 'text', $this->value, $this->id);
+		$html[] = JHtml::_('select.genericlist', $options, $this->name, $attrbs, 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

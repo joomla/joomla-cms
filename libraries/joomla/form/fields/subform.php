@@ -295,7 +295,7 @@ class JFormFieldSubform extends JFormField
 		// for allow to submit an empty value
 		if ($this->multiple)
 		{
-			$html = '<input name="' . $this->name . '" type="hidden" value="" />' . $html;
+			$html = '<input name="' . $this->name . '" type="hidden" value="">' . $html;
 		}
 
 		return $html;

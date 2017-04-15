@@ -1,0 +1,25 @@
+// Card
+
+.card {
+  background-color: $card-bg-color-light;
+
+  &.card-light {
+    background-color: $card-bg-color-light;
+  }
+
+  &.card-dark {
+    background-color: $card-bg-color-dark;
+
+    > *,
+    a:not(.dropdown-item),
+	.module-dropdown > a {
+      color: $white-offset;
+    }
+
+    .list-group-item {
+      background: none;
+    }
+
+  }
+
+}

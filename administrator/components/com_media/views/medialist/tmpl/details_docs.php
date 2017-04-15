@@ -12,12 +12,11 @@ use Joomla\Registry\Registry;
 
 JHtml::_('bootstrap.tooltip');
 
-$params     = new Registry;
-$dispatcher = JEventDispatcher::getInstance();
+$params = new Registry;
 ?>
 
 <?php foreach ($this->documents as $i => $doc) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$doc, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$doc, &$params)); ?>
 	<tr>
 		<?php if ($this->canDelete) : ?>
 			<td>
@@ -50,5 +49,5 @@ $dispatcher = JEventDispatcher::getInstance();
 		<?php endif; ?>
 
 	</tr>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$doc, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$doc, &$params)); ?>
 <?php endforeach; ?>

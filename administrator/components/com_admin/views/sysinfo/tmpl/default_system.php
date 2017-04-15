@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="25%">
+				<th style="width:25%">
 					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th>
@@ -90,14 +90,6 @@ defined('_JEXEC') or die;
 				</td>
 				<td>
 					<?php echo $this->info['version']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<strong><?php echo JText::_('COM_ADMIN_PLATFORM_VERSION'); ?></strong>
-				</td>
-				<td>
-					<?php echo $this->info['platform']; ?>
 				</td>
 			</tr>
 			<tr>

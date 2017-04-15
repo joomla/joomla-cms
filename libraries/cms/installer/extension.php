@@ -82,6 +82,14 @@ class JInstallerExtension extends JObject
 	public $params = null;
 
 	/**
+	 * The namespace of the extension
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $namespace = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
@@ -140,15 +148,4 @@ class JInstallerExtension extends JObject
 			$this->filename = (string) $element;
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder. You should use JInstallerExtension instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JExtension extends JInstallerExtension
-{
 }

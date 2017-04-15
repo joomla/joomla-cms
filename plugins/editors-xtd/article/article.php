@@ -46,14 +46,19 @@ class PlgButtonArticle extends JPlugin
 				. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
 			$button = new JObject;
-			$button->modal   = true;
-			$button->class   = 'btn';
-			$button->link    = $link;
-			$button->text    = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
-			$button->name    = 'file-add';
-			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+			$button->modal = true;
+			$button->class = 'btn btn-secondary';
+			$button->link = $link;
+			$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
+			$button->name = 'file-add';
+			$button->options = array(
+				'height'     => '300px',
+				'width'      => '800px',
+				'bodyHeight' => '70',
+				'modalWidth' => '80',
+			);
 
-		return $button;
+			return $button;
 		}
 	}
 }

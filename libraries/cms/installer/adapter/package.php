@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Event\Event;
+
 /**
  * Package installer
  *
@@ -16,14 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JInstallerAdapterPackage extends JInstallerAdapter
 {
-	/**
-	 * Flag if the internal event callback has been registered
-	 *
-	 * @var    boolean
-	 * @since  3.7.0
-	 */
-	private static $eventRegistered = false;
-
 	/**
 	 * An array of extension IDs for each installed extension
 	 *
@@ -123,11 +117,12 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			);
 		}
 
+		$dispatcher = JFactory::getApplication()->getDispatcher();
+
 		// Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
-		if (!self::$eventRegistered)
+		if (!$dispatcher->hasListener([$this, 'onExtensionAfterInstall'], 'onExtensionAfterInstall'))
 		{
-			self::$eventRegistered = true;
-			JEventDispatcher::getInstance()->register('onExtensionAfterInstall', array($this, 'onExtensionAfterInstall'));
+			$dispatcher->addListener('onExtensionAfterInstall', [$this, 'onExtensionAfterInstall']);
 		}
 
 		foreach ($this->getManifest()->files->children() as $child)
@@ -329,18 +324,17 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	/**
 	 * Handler for the `onExtensionAfterInstall` event
 	 *
-	 * @param   JInstaller       $installer  JInstaller instance managing the extension's installation
-	 * @param   integer|boolean  $eid        The extension ID of the installed extension on success, boolean false on install failure
+	 * @param   Event  $event  The event
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onExtensionAfterInstall(JInstaller $installer, $eid)
+	public function onExtensionAfterInstall(Event $event)
 	{
-		if ($eid !== false)
+		if ($event->getArgument('eid', false) !== false)
 		{
-			$this->installedIds[] = $eid;
+			$this->installedIds[] = $event->getArgument('eid');
 		}
 	}
 
@@ -410,21 +404,17 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 		else
 		{
-			$this->extension->name = $this->name;
-			$this->extension->type = 'package';
+			$this->extension->name    = $this->name;
+			$this->extension->type    = 'package';
 			$this->extension->element = $this->element;
 
 			// There is no folder for packages
-			$this->extension->folder = '';
-			$this->extension->enabled = 1;
+			$this->extension->folder    = '';
+			$this->extension->enabled   = 1;
 			$this->extension->protected = 0;
-			$this->extension->access = 1;
+			$this->extension->access    = 1;
 			$this->extension->client_id = 0;
-
-			// Custom data
-			$this->extension->custom_data = '';
-			$this->extension->system_data = '';
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->params    = $this->parent->getParams();
 		}
 
 		// Update the manifest cache for the entry
@@ -605,7 +595,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 				$this->parent->manifestClass = new $classname($this);
 
 				// And set this so we can copy it later
-				$this->set('manifest_script', $manifestScript);
+				$this->manifest_script = $manifestScript;
 			}
 		}
 
@@ -756,15 +746,4 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			return false;
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterPackage instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerPackage extends JInstallerAdapterPackage
-{
 }

@@ -59,9 +59,7 @@ class JDocumentFeed extends JDocument
 	/**
 	 * Lastbuild date feed element
 	 *
-	 * optional
-	 *
-	 * @var    string
+	 * @var    JDate
 	 * @since  11.1
 	 */
 	public $lastBuildDate = '';
@@ -175,6 +173,10 @@ class JDocumentFeed extends JDocument
 
 		// Set document type
 		$this->_type = 'feed';
+
+		// Gets and sets timezone offset from site configuration
+		$this->lastBuildDate = JFactory::getDate();
+		$this->lastBuildDate->setTimeZone(new DateTimeZone(JFactory::getApplication()->get('offset', 'UTC')));
 	}
 
 	/**

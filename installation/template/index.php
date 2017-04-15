@@ -10,22 +10,23 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentHtml $this */
 
+// Add Stylesheets
+JHtml::_('bootstrap.loadCss', true, $this->direction);
+JHtml::_('stylesheet', 'installation/template/css/template.css');
+JHtml::_('stylesheet', 'media/vendor/font-awesome/css/font-awesome.min.css');
+
 // Output as HTML5
 $this->setHtml5(true);
 
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
-JHtml::_('formbehavior.chosen', 'select');
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.core');
-JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 
 // Add installation js
 JHtml::_('script', 'installation/template/js/installation.js', array('version' => 'auto'));
-
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Add Stylesheets
 JHtml::_('bootstrap.loadCss', true, $this->direction);
@@ -55,13 +56,21 @@ $this->addScriptOptions('system.installation', array('url' => JRoute::_('index.p
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
 		<jdoc:include type="head" />
-		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
+		<script>
+			jQuery(function()
+			{
+				// Delay instantiation after document.formvalidation and other dependencies loaded
+				window.setTimeout(function(){
+					window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
+				}, 500);
+			});
+		</script>
 	</head>
 	<body data-basepath="<?php echo JUri::root(true); ?>">
-		<!-- Header -->
+		<?php // Header ?>
 		<div class="header">
-			<img src="<?php echo $this->baseurl; ?>/template/images/joomla.png" alt="Joomla" />
-			<hr />
+			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla">
+			<hr>
 			<h5>
 				<?php // Fix wrong display of Joomla!® in RTL language ?>
 				<?php $joomla  = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>' . (JFactory::getLanguage()->isRtl() ? '&#x200E;' : '') . '</sup>'; ?>
@@ -69,12 +78,12 @@ $this->addScriptOptions('system.installation', array('url' => JRoute::_('index.p
 				<?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license); ?>
 			</h5>
 		</div>
-		<!-- Container -->
+		<?php // Container ?>
 		<div class="container">
 			<jdoc:include type="message" />
 			<div id="javascript-warning">
 				<noscript>
-					<div class="alert alert-error">
+					<div class="alert alert-danger">
 						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
 					</div>
 				</noscript>
@@ -82,7 +91,7 @@ $this->addScriptOptions('system.installation', array('url' => JRoute::_('index.p
 			<div id="container-installation">
 				<jdoc:include type="component" />
 			</div>
-			<hr />
+			<hr>
 		</div>
 	</body>
 </html>

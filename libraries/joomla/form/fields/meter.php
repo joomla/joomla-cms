@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('number');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a meter to show value in a range.
@@ -18,7 +16,7 @@ JFormHelper::loadFieldClass('number');
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  3.2
  */
-class JFormFieldMeter extends JFormFieldNumber
+class JFormFieldMeter extends JFormField
 {
 	/**
 	 * The form field type.
@@ -27,14 +25,6 @@ class JFormFieldMeter extends JFormFieldNumber
 	 * @since  3.2
 	 */
 	protected $type = 'Meter';
-
-	/**
-	 * The width of the field increased or decreased.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $width;
 
 	/**
 	 * Whether the field is active or not.
@@ -53,12 +43,20 @@ class JFormFieldMeter extends JFormFieldNumber
 	protected $animated = true;
 
 	/**
-	 * The color of the field
+	 * The max value of the progress bar
 	 *
 	 * @var    boolean
-	 * @since  3.2
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $color;
+	protected $max = 100;
+
+	/**
+	 * The striped class for the progress bar
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $striped;
 
 	/**
 	 * Name of the layout being used to render the field
@@ -190,7 +188,6 @@ class JFormFieldMeter extends JFormFieldNumber
 			'active'   => $this->active,
 			'max'      => $this->max,
 			'min'      => $this->min,
-			'step'     => $this->step,
 		);
 
 		return array_merge($data, $extraData);

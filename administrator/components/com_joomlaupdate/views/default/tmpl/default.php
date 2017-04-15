@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
-JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 'relative' => true));
 
 JFactory::getDocument()->addScriptDeclaration("
@@ -38,7 +37,7 @@ jQuery(document).ready(function($) {
 		<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
 	<?php endif; ?>
 
-	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm" class="form-horizontal">
+	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm">
 
 		<?php if ($this->selfUpdate) : ?>
 			<?php // If we have a self update notice to install it first! ?>
@@ -57,8 +56,8 @@ jQuery(document).ready(function($) {
 			<?php endif; ?>
 		<?php endif; ?>
 
-		<input type="hidden" name="task" value="update.download" />
-		<input type="hidden" name="option" value="com_joomlaupdate" />
+		<input type="hidden" name="task" value="update.download">
+		<input type="hidden" name="option" value="com_joomlaupdate">
 
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
@@ -72,11 +71,8 @@ jQuery(document).ready(function($) {
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<?php endif; ?>
 
-	<div class="download_message" style="display: none">
-		<p></p>
-		<p class="nowarning">
-			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?>
-		</p>
+	<div class="download_message" style="display:none">
+		<p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
 		<div class="joomlaupdate_spinner"></div>
 	</div>
 	<div id="loading"></div>

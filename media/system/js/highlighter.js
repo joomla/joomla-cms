@@ -1,4 +1,111 @@
-/*
-		GNU General Public License version 2 or later; see LICENSE.txt
-*/
-if(typeof(Joomla)==="undefined"){var Joomla={}}Joomla.Highlighter=function(h){var d,f,i={autoUnhighlight:true,caseSensitive:false,startElement:false,endElement:false,elements:[],className:"highlight",onlyWords:true,tag:"span"},b=function(l){if(l.constructor===String){l=[l]}if(i.autoUnhighlight){g(l)}var k=i.onlyWords?"\b"+k+"\b":"("+l.join("\\b|\\b")+")",j=new RegExp(k,i.caseSensitive?"":"i");i.elements.map(function(m){a(m,j,i.className)});return this},g=function(l){if(l.constructor===String){l=[l]}var k,j;l.map(function(m){m=(i.caseSensitive?m:m.toUpperCase());if(l[m]){k=d(l[m]);k.removeClass();k.each(function(n,o){j=document.createTextNode(d(o).text());o.parentNode.replaceChild(j,o)})}});return this},a=function(k,r,q){if(k.nodeType===3){var o=k.nodeValue.match(r),l,j,s,p,n,m;if(o){l=document.createElement(i.tag);j=d(l);j.addClass(q);s=k.splitText(o.index);s.splitText(o[0].length);p=s.cloneNode(true);j.append(p);d(s).replaceWith(l);j.attr("rel",j.text());n=j.text();if(!i.caseSensitive){n=j.text().toUpperCase()}if(!f[n]){f[n]=[]}f[n].push(l);return 1}}else{if((k.nodeType===1&&k.childNodes)&&!/(script|style|textarea|iframe)/i.test(k.tagName)&&!(k.tagName===i.tag.toUpperCase()&&k.className===q)){for(m=0;m<k.childNodes.length;m++){m+=a(k.childNodes[m],r,q)}}}return 0},e=function(l,k){var j=l.next();if(j.attr("id")!==k.attr("id")){i.elements.push(j.get(0));e(j,k)}},c=function(j){d=jQuery.noConflict();d.extend(i,j);e(d(i.startElement),d(i.endElement));f=[]};c(h);return{highlight:b,unhighlight:g}};
+/**
+ * @package     Joomla.JavaScript
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// Only define the Joomla namespace if not defined.
+if (typeof(Joomla) === 'undefined') {
+    var Joomla = {};
+}
+
+Joomla.Highlighter = function(_options){
+    var $, words, options = {
+        autoUnhighlight: true,
+        caseSensitive: false,
+        startElement: false,
+        endElement: false,
+        elements: [],
+        className: 'highlight',
+        onlyWords: true,
+        tag: 'span'
+    },
+
+    highlight = function (words) {
+        if (words.constructor === String) {
+            words = [words];
+        }
+        if (options.autoUnhighlight) {
+            unhighlight(words);
+        }
+        var pattern = options.onlyWords ? '\b' + pattern + '\b' : '(' + words.join('\\b|\\b') + ')',
+        regex = new RegExp(pattern, options.caseSensitive ? '' : 'i');
+        options.elements.map(function(el){
+            recurse(el, regex, options.className);
+        });
+        return this;
+    },
+
+    unhighlight = function (words) {
+        if (words.constructor === String) {
+            words = [words];
+        }
+
+        var $elements, tn;
+        words.map(function(word){
+            word = (options.caseSensitive ? word : word.toUpperCase());
+            if (words[word]) {
+                $elements = $(words[word]);
+                $elements.removeClass();
+                $elements.each(function (index, el) {
+                    tn = document.createTextNode($(el).text());
+                    el.parentNode.replaceChild(tn, el);
+                });
+            }
+        });
+        return this;
+    },
+
+    recurse = function (node, regex, klass) {
+        if (node.nodeType === 3) {
+            var match = node.nodeValue.match(regex), highlight, $highlight, wordNode, wordClone, comparer, i;
+            if (match) {
+                highlight = document.createElement(options.tag);
+                $highlight = $(highlight);
+                $highlight.addClass(klass);
+                wordNode = node.splitText(match.index);
+                wordNode.splitText(match[0].length);
+                wordClone = wordNode.cloneNode(true);
+                $highlight.append(wordClone);
+                $(wordNode).replaceWith(highlight)
+                $highlight.attr('rel', $highlight.text());
+                comparer = $highlight.text()
+                if (!options.caseSensitive) {
+                    comparer = $highlight.text().toUpperCase();
+                }
+                if (!words[comparer]) {
+                    words[comparer] = [];
+                }
+                words[comparer].push(highlight);
+                return 1;
+            }
+        } else if ((node.nodeType === 1 && node.childNodes) && !/(script|style|textarea|iframe)/i.test(node.tagName) && !(node.tagName === options.tag.toUpperCase() && node.className === klass)) {
+            for (i = 0; i < node.childNodes.length; i++) {
+                i += recurse(node.childNodes[i], regex, klass);
+            }
+        }
+        return 0;
+    },
+
+    getElements = function ($start, $end) {
+        var $next = $start.next();
+        if ($next.attr('id') !== $end.attr('id')) {
+            options.elements.push($next.get(0));
+            getElements($next, $end);
+        }
+    },
+
+    initialize = function(_options) {
+        $ = jQuery.noConflict();
+        $.extend(options, _options);
+        getElements($(options.startElement), $(options.endElement));
+        words = [];
+    };
+
+    initialize(_options);
+
+    return {
+        highlight: highlight,
+        unhighlight : unhighlight
+    };
+};

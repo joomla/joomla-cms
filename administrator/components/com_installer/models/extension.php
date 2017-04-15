@@ -160,7 +160,7 @@ class InstallerModel extends JModelList
 				}
 			}
 
-			$item->author_info       = @$item->authorEmail . '<br />' . @$item->authorUrl;
+			$item->author_info       = @$item->authorEmail . '<br>' . @$item->authorUrl;
 			$item->client            = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 			$item->client_translated = $item->client;
 			$item->type_translated   = JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Session\Session;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -38,10 +40,10 @@ class JFormFieldSessionHandler extends JFormFieldList
 	{
 		$options = array();
 
-		// Get the options from JSession.
-		foreach (JSession::getStores() as $store)
+		// Get the options from the session object.
+		foreach (Session::getHandlers() as $store)
 		{
-			$options[] = JHtml::_('select.option', $store, JText::_('JLIB_FORM_VALUE_SESSION_' . $store), 'value', 'text');
+			$options[] = JHtml::_('select.option', strtolower($store), JText::_('JLIB_FORM_VALUE_SESSION_' . $store), 'value', 'text');
 		}
 
 		// Merge any additional options in the XML definition.

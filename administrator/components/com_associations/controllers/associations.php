@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 *
 	 * @return  JModel|bool
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public function getModel($name = 'Associations', $prefix = 'AssociationsModel', $config = array('ignore_request' => true))
 	{
@@ -48,7 +48,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public function purge()
 	{
@@ -61,7 +61,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since  3.7.0
 	 */
 	public function clean()
 	{

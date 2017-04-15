@@ -257,16 +257,12 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		$this->extension->element = $this->element;
 
 		// There is no folder for libraries
-		$this->extension->folder = '';
-		$this->extension->enabled = 1;
+		$this->extension->folder    = '';
+		$this->extension->enabled   = 1;
 		$this->extension->protected = 0;
-		$this->extension->access = 1;
+		$this->extension->access    = 1;
 		$this->extension->client_id = 0;
-		$this->extension->params = $this->parent->getParams();
-
-		// Custom data
-		$this->extension->custom_data = '';
-		$this->extension->system_data = '';
+		$this->extension->params    = $this->parent->getParams();
 
 		// Update the manifest cache for the entry
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -317,8 +313,9 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		$name = (string) $this->getManifest()->name;
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-		$this->set('name', $name);
-		$this->set('element', $element);
+
+		$this->name    = $name;
+		$this->element = $element;
 
 		// We don't want to compromise this instance!
 		$installer = new JInstaller;
@@ -514,15 +511,4 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 			return false;
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterLibrary instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerLibrary extends JInstallerAdapterLibrary
-{
 }

@@ -10,9 +10,8 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
-JHtml::_('formbehavior.chosen', 'select');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset>
 		<div class="control-group">
 			<div class="control-label">
@@ -46,8 +45,8 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php echo $this->item->message; ?>
 			</div>
 		</div>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="reply_id" value="<?php echo $this->item->message_id; ?>" />
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="reply_id" value="<?php echo $this->item->message_id; ?>">
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>

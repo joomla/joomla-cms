@@ -52,7 +52,7 @@ $options = array(
 				</div>
 				<iframe id="target-association" name="target-association"
 					src="<?php echo $this->defaultTargetSrc; ?>"
-					height="400" width="400"
+					width="400" height="400"
 					data-action="<?php echo $this->targetAction; ?>"
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->targetId; ?>"
@@ -64,7 +64,7 @@ $options = array(
 
 	</div>
 
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="target-id" id="target-id" value="" />
+	<input type="hidden" name="task" value="">
+	<input type="hidden" name="target-id" id="target-id" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

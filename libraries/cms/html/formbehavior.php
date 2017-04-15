@@ -82,17 +82,24 @@ abstract class JHtmlFormbehavior
 			$options['no_results_text'] = JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 		}
 
-		$displayData = array(
-			'debug'     => $debug,
-			'options'  => $options,
-			'selector' => $selector,
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/legacy/chosen.jquery.min.js', false, true, false, false, $debug);
+		JHtml::_('stylesheet', 'system/legacy/chosen.css', false, true);
+
+		// Options array to json options string
+		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
+
+
+		JFactory::getDocument()->addScriptDeclaration(
+			"
+		jQuery(document).ready(function (){
+			jQuery('" . $selector . "').chosen(" . $options_str . ");
+		});
+	"
 		);
 
-		JLayoutHelper::render('joomla.html.formbehavior.chosen', $displayData);
-
 		static::$loaded[__METHOD__][$selector] = true;
-
-		return;
 	}
 
 	/**
@@ -129,23 +136,30 @@ abstract class JHtmlFormbehavior
 			// Requires chosen to work
 			static::chosen($selector, $debug);
 
-			$displayData = array(
-				'url'            => $url,
-				'debug'          => $debug,
-				'options'        => $options,
-				'selector'       => $selector,
-				'type'           => $type,
-				'dataType'       => $dataType,
-				'jsonTermKey'    => $jsonTermKey,
-				'afterTypeDelay' => $afterTypeDelay,
-				'minTermLength'  => $minTermLength,
-			);
+			JText::script('JGLOBAL_KEEP_TYPING');
+			JText::script('JGLOBAL_LOOKING_FOR');
 
-			JLayoutHelper::render('joomla.html.formbehavior.ajaxchosen', $displayData);
+			// Include scripts
+			JHtml::_('behavior.core');
+			JHtml::_('jquery.framework');
+			JHtml::_('script', 'system/legacy/ajax-chosen.min.js', false, true, false, false, $debug);
+
+			JFactory::getDocument()->addScriptOptions(
+				'ajax-chosen',
+				array(
+					'url'            => $url,
+					'debug'          => $debug,
+					'options'        => $options,
+					'selector'       => $selector,
+					'type'           => $type,
+					'dataType'       => $dataType,
+					'jsonTermKey'    => $jsonTermKey,
+					'afterTypeDelay' => $afterTypeDelay,
+					'minTermLength'  => $minTermLength,
+				)
+			);
 
 			static::$loaded[__METHOD__][$selector] = true;
 		}
-
-		return;
 	}
 }

@@ -1,0 +1,26 @@
+// Sidebar
+
+.sidebar-nav {
+
+  ul {
+    padding-left: .5rem;
+  }
+
+  li {
+    padding-bottom: 3px;
+    font-size: .9rem;
+    font-weight: bold;
+
+    &.nav-header {
+      padding-top: .5rem;
+      font-size: .85rem;
+      color: $gray-dark;
+    }
+
+    a {
+      color: darken($brand-primary, 15%);
+    }
+
+  }
+
+}

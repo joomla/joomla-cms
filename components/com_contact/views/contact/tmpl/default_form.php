@@ -34,10 +34,10 @@ JHtml::_('behavior.formvalidator');
 		<div class="control-group">
 			<div class="controls">
 				<button class="btn btn-primary validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
-				<input type="hidden" name="option" value="com_contact" />
-				<input type="hidden" name="task" value="contact.submit" />
-				<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
-				<input type="hidden" name="id" value="<?php echo $this->contact->slug; ?>" />
+				<input type="hidden" name="option" value="com_contact">
+				<input type="hidden" name="task" value="contact.submit">
+				<input type="hidden" name="return" value="<?php echo $this->return_page; ?>">
+				<input type="hidden" name="id" value="<?php echo $this->contact->slug; ?>">
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>

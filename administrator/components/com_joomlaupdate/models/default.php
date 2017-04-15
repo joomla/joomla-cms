@@ -701,7 +701,6 @@ ENDDATA;
 			$row->set('access', 0);
 			$row->set('client_id', 0);
 			$row->set('params', '');
-			$row->set('system_data', '');
 			$row->set('manifest_cache', $installer->generateManifestCache());
 
 			if (!$row->store())
@@ -862,7 +861,7 @@ ENDDATA;
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
 			throw new RuntimeException(
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' .
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' .
 				JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
 				500
 			);
@@ -872,7 +871,7 @@ ENDDATA;
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
 			throw new RuntimeException(
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
 				500
 			);
 		}

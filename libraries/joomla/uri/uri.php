@@ -244,22 +244,6 @@ class JUri extends Uri
 	}
 
 	/**
-	 * Set the URI path string. Note we keep this method here so it uses the old _cleanPath function
-	 *
-	 * @param   string  $path  The URI path string.
-	 *
-	 * @return  void
-	 *
-	 * @since       11.1
-	 * @deprecated  4.0  Use {@link \Joomla\Uri\Uri::setPath()}
-	 * @note        Present to proxy calls to the deprecated {@link JUri::_cleanPath()} method.
-	 */
-	public function setPath($path)
-	{
-		$this->path = $this->_cleanPath($path);
-	}
-
-	/**
 	 * Checks if the supplied URL is internal
 	 *
 	 * @param   string  $url  The URL to check.
@@ -315,25 +299,5 @@ class JUri extends Uri
 	public function parse($uri)
 	{
 		return parent::parse($uri);
-	}
-
-	/**
-	 * Resolves //, ../ and ./ from a path and returns
-	 * the result. Eg:
-	 *
-	 * /foo/bar/../boo.php    => /foo/boo.php
-	 * /foo/bar/../../boo.php => /boo.php
-	 * /foo/bar/.././/boo.php => /foo/boo.php
-	 *
-	 * @param   string  $path  The URI path to clean.
-	 *
-	 * @return  string  Cleaned and resolved URI path.
-	 *
-	 * @since       11.1
-	 * @deprecated  4.0   Use {@link \Joomla\Uri\Uri::cleanPath()} instead
-	 */
-	protected function _cleanPath($path)
-	{
-		return parent::cleanPath($path);
 	}
 }

@@ -118,7 +118,7 @@ class JInstallerScript
 		}
 
 		// Extension manifest file version
-		$this->release = $parent->get('manifest')->version;
+		$this->release = $parent->getManifest()->version;
 		$extensionType = substr($this->extension, 0, 3);
 
 		// Modules parameters are located in the module table - else in the extension table
@@ -311,7 +311,7 @@ class JInstallerScript
 			{
 				if (file_exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
 				{
-					echo JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br />';
+					echo JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
 				}
 			}
 		}
@@ -322,7 +322,7 @@ class JInstallerScript
 			{
 				if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
 				{
-					echo JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br />';
+					echo JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
 				}
 			}
 		}

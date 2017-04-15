@@ -130,7 +130,7 @@ class JFormFieldCheckbox extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$class     = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$class     = !empty($this->class) ? ' class="form-check-input ' . $this->class . '"' : ' class="form-check-input"';
 		$disabled  = $this->disabled ? ' disabled' : '';
 		$value     = !empty($this->default) ? $this->default : '1';
 		$required  = $this->required ? ' required aria-required="true"' : '';
@@ -141,12 +141,14 @@ class JFormFieldCheckbox extends JFormField
 		$onclick  = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-
-		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
-			. $required . $autofocus . ' />';
+		$html = '<div class="form-check">';
+		$html .= '<label class="form-check-label">';
+		$html .= '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
+				. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
+				. $required . $autofocus . '>';		
+		$html .= '</label>';
+		$html .= '</div>';
+		
+		return $html;
 	}
 }

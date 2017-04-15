@@ -53,7 +53,7 @@ class InstallationResponseJson
 		}
 
 		// Check if we are dealing with an error.
-		if ($data instanceof Exception)
+		if ($data instanceof Exception || $data instanceof Throwable)
 		{
 			// Prepare the error response.
 			$this->error   = true;

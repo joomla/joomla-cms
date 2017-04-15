@@ -9,7 +9,7 @@
 namespace Joomla\Application\Cli;
 
 /**
- * Class ColorStyle
+ * Class defining ANSI-color styles for command line output
  *
  * @since  1.0
  */
@@ -21,7 +21,7 @@ final class ColorStyle
 	 * @var    array
 	 * @since  1.0
 	 */
-	private static $knownColors = array(
+	private static $knownColors = [
 		'black'   => 0,
 		'red'     => 1,
 		'green'   => 2,
@@ -29,8 +29,8 @@ final class ColorStyle
 		'blue'    => 4,
 		'magenta' => 5,
 		'cyan'    => 6,
-		'white'   => 7
-	);
+		'white'   => 7,
+	];
 
 	/**
 	 * Known styles
@@ -38,12 +38,12 @@ final class ColorStyle
 	 * @var    array
 	 * @since  1.0
 	 */
-	private static $knownOptions = array(
+	private static $knownOptions = [
 		'bold'       => 1,
 		'underscore' => 4,
 		'blink'      => 5,
 		'reverse'    => 7,
-	);
+	];
 
 	/**
 	 * Foreground base value
@@ -83,7 +83,7 @@ final class ColorStyle
 	 * @var    array
 	 * @since  1.0
 	 */
-	private $options = array();
+	private $options = [];
 
 	/**
 	 * Constructor
@@ -95,14 +95,15 @@ final class ColorStyle
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($fg = '', $bg = '', $options = array())
+	public function __construct($fg = '', $bg = '', array $options = [])
 	{
 		if ($fg)
 		{
 			if (false == array_key_exists($fg, static::$knownColors))
 			{
 				throw new \InvalidArgumentException(
-					sprintf('Invalid foreground color "%1$s" [%2$s]',
+					sprintf(
+						'Invalid foreground color "%1$s" [%2$s]',
 						$fg,
 						implode(', ', $this->getKnownColors())
 					)
@@ -117,7 +118,8 @@ final class ColorStyle
 			if (false == array_key_exists($bg, static::$knownColors))
 			{
 				throw new \InvalidArgumentException(
-					sprintf('Invalid background color "%1$s" [%2$s]',
+					sprintf(
+						'Invalid background color "%1$s" [%2$s]',
 						$bg,
 						implode(', ', $this->getKnownColors())
 					)
@@ -132,7 +134,8 @@ final class ColorStyle
 			if (false == array_key_exists($option, static::$knownOptions))
 			{
 				throw new \InvalidArgumentException(
-					sprintf('Invalid option "%1$s" [%2$s]',
+					sprintf(
+						'Invalid option "%1$s" [%2$s]',
 						$option,
 						implode(', ', $this->getKnownOptions())
 					)
@@ -162,16 +165,16 @@ final class ColorStyle
 	 *
 	 * @param   string  $string  The parameter string.
 	 *
-	 * @return  ColorStyle  Instance of $this to allow chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
 	public static function fromString($string)
 	{
-		$fg = '';
-		$bg = '';
-		$options = array();
+		$fg      = '';
+		$bg      = '';
+		$options = [];
 
 		$parts = explode(';', $string);
 
@@ -199,7 +202,7 @@ final class ColorStyle
 					break;
 
 				default:
-					throw new \RuntimeException('Invalid option');
+					throw new \RuntimeException('Invalid option: ' . $subParts[0]);
 					break;
 			}
 		}
@@ -216,7 +219,7 @@ final class ColorStyle
 	 */
 	public function getStyle()
 	{
-		$values = array();
+		$values = [];
 
 		if ($this->fgColor)
 		{

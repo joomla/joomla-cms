@@ -44,7 +44,7 @@ if (!$saveHistory)
 }
 
 $html   = array();
-$html[] = '<fieldset class="form-vertical">';
+$html[] = '<fieldset class="form-vertical form-no-margin">';
 
 foreach ($fields as $field)
 {

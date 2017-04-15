@@ -34,50 +34,42 @@
 				<field
 					name="rssrtl"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="0"
 					label="MOD_FEED_FIELD_RTL_LABEL"
 					description="MOD_FEED_FIELD_RTL_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="rsstitle"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
 					description="MOD_FEED_FIELD_RSSTITLE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="rssdesc"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_DESCRIPTION_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="rssimage"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
 					description="MOD_FEED_FIELD_IMAGE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="rssitems"
@@ -88,14 +80,12 @@
 				<field
 					name="rssitemdesc"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 				<field
 					name="word_count"

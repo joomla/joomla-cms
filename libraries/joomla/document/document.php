@@ -274,6 +274,7 @@ class JDocument
 	 * @return  object  The document object.
 	 *
 	 * @since   11.1
+	 * @todo    This should allow custom class prefixes to be configured somehow
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -306,7 +307,16 @@ class JDocument
 				}
 			}
 
-			$instance = new $class($attributes);
+			// Check for a possible service from the container otherwise manually instantiate the class
+			if (JFactory::getContainer()->exists($class))
+			{
+				$instance = JFactory::getContainer()->get($class);
+			}
+			else
+			{
+				$instance = new $class($attributes);
+			}
+
 			self::$instances[$signature] = $instance;
 
 			if (!is_null($ntype))

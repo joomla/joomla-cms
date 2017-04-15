@@ -27,7 +27,6 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 	 */
 	public function execute()
 	{
-
 		// Get the application
 		$app = $this->getApplication();
 

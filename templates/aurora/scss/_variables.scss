@@ -1,0 +1,90 @@
+// Global
+$aurora-template-color:              #0d1321 !default;
+$aurora-template-color-light:        #1c3d5c !default;
+$aurora-container-main-bg:           #f2f2f2 !default;
+$aurora-border-color:                #ccc !default;
+$aurora-box-shadow:                  0 0 3px rgba(0,0,0,.04) !default;
+$aurora-block-header-bg:             #f5f5f5 !default;
+$white-offset:                       #fefefe;
+$grey:                               #aaa;
+$aurora-hl-grad-inner:               #59afff;
+$aurora-hl-grad-outer:               #59daff;
+
+$brand-primary:                      #007eb7;
+$brand-success:                      #48b848;
+$brand-info:                         #5bc0de;
+$brand-warning:                      #f0ad4e;
+$brand-danger:                       #d9534f;
+
+// Toolbar
+$aurora-toolbar-line-height:         1.8rem;
+
+// Fonts
+$font-family-base:                   Arial, sans-serif;
+$aurora-inverted-text-color:         $aurora-template-color;
+$font-size-root:                     14px;
+$font-size-h1:                       1.857rem;
+$font-size-h2:                       1.571rem;
+$font-size-h3:                       1.286rem;
+$font-size-h4:                       1rem;
+$font-size-h5:                       .9286rem;
+$font-size-h6:                       .8571rem;
+$font-size-small:                    .8rem;
+$fa-font-path:                       "../../../media/vendor/font-awesome/fonts";
+
+// Tables
+$table-bg:                           transparent !default;
+$table-bg-accent:                    rgba(0,0,0,.03) !default;
+
+// Tabs
+$aurora-tabs-header-bg:              $aurora-block-header-bg;
+$aurora-tabs-active-bg:              rgba(0,0,0,.03);
+$aurora-tabs-active-highlight:       $brand-primary;
+
+// Cards
+$aurora-card-title-bg:               $aurora-block-header-bg;
+$aurora-card-title-icon-bg:          $aurora-block-header-bg;
+$aurora-card-title-icon-bg-hover:    darken($aurora-card-title-bg, 2%);
+$card-bg-color-light:                #f8f8f8;
+$card-bg-color-dark:                 $aurora-template-color;
+$card-border-color:                  $aurora-border-color;
+
+// Alerts
+$state-success-text:                 #fff !default;
+$state-success-bg:                   $brand-success !default;
+$state-success-border:               darken($brand-success, 5%) !default;
+
+$state-info-text:                    #fff !default;
+$state-info-bg:                      $brand-info !default;
+$state-info-border:                  darken($brand-info, 7%) !default;
+
+$state-warning-text:                 #fff !default;
+$state-warning-bg:                   $brand-warning !default;
+$state-warning-border:               darken($brand-warning, 5%) !default;
+
+$state-danger-text:                  #fff !default;
+$state-danger-bg:                    $brand-danger !default;
+$state-danger-border:                darken($brand-danger, 5%) !default;
+
+// Switchers
+$switcher-color-success:             rgb(100,189,99);
+$switcher-color-danger:              rgb(188,101,100);
+$switcher-color-primary:             rgb(100,143,186);
+
+// Treeselect
+$treeselect-line-height:             2.2rem;
+
+// List
+$list-group-bg:                      $white-offset;
+
+// Custom form
+$custom-select-bg:                   $white-offset;
+
+// Modals
+$modal-header-height:                46px;
+
+// Badges
+$badge-default-bg:                   #5e7082;
+
+// Gutter
+$grid-gutter-width-base:             15px !default;

@@ -240,8 +240,6 @@ class AdminModelSysInfo extends JModelLegacy
 			'display_errors'     => ini_get('display_errors') == '1',
 			'short_open_tag'     => ini_get('short_open_tag') == '1',
 			'file_uploads'       => ini_get('file_uploads') == '1',
-			'magic_quotes_gpc'   => ini_get('magic_quotes_gpc') == '1',
-			'register_globals'   => ini_get('register_globals') == '1',
 			'output_buffering'   => (bool) ini_get('output_buffering'),
 			'open_basedir'       => ini_get('open_basedir'),
 			'session.save_path'  => ini_get('session.save_path'),
@@ -299,9 +297,7 @@ class AdminModelSysInfo extends JModelLegacy
 			return $this->info;
 		}
 
-		$version  = new JVersion;
-		$platform = new JPlatform;
-		$db       = $this->getDbo();
+		$db = $this->getDbo();
 
 		$this->info = array(
 			'php'                   => php_uname(),
@@ -311,8 +307,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'phpversion'            => phpversion(),
 			'server'                => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
 			'sapi_name'             => php_sapi_name(),
-			'version'               => $version->getLongVersion(),
-			'platform'              => $platform->getLongVersion(),
+			'version'               => (new JVersion)->getLongVersion(),
 			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		);
 
@@ -392,7 +387,7 @@ class AdminModelSysInfo extends JModelLegacy
 		$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
 		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 		$output = preg_replace('#<hr />#', '', $output);
-		$output = str_replace('<div class="center">', '', $output);
+		$output = str_replace('<div class="text-center">', '', $output);
 		$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
 		$output = str_replace('</table>', '</tbody></table>', $output);
 		$output = str_replace('</div>', '', $output);

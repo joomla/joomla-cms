@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 ?>
 <div id="template-manager-copy" class="container-fluid">
-	<div class="row-fluid">
-		<div class="form-horizontal">
+	<div class="mt-2">
+		<div class="col-md-12">
 			<div class="control-group">
 				<div class="control-label">
 					<label for="new_name" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL', 'COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>">
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 					</label>
 				</div>
 				<div class="controls">
-					<input class="input-xlarge" type="text" id="new_name" name="new_name"  />
+					<input class="form-control" type="text" id="new_name" name="new_name">
 				</div>
 			</div>
 		</div>

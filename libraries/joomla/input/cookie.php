@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Input Cookie Class
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  5.0  Use Joomla\Input\Cookie instead
  */
 class JInputCookie extends JInput
 {
@@ -23,6 +24,7 @@ class JInputCookie extends JInput
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Cookie instead
 	 */
 	public function __construct(array $source = null, array $options = array())
 	{
@@ -79,6 +81,7 @@ class JInputCookie extends JInput
 	 * @link    http://www.ietf.org/rfc/rfc2109.txt
 	 * @see     setcookie()
 	 * @since   11.1
+	 * @deprecated  5.0  Use Joomla\Input\Cookie instead
 	 */
 	public function set($name, $value, $expire = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
 	{

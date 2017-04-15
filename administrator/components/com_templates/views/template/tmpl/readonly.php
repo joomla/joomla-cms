@@ -16,12 +16,12 @@ JHtml::_('bootstrap.tooltip');
 
 $input = JFactory::getApplication()->input;
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'description')); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 			<?php echo $this->loadTemplate('description'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

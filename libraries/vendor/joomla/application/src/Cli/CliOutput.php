@@ -11,14 +11,14 @@ namespace Joomla\Application\Cli;
 use Joomla\Application\Cli\Output\Processor\ProcessorInterface;
 
 /**
- * Class CliOutput
+ * Base class defining a command line output handler
  *
  * @since  1.0
  */
 abstract class CliOutput
 {
 	/**
-	 * Color processing object
+	 * Output processing object
 	 *
 	 * @var    ProcessorInterface
 	 * @since  1.0
@@ -34,7 +34,7 @@ abstract class CliOutput
 	 */
 	public function __construct(ProcessorInterface $processor = null)
 	{
-		$this->setProcessor(($processor instanceof ProcessorInterface) ? $processor : new Output\Processor\ColorProcessor);
+		$this->setProcessor($processor ?: new Output\Processor\ColorProcessor);
 	}
 
 	/**
@@ -42,7 +42,7 @@ abstract class CliOutput
 	 *
 	 * @param   ProcessorInterface  $processor  The output processor.
 	 *
-	 * @return  Stdout  Instance of $this to allow chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -77,7 +77,7 @@ abstract class CliOutput
 	 * @param   string   $text  The text to display.
 	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
 	 *
-	 * @return  void
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 * @codeCoverageIgnore

@@ -14,16 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('jquery.framework');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
-JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "banner.cancel" || document.formvalidator.isValid(document.getElementById("banner-form")))
-		{
-			Joomla.submitform(task, document.getElementById("banner-form"));
-		}
-	};
 	jQuery(document).ready(function ($){
 		$("#jform_type").on("change", function (a, params) {
 
@@ -53,12 +45,12 @@ JFactory::getDocument()->addScriptDeclaration('
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_BANNERS_BANNER_DETAILS')); ?>
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php echo $this->form->renderField('type'); ?>
 				<div id="image">
 					<?php echo $this->form->renderFieldset('image'); ?>
@@ -71,8 +63,10 @@ JFactory::getDocument()->addScriptDeclaration('
 				echo $this->form->renderField('description');
 				?>
 			</div>
-			<div class="span3">
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			<div class="col-md-3">
+				<div class="card card-block card-light">
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -82,11 +76,11 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
-		<div class="row-fluid form-horizontal-desktop">
-			<div class="span6">
+		<div class="row">
+			<div class="col-md-6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 			</div>
-			<div class="span6">
+			<div class="col-md-6">
 				<?php echo $this->form->renderFieldset('metadata'); ?>
 			</div>
 		</div>
@@ -95,6 +89,6 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

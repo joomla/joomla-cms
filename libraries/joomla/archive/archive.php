@@ -79,8 +79,7 @@ class JArchive
 
 				if ($adapter)
 				{
-					$config = JFactory::getConfig();
-					$tmpfname = $config->get('tmp_path') . '/' . uniqid('gzip');
+					$tmpfname = JFactory::getConfig()->get('tmp_path', JPATH_ROOT . '/tmp') . '/' . uniqid('gzip');
 					$gzresult = $adapter->extract($archivename, $tmpfname);
 
 					if ($gzresult instanceof Exception)
@@ -122,8 +121,7 @@ class JArchive
 
 				if ($adapter)
 				{
-					$config = JFactory::getConfig();
-					$tmpfname = $config->get('tmp_path') . '/' . uniqid('bzip2');
+					$tmpfname = JFactory::getConfig()->get('tmp_path', JPATH_ROOT . '/tmp') . '/' . uniqid('bzip2');
 					$bzresult = $adapter->extract($archivename, $tmpfname);
 
 					if ($bzresult instanceof Exception)
@@ -175,6 +173,7 @@ class JArchive
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
+	 * @todo    This should allow custom class prefixes to be configured somehow
 	 */
 	public static function getAdapter($type)
 	{
@@ -188,7 +187,15 @@ class JArchive
 				throw new UnexpectedValueException('Unable to load archive', 500);
 			}
 
-			self::$adapters[$type] = new $class;
+			// Check for a possible service from the container otherwise manually instantiate the class
+			if (JFactory::getContainer()->exists($class))
+			{
+				self::$adapters[$type] = JFactory::getContainer()->get($class);
+			}
+			else
+			{
+				self::$adapters[$type] = new $class;
+			}
 		}
 
 		return self::$adapters[$type];

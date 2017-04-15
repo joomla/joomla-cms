@@ -19,69 +19,6 @@ use Joomla\Registry\Registry;
 class ContactModelFeatured extends JModelList
 {
 	/**
-	 * Category items data
-	 *
-	 * @var         array
-	 * @since       1.6.0-beta1
-	 * @deprecated  4.0  Variable not used since 1.6.0-beta8
-	 */
-	protected $_item = null;
-
-	/**
-	 * Who knows what this was for? It has never been used
-	 *
-	 * @var          array
-	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used ever
-	 */
-	protected $_articles = null;
-
-	/**
-	 * Get the siblings of the category
-	 *
-	 * @var          array
-	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used since 1.6.0-beta8
-	 */
-	protected $_siblings = null;
-
-	/**
-	 * Get the children of the category
-	 *
-	 * @var          array
-	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used since 1.6.0-beta8
-	 */
-	protected $_children = null;
-
-	/**
-	 * Get the parent of the category
-	 *
-	 * @var          array
-	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used since 1.6.0-beta8
-	 */
-	protected $_parent = null;
-
-	/**
-	 * The category that applies.
-	 *
-	 * @access      protected
-	 * @var         object
-	 * @deprecated   4.0  Variable not used ever
-	 */
-	protected $_category = null;
-
-	/**
-	 * The list of other contact categories.
-	 *
-	 * @access    protected
-	 * @var       array
-	 * @deprecated   4.0  Variable not used ever
-	 */
-	protected $_categories = null;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -142,15 +79,15 @@ class ContactModelFeatured extends JModelList
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'))
-			->from($db->quoteName('#__contact_details') . ' AS a')
+			->from($db->quoteName('#__contact_details', 'a'))
+			->where('a.featured = 1')
 			->where('a.access IN (' . $groups . ')')
-			->where('a.featured=1')
-			->join('INNER', '#__categories AS c ON c.id = a.catid')
+			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 			->where('c.access IN (' . $groups . ')');
 
 		// Filter by category.
@@ -159,7 +96,6 @@ class ContactModelFeatured extends JModelList
 			$query->where('a.catid = ' . (int) $categoryId);
 		}
 
-		// Change for sqlsrv... aliased c.published to cat_published
 		$query->select('c.published as cat_published, c.published AS parents_published')
 			->where('c.published = 1');
 
@@ -173,6 +109,7 @@ class ContactModelFeatured extends JModelList
 			$nullDate = $db->quote($db->getNullDate());
 			$date = JFactory::getDate();
 			$nowDate = $db->quote($date->toSql());
+
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}

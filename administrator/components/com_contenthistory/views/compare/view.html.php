@@ -16,8 +16,18 @@ defined('_JEXEC') or die;
  */
 class ContenthistoryViewCompare extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
 
 	/**
@@ -37,9 +47,7 @@ class ContenthistoryViewCompare extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		return parent::display($tpl);

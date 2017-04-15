@@ -114,7 +114,7 @@ class JFormFieldOrdering extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= !empty($this->class) ? ' class="custom-select' . $this->class . '"' : ' class="custom-select"';
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 
@@ -129,7 +129,7 @@ class JFormFieldOrdering extends JFormField
 		if ($this->readonly)
 		{
 			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $itemId ? 0 : 1);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
+			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '">';
 		}
 		else
 		{

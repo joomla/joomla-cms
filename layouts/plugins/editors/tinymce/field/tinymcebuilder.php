@@ -120,7 +120,7 @@ $doc->addStyleDeclaration('
 		</div>
 	</div>
 
-	<hr />
+	<hr>
 	<p><?php echo JText::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 
 	<!-- Render tabs for each set -->

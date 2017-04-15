@@ -67,10 +67,10 @@ class JHtmlNewsfeed
 			{
 				foreach ($items as &$item)
 				{
-					$text = strtoupper($item->lang_sef);
-					$url = JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br />' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
+					$text    = strtoupper($item->lang_sef);
+					$url     = JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'hasPopover badge badge-association badge-' . $item->lang_sef;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'

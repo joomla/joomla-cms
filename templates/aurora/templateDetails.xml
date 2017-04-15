@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="template" client="site">
+	<name>aurora</name>
+	<version>1.0</version>
+	<creationDate>30/02/2017</creationDate>
+	<author>Charlie Lodder</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.</copyright>
+	<description>TPL_AURORA_XML_DESCRIPTION</description>
+	<files>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>scss</folder>
+		<folder>language</folder>
+	</files>
+	<positions>
+		<position>menu</position>
+		<position>search</position>
+		<position>banner</position>
+		<position>top-a</position>
+		<position>top-b</position>
+		<position>main-top</position>
+		<position>main-bottom</position>
+		<position>breadcrumbs</position>
+		<position>sidebar-left</position>
+		<position>sidebar-right</position>
+		<position>bottom-a</position>
+		<position>bottom-b</position>
+		<position>footer</position>
+		<position>debug</position>
+	</positions>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.tpl_aurora.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_aurora.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				<field
+					name="logoFile" 
+					type="media" 
+					default=""
+					label="TPL_AURORA_LOGO_LABEL"
+					description="TPL_AURORA_LOGO_DESC"
+				/>
+
+				<field
+					name="sitetitle" 
+					type="text" 
+					default=""
+					label="JGLOBAL_TITLE"
+					description="JFIELD_ALT_PAGE_TITLE_LABEL"
+					filter="string"
+				/>
+
+				<field
+					name="sitedescription" 
+					type="text" 
+					default=""
+					label="JGLOBAL_DESCRIPTION"
+					description="JGLOBAL_SUBHEADING_DESC"
+					filter="string"
+				/>
+
+				<field
+					name="fluidContainer"
+					type="radio"
+					class="switcher switcher-primary"
+					default="0"
+					label="TPL_AURORA_FLUID_LABEL"
+					description="TPL_AURORA_FLUID_DESC"
+				>
+					<option value="1">TPL_AURORA_FLUID</option>
+					<option value="0">TPL_AURORA_STATIC</option>
+				</field>
+
+				<field
+					name="sidebarLeftWidth"
+					type="list"
+					default="3"
+					label="TPL_AURORA_SIDEBAR_LEFT_WIDTH_LABEL"
+					description="TPL_AURORA_SIDEBAR_LEFT_WIDTH_DESC"
+				>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</field>
+
+				<field
+					name="sidebarRightWidth"
+					type="list"
+					default="3"
+					label="TPL_AURORA_SIDEBAR_RIGHT_WIDTH_LABEL"
+					description="TPL_AURORA_SIDEBAR_RIGHT_WIDTH_DESC"
+				>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

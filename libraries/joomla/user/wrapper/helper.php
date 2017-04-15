@@ -160,52 +160,6 @@ class JUserWrapperHelper
 	}
 
 	/**
-	 * Helper wrapper method for getCryptedPassword
-	 *
-	 * @param   string   $plaintext     The plaintext password to encrypt.
-	 * @param   string   $salt          The salt to use to encrypt the password. []
-	 *                                  If not present, a new salt will be
-	 *                                  generated.
-	 * @param   string   $encryption    The kind of password encryption to use.
-	 *                                  Defaults to md5-hex.
-	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
-	 *                                  encryption to the crypted password ({SHA},
-	 *                                  etc). Defaults to false.
-	 *
-	 * @return  string  The encrypted password.
-	 *
-	 * @see     JUserHelper::getCryptedPassword()
-	 * @since   3.4
-	 * @deprecated  4.0
-	 */
-	public function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
-	{
-		return JUserHelper::getCryptedPassword($plaintext, $salt, $encryption, $show_encrypt);
-	}
-
-	/**
-	 * Helper wrapper method for getSalt
-	 *
-	 * @param   string  $encryption  The kind of password encryption to use.
-	 *                               Defaults to md5-hex.
-	 * @param   string  $seed        The seed to get the salt from (probably a
-	 *                               previously generated password). Defaults to
-	 *                               generating a new seed.
-	 * @param   string  $plaintext   The plaintext password that we're generating
-	 *                               a salt for. Defaults to none.
-	 *
-	 * @return  string  The generated or extracted salt.
-	 *
-	 * @see     JUserHelper::getSalt()
-	 * @since   3.4
-	 * @deprecated  4.0
-	 */
-	public function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
-	{
-		return JUserHelper::getSalt($encryption, $seed, $plaintext);
-	}
-
-	/**
 	 * Helper wrapper method for genRandomPassword
 	 *
 	 * @param   integer  $length  Length of the password to generate
@@ -218,51 +172,6 @@ class JUserWrapperHelper
 	public function genRandomPassword($length = 8)
 	{
 		return JUserHelper::genRandomPassword($length);
-	}
-
-	/**
-	 * Helper wrapper method for invalidateCookie
-	 *
-	 * @param   string  $userId      User ID for this user
-	 * @param   string  $cookieName  Series id (cookie name decoded)
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @see     JUserHelper::invalidateCookie()
-	 * @since   3.4
-	 * @deprecated  4.0
-	 */
-	public function invalidateCookie($userId, $cookieName)
-	{
-		return JUserHelper::invalidateCookie($userId, $cookieName);
-	}
-
-	/**
-	 * Helper wrapper method for clearExpiredTokens
-	 *
-	 * @return  mixed  Database query result
-	 *
-	 * @see     JUserHelper::clearExpiredTokens()
-	 * @since   3.4
-	 * @deprecated  4.0
-	 */
-	public function clearExpiredTokens()
-	{
-		return JUserHelper::clearExpiredTokens();
-	}
-
-	/**
-	 * Helper wrapper method for getRememberCookieData
-	 *
-	 * @return  mixed  An array of information from an authentication cookie or false if there is no cookie
-	 *
-	 * @see     JUserHelper::getRememberCookieData()
-	 * @since   3.4
-	 * @deprecated  4.0
-	 */
-	public function getRememberCookieData()
-	{
-		return JUserHelper::getRememberCookieData();
 	}
 
 	/**

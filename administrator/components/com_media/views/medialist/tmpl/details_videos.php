@@ -13,8 +13,7 @@ use Joomla\Registry\Registry;
 
 JHtml::_('bootstrap.tooltip');
 
-$params     = new Registry;
-$dispatcher = JEventDispatcher::getInstance();
+$params = new Registry;
 
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
@@ -26,7 +25,7 @@ jQuery(document).ready(function($){
 ?>
 
 <?php foreach ($this->videos as $i => $video) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$video, &$params)); ?>
 	<tr>
 		<?php if ($this->canDelete) : ?>
 			<td>
@@ -63,5 +62,5 @@ jQuery(document).ready(function($){
 		<?php endif; ?>
 	</tr>
 
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$video, &$params)); ?>
+	<?php JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$video, &$params)); ?>
 <?php endforeach; ?>

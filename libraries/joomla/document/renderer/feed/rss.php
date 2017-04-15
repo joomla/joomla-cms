@@ -43,12 +43,15 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 	{
 		$app = JFactory::getApplication();
 
-		// Gets and sets timezone offset from site configuration
-		$tz  = new DateTimeZone($app->get('offset'));
-		$now = JFactory::getDate();
-		$now->setTimeZone($tz);
-
 		$data = $this->_doc;
+
+		// If the last build date from the document isn't a JDate object, create one
+		if (!($data->lastBuildDate instanceof JDate))
+		{
+			// Gets and sets timezone offset from site configuration
+			$data->lastBuildDate = JFactory::getDate();
+			$data->lastBuildDate->setTimeZone(new DateTimeZone($app->get('offset')));
+		}
 
 		$url = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=rss');
@@ -78,7 +81,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 		$feed .= "		<title>" . $feed_title . "</title>\n";
 		$feed .= "		<description><![CDATA[" . $data->getDescription() . "]]></description>\n";
 		$feed .= "		<link>" . str_replace(' ', '%20', $url . $datalink) . "</link>\n";
-		$feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
+		$feed .= "		<lastBuildDate>" . htmlspecialchars($data->lastBuildDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
 		$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
 		$feed .= "		<atom:link rel=\"self\" type=\"application/rss+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 

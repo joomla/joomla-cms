@@ -40,7 +40,7 @@ class InstallationHtmlHelper
 		$tabs[] = 'summary';
 
 		$html = array();
-		$html[] = '<ul class="nav nav-tabs">';
+		$html[] = '<ul class="nav nav-tabs mb-1">';
 
 		foreach ($tabs as $tab)
 		{
@@ -67,7 +67,7 @@ class InstallationHtmlHelper
 		$tabs[] = 'complete';
 
 		$html = array();
-		$html[] = '<ul class="nav nav-tabs">';
+		$html[] = '<ul class="nav nav-tabs mb-1">';
 
 		foreach ($tabs as $tab)
 		{
@@ -91,25 +91,26 @@ class InstallationHtmlHelper
 	 */
 	private static function getTab($id, $tabs)
 	{
-		$input = JFactory::getApplication()->input;
-		$num   = static::getTabNumber($id, $tabs);
-		$view  = static::getTabNumber($input->getWord('view'), $tabs);
-		$tab   = '<span class="badge">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$input  = JFactory::getApplication()->input;
+		$num    = static::getTabNumber($id, $tabs);
+		$view   = static::getTabNumber($input->getWord('view'), $tabs);
+		$tab    = '<span class="badge badge-default">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$active = $num == $view ? ' active' : '';
 
 		if ($view + 1 == $num)
 		{
-			$tab = '<a href="#" onclick="Install.submitform();">' . $tab . '</a>';
+			$tab = '<a class="nav-link' . $active . '" href="#" onclick="Install.submitform();">' . $tab . '</a>';
 		}
 		elseif ($view < $num)
 		{
-			$tab = '<span>' . $tab . '</span>';
+			$tab = '<a class="nav-link disabled">' . $tab . '</a>';
 		}
 		else
 		{
-			$tab = '<a href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
+			$tab = '<a class="nav-link' . $active . '" href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
 		}
 
-		return '<li class="step' . ($num == $view ? ' active' : '') . '" id="' . $id . '">' . $tab . '</li>';
+		return '<li class="nav-item step" id="' . $id . '">' . $tab . '</li>';
 	}
 
 	/**
