@@ -2007,8 +2007,6 @@ class JForm
 	 */
 	protected function validateField(SimpleXMLElement $element, $group = null, $value = null, Registry $input = null)
 	{
-		$valid = true;
-
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
@@ -2033,45 +2031,52 @@ class JForm
 		}
 
 		// Get the field validation rule.
-		if ($type = (string) $element['validate'])
+		$ruleTypes = explode('|', (string) $element['validate']);
+		$messages  = explode('|', (string) $element['message']);
+		$valid 	   = array();
+
+		if (!empty($ruleTypes) && !empty($element['validate']))
 		{
-			// Load the JFormRule object for the field.
-			$rule = $this->loadRuleType($type);
-
-			// If the object could not be loaded return an error message.
-			if ($rule === false)
+			foreach ($ruleTypes as $index => $type)
 			{
-				throw new UnexpectedValueException(sprintf('%s::validateField() rule `%s` missing.', get_class($this), $type));
-			}
+				// Load the JFormRule object for the field.
+				$rule = $this->loadRuleType($type);
 
-			// Run the field validation rule test.
-			$valid = $rule->test($element, $value, $group, $input, $this);
+				// If the object could not be loaded return an error message.
+				if ($rule === false)
+				{
+					throw new UnexpectedValueException(sprintf('%s::validateField() rule `%s` missing.', get_class($this), $type));
+				}
 
-			// Check for an error in the validation test.
-			if ($valid instanceof Exception)
-			{
-				return $valid;
-			}
-		}
+				// Run the field validation rule test.
+				$valid[$type] = $rule->test($element, $value, $group, $input, $this);
 
-		// Check if the field is valid.
-		if ($valid === false)
-		{
-			// Does the field have a defined error message?
-			$message = (string) $element['message'];
+				// Check for an error in the validation test.
+				if ($valid[$type] instanceof Exception)
+				{
+					return $valid[$type];
+				}
 
-			if ($message)
-			{
-				$message = JText::_($element['message']);
+				// Check if the field is valid.
+				if ($valid[$type] === false)
+				{
+					// Does the field have a defined error message for the rule?
+					$message = $messages[$index];
 
-				return new UnexpectedValueException($message);
-			}
-			else
-			{
-				$message = JText::_($element['label']);
-				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+					if ($message)
+					{
+						$message = JText::_($message);
 
-				return new UnexpectedValueException($message);
+						return new UnexpectedValueException($message);
+					}
+					else
+					{
+						$message = JText::_($element['label']);
+						$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+
+						return new UnexpectedValueException($message);
+					}
+				}
 			}
 		}
 
