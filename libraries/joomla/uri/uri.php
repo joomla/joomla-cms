@@ -63,7 +63,7 @@ class JUri extends Uri
 			if ($uri == 'SERVER')
 			{
 				// Determine if the request was over SSL (HTTPS).
-				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
+				if ((! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') || (! empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'))
 				{
 					$https = 's://';
 				}
