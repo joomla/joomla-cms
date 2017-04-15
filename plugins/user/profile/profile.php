@@ -446,7 +446,7 @@ class PlgUserProfile extends JPlugin
 
 				foreach ($data['profile'] as $k => $v)
 				{
-					while(in_array($order, $usedOrdering))
+					while (in_array($order, $usedOrdering))
 					{
 						$order++;
 					}
