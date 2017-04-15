@@ -447,7 +447,7 @@ class JPaginationTest extends TestCase
 
 		$result = $pagination->getPagesLinks();
 
-		$this->assertXmlStringEqualsXmlString($result, $expected, 'The expected output of the pagination is incorrect');
+		$this->assertXmlStringEqualsXmlString($expected, $result, 'The expected output of the pagination is incorrect');
 
 		unset($pagination);
 	}
