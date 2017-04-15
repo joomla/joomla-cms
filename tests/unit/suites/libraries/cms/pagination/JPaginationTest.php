@@ -614,10 +614,10 @@ class JPaginationTest extends TestCase
 		return array(
 			array(
 				array(
-					'start' => array('data' => '<a title="JLIB_HTML_START" href="" class="hasTooltip page-link">JLIB_HTML_START</a>'),
-					'previous' => array('data' => '<a title="JPREV" href="" class="hasTooltip page-link">JPREV</a>'),
-					'next' => array('data' => '<a title="JNEXT" href="" class="hasTooltip page-link">JNEXT</a>'),
-					'end' => array('data' => '<a title="JLIB_HTML_END" href="" class="hasTooltip page-link">JLIB_HTML_END</a>'),
+					'start' => array('data' => '<a title="JLIB_HTML_START" href="" class="hasTooltip page-link">JLIB_HTML_START</a>', 'active' => true),
+					'previous' => array('data' => '<a title="JPREV" href="" class="hasTooltip page-link">JPREV</a>', 'active' => true),
+					'next' => array('data' => '<a title="JNEXT" href="" class="hasTooltip page-link">JNEXT</a>', 'active' => true),
+					'end' => array('data' => '<a title="JLIB_HTML_END" href="" class="hasTooltip page-link">JLIB_HTML_END</a>', 'active' => true),
 					'pages' => array(
 						'1' => array('data' => '<a href="" class="page-link">1</a>', 'active' => true),
 						'2' => array('data' => '<span class="page-link">2</span>', 'active' => false),
@@ -625,7 +625,7 @@ class JPaginationTest extends TestCase
 						'4' => array('data' => '<a href="" class="page-link">4</a>', 'active' => true),
 					),
 				), 80, 20, 20,
-				'<ul><li class="pagination-start"><a title="JLIB_HTML_START" href="" class="hasTooltip page-link">JLIB_HTML_START</a></li><li class="pagination-prev"><a title="JPREV" href="" class="hasTooltip page-link">JPREV</a></li><li><a href="" class="page-link">1</a></li><li><span class="page-link">2</span></li><li><a href="" class="page-link">3</a></li><li><a href="" class="page-link">4</a></li><li class="pagination-next"><a title="JNEXT" href="" class="hasTooltip page-link">JNEXT</a></li><li class="pagination-end"><a title="JLIB_HTML_END" href="" class="hasTooltip page-link">JLIB_HTML_END</a></li></ul>'
+				'<ul class="pagination ml-0 mb-4"><li class="pagination-start page-item"><a title="JLIB_HTML_START" href="" class="hasTooltip page-link">JLIB_HTML_START</a></li><li class="pagination-prev page-item"><a title="JPREV" href="" class="hasTooltip page-link">JPREV</a></li><li class="page-item"><a href="" class="page-link">1</a></li><li class="page-item disabled"><span class="page-link">2</span></li><li class="page-item"><a href="" class="page-link">3</a></li><li class="page-item"><a href="" class="page-link">4</a></li><li class="pagination-next page-item"><a title="JNEXT" href="" class="hasTooltip page-link">JNEXT</a></li><li class="pagination-end page-item"><a title="JLIB_HTML_END" href="" class="hasTooltip page-link">JLIB_HTML_END</a></li></ul>'
 			),
 		);
 	}
