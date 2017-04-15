@@ -793,7 +793,11 @@ class JControllerForm extends JControllerLegacy
 				$recordId = $model->getState($this->context . '.id');
 				$this->holdEditId($context, $recordId);
 				$app->setUserState($context . '.data', null);
-				$model->checkout($recordId);
+
+				if ($checkin)
+				{
+					$model->checkout($recordId);
+				}
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
