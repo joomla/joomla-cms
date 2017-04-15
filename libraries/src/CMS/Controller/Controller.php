@@ -387,7 +387,7 @@ class Controller implements ControllerInterface
 		}
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('\\Joomla\\Cms\\Controller\\Controller');
+		$xMethods = get_class_methods('\\Joomla\\CMS\\Controller\\Controller');
 
 		// Get the public methods in this class using reflection.
 		$r = new \ReflectionClass($this);
