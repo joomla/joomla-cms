@@ -402,4 +402,20 @@ class ModulesModelModules extends JModelList
 
 		return $query;
 	}
+
+	/**
+	 * Returns a record count for the query
+	 *
+	 * @param   string  $query  The query.
+	 *
+	 * @return  integer  Number of rows for query
+	 *
+	 * @since   11.1
+	 */
+	protected function _getListCount($query)
+	{
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+		return $this->_db->getNumRows();
+	}
 }
