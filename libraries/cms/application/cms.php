@@ -130,6 +130,12 @@ class JApplicationCms extends JApplicationWeb
 		{
 			$this->loadSession();
 		}
+
+		// If caching is disabled, set handler to file to avoid calls to clean a non-existant cache
+		if (!($this->config->get('caching')))
+		{
+			$this->config->set('cache_handler', 'file');
+		}
 	}
 
 	/**
