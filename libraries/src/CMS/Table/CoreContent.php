@@ -28,7 +28,7 @@ class CoreContent extends Table
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__ucm_content', 'core_content_id', $db);
 	}
