@@ -1216,7 +1216,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 		else
 		{
-			return $this->sql;
+			// Take a local copy so that we don't modify the original query and cause issues later
+			$query = $this->replacePrefix((string) $this->sql);
+
+			return $query;
 		}
 	}
 
