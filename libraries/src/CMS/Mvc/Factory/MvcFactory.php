@@ -111,13 +111,8 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createTable($name, $prefix = '', array $config = array())
 	{
-		// For table class, $prefix should always be Administrator
-		if ($prefix !== 'Site')
-		{
-			$prefix = 'Administrator';
-		}
-
-		$className = $this->getClassName('Table\\' . ucfirst($name), $prefix);
+		$className = $this->getClassName('Table\\' . ucfirst($name), 'Administrator')
+				|| $this->getClassName('Table\\' . ucfirst($name), $prefix);
 
 		if (!$className)
 		{
