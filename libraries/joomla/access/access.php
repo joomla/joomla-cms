@@ -1140,13 +1140,11 @@ class JAccess
 			// If unable to find the file return false.
 			return false;
 		}
-		else
-		{
-			// Else return the actions from the xml.
-			$xml = simplexml_load_file($file);
 
-			return self::getActionsFromData($xml, $xpath);
-		}
+		// Else return the actions from the xml.
+		$xml = simplexml_load_file($file);
+
+		return self::getActionsFromData($xml, $xpath);
 	}
 
 	/**

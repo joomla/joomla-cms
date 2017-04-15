@@ -69,11 +69,12 @@ class JHelperContent
 			$assetName .= '.article.' . (int) $id;
 		}
 
-		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
-
-		foreach ($actions as $action)
+		if ($actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/"))
 		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
+			foreach ($actions as $action)
+			{
+				$result->set($action->name, $user->authorise($action->name, $assetName));
+			}
 		}
 
 		return $result;
