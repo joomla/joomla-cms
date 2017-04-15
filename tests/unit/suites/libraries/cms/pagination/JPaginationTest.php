@@ -423,7 +423,7 @@ class JPaginationTest extends TestCase
 	public function dataTestGetPagesLinks()
 	{
 		return array(
-			array(100, 50, 20, '<ul><li class="pagination-start"><a title="JLIB_HTML_START" href="index.php?limitstart=0" class="hasTooltip pagenav">JLIB_HTML_START</a></li><li class="pagination-prev"><a title="JPREV" href="index.php?limitstart=20" class="hasTooltip pagenav">JPREV</a></li><li><a href="index.php?limitstart=0" class="pagenav">1</a></li><li><a href="index.php?limitstart=20" class="pagenav">2</a></li><li><span class="pagenav">3</span></li><li><a href="index.php?limitstart=60" class="pagenav">4</a></li><li><a href="index.php?limitstart=80" class="pagenav">5</a></li><li class="pagination-next"><a title="JNEXT" href="index.php?limitstart=60" class="hasTooltip pagenav">JNEXT</a></li><li class="pagination-end"><a title="JLIB_HTML_END" href="index.php?limitstart=80" class="hasTooltip pagenav">JLIB_HTML_END</a></li></ul>'),
+			array(100, 50, 20, '<ul><li class="pagination-start"><a title="JLIB_HTML_START" href="index.php?limitstart=0" class="hasTooltip page-link">JLIB_HTML_START</a></li><li class="pagination-prev"><a title="JPREV" href="index.php?limitstart=20" class="hasTooltip page-link">JPREV</a></li><li><a href="index.php?limitstart=0" class="page-link">1</a></li><li><a href="index.php?limitstart=20" class="page-link">2</a></li><li><span class="page-link">3</span></li><li><a href="index.php?limitstart=60" class="page-link">4</a></li><li><a href="index.php?limitstart=80" class="page-link">5</a></li><li class="pagination-next"><a title="JNEXT" href="index.php?limitstart=60" class="hasTooltip page-link">JNEXT</a></li><li class="pagination-end"><a title="JLIB_HTML_END" href="index.php?limitstart=80" class="hasTooltip page-link">JLIB_HTML_END</a></li></ul>'),
 		);
 	}
 
@@ -614,18 +614,18 @@ class JPaginationTest extends TestCase
 		return array(
 			array(
 				array(
-					'start' => array('data' => '<a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a>'),
-					'previous' => array('data' => '<a title="JPREV" href="" class="hasTooltip pagenav">JPREV</a>'),
-					'next' => array('data' => '<a title="JNEXT" href="" class="hasTooltip pagenav">JNEXT</a>'),
-					'end' => array('data' => '<a title="JLIB_HTML_END" href="" class="hasTooltip pagenav">JLIB_HTML_END</a>'),
+					'start' => array('data' => '<a title="JLIB_HTML_START" href="" class="hasTooltip page-link">JLIB_HTML_START</a>'),
+					'previous' => array('data' => '<a title="JPREV" href="" class="hasTooltip page-link">JPREV</a>'),
+					'next' => array('data' => '<a title="JNEXT" href="" class="hasTooltip page-link">JNEXT</a>'),
+					'end' => array('data' => '<a title="JLIB_HTML_END" href="" class="hasTooltip page-link">JLIB_HTML_END</a>'),
 					'pages' => array(
-						'1' => array('data' => '<a href="" class="pagenav">1</a>'),
-						'2' => array('data' => '<span class="pagenav">2</span>'),
-						'3' => array('data' => '<a href="" class="pagenav">3</a>'),
-						'4' => array('data' => '<a href="" class="pagenav">4</a>'),
+						'1' => array('data' => '<a href="" class="page-link">1</a>'),
+						'2' => array('data' => '<span class="page-link">2</span>'),
+						'3' => array('data' => '<a href="" class="page-link">3</a>'),
+						'4' => array('data' => '<a href="" class="page-link">4</a>'),
 					),
 				), 80, 20, 20,
-				'<ul><li class="pagination-start"><a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a></li><li class="pagination-prev"><a title="JPREV" href="" class="hasTooltip pagenav">JPREV</a></li><li><a href="" class="pagenav">1</a></li><li><span class="pagenav">2</span></li><li><a href="" class="pagenav">3</a></li><li><a href="" class="pagenav">4</a></li><li class="pagination-next"><a title="JNEXT" href="" class="hasTooltip pagenav">JNEXT</a></li><li class="pagination-end"><a title="JLIB_HTML_END" href="" class="hasTooltip pagenav">JLIB_HTML_END</a></li></ul>'
+				'<ul><li class="pagination-start"><a title="JLIB_HTML_START" href="" class="hasTooltip page-link">JLIB_HTML_START</a></li><li class="pagination-prev"><a title="JPREV" href="" class="hasTooltip page-link">JPREV</a></li><li><a href="" class="page-link">1</a></li><li><span class="page-link">2</span></li><li><a href="" class="page-link">3</a></li><li><a href="" class="page-link">4</a></li><li class="pagination-next"><a title="JNEXT" href="" class="hasTooltip page-link">JNEXT</a></li><li class="pagination-end"><a title="JLIB_HTML_END" href="" class="hasTooltip page-link">JLIB_HTML_END</a></li></ul>'
 			),
 		);
 	}
@@ -666,8 +666,8 @@ class JPaginationTest extends TestCase
 	public function dataTestItemActive()
 	{
 		return array(
-			array('JLIB_HTML_START', 100, 40, 20, false, '<a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a>'),
-			array('JLIB_HTML_VIEW_ALL', 100, 40, 20, false, '<a title="JLIB_HTML_VIEW_ALL" href="" class="hasTooltip pagenav">JLIB_HTML_VIEW_ALL</a>'),
+			array('JLIB_HTML_START', 100, 40, 20, false, '<a title="JLIB_HTML_START" href="" class="hasTooltip page-link">JLIB_HTML_START</a>'),
+			array('JLIB_HTML_VIEW_ALL', 100, 40, 20, false, '<a title="JLIB_HTML_VIEW_ALL" href="" class="hasTooltip page-link">JLIB_HTML_VIEW_ALL</a>'),
 			array('JLIB_HTML_START', 100, 40, 20, true, '<a title="JLIB_HTML_START" href="#" onclick="document.adminForm.limitstart.value=0; Joomla.submitform();return false;">JLIB_HTML_START</a>')
 		);
 	}
@@ -714,7 +714,7 @@ class JPaginationTest extends TestCase
 	public function dataTestItemInactive()
 	{
 		return array(
-			array('3', 100, 40, 20, false, '<span class="pagenav">3</span>'),
+			array('3', 100, 40, 20, false, '<span class="page-link">3</span>'),
 			array('3', 100, 40, 20, true, '<span>3</span>'),
 		);
 	}
