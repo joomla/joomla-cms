@@ -739,6 +739,18 @@ class JTableNested extends JTable
 		}
 		// @codeCoverageIgnoreEnd
 
+		// Set the location properties for managing inserts and updates.
+		if (empty($this->_location))
+		{
+			$this->_location = 'last-child';
+		}
+
+		if (empty($this->_location_id) && !empty($this->parent_id))
+		{
+			$this->_location_id = $this->parent_id;
+		}
+
+
 		/*
 		 * If the primary key is empty, then we assume we are inserting a new node into the
 		 * tree.  From this point we would need to determine where in the tree to insert it.
@@ -760,7 +772,7 @@ class JTableNested extends JTable
 				}
 
 				// We are inserting a node relative to the last root node.
-				if ($this->_location_id == 0)
+				if ($this->_location_id == 0 || empty($this->_location_id))
 				{
 					// Get the last root node as the reference node.
 					$query = $this->_db->getQuery(true)
