@@ -169,7 +169,7 @@ $doc->addStyleDeclaration('
 		?>
 			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" id="set-<?php echo $num; ?>">
 				<div class="btn-toolbar clearfix">
-					<div class="btn-group pull-right">
+					<div class="btn-group float-right">
 
 					<?php foreach(array_keys($toolbarPreset) as $presetName) :
 						$btnClass = empty($presetButtonClases[$presetName]) ? 'btn-primary' : $presetButtonClases[$presetName];

@@ -112,50 +112,6 @@ class JoomlaInstallerScript
 			if (!empty($this->fromVersion) && version_compare($this->fromVersion, '3.7.0', 'lt'))
 			{
 				/*
-				 * Do a check if this site is using the hathor template, if yes switch to isis and notify the user
-				 */
-				$db = JFactory::getDbo();
-
-				$query = $db->getQuery(true)
-					->select('home')
-					->from($db->quoteName('#__template_styles'))
-                    ->where($db->quoteName('template') . ' = "hathor"')
-					->where($db->quoteName('client_id') . ' = 1');
-
-				$result = $db->setQuery($query)->loadResult();
-
-				if ($result == 1)
-				{
-					$query = $db->getQuery(true)
-						->update($db->quoteName('#__template_styles'))
-						->set($db->quoteName('home') . ' = 0')
-						->where($db->quoteName('template') . ' = "hathor"')
-						->where($db->quoteName('client_id') . ' = 1');
-
-					if (!$db->setQuery($query)->execute())
-					{
-						// Install failed, roll back changes
-						$installer->abort(JText::_('JLIB_INSTALLER_ABORT_HATHOR_DISABLE_ROLLBACK'));
-
-						return false;
-					}
-
-					$query = $db->getQuery(true)
-						->update($db->quoteName('#__template_styles'))
-						->set($db->quoteName('home') . ' = 1')
-						->where($db->quoteName('template') . ' = "isis"')
-						->where($db->quoteName('client_id') . ' = 1');
-
-					if (!$db->setQuery($query)->execute())
-					{
-						// Install failed, roll back changes
-						$installer->abort(JText::_('JLIB_INSTALLER_ABORT_ISIS_ENABLE_ROLLBACK'));
-
-						return false;
-					}
-				}
-
-				/*
 				 * Do a check if the menu item exists, skip if it does. Only needed when we are in pre stable state.
 				 */
 				$db = JFactory::getDbo();
@@ -1795,6 +1751,8 @@ class JoomlaInstallerScript
 			'/media/system/js/tiny-close.js',
 			'/media/system/js/tiny-close.min.js',
 			'/administrator/components/com_messages/layouts/toolbar/mysettings.php',
+			'/media/editors/tinymce/plugins/jdragdrop/plugin.js',
+			'/media/editors/tinymce/plugins/jdragdrop/plugin.min.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode

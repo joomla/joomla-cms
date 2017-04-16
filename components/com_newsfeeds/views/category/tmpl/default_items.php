@@ -29,7 +29,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="btn-group pull-right">
+			<div class="btn-group float-right">
 				<label for="limit" class="element-invisible">
 					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>
@@ -46,11 +46,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
 				<?php if ($this->params->get('show_articles')) : ?>
-					<span class="list-hits badge badge-info pull-right">
+					<span class="list-hits badge badge-info float-right">
 						<?php echo JText::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
 					</span>
 				<?php endif; ?>
-				<span class="list pull-left">
+				<span class="list float-left">
 					<div class="list-title">
 						<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
 							<?php echo $item->name; ?></a>
@@ -62,7 +62,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<br>
 				<?php if ($this->params->get('show_link')) : ?>
 					<?php $link = JStringPunycode::urlToUTF8($item->link); ?>
-					<span class="list pull-left">
+					<span class="list float-left">
 							<a href="<?php echo $item->link; ?>"><?php echo $link; ?></a>
 					</span>
 					<br>
@@ -74,9 +74,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php // Add pagination links ?>
 		<?php if (!empty($this->items)) : ?>
 			<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
-				<div class="pagination">
+				<div class="w-100">
 					<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-						<p class="counter pull-right">
+						<p class="counter float-right pt-3 pr-2">
 							<?php echo $this->pagination->getPagesCounter(); ?>
 						</p>
 					<?php endif; ?>
