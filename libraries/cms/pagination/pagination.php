@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die; // @codeCoverageIgnore
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
