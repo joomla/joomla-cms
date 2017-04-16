@@ -84,8 +84,10 @@ class JLayoutBase implements JLayout
 		// Always return a Registry instance
 		if (!($this->options instanceof Registry))
 		{
+			// @codeCoverageIgnoreStart
 			$this->resetOptions();
 		}
+		// @codeCoverageIgnoreEnd
 
 		return $this->options;
 	}

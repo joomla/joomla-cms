@@ -1,0 +1,25 @@
+
+	<script type="text/javascript">
+		jQuery(function()
+		{
+			Joomla.toggleSidebar(true);
+		});
+	</script>
+
+	<div class="toggle-sidebar">
+		<div
+	id="j-toggle-sidebar-button"
+	class="hidden-phone hasTooltip"
+	title="JSEARCH_HIDE_SIDEBAR"
+	type="button"
+	onclick="Joomla.toggleSidebar(false); return false;"
+	>
+	<span id="j-toggle-sidebar-icon" class="icon-remove"></span>
+</div>
+	</div>
+<div id="sidebar">
+	<div class="sidebar-nav">
+				<ul id="submenu" class="nav nav-list">
+					</ul>
+							</div>
+</div>
