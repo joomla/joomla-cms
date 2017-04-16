@@ -249,7 +249,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					'access',
 					'ordering',
 					'language',
-					'note'
+					'note',
+					'id'
 				);
 
 				?>
