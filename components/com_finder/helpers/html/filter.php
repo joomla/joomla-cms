@@ -172,7 +172,7 @@ abstract class JHtmlFilter
 			);
 
 			// Populate the toggle button.
-			$html .= '<button class="btn jform-rightbtn" type="button" onclick="jQuery(\'[id=&quot;tax-'
+			$html .= '<button class="btn" type="button" onclick="jQuery(\'[id=&quot;tax-'
 				. $bk . '&quot;]\').each(function(){this.click();});"><span class="icon-checkbox-partial"></span> '
 				. JText::_('JGLOBAL_SELECTION_INVERT') . '</button><hr/>';
 
