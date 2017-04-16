@@ -89,7 +89,7 @@ class Featured extends Articles
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Feature', $prefix = 'ContentModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Feature', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
