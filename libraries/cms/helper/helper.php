@@ -20,30 +20,17 @@ class JHelper
 	 * Gets the current language
 	 *
 	 * @param   boolean  $detectBrowser  Flag indicating whether to use the browser language as a fallback.
+	 *                                   Starting with Joomla! 3.4.2 this parameter is ignored.
 	 *
 	 * @return  string  The language string
 	 *
 	 * @since   3.2
+	 *
+	 * @deprecated  4.0  Use JFactory::getLanguage()->getTag() instead
 	 */
-	public function getCurrentLanguage($detectBrowser = true)
+	public function getCurrentLanguage($detectBrowser = null)
 	{
-		$app = JFactory::getApplication();
-		$langCode = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
-
-		// No cookie - let's try to detect browser language or use site default
-		if (!$langCode)
-		{
-			if ($detectBrowser)
-			{
-				$langCode = JLanguageHelper::detectLanguage();
-			}
-			else
-			{
-				$langCode = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-			}
-		}
-
-		return $langCode;
+		return JFactory::getLanguage()->getTag();
 	}
 
 	/**
