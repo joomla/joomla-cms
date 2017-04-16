@@ -446,7 +446,9 @@ class ModulesModelModule extends JModelAdmin
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__modules_menu'))
 				->columns($db->quoteName(array('moduleid', 'menuid')))
-				->values($tuples);
+				->values($tuples)
+			;
+
 
 			$db->setQuery($query);
 
