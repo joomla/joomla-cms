@@ -102,7 +102,7 @@ $clientId = $this->state->get('item.client_id', 0);
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS')); ?>
 		<div class="row-fluid">
-			<div class="span9">
+			<div class="span6">
 				<?php
 				echo $this->form->renderField('type');
 
