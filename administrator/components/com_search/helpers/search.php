@@ -106,8 +106,25 @@ class SearchHelper
 		// Next is to remove ignored words from type 'all' or 'any' (not exact) searches with multiple words.
 		if (count($aterms) > 1 && $searchphrase != 'exact')
 		{
-			$pruned     = array_diff($aterms, $search_ignore);
-			$searchword = implode(' ', $pruned);
+			$pruned = array_diff($aterms, $search_ignore);
+
+			if (count($pruned) > 0)
+			{
+				// If search word has at least one legal word then leave all phrase for type 'all'.
+				if ($searchphrase != 'all')
+				{
+					if (count($aterms) != count($pruned))
+					{
+						$ignored = true;
+					}
+					$searchword = implode(' ', $pruned);
+				}
+			}
+			else
+			{
+				$searchword = '';
+				$ignored    = true;
+			}
 		}
 
 		return $ignored;
