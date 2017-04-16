@@ -1,9 +1,12 @@
 #!/usr/bin/env groovy
 
 node('master') {
+	agent none
     try {
 	    stage('codestyles') {
-	    	sh "docker run -it --rm -v $(pwd):/opt -w /opt joomlaprojects/docker-phpcs /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla ."
+	    	agent { docker 'joomlaprojects/docker-phpcs' }
+
+	    	sh "/root/.composer/vendor/bin/phpcs --version"
 	    }
 	    stage('test') {
 	        sh "echo stage test"
