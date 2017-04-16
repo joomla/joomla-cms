@@ -145,8 +145,6 @@ class AdminModelProfile extends UsersModelUser
 			return false;
 		}
 
-		$user->groups = null;
-
 		// Store the data.
 		if (!$user->save())
 		{
