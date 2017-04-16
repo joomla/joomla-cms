@@ -157,10 +157,10 @@ body.modal {
 	border: 1px solid #222;
 	border-bottom-color: transparent;
 }
-.thumbnail.pull-left {
+.thumbnail.float-left {
 	margin: 0 10px 10px 0;
 }
-.thumbnail.pull-right {
+.thumbnail.float-right {
 	margin: 0 0 10px 10px;
 }
 .width-10 {
