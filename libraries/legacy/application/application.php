@@ -758,15 +758,23 @@ class JApplication extends JApplicationBase
 		// Import the user plugin group.
 		JPluginHelper::importPlugin('user');
 
-		// OK, the credentials are built. Lets fire the onLogout event.
-		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
-
-		if (!in_array(false, $results, true))
+		try
 		{
+			// OK, the credentials are built. Lets fire the onLogout event.
+			$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
+
+			// Check if any of the plugins failed. If none did, success.
+			if (!in_array(false, $results, true))
+			{
 				$options['username'] = $user->get('username');
 				$this->triggerEvent('onUserAfterLogout', array($options));
 
-			return true;
+				return true;
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->enqueueMessage($e->getMessage());
 		}
 
 		// Trigger onUserLoginFailure Event.
