@@ -62,6 +62,10 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createModel($name, $prefix = '', array $config = array())
 	{
+		// Clean the parameters
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
 		$className = $this->getClassName('Model\\' . ucfirst($name), $prefix);
 
 		if (!$className)
@@ -87,6 +91,11 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = array())
 	{
+		// Clean the parameters
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$type   = preg_replace('/[^A-Z0-9_]/i', '', $type);
+
 		$className = $this->getClassName('View\\' . ucfirst($name) . '\\' . ucfirst($type), $prefix);
 
 		if (!$className)
@@ -111,8 +120,12 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	public function createTable($name, $prefix = '', array $config = array())
 	{
-		$className = $this->getClassName('Table\\' . ucfirst($name), 'Administrator')
-				|| $this->getClassName('Table\\' . ucfirst($name), $prefix);
+		// Clean the parameters
+		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		$className = $this->getClassName('Table\\' . ucfirst($name), $prefix)
+				?: $this->getClassName('Table\\' . ucfirst($name), 'Administrator');
 
 		if (!$className)
 		{
@@ -143,13 +156,12 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	private function getClassName($suffix, $prefix)
 	{
-		if (!in_array($prefix, array('Administrator', 'Site')))
+		if ($prefix)
 		{
 			$prefix = $this->application->getName();
 		}
 
 		$className = $this->namespace . '\\' . ucfirst($prefix) . '\\' . $suffix;
-		$className = str_replace('\\\\', '\\', $className);
 
 		if (!class_exists($className))
 		{
