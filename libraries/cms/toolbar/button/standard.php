@@ -116,7 +116,7 @@ class JToolbarButtonStandard extends JToolbarButton
 	protected function _getCommand($name, $task, $list)
 	{
 		JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-		JText::script('WARNING');
+		JText::script('ERROR');
 
 		$cmd = "Joomla.submitbutton('" . $task . "');";
 
