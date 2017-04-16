@@ -45,7 +45,7 @@ if ($saveOrder)
                     <div class="js-stools-container-list hidden-md-down">
                         <div class="ordering-select hidden-sm-down">
                             <div class="js-stools-field-list">
-								<?php echo $this->filterForm->getField('context')->input; ?>
+                                <?php echo $this->filterForm->getField('context')->input; ?>
                             </div>
                         </div>
                     </div>
