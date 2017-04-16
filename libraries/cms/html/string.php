@@ -90,6 +90,14 @@ abstract class JHtmlString
 
 			if ($allowHtml)
 			{
+				// If string truncated inside tag: "... <script"
+				$lt = JString::strrpos($tmp, '<');
+				$gt = JString::strrpos($tmp, '>');
+				if (($gt === false && $lt !== false) || ($lt > $gt))
+				{
+					$tmp .= '>';
+				}
+
 				// Put all opened tags into an array
 				preg_match_all("#<([a-z][a-z0-9]*)\b.*?(?!/)>#i", $tmp, $result);
 				$openedTags = $result[1];
