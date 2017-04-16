@@ -428,6 +428,7 @@ class JFilterInput extends InputFilter
 							$source[$key] = $this->_remove($this->_decode($value));
 						}
 					}
+
 					$result = $source;
 				}
 				else
