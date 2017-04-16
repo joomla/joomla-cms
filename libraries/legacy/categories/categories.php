@@ -384,7 +384,7 @@ class JCategories
  *
  * @since  1.6
  */
-class JCategoryNode extends JObject
+class JCategoryNode extends JObject implements JNodeInterface
 {
 	/**
 	 * Primary key
