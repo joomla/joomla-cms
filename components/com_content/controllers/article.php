@@ -166,6 +166,11 @@ class ContentControllerArticle extends JControllerForm
 	public function edit($key = null, $urlVar = 'a_id')
 	{
 		$result = parent::edit($key, $urlVar);
+		
+		 if (!$result)
+                {
+                   $this->setRedirect($this->getReturnPage());
+                }
 
 		if (!$result)
 		{
