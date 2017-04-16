@@ -224,7 +224,7 @@ class ModulesControllerModule extends JControllerForm
 
 		}
 
-		parent::save($key, $urlVar);
+		return parent::save($key, $urlVar);
 
 	}
 
