@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-final class SiteApplication extends CmsApplication
+final class SiteApplication extends CMSApplication
 {
 	/**
 	 * Option to filter by language

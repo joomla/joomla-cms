@@ -132,10 +132,12 @@ class PlgEditorTinymce extends JPlugin
 	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
 	 * @param   string   $asset    The object asset
 	 * @param   object   $author   The author.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	public function onDisplay(
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		$app = JFactory::getApplication();
 
@@ -190,6 +192,9 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
+		// Set editor to readonly mode
+		$textarea->readonly = !empty($params['readonly']);
+
 		// Render Editor markup
 		$editor = '<div class="js-editor-tinymce">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
@@ -204,6 +209,12 @@ class PlgEditorTinymce extends JPlugin
 			if (!empty($btns['names']))
 			{
 				JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+			}
+
+			// Set editor to readonly mode
+			if (!empty($params['readonly']))
+			{
+				$options['tinyMCE'][$fieldName]['readonly'] = 1;
 			}
 
 			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;

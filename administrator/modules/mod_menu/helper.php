@@ -147,14 +147,14 @@ abstract class ModMenuHelper
 						|| $lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, null, false, true);
 					}
 
-					$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
+					$component->text = JText::_(strtoupper($component->title));
 				}
 			}
 			// Sub-menu level.
 			// Add the submenu link if it is defined.
 			elseif (isset($result[$component->parent_id]) && isset($result[$component->parent_id]->submenu) && !empty($component->link))
 			{
-				$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
+				$component->text = JText::_(strtoupper($component->title));
 
 				$result[$component->parent_id]->submenu[] = &$component;
 			}

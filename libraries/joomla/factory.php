@@ -8,6 +8,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Language;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -22,7 +24,7 @@ abstract class JFactory
 	/**
 	 * Global application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 * @since  11.1
 	 */
 	public static $application = null;
@@ -71,7 +73,7 @@ abstract class JFactory
 	/**
 	 * Global language object
 	 *
-	 * @var    JLanguage
+	 * @var   JLanguage
 	 * @since  11.1
 	 */
 	public static $language = null;
@@ -120,7 +122,7 @@ abstract class JFactory
 	 * @param   string     $prefix     Application prefix
 	 * @param   Container  $container  An optional dependency injection container to inject into the application.
 	 *
-	 * @return  \Joomla\CMS\Application\CmsApplication object
+	 * @return  \Joomla\CMS\Application\CMSApplication object
 	 *
 	 * @see     JApplication
 	 * @since   11.1
@@ -137,7 +139,7 @@ abstract class JFactory
 
 			$container = $container ?: self::getContainer();
 
-			self::$application = JApplicationCms::getInstance($id, $prefix, $container);
+			self::$application = CMSApplication::getInstance($id, $prefix, $container);
 		}
 
 		return self::$application;
@@ -234,11 +236,11 @@ abstract class JFactory
 	/**
 	 * Get a language object.
 	 *
-	 * Returns the global {@link JLanguage} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link Language} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  JLanguage object
+	 * @return  Language object
 	 *
-	 * @see     JLanguage
+	 * @see     Language
 	 * @since   11.1
 	 */
 	public static function getLanguage()
@@ -745,9 +747,9 @@ abstract class JFactory
 	/**
 	 * Create a language object
 	 *
-	 * @return  JLanguage object
+	 * @return  Language object
 	 *
-	 * @see     JLanguage
+	 * @see     Language
 	 * @since   11.1
 	 */
 	protected static function createLanguage()
@@ -755,7 +757,7 @@ abstract class JFactory
 		$conf = self::getConfig();
 		$locale = $conf->get('language');
 		$debug = $conf->get('debug_lang');
-		$lang = JLanguage::getInstance($locale, $debug);
+		$lang = Language::getInstance($locale, $debug);
 
 		return $lang;
 	}
