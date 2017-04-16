@@ -722,7 +722,7 @@ class JPagination
 		}
 		else
 		{
-			return '<a' . $title . ' href="' . $item->link . '" class="' . $class . 'pagenav">' . $item->text . '</a>';
+			return '<a' . $title . ' href="' . $item->link . '" class="' . $class . 'page-link">' . $item->text . '</a>';
 		}
 	}
 
@@ -744,7 +744,7 @@ class JPagination
 		}
 		else
 		{
-			return '<span class="pagenav">' . $item->text . '</span>';
+			return '<span class="page-link">' . $item->text . '</span>';
 		}
 	}
 

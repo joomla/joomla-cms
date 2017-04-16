@@ -50,9 +50,11 @@ $isSingleTag = (count($this->item) == 1);
 
 	<?php echo $this->loadTemplate('items'); ?>
 	<?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
-		<div class="pagination">
+		<div class="w-100">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-				<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
+				<p class="counter float-right pt-3 pr-2">
+					<?php echo $this->pagination->getPagesCounter(); ?>
+				</p>
 			<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>

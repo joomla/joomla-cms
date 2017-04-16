@@ -216,11 +216,6 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         'Defuse\\Crypto\\KeyProtectedByPassword' => __DIR__ . '/..' . '/defuse/php-encryption/src/KeyProtectedByPassword.php',
         'Defuse\\Crypto\\RuntimeTests' => __DIR__ . '/..' . '/defuse/php-encryption/src/RuntimeTests.php',
         'JsonSerializable' => __DIR__ . '/..' . '/joomla/compat/src/JsonSerializable.php',
-        'lessc' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
-        'lessc_formatter_classic' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
-        'lessc_formatter_compressed' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
-        'lessc_formatter_lessjs' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
-        'lessc_parser' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Helper\LibraryHelper;
+
 /**
  * Version information class for the Joomla CMS.
  *
@@ -228,7 +230,7 @@ final class JVersion
 		if ($mediaVersion === null)
 		{
 			// Get the joomla library params and the media version
-			$mediaVersion = JLibraryHelper::getParams('joomla')->get('mediaversion', '');
+			$mediaVersion = LibraryHelper::getParams('joomla')->get('mediaversion', '');
 
 			// Refresh assets in debug mode or when the media version is not set
 			if (JDEBUG || empty($mediaVersion))
@@ -269,13 +271,13 @@ final class JVersion
 		if (!empty($mediaVersion))
 		{
 			// Get the params ...
-			$params = JLibraryHelper::getParams('joomla');
+			$params = LibraryHelper::getParams('joomla');
 
 			// ... set the media version ...
 			$params->set('mediaversion', $mediaVersion);
 
 			// ... and save the modified params
-			JLibraryHelper::saveParams('joomla', $params);
+			LibraryHelper::saveParams('joomla', $params);
 		}
 
 		return $this;

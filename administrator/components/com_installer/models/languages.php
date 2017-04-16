@@ -179,8 +179,9 @@ class InstallerModelLanguages extends JModelList
 
 		// Count the non-paginated list
 		$this->languageCount = count($languages);
+		$limit               = ($this->getState('list.limit') > 0) ? $this->getState('list.limit') : $this->languageCount;
 
-		return array_slice($languages, $this->getStart(), $this->getState('list.limit'));
+		return array_slice($languages, $this->getStart(), $limit);
 	}
 
 	/**
