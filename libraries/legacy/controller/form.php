@@ -624,7 +624,7 @@ class JControllerForm extends JControllerLegacy
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$data  = $this->input->post->get('jform', array(), 'array');
+		$data  = $this->getSaveData();
 		$checkin = property_exists($table, $table->getColumnAlias('checked_out'));
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
@@ -837,5 +837,18 @@ class JControllerForm extends JControllerLegacy
 		$this->postSaveHook($model, $validData);
 
 		return true;
+	}
+
+	/**
+	 * Get the data for form saving
+	 * Allows for subclasses to get data from multiple sources (e.g. $this->input->files)
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getSaveData()
+	{
+		return $this->input->post->get('jform', array(), 'array');
 	}
 }
