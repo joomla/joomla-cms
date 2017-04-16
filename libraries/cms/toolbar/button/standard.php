@@ -122,7 +122,7 @@ class JToolbarButtonStandard extends JToolbarButton
 
 		if ($list)
 		{
-			$messages = "{'warning': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+			$messages = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 			$alert = "Joomla.renderMessages(" . $messages . ")";
 			$cmd   = "if (document.adminForm.boxchecked.value == 0) { " . $alert . " } else { " . $cmd . " }";
 		}
