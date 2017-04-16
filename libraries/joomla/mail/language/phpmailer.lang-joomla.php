@@ -27,3 +27,4 @@ $PHPMAILER_LANG['signing']              = JText::_('PHPMAILER_SIGNING_ERROR');
 $PHPMAILER_LANG['smtp_connect_failed']  = JText::_('PHPMAILER_SMTP_CONNECT_FAILED');
 $PHPMAILER_LANG['smtp_error']           = JText::_('PHPMAILER_SMTP_ERROR');
 $PHPMAILER_LANG['variable_set']         = JText::_('PHPMAILER_VARIABLE_SET');
+$PHPMAILER_LANG['extension_missing']    = JText::_('PHPMAILER_EXTENSION_MISSING');
