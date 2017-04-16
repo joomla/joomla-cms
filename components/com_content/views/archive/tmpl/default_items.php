@@ -213,7 +213,12 @@ $params = $this->params;
 	</div>
 	<?php endforeach; ?>
 </div>
-<div class="pagination">
-	<p class="counter"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
+<div class="w-100">
+	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+		<p class="counter float-right pt-3 pr-2">
+			<?php echo $this->pagination->getPagesCounter(); ?>
+		</p>
+	<?php endif; ?>
+
 	<?php echo $this->pagination->getPagesLinks(); ?>
 </div>

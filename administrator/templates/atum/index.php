@@ -119,8 +119,13 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php
 								try
 								{
-									JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_postinstall/models');
-									$messages_model = JModelLegacy::getInstance('Messages', 'PostinstallModel', array('ignore_request' => true));
+									JLoader::register('PostinstallDispatcher', JPATH_ADMINISTRATOR . '/components/com_postinstall/dispatcher.php');
+									$oldScope = $app->scope;
+									$app->scope = 'com_postinstall';
+									$namespace = \Joomla\CMS\Component\ComponentHelper::getComponent($app->scope)->namespace;
+									$dispatcher = new PostinstallDispatcher($namespace, JFactory::getApplication());
+
+									$messages_model = $dispatcher->getFactory()->createModel('Messages', 'Administrator', array('ignore_request' => true));
 
 									$messages       = $messages_model->getItems();
 								}

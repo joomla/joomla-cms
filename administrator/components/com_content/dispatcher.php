@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Dispatcher\Dispatcher;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
@@ -24,13 +24,13 @@ class ContentDispatcher extends Dispatcher
 	 * Constructor for Dispatcher
 	 *
 	 * @param   string               $namespace  Namespace of the Extension
-	 * @param   CmsApplication       $app        The JApplication for the dispatcher
+	 * @param   CMSApplication       $app        The JApplication for the dispatcher
 	 * @param   \JInput              $input      JInput
 	 * @param   MvcFactoryInterface  $factory    The factory object for the component
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, CmsApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
+	public function __construct($namespace, CMSApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
 	{
 		if (!$namespace)
 		{
