@@ -156,7 +156,7 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	private function getClassName($suffix, $prefix)
 	{
-		if ($prefix)
+		if (!$prefix)
 		{
 			$prefix = $this->application->getName();
 		}
