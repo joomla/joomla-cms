@@ -29,7 +29,7 @@ class Feature extends Article
 	 *
 	 * @since   1.6
 	 */
-	public function getTable($type = 'Featured', $prefix = 'ContentTable', $config = array())
+	public function getTable($type = 'Featured', $prefix = 'Administrator', $config = array())
 	{
 		return \JTable::getInstance($type, $prefix, $config);
 	}
