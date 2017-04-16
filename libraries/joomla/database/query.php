@@ -365,7 +365,7 @@ abstract class JDatabaseQuery
 				break;
 		}
 
-		if ($this instanceof JDatabaseQueryLimitable)
+		if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query = $this->processLimit($query, $this->limit, $this->offset);
 		}
