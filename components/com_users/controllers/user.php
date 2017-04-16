@@ -120,7 +120,8 @@ class UsersControllerUser extends UsersController
 			$data['password'] = '';
 			$data['secretkey'] = '';
 			$app->setUserState('users.login.form.data', $data);
-			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
+			$itemid = JRequest::getint( 'Itemid' );   /* getting itemid to append for JRoute */
+			$app->redirect(JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemid, false));
 		}
 
 		// Success
