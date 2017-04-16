@@ -757,6 +757,7 @@ class JMail extends PHPMailer
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Without replacedment please implement it in your own code
 	 */
 	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
