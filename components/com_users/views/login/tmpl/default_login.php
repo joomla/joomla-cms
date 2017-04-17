@@ -36,8 +36,14 @@ JHtml::_('behavior.formvalidator');
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	</div>
 	<?php endif; ?>
+	
+	<script type="text/javascript">
+		jQuery(function($) {
+			$( "#form-login input[name='username']" ).focus();
+		});
+	</script>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-validate form-horizontal well">
+	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" id="form-login" class="form-validate form-horizontal well">
 
 		<fieldset>
 			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
