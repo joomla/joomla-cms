@@ -30,3 +30,5 @@ Disallow: /modules/
 Disallow: /plugins/
 Disallow: /tmp/
 
+Allow: .js
+Allow: .css
