@@ -73,22 +73,16 @@ class JApplicationAdministrator extends JApplicationCms
 		// Register the document object with JFactory
 		JFactory::$document = $document;
 
-		switch ($document->getType())
+		if ('html' === $document->getType())
 		{
-			case 'html':
-				$document->setMetaData('keywords', $this->get('MetaKeys'));
+			$document->setMetaData('keywords', $this->get('MetaKeys'));
 
-				// Get the template
-				$template = $this->getTemplate(true);
+			// Get the template
+			$template = $this->getTemplate(true);
 
-				// Store the template and its params to the config
-				$this->set('theme', $template->template);
-				$this->set('themeParams', $template->params);
-
-				break;
-
-			default:
-				break;
+			// Store the template and its params to the config
+			$this->set('theme', $template->template);
+			$this->set('themeParams', $template->params);
 		}
 
 		$document->setTitle($this->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
