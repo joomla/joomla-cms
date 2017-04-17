@@ -156,6 +156,11 @@ $assoc = JLanguageAssociations::isEnabled();
 						<td class="center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+								<?php if ($canEdit || $canEditOwn) : ?>
+								<a class="btn btn-micro" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>">
+									<i class="icon-edit"></i>
+								</a>
+								<?php endif; ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 								<?php // Create dropdown items and render the dropdown list.
 								if ($canChange)
