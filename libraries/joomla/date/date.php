@@ -472,4 +472,34 @@ class JDate extends DateTime
 	{
 		return (int) parent::format('U');
 	}
+
+	/**
+	 * Adds an amount of days, months, years, hours, minutes and seconds to a JDate object
+	 *
+	 * @param  DateInterval  $interval
+	 *
+	 * @return  JDate  This method allows chaining
+	 * @link    http://php.net/manual/en/datetime.add.php
+	 */
+	public function add($interval)
+	{
+		parent::add($interval);
+
+		return $this;
+	}
+
+	/**
+	 * Subtracts an amount of days, months, years, hours, minutes and seconds from a JDate object
+	 *
+	 * @param  DateInterval  $interval
+	 *
+	 * @return JDate
+	 * @link   http://php.net/manual/en/datetime.sub.php
+	 */
+	public function sub($interval)
+	{
+		parent::sub($interval);
+
+		return $this;
+	}
 }
