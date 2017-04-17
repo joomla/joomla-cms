@@ -29,7 +29,7 @@ function hathormessage_postinstall_condition()
 		$query = $db->getQuery(true)
 			->select('template')
 			->from($db->quoteName('#__template_styles'))
-			->where($db->quoteName('home') . ' = 1')
+			->where($db->quoteName('home') . ' = ' . $db->quote('1'))
 			->where($db->quoteName('client_id') . ' = 1');
 
 		// Get the global setting about the default template
@@ -108,7 +108,7 @@ function hathormessage_postinstall_action()
 	{
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__template_styles'))
-			->set($db->quoteName('home') . ' = 0')
+			->set($db->quoteName('home') . ' = ' . $db->quote('0'))
 			->where($db->quoteName('template') . ' = "hathor"')
 			->where($db->quoteName('client_id') . ' = 1');
 
@@ -117,7 +117,7 @@ function hathormessage_postinstall_action()
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__template_styles'))
-			->set($db->quoteName('home') . ' = 1')
+			->set($db->quoteName('home') . ' = ' . $db->quote('1'))
 			->where($db->quoteName('template') . ' = "isis"')
 			->where($db->quoteName('client_id') . ' = 1')
 			->where($db->quoteName('id') . ' = ' . $isisStyleId[0]);
