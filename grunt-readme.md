@@ -19,7 +19,7 @@ This will install all node dependencies onto your system. Then there are 3 easy 
 
 * To update dependencies to the version in grunt_settings.yaml run `npm run update-dependencies`
 * To compile the SASS run `npm run compile-sass`
-* To minify the javascript run `compile-js`
+* To minify the javascript run `npm run compile-js`
 
 
 ### Maintainer's Area (TODO: This list of commands needs updating)
