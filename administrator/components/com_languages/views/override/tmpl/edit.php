@@ -17,11 +17,11 @@ JHtml::_('behavior.keepalive');
 
 $expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 
-JHtml::_('stylesheet', 'overrider/overrider.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'com_languages/overrider.css', array('version' => 'auto', 'relative' => true));
 
 JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
-JHtml::_('script', 'overrider/overrider.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_languages/overrider.min.js', array('version' => 'auto', 'relative' => true));
 
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($) {
