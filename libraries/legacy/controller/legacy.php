@@ -772,12 +772,12 @@ class JControllerLegacy extends JObject
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
+			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
-			$this->name = strtolower($r[1]);
+			$this->name = strtolower($r[2]);
 		}
 
 		return $this->name;
