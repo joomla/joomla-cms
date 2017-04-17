@@ -35,6 +35,14 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 // Add Stylesheets
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', array('version' => 'auto', 'relative' => true));
 
+// Load custom.css
+$file = 'templates/' . $this->template . '/css/custom.css';
+
+if (is_file($file))
+{
+	$doc->addStyleSheetVersion($file);
+}
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
