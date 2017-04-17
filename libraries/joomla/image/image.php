@@ -734,10 +734,9 @@ class JImage
 
 			$handle = imagecreatetruecolor($width, $height);
 
-			// Make image transparent, otherwise cavas outside initial image would default to black
 			if (!$this->isTransparent())
 			{
-				$transparency = imagecolorAllocateAlpha($this->handle, 0, 0, 0, 127);
+				$transparency = imagecolorAllocateAlpha($this->handle, 255, 255, 255, 127);
 				imagecolorTransparent($this->handle, $transparency);
 			}
 		}
