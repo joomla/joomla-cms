@@ -307,7 +307,7 @@ var Installation = function(_container, _base) {
             if (r) {
                 Joomla.replaceTokens(r.token);
                 if (r.error === false) {
-                    $el.val(r.data.text);
+                    $el.val($("<div/>").html(r.data.text).text());
                     $el.attr('onclick', '').unbind('click');
                     $el.attr('disabled', 'disabled');
                     // Stop keep alive requests
