@@ -2060,6 +2060,26 @@ class JForm
 			// Does the field have a defined error message?
 			$message = (string) $element['message'];
 
+			$app = JFactory::getApplication();
+			$lang = JFactory::getLanguage();
+			$option = $app->input->get('option', null);
+
+			// If we are editing a component's configuration in back-end,
+			// load that component's .ini and .sys.ini language files.
+			if (!$app->isSite() && $option == 'com_config' && !$lang->hasKey($message))
+			{
+				$component = $app->input->post->get('component', null);
+
+				if (!empty($component))
+				{
+					$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
+					|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
+
+					$lang->load($component . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+					|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
+				}
+			}
+
 			if ($message)
 			{
 				$message = JText::_($element['message']);
