@@ -140,7 +140,8 @@ abstract class JMailHelper
 
 		if (preg_match($regex, $domain))
 		{
-			return true;
+			$regex = '/^(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.(?:[01]?\d\d?|2[0-4]\d|25[0-5])$/';
+			return preg_match($regex, $domain) === 1;
 		}
 
 		// Check Lengths
