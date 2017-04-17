@@ -221,9 +221,22 @@ class MenusHelper
 		{
 			if (is_array($published))
 			{
-				$published = '(' . implode(',', $published) . ')';
+				$pnobool = array_map(
+					function ($v)
+					{
+						if (strcasecmp($v, 'true') == 0)
+						{
+							return 1;
+						}
+						elseif (strcasecmp($v, 'false') == 0)
+						{
+							return 0;
+						}
+						return $v;
+					}, $published
+					);
+				$published = '(' . implode(',', $pnobool) . ')';
 			}
-
 			$query->where('a.published IN ' . $published);
 		}
 
