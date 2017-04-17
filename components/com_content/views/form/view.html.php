@@ -71,7 +71,7 @@ class ContentViewForm extends JViewLegacy
 
 		if (!empty($this->item->id))
 		{
-			$this->item->tags->getItemTags('com_content.article.', $this->item->id);
+			$this->item->tags->getItemTags('com_content.article', $this->item->id);
 		}
 
 		if (!empty($this->item) && isset($this->item->id))
@@ -104,12 +104,6 @@ class ContentViewForm extends JViewLegacy
 		// Override global params with article specific params
 		$this->params->merge($this->item->params);
 		$this->user   = $user;
-
-		if ($params->get('enable_category') == 1)
-		{
-			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
-			$this->form->setFieldAttribute('catid', 'readonly', 'true');
-		}
 
 		// Propose current language as default when creating new article
 		if (empty($this->item->id) && JLanguageMultilang::isEnabled())

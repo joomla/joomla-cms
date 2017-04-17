@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Menu Type field.
  *
  * @since  1.6
  */
@@ -95,7 +95,7 @@ class JFormFieldMenutype extends JFormFieldList
 		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '" ' . $size . $class . ' />';
 		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
-			. '<span class="icon-list icon-white"></span> '
+			. '<span class="icon-list icon-white" aria-hidden="true"></span> '
 			. JText::_('JSELECT') . '</a></span>';
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
