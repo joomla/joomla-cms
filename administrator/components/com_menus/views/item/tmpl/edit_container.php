@@ -13,8 +13,8 @@ use Joomla\Registry\Registry;
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
-JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_menus/admin-item-edit_container.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 
 $style = <<<'CSS'
 	.checkbox-toggle {
