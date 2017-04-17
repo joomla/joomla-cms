@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="2.5" type="module" client="administrator" method="upgrade">
+	<name>Community Builder Admin module</name>
+	<creationDate>2015-09-22</creationDate>
+	<author>CB Team</author>
+	<authorEmail>cbteam@joomlapolis.com</authorEmail>
+	<authorUrl>http://www.joomlapolis.com</authorUrl>
+	<copyright>Copyright (C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2. All copyright statements must be kept and derivative work must prominently duly acknowledge original work on web interface and on website where downloaded.</license>
+	<version>2.0.11</version>
+	<description>Community Builder Admin Module for Joomla!</description>
+	<scriptfile>script.mod_cbadmin.php</scriptfile>
+	<files>
+		<filename module="mod_cbadmin">mod_cbadmin.php</filename>
+		<filename>helper.php</filename>
+		<filename>mod_cbadmin.css</filename>
+		<filename>feed.png</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="mode" type="list" default="1" label="Display Mode" description="Select the mode this module should display.">
+					<option value="1">Drop-Down Menu</option>
+					<option value="2">Table Menu</option>
+					<option value="3">News Feed</option>
+					<option value="4">Update Feed</option>
+					<option value="5">CB Version Checker</option>
+				</field>
+			</fieldset>
+			<fieldset name="menus" label="Menus">
+				<field name="menu_cb" type="list" default="1" label="CB Menu" description="Show or hide display of Community Builder menu.">
+					<option value="1">Show</option>
+					<option value="0">Hide</option>
+				</field>
+				<field name="menu_cbsubs" type="list" default="1" label="CBSubs Menu" description="Show or hide display of Community Builder Subscriptions plugin menu.">
+					<option value="1">Show</option>
+					<option value="0">Hide</option>
+				</field>
+				<field name="menu_cbgj" type="list" default="1" label="CB GroupJive Menu" description="Show or hide display of Community Builder GroupJive plugin menu.">
+					<option value="1">Show</option>
+					<option value="0">Hide</option>
+				</field>
+				<field name="menu_plugins" type="list" default="0" label="Plugin Menus" description="Show or hide display of plugin menus. Please note this will load all published Community Builder plugins to the backend. Plugins with Fatal errors could cause negative affects!">
+					<option value="1">Show</option>
+					<option value="0">Hide</option>
+				</field>
+			</fieldset>
+			<fieldset name="feeds" label="Feeds">
+				<field name="feed_entries" type="text" size="5" default="5" label="Maximum Entries" description="Set the maximum number of feed entries to display. Leave empty for no limit." />
+				<field name="feed_duration" type="text" size="5" default="12" label="Cache Duration" description="Set the duration in hours to cache RSS feeds. Leave empty for no cache." />
+			</fieldset>
+			<fieldset name="modal" label="Modal">
+				<field name="modal_display" type="list" default="1" label="Display" description="Enable or disable modal display of news feed details when possible.">
+					<option value="1">Enable</option>
+					<option value="0">Disable</option>
+				</field>
+				<field name="modal_width" type="text" size="5" default="90%" label="Width" description="Set the width of the modal window." />
+				<field name="modal_height" type="text" size="5" default="90vh" label="Height" description="Set the height of the modal window." />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

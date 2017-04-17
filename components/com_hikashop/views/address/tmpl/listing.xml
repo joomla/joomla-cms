@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<state>
+		<name>User addresses</name>
+	</state>
+	<layout title="COM_HIKASHOP_ADDRESS_VIEW_DEFAULT_TITLE">
+		<message></message>
+	</layout>
+</metadata>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="editblog" type="params" ui="admin" label="Blog" icon="font" viewformatting="div">
+			<toolbarmenu>
+				<menu name="apply" action="apply" task="act=apply" label="Save" />
+				<menu name="save" action="save" task="act=save" label="Save &amp; Close" />
+				<menu name="savenew" action="custom" task="act=savenew" label="Save &amp; New" icon="save-new" />
+				<menu name="savecopy" action="custom" task="act=savecopy" label="Save as Copy" icon="save-copy" />
+				<menu name="cancel" action="linkAction" task="cancel" link="cb_action:blogs" label="Cancel" />
+			</toolbarmenu>
+			<if name="" nametype="data:string" operator="regexp" value="5|7" valuetype="const:string" type="condition">
+				<left>
+					<param name="" type="private" class="cbblogsClass" method="getModelType" />
+				</left>
+				<then>
+					<showview view="editblog.joomla" type="xml" path="views/view" file="xml/views/view.com_comprofiler.editblog.joomla" mode="edit" />
+				</then>
+				<else>
+					<if name="" nametype="data:string" operator="=" value="6" valuetype="const:string" type="condition">
+						<left>
+							<param name="" type="private" class="cbblogsClass" method="getModelType" />
+						</left>
+						<then>
+							<showview view="editblog.k2" type="xml" path="views/view" file="xml/views/view.com_comprofiler.editblog.k2" mode="edit" />
+						</then>
+						<else>
+							<if name="" nametype="data:string" operator="=" value="2" valuetype="const:string" type="condition">
+								<left>
+									<param name="" type="private" class="cbblogsClass" method="getModelType" />
+								</left>
+								<then>
+									<showview view="editblog.internal" type="xml" path="views/view" file="xml/views/view.com_comprofiler.editblog.internal" mode="edit" />
+								</then>
+							</if>
+						</else>
+					</if>
+				</else>
+			</if>
+		</view>
+	</views>
+</cbxml>

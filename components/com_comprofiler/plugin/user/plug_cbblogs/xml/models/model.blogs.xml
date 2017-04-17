@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../../../validation/ahawow.xsd">
+	<types>
+		<type name="blog_published" base="published" valuetype="string">
+			<option value="0" title="Unpublish Item">Unpublished</option>
+			<option value="1" title="Publish Item">Published</option>
+		</type>
+		<type name="blog_trashed" base="published" valuetype="string">
+			<option value="0" title="Untrash Item">Untrashed</option>
+			<option value="1" title="Trash Item">Trashed</option>
+		</type>
+	</types>
+</cbxml>

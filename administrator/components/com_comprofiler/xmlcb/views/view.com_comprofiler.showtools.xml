@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="showtools" type="params" ui="admin" label="Tools" icon="wrench" viewformatting="div">
+			<toolbarmenu>
+				<menu name="cancel" action="linkAction" task="cancel" link="cb_action:panel" label="Close" />
+				<menu name="permissions" action="linkAction" task="options" link="cb_action:toolperms" label="Permissions" />
+				<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/tools?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+			</toolbarmenu>
+			<if name="" nametype="data:string" operator="=" value="" valuetype="const:string" type="condition">
+				<left>
+					<param name="" type="custom" method="getCBprofileItemid" />
+				</left>
+				<then>
+					<param name="" type="group" formatting="none" label="" display="2lines">
+						<param name="" type="spacer" default="In order for CB to function properly a Joomla menu item must be present. This menu item must also be published for PUBLIC access. It appears that this environment is missing this mandatory menu item. Please refer to the section titled &quot;Adding the CB Profile&quot; of the PDF installation guide included in your CB distribution package for additional information regarding this matter." label="" display="2lines" alertclass="danger" />
+					</param>
+				</then>
+			</if>
+			<grid fluid="true">
+				<gridrow>
+					<gridcol size="3">
+						<param name="" type="group" formatting="none" label="" display="2lines">
+							<param name="" type="button" default="Load Sample Data" buttonclass="primary" buttonsize="small" textstyle="overflow" label="" task="view=loadSampleData" message="Are you sure you want to load the Sample Data? This will create a new tab and several fields on the new tab." />
+						</param>
+					</gridcol>
+					<gridcol size="9">
+						<param name="" type="text" translate="yes" default="This will load sample data into the Joomla Community Builder component. Precisely, an additional information tab (that you can change, unpublish or delete in CB Tabs manager) will be created containing fields for: location, occupation, interests, company, address, city, state, zipcode, country, phone and fax (you can then change, unpublish or delete those fields which you don't need in CB Fields Manager). Also a users-list will be created, that you can edit from the CB Lists manager. This will help you get started quicker with CB." label="" display="2lines" />
+					</gridcol>
+				</gridrow>
+				<gridrow>
+					<gridcol size="3">
+						<param name="" type="group" formatting="none" label="" display="2lines">
+							<param name="" type="button" default="Load Canvas Layout" buttonclass="primary" buttonsize="small" textstyle="overflow" label="" task="view=loadCanvasLayout" title="Test" message="Are you sure you want to load the Canvas Layout? This will move multiple tabs, fields, and change their displays." />
+						</param>
+					</gridcol>
+					<gridcol size="9">
+						<param name="" type="text" translate="yes" default="This will load the canvas profile layout into the Joomla Community Builder component. Tab positions and displays will be changed to correctly move data for Canvas display. Fields will also have their displays adjusted as needed to fit within the Canvas display needs." label="" display="2lines" />
+					</gridcol>
+				</gridrow>
+				<gridrow>
+					<gridcol size="3">
+						<param name="" type="group" formatting="none" label="" display="2lines">
+							<param name="" type="button" default="Synchronize Users" buttonclass="primary" buttonsize="small" textstyle="overflow" label="" task="view=syncUsers" />
+						</param>
+					</gridcol>
+					<gridcol size="9">
+						<param name="" type="text" translate="yes" default="This will synchronize the Joomla User table with the Joomla Community Builder User Table. Please make sure before synchronizing that the user name type (first/lastname mode choice) is set correctly in Components / Community Builder / Configuration / General, so that the user-synchronization imports the names in the appropriate format." label="" display="2lines" />
+					</gridcol>
+				</gridrow>
+				<gridrow>
+					<gridcol size="3">
+						<param name="" type="group" formatting="none" label="" display="2lines">
+							<param name="" type="button" default="Check Community Builder Database" buttonclass="primary" buttonsize="small" textstyle="overflow" label="" task="view=checkcbdb&amp;databaseid=0" />
+						</param>
+					</gridcol>
+					<gridcol size="9">
+						<param name="" type="text" translate="yes" default="This will perform a series of tests on the Community Builder database and report back potential inconsistencies without changing or correcting the database." label="" display="2lines" />
+					</gridcol>
+				</gridrow>
+				<gridrow>
+					<gridcol size="3">
+						<param name="" type="group" formatting="none" label="" display="2lines">
+							<param name="" type="button" default="Check Community Builder User Fields Database" buttonclass="primary" buttonsize="small" textstyle="overflow" label="" task="view=checkcbdb&amp;databaseid=3" />
+						</param>
+					</gridcol>
+					<gridcol size="9">
+						<param name="" type="text" translate="yes" default="This will perform a series of tests on the Community Builder User fields database and report back potential inconsistencies without changing or correcting the database." label="" display="2lines" />
+						<param name="" type="group" formatting="none" label="" display="2lines">
+							<param name="" type="text" translate="yes" default="Or" label="" display="2lines" />
+							<field name="" type="text" translate="yes" default="Check Community Builder User Fields Database with strict column types" task="view=checkcbdb&amp;databaseid=3&amp;strictcolumns=1" />
+							<param name="" type="text" translate="yes" default="which may take much longer and multiple passes to adjust depending on your database size" label="" display="2lines" />
+						</param>
+					</gridcol>
+				</gridrow>
+				<gridrow>
+					<gridcol size="3">
+						<param name="" type="group" formatting="none" label="" display="2lines">
+							<param name="" type="button" default="Check Community Builder Plugins Database" buttonclass="primary" buttonsize="small" textstyle="overflow" label="" task="view=checkcbdb&amp;databaseid=1" />
+						</param>
+					</gridcol>
+					<gridcol size="9">
+						<param name="" type="text" translate="yes" default="This will check the database of installed CB plugins and report back potential inconsistencies without changing or correcting the database." label="" display="2lines" />
+					</gridcol>
+				</gridrow>
+				<gridrow>
+					<gridcol size="3">
+						<param name="" type="group" formatting="none" label="" display="2lines">
+							<param name="" type="button" default="Check Users Database" buttonclass="primary" buttonsize="small" textstyle="overflow" label="" task="view=checkcbdb&amp;databaseid=2" />
+						</param>
+					</gridcol>
+					<gridcol size="9">
+						<param name="" type="text" translate="yes" default="This will perform a series of tests on the Users database of the CMS, the Community Builder users database and ACL and report back potential inconsistencies without changing or correcting the database." label="" display="2lines" />
+					</gridcol>
+				</gridrow>
+			</grid>
+		</view>
+	</views>
+</cbxml>

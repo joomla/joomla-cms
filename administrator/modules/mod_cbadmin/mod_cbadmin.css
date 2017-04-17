@@ -1,0 +1,312 @@
+.icon-16-cb-credits {
+	background-image: url( ../../../components/com_comprofiler/images/icon-16-cb.png );
+}
+
+.icon-16-cb-control_panel {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-component.png );
+}
+
+.icon-16-cb-user_management {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-user.png );
+}
+
+.icon-16-cb-tab_management {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-themes.png );
+}
+
+.icon-16-cb-field_management {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-content.png );
+}
+
+.icon-16-cb-list_management {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-search.png );
+}
+
+.icon-16-cb-plugin_management {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-plugin.png );
+}
+
+.icon-16-cb-tools {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-maintenance.png );
+}
+
+.icon-16-cb-configuration {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-config.png );
+}
+
+.icon-16-cb-new {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-new.png );
+}
+
+.icon-16-cb-upload {
+	background-image: url( ../../templates/hathor/images/menu/icon-16-upload.png );
+}
+
+.icon-16-cbsubs-payments_center {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/coin_stack_16.gif );
+}
+
+.icon-16-cbsubs-settings {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/gear_16.gif );
+}
+
+.icon-16-cbsubs-gateways {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/bank_transaction_16.gif );
+}
+
+.icon-16-cbsubs-plans {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/time_sheet_16.gif );
+}
+
+.icon-16-cbsubs-subscriptions {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/user_id_16.gif );
+}
+
+.icon-16-cbsubs-baskets {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/shopping_cart_16.gif );
+}
+
+.icon-16-cbsubs-payments {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/taxes_16.gif );
+}
+
+.icon-16-cbsubs-notifications {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/datagram_back_16.gif );
+}
+
+.icon-16-cbsubs-currencies {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/currency_conversion_16.gif );
+}
+
+.icon-16-cbsubs-statistics {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/deposit_16.gif );
+}
+
+.icon-16-cbsubs-statistics_payments_monthly {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/calendaryear_money_16.gif );
+}
+
+.icon-16-cbsubs-statistics_payments_weekly {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/calendar_week_money_16.gif );
+}
+
+.icon-16-cbsubs-statistics_payments_weekday {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/calendar_weekday_money_16.gif );
+}
+
+.icon-16-cbsubs-statistics_payments_hourly {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/clock_money_16.gif );
+}
+
+.icon-16-cbsubs-statistics_payments_country {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/world_money_16.gif );
+}
+
+.icon-16-cbsubs-statistics_payments_query {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/economics_money_16.gif );
+}
+
+.icon-16-cbsubs-statistics_sales_monthly {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/calendaryear_cart_16.gif );
+}
+
+.icon-16-cbsubs-statistics_sales_weekly {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/calendar_week_cart_16.gif );
+}
+
+.icon-16-cbsubs-statistics_sales_weekday {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/calendar_weekday_cart_16.gif );
+}
+
+.icon-16-cbsubs-merchandise {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/objects_16.gif );
+}
+
+.icon-16-cbsubs-donations {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/payment_16.gif );
+}
+
+.icon-16-cbsubs-import {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/user_id_add_16.gif );
+}
+
+.icon-16-cbsubs-history_logs {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/icons/normal/record_a_16.gif );
+}
+
+.icon-16-cbsubs-taxes {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubstax/icons/normal/calculator_16.gif );
+}
+
+.icon-16-cbsubs-taxes_rules {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubstax/icons/normal/calculator_write_16.gif );
+}
+
+.icon-16-cbsubs-taxes_rates {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubstax/icons/normal/sign_percentage_16.gif );
+}
+
+.icon-16-cbsubs-taxes_zones {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubstax/icons/normal/geography_16.gif );
+}
+
+.icon-16-cbsubs-taxes_countries {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubstax/icons/normal/worldmap_16.gif );
+}
+
+.icon-16-cbsubs-taxes_states {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubstax/icons/normal/states_us_16.gif );
+}
+
+.icon-16-cbsubs-taxes_report {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubstax/icons/normal/taxman__spreadsheet_16.gif );
+}
+
+.icon-16-cbsubs-promotions {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubspromotion/icons/normal/sign_percentage_16.gif );
+}
+
+.icon-16-cbsubs-promotions_settings {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubspromotion/icons/normal/sign_percentage_add_16.gif );
+}
+
+.icon-16-cbsubs-promotions_used {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubspromotion/icons/normal/sign_percentage_info_16.gif );
+}
+
+.icon-16-cbsubs-promotions_statistics {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubspromotion/icons/normal/sign_percentage_graph_16.gif );
+}
+
+.icon-16-cbsubs-mailer {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubsmailer/icons/normal/mail_16.gif );
+}
+
+.icon-16-cbsubs-mailer_queue {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubsmailer/icons/normal/mail_next_16.gif );
+}
+
+.icon-16-cbsubs-mailer_sent {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbpaidsubscriptions/plugin/cbsubsmailer/icons/normal/mail_ok_16.gif );
+}
+
+.icon-16-cbgj-plugin {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-plugin.png );
+}
+
+.icon-16-cbgj-categories {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-categories.png );
+}
+
+.icon-16-cbgj-groups {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-groups.png );
+}
+
+.icon-16-cbgj-users {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-users.png );
+}
+
+.icon-16-cbgj-invites {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-invites.png );
+}
+
+.icon-16-cbgj-configuration {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-config.png );
+}
+
+.icon-16-cbgj-tools {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-tools.png );
+}
+
+.icon-16-cbgj-integrations {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-integrations.png );
+}
+
+.icon-16-cbgj-menus {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/images/icon-16-menus.png );
+}
+
+.icon-16-cbgj-auto {
+	background-image: url( ../../../components/com_comprofiler/plugin/user/plug_cbgroupjive/plugins/cbgroupjiveauto/images/icon-16-auto.png );
+}
+
+.cbMenuTable,
+.cbFeed {
+	margin: 5px;
+}
+
+.cbFeed .cbFeedItemDisabled {
+	display: none;
+}
+
+.cbFeed div.cbFeedItem {
+	padding: 10px 15px;
+	margin-bottom: -1px;
+	background-color: #ffffff;
+	border: 1px solid #dddddd;
+	font-size: 12px;
+	color: #555555;
+	cursor: pointer;
+}
+
+.cbFeed div.cbFeedItem:hover {
+	background-color: #f5f5f5;
+}
+
+.cbFeed div.cbFeedItem:first-child {
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+}
+
+.cbFeed div.cbFeedItem:last-child {
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.cbFeed div.cbFeedItem .cbFeedItemLogoImgEmpty {
+	background-image: url(feed.png);
+}
+
+.cbFeed div.cbFeedItem .cbFeedItemLogoImg {
+	height: 85px;
+	width: 85px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.cbFeed div.cbFeedItem .cbFeedItemTitle,
+.cbFeed div.cbFeedItem .cbFeedItemDesc {
+	margin-bottom: 5px;
+}
+
+.cbFeed div.cbFeedItem .cbFeedItemDate {
+	font-size: 85%;
+	font-weight: normal;
+	line-height: 1;
+	color: #999999;
+}
+
+.cbFeed div.cbFeedItem .cbFeedItemTitle {
+	font-size: 14px;
+	color: #333333;
+}
+
+.cbFeed div.cbFeedItem.cbFeedItemActive {
+	background-color: #428bca;
+	border-color: #428bca;
+	color: #ffffff;
+}
+
+.cbFeed div.cbFeedItem.cbFeedItemActive .cbFeedItemDate,
+.cbFeed div.cbFeedItem.cbFeedItemActive .cbFeedItemTitle,
+.cbFeed div.cbFeedItem.cbFeedItemActive .cbFeedItemTitle a {
+	color: #ffffff;
+}
+
+.cbFeed .cbFeedShowMore,
+.cbFeed .cbFeedShowMoreLink,
+.cbFeed .cbFeedMore {
+	display: none;
+	margin-top: 10px;
+}

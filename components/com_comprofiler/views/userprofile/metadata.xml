@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<view>
+		<options>
+			<default name="User Profile (mandatory!)" msg="This is the main menu item of Community Builder. Please create only one of them and make sure that this menu item is of public access and published." />
+		</options>
+	</view>
+	<state>
+		<name>Community Builder User Profile</name>
+		<description>This is a menu item for Community Builder User profile. Please create only one of them and make sure that this menu item is of public access and published.</description>
+	</state>
+</metadata>

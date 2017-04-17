@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0.0" type="plugin" group="templates" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<name>Default</name>
+	<creationDate>2015-09-22</creationDate>
+	<author>Krileon</author>
+	<authorEmail>krileon@joomlapolis.com</authorEmail>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<description>Provides Default Twitter Bootstap powered Community Builder template.</description>
+	<version>2.0.11</version>
+	<files>
+		<filename plugin="default">default.php</filename>
+		<filename>index.html</filename>
+		<filename>rtl.css</filename>
+		<filename>template.css</filename>
+		<filename>fontawesome.css</filename>
+		<filename>bootstrap.css</filename>
+		<foldername>font</foldername>
+		<foldername>images</foldername>
+		<foldername>jquery</foldername>
+	</files>
+	<delete>
+		<filename>calendar.css</filename>
+		<filename>calendar_icon.jpg</filename>
+		<filename>calendar_next.gif</filename>
+		<filename>calendar_prev.gif</filename>
+		<filename>lightbox.css</filename>
+		<filename>menuarrow.gif</filename>
+		<filename>noprofiles.gif</filename>
+		<filename>profiles.gif</filename>
+		<filename>required.gif</filename>
+		<filename>tooltip.png</filename>
+		<foldername>jqueryui</foldername>
+		<foldername>images/cluetip</foldername>
+		<foldername>images/lightbox</foldername>
+	</delete>
+	<params>
+	</params>
+	<database>
+	</database>
+</cbinstall>

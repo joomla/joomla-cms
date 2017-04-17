@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<types />
+	<actions ui="admin" permission="core.manage" permissionasset="com_comprofiler">
+		<extend type="plugin" toxpathnode="/cbxml/actions" fromxpathnode="/*/actions/action" file="xml/controllers/frontcontroller" mandatory="false" mode="extend" keyattribute="name" />
+		<actionspecific>
+			<extend toxpathnode="/cbxml/types" fromxpathnode="/*/types/type" file="models/model.{xpath:@name/string()}" mandatory="false" />
+			<extend toxpathnode="/cbxml/views" fromxpathnode="/*/views/view" file="views/view.com_comprofiler.{xpath:showview/@mode/string()}{xpath:@name/string()}" mandatory="false" />
+
+			<extend type="plugin" toxpathnode="/cbxml/types" fromxpathnode="/*/types/type" file="xml/models/models,xml/models/model.{xpath:@name/string()}" mandatory="false" mode="extend" keyattribute="name" />
+			<extend type="plugin" toxpathnode="/cbxml/views" fromxpathnode="/*/views/view" file="xml/views/view.com_comprofiler.{xpath:showview/@mode/string()}{xpath:@name/string()}" mandatory="false" mode="extend" keyattribute="name" />
+		</actionspecific>
+
+		<action name="tabs" request="view" action="showTab" permission="core.manage" permissionasset="com_comprofiler.tabs">
+			<showview view="showtabs" mode="show" />
+		</action>
+
+		<action name="plugins" request="view" action="showPlugins" permission="core.manage" permissionasset="com_comprofiler.plugins">
+			<showview view="showplugins" mode="show" />
+		</action>
+
+		<action name="users" request="view" action="showusers" permission="core.manage" permissionasset="com_users">
+			<showview view="showusers" mode="show" />
+		</action>
+
+		<action name="lists" request="view" action="showLists" permission="core.manage" permissionasset="com_comprofiler.lists">
+			<showview view="showlists" mode="show" />
+		</action>
+
+		<action name="fields" request="view" action="showField" permission="core.manage" permissionasset="com_comprofiler.fields">
+			<showview view="showfields" mode="show" />
+		</action>
+
+		<action name="tools" request="view" action="tools" permission="core.manage" permissionasset="com_comprofiler.tools">
+			<showview view="showtools" mode="show" />
+		</action>
+
+		<action name="credits" request="view" action="credits">
+			<showview view="showcredits" mode="show" />
+		</action>
+
+		<action name="panel" request="view" action="">
+			<showview view="showpanel" mode="show" />
+		</action>
+
+		<action name="plugin" request="view table" action="editrow pluginsbrowser" requestparameters="cid" permission="core.edit" permissionasset="com_comprofiler.plugins">
+			<extend toxpathnode="/cbxml/types" fromxpathnode="/*/types/type" file="models/model.plugins" mandatory="true" />
+			<showview view="editplugin" mode="edit">
+				<data name="pluginrow" type="sql:row" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="cid" valuetype="request:int" />
+			</showview>
+		</action>
+
+		<action name="installcbplugin" request="view" action="installcbplugin" permission="core.admin" permissionasset="root">
+			<showview view="editinstallcbplugin" mode="edit">
+				<data name="installcbplugin" type="class" class="CBInstallPlugin" />
+			</showview>
+		</action>
+
+		<action name="tab" request="view table" action="editrow tabsbrowser" requestparameters="cid" permission="core.create or core.edit" permissionasset="com_comprofiler.tabs">
+			<extend toxpathnode="/cbxml/types" fromxpathnode="/*/types/type" file="models/model.tabs" mandatory="true" />
+			<showview view="edittab" mode="edit">
+				<data name="tabrow" type="sql:row" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable" key="tabid" value="cid" valuetype="request:int" />
+			</showview>
+		</action>
+
+		<action name="field" request="view table" action="editrow fieldsbrowser" requestparameters="cid" permission="core.create or core.edit" permissionasset="com_comprofiler.fields">
+			<extend toxpathnode="/cbxml/types" fromxpathnode="/*/types/type" file="models/model.fields" mandatory="true" />
+			<extend toxpathnode="/cbxml/types" fromxpathnode="/*/types/type" file="models/model.config" mandatory="true" />
+			<showview view="editfield" mode="edit">
+				<data name="fieldrow" type="sql:row" table="#__comprofiler_fields" class="\CB\Database\Table\FieldTable" key="fieldid" value="cid" valuetype="request:int" />
+			</showview>
+		</action>
+
+		<action name="list" request="view table" action="editrow listsbrowser" requestparameters="cid" permission="core.create or core.edit" permissionasset="com_comprofiler.lists">
+			<extend toxpathnode="/cbxml/types" fromxpathnode="/*/types/type" file="models/model.users" mandatory="true" />
+			<extend toxpathnode="/cbxml/types" fromxpathnode="/*/types/type" file="models/model.lists" mandatory="true" />
+			<showview view="editlist" mode="edit">
+				<data name="fieldrow" type="sql:row" table="#__comprofiler_lists" class="\CB\Database\Table\ListTable" key="listid" value="cid" valuetype="request:int" />
+			</showview>
+		</action>
+
+		<action name="config" request="view" action="showconfig" permission="core.admin" permissionasset="com_comprofiler">
+			<showview view="editconfig" mode="edit">
+				<data name="params" type="sql:row" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="1" valuetype="const:int" />
+			</showview>
+		</action>
+
+		<action name="perms" request="view" action="showperms" permission="core.admin" permissionasset="root">
+			<showview view="editperms" mode="edit">
+				<data name="params" type="sql:row" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="1" valuetype="const:int" />
+			</showview>
+		</action>
+
+		<action name="tabperms" request="view" action="showtabperms" permission="core.admin" permissionasset="root">
+			<showview view="edittabperms" mode="edit">
+				<data name="params" type="sql:row" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="1" valuetype="const:int" />
+			</showview>
+		</action>
+
+		<action name="pluginperms" request="view" action="showpluginperms" permission="core.admin" permissionasset="root">
+			<showview view="editpluginperms" mode="edit">
+				<data name="params" type="sql:row" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="1" valuetype="const:int" />
+			</showview>
+		</action>
+
+		<action name="userperms" request="view" action="showuserperms" permission="core.admin" permissionasset="root">
+			<showview view="edituserperms" mode="edit">
+				<data name="params" type="sql:row" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="1" valuetype="const:int" />
+			</showview>
+		</action>
+
+		<action name="listperms" request="view" action="showlistperms" permission="core.admin" permissionasset="root">
+			<showview view="editlistperms" mode="edit">
+				<data name="params" type="sql:row" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="1" valuetype="const:int" />
+			</showview>
+		</action>
+
+		<action name="fieldperms" request="view" action="showfieldperms" permission="core.admin" permissionasset="root">
+			<showview view="editfieldperms" mode="edit">
+				<data name="params" type="sql:row" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="1" valuetype="const:int" />
+			</showview>
+		</action>
+
+		<action name="toolperms" request="view" action="showtoolperms" permission="core.admin" permissionasset="root">
+			<showview view="edittoolperms" mode="edit">
+				<data name="params" type="sql:row" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="1" valuetype="const:int" />
+			</showview>
+		</action>
+
+		<action name="default" request="" action="" permission="core.manage">
+		</action>
+	</actions>
+	<views />
+</cbxml>

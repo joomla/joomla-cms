@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<view>
+		<options>
+			<default name="Userlist" msg="This is the menu item for accessing Community Builder Users lists." />
+		</options>
+		<fields name="request">
+			<fieldset name="request">
+				<field name="listid" type="text" extension="com_comprofiler" default="" required="false" label="List ID" description="Here you could select directly a list by its id, or leave it empty for default CB users list" />
+				<field name="searchmode" type="list" extension="com_comprofiler" default="" required="false" label="Search Mode" description="If the list should display directly, or only show the search fields">
+					<option value="0">Show List</option>
+					<option value="1">Show Search Only</option>
+					<option value="2">Show List and Search</option>
+				</field>
+			</fieldset>
+		</fields>
+	</view>
+	<state>
+		<name>Community Builder Userlist</name>
+		<description>This is Community Builder Users List Menu item. It can be the default list of community builder if the list id parameter is left empty, or direct access to a users list. You can create multiple menu items here to access directly particular users-lists.</description>
+		<url addpath="/administrator/components/com_comprofiler">
+			<param name="listid" type="text" default="" label="List ID" description="Here you could select directly a list by its id, or leave it empty for default CB users list" />
+			<param name="searchmode" type="list" default="" label="Search Mode" description="If the list should display directly, or only show the search fields">
+				<option value="0">Show List</option>
+				<option value="1">Show Search Only</option>
+				<option value="2">Show List and Search</option>
+			</param>
+		</url>
+	</state>
+</metadata>

@@ -1,0 +1,71 @@
+1)Response/Receipt Field Configuration
+
+   a)Response Method
+	a.1)Sent to your server as a POST
+	a.2)Approve url - http://mysite.com/index.php?option=com_hikashop&ctrl=checkout&task=after_end&lang=ca
+	a.3)Declined url - http://mysite.com/index.php?option=com_hikashop&ctrl=order&task=cancel_order&lang=ca
+
+
+2)Response/Receipt Field Configuration
+   a)Perform asynchronous data post.
+	a.1)http://mysite.com/index.php?option=com_hikashop&ctrl=checkout&task=notify&notif_payment=eselectplus
+
+
+3)Security Features
+   a)Enable Transaction Verification
+	a.1)Sent to your server as a POST
+	
+    //Not sure about this url
+    http://mysite.com/index.php?option=com_hikashop
+
+
+4)Email Receipt Configuration
+	admin@your.mail
+
+5)And other settings as needed
+
+
+6)
+//Test Visa Card - 4761739012345678
+//Sandbox Account details - https://esqa.moneris.com/mpg/index.php12-20 15:21:59: array (
+  'error' => 
+  array (
+    'type' => 'unauthorized',
+    'message' => 'invalid api key',
+  ),
+)
+12-20 15:25:02: array (
+  'error' => 
+  array (
+    'type' => 'unauthorized',
+    'message' => 'invalid api key',
+  ),
+)
+12-20 15:27:04: array (
+  'error' => 
+  array (
+    'type' => 'unauthorized',
+    'message' => 'invalid api key',
+  ),
+)
+12-20 15:33:25: array (
+  'error' => 
+  array (
+    'type' => 'unauthorized',
+    'message' => 'invalid api key',
+  ),
+)
+12-20 15:34:26: array (
+  'error' => 
+  array (
+    'type' => 'unauthorized',
+    'message' => 'invalid api key',
+  ),
+)
+12-21 07:07:33: array (
+  'error' => 
+  array (
+    'type' => 'unauthorized',
+    'message' => 'invalid api key',
+  ),
+)

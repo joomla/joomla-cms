@@ -1,0 +1,1279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../validation/ahawow.xsd">
+	<database version="1">
+		<table name="#__comprofiler" class="" strict="false" drop="never">
+			<columns strict="false">
+				<column name="id" type="sql:int(11)" />
+				<column name="user_id" type="sql:int(11)" />
+				<column name="firstname" type="sql:varchar(100)" null="true" />
+				<column name="middlename" type="sql:varchar(100)" null="true" />
+				<column name="lastname" type="sql:varchar(100)" null="true" />
+				<column name="hits" type="sql:int(11)" />
+				<column name="message_last_sent" type="sql:datetime" />
+				<column name="message_number_sent" type="sql:int(11)" />
+				<column name="avatar" type="sql:text||sql:varchar(255)" null="true" />
+				<column name="avatarapproved" type="sql:tinyint(4)" null="false" default="1" />
+				<column name="canvas" type="sql:text||sql:varchar(255)" null="true" />
+				<column name="canvasapproved" type="sql:tinyint(4)" null="false" default="1" />
+				<column name="approved" type="sql:tinyint(4)" default="1" />
+				<column name="confirmed" type="sql:tinyint(4)" default="1" />
+				<column name="lastupdatedate" type="sql:datetime" />
+				<column name="registeripaddr" type="sql:varchar(50)" />
+				<column name="cbactivation" type="sql:varchar(50)" />
+				<column name="banned" type="sql:tinyint(4)" />
+				<column name="banneddate" type="sql:datetime" null="true" />
+				<column name="unbanneddate" type="sql:datetime" null="true" />
+				<column name="bannedby" type="sql:int(11)" null="true" />
+				<column name="unbannedby" type="sql:int(11)" null="true" />
+				<column name="bannedreason" type="sql:mediumtext" null="true" />
+				<column name="acceptedterms" type="sql:tinyint(1)" unsigned="true" />
+			</columns>
+			<indexes strict="false">
+				<index name="PRIMARY" type="primary">
+					<column name="id" />
+				</index>
+				<index name="user_id" type="unique">
+					<column name="user_id" />
+				</index>
+				<index name="apprconfbanid">
+					<column name="approved" />
+					<column name="confirmed" />
+					<column name="banned" />
+					<column name="id" />
+				</index>
+				<index name="avatappr_apr_conf_ban_avatar">
+					<column name="avatarapproved" />
+					<column name="approved" />
+					<column name="confirmed" />
+					<column name="banned" />
+					<column name="avatar" size="48" />
+				</index>
+				<index name="lastupdatedate">
+					<column name="lastupdatedate" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__users" strict="false" />
+		</table>
+		<table name="#__comprofiler_field_values" class="" strict="false" drop="never">
+			<columns>
+				<column name="fieldvalueid" type="sql:int(11)" auto_increment="16" />
+				<column name="fieldid" type="sql:int(11)" />
+				<column name="fieldtitle" type="sql:varchar(255)" />
+				<column name="fieldlabel" type="sql:varchar(255)" />
+				<column name="ordering" type="sql:int(11)" />
+				<column name="sys" type="sql:tinyint(4)" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="fieldvalueid" />
+				</index>
+				<index name="fieldid_ordering">
+					<column name="fieldid" />
+					<column name="ordering" />
+				</index>
+				<index name="fieldtitle_id">
+					<column name="fieldtitle" />
+					<column name="fieldid" />
+				</index>
+				<index name="fieldlabel_id">
+					<column name="fieldlabel" />
+					<column name="fieldid" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+		</table>
+		<table name="#__comprofiler_fields" class="" strict="false" drop="never">
+			<columns>
+				<column name="fieldid" type="sql:int(11)" auto_increment="54" />
+				<column name="name" type="sql:varchar(50)" />
+				<column name="tablecolumns" type="sql:text" initialvalue="name" initialvaluetype="sql:field" />
+				<column name="table" type="sql:varchar(50)" default="#__comprofiler" />
+				<column name="title" type="sql:varchar(255)" />
+				<column name="description" type="sql:mediumtext" />
+				<column name="type" type="sql:varchar(50)" />
+				<column name="maxlength" type="sql:int(11)" null="true" />
+				<column name="size" type="sql:int(11)" null="true" />
+				<column name="required" type="sql:tinyint(4)" null="true" default="0" />
+				<column name="tabid" type="sql:int(11)" null="true" />
+				<column name="ordering" type="sql:int(11)" null="true" />
+				<column name="cols" type="sql:int(11)" null="true" />
+				<column name="rows" type="sql:int(11)" null="true" />
+				<column name="value" type="sql:varchar(50)" null="true" />
+				<column name="default" type="sql:mediumtext" null="true" />
+				<column name="published" type="sql:tinyint(1)" default="1" />
+				<column name="registration" type="sql:tinyint(1)" />
+				<column name="edit" type="sql:tinyint(1)" default="1" />
+				<column name="profile" type="sql:tinyint(1)" default="1" />
+				<column name="readonly" type="sql:tinyint(1)" />
+				<column name="searchable" type="sql:tinyint(1)" default="0" />
+				<column name="calculated" type="sql:tinyint(1)" />
+				<column name="sys" type="sql:tinyint(4)" />
+				<column name="pluginid" type="sql:int(11)" null="false" initialvalue="1" initialvaluetype="const:int" />
+				<column name="cssclass" type="sql:varchar(255)" null="true" />
+				<column name="params" type="sql:mediumtext" null="true" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="fieldid" />
+				</index>
+				<index name="tabid_pub_prof_order">
+					<column name="tabid" />
+					<column name="published" />
+					<column name="profile" />
+					<column name="ordering" />
+				</index>
+				<index name="readonly_published_tabid">
+					<column name="readonly" />
+					<column name="published" />
+					<column name="tabid" />
+				</index>
+				<index name="registration_published_order">
+					<column name="registration" />
+					<column name="published" />
+					<column name="ordering" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+			<rows strict="false">
+				<row index="fieldid" value="17" valuetype="const:int" strict="true">
+					<field name="fieldid" value="17" valuetype="const:int" strict="true" />
+					<field name="name" value="canvas" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="canvas,canvasapproved" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="USER_CANVAS_IMAGE_TITLE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="image" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="7" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="1" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="edit" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="profile" value="4" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="24" valuetype="const:int" strict="true">
+					<field name="fieldid" value="24" valuetype="const:int" strict="true" />
+					<field name="name" value="connections" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_CONNECTION" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="connections" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="6" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="1" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" />
+					<field name="edit" value="0" valuetype="const:int" />
+					<field name="profile" value="2" valuetype="const:int" />
+					<field name="readonly" value="1" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="25" valuetype="const:int" strict="true">
+					<field name="fieldid" value="25" valuetype="const:int" strict="true" />
+					<field name="name" value="hits" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="hits" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_HITS" valuetype="const:string" />
+					<field name="description" value="_UE_HITS_DESC" valuetype="const:string" />
+					<field name="type" value="counter" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="6" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="2" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" />
+					<field name="edit" value="0" valuetype="const:int" />
+					<field name="profile" value="2" valuetype="const:int" />
+					<field name="readonly" value="1" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="26" valuetype="const:int" strict="true">
+					<field name="fieldid" value="26" valuetype="const:int" strict="true" />
+					<field name="name" value="onlinestatus" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_ONLINESTATUS" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="status" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="20" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="2" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" />
+					<field name="edit" value="0" valuetype="const:int" />
+					<field name="profile" value="4" valuetype="const:int" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="27" valuetype="const:int" strict="true">
+					<field name="fieldid" value="27" valuetype="const:int" strict="true" />
+					<field name="name" value="lastvisitDate" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="lastvisitDate" valuetype="const:string" strict="true" />
+					<field name="table" value="#__users" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_LASTONLINE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="datetime" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="21" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="2" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" />
+					<field name="edit" value="0" valuetype="const:int" />
+					<field name="profile" value="2" valuetype="const:int" />
+					<field name="readonly" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="field_display_by=2" valuetype="const:string" strict="updatewithfield" strictsameasfield="tabid" />
+				</row>
+				<row index="fieldid" value="28" valuetype="const:int" strict="true">
+					<field name="fieldid" value="28" valuetype="const:int" strict="true" />
+					<field name="name" value="registerDate" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="registerDate" valuetype="const:string" strict="true" />
+					<field name="table" value="#__users" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_MEMBERSINCE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="datetime" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="21" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="1" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" />
+					<field name="edit" value="0" valuetype="const:int" />
+					<field name="profile" value="2" valuetype="const:int" />
+					<field name="readonly" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="field_display_by=6" valuetype="const:string" strict="updatewithfield" strictsameasfield="tabid" />
+				</row>
+				<row index="fieldid" value="29" valuetype="const:int" strict="true">
+					<field name="fieldid" value="29" valuetype="const:int" strict="true" />
+					<field name="name" value="avatar" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="avatar,avatarapproved" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_IMAGE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="image" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="20" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="1" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="edit" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="profile" value="4" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="41" valuetype="const:int" strict="true">
+					<field name="fieldid" value="41" valuetype="const:int" strict="true" />
+					<field name="name" value="name" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="name" valuetype="const:string" strict="true" />
+					<field name="table" value="#__users" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_NAME" valuetype="const:string" />
+					<field name="description" value="_UE_REGWARN_NAME" valuetype="const:string" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="type" value="predefined" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid"  />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="2" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="edit" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="profile" value="0" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="1" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="42" valuetype="const:int" strict="true">
+					<field name="fieldid" value="42" valuetype="const:int" strict="true" />
+					<field name="name" value="username" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="username" valuetype="const:string" strict="true" />
+					<field name="table" value="#__users" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_UNAME" valuetype="const:string" />
+					<field name="description" value="_UE_VALID_UNAME" valuetype="const:string" strict="updatewithfield" strictsameasfield="tabid"  />
+					<field name="type" value="predefined" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="6" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" strict="true" />
+					<field name="registration" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="edit" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="profile" value="0" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="1" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="44" valuetype="const:int" strict="true">
+					<field name="fieldid" value="44" valuetype="const:int" strict="true" />
+					<field name="name" value="acceptedterms" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="acceptedterms" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="USER_TERMS_AND_CONDITIONS_TITLE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="terms" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="11" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" />
+					<field name="edit" value="0" valuetype="const:int" />
+					<field name="profile" value="0" valuetype="const:int" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="45" valuetype="const:int" strict="true">
+					<field name="fieldid" value="45" valuetype="const:int" strict="true" />
+					<field name="name" value="formatname" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_FORMATNAME" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="formatname" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="1" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" />
+					<field name="edit" value="0" valuetype="const:int" />
+					<field name="profile" value="1" valuetype="const:int" />
+					<field name="readonly" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="46" valuetype="const:int" strict="true">
+					<field name="fieldid" value="46" valuetype="const:int" strict="true" />
+					<field name="name" value="firstname" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="firstname" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_YOUR_FNAME" valuetype="const:string" />
+					<field name="description" value="_UE_REGWARN_FNAME" valuetype="const:string" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="type" value="predefined" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="3" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="edit" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="profile" value="0" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="47" valuetype="const:int" strict="true">
+					<field name="fieldid" value="47" valuetype="const:int" strict="true" />
+					<field name="name" value="middlename" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="middlename" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_YOUR_MNAME" valuetype="const:string" />
+					<field name="description" value="_UE_REGWARN_MNAME" valuetype="const:string" strict="updatewithfield" strictsameasfield="tabid"  />
+					<field name="type" value="predefined" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="4" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="edit" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="profile" value="0" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="48" valuetype="const:int" strict="true">
+					<field name="fieldid" value="48" valuetype="const:int" strict="true" />
+					<field name="name" value="lastname" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="lastname" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_YOUR_LNAME" valuetype="const:string" />
+					<field name="description" value="_UE_REGWARN_LNAME" valuetype="const:string" strict="updatewithfield" strictsameasfield="tabid"  />
+					<field name="type" value="predefined" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="5" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="edit" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="profile" value="0" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="49" valuetype="const:int" strict="true">
+					<field name="fieldid" value="49" valuetype="const:int" strict="true" />
+					<field name="name" value="lastupdatedate" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="lastupdatedate" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_LASTUPDATEDON" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="datetime" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="21" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="3" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" />
+					<field name="edit" value="0" valuetype="const:int" />
+					<field name="profile" value="2" valuetype="const:int" />
+					<field name="readonly" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="field_display_by=2" valuetype="const:string" strict="updatewithfield" strictsameasfield="tabid" />
+				</row>
+				<row index="fieldid" value="50" valuetype="const:int" strict="true">
+					<field name="fieldid" value="50" valuetype="const:int" strict="true" />
+					<field name="name" value="email" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="email" valuetype="const:string" strict="true" />
+					<field name="table" value="#__users" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_EMAIL" valuetype="const:string" />
+					<field name="description" value="_UE_REGWARN_MAIL" valuetype="const:string" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="type" value="primaryemailaddress" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="7" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" strict="true" />
+					<field name="registration" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="edit" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="profile" value="0" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="51" valuetype="const:int" strict="true">
+					<field name="fieldid" value="51" valuetype="const:int" strict="true" />
+					<field name="name" value="password" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="password" valuetype="const:string" strict="true" />
+					<field name="table" value="#__users" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_PASS" valuetype="const:string" />
+					<field name="description" value="_UE_VALID_PASS" valuetype="const:string" />
+					<field name="type" value="password" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="50" valuetype="const:int" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="1" valuetype="const:int" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="8" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="edit" value="1" valuetype="const:int" strict="updatewithfield" strictsameasfield="tabid" />
+					<field name="profile" value="0" valuetype="const:int" strict="true" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" strict="true" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="52" valuetype="const:int" strict="true">
+					<field name="fieldid" value="52" valuetype="const:int" strict="true" />
+					<field name="name" value="params" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="params" valuetype="const:string" strict="true" />
+					<field name="table" value="#__users" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_USERPARAMS" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="userparams" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="9" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" strict="true" />
+					<field name="registration" value="0" valuetype="const:int" strict="true" />
+					<field name="edit" value="1" valuetype="const:int" strict="true" />
+					<field name="profile" value="0" valuetype="const:int" strict="true" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" strict="true" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+				<row index="fieldid" value="53" valuetype="const:int" strict="true">
+					<field name="fieldid" value="53" valuetype="const:int" strict="true" />
+					<field name="name" value="pm" valuetype="const:string" strict="true" />
+					<field name="tablecolumns" value="" valuetype="const:string" strict="true" />
+					<field name="table" value="#__comprofiler" valuetype="const:string" strict="true" />
+					<field name="title" value="_UE_PM" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="type" value="pm" valuetype="const:string" strict="true" />
+					<field name="maxlength" value="NULL" valuetype="const:null" />
+					<field name="size" value="NULL" valuetype="const:null" />
+					<field name="required" value="0" valuetype="const:int" />
+					<field name="tabid" value="11" valuetype="const:int" strict="notzero" />
+					<field name="ordering" value="10" valuetype="const:int" strict="notnull" />
+					<field name="cols" value="NULL" valuetype="const:null" />
+					<field name="rows" value="NULL" valuetype="const:null" />
+					<field name="value" value="NULL" valuetype="const:null" />
+					<field name="default" value="NULL" valuetype="const:null" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="registration" value="0" valuetype="const:int" />
+					<field name="edit" value="0" valuetype="const:int" />
+					<field name="profile" value="0" valuetype="const:int" />
+					<field name="readonly" value="0" valuetype="const:int" />
+					<field name="searchable" value="0" valuetype="const:int" />
+					<field name="calculated" value="1" valuetype="const:int" strict="true" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+				</row>
+			</rows>
+		</table>
+		<table name="#__comprofiler_lists" class="" strict="false" drop="never">
+			<columns>
+				<column name="listid" type="sql:int(11)" auto_increment="4" />
+				<column name="title" type="sql:varchar(255)" />
+				<column name="description" type="sql:mediumtext" null="true" />
+				<column name="published" type="sql:tinyint(1)" />
+				<column name="default" type="sql:tinyint(1)" />
+				<column name="viewaccesslevel" type="sql:int(10)" unsigned="true" initialvalue="1" initialvaluetype="int" />
+				<column name="usergroupids" type="sql:varchar(255)" null="true" />
+				<column name="ordering" type="sql:int(11)" />
+				<column name="params" type="sql:mediumtext" null="true" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="listid" />
+				</index>
+				<index name="pub_ordering">
+					<column name="published" />
+					<column name="ordering" />
+				</index>
+				<index name="default_published">
+					<column name="default" />
+					<column name="published" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+		</table>
+		<table name="#__comprofiler_members" class="" strict="false" drop="never">
+			<columns>
+				<column name="referenceid" type="sql:int(11)" />
+				<column name="memberid" type="sql:int(11)" />
+				<column name="accepted" type="sql:tinyint(1)" default="1" />
+				<column name="pending" type="sql:tinyint(1)" />
+				<column name="membersince" type="sql:date" />
+				<column name="reason" type="sql:mediumtext" null="true" />
+				<column name="description" type="sql:varchar(255)" null="true" />
+				<column name="type" type="sql:mediumtext" null="true" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="referenceid" />
+					<column name="memberid" />
+				</index>
+				<index name="pamr">
+					<column name="pending" />
+					<column name="accepted" />
+					<column name="memberid" />
+					<column name="referenceid" />
+				</index>
+				<index name="aprm">
+					<column name="accepted" />
+					<column name="pending" />
+					<column name="referenceid" />
+					<column name="memberid" />
+				</index>
+				<index name="membrefid">
+					<column name="memberid" />
+					<column name="referenceid" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+		</table>
+		<table name="#__comprofiler_plugin" class="" strict="false" drop="never">
+			<columns>
+				<column name="id" type="sql:int(11)" auto_increment="500" />
+				<column name="name" type="sql:varchar(100)" />
+				<column name="element" type="sql:varchar(100)" />
+				<column name="type" type="sql:varchar(100)" null="true" default="" />
+				<column name="folder" type="sql:varchar(100)" null="true" default="" />
+				<column name="viewaccesslevel" type="sql:int(10)" unsigned="true" null="false" initialvalue="IF(access&lt;3, access+1, access)" initialvaluetype="sql:formula" />
+				<column name="backend_menu" type="sql:varchar(255)" />
+				<column name="ordering" type="sql:int(11)" />
+				<column name="published" type="sql:tinyint(3)" />
+				<column name="iscore" type="sql:tinyint(3)" />
+				<column name="client_id" type="sql:tinyint(3)" />
+				<column name="checked_out" type="sql:int(11)" unsigned="true" />
+				<column name="checked_out_time" type="sql:datetime" />
+				<column name="params" type="sql:text" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="id" />
+				</index>
+				<index name="element">
+					<column name="element" />
+				</index>
+				<index name="folder">
+					<column name="folder" />
+				</index>
+				<index name="idx_folder">
+					<column name="published" />
+					<column name="client_id" />
+					<column name="viewaccesslevel" />
+					<column name="folder" />
+				</index>
+				<index name="type_pub_order">
+					<column name="type" />
+					<column name="published" />
+					<column name="ordering" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+			<rows strict="false">
+				<row index="id" value="1" valuetype="const:int" strict="true">
+					<field name="id" value="1" valuetype="const:int" strict="true" />
+					<field name="name" value="CB Core" valuetype="const:string" />
+					<field name="element" value="cb.core" valuetype="const:string" strict="true" />
+					<field name="type" value="user" valuetype="const:string" strict="true" />
+					<field name="folder" value="plug_cbcore" valuetype="const:string" strict="true" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+					<field name="backend_menu" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="published" value="1" valuetype="const:int" strict="true" />
+					<field name="iscore" value="1" valuetype="const:int" strict="true" />
+					<field name="client_id" value="0" valuetype="const:int" strict="true" />
+					<field name="checked_out" value="0" valuetype="const:int" />
+					<field name="checked_out_time" value="0000-00-00 00:00:00" valuetype="const:datetime" />
+					<field name="params" value="" valuetype="const:string" />
+				</row>
+				<row index="id" value="2" valuetype="const:int" strict="true">
+					<field name="id" value="2" valuetype="const:int" strict="true" />
+					<field name="name" value="CB Connections" valuetype="const:string" />
+					<field name="element" value="cb.connections" valuetype="const:string" strict="true" />
+					<field name="type" value="user" valuetype="const:string" strict="true" />
+					<field name="folder" value="plug_cbconnections" valuetype="const:string" strict="true" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+					<field name="backend_menu" value="" valuetype="const:string" />
+					<field name="ordering" value="3" valuetype="const:int" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="iscore" value="1" valuetype="const:int" strict="true" />
+					<field name="client_id" value="0" valuetype="const:int" strict="true" />
+					<field name="checked_out" value="0" valuetype="const:int" />
+					<field name="checked_out_time" value="0000-00-00 00:00:00" valuetype="const:datetime" />
+					<field name="params" value="" valuetype="const:string" />
+				</row>
+				<row index="id" value="7" valuetype="const:int" strict="true">
+					<field name="id" value="7" valuetype="const:int" strict="true" />
+					<field name="name" value="Default" valuetype="const:string" />
+					<field name="element" value="default" valuetype="const:string" strict="true" />
+					<field name="type" value="templates" valuetype="const:string" strict="true" />
+					<field name="folder" value="default" valuetype="const:string" strict="true" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+					<field name="backend_menu" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="iscore" value="1" valuetype="const:int" strict="true" />
+					<field name="client_id" value="0" valuetype="const:int" strict="true" />
+					<field name="checked_out" value="0" valuetype="const:int" />
+					<field name="checked_out_time" value="0000-00-00 00:00:00" valuetype="const:datetime" />
+					<field name="params" value="" valuetype="const:string" />
+				</row>
+				<row index="id" value="13" valuetype="const:int" strict="true">
+					<field name="id" value="13" valuetype="const:int" strict="true" />
+					<field name="name" value="Default language (English)" valuetype="const:string" />
+					<field name="element" value="default_language" valuetype="const:string" strict="true" />
+					<field name="type" value="language" valuetype="const:string" strict="true" />
+					<field name="folder" value="default_language" valuetype="const:string" strict="true" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+					<field name="backend_menu" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="iscore" value="1" valuetype="const:int" strict="true" />
+					<field name="client_id" value="0" valuetype="const:int" strict="true" />
+					<field name="checked_out" value="0" valuetype="const:int" />
+					<field name="checked_out_time" value="0000-00-00 00:00:00" valuetype="const:datetime" />
+					<field name="params" value="" valuetype="const:string" />
+				</row>
+				<row index="id" value="14" valuetype="const:int" strict="true">
+					<field name="id" value="14" valuetype="const:int" strict="true" />
+					<field name="name" value="CB Menu" valuetype="const:string" />
+					<field name="element" value="cb.menu" valuetype="const:string" strict="true" />
+					<field name="type" value="user" valuetype="const:string" strict="true" />
+					<field name="folder" value="plug_cbmenu" valuetype="const:string" strict="true" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+					<field name="backend_menu" value="" valuetype="const:string" />
+					<field name="ordering" value="2" valuetype="const:int" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="iscore" value="1" valuetype="const:int" strict="true" />
+					<field name="client_id" value="0" valuetype="const:int" strict="true" />
+					<field name="checked_out" value="0" valuetype="const:int" />
+					<field name="checked_out_time" value="0000-00-00 00:00:00" valuetype="const:datetime" />
+					<field name="params" value="" valuetype="const:string" />
+				</row>
+				<row index="id" value="15" valuetype="const:int" strict="true">
+					<field name="id" value="15" valuetype="const:int" strict="true" />
+					<field name="name" value="Private Message System" valuetype="const:string" strict="true" />
+					<field name="element" value="pms.mypmspro" valuetype="const:string" strict="true" />
+					<field name="type" value="user" valuetype="const:string" strict="true" />
+					<field name="folder" value="plug_pms_mypmspro" valuetype="const:string" strict="true" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+					<field name="backend_menu" value="" valuetype="const:string" />
+					<field name="ordering" value="8" valuetype="const:int" />
+					<field name="published" value="0" valuetype="const:int" />
+					<field name="iscore" value="1" valuetype="const:int" strict="true" />
+					<field name="client_id" value="0" valuetype="const:int" strict="true" />
+					<field name="checked_out" value="0" valuetype="const:int" />
+					<field name="checked_out_time" value="0000-00-00 00:00:00" valuetype="const:datetime" />
+					<field name="params" value="" valuetype="const:string" />
+				</row>
+				<row index="element" value="cbarticles" valuetype="const:string" strict="true">
+					<field name="id" value="17" valuetype="const:int" strict="true" />
+					<field name="name" value="CB Articles" valuetype="const:string" />
+					<field name="element" value="cbarticles" valuetype="const:string" strict="true" />
+					<field name="type" value="user" valuetype="const:string" strict="true" />
+					<field name="folder" value="plug_cbarticles" valuetype="const:string" strict="true" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+					<field name="backend_menu" value="" valuetype="const:string" />
+					<field name="ordering" value="8" valuetype="const:int" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="iscore" value="1" valuetype="const:int" strict="true" />
+					<field name="client_id" value="0" valuetype="const:int" strict="true" />
+					<field name="checked_out" value="0" valuetype="const:int" />
+					<field name="checked_out_time" value="0000-00-00 00:00:00" valuetype="const:datetime" />
+					<field name="params" value="" valuetype="const:string" />
+				</row>
+				<row index="element" value="cbforums" valuetype="const:string" strict="true">
+					<field name="id" value="18" valuetype="const:int" strict="true" />
+					<field name="name" value="CB Forums" valuetype="const:string" />
+					<field name="element" value="cbforums" valuetype="const:string" strict="true" />
+					<field name="type" value="user" valuetype="const:string" strict="true" />
+					<field name="folder" value="plug_cbforums" valuetype="const:string" strict="true" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+					<field name="backend_menu" value="" valuetype="const:string" />
+					<field name="ordering" value="9" valuetype="const:int" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="iscore" value="1" valuetype="const:int" strict="true" />
+					<field name="client_id" value="0" valuetype="const:int" strict="true" />
+					<field name="checked_out" value="0" valuetype="const:int" />
+					<field name="checked_out_time" value="0000-00-00 00:00:00" valuetype="const:datetime" />
+					<field name="params" value="" valuetype="const:string" />
+				</row>
+				<row index="element" value="cbblogs" valuetype="const:string" strict="true">
+					<field name="id" value="19" valuetype="const:int" strict="true" />
+					<field name="name" value="CB Blogs" valuetype="const:string" />
+					<field name="element" value="cbblogs" valuetype="const:string" strict="true" />
+					<field name="type" value="user" valuetype="const:string" strict="true" />
+					<field name="folder" value="plug_cbblogs" valuetype="const:string" strict="true" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+					<field name="backend_menu" value="" valuetype="const:string" />
+					<field name="ordering" value="10" valuetype="const:int" />
+					<field name="published" value="1" valuetype="const:int" />
+					<field name="iscore" value="1" valuetype="const:int" strict="true" />
+					<field name="client_id" value="0" valuetype="const:int" strict="true" />
+					<field name="checked_out" value="0" valuetype="const:int" />
+					<field name="checked_out_time" value="0000-00-00 00:00:00" valuetype="const:datetime" />
+					<field name="params" value="" valuetype="const:string" />
+				</row>
+			</rows>
+		</table>
+		<table name="#__comprofiler_tabs" class="" strict="false" drop="never">
+			<columns>
+				<column name="tabid" type="sql:int(11)" auto_increment="23" />
+				<column name="title" type="sql:varchar(50)" />
+				<column name="description" type="sql:text" null="true" />
+				<column name="ordering" type="sql:int(11)" />
+				<column name="ordering_register" type="sql:int(11)" default="10" />
+				<column name="width" type="sql:varchar(10)" default=".5" />
+				<column name="enabled" type="sql:tinyint(1)" default="1" />
+				<column name="pluginclass" type="sql:varchar(255)" null="true" />
+				<column name="pluginid" type="sql:int(11)" null="true" />
+				<column name="fields" type="sql:tinyint(1)" default="1" />
+				<column name="params" type="sql:mediumtext" null="true" />
+				<column name="sys" type="sql:tinyint(4)" />
+				<column name="displaytype" type="sql:varchar(255)" />
+				<column name="position" type="sql:varchar(255)" />
+				<column name="viewaccesslevel" type="sql:int(10)" unsigned="true" initialvalue="1" initialvaluetype="int" />
+				<column name="cssclass" type="sql:varchar(255)" null="true" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="tabid" />
+				</index>
+				<index name="pluginclass">
+					<column name="pluginclass" />
+				</index>
+				<index name="enabled_position_ordering">
+					<column name="enabled" />
+					<column name="position" />
+					<column name="ordering" />
+				</index>
+				<index name="orderreg_enabled_pos_order">
+					<column name="enabled" />
+					<column name="ordering_register" />
+					<column name="position" />
+					<column name="ordering" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+			<rows strict="false">
+				<row index="tabid" value="6" valuetype="const:int" strict="true">
+					<field name="tabid" value="6" valuetype="const:int" strict="true" />
+					<field name="title" value="USER_STATISTICS_TITLE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value=".5" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="getStatsTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="fields" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="html" valuetype="const:string" />
+					<field name="position" value="canvas_stats_bottom" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="tabid" value="7" valuetype="const:int" strict="true">
+					<field name="tabid" value="7" valuetype="const:int" strict="true" />
+					<field name="title" value="USER_CANVAS_TITLE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="ordering_register" value="11" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="getCanvasTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="fields" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="html" valuetype="const:string" />
+					<field name="position" value="canvas_background" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="pluginclass" value="cbblogsTab" valuetype="const:string">
+					<field name="tabid" value="8" valuetype="const:int" strict="true" />
+					<field name="title" value="BLOGS_TITLE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="3" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="cbblogsTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="19" valuetype="const:int" strict="true" />
+					<field name="fields" value="0" valuetype="const:int" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="menu" valuetype="const:string" />
+					<field name="position" value="canvas_main_middle" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="pluginclass" value="cbforumsTab" valuetype="const:string">
+					<field name="tabid" value="9" valuetype="const:int" strict="true" />
+					<field name="title" value="FORUMS_TITLE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="4" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="0" valuetype="const:int" />
+					<field name="pluginclass" value="cbforumsTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="18" valuetype="const:int" strict="true" />
+					<field name="fields" value="0" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="menu" valuetype="const:string" />
+					<field name="position" value="canvas_main_middle" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="pluginclass" value="cbarticlesTab" valuetype="const:string">
+					<field name="tabid" value="10" valuetype="const:int" strict="true" />
+					<field name="title" value="ARTICLES_TITLE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="2" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="cbarticlesTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="17" valuetype="const:int" strict="true" />
+					<field name="fields" value="0" valuetype="const:int" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="menu" valuetype="const:string" />
+					<field name="position" value="canvas_main_middle" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="tabid" value="11" valuetype="const:int" strict="true">
+					<field name="tabid" value="11" valuetype="const:int" strict="true" />
+					<field name="title" value="_UE_CONTACT_INFO_HEADER" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="getContactTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="fields" value="1" valuetype="const:int" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="menu" valuetype="const:string" />
+					<field name="position" value="canvas_main_middle" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="tabid" value="15" valuetype="const:int">
+					<field name="tabid" value="15" valuetype="const:int" strict="true" />
+					<field name="title" value="_UE_CONNECTION" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="5" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="getConnectionTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="2" valuetype="const:int" strict="true" />
+					<field name="fields" value="0" valuetype="const:int" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="menunested" valuetype="const:string" />
+					<field name="position" value="canvas_main_middle" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="tabid" value="17" valuetype="const:int" strict="true">
+					<field name="tabid" value="17" valuetype="const:int" strict="true" />
+					<field name="title" value="_UE_MENU" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="getMenuTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="14" valuetype="const:int" strict="true" />
+					<field name="fields" value="0" valuetype="const:int" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="html" valuetype="const:string" />
+					<field name="position" value="canvas_menu" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="tabid" value="18" valuetype="const:int" strict="true">
+					<field name="tabid" value="18" valuetype="const:int" strict="true" />
+					<field name="title" value="_UE_CONNECTIONPATHS" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="getConnectionPathsTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="2" valuetype="const:int" strict="true" />
+					<field name="fields" value="0" valuetype="const:int" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="html" valuetype="const:string" />
+					<field name="position" value="cb_head" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="tabid" value="19" valuetype="const:int" strict="true">
+					<field name="tabid" value="19" valuetype="const:int" strict="true" />
+					<field name="title" value="_UE_PROFILE_PAGE_TITLE" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="getPageTitleTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="fields" value="1" valuetype="const:int" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="html" valuetype="const:string" />
+					<field name="position" value="canvas_title_middle" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="tabid" value="20" valuetype="const:int" strict="true">
+					<field name="tabid" value="20" valuetype="const:int" strict="true" />
+					<field name="title" value="_UE_PORTRAIT" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="ordering_register" value="11" valuetype="const:int" />
+					<field name="width" value="1" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="getPortraitTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="1" valuetype="const:int" strict="true" />
+					<field name="fields" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="html" valuetype="const:string" />
+					<field name="position" value="canvas_photo" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="tabid" value="21" valuetype="const:int" strict="true">
+					<field name="tabid" value="21" valuetype="const:int" strict="true" />
+					<field name="title" value="_UE_USER_STATUS" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="1" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value=".5" valuetype="const:string" />
+					<field name="enabled" value="1" valuetype="const:int" />
+					<field name="pluginclass" value="getStatusTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="14" valuetype="const:int" strict="true" />
+					<field name="fields" value="1" valuetype="const:int" strict="true" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="html" valuetype="const:string" />
+					<field name="position" value="canvas_main_right" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+				<row index="tabid" value="22" valuetype="const:int">
+					<field name="tabid" value="22" valuetype="const:int" strict="true" />
+					<field name="title" value="_UE_PMSTAB" valuetype="const:string" />
+					<field name="description" value="" valuetype="const:string" />
+					<field name="ordering" value="6" valuetype="const:int" />
+					<field name="ordering_register" value="10" valuetype="const:int" />
+					<field name="width" value=".5" valuetype="const:string" />
+					<field name="enabled" value="0" valuetype="const:int" />
+					<field name="pluginclass" value="getmypmsproTab" valuetype="const:string" strict="true" />
+					<field name="pluginid" value="15" valuetype="const:int" strict="true" />
+					<field name="fields" value="0" valuetype="const:int" />
+					<field name="params" value="NULL" valuetype="const:null" />
+					<field name="sys" value="1" valuetype="const:int" strict="true" />
+					<field name="displaytype" value="menunested" valuetype="const:string" />
+					<field name="position" value="canvas_main_middle" valuetype="const:string" />
+					<field name="viewaccesslevel" value="1" valuetype="const:int" />
+				</row>
+			</rows>
+		</table>
+		<table name="#__comprofiler_userreports" class="" strict="false" drop="never">
+			<columns>
+				<column name="reportid" type="sql:int(11)" auto_increment="11" />
+				<column name="reporteduser" type="sql:int(11)" />
+				<column name="reportedbyuser" type="sql:int(11)" />
+				<column name="reportedondate" type="sql:date" />
+				<column name="reportexplaination" type="sql:text" />
+				<column name="reportedstatus" type="sql:tinyint(4)" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="reportid" />
+				</index>
+				<index name="status_user_date">
+					<column name="reportedstatus" />
+					<column name="reporteduser" />
+					<column name="reportedondate" />
+				</index>
+				<index name="reportedbyuser_ondate">
+					<column name="reportedbyuser" />
+					<column name="reportedondate" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+		</table>
+		<table name="#__comprofiler_views" class="" strict="false" drop="never">
+			<columns>
+				<column name="viewer_id" type="sql:int(11)" />
+				<column name="profile_id" type="sql:int(11)" />
+				<column name="lastip" type="sql:varchar(50)" />
+				<column name="lastview" type="sql:datetime" />
+				<column name="viewscount" type="sql:int(11)" />
+				<column name="vote" type="sql:tinyint(3)" null="true" />
+				<column name="lastvote" type="sql:datetime" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="viewer_id" />
+					<column name="profile_id" />
+					<column name="lastip" />
+				</index>
+				<index name="lastview">
+					<column name="lastview" />
+				</index>
+				<index name="profile_id_lastview">
+					<column name="profile_id" />
+					<column name="lastview" />
+					<column name="viewer_id" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+		</table>
+		<table name="#__comprofiler_sessions" class="" strict="true" drop="never">
+			<columns>
+				<column name="username" type="sql:varchar(50)" />
+				<column name="userid" type="sql:int(11)" unsigned="true" />
+				<column name="ui" type="sql:tinyint(4)" />
+				<column name="incoming_ip" type="sql:varchar(39)" />
+				<column name="client_ip" type="sql:varchar(39)" />
+				<column name="session_id" type="sql:varchar(33)" />
+				<column name="session_data" type="sql:mediumtext" />
+				<column name="expiry_time" type="sql:int(14)" unsigned="true" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="session_id" />
+				</index>
+				<index name="expiry_time">
+					<column name="expiry_time" />
+				</index>
+				<index name="userid">
+					<column name="userid" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+		</table>
+		<table name="#__comprofiler_ratings" class="" strict="true" drop="never">
+			<columns>
+				<column name="id" type="sql:int(11)" auto_increment="1" />
+				<column name="user_id" type="sql:int(11)" default="0" />
+				<column name="type" type="sql:varchar(255)" default="field" />
+				<column name="item" type="sql:int(11)" default="0" />
+				<column name="target" type="sql:int(11)" default="0" />
+				<column name="rating" type="sql:float" default="0" />
+				<column name="ip_address" type="sql:varchar(255)" null="true" />
+				<column name="date" type="sql:datetime" default="0000-00-00 00:00:00" />
+			</columns>
+			<indexes>
+				<index name="PRIMARY" type="primary">
+					<column name="id" />
+				</index>
+			</indexes>
+			<engine type="InnoDB" sameastable="#__comprofiler" strict="false" />
+		</table>
+	</database>
+</cbxml>

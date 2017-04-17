@@ -1,0 +1,103 @@
+.cb_template * {
+	direction: rtl;
+}
+
+.cb_template .text-left {
+	text-align: right;
+}
+
+.cb_template .text-right {
+	text-align: left;
+}
+
+/* FIELDS */
+
+.cb_template .cb_form_line:not(.cbtwolinesfield) > label {
+	float: right;
+}
+
+.cb_template .cb_form_line:not(.cbtwolinesfield) > .cb_field {
+	float: left;
+}
+
+.cb_template .radio-inline,
+.cb_template .checkbox-inline {
+	padding-right: 20px;
+	padding-left: 0;
+}
+
+.cb_template .cbSingleCntrl + .cbSingleCntrl,
+.cb_template .cbSnglCtrlLbl + .cbSnglCtrlLbl {
+	margin-right: 10px;
+	margin-left: 0;
+}
+
+.cb_template form .cb_form_line .radio-inline > input,
+.cb_template form .cb_form_line .checkbox-inline > input {
+	right: 0;
+	left: initial;
+}
+
+.cb_template .cbFieldIcons {
+	margin-right: 3px;
+	margin-left: 0;
+}
+
+/* CB BLOGS */
+
+.cb_template .blogsHeader > div:first-child {
+	float: right;
+}
+
+.cb_template .blogsHeader > div:last-child {
+	float: left;
+}
+
+.cb_template .blogsHeader .input-group {
+	direction: ltr;
+}
+
+/* CB ARTICLES */
+
+.cb_template .articlesHeader > div {
+	float: left;
+}
+
+.cb_template .articlesHeader .input-group {
+	direction: ltr;
+}
+
+/* CB FORUMS */
+
+.cb_template .forumsHeader .input-group {
+	direction: ltr;
+}
+
+/* SELECT2 */
+
+.cb_template .ms-parent > .ms-choice > span {
+	padding: 0 0 0 26px;
+}
+
+.cb_template .ms-parent.btn-sm > .ms-choice > div {
+	margin-left: 10px;
+}
+
+.cb_template .ms-choice > span {
+	left: 20px;
+	right: 0;
+}
+
+.cb_template .ms-parent > .ms-choice > div {
+	left: 0;
+	right: initial;
+	text-align: left;
+}
+
+/* QTIP */
+
+.cb_template .dropdown-menu,
+.cb_template .qtip-titlebar,
+.cb_template .qtip-content {
+	text-align: right;
+}

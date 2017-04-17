@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<name>CB Articles</name>
+	<creationDate>2015-09-22</creationDate>
+	<author>Krileon</author>
+	<authorEmail>krileon@joomlapolis.com</authorEmail>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<description>Component plugin allowing display of users CMS articles.</description>
+	<version>2.0.11</version>
+	<files>
+		<filename plugin="cbarticles">cbarticles.php</filename>
+		<filename>index.html</filename>
+		<foldername>models</foldername>
+		<foldername>templates</foldername>
+	</files>
+	<delete>
+		<filename>models/joomla15.php</filename>
+		<filename>templates/default/template.css</filename>
+		<filename>admin.cbarticles.css</filename>
+		<filename>admin.cbarticles.html.php</filename>
+		<filename>admin.cbarticles.php</filename>
+		<filename>cbarticles.class.php</filename>
+		<filename>tab.cbarticles.php</filename>
+		<filename>toolbar.cbarticles.html.php</filename>
+		<filename>toolbar.cbarticles.php</filename>
+		<foldername>images</foldername>
+		<foldername>templates/default/images</foldername>
+	</delete>
+	<tabs>
+		<tab name="ARTICLES_TITLE" translated-name="Articles" description="" class="cbarticlesTab" fields="0" sys="1" position="cb_tabmain" displaytype="tab">
+			<params>
+				<param name="tab_paging" type="yesno" default="1" label="Paging" description="Enable or disable usage of paging on tab articles." yes="Enable" no="Disable" />
+				<if name="tab_paging" type="showhide" operator="=" value="1" valuetype="const:int">
+					<param name="tab_limit" type="int" default="15" size="5" label="Page Limit" description="Input page limit on tab articles. Page limit determines how many articles are displayed per page." />
+				</if>
+				<param name="tab_search" type="yesno" default="1" label="Search" description="Enable or disable usage of search on tab articles." yes="Enable" no="Disable" />
+			</params>
+		</tab>
+	</tabs>
+	<params>
+		<tabpane name="articles">
+			<tabpanetab label="General">
+				<param name="general_template" type="folderlist" default="default" label="Template" description="Select template to be used for all of CB Articles. If template is incomplete then missing files will be used from the default template. Template files can be located at the following location: components/com_comprofiler/plugin/user/plug_cbarticles/templates/." directory="/components/com_comprofiler/plugin/user/plug_cbarticles/templates/" />
+				<param name="general_class" type="text" default="" size="20" label="Class" description="Optionally add a class suffix to surrounding DIV encasing all of CB Articles." />
+			</tabpanetab>
+			<tabpanetab label="Articles">
+				<param name="article_model" type="list" default="1" label="Model" description="Select articles model usage. Model determines where articles will be displayed from. Select a specific model to enable model specific parameters.">
+					<option value="1">Auto Detect</option>
+					<option value="6">Joomla</option>
+					<option value="5">K2</option>
+				</param>
+				<if name="article_model" type="showhide" operator="=" value="3" valuetype="const:int">
+					<param name="article_section" type="mos_section" default="" multiple="true" blanktext="" filteringselect="true" label="Exclude Sections" description="Select the CMS content sections that will be excluded from articles display." />
+				</if>
+				<if name="article_model" type="showhide" operator="=" value="6" valuetype="const:string">
+					<param name="article_j_category" type="mos_category" default="" multiple="true" blanktext="" filteringselect="true" label="Exclude Categories" description="Select the CMS content categories that will be excluded from articles display." />
+				</if>
+				<if name="article_model" type="showhide" operator="=" value="5" valuetype="const:int">
+					<param name="article_k2_category" type="list" default="" multiple="true" blanktext="" filteringselect="true" label="Exclude Categories" description="Select the CMS content categories that will be excluded from articles display.">
+						<data name="" type="private" class="cbarticlesClass" method="getK2Options" />
+					</param>
+				</if>
+			</tabpanetab>
+		</tabpane>
+	</params>
+	<database>
+	</database>
+</cbinstall>

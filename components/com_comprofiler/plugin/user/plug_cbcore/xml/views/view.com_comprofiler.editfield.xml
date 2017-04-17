@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="fieldLayoutParams" type="params" ui="admin">
+			<param name="fieldLayout" type="textarea" default="" cols="40" rows="5" label="Profile Value Layout" description="Optionally input substitution supported value layout on profile view. Layout determines how a field value is rendered on display. Substitute in the fields value with [value]. If left blank will default to [value]." />
+			<param name="fieldLayoutEdit" type="textarea" default="" cols="40" rows="5" label="Profile Edit Value Layout" description="Optionally input substitution supported value layout on profile edit view. Layout determines how a field value is rendered on display. Substitute in the fields value with [value]. If left blank will default to [value]." />
+			<param name="fieldLayoutList" type="textarea" default="" cols="40" rows="5" label="Userlist Value Layout" description="Optionally input substitution supported value layout on userlist view. Layout determines how a field value is rendered on display. Substitute in the fields value with [value]. If left blank will default to [value]." />
+			<param name="fieldLayoutRegister" type="textarea" default="" cols="40" rows="5" label="Registration Value Layout" description="Optionally input substitution supported value layout on registration view. Layout determines how a field value is rendered on display. Substitute in the fields value with [value]. If left blank will default to [value]." />
+			<param name="fieldLayoutContentPlugins" type="yesno" default="0" label="Prepare Layouts using Content Plugins" description="Select Yes if you need CMS Content plugins content.prepare to be triggered on the layouts. Select No if you do not need CMS Content plugins content.prepare to be triggered." />
+			<if name="fieldLayoutContentPlugins" type="showhide" operator="=" value="1" valuetype="const:int">
+				<param name="ContentPluginsWarning" type="group" label="" formatting="none">
+					<param name="" type="spacer" default="Note layouts use user supplied content. This could be an issue for some content plugins. Please use carefully." label="" alertclass="warning" />
+				</param>
+			</if>
+			<param name="fieldLayoutIcons" type="xml:cfg_icons_display" default="" label="Icons Display" description="Optionally override this fields icon display.">
+				<option value="">Normal CB Default</option>
+			</param>
+		</view>
+		<view name="fieldTermsParams" type="params" ui="admin">
+			<param name="terms_output" type="list" default="url" translate-default="no" label="Output" description="Select how the terms and conditions is output.">
+				<option value="url">URL</option>
+				<option value="text">Text</option>
+			</param>
+			<param name="terms_type" type="text" default="TERMS_AND_CONDITIONS" translated-default="Terms and Conditions" size="30" label="Type" description="Input the type of terms and conditions this field is (e.g. Terms and Conditions, Privacy Policy, etc..). If left blank will default to Terms and Conditions." />
+			<if name="terms_output" type="showhide" operator="=" value="url" valuetype="const:string">
+				<param name="terms_url" type="text" default="" size="40" label="URL" description="Input the URL to the terms and conditions page." />
+			</if>
+			<if name="terms_output" type="showhide" operator="=" value="text" valuetype="const:string">
+				<param name="terms_text" type="textarea" default="" cols="40" rows="8" label="Terms and Conditions" description="Input the terms and conditions." />
+			</if>
+			<param name="terms_display" type="list" default="modal" translate-default="no" label="Display" description="Select how to display the terms and conditions.">
+				<if name="terms_output" type="showhide" operator="=" value="url" valuetype="const:string">
+					<option value="window">New Window</option>
+				</if>
+				<option value="modal">Modal Window</option>
+				<option value="iframe">iFrame</option>
+			</param>
+			<if name="terms_display" type="showhide" operator="in" value="modal|*|iframe" valuetype="const:string">
+				<param name="terms_width" type="text" default="400" size="5" label="Width" description="Input the size in pixels (e.g. 400) or percent (e.g. 100%) of the width of the terms and conditions iframe or modal window." />
+				<param name="terms_height" type="text" default="200" size="5" label="Height" description="Input the size in pixels (e.g. 200) or percent (e.g. 100%) of the height of the terms and conditions iframe or modal window." />
+			</if>
+		</view>
+		<view name="fieldStringValidateParams" type="params" ui="admin">
+			<param name="fieldMinLength" type="text" default="0" label="Minimum length" description="Minimum length of content (0 = no minimum)" />
+			<param name="fieldValidateExpression" type="list" default="" label="Authorized input" description="Type of input authorized.">
+				<option value="">Any string ( /.*/ )</option>
+				<option value="singleword">Single word ( /^[a-z]*$/i )</option>
+				<option value="multiplewords">Multiple words with spaces ( /^([a-z]+ *)*$/i )</option>
+				<option value="singleaznum">Single a-z,A-Z,0-9,_ word ( /^[a-z]+[a-z0-9_]*$/i )</option>
+				<option value="atleastoneofeach">At least 6 chars, 1 a-z, 1 A-Z, 1 0-9, 1 special</option>
+				<option value="customregex">Custom PERL regular expression</option>
+			</param>
+			<if name="fieldValidateExpression" type="showhide" operator="=" value="customregex" valuetype="const:text">
+				<param name="pregexp" type="text" default="/^.*$/" translate-default="no" label="Perl Regular Expression" description="Any string: /^.*$/ , only digits: /^[0-9]*$/, only a-z + A-Z + digits: /^[0-9a-z]*$/i" />
+			</if>
+			<if name="fieldValidateExpression" type="showhide" operator="!=" value="" valuetype="const:text">
+				<param name="pregexperror" type="text" default="Not a valid input" label="Error in case of invalid input" description="Enter a clear and helpful error message in case of validation pattern mismatch." />
+			</if>
+			<param name="fieldValidateForbiddenList_register" type="text" default="http:,https:,mailto:,//.[url],&lt;a,&lt;/a&gt;,&amp;#" translate-default="no" label="Forbidden words at registration" description="You can set a list of bad words (separated by comma ,) which are not allowed in this field for registration. Use comma twice (,,) to add comma as bad character." />
+			<param name="fieldValidateForbiddenList_edit" type="text" default="" label="Forbidden words in user profile edits" description="You can set a list of bad words (separated by comma ,) which are not allowed in this field when user updates his profile in profile edits. Use comma twice (,,) to add comma as bad character." />
+		</view>
+		<view name="fieldIntValidateParams" type="params" ui="admin">
+			<param name="integer_minimum" type="text" default="0" label="Minimum value allowed" description="Enter the minimum integer value allowed. Default is 0." />
+			<param name="integer_maximum" type="text" default="1000000" label="Maximum value allowed" description="Enter the maximum value allowed. Default is 1000000." />
+			<param name="fieldValidateExpression" type="list" default="" label="Authorized input" description="Type of input authorized.">
+				<option value="">Any string ( /.*/ )</option>
+				<option value="customregex">Custom PERL regular expression</option>
+			</param>
+			<if name="fieldValidateExpression" type="showhide" operator="=" value="customregex" valuetype="const:text">
+				<param name="pregexp" type="text" default="/^.*$/" translate-default="no" label="Perl Regular Expression" description="Any string: /^.*$/ , only digits: /^[0-9]*$/, only a-z + A-Z + digits: /^[0-9a-z]*$/i" />
+			</if>
+			<if name="fieldValidateExpression" type="showhide" operator="!=" value="" valuetype="const:text">
+				<param name="pregexperror" type="text" default="NOT_A_VALID_INPUT" translated-default="Not a valid input" label="Error in case of invalid input" description="Enter a clear and helpful error message in case of validation pattern mismatch." />
+			</if>
+			<param name="fieldValidateForbiddenList_register" type="text" default="" label="Forbidden values at registration" description="You can set a list of values (separated by comma ,) which are not allowed in this field for registration." />
+			<param name="fieldValidateForbiddenList_edit" type="text" default="" label="Forbidden values in user profile edits" description="You can set a list of values (separated by comma ,) which are not allowed in this field when user updates his profile in profile edits." />
+		</view>
+	</views>
+</cbxml>

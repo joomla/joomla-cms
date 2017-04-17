@@ -1,0 +1,262 @@
+/* global */
+#cluetip {
+	font-size: 1em;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #eee;
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	-webkit-border-radius: 6px;
+		-moz-border-radius: 6px;
+			border-radius: 6px;
+	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+		-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+			box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	min-width: 250px;
+	max-width: 400px;
+}
+#cluetip table {
+	min-width: 250px;
+}
+#cluetip table tr:hover td {
+	background: transparent;
+}
+#cluetip table,
+#cluetip tbody {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.ui-cluetip-header,
+.ui-cluetip-content {
+  padding: 12px;
+}
+.ui-cluetip-header {
+  font-size: 1em;
+  margin: 0;
+  overflow: hidden;
+}
+.cluetip-title,
+.cluetip-inner {
+	margin: 0;
+	border: 0;
+	background: transparent;
+	text-align: left;
+	font-size: 14px;
+	padding: 14px;
+}
+.cluetip-title {
+	overflow: hidden;
+	background-color: #f5f5f5;
+	border-bottom: 1px solid #eee;
+	font-weight: bold;
+}
+.cluetip-inner {
+	background-color: #ffffff;
+}
+.cluetip-title .cluetip-close {
+  float: right;
+  position: relative;
+}
+.cluetip-close img {
+  border: 0;
+}
+
+#cluetip-waitimage {
+  width: 43px;
+  height: 11px;
+  position: absolute;
+  background-image: url(images/wait.gif);
+}
+#cluetip .cluetip-arrows {
+  display: none;
+}
+.cluetip-extra {
+  display: none;
+}
+
+
+/***************************************
+   =cluetipClass: 'default'
+-------------------------------------- */
+
+.cluetip-default,
+.cluetip-default .cluetip-outer {
+  background-color: #d9d9c2;
+}
+.cluetip-default .ui-cluetip-header {
+  background-color: #87876a;
+}
+
+
+/*
+.cluetip-default #cluetip-outer {
+  position: relative;
+  margin: 0;
+  background-color: #d9d9c2;
+}
+.cluetip-default h3#cluetip-title {
+  margin: 0 0 5px;
+  padding: 8px 10px 4px;
+  font-size: 1.1em;
+  font-weight: normal;
+  background-color: #87876a;
+  color: #fff;
+}
+.cluetip-default #cluetip-title a {
+  color: #d9d9c2;
+  font-size: 0.95em;
+}
+.cluetip-default #cluetip-inner {
+  padding: 10px;
+}
+.cluetip-default div#cluetip-close {
+  text-align: right;
+  margin: 0 5px 5px;
+  color: #900;
+}
+*/
+/* default arrows */
+div.cluetip-default .cluetip-arrows {
+  border-width: 0;
+  background: transparent none;
+}
+div.clue-right-default .cluetip-arrows {
+  background-image: url(images/darrowleft.gif);
+}
+div.clue-left-default .cluetip-arrows {
+  background-image: url(images/darrowright.gif);
+  left: 100%;
+  margin-right: -11px;
+}
+div.clue-top-default .cluetip-arrows {
+  background-image: url(images/darrowdown.gif);
+  top: 100%;
+  left: 50%;
+  margin-left: -11px;
+  width: 22px;
+  height: 11px;
+}
+div.clue-bottom-default .cluetip-arrows {
+  background-image: url(images/darrowup.gif);
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  width: 22px;
+  height: 11px;
+}
+
+/***************************************
+   =cluetipClass: 'jtip'
+-------------------------------------- */
+.cluetip-jtip {
+  background-color: #fff;
+}
+.cluetip-jtip .cluetip-outer {
+  position: relative;
+  /*background-color: #fff;*/
+}
+
+.cluetip-jtip div.cluetip-close {
+  text-align: right;
+  margin: 0 5px 0;
+  color: #900;
+}
+
+/* jtip arrows */
+div.cluetip-jtip .cluetip-arrows {
+  border-width: 0;
+  background: transparent none;
+}
+div.clue-right-jtip .cluetip-arrows {
+  background-image: url(images/arrowleft.gif);
+}
+div.clue-left-jtip .cluetip-arrows {
+  background-image: url(images/arrowright.gif);
+  left: 100%;
+  margin-right: -11px;
+}
+div.clue-top-jtip .cluetip-arrows {
+  background-image: url(images/arrowdown.gif);
+  top: 100%;
+  left: 50%;
+  width: 22px;
+  height: 11px;
+  margin-left: -11px;
+}
+div.clue-bottom-jtip .cluetip-arrows {
+  background-image: url(images/arrowup.gif);
+  top: -11px;
+  left: 50%;
+  width: 22px;
+  height: 11px;
+  margin-left: -11px;
+}
+
+/***************************************
+   =cluetipClass: 'rounded'
+-------------------------------------- */
+.cluetip-rounded {
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.cluetip-rounded .cluetip-outer {
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.cluetip-rounded  .cluetip-arrows {
+  border-color: #ccc;
+}
+
+/* need to be more specific here to override ThemeRoller defaults */
+div.cluetip-rounded  .cluetip-arrows {
+  font-size: 0;
+  line-height: 0%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  background: transparent none;
+}
+div.clue-right-rounded .cluetip-arrows {
+  border-width: 11px 11px 11px 0;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+div.clue-left-rounded .cluetip-arrows {
+  left: 100%;
+  margin-right: -11px;
+  border-width: 11px 0 11px 11px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+
+}
+div.clue-top-rounded .cluetip-arrows {
+  top: 100%;
+  left: 50%;
+  border-width: 11px 11px 0 11px;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+.clue-bottom-rounded .cluetip-arrows {
+  top: -11px;
+  left: 50%;
+  border-width: 0 11px 11px 11px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-left-color: transparent;
+
+}
+/* stupid IE6 HasLayout hack */
+.cluetip-rounded .cluetip-title,
+.cluetip-rounded .cluetip-inner {
+  zoom: 1;
+}

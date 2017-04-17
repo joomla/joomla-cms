@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Hikashop Banners</name>
+  <author>Hikari Software</author>
+  <version>1.0.0</version>
+  <description>Definition of banners for the hikashop component</description>
+  <copyright>Copyright (C) 2009 Hikari Software SARL - All rights reserved.</copyright>
+  <reference type="content">
+  	<table name="hikashop_banner">
+  		<field type="referenceid" name="banner_id" translate="0">ID</field>
+  		<field type="titletext" name="banner_title"  length="255" maxlength="255" translate="1">Banner title</field>
+		<field type="text" name="banner_url"  length="255" maxlength="255" translate="1">Banner URL</field>
+		<field type="text" name="banner_image_url"  length="255" maxlength="255" translate="1">Banner image URL</field>
+		<field type="text" name="banner_comment"  length="255" maxlength="255" translate="1">Banner comment</field>
+  	</table>
+  </reference>
+  <translationfilters>
+  </translationfilters>
+</joomfish>

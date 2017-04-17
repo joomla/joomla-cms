@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="showpanel" type="params" ui="admin" label="Control Panel" icon="home" viewformatting="div">
+			<toolbarmenu>
+				<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/control-panel?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+			</toolbarmenu>
+			<param name="" type="custom" method="cbUpdateChecker" label="" display="2lines" />
+			<menugroup name="panelmenu" type="buttonMenu" label="">
+				<menu name="usermanagement" action="cb_action:users" label="User Management" iconclass="users" iconsize="xxxxlarge" iconstyle="before">
+					<fields>
+						<field name="registered_users_count" type="int" default="0" label="Users" display="2lines">
+							<data name="registered_users_count" type="sql:count" table="#__comprofiler" class="\CB\Database\Table\UserTable" />
+						</field>
+						<field name="unconfirmed_users_count" type="int" default="0" label="Unconfirmed Users" display="2lines">
+							<data name="unconfirmed_users_count" type="sql:count" table="#__comprofiler" class="\CB\Database\Table\UserTable">
+								<where>
+									<column name="confirmed" operator="=" value="0" type="sql:field" valuetype="const:int" />
+								</where>
+							</data>
+						</field>
+						<field name="unapproved_users_count" type="int" default="0" label="Unapproved Users" display="2lines">
+							<data name="unapproved_users_count" type="sql:count" table="#__comprofiler" class="\CB\Database\Table\UserTable">
+								<where>
+									<column name="approved" operator="=" value="0" type="sql:field" valuetype="const:int" />
+								</where>
+							</data>
+						</field>
+					</fields>
+				</menu>
+				<menu name="tabmanagement" action="cb_action:tabs" label="Tab Management" iconclass="folder-o" iconsize="xxxxlarge" iconstyle="before">
+					<fields>
+						<field name="existing_tabs_count" type="int" default="0" label="Tabs" display="2lines">
+							<data name="existing_tabs_count" type="sql:count" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable" />
+						</field>
+						<field name="published_tabs_count" type="int" default="0" label="Published Tabs" display="2lines">
+							<data name="published_tabs_count" type="sql:count" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<where>
+									<column name="enabled" operator="=" value="1" type="sql:field" valuetype="const:int" />
+								</where>
+							</data>
+						</field>
+					</fields>
+				</menu>
+				<menu name="fieldmanagement" action="cb_action:fields" label="Field Management" iconclass="check-square-o" iconsize="xxxxlarge" iconstyle="before">
+					<fields>
+						<field name="existing_fields_count" type="int" default="0" label="Fields" display="2lines">
+							<data name="existing_fields_count" type="sql:count" table="#__comprofiler_fields" class="\CB\Database\Table\FieldTable" />
+						</field>
+						<field name="published_fields_count" type="int" default="0" label="Published Fields" display="2lines">
+							<data name="published_fields_count" type="sql:count" table="#__comprofiler_fields" class="\CB\Database\Table\FieldTable">
+								<where>
+									<column name="published" operator="=" value="1" type="sql:field" valuetype="const:int" />
+								</where>
+							</data>
+						</field>
+					</fields>
+				</menu>
+				<menu name="listmanagement" action="cb_action:lists" label="List Management" iconclass="list" iconsize="xxxxlarge" iconstyle="before">
+					<fields>
+						<field name="existing_lists_count" type="int" default="0" label="Lists" display="2lines">
+							<data name="existing_lists_count" type="sql:count" table="#__comprofiler_lists" class="\CB\Database\Table\ListTable" />
+						</field>
+						<field name="published_lists_count" type="int" default="0" label="Published Lists" display="2lines">
+							<data name="published_lists_count" type="sql:count" table="#__comprofiler_lists" class="\CB\Database\Table\ListTable">
+								<where>
+									<column name="published" operator="=" value="1" type="sql:field" valuetype="const:int" />
+								</where>
+							</data>
+						</field>
+					</fields>
+				</menu>
+				<menu name="pluginmanagement" action="cb_action:plugins" label="Plugin Management" iconclass="puzzle-piece" iconsize="xxxxlarge" iconstyle="before">
+					<fields>
+						<field name="installed_plugins_count" type="int" default="0" label="Plugins" display="2lines">
+							<data name="installed_plugins_count" type="sql:count" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" />
+						</field>
+						<field name="published_plugins_count" type="int" default="0" label="Published Plugins" display="2lines">
+							<data name="published_plugins_count" type="sql:count" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable">
+								<where>
+									<column name="published" operator="=" value="1" type="sql:field" valuetype="const:int" />
+								</where>
+							</data>
+						</field>
+					</fields>
+				</menu>
+				<menu name="tools" action="cb_action:tools" label="Tools" iconclass="wrench" iconsize="xxxxlarge" iconstyle="before" />
+				<menu name="configuration" action="cb_action:config" label="Configuration" iconclass="gears" iconsize="xxxxlarge" iconstyle="before" />
+			</menugroup>
+		</view>
+	</views>
+</cbxml>

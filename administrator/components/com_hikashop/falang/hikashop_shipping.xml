@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<falang type="contentelement">
+  <name>Hikashop Shipping methods</name>
+  <author>Hikari Software</author>
+  <version>1.0.0</version>
+  <description>Definition of shipping methods for the hikashop component</description>
+  <copyright>Copyright (C) 2009 Hikari Software SARL - All rights reserved.</copyright>
+  <reference type="content">
+  	<table name="hikashop_shipping">
+  		<field type="referenceid" name="shipping_id" translate="0">ID</field>
+  		<field type="titletext" name="shipping_name"  length="255" maxlength="255" translate="1">Shipping method name</field>
+		<field type="htmltext" name="shipping_description"  length="255" maxlength="255" translate="1">Shipping method description</field>
+  	</table>
+  </reference>
+  <translationfilters>
+  </translationfilters>
+</falang>

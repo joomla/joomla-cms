@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+	<name>Hikashop Products</name>
+	<author>Hikari Software</author>
+	<version>1.0.0</version>
+	<description>Definition of products for the hikashop component</description>
+	<copyright>Copyright (C) 2009 Hikari Software SARL - All rights reserved.</copyright>
+	<reference type="content">
+		<table name="hikashop_product">
+			<field type="referenceid" name="product_id" translate="0">ID</field>
+			<field type="titletext" name="product_name"  length="255" maxlength="255" translate="1">Product name</field>
+			<field type="htmltext" name="product_description" translate="1">Product description</field>
+			<field type="text" name="product_meta_description" length="255" maxlength="255" translate="1">Product meta description</field>
+			<field type="text" name="product_keywords" length="255" maxlength="255" translate="1">Product keywords</field>
+			<field type="text" name="product_url"  length="255" maxlength="255" translate="1">Product url</field>
+			<field type="text" name="product_page_title"  length="255" maxlength="255" translate="1">Product page title</field>
+			<field type="text" name="product_alias"  length="255" maxlength="255" translate="1">Product alias</field>
+			<field type="text" name="product_canonical"  length="255" maxlength="255" translate="1">Product canonical</field>
+			<field type="text" name="product_published"  length="255" maxlength="255" translate="1">Product published</field>
+		</table>
+	</reference>
+	<translationfilters>
+	</translationfilters>
+</joomfish>

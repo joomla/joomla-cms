@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<view>
+		<options>
+			<default name="Plugin" msg="This is an optional menu item for accessing Community Builder plugin pages." />
+		</options>
+		<fields name="request" addfieldpath="/components/com_comprofiler/views/pluginclass/fields">
+			<fieldset name="request">
+				<field name="plugin" type="cbplugins" onchange="Joomla.submitbutton('item.apply')" default="cb.core" required="true" label="Plugin" description="Select the plugin to link to. Note not all plugins have a plugin component page." />
+			</fieldset>
+		</fields>
+	</view>
+</metadata>

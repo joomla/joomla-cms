@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="hikashop" method="upgrade">
+	<name>Hikashop TaxCloud Plugin</name>
+	<creationDate>December 2013</creationDate>
+	<version>2.6.0</version>
+	<author>Obsidev</author>
+	<authorEmail>dev@obsidev.com</authorEmail>
+	<authorUrl>http://www.obsidev.com</authorUrl>
+	<copyright>Copyright (C) 2012-2015 OBSIDEV SARL - All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin enables you to communication with TaxCloud</description>
+	<files>
+		<filename plugin="taxcloud">taxcloud.php</filename>
+		<filename>taxcloud.js</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="pluginoptions" type="pluginoptions" default="plugin" label="hikashop" description="HikaShop options" />
+		<param type="spacer" label="TaxCloud" />
+		<param name="api_id" type="text" default="" label="API Id" description=""/>
+		<param name="api_key" type="text" default="" label="API Key" description=""/>
+		<param type="spacer" label="USPS" />
+		<param name="usps_id" type="text" default="" label="USPS Id" description=""/>
+		<param type="spacer" label="Address" />
+		<param name="origin_address1" type="text" default="" label="Address 1" description=""/>
+		<param name="origin_address2" type="text" default="" label="Address 2" description=""/>
+		<param name="origin_city" type="text" default="" label="City" description=""/>
+		<param name="origin_state" type="text" default="" label="State" description=""/>
+		<param name="origin_zip4" type="text" default="" label="Zip4" description=""/>
+		<param name="origin_zip5" type="text" default="" label="Zip5" description=""/>
+		<param name="check_address" type="plugintrigger" default="check_address" label="Check address" description="It requires the USPS id" />
+		<param name="use_origin_address_when_override" type="radio" default="1" label="Use origin address on override" description="You can configure your shipping methods to override the shipping address of the customer. That's for example useful when you want to offer a local pickup at the store option instead of shipping. In that case, the default behavior is to use the origin address as destination address, but you can also turn off that option to have the TaxCloud plugin skips the tax calculations and HikaShop will then use the tax rules you configured in the backend.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param type="spacer" label="TIC" />
+		<param name="default_tic" type="text" default="" label="Default TIC id" description=""/>
+		<param name="shipping_tic" type="text" default="" label="Shipping TIC id" description=""/>
+		<param name="browse_tic" type="plugintrigger" default="browse_tic" label="Browse TIC categories" description="" />
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field id="pluginoptions" name="pluginoptions" type="pluginoptions" label="hikashop" description="HikaShop options" />
+				<field type="spacer" label="TaxCloud" />
+				<field name="api_id" type="text" default="" label="API Id" description=""/>
+				<field name="api_key" type="text" default="" label="API Key" description=""/>
+				<field type="spacer" label="USPS" />
+				<field name="usps_id" type="text" default="" label="USPS Id" description=""/>
+				<field type="spacer" label="Address" />
+				<field name="origin_address1" type="text" default="" label="Address 1" description=""/>
+				<field name="origin_address2" type="text" default="" label="Address 2" description=""/>
+				<field name="origin_city" type="text" default="" label="City" description=""/>
+				<field name="origin_state" type="text" default="" label="State" description=""/>
+				<field name="origin_zip4" type="text" default="" label="Zip4" description=""/>
+				<field name="origin_zip5" type="text" default="" label="Zip5" description=""/>
+				<field name="check_address" type="plugintrigger" default="check_address" label="Check address" description="It requires the USPS id" />
+				<field name="use_origin_address_when_override" type="radio" default="1" label="Use origin address on override" description="You can configure your shipping methods to override the shipping address of the customer. That's for example useful when you want to offer a local pickup at the store option instead of shipping. In that case, the default behavior is to use the origin address as destination address, but you can also turn off that option to have the TaxCloud plugin skips the tax calculations and HikaShop will then use the tax rules you configured in the backend.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field type="spacer" label="TIC" />
+				<field name="default_tic" type="text" default="" label="Default TIC id" description=""/>
+				<field name="shipping_tic" type="text" default="" label="Shipping TIC id" description=""/>
+				<field name="browse_tic" type="plugintrigger" default="browse_tic" label="Browse TIC categories" description="" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

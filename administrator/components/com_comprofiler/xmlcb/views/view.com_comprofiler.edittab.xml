@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="edittab" type="params" ui="admin" label="Tab" icon="folder-o" description="" viewformatting="div">
+			<toolbarmenu>
+				<menu name="apply" action="apply" task="act=apply" label="Save" />
+				<menu name="save" action="save" task="act=save" label="Save &amp; Close" />
+				<menu name="savenew" action="custom" task="act=savenew" label="Save &amp; New" icon="save-new" />
+				<menu name="savecopy" action="custom" task="act=savecopy" label="Save as Copy" icon="save-copy" />
+				<menu name="cancel" action="linkAction" task="cancel" link="cb_action:tabs" label="Cancel" />
+				<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/tab-management-edit?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+			</toolbarmenu>
+			<param name="" type="group" label="" display="2lines">
+				<param name="title" type="text" label="Title %s" description="Input the title to display as the tabs title." size="80" validate="required" />
+			</param>
+			<tabpane name="editpane">
+				<tabpanetab name="global" label="Global" description="">
+					<grid fluid="true">
+						<gridcol size="9">
+							<gridrow>
+								<param name="description" type="htmlarea" width="100%" height="400px" label="Description" display="2lines" description="Optionally input the description to describe this tabs purpose on profile edit. Note some plugin tabs may render this on profile view." />
+							</gridrow>
+						</gridcol>
+						<gridcol size="3">
+							<gridrow>
+								<param name="enabled" type="published" default="1" label="Publish" display="2lines" description="Select the publish state of this tab." />
+								<param name="ordering" type="ordering" value="title" label="Profile Ordering" display="2lines" description="Select the profile view ordering of this tab. This ordering is specific to the tabs position.">
+									<orderinggroups>
+										<ordering name="position" type="string" />
+									</orderinggroups>
+								</param>
+								<param name="ordering_register" type="ordering" value="title" label="Registration Ordering" display="2lines" description="Select the profile edit and registration ordering of this tab. This ordering is not specific to the tabs position." />
+								<param name="position" type="xml:tab_position" default="cb_tabmain" translate-default="no" label="Position" display="2lines" description="Select the profile view position for this tab." />
+								<param name="displaytype" type="xml:tab_displaytype" default="tab" translate-default="no" label="Display Type" display="2lines" description="Select how to display this tab on profile view." />
+								<param name="viewaccesslevel" type="viewaccesslevel" default="1" blanktext="" label="Access Level" managelevels="false" display="2lines" description="Select the view access level for this tab. Only users with this view access level will be able to access the tab on profile view and profile edit. Tab will still show on registration regardless of access if it has fields displayed on registration." />
+								<param name="cssclass" type="text" default="" label="CSS Class" display="2lines" description="Optionally input the CSS class added to this tab and its tab content. Separate multiple CSS classes with a space." />
+							</gridrow>
+						</gridcol>
+					</grid>
+				</tabpanetab>
+				<tabpanetab name="params" label="Parameters" description="">
+					<showview name="params" view="tab{raw:pluginclass}" mandatory="false">
+						<data name="params" type="sql:string" default="" />
+					</showview>
+					<showview name="params" path="tabs/tab[@class=&quot;{raw:pluginclass}&quot;]/params" type="plugins">
+						<data name="params" type="sql:string" default="" />
+					</showview>
+				</tabpanetab>
+				<tabpanetab name="integrations" label="Integrations" description="">
+					<tabpane name="edittabintegrations">
+						<showview name="params" view="tabintegrations{raw:pluginclass}" mandatory="false" formatting="tab">
+							<data name="params" type="sql:string" default="" />
+						</showview>
+						<showview name="params" path="tabsparams/tab[@type=&quot;{raw:pluginclass}&quot;]/params" type="plugins" formatting="tab">
+							<data name="params" type="sql:string" default="" />
+						</showview>
+						<showview name="params" path="tabsparams/tab[@type=&quot;other_types&quot;]/params" type="plugins" formatting="tab">
+							<data name="params" type="sql:string" default="" />
+						</showview>
+					</tabpane>
+				</tabpanetab>
+			</tabpane>
+			<param name="pluginclass" type="hidden" />
+		</view>
+	</views>
+</cbxml>

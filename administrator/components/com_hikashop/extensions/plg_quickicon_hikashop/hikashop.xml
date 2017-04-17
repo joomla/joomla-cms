@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="quickicon">
+	<name>HikaShop Quick Icon</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Obsidev</author>
+	<authorEmail>jerome@obsidev.com</authorEmail>
+	<authorUrl>http://www.hikashop.com</authorUrl>
+	<copyright>Copyright (c) 2011-2015 Obsidev S.A.R.L. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+	<description>HikaShop Quick Icon</description>
+	<files>
+		<filename plugin="hikashop">hikashop.php</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="context" type="text" default="mod_quickicon" description="The group of this plugin (this value is compared with the group value used in Quick Icons modules to inject icons)" label="Group" />
+				<field name="displayedtext" type="text" default="" description="Text displayed below the icon" label="Icon legend" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

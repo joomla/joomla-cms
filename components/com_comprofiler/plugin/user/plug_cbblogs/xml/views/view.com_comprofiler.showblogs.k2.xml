@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="showblogs.k2" type="params" ui="admin" label="Blogs" icon="list" viewformatting="none">
+			<tablebrowser name="blogsbrowser" table="#__k2_items" class="cbblogsBlogTable">
+				<toolbarmenu>
+					<menu name="new" action="linkAction" task="new" link="cbo:newrow" label="New" />
+					<menu name="edit" action="linkAction" task="edit" link="cbo:editrows/blogid" label="Edit" />
+					<menu name="copy" action="linkAction" task="copy" link="cbo:copyrows" label="Copy" />
+					<menu name="publish" action="linkAction" task="publish" link="cbo:publish/published" label="Publish" />
+					<menu name="unpublish" action="linkAction" task="unpublish" link="cbo:unpublish/published" label="Unpublish" />
+					<menu name="delete" action="linkAction" task="delete" link="cbo:deleterows" label="Delete" />
+					<menu name="cancel" action="linkAction" task="cancel" link="cb_action:plugins" label="Close" />
+				</toolbarmenu>
+				<quicksearchfields placeholder="Search Blogs..." size="30">
+					<field name="title" />
+					<field name="introtext" />
+					<field name="fulltext" />
+					<field name="id" valuetype="const:int" />
+				</quicksearchfields>
+				<filters>
+					<filter name="category" value="catid" valuetype="sql:int" type="list" label="" blanktext="- Select Category -">
+						<data name="" type="private" class="cbblogsModel" method="getCategoriesList" />
+					</filter>
+					<filter name="access" valuetype="sql:int" type="viewaccesslevel" label="" blanktext="- Select Access -" managelevels="false" />
+					<filter name="published" valuetype="sql:int" type="xml:blog_published" label="" blanktext="- Select Published -" />
+					<filter name="trash" valuetype="sql:int" type="xml:blog_trashed" label="" blanktext="- Select Trashed -" />
+					<filter name="id" type="field_show_only_if_selected" base="int" default="" label="" blanktext="- Select ID -" />
+				</filters>
+				<where>
+					<column name="catid" operator="REGEXP" value="catids" type="sql:field" valuetype="param:string" />
+				</where>
+				<orderby>
+					<ordergroup name="created_asc" label="Date ascending">
+						<field name="created" ordering="ASC" />
+					</ordergroup>
+					<ordergroup name="created_desc" label="Date descending" default="true" translate-default="no">
+						<field name="created" ordering="DESC" />
+					</ordergroup>
+					<ordergroup name="category_asc" label="Category ascending">
+						<field name="catname_comment" type="sql:string" ordering="ASC">
+							<data name="name" type="sql:field" table="#__k2_categories" class="cbblogsCategoryTable" key="id" value="catid" />
+						</field>
+					</ordergroup>
+					<ordergroup name="category_desc" label="Category descending">
+						<field name="catname_comment" type="sql:string" ordering="DESC">
+							<data name="name" type="sql:field" table="#__k2_categories" class="cbblogsCategoryTable" key="id" value="catid" />
+						</field>
+					</ordergroup>
+					<ordergroup name="user_asc" label="User ascending">
+						<field name="username_comment" type="sql:string" ordering="ASC">
+							<data name="username" type="sql:field" table="#__users" class="\CB\Database\Table\UserTable" key="id" value="created_by" />
+						</field>
+					</ordergroup>
+					<ordergroup name="user_desc" label="User descending">
+						<field name="username_comment" type="sql:string" ordering="DESC">
+							<data name="username" type="sql:field" table="#__users" class="\CB\Database\Table\UserTable" key="id" value="created_by" />
+						</field>
+					</ordergroup>
+				</orderby>
+				<listfields>
+					<header type="standard" />
+					<rows type="standard" height="auto">
+						<field name="" type="rownumber" width="1%" align="center" label="#" responsivehiddenon="xsmall" />
+						<field name="id" type="primarycheckbox" width="1%" align="center" />
+						<field name="title" type="string" link="cbo:rowedit" parameters="blogid" paramvalues="id" align="left" label="Title" allowordering="ascending,descending" />
+						<field name="category" type="string" width="15%" align="center" label="Category" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<data name="name" as="category" type="sql:field" table="#__k2_categories" class="cbblogsCategoryTable" key="id" value="catid" />
+						</field>
+						<field name="user" type="string" width="15%" align="center" label="User" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<data name="username" as="user" type="sql:field" table="#__users" class="\CB\Database\Table\UserTable" key="id" value="created_by" />
+						</field>
+						<field name="access" type="viewaccesslevel" width="10%" align="center" label="Access Level" responsivehiddenon="xsmall" allowordering="ascending,descending" />
+						<field name="published" type="xml:blog_published" width="5%" align="center" label="Published" onclick="toggle" responsivehiddenon="xsmall" allowordering="ascending,descending" />
+						<field name="trash" type="xml:blog_trashed" width="5%" align="center" label="Trashed" onclick="toggle" responsivehiddenon="xsmall" allowordering="ascending,descending" />
+						<field name="created" type="datetime" width="15%" align="center" label="Date" responsivehiddenon="xsmall" allowordering="ascending,descending" />
+						<field name="id" type="int" width="5%" align="center" label="ID" allowordering="ascending,descending" />
+					</rows>
+				</listfields>
+				<batchprocess>
+					<batch name="category" value="catid" valuetype="sql:int" type="list" label="" blanktext="- Select Category -">
+						<data name="" type="private" class="cbblogsModel" method="getCategoriesList" />
+					</batch>
+					<batch name="access" valuetype="sql:int" type="viewaccesslevel" label="" blanktext="- Select Access -" managelevels="false" />
+					<batch name="created_by" valuetype="sql:string" type="text" label="" blanktext="Owner" />
+				</batchprocess>
+			</tablebrowser>
+		</view>
+	</views>
+</cbxml>

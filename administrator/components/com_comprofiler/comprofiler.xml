@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="1.6.0" method="upgrade">
+	<name>comprofiler</name>
+	<creationDate>2015-09-22</creationDate>
+	<copyright>Copyright (C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2. All copyright statements must be kept and derivative work must prominently duly acknowledge original work on web interface and on website where downloaded.</license>
+	<author>CB Team</author>
+	<authorUrl>http://www.joomlapolis.com/</authorUrl>
+	<authorEmail>cbteam@joomlapolis.com</authorEmail>
+	<version>2.0.11</version>
+	<description>Community Builder for Joomla!</description>
+	<files folder="site">
+		<filename>metadata.xml</filename>
+		<filename>router.php</filename>
+		<filename>comprofiler.php</filename>
+		<filename>comprofiler.html.php</filename>
+		<filename>index.html</filename>
+		<folder>views</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+	</files>
+	<administration>
+		<menu view="" task="" img="../components/com_comprofiler/images/icon-16-cb.png">COM_COMPROFILER</menu>
+		<submenu>
+			<menu view="" task="" img="class:cpanel">COM_COMPROFILER_CONTROLPANEL</menu>
+			<menu view="showusers" task="showusers" img="class:user">COM_COMPROFILER_SHOWUSERS</menu>
+			<menu view="showTab" task="showTab" img="class:themes">COM_COMPROFILER_SHOWTAB</menu>
+			<menu view="showField" task="showField" img="class:content">COM_COMPROFILER_SHOWFIELD</menu>
+			<menu view="showLists" task="showLists" img="class:search">COM_COMPROFILER_SHOWLISTS</menu>
+			<menu view="showPlugins" task="showPlugins" img="class:plugin">COM_COMPROFILER_SHOWPLUGINS</menu>
+			<menu view="tools" task="tools" img="class:maintenance">COM_COMPROFILER_TOOLS</menu>
+			<menu view="showconfig" task="showconfig" img="class:config">COM_COMPROFILER_SHOWCONFIG</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>comprofiler.php</filename>
+			<filename>admin.comprofiler.controller.php</filename>
+			<filename>comprofiler.toolbar.php</filename>
+			<filename>toolbar.comprofiler.php</filename>
+			<filename>toolbar.comprofiler.html.php</filename>
+			<filename>comprofiler.class.php</filename>
+			<filename>imgToolbox.class.php</filename>
+			<filename>plugin.foundation.php</filename>
+			<filename>plugin.class.php</filename>
+			<filename>Snoopy.class.php</filename>
+			<filename>pluginsfiles.tgz</filename>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>index.html</filename>
+			<folder>database</folder>
+			<folder>xmlcb</folder>
+			<folder>controller</folder>
+			<folder>view</folder>
+			<folder>library</folder>
+			<folder>language</folder>
+		</files>
+	</administration>
+	<scriptfile>install.comprofiler.php</scriptfile>
+	<!-- Now done through package:
+	<updateservers>
+		<server type="extension" priority="1" name="Community Builder Update Site">http://update.joomlapolis.net/versions/comprofiler-1_8-update.xml</server>
+	</updateservers>
+	-->
+</extension>

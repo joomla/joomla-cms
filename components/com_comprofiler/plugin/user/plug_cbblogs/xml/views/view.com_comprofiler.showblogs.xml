@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="showblogs" type="params" ui="admin" label="Blogs" icon="list" viewformatting="none">
+			<if name="" nametype="data:string" operator="regexp" value="5|7" valuetype="const:string" type="condition">
+				<left>
+					<param name="" type="private" class="cbblogsClass" method="getModelType" />
+				</left>
+				<then>
+					<showview view="showblogs.joomla" type="xml" path="views/view" file="xml/views/view.com_comprofiler.showblogs.joomla" mode="show" />
+				</then>
+				<else>
+					<if name="" nametype="data:string" operator="=" value="6" valuetype="const:string" type="condition">
+						<left>
+							<param name="" type="private" class="cbblogsClass" method="getModelType" />
+						</left>
+						<then>
+							<showview view="showblogs.k2" type="xml" path="views/view" file="xml/views/view.com_comprofiler.showblogs.k2" mode="show" />
+						</then>
+						<else>
+							<if name="" nametype="data:string" operator="=" value="2" valuetype="const:string" type="condition">
+								<left>
+									<param name="" type="private" class="cbblogsClass" method="getModelType" />
+								</left>
+								<then>
+									<showview view="showblogs.internal" type="xml" path="views/view" file="xml/views/view.com_comprofiler.showblogs.internal" mode="show" />
+								</then>
+							</if>
+						</else>
+					</if>
+				</else>
+			</if>
+		</view>
+	</views>
+</cbxml>

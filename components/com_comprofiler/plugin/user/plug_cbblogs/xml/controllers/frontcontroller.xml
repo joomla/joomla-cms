@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" group="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../../../validation/ahawow.xsd">
+	<types />
+	<actions ui="admin" permission="core.manage" permissionasset="com_comprofiler">
+		<action name="blogs" request="view action" action="editPlugin showblogs" permission="core.admin">
+			<showview view="showblogs" mode="show" />
+		</action>
+
+		<action name="blog" request="view table action" action="editPlugin blogsbrowser editrow" requestparameters="blogid" permission="core.admin">
+			<extend toxpathnode="/cbxml/types" fromxpathnode="/*/types/type" file="xml/models/model.blogs" mandatory="true" />
+			<showview view="editblog" mode="edit">
+				<data name="blogrow" type="class" class="cbblogsBlogTable" key="id" value="blogid" valuetype="request:int" />
+			</showview>
+		</action>
+	</actions>
+	<views>
+		<view name="pluginmenu" type="params" ui="admin" label="" viewformatting="none">
+			<param name="blogs" type="button" default="Blogs" buttonclass="default" buttonsize="xsmall" link="cb_action:blogs" parameters="cid" paramvalues="id" label="" />
+		</view>
+	</views>
+</cbxml>

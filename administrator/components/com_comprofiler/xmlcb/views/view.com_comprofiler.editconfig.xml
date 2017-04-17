@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="editconfig" type="params" ui="admin" label="Configuration" icon="gears" description="" viewformatting="div">
+			<toolbarmenu>
+				<menu name="apply" action="apply" task="act=apply" label="Save" />
+				<menu name="permissions" action="linkAction" task="options" link="cb_action:perms" label="Permissions" />
+				<menu name="cancel" action="linkAction" task="cancel" link="cb_action:panel" label="Cancel" />
+				<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/configuration?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+			</toolbarmenu>
+			<params name="params" type="params">
+				<param name="" type="custom" method="cbUpdateChecker" label="" display="2lines" />
+				<tabpane name="config">
+					<tabpanetab name="general" label="General" description="">
+						<param name="name_style" type="xml:cfg_name_style" default="1" label="Name Style" description="The name style details how you want to capture the name field in Joomla." />
+						<param name="name_format" type="xml:cfg_name_format" default="3" label="Name Format" description="Choose how to display the Formatted Name (formatname) field." />
+						<param name="date_format" type="xml:cfg_date_format" default="m/d/Y" translate-default="no" label="Date Format" description="Choose which date format you would like your date fields to be displayed in." />
+						<param name="time_format" type="xml:cfg_time_format" default="H:i:s" translate-default="no" label="Time Format" description="Choose which time format you would like your datetime fields to be displayed in." />
+						<param name="calendar_type" type="xml:cfg_calendar_type" default="2" label="Calendar Type" description="Choose which calendar you would like to use for dates selection." />
+						<param name="allow_email_display" type="xml:cfg_allow_email_display" default="3" label="Email Handling" description="Choose how to display Primary Email Address (email) field." />
+						<if name="allow_email_display" nametype="data:int" operator="=" value="3" valuetype="const:int" type="showhide">
+							<param name="allow_email_public" type="yesno" default="0" label="Public Email Form" description="Choose if Primary Email Address (email) email form should be publicly accessible (non-registered users)." />
+						</if>
+						<param name="allow_email_replyto" type="xml:cfg_allow_email_replyto" default="1" label="Emails Sent From" description="Choose emails are sent from system email notifications. Sending from admin is SPF spam-checking compliant, but may result in erroneous replies. Sending from user will ensure user receives all replies and mailer errors for better privacy." />
+						<param name="allow_email" type="yesno" default="1" label="Email Links" description="Choose if email fieldtypes should link the email addresses." />
+						<param name="allow_website" type="yesno" default="1" label="Website Links" description="Choose if website fieldtypes should link the website addresses." />
+						<param name="allow_onlinestatus" type="yesno" default="1" label="Online Status" description="Choose if users current online status should display." />
+						<param name="icons_display" type="xml:cfg_icons_display" default="3" label="Field Icons" description="Choose which field icons should be shown for a fields edit display." />
+						<param name="login_type" type="xml:cfg_login_type" default="0" label="Login Method" description="Choose how users should login when using the CB Login Module and Login page." />
+					</tabpanetab>
+					<tabpanetab name="registration" label="Registration" description="">
+						<param name="reg_admin_allowcbregistration" type="xml:cfg_reg_admin_allowcbregistration" default="0" label="Allow User Registration" description="Choose if registration access should be same as the CMS or allow registration regardless of CMS settings. Recommended to set Yes to be independent of CMS and turn off registration within the CMS settings." />
+						<param name="emailpass" type="yesno" default="0" label="Generate Registration Passwords" description="Choose if users passwords should be generated or user defined during registration. A user will receive their generated password from the Pending email." />
+						<param name="reg_admin_approval" type="yesno" default="0" label="Admin Approval" description="Choose if users registration should require an admins approval." />
+						<param name="reg_confirmation" type="yesno" default="1" label="Email Confirmation" description="Choose if users registration should require email confirmation. A user will receive their confirmation link from the Pending email." />
+						<param name="reg_username_checker" type="yesno" default="0" label="Ajax Username Checker" description="Choose if username availability should be checked. This feature is protected, but it could be used for username guessing and allow for easier password guessing." />
+						<param name="reg_show_login_on_page" type="yesno" default="0" label="Show Login form next to Registration form" description="Choose if login form should be automatically displayed on the registration form. Note this uses the parameters of the first login module found." />
+						<param name="reg_email_name" type="text" size="50" default="REGISTRATION_EMAIL_FROM_NAME" translated-default="[sitename] Sign Up" label="Registration Email Name" description="Input the name to send with registration emails. If left blank default site from name will be used. Default language string REGISTRATION_EMAIL_FROM_NAME will translate into &quot;[sitename] Sign Up&quot;" />
+						<param name="reg_email_from" type="text" size="50" label="Registration Email Address" description="Input the email address to send registration emails from. If left blank default site from address will be used." />
+						<param name="reg_email_replyto" type="text" size="50" label="Registration Reply-To Email Address" description="Input the reply to email address to send with registration emails." />
+						<param name="reg_email_html" type="yesno" default="0" label="Registration Email HTML" description="Choose if registration emails should be sent with HTML." />
+						<param name="reg_pend_appr_sub" type="text" size="50" default="YOUR_REGISTRATION_IS_PENDING_APPROVAL_SUBJECT" translated-default="Your sign up request is pending approval" label="Pending Email Subject" description="Input the subject to send with Pending emails. Leave Pending Subject and Body blank to suppress sending of Pending emails." />
+						<param name="reg_pend_appr_msg" type="textarea" cols="70" rows="6" default="YOUR_REGISTRATION_IS_PENDING_APPROVAL_MESSAGE" translated-default="Greetings [NAME],&#13;&#10;Thank you for signing up with us. We have&#13;&#10;received your request and we will process it as soon as you&#13;&#10;confirm your email address by clicking on the following&#13;&#10;hyperlink:&#13;&#10;[CONFIRM]&#13;&#10;Once your email address is confirmed our moderators will be&#13;&#10;notified to continue the activation process.&#13;&#10;You will be notified by email of the progress of your sign up process.&#13;&#10;[DETAILS]&#13;&#10;Kind Regards,&#13;&#10;Website Administration Team" label="Pending Email Body" description="Input the substitution supported body to send with Pending emails. Leave Pending Subject and Body blank to suppress sending of Pending emails. Additional supported substitutions as follows: [NAME], [USERNAME], [DETAILS] (contains name, username, email address, and password), [PASSWORD], and [CONFIRM] (users email confirmation link)." />
+						<param name="reg_welcome_sub" type="text" size="50" default="YOUR_REGISTRATION_IS_APPROVED_SUBJECT" translated-default="New User Details" label="Welcome Email Subject" description="Input the subject to send with Welcome emails. Leave Welcome Subject and Body blank to suppress sending of Welcome emails." />
+						<param name="reg_welcome_msg" type="textarea" cols="70" rows="6" default="YOUR_REGISTRATION_IS_APPROVED_MESSAGE" translated-default="Welcome [NAME],&#13;&#10;Your application has been approved by our administration team.&#13;&#10;Your account with the following details:&#13;&#10;[DETAILS]&#13;&#10;has been activated.&#13;&#10;We welcome you to our online community and trust that together&#13;&#10;we will grow.&#13;&#10;Enjoy the experience!&#13;&#10;Kind Regards,&#13;&#10;Website Administration Team" label="Welcome Email Body" description="Input the substitution supported body to send with Welcome emails. Leave Welcome Subject and Body blank to suppress sending of Welcome emails. Additional supported substitutions as follows: [NAME], [USERNAME], [DETAILS] (contains name, username, email address, and password), [PASSWORD], and [CONFIRM] (users email confirmation link)." />
+						<param name="reg_layout" type="xml:cfg_reg_layouts" default="flat" translate-default="no" label="Registration Layout" description="Choose how to display tabs and fields on registration." />
+						<param name="reg_show_icons_explain" type="xml:cfg_icon_locations" default="0" label="Registration Icon Legend" description="Choose how to display field icons legend on registration." />
+						<param name="reg_title_img" type="imagelist" default="general" translate-default="no" directory="/images" hide_default="true" hide_none="true" label="Registration Title Image" description="Choose which image to use for the registration title background image.">
+							<option value="none">No Image</option>
+							<option value="general">General</option>
+						</param>
+						<param name="reg_intro_msg" type="textarea" cols="70" rows="6" default="REGISTRATION_GREETING" translated-default="Welcome to our community - tell us about yourself and sign up" label="Registration Header" description="Input the the text/html to display at the top of the registration page." />
+						<param name="reg_conclusion_msg" type="textarea" cols="70" rows="6" default="REGISTRATION_CONCLUSION" translated-default="Thanks for visiting our site! Hope you enjoy your stay!" label="Registration Footer" description="Input the the text/html to display at the bottom of the registration page." />
+						<param name="reg_first_visit_url" type="text" size="50" default="index.php?option=com_comprofiler&amp;view=userprofile" translate-default="no" label="First Login Redirect" description="Input the URL to redirect to on first login. Leave blank to use CB Login module redirect setting." />
+					</tabpanetab>
+					<tabpanetab name="user_profile" label="User Profile" description="">
+						<param name="usernameedit" type="yesno" default="1" label="Username Edit" description="Choose if users can change their username." />
+						<param name="usernamefallback" type="field" key="name" blanktext="" default="name" translate-default="no" label="Username Fallback" description="Choose which field to use as username if username field is not preset at time of user store. If fallback fails to provide a value then user email address will be used.">
+							<optgroup label="Recommended">
+								<option value="name">Name</option>
+								<option value="firstname">First Name</option>
+								<option value="middlename">Middle Name</option>
+								<option value="lastname">Last Name</option>
+								<option value="email">Email Address</option>
+							</optgroup>
+							<optgroup label="Fields" />
+						</param>
+						<param name="adminrequiredfields" type="yesno" default="1" label="Fields Validation in User Management" description="Choose if users fields should validate while editing them within User Management. This can be very useful if user has multiple required fields that are incomplete, but an admin needs to edit the user." />
+						<param name="profile_viewaccesslevel" type="viewaccesslevel" default="2" blanktext="" label="Profile View Access Level" description="Select the view access level required for viewing user profiles. Only users with this view access level will be able to access the profile, as well as the profile owner himself." />
+						<param name="maxEmailsPerHr" type="text" size="10" default="10" label="Maximum Emails per Hour" description="Input the maximum emails per hour a user can send another user." />
+						<param name="profile_recordviews" type="yesno" default="1" label="Record Views" description="Choose if profile views should record. If disabled views will not log to the database and the views field will not increment." />
+						<if name="profile_recordviews" nametype="data:int" operator="=" value="1" valuetype="const:int" type="showhide">
+							<param name="minHitsInterval" type="text" size="10" default="60" label="Minimum Hits Interval in Minutes" description="Input the minimum interval between views and hits counting of a displayed user by a viewing user." />
+						</if>
+						<param name="templatedir" type="list" hideblanktext="true" default="default" translate-default="no" label="Template" description="Choose which template to be used for all of frontend Community Builder display. New templates can be installed as template plugins within Plugin Management.">
+							<data name="type" type="sql:multiplerows" table="#__comprofiler_plugin" key="id">
+								<rows>
+									<field name="folder" as="value" />
+									<field name="name" as="text" />
+								</rows>
+								<where>
+									<column name="type" operator="=" value="templates" type="sql:field" valuetype="const:string" />
+									<column name="published" operator="=" value="1" type="sql:field" valuetype="const:int" />
+								</where>
+								<orderby>
+									<field name="ordering" ordering="ASC" />
+								</orderby>
+							</data>
+						</param>
+						<param name="use_divs" type="xml:cfg_use_divs" default="1" label="Template Output" description="Choose if tables or divs should be used for template outputs." />
+						<param name="" type="group" label="2 Column Layout" formatting="div" display="2lines">
+							<param name="left2colsWidth" type="text" size="5" default="40" label="Left" description="Input 2 column profile layout width as percentage. Only left column will adjust as the right column will use whatever space remains." />
+							<param name="" type="text" size="5" default="Rest" label="Right" mode="show" />
+						</param>
+						<param name="" type="group" label="3 Column Layout" formatting="div" display="2lines">
+							<param name="left3colsWidth" type="text" size="5" default="32" label="Left" description="Input 3 column profile layout width as percentage. Only left and right columns will adjust as the middle column will use whatever space remains." />
+							<param name="" type="text" size="5" default="Rest" label="Middle" mode="show" />
+							<param name="right3colsWidth" type="text" size="5" default="32" label="Right" />
+						</param>
+						<param name="showEmptyTabs" type="yesno" default="1" label="Show Empty Tabs" description="Choose if tabs with no content should still display." />
+						<param name="showEmptyFields" type="yesno" default="1" label="Show Empty Fields" description="Choose if fields with no content should still display." />
+						<param name="emptyFieldsText" type="text" size="20" default="-" label="Empty Field Text" description="Input the substitution and language string supported text to display for empty fields." />
+						<param name="frontend_userparams" type="yesno" default="1" label="Allow CMS User Parameters" description="Choose if users can edit their CMS user parameters field." />
+						<param name="profile_edit_layout" type="xml:cfg_layouts" default="tabbed" translate-default="no" label="Profile Edit Layout" description="Choose how to display tabs and fields on profile edit." />
+						<param name="profile_edit_show_icons_explain" type="xml:cfg_icon_locations" default="0" label="Profile Edit Icon Legend" description="Choose how to display field icons legend on profile edit." />
+						<param name="html_filter_allowed_tags" type="text" size="50" default="" label="Exclude Tags from Filtering" description="Input the tags separated by a space to exclude from filtering (e.g. applet body bgsound embed). The defaults can be reversed by supplying: applet body bgsound base basefont embed frame frameset head html id iframe ilayer layer link meta name object script style title xml. Note some tags could allow for malware or abusive behavior." />
+					</tabpanetab>
+					<tabpanetab name="images" label="Images" description="">
+						<param name="conversiontype" type="list" default="4" label="Image Software" description="Choose the software to use for processing images.">
+							<if name="" nametype="data:bool" operator="=" value="true" valuetype="const:bool" type="condition">
+								<left>
+									<param name="" type="custom" class="CBLib\Image\Test" method="Gd" />
+								</left>
+								<then>
+									<option value="4" label="IMAGE_LIBRARY_GD2" translated-label="GD2">GD2</option>
+								</then>
+							</if>
+							<if name="" nametype="data:bool" operator="=" value="true" valuetype="const:bool" type="condition">
+								<left>
+									<param name="" type="custom" class="CBLib\Image\Test" method="Imagick" />
+								</left>
+								<then>
+									<option value="1">ImageMagick</option>
+								</then>
+							</if>
+							<if name="" nametype="data:bool" operator="=" value="true" valuetype="const:bool" type="condition">
+								<left>
+									<param name="" type="custom" class="CBLib\Image\Test" method="Gmagick" />
+								</left>
+								<then>
+									<option value="5">Gmagick</option>
+								</then>
+							</if>
+						</param>
+						<param name="avatarResizeAlways" type="yesno" default="1" label="Always Resample Image Uploads" description="Choose if images uploaded should always be resampled. Resampling adds additional security, but animations will only be kept when using ImageMagick." />
+						<param name="avatarHeight" type="text" size="10" default="500" label="Default Maximum Image Height" description="Input the maximum image height in pixels of uploaded images. This can be changed on an image field by field bases while editing image field types." />
+						<param name="avatarWidth" type="text" size="10" default="200" label="Default Maximum Image Width" description="Input the maximum image width in pixels of uploaded images. This can be changed on an image field by field bases while editing image field types." />
+						<param name="avatarSize" type="text" size="10" default="2000" label="Default Maximum Image Filesize" description="Input the maximum image filesize in kilobytes of uploaded images. This can be changed on an image field by field bases while editing image field types." />
+						<param name="thumbHeight" type="text" size="10" default="86" label="Default Maximum Thumbnail Height" description="Input the maximum image thumbnail height in pixels of uploaded images. This can be changed on an image field by field bases while editing image field types." />
+						<param name="thumbWidth" type="text" size="10" default="60" label="Default Maximum Thumbnail Width" description="Input the maximum image thumbnail width in pixels of uploaded images. This can be changed on an image field by field bases while editing image field types." />
+						<param name="avatarMaintainRatio" type="xml:cfg_avatarMaintainRatio" default="1" label="Maintain Aspect Ratio" description="Choose if images uploaded should maintain their aspect ratio when resizing. If set to No the image will always be resized to the specified maximum width and height. If set to Yes the aspect ratio will be maintained as much as possible within the maximum width and height. If set to Yes with Cropping the image will always resize to the specified maximum width and height within the aspect ratio and crop any overflow; this is useful for maintain squared images." />
+					</tabpanetab>
+					<tabpanetab name="moderation" label="Moderation" description="">
+						<param name="moderator_viewaccesslevel" type="viewaccesslevel" default="3" blanktext="" label="Moderators View Access Level" description="Select the view access level required for moderator privileges." />
+						<param name="allowModUserApproval" type="yesno" default="1" label="Moderator Approve Users" description="Choose if moderators can approve users registration." />
+						<param name="moderatorEmail" type="yesno" default="1" label="Send Moderators Email" description="Choose if moderators should receive emails if an action is performed requiring moderator attention." />
+						<param name="allowUserReports" type="yesno" default="1" label="Allow User Reports" description="Choose if users can report other users for inappropriate behavior to moderators." />
+						<param name="avatarUploadApproval" type="yesno" default="1" label="Require Upload Image Approval" description="Choose if images uploaded by users require moderator approval." />
+						<param name="allowModeratorsUserEdit" type="xml:cfg_allowModeratorsUserEdit" default="0" label="Allow Moderators to Edit User Profiles" description="Choose if moderators can edit users profiles. Moderators can not edit same or higher-level moderators. Note moderators must have Access Administration Interface and Edit permissions within User Management - Permissions." />
+						<param name="allowUserBanning" type="yesno" default="1" label="Allow Profile Banning" description="Choose if moderators can ban users profiles from being displayed." />
+					</tabpanetab>
+					<tabpanetab name="connections" label="Connections" description="">
+						<param name="allowConnections" type="yesno" default="1" label="Enable Connections" description="Choose if users can establish connections with one another. This is often called a friends or buddy system." />
+						<if name="allowConnections" nametype="data:int" operator="=" value="1" valuetype="const:int" type="showhide">
+							<param name="connectionDisplay" type="xml:cfg_connectionDisplay" default="0" label="Display Type" description="Choose if connections should remain private to a user or publicly visible." />
+							<param name="connectionPath" type="yesno" default="1" label="Display Connection Path" description="Choose if a connection path between users should be displayed." />
+							<param name="useMutualConnections" type="yesno" default="1" label="Mutual Consent" description="Choose if both parties must agree to a connection request before a connection is established." />
+							<param name="conNotifyType" type="xml:cfg_conNotifyType" default="0" label="Notification Method" description="Choose how connection request notifications should be sent." />
+							<param name="autoAddConnections" type="yesno" default="1" label="Cross Connections" description="Choose if connections should be established between both parties or just the user sending the request." />
+							<param name="connection_categories" type="textarea" cols="25" rows="6" default="Friend&#13;&#10;Co Worker&#13;&#10;Family" translate-default="no" label="Connection Types" description="Input connection types separated by a line break that users can assign to connections." />
+						</if>
+					</tabpanetab>
+					<tabpanetab name="integrations" label="Integrations" description="">
+						<param name="translations_debug" type="xml:cfg_translations_debug" default="0" label="Translations Highlighting" description="Choose how to display translations highlighting. This can best be used to debug missing translations." />
+						<param name="enableSpoofCheck" type="yesno" default="1" label="Spoof Checking" description="Choose if anti-spoof session checking should be used. Highly recommended this be left on, but it sometimes can conflict with caching usages." />
+						<param name="noVersionCheck" type="xml:cfg_noVersionCheck" default="0" label="Version Checking" description="Choose if Community Builder version checking should be automated or manually triggered in Configuration. Only Community Builder version and standard HTTP information is disclosed during version checking." />
+						<param name="templateBootstrap" type="yesno" default="1" label="Twitter Bootstrap" description="Choose if Twitter Bootstrap CSS should be loaded from the Community Builder template automatically. Recommended to always leave this on unless another compatible means of Twitter Bootstrap CSS is loaded. Note this will affect frontend only." />
+						<if name="templateBootstrap" nametype="data:int" operator="=" value="0" valuetype="const:int" type="showhide">
+							<param name="BootstrapOffWarning" type="group" label="" formatting="none">
+								<param name="" type="spacer" default="Note Community Builder Twitter Bootstrap CSS has been shut off for frontend. Please ensure another means of Twitter Bootstrap is available. This could cause styling conflicts or missing styling." label="" alertclass="warning" />
+							</param>
+						</if>
+						<param name="templateFontawesme" type="yesno" default="1" label="Fontawesome" description="Choose if Fontawesome CSS should be loaded from the Community Builder template automatically. Recommended to always leave this on unless another compatible means of Fontawesome CSS is loaded. Note this will affect frontend only." />
+						<if name="templateFontawesme" nametype="data:int" operator="=" value="0" valuetype="const:int" type="showhide">
+							<param name="FontawesomeOffWarning" type="group" label="" formatting="none">
+								<param name="" type="spacer" default="Note Community Builder Fontawesome CSS has been shut off for frontend. Please ensure another means of Fontawesome is available. This could cause styling conflicts or missing styling." label="" alertclass="warning" />
+							</param>
+						</if>
+						<param name="jsJquery" type="yesno" default="1" label="jQuery" description="Choose if jQuery should be loaded from the Community Builder JS automatically. Recommended to always leave this on unless another compatible means of jQuery is loaded. Note this will affect frontend only." />
+						<if name="jsJquery" nametype="data:int" operator="=" value="0" valuetype="const:int" type="showhide">
+							<param name="jQueryOffWarning" type="group" label="" formatting="none">
+								<param name="" type="spacer" default="Note Community Builder jQuery has been shut off for frontend. Please ensure another means of jQuery is available. This could cause compatibility issues with jQuery plugins." label="" alertclass="warning" />
+							</param>
+						</if>
+						<param name="jsJqueryMigrate" type="yesno" default="1" label="jQuery Migrate" description="Choose if jQuery Migrate should be loaded from the Community Builder JS automatically. Recommended to always leave this on unless another compatible means of jQuery Migrate is loaded or all jQuery usages are compatible with the loaded version of jQuery. Note this will affect frontend only." />
+						<if name="jsJqueryMigrate" nametype="data:int" operator="=" value="0" valuetype="const:int" type="showhide">
+							<param name="jQueryMigrateOffWarning" type="group" label="" formatting="none">
+								<param name="" type="spacer" default="Note Community Builder jQuery Migrate has been shut off for frontend. Please ensure another means of jQuery Migrate is available or all jQuery usage is compatible with the loaded version of jQuery. This could cause compatibility issues with jQuery usages." label="" alertclass="warning" />
+							</param>
+						</if>
+						<param name="footerfWarning" type="group" label="Footer" formatting="span">
+							<param name="" type="httprequest" default="This footer includes copyright information, that cannot be removed without CB authors authorization. &lt;a href=&quot;http://www.joomlapolis.com/community-builder-remove-footer?pk_campaign=in-cb&amp;pk_kwd=cb-footer-removal&quot; target=&quot;_blank&quot;&gt;Please check here for instructions to get authorization to remove the footer&lt;/a&gt;." label="" link="http://update.joomlapolis.net/versions/cb-footer-removal-instructions.html" alertclass="info" />
+						</param>
+						<!-- For language files pick-up:
+						 <param label="SHOW_FOOTER_SETTING_LABEL" translated-label="Show Footer" description="SHOW_FOOTER_SETTING_DESCRIPTION" translated-description="Shows or hides the &quot;Powered by Community Builder&quot; software copyright backlink footer on frontend pages." />
+						 <param description="SETTING_LOCATED_IN_CB_CONFIG_INTEGRATION_TAB" translated-description="The setting is located in Community Builder Configuration, Integrations tab" label="SETTINGS" translated-label="Settings" />
+						  -->
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</view>
+	</views>
+</cbxml>

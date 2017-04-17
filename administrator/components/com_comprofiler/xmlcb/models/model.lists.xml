@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<types>
+		<type name="list_published" base="published" valuetype="string">
+			<option value="0" title="Unpublish Item">Unpublished</option>
+			<option value="1" title="Publish Item">Published</option>
+		</type>
+		<type name="list_default" base="checkmark" valuetype="string">
+			<option value="0" title="Unmark Default">Non-Default</option>
+			<option value="1" title="Mark Default">Default</option>
+		</type>
+		<type name="list_direction" base="list" valuetype="string">
+			<option value="ASC">Ascending</option>
+			<option value="DESC">Descending</option>
+		</type>
+		<type name="list_mode" base="radio" valuetype="string">
+			<option value="0">Basic</option>
+			<option value="1">Advanced</option>
+		</type>
+		<type name="list_size" base="list" valuetype="string">
+			<option value="1" />
+			<option value="2" />
+			<option value="3" />
+			<option value="4" />
+			<option value="5" />
+			<option value="6" />
+			<option value="7" />
+			<option value="8" />
+			<option value="9" />
+			<option value="10" />
+			<option value="11" />
+			<option value="12" />
+		</type>
+		<type name="list_search" base="list" valuetype="string">
+			<option value="0">No</option>
+			<option value="1">Searchable fields, displayed ones only</option>
+			<option value="2">All searchable fields</option>
+			<option value="3">Specific searchable fields</option>
+		</type>
+		<type name="list_compare_types" base="list" valuetype="string">
+			<option value="0">Simple Exact match: Only 'is' and ranges</option>
+			<option value="2">Simple Any word match: Only 'any of' and ranges (WARNING: can be slow)</option>
+			<option value="1">Advanced: all possibilities (WARNING: can be slow)</option>
+		</type>
+		<type name="list_field_display" base="list" valuetype="string">
+			<option value="1">1 Line with Title</option>
+			<option value="3">1 Line with Empty Title</option>
+			<option value="4">1 Line without Title</option>
+			<option value="2">2 Lines with Title</option>
+		</type>
+	</types>
+</cbxml>

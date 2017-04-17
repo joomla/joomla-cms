@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<falang type="contentelement">
+	<name>Hikashop Badges</name>
+	<author>Hikari Software</author>
+	<version>1.0.0</version>
+	<description>Definition of badges for the hikashop component</description>
+	<copyright>Copyright (C) 2009 Hikari Software SARL - All rights reserved.</copyright>
+	<reference type="content">
+		<table name="hikashop_badge">
+			<field type="referenceid" name="badge_id" translate="0">ID</field>
+			<field type="text" name="badge_name"  length="255" maxlength="255" translate="1">Badge title</field>
+			<field type="titletext" name="badge_image"  length="255" maxlength="255" translate="1">Badge image</field>
+		</table>
+	</reference>
+	<translationfilters>
+	</translationfilters>
+</falang>

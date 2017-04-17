@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<name>CB Forums</name>
+	<author>Krileon</author>
+	<creationDate>2015-09-22</creationDate>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<authorEmail>krileon@joomlapolis.com</authorEmail>
+	<authorUrl>www.joomlapolis.com</authorUrl>
+	<description>Allows display of users forum posts from various forum extensions directly on users profile.</description>
+	<version>2.0.11</version>
+	<files>
+		<filename plugin="cbforums">cbforums.php</filename>
+		<foldername>models</foldername>
+		<foldername>templates</foldername>
+	</files>
+	<delete>
+		<filename>models/kunena15.php</filename>
+		<filename>models/kunena17.php</filename>
+		<filename>templates/default/template.css</filename>
+		<filename>admin.cbforums.css</filename>
+		<filename>admin.cbforums.html.php</filename>
+		<filename>admin.cbforums.php</filename>
+		<filename>cbforums.class.php</filename>
+		<filename>tab.cbforums.php</filename>
+		<filename>toolbar.cbforums.html.php</filename>
+		<filename>toolbar.cbforums.php</filename>
+		<foldername>images</foldername>
+		<foldername>templates/default/images</foldername>
+	</delete>
+	<tabs>
+		<tab name="FORUMS_TITLE" translated-name="Forums" description="" class="cbforumsTab" fields="0" sys="1" position="cb_tabmain" displaytype="tab">
+			<params>
+				<tabpane name="forums">
+					<tabpanetab label="Posts">
+						<param name="tab_posts_paging" type="yesno" default="1" label="Paging" description="Enable or disable usage of paging for posts." yes="Enable" no="Disable" />
+						<if name="tab_posts_paging" type="showhide" operator="=" value="1" valuetype="const:int">
+							<param name="tab_posts_limit" type="int" default="15" size="5" label="Page Limit" description="Input page limit for posts. Page limit determines how many posts are displayed per page." />
+						</if>
+						<param name="tab_posts_search" type="yesno" default="1" label="Search" description="Enable or disable usage of search for posts." yes="Enable" no="Disable" />
+					</tabpanetab>
+					<tabpanetab label="Favorites">
+						<param name="tab_favs_display" type="yesno" default="1" label="Display" description="Enable or disable usage of favorites on tab forums." yes="Enable" no="Disable" />
+						<if name="tab_favs_display" type="showhide" operator="=" value="1" valuetype="const:int">
+							<param name="tab_favs_paging" type="yesno" default="1" label="Paging" description="Enable or disable usage of paging for favorites." yes="Enable" no="Disable" />
+							<if name="tab_favs_paging" type="showhide" operator="=" value="1" valuetype="const:int">
+								<param name="tab_favs_limit" type="int" default="15" size="5" label="Page Limit" description="Input page limit for favorites. Page limit determines how many favorites are displayed per page." />
+							</if>
+							<param name="tab_favs_search" type="yesno" default="1" label="Search" description="Enable or disable usage of search for favorites." yes="Enable" no="Disable" />
+						</if>
+					</tabpanetab>
+					<tabpanetab label="Subscriptions">
+						<param name="tab_subs_display" type="yesno" default="1" label="Display" description="Enable or disable usage of subscriptions on tab forums." yes="Enable" no="Disable" />
+						<if name="tab_subs_display" type="showhide" operator="=" value="1" valuetype="const:int">
+							<param name="tab_subs_paging" type="yesno" default="1" label="Paging" description="Enable or disable usage of paging for subscriptions." yes="Enable" no="Disable" />
+							<if name="tab_subs_paging" type="showhide" operator="=" value="1" valuetype="const:int">
+								<param name="tab_subs_limit" type="int" default="15" size="5" label="Page Limit" description="Input page limit for subscriptions. Page limit determines how many subscriptions are displayed per page." />
+							</if>
+							<param name="tab_subs_search" type="yesno" default="1" label="Search" description="Enable or disable usage of search for subscriptions." yes="Enable" no="Disable" />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</tab>
+	</tabs>
+	<fieldtypes>
+		<field type="forumstats" label="Forum Status">
+			<database version="1">
+				<table name="#__comprofiler" class="\CB\Database\Table\ComprofilerTable" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+					</columns>
+				</table>
+			</database>
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="forumStatus" type="list" default="posts" translate-default="no" label="Status" description="Select what forum status should be displayed.">
+							<option value="posts">Posts</option>
+							<option value="karma">Karma</option>
+							<option value="rank">Rank</option>
+							<option value="thankyou">Thank You</option>
+						</param>
+						<if name="forumStatus" type="showhide" operator="=" value="rank" valuetype="const:string">
+							<param name="forumRankTitle" type="yesno" default="1" label="Rank Title" description="Enable or disable display of Rank title." yes="Enable" no="Disable" />
+							<param name="forumRankImage" type="yesno" default="1" label="Rank Image" description="Enable or disable display of Rank image." yes="Enable" no="Disable" />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+	</fieldtypes>
+	<params>
+		<tabpane name="forums">
+			<tabpanetab label="General">
+				<param name="general_template" type="folderlist" default="default" label="Template" description="Select template to be used for all of CB Forums. If template is incomplete then missing files will be used from the default template. Template files can be located at the following location: components/com_comprofiler/plugin/user/plug_cbforums/templates/." directory="/components/com_comprofiler/plugin/user/plug_cbforums/templates/" />
+				<param name="general_class" type="text" default="" size="20" label="Class" description="Optionally add a class suffix to surrounding DIV encasing all of CB Forums." />
+			</tabpanetab>
+			<tabpanetab label="Forums">
+				<param name="forum_model" type="list" default="1" label="Model" description="Select forum model usage. Model determines what forum extension to use. Select a specific model to enable model specific parameters.">
+					<option value="1">Auto Detect</option>
+					<option value="5">Kunena 2.x</option>
+					<option value="6">Kunena 3.x</option>
+				</param>
+				<if name="forum_model" type="showhide" operator="in" value="3|*|4|*|5|*|6" valuetype="const:string">
+					<param name="modelparams" type="group" label="" formatting="div" display="2lines">
+						<tabpane name="kunena20modeltabs">
+							<tabpanetab name="kunena20modeltabsprofile" label="Profile">
+								<param name="k20_ordering" type="field" key="name" default="" blanktext="- Select CB Field -" label="Ordering" description="Select CB field to synchronize model ordering from (values: 0 = Oldest Post First, 1 = Newest Post First)." />
+								<param name="k20_viewtype" type="field" key="name" default="" blanktext="- Select CB Field -" label="Viewtype" description="Select CB field to synchronize model viewtype from (values: flat = Flat View, threaded = Threaded View)." />
+								<param name="k20_signature" type="field" key="name" default="" blanktext="- Select CB Field -" label="Signature" description="Select CB field to synchronize model signature from." />
+								<param name="k20_personaltext" type="field" key="name" default="" blanktext="- Select CB Field -" label="Personal Text" description="Select CB field to synchronize model personal text from." />
+								<param name="k20_gender" type="field" key="name" default="" blanktext="- Select CB Field -" label="Gender" description="Select CB field to synchronize model gender from (values: 1 = Male, 2 = Female)." />
+								<param name="k20_birthdate" type="field" key="name" default="" blanktext="- Select CB Field -" label="Birthdate" description="Select CB field to synchronize model birthday from." />
+								<param name="k20_location" type="field" key="name" default="" blanktext="- Select CB Field -" label="Location" description="Select CB field to synchronize model location from." />
+								<param name="k20_icq" type="field" key="name" default="" blanktext="- Select CB Field -" label="ICQ" description="Select CB field to synchronize model icq from." />
+								<param name="k20_aim" type="field" key="name" default="" blanktext="- Select CB Field -" label="AIM" description="Select CB field to synchronize model aim from." />
+								<param name="k20_yim" type="field" key="name" default="" blanktext="- Select CB Field -" label="YIM" description="Select CB field to synchronize model yim from." />
+								<param name="k20_msn" type="field" key="name" default="" blanktext="- Select CB Field -" label="MSN" description="Select CB field to synchronize model msn from." />
+								<param name="k20_skype" type="field" key="name" default="" blanktext="- Select CB Field -" label="Skype" description="Select CB field to synchronize model skype from." />
+								<param name="k20_twitter" type="field" key="name" default="" blanktext="- Select CB Field -" label="Twitter" description="Select CB field to synchronize model twitter from." />
+								<param name="k20_facebook" type="field" key="name" default="" blanktext="- Select CB Field -" label="Facebook" description="Select CB field to synchronize model facebook from." />
+								<param name="k20_gtalk" type="field" key="name" default="" blanktext="- Select CB Field -" label="GTalk" description="Select CB field to synchronize model gtalk from." />
+								<param name="k20_myspace" type="field" key="name" default="" blanktext="- Select CB Field -" label="MySpace" description="Select CB field to synchronize model myspace from." />
+								<param name="k20_linkedin" type="field" key="name" default="" blanktext="- Select CB Field -" label="LinkedIn" description="Select CB field to synchronize model linkedin from." />
+								<param name="k20_delicious" type="field" key="name" default="" blanktext="- Select CB Field -" label="Delicious" description="Select CB field to synchronize model delicious from." />
+								<param name="k20_friendfeed" type="field" key="name" default="" blanktext="- Select CB Field -" label="FriendFeed" description="Select CB field to synchronize model friendfeed from." />
+								<param name="k20_digg" type="field" key="name" default="" blanktext="- Select CB Field -" label="Digg" description="Select CB field to synchronize model digg from." />
+								<param name="k20_blogspot" type="field" key="name" default="" blanktext="- Select CB Field -" label="BlogSpot" description="Select CB field to synchronize model blogspot from." />
+								<param name="k20_flickr" type="field" key="name" default="" blanktext="- Select CB Field -" label="Flickr" description="Select CB field to synchronize model flickr from." />
+								<param name="k20_bebo" type="field" key="name" default="" blanktext="- Select CB Field -" label="Bebo" description="Select CB field to synchronize model bebo from." />
+								<param name="k20_website" type="field" key="name" default="" blanktext="- Select CB Field -" label="Website" description="Select CB field to synchronize model website from." />
+								<param name="k20_email" type="field" key="name" default="" blanktext="- Select CB Field -" label="Hide Email" description="Select CB field to synchronize model hide email from (values: 0 = Hide, 1 = Show)." />
+								<param name="k20_online" type="field" key="name" default="" blanktext="- Select CB Field -" label="Show Online" description="Select CB field to synchronize model show online from (values: 0 = Hide, 1 = Show)." />
+							</tabpanetab>
+							<tabpanetab name="kunena20modeltabssidebar" label="Sidebar">
+								<param name="k20_sidebar_reg" type="textarea" default="" rows="6" cols="40" label="Registered" description="Input substitution supported sidebar display for registered users." />
+								<param name="k20_sidebar_anon" type="textarea" default="" rows="6" cols="40" label="Anonymous" description="Input substitution supported sidebar display for anonymous users." />
+								<param name="k20_sidebar_del" type="textarea" default="" rows="6" cols="40" label="Deleted" description="Input substitution supported sidebar display for deleted users." />
+							</tabpanetab>
+						</tabpane>
+					</param>
+				</if>
+			</tabpanetab>
+		</tabpane>
+	</params>
+	<database>
+	</database>
+</cbinstall>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" version="1.6" client="site" method="upgrade">
+	<name>Community Builder Login module</name>
+	<creationDate>2015-09-22</creationDate>
+	<author>CB Team</author>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved2 License</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2. All copyright statements must be kept and derivative work must prominently duly acknowledge original work on web interface and on website where downloaded.</license>
+	<authorEmail>cbteam@joomlapolis.com</authorEmail>
+	<authorUrl>http://www.joomlapolis.com/</authorUrl>
+	<version>2.0.11</version>
+	<description>Login module to be used with Community Builder instead of the Login module.</description>
+	<scriptfile>script.mod_cblogin.php</scriptfile>
+	<files>
+		<filename module="mod_cblogin">mod_cblogin.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="loginlogout" label="Login and Logout Options">
+				<field name="show_buttons_icons" type="list" default="0" label="Login and Logout Buttons" description="Select how to display the login and logout buttons.">
+					<option value="4">Text</option>
+					<option value="0">Button and Text</option>
+					<option value="2">Icon</option>
+					<option value="3">Button and Icon</option>
+					<option value="1">Button, Icon, and Text</option>
+				</field>
+				<field name="https_post" type="radio" default="0" label="Encrypt Login Form" description="Submit encrypted login data (requires SSL). Do not enable this option if Joomla is not accessible using the https:// protocol prefix." >
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="cb_plugins" type="radio" default="0" label="CB Plugins integration" description="Choose if you want to use CB events for CB plugins integration. Plugins must be installed and configured in CB plugins management. Warning: this loads CB plugins on each page where this module is displayed, consuming memory and processing power." >
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+			</fieldset>
+			<fieldset name="login" label="Login Options">
+				<field name="pretext" type="textarea" filter="raw" cols="20" rows="5" default="" label="Login Pre-text" description="Input substitution supported html to display at the top of the login form." />
+				<field name="posttext" type="textarea" filter="raw" cols="20" rows="5" default="" label="Login Post-text" description="Input substitution supported html to display at the bottom of the login form." />
+				<field name="login" type="text" default="" label="Login Redirection URL" description="What page will the login redirect to after login. If let blank will reload current page" />
+				<field name="name_label" type="list" default="5" label="Username Input Label" description="Select how to display the label for the username input.">
+					<option value="0">Hide</option>
+					<option value="1">Text</option>
+					<option value="2">Icon</option>
+					<option value="3">Icon and Text</option>
+					<option value="4">Placeholder Text</option>
+					<option value="5">Icon and Placeholder Text</option>
+				</field>
+				<field name="name_length" type="text" default="14" label="Username Input Length" description="Input the length in characters to display the username input as." />
+				<field name="pass_label" type="list" default="5" label="Password Input Label" description="Select how to display the label for the password input.">
+					<option value="0">Hide</option>
+					<option value="1">Text</option>
+					<option value="2">Icon</option>
+					<option value="3">Icon and Text</option>
+					<option value="4">Placeholder Text</option>
+					<option value="5">Icon and Placeholder Text</option>
+				</field>
+				<field name="pass_length" type="text" default="14" label="Password Input Length" description="Input the length in characters to display the password input as." />
+				<field name="key_label" type="list" default="5" label="Secret Key Label" description="Select how to display the label for the secret key input. Note this is only available if two step authentication is enabled.">
+					<option value="0">Hide</option>
+					<option value="1">Text</option>
+					<option value="2">Icon</option>
+					<option value="3">Icon and Text</option>
+					<option value="4">Placeholder Text</option>
+					<option value="5">Icon and Placeholder Text</option>
+				</field>
+				<field name="key_length" type="text" default="14" label="Secret Key Length" description="Input the length in characters to display the secret key input as. Note this is only available if two step authentication is enabled." />
+				<field name="remember_enabled" type="list" default="1" label="Remember Me Checkbox" description="Select how to display the remember me checkbox.">
+					<option value="1">Show Unchecked</option>
+					<option value="3">Show Checked</option>
+					<option value="0">Hide Unchecked</option>
+					<option value="2">Hide Checked</option>
+				</field>
+				<field name="show_lostpass" type="list" default="1" label="Forgot Login Link" description="Show or hide the forgot login link.">
+					<option value="0">Hide</option>
+					<option value="1">Text</option>
+					<option value="2">Icon</option>
+					<option value="3">Icon and Text</option>
+				</field>
+				<field name="show_newaccount" type="list" default="1" label="Register Login Link" description="Show or hide the register link. This does not disable registration, but simply controls the display of the registration link on this module.">
+					<option value="0">Hide</option>
+					<option value="1">Text</option>
+					<option value="2">Icon</option>
+					<option value="3">Icon and Text</option>
+				</field>
+				<field name="login_message" type="radio" default="0" label="Login Message" description="Show or hide a message indicating login success.">
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+			</fieldset>
+			<fieldset name="logout" label="Logout Options">
+				<field name="logoutpretext" type="textarea" filter="raw" cols="20" rows="5" default="" label="Logout Pre-text" description="Input substitution supported html to display at the top of the logout form." />
+				<field name="logoutposttext" type="textarea" filter="raw" cols="20" rows="5" default="" label="Logout Post-text" description="Input substitution supported html to display at the bottom of the logout form." />
+				<field name="logout" type="text" default="index.php" label="Logout Redirection URL" description="What page will the logout redirect to after logout. With a double-cross (#) it will reload current page. If let blank or set to index.php, it will go to home-page, avoiding unauthorized access messages." />
+				<field name="greeting" type="radio" default="1" label="Show Greeting" description="Show or hide greeting.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="show_avatar" type="radio" default="1" label="Show Avatar" description="Show or hide users avatar.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="text_show_profile" type="text" default="" size="30" label="Profile Link Text" description="A text or HTML to display in a link to user's profile which displays in login module when user is logged in. WARNING: you always need to create a public menu item to CB Profile (see README file). HINT: you can use language definition. Leave empty to not display. It will follow icons settings for register/login reminder." />
+				<field name="icon_show_profile" type="radio" default="0" label="Profile Link Icon" description="Show or hide profile view link icon.">
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+				<field name="text_edit_profile" type="text" default="" size="30" label="Profile Edit Link Text" description="A text or HTML to display in a link to user's edit profile screen which displays in login module when user is logged in. WARNING: you always need to create a public menu item to CB Profile (see README file). HINT: you can use language definition. Leave empty to not display. It will follow icons settings for register/login reminder." />
+				<field name="icon_edit_profile" type="radio" default="0" label="Profile Edit Link Icon" description="Show or hide profile edit link icon.">
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+				<field name="show_pms" type="list" default="0" label="Private Message Notifications" description="Choose if you want to display count of unread PMS messages. PMS integration must be activated in CB configuration." >
+					<option value="0">Hide</option>
+					<option value="1">Show New Messages</option>
+					<option value="2">Always Show</option>
+				</field>
+				<field name="show_pms_icon" type="radio" default="0" label="Private Message Icon" description="Show or hide private message notifications icon.">
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+				<field name="show_connection_notifications" type="list" default="0" label="Connection Request Notifications" description="Choose if you want to display Connections notifications for pending approvals etc. Connections must be activated in CB configuration." >
+					<option value="0">Hide</option>
+					<option value="1">Show Pending Connections</option>
+					<option value="2">Always Show</option>
+				</field>
+				<field name="show_connection_notifications_icon" type="radio" default="0" label="Connection Request Icon" description="Show or hide connection request notifications icon.">
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+				<field name="logout_message" type="radio" default="0" label="Logout Message" description="Show or hide a message indicating logout success.">
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced" label="Advanced Options">
+				<field name="layout" type="modulelayout" default="_:bootstrap" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field name="cache" type="list" default="0" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC">
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+	<!-- Now done through package:
+	<updateservers>
+		<server type="extension" priority="1" name="Community Builder Login Module Update Site">http://update.joomlapolis.net/versions/mod_cblogin-update.xml</server>
+	</updateservers>
+	-->
+</extension>

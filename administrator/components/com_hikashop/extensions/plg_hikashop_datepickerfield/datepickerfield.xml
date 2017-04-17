@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="hikashop" method="upgrade">
+	<name>HikaShop: Date Picker Custom Field</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Obsidev</author>
+	<authorEmail>dev@obsidev.com</authorEmail>
+	<authorUrl>http://www.obsidev.com</authorUrl>
+	<copyright>Copyright (C) 2012-2015 OBSIDEV SARL - All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>HikaShop: Date Picker Custom Field</description>
+	<files>
+		<filename plugin="datepickerfield">datepickerfield.php</filename>
+		<filename>datepickerfield_class.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="time_shift" type="radio" default="0" label="Set hour to 12:00 when processing time" description="This option can fixed some issues when using server with special timezone configuration">
+			<option value="0">No</option><option value="1">Yes</option>
+		</param>
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field name="time_shift" type="radio" default="0" label="Set hour to 12:00 when processing time" description="This option can fixed some issues when using server with special timezone configuration">
+					<option value="0">No</option><option value="1">Yes</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

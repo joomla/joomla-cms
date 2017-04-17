@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/plugin-install.dtd">
+<extension type="plugin" version="2.5" method="upgrade" group="hikashoppayment">
+	<name>Hikashop WorldPay Business Gateway Plugin</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Jonathan Brain</author>
+	<authorEmail>brainforge@btinternet.com</authorEmail>
+	<authorUrl>http://www.brainforge.co.uk</authorUrl>
+	<copyright>Copyright (C) 2011 Jonathan Brain derived from paypal module by HIKARI SOFTWARE SARL - All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Payment Plug-in for WorldPay Business Gateway.
+&lt;br/&gt;
+In order to configure and use this plug-in you must have a WorldPay Business Gateway account.
+&lt;br/&gt;
+Business Gateway is sometimes referred to as &quot;Select Junior&quot;.
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;b&gt;Business Gateway Integration Guides:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;
+http://www.worldpay.com/support/bg/index.php?page=development&amp;c=WW
+&lt;/li&gt;
+&lt;li&gt;
+http://www.worldpay.com/support/kb/bg/htmlredirect/rhtml.html
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;b&gt;Business Gateway example pages:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;
+http://www.worldpay.com/support/bg/index.php?page=development?=integration&amp;subsub=examples&amp;c=WW
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;b&gt;Merchant Administration Interface (MAI) guide:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;
+	http://www.worldpay.com/support/kb/bg/mainavigation/mi.html
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;b&gt;Testmode values:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;
+100 for accepted response.
+&lt;/li&gt;
+&lt;li&gt;
+101 for declined response.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;b&gt;Administration server:&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;
+URL: https://www.worldpay.com/admin
+&lt;/li&gt;
+&lt;/ul&gt;
+In your admin pages set the &lt;i&gt;Payment Response URL to:&lt;/i&gt;
+&lt;br/&gt;
+&amp;lt;WPDISPLAY ITEM=MC_callback&amp;gt;
+	</description>
+	<files>
+		<filename plugin="bf_rbsbusinessgateway">bf_rbsbusinessgateway.php</filename>
+		<filename>bf_rbsbusinessgateway_end.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+	</params>
+</extension>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="editlist" type="params" ui="admin" label="List" icon="list" description="" viewformatting="div">
+			<toolbarmenu>
+				<menu name="apply" action="apply" task="act=apply" label="Save" />
+				<menu name="save" action="save" task="act=save" label="Save &amp; Close" />
+				<menu name="savenew" action="custom" task="act=savenew" label="Save &amp; New" icon="save-new" />
+				<menu name="savecopy" action="custom" task="act=savecopy" label="Save as Copy" icon="save-copy" />
+				<menu name="cancel" action="linkAction" task="cancel" link="cb_action:lists" label="Cancel" />
+				<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/list-management-edit?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+			</toolbarmenu>
+			<param name="" type="group" label="" display="2lines">
+				<param name="title" type="text" label="Title %s" size="80" description="Optionally input the title to display as this list title." />
+			</param>
+			<tabpane name="editpane">
+				<tabpanetab name="global" label="Global" description="">
+					<grid fluid="true">
+						<gridcol size="9">
+							<gridrow>
+								<param name="description" type="htmlarea" width="100%" height="400px" label="Description" display="2lines" description="Optionally input the description to describe this lists purpose." />
+							</gridrow>
+						</gridcol>
+						<gridcol size="3">
+							<gridrow>
+								<param name="published" type="published" default="1" label="Publish" display="2lines" description="Select the publish state of this list." />
+								<param name="default" type="published" default="1" label="Default" display="2lines" description="Select the default state of this list. Note the default list should have the lowest Access Level (recommended Public)." />
+								<param name="viewaccesslevel" type="viewaccesslevel" default="1" label="Access Level" managelevels="false" display="2lines" description="Select the view access level for this list. Only users which are in groups assigned to this view access level will see this list." />
+								<param name="usergroupids" type="usergroup" default="2" label="Usergroups" size="10" multiple="true" managegroups="false" display="2lines" description="Select the usergroups to include in this list. Only users which are in the selected groups will be displayed." />
+							</gridrow>
+						</gridcol>
+					</grid>
+				</tabpanetab>
+				<tabpanetab name="sort" label="Sorting" description="">
+					<params name="params" type="params">
+						<param name="sort_mode" type="xml:list_mode" default="0" label="" display="2lines" />
+						<if name="sort_mode" type="showhide" operator="=" value="0" valuetype="const:int">
+							<param name="basicsorting" type="group" label="" display="2lines" formatting="span">
+								<params name="sort_basic" type="params" repeat="true" label="" description="Select field and direction for user list sorting." display="2lines">
+									<param name="column" type="field" key="name" storable="true" default="username" translate-default="no" label="" blanktext="- Select Field -">
+										<optgroup label="Recommended">
+											<option value="username">Username</option>
+											<option value="name">Name</option>
+											<option value="firstname">First Name</option>
+											<option value="middlename">Middle Name</option>
+											<option value="lastname">Last Name</option>
+											<option value="email">Email Address</option>
+											<option value="random">Random</option>
+										</optgroup>
+										<optgroup label="Fields" />
+									</param>
+									<param name="direction" type="xml:list_direction" default="ASC" translate-default="no" label="" blanktext="- Select Direction -" />
+								</params>
+							</param>
+						</if>
+						<if name="sort_mode" type="showhide" operator="=" value="1" valuetype="const:int">
+							<param name="sort_advanced" type="textarea" cols="150" rows="10" label="" description="Input a valid sql ORDER BY statement using u. to prefix user table columns (e.g., u.`username` ASC, u.`email` DESC) and ue. to prefix comprofiler table columns (e.g., ue.`cb_city` DESC, ue.`cb_country` ASC). Example: u.`username` ASC, u.`email` DESC, ue.`cb_city` DESC, ue.`cb_country` ASC" display="2lines" />
+						</if>
+					</params>
+				</tabpanetab>
+				<tabpanetab name="filter" label="Filters" description="">
+					<params name="params" type="params">
+						<param name="filter_mode" type="xml:list_mode" default="0" label="" display="2lines" />
+						<if name="filter_mode" type="showhide" operator="=" value="0" valuetype="const:int">
+							<param name="basicfilters" type="group" label="" display="2lines" formatting="span">
+								<params name="filter_basic" type="params" repeat="true" label="" description="Specify field, operator and comparison value for user list filtering. CB field substitutions are supported." display="2lines">
+									<param name="column" type="field" key="name" storable="true" default="" label="" blanktext="- Select Field -" />
+									<param name="operator" type="xml:user_operator" default="" label="" blanktext="- Select Operator -" />
+									<param name="value" type="string" default="" label="" />
+								</params>
+							</param>
+						</if>
+						<if name="filter_mode" type="showhide" operator="=" value="1" valuetype="const:int">
+							<param name="filter_advanced" type="textarea" cols="150" rows="10" label="" description="Input a valid sql WHERE statement using u. to prefix user table columns (e.g., u.`username`, u.`email`) and ue. to prefix comprofiler table columns (e.g., ue.`cb_city`, ue.`cb_country`). CB field substitutions are supported. Example: (u.`username` &lt;&gt; 'admin' AND u.`email` NOT LIKE '%gmail.com') OR (ue.`cb_country` &lt;&gt; 'U.S.A')" display="2lines" />
+						</if>
+					</params>
+				</tabpanetab>
+				<tabpanetab name="column" label="Columns" description="">
+					<params name="params" type="params">
+						<params name="columns" type="params" repeat="true" label="" display="2lines">
+							<grid fluid="true">
+								<gridcol size="3">
+									<gridrow>
+										<param name="title" type="string" default="USERLIST_TITLE_COLUMN1" translated-default="Column 1" label="Title" description="Enter title to be displayed for this column." display="2lines" />
+										<param name="size" type="xml:list_size" default="3" label="Size" description="Select bootstrap column size. Total bootstrap column count is 12 so if you want to have a 4 column user list you should set this to 3 for each column." display="2lines" />
+										<param name="cssclass" type="string" default="" label="CSS Class" description="CSS class name to be added to this column." display="2lines" />
+									</gridrow>
+								</gridcol>
+								<gridcol size="9">
+									<gridrow>
+										<param name="" type="group" label="" display="2lines" formatting="span">
+											<params name="fields" type="params" repeat="true" label="" description="Select field and display mode pairs for this column." display="2lines">
+												<param name="field" type="field" default="" profile="true" label="" blanktext="- Select Field -" />
+												<param name="display" type="xml:list_field_display" default="" label="" blanktext="- Select Display -" />
+											</params>
+										</param>
+									</gridrow>
+								</gridcol>
+							</grid>
+						</params>
+					</params>
+				</tabpanetab>
+				<tabpanetab name="params" label="Parameters" description="">
+					<params name="params" type="params">
+						<tabpane name="editpaneparams">
+							<tabpanetab name="search" label="Search" description="Users-lists can be searchable by multiple criteria, according to settings below, and the 'searchable' attribute of the listed fields." display="2lines">
+								<param name="list_search" type="xml:list_search" default="1" label="Searchable fields" description="Whether this list has user-searchable fields" />
+								<if name="list_search" type="showhide" operator="=" value="3" valuetype="const:int">
+									<param name="list_search_fields" type="multifield" searchable="true" size="6" default="" label="Fields to search" description="Select the searchable fields to display for searching." />
+								</if>
+								<if name="list_search" type="showhide" operator="&gt;" value="0" valuetype="const:int">
+									<param name="list_compare_types" type="xml:list_compare_types" default="0" label="Search crieteria" description="If users should be able to choose the type of comparison to be made (only standard 'is' and ranges can be optimized in mysql with proper indexes)." />
+									<param name="list_search_empty" type="yesno" default="0" label="Hide Empty Searches" description="Whether a list should hide the results of an empty search. This will result in List All and no search criteria results hiding the results and showing the search criteria only." />
+									<param name="list_search_collapse" type="yesno" default="0" label="Collapse Search Criteria" description="Whether a list should collapse the search criteria after making a search. This will result in the criteria being hidden after each search and can be expanded again by clicking Search Users." />
+								</if>
+							</tabpanetab>
+							<tabpanetab name="display" label="Display" description="">
+								<param name="list_show_selector" type="yesno" default="1" label="Show List Selector" description="Whether this list shows userlist selector or not. Default is yes." />
+								<param name="list_show_blocked" type="yesno" default="0" label="Show Blocked" description="Whether this list shows blocked users or not. Note only moderators can access these users profile. Default is no." />
+								<param name="list_show_banned" type="yesno" default="1" label="Show Banned" description="Whether this list shows banned users or not. Note only moderators can access these users profile. Default is yes." />
+								<param name="list_show_unapproved" type="yesno" default="0" label="Show Unapproved" description="Whether this list shows unapproved users or not. Note only moderators can access these users profile. Default is no." />
+								<param name="list_show_unconfirmed" type="yesno" default="0" label="Show Unconfirmed" description="Whether this list shows unconfirmed users or not. Note only moderators can access these users profile. Default is no." />
+								<param name="list_grid_layout" type="yesno" default="0" label="Use Grid Layout" description="Whether this list should show as a grid of users or a list of users. Note this only works for div based output. Default is no." />
+								<if name="list_grid_layout" type="showhide" operator="=" value="1" valuetype="const:int">
+									<param name="list_grid_height" type="text" size="12" default="200" label="Grid Height" description="The height of a users grid box. If left blank none will be applied and pure CSS solutions can be used." />
+									<param name="list_grid_width" type="text" size="12" default="200" label="Grid Width" description="The width of a users grid box. If left blank none will be applied and pure CSS solutions can be used." />
+								</if>
+							</tabpanetab>
+							<tabpanetab name="paging" label="Paging" description="">
+								<param name="list_limit" type="text" size="12" default="30" label="Number of entries per page" description="Number of users appearing per page. Leave empty for no limit. Default is 30." />
+								<param name="list_paging" type="yesno" default="1" label="Show pagination" description="Whether this list shows links for paging or just displays entries from first page. Default is yes." />
+							</tabpanetab>
+							<tabpanetab name="linking" label="Linking" description="">
+								<param name="allow_profilelink" type="yesno" default="1" label="Allow Link to Profile" description="Select 'Yes' to allow each row to link to the related users profile and 'No' to prevent profile links on lists. Default is yes." />
+								<if name="allow_profilelink" type="showhide" operator="=" value="1" valuetype="const:int">
+									<param name="hotlink_protection" type="yesno" default="0" label="Hot-linking protection for this users-list" description="Whether you want the links to the pages and searches in this list to not be permanent (we add a parameter which is valid for a few hours to all urls except first page and check it), so that except first page it's not hotlinkable and there are no permanent links on paging and on search criteria. Default is NO." />
+									<if name="hotlink_protection" type="showhide" operator="&gt;" value="0" valuetype="const:int">
+										<fieldset name="hotlink_warning_fieldset" label="WARNING" description="" class="alert alert-danger">
+											<param name="hotlink_warning" type="spacer" label="WARNING" default="Setting hot-linking protection to 'Yes' will prevent all pages from this list (if everybody has allowed access to it), except first page of list, to be bookmarkable and indexable by slow-pace search bots and search engines such as google, making the user profiles not indexed in search engines (if they are publicly accessible). This may be desirable in some cases, but removes all users-pages from the search-engines indexing, except for the users of the first page." description="" />
+										</fieldset>
+									</if>
+								</if>
+							</tabpanetab>
+						</tabpane>
+					</params>
+				</tabpanetab>
+			</tabpane>
+		</view>
+	</views>
+</cbxml>

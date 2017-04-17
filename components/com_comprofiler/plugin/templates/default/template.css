@@ -1,0 +1,1878 @@
+.cb_template form {
+  margin: 0;
+}
+@media (min-width: 767px) {
+  .cb_template form .cb_form_line:not( .cbtwolinesfield ).cbft_file > .control-label,
+  .cb_template form .cb_form_line:not( .cbtwolinesfield ).cbft_video > .control-label,
+  .cb_template form .cb_form_line:not( .cbtwolinesfield ).cbft_audio > .control-label,
+  .cb_template form .cb_form_line:not( .cbtwolinesfield ).cbft_image > .control-label,
+  .cb_template form .cb_form_line:not( .cbtwolinesfield ).cbtt_button > .control-label,
+  .cb_template form .cb_form_line:not( .cbtwolinesfield ).cbtt_input > .control-label,
+  .cb_template form .cb_form_line:not( .cbtwolinesfield ).cbtt_select > .control-label,
+  .cb_template form .cb_form_line:not( .cbtwolinesfield ).cbtt_textarea > .control-label {
+    padding-top: 8px;
+  }
+}
+@media (max-width: 767px) {
+  .cb_template form .cb_form_line .form-control-static {
+    padding: 0;
+  }
+}
+.cb_template form .cb_form_line.cbtwolinesfield .form-control-static {
+  padding: 0;
+}
+.cb_template form .cb_form_line .form-control-static {
+  padding-top: 8px;
+  padding-bottom: 0;
+}
+.cb_template form .cb_form_line .radio-inline,
+.cb_template form .cb_form_line .checkbox-inline {
+  position: relative;
+  min-height: 20px;
+}
+.cb_template form .cb_form_line .radio-inline > input,
+.cb_template form .cb_form_line .checkbox-inline > input {
+  margin-left: 0;
+  left: 0;
+}
+.cb_template select,
+.cb_template textarea,
+.cb_template input[type="text"],
+.cb_template input[type="password"] {
+  /* workaround to aggressive Joomla 3.0 styling */
+  margin: 0;
+}
+.cb_template fieldset input,
+.cb_template fieldset textarea,
+.cb_template fieldset select,
+.cb_template fieldset img,
+.cb_template fieldset button {
+  /* workaround to aggressive Joomla 2.5 styling */
+  float: none;
+}
+.cb_template fieldset li {
+  /* workaround to aggressive Joomla 2.5 styling */
+  padding: 0;
+}
+.cb_template .cbPointsFieldIncrement {
+  cursor: pointer;
+}
+.cb_template .cbFieldset {
+  display: block;
+  border: 1px solid #e5e5e5;
+  padding: 6px 12px;
+  margin-bottom: 15px;
+}
+.cb_template .cbFieldset > legend {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  border: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+.cb_template .cbRepeat div.cbRepeatRow {
+  position: relative;
+}
+.cb_template .cbRepeat div.cbRepeatRow .cbRepeatRowSort,
+.cb_template .cbRepeat div.cbRepeatRow .cbRepeatRowIncrement {
+  position: static;
+}
+.cb_template .cbRepeat div.cbRepeatRow .cbRepeatRowMove,
+.cb_template .cbRepeat div.cbRepeatRow .cbRepeatRowAddRemove {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+.cb_template .cbRepeat div.cbRepeatRow .cbRepeatRowMove {
+  left: 10px;
+}
+.cb_template .cbRepeat div.cbRepeatRow .cbRepeatRowAddRemove {
+  right: 10px;
+}
+.cb_template .cbRepeat .cbRepeatRow {
+  margin-bottom: 15px;
+}
+.cb_template .cbRepeat .cbRepeatRow .table {
+  margin-bottom: 0;
+}
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowParams {
+  margin-right: 90px;
+}
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowSort + .cbRepeatRowParams {
+  margin-left: 45px;
+}
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowPlaceholder {
+  border-style: dashed;
+}
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowAdd,
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowRemove {
+  cursor: pointer;
+}
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowMove {
+  cursor: move;
+}
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowRemove + .cbRepeatRowAdd {
+  margin-left: 10px;
+}
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowRemove.hidden + .cbRepeatRowAdd {
+  margin-left: 0;
+}
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowAdd + .cbRepeatRowRemove {
+  margin-left: 10px;
+}
+.cb_template .cbRepeat .cbRepeatRow .cbRepeatRowAdd.hidden + .cbRepeatRowRemove {
+  margin-left: 0;
+}
+.cb_template .cbRepeat .control-label,
+.cb_template .cbRepeat .form-control {
+  vertical-align: middle;
+}
+.cb_template .cbFieldSpan > .cbRepeat {
+  display: inline-block;
+}
+.cb_template .cbFieldSpan > .cbValidationMessage {
+  display: inline-block;
+  margin: 0 0 0 5px;
+}
+.cb_template .cb_form_line > .cb_field > div > .form-group {
+  margin-bottom: 0;
+}
+.cb_template .cb_form_line > .cb_field > div > .form-group + .form-group {
+  margin-top: 15px;
+}
+.cb_template .cb_form_line > .cb_field > div > .form-group > .table {
+  margin-bottom: 0;
+}
+.cb_template .cbUserListFieldLine .cbUserListFieldTitle,
+.cb_template .control-label {
+  font-weight: normal;
+  font-size: 13px;
+  color: #555555;
+  padding-top: 1px;
+  margin: 0;
+}
+@media (max-width: 767px) {
+  .cb_template .cbUserListFieldLine .cbUserListFieldTitle,
+  .cb_template .control-label {
+    margin-bottom: 5px;
+  }
+}
+.cb_template .cbtwolinesfield .control-label {
+  margin-bottom: 5px;
+}
+.cb_template .cbValidationMessage {
+  margin: 5px 0 0 0;
+}
+.cb_template .cbValidationMessage .cbValidationIcon {
+  margin-right: 5px;
+}
+.cb_template .cbSingleCntrl,
+.cb_template .cbSnglCtrlLbl {
+  margin-right: 10px;
+}
+.cb_template .cbSingleCntrl:last-child,
+.cb_template .cbSnglCtrlLbl:last-child {
+  margin-right: 0;
+}
+.cb_template .cbSingleCntrl + .cbFieldIcons,
+.cb_template .cbSnglCtrlLbl + .cbFieldIcons {
+  margin-left: -7px;
+}
+.cb_template .cbScroller {
+  position: relative;
+}
+.cb_template .cbScroller .cbScrollerLeft,
+.cb_template .cbScroller .cbScrollerRight {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 20px;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  z-index: 1;
+}
+.cb_template .cbScroller .cbScrollerLeft > button,
+.cb_template .cbScroller .cbScrollerRight > button {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.cb_template .cbScroller .cbScrollerLeft {
+  left: 5px;
+  text-align: left;
+}
+.cb_template .cbScroller .cbScrollerRight {
+  right: 5px;
+  text-align: right;
+}
+.cb_template .cbScroller .cbScrollerContent {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.cb_template .cbScroller.cbScrollerWidth {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.cb_template .cbScroller.cbScrollerHeight {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+.cb_template .cbMoreLess {
+  position: relative;
+}
+.cb_template .cbMoreLess .cbMoreLessOpen,
+.cb_template .cbMoreLess .cbMoreLessClose {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  text-align: right;
+}
+.cb_template .cbMoreLess .cbMoreLessOpen .cbMoreLessButton,
+.cb_template .cbMoreLess .cbMoreLessClose .cbMoreLessButton {
+  background-color: #ffffff;
+}
+.cb_template .cbMoreLess .cbMoreLessOpen .fade-edge,
+.cb_template .cbMoreLess .cbMoreLessClose .fade-edge {
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffffff', GradientType=0);
+}
+.cb_template .cbMoreLess .cbMoreLessContent {
+  vertical-align: top;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.cb_template .cbMoreLess.cbMoreLessOpened .cbMoreLessContent {
+  max-height: none;
+}
+.cb_template .cbMoreLess.cbMoreLessClosed .cbMoreLessContent {
+  max-height: 100px;
+}
+@media (min-width: 768px) {
+  .cb_template .cbTabsMenuNavBar .cbScrollerWidth .cbScrollerContent {
+    margin-right: 23px !important;
+  }
+  .cb_template .cbTabsMenuNavBar.cbTabsMenuNavBarMore .cbScrollerWidth .cbScrollerContent {
+    margin-right: 58px !important;
+  }
+  .cb_template .cbTabsMenuNavBar.cbTabsMenuNavBarMore .cbScrollerRight {
+    right: 63px;
+  }
+}
+@media (max-width: 767px) {
+  .cb_template .cbTabsMenuNavBar .cbScrollerLeft,
+  .cb_template .cbMenuNavBar .cbScrollerLeft,
+  .cb_template .cbTabsMenuNavBar .cbScrollerRight,
+  .cb_template .cbMenuNavBar .cbScrollerRight {
+    display: none;
+  }
+}
+.cb_template .cbTabsMenuNavBar .cbTabsMenuNavBarToggle:not(.collapsed),
+.cb_template .cbMenuNavBar .cbTabsMenuNavBarToggle:not(.collapsed),
+.cb_template .cbTabsMenuNavBar .cbMenuNavBarToggle:not(.collapsed),
+.cb_template .cbMenuNavBar .cbMenuNavBarToggle:not(.collapsed) {
+  background-color: #dddddd;
+}
+.cb_template .cbTabsMenuNavBar .cbTabsMenuNavBarToggle:not(.collapsed) .icon-bar,
+.cb_template .cbMenuNavBar .cbTabsMenuNavBarToggle:not(.collapsed) .icon-bar,
+.cb_template .cbTabsMenuNavBar .cbMenuNavBarToggle:not(.collapsed) .icon-bar,
+.cb_template .cbMenuNavBar .cbMenuNavBarToggle:not(.collapsed) .icon-bar {
+  background-color: #888888;
+}
+.cb_template .cbTabsMenuNav,
+.cb_template .cbMenuNav {
+  position: static;
+  list-style: none !important;
+  margin: 7.5px -15px !important;
+  padding: 0 !important;
+  float: none !important;
+  display: block;
+  width: auto;
+}
+.cb_template .cbTabsMenuNav > li,
+.cb_template .cbMenuNav > li {
+  float: none !important;
+  height: 100%;
+}
+.cb_template .cbTabsMenuNav > li > a,
+.cb_template .cbMenuNav > li > a {
+  height: 100%;
+  text-align: left;
+}
+@media (max-width: 767px) {
+  .cb_template .cbTabsMenuNav > li,
+  .cb_template .cbMenuNav > li {
+    display: block;
+  }
+  .cb_template .cbTabsMenuNav .cbTabNavMenuMoreLink,
+  .cb_template .cbMenuNav .cbTabNavMenuMoreLink,
+  .cb_template .cbTabsMenuNav .cbMenuNavMoreLink,
+  .cb_template .cbMenuNav .cbMenuNavMoreLink {
+    display: block;
+  }
+  .cb_template .cbTabsMenuNav .cbTabNavMenuMoreBtn,
+  .cb_template .cbMenuNav .cbTabNavMenuMoreBtn,
+  .cb_template .cbTabsMenuNav .cbMenuNavMoreBtn,
+  .cb_template .cbMenuNav .cbMenuNavMoreBtn {
+    display: none;
+  }
+  .cb_template .cbTabsMenuNav .dropdown-menu,
+  .cb_template .cbMenuNav .dropdown-menu {
+    padding: 5px 0 !important;
+    margin: 0 !important;
+  }
+  .cb_template .cbTabsMenuNav .dropdown-menu:before,
+  .cb_template .cbMenuNav .dropdown-menu:before {
+    display: none !important;
+  }
+  .cb_template .cbTabsMenuNav .dropdown-menu > .active > a,
+  .cb_template .cbMenuNav .dropdown-menu > .active > a {
+    background-image: -webkit-linear-gradient(top, #ebebeb 0%, #f3f3f3 100%);
+    background-image: linear-gradient(to bottom, #ebebeb 0%, #f3f3f3 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffebebeb', endColorstr='#fff3f3f3', GradientType=0);
+    box-shadow: inset 0 3px 9px rgba(0, 0, 0, 0.075);
+    font-weight: normal;
+  }
+  .cb_template .cbTabsMenuNav .dropdown-menu > li > a,
+  .cb_template .cbMenuNav .dropdown-menu > li > a {
+    text-align: left;
+  }
+}
+@media (min-width: 768px) {
+  .cb_template .cbTabsMenuNav,
+  .cb_template .cbMenuNav {
+    height: 50px;
+    overflow: hidden;
+    margin: 0 !important;
+  }
+  .cb_template .cbTabsMenuNav > li,
+  .cb_template .cbMenuNav > li {
+    display: inline-block;
+  }
+  .cb_template .cbTabsMenuNav > li > a,
+  .cb_template .cbMenuNav > li > a {
+    padding: 10px 15px !important;
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+  }
+  .cb_template .cbTabsMenuNav .cbTabNavMenuMore,
+  .cb_template .cbMenuNav .cbTabNavMenuMore,
+  .cb_template .cbTabsMenuNav .cbMenuNavMore,
+  .cb_template .cbMenuNav .cbMenuNavMore {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .cb_template .cbTabsMenuNav .cbTabNavMenuMoreLink,
+  .cb_template .cbMenuNav .cbTabNavMenuMoreLink,
+  .cb_template .cbTabsMenuNav .cbMenuNavMoreLink,
+  .cb_template .cbMenuNav .cbMenuNavMoreLink {
+    display: none;
+  }
+  .cb_template .cbTabsMenuNav .cbTabNavMenuMoreBtn,
+  .cb_template .cbMenuNav .cbTabNavMenuMoreBtn,
+  .cb_template .cbTabsMenuNav .cbMenuNavMoreBtn,
+  .cb_template .cbMenuNav .cbMenuNavMoreBtn {
+    display: block;
+  }
+  .cb_template .cbTabsMenuNav .dropdown-menu,
+  .cb_template .cbMenuNav .dropdown-menu {
+    display: none !important;
+    padding: 5px 0 !important;
+    margin: 2px 0 0 !important;
+  }
+  .cb_template .cbTabsMenuNav.cbTabsMenuNavMore,
+  .cb_template .cbMenuNav.cbTabsMenuNavMore,
+  .cb_template .cbTabsMenuNav.cbMenuNavMore,
+  .cb_template .cbMenuNav.cbMenuNavMore {
+    position: static;
+    margin-right: 50px !important;
+    white-space: nowrap;
+  }
+}
+.cb_template .cbTabsMenuNav > li > ul,
+.cb_template .cbMenuNav > li > ul {
+  list-style: none !important;
+}
+.cb_template .cbTabsMenuNav .dropdown.open > .navbar-toggle,
+.cb_template .cbMenuNav .dropdown.open > .navbar-toggle {
+  background-color: #dddddd;
+}
+.cb_template .cbTabsMenuNav .dropdown.open > .navbar-toggle .icon-bar,
+.cb_template .cbMenuNav .dropdown.open > .navbar-toggle .icon-bar {
+  background-color: #888888;
+}
+.cb_template .cbTabsMenu .cbTabPaneMenu,
+.cb_template .cbTabsMenu .cbTabPaneMenuNested {
+  padding-top: 0;
+}
+.cb_template .cbPosCanvas {
+  position: relative;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader {
+  position: relative;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbFields,
+.cb_template .cbPosCanvas .cbPosCanvasHeader tr,
+.cb_template .cbPosCanvas .cbPosCanvasHeader tr:hover,
+.cb_template .cbPosCanvas .cbPosCanvasHeader tr > td,
+.cb_template .cbPosCanvas .cbPosCanvasHeader tr > td:hover,
+.cb_template .cbPosCanvas .cbPosCanvasHeader tr:hover > td {
+  background: none;
+  border: 0;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbFields,
+.cb_template .cbPosCanvas .cbPosCanvasHeader tr,
+.cb_template .cbPosCanvas .cbPosCanvasHeader tr *,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cb_form_line,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cb_form_line * {
+  margin: 0;
+  padding: 0;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cb_tab_overlib_container,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cb_tab_overlib_fix_container {
+  font-size: 18px;
+  color: #eeeeee;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats {
+  position: absolute;
+  z-index: 2;
+  height: 70px;
+  width: 100%;
+  padding-left: 225px;
+  padding-right: 20px;
+  overflow: hidden;
+  text-align: right;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats {
+    padding-left: 125px;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats.cbScrollerWidth {
+    padding-left: 141px;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cbScrollerLeft {
+    left: 118px;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr {
+    width: 60px;
+  }
+}
+@media (min-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats.cbScrollerWidth {
+    padding-left: 243px;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cbScrollerLeft {
+    left: 220px;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr {
+    width: 100px;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_roundhtml {
+  margin: 0;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_roundhtml .cb_form_line > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_roundhtml tr > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_roundhtml .cb_form_line > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_roundhtml tr > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_roundhtml .cb_form_line > .titleCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_roundhtml tr > .titleCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_roundhtml .cb_form_line > .fieldCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_roundhtml tr > .fieldCell {
+  color: #000000;
+  text-shadow: none;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_content {
+  display: inline-block;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_tab_content.panel-body {
+  padding: 0 5px 0 5px;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr {
+  position: relative;
+  display: inline-block;
+  height: 70px;
+  text-align: right;
+  overflow: hidden;
+  background: none;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .titleCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .titleCell {
+  bottom: 0;
+  height: 20px;
+  font-size: 12px;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .fieldCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .fieldCell {
+  top: 0;
+  height: 50px;
+  font-size: 18px;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .cb_field > div,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .cb_field > div,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .fieldCell > div,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .fieldCell > div {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .titleCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .titleCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line > .fieldCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr > .fieldCell {
+  position: absolute;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #eeeeee;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_table_line_title,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_form_line + .cb_form_line,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats tr + tr {
+  margin-left: 5px;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats .cb_table_line_title {
+  position: absolute;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStats.cbScrollerWidth {
+  padding-right: 28px;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStatsTop {
+  bottom: 125px;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStatsMiddle {
+  bottom: 75px;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasStatsBottom {
+  bottom: 5px;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitle {
+  position: absolute;
+  z-index: 2;
+  height: 50px;
+  width: 100%;
+  padding-left: 225px;
+  overflow: hidden;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitle .cbProfileTitle {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  width: 100%;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitle .cbProfileTitle > h3 {
+  margin: 0 !important;
+  padding: 0;
+  color: #eeeeee !important;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitle .cbProfileTitle > h3 {
+    font-size: 18px;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitle .cb_tab_content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitleTop {
+  bottom: 150px;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitleTop {
+    padding-left: 10px;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitleTop .cbProfileTitle {
+    top: 0;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitleMiddle {
+  bottom: 80px;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitleMiddle {
+    padding-left: 10px;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitleMiddle .cbProfileTitle {
+    top: 0;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitleBottom {
+  bottom: 10px;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasTitleBottom {
+    padding-left: 125px;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasMenu {
+  position: relative;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasMenu {
+    height: 50px;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasMenu .cbMenuNavBar {
+  margin-bottom: 0;
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasMenu .cbMenuNavBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 7;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .tab_Description,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cbImagePendingApproval {
+  display: none;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr {
+  display: block;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .titleCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .titleCell {
+  display: none;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .fieldCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .fieldCell {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .cb_field .cbImgPict + .cbImgPict,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .cb_field .cbImgPict + .cbImgPict,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .fieldCell .cbImgPict + .cbImgPict,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .fieldCell .cbImgPict + .cbImgPict,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .cb_field .cbImgCanvas + .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .cb_field .cbImgCanvas + .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .fieldCell .cbImgCanvas + .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .fieldCell .cbImgCanvas + .cbImgCanvas {
+  display: none;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .cb_field .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .cb_field .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .fieldCell .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .fieldCell .cbImgCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .cb_field img,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .cb_field img,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .fieldCell img,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .fieldCell img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+  border-radius: 0;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .cb_field img,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .cb_field img,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .fieldCell img,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .fieldCell img {
+    min-width: 100%;
+    height: 200px;
+    max-width: inherit;
+  }
+}
+@media (min-width: 768px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .cb_field img,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .cb_field img,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground .cb_form_line > .fieldCell img,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasBackground tr > .fieldCell img {
+    width: 100%;
+    min-height: 200px;
+    max-width: inherit;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .tab_Description,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cbImagePendingApproval {
+  display: none;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr {
+  display: block;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .control-label,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .titleCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .titleCell {
+  display: none;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell {
+  position: absolute;
+  bottom: -25px;
+  left: 15px;
+  height: 200px;
+  width: 200px;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell {
+    height: 100px;
+    width: 100px;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field .cbImgPict + .cbImgPict,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field .cbImgPict + .cbImgPict,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell .cbImgPict + .cbImgPict,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell .cbImgPict + .cbImgPict,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field .cbImgCanvas + .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field .cbImgCanvas + .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell .cbImgCanvas + .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell .cbImgCanvas + .cbImgCanvas {
+  display: none;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell .cbImgCanvas,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell .cbImgCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field img,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field img,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell img,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  max-height: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field .cb_online,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field .cb_online,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell .cb_online,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell .cb_online,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field .cb_offline,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field .cb_offline,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell .cb_offline,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell .cb_offline {
+  position: absolute;
+  bottom: -9px;
+  left: -9px;
+  height: 20px;
+  width: 20px;
+  font-size: 0;
+  color: transparent;
+  overflow: hidden;
+  border: 2px solid #dddddd;
+  border-radius: 50%;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field .cb_online,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field .cb_online,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell .cb_online,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell .cb_online,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field .cb_offline,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field .cb_offline,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell .cb_offline,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell .cb_offline {
+    height: 15px;
+    width: 15px;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field .cb_online,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field .cb_online,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell .cb_online,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell .cb_online {
+  background: #5cb85c;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field .cb_offline,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field .cb_offline,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell .cb_offline,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell .cb_offline {
+  background: #d9534f;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell {
+  /* Workaround to inline table styling */
+  width: 200px !important;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell,
+  .cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell {
+    /* Workaround to inline table styling */
+    width: 100px !important;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cb_form_line > .fieldCell,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto tr > .fieldCell {
+  z-index: 5;
+}
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cbft_status > .cb_field,
+.cb_template .cbPosCanvas .cbPosCanvasHeader .cbPosCanvasPhoto .cbft_status > .fieldCell {
+  z-index: 6;
+}
+.cb_template .cbPosCanvas .cbPosCanvasMain {
+  padding-top: 70px;
+  position: relative;
+}
+.cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainMiddle {
+  position: static;
+}
+.cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainMiddle .cbTabsMenuNavBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 4;
+  margin-top: 0;
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+@media (min-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainMiddle .cbTabsMenuNavBar .cbScrollerWidth .cbScrollerContent {
+    margin-left: 23px !important;
+    margin-right: 70px !important;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainMiddle .cbTabsMenuNavBar .cbScrollerWidth .cbScrollerLeft {
+    left: 216px;
+  }
+}
+.cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainMiddle .cbTabsMenuNavBar .navbar-collapse {
+  position: static;
+  margin-left: 200px;
+  padding: 0;
+}
+@media (max-width: 767px) {
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainMiddle .cbTabsMenuNavBar .navbar-collapse {
+    margin-left: -15px;
+  }
+}
+@media (min-width: 768px) {
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainLeft .cb_form_line > .control-label,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainRight .cb_form_line > .control-label,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainLeft tr > .control-label,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainRight tr > .control-label {
+    font-size: 12px;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainLeft .cb_form_line > .cb_field,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainRight .cb_form_line > .cb_field,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainLeft tr > .cb_field,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainRight tr > .cb_field,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainLeft .cb_form_line > .fieldCell,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainRight .cb_form_line > .fieldCell,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainLeft tr > .fieldCell,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainRight tr > .fieldCell {
+    font-size: 13px;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainLeft .cb_form_line,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainLeft tr {
+    text-align: left;
+  }
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainRight .cb_form_line,
+  .cb_template .cbPosCanvas .cbPosCanvasMain .cbPosCanvasMainRight tr {
+    text-align: right;
+  }
+}
+.cb_template .cbImgCanvas {
+  height: 200px;
+  width: 100%;
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.cb_template div.alert,
+.cb_template span.alert {
+  margin: 5px 0 5px 0;
+}
+.cb_template span.alert {
+  display: inline-block;
+}
+.cb_template .cbTermsFrameURL {
+  display: block;
+}
+.cb_template .cbTermsFrameText {
+  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.cb_template .cbFieldIcons {
+  display: inline-block;
+  margin-left: 3px;
+}
+.cb_template .cbConnectionPaths img {
+  max-width: 40px;
+}
+.cb_template .containerBox {
+  position: relative;
+  display: inline-block;
+  padding: 12px;
+  margin: 0 5px 5px 0;
+  text-align: center;
+  vertical-align: top;
+}
+.cb_template .containerBox .containerBoxInner {
+  overflow: hidden;
+}
+.cb_template #cbMenuNav {
+  /* workaround to aggressive Joomla styling */
+  margin: 0 !important;
+  /* workaround to aggressive Joomla styling */
+  padding: 0 !important;
+}
+.cb_template #cbMenuNav > li {
+  list-style: none;
+}
+.cb_template #cbMenuNav > li > a {
+  padding: 15px 15px;
+}
+.cb_template #cbMenuNav > li > ul {
+  display: block;
+  margin: 0;
+  padding: 5px 0;
+}
+.cb_template #cbMenuNav > li > ul:before,
+.cb_template #cbMenuNav > li > ul:after {
+  display: none;
+}
+.cb_template #cbMenuNav > li > ul > li {
+  list-style: none;
+}
+.cb_template .cbUserListChanger .cbUserListChangeItem + .cbUserListSearchButtons,
+.cb_template .cbUserListChanger .cbUserListSearchButtons + .cbUserListSearchButtons {
+  margin-top: 10px;
+}
+.cb_template .cbSearchKind + .cbSearchCriteria,
+.cb_template .cbSearchFromToLine + .cbSearchFromToLine {
+  margin-top: 15px;
+}
+.cb_template .cbUserListDiv,
+.cb_template .cbUserListTable {
+  margin-top: 20px;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutList {
+  background-color: transparent;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutList > .cbUserListHeader {
+  font-weight: bold;
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutList > .cbUserListRow {
+  vertical-align: top;
+  border-bottom: 1px solid #dddddd;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutList > .cbUserListRow:hover {
+  background-color: #f5f5f5;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutList > .cbUserListRow:last-child {
+  border-bottom: 0;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutList > .cbColumns > div {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+@media (max-width: 767px) {
+  .cb_template .cbUserListDiv.cbUserListLayoutGrid .containerBox {
+    display: block;
+    width: 100%;
+  }
+  .cb_template .cbUserListDiv.cbUserListLayoutGrid .containerBox > .containerBoxInner {
+    width: 100% !important;
+  }
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 {
+  height: 100px;
+  text-align: left;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  z-index: 2;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbUserListFieldTitle {
+  display: none;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont {
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  height: 50px;
+  width: 100%;
+  padding-left: 95px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #eeeeee !important;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+  font-size: 16px;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont.cbUserListFC_canvas {
+  left: 0;
+  bottom: 0;
+  height: 100px;
+  padding-left: 0;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont.cbUserListFC_avatar {
+  left: 10px;
+  height: 75px;
+  width: 75px;
+  padding-left: 0;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont.cbUserListFC_avatar a {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont.cbUserListFC_avatar .cbImgPict {
+  width: 100%;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont.cbUserListFC_onlinestatus {
+  left: 10px;
+  height: 75px;
+  width: 75px;
+  padding-left: 0;
+  overflow: visible;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont.cbUserListFC_onlinestatus .cb_online,
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont.cbUserListFC_onlinestatus .cb_offline {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  height: 15px;
+  width: 15px;
+  font-size: 0;
+  color: transparent;
+  overflow: hidden;
+  border: 2px solid #dddddd;
+  border-radius: 50%;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont.cbUserListFC_onlinestatus .cb_online {
+  background: #5cb85c;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont.cbUserListFC_onlinestatus .cb_offline {
+  background: #d9534f;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine > .cbListFieldCont > a {
+  color: #eeeeee !important;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine {
+  z-index: 5;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine.cbUserListFL_canvas {
+  z-index: 1;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine.cbUserListFL_canvas .cbImgCanvas {
+  height: 100px;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine.cbUserListFL_avatar {
+  z-index: 3;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 .cbUserListFieldLine.cbUserListFL_onlinestatus {
+  z-index: 4;
+}
+.cb_template .cbUserListDiv.cbUserListLayoutGrid.cbUserListCanvas .cbUserListRowCol1 ~ .cbUserListRowColumn {
+  text-align: left;
+}
+.cb_template .cbPagination {
+  white-space: normal;
+}
+.cb_template .cbPagination .cbPaginationLinks {
+  /* workaround to aggressive Joomla styling */
+  border: 0 !important;
+}
+.cb_template .cbPagination .cbPaginationLinks > li {
+  /* workaround to aggressive Joomla styling */
+  margin: 0 !important;
+  /* workaround to aggressive Joomla styling */
+  padding: 0 !important;
+  /* workaround to aggressive Joomla styling */
+  border: 0 !important;
+}
+.cb_template .cbPagination .cbPaginationLimit,
+.cb_template .cbPagination .cbPaginationLinks,
+.cb_template .cbPagination .cbPaginationCounter {
+  display: inline-block;
+  vertical-align: middle;
+}
+.cb_template .cbPagination .cbPaginationLimit,
+.cb_template .cbPagination .cbPaginationCounter {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+@media (max-width: 768px) {
+  .cb_template .cbPagination .cbPaginationCounter,
+  .cb_template .cbPagination .cbPageNavLink,
+  .cb_template .cbPagination .cbPageNavCutoff,
+  .cb_template .cbPagination .cbPageNavLast {
+    display: none;
+  }
+  .cb_template .cbPagination .cbPaginationLimit {
+    display: block;
+  }
+}
+.cb_template .cbTabsNav {
+  /* workaround to aggressive Joomla styling */
+  margin: 0 !important;
+  /* workaround to aggressive Joomla styling */
+  padding: 0 !important;
+}
+.cb_template .cbTabNav {
+  /* workaround to aggressive Joomla styling */
+  margin-bottom: -1px !important;
+}
+.cb_template .cbTabPane {
+  padding-top: 25px;
+}
+.cb_template .cbTabPane.cbTabPaneVertical {
+  padding-top: 0;
+}
+.cb_template .cbPosSeparator,
+.cb_template .cbPosGridSeparator {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.cb_template.cbRegistrationStepped .nav > li:not(.active) > a {
+  cursor: default;
+}
+.cb_template.cbRegistrationStepped .nav > li:not(.active) > a:hover,
+.cb_template.cbRegistrationStepped .nav > li:not(.active) > a:focus {
+  background: none;
+  cursor: default;
+  color: #337ab7;
+}
+.cb_template.cbRegistrationStepped .nav > li.active > a {
+  cursor: default;
+}
+.cb_template.cbRegistrationStepped .nav > li.active > a:hover,
+.cb_template.cbRegistrationStepped .nav > li.active > a:focus {
+  cursor: default;
+}
+.cb_template.cbRegistrationCanvas .cbRegistrationHeader {
+  position: relative;
+  height: 150px;
+  width: 100%;
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  color: #eeeeee !important;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+  margin-bottom: 25px;
+}
+.cb_template.cbRegistrationCanvas .cbRegistrationHeader * {
+  color: #eeeeee !important;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+}
+.cb_template.cbRegistrationCanvas .cbRegistrationHeader .cbRegistrationHeaderInner {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+.cb_template.cbRegistrationCanvas .cbRegistrationHeader .cbRegistrationTitle {
+  border: 0;
+  margin: 0;
+  padding: 10px;
+}
+.cb_template.cbRegistrationCanvas .cbRegistrationHeader .cbRegistrationTitle > h3 {
+  /* workaround to aggressive Joomla styling */
+  margin: 0 !important;
+}
+.cb_template.cbRegistrationCanvas .cbRegistrationHeader .cbRegistrationIntro {
+  background-color: rgba(119, 119, 119, 0.4);
+  margin: 0;
+  padding: 10px;
+}
+.cb_template.cbRegistrationCanvas .cbRegistrationConclusion {
+  background-color: #f8f8f8;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding: 10px;
+  margin-top: 20px;
+}
+.cbRegistrationContainer {
+  box-sizing: border-box;
+}
+.cbRegistrationContainer .cbRegistrationLogin {
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.cbRegistrationContainer .cbRegistrationLogin + .cbRegistration {
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .cbRegistrationContainer .cbRegistrationLogin + .cbRegistration {
+    float: left;
+    width: 75%;
+  }
+}
+@media (min-width: 768px) {
+  .cbRegistrationContainer .cbRegistrationLogin {
+    float: left;
+    width: 25%;
+  }
+}
+.cbRegistrationContainer:before,
+.cbRegistrationContainer:after {
+  content: " ";
+  display: table;
+}
+.cbRegistrationContainer:after {
+  clear: both;
+}
+.cbRegistrationContainer:before,
+.cbRegistrationContainer:after {
+  content: " ";
+  display: table;
+}
+.cbRegistrationContainer:after {
+  clear: both;
+}
+@media (max-width: 767px) {
+  .cbMenuDropdown {
+    z-index: -1 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+}
+/* LEGACY FRONTEND */
+.cb_template .contentheading,
+.cb_template .componentheading {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #eeeeee;
+}
+.cb_template .contentheading {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.cb_template .contentheading small,
+.cb_template .contentheading .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #777777;
+}
+.cb_template .contentheading small,
+.cb_template .contentheading .small {
+  font-size: 75%;
+}
+.cb_template .componentheading {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+.cb_template .componentheading small,
+.cb_template .componentheading .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #777777;
+}
+.cb_template .componentheading small,
+.cb_template .componentheading .small {
+  font-size: 65%;
+}
+.cbClr:before,
+.cbclearboth:before,
+.cbClr:after,
+.cbclearboth:after {
+  content: " ";
+  display: table;
+}
+.cbClr:after,
+.cbclearboth:after {
+  clear: both;
+}
+.cbClr:before,
+.cbclearboth:before,
+.cbClr:after,
+.cbclearboth:after {
+  content: " ";
+  display: table;
+}
+.cbClr:after,
+.cbclearboth:after {
+  clear: both;
+}
+.cb_button_wrapper {
+  display: inline-block;
+  margin-top: 5px;
+}
+.cb_button_wrapper + .cb_button_wrapper {
+  margin-left: 5px;
+}
+.cbStarRatingOn,
+.cbStarRatingOff {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.cbStarRatingOn:before {
+  content: "\f005";
+}
+.cbStarRatingOff:before {
+  content: "\f006";
+}
+/* TinyMCE EDITOR */
+.cb_template .mce_editable {
+  /* workaround to inline width pushing outside of field space */
+  width: 100% !important;
+}
+.cb_template .mceEditor table.mceLayout {
+  /* workaround to inline width pushing outside of field space */
+  width: 100% !important;
+}
+/* BACKEND */
+@media (max-width: 767px) {
+  .cb_template .cbAdminMainInner .cbTableBrowserTools {
+    white-space: normal;
+  }
+  .cb_template .cbAdminMainInner .cbTableBrowserSorting {
+    float: none !important;
+    text-align: left;
+  }
+}
+.cb_template .cbAdminMainInner .cbTableBrowserHeader {
+  margin-bottom: 0;
+}
+.cb_template .cbAdminMainInner .cbTableHeader > th {
+  font-weight: normal;
+}
+.cb_template .cbAdminMainInner .cbTableHeader > .cbTableBrowserLabel {
+  font-weight: bold;
+  padding-left: 50px;
+  vertical-align: middle;
+}
+.cb_template .cbAdminMainInner .cbTableHeader button,
+.cb_template .cbAdminMainInner .cbTableHeader select,
+.cb_template .cbAdminMainInner .cbTableHeader input,
+.cb_template .cbAdminMainInner .cbTableHeader textarea {
+  margin: 0;
+}
+.cb_template .cbAdminMainInner .cbTableHeader .cbTableBrowserTools > * {
+  margin: 0 0 10px 0;
+  vertical-align: top;
+}
+.cb_template .cbAdminMainInner .cbTableHeader .cbTableBrowserTools > * > input,
+.cb_template .cbAdminMainInner .cbTableHeader .cbTableBrowserTools > * > select {
+  vertical-align: top;
+}
+.cb_template .cbAdminMainInner .cbFilters,
+.cb_template .cbAdminMainInner .cbBatchProcess {
+  display: none;
+  white-space: normal;
+  margin: 0 0 10px 0;
+}
+.cb_template .cbAdminMainInner .cbFilter,
+.cb_template .cbAdminMainInner .cbBatch {
+  display: inline-block;
+  margin-bottom: 5px;
+  vertical-align: top;
+}
+.cb_template .cbAdminMainInner .cbFilter > .table,
+.cb_template .cbAdminMainInner .cbBatch > .table {
+  margin-bottom: 0;
+}
+.cb_template .cbAdminMainInner .cbFilter .cbRepeatRow,
+.cb_template .cbAdminMainInner .cbBatch .cbRepeatRow {
+  margin-bottom: 5px;
+}
+.cb_template .cbAdminMainInner .cbFilterView,
+.cb_template .cbAdminMainInner .cbBatchView {
+  display: block;
+  width: 100%;
+}
+.cb_template .cbAdminMainInner .cbFilterView > .cbRepeat,
+.cb_template .cbAdminMainInner .cbBatchView > .cbRepeat {
+  display: inline-block;
+}
+.cb_template .cbAdminMainInner .cbSearchSubmit,
+.cb_template .cbAdminMainInner .cbBatchSubmit {
+  margin-top: 5px;
+}
+.cb_template #cbAdminMainWrapper > .header {
+  display: none;
+}
+.cb_template .cbButtonMenu {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem {
+  position: relative;
+  padding: 5px;
+  margin: 10px;
+  width: 200px;
+  height: 200px;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem.fa:before,
+.cb_template .cbButtonMenu .cbButtonMenuItem.fa-before:before {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemLink {
+  text-decoration: none;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemLink:hover {
+  text-decoration: none;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner {
+  position: relative;
+  height: 100%;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner:hover .cbButtonMenuItemImg {
+  display: none;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner:hover .cbButtonMenuItemImgHover {
+  display: block;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner .cbButtonMenuItemLabel {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner .cbButtonMenuItemImgHover {
+  display: none;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner .cbButtonMenuItemData {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 12px;
+  color: #000000;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner .cbButtonMenuItemData > span {
+  display: block;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner .cbButtonMenuItemData > span .cbFieldSpan {
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner .cbButtonMenuItemData > span .cbLabelSpan label {
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+}
+.cb_template .cbButtonMenu .cbButtonMenuItem .cbButtonMenuItemInner .cbButtonMenuItemData > span .cbFieldIcons {
+  display: none;
+}
+.pagetitle.icon-48-communitybuilder {
+  padding-left: 0;
+}
+.header .icon-communitybuilder {
+  display: none;
+}
+.pagetitle .cb_template,
+.header .cb_template {
+  color: inherit;
+  font-size: inherit;
+}
+.header .cb_template span {
+  color: inherit;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  display: inline-block;
+  background-size: 100% 100%;
+}
+.pagetitle .cb_template span {
+  color: inherit;
+  vertical-align: middle;
+  display: inline-block;
+  margin-right: 16px;
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  background-size: 100% 100%;
+}
+.cbbejeoptionsintro {
+  height: auto;
+  margin: 0;
+  width: 872px;
+  position: absolute;
+  top: -60px;
+  left: 0;
+  background-color: #ffffff;
+  padding: 10px;
+  border: 2px #fd6 solid;
+  border-radius: 5px;
+  font-size: 12px;
+}
+.cbbejeoptionsintro.cbbejeoptionsintrocomusers {
+  top: -80px;
+}
+/* LEGACY BACKEND */
+.cbDisabled {
+  color: #a94442;
+  font-weight: bold;
+}
+a.cbDisabled:hover,
+a.cbDisabled:focus {
+  color: #843534;
+}
+.cbEnabled {
+  color: #3c763d;
+}
+a.cbEnabled:hover,
+a.cbEnabled:focus {
+  color: #2b542c;
+}
+.cbSpecial {
+  color: #8a6d3b;
+}
+a.cbSpecial:hover,
+a.cbSpecial:focus {
+  color: #66512c;
+}
+.cbSpecialWarning {
+  font-weight: inherit;
+}
+.cbSpecialWarning a {
+  font-weight: bold;
+}
+a.cbadminLinksAsButtons,
+.cbadminLinksAsButtons a {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #333333;
+  background-color: #ffffff;
+  border-color: #cccccc;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #e0e0e0 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-repeat: repeat-x;
+  border-color: #dbdbdb;
+  text-shadow: 0 1px 0 #fff;
+  border-color: #ccc;
+}
+a.cbadminLinksAsButtons:hover,
+.cbadminLinksAsButtons a:hover,
+a.cbadminLinksAsButtons:focus,
+.cbadminLinksAsButtons a:focus,
+a.cbadminLinksAsButtons.focus,
+.cbadminLinksAsButtons a.focus {
+  color: #333333;
+  text-decoration: none;
+}
+a.cbadminLinksAsButtons:active,
+.cbadminLinksAsButtons a:active,
+a.cbadminLinksAsButtons.active,
+.cbadminLinksAsButtons a.active {
+  outline: 0;
+  background-image: none;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+a.cbadminLinksAsButtons.disabled,
+.cbadminLinksAsButtons a.disabled,
+a.cbadminLinksAsButtons[disabled],
+.cbadminLinksAsButtons a[disabled],
+fieldset[disabled] a.cbadminLinksAsButtons,
+fieldset[disabled] .cbadminLinksAsButtons a {
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  box-shadow: none;
+}
+a.cbadminLinksAsButtons:active,
+.cbadminLinksAsButtons a:active,
+a.cbadminLinksAsButtons.active,
+.cbadminLinksAsButtons a.active {
+  background-image: none;
+}
+a.cbadminLinksAsButtons:focus,
+.cbadminLinksAsButtons a:focus,
+a.cbadminLinksAsButtons.focus,
+.cbadminLinksAsButtons a.focus {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #8c8c8c;
+}
+a.cbadminLinksAsButtons:hover,
+.cbadminLinksAsButtons a:hover {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+a.cbadminLinksAsButtons:active,
+.cbadminLinksAsButtons a:active,
+a.cbadminLinksAsButtons.active,
+.cbadminLinksAsButtons a.active,
+.open > .dropdown-togglea.cbadminLinksAsButtons,
+.open > .dropdown-toggle.cbadminLinksAsButtons a {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+a.cbadminLinksAsButtons:active,
+.cbadminLinksAsButtons a:active,
+a.cbadminLinksAsButtons.active,
+.cbadminLinksAsButtons a.active,
+.open > .dropdown-togglea.cbadminLinksAsButtons,
+.open > .dropdown-toggle.cbadminLinksAsButtons a {
+  background-image: none;
+}
+a.cbadminLinksAsButtons .badge,
+.cbadminLinksAsButtons a .badge {
+  color: #ffffff;
+  background-color: #333333;
+}
+a.cbadminLinksAsButtons:active,
+.cbadminLinksAsButtons a:active,
+a.cbadminLinksAsButtons.active,
+.cbadminLinksAsButtons a.active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+a.cbadminLinksAsButtons.disabled,
+.cbadminLinksAsButtons a.disabled,
+a.cbadminLinksAsButtons[disabled],
+.cbadminLinksAsButtons a[disabled],
+fieldset[disabled] a.cbadminLinksAsButtons,
+fieldset[disabled] .cbadminLinksAsButtons a {
+  box-shadow: none;
+}
+a.cbadminLinksAsButtons .badge,
+.cbadminLinksAsButtons a .badge {
+  text-shadow: none;
+}
+a.cbadminLinksAsButtons:hover,
+.cbadminLinksAsButtons a:hover,
+a.cbadminLinksAsButtons:focus,
+.cbadminLinksAsButtons a:focus {
+  background-color: #e0e0e0;
+  background-position: 0 -15px;
+}
+a.cbadminLinksAsButtons:active,
+.cbadminLinksAsButtons a:active,
+a.cbadminLinksAsButtons.active,
+.cbadminLinksAsButtons a.active {
+  background-color: #e0e0e0;
+  border-color: #dbdbdb;
+}
+.cbadminHorizontal {
+  display: inline-block;
+}
+.cbadminHorizontal.cbadminSecondaryValue {
+  font-size: 90%;
+  font-style: italic;
+}
+.cbadminHorizontal.cbadminSecondaryValue:before {
+  content: '(';
+}
+.cbadminHorizontal.cbadminSecondaryValue:after {
+  content: ')';
+  position: relative;
+  left: -0.2em;
+}
+.cbadminRowButton,
+.cbadminRowMinorButton {
+  margin-left: 6px;
+}
+div.cbWarning:not(.cb_form_line),
+span.cbWarning {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+  background-image: -webkit-linear-gradient(top, #f2dede 0%, #e7c3c3 100%);
+  background-image: linear-gradient(to bottom, #f2dede 0%, #e7c3c3 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2dede', endColorstr='#ffe7c3c3', GradientType=0);
+  border-color: #dca7a7;
+  margin: 5px 0 5px 0;
+}
+div.cbWarning:not(.cb_form_line) h4,
+span.cbWarning h4 {
+  margin-top: 0;
+  color: inherit;
+}
+div.cbWarning:not(.cb_form_line) .alert-link,
+span.cbWarning .alert-link {
+  font-weight: bold;
+}
+div.cbWarning:not(.cb_form_line) > p,
+span.cbWarning > p,
+div.cbWarning:not(.cb_form_line) > ul,
+span.cbWarning > ul {
+  margin-bottom: 0;
+}
+div.cbWarning:not(.cb_form_line) > p + p,
+span.cbWarning > p + p {
+  margin-top: 5px;
+}
+div.cbWarning:not(.cb_form_line) hr,
+span.cbWarning hr {
+  border-top-color: #e4b9c0;
+}
+div.cbWarning:not(.cb_form_line) .alert-link,
+span.cbWarning .alert-link {
+  color: #843534;
+}
+div.cbSmallWarning:not(.cb_form_line),
+span.cbSmallWarning {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+  background-image: -webkit-linear-gradient(top, #f2dede 0%, #e7c3c3 100%);
+  background-image: linear-gradient(to bottom, #f2dede 0%, #e7c3c3 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2dede', endColorstr='#ffe7c3c3', GradientType=0);
+  border-color: #dca7a7;
+  padding: 7px;
+  border-radius: 3px;
+  margin: 5px 0 5px 0;
+}
+div.cbSmallWarning:not(.cb_form_line) h4,
+span.cbSmallWarning h4 {
+  margin-top: 0;
+  color: inherit;
+}
+div.cbSmallWarning:not(.cb_form_line) .alert-link,
+span.cbSmallWarning .alert-link {
+  font-weight: bold;
+}
+div.cbSmallWarning:not(.cb_form_line) > p,
+span.cbSmallWarning > p,
+div.cbSmallWarning:not(.cb_form_line) > ul,
+span.cbSmallWarning > ul {
+  margin-bottom: 0;
+}
+div.cbSmallWarning:not(.cb_form_line) > p + p,
+span.cbSmallWarning > p + p {
+  margin-top: 5px;
+}
+div.cbSmallWarning:not(.cb_form_line) hr,
+span.cbSmallWarning hr {
+  border-top-color: #e4b9c0;
+}
+div.cbSmallWarning:not(.cb_form_line) .alert-link,
+span.cbSmallWarning .alert-link {
+  color: #843534;
+}
+span.cbWarning,
+span.cbSmallWarning {
+  display: inline-block;
+}
+.cb_template fieldset.cbFieldsetWarning {
+  border-color: #ebccd1;
+}
+.cb_template fieldset.cbFieldsetWarning legend {
+  color: #a94442;
+}

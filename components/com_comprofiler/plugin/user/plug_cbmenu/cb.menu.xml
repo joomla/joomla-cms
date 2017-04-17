@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<name>CB Menu</name>
+	<author>Beat</author>
+	<creationDate>2015-09-22</creationDate>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>parts: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2 and parts proprietary with Community Builder license</license>
+	<authorEmail>beat@joomlapolis.com</authorEmail>
+	<authorUrl>www.joomlapolis.com</authorUrl>
+	<version>2.0.11</version>
+	<description>Core CB Menu and User Status tabs.</description>
+	<files>
+		<filename plugin="cb.menu">cb.menu.php</filename>
+		<filename>index.html</filename>
+	</files>
+    <params>	
+		<param name="@spacer" type="spacer" default="Display Settings" label="User Profile Menu :" description="" />
+		<param name="menuFormat" type="list" default="menuBar" translate-default="no" label="Menu display type" description="Menu can be displayed as a menubar, a list of menu links, or not displayed in this tab.">
+			<option value="menuBar">Menu Bar</option>
+			<option value="menuList">Menu List table 2 columns</option>
+			<option value="menuDivs">Menu List table 1 column</option>
+			<option value="menuUL">Menu List ul-li-spans</option>
+			<option value="no">No Display</option>
+		</param>
+		<param name="statusFormat" type="list" default="menuList" translate-default="no" label="Status display type" description="Status can be displayed as a list or not displayed in this tab.">
+			<option value="menuList">Menu List table 2 columns</option>
+			<option value="menuDivs">Menu List table 1 column</option>
+			<option value="menuUL">Status List ul-li-spans</option>
+			<option value="no">No Display</option>
+		</param>
+    </params>
+	<tabs>
+		<tab name="_UE_MENU" translated-name="Menu" description="" class="getMenuTab" fields="0" sys="1" position="cb_head" displaytype="html">
+			<params>
+				<param name="firstMenuName" type="text" size="12" default="" label="First Menu Name" description="First menu name before &quot;Edit&quot;. Leave empty to not appear." />
+				<param name="firstSubMenuName" type="text" size="12" default="" label="First Sub-Menu Name" description="First sub-menu name. Leave empty to not appear." />
+				<param name="firstSubMenuHref" type="text" size="20" default="" label="First Sub-Menu URL" description="First sub-menu URL." />
+				<param name="secondSubMenuName" type="text" size="12" default="" label="Second Sub-Menu Name" description="Second sub-menu name. Leave empty to not appear." />
+				<param name="secondSubMenuHref" type="text" size="20" default="" label="Second Sub-Menu URL" description="Second sub-menu URL." />
+				<param name="@spacer" type="spacer" default="" label="" description="" />
+				<param name="@spacer" type="spacer" default="see plugin manager: CB Menu: parameters" label="More settings:" description="" />
+			</params>
+			<fields>
+			</fields>
+		</tab>
+		<tab name="_UE_USER_STATUS" translated-name="User Status" description="" class="getStatusTab" fields="1" sys="1" position="cb_right" displaytype="html">
+			<params>
+			</params>
+			<fields>
+<!-- Note: Here for AWK parsing only
+				<field name="lastvisitDate" type="datetime" title="_UE_LASTONLINE" translated-title="Last Online" description="" calculated="1" sys="1" />
+				<field name="registerDate" type="datetime" title="_UE_MEMBERSINCE" translated-title="Member Since" description="" calculated="1" sys="1" />
+				<field name="lastupdatedate" type="datetime" title="_UE_LASTUPDATEDON" translated-title="Last Updated" description="" calculated="1" sys="1" />
+-->
+			</fields>
+		</tab>
+	</tabs>
+	<database>
+	</database>
+</cbinstall>

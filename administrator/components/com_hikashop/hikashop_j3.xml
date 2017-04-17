@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+	<name>HikaShop</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>hikashop.com</author>
+	<authorEmail>dev@hikashop.com</authorEmail>
+	<authorUrl>http://www.hikashop.com</authorUrl>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<description>E-Commerce software built for simplicity and flexibility</description>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<languages folder="language">
+		<language tag="en-GB">en-GB.com_hikashop.ini</language>
+	</languages>
+	<install>
+		<sql>
+			<file driver="mysql">tables.sql</file>
+			<file driver="mysql" charset="utf8">tables.sql</file>
+			<file driver="mysqli">tables.sql</file>
+			<file driver="mysqli" charset="utf8">tables.sql</file>
+		</sql>
+	</install>
+	<scriptfile>install.hikashop.php</scriptfile>
+	<files folder="front">
+		<folder>controllers</folder>
+		<folder>fields</folder>
+		<folder>params</folder>
+		<folder>helpers</folder>
+		<folder>views</folder>
+		<filename>hikashop.php</filename>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<filename>sef_ext.php</filename>
+	</files>
+	<media folder="media" destination="com_hikashop">
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>mail</folder>
+		<filename>index.html</filename>
+	</media>
+	<administration>
+		<files folder="back">
+			<folder>buttons</folder>
+			<folder>classes</folder>
+			<folder>controllers</folder>
+			<folder>extensions</folder>
+			<folder>falang</folder>
+			<folder>helpers</folder>
+			<folder>inc</folder>
+			<folder>translations</folder>
+			<folder>types</folder>
+			<folder>views</folder>
+			<filename>hikashop.php</filename>
+			<filename>index.html</filename>
+			<filename>tables.sql</filename>
+			<filename>config.xml</filename>
+		</files>
+		<menu img="../media/com_hikashop/images/icons/icon-16-hikashop.png" link="option=com_hikashop">HikaShop</menu>
+	</administration>
+</extension>

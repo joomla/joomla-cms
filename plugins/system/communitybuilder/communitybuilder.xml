@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>Community Builder System plugin</name>
+	<author>CB Team</author>
+	<authorUrl>http://www.joomlapolis.com/</authorUrl>
+	<authorEmail>cbteam@joomlapolis.com</authorEmail>
+	<copyright>Copyright (C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2. All copyright statements must be kept and derivative work must prominently duly acknowledge original work on web interface and on website where downloaded.</license>
+	<creationDate>2015-09-22</creationDate>
+	<version>2.0.11</version>
+	<description>Community Builder System Plugin for Joomla!</description>
+	<scriptfile>script.communitybuilder.php</scriptfile>
+	<files>
+		<filename plugin="communitybuilder">communitybuilder.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="parse_urls" label="Parse URLs">
+				<field name="redirect_urls" type="list" default="1" label="Redirect URLs" description="Enable or disable redirect of Joomla Users component URLs to CB URLs.">
+					<option value="0">Disabled</option>
+					<option value="1">Enabled</option>
+				</field>
+				<field name="rewrite_urls" type="list" default="0" label="Rewrite URLs" description="Enable or disable rewriting of Joomla Users component URLs to CB URLs.">
+					<option value="0">Disabled</option>
+					<option value="1">Enabled</option>
+				</field>
+				<field name="return_urls" type="list" default="1" label="Pass Return URLs" description="Enable or disable passing of Joomla return URLs as CB return URLs to CBs login forms">
+					<option value="0">Disabled</option>
+					<option value="1">Enabled</option>
+				</field>
+				<field name="itemids" type="list" default="0" label="Itemids" description="Enable or disable parsing of URLs for Itemid if missing.">
+					<option value="0">Disabled</option>
+					<option value="1">Enabled</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

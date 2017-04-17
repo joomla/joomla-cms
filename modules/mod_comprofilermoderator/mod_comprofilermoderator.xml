@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<extension type="module" version="1.6" client="site" method="upgrade">
+	<name>Community Builder Workflows module</name>
+	<creationDate>2015-09-22</creationDate>
+	<author>CB Team</author>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved2 License</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2. All copyright statements must be kept and derivative work must prominently duly acknowledge original work on web interface and on website where downloaded.</license>
+	<authorEmail>cbteam@joomlapolis.com</authorEmail>
+	<authorUrl>http://www.joomlapolis.com/</authorUrl>
+	<version>2.0.11</version>
+	<description>Displays Notifications of pending actions for the moderator and connections functionality of Community Builder.</description>
+	<scriptfile>script.mod_comprofilermoderator.php</scriptfile>
+	<files>
+		<filename module="mod_comprofilermoderator">mod_comprofilermoderator.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="pretext" type="textarea" filter="raw" cols="20" rows="5" default="" label="Pre-text" description="Input substitution supported html to display at the top of the module." />
+				<field name="posttext" type="textarea" filter="raw" cols="20" rows="5" default="" label="Post-text" description="Input substitution supported html to display at the bottom of the module." />
+				<field name="show_banned" type="radio" default="1" label="Profile Banned Notification" description="Show or hide display of profile banned notification if banned." >
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+				<field name="show_image_approval" type="radio" default="1" label="Image Approval Notification" description="Show or hide display of moderator user image approval notifications. Note this notification only displays to CB moderators." >
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+				<field name="show_user_reports" type="radio" default="1" label="User Reports Notification" description="Show or hide display of moderator user profile report notifications. Note this notification only displays to CB moderators." >
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+				<field name="show_uban_requests" type="radio" default="1" label="Profile Unban Notification" description="Show or hide display of moderator user profile unban request notifications. Note this notification only displays to CB moderators." >
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+				<field name="show_user_approval" type="radio" default="1" label="User Approval Notification" description="Show or hide display of moderator user registration approval notifications. Note this notification only displays to CB moderators." >
+					<option value="0">Hide</option>
+					<option value="1">Show</option>
+				</field>
+				<field name="show_pms" type="list" default="1" label="Private Message Notifications" description="Show or hide display of private message notifications link." >
+					<option value="0">Hide</option>
+					<option value="1">Show New Messages</option>
+					<option value="2">Always Show</option>
+				</field>
+				<field name="show_connections" type="list" default="1" label="Connection Request Notifications" description="Show or hide display of connection request notifications link." >
+					<option value="0">Hide</option>
+					<option value="1">Show Pending Connections</option>
+					<option value="2">Always Show</option>
+				</field>
+				<field name="cb_plugins" type="radio" default="0" label="CB Plugins integration" description="Choose if you want to use CB events for CB plugins integration. Plugins must be installed and configured in CB plugins management. Warning: this loads CB plugins on each page where this module is displayed, consuming memory and processing power." >
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced" label="Advanced Options">
+				<field name="layout" type="modulelayout" default="_:default" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field name="cache" type="list" default="0" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC">
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+	<!-- Now done through package:
+	<updateservers>
+		<server type="extension" priority="1" name="Community Builder Moderator Module Update Site">http://update.joomlapolis.net/versions/mod_comprofilermoderator-update.xml</server>
+	</updateservers>
+	-->
+</extension>

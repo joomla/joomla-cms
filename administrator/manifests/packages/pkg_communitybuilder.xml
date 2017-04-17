@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="2.5" method="upgrade">
+	<name>Community Builder Package</name>
+	<author>CB Team</author>
+	<authorUrl>http://www.joomlapolis.com/</authorUrl>
+	<authorEmail>cbteam@joomlapolis.com</authorEmail>
+	<copyright>Copyright (C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2. All copyright statements must be kept and derivative work must prominently duly acknowledge original work on web interface and on website where downloaded.</license>
+	<creationDate>2015-09-22</creationDate>
+	<packagename>communitybuilder</packagename>
+	<version>2.0.11</version>
+	<packager>CB Team at Joomlapolis.com</packager>
+	<packagerurl>http://www.joomlapolis.com/</packagerurl>
+	<description>Community Builder 2.0.11</description>
+	<scriptfile>pkg_install.php</scriptfile>
+	<files folder="packages">
+		<file type="library" id="CBLib">lib_CBLib.zip</file>
+		<file type="plugin" id="communitybuilder" group="system">plg_communitybuilder.zip</file>
+		<file type="component" id="com_comprofiler" >com_comprofiler.zip</file>
+		<file type="module" id="mod_cblogin" client="site">mod_cblogin.zip</file>
+		<file type="module" id="mod_comprofileronline" client="site">mod_comprofileronline.zip</file>
+		<file type="module" id="mod_comprofilermoderator" client="site">mod_comprofilermoderator.zip</file>
+		<file type="module" id="mod_cbadmin" client="administrator">mod_cbadmin.zip</file>
+	</files>
+	<updateservers>
+		<server type="collection" priority="1" name="Community Builder Package Update Site">http://update.joomlapolis.net/versions/pkg-communitybuilder-list.xml</server>
+	</updateservers>
+</extension>

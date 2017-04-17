@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="2.5" method="upgrade" group="hikashoppayment">
+	<name>Hikashop eWAY Payment Plugin</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Hikashop</author>
+	<authorEmail>dev@hikashop.com</authorEmail>
+	<authorUrl>http://www.hikashop.com</authorUrl>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin enables you to setup your eWAY payment system</description>
+	<files>
+		<filename plugin="eway">eway.php</filename>
+		<filename>eway_lib.php</filename>
+		<filename>eway_thanks.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="pluginoptions" type="pluginoptions" default="plugin" label="hikashop" description="HikaShop options" />
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field id="pluginoptions" name="pluginoptions" type="pluginoptions" label="hikashop" description="HikaShop options" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension method="upgrade" version="2.5" type="plugin" group="hikashoppayment">
+	<name>Hikashop SOFORT Payment Plugin</name>
+	<author>LG Solutions</author>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<copyright>(C) 2013 LG solutions. All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>info@lgsolutions.be</authorEmail>
+	<authorUrl>www.lgsolutions.be</authorUrl>
+	<description>This plugin enables you to setup your SOFORT payment system</description>
+	<files>
+		<filename plugin="sofort">sofort.php</filename>
+		<filename>sofort_end.php</filename>
+		<filename>library/sofortLib_abstract.inc.php</filename>
+		<filename>library/sofortLib_cancel_sr.inc.php</filename>
+		<filename>library/sofortLib_classic_notification.inc.php</filename>
+		<filename>library/sofortLib_confirm_sr.inc.php</filename>
+		<filename>library/sofortLib_debit.inc.php</filename>
+		<filename>library/sofortLib_edit_sr.inc.php</filename>
+		<filename>library/sofortLib_http.inc.php</filename>
+		<filename>library/sofortLib_ideal_banks.inc.php</filename>
+		<filename>library/sofortLib_ideal_classic.php</filename>
+		<filename>library/sofortLib_Logger.inc.php</filename>
+		<filename>library/sofortLib_multipay.inc.php</filename>
+		<filename>library/sofortLib_notification.inc.php</filename>
+		<filename>library/sofortLib_refund.inc.php</filename>
+		<filename>library/sofortLib_sofortueberweisung_classic.php</filename>
+		<filename>library/sofortLib_transaction_data.inc.php</filename>
+		<filename>library/sofortLib.php</filename>
+		<filename>library/helper/array_to_xml_exception.php</filename>
+		<filename>library/helper/array_to_xml.php</filename>
+		<filename>library/helper/class.abstract_document.inc.php</filename>
+		<filename>library/helper/class.invoice.inc.php</filename>
+		<filename>library/helper/pnag_article.php</filename>
+		<filename>library/helper/pnag_customer.php</filename>
+		<filename>library/helper/xml_to_array_exception.php</filename>
+		<filename>library/helper/xml_to_array_node.php</filename>
+		<filename>library/helper/xml_to_array.php</filename>
+		<filename>library/helper/elements/sofort_element.php</filename>
+		<filename>library/helper/elements/sofort_html_tag.php</filename>
+		<filename>library/helper/elements/sofort_tag.php</filename>
+		<filename>library/helper/elements/sofort_text.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="pluginoptions" type="pluginoptions" default="plugin" label="hikashop" description="HikaShop options" />
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field id="pluginoptions" name="pluginoptions" type="pluginoptions" label="hikashop" description="HikaShop options" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

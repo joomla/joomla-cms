@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<types>
+		<type name="user_banned" base="checkmark" valuetype="string">
+			<option value="1" title="Ban">Banned</option>
+			<option value="2" title="Mark Pending" iconclass="clock-o" textclass="warning" toggleable="false">Pending</option>
+			<option value="0" title="Unban">Active</option>
+		</type>
+		<type name="user_block" base="checkmark" valuetype="string">
+			<option value="0" title="Enable User" iconclass="check" textclass="success">Enabled</option>
+			<option value="1" title="Disable User" iconclass="times" textclass="danger">Disabled</option>
+		</type>
+		<type name="user_confirmed" base="checkmark" valuetype="string">
+			<option value="0" title="Mark Pending" iconclass="clock-o" textclass="warning" toggleable="false">Pending</option>
+			<option value="1" title="Confirm User">Confirmed</option>
+		</type>
+		<type name="user_approved" base="checkmark" valuetype="string">
+			<option value="2" title="Reject User" iconclass="times" textclass="danger">Rejected</option>
+			<option value="0" title="Mark Pending" iconclass="clock-o" textclass="warning" toggleable="false">Pending</option>
+			<option value="1" title="Approve User">Approved</option>
+		</type>
+		<type name="user_operator" base="list" valuetype="string">
+			<option value="=">Equal to</option>
+			<option value="&lt;&gt;||ISNULL">Not equal to</option>
+			<option value="&lt;">Less than</option>
+			<option value="&lt;=">Less than or equal to</option>
+			<option value="&gt;">Greater than</option>
+			<option value="&gt;=">Greater than or equal to</option>
+			<option value="LIKE">Contains</option>
+			<option value="NOT LIKE||ISNULL">Does not contain</option>
+			<option value="IN">Is one of (,-separated values)</option>
+			<option value="NOT IN||ISNULL">Is not one of (,-separated values)</option>
+		</type>
+	</types>
+</cbxml>

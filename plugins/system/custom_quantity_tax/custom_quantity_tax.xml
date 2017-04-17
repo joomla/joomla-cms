@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>HikaShop tax calculations override plugin</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>HikaShop</author>
+	<authorEmail>dev@hikashop.com</authorEmail>
+	<authorUrl>http://www.hikashop.com</authorUrl>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin will change the calculation mode of taxes in HikaShop so that it will be done on the total of each tax rate base instead of doing it for each product as it is by default</description>
+	<files>
+		<filename plugin="custom_quantity_tax">custom_quantity_tax.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+	</params>
+</extension>

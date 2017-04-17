@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cbinstall version="1.0" type="plugin" group="language" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<name>default_language</name>
+	<author>CB Team</author>
+	<creationDate>2015-09-22</creationDate>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<authorEmail>cbteam@joomlapolis.com</authorEmail>
+	<authorUrl>http://www.joomlapolis.com</authorUrl>
+	<version>2.0.11</version>
+	<description>Provides the default (English) language for Community Builder core functions.</description>
+	<files>
+		<filename plugin="default_language">language.php</filename>
+		<filename>index.html</filename>
+		<filename>admin_language.php</filename>
+	</files>
+	<params>
+	</params>
+	<database>
+	</database>
+</cbinstall>

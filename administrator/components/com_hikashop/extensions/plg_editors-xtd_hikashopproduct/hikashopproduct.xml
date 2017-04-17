@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" method="upgrade" group="editors-xtd">
+	<name>HikaShop Product TAG insertion</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Hikari Software</author>
+	<authorEmail>dev@hikashop.com</authorEmail>
+	<authorUrl>http://www.hikashop.com</authorUrl>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+	<description>Hikashop product tag insertion plugin</description>
+	<files>
+		<filename plugin="hikashopproduct">hikashopproduct.php</filename>
+		<filename>hikashopproduct.png</filename>
+	</files>
+</extension>

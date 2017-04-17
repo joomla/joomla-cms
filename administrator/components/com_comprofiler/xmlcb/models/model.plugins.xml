@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<types>
+		<type name="plugin_published" base="published" valuetype="string">
+			<option value="0" title="Unpublish Item">Unpublished</option>
+			<option value="1" title="Publish Item">Published</option>
+			<option value="2" selectable="false">Language plugins can not be unpublished, only uninstalled.</option>
+			<option value="3" selectable="false">Core plugins can not be unpublished.</option>
+		</type>
+		<type name="plugin_installed" base="checkmark" valuetype="string">
+			<option value="0">Missing</option>
+			<option value="1">Installed</option>
+			<option value="2" selectable="false" iconclass="warning" textclass="warning">This plugin is not compatible with your current CB version. This plugin may still be used, but it may not function properly.</option>
+		</type>
+	</types>
+</cbxml>
