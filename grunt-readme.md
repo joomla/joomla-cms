@@ -22,7 +22,7 @@ This will install all node dependencies onto your system. Then there are 3 easy 
 * To minify the javascript run `compile-js`
 
 
-#### Maintainer's Area (TODO: This list of commands needs updating)
+### Maintainer's Area (TODO: This list of commands needs updating)
 - Running `grunt` will automatically update all the assets. Make sure that you have updated the settings.yaml file in
 order to update the libraries!!!
 
