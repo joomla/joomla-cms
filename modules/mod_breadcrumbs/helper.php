@@ -87,11 +87,11 @@ class ModBreadCrumbsHelper
 		{
 			if ($lang->isRtl())
 			{
-				$_separator = JHtml::_('image', 'system/arrow_rtl.png', null, null, true);
+				$_separator = '&#60;';
 			}
 			else
 			{
-				$_separator = JHtml::_('image', 'system/arrow.png', null, null, true);
+				$_separator = '&#62';
 			}
 		}
 		else

@@ -3767,6 +3767,8 @@ input[type="submit"].btn.btn-mini {
 }
 .breadcrumb > li > .divider {
 	padding: 0 5px;
+	margin-right: 0;
+	vertical-align: middle;
 	color: #ccc;
 }
 .breadcrumb > .active {
