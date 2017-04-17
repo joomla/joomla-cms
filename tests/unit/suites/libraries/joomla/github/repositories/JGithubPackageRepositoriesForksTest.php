@@ -19,7 +19,7 @@ require_once JPATH_PLATFORM . '/joomla/github/forks.php';
  *
  * @since       11.1
  */
-class JGithubPackageRepositoriesForksTest extends PHPUnit_Framework_TestCase
+class JGithubPackageRepositoriesForksTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
