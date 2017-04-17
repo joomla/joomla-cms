@@ -807,12 +807,10 @@ abstract class JFormField
 		// If we already have a name segment add the field name as another level.
 		if ($name)
 		{
-			$name .= '[' . $fieldName . ']';
+			$fieldName = '[' . $fieldName . ']';
 		}
-		else
-		{
-			$name .= $fieldName;
-		}
+
+		$name .= $fieldName;
 
 		// If the field should support multiple values add the final array segment.
 		if ($this->multiple)
@@ -851,12 +849,10 @@ abstract class JFormField
 		{
 			return $fieldName;
 		}
-		else
-		{
-			self::$count = self::$count + 1;
 
-			return self::$generated_fieldname . self::$count;
-		}
+		self::$count = self::$count + 1;
+
+		return self::$generated_fieldname . self::$count;
 	}
 
 	/**
@@ -873,21 +869,20 @@ abstract class JFormField
 	{
 		if ($this->element instanceof SimpleXMLElement)
 		{
-			$attributes = $this->element->attributes();
-
-			// Ensure that the attribute exists
-			if (property_exists($attributes, $name))
-			{
-				$value = $attributes->$name;
-
-				if ($value !== null)
-				{
-					return (string) $value;
-				}
-			}
+			return $default;
 		}
 
-		return $default;
+		$attributes = $this->element->attributes();
+
+		// Ensure that the attribute exists
+		if (!property_exists($attributes, $name) || $attributes->$name == null)
+		{
+			return $default;
+		}
+
+		$value = $attributes->$name;
+
+		return (string) $value;
 	}
 
 	/**
