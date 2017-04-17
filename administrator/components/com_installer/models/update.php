@@ -520,7 +520,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function preparePreUpdate($update, $table)
 	{
