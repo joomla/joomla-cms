@@ -17,7 +17,7 @@ if (JFactory::getApplication()->isClient('site'))
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => 'true'));
+JHtml::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => true));
 
 // Special case for the search field tooltip.
 $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
