@@ -36,7 +36,7 @@ class UsersControllerUser extends UsersController
 		// Populate the data array:
 		$data = array();
 
-		$data['return']    = base64_decode($app->input->post->get('return', '', 'BASE64'));
+		$data['return']    = base64_decode($input->$method->get('return', '', 'BASE64'));
 		$data['username']  = $input->$method->get('username', '', 'USERNAME');
 		$data['password']  = $input->$method->get('password', '', 'RAW');
 		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
