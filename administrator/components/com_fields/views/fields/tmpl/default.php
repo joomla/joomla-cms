@@ -43,7 +43,7 @@ if ($saveOrder)
 			<div id="j-main-container" class="j-main-container">
 				<div id="filter-bar" class="js-stools clearfix">
 					<div class="js-stools-container-list hidden-md-down">
-						<div class="ordering-select hidden-sm-down">
+						<div class="hidden-sm-down">
 							<div class="js-stools-field-list">
 								<?php echo $this->filterForm->getField('context')->input; ?>
 							</div>
