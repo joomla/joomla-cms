@@ -318,7 +318,7 @@ abstract class JHtmlBootstrap
 		$opt['template']    = isset($params['template']) ? $params['template'] : null;
 		$opt['title']       = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together'];
+		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
 
 		$opt     = (object) array_filter((array) $opt);
@@ -421,7 +421,7 @@ abstract class JHtmlBootstrap
 			$opt['template']    = isset($params['template']) ? $params['template'] : null;
 			$opt['title']       = isset($params['title']) ? $params['title'] : null;
 			$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-			$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together'];
+			$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 			$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
 			$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
 			$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
