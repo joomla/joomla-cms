@@ -647,24 +647,24 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @since   3.1
 	 */
-//	public function testLoadCss()
-//	{
-//		// Initialise the Bootstrap JS framework
-//		JHtmlBootstrap::loadCss(true, 'rtl');
-//
-//		// Get the document instance
-//		$document = JFactory::getDocument();
-//
-//		$this->assertArrayHasKey(
-//			'/media/vendor/bootstrap/css/bootstrap.min.css',
-//			$document->_styleSheets,
-//			'Verify that the base Bootstrap CSS is loaded'
-//		);
-//
-//		$this->assertArrayHasKey(
-//			'/media/vendor/bootstrap/css/bootstrap-rtl.css',
-//			$document->_styleSheets,
-//			'Verify that the RTL Bootstrap CSS is loaded'
-//		);
-//	}
+	public function testLoadCss()
+	{
+		// Initialise the Bootstrap JS framework
+		JHtmlBootstrap::loadCss(true, 'rtl');
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/vendor/bootstrap/css/bootstrap.min.css',
+			$document->_styleSheets,
+			'Verify that the base Bootstrap CSS is loaded'
+		);
+
+		$this->assertArrayHasKey(
+			'/media/vendor/bootstrap/css/bootstrap-rtl.css',
+			$document->_styleSheets,
+			'Verify that the RTL Bootstrap CSS is loaded'
+		);
+	}
 }
