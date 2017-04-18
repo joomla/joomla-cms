@@ -38,6 +38,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  4.0  Bootstrap 4.0 dropped this so will Joomla.
 	 */
 	public static function affix($selector = 'affix', $params = array())
 	{
