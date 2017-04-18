@@ -565,7 +565,7 @@ class FieldsModelField extends JModelAdmin
 			$params = new Registry($params);
 		}
 
-		// Don't save the value when  the user is not authorized to change it
+		// Don't save the value when the user is not authorized to change it
 		if (!$field || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
