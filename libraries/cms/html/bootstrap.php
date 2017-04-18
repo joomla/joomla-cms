@@ -393,7 +393,8 @@ abstract class JHtmlBootstrap
 	 *                                html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
 	 *                                                              content into the dom.
 	 *                                placement    string|function  how to position the popover - top | bottom | left | right
-	 *                                selector     string           If a selector is provided, popover objects will be delegated to the specified targets.
+	 *                                selector     string           If a selector is provided, popover objects will be 
+	                                                                delegated to the specified targets.
 	 *                                template     string           Base HTML to use when creating the popover.
 	 *                                title        string|function  default title value if `title` tag isn't present
 	 *                                trigger      string           how popover is triggered - hover | focus | manual
@@ -432,7 +433,7 @@ abstract class JHtmlBootstrap
 			$options = json_encode($opt);
 
 			// Build the script.
-			$script = array('var tooltipOptions = ' . $options . ';tooltipOptions.constraints = [tooltipOptions.constraints];$(' . json_encode($selector) . ').tooltip(tooltipOptions)');
+			$script = array('$(' . json_encode($selector) . ').tooltip(tooltipOptions)');
 
 			if ($onShow)
 			{
@@ -455,7 +456,12 @@ abstract class JHtmlBootstrap
 			}
 
 			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration('jQuery(function($){ ' . implode('.', $script) . '; });');
+			JFactory::getDocument()->addScriptDeclaration(
+				'
+				var tooltipOptions = ' . $options . ';tooltipOptions.constraints = [tooltipOptions.constraints];
+				jQuery(function($){ ' . implode('.', $script) . '; });
+				'
+			);
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;
