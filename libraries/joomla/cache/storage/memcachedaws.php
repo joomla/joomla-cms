@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler using AWS ElastiCache PHP Client
  *
- * @see    https://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/AutoDiscovery.html
- * @see    https://github.com/awslabs/aws-elasticache-cluster-client-memcached-for-php
+ * @link   https://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/AutoDiscovery.html
+ * @link   https://github.com/awslabs/aws-elasticache-cluster-client-memcached-for-php
  * @since  __DEPLOY_VERSION__
  */
 class JCacheStorageMemcachedaws extends JCacheStorageMemcached
@@ -186,7 +186,7 @@ class JCacheStorageMemcachedaws extends JCacheStorageMemcached
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function isSupported()
 	{
