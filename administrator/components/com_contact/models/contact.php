@@ -211,7 +211,7 @@ class ContactModelContact extends JModelAdmin
 		{
 			if ($record->published != -2)
 			{
-				return;
+				return false;
 			}
 
 			return JFactory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
