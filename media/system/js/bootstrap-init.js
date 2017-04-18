@@ -69,7 +69,6 @@
 			$.each($('.joomla-modal'), function() {
 				var $self = $(this);
 				$self.on('show.bs.modal', function() {
-					$('body').addClass('modal-open');
 					if ($self.data('url')) {
 						var modalBody = $self.find('.modal-body');
 						modalBody.find('iframe').remove();
@@ -106,9 +105,8 @@
 						}
 					}
 				}).on('hide.bs.modal', function () {
-					$('body').removeClass('modal-open');
 					$('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});
-					$('.modalTooltip').tooltip('destroy');
+					// $('.modalTooltip').tooltip('destroy');
 				});
 			});
 		}
@@ -116,6 +114,12 @@
 		/** Popover **/
 		if (popover) {
 			$.each(popover, function(index, value) {
+				var tmpArray = $.map(value.constraints, function(value, index) {
+					return [value];
+				});
+
+				value.constraints = tmpArray;
+
 				$(index).popover(value);
 			});
 		}
@@ -150,8 +154,10 @@
 		}
 
 		/** Tooltip **/
-		if (scrollspy) {
+		if (tooltip) {
+			console.log(tooltip)
 			$.each(tooltip, function(index, value) {
+				console.log(value)
 				$(index).tooltip(value)
 					.on("show.bs.tooltip", new Function(value.onShow)())
 					.on("shown.bs.tooltip", new Function(value.onShown)())

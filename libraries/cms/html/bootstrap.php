@@ -158,7 +158,7 @@ abstract class JHtmlBootstrap
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'vendor/tether/tether.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		JHtml::_('script', 'vendor/bootstrap/bootstrap.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
-
+		JHtml::_('script', 'system/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -260,6 +260,9 @@ abstract class JHtmlBootstrap
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
 
 		$opt     = (object) array_filter((array) $opt);
+
+
+
 		JFactory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $opt));
 
 		static::$loaded[__METHOD__][$selector] = true;
@@ -335,76 +338,28 @@ abstract class JHtmlBootstrap
 
 		// Setup options object
 		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
-			$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
-			$opt['delay']       = isset($params['delay']) ? $params['delay'] : null;
-			$opt['html']        = isset($params['html']) ? $params['html'] : true;
-			$opt['placement']   = isset($params['placement']) ? $params['placement'] : null;
-			$opt['selector']    = isset($params['selector']) ? $params['selector'] : null;
-			$opt['template']    = isset($params['template']) ? $params['template'] : null;
-			$opt['title']       = isset($params['title']) ? $params['title'] : null;
-			$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-			$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
-			$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
-			$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
-			$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
-			$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;
-			$onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+		$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
+		$opt['delay']       = isset($params['delay']) ? $params['delay'] : null;
+		$opt['html']        = isset($params['html']) ? $params['html'] : true;
+		$opt['placement']   = isset($params['placement']) ? $params['placement'] : null;
+		$opt['selector']    = isset($params['selector']) ? $params['selector'] : null;
+		$opt['template']    = isset($params['template']) ? $params['template'] : null;
+		$opt['title']       = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
+		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
+		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
+		$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
+		$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
+		$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;
+		$onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+
+
 		JFactory::getDocument()->addScriptOptions('bootstrap.tooltip', array($selector => $opt));
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
 	}
 
-	/**
-	 * Add javascript support for Bootstrap typeahead
-	 *
-	 * @param   string  $selector  The selector for the typeahead element.
-	 * @param   array   $params    An array of options for the typeahead element.
-	 *                             Options for the tooltip can be:
-	 *                             - source       array, function  The data source to query against. May be an array of strings or a function.
-	 *                                                             The function is passed two arguments, the query value in the input field and the
-	 *                                                             process callback. The function may be used synchronously by returning the data
-	 *                                                             source directly or asynchronously via the process callback's single argument.
-	 *                             - items        number           The max number of items to display in the dropdown.
-	 *                             - minLength    number           The minimum character length needed before triggering autocomplete suggestions
-	 *                             - matcher      function         The method used to determine if a query matches an item. Accepts a single argument,
-	 *                                                             the item against which to test the query. Access the current query with this.query.
-	 *                                                             Return a boolean true if query is a match.
-	 *                             - sorter       function         Method used to sort autocomplete results. Accepts a single argument items and has
-	 *                                                             the scope of the typeahead instance. Reference the current query with this.query.
-	 *                             - updater      function         The method used to return selected item. Accepts a single argument, the item and
-	 *                                                             has the scope of the typeahead instance.
-	 *                             - highlighter  function         Method used to highlight autocomplete results. Accepts a single argument item and
-	 *                                                             has the scope of the typeahead instance. Should return html.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public static function typeahead($selector = '.typeahead', $params = array())
-	{
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// Include Bootstrap framework
-		static::framework();
-
-		// Setup options object
-		$opt['source']      = isset($params['source']) ? $params['source'] : null;
-		$opt['items']       = isset($params['items']) ? (int) $params['items'] : 8;
-		$opt['minLength']   = isset($params['minLength']) ? (int) $params['minLength'] : 1;
-		$opt['matcher']     = isset($params['matcher']) ? (string) $params['matcher'] : null;
-		$opt['sorter']      = isset($params['sorter']) ? (string) $params['sorter'] : null;
-		$opt['updater']     = isset($params['updater']) ? (string) $params['updater'] : null;
-		$opt['highlighter'] = isset($params['highlighter']) ? (int) $params['highlighter'] : null;
-
-		JFactory::getDocument()->addScriptOptions('bootstrap.typehead', array($selector => $params));
-
-		static::$loaded[__METHOD__][$selector] = true;
-	}
 
 	/**
 	 * Add javascript support for Bootstrap accordians and insert the accordian
