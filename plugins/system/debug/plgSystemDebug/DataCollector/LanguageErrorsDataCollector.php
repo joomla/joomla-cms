@@ -1,65 +1,113 @@
 <?php
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  System.Debug
+ *
+ * @copyright   Copyright (C) 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 namespace plgSystemDebug\DataCollector;
 
 use plgSystemDebug\AbstractDataCollector;
 
+/**
+ * LanguageErrorsDataCollector
+ *
+ * @since  version
+ */
 class LanguageErrorsDataCollector extends AbstractDataCollector
 {
-    private $name = 'languageErrors';
+	private $name = 'languageErrors';
 
-    public function collect()
-    {
-        return [
-            'data' => $this->getData(),
-            'count' => $this->getCount(),
-        ];
-    }
+	/**
+	 * Called by the DebugBar when data needs to be collected
+	 *
+	 * @since  version
+	 *
+	 * @return array Collected data
+	 */
+	public function collect()
+	{
+		return [
+			'data'  => $this->getData(),
+			'count' => $this->getCount(),
+		];
+	}
 
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Returns the unique name of the collector
+	 *
+	 * @since  version
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    public function getWidgets()
-    {
-        return [
-            'errors' => [
-                'widget' => 'PhpDebugBar.Widgets.KVListWidget',
-                'map' => $this->name.'.data',
-                'default' => ''
-            ],
-            'errors:badge' => [
-                'map' => $this->name.'.count',
-                'default' => 'null'
-            ]
-        ];
-    }
+	/**
+	 * Returns a hash where keys are control names and their values
+	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
+	 *
+	 * @since  version
+	 *
+	 * @return array
+	 */
+	public function getWidgets()
+	{
+		return [
+			'errors'       => [
+				'widget'  => 'PhpDebugBar.Widgets.KVListWidget',
+				'map'     => $this->name . '.data',
+				'default' => '',
+			],
+			'errors:badge' => [
+				'map'     => $this->name . '.count',
+				'default' => 'null',
+			],
+		];
+	}
 
-    private function getData()
-    {
-        $errorFiles = \JFactory::getLanguage()->getErrorFiles();
-        $errors = [];
+	/**
+	 * Collect data.
+	 *
+	 * @return array
+	 *
+	 * @since version
+	 */
+	private function getData()
+	{
+		$errorFiles = \JFactory::getLanguage()->getErrorFiles();
+		$errors     = [];
 
-        if (count($errorFiles))
-        {
-            $count = 1;
-            foreach ($errorFiles as $error)
-            {
-                $errors[$count] = $this->stripRoot($error);
-                $count ++;
-            }
-        }
-        else
-        {
-            $errors[] = \JText::_('JNONE');
-        }
+		if (count($errorFiles))
+		{
+			$count = 1;
+			foreach ($errorFiles as $error)
+			{
+				$errors[$count] = $this->stripRoot($error);
+				$count++;
+			}
+		}
+		else
+		{
+			$errors[] = \JText::_('JNONE');
+		}
 
-        return $errors;
-    }
+		return $errors;
+	}
 
-    private function getCount()
-    {
-        return count(\JFactory::getLanguage()->getErrorFiles());
-    }
+	/**
+	 * Get a count value.
+	 *
+	 * @return int
+	 *
+	 * @since version
+	 */
+	private function getCount()
+	{
+		return count(\JFactory::getLanguage()->getErrorFiles());
+	}
 }
