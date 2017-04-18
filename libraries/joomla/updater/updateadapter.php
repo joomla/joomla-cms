@@ -217,7 +217,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 			$options['update_site_name'] = $this->getUpdateSiteName($this->updateSiteId);
 		}
 
-		$this->updateSiteName = $options['update_site_name'];
+		$this->updateSiteName  = $options['update_site_name'];
 		$this->appendExtension = false;
 
 		if (array_key_exists('append_extension', $options))
