@@ -35,12 +35,40 @@ class JFormRuleOptions extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
+		// Check if the field is required.
+		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+		if (!$required && empty($value))
+		{
+			return true;
+		}
+
 		// Make an array of all available option values.
 		$options = array();
 
-		foreach ($element->option as $opt)
+		// Create the field
+		$field = null;
+
+		if ($form)
 		{
-			$options[] = $opt->attributes()->value;
+			$field = $form->getField((string) $element->attributes()->name, $group);
+		}
+
+		// When the field exists, the real options are fetched.
+		// This is needed for fields which do have dynamic options like from a database.
+		if ($field && is_array($field->options))
+		{
+			foreach ($field->options as $opt)
+			{
+				$options[] = $opt->value;
+			}
+		}
+		else
+		{
+			foreach ($element->option as $opt)
+			{
+				$options[] = $opt->attributes()->value;
+			}
 		}
 
 		// There may be multiple values in the form of an array (if the element is checkboxes, for example).
