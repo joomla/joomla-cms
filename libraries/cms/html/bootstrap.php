@@ -40,7 +40,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		JFactory::getDocument()->addScriptOptions('bootstrap.alert', array($selector => ''));
 
@@ -65,7 +65,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		JFactory::getDocument()->addScriptOptions('bootstrap.button', array($selector));
 
@@ -96,7 +96,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		// Setup options object
 		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
@@ -125,7 +125,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		JFactory::getDocument()->addScriptOptions('bootstrap.dropdown', array($selector));
 
@@ -194,7 +194,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		$layoutData = array(
 			'selector' => $selector,
@@ -244,7 +244,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
 		$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
@@ -259,9 +259,8 @@ abstract class JHtmlBootstrap
 		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
 
+
 		$opt     = (object) array_filter((array) $opt);
-
-
 
 		JFactory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $opt));
 
@@ -289,7 +288,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		JFactory::getDocument()->addScriptOptions('bootstrap.scrollspy', array($selector => $params));
 
@@ -334,7 +333,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		// Setup options object
 		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
@@ -354,12 +353,13 @@ abstract class JHtmlBootstrap
 		$onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 
+		$opt     = (object) array_filter((array) $opt);
+
 		JFactory::getDocument()->addScriptOptions('bootstrap.tooltip', array($selector => $opt));
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
 	}
-
 
 	/**
 	 * Add javascript support for Bootstrap accordians and insert the accordian
@@ -392,7 +392,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		static::framework();
+		JHtml::_('bootstrap.framework');
 
 		// Setup options object
 		$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
@@ -480,7 +480,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			static::framework();
+			JHtml::_('bootstrap.framework');
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';

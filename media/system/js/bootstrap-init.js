@@ -114,12 +114,7 @@
 		/** Popover **/
 		if (popover) {
 			$.each(popover, function(index, value) {
-				var tmpArray = $.map(value.constraints, function(value, index) {
-					return [value];
-				});
-
-				value.constraints = tmpArray;
-
+				value.constraints = [value.constraints];
 				$(index).popover(value);
 			});
 		}
@@ -134,19 +129,28 @@
 		/** Tabs **/
 		if (tabs) {
 			$.each(tabs, function(index, value) {
-				var liNodes = $('#' + index + 'Tabs').find('li');
 
 				$.each($('#' + index + 'Content').find('.tab-pane'), function(i, v) {
 					if ($(v).data('node')) {
 						var attribs = $(v).data('node').split('['),
-						    classLi = (attribs[0] != '') ? 'class="' + attribs[0] + '"' : '';
-						$('#' + index + 'Tabs').append('<li ' + classLi + '><a href="#' + attribs[1] + '" data-toggle="tab">' + attribs[2] + '</a></li>');
+						    classLi = (attribs[0] != '') ? 'class="nav-item ' + attribs[0] + '"' : '';
+						$('#' + index + 'Tabs').append('<li ' + classLi + '><a class="nav-link" href="#' + attribs[1] + '" data-toggle="tab">' + attribs[1] + '</a></li>');
 					}
 				});
 
+				var liNodes = $('#' + index + 'Tabs').find('li');
+
 				$.each(liNodes, function() {
-					$(this + ' a').click(function (e) {
+					$(this).click(function (e) {
 						e.preventDefault();
+						var liNodes = $(e.target).parents('ul');
+							liNodes = liNodes.find('li');
+
+						$.each(liNodes, function(index, value) {
+							$(value).removeClass("active");
+							$(value).find('a').removeClass("active");
+						});
+
 						$(this).tab("show");
 					});
 				});
@@ -155,9 +159,8 @@
 
 		/** Tooltip **/
 		if (tooltip) {
-			console.log(tooltip)
 			$.each(tooltip, function(index, value) {
-				console.log(value)
+				value.constraints = [value.constraints];
 				$(index).tooltip(value)
 					.on("show.bs.tooltip", new Function(value.onShow)())
 					.on("shown.bs.tooltip", new Function(value.onShown)())
