@@ -262,30 +262,6 @@
 			</field>
 
 			<field
-				name="disabled"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_FIELDS_FIELD_DISABLED_LABEL"
-				description="COM_FIELDS_FIELD_DISABLED_DESC"
-			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-
-			<field
-				name="readonly"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_FIELDS_FIELD_READONLY_LABEL"
-				description="COM_FIELDS_FIELD_READONLY_DESC"
-			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-
-			<field
 				name="show_on"
 				type="radio"
 				class="btn-group btn-group-yesno"
