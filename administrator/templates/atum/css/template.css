@@ -8939,27 +8939,25 @@ small,
   .form-control.input-full {
     max-width: 100%; }
 
-.control-group::after {
-  display: table;
-  clear: both;
-  content: ""; }
-
-form:not(.form-no-margin) .control-group {
+.control-group {
   margin-bottom: 18px; }
-  form:not(.form-no-margin) .control-group .control-label {
+  .control-group::after {
+    display: table;
+    clear: both;
+    content: ""; }
+  .control-group .control-label {
     float: left;
     width: 220px;
     padding-top: 5px;
     padding-right: 5px;
     text-align: left; }
-  form:not(.form-no-margin) .control-group .controls {
-    margin-left: 0;
-    overflow: hidden; }
+  .control-group .controls {
+    margin-left: 220px; }
 
-form .form-no-margin .control-group .controls {
+.form-no-margin .control-group .controls {
   margin-left: 0; }
 
-form .form-no-margin .control-group .control-label {
+.form-no-margin .control-group .control-label {
   float: none; }
 
 .custom-select {
