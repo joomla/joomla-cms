@@ -326,11 +326,8 @@ abstract class JHtmlBootstrap
 
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			'
-			var popoverOptions = ' . $options . ';
-			popoverOptions.constraints = [popoverOptions.constraints];
-			jQuery(function($){ $(' . json_encode($selector) . ').popover(popoverOptions); });
-			'
+			'var popoverOptions = ' . $options . '; popoverOptions.constraints = [popoverOptions.constraints];
+			jQuery(function($){ $(' . json_encode($selector) . ').popover(popoverOptions); });'
 		);
 
 		static::$loaded[__METHOD__][$selector] = true;
@@ -457,10 +454,8 @@ abstract class JHtmlBootstrap
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
-				'
-				var tooltipOptions = ' . $options . ';tooltipOptions.constraints = [tooltipOptions.constraints];
-				jQuery(function($){ ' . implode('.', $script) . '; });
-				'
+				'var tooltipOptions = ' . $options . '; tooltipOptions.constraints = [tooltipOptions.constraints];
+				jQuery(function($){ ' . implode('.', $script) . '; });'
 			);
 
 			// Set static array
