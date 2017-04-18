@@ -37,21 +37,12 @@ class PlgButtonReadmore extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		// Button is not active in specific content components
-		$event = new Event(
-			'getContent',
-			['name' => $name]
-		);
-
-		$getContentResult = $this->getDispatcher()->dispatch('getContent', $event);
-		$getContent = $getContentResult['result'][0];
 		JHtml::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Pass some data to javascript
 		JFactory::getDocument()->addScriptOptions(
 			'xtd-readmore',
 			array(
-				'editor' => $getContent,
 				'exists' => JText::_('PLG_READMORE_ALREADY_EXISTS', true),
 			)
 		);

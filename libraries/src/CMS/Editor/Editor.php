@@ -137,23 +137,7 @@ class Editor implements DispatcherAwareInterface
 
 		$event = new Event('onInit');
 
-		$return    = '';
-		$results   = $this->getDispatcher()->dispatch('onInit', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return = $result;
-			}
-		}
-
-		$document = \JFactory::getDocument();
-
-		if (method_exists($document, 'addCustomTag') && !empty($return))
-		{
-			$document->addCustomTag($return);
-		}
+		$this->getDispatcher()->dispatch('onInit', $event);
 	}
 
 	/**
@@ -247,107 +231,6 @@ class Editor implements DispatcherAwareInterface
 		$event = new Event('onDisplay', $args);
 
 		$results = $this->getDispatcher()->dispatch('onDisplay', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Save the editor content
-	 *
-	 * @param   string  $editor  The name of the editor control
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 */
-	public function save($editor)
-	{
-		$this->_loadEditor();
-
-		// Check whether editor is already loaded
-		if (is_null(($this->_editor)))
-		{
-			return '';
-		}
-
-		$args[] = $editor;
-
-		$event = new Event('onSave', $args);
-
-		$return = '';
-		$results = $this->getDispatcher()->dispatch('onSave', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Get the editor contents
-	 *
-	 * @param   string  $editor  The name of the editor control
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 */
-	public function getContent($editor)
-	{
-		$this->_loadEditor();
-
-		$args['name'] = $editor;
-
-		$event = new Event('onGetContent', $args);
-
-		$return = '';
-		$results = $this->getDispatcher()->dispatch('onGetContent', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Set the editor contents
-	 *
-	 * @param   string  $editor  The name of the editor control
-	 * @param   string  $html    The contents of the text area
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 */
-	public function setContent($editor, $html)
-	{
-		$this->_loadEditor();
-
-		$args['name'] = $editor;
-		$args['html'] = $html;
-
-		$event = new Event('onSetContent', $args);
-
-		$return = '';
-		$results = $this->getDispatcher()->dispatch('onSetContent', $event);
 
 		foreach ($results['result'] as $result)
 		{
