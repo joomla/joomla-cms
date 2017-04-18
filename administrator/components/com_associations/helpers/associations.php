@@ -210,13 +210,35 @@ class AssociationsHelper extends JHelperContent
 				$title       = $items[$langCode][$titleFieldName];
 				$additional  = '';
 
-				if (isset($items[$langCode]['category_title']))
+				if (isset($items[$langCode]['catid']))
 				{
-					$additional = '<br/>' . JText::_('JCATEGORY') . ': ' . $items[$langCode]['category_title'];
+					$db = JFactory::getDbo();
+
+					// Get the category name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__categories'))
+						->where($db->quoteName('id') . ' = ' . $db->quote($items[$langCode]['catid']));
+
+					$db->setQuery($query);
+					$category_title = $db->loadResult();
+
+					$additional = '<strong>' . JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br />';
 				}
-				elseif (isset($items[$langCode]['menu_title']))
+				elseif (isset($items[$langCode]['menutype']))
 				{
-					$additional = '<br/>' . JText::_('COM_ASSOCIATIONS_HEADING_MENUTYPE') . ': ' . $items[$langCode]['menu_title'];
+					$db = JFactory::getDbo();
+
+					// Get the menutype name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__menu_types'))
+						->where($db->quoteName('menutype') . ' = ' . $db->quote($items[$langCode]['menutype']));
+
+					$db->setQuery($query);
+					$menutype_title = $db->loadResult();
+
+					$additional = '<strong>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br />';
 				}
 
 				$labelClass  = '';

@@ -107,11 +107,14 @@
 				</field>
 
 				<field name="headerImage" type="media"
-					label="TPL_BEEZ3_FIELD_HEADER_IMAGE_LABEL" description="TPL_BEEZ3_FIELD_HEADER_IMAGE_DESC" />
+					label="TPL_BEEZ3_FIELD_HEADER_IMAGE_LABEL" 
+					description="TPL_BEEZ3_FIELD_HEADER_IMAGE_DESC" 
+					showon="templatecolor:image" />
 
 				<field name="backgroundcolor" type="color" default="#eee"
 					label="TPL_BEEZ3_FIELD_HEADER_BACKGROUND_COLOR_LABEL"
-					description="TPL_BEEZ3_FIELD_HEADER_BACKGROUND_COLOR_DESC" />
+					description="TPL_BEEZ3_FIELD_HEADER_BACKGROUND_COLOR_DESC"
+					showon="templatecolor:image" />
 
 			</fieldset>
 		</fields>
