@@ -214,8 +214,8 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		{
 			$options['update_site_name'] = $this->getUpdateSiteName($this->updateSiteId);
 		}
-		$this->updateSiteName = $options['update_site_name'];
 
+		$this->updateSiteName = $options['update_site_name'];
 		$this->appendExtension = false;
 
 		if (array_key_exists('append_extension', $options))
@@ -239,10 +239,15 @@ abstract class JUpdateAdapter extends JAdapterInstance
 
 		$startTime = microtime(true);
 
+		$version    = new JVersion;
+		$httpOption = new Registry;
+		$httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
+		$http = JHttpFactory::getHttp($httpOption);
+
 		// JHttp transport throws an exception when there's no response.
 		try
 		{
-			$http = JHttpFactory::getHttp();
 			$response = $http->get($url, array(), 20);
 		}
 		catch (RuntimeException $e)
@@ -254,8 +259,9 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		$this->toggleUpdateSite($this->updateSiteId, true);
 
 		// Log the time it took to load this update site's information
-		$endTime = microtime(true);
+		$endTime    = microtime(true);
 		$timeToLoad = sprintf('%0.2f', $endTime - $startTime);
+
 		JLog::add(
 			"Loading information from update site #{$this->updateSiteId} with name " .
 			"\"$this->updateSiteName\" and URL $url took $timeToLoad seconds", JLog::INFO, 'updater'

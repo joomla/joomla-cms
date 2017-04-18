@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Update class. It is used by JUpdater::update() to install an update. Use JUpdater::findUpdates() to find updates for
  * an extension.
@@ -440,7 +442,11 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXml($url, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
-		$http = JHttpFactory::getHttp();
+		$version    = new JVersion;
+		$httpOption = new Registry;
+		$httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
+		$http = JHttpFactory::getHttp($httpOption);
 
 		try
 		{
