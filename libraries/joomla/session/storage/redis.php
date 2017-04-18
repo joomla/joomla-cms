@@ -24,7 +24,7 @@ class JSessionStorageRedis extends JSessionStorage
             throw new RuntimeException('Redis Extension is not available', 404);
         }
         $config = JFactory::getConfig();
-        $this->_servers = array(
+        $this->_server = array(
             'host' => $config->get('session_redis_server_host', 'localhost'),
             'port' => $config->get('session_redis_server_port', 11211)
         );
@@ -40,10 +40,9 @@ class JSessionStorageRedis extends JSessionStorage
      */
     public function register()
     {
-        if (!empty($this->_servers) && isset($this->_servers['host']) && isset($this->_servers['port']))
+        if (!empty($this->_server) && isset($this->_server['host']) && isset($this->_server['port']))
         {
-            $serverConf = current($this->_servers);
-            ini_set('session.save_path', "{$this->_servers['host']}:{$this->_servers['port']}");
+            ini_set('session.save_path', "{$this->_server['host']}:{$this->_server['port']}");
             ini_set('session.save_handler', 'redis');
             ini_set('zlib.output_compression', 'Off'); //this is required if the configuration.php gzip is turned on
         }
