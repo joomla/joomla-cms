@@ -192,19 +192,19 @@ class AssociationsViewAssociation extends JViewLegacy
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($languageKey)), 'contract');
+		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($languageKey)), 'contract assoc');
 
 		$bar = JToolbar::getInstance('toolbar');
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			. 'class="btn btn-small btn-success"><span class="icon-32-apply icon-white"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			. 'class="btn btn-small btn-success"><span class="icon-32-apply icon-white"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 

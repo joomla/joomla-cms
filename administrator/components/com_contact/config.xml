@@ -347,7 +347,6 @@
 			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
 			multiple="true"
 			context="com_users.user"
-			default="-1"
 			>
 			<option value="-1">JALL</option>
 		</field>
