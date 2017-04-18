@@ -394,7 +394,7 @@ abstract class JHtmlBootstrap
 	 *                                                              content into the dom.
 	 *                                placement    string|function  how to position the popover - top | bottom | left | right
 	 *                                selector     string           If a selector is provided, popover objects will be 
-	                                                                delegated to the specified targets.
+	 *                                                              delegated to the specified targets.
 	 *                                template     string           Base HTML to use when creating the popover.
 	 *                                title        string|function  default title value if `title` tag isn't present
 	 *                                trigger      string           how popover is triggered - hover | focus | manual
