@@ -96,7 +96,7 @@ class JReCaptcha
 
 		try
 		{
-			$http = JHttpFactory::getHttp();
+			$http   = JHttpFactory::getHttp();
 			$result = $http->get($path . '?' . $req)->body;
 		}
 		catch (RuntimeException $e)
