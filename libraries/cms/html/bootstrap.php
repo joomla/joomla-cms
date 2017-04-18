@@ -502,6 +502,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.6
+	 *
+	 * @deprecated  4.0 No replacement, use Bootstrap tooltips.
 	 */
 	public static function tooltipExtended($extended = true)
 	{
