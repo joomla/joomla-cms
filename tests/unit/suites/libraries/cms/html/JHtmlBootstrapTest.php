@@ -639,6 +639,7 @@ class JHtmlBootstrapTest extends TestCase
 		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
 	}
 
+
 	/**
 	 * Tests the loadCss method.
 	 *
