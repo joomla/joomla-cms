@@ -1,4 +1,4 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
@@ -435,7 +435,8 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
   UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`),
   KEY `idx_tag_type` (`tag_id`,`type_id`),
   KEY `idx_date_id` (`tag_date`,`tag_id`),
-  KEY `idx_core_content_id` (`core_content_id`)
+  KEY `idx_core_content_id` (`core_content_id`),
+  KEY `idx_alias_item_id` (`type_alias`,`content_item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Maps items from content tables to tags';
 
 -- --------------------------------------------------------
@@ -477,8 +478,14 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   PRIMARY KEY (`extension_id`),
   KEY `element_clientid` (`element`,`client_id`),
   KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
+<<<<<<< HEAD
+  KEY `extension` (`type`,`element`,`folder`,`client_id`),
+  KEY 'idx_type_ordering' ('type','ordering')
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
+=======
   KEY `extension` (`type`,`element`,`folder`,`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=10000;
+>>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 --
 -- Dumping data for table `#__extensions`
@@ -1317,8 +1324,14 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   UNIQUE KEY `idx_sef` (`sef`),
   UNIQUE KEY `idx_langcode` (`lang_code`),
   KEY `idx_access` (`access`),
+<<<<<<< HEAD
+  KEY `idx_ordering` (`ordering`),
+  KEY 'idx_published_ordering' ('published','ordering')
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+=======
   KEY `idx_ordering` (`ordering`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+>>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 --
 -- Dumping data for table `#__languages`
@@ -1363,10 +1376,18 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`),
   KEY `idx_menutype` (`menutype`),
   KEY `idx_left_right` (`lft`,`rgt`),
+<<<<<<< HEAD
+  KEY `idx_alias` (`alias`),
+  KEY `idx_path` (`path`(255)),
+  KEY `idx_language` (`language`),
+  KEY 'idx_client_id_published_lft' ('client_id','published','lft')
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=102;
+=======
   KEY `idx_alias` (`alias`(100)),
   KEY `idx_path` (`path`(100)),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=102;
+>>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 --
 -- Dumping data for table `#__menu`
@@ -1685,10 +1706,15 @@ CREATE TABLE IF NOT EXISTS `#__session` (
   `data` mediumtext,
   `userid` int(11) DEFAULT 0,
   `username` varchar(150) DEFAULT '',
-  PRIMARY KEY (`session_id`),
+  PRIMARY KEY (`session_id`(32)),
   KEY `userid` (`userid`),
+<<<<<<< HEAD
+  KEY `time` (`time`(10))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+=======
   KEY `time` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+>>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 -- --------------------------------------------------------
 
@@ -1759,8 +1785,14 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
   `params` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_template` (`template`),
+<<<<<<< HEAD
+  KEY `idx_home` (`home`),
+  KEY 'idx_client_id' ('client_id')
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9;
+=======
   KEY `idx_home` (`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=9;
+>>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 --
 -- Dumping data for table `#__template_styles`
@@ -2098,8 +2130,14 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `ordering` int(11) NOT NULL DEFAULT 0,
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
+<<<<<<< HEAD
+  UNIQUE KEY `idx_assetgroup_title_lookup` (`title`),
+  KEY `idx_ordering_title` (`ordering`,`title`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7;
+=======
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=7;
+>>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 --
 -- Dumping data for table `#__viewlevels`
