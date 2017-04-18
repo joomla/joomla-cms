@@ -117,9 +117,9 @@ $assoc = JLanguageAssociations::isEnabled();
 				<?php echo $this->loadTemplate('metadata'); ?>
 			</fieldset>
 
-			<?php $fieldSets = $this->form->getFieldsets('attribs'); ?>
+			<?php $fieldSets = $this->form->getFieldsets(); ?>
 			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-				<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+				<?php if ($name !== 'basic' && $name !== 'item_associations' && $name !== 'jmetadata') : ?>
 					<?php
 					$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL';
 					echo JHtml::_('sliders.panel', JText::_($label), $name . '-options');
