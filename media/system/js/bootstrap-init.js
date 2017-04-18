@@ -13,8 +13,7 @@
 		    popover = Joomla.getOptions('bootstrap.popover'),
 		    scrollspy = Joomla.getOptions('bootstrap.scrollspy'),
 		    tabs = Joomla.getOptions('bootstrap.tabs'),
-		    tooltip = Joomla.getOptions('bootstrap.tooltip'),
-		    typehead = Joomla.getOptions('bootstrap.typehead');
+		    tooltip = Joomla.getOptions('bootstrap.tooltip');
 
 		/** Accordion **/
 		if (accordion) {
@@ -106,7 +105,7 @@
 					}
 				}).on('hide.bs.modal', function () {
 					$('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});
-					// $('.modalTooltip').tooltip('destroy');
+					$('.modalTooltip').tooltip('destroy');
 				});
 			});
 		}
@@ -166,13 +165,6 @@
 					.on("shown.bs.tooltip", new Function(value.onShown)())
 					.on("hide.bs.tooltip", new Function(value.onHide)())
 					.on("hidden.bs.tooltip", new Function(value.onHidden)());
-			});
-		}
-
-		/** Typehead **/
-		if (typehead) {
-			$.each(typehead, function(index, value) {
-				$(index).typehead(value);
 			});
 		}
 	});
