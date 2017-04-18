@@ -407,10 +407,10 @@ class Articles extends ListModel
 		{
 			$groups = \JFactory::getUser()->getAuthorisedViewLevels();
 
-			for ($x = 0, $count = count($items); $x < $count; $x++)
+			foreach ($items as $x => $item)
 			{
 				// Check the access level. Remove articles the user shouldn't see
-				if (!in_array($items[$x]->access, $groups))
+				if (!in_array($item->access, $groups))
 				{
 					unset($items[$x]);
 				}
