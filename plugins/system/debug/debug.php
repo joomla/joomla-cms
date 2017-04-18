@@ -10,6 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use DebugBar\StandardDebugBar;
+use plgSystemDebug\DataCollector\LanguageErrorsDataCollector;
+use plgSystemDebug\DataCollector\LanguageFilesDataCollector;
+use plgSystemDebug\DataCollector\LanguageStringsDataCollector;
+use plgSystemDebug\DataCollector\QueryDataCollector;
+use plgSystemDebug\DataCollector\SessionDataCollector;
 
 /**
  * Joomla! Debug plugin.
@@ -179,7 +185,7 @@ class PlgSystemDebug extends JPlugin
 				'deprecated'
 			);
 		}
-	}
+    }
 
 	/**
 	 * Add the CSS for debug.
@@ -253,6 +259,10 @@ class PlgSystemDebug extends JPlugin
 		// Load language.
 		$this->loadLanguage();
 
+        JLoader::registerNamespace('plgSystemDebug', __DIR__);
+
+        $debugBar = new StandardDebugBar();
+
 		$html = array();
 
 		$html[] = '<div id="system-debug" class="profiler">';
@@ -269,6 +279,7 @@ class PlgSystemDebug extends JPlugin
 			if ($this->params->get('session', 1))
 			{
 				$html[] = $this->display('session');
+                $debugBar->addCollector(new SessionDataCollector($this->params));
 			}
 
 			if ($this->params->get('profile', 1))
@@ -284,7 +295,8 @@ class PlgSystemDebug extends JPlugin
 			if ($this->params->get('queries', 1))
 			{
 				$html[] = $this->display('queries');
-			}
+                $debugBar->addCollector(new QueryDataCollector($this->params));
+            }
 
 			if ($this->params->get('logs', 1) && !empty($this->logEntries))
 			{
@@ -294,22 +306,25 @@ class PlgSystemDebug extends JPlugin
 
 		if ($this->debugLang)
 		{
-			if ($this->params->get('language_errorfiles', 1))
+            if ($this->params->get('language_files', 1))
+            {
+                $html[] = $this->display('language_files_loaded');
+                $debugBar->addCollector(new LanguageFilesDataCollector($this->params));
+            }
+
+            if ($this->params->get('language_strings'))
+            {
+                $html[] = $this->display('untranslated_strings');
+                $debugBar->addCollector(new LanguageStringsDataCollector($this->params));
+            }
+
+            if ($this->params->get('language_errorfiles', 1))
 			{
 				$languageErrors = JFactory::getLanguage()->getErrorFiles();
 				$html[] = $this->display('language_files_in_error', $languageErrors);
-			}
-
-			if ($this->params->get('language_files', 1))
-			{
-				$html[] = $this->display('language_files_loaded');
-			}
-
-			if ($this->params->get('language_strings'))
-			{
-				$html[] = $this->display('untranslated_strings');
-			}
-		}
+                $debugBar->addCollector(new LanguageErrorsDataCollector($this->params));
+            }
+        }
 
 		foreach (self::$displayCallbacks as $name => $callable)
 		{
@@ -318,7 +333,12 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '</div>';
 
-		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
+        $debugBarRenderer = $debugBar->getJavascriptRenderer();
+        $debugBarRenderer->setBaseUrl(JUri::root(true).'/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/');
+
+        $contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
+
+		echo str_replace('</body>', implode('', $html) . $debugBarRenderer->render() . '</body>', $contents);
 	}
 
 	/**
@@ -1514,6 +1534,7 @@ class PlgSystemDebug extends JPlugin
 	 * Displays errors in language files.
 	 *
 	 * @return  string
+     * @deprecated use DataCollector
 	 *
 	 * @since   2.5
 	 */
@@ -1546,6 +1567,7 @@ class PlgSystemDebug extends JPlugin
 	 * @return  string
 	 *
 	 * @since   2.5
+     * @deprecated use DataCollector
 	 */
 	protected function displayLanguageFilesLoaded()
 	{
@@ -1580,7 +1602,8 @@ class PlgSystemDebug extends JPlugin
 	 * @return  string
 	 *
 	 * @since   2.5
-	 */
+     * @deprecated use DataCollector
+     */
 	protected function displayUntranslatedStrings()
 	{
 		$stripFirst = $this->params->get('strip-first');
