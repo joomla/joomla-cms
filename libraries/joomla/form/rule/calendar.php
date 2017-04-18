@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormRuleCalendar extends JFormRule
 {
@@ -31,7 +31,7 @@ class JFormRuleCalendar extends JFormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
