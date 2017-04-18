@@ -70,20 +70,10 @@ abstract class JOAuth1Client
 		$version = null)
 	{
 		$this->options = isset($options) ? $options : new Registry;
+		$this->client = isset($client) ? $client : JHttpFactory::getHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
 		$this->version = isset($version) ? $version : '1.0a';
-
-		try
-		{
-			$http = JHttpFactory::getHttp($options);
-		}
-		catch (RuntimeException $exception)
-		{
-			$http = null;
-		}
-
-		$this->client = isset($client) ? $client : $http;
 
 	}
 
