@@ -370,7 +370,13 @@ class JFeedParserRss extends JFeedParser
 		// Add the feed entry author if available.
 		$author = (string) $el->author;
 
-		if (!empty($author))
+		if (empty($author))
+		{
+			// If there is no author, try the creator in the Dublin Core namespace.
+			$dc = $el->children('http://purl.org/dc/elements/1.1/');
+			$entry->author = isset($dc->creator) ? new JFeedPerson((string) $dc->creator) : '';
+		}
+		else
 		{
 			$entry->author = $this->processPerson($author);
 		}
