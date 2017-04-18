@@ -42,8 +42,17 @@ class MediaModelApi extends Model
 			$root = JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('file_path', 'images');
 			$root = rtrim($root) . '/';
 
-			// Default to the local adapter
-			$config['fileadapter'] = new MediaFileAdapterLocal($root);
+			// Import Local file system plugin
+			JPluginHelper::importPlugin('filesystem');
+
+			$app = JFactory::getApplication();
+
+			$results = $app->triggerEvent('onFileSystemGetAdapters', array($root));
+
+			if ($results != null)
+			{
+				$config['fileadapter'] = $results[0];
+			}
 		}
 
 		$this->adapter = $config['fileadapter'];

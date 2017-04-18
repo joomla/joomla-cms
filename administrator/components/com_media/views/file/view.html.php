@@ -70,8 +70,9 @@ class MediaViewFile extends HtmlView
 		JToolbarHelper::apply('apply');
 		JToolbarHelper::save('save');
 		JToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
-//		JToolbarHelper::custom('undo', 'undo', '',  'Undo', false);
-//		JToolbarHelper::custom('redo', 'redo', '',  'Redo', false);
+
+		// JToolbarHelper::custom('undo', 'undo', '',  'Undo', false);
+		// JToolbarHelper::custom('redo', 'redo', '',  'Redo', false);
 		JToolbarHelper::cancel('cancel');
 	}
 }

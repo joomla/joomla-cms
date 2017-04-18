@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 JLoader::import('joomla.filesystem.file');
 JLoader::import('joomla.filesystem.folder');
 
+JLoader::import('components.com_media.libraries.media.file.adapter.interface', JPATH_ADMINISTRATOR);
+JLoader::import('components.com_media.libraries.media.file.adapter.filenotfoundexception', JPATH_ADMINISTRATOR);
 /**
  * Local file adapter.
  *
@@ -187,7 +189,7 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	public function updateFile($name, $path, $data)
 	{
-		if (!file_exists($this->rootPath . $path . '/' . $name))
+		if (!JFile::exists($this->rootPath . $path . '/' . $name))
 		{
 			throw new MediaFileAdapterFilenotfoundexception;
 		}
