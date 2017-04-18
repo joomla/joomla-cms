@@ -150,6 +150,14 @@ class UsersModelRegistration extends JModelForm
 				return false;
 			}
 
+			$is_html = $config->get('send_as_html', 0);
+
+			// Convert new lines to break tags, to prevent non-html messages appearing on one line.
+			if ($is_html && strpos($emailBody, '</') === false)
+			{
+				$emailBody = str_replace("\n", '<br />', $emailBody);
+			}
+
 			// Send mail to all users with users creating permissions and receiving system emails
 			foreach ($rows as $row)
 			{
@@ -157,7 +165,7 @@ class UsersModelRegistration extends JModelForm
 
 				if ($usercreator->authorise('core.create', 'com_users'))
 				{
-					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody, $is_html);
 
 					// Check for an error.
 					if ($return !== true)
@@ -195,7 +203,15 @@ class UsersModelRegistration extends JModelForm
 				$data['username']
 			);
 
-			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			$is_html = $config->get('send_as_html', 0);
+
+			// Convert new lines to break tags, to prevent non-html messages appearing on one line.
+			if ($is_html && strpos($emailBody, '</') === false)
+			{
+				$emailBody = str_replace("\n", '<br />', $emailBody);
+			}
+
+			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody, $is_html);
 
 			// Check for an error.
 			if ($return !== true)
@@ -565,8 +581,16 @@ class UsersModelRegistration extends JModelForm
 			}
 		}
 
+		$is_html = $params->get('send_as_html', 0);
+
+		// Convert new lines to break tags, to prevent non-html messages appearing on one line.
+		if ($is_html && strpos($emailBody, '</') === false)
+		{
+			$emailBody = str_replace("\n", '<br />', $emailBody);
+		}
+
 		// Send the registration email.
-		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody, $is_html);
 
 		// Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
@@ -604,10 +628,16 @@ class UsersModelRegistration extends JModelForm
 				return false;
 			}
 
-			// Send mail to all superadministrators id
+			// Convert new lines to break tags, to prevent non-html messages appearing on one line.
+			if ($is_html && strpos($emailBodyAdmin, '</') === false)
+			{
+				$emailBodyAdmin = str_replace("\n", '<br />', $emailBodyAdmin);
+			}
+
+			// Send mail to all super administrators id
 			foreach ($rows as $row)
 			{
-				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin, $is_html);
 
 				// Check for an error.
 				if ($return !== true)
