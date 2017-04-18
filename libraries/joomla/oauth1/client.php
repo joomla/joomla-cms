@@ -74,7 +74,6 @@ abstract class JOAuth1Client
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
 		$this->version = isset($version) ? $version : '1.0a';
-
 	}
 
 	/**
