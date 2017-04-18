@@ -327,7 +327,7 @@ class JHtmlBootstrapTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/system/js/bootstrap-init.min.js',
 			$document->_scripts,
-			'Verify that the alert method initialises Bootstrap as well'
+			'Verify that the bootstrap-init.min.js is loaded'
 		);
 	}
 
@@ -494,10 +494,10 @@ class JHtmlBootstrapTest extends TestCase
 		// Check the modal's html structure
 		$matcher = array(
 			'tag'        => 'div',
-			'attributes' => array('class' => 'accordion-group'),
+			'attributes' => array('class' => 'card'),
 			'child'      => array(
-				'tag'        => 'div',
-				'attributes' => array('class' => 'accordion-heading')
+				'tag'        => 'a',
+				'attributes' => array('class' => 'card-header')
 			)
 		);
 
@@ -656,10 +656,10 @@ class JHtmlBootstrapTest extends TestCase
 			'Verify that the base Bootstrap CSS is loaded'
 		);
 
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/css/bootstrap-rtl.css',
-			$document->_styleSheets,
-			'Verify that the RTL Bootstrap CSS is loaded'
-		);
+//		$this->assertArrayHasKey(
+//			'/media/vendor/bootstrap/css/bootstrap-rtl.css',
+//			$document->_styleSheets,
+//			'Verify that the RTL Bootstrap CSS is loaded'
+//		);
 	}
 }
