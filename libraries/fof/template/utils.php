@@ -215,7 +215,7 @@ class FOFTemplateUtils
 	 */
 	public static function sefSort($text, $field, $list)
 	{
-		$sort = JHTML::_('grid.sort', JText::_(strtoupper($text)) . '&nbsp;', $field, $list->order_Dir, $list->order);
+		$sort = JHtml::_('grid.sort', JText::_(strtoupper($text)) . '&nbsp;', $field, $list->order_Dir, $list->order);
 
 		return str_replace('href="#"', 'href="javascript:void(0);"', $sort);
 	}

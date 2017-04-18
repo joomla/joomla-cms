@@ -39,8 +39,8 @@ class FOFFormHeaderOrdering extends FOFFormHeader
 		if (!$hasAjaxOrderingSupport)
 		{
 			// Ye olde Joomla! 2.5 method
-			$html = JHTML::_('grid.sort', 'JFIELD_ORDERING_LABEL', 'ordering', $view->getLists()->order_Dir, $view->getLists()->order, 'browse');
-			$html .= JHTML::_('grid.order', $model->getList());
+			$html = JHtml::_('grid.sort', 'JFIELD_ORDERING_LABEL', 'ordering', $view->getLists()->order_Dir, $view->getLists()->order, 'browse');
+			$html .= JHtml::_('grid.order', $model->getList());
 
 			return $html;
 		}
