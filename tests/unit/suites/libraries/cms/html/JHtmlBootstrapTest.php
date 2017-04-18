@@ -387,17 +387,12 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
-			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
-		);
-
-		$this->assertArrayHasKey(
 			'/media/system/js/bootstrap-init.min.js',
 			$document->_scripts,
-			'Verify that the alert method initialises Bootstrap as well'
+			'Verify that the boostrap-init.min.js file is loaded'
 		);
 	}
+
 
 	/**
 	 * Tests the startAccordion method.
