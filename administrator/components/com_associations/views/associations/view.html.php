@@ -206,12 +206,12 @@ class AssociationsViewAssociations extends JViewLegacy
 			JToolbarHelper::title(
 				JText::sprintf(
 					'COM_ASSOCIATIONS_TITLE_LIST', JText::_($this->extensionName), JText::_($languageKey)
-				), 'contract'
+				), 'contract assoc'
 			);
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract');
+			JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract assoc');
 		}
 
 		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))
