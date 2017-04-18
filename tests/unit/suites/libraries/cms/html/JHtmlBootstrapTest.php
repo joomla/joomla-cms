@@ -416,7 +416,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			'jQuery(function($){ $(".hasTooltip").tooltip({"html": true,"container": "body","constraints": [{"to": "scrollParent", "attachment": "together", "pin": true}]}); });',
+			'jQuery(function($){ $(".hasTooltip").tooltip({"container": "body","html": true,"trigger": "hover focus","constraints": [{"to": "scrollParent", "attachment": "together", "pin": true}]}); });',
 			'Verify that the tooltip script is initialised'
 		);
 	}
