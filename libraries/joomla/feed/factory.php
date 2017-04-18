@@ -53,7 +53,7 @@ class JFeedFactory
 			}
 			catch (RuntimeException $exception)
 			{
-				throw new RuntimeException('Unable to open the feed.');	
+				throw new RuntimeException('Unable to open the feed.', $exception->getCode(), $exception);
 			}
 
 			if ($response->code != 200)
