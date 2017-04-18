@@ -37,15 +37,8 @@ class PlgButtonReadmore extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
+		JText::script('PLG_READMORE_ALREADY_EXISTS', true);
 		JHtml::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
-
-		// Pass some data to javascript
-		JFactory::getDocument()->addScriptOptions(
-			'xtd-readmore',
-			array(
-				'exists' => JText::_('PLG_READMORE_ALREADY_EXISTS', true),
-			)
-		);
 
 		$button = new JObject;
 		$button->modal   = false;

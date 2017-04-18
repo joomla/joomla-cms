@@ -5,19 +5,11 @@
 
 window.insertReadmore = function(editor) {
 	"use strict";
-	if (!Joomla.getOptions('xtd-readmore')) {
-		// Something went wrong!
-		return false;
-	}
 
-	var options, content;
-
-	options = window.parent.Joomla.getOptions('xtd-readmore');
-
-	content = Joomla.editors.instances[editor].getValue();
+	var content = Joomla.editors.instances[editor].getValue();
 
 	if (content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
-		alert(options.exists);
+		alert(Joomla.JText._('PLG_READMORE_ALREADY_EXISTS'));
 		return false;
 	} else {
 		Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />');
