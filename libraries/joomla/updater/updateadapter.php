@@ -245,11 +245,10 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		$httpOption = new Registry;
 		$httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
-		$http = JHttpFactory::getHttp($httpOption);
-
 		// JHttp transport throws an exception when there's no response.
 		try
 		{
+			$http = JHttpFactory::getHttp($httpOption);
 			$response = $http->get($url, array(), 20);
 		}
 		catch (RuntimeException $e)

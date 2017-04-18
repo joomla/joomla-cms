@@ -446,10 +446,9 @@ class JUpdate extends JObject
 		$httpOption = new Registry;
 		$httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
-		$http = JHttpFactory::getHttp($httpOption);
-
 		try
 		{
+			$http = JHttpFactory::getHttp($httpOption);
 			$response = $http->get($url);
 		}
 		catch (RuntimeException $e)
