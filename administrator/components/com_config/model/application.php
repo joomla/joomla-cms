@@ -138,6 +138,7 @@ class ConfigModelApplication extends ConfigModelForm
 						CURLOPT_PROXYUSERPWD => null,
 					)
 				);
+
 				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
