@@ -16,8 +16,9 @@ use Joomla\Registry\Registry;
  * Menu class
  *
  * @since  1.5
+ * @note  Will become abstract in Joomla 4
  */
-class Menu
+class AbstractMenu
 {
 	/**
 	 * Array to hold the menu items
@@ -49,7 +50,7 @@ class Menu
 	/**
 	 * Menu instances container.
 	 *
-	 * @var    Menu[]
+	 * @var    AbstractMenu[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();
@@ -91,7 +92,7 @@ class Menu
 	 * @param   string  $client   The name of the client
 	 * @param   array   $options  An associative array of options
 	 *
-	 * @return  Menu  A menu object.
+	 * @return  AbstractMenu  A menu object.
 	 *
 	 * @since   1.5
 	 * @throws  \Exception

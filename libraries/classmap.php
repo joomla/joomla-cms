@@ -120,3 +120,8 @@ JLoader::registerAlias('JResponseJson',                     '\\Joomla\\CMS\\Resp
 
 JLoader::registerAlias('JPlugin',                           '\\Joomla\\CMS\\Plugin\\CMSPlugin', '4.0');
 JLoader::registerAlias('JPluginHelper',                     '\\Joomla\\CMS\\Plugin\\PluginHelper', '4.0');
+
+JLoader::registerAlias('JMenu',                             '\\Joomla\\CMS\\Menu\\AbstractMenu', '4.0');
+JLoader::registerAlias('JMenuAdministrator',                '\\Joomla\\CMS\\Menu\\AdministratorMenu', '4.0');
+JLoader::registerAlias('JMenuItem',                         '\\Joomla\\CMS\\Menu\\MenuItem', '4.0');
+JLoader::registerAlias('JMenuSite',                         '\\Joomla\\CMS\\Menu\\SiteMenu', '4.0');

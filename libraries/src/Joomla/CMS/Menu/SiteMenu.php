@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Multilanguage;
  *
  * @since  1.5
  */
-class SiteMenu extends Menu
+class SiteMenu extends AbstractMenu
 {
 	/**
 	 * Application object

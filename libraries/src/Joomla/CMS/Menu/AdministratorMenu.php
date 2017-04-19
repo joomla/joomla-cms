@@ -15,6 +15,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.5
  */
-class AdministratorMenu extends Menu
+class AdministratorMenu extends AbstractMenu
 {
 }
