@@ -241,4 +241,61 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			expect(this.form.filter_order_Dir.value).toEqual('dir')
 		});
 	});
+
+    describe('Core Joomla.isEmail', function () {
+        var form = document.getElementById('isEmail-test-form');
+        var emails = [
+            {emailaddress: 'test@example.com', validate: true},
+            {emailaddress: 'forename.lastname@example.com', validate: true},
+            {emailaddress: 'test@subdomain.example.com', validate: true},
+            {emailaddress: 'firstname+lastname@example.com', validate: true},
+            {emailaddress: 'test@123.123.123.123', validate: true},
+            {emailaddress: 'test@[123.123.123.123]', validate: false},
+            {emailaddress: '"email"@example.com', validate: false},
+            {emailaddress: '1234567890@example.com', validate: true},
+            {emailaddress: 'test@example-one.com', validate: true},
+            {emailaddress: '_______@example.com', validate: true},
+            {emailaddress: 'test@example.name', validate: true},
+            {emailaddress: 'test@example.museum', validate: true},
+            {emailaddress: 'test@example.co.jp', validate: true},
+            {emailaddress: 'firstname-lastname@example.com', validate: true},
+            {emailaddress: 'much.”more\ unusual”@example.com', validate: false},
+            {emailaddress: 'very.unusual.”@”.unusual.com@example.com', validate: false},
+            {
+                emailaddress: 'very.”(),:;<>[]”.VERY.”very@\\ "very”.unusual@strange.example.com',
+                validate: false,
+                message: 'is invalid'
+            },
+            {emailaddress: 'plainaddress', validate: false},
+            {emailaddress: '#@%^%#$@#$@#.com', validate: false},
+            {emailaddress: 'username@kasdkasd', validate: false},
+            {emailaddress: '@example.com', validate: false},
+            {emailaddress: 'Your Name test@example.com', validate: false},
+            {emailaddress: 'email.example.com', validate: false},
+            {emailaddress: 'test@example@example.com', validate: false},
+            {emailaddress: '    .test@example.com', validate: false},
+            {emailaddress: 'email.@example.com', validate: true},
+            {emailaddress: 'email..test@example.com', validate: true},
+            {emailaddress: 'あいうえお@example.com', validate: false},
+            {emailaddress: 'test@example.com (Your Name)', validate: false},
+            {emailaddress: 'test@example', validate: false},
+            {emailaddress: 'test@example.web', validate: true},
+            {emailaddress: 'test@111.222.333.44444', validate: true},
+            {emailaddress: 'Abc..123@example.com', validate: true},
+            {emailaddress: '”(),:;<>[\]@example.com', validate: false},
+            {emailaddress: 'just”not”right@example.com', validate: false},
+            {emailaddress: 'this\ is"really"not\allowed@example.com', validate: false},
+        ];
+
+        emails.forEach(function (email) {
+            it('"' + email.emailaddress + '" => ' + email.validate, function () {
+                var result = Joomla.isEmail(email.emailaddress);
+                expect(result).toEqual(email.validate);
+            });
+        });
+
+        it('should set form input type = email', function () {
+            expect($('#isEmail-test-form')).toContainElement('input[type="email"]');
+        });
+    });
 });
