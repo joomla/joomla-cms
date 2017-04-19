@@ -171,7 +171,7 @@ class JObjectTest extends \PHPUnit\Framework\TestCase
 		$this->o->setError($exception);
 		$this->assertThat(
 			$this->o->getError(3, true),
-			$this->equalTo((string) $exception)
+			$this->equalTo('error')
 		);
 	}
 
