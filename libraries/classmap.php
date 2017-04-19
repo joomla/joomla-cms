@@ -128,7 +128,9 @@ JLoader::registerAlias('JMenuSite',                         '\\Joomla\\CMS\\Menu
 
 JLoader::registerAlias('JPagination',                       '\\Joomla\\CMS\\Pagination\\Pagination', '4.0');
 JLoader::registerAlias('JPaginationObject',                 '\\Joomla\\CMS\\Pagination\\PaginationObject', '4.0');
-JLoader::registerAlias('JPaginationObject',                 '\\Joomla\\CMS\\Pagination\\PaginationObject', '4.0');
+
+JLoader::registerAlias('JPathway',                          '\\Joomla\\CMS\\Pathway\\Pathway', '4.0');
+JLoader::registerAlias('JPathwaySite',                      '\\Joomla\\CMS\\Pathway\\SitePathway', '4.0');
 
 JLoader::registerAlias('JSchemaChangeitem',                 '\\Joomla\\CMS\\Schema\\ChangeItem', '4.0');
 JLoader::registerAlias('JSchemaChangeset',                  '\\Joomla\\CMS\\Schema\\ChangeSet', '4.0');
