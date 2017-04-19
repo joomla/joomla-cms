@@ -149,7 +149,7 @@ abstract class ChangeItem
 		}
 
 		$class = '\\Joomla\\CMS\\Schema\\ChangeItem\\' . ucfirst($serverType) . 'ChangeItem';
-echo $class;die;
+
 		// If the class exists, return it.
 		if (class_exists($class))
 		{
