@@ -120,3 +120,6 @@ JLoader::registerAlias('JResponseJson',                     '\\Joomla\\CMS\\Resp
 
 JLoader::registerAlias('JPlugin',                           '\\Joomla\\CMS\\Plugin\\CMSPlugin', '4.0');
 JLoader::registerAlias('JPluginHelper',                     '\\Joomla\\CMS\\Plugin\\PluginHelper', '4.0');
+
+JLoader::registerAlias('JPagination',                       '\\Joomla\\CMS\\Pagination\\Pagination', '4.0');
+JLoader::registerAlias('JPaginationObject',                 '\\Joomla\\CMS\\Pagination\\PaginationObject', '4.0');
