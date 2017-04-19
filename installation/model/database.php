@@ -377,8 +377,8 @@ class InstallationModelDatabase extends JModelBase
 
 				$value = $db->loadResult();
 
-				// If InnoDB support is enabled in database it returns 'DEFAULT'.
-				if ($value != 'DEFAULT')
+				// If InnoDB support isn't enabled in database it returns 'NO'.
+				if ($value == 'NO')
 				{
 					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ENABLE_INNODB'), 'error');
 
