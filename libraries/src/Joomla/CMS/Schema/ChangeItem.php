@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Schema
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Schema;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -25,7 +26,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.5
  */
-abstract class JSchemaChangeitem
+abstract class ChangeItem
 {
 	/**
 	 * Update file: full path file name where query was found
@@ -60,9 +61,9 @@ abstract class JSchemaChangeitem
 	public $checkQueryExpected = 1;
 
 	/**
-	 * JDatabaseDriver object
+	 * \JDatabaseDriver object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  2.5
 	 */
 	public $db = null;
@@ -78,7 +79,7 @@ abstract class JSchemaChangeitem
 	public $queryType = null;
 
 	/**
-	 * Array with values for use in a JText::sprintf statment indicating what was checked
+	 * Array with values for use in a \JText::sprintf statment indicating what was checked
 	 *
 	 * Tells you what the message should be, based on which elements are defined, as follows:
 	 *     For ADD_TABLE: table
@@ -110,7 +111,7 @@ abstract class JSchemaChangeitem
 	/**
 	 * Constructor: builds check query and message from $updateQuery
 	 *
-	 * @param   JDatabaseDriver  $db     Database connector object
+	 * @param   \JDatabaseDriver  $db     Database connector object
 	 * @param   string           $file   Full path name of the sql file
 	 * @param   string           $query  Text of the sql query (one line of the file)
 	 *
@@ -125,16 +126,16 @@ abstract class JSchemaChangeitem
 	}
 
 	/**
-	 * Returns a reference to the JSchemaChangeitem object.
+	 * Returns a reference to the ChangeItem object.
 	 *
-	 * @param   JDatabaseDriver  $db     Database connector object
+	 * @param   \JDatabaseDriver  $db     Database connector object
 	 * @param   string           $file   Full path name of the sql file
 	 * @param   string           $query  Text of the sql query (one line of the file)
 	 *
-	 * @return  JSchemaChangeitem instance based on the database driver
+	 * @return  ChangeItem  instance based on the database driver
 	 *
 	 * @since   2.5
-	 * @throws  RuntimeException if class for database driver not found
+	 * @throws  \RuntimeException if class for database driver not found
 	 */
 	public static function getInstance($db, $file, $query)
 	{
@@ -147,15 +148,15 @@ abstract class JSchemaChangeitem
 			$serverType = 'sqlsrv';
 		}
 
-		$class = 'JSchemaChangeitem' . ucfirst($serverType);
-
+		$class = '\\Joomla\\CMS\\Schema\\ChangeItem\\' . ucfirst($serverType) . 'ChangeItem';
+echo $class;die;
 		// If the class exists, return it.
 		if (class_exists($class))
 		{
 			return new $class($db, $file, $query);
 		}
 
-		throw new RuntimeException(sprintf('JSchemaChangeitem child class not found for the %s database driver', $serverType), 500);
+		throw new \RuntimeException(sprintf('ChangeItem child class not found for the %s database driver', $serverType), 500);
 	}
 
 	/**
@@ -197,12 +198,12 @@ abstract class JSchemaChangeitem
 			{
 				$rows = $this->db->loadObject();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$rows = false;
 
 				// Still render the error message from the Exception object
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 
 			if ($rows !== false)

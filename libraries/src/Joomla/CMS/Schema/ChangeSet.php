@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Schema
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Schema;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -19,20 +20,20 @@ jimport('joomla.filesystem.folder');
  *
  * @since  2.5
  */
-class JSchemaChangeset
+class ChangeSet
 {
 	/**
-	 * Array of JSchemaChangeitem objects
+	 * Array of ChangeItem objects
 	 *
-	 * @var    JSchemaChangeitem[]
+	 * @var    ChangeItem[]
 	 * @since  2.5
 	 */
 	protected $changeItems = array();
 
 	/**
-	 * JDatabaseDriver object
+	 * \JDatabaseDriver object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  2.5
 	 */
 	protected $db = null;
@@ -48,7 +49,7 @@ class JSchemaChangeset
 	/**
 	 * The singleton instance of this object
 	 *
-	 * @var    JSchemaChangeset
+	 * @var    ChangeSet
 	 * @since  3.5.1
 	 */
 	protected static $instance;
@@ -57,7 +58,7 @@ class JSchemaChangeset
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is `administrator/components/com_admin/sql/updates/<database>`.
 	 *
-	 * @param   JDatabaseDriver  $db      The current database object
+	 * @param   \JDatabaseDriver  $db      The current database object
 	 * @param   string           $folder  The full path to the folder containing the update queries
 	 *
 	 * @since   2.5
@@ -71,7 +72,7 @@ class JSchemaChangeset
 
 		foreach ($updateQueries as $obj)
 		{
-			$changeItem = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+			$changeItem = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
 
 			if ($changeItem->queryType === 'UTF8CNV')
 			{
@@ -80,9 +81,9 @@ class JSchemaChangeset
 				{
 					$this->db->setQuery($changeItem->updateQuery)->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 			else
@@ -96,7 +97,7 @@ class JSchemaChangeset
 		if ($this->db->getServerType() == 'mysql')
 		{
 			// Let the update query be something harmless which should always succeed
-			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
+			$tmpSchemaChangeItem = ChangeItem::getInstance(
 				$db,
 				'database.php',
 				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
@@ -132,12 +133,12 @@ class JSchemaChangeset
 	}
 
 	/**
-	 * Returns a reference to the JSchemaChangeset object, only creating it if it doesn't already exist.
+	 * Returns a reference to the ChangeSet object, only creating it if it doesn't already exist.
 	 *
-	 * @param   JDatabaseDriver  $db      The current database object
+	 * @param   \JDatabaseDriver  $db      The current database object
 	 * @param   string           $folder  The full path to the folder containing the update queries
 	 *
-	 * @return  JSchemaChangeset
+	 * @return  ChangeSet
 	 *
 	 * @since   2.5
 	 */
@@ -145,7 +146,7 @@ class JSchemaChangeset
 	{
 		if (!is_object(static::$instance))
 		{
-			static::$instance = new JSchemaChangeset($db, $folder);
+			static::$instance = new ChangeSet($db, $folder);
 		}
 
 		return static::$instance;
@@ -239,7 +240,7 @@ class JSchemaChangeset
 	public function getSchema()
 	{
 		$updateFiles = $this->getUpdateFiles();
-		$result = new SplFileInfo(array_pop($updateFiles));
+		$result = new \SplFileInfo(array_pop($updateFiles));
 
 		return $result->getBasename('.sql');
 	}
@@ -268,7 +269,7 @@ class JSchemaChangeset
 			$this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 		}
 
-		return JFolder::files(
+		return \JFolder::files(
 			$this->folder . '/' . $sqlFolder, '\.sql$', 1, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX'), array('^\..*', '.*~'), true
 		);
 	}
@@ -278,7 +279,7 @@ class JSchemaChangeset
 	 *
 	 * @param   array  $sqlfiles  Array of .sql update filenames.
 	 *
-	 * @return  array  Array of stdClass objects where:
+	 * @return  array  Array of \stdClass objects where:
 	 *                    file=filename,
 	 *                    update_query = text of SQL update query
 	 *
@@ -294,11 +295,11 @@ class JSchemaChangeset
 			$buffer = file_get_contents($file);
 
 			// Create an array of queries from the sql file
-			$queries = JDatabaseDriver::splitSql($buffer);
+			$queries = \JDatabaseDriver::splitSql($buffer);
 
 			foreach ($queries as $query)
 			{
-				$fileQueries = new stdClass;
+				$fileQueries = new \stdClass;
 				$fileQueries->file = $file;
 				$fileQueries->updateQuery = $query;
 				$result[] = $fileQueries;
