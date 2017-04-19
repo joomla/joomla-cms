@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+
+
 /**
  * Test class for local file adapter.
  *
@@ -14,7 +16,7 @@
  * @subpackage  com_media
  * @since       __DEPLOY_VERSION__
  */
-class LocalAdapterTest extends TestCaseDatabase
+class MediaFileAdapterLocalTest extends TestCaseDatabase
 {
 	/**
 	 * The root folder to work from.
@@ -30,21 +32,20 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
+		// Set up the application and session
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session     = $this->getMockSession();
+
 		// Register the needed classes
 		JLoader::register('JPath', JPATH_PLATFORM . '/joomla/filesystem/path.php');
 		JLoader::register('JFile', JPATH_PLATFORM . '/joomla/filesystem/file.php');
 		JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
 
-		// Add the media libraries to the class loader
-		JLoader::discover('MediaFileAdapter', JPATH_ADMINISTRATOR . '/components/com_media/libraries/media/file/adapter', true, true);
+		JLoader::import('filesystem.local.adapter.adapter', JPATH_PLUGINS);
 
 		// Set up the temp root folder
 		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/');
 		JFolder::create($this->root);
-
-		// Set up the application and session
-		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session     = $this->getMockSession();
 	}
 
 	/**
