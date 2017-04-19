@@ -10303,3 +10303,16 @@ iframe {
 .btn:hover,
 .btn:focus {
   cursor: pointer; }
+
+.item-associations {
+  padding: 0; }
+
+.item-associations li {
+  display: inline-block;
+  list-style: none; }
+
+.badge-association {
+  background-color: #636c72; }
+
+.badge-association[href]:focus, .badge-association[href]:hover {
+  background-color: #4b5257; }
