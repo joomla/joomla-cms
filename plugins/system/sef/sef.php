@@ -33,7 +33,7 @@ class PlgSystemSef extends JPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$doc = $this->app->getDocument();
+		$doc = JFactory::getDocument();
 
 		if (!$this->app->isClient('site') || $doc->getType() !== 'html')
 		{
@@ -96,7 +96,7 @@ class PlgSystemSef extends JPlugin
 		$buffer = $this->app->getBody();
 
 		// For feeds we need to search for the URL with domain.
-		$prefix = $this->app->getDocument()->getType() === 'feed' ? JUri::root() : '';
+		$prefix = JFactory::getDocument()->getType() === 'feed' ? JUri::root() : '';
 
 		// Replace index.php URI by SEF URI.
 		if (strpos($buffer, 'href="' . $prefix . 'index.php?') !== false)
