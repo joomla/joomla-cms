@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use DebugBar\StandardDebugBar;
+use DebugBar\DataCollector\MessagesCollector;
 use plgSystemDebug\DataCollector\LanguageErrorsDataCollector;
 use plgSystemDebug\DataCollector\LanguageFilesDataCollector;
 use plgSystemDebug\DataCollector\LanguageStringsDataCollector;
@@ -97,6 +98,12 @@ class PlgSystemDebug extends JPlugin
 	private static $displayCallbacks = array();
 
 	/**
+	 * @var StandardDebugBar
+	 * @since version
+	 */
+	private $debugBar = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -137,7 +144,7 @@ class PlgSystemDebug extends JPlugin
 		// Only if debugging or language debug is enabled.
 		if (JDEBUG || $this->debugLang)
 		{
-			JFactory::getConfig()->set('gzip', 0);
+			$this->app->set('gzip', 0);
 			ob_start();
 			ob_implicit_flush(false);
 		}
@@ -185,6 +192,11 @@ class PlgSystemDebug extends JPlugin
 				'deprecated'
 			);
 		}
+
+		JLoader::registerNamespace('plgSystemDebug', __DIR__);
+
+		$this->debugBar = new StandardDebugBar;
+		$this->debugBar->setStorage(new DebugBar\Storage\FileStorage(JPATH_CACHE . '/profiles'));
 	}
 
 	/**
@@ -259,10 +271,6 @@ class PlgSystemDebug extends JPlugin
 		// Load language.
 		$this->loadLanguage();
 
-		JLoader::registerNamespace('plgSystemDebug', __DIR__);
-
-		$debugBar = new StandardDebugBar;
-
 		$html = array();
 
 		$html[] = '<div id="system-debug" class="profiler">';
@@ -279,7 +287,7 @@ class PlgSystemDebug extends JPlugin
 			if ($this->params->get('session', 1))
 			{
 				$html[] = $this->display('session');
-				$debugBar->addCollector(new SessionDataCollector($this->params));
+				$this->debugBar->addCollector(new SessionDataCollector($this->params));
 			}
 
 			if ($this->params->get('profile', 1))
@@ -295,7 +303,7 @@ class PlgSystemDebug extends JPlugin
 			if ($this->params->get('queries', 1))
 			{
 				$html[] = $this->display('queries');
-				$debugBar->addCollector(new QueryDataCollector($this->params));
+				$this->debugBar->addCollector(new QueryDataCollector($this->params));
 			}
 
 			if ($this->params->get('logs', 1) && !empty($this->logEntries))
@@ -309,20 +317,20 @@ class PlgSystemDebug extends JPlugin
 			if ($this->params->get('language_files', 1))
 			{
 				$html[] = $this->display('language_files_loaded');
-				$debugBar->addCollector(new LanguageFilesDataCollector($this->params));
+				$this->debugBar->addCollector(new LanguageFilesDataCollector($this->params));
 			}
 
 			if ($this->params->get('language_strings'))
 			{
 				$html[] = $this->display('untranslated_strings');
-				$debugBar->addCollector(new LanguageStringsDataCollector($this->params));
+				$this->debugBar->addCollector(new LanguageStringsDataCollector($this->params));
 			}
 
 			if ($this->params->get('language_errorfiles', 1))
 			{
 				$languageErrors = JFactory::getLanguage()->getErrorFiles();
 				$html[] = $this->display('language_files_in_error', $languageErrors);
-				$debugBar->addCollector(new LanguageErrorsDataCollector($this->params));
+				$this->debugBar->addCollector(new LanguageErrorsDataCollector($this->params));
 			}
 		}
 
@@ -333,8 +341,8 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '</div>';
 
-		$debugBarRenderer = $debugBar->getJavascriptRenderer();
-		$debugBarRenderer->setBaseUrl(JUri::root(true).'/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/');
+		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
+		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/');
 
 		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
 
@@ -1782,6 +1790,8 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayLogs()
 	{
+		$this->collectLogs();
+
 		$priorities = array(
 			JLog::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
 			JLog::ALERT => '<span class="badge badge-important">ALERT</span>',
@@ -1886,6 +1896,45 @@ class PlgSystemDebug extends JPlugin
 		$out .= '</ol>';
 
 		return $out;
+	}
+
+	/**
+	 * Collect log messages.
+	 *
+	 * @return $this
+	 *
+	 * @since version
+	 */
+	protected function collectLogs()
+	{
+		if (!$this->logEntries)
+		{
+			return $this;
+		}
+
+		$this->debugBar->addCollector(new MessagesCollector('log'));
+		$this->debugBar->addCollector(new MessagesCollector('deprecated'));
+
+		foreach ($this->logEntries as $entry)
+		{
+			switch ($entry->category)
+			{
+				case 'deprecated':
+					// @todo Add $entry->callstack
+					$this->debugBar[$entry->category]->addMessage($entry->message);
+				break;
+
+				case 'databasequery':
+					// Should be collected by its own collector
+				break;
+
+				default:
+					$this->debugBar['log']->addMessage($entry->message, 'error');
+					break;
+			}
+		}
+
+		return $this;
 	}
 
 	/**
