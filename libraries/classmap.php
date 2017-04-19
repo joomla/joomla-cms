@@ -125,3 +125,6 @@ JLoader::registerAlias('JMenu',                             '\\Joomla\\CMS\\Menu
 JLoader::registerAlias('JMenuAdministrator',                '\\Joomla\\CMS\\Menu\\AdministratorMenu', '4.0');
 JLoader::registerAlias('JMenuItem',                         '\\Joomla\\CMS\\Menu\\MenuItem', '4.0');
 JLoader::registerAlias('JMenuSite',                         '\\Joomla\\CMS\\Menu\\SiteMenu', '4.0');
+
+JLoader::registerAlias('JPagination',                       '\\Joomla\\CMS\\Pagination\\Pagination', '4.0');
+JLoader::registerAlias('JPaginationObject',                 '\\Joomla\\CMS\\Pagination\\PaginationObject', '4.0');
