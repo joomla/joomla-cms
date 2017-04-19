@@ -237,6 +237,7 @@ class AssociationsModelAssociations extends JModelList
 		$groupby = array(
 			$fields['id'],
 			$fields['title'],
+			$fields['alias'],
 			$fields['language'],
 			'l.title',
 			'l.image',
@@ -246,6 +247,8 @@ class AssociationsModelAssociations extends JModelList
 		if (!empty($fields['created_user_id']))
 		{
 			$query->select($db->qn($fields['created_user_id'], 'created_user_id'));
+
+			$groupby[] = $fields['created_user_id'];
 		}
 
 		// Select checked out data for check in checkins.
@@ -259,24 +262,32 @@ class AssociationsModelAssociations extends JModelList
 				->join('LEFT', $db->qn('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn($fields['checked_out']));
 
 			$groupby[] = 'u.name';
+			$groupby[] = $fields['checked_out'];
+			$groupby[] = $fields['checked_out_time'];
 		}
 
 		// If component item type supports ordering, select the ordering also.
 		if (!empty($fields['ordering']))
 		{
 			$query->select($db->qn($fields['ordering'], 'ordering'));
+
+			$groupby[] = $fields['ordering'];
 		}
 
 		// If component item type supports state, select the item state also.
 		if (!empty($fields['state']))
 		{
 			$query->select($db->qn($fields['state'], 'state'));
+
+			$groupby[] = $fields['state'];
 		}
 
 		// If component item type supports level, select the level also.
 		if (!empty($fields['level']))
 		{
 			$query->select($db->qn($fields['level'], 'level'));
+
+			$groupby[] = $fields['level'];
 		}
 
 		// If component item type supports categories, select the category also.
@@ -289,6 +300,7 @@ class AssociationsModelAssociations extends JModelList
 				->join('LEFT', $db->qn('#__categories', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn($fields['catid']));
 
 			$groupby[] = 'c.title';
+			$groupby[] = $fields['catid'];
 		}
 
 		// If component item type supports menu type, select the menu type also.
@@ -303,6 +315,7 @@ class AssociationsModelAssociations extends JModelList
 
 			$groupby[] = 'mt.title';
 			$groupby[] = 'mt.id';
+			$groupby[] = $fields['menutype'];
 		}
 
 		// If component item type supports access level, select the access level also.
@@ -315,6 +328,7 @@ class AssociationsModelAssociations extends JModelList
 				->join('LEFT', $db->qn('#__viewlevels', 'ag') . ' ON ' . $db->qn('ag.id') . ' = ' . $db->qn($fields['access']));
 
 			$groupby[] = 'ag.title';
+			$groupby[] = $fields['access'];
 
 			// Implement View Level Access.
 			if (!$user->authorise('core.admin', $extensionName))

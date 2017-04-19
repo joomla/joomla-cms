@@ -298,8 +298,6 @@ class JRouterSite extends JRouter
 				$crouter = $this->getComponentRouter($component);
 				$uri->setQuery(array_merge($uri->getQuery(true), $crouter->parse($segments)));
 			}
-
-			$route = implode('/', $segments);
 		}
 
 		$uri->setPath($route);

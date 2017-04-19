@@ -11,7 +11,7 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Mvc\Factory\MvcFactory;
 
@@ -37,7 +37,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The CmsApplication instance
 	 *
-	 * @var    CmsApplication
+	 * @var    CMSApplication
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -55,12 +55,12 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   CmsApplication       $app        The JApplication for the dispatcher
+	 * @param   CMSApplication       $app        The JApplication for the dispatcher
 	 * @param   \JInput              $input      JInput
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(CmsApplication $app, \JInput $input = null)
+	public function __construct(CMSApplication $app, \JInput $input = null)
 	{
 		if (empty($this->namespace))
 		{
@@ -138,7 +138,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The application the dispatcher is working with.
 	 *
-	 * @return  CmsApplication
+	 * @return  CMSApplication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

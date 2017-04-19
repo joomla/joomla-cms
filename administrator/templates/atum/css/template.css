@@ -8939,27 +8939,25 @@ small,
   .form-control.input-full {
     max-width: 100%; }
 
-.control-group::after {
-  display: table;
-  clear: both;
-  content: ""; }
-
-form:not(.form-no-margin) .control-group {
+.control-group {
   margin-bottom: 18px; }
-  form:not(.form-no-margin) .control-group .control-label {
+  .control-group::after {
+    display: table;
+    clear: both;
+    content: ""; }
+  .control-group .control-label {
     float: left;
     width: 220px;
     padding-top: 5px;
     padding-right: 5px;
     text-align: left; }
-  form:not(.form-no-margin) .control-group .controls {
-    margin-left: 0;
-    overflow: hidden; }
+  .control-group .controls {
+    margin-left: 220px; }
 
-form .form-no-margin .control-group .controls {
+.form-no-margin .control-group .controls {
   margin-left: 0; }
 
-form .form-no-margin .control-group .control-label {
+.form-no-margin .control-group .control-label {
   float: none; }
 
 .custom-select {
@@ -9747,58 +9745,55 @@ iframe {
   padding-left: 0;
   list-style: none; }
   .treeselect .nav-header {
-    display: inline-block;
-    margin-bottom: 0;
-    margin-left: .5rem;
+    font-weight: bold;
     color: #292b2c; }
   .treeselect li {
+    position: relative;
     display: block;
+    line-height: 2.2rem;
     list-style: none; }
-  .treeselect > li {
-    margin-bottom: 5px;
-    background-color: #eceeef;
-    border-radius: 0.25rem; }
-    .treeselect > li > .treeselect-toggle {
-      border-radius: 0.25rem 0 0; }
-    .treeselect > li > .treeselect-toggle.fa-chevron-right {
-      border-radius: 0.25rem 0 0 0.25rem; }
+    .treeselect li::before {
+      position: absolute;
+      top: 14px;
+      left: 25px;
+      width: 10px;
+      height: 1px;
+      margin: auto;
+      content: "";
+      background-color: rgba(0, 0, 0, 0.2); }
+    .treeselect li::after {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 25px;
+      width: 1px;
+      height: 100%;
+      content: "";
+      background-color: rgba(0, 0, 0, 0.2); }
+    .treeselect li:last-child::after {
+      height: 14px; }
+    .treeselect li li {
+      padding-left: 40px; }
+  .treeselect > li::before, .treeselect > li::after {
+    display: none; }
   .treeselect .icon- {
     display: none; }
   .treeselect .treeselect-toggle {
     display: inline-block;
-    width: 2.2rem;
-    height: 1.9rem;
     padding: 0;
-    line-height: 1.9rem;
-    color: #fff;
+    margin-right: .1rem;
     text-align: center;
-    cursor: pointer;
-    background-color: #006898; }
-  .treeselect .treeselect-sub {
-    padding-left: 2.2rem;
-    background-color: #f7f7f9; }
-    .treeselect .treeselect-sub > li {
-      border-top: 1px solid #eceeef; }
-    .treeselect .treeselect-sub .treeselect-toggle {
-      width: 1.9rem;
-      color: #464a4c;
-      cursor: pointer;
-      background-color: transparent; }
+    cursor: pointer; }
   .treeselect .treeselect-menu {
     display: inline-block; }
   .treeselect .treeselect-item {
-    display: inline-block;
-    padding-left: 2.2rem;
-    margin-bottom: -5px; }
+    display: inline-block; }
     .treeselect .treeselect-item input {
-      margin-top: .65rem;
-      margin-right: .45rem;
-      margin-left: .65rem; }
+      position: relative;
+      top: 1px;
+      margin-right: .2rem; }
     .treeselect .treeselect-item label {
-      margin-bottom: 0;
-      line-height: 2.1rem; }
-  .treeselect .treeselect-toggle + .treeselect-item {
-    padding-left: 0; }
+      margin-bottom: 0; }
   .treeselect .dropdown-toggle {
     padding: 0 .5rem .3rem;
     margin-left: .5rem; }
@@ -9806,8 +9801,24 @@ iframe {
       margin-left: 0;
       font-size: 1rem;
       color: #464a4c; }
-  .treeselect .treeselect-header + .treeselect-sub > li > .treeselect-item {
-    padding-left: 0; }
+
+.treeselect-sub {
+  padding-left: 0; }
+
+.tree-holder ul ul li::before, .tree-holder ul ul li::after {
+  left: 8px;
+  display: block; }
+
+.tree-holder ul ul li::before {
+  top: 12px; }
+
+.tree-holder ul ul li:last-child::after {
+  height: 12px; }
+
+.tree-holder li {
+  line-height: 1.8rem; }
+  .tree-holder li li {
+    padding-left: 20px; }
 
 .element-invisible {
   position: absolute;

@@ -593,7 +593,7 @@ class JPagination
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="inputbox input-mini" size="1" onchange="this.form.submit()"',
+				'class="custom-select" size="1" onchange="this.form.submit()"',
 				'value',
 				'text',
 				$selected
@@ -722,7 +722,7 @@ class JPagination
 		}
 		else
 		{
-			return '<a' . $title . ' href="' . $item->link . '" class="' . $class . 'pagenav">' . $item->text . '</a>';
+			return '<a' . $title . ' href="' . $item->link . '" class="' . $class . 'page-link">' . $item->text . '</a>';
 		}
 	}
 
@@ -744,7 +744,7 @@ class JPagination
 		}
 		else
 		{
-			return '<span class="pagenav">' . $item->text . '</span>';
+			return '<span class="page-link">' . $item->text . '</span>';
 		}
 	}
 

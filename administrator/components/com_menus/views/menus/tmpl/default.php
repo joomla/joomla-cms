@@ -21,27 +21,19 @@ $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
+$itemIds   = [];
 
-$script = array();
-$script[] = 'jQuery(document).ready(function() {';
+foreach ($this->items as $item)
+{
+	if ($user->authorise('core.edit', 'com_menus'))
+	{
+		$itemIds[] = $item->id;
+	}
 
-foreach ($this->items as $item) :
-	if ($user->authorise('core.edit', 'com_menus')) :
-		$script[] = '	function jSelectPosition_' . $item->id . '(name) {';
-		$script[] = '		document.getElementById("' . $item->id . '").value = name;';
-		$script[] = '		jQuery(".modal").modal("hide");';
-		$script[] = '	};';
-	endif;
-endforeach;
+}
 
-$script[] = '	jQuery(".modal").on("hidden", function () {';
-$script[] = '		setTimeout(function(){';
-$script[] = '			window.parent.location.reload();';
-$script[] = '		},1000);';
-$script[] = '	});';
-$script[] = '});';
-
-JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+JFactory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
+JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">

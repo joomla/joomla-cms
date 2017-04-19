@@ -1,6 +1,0 @@
-$('.dropdown-toggle').dropdown()
-$('.collapse').collapse('show')
-$('#myModal').modal('hide')
-$('.tabs').button()
-$('.tip').tooltip()
-$('.alert-message').alert()

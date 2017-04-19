@@ -1,60 +1,149 @@
 /**
  * @package     Joomla.Site
- * @subpackage  Templates.protostar
+ * @subpackage  Templates.Aurora
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       3.2
+ * @since       4.0
  */
 
-(function($)
-{
-	$(document).ready(function()
-	{
-		$('*[rel=tooltip]').tooltip()
+(function() {
+	"use strict";
 
-		// Turn radios into btn-group
-		$('.radio.btn-group label').addClass('btn');
+	document.addEventListener('DOMContentLoaded', function() {
 
-		$('fieldset.btn-group').each(function() {
-			// Handle disabled, prevent clicks on the container, and add disabled style to each button
-			if ($(this).prop('disabled')) {
-				$(this).css('pointer-events', 'none').off('click');
-				$(this).find('.btn').addClass('disabled');
-			}
+		/**
+		 * Bootstrap tooltips
+		 */
+		jQuery('*[rel=tooltip]').tooltip({
+			html: true
 		});
 
-		$(".btn-group label:not(.active)").click(function()
-		{
-			var label = $(this);
-			var input = $('#' + label.attr('for'));
-
-			if (!input.prop('checked')) {
-				label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-				if (input.val() == '') {
-					label.addClass('active btn-primary');
-				} else if (input.val() == 0) {
-					label.addClass('active btn-danger');
-				} else {
-					label.addClass('active btn-success');
+		/**
+		 * Prevent clicks on buttons within a disabled fieldset
+		 */
+		var fieldsets = document.querySelectorAll('fieldset.btn-group');
+		for (var i = 0; i < fieldsets.length; i++) {
+			var self = fieldsets[i];
+			if (self.getAttribute('disabled') ==  true) {
+				self.style.pointerEvents = 'none';
+				var btns = self.querySelectorAll('.btn');
+				for (var i = 0; i < btns.length; i++) {
+					btns[i].classList.add('disabled');
 				}
-				input.prop('checked', true);
-				input.trigger('change');
 			}
-		});
-		$(".btn-group input[checked=checked]").each(function()
-		{
-			if ($(this).val() == '') {
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-			} else if ($(this).val() == 0) {
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
+		}
+
+		/**
+		 * Turn radios into btn-group
+		 */
+		var container = document.querySelectorAll('.btn-group');
+		for (var i = 0; i < container.length; i++) {
+			var labels = container[i].querySelectorAll('label');
+			for (var j = 0; j < labels.length; j++) {
+				labels[j].classList.add('btn');
+				if ((j % 2) == 1) {
+					labels[j].classList.add('btn-outline-danger');
+				} else {
+					labels[j].classList.add('btn-outline-success');
+
+				}
+			}
+		}
+
+		var btnNotActive = document.querySelector('.btn-group label:not(.active)');
+		if (btnNotActive) {
+			btnNotActive.addEventListener('click', function(event) {
+				var label = event.target,
+					input = document.getElementById(label.getAttribute('for'));
+
+				if (input.getAttribute('checked') !== 'checked') {
+					var label = closest(label, '.btn-group').querySelector('label');
+					label.classList.remove('active');
+					label.classList.remove('btn-success');
+					label.classList.remove('btn-danger');
+					label.classList.remove('btn-primary');
+
+					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
+						if (!label.classList.contains('btn')) label.classList.add('btn');
+						if (input.value == '') {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-primary');
+						} else if (input.value == 0) {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-success');
+						} else {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-danger');
+						}
+					} else {
+						if (input.value == '') {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-primary');
+						} else if (input.value == 0) {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-danger');
+						} else {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-success');
+						}
+					}
+					input.setAttribute('checked', true);
+					//input.dispatchEvent('change');
+				}
+			});
+		}
+
+		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
+		for (var i = 0, l = btsGrouped.length; l>i; i++) {
+			var self   = btsGrouped[i],
+			    attrId = self.id;
+			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
+				var label = document.querySelector('label[for=' + attrId + ']');
+				if (self.value == '') {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-primary');
+				} else if (self.value == 0) {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-success');
+				} else {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-danger');
+				}
 			} else {
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
+				var label = document.querySelector('label[for=' + attrId + ']');
+				if (self.value == '') {
+					label.classList.add('active');
+					label.classList.add('btn-outline-primary');
+				} else if (self.value == 0) {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-danger');
+				} else {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-success');
+				}
 			}
-		});
-		
-		$('#back-top').on('click', function(e) {
-			e.preventDefault();
-			$("html, body").animate({scrollTop: 0}, 1000);
-		});
-	})
-})(jQuery);
+		}
+
+		/**
+		 * Back to top
+		 */
+		var backToTop = document.getElementById('back-top');
+		if (backToTop) {
+			backToTop.addEventListener('click', function(event) {
+				event.preventDefault();
+				window.scrollTo(0, 0);
+			});
+		}
+	});
+})();

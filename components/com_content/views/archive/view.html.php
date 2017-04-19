@@ -162,7 +162,7 @@ class ContentViewArchive extends JViewLegacy
 			$months,
 			'month',
 			array(
-				'list.attr' => 'size="1" class="inputbox"',
+				'list.attr' => 'size="1" class="custom-select"',
 				'list.select' => $state->get('filter.month'),
 				'option.key' => null
 			)
@@ -182,7 +182,7 @@ class ContentViewArchive extends JViewLegacy
 			'select.genericlist',
 			$years,
 			'year',
-			array('list.attr' => 'size="1" class="inputbox"', 'list.select' => $state->get('filter.year'))
+			array('list.attr' => 'size="1" class="custom-select"', 'list.select' => $state->get('filter.year'))
 		);
 		$form->limitField = $pagination->getLimitBox();
 

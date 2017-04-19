@@ -14,26 +14,9 @@ JHtml::_('behavior.core');
 foreach ($this->levels as $key => $value) {
 	$allLevels[$value->id] = $value->title;
 }
+JFactory::getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
+JHtml::_('script', 'com_menus/admin-item-edit_modules.min.js', array('version' => 'auto', 'relative' => true));
 
-JFactory::getDocument()->addScriptDeclaration('
-	var viewLevels = ' . json_encode($allLevels) . ',
-		menuId = parseInt(' . $this->item->id . ');
-
-	jQuery(document).ready(function() {
-		jQuery(document).on("click", "input:radio[id^=\'jform_toggle_modules_assigned1\']", function (event) {
-			jQuery(".table tr.no").hide();
-		});
-		jQuery(document).on("click", "input:radio[id^=\'jform_toggle_modules_assigned0\']", function (event) {
-			jQuery(".table tr.no").show();
-		});
-		jQuery(document).on("click", "input:radio[id^=\'jform_toggle_modules_published1\']", function (event) {
-			jQuery(".table tr.unpublished").hide();
-		});
-		jQuery(document).on("click", "input:radio[id^=\'jform_toggle_modules_published0\']", function (event) {
-			jQuery(".table tr.unpublished").show();
-		});
-	});
-');
 JFactory::getDocument()->addStyleDeclaration('
 ul.horizontal-buttons {
 	margin-top: 12px;
