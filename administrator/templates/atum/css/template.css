@@ -9026,22 +9026,17 @@ legend {
   .header .page-title {
     display: inline-block;
     margin: 0 0 0 25px;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: normal;
     line-height: 48px;
-    color: #0d1321;
-    border-bottom: 1px solid #20252e; }
-    .header .page-title .icon-list {
-      color: #0d1321; }
+    color: #fefefe; }
     .header .page-title [class^="icon-"] {
-      margin-right: 15px; }
+      margin-right: 15px;
+      font-size: 1.857rem;
+      vertical-align: middle; }
   .header .navbar-brand {
-    position: relative;
-    display: inline-block;
-    float: none;
     padding: 0;
-    font-size: 1.3rem;
-    line-height: 48px;
+    font-size: 1.1rem;
     color: #fefefe; }
     .header .navbar-brand:hover, .header .navbar-brand:focus {
       color: #efefef; }
@@ -9050,10 +9045,6 @@ legend {
   .header .navbar-brand {
     margin-right: 0;
     margin-left: 10px; } }
-  .header nav {
-    position: absolute;
-    top: 0;
-    right: 15px; }
   .header .nav-item + .nav-item {
     margin-left: 1px; }
   .header .nav-link {
@@ -9095,26 +9086,6 @@ legend {
     background-color: #f2f2f2;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0.25rem 0.25rem 0 0; }
-
-.container-title {
-  padding-top: 13px;
-  padding-bottom: 13px;
-  color: #fff;
-  background-color: #1c3d5c; }
-  .container-title .row {
-    margin-right: 0;
-    margin-left: 0; }
-  .container-title .page-title {
-    margin-bottom: 0;
-    font-size: 1.3rem;
-    font-weight: normal; }
-    .container-title .page-title span {
-      position: relative;
-      top: 3px;
-      margin-right: 15px;
-      margin-left: 5px;
-      font-size: 1.857rem;
-      color: #fefefe; }
 
 @media (max-width: 991px) {
   .header {
