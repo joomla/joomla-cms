@@ -9013,7 +9013,6 @@ legend {
   position: relative;
   z-index: 5;
   height: 48px;
-  margin-bottom: 3px;
   background: #1c3d5c; }
   .header::after {
     position: absolute;
@@ -10246,6 +10245,9 @@ iframe {
   min-height: calc(100vh - 50px);
   padding-top: 15px;
   background-color: #f2f2f2; }
+  @media (max-width: 991px) {
+    .container-main {
+      margin-top: 47px; } }
 
 .list-view-main .container-main {
   background-color: #f2f2f2; }
