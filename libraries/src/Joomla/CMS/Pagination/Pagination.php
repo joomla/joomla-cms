@@ -334,7 +334,7 @@ class Pagination
 			include_once $chromePath;
 
 			/*
-			 * @deprecated Item rendering should use a layout
+			 * @deprecated 4.0 Item rendering should use a layout
 			 */
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
@@ -348,7 +348,7 @@ class Pagination
 			}
 
 			/*
-			 * @deprecated The list rendering is now a layout.
+			 * @deprecated 4.0 The list rendering is now a layout.
 			 * @see Pagination::_list_render()
 			 */
 			if (function_exists('pagination_list_render'))
