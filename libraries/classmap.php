@@ -125,3 +125,6 @@ JLoader::registerAlias('JMenu',                             '\\Joomla\\CMS\\Menu
 JLoader::registerAlias('JMenuAdministrator',                '\\Joomla\\CMS\\Menu\\AdministratorMenu', '4.0');
 JLoader::registerAlias('JMenuItem',                         '\\Joomla\\CMS\\Menu\\MenuItem', '4.0');
 JLoader::registerAlias('JMenuSite',                         '\\Joomla\\CMS\\Menu\\SiteMenu', '4.0');
+
+JLoader::registerAlias('JPathway',                          '\\Joomla\\CMS\\Pathway\\Pathway', '4.0');
+JLoader::registerAlias('JPathwaySite',                      '\\Joomla\\CMS\\Pathway\\SitePathway', '4.0');
