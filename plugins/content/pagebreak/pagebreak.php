@@ -145,7 +145,7 @@ class PlgContentPagebreak extends JPlugin
 				{
 					if ($page && @$matches[$page - 1][2])
 					{
-						$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
+						$attrs = JUtility::parseAttributes($matches[$page - 1][1] . ' ' . $matches[$page - 1][2]);
 
 						if (@$attrs['title'])
 						{
