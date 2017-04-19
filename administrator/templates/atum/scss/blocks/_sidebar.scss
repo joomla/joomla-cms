@@ -1,7 +1,7 @@
 // Sidebar
 
 .wrapper {
-  padding-left: 55px;
+  padding-left: 250px;
   transition: all .5s ease;
 
   @include media-breakpoint-down(md) {
@@ -17,12 +17,8 @@
   width: 250px;
   height: 100%;
   margin-left: 0;
-  overflow: hidden;
-  background-color: $atum-sidebar-bg;
-  background-image: linear-gradient(to bottom, $atum-template-color-light 0%, $atum-sidebar-bg 100%);
+  background-color: $atum-template-color-light;
   box-shadow: 0 3px 10px rgba(0,0,0,.5), inset -1px 0 0 rgba(0,0,0,.2);
-  transition: width .4s ease;
-  transition-delay: 0;
 
   .sidebar-brand {
     position: absolute;
@@ -32,17 +28,6 @@
     left: 0;
     z-index: -1;
     overflow: hidden;
-
-    &::after {
-      position: absolute;
-      bottom: -135px;
-      left: -35px;
-      font-family: FontAwesome;
-      font-size: 24rem;
-      color: $atum-sidebar-bg;
-      content: "\f1aa";
-      transform: rotate(-17deg);
-    }
 
   }
 
@@ -86,15 +71,22 @@
 }
 
 .main-nav {
+  position: relative;
+  z-index: 1;
   width: 250px;
-  height: 100%;
+  height: calc(100vh - 96px);
   max-height: calc(100vh - 96px);
   padding: 0;
   margin: 0;
   overflow-y: auto;
   list-style: none;
+  background-color: $atum-template-color-light;
   opacity: 1;
-
+  transition: all .4s ease;
+  transition-delay: 0;
+  *, *::before, *::after {
+    transition: all .4s ease;
+  }
   span {
     transition: all .2s ease;
     transition-delay: .2s;
@@ -104,14 +96,37 @@
     margin-bottom: 0;
   }
 
-  > li {
+  &::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 250px;
+    content: "";
+    background-color: $atum-template-color-light;
+    transition: all .4s ease;
+  }
 
+  > li {
+    > a {
+      background-color: $atum-template-color-light;
+    }
     &:first-of-type > a {
       border-top: 1px solid rgba(0,0,0,.3);
     }
 
     &:last-of-type > a {
       border-bottom: 1px solid rgba(50,111,168,.2);
+    }
+
+    > .active::before {
+      position: absolute;
+      top: 1px;
+      bottom: 1px;
+      left: 0;
+      width: 3px;
+      content: "";
+      background-color: $atum-sidebar-active;
     }
 
     >.no-dropdown {
@@ -121,8 +136,8 @@
   }
 
   li {
+    max-height: 40px;
     line-height: 40px;
-
     a {
       position: relative;
       display: block;
@@ -139,16 +154,6 @@
         width: 0;
         content: "";
         background-color: $atum-sidebar-hover;
-      }
-
-      &.active::before {
-        position: absolute;
-        top: 1px;
-        bottom: 1px;
-        left: 0;
-        width: 3px;
-        content: "";
-        background-color: $atum-sidebar-active;
       }
 
       &:hover {
@@ -170,13 +175,20 @@
     }
 
     ul {
+      position: absolute;
+      top: 0;
+      left: -100px;
+      z-index: -1;
       display: none;
-      padding: 0 0 5px;
+      width: 205px;
+      height: 100%;
+      padding: 0;
+      background-color: #0f2131;
+      transition: all .4s ease;
 
       li {
-        text-indent: 20px;
+        text-indent: 15px;
       }
-
     }
 
     a:hover {
@@ -197,6 +209,10 @@
       background-color: rgba(0,0,0,.1);
       box-shadow: none;
 
+      + ul {
+        left: 45px;
+      }
+
       &:hover {
         background-color: rgba(0,0,0,.1);
         box-shadow: none;
@@ -207,7 +223,7 @@
   }
 
   li li {
-    line-height: 2rem;
+    line-height: 2.4rem;
     border: 0;
     box-shadow: none;
 
@@ -234,13 +250,27 @@
   .fa {
     position: relative;
     top: -2px;
-    margin: 0 8px 0 15px;
+    margin: 0 8px 0 10px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle;
   }
 
+  .collapse-level-1 {
+    a::before {
+      display: none;
+    }
+    li {
+      position: relative;
+    }
+  }
+
   .collapse-level-2 {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    height: auto;
+    background-color: $atum-template-color-light;
 
     > li > a {
       color: rgba($white,.8);
@@ -256,39 +286,60 @@
     font-family: FontAwesome;
     font-size: .75rem;
     color: $white;
-    content: "\f0d7";
+    content: "\f0da";
   }
 
-  .open > .collapse-arrow::after {
-    content: "\f0d8";
-  }
+  // .open > .collapse-arrow::after {
+  //   content: "\f0d8";
+  // }
 
 }
 
-.wrapper.closed .sidebar-wrapper {
-  width: 55px;
+// .wrapper.closed .sidebar-wrapper {
+//   width: 55px;
 
-  .main-nav {
+//   .main-nav {
 
-    span {
+//     span {
+//       opacity: 0;
+//       transition-delay: 0;
+//     }
+
+//     .fa {
+//       opacity: 1;
+//     }
+
+//     .collapse-level-1 {
+//       display: none !important;
+//     }
+
+//   }
+
+//   @include media-breakpoint-down(md) {
+//     width: 0;
+//   }
+
+// }
+
+
+.child-open {
+  width: 45px;
+  overflow: visible;
+  &::after {
+    width: 45px;
+  }
+  > li {
+    > .collapse-arrow::after {
+      display: none;
+    }
+    > a .sidebar-item-title {
+      display: none;
       opacity: 0;
-      transition-delay: 0;
     }
-
-    .fa {
-      opacity: 1;
-    }
-
-    .collapse-level-1 {
-      display: none !important;
-    }
-
   }
-
-  @include media-breakpoint-down(md) {
-    width: 0;
+  .open > ul {
+    display: block;
   }
-
 }
 
 // Edit view
