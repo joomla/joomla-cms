@@ -120,15 +120,8 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php
 								try
 								{
-									JLoader::register('PostinstallDispatcher', JPATH_ADMINISTRATOR . '/components/com_postinstall/dispatcher.php');
-									$oldScope = $app->scope;
-									$app->scope = 'com_postinstall';
-									$namespace = \Joomla\CMS\Component\ComponentHelper::getComponent($app->scope)->namespace;
-									$dispatcher = new PostinstallDispatcher($namespace, JFactory::getApplication());
-
-									$messages_model = $dispatcher->getFactory()->createModel('Messages', 'Administrator', array('ignore_request' => true));
-
-									$messages       = $messages_model->getItems();
+									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(array('ignore_request' => true));
+									$messages      = $messagesModel->getItems();
 								}
 								catch (RuntimeException $e)
 								{

@@ -16,8 +16,6 @@ JLoader::register('ModLatestHelper', __DIR__ . '/helper.php');
 
 $list = ModLatestHelper::getList($params, new Articles(array('ignore_request' => true)));
 
-$app->scope = $oldScope;
-
 if ($params->get('automatic_title', 0))
 {
 	$module->title = ModLatestHelper::getTitle($params);
