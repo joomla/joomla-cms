@@ -429,8 +429,8 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	{
 		$roots = array(
 			'component' => JPATH_ADMINISTRATOR . '/components/',
-			'module0'   => JPATH_ADMINISTRATOR . '/modules/',
-			'module1'   => JPATH_SITE . '/modules/',
+			'module1'   => JPATH_ADMINISTRATOR . '/modules/',
+			'module0'   => JPATH_SITE . '/modules/',
 			'plugin'    => JPATH_PLUGINS .'/',
 			'library'   => JPATH_LIBRARIES .'/',
 			'template'  => JPATH_THEMES .'/'
