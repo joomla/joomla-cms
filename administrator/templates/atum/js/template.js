@@ -189,18 +189,18 @@
 			}
 		}
 
-		var somemem = document.querySelector('.btn-group label:not(.active)');
-		if (somemem) {
-			somemem.addEventListener('click', function(event) {
-				var label = event.target;
-				var input = document.getElementById(label.getAttribute('for'));
+		var btnNotActive = document.querySelector('.btn-group label:not(.active)');
+		if (btnNotActive) {
+			btnNotActive.addEventListener('click', function(event) {
+				var label = event.target,
+					input = document.getElementById(label.getAttribute('for'));
 
-				if (input.getAttribute('checked') !== "checked") {
-					var aa = closest(label, '.btn-group').querySelector('label');
-					aa.classList.remove('active');
-					aa.classList.remove('btn-success');
-					aa.classList.remove('btn-danger');
-					aa.classList.remove('btn-primary');
+				if (input.getAttribute('checked') !== 'checked') {
+					var label = closest(label, '.btn-group').querySelector('label');
+					label.classList.remove('active');
+					label.classList.remove('btn-success');
+					label.classList.remove('btn-danger');
+					label.classList.remove('btn-primary');
 
 					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
 						if (!label.classList.contains('btn')) label.classList.add('btn');
@@ -239,42 +239,37 @@
 		}
 
 		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
-
-		for(var i = 0, l = btsGrouped.length; l>i; i++) {
+		for (var i = 0, l = btsGrouped.length; l>i; i++) {
 			var self   = btsGrouped[i],
 			    attrId = self.id;
 			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
+				var label = document.querySelector('label[for=' + attrId + ']');
 				if (self.value == '') {
-					var aa = document.querySelector('label[for=' + attrId + ']');
-					aa.classList.add('active');
-					aa.classList.add('btn');
-					aa.classList.add('btn-outline-primary');
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-primary');
 				} else if (self.value == 0) {
-					var aa = document.querySelector('label[for=' + attrId + ']');
-					aa.classList.add('active');
-					aa.classList.add('btn');
-					aa.classList.add('btn-outline-success');
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-success');
 				} else {
-					var aa = document.querySelector('label[for=' + attrId + ']');
-					aa.classList.add('active');
-					aa.classList.add('btn');
-					aa.classList.add('btn-outline-danger');
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-danger');
 				}
 			} else {
+				var label = document.querySelector('label[for=' + attrId + ']');
 				if (self.value == '') {
-					var aa = document.querySelector('label[for=' + attrId + ']');
-					aa.classList.add('active');
-					aa.classList.add('btn-outline-primary');
+					label.classList.add('active');
+					label.classList.add('btn-outline-primary');
 				} else if (self.value == 0) {
-					var aa = document.querySelector('label[for=' + attrId + ']');
-					aa.classList.add('active');
-					aa.classList.add('btn');
-					aa.classList.add('btn-outline-danger');
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-danger');
 				} else {
-					var aa = document.querySelector('label[for=' + attrId + ']');
-					aa.classList.add('active');
-					aa.classList.add('btn');
-					aa.classList.add('btn-outline-success');
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-success');
 				}
 			}
 		}

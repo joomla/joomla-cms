@@ -29,7 +29,7 @@ defined('JPATH_BASE') or die;
 			if ($field->showon)
 			{
 				JHtml::_('jquery.framework');
-				JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
+				JHtml::_('script', 'system/cms.min.js', array('version' => 'auto', 'relative' => true));
 				$datashowon = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\'';
 			}
 			?>

@@ -63,7 +63,7 @@ class TagsHelper extends CMSHelper
 		$db = $table->getDbo();
 		$key = $table->getKeyName();
 		$item = $table->$key;
-		$ucm = new JUcmType($this->typeAlias, $db);
+		$ucm = new \JUcmType($this->typeAlias, $db);
 		$typeId = $ucm->getTypeId();
 
 		// Insert the new tag maps

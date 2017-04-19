@@ -242,6 +242,18 @@ class JTableContent extends JTable
 			}
 		}
 
+		// Set publish_up to null date if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = $this->_db->getNullDate();
+		}
+
+		// Set publish_down to null date if not set
+		if (!$this->publish_down)
+		{
+			$this->publish_down = $this->_db->getNullDate();
+		}
+
 		// Check the publish down date is not earlier than publish up.
 		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
 		{

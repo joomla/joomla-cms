@@ -104,3 +104,34 @@
   padding-left: 0;
 
 }
+
+.tree-holder {
+
+  ul ul {
+
+    li::before, li::after {
+      left: 8px;
+      display: block;
+
+    }
+
+    li::before {
+      top: 12px;
+    }
+
+    li:last-child::after {
+      height: 12px;
+    }
+
+  }
+  li {
+    line-height: 1.8rem;
+
+    li {
+      padding-left: 20px;
+
+    }
+
+  }
+
+}

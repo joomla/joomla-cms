@@ -28,28 +28,8 @@ $iconStates = array(
 	2  => 'icon-archive',
 );
 
-JText::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(pressbutton)
-	{
-		if (pressbutton == "associations.purge")
-		{
-			if (confirm(Joomla.JText._("COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT")))
-			{
-				Joomla.submitform(pressbutton);
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			Joomla.submitform(pressbutton);
-		}
-	};
-');
+JText::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
+JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, true);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>

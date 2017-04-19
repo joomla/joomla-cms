@@ -4,49 +4,47 @@
  */
 
 // Only define the Joomla namespace if not defined.
-if (typeof(Joomla) === 'undefined') {
-	var Joomla = {};
-}
+Joomla = window.Joomla || {};
 
 !(function (document, Joomla) {
 	"use strict";
 
-/**
- * Sets the HTML of the container-collapse element
- */
-Joomla.setcollapse = function(url, name, height) {
-    if (!document.getElementById('collapse-' + name)) {
-        document.getElementById('container-collapse').innerHTML = '<div class="collapse fade" id="collapse-' + name + '"><iframe class="iframe" src="' + url + '" height="'+ height + '" width="100%"></iframe></div>';
-    }
-};
-
-/**
- * IE8 polyfill for indexOf()
- */
-if (!Array.prototype.indexOf)
-{
-	Array.prototype.indexOf = function(elt)
-	{
-		var len = this.length >>> 0;
-
-		var from = Number(arguments[1]) || 0;
-		from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-
-		if (from < 0)
-		{
-			from += len;
+	/**
+	 * Sets the HTML of the container-collapse element
+	 */
+	Joomla.setcollapse = function(url, name, height) {
+		if (!document.getElementById('collapse-' + name)) {
+			document.getElementById('container-collapse').innerHTML = '<div class="collapse fade" id="collapse-' + name + '"><iframe class="iframe" src="' + url + '" height="'+ height + '" width="100%"></iframe></div>';
 		}
-
-		for (; from < len; from++)
-		{
-			if (from in this && this[from] === elt)
-			{
-				return from;
-			}
-		}
-		return -1;
 	};
-}
+
+	/**
+	 * IE8 polyfill for indexOf()
+	 */
+	if (!Array.prototype.indexOf)
+	{
+		Array.prototype.indexOf = function(elt)
+		{
+			var len = this.length >>> 0;
+
+			var from = Number(arguments[1]) || 0;
+			from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+
+			if (from < 0)
+			{
+				from += len;
+			}
+
+			for (; from < len; from++)
+			{
+				if (from in this && this[from] === elt)
+				{
+					return from;
+				}
+			}
+			return -1;
+		};
+	}
 	/**
 	 * JField 'showon' feature.
 	 */
@@ -59,8 +57,8 @@ if (!Array.prototype.indexOf)
 		 */
 		function linkedoptions (target, animate) {
 			var showfield = true,
-				jsondata  = target.data('showon') || [],
-				itemval, condition, fieldName, $fields;
+			    jsondata  = target.data('showon') || [],
+			    itemval, condition, fieldName, $fields;
 
 			// Check if target conditions are satisfied
 			for (var j = 0, lj = jsondata.length; j < lj; j++) {
@@ -154,7 +152,7 @@ if (!Array.prototype.indexOf)
 				// Use anonymous function to capture arguments
 				(function () {
 					var $target = $($showonFields[is]), jsondata = $target.data('showon') || [],
-						field, $fields = $();
+					    field, $fields = $();
 
 					// Collect an all referenced elements
 					for (var ij = 0, lj = jsondata.length; ij < lj; ij++) {
@@ -182,12 +180,12 @@ if (!Array.prototype.indexOf)
 			// Setup showon feature in the subform field
 			$(document).on('subform-row-add', function(event, row){
 				var $row = $(row),
-					$elements = $row.find('[data-showon]'),
-					baseName  = $row.data('baseName'),
-					group     = $row.data('group'),
-					search    = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
-					replace   = '[' + baseName + '][' + group + ']',
-					$elm, showon;
+				    $elements = $row.find('[data-showon]'),
+				    baseName  = $row.data('baseName'),
+				    group     = $row.data('group'),
+				    search    = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
+				    replace   = '[' + baseName + '][' + group + ']',
+				    $elm, showon;
 
 				// Fix showon field names in a current group
 				for (var i = 0, l = $elements.length; i < l; i++) {

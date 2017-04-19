@@ -606,7 +606,7 @@ class Article extends Admin
 			return false;
 		}
 
-		$table = $this->getTable('Featured', 'ContentTable');
+		$table = $this->getTable('Featured', 'Administrator');
 
 		try
 		{

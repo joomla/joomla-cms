@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ksort($this->files, SORT_STRING);
 ?>
 
-<ul class='list-unstyled directory-tree'>
+<ul class='directory-tree treeselect'>
 	<?php foreach ($this->files as $key => $value) : ?>
 		<?php if (is_array($value)) : ?>
 			<?php

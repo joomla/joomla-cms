@@ -792,7 +792,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			loadingDiv.style['background-color']      = '#fff';
 
 			// Loading logo positioning.
-			loadingDiv.style['background-image']      = 'url("' + basePath + '/media/jui/images/ajax-loader.gif")';
+			loadingDiv.style['background-image']      = 'url("' + basePath + '/media/system/images/ajax-loader.gif")';
 			loadingDiv.style['background-position']   = 'center';
 			loadingDiv.style['background-repeat']     = 'no-repeat';
 			loadingDiv.style['background-attachment'] = 'fixed';
