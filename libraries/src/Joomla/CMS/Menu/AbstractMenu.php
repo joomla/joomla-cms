@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  * Menu class
  *
  * @since  1.5
- * @note  Will become abstract in Joomla 4
+ * @note   Will become abstract in Joomla 4
  */
 class AbstractMenu
 {
