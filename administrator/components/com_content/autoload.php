@@ -17,4 +17,4 @@ JLoader::registerNamespace(
 	'psr4'
 );
 
-JLoader::registerAlias('ContentHelper' , '\\Joomla\\Component\\Content\\Administrator\\Helper\\ContentHelper');
+JLoader::registerAlias('ContentHelper', '\\Joomla\\Component\\Content\\Administrator\\Helper\\ContentHelper');
