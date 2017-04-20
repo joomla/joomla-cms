@@ -524,7 +524,6 @@ abstract class JLoader
 	 * - Module:    Joomla\Module\ArticlesLatest\Administrator
 	 * - Plugin:    Joomla\Plugin\System\Cache
 	 *
-	 *
 	 * @param   string  $class  The fully qualified class name to autoload.
 	 *
 	 * @return  boolean  True on success, false otherwise.
