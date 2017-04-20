@@ -395,7 +395,7 @@ abstract class JHtmlBootstrap
 		JHtml::_('bootstrap.framework');
 
 		// Setup options object
-		$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
+		$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : '';
 		$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === false || isset($params['active']) ? false : true);
 		$opt['onShow'] = isset($params['onShow']) ? (string) $params['onShow'] : null;
 		$opt['onShown'] = isset($params['onShown']) ? (string) $params['onShown'] : null;

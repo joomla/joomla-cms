@@ -72,15 +72,6 @@
 						var modalBody = $self.find('.modal-body');
 						modalBody.find('iframe').remove();
 						modalBody.prepend($self.data('iframe'));
-						$('.modalTooltip').tooltip({'html': true, 'container': '#' + $self.prop('id')});
-					} else {
-						$('.modalTooltip').each(function(){
-							var $el = $(this);
-							var attr = $el.attr('data-placement');
-							if ( attr === undefined || attr === false ) {
-								$el.attr('data-placement', 'auto-dir top-left');
-							}
-						});
 					}
 				}).on('shown.bs.modal', function() {
 					var modalHeight = $('div.modal:visible').outerHeight(true),
