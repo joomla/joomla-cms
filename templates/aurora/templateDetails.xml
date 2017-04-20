@@ -54,7 +54,7 @@
 				/>
 
 				<field
-					name="sitetitle" 
+					name="siteTitle" 
 					type="text" 
 					default=""
 					label="JGLOBAL_TITLE"
@@ -63,7 +63,7 @@
 				/>
 
 				<field
-					name="sitedescription" 
+					name="siteDescription" 
 					type="text" 
 					default=""
 					label="JGLOBAL_DESCRIPTION"
