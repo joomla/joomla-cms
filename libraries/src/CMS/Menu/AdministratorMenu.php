@@ -17,4 +17,15 @@ defined('JPATH_PLATFORM') or die;
  */
 class AdministratorMenu extends AbstractMenu
 {
+	/**
+	 * Loads the menu items
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function load()
+	{
+		return array();
+	}
 }
