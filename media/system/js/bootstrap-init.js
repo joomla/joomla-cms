@@ -132,26 +132,10 @@
 				$.each($('#' + index + 'Content').find('.tab-pane'), function(i, v) {
 					if ($(v).data('node')) {
 						var attribs = $(v).data('node').split('['),
-						    classLi = (attribs[0] != '') ? 'class="nav-item ' + attribs[0] + '"' : '';
-						$('#' + index + 'Tabs').append('<li ' + classLi + '><a class="nav-link" href="#' + attribs[1] + '" data-toggle="tab">' + attribs[2] + '</a></li>');
+						    classLink = (attribs[0] != '') ? 'class="nav-link ' + attribs[0] + '"' : 'class="nav-link"';
+
+						$('#' + index + 'Tabs').append('<li class="nav-item"><a ' + classLink + ' href="#' + attribs[1] + '" data-toggle="tab">' + attribs[2] + '</a></li>');
 					}
-				});
-
-				var liNodes = $('#' + index + 'Tabs').find('li');
-
-				$.each(liNodes, function() {
-					$(this).click(function (e) {
-						e.preventDefault();
-						var liNodes = $(e.target).parents('ul');
-							liNodes = liNodes.find('li');
-
-						$.each(liNodes, function(index, value) {
-							$(value).removeClass("active");
-							$(value).find('a').removeClass("active");
-						});
-
-						$(this).tab("show");
-					});
 				});
 			});
 		}
