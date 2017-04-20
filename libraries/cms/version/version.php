@@ -72,7 +72,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '18-April-2017';
+	const RELDATE = '19-April-2017';
 
 	/**
 	 * Release time.
@@ -80,7 +80,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '16:00';
+	const RELTIME = '20:10';
 
 	/**
 	 * Release timezone.
