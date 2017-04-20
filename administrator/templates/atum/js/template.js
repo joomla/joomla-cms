@@ -94,13 +94,9 @@
 				}
 			});
 
-			// Add class to sidebar container when hovered 
-			// jQuery('#sidebar-wrapper').hover(function(){     
-		 //        jQuery('#wrapper').removeClass('closed');    
-		 //    },     
-		 //    function(){    
-		 //        jQuery('#wrapper').addClass('closed');     
-		 //    });
+			jQuery('.main-nav .close').on('click', function() {
+				jQuery('.main-nav').removeClass('child-open');
+			});
 
 
 			/** Accessibility */
