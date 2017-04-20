@@ -636,7 +636,8 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	public function isSSLConnection()
 	{
-		return (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off');
+		return (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') ||
+		       (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https');
 	}
 
 	/**
