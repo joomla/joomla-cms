@@ -278,7 +278,6 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
             {emailaddress: 'email..test@example.com', validate: true},
             {emailaddress: 'あいうえお@example.com', validate: false},
             {emailaddress: 'test@example.com (Your Name)', validate: false},
-            {emailaddress: 'test@example', validate: false},
             {emailaddress: 'test@example.web', validate: true},
             {emailaddress: 'test@111.222.333.44444', validate: true},
             {emailaddress: 'Abc..123@example.com', validate: true},
