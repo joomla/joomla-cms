@@ -98,6 +98,11 @@ abstract class AbstractMenu
 	 */
 	public static function getInstance($client, $options = array())
 	{
+		if (!$client)
+		{
+			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
+		}
+
 		if (empty(self::$instances[$client]))
 		{
 			// Create a Menu object
