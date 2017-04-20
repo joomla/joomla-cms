@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Schema
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Schema\ChangeItem;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Schema\ChangeItem;
 
 /**
  * Checks the database schema against one PostgreSQL DDL query to see if it has been run.
  *
  * @since  3.0
  */
-class JSchemaChangeitemPostgresql extends JSchemaChangeitem
+class PostgresqlChangeItem extends ChangeItem
 {
 	/**
 	 * Checks a DDL query to see if it is a known type

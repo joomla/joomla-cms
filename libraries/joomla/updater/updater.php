@@ -277,7 +277,7 @@ class JUpdater extends JAdapter
 
 			if (array_key_exists('updates', $update_result) && count($update_result['updates']))
 			{
-				/** @var JUpdate $current_update */
+				/** @var JTableUpdate $current_update */
 				foreach ($update_result['updates'] as $current_update)
 				{
 					$current_update->extra_query = $updateSite['extra_query'];

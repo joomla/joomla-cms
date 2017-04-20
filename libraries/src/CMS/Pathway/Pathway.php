@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Pathway
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Pathway;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.5
  */
-class JPathway
+class Pathway
 {
 	/**
 	 * @var    array  Array to hold the pathway item objects
@@ -35,7 +36,7 @@ class JPathway
 	/**
 	 * JPathway instances container.
 	 *
-	 * @var    JPathway[]
+	 * @var    Pathway[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();
@@ -52,32 +53,32 @@ class JPathway
 	}
 
 	/**
-	 * Returns a JPathway object
+	 * Returns a Pathway object
 	 *
 	 * @param   string  $client   The name of the client
 	 * @param   array   $options  An associative array of options
 	 *
-	 * @return  JPathway  A JPathway object.
+	 * @return  Pathway  A Pathway object.
 	 *
 	 * @since   1.5
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
 	{
 		if (empty(self::$instances[$client]))
 		{
-			// Create a JPathway object
+			// Create a Pathway object
 			$classname = 'JPathway' . ucfirst($client);
 
 			if (!class_exists($classname))
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
+				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (JFactory::getContainer()->exists($classname))
+			if (\JFactory::getContainer()->exists($classname))
 			{
-				self::$instances[$client] = JFactory::getContainer()->get($classname);
+				self::$instances[$client] = \JFactory::getContainer()->get($classname);
 			}
   			else
   			{
@@ -89,7 +90,7 @@ class JPathway
 	}
 
 	/**
-	 * Return the JPathway items array
+	 * Return the Pathway items array
 	 *
 	 * @return  array  Array of pathway items
 	 *
@@ -104,7 +105,7 @@ class JPathway
 	}
 
 	/**
-	 * Set the JPathway items array.
+	 * Set the Pathway items array.
 	 *
 	 * @param   array  $pathway  An array of pathway objects.
 	 *
@@ -195,7 +196,7 @@ class JPathway
 	 * @param   string  $name  Name of the item
 	 * @param   string  $link  Link to the item
 	 *
-	 * @return  JPathway  Pathway item object
+	 * @return  Pathway  Pathway item object
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use makeItem() instead
@@ -212,13 +213,13 @@ class JPathway
 	 * @param   string  $name  Name of the item
 	 * @param   string  $link  Link to the item
 	 *
-	 * @return  JPathway  Pathway item object
+	 * @return  Pathway  Pathway item object
 	 *
 	 * @since   3.1
 	 */
 	protected function makeItem($name, $link)
 	{
-		$item = new stdClass;
+		$item = new \stdClass;
 		$item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');
 		$item->link = $link;
 

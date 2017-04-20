@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Pathway
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Pathway;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Class to manage the site application pathway.
  *
  * @since  1.5
  */
-class JPathwaySite extends JPathway
+class SitePathway extends Pathway
 {
 	/**
 	 * Class constructor.
@@ -27,16 +31,16 @@ class JPathwaySite extends JPathway
 	{
 		$this->_pathway = array();
 
-		$app  = JApplicationCms::getInstance('site');
+		$app  = CMSApplication::getInstance('site');
 		$menu = $app->getMenu();
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		if ($item = $menu->getActive())
 		{
 			$menus = $menu->getMenu();
 
 			// Look for the home menu
-			if (JLanguageMultilang::isEnabled())
+			if (Multilanguage::isEnabled())
 			{
 				$home = $menu->getDefault($lang->getTag());
 			}
