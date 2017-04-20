@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
-use Joomla\CMS\Helper\ExtensionHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
