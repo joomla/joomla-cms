@@ -46,7 +46,7 @@ ksort($this->files, SORT_STRING);
 			?>
 			<li class="<?php echo $class; ?>">
 				<a class='folder-url nowrap' href=''>
-					<i class='fa-fw fa fa-folder'></i>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?>
+					<span class='fa-fw fa fa-folder'></span>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
 			</li>
@@ -54,7 +54,7 @@ ksort($this->files, SORT_STRING);
 		<?php if (is_object($value)) : ?>
 			<li>
 				<a class="file" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
-					<i class='fa fa-fw fa-file-o'></i>&nbsp;<?php echo $value->name; ?>
+					<span class='fa fa-fw fa-file-o'></span>&nbsp;<?php echo $value->name; ?>
 				</a>
 			</li>
 		<?php endif; ?>
