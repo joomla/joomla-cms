@@ -40,9 +40,9 @@
 		 */
 		setupEditor: function ( element, pluginOptions ) {
 			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
-			    tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
-			    defaultOptions = tinyMCEOptions['default'] || {},
-			    options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
+				tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
+				defaultOptions = tinyMCEOptions['default'] || {},
+				options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
 
 			// Avoid an unexpected changes, and copy the options object
 			if (options.joomlaMergeDefaults) {
@@ -83,12 +83,17 @@
 				// Some extra instance dependent
 				'id': element.id,
 				'instance': ed,
-				'onSave': function() { if (this.instance.isHidden()) { this.instance.show()}; return '';},
+				'onSave': function() { if (this.instance.isHidden()) { this.instance.show()}; },
 			};
 
 			/** On save **/
-			document.getElementById(ed.id).form.addEventListener('submit', function() {
-        return Joomla.editors.instances[ed.targetElm.id].onSave();
+			element.form.addEventListener('submit', function() {
+				for (var instance in Joomla.editors.instances) {
+					if (Joomla.editors.instances.hasOwnProperty(instance)) {
+						console.log(instance, Joomla.editors.instances[instance]);
+						Joomla.editors.instances[instance].onSave();
+					}
+				}
 			})
 		}
 
