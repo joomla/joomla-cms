@@ -80,10 +80,10 @@ class Pathway
 			{
 				self::$instances[$client] = \JFactory::getContainer()->get($classname);
 			}
-  			else
-  			{
+			else
+			{
 				self::$instances[$client] = new $classname($options);
-  			}
+			}
 		}
 
 		return self::$instances[$client];
