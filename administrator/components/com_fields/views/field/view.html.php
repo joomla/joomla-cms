@@ -118,7 +118,7 @@ class FieldsViewField extends JViewLegacy
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('contact.cancel');
+			JToolbarHelper::cancel('field.cancel');
 		}
 		else
 		{
@@ -151,7 +151,7 @@ class FieldsViewField extends JViewLegacy
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELDS_EDIT');
