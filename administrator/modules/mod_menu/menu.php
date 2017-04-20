@@ -134,7 +134,7 @@ class JAdminCssMenu
 		while ($this->_current->hasChildren())
 		{
 		echo "<div class='main-nav-container' role=\"navigation\" aria-label=\"Main menu\">";
-		echo "<ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' tabindex='0' role=\"menubar\">";
+		echo "<ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' role=\"menubar\">";
 
 			foreach ($this->_current->getChildren() as $child)
 			{

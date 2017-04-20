@@ -74,6 +74,7 @@
 			/**
 			 * Sidebar 
 			 */
+
 			jQuery('.main-nav li.parent > a').on('click', function() {
 				var $self  = jQuery(this),
 				    parent = $self.parent('li');
@@ -82,6 +83,7 @@
 
 				if (parent.hasClass('open')) {
 					parent.removeClass('open');
+					parent.attr('aria-hidden', 'true');
 					parent.find('li').removeClass('open');
 					jQuery('.main-nav').removeClass('child-open');
 				}
@@ -89,14 +91,19 @@
 					var siblings = parent.siblings('li');
 					parent.addClass('open');
 					siblings.removeClass('open');
+					parent.attr('aria-hidden', 'false');
+					parent.find('ul').attr('aria-hidden', 'false');
 					siblings.find('li').removeClass('open');
 					jQuery('.main-nav').addClass('child-open');
+					parent.find('.collapse-level-1').children().attr('tabindex', '1');
 				}
 			});
 
 			jQuery('.main-nav .close').on('click', function() {
 				jQuery('.main-nav').removeClass('child-open');
 			});
+
+			jQuery('.main-nav').children().attr('tabindex', '1');
 
 
 			/** Accessibility */
