@@ -133,7 +133,7 @@
 					if ($(v).data('node')) {
 						var attribs = $(v).data('node').split('['),
 						    classLi = (attribs[0] != '') ? 'class="nav-item ' + attribs[0] + '"' : '';
-						$('#' + index + 'Tabs').append('<li ' + classLi + '><a class="nav-link" href="#' + attribs[1] + '" data-toggle="tab">' + attribs[1] + '</a></li>');
+						$('#' + index + 'Tabs').append('<li ' + classLi + '><a class="nav-link" href="#' + attribs[1] + '" data-toggle="tab">' + attribs[2] + '</a></li>');
 					}
 				});
 

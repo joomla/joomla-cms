@@ -532,7 +532,7 @@ abstract class JHtmlBootstrap
 		JFactory::getDocument()
 			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector, 'id' => $id, 'active' => $active, 'title' => $title)));
 
-		return $tabLayout->render(array('id' => $id, 'active' => $active));
+		return $tabLayout->render(array('id' => $id, 'active' => $active, 'title' => $title));
 	}
 
 	/**
