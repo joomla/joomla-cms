@@ -87,6 +87,7 @@ class JoomlaInstallerScript
 		$this->clearRadCache();
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
+		$this->updateTemplateSourceFormats();
 		$this->convertTablesToUtf8mb4(true);
 		$this->cleanJoomlaCache();
 
@@ -2196,5 +2197,71 @@ class JoomlaInstallerScript
 		// Clean admin cache
 		$model->setState('client_id', 1);
 		$model->clean();
+	}
+
+	/**
+	 * Method to update template source formats on Joomla Update
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function updateTemplateSourceFormats()
+	{
+		$db = JFactory::getDbo();
+
+		try
+		{
+			// Get the params for the templates component
+			$params = $db->setQuery(
+				$db->getQuery(true)
+					->select($db->quoteName('params'))
+					->from($db->quoteName('#__extensions'))
+					->where($db->quoteName('name') . ' = ' . $db->quote('com_templates'))
+					->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+					->where($db->quoteName('element') . ' = ' . $db->quote('com_templates'))
+			)->loadResult();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+			return;
+		}
+
+		$params         = json_decode($params, true);
+		$sourceformats  = explode(',', $params['source_formats']);
+
+		// Check if new source format are already there
+		if (!in_array('scss', $sourceformats))
+		{
+			$sourceformats[] = 'scss';
+		}
+
+		if (!in_array('sass', $sourceformats))
+		{
+			$sourceformats[] = 'sass';
+		}
+
+		$params['source_formats'] = implode(',', $sourceformats);
+		$params = json_encode($params);
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('params') . ' = ' . $db->quote($params))
+			->where($db->quoteName('name') . ' = ' . $db->quote('com_templates'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('com_templates'));
+
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+			return;
+		}
 	}
 }
