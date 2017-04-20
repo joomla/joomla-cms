@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Pagination
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Pagination;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CMSApplication;
 
 /**
  * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
  *
  * @since  1.5
  */
-class JPagination
+class Pagination
 {
 	/**
 	 * @var    integer  The record number to start displaying from.
@@ -80,7 +83,7 @@ class JPagination
 	protected $additionalUrlParams = array();
 
 	/**
-	 * @var    JApplicationCms  The application object
+	 * @var    CMSApplication  The application object
 	 * @since  3.4
 	 */
 	protected $app = null;
@@ -96,22 +99,22 @@ class JPagination
 	/**
 	 * Constructor.
 	 *
-	 * @param   integer          $total       The total number of items.
-	 * @param   integer          $limitstart  The offset of the item to start at.
-	 * @param   integer          $limit       The number of items to display per page.
-	 * @param   string           $prefix      The prefix used for request variables.
-	 * @param   JApplicationCms  $app         The application object
+	 * @param   integer         $total       The total number of items.
+	 * @param   integer         $limitstart  The offset of the item to start at.
+	 * @param   integer         $limit       The number of items to display per page.
+	 * @param   string          $prefix      The prefix used for request variables.
+	 * @param   CMSApplication  $app         The application object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct($total, $limitstart, $limit, $prefix = '', JApplicationCms $app = null)
+	public function __construct($total, $limitstart, $limit, $prefix = '', CMSApplication $app = null)
 	{
 		// Value/type checking.
 		$this->total = (int) $total;
 		$this->limitstart = (int) max($limitstart, 0);
 		$this->limit = (int) max($limit, 0);
 		$this->prefix = $prefix;
-		$this->app = $app ?: JFactory::getApplication();
+		$this->app = $app ?: \JFactory::getApplication();
 
 		if ($this->limit > $this->total)
 		{
@@ -237,7 +240,7 @@ class JPagination
 	/**
 	 * Return the pagination data object, only creating it if it doesn't already exist.
 	 *
-	 * @return  stdClass  Pagination data object.
+	 * @return  \stdClass  Pagination data object.
 	 *
 	 * @since   1.5
 	 */
@@ -264,7 +267,7 @@ class JPagination
 
 		if ($this->pagesTotal > 1)
 		{
-			$html .= JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->pagesCurrent, $this->pagesTotal);
+			$html .= \JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->pagesCurrent, $this->pagesTotal);
 		}
 
 		return $html;
@@ -295,12 +298,12 @@ class JPagination
 		// If there are results found.
 		if ($this->total > 0)
 		{
-			$msg = JText::sprintf('JLIB_HTML_RESULTS_OF', $fromResult, $toResult, $this->total);
+			$msg = \JText::sprintf('JLIB_HTML_RESULTS_OF', $fromResult, $toResult, $this->total);
 			$html .= "\n" . $msg;
 		}
 		else
 		{
-			$html .= "\n" . JText::_('JLIB_HTML_NO_RECORDS_FOUND');
+			$html .= "\n" . \JText::_('JLIB_HTML_NO_RECORDS_FOUND');
 		}
 
 		return $html;
@@ -331,13 +334,13 @@ class JPagination
 			include_once $chromePath;
 
 			/*
-			 * @deprecated Item rendering should use a layout
+			 * @deprecated 4.0 Item rendering should use a layout
 			 */
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
-				JLog::add(
+				\JLog::add(
 					'pagination_item_active and pagination_item_inactive are deprecated. Use the layout joomla.pagination.link instead.',
-					JLog::WARNING,
+					\JLog::WARNING,
 					'deprecated'
 				);
 
@@ -345,12 +348,12 @@ class JPagination
 			}
 
 			/*
-			 * @deprecated The list rendering is now a layout.
-			 * @see JPagination::_list_render()
+			 * @deprecated 4.0 The list rendering is now a layout.
+			 * @see Pagination::_list_render()
 			 */
 			if (function_exists('pagination_list_render'))
 			{
-				JLog::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', JLog::WARNING, 'deprecated');
+				\JLog::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', \JLog::WARNING, 'deprecated');
 				$listOverride = true;
 			}
 		}
@@ -464,7 +467,7 @@ class JPagination
 			'pagesTotal'   => $this->pagesTotal,
 		);
 
-		return JLayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
+		return \JLayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
 	}
 
 	/**
@@ -532,7 +535,7 @@ class JPagination
 
 			if (function_exists('pagination_list_footer'))
 			{
-				JLog::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', JLog::WARNING, 'deprecated');
+				\JLog::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', \JLog::WARNING, 'deprecated');
 
 				$list = array(
 					'prefix'       => $this->prefix,
@@ -565,19 +568,19 @@ class JPagination
 		// Make the option list.
 		for ($i = 5; $i <= 30; $i += 5)
 		{
-			$limits[] = JHtml::_('select.option', "$i");
+			$limits[] = \JHtml::_('select.option', "$i");
 		}
 
-		$limits[] = JHtml::_('select.option', '50', JText::_('J50'));
-		$limits[] = JHtml::_('select.option', '100', JText::_('J100'));
-		$limits[] = JHtml::_('select.option', '0', JText::_('JALL'));
+		$limits[] = \JHtml::_('select.option', '50', \JText::_('J50'));
+		$limits[] = \JHtml::_('select.option', '100', \JText::_('J100'));
+		$limits[] = \JHtml::_('select.option', '0', \JText::_('JALL'));
 
 		$selected = $this->viewall ? 0 : $this->limit;
 
 		// Build the select list.
 		if ($this->app->isClient('administrator'))
 		{
-			$html = JHtml::_(
+			$html = \JHtml::_(
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
@@ -589,7 +592,7 @@ class JPagination
 		}
 		else
 		{
-			$html = JHtml::_(
+			$html = \JHtml::_(
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
@@ -621,7 +624,7 @@ class JPagination
 	{
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition)
 		{
-			return JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
+			return \JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else
 		{
@@ -648,7 +651,7 @@ class JPagination
 	{
 		if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition)
 		{
-			return JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
+			return \JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else
 		{
@@ -669,7 +672,7 @@ class JPagination
 	{
 		$html = "<div class=\"list-footer\">\n";
 
-		$html .= "\n<div class=\"limit\">" . JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield'] . "</div>";
+		$html .= "\n<div class=\"limit\">" . \JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield'] . "</div>";
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"counter\">" . $list['pagescounter'] . "</div>";
 
@@ -690,27 +693,27 @@ class JPagination
 	 */
 	protected function _list_render($list)
 	{
-		return JLayoutHelper::render('joomla.pagination.list', array('list' => $list));
+		return \JLayoutHelper::render('joomla.pagination.list', array('list' => $list));
 	}
 
 	/**
 	 * Method to create an active pagination link to the item
 	 *
-	 * @param   JPaginationObject  $item  The object with which to make an active link.
+	 * @param   PaginationObject  $item  The object with which to make an active link.
 	 *
 	 * @return  string  HTML link
 	 *
 	 * @since   1.5
-	 * @note    As of 4.0 this method will proxy to `JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true])`
+	 * @note    As of 4.0 this method will proxy to `\JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true])`
 	 */
-	protected function _item_active(JPaginationObject $item)
+	protected function _item_active(PaginationObject $item)
 	{
 		$title = '';
 		$class = '';
 
 		if (!is_numeric($item->text))
 		{
-			JHtml::_('bootstrap.tooltip');
+			\JHtml::_('bootstrap.tooltip');
 			$title = ' title="' . $item->text . '"';
 			$class = 'hasTooltip ';
 		}
@@ -729,14 +732,14 @@ class JPagination
 	/**
 	 * Method to create an inactive pagination string
 	 *
-	 * @param   JPaginationObject  $item  The item to be processed
+	 * @param   PaginationObject  $item  The item to be processed
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
-	 * @note    As of 4.0 this method will proxy to `JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false])`
+	 * @note    As of 4.0 this method will proxy to `\JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false])`
 	 */
-	protected function _item_inactive(JPaginationObject $item)
+	protected function _item_inactive(PaginationObject $item)
 	{
 		if ($this->app->isClient('administrator'))
 		{
@@ -751,13 +754,13 @@ class JPagination
 	/**
 	 * Create and return the pagination data object.
 	 *
-	 * @return  stdClass  Pagination data object.
+	 * @return  \stdClass  Pagination data object.
 	 *
 	 * @since   1.5
 	 */
 	protected function _buildDataObject()
 	{
-		$data = new stdClass;
+		$data = new \stdClass;
 
 		// Build the additional URL parameters string.
 		$params = '';
@@ -770,17 +773,17 @@ class JPagination
 			}
 		}
 
-		$data->all = new JPaginationObject(JText::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
+		$data->all = new PaginationObject(\JText::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
 
 		if (!$this->viewall)
 		{
 			$data->all->base = '0';
-			$data->all->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=');
+			$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
 		}
 
 		// Set the start and previous data objects.
-		$data->start = new JPaginationObject(JText::_('JLIB_HTML_START'), $this->prefix);
-		$data->previous = new JPaginationObject(JText::_('JPREV'), $this->prefix);
+		$data->start = new PaginationObject(\JText::_('JLIB_HTML_START'), $this->prefix);
+		$data->previous = new PaginationObject(\JText::_('JPREV'), $this->prefix);
 
 		if ($this->pagesCurrent > 1)
 		{
@@ -790,14 +793,14 @@ class JPagination
 			// @todo remove code: $page = $page == 0 ? '' : $page;
 
 			$data->start->base = '0';
-			$data->start->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
+			$data->start->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
 			$data->previous->base = $page;
-			$data->previous->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+			$data->previous->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
 		}
 
 		// Set the next and end data objects.
-		$data->next = new JPaginationObject(JText::_('JNEXT'), $this->prefix);
-		$data->end = new JPaginationObject(JText::_('JLIB_HTML_END'), $this->prefix);
+		$data->next = new PaginationObject(\JText::_('JNEXT'), $this->prefix);
+		$data->end = new PaginationObject(\JText::_('JLIB_HTML_END'), $this->prefix);
 
 		if ($this->pagesCurrent < $this->pagesTotal)
 		{
@@ -805,9 +808,9 @@ class JPagination
 			$end = ($this->pagesTotal - 1) * $this->limit;
 
 			$data->next->base = $next;
-			$data->next->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $next);
+			$data->next->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $next);
 			$data->end->base = $end;
-			$data->end->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $end);
+			$data->end->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $end);
 		}
 
 		$data->pages = array();
@@ -817,12 +820,12 @@ class JPagination
 		{
 			$offset = ($i - 1) * $this->limit;
 
-			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
+			$data->pages[$i] = new PaginationObject($i, $this->prefix);
 
 			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
-				$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+				$data->pages[$i]->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
 			}
 			else
 			{
@@ -846,7 +849,7 @@ class JPagination
 	 */
 	public function set($property, $value = null)
 	{
-		JLog::add('JPagination::set() is deprecated. Access the properties directly.', JLog::WARNING, 'deprecated');
+		\JLog::add('Pagination::set() is deprecated. Access the properties directly.', \JLog::WARNING, 'deprecated');
 
 		if (strpos($property, '.'))
 		{
@@ -871,7 +874,7 @@ class JPagination
 	 */
 	public function get($property, $default = null)
 	{
-		JLog::add('JPagination::get() is deprecated. Access the properties directly.', JLog::WARNING, 'deprecated');
+		\JLog::add('Pagination::get() is deprecated. Access the properties directly.', \JLog::WARNING, 'deprecated');
 
 		if (strpos($property, '.'))
 		{

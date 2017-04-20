@@ -166,13 +166,6 @@ abstract class FieldsPlugin extends JPlugin
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
-		$node->setAttribute('readonly', $field->params->get('readonly', 0) ? 'true' : 'false');
-
-		// Set the disabled state based on the parameter and the permission
-		if ($field->params->get('disabled', 0))
-		{
-			$node->setAttribute('disabled', 'true');
-		}
 
 		// Combine the two params
 		$params = clone $this->params;
