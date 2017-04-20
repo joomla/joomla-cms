@@ -10,11 +10,13 @@ window.insertReadmore = function(editor) {
 		return false;
 	}
 
-	var options, content;
+	var content, options = window.parent.Joomla.getOptions('xtd-readmore');
 
-	options = window.parent.Joomla.getOptions('xtd-readmore');
-
-	content = (new Function('return ' + options.editor))();
+	if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
+		content = window.parent.Joomla.editors.instances[editor].getValue();
+	} else {
+		content = (new Function('return ' + options.editor))();
+	}
 
 	if (content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
 		alert(options.exists);

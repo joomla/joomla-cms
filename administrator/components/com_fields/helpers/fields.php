@@ -247,7 +247,7 @@ class FieldsHelper
 		 */
 		if ($parts = self::extract($context))
 		{
-			// Trying to render the layout on the component fom the context
+			// Trying to render the layout on the component from the context
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
@@ -407,7 +407,7 @@ class FieldsHelper
 		// On the front, sometimes the admin fields path is not included
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
-		// Looping trough the groups
+		// Looping through the groups
 		foreach ($fieldsPerGroup as $group_id => $groupFields)
 		{
 			if (!$groupFields)
@@ -467,7 +467,7 @@ class FieldsHelper
 			$fieldset->setAttribute('label', $label);
 			$fieldset->setAttribute('description', strip_tags($description));
 
-			// Looping trough the fields for that context
+			// Looping through the fields for that context
 			foreach ($groupFields as $field)
 			{
 				try
@@ -489,7 +489,7 @@ class FieldsHelper
 				}
 			}
 
-			// When he field set is empty, then remove it
+			// When the field set is empty, then remove it
 			if (!$fieldset->hasChildNodes())
 			{
 				$fieldsNode->removeChild($fieldset);
@@ -508,7 +508,7 @@ class FieldsHelper
 			$data->id = JFactory::getApplication()->input->getInt('id');
 		}
 
-		// Looping trough the fields again to set the value
+		// Looping through the fields again to set the value
 		if (!isset($data->id) || !$data->id)
 		{
 			return true;
