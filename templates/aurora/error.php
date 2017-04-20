@@ -41,9 +41,9 @@ if ($params->get('logoFile'))
 {
 	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '" />';
 }
-elseif ($params->get('sitetitle'))
+elseif ($params->get('siteTitle'))
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($params->get('sitetitle')) . '</span>';
+	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle')) . '</span>';
 }
 else
 {
