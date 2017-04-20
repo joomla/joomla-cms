@@ -373,8 +373,6 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
-		$this->autoloadExtensions();
-
 		\JPluginHelper::importPlugin('system');
 
 		// Trigger the onBeforeExecute event.
@@ -416,61 +414,6 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 
 		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
-	}
-
-	/**
-	 * Autoloads the enabled extensions.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function autoloadExtensions()
-	{
-		$roots = array(
-			'component' => JPATH_ADMINISTRATOR . '/components/',
-			'module1'   => JPATH_ADMINISTRATOR . '/modules/',
-			'module0'   => JPATH_SITE . '/modules/',
-			'plugin'    => JPATH_PLUGINS . '/',
-			'library'   => JPATH_LIBRARIES . '/',
-			'template'  => JPATH_THEMES . '/'
-		);
-
-		// Loop over the extensions
-		foreach (ExtensionHelper::getExtensions() as $extension)
-		{
-			$folder = '';
-
-			// Set up the folder
-			if ($extension->folder)
-			{
-				$folder = $extension->folder . '/';
-			}
-
-			// The key
-			$key = $extension->type;
-
-			// Handle modules special, as they can be on the front or admin side
-			if ($key == 'module')
-			{
-				$key .= $extension->client_id;
-			}
-
-			// An extension we don't support
-			if (!key_exists($key, $roots))
-			{
-				continue;
-			}
-
-			// Check if an autoload file is available
-			if (!file_exists($roots[$key] . $folder . $extension->element . '/autoload.php'))
-			{
-				continue;
-			}
-
-			// Run the autoload
-			require_once $roots[$key] . $folder . $extension->element . '/autoload.php';
-		}
 	}
 
 	/**

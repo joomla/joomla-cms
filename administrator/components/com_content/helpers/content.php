@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-JLoader::registerNamespace(
-	'Joomla\\Component\\Content\\Administrator\\',
-	JPATH_ADMINISTRATOR . '/components/com_content',
-	false,
-	false,
-	'psr4'
-);
-
-JLoader::registerAlias('ContentHelper', '\\Joomla\\Component\\Content\\Administrator\\Helper\\ContentHelper');
+/**
+ * Content component helper.
+ *
+ * @since  1.6
+ */
+class ContentHelper extends \Joomla\Component\Content\Administrator\Helper\ContentHelper
+{
+}
