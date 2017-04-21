@@ -586,7 +586,7 @@ abstract class JHtmlBehavior
 
  		if ($translation)
 		{
-			$document>addScriptDeclaration($translation);
+			$document->addScriptDeclaration($translation);
 		}
 
  		static::$loaded[__METHOD__] = true;
