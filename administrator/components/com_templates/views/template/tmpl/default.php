@@ -42,7 +42,15 @@ JHtml::_('stylesheet', 'com_templates/template.css', array('version' => 'auto', 
 
 if ($this->type == 'font')
 {
-	JHtml::_('stylesheet', 'com_templates/font.css', array('version' => 'auto', 'relative' => true));
+	JFactory::getDocument()->addStyleDeclaration("
+		@font-face {
+			font-family: previewFont;
+			src: url('" . $this->font['address'] . "')
+		}
+		.font-preview {
+			font-family: previewFont !important;
+		}
+	");
 }
 ?>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
