@@ -31,39 +31,11 @@ if ($this->type == 'image')
 	JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
 }
 
-JHtml::_('script', 'com_templates/template.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_templates/template.min.js', array('version' => 'auto', 'relative' => true));
 
 if ($this->type == 'image')
 {
-	JFactory::getDocument()->addScriptDeclaration("
-		document.addEventListener('DOMContentLoaded', function() {
-			// Configuration for image cropping
-			var image = document.getElementById('image-crop');
-				var cropper = new Cropper(image, {
-				viewMode: 0,
-				scalable: true,
-				zoomable: true,
-				minCanvasWidth: " . $this->image['width'] . ",
-				minCanvasHeight: " . $this->image['height'] . ",
-			});
-
-			image.addEventListener('crop', function (e) {
-				document.getElementById('x').value = e.detail.x;
-				document.getElementById('y').value = e.detail.y;
-				document.getElementById('w').value = e.detail.width;
-				document.getElementById('h').value = e.detail.height;
-			});
-
-			// Function for clearing the coordinates
-			function clearCoords()
-			{
-				var inputs = querySelectorAll('#adminForm input');
-				
-				for(i=0, l=inputs.length; l>i; i++) {
-					inputs[i].value = '';
-				};
-			}
-		});");
+	JHtml::_('script', 'com_templates/image.js', array('version' => 'auto', 'relative' => true));
 }
 
 JHtml::_('stylesheet', 'com_templates/template.css', array('version' => 'auto', 'relative' => true));
@@ -143,10 +115,12 @@ if ($this->type == 'font')
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>">
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
-					<input type ="hidden" id="x" name="x">
-					<input type ="hidden" id="y" name="y">
-					<input type ="hidden" id="h" name="h">
-					<input type ="hidden" id="w" name="w">
+					<input type="hidden" id="x" name="x">
+					<input type="hidden" id="y" name="y">
+					<input type="hidden" id="h" name="h">
+					<input type="hidden" id="w" name="w">
+					<input type="hidden" id="imageWidth" value="<?php echo $this->image['width']; ?>">
+					<input type="hidden" id="imageHeight" value="<?php echo $this->image['height']; ?>">
 					<input type="hidden" name="task" value="">
 					<?php echo JHtml::_('form.token'); ?>
 				</fieldset>
