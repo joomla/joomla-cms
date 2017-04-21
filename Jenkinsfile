@@ -6,7 +6,7 @@ pipeline {
 	    stage('codestyles') {
 	    	agent { docker 'joomlaprojects/docker-phpcs' }
 	    	steps {
-	    	    sh "which phpcs"    
+	    	    sh "phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla ."    
 	    	}
 	    	
 	    }
