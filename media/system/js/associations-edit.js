@@ -69,7 +69,7 @@ Joomla = window.Joomla || {};
 		if (formControlLanguage) {
 			formControlLanguage.addEventListener('change', function (event) {
 
-				// Remove message if any.
+				// Remove message if any
 				Joomla.removeMessages();
 
 				var existsAssociations = false;
