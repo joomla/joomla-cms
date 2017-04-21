@@ -96,7 +96,7 @@ class FieldsTableField extends JTable
 			$this->name = $this->title;
 		}
 
-		$this->name = JApplicationHelper::stringURLSafe($this->name);
+		$this->name = JApplicationHelper::stringURLSafe($this->name, $this->language);
 
 		if (trim(str_replace('-', '', $this->name)) == '')
 		{
