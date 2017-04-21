@@ -642,6 +642,8 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 				{
 					continue;
 				}
+				
+				$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
 				$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
@@ -674,6 +676,8 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 					{
 						continue;
 					}
+					
+					$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
 					$element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
