@@ -56,7 +56,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 
 		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');
 
-		$moduleData = (new ModulesModelModule())->getItem($this->input->getInt('id'));
+		$moduleData = (new ModulesModelModule)->getItem($this->input->getInt('id'));
 
 		if (!$moduleData)
 		{
