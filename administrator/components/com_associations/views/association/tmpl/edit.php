@@ -17,7 +17,7 @@ JHtml::_('script', 'com_associations/sidebyside.js', false, true);
 JHtml::_('stylesheet', 'com_associations/sidebyside.css', array(), true);
 
 $options = array(
-			'layout'   => $this->app->input->get('layout', '', 'string'),
+			'layout'   => $this->app->input->getString('layout', ''),
 			'itemtype' => $this->itemtype,
 			'id'       => $this->referenceId,
 		);

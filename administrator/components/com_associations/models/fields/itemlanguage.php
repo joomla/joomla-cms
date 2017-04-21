@@ -40,13 +40,13 @@ class JFormFieldItemLanguage extends JFormFieldList
 	{
 		$input = JFactory::getApplication()->input;
 
-		list($extensionName, $typeName) = explode('.', $input->get('itemtype'));
+		list($extensionName, $typeName) = explode('.', $input->getString('itemtype', ''));
 
 		// Get the extension specific helper method
 		$helper = AssociationsHelper::getExtensionHelper($extensionName);
 
 		$languageField = $helper->getTypeFieldName($typeName, 'language');
-		$referenceId   = $input->get('id', 0, 'int');
+		$referenceId   = $input->getint('id', 0);
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 		$referenceLang = $reference[$languageField];
 

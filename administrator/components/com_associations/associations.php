@@ -19,7 +19,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_associations'))
 JLoader::register('AssociationsHelper', __DIR__ . '/helpers/associations.php');
 
 // Check if user has permission to access the component item type.
-$itemtype = JFactory::getApplication()->input->get('itemtype', '', 'string');
+$itemtype = JFactory::getApplication()->input->getString('itemtype', '');
 
 if ($itemtype !== '')
 {
@@ -37,5 +37,5 @@ if ($itemtype !== '')
 }
 
 $controller = JControllerLegacy::getInstance('Associations');
-$controller->execute(JFactory::getApplication()->input->get('task'));
+$controller->execute(JFactory::getApplication()->input->getCmd('task'));
 $controller->redirect();
