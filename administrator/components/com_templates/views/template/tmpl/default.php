@@ -31,14 +31,8 @@ if ($this->type == 'image')
 	JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
 }
 
-JHtml::_('script', 'com_templates/template.min.js', array('version' => 'auto', 'relative' => true));
-
-if ($this->type == 'image')
-{
-	JHtml::_('script', 'com_templates/image.js', array('version' => 'auto', 'relative' => true));
-}
-
-JHtml::_('stylesheet', 'com_templates/template.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_templates/admin-templates-default.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'com_templates/admin-templates-default.css', array('version' => 'auto', 'relative' => true));
 
 if ($this->type == 'font')
 {
