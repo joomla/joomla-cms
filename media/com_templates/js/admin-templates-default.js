@@ -90,11 +90,11 @@
 				if (i === listEls.length - 1) {
 					var parentUl = listEls[i].querySelector('ul'),
 						allLi    = parentUl.querySelectorAll('li'); 
-		
+
 					for (var i = 0, l = allLi.length; i < l; i++) {
 						var aEl    = allLi[i].querySelector('a'),
 						    spanEl = aEl.querySelector('span');
-		
+
 						if (spanEl && re.test(spanEl.innerText)) {
 							aEl.classList.add('active');
 						}
@@ -104,7 +104,7 @@
 		}
 
 		// Image cropper
-		var image  = document.getElementById('image-crop');
+		var image = document.getElementById('image-crop');
 		if (image) {
 			var width  = document.getElementById('imageWidth').value,
 				height = document.getElementById('imageHeight').value;
