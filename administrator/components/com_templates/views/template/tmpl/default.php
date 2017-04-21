@@ -31,82 +31,7 @@ if ($this->type == 'image')
 	JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
 }
 
-JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function($){
-
-	// Hide all the folder when the page loads
-	$('.folder ul, .component-folder ul, .layout-folder ul').hide();
-
-	// Display the tree after loading
-	$('.directory-tree').removeClass('directory-tree');
-
-	// Show all the lists in the path of an open file
-	$('.show > ul').show();
-
-	// Stop the default action of anchor tag on a click event
-	$('.folder-url, .component-folder-url, .layout-folder-url').click(function(event){
-		event.preventDefault();
-	});
-
-	// Prevent the click event from proliferating
-	$('.file, .component-file-url').bind('click',function(e){
-		e.stopPropagation();
-	});
-
-	// Toggle the child indented list on a click event
-	$('.folder, .component-folder, .layout-folder').bind('click',function(e){
-		$(this).children('ul').toggle();
-		e.stopPropagation();
-	});
-
-	// New file tree
-	$('#fileModal .folder-url').bind('click',function(e){
-		$('.folder-url').removeClass('selected');
-		e.stopPropagation();
-		$('#fileModal input.address').val($(this).attr('data-id'));
-		$(this).addClass('selected');
-	});
-
-	// Folder manager tree
-	$('#folderModal .folder-url').bind('click',function(e){
-		$('.folder-url').removeClass('selected');
-		e.stopPropagation();
-		$('#folderModal input.address').val($(this).attr('data-id'));
-		$(this).addClass('selected');
-	});
-
-	var containerDiv = document.querySelector('.span3.tree-holder'),
-		treeContainer = containerDiv.querySelector('.nav.nav-list'),
-		liEls = treeContainer.querySelectorAll('.folder.show'),
-		filePathEl = document.querySelector('p.lead.hidden.path');
-
-	if(filePathEl)
-		var filePathTmp = document.querySelector('p.lead.hidden.path').innerText;
-
-	 if(filePathTmp && filePathTmp.charAt( 0 ) === '/' ) {
-			filePathTmp = filePathTmp.slice( 1 );
-			filePathTmp = filePathTmp.split('/');
-			filePathTmp = filePathTmp[filePathTmp.length - 1];
-			var re = new RegExp( filePathTmp );
-
-		for (var i = 0, l = liEls.length; i < l; i++) {
-			liEls[i].querySelector('a').classList.add('active');
-			if (i === liEls.length - 1) {
-				var parentUl = liEls[i].querySelector('ul'),
-					allLi = parentUl.querySelectorAll('li'); 
-	
-				for (var i = 0, l = allLi.length; i < l; i++) {
-					aEl = allLi[i].querySelector('a'),
-					spanEl = aEl.querySelector('span');
-	
-					if (spanEl && re.test(spanEl.innerText)) {
-						aEl.classList.add('active');
-					}
-				}
-			}
-		}
-	}
-});");
+JHtml::_('script', 'com_templates/template.js', array('version' => 'auto', 'relative' => true));
 
 if ($this->type == 'image')
 {
@@ -141,60 +66,11 @@ if ($this->type == 'image')
 		});");
 }
 
-JFactory::getDocument()->addStyleDeclaration('
-	/* Styles for modals */
-	.selected {
-		background: #08c;
-		color: #fff;
-	}
-	.selected:hover {
-		background: #08c !important;
-		color: #fff;
-	}
-	.modal-body .column-left {
-		float: left; max-height: 70vh; overflow-y: auto;
-	}
-	.modal-body .column-right {
-		float: right;
-	}
-	@media (max-width: 767px) {
-		.modal-body .column-right {
-			float: left;
-		}
-	}
-	#deleteFolder {
-		margin: 0;
-	}
-
-	#image-crop {
-		max-width: 100% !important;
-		width: auto;
-		height: auto;
-	}
-
-	.directory-tree {
-		display: none;
-	}
-
-	.tree-holder {
-		overflow-x: auto;
-	}
-');
+JHtml::_('stylesheet', 'com_templates/template.css', array('version' => 'auto', 'relative' => true));
 
 if ($this->type == 'font')
 {
-	JFactory::getDocument()->addStyleDeclaration(
-		"/* Styles for font preview */
-		@font-face
-		{
-			font-family: previewFont;
-			src: url('" . $this->font['address'] . "')
-		}
-
-		.font-preview{
-			font-family: previewFont !important;
-		}"
-	);
+	JHtml::_('stylesheet', 'com_templates/font.css', array('version' => 'auto', 'relative' => true));
 }
 ?>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
@@ -216,7 +92,7 @@ if ($this->type == 'font')
 	</div>
 </div>
 <div class="row">
-	<div class="col-md-3 tree-holder">
+	<div id="treeholder" class="col-md-3 tree-holder">
 		<?php echo $this->loadTemplate('tree'); ?>
 	</div>
 	<div class="col-md-9">
@@ -347,7 +223,7 @@ if ($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="fa fa-files-o"></span>&nbsp;<?php echo $module->name; ?>
+						<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
@@ -360,7 +236,7 @@ if ($this->type == 'font')
 			<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
 				<li class="component-folder">
 					<a href="#" class="component-folder-url">
-						<span class="fa fa-folder"></span>&nbsp;<?php echo $key; ?>
+						<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 					</a>
 					<ul class="list-unstyled">
 						<?php foreach ($value as $view) : ?>
@@ -370,7 +246,7 @@ if ($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a class="component-file-url" href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-									<span class="fa fa-files-o"></span>&nbsp;<?php echo $view->name; ?>
+									<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -381,14 +257,14 @@ if ($this->type == 'font')
 	</div>
 	<div class="col-md-4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
-		<ul class="nav flex-column">
+		<ul class="list-unstyled">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
 			<li class="layout-folder">
 				<a href="#" class="layout-folder-url">
-					<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+					<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 				</a>
-				<ul class="nav flex-column">
+				<ul class="list-unstyled">
 					<?php foreach ($value as $layout) : ?>
 						<li>
 							<?php
@@ -460,8 +336,12 @@ $copyModalData = array(
 $fileModalData = array(
 	'selector' => 'fileModal',
 	'params'   => array(
-		'title' => JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
-		'footer' => $this->loadTemplate('modal_file_footer')
+		'title'      => JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
+		'footer'     => $this->loadTemplate('modal_file_footer'),
+		'height'     => '400px',
+		'width'      => '800px',
+		'bodyHeight' => 50,
+		'modalWidth' => 60,
 	),
 	'body' => $this->loadTemplate('modal_file_body')
 );
@@ -471,8 +351,12 @@ $fileModalData = array(
 $folderModalData = array(
 	'selector' => 'folderModal',
 	'params'   => array(
-		'title'  => JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
-		'footer' => $this->loadTemplate('modal_folder_footer')
+		'title'      => JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
+		'footer'     => $this->loadTemplate('modal_folder_footer'),
+		'height'     => '400px',
+		'width'      => '800px',
+		'bodyHeight' => 50,
+		'modalWidth' => 60,
 	),
 	'body' => $this->loadTemplate('modal_folder_body')
 );
