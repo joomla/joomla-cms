@@ -570,7 +570,7 @@ abstract class JHtmlBehavior
 		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
- 		}
+		}
 
 		JLog::add('JHtmlBehavior::calendar is deprecated as the static assets are being loaded in the relative layout.', JLog::WARNING, 'deprecated');
 
