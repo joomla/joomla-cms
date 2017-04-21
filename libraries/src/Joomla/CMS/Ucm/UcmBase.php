@@ -40,7 +40,7 @@ class UcmBase implements Ucm
 	/**
 	 * Instantiate the UcmBase.
 	 *
-	 * @param   string    $alias  The alias string
+	 * @param   string   $alias  The alias string
 	 * @param   UcmType  $type   The type object
 	 *
 	 * @since   3.1
@@ -122,7 +122,7 @@ class UcmBase implements Ucm
 	/**
 	 * Method to map the base ucm fields
 	 *
-	 * @param   array     $original  Data array
+	 * @param   array    $original  Data array
 	 * @param   UcmType  $type      UCM Content Type
 	 *
 	 * @return  array  Data array of UCM mappings
