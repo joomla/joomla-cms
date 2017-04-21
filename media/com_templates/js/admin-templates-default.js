@@ -64,7 +64,6 @@
 					folderModalFolders[i].classList.remove('selected');
 				}
 
-				folders.classList.remove('selected');
 				event.target.classList.add('selected');
 
 				document.querySelectorAll('#fileModal input.address').value = event.target.getAttribute('data-id');
