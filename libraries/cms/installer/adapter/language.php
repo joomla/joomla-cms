@@ -323,13 +323,13 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			{
 				if (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
 				{
-					$installationLanguage = new JLanguage($this->tag);
+					$installationLanguage = new JLanguageHelper($this->tag);
 					$installationLanguage->load('', JPATH_INSTALLATION);
 
 					if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
 					{
 						// Make sure it will not use the en-GB fallback.
-						$defaultLanguage = new JLanguage('en-GB');
+						$defaultLanguage = new JLanguageHelper('en-GB');
 						$defaultLanguage->load('', JPATH_INSTALLATION);
 
 						$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
