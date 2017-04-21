@@ -120,3 +120,8 @@ JLoader::registerAlias('JResponseJson',                     '\\Joomla\\CMS\\Resp
 
 JLoader::registerAlias('JPlugin',                           '\\Joomla\\CMS\\Plugin\\CMSPlugin', '4.0');
 JLoader::registerAlias('JPluginHelper',                     '\\Joomla\\CMS\\Plugin\\PluginHelper', '4.0');
+
+JLoader::registerAlias('JUcm',                              '\\Joomla\\CMS\\Ucm\\Ucm', '4.0');
+JLoader::registerAlias('JUcmBase',                          '\\Joomla\\CMS\\Ucm\\UcmBase', '4.0');
+JLoader::registerAlias('JUcmContent',                       '\\Joomla\\CMS\\Ucm\\UcmContent', '4.0');
+JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\Ucm\\UcmType', '4.0');
