@@ -89,7 +89,7 @@ Joomla = window.Joomla || {};
 					{
 						existsAssociations = true;
 					}
-					
+
 					// Call the modal clear button
 					var clear = document.getElementById(formControl + '_associations_' + languageCode + '_clear');
 
@@ -106,9 +106,8 @@ Joomla = window.Joomla || {};
 					Joomla.renderMessages({warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')]});
 				}
 
-				var selectedLanguage = event.target.value;
-
 				// If the selected language is All hide the fields and add a message
+				var selectedLanguage = event.target.value;
 				if (selectedLanguage == '*')
 				{
 					Joomla.showAssociationMessage();
@@ -120,7 +119,7 @@ Joomla = window.Joomla || {};
 				}
 			});
 		}
-		
+
 	});
 
 })();
