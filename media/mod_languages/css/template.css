@@ -9,7 +9,7 @@ div.mod-languages li {
 }
 
 div.mod-languages ul.lang-inline li {
-	display:inline;
+	display:inline-block;
 }
 
 div.mod-languages ul.lang-block li {

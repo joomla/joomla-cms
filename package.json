@@ -7,7 +7,9 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "scripts": {
-    "compile-js": "grunt uglify:allJs"
+    "compile-js": "grunt uglify:allJs",
+    "compile-sass": "grunt sass:dist",
+    "update-dependencies": "grunt default"
   },
   "dependencies": {
     "autoprefixer": "^6.7.7",

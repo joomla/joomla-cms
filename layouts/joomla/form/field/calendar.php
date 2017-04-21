@@ -128,7 +128,7 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 				data-only-months-nav="<?php echo $singleheader; ?>"
 				<?php echo !empty($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 				<?php echo !empty($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
-			><i class="fa fa-calendar"></i></button>
+			><span class="fa fa-calendar"></span></button>
 		</span>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>

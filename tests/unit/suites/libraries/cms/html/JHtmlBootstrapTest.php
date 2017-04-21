@@ -348,7 +348,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			'jQuery(function($){ $(".hasPopover").popover({"html": true,"trigger": "hover focus","container": "body"}); });',
+			'var popoverOptions = {"container":"body","html":true,"trigger":"hover focus","constraints":{"to":"scrollParent","attachment":"together","pin":true},"offset":"0 0"}; popoverOptions.constraints = [popoverOptions.constraints];' . "\n\t\t\t" . 'jQuery(function($){ $(".hasPopover").popover(popoverOptions); });',
 			'Verify that the popover script is initialised'
 		);
 	}
@@ -416,7 +416,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			'jQuery(function($){ $(".hasTooltip").tooltip({"html": true,"container": "body"}); });',
+			'var tooltipOptions = {"container":"body","html":true,"trigger":"hover focus","constraints":{"to":"scrollParent","attachment":"together","pin":true},"offset":"0 0"}; tooltipOptions.constraints = [tooltipOptions.constraints];' . "\n\t\t\t\t" . 'jQuery(function($){ $(".hasTooltip").tooltip(tooltipOptions); });',
 			'Verify that the tooltip script is initialised'
 		);
 	}
