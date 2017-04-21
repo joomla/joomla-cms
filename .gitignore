@@ -36,6 +36,14 @@ media/jui/less
 # CSS map files #
 .map
 
+# Languages #
+administrator/language/*
+!administrator/language/en-GB
+administrator/manifests/packages/*
+!administrator/manifests/packages/pkg_en-GB.xml
+language/*
+!language/en-GB
+
 # phpDocumentor Logs #
 phpdoc-*
 
