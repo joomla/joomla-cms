@@ -158,7 +158,7 @@ class LanguageStringsDataCollector extends AbstractDataCollector
 			foreach ($keys as $key)
 			{
 
-				$untranslated[$count . ' ' . $this->stripRoot($file)] = $key;
+				$untranslated[$count . ' ' . $this->getDataFormatter()->formatPath($file)] = $key;
 				$count ++;
 			}
 		}

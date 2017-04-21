@@ -9,12 +9,17 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use DebugBar\StandardDebugBar;
+use DebugBar\DataCollector\MemoryCollector;
 use DebugBar\DataCollector\MessagesCollector;
+use DebugBar\DataCollector\RequestDataCollector;
+use DebugBar\DebugBar;
+use DebugBar\Storage\FileStorage;
+use Joomla\Utilities\ArrayHelper;
+use plgSystemDebug\DataCollector\InfoDataCollector;
 use plgSystemDebug\DataCollector\LanguageErrorsDataCollector;
 use plgSystemDebug\DataCollector\LanguageFilesDataCollector;
 use plgSystemDebug\DataCollector\LanguageStringsDataCollector;
+use plgSystemDebug\DataCollector\ProfileDataCollector;
 use plgSystemDebug\DataCollector\QueryDataCollector;
 use plgSystemDebug\DataCollector\SessionDataCollector;
 
@@ -195,8 +200,8 @@ class PlgSystemDebug extends JPlugin
 
 		JLoader::registerNamespace('plgSystemDebug', __DIR__);
 
-		$this->debugBar = new StandardDebugBar;
-		$this->debugBar->setStorage(new DebugBar\Storage\FileStorage(JPATH_CACHE . '/profiles'));
+		$this->debugBar = new DebugBar;
+		$this->debugBar->setStorage(new FileStorage(JPATH_CACHE . '/profiles'));
 	}
 
 	/**
@@ -277,6 +282,10 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
 
+		$this->debugBar->addCollector(new InfoDataCollector($this->params, $this->debugBar->getCurrentRequestId()));
+		$this->debugBar->addCollector(new RequestDataCollector);
+		$this->debugBar->addCollector(new MemoryCollector);
+
 		if (JDEBUG)
 		{
 			if (JError::getErrors())
@@ -293,6 +302,7 @@ class PlgSystemDebug extends JPlugin
 			if ($this->params->get('profile', 1))
 			{
 				$html[] = $this->display('profile_information');
+				$this->debugBar->addCollector(new ProfileDataCollector($this->params));
 			}
 
 			if ($this->params->get('memory', 1))
@@ -309,6 +319,7 @@ class PlgSystemDebug extends JPlugin
 			if ($this->params->get('logs', 1) && !empty($this->logEntries))
 			{
 				$html[] = $this->display('logs');
+				$this->collectLogs();
 			}
 		}
 
@@ -1790,8 +1801,6 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayLogs()
 	{
-		$this->collectLogs();
-
 		$priorities = array(
 			JLog::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
 			JLog::ALERT => '<span class="badge badge-important">ALERT</span>',
@@ -1921,7 +1930,12 @@ class PlgSystemDebug extends JPlugin
 			{
 				case 'deprecated':
 					// @todo Add $entry->callstack
-					$this->debugBar[$entry->category]->addMessage($entry->message);
+					$level = 'info';
+					if (strpos($entry->message, 'removed'))
+					{
+						$level = 'warning';
+					}
+					$this->debugBar[$entry->category]->addMessage($entry->message, $level);
 				break;
 
 				case 'databasequery':

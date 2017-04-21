@@ -11,6 +11,7 @@ namespace plgSystemDebug;
 
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
+use DebugBar\DataFormatter\DataFormatterInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -22,22 +23,54 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 {
 	/**
 	 * @var Registry
-	 * @since 4.0
+	 * @since version
 	 */
 	protected $params;
+
+	private static $defaultDataFormatter;
 
 	/**
 	 * AbstractDataCollector constructor.
 	 *
 	 * @param   Registry  $params  Parameters.
 	 *
-	 * @since 4.0
+	 * @since version
 	 */
 	public function __construct(Registry $params)
 	{
 		$this->params = $params;
 	}
 
+	/**
+	 * Get a data formatter.
+	 *
+	 * @since version
+	 * @return DataFormatter
+	 */
+	public function getDataFormatter()
+	{
+		if ($this->dataFormater === null)
+		{
+			$this->dataFormater = self::getDefaultDataFormatter();
+		}
+		return $this->dataFormater;
+	}
+
+	/**
+	 * Returns the default data formater
+	 *
+	 * @since version
+	 * @return DataFormatterInterface
+	 */
+	public static function getDefaultDataFormatter()
+	{
+		if (self::$defaultDataFormatter === null)
+		{
+			self::$defaultDataFormatter = new DataFormatter;
+		}
+
+		return self::$defaultDataFormatter;
+	}
 	/**
 	 * Strip the Joomla! root path.
 	 *

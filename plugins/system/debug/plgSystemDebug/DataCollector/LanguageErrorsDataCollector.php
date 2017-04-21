@@ -87,7 +87,7 @@ class LanguageErrorsDataCollector extends AbstractDataCollector
 			$count = 1;
 			foreach ($errorFiles as $error)
 			{
-				$errors[$count] = $this->stripRoot($error);
+				$errors[$count] = $this->getDataFormatter()->formatPath($error);
 				$count++;
 			}
 		}

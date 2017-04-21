@@ -9,6 +9,7 @@
 
 namespace plgSystemDebug\DataCollector;
 
+use DebugBar\DataCollector\AssetProvider;
 use plgSystemDebug\AbstractDataCollector;
 
 /**
@@ -16,7 +17,7 @@ use plgSystemDebug\AbstractDataCollector;
  *
  * @since  version
  */
-class LanguageFilesDataCollector extends AbstractDataCollector
+class LanguageFilesDataCollector extends AbstractDataCollector implements AssetProvider
 {
 	private $name = 'languageFiles';
 
@@ -29,23 +30,19 @@ class LanguageFilesDataCollector extends AbstractDataCollector
 	 */
 	public function collect()
 	{
+		$paths = \JFactory::getLanguage()->getPaths();
 		$loaded = [];
-		$statuses = [
-			\JText::_('PLG_DEBUG_LANG_NOT_LOADED'),
-			\JText::_('PLG_DEBUG_LANG_LOADED'),
-		];
 
-		foreach (\JFactory::getLanguage()->getPaths() as $extension => $files)
+		foreach ($paths as $extension => $files)
 		{
-			$count = 1;
+			$loaded[$extension] = [];
 			foreach ($files as $file => $status)
 			{
-				$loaded[$count . ' ' . $extension] = $this->stripRoot($file) . ' - ' . $statuses[(int) $status];
-				$count ++;
+				$loaded[$extension][$this->getDataFormatter()->formatPath($file)] = $status;
 			}
 		}
 
-		return ['loaded' => $loaded];
+		return $loaded;
 	}
 
 	/**
@@ -72,10 +69,28 @@ class LanguageFilesDataCollector extends AbstractDataCollector
 	{
 		return [
 			'loaded' => [
-				'widget' => 'PhpDebugBar.Widgets.KVListWidget',
-				'map' => $this->name . '.loaded',
+				'widget' => 'PhpDebugBar.Widgets.languageFilesWidget',
+				'map' => $this->name,
 				'default' => '[]'
 			]
 		];
+	}
+
+	/**
+	 * Returns an array with the following keys:
+	 *  - base_path
+	 *  - base_url
+	 *  - css: an array of filenames
+	 *  - js: an array of filenames
+	 *
+	 * @since  version
+	 * @return array
+	 */
+	public function getAssets()
+	{
+		return array(
+			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.js',
+			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.css',
+		);
 	}
 }
