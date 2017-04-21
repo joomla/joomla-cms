@@ -85,11 +85,6 @@ class RedirectModelLinks extends JModelList
 	 */
 	protected function populateState($ordering = 'a.old_url', $direction = 'asc')
 	{
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
-		$this->setState('filter.http_status', $this->getUserStateFromRequest($this->context . '.filter.http_status', 'filter_http_status', '', 'cmd'));
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_redirect');
 		$this->setState('params', $params);

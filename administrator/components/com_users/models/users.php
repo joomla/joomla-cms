@@ -73,16 +73,6 @@ class UsersModelUsers extends JModelList
 			$this->context .= '.' . $layout;
 		}
 
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.active', $this->getUserStateFromRequest($this->context . '.filter.active', 'filter_active', '', 'cmd'));
-		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
-		$this->setState('filter.group_id', $this->getUserStateFromRequest($this->context . '.filter.group_id', 'filter_group_id', null, 'int'));
-		$this->setState('filter.range', $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range', '', 'cmd'));
-		$this->setState(
-			'filter.lastvisitrange', $this->getUserStateFromRequest($this->context . '.filter.lastvisitrange', 'filter_lastvisitrange', '', 'cmd')
-		);
-
 		$groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
 
 		if (isset($groups))
