@@ -185,9 +185,9 @@
   }
 
   .close {
-    padding: 1px 10px;
+    padding: 2px 10px;
     font-size: 1.7rem;
-    color: rgba($white, .3);
+    color: $white-offset;
     text-shadow: none;
     transition-delay: 0;
   }

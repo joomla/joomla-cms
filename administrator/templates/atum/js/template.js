@@ -75,57 +75,6 @@
 			 * Sidebar 
 			 */
 
-			jQuery('.main-nav li.parent > a').on('click', function() {
-				var $self  = jQuery(this),
-				    parent = $self.parent('li');
-
-				$self.removeAttr('href');
-
-				if (parent.hasClass('open')) {
-					parent.removeClass('open');
-					parent.attr('aria-hidden', 'true');
-					parent.find('li').removeClass('open');
-					jQuery('.main-nav').removeClass('child-open');
-				}
-				else {
-					var siblings = parent.siblings('li');
-					parent.addClass('open');
-					siblings.removeClass('open');
-					parent.attr('aria-hidden', 'false');
-					parent.find('ul').attr('aria-hidden', 'false');
-					siblings.find('li').removeClass('open');
-					jQuery('.main-nav').addClass('child-open');
-					parent.find('.collapse-level-1').children().attr('tabindex', '1');
-				}
-			});
-
-			jQuery('.main-nav .close').on('click', function() {
-				jQuery('.main-nav').removeClass('child-open');
-			});
-
-			jQuery('.main-nav').children().attr('tabindex', '1');
-
-
-			/** Accessibility */
-			var allLiEl = sidebar.querySelectorAll('ul[role="menubar"] li');
-			for (var i = 0; i < allLiEl.length; i++) {
-				// We care for enter and space
-				allLiEl[i].addEventListener('keyup', function(e) { if (e.keyCode == 32 || e.keyCode == 13 ) e.target.querySelector('a').click(); });
-			}
-
-			// Set the height of the menu to prevent overlapping
-			var setMenuHeight = function() {
-				var height = document.getElementById('header').offsetHeight + document.getElementById('main-brand').offsetHeight;
-				document.getElementById('menu').height = window.height - height ;
-			};
-
-			setMenuHeight();
-
-			// Remove 'closed' class on resize
-			window.addEventListener('resize', function() {
-				setMenuHeight();
-			});
-
 			/** Set active class */
 			var allLinks = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow");
 			var currentUrl = window.location.href.toLowerCase();
@@ -155,6 +104,67 @@
 					}
 				}
 			}
+
+
+			// Item navigation - NEEDS VANILLA CONVERSION
+			jQuery('.main-nav li.parent > a').on('click', function() {
+				var $self  = jQuery(this),
+				    parent = $self.parent('li');
+
+				$self.removeAttr('href');
+
+				if (parent.hasClass('open')) {
+					parent.removeClass('open');
+					parent.attr('aria-hidden', 'true');
+					parent.find('li').removeClass('open');
+					jQuery('.main-nav').removeClass('child-open');
+				}
+				else {
+					var siblings = parent.siblings('li');
+					parent.addClass('open');
+					siblings.removeClass('open');
+					parent.attr('aria-hidden', 'false');
+					parent.find('ul').attr('aria-hidden', 'false');
+					siblings.find('li').removeClass('open');
+					jQuery('.main-nav').addClass('child-open');
+					parent.find('.collapse-level-1').children().attr('tabindex', '1');
+				}
+			});
+
+			// Menu close - NEEDS VANILLA CONVERSION
+			jQuery('.main-nav .close').on('click', function() {
+				jQuery('.main-nav').removeClass('child-open');
+			});
+
+			// Open menu to active class - NEEDS VANILLA CONVERSION
+			if (jQuery('.main-nav a').is('.active')) {
+				jQuery('.active').parents('.main-nav > li').addClass('open');
+			    jQuery('.main-nav').addClass('child-open');
+			}
+
+			// A11y - add tabindex - NEEDS VANILLA CONVERSION
+			jQuery('.main-nav').children().attr('tabindex', '1');
+
+
+			/** Accessibility */
+			var allLiEl = sidebar.querySelectorAll('ul[role="menubar"] li');
+			for (var i = 0; i < allLiEl.length; i++) {
+				// We care for enter and space
+				allLiEl[i].addEventListener('keyup', function(e) { if (e.keyCode == 32 || e.keyCode == 13 ) e.target.querySelector('a').click(); });
+			}
+
+			// Set the height of the menu to prevent overlapping
+			var setMenuHeight = function() {
+				var height = document.getElementById('header').offsetHeight + document.getElementById('main-brand').offsetHeight;
+				document.getElementById('menu').height = window.height - height ;
+			};
+
+			setMenuHeight();
+
+			// Remove 'closed' class on resize
+			window.addEventListener('resize', function() {
+				setMenuHeight();
+			});
 
 			if (typeof(Storage) !== 'undefined') {
 				if (localStorage.getItem('adminMenuState') == "true") {

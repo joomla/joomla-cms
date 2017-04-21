@@ -9483,9 +9483,9 @@ iframe {
     .main-nav li a:hover::before {
       width: 3px; }
   .main-nav .close {
-    padding: 1px 10px;
+    padding: 2px 10px;
     font-size: 1.7rem;
-    color: rgba(255, 255, 255, 0.3);
+    color: #fefefe;
     text-shadow: none;
     transition-delay: 0; }
   .main-nav .open > a + ul {
