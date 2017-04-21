@@ -45,7 +45,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 * Get a data formatter.
 	 *
 	 * @since version
-	 * @return DataFormatter
+	 * @return DataFormatterInterface
 	 */
 	public function getDataFormatter()
 	{
@@ -53,6 +53,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 		{
 			$this->dataFormater = self::getDefaultDataFormatter();
 		}
+
 		return $this->dataFormater;
 	}
 
@@ -70,18 +71,5 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 		}
 
 		return self::$defaultDataFormatter;
-	}
-	/**
-	 * Strip the Joomla! root path.
-	 *
-	 * @param   string  $path  The path.
-	 *
-	 * @return mixed
-	 *
-	 * @since version
-	 */
-	protected function stripRoot($path)
-	{
-		return str_replace(JPATH_ROOT, 'JROOT', $path);
 	}
 }
