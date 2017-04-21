@@ -137,3 +137,7 @@ JLoader::registerAlias('JSchemaChangeset',                  '\\Joomla\\CMS\\Sche
 JLoader::registerAlias('JSchemaChangeitemMysql',            '\\Joomla\\CMS\\Schema\\ChangeItem\\MysqlChangeItem', '4.0');
 JLoader::registerAlias('JSchemaChangeitemPostgresql',       '\\Joomla\\CMS\\Schema\\ChangeItem\\PostgresqlChangeItem', '4.0');
 JLoader::registerAlias('JSchemaChangeitemSqlsrv',           '\\Joomla\\CMS\\Schema\\ChangeItem\\SqlsrvChangeItem', '4.0');
+
+JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '4.0');
+JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
+JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
