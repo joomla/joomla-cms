@@ -41,8 +41,10 @@ administrator/language/*
 !administrator/language/en-GB
 administrator/manifests/packages/*
 !administrator/manifests/packages/pkg_en-GB.xml
+!administrator/language/overrides/index.html
 language/*
 !language/en-GB
+!language/overrides/index.html
 
 # phpDocumentor Logs #
 phpdoc-*
