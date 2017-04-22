@@ -303,11 +303,6 @@ class PlgSystemDebug extends JPlugin
 
 		if (JDEBUG)
 		{
-			if (JError::getErrors())
-			{
-				$html[] = $this->display('errors');
-			}
-
 			if ($this->params->get('session', 1))
 			{
 				$html[] = $this->display('session');
@@ -602,42 +597,6 @@ class PlgSystemDebug extends JPlugin
 				}
 			}
 		}
-
-		return implode('', $html);
-	}
-
-	/**
-	 * Display errors.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 */
-	protected function displayErrors()
-	{
-		$html = array();
-
-		$html[] = '<ol>';
-
-		while ($error = JError::getError(true))
-		{
-			$col = (E_WARNING == $error->get('level')) ? 'red' : 'orange';
-
-			$html[] = '<li>';
-			$html[] = '<b style="color: ' . $col . '">' . $error->getMessage() . '</b><br>';
-
-			$info = $error->get('info');
-
-			if ($info)
-			{
-				$html[] = '<pre>' . print_r($info, true) . '</pre><br>';
-			}
-
-			$html[] = $this->renderBacktrace($error);
-			$html[] = '</li>';
-		}
-
-		$html[] = '</ol>';
 
 		return implode('', $html);
 	}
