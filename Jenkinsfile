@@ -8,7 +8,7 @@ pipeline {
       steps {
         parallel(
           "codestyles": {
-            	phpcs --version
+            	sh "echo $path"
           },
           "cs2": {
             sh 'php --version'
