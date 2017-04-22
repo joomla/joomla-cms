@@ -1,13 +1,16 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  UCM
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Ucm;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\BaseApplication;
 
 /**
  * UCM Class for handling content types
@@ -48,12 +51,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.1
  */
-class JUcmType implements JUcm
+class UcmType implements Ucm
 {
 	/**
 	 * The UCM Type
 	 *
-	 * @var    JUcmType
+	 * @var    UcmType
 	 * @since  3.1
 	 */
 	public $type;
@@ -61,7 +64,7 @@ class JUcmType implements JUcm
 	/**
 	 * The Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  3.1
 	 */
 	protected $db;
@@ -78,15 +81,15 @@ class JUcmType implements JUcm
 	 * Class constructor
 	 *
 	 * @param   string            $alias        The alias for the item
-	 * @param   JDatabaseDriver   $database     The database object
-	 * @param   JApplicationBase  $application  The application object
+	 * @param   \JDatabaseDriver  $database     The database object
+	 * @param   BaseApplication   $application  The application object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct($alias = null, JDatabaseDriver $database = null, JApplicationBase $application = null)
+	public function __construct($alias = null, \JDatabaseDriver $database = null, BaseApplication $application = null)
 	{
-		$this->db = $database ?: JFactory::getDbo();
-		$app      = $application ?: JFactory::getApplication();
+		$this->db = $database ?: \JFactory::getDbo();
+		$app      = $application ?: \JFactory::getApplication();
 
 		// Make the best guess we can in the absence of information.
 		$this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');
