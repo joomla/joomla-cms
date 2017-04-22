@@ -12,7 +12,7 @@ pipeline {
             
           },
           "cs2": {
-            sh 'echo \'ta\''
+            sh 'php --version'
             
           }
         )
