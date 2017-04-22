@@ -14,7 +14,6 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\Storage\FileStorage;
-use Joomla\Utilities\ArrayHelper;
 use plgSystemDebug\DataCollector\InfoDataCollector;
 use plgSystemDebug\DataCollector\LanguageErrorsDataCollector;
 use plgSystemDebug\DataCollector\LanguageFilesDataCollector;
@@ -299,13 +298,11 @@ class PlgSystemDebug extends JPlugin
 
 		$this->debugBar->addCollector(new InfoDataCollector($this->params, $this->debugBar->getCurrentRequestId()));
 		$this->debugBar->addCollector(new RequestDataCollector);
-		$this->debugBar->addCollector(new MemoryCollector);
 
 		if (JDEBUG)
 		{
 			if ($this->params->get('session', 1))
 			{
-				$html[] = $this->display('session');
 				$this->debugBar->addCollector(new SessionDataCollector($this->params));
 			}
 
@@ -317,7 +314,7 @@ class PlgSystemDebug extends JPlugin
 
 			if ($this->params->get('memory', 1))
 			{
-				$html[] = $this->display('memory_usage');
+				$this->debugBar->addCollector(new MemoryCollector);
 			}
 
 			if ($this->params->get('queries', 1))
@@ -335,24 +332,9 @@ class PlgSystemDebug extends JPlugin
 
 		if ($this->debugLang)
 		{
-			if ($this->params->get('language_files', 1))
-			{
-				$html[] = $this->display('language_files_loaded');
 				$this->debugBar->addCollector(new LanguageFilesDataCollector($this->params));
-			}
-
-			if ($this->params->get('language_strings'))
-			{
-				$html[] = $this->display('untranslated_strings');
 				$this->debugBar->addCollector(new LanguageStringsDataCollector($this->params));
-			}
-
-			if ($this->params->get('language_errorfiles', 1))
-			{
-				$languageErrors = JFactory::getLanguage()->getErrorFiles();
-				$html[] = $this->display('language_files_in_error', $languageErrors);
 				$this->debugBar->addCollector(new LanguageErrorsDataCollector($this->params));
-			}
 		}
 
 		foreach (self::$displayCallbacks as $name => $callable)
@@ -448,6 +430,7 @@ class PlgSystemDebug extends JPlugin
 	 * @return  string
 	 *
 	 * @since   2.5
+	 * @deprecated Use DataCollectors
 	 */
 	protected function display($item, array $errors = array())
 	{
@@ -513,90 +496,6 @@ class PlgSystemDebug extends JPlugin
 		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $name . '">';
 		$html[] = call_user_func($callable);
 		$html[] = '</div>';
-
-		return implode('', $html);
-	}
-
-	/**
-	 * Display session information.
-	 *
-	 * Called recursively.
-	 *
-	 * @param   string   $key      A session key.
-	 * @param   mixed    $session  The session array, initially null.
-	 * @param   integer  $id       Used to identify the DIV for the JavaScript toggling code.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 */
-	protected function displaySession($key = '', $session = null, $id = 0)
-	{
-		if (!$session)
-		{
-			$session = $this->app->getSession()->all();
-		}
-
-		$html = array();
-		static $id;
-
-		if (!is_array($session))
-		{
-			$html[] = $key . '<pre>' . $this->prettyPrintJSON($session) . '</pre>' . PHP_EOL;
-		}
-		else
-		{
-			foreach ($session as $sKey => $entries)
-			{
-				$display = true;
-
-				if (is_array($entries) && $entries)
-				{
-					$display = false;
-				}
-
-				if (is_object($entries))
-				{
-					$o = ArrayHelper::fromObject($entries);
-
-					if ($o)
-					{
-						$entries = $o;
-						$display = false;
-					}
-				}
-
-				if (!$display)
-				{
-					$js = "toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
-
-					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
-
-					// @todo set with js.. ?
-					$style = ' style="display: none;"';
-
-					$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
-					$id++;
-
-					// Recurse...
-					$this->displaySession($sKey, $entries, $id);
-
-					$html[] = '</div>';
-
-					continue;
-				}
-
-				if (is_array($entries))
-				{
-					$entries = implode($entries);
-				}
-
-				if (is_string($entries))
-				{
-					$html[] = $sKey . '<pre>' . $this->prettyPrintJSON($entries) . '</pre>' . PHP_EOL;
-				}
-			}
-		}
 
 		return implode('', $html);
 	}
@@ -760,25 +659,6 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		return implode('', $html);
-	}
-
-	/**
-	 * Display memory usage.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 */
-	protected function displayMemoryUsage()
-	{
-		$bytes = memory_get_usage();
-
-		return '<span class="badge badge-default">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="badge badge-default">'
-			. number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))
-			. ' '
-			. JText::_('PLG_DEBUG_BYTES')
-			. '</span>)';
 	}
 
 	/**
@@ -1521,164 +1401,6 @@ class PlgSystemDebug extends JPlugin
 				}
 			}
 		}
-	}
-
-	/**
-	 * Displays errors in language files.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 * @deprecated use DataCollector
-	 */
-	protected function displayLanguageFilesInError()
-	{
-		$errorfiles = JFactory::getLanguage()->getErrorFiles();
-
-		if (!count($errorfiles))
-		{
-			return '<p>' . JText::_('JNONE') . '</p>';
-		}
-
-		$html = array();
-
-		$html[] = '<ul>';
-
-		foreach ($errorfiles as $file => $error)
-		{
-			$html[] = '<li>' . $this->formatLink($file) . str_replace($file, '', $error) . '</li>';
-		}
-
-		$html[] = '</ul>';
-
-		return implode('', $html);
-	}
-
-	/**
-	 * Display loaded language files.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 * @deprecated use DataCollector
-	 */
-	protected function displayLanguageFilesLoaded()
-	{
-		$html = array();
-
-		$html[] = '<ul>';
-
-		foreach (JFactory::getLanguage()->getPaths() as /* $extension => */ $files)
-		{
-			foreach ($files as $file => $status)
-			{
-				$html[] = '<li>';
-
-				$html[] = $status
-					? JText::_('PLG_DEBUG_LANG_LOADED')
-					: JText::_('PLG_DEBUG_LANG_NOT_LOADED');
-
-				$html[] = ' : ';
-				$html[] = $this->formatLink($file);
-				$html[] = '</li>';
-			}
-		}
-
-		$html[] = '</ul>';
-
-		return implode('', $html);
-	}
-
-	/**
-	 * Display untranslated language strings.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 * @deprecated use DataCollector
-	 */
-	protected function displayUntranslatedStrings()
-	{
-		$stripFirst = $this->params->get('strip-first');
-		$stripPref = $this->params->get('strip-prefix');
-		$stripSuff = $this->params->get('strip-suffix');
-
-		$orphans = JFactory::getLanguage()->getOrphans();
-
-		if (!count($orphans))
-		{
-			return '<p>' . JText::_('JNONE') . '</p>';
-		}
-
-		ksort($orphans, SORT_STRING);
-
-		$guesses = array();
-
-		foreach ($orphans as $key => $occurance)
-		{
-			if (is_array($occurance) && isset($occurance[0]))
-			{
-				$info = $occurance[0];
-				$file = $info['file'] ? $info['file'] : '';
-
-				if (!isset($guesses[$file]))
-				{
-					$guesses[$file] = array();
-				}
-
-				// Prepare the key.
-				if (($pos = strpos($info['string'], '=')) > 0)
-				{
-					$parts = explode('=', $info['string']);
-					$key = $parts[0];
-					$guess = $parts[1];
-				}
-				else
-				{
-					$guess = str_replace('_', ' ', $info['string']);
-
-					if ($stripFirst)
-					{
-						$parts = explode(' ', $guess);
-
-						if (count($parts) > 1)
-						{
-							array_shift($parts);
-							$guess = implode(' ', $parts);
-						}
-					}
-
-					$guess = trim($guess);
-
-					if ($stripPref)
-					{
-						$guess = trim(preg_replace(chr(1) . '^' . $stripPref . chr(1) . 'i', '', $guess));
-					}
-
-					if ($stripSuff)
-					{
-						$guess = trim(preg_replace(chr(1) . $stripSuff . '$' . chr(1) . 'i', '', $guess));
-					}
-				}
-
-				$key = trim(strtoupper($key));
-				$key = preg_replace('#\s+#', '_', $key);
-				$key = preg_replace('#\W#', '', $key);
-
-				// Prepare the text.
-				$guesses[$file][] = $key . '="' . $guess . '"';
-			}
-		}
-
-		$html = array();
-
-		foreach ($guesses as $file => $keys)
-		{
-			$html[] = "\n\n# " . ($file ? $this->formatLink($file) : JText::_('PLG_DEBUG_UNKNOWN_FILE')) . "\n\n";
-			$html[] = implode("\n", $keys);
-		}
-
-		return '<pre>' . implode('', $html) . '</pre>';
 	}
 
 	/**
