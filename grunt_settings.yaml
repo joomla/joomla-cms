@@ -16,8 +16,8 @@ vendors:
     'font-awesome':
                   'version': '4.7.0'
                   'dependencies': ''
-    'jquery-minicolors':
-                  'version': '2.1.10'
+    '@claviska/jquery-minicolors':
+                  'version': '2.2.5'
                   'dependencies': 'jquery'
     'jquery-sortable':
                   'version': '0.9.13'
