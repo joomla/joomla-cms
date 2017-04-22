@@ -80,6 +80,7 @@ abstract class Dispatcher implements DispatcherInterface
 		$this->factory   = $factory ? $factory : new MvcFactory($namespace, $this->app);
 
 		$this->loadLanguage();
+
 		$this->autoLoad();
 	}
 
@@ -93,8 +94,10 @@ abstract class Dispatcher implements DispatcherInterface
 	protected function loadLanguage()
 	{
 		// Load common and local language files.
-		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
-		$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+		$language = $this->app->getLanguage() ?: \JFactory::getLanguage();
+
+		$language->load($this->app->scope, JPATH_BASE, null, false, true) ||
+		$language->load($this->app->scope, JPATH_COMPONENT, null, false, true);
 	}
 
 
