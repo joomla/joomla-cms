@@ -1,10 +1,9 @@
 pipeline {
-  agent none
-  stages {
-    stage('codestyles') {
       agent {
         docker 'joomlaprojects/docker-phpcs'
       }
+  stages {
+    stage('codestyles') {
       steps {
         parallel(
           "codestyles": {
