@@ -6,7 +6,7 @@ pipeline {
 	    stage('codestyles') {
 	    	agent { docker 'joomlaprojects/docker-phpcs' }
 	    	steps {
-	    		sh "if config"
+	    		sh "ifconfig"
 	    		sh "phpcs --version"
 	    	}
 	    	
