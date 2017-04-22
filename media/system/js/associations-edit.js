@@ -12,86 +12,114 @@
  * @since    3.7.0
  */
 
-window.hideAssociation = function(formControl, languageCode)
-{
-	jQuery('#associations .control-group').each(function()
+Joomla = window.Joomla || {};
+
+(function( Joomla, document ) {
+	'use strict';
+
+	Joomla.hideAssociation = function(formControl, languageCode)
 	{
-		// Current selected language. Hide it.
-		if (jQuery(this).find('.control-label label').attr('for').replace('_id', '') == formControl + '_associations_' + languageCode.replace('-', '_'))
-		{
-			jQuery(this).hide();
+		var controlGroup = document.querySelectorAll('#associations .control-group');
+
+		for (var i = 0, l = controlGroup.length; i < l; i++) {
+
+			// Current selected language. Hide it
+			var attribute = controlGroup[i].querySelector('.control-label label').getAttribute('for');
+
+			if (attribute.replace('_id', '') == formControl + '_associations_' + languageCode.replace('-', '_')) {
+				controlGroup[i].style.display = 'none';
+			}
 		}
-	});
-}
+	}
+	
+	Joomla.showAssociationMessage = function()
+	{
+		var controlGroup = document.querySelectorAll('#associations .control-group');
 
-window.showAssociationMessage = function()
-{
-	jQuery('#associations .control-group').hide();
-	jQuery('#associations').prepend('<div id="associations-notice" class="alert alert-info">' + Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE') + '</div>');
-}
+		for (var i = 0, l = controlGroup.length; i < l; i++) {
+			controlGroup[i].style.display = 'none';
 
-!(function()
-{
-	jQuery(document).ready(function($)
-	{	
-		var associationsEditOptions = Joomla.getOptions('system.associations.edit'), formControl = associationsEditOptions.formControl || 'jform';
+			var associations = document.getElementById('associations'),
+			    html         = '<div id="associations-notice" class="alert alert-info">' + Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE') + '</div>';
 
-		// Hide the associations tab if needed.
+			associations.insertBefore(html, associations.firstChild);
+		}
+	}
+
+
+	document.addEventListener('DOMContentLoaded', function() {
+
+		var associationsEditOptions = Joomla.getOptions('system.associations.edit'), formControl = associationsEditOptions.formControl || 'jform',
+		    formControlLanguage     = document.getElementById(formControl + '_language');
+
+		// Hide the associations tab if needed
 		if (associationsEditOptions.hidden == 1)
 		{
-			window.showAssociationMessage();
+			Joomla.showAssociationMessage();
 		}
-		// Hide only the associations for the current language.
+		// Hide only the associations for the current language
 		else
 		{
-			window.hideAssociation(formControl, $('#' + formControl + '_language').val());
+			if (formControlLanguage) {
+				Joomla.hideAssociation(formControl, formControlLanguage.value);
+			}
 		}
 
-		// When changing the language.
-		$('#' + formControl + '_language').on('change', function(event)
-		{
-			// Remove message if any.
-			Joomla.removeMessages();
-			$('#associations-notice').remove();
+		// When changing the language
+		if (formControlLanguage) {
+			formControlLanguage.addEventListener('change', function (event) {
 
-			var existsAssociations = false;
+				// Remove message if any
+				Joomla.removeMessages();
 
-			// For each language, remove the associations, ie, empty the associations fields and reset the buttons to Select/Create.
-			$('#associations .control-group').each(function()
-			{
-				var languageCode = $(this).find('.control-label label').attr('for').replace('_id', '').replace('jform_associations_', '');
+				var existsAssociations = false;
 
-				// Show the association fields.
-				$(this).show();
+				// For each language, remove the associations, ie, empty the associations fields and reset the buttons to Select/Create
+				var controlGroup = document.querySelectorAll('#associations .control-group');
 
-				// Check if there was an association selected for this language.
-				if (!existsAssociations && $('#' + formControl + '_associations_' + languageCode + '_id').val() !== '')
-				{
-					existsAssociations = true;
+				for (var i = 0, l = controlGroup.length; i < l; i++) {
+					var attribute    = controlGroup[i].querySelector('.control-label label').getAttribute('for'),
+					    languageCode = attribute.replace('_id', '').replace('jform_associations_', '');
+
+					// Show the association fields
+					controlGroup[i].style.display = 'block';
+
+					// Check if there was an association selected for this language
+					if (!existsAssociations && document.getElementById(formControl + '_associations_' + languageCode + '_id').value !== '')
+					{
+						existsAssociations = true;
+					}
+
+					// Call the modal clear button
+					var clear = document.getElementById(formControl + '_associations_' + languageCode + '_clear');
+
+					if (clear.onclick) {
+						clear.onclick();
+					} else if (clear.click) {
+						clear.click();
+					}
 				}
 
-				// Call the modal clear button.
-				$('#' + formControl + '_associations_' + languageCode + '_clear').click();
+				// If associations existed, send a warning to the user
+				if (existsAssociations)
+				{
+					Joomla.renderMessages({warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')]});
+				}
+
+				// If the selected language is All hide the fields and add a message
+				var selectedLanguage = event.target.value;
+				if (selectedLanguage == '*')
+				{
+					Joomla.showAssociationMessage();
+				}
+				// Else show the associations fields/buttons and hide the current selected language
+				else
+				{
+					Joomla.hideAssociation(formControl, selectedLanguage);
+				}
 			});
+		}
 
-			// If associations existed, send a warning to the user.
-			if (existsAssociations)
-			{
-				Joomla.renderMessages({warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')]});
-			}
-
-			var selectedLanguage = $(this).val();
-
-			// If the selected language is All hide the fields and add a message.
-			if (selectedLanguage == '*')
-			{
-				window.showAssociationMessage();
-			}
-			// Else show the associations fields/buttons and hide the current selected language.
-			else
-			{
-				window.hideAssociation(formControl, selectedLanguage);
-			}
-		});
 	});
-})(window, document, Joomla);
+
+})();
