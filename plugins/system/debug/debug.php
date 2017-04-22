@@ -103,7 +103,7 @@ class PlgSystemDebug extends JPlugin
 	private static $displayCallbacks = array();
 
 	/**
-	 * @var StandardDebugBar
+	 * @var DebugBar
 	 * @since version
 	 */
 	private $debugBar = null;
@@ -120,6 +120,17 @@ class PlgSystemDebug extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
+
+		if ('com_profiler' == $this->app->input->get('option'))
+		{
+			return;
+		}
+
 		// Log the deprecated API.
 		if ($this->params->get('log-deprecated'))
 		{
@@ -130,12 +141,6 @@ class PlgSystemDebug extends JPlugin
 		if ($this->params->get('log-everything'))
 		{
 			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
-		}
-
-		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->app)
-		{
-			$this->app = JFactory::getApplication();
 		}
 
 		$this->debugLang = $this->app->get('debug_lang');
@@ -201,7 +206,7 @@ class PlgSystemDebug extends JPlugin
 		JLoader::registerNamespace('plgSystemDebug', __DIR__);
 
 		$this->debugBar = new DebugBar;
-		$this->debugBar->setStorage(new FileStorage(JPATH_CACHE . '/profiles'));
+		$this->debugBar->setStorage(new FileStorage($this->app->get('tmp_path')));
 	}
 
 	/**
@@ -214,6 +219,11 @@ class PlgSystemDebug extends JPlugin
 	 */
 	public function onAfterDispatch()
 	{
+		if ('com_profiler' == $this->app->input->get('option'))
+		{
+			return;
+		}
+
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
@@ -238,6 +248,11 @@ class PlgSystemDebug extends JPlugin
 	 */
 	public function onAfterRespond()
 	{
+		if ('com_profiler' == $this->app->input->get('option'))
+		{
+			return;
+		}
+
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
 		{
