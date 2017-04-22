@@ -14,7 +14,6 @@ JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_a
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder        = $this->escape($this->state->get('list.fullordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
