@@ -240,9 +240,10 @@ class JBrowser
 			{
 				$this->mobile = true;
 			}
+
 			// We have to check for Edge as the first browser, because Edge has something like:
 			// Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
-			elseif (preg_match('|Edge/([0-9.]+)|', $this->agent, $version))
+			if (preg_match('|Edge/([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('edge');
 
