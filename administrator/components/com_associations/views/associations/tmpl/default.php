@@ -44,7 +44,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 					<thead>
 						<tr>
 							<?php if (!empty($this->typeSupports['state'])) : ?>
-								<th style="width:1%" class="center nowrap">
+								<th style="width:1%" class="text-center nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); $colSpan++; ?>
 								</th>
 							<?php endif; ?>
@@ -91,7 +91,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 					?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<?php if (!empty($this->typeSupports['state'])) : ?>
-								<td class="center">
+								<td class="text-center">
 									<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 								</td>
 							<?php endif; ?>
