@@ -730,7 +730,7 @@ class Controller implements ControllerInterface
 
 		if (empty($prefix))
 		{
-			// We need this ugly code to deal with none namespace Legacy MVC
+			// We need this ugly code to deal with non-namespaced MVC code
 			if ($this->factory instanceof LegacyFactory)
 			{
 				$prefix = $this->model_prefix;
@@ -844,7 +844,7 @@ class Controller implements ControllerInterface
 
 		if (empty($prefix))
 		{
-			// We need this ugly code to deal with none namespace Legacy MVC
+			// We need this ugly code to deal with non-namespaced MVC code
 			if ($this->factory instanceof LegacyFactory)
 			{
 				$prefix = $this->getName() . 'View';
