@@ -768,7 +768,15 @@ class Controller implements ControllerInterface
 
 		if (empty($prefix))
 		{
-			$prefix = $this->model_prefix;
+			// We need this ugly code to deal with non-namespaced MVC code
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->model_prefix;
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
@@ -867,7 +875,15 @@ class Controller implements ControllerInterface
 
 		if (empty($prefix))
 		{
-			$prefix = ucfirst(substr($this->option, 4)) . 'View';
+			// We need this ugly code to deal with non-namespaced MVC code
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = ucfirst(substr($this->option, 4)) . 'View';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))
