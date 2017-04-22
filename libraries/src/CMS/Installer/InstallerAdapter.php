@@ -179,9 +179,19 @@ abstract class InstallerAdapter
 			return true;
 		}
 
-		$manifest = new PackageManifest($manifestFile);
+		$blockChildUninstall = false;
 
-		return $manifest->blockChildUninstall === false;
+		if (isset($xml->blockChildUninstall))
+		{
+			$value = (string) $xml->blockChildUninstall;
+
+			if ($value === '1' || $value === 'true')
+			{
+				$blockChildUninstall = true;
+			}
+		}
+
+		return $blockChildUninstall === false;
 	}
 
 	/**

@@ -629,7 +629,7 @@ class Installer extends \JAdapter
 	 *
 	 * Asks each adapter to find extensions
 	 *
-	 * @return  InstallerExtension[]
+	 * @return  Extension[]
 	 *
 	 * @since   3.1
 	 */
