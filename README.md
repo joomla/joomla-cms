@@ -96,4 +96,4 @@ Copyright
 * See [License details](https://docs.joomla.org/Joomla_Licenses)
 
 
-****
+***
