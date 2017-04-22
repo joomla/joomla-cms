@@ -80,7 +80,6 @@ abstract class Dispatcher implements DispatcherInterface
 		$this->factory   = $factory ? $factory : new MvcFactory($namespace, $this->app);
 
 		$this->loadLanguage();
-
 		$this->autoLoad();
 	}
 
