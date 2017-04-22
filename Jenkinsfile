@@ -6,7 +6,8 @@ pipeline {
 	    stage('codestyles') {
 	    	agent { docker 'joomlaprojects/docker-phpcs' }
 	    	steps {
-	    	    sh "composer install"    
+	    		sh "export PATH=~/.composer/vendor/bin:$PATH"
+	    	    sh "phpcs --version"    
 	    	}
 	    	
 	    }
