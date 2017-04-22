@@ -476,6 +476,7 @@ abstract class Model extends \JObject
 			$name = $this->getName();
 		}
 
+		// We need this ugly code to deal with non-namespaced MVC code
 		if (empty($prefix) && $this->factory instanceof LegacyFactory)
 		{
 			$prefix = 'Table';
