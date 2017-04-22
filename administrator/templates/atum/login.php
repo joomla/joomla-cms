@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,25 +16,25 @@ $lang = JFactory::getLanguage();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
-$doc->addScriptVersion(JUri::root() . 'media/vendor/flying-focus-a11y/js/flying-focus.min.js');
+JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', array('version' => 'auto'));
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min.css');
+JHtml::_('stylesheet', 'template.min.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
-if (is_file($file))
+if (file_exists($languageCss) && filesize($languageCss) > 0)
 {
-	$doc->addStyleSheet($file);
+	JHtml::_('stylesheet', $languageCss, array('version' => 'auto'));
 }
 
 // Load custom.css
-$file = 'templates/' . $this->template . '/css/custom.css';
+$customCss = 'templates/' . $this->template . '/css/custom.css';
 
-if (is_file($file))
+if (file_exists($customCss) && filesize($customCss) > 0)
 {
-	$doc->addStyleSheetVersion($file);
+	JHtml::_('stylesheet', $customCss, array('version' => 'auto'));
 }
 
 // Detecting Active Variables

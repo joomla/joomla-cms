@@ -320,9 +320,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			$contentLanguageNativeTitle = $contentLanguageTitle;
 
 			// If exist, load the native title from the language xml metadata.
-			if (isset($siteLanguageMetadata['nativeName']) && $siteLanguageMetadata['nativeName'])
+			if (isset($siteLanguageManifest['nativeName']) && $siteLanguageManifest['nativeName'])
 			{
-				$contentLanguageNativeTitle = $siteLanguageMetadata['nativeName'];
+				$contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
 			}
 
 			// Try to load a language string from the installation language var. Will be removed in 4.0.

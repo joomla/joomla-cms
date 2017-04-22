@@ -13,24 +13,8 @@ use Joomla\Registry\Registry;
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
-JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', array('version' => 'auto', 'relative' => true));
-
-$script = <<<'JS'
-	jQuery(document).ready(function ($) {
-		var propagate = function () {
-			var $this = $(this);
-			var sub = $this.closest('li').find('.treeselect-sub [type="checkbox"]');
-			sub.prop('checked', this.checked);
-			if ($this.val() == 1)
-				sub.each(propagate);
-			else
-				sub.attr('disabled', this.checked ? 'disabled' : null);
-		};
-		$('.treeselect')
-			.on('click', '[type="checkbox"]', propagate)
-			.find('[type="checkbox"]:checked').each(propagate);
-	});
-JS;
+JHtml::_('script', 'com_menus/admin-item-edit_container.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 
 $style = <<<'CSS'
 	.checkbox-toggle {
@@ -53,7 +37,6 @@ $style = <<<'CSS'
 	}
 CSS;
 
-JFactory::getDocument()->addScriptDeclaration($script);
 JFactory::getDocument()->addStyleDeclaration($style);
 ?>
 <div id="menuselect-group" class="control-group">

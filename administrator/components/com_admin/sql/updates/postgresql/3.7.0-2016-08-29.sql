@@ -1,7 +1,7 @@
 --
 -- Table: #__fields
 --
-CREATE TABLE "#__fields" (
+CREATE TABLE IF NOT EXISTS "#__fields" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "context" varchar(255) DEFAULT '' NOT NULL,
@@ -38,7 +38,7 @@ CREATE INDEX "#__fields_idx_language" ON "#__fields" ("language");
 --
 -- Table: #__fields_categories
 --
-CREATE TABLE "#__fields_categories" (
+CREATE TABLE IF NOT EXISTS "#__fields_categories" (
   "field_id" bigint DEFAULT 0 NOT NULL,
   "category_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("field_id", "category_id")
@@ -47,7 +47,7 @@ CREATE TABLE "#__fields_categories" (
 --
 -- Table: #__fields_groups
 --
-CREATE TABLE "#__fields_groups" (
+CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "context" varchar(255) DEFAULT '' NOT NULL,
@@ -76,7 +76,7 @@ CREATE INDEX "#__fields_idx_language" ON "#__fields_groups" ("language");
 --
 -- Table: #__fields_values
 --
-CREATE TABLE "#__fields_values" (
+CREATE TABLE IF NOT EXISTS "#__fields_values" (
 "field_id" bigint DEFAULT 0 NOT NULL,
 "item_id" varchar(255) DEFAULT '' NOT NULL,
 "value" text DEFAULT '' NOT NULL

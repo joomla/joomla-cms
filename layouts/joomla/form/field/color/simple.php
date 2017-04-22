@@ -51,8 +51,8 @@ $readonly = $readonly ? ' readonly' : '';
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/fields/jquery.simplecolors.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'system/jquery.simplecolors.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/fields/simplecolors.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'system/simplecolors.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'system/fields/color-field-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <select data-chosen="true" name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php

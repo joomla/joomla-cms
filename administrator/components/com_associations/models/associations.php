@@ -315,6 +315,7 @@ class AssociationsModelAssociations extends JModelList
 
 			$groupby[] = 'mt.title';
 			$groupby[] = 'mt.id';
+			$groupby[] = $fields['menutype'];
 		}
 
 		// If component item type supports access level, select the access level also.
