@@ -98,9 +98,9 @@
 		var parts = string.split('@');
 		var result = '';
 		if (parts.length > 1) {
-			// In email addresses, only the domain name should be punycoded. Leave
-			// the local part (i.e. everything up to `@`) intact.
-			result = parts[0] + '@';
+			// In the e-mail address, full address must be punycode. 
+			// Changing the local part (that is, all the way up to the `` @).
+			result = fn(parts[0]) + '@';
 			string = parts[1];
 		}
 		// Avoid `split(regex)` for IE8 compatibility. See #17.
