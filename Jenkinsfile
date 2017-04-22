@@ -8,7 +8,9 @@ pipeline {
       steps {
         parallel(
           "codestyles": {
-            sh 'phpcs --version'
+            Image.inside {
+            	phpcs --version
+            }	
             
           },
           "cs2": {
@@ -18,7 +20,7 @@ pipeline {
         )
       }
     }
-    stage('test') {
+    stage('test') {	
       steps {
         sh 'echo stage test'
       }
