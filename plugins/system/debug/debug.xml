@@ -89,55 +89,15 @@
 				</field>
 
 				<field
-					name="logs"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_LOGS_LABEL"
-					description="PLG_DEBUG_FIELD_LOGS_DESC"
-					default="1"
-					>
+						name="logs"
+						type="radio"
+						class="switcher"
+						label="PLG_DEBUG_FIELD_LOGS_LABEL"
+						description="PLG_DEBUG_FIELD_LOGS_DESC"
+						default="1"
+				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="log_priorities"
-					type="list"
-					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC"
-					multiple="true"
-					default="all"
-					>
-					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
-					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
-					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
-					<option value="critical">PLG_DEBUG_FIELD_LOG_PRIORITIES_CRITICAL</option>
-					<option value="error">PLG_DEBUG_FIELD_LOG_PRIORITIES_ERROR</option>
-					<option value="warning">PLG_DEBUG_FIELD_LOG_PRIORITIES_WARNING</option>
-					<option value="notice">PLG_DEBUG_FIELD_LOG_PRIORITIES_NOTICE</option>
-					<option value="info">PLG_DEBUG_FIELD_LOG_PRIORITIES_INFO</option>
-					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
-				</field>
-
-				<field
-					name="log_categories"
-					type="text"
-					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
-					size="60"
-					default=""
-				/>
-
-				<field
-					name="log_category_mode"
-					type="radio"
-					class="switcher switcher-danger"
-					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
-					default="0"
-					>
-					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
-					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
 				</field>
 			</fieldset>
 
@@ -147,48 +107,12 @@
 				>
 
 				<field
-					name="language_errorfiles"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
-					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="language_files"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
-					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="language_strings"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
-					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
 					name="strip-first"
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
 					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
-					default="1"
+					default="0"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -242,15 +166,43 @@
 				</field>
 
 				<field
-					name="log-executed-sql"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
-					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
-					default="0"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+						name="log_priorities"
+						type="list"
+						label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
+						description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC"
+						multiple="true"
+						default="all"
+				>
+					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
+					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
+					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
+					<option value="critical">PLG_DEBUG_FIELD_LOG_PRIORITIES_CRITICAL</option>
+					<option value="error">PLG_DEBUG_FIELD_LOG_PRIORITIES_ERROR</option>
+					<option value="warning">PLG_DEBUG_FIELD_LOG_PRIORITIES_WARNING</option>
+					<option value="notice">PLG_DEBUG_FIELD_LOG_PRIORITIES_NOTICE</option>
+					<option value="info">PLG_DEBUG_FIELD_LOG_PRIORITIES_INFO</option>
+					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
+				</field>
+
+				<field
+						name="log_categories"
+						type="text"
+						label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
+						description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
+						size="60"
+						default=""
+				/>
+
+				<field
+						name="log_category_mode"
+						type="radio"
+						class="switcher switcher-danger"
+						label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
+						description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
+						default="0"
+				>
+					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
+					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
 				</field>
 			</fieldset>
 		</fields>
