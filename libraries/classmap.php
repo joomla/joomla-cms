@@ -155,3 +155,5 @@ JLoader::registerAlias('JToolbarButtonSlider',              '\\Joomla\\CMS\\Tool
 JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '4.0');
 JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '4.0');
 JLoader::registerAlias('JButton',                           '\\Joomla\\CMS\\Toolbar\\ToolbarButton', '4.0');
+
+JLoader::registerAlias('JVersion',                          '\\Joomla\\CMS\\Version', '4.0');
