@@ -154,4 +154,4 @@ JLoader::registerAlias('JToolbarButtonSeparator',           '\\Joomla\\CMS\\Tool
 JLoader::registerAlias('JToolbarButtonSlider',              '\\Joomla\\CMS\\Toolbar\\Button\\SliderButton', '4.0');
 JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '4.0');
 JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '4.0');
-JLoader::registerAlias('JButton',                           '\\Joomla\\CMS\\Toolbar\\Button\\ToolbarButton', '4.0');
+JLoader::registerAlias('JButton',                           '\\Joomla\\CMS\\Toolbar\\ToolbarButton', '4.0');
