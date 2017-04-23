@@ -574,15 +574,15 @@ abstract class JHtmlBehavior
 
 		JLog::add('JHtmlBehavior::calendar is deprecated as the static assets are being loaded in the relative layout.', JLog::WARNING, 'deprecated');
 
- 		$document = JFactory::getDocument();
- 		$tag      = JFactory::getLanguage()->getTag();
- 		$attribs  = array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), 'media' => 'all');
+		$document = JFactory::getDocument();
+		$tag      = JFactory::getLanguage()->getTag();
+		$attribs  = array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), 'media' => 'all');
 
- 		JHtml::_('stylesheet', 'system/calendarjos.css', array('version' => 'auto', 'relative' => true), $attribs);
- 		JHtml::_('script', $tag . '/calendar.js', array('version' => 'auto', 'relative' => true));
- 		JHtml::_('script', $tag . '/calendarsetup.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'system/calendarjos.css', array('version' => 'auto', 'relative' => true), $attribs);
+		JHtml::_('script', $tag . '/calendar.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', $tag . '/calendarsetup.js', array('version' => 'auto', 'relative' => true));
 
- 		$translation = static::calendartranslation();
+		$translation = static::calendartranslation();
 
 		if ($translation)
 		{
