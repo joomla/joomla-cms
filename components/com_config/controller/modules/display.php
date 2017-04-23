@@ -33,7 +33,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		// Get the document object.
 		$document     = JFactory::getDocument();
 
-		$viewName     = $this->input->getWord('view', 'modules');
+		$viewName     = 'modules';
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
 		$returnUri    = $this->input->get->get('return', null, 'base64');
@@ -54,25 +54,17 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			$redirect = JUri::base();
 		}
 
-		// Access backend com_module
-		JLoader::register('ModulesController', JPATH_ADMINISTRATOR . '/components/com_modules/controller.php');
-		JLoader::register('ModulesViewModule', JPATH_ADMINISTRATOR . '/components/com_modules/views/module/view.json.php');
 		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');
 
-		$displayClass = new ModulesController;
+		$moduleData = (new ModulesModelModule)->getItem($this->input->getInt('id'));
 
-		// Get the parameters of the module with Id
-		$document->setType('json');
-
-		// Execute backend controller
-		if (!($serviceData = json_decode($displayClass->display(), true)))
+		if (!$moduleData)
 		{
 			$app->redirect($redirect);
 		}
 
-		// Reset params back after requesting from service
-		$document->setType('html');
-		$app->input->set('view', $viewName);
+		$serviceData = $moduleData->getProperties();
+		unset($serviceData['xml']);
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
@@ -122,6 +114,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			// Render view.
 			echo $view->render();
 		}
+
 		return true;
 	}
 }
