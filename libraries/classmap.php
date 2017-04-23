@@ -142,3 +142,5 @@ JLoader::registerAlias('JUcm',                              '\\Joomla\\CMS\\Ucm\
 JLoader::registerAlias('JUcmBase',                          '\\Joomla\\CMS\\Ucm\\UcmBase', '4.0');
 JLoader::registerAlias('JUcmContent',                       '\\Joomla\\CMS\\Ucm\\UcmContent', '4.0');
 JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\Ucm\\UcmType', '4.0');
+
+JLoader::registerAlias('JVersion',                          '\\Joomla\\CMS\\Version', '4.0');
