@@ -125,11 +125,6 @@ class PlgSystemDebug extends JPlugin
 			$this->app = JFactory::getApplication();
 		}
 
-		if ('com_profiler' == $this->app->input->get('option'))
-		{
-			return;
-		}
-
 		// Log the deprecated API.
 		if ($this->params->get('log-deprecated'))
 		{
@@ -218,11 +213,6 @@ class PlgSystemDebug extends JPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		if ('com_profiler' == $this->app->input->get('option'))
-		{
-			return;
-		}
-
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
@@ -247,11 +237,6 @@ class PlgSystemDebug extends JPlugin
 	 */
 	public function onAfterRespond()
 	{
-		if ('com_profiler' == $this->app->input->get('option'))
-		{
-			return;
-		}
-
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
 		{
