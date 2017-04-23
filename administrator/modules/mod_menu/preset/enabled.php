@@ -14,14 +14,16 @@ use Joomla\Utilities\ArrayHelper;
 /* @var  $this    JAdminCSSMenu */
 /* @var  $params  Joomla\Registry\Registry */
 
-$recovery = (boolean) $params->get('recovery', 0);
-$shownew  = (boolean) $params->get('shownew', 1);
-$showhelp = (boolean) $params->get('showhelp', 1);
-$user     = JFactory::getUser();
-$lang     = JFactory::getLanguage();
-$fields   = JComponentHelper::isInstalled('com_fields') && JComponentHelper::isEnabled('com_fields');
-
+$recovery  = (boolean) $params->get('recovery', 0);
+$shownew   = (boolean) $params->get('shownew', 1);
+$showhelp  = (boolean) $params->get('showhelp', 1);
+$user      = JFactory::getUser();
+$lang      = JFactory::getLanguage();
 $rootClass = $recovery ? 'class:' : null;
+
+// Is com_fields installed and enabled?
+$comFieldsEnabled = JComponentHelper::isInstalled('com_fields') && JComponentHelper::isEnabled('com_fields');
+
 /**
  * Site Submenu
  */
@@ -90,7 +92,7 @@ if ($user->authorise('core.manage', 'com_users'))
 		}
 	}
 
-	if ($fields && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+	if ($comFieldsEnabled && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
 	{
 		$this->addSeparator();
 		$this->addChild(
@@ -137,8 +139,6 @@ if ($user->authorise('core.manage', 'com_users'))
 		$this->addChild(new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail'));
 	}
 
-
-
 	$this->getParent();
 }
 
@@ -167,7 +167,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	// Menu Types
 	$menuTypes = ModMenuHelper::getMenus();
-	$menuTypes = ArrayHelper::sortObjects($menuTypes, array('client_id', 'title'), 1, false);
+	$menuTypes = ArrayHelper::sortObjects($menuTypes, isset($menuTypes[0]->client_id) ? array('client_id', 'title') : 'title', 1, false);
 
 	foreach ($menuTypes as $mti => $menuType)
 	{
@@ -202,7 +202,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 			$titleicon = ' <span class="label" title="' . $menuType->title_native . '">' . $menuType->sef . '</span>';
 		}
 
-		if (isset($menuTypes[$mti - 1]) && $menuTypes[$mti - 1]->client_id != $menuType->client_id)
+		if (isset($menuTypes[$mti - 1], $menuType->client_id) && $menuTypes[$mti - 1]->client_id != $menuType->client_id)
 		{
 			$this->addSeparator(JText::_('JADMINISTRATOR'));
 		}
@@ -268,7 +268,7 @@ if ($user->authorise('core.manage', 'com_content'))
 
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured'));
 
-	if ($fields && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
+	if ($comFieldsEnabled && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 	{
 		$this->addSeparator();
 		$this->addChild(
