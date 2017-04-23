@@ -10,6 +10,9 @@ namespace Joomla\CMS\Captcha;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Editor\Editor;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -20,7 +23,7 @@ use Joomla\Registry\Registry;
  * @subpackage  Captcha
  * @since       2.5
  */
-class Captcha extends JObject
+class Captcha extends \JObject
 {
 	/**
 	 * An array of Observer objects to notify
@@ -49,7 +52,7 @@ class Captcha extends JObject
 	/**
 	 * Captcha Plugin object
 	 *
-	 * @var	   \JPlugin
+	 * @var	   CMSPlugin
 	 * @since  2.5
 	 */
 	private $_captcha;
@@ -105,7 +108,7 @@ class Captcha extends JObject
 			{
 				self::$_instances[$signature] = new Captcha($captcha, $options);
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -134,7 +137,7 @@ class Captcha extends JObject
 		{
 			$this->_captcha->update($args);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -208,7 +211,7 @@ class Captcha extends JObject
 	 * @return  void
 	 *
 	 * @since	2.5
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	private function _load(array $options = array())
 	{
@@ -218,18 +221,18 @@ class Captcha extends JObject
 
 		if (!is_file($path))
 		{
-			throw new RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Require plugin file
 		require_once $path;
 
 		// Get the plugin
-		$plugin = \JPluginHelper::getPlugin('captcha', $this->_name);
+		$plugin = PluginHelper::getPlugin('captcha', $this->_name);
 
 		if (!$plugin)
 		{
-			throw new RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Check for already loaded params
@@ -245,7 +248,7 @@ class Captcha extends JObject
 	}
 
 	/**
-	 * Get the state of the \JEditor object
+	 * Get the state of the Captcha object
 	 *
 	 * @return  mixed  The state of the object.
 	 *
@@ -289,7 +292,7 @@ class Captcha extends JObject
 		}
 		else
 		{
-			if (!($observer instanceof \JEditor))
+			if (!($observer instanceof Editor))
 			{
 				return;
 			}
