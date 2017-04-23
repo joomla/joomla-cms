@@ -584,7 +584,7 @@ abstract class JHtmlBehavior
 
  		$translation = static::calendartranslation();
 
- 		if ($translation)
+		if ($translation)
 		{
 			$document->addScriptDeclaration($translation);
 		}
