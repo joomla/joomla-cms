@@ -84,6 +84,6 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 		<label for="<?php echo $oid; ?>" class="checkbox">
 			<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
-		<?php echo $option->text; ?></label>
+		<?php echo htmlspecialchars($option->text, ENT_COMPAT, 'UTF-8'); ?></label>
 	<?php endforeach; ?>
 </fieldset>
