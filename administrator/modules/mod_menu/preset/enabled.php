@@ -21,6 +21,10 @@ $user     = JFactory::getUser();
 $lang     = JFactory::getLanguage();
 
 $rootClass = $recovery ? 'class:' : null;
+
+// Is com_fields installed and enabled?
+$comFieldsEnabled = JComponentHelper::isInstalled('com_fields') && JComponentHelper::isEnabled('com_fields');
+
 /**
  * Site Submenu
  */
@@ -115,7 +119,7 @@ if ($user->authorise('core.manage', 'com_users'))
 		$this->getParent();
 	}
 
-	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+	if ($comFieldsEnabled && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
 	{
 		$this->addChild(
 				new JMenuNode(
@@ -261,7 +265,7 @@ if ($user->authorise('core.manage', 'com_content'))
 		$this->getParent();
 	}
 
-	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
+	if ($comFieldsEnabled && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 	{
 		$this->addChild(
 			new JMenuNode(
