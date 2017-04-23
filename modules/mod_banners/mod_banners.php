@@ -13,8 +13,8 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 // Include the banners functions only once
-JLoader::registerNamespace('Joomla\\Component\\Banners\\Administrator', JPATH_ADMINISTRATOR . '/components/com_banners' , false, false, 'psr4');
-JLoader::registerNamespace('Joomla\\Component\\Banners\\Site', JPATH_ROOT . '/components/com_banners' , false, false, 'psr4');
+JLoader::registerNamespace('Joomla\\Component\\Banners\\Administrator', JPATH_ADMINISTRATOR . '/components/com_banners', false, false, 'psr4');
+JLoader::registerNamespace('Joomla\\Component\\Banners\\Site', JPATH_ROOT . '/components/com_banners', false, false, 'psr4');
 JLoader::register('ModBannersHelper', __DIR__ . '/helper.php');
 
 $headerText = trim($params->get('header_text'));

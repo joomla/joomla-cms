@@ -248,7 +248,7 @@ class BannersHelper extends ContentHelper
 	 * Adds Count Items for Tag Manager.
 	 *
 	 * @param   \stdClass[]  &$items     The banner tag objects
-	 * @param   string      $extension  The name of the active view.
+	 * @param   string       $extension  The name of the active view.
 	 *
 	 * @return  \stdClass[]
 	 *
