@@ -387,6 +387,10 @@ abstract class JLoader
 				self::$classAliasesInverse[$original][] = $alias;
 			}
 
+			// We need to load the class, otherwise get instance checks
+			// do fail for the alias when it is not loaded
+			class_exists($alias);
+
 			// If given a version, log this alias as deprecated
 			if ($version)
 			{
