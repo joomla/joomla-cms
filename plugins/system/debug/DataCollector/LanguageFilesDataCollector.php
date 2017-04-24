@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace plgSystemDebug\DataCollector;
+namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DataCollector\AssetProvider;
-use plgSystemDebug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
  * LanguageFilesDataCollector

@@ -14,13 +14,13 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\Storage\FileStorage;
-use plgSystemDebug\DataCollector\InfoDataCollector;
-use plgSystemDebug\DataCollector\LanguageErrorsDataCollector;
-use plgSystemDebug\DataCollector\LanguageFilesDataCollector;
-use plgSystemDebug\DataCollector\LanguageStringsDataCollector;
-use plgSystemDebug\DataCollector\ProfileDataCollector;
-use plgSystemDebug\DataCollector\QueryDataCollector;
-use plgSystemDebug\DataCollector\SessionDataCollector;
+use Joomla\Plugin\System\Debug\DataCollector\InfoDataCollector;
+use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsDataCollector;
+use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesDataCollector;
+use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsDataCollector;
+use Joomla\Plugin\System\Debug\DataCollector\ProfileDataCollector;
+use Joomla\Plugin\System\Debug\DataCollector\QueryDataCollector;
+use Joomla\Plugin\System\Debug\DataCollector\SessionDataCollector;
 
 /**
  * Joomla! Debug plugin.
@@ -125,22 +125,8 @@ class PlgSystemDebug extends JPlugin
 			$this->app = JFactory::getApplication();
 		}
 
-		// Log the deprecated API.
-		if ($this->params->get('log-deprecated'))
-		{
-			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
-		}
-
-		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything'))
-		{
-			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
-		}
-
-		$this->debugLang = $this->app->get('debug_lang');
-
 		// Skip the plugin if debug is off
-		if ($this->debugLang == '0' && $this->app->get('debug') == '0')
+		if ($this->app->get('debug_lang') == '0' && $this->app->get('debug') == '0')
 		{
 			return;
 		}
@@ -153,7 +139,20 @@ class PlgSystemDebug extends JPlugin
 			ob_implicit_flush(false);
 		}
 
+		$this->debugLang = $this->app->get('debug_lang');
 		$this->linkFormat = ini_get('xdebug.file_link_format');
+
+		// Log the deprecated API.
+		if ($this->params->get('log-deprecated'))
+		{
+			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
+		}
+
+		// Log everything (except deprecated APIs, these are logged separately with the option above).
+		if ($this->params->get('log-everything'))
+		{
+			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
+		}
 
 		if ($this->params->get('logs', 1))
 		{
@@ -197,7 +196,8 @@ class PlgSystemDebug extends JPlugin
 			);
 		}
 
-		JLoader::registerNamespace('plgSystemDebug', __DIR__);
+		// @todo Remove when a standard autoloader is available.
+		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
 
 		$this->debugBar = new DebugBar;
 		$this->debugBar->setStorage(new FileStorage($this->app->get('tmp_path')));

@@ -7,11 +7,11 @@
  *             file that was distributed with this source code.
  */
 
-namespace plgSystemDebug\DataCollector;
+namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DebugBarException;
 use Joomla\Registry\Registry;
-use plgSystemDebug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
  * Collects info about the request duration as well as providing

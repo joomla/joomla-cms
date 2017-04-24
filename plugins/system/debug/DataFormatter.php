@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace plgSystemDebug;
+namespace Joomla\Plugin\System\Debug;
 
 use DebugBar\DataFormatter\DataFormatter as DebugBarDataFormatter;
 

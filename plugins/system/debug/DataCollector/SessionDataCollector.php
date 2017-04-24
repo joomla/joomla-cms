@@ -7,18 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace plgSystemDebug\DataCollector;
+namespace Joomla\Plugin\System\Debug\DataCollector;
 
-use plgSystemDebug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
- * QueryDataCollector
+ * SessionDataCollector
  *
  * @since  version
  */
-class QueryDataCollector extends AbstractDataCollector
+class SessionDataCollector  extends AbstractDataCollector
 {
-	private $name = 'queries';
+	private $name = 'session';
 
 	/**
 	 * Called by the DebugBar when data needs to be collected
@@ -29,10 +29,14 @@ class QueryDataCollector extends AbstractDataCollector
 	 */
 	public function collect()
 	{
-		return [
-			'data'  => $this->getData(),
-			'count' => $this->getCount(),
-		];
+		$data = [];
+
+		foreach (\JFactory::getApplication()->getSession()->all() as $key => $value)
+		{
+			$data[$key] = $this->getDataFormatter()->formatVar($value);
+		}
+
+		return ['data' => $data];
 	}
 
 	/**
@@ -58,39 +62,11 @@ class QueryDataCollector extends AbstractDataCollector
 	public function getWidgets()
 	{
 		return [
-			'queries'       => [
-				'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
-				'map'     => $this->name . '.data',
-				'default' => '[]',
-			],
-			'queries:badge' => [
-				'map'     => $this->name . '.count',
-				'default' => 'null',
-			],
+			'session' => [
+				'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
+				'map' => $this->name . '.data',
+				'default' => '[]'
+			]
 		];
-	}
-
-	/**
-	 * Collect data.
-	 *
-	 * @return array
-	 *
-	 * @since version
-	 */
-	private function getData()
-	{
-		return \JFactory::getDbo()->getLog();
-	}
-
-	/**
-	 * Get a count value.
-	 *
-	 * @return int
-	 *
-	 * @since version
-	 */
-	private function getCount()
-	{
-		return count(\JFactory::getDbo()->getLog());
 	}
 }
