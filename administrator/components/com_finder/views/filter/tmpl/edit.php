@@ -35,7 +35,7 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 				<button class="btn btn-secondary" type="button" onclick="jQuery('.filter-node').each(function(){ this.click(); });">
 					<span class="fa fa-square" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
-				<button class="btn btn-secondary float-right" type="button" id="rightbtn"><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
+				<button class="btn btn-secondary float-right" type="button" id="expandAccordion"><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 				<hr>
 			<?php endif; ?>
 

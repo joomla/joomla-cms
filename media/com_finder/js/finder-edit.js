@@ -21,9 +21,9 @@ Joomla = window.Joomla || {};
 		}
 
 		// Expand/collapse
-		var rightBtn = document.getElementById('rightbtn');
-		if (rightBtn) {
-			rightBtn.addEventListener('click', function(event) {
+		var expandAccordion = document.getElementById('expandAccordion');
+		if (expandAccordion) {
+			expandAccordion.addEventListener('click', function(event) {
 				event.preventDefault();
 
 				if (event.target.innerText == Joomla.JText._('COM_FINDER_FILTER_SHOW_ALL')) {
