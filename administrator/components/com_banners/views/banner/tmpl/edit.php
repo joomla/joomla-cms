@@ -15,7 +15,7 @@ JHtml::_('jquery.framework');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
 
-JHtml::_('script', 'com_banners/admin-banners-edit.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_banners/admin-banner-edit.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
