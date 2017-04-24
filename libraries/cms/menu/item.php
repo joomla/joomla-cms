@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class JMenuItem extends JObject
+class JMenuItem extends stdClass
 {
 	/**
 	 * Primary key
@@ -286,5 +286,45 @@ class JMenuItem extends JObject
 	public function setParams($params)
 	{
 		$this->params = $params;
+	}
+
+	/**
+	 * Returns a property of the object or the default value if the property is not set.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $default   The default value.
+	 *
+	 * @return  mixed    The value of the property.
+	 *
+	 * @since   3.7.0
+	 * @deprecated  4.0
+	 */
+	public function get($property, $default = null)
+	{
+		if (isset($this->$property))
+		{
+			return $this->$property;
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Modifies a property of the object, creating it if it does not already exist.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $value     The value of the property to set.
+	 *
+	 * @return  mixed  Previous value of the property.
+	 *
+	 * @since   3.7.0
+	 * @deprecated  4.0
+	 */
+	public function set($property, $value = null)
+	{
+		$previous = isset($this->$property) ? $this->$property : null;
+		$this->$property = $value;
+
+		return $previous;
 	}
 }
