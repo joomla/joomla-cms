@@ -11,7 +11,7 @@ are running on windows this is a good tutorial on how to install node (which wil
 http://blog.teamtreehouse.com/install-node-js-npm-windows. If you are running on OSX we recommend installing Node with
 brew.
 
-Then navigate on command line to the Joomla Install and run the following command
+Then navigate on command line to the Joomla install and run the following command
 
 `npm install`
 
@@ -23,7 +23,7 @@ This will install all node dependencies onto your system. Then there are 3 easy 
 
 
 ### Maintainer's Area (TODO: This list of commands needs updating)
-- Running `grunt` will automatically update all the assets. Make sure that you have updated the settings.yaml file in
+- Running `grunt` will automatically update all the assets. Make sure that you have updated the grunt-settings.yaml file in
 order to update the libraries!!!
 
 The full list of other Grunt Tasks available are:
@@ -54,7 +54,6 @@ Will update the following external sourced static assets that Joomla is using.
 - Bootstrap
 - Tether
 - Font awesome
-- Chosen
 - Jquery-minicolors
 - Jquery-sortable
 - Jquery-ui
@@ -62,6 +61,7 @@ Will update the following external sourced static assets that Joomla is using.
 - Punycode
 - TinyMCE
 - Awesomplete
+- Dragula
 - Codemirror
 
 The following are always fetched with curl (no module available)
