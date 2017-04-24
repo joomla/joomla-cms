@@ -134,6 +134,7 @@
 			// Menu close - NEEDS VANILLA CONVERSION
 			jQuery('.main-nav .close').on('click', function() {
 				jQuery('.main-nav').removeClass('child-open');
+				jQuery('.main-nav').find('li').removeClass('open');
 			});
 
 			// Open menu to active class - NEEDS VANILLA CONVERSION
