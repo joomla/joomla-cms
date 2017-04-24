@@ -13,8 +13,8 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.core');
 
-JText::script('COM_FINDER_FILTER_SHOW_ALL');
-JText::script('COM_FINDER_FILTER_HIDE_ALL');
+JText::script('COM_FINDER_FILTER_SHOW_ALL', true);
+JText::script('COM_FINDER_FILTER_HIDE_ALL', true);
 
 JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', 'relative' => true));
 ?>
