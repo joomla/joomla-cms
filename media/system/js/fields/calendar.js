@@ -1137,5 +1137,79 @@
 		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
 			JoomlaCalendar.init(".field-calendar", row);
 		});
+
+		/** B/C related code
+		 *  @deprecated 4.0
+		 */
+		window.Calendar = {};
+
+		/** B/C related code
+		 *  @deprecated 4.0
+		 */
+		Calendar.setup = function(obj) {
+
+			if (obj.inputField && document.getElementById(obj.inputField)) {
+				var element = document.getElementById(obj.inputField),
+					cal = element.parentNode.querySelectorAll('button')[0];
+
+				for (var property in obj) {
+					if (obj.hasOwnProperty(property)) {
+						switch (property) {
+							case 'ifFormat':
+								if (cal) cal.setAttribute('data-dayformat', obj.ifFormat);
+								break;
+
+							case 'firstDay':
+								if (cal) cal.setAttribute('data-firstday', parseInt(obj.firstDay));
+								break;
+
+							case 'weekNumbers':
+								if (cal) cal.setAttribute('data-week-numbers', (obj.weekNumbers === "true" || obj.weekNumbers === true) ? '1' : '0');
+								break;
+
+							case 'showOthers':
+								if (cal) cal.setAttribute('data-show-others', (obj.showOthers === "true" || obj.showOthers === true) ? '1' : '0');
+								break;
+
+							case 'showsTime':
+								if (cal) cal.setAttribute('data-show-time', (obj.showsTime === "true" || obj.showsTime === true) ? '1' : '0');
+								break;
+
+							case 'timeFormat':
+								if (cal) cal.setAttribute('data-time-24', parseInt(obj.timeFormat));
+								break;
+
+							case 'displayArea':
+							case 'inputField':
+							case 'button':
+							case 'eventName':
+							case 'daFormat':
+							case 'disableFunc':
+							case 'dateStatusFunc':
+							case 'dateTooltipFunc':
+							case 'dateText':
+							case 'align':
+							case 'range':
+							case 'flat':
+							case 'flatCallback':
+							case 'onSelect':
+							case 'onClose':
+							case 'onUpdate':
+							case 'date':
+							case 'electric':
+							case 'step':
+							case 'position':
+							case 'cache':
+							case 'multiple':
+								break;
+						}
+
+
+					}
+				}
+				JoomlaCalendar.init(element.parentNode.parentNode);
+			}
+			return null;
+		};
 	});
 })(window, document);
