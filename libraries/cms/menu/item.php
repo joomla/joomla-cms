@@ -297,6 +297,7 @@ class JMenuItem extends stdClass
 	 * @return  mixed    The value of the property.
 	 *
 	 * @since   3.7.0
+	 * @deprecated  4.0
 	 */
 	public function get($property, $default = null)
 	{
@@ -317,6 +318,7 @@ class JMenuItem extends stdClass
 	 * @return  mixed  Previous value of the property.
 	 *
 	 * @since   3.7.0
+	 * @deprecated  4.0
 	 */
 	public function set($property, $value = null)
 	{
