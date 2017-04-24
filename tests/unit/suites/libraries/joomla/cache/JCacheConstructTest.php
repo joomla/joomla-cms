@@ -15,7 +15,7 @@
  *
  * @since       11.1
  */
-class JCacheTest_Construct extends PHPUnit_Framework_TestCase
+class JCacheTest_Construct extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test...

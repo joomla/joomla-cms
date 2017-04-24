@@ -12,7 +12,7 @@
  *
  * @since  11.1
  */
-class JSessionStorageNoneTest extends PHPUnit_Framework_TestCase
+class JSessionStorageNoneTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorageNone

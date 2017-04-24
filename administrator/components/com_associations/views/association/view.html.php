@@ -76,10 +76,31 @@ class AssociationsViewAssociation extends JViewLegacy
 		$this->app  = JFactory::getApplication();
 		$this->form = $this->get('Form');
 		$input      = $this->app->input;
-
 		$this->referenceId = $input->get('id', 0, 'int');
 
 		list($extensionName, $typeName) = explode('.', $input->get('itemtype'));
+
+		$extension = AssociationsHelper::getSupportedExtension($extensionName);
+		$types     = $extension->get('types');
+
+		if (array_key_exists($typeName, $types))
+		{
+			$this->type          = $types[$typeName];
+			$this->typeSupports  = array();
+			$details             = $this->type->get('details');
+			$this->save2copy     = false;
+
+			if (array_key_exists('support', $details))
+			{
+				$support = $details['support'];
+				$this->typeSupports = $support;
+			}
+
+			if (!empty($this->typeSupports['save2copy']))
+			{
+				$this->save2copy = true;
+			}
+		}
 
 		$this->extensionName = $extensionName;
 		$this->typeName      = $typeName;
@@ -171,26 +192,29 @@ class AssociationsViewAssociation extends JViewLegacy
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($languageKey)), 'contract');
+		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($languageKey)), 'contract assoc');
 
 		$bar = JToolbar::getInstance('toolbar');
 
 		$bar->appendButton(
-			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')"'
-			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
+			. 'class="btn btn-small btn-success"><span class="icon-32-apply icon-white"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
-			'Custom', '<button onclick="Joomla.submitbutton(\'target\')"'
-			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
+			. 'class="btn btn-small btn-success"><span class="icon-32-apply icon-white"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 
-		JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
+		{
+			JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+		}
 
 		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
-		JToolbarHelper::help('JGLOBAL_HELP');
+		JToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
 
 		JHtmlSidebar::setAction('index.php?option=com_associations');
 	}
