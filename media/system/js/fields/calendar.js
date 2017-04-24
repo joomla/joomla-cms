@@ -1160,23 +1160,23 @@
 								break;
 
 							case 'firstDay':
-								if (cal) cal.setAttribute('data-firstday', obj.firstDay);
+								if (cal) cal.setAttribute('data-firstday', parseInt(obj.firstDay));
 								break;
 
 							case 'weekNumbers':
-								if (cal) cal.setAttribute('data-week-numbers', obj.weekNumbers === "true" ? '1' : '0');
+								if (cal) cal.setAttribute('data-week-numbers', (obj.weekNumbers === "true" || obj.weekNumbers === true) ? '1' : '0');
 								break;
 
 							case 'showOthers':
-								if (cal) cal.setAttribute('data-show-others', obj.showOthers === "true" ? '1' : '0');
+								if (cal) cal.setAttribute('data-show-others', (obj.showOthers === "true" || obj.showOthers === true) ? '1' : '0');
 								break;
 
 							case 'showsTime':
-								if (cal) cal.setAttribute('data-show-time', obj.showsTime === "true" ? '1' : '0');
+								if (cal) cal.setAttribute('data-show-time', (obj.showsTime === "true" || obj.showsTime === true) ? '1' : '0');
 								break;
 
 							case 'timeFormat':
-								if (cal) cal.setAttribute('data-time-24', obj.timeFormat);
+								if (cal) cal.setAttribute('data-time-24', parseInt(obj.timeFormat));
 								break;
 
 							case 'displayArea':
@@ -1204,12 +1204,12 @@
 								break;
 						}
 
-						if (element) {
-							JoomlaCalendar.init(element.parentNode.parentNode);
-						}
+
 					}
 				}
+				JoomlaCalendar.init(element.parentNode.parentNode);
 			}
+			return null;
 		};
 	});
 })(window, document);
