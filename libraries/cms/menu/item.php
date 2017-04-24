@@ -15,6 +15,7 @@ use Joomla\Registry\Registry;
  * Object representing a menu item
  *
  * @since  3.7.0
+ * @note   This class will no longer extend stdClass in Joomla 4
  */
 class JMenuItem extends stdClass
 {
