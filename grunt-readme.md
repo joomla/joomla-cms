@@ -47,22 +47,8 @@ For running sass linting we require that ruby is installed on the system.
 - Install Ruby:  https://rubyinstaller.org
 - Run: `gem install scss_lint` to install the linter
 
-Will update the following external sourced static assets that Joomla is using.
+Will update the following external sourced static assets that Joomla is using and is defined in /grunt_settings.yaml
 
-- Jquery
-- Jquery-migrate
-- Bootstrap
-- Tether
-- Font awesome
-- Jquery-minicolors
-- Jquery-sortable
-- Jquery-ui
-- MediaElement
-- Punycode
-- TinyMCE
-- Awesomplete
-- Dragula
-- Codemirror
 
 The following are always fetched with curl (no module available)
 
