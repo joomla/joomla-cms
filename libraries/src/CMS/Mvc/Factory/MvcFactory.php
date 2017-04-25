@@ -161,7 +161,7 @@ class MvcFactory implements MvcFactoryInterface
 			$prefix = $this->application->getName();
 		}
 
-		$className = $this->namespace . '\\' . ucfirst($prefix) . '\\' . $suffix;
+		$className = trim($this->namespace, '\\') . '\\' . ucfirst($prefix) . '\\' . $suffix;
 
 		if (!class_exists($className))
 		{

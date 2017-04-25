@@ -9,17 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Content\Administrator\Model\Articles;
+
 // Include the mod_popular functions only once.
 JLoader::register('ModPopularHelper', __DIR__ . '/helper.php');
 
-JLoader::register('ContentDispatcher', JPATH_ADMINISTRATOR . '/components/com_content/dispatcher.php');
-$oldScope = $app->scope;
-$app->scope = 'com_content';
-$namespace = \Joomla\CMS\Component\ComponentHelper::getComponent($app->scope)->namespace;
-$dispatcher = new ContentDispatcher($namespace, JFactory::getApplication());
-
-$list = ModPopularHelper::getList($params, $dispatcher->getFactory());
-$app->scope = $oldScope;
+$list = ModPopularHelper::getList($params, new Articles(array('ignore_request' => true)));
 
 // Get module data.
 if ($params->get('automatic_title', 0))
