@@ -70,38 +70,42 @@ class TagsHelperRoute extends JHelperRoute
 	/**
 	 * Tries to load the router for the component and calls it. Otherwise calls getRoute.
 	 *
-	 * @param   integer  $id  The ID of the tag
+	 * @param   integer  $id        The ID of the tag.
+	 * @param   string   $language  The language code of the tag.
 	 *
 	 * @return  string  URL link to pass to JRoute
 	 *
 	 * @since   3.1
 	 */
-	public static function getTagRoute($id)
+	public static function getTagRoute($id, $language = null)
 	{
 		$needles = array(
-			'tag'  => array((int) $id)
+			'tag' => array((int) $id),
 		);
 
-		if ($id < 1)
+		// Create the link
+		$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+
+		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
-			$link = '';
+			$link .= '&lang=' . $language;
+			$needles['language'] = $language;
+		}
+
+		if ($item = self::_findItem($needles))
+		{
+			$link .= '&Itemid=' . $item;
 		}
 		else
 		{
-			$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+			unset($needles['tag']);
+
+			// Try to find a menu item for list of tags.
+			$needles['tags'] = array(1, 0);
 
 			if ($item = self::_findItem($needles))
 			{
 				$link .= '&Itemid=' . $item;
-			}
-			else
-			{
-				$needles = array('tags' => array(1, 0));
-
-				if ($item = self::_findItem($needles))
-				{
-					$link .= '&Itemid=' . $item;
-				}
 			}
 		}
 

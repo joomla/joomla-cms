@@ -222,7 +222,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
-		$item->route = TagsHelperRoute::getTagRoute($item->slug);
+		$item->route = TagsHelperRoute::getTagRoute($item->slug, $item->language);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
