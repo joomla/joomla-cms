@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
- * Form Field class for the Joomla CMS.
  * Supports a select grouped list of template styles
  *
  * @since  1.6

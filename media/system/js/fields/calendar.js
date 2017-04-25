@@ -134,8 +134,9 @@
 		this.checkInputs();
 
 		// For the fields with readonly tag calendar will not initiate fully
-		if (this.inputField.getAttribute('readonly'))
+		if (this.inputField.getAttribute('readonly')) {
 			return;
+		}
 
 		this._create();
 		this._bindEvents();
@@ -153,6 +154,16 @@
 		}
 	};
 
+	/** Removes the calendar object from the DOM tree and destroys it and then recreates it. */
+	JoomlaCalendar.prototype.recreate = function () {
+		var element = this.element, el = element.querySelector('.js-calendar');
+		if (el) {
+			element._joomlaCalendar = null;
+			el.parentNode.removeChild(el);
+			new JoomlaCalendar(element);
+		}
+	};
+
 	/** Time Control */
 	JoomlaCalendar.prototype.updateTime = function (hours, mins, secs) {
 		var self = this,
@@ -164,10 +175,11 @@
 			ampm = this.inputField.parentNode.parentNode.querySelectorAll('.time-ampm')[0];
 
 		if (!self.params.time24) {
-			if (/pm/i.test(ampm.value) && hours < 12)
+			if (/pm/i.test(ampm.value) && hours < 12) {
 				hours = parseInt(hours) + 12;
-			else if (/am/i.test(ampm.value) && hours == 12)
+			} else if (/am/i.test(ampm.value) && hours == 12) {
 				hours = 0;
+			}
 		}
 
 		date.setHours(hours);
@@ -246,13 +258,13 @@
 	/** Method to show the calendar. */
 	JoomlaCalendar.prototype.show = function () {
 		/** This is needed for IE8 */
-		if(navigator.appName.indexOf("Internet Explorer")!=-1){
-			var badBrowser=(
+		if (navigator.appName.indexOf("Internet Explorer")!=-1) {
+			var badBrowser = (
 				navigator.appVersion.indexOf("MSIE 9")==-1 &&
 				navigator.appVersion.indexOf("MSIE 1")==-1
 			);
 
-			if(badBrowser){
+			if (badBrowser) {
 				if (window.jQuery && jQuery().chosen) {
 					var selItems = this.element.getElementsByTagName('select');
 					for (var i = 0; i < selItems.length; i++) {
@@ -320,6 +332,9 @@
 		var self = this,
 			el = ev.currentTarget,
 			target = ev.target || ev.srcElement;
+		if (ev.srcElement && ev.srcElement.hasAttribute('data-action')) {
+			return;
+		}
 
 		if (el.nodeName !== 'TD') {                         // A bootstrap inner button was pressed?
 			var testel = el.getParent('TD');
@@ -327,14 +342,19 @@
 				el = testel;
 			} else {                                        // No - try to find the table this way
 				el = el.getParent('TD');
-				if (el.classList.contains('js-calendar')) { el = el.getElementsByTagName('table')[0]; }
+				if (el.classList.contains('js-calendar')) {
+					el = el.getElementsByTagName('table')[0];
+				}
 			}
 		} else {                                            // Check that doesn't have a button and is not a day td
-			if (!(target.classList.contains('js-btn')) && !el.classList.contains('day') && !el.classList.contains('title')) { return; }
+			if (!(target.classList.contains('js-btn')) && !el.classList.contains('day') && !el.classList.contains('title')) {
+				return;
+			}
 		}
 
-		if (!el || el.disabled)
+		if (!el || el.disabled) {
 			return false;
+		}
 
 		if (typeof el.navtype === "undefined" || el.navtype != 300) {
 			if (el.navtype == 50) { el._current = el.innerHTML; }
@@ -342,8 +362,12 @@
 			if (target == el || target.parentNode == el) { self.cellClick(el, ev); }
 
 			var mon = null;
-			if (typeof el.month != "undefined") mon = el;
-			if (typeof el.parentNode.month != "undefined") mon = el.parentNode;
+			if (typeof el.month != "undefined") {
+				mon = el;
+			}
+			if (typeof el.parentNode.month != "undefined") {
+				mon = el.parentNode;
+			}
 			var date = null;
 			if (mon) {
 				date = new Date(self.date);
@@ -355,8 +379,12 @@
 				}
 			} else {
 				var year = null;
-				if (typeof el.year != "undefined") year = target;
-				if (typeof el.parentNode.year != "undefined") year = target.parentNode;
+				if (typeof el.year != "undefined") {
+					year = target;
+				}
+				if (typeof el.parentNode.year != "undefined") {
+					year = target.parentNode;
+				}
 				if (year) {
 					date = new Date(self.date);
 					if (year.year != date.getLocalFullYear(self.params.dateType)) {
@@ -384,7 +412,9 @@
 				el.classList.add("selected");
 				self.currentDateEl = el.caldate;
 				closing = (self.currentDateEl == el.caldate);
-				if (!closing) { self.currentDateEl = el.caldate; }
+				if (!closing) {
+					self.currentDateEl = el.caldate;
+				}
 			}
 			self.date.setLocalDateOnly('gregorian', el.caldate);
 			date = self.date;
@@ -394,48 +424,33 @@
 				this.processCalendar();
 			}
 		} else {
-			if (el.navtype == 100) {
-				el.classList.remove("hilite");
-				this.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
-				this.inputField.setAttribute('value', '');
-				this.inputField.value = '';
-				this.close();
-				return;
-			}
-			if (el.navtype == 200) {
-				this.close();
-				return;
-			}
 			date = new Date(self.date);
-			if (el.navtype == 0) {
-				self.date.setLocalDateOnly('gregorian', new Date());                                  // TODAY
-				self.dateClicked = true;
-				this.callHandler();
-				this.close();
-				return;
-			}
-
 			self.dateClicked = false;
 			var year = date.getOtherFullYear(self.params.dateType), mon = date.getLocalMonth(self.params.dateType);
 			switch (el.navtype) {
 				case 400:
 					break;
 				case -2:                                                                             // Prev year
-					if (!self.params.compressedHeader)
+					if (!self.params.compressedHeader) {
 						if (year > self.params.minYear) {
 							date.setOtherFullYear(self.params.dateType, year - 1);
 						}
+					}
 					break;
 				case -1:                                                                             // Prev month
 					var day = date.getLocalDate(self.params.dateType);
 					if (mon > 0) {
 						var max = date.getLocalMonthDays(self.params.dateType, mon - 1);
-						if (day > max) date.setLocalDate(self.params.dateType, max);
+						if (day > max) {
+							date.setLocalDate(self.params.dateType, max);
+						}
 						date.setLocalMonth(self.params.dateType, mon - 1);
 					} else if (year-- > self.params.minYear) {
 						date.setOtherFullYear(self.params.dateType, year);
 						var max = date.getLocalMonthDays(self.params.dateType, 11);
-						if (day > max) date.setLocalDate(self.params.dateType, max);
+						if (day > max) {
+							date.setLocalDate(self.params.dateType, max);
+						}
 						date.setLocalMonth(self.params.dateType, 11);
 					}
 					break;
@@ -443,12 +458,16 @@
 					var day = date.getLocalDate(self.params.dateType);
 					if (mon < 11) {
 						var max = date.getLocalMonthDays(self.params.dateType, mon + 1);
-						if (day > max) date.setLocalDate(self.params.dateType, max);
+						if (day > max) {
+							date.setLocalDate(self.params.dateType, max);
+						}
 						date.setLocalMonth(self.params.dateType, mon + 1);
 					} else if (year < self.params.maxYear) {
 						date.setOtherFullYear(self.params.dateType, year + 1);
 						var max = date.getLocalMonthDays(self.params.dateType, 0);
-						if (day > max) date.setLocalDate(self.params.dateType, max);
+						if (day > max) {
+							date.setLocalDate(self.params.dateType, max);
+						}
 						date.setLocalMonth(self.params.dateType, 0);
 					}
 					break;
@@ -471,8 +490,9 @@
 		}
 
 		if (newdate) {
-			if (self.params.showsTime)
+			if (self.params.showsTime) {
 				this.dateClicked = false;
+			}
 			ev && this.callHandler();
 		}
 
@@ -504,8 +524,11 @@
 		}
 
 		if (self.params.direction == 'rtl') {
-			if (K == 37) K = 39;
-			else if (K == 39) K = 37;
+			if (K == 37) {
+				K = 39;
+			} else if (K == 39) {
+				K = 37;
+			}
 		}
 
 		if (ev.shiftKey && K === 32) {                  // KEY Shift + space (now)
@@ -515,8 +538,9 @@
 			this.close();
 		}
 		if (ev.shiftKey && K === 13) {                 // KEY enter (select and close)
-			if (this.params.showsTime)
+			if (this.params.showsTime) {
 				this.dateClicked = false;
+			}
 			this.cellClick(self.currentDateEl, ev);
 		}
 		if (K === 38) {                                // KEY up (previous week)
@@ -531,8 +555,9 @@
 		if (K === 39) {                                // KEY right (next day)
 			this.moveCursorBy( -1);
 		}
-		if (ev.target === this.inputField && !(K>48 || K<57 || K===186 || K===189 || K===190 || K === 32))
+		if (ev.target === this.inputField && !(K>48 || K<57 || K===186 || K===189 || K===190 || K === 32)) {
 			return stopCalEvent(ev);
+		}
 	};
 
 	/** Method to create the html stracture of the calendar */
@@ -577,25 +602,38 @@
 		var cell = null,
 			row  = null,
 			cal  = this,
-			hh   = function (text, cs, navtype, node, styles, classes) {
+			hh   = function (text, cs, navtype, node, styles, classes, dataAttr) {
 				node = node ? node : "td";
-				classes = classes ? 'class="' + classes + '"' : '';
 				styles = styles ? styles : {};
 				cell = createElement(node, row);
+				if (cs) {
+					classes = classes ? 'class="' + classes + '"' : '';
 				cell.colSpan = cs;
+				}
+
 				for (var key in styles) {
 					cell.style[key] = styles[key];
 				}
-				if (navtype != 0 && Math.abs(navtype) <= 2) { cell.className += " nav"; }
+				for (var key in dataAttr) {
+					cell.setAttribute(key, dataAttr[key]);
+				}
+				if (navtype != 0 && Math.abs(navtype) <= 2) {
+					cell.className += " nav";
+				}
 
-				cell.addEventListener("mousedown", self._dayMouseDown, true);
+				if (cs) {
+					cell.addEventListener("mousedown", self._dayMouseDown, true);
+				}
 
 				cell.calendar = cal;
 				cell.navtype = navtype;
 				if (navtype != 0 && Math.abs(navtype) <= 2) {
 					cell.innerHTML = "<a " + classes + " style='display:inline;padding:2px 6px;cursor:pointer;text-decoration:none;' unselectable='on'>" + text + "</a>";
 				} else {
-					cell.innerHTML = "<div unselectable='on'" + classes + ">" + text + "</div>";
+					cell.innerHTML = cs ? "<div unselectable='on'" + classes + ">" + text + "</div>" : text;
+					if (!cs && classes) {
+						cell.className = classes;
+					}
 				}
 				return cell;
 			};
@@ -603,10 +641,10 @@
 		if (this.params.compressedHeader === false) {                                                        // Head - year
 			row = createElement("tr", thead);
 			row.className = "calendar-head-row";
-			this._nav_py = hh("&lsaquo;", 1, -2, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-prev-year');                   // Previous year button
-			this.title = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
+			this._nav_py = hh("&lsaquo;", 1, -2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-prev-year');                   // Previous year button
+			this.title = hh('<div style="text-align:center;font-size:18px"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
 			this.title.className = "title";
-			this._nav_ny = hh(" &rsaquo;", 1, 2, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-next-year');                   // Next year button
+			this._nav_ny = hh(" &rsaquo;", 1, 2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-next-year');                   // Next year button
 		}
 
 		row = createElement("tr", thead);                                                                   // Head - month
@@ -625,7 +663,9 @@
 		}
 		for (var i = 7; i > 0; --i) {
 			cell = createElement("td", row);
-			if (!i) { cell.calendar = self; }
+			if (!i) {
+				cell.calendar = self;
+			}
 		}
 		this.firstdayname = (this.params.weekNumbers) ? row.firstChild.nextSibling : row.firstChild;
 
@@ -642,7 +682,9 @@
 				cell.calendar = self;
 				cell.fdow = realday;
 			}
-			if (weekend.indexOf(weekend) != -1) { cell.classList.add("weekend"); }
+			if (weekend.indexOf(weekend) != -1) {
+				cell.classList.add("weekend");
+			}
 
 			cell.innerHTML = JoomlaCalLocale.shortDays[(i + fdow) % 7];
 			cell = cell.nextSibling;
@@ -652,7 +694,9 @@
 		this.tbody = tbody;
 		for (i = 6; i > 0; --i) {
 			row = createElement("tr", tbody);
-			if (this.params.weekNumbers) { cell = createElement("td", row); }
+			if (this.params.weekNumbers) {
+				cell = createElement("td", row);
+			}
 
 			for (var j = 7; j > 0; --j) {
 				cell = createElement("td", row);
@@ -669,7 +713,7 @@
 			cell.className = "time time-title";
 			cell.colSpan = 1;
 			cell.style.verticalAlign = 'middle';
-			cell.innerHTML = JoomlaCalLocale.time || "&#160;";
+			cell.innerHTML = " ";
 
 			var cell1 = createElement("td", row);
 			cell1.className = "time hours-select";
@@ -690,8 +734,9 @@
 					part._range = [];
 					for (var i = range_start; i <= range_end; ++i) {
 						var txt, selAttr = '';
-						if (i == selected)
+						if (i == selected) {
 							selAttr = true;
+						}
 						if (i < 10 && range_end >= 10) {
 							num = '0' + i;
 							txt = Date.convertNumbers('0') + Date.convertNumbers(i);
@@ -756,45 +801,42 @@
 			})();
 		}
 
-		row = createElement("tr", tbody);
-		row.className = "btn-row";
-		var clearAttr = this.inputField.hasAttribute('required') ? 'none;' : 'block;';
-		this._nav_save = hh('<a class="js-btn btn btn-clear" data-action="clear" style="display:' + clearAttr + 'padding:2px 6px;">'
-			+ JoomlaCalLocale.save + '</a>', 2, 100, 'td', {'textAlign': 'center'});
-
-		if (!this.inputField.hasAttribute('required')) {
-			var savea = row.querySelector('a[data-action="clear"]');
-			savea.addEventListener("click",
-				function (e) {
-					var el = savea.parentNode.parentNode;
-					if (el.tagName === 'TD') {
-						self.cellClick(self._nav_save, e);
-					}
-				}, true);
-		}
-
 		if (this.params.showsTodayBtn) {                                                                    // Head - today
+			row = createElement("div", this.wrapper);
+			row.className = "buttons-wrapper btn-group";
 
-			this._nav_now = hh('<a class="js-btn btn btn-primary btn-today" data-action="today" style="display:block;padding:2px 6px;">'
-				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 4 : 3, 0, 'td', {'textAlign': 'center'});
-			var todaya = row.querySelector('a[data-action="today"]');
-			todaya.addEventListener('click', function (e) {
-				var el = todaya.parentNode.parentNode;
-				if (el.tagName === 'TD') { self.cellClick(self._nav_now, e); }
-			}, true);
-		} else {
-			cell = createElement("td", row);
-			cell.innerHTML = "&#160;";
-			cell.colSpan = this.params.weekNumbers ? 4 : 3;
+			this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'a', '', 'js-btn btn btn-clear', {"data-action": "clear"});
+
+			if (!this.inputField.hasAttribute('required')) {
+				var savea = row.querySelector('[data-action="clear"]');
+				savea.addEventListener("click",
+					function (e) {
+						var days = self.table.querySelectorAll('td');
+						for (var i = 0; i < days.length; i++) {
+							if (days[i].classList.contains('selected')) {
+								days[i].classList.remove('selected');
+								break;
+							}
+						}
+						self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
+						self.inputField.setAttribute('value', '');
+						self.inputField.value = '';
+					});
+			}
+
+			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'a', '', 'js-btn btn btn-today', {"data-action": "today"});
+			var todaya = row.querySelector('[data-action="today"]');
+			todaya.addEventListener('click', function () {
+				self.date.setLocalDateOnly('gregorian', new Date());                                  // TODAY
+				self.dateClicked = true;
+				self.callHandler();
+				self.close();
+			});
 		}
 
-		this._nav_exit = hh('<a class="js-btn btn btn-danger btn-exit" data-action="exit" style="display:block;padding:2px 6px;">'
-			+ JoomlaCalLocale.exit + '</a>', 2, 200, 'td', {'textAlign': 'center'});
-		var exita = row.querySelector('a[data-action="exit"]');
-		exita.addEventListener('click', function (e) {
-			var el = exita.parentNode.parentNode;
-			if (el.tagName === 'TD') { self.cellClick(self._nav_exit, e); }
-		}, true);
+		this._nav_exit = hh(JoomlaCalLocale.exit, '', 999, 'a', '', 'js-btn btn btn-exit', {"data-action": "exit"});
+		var exita = row.querySelector('[data-action="exit"]');
+		exita.addEventListener('click', function () { self.close(); });
 
 		this.processCalendar();
 	};
@@ -907,7 +949,9 @@
 
 		/* Set the time */
 		if (this.params.showsTime) {
-			if (hrs > 12 && t12) hrs -= 12;
+			if (hrs > 12 && t12) {
+				hrs -= 12;
+			}
 
 			hrs = (hrs < 10) ? "0" + hrs : hrs;
 			mins = (mins < 10) ? "0" + mins : mins;
@@ -954,11 +998,15 @@
 			self.show();
 		}, true);
 		this.inputField.addEventListener('blur', function(event) {
-			if (event.relatedTarget != null && (event.relatedTarget.classList.contains('time-hours') || event.relatedTarget.classList.contains('time-minutes') || event.relatedTarget.classList.contains('time-ampm'))) return;
+			if (event.relatedTarget != null && (event.relatedTarget.classList.contains('time-hours') || event.relatedTarget.classList.contains('time-minutes') || event.relatedTarget.classList.contains('time-ampm'))) {
+				return;
+			}
 			var elem = event.target;
 			while (elem.parentNode) {
 				elem = elem.parentNode;
-				if (elem.classList.contains('field-calendar')) return;
+				if (elem.classList.contains('field-calendar')) {
+					return;
+				}
 			}
 			self.close();
 		}, true);
@@ -1013,8 +1061,8 @@
 	JoomlaCalendar.prototype.setAltValue = function() {
 		var input = this.inputField;
 
-		if (input.getAttribute("data-alt-value") && input.getAttribute("data-alt-value")) {
-			input.value = input.getAttribute("data-alt-value");
+		if (input.getAttribute("data-alt-value")) {
+			input.value = input.getAttribute('data-alt-value');
 		} else {
 			input.value = '';
 		}
@@ -1023,45 +1071,54 @@
 	/**
 	 * Init the Calendars on the page
 	 *
-	 * @param {String}      className  The field class name (required)
+	 * @param {Node}        element    The element node
 	 * @param {HTMLElement} container  The field container (optional)
 	 */
-	JoomlaCalendar.init = function (className, container) {
-		var elements, i, instance;
-
-		elements = (container || document).querySelectorAll(className);
+	JoomlaCalendar.init = function (element, container) {
 
 		// Fall back for translation strings
-		window.JoomlaCalLocale = window.JoomlaCalLocale ? JoomlaCalLocale : {};
-		JoomlaCalLocale.today = JoomlaCalLocale.today ? JoomlaCalLocale.today : 'today';
-		JoomlaCalLocale.weekend = JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0,6];
-		JoomlaCalLocale.localLangNumbers = JoomlaCalLocale.localLangNumbers ? JoomlaCalLocale.localLangNumbers : [0,1,2,3,4,5,6,7,8,9];
-		JoomlaCalLocale.wk = JoomlaCalLocale.wk ? JoomlaCalLocale.wk : 'wk';
-		JoomlaCalLocale.AM = JoomlaCalLocale.AM ? JoomlaCalLocale.AM : 'AM';
-		JoomlaCalLocale.PM = JoomlaCalLocale.PM ? JoomlaCalLocale.PM : 'PM';
-		JoomlaCalLocale.am = JoomlaCalLocale.am ? JoomlaCalLocale.am : 'am';
-		JoomlaCalLocale.pm = JoomlaCalLocale.pm ? JoomlaCalLocale.pm : 'pm';
-		JoomlaCalLocale.dateType = JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian';
-		JoomlaCalLocale.time = JoomlaCalLocale.time ? JoomlaCalLocale.time : 'time';
-		JoomlaCalLocale.days = JoomlaCalLocale.days ? JoomlaCalLocale.days : '["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]';
-		JoomlaCalLocale.shortDays = JoomlaCalLocale.shortDays ? JoomlaCalLocale.shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-		JoomlaCalLocale.months = JoomlaCalLocale.months ? JoomlaCalLocale.months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		JoomlaCalLocale.shortMonths = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		JoomlaCalLocale.minYear = JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1900;
-		JoomlaCalLocale.maxYear = JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2100;
-		JoomlaCalLocale.exit = JoomlaCalLocale.exit ? JoomlaCalLocale.exit : 'Cancel';
-		JoomlaCalLocale.clear = JoomlaCalLocale.clear ? JoomlaCalLocale.clear : 'Clear';
+		window.JoomlaCalLocale           = window.JoomlaCalLocale ? JoomlaCalLocale : {};
+		JoomlaCalLocale.today            = JoomlaCalLocale.today ? JoomlaCalLocale.today : 'today';
+		JoomlaCalLocale.weekend          = JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0, 6];
+		JoomlaCalLocale.localLangNumbers = JoomlaCalLocale.localLangNumbers ? JoomlaCalLocale.localLangNumbers : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+		JoomlaCalLocale.wk               = JoomlaCalLocale.wk ? JoomlaCalLocale.wk : 'wk';
+		JoomlaCalLocale.AM               = JoomlaCalLocale.AM ? JoomlaCalLocale.AM : 'AM';
+		JoomlaCalLocale.PM               = JoomlaCalLocale.PM ? JoomlaCalLocale.PM : 'PM';
+		JoomlaCalLocale.am               = JoomlaCalLocale.am ? JoomlaCalLocale.am : 'am';
+		JoomlaCalLocale.pm               = JoomlaCalLocale.pm ? JoomlaCalLocale.pm : 'pm';
+		JoomlaCalLocale.dateType         = JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian';
+		JoomlaCalLocale.time             = JoomlaCalLocale.time ? JoomlaCalLocale.time : 'time';
+		JoomlaCalLocale.days             = JoomlaCalLocale.days ? JoomlaCalLocale.days : '["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]';
+		JoomlaCalLocale.shortDays        = JoomlaCalLocale.shortDays ? JoomlaCalLocale.shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+		JoomlaCalLocale.months           = JoomlaCalLocale.months ? JoomlaCalLocale.months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		JoomlaCalLocale.shortMonths      = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		JoomlaCalLocale.minYear          = JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1900;
+		JoomlaCalLocale.maxYear          = JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2100;
+		JoomlaCalLocale.exit             = JoomlaCalLocale.exit ? JoomlaCalLocale.exit : 'Cancel';
+		JoomlaCalLocale.clear            = JoomlaCalLocale.clear ? JoomlaCalLocale.clear : 'Clear';
 
-		for (i = 0; i < elements.length; i++) {
-			var element  = elements[i];
-			instance = element._joomlaCalendar;
+		var instance = element._joomlaCalendar;
+		if (!instance) {
+			new JoomlaCalendar(element);
+		} else {
+			instance.recreate();
+		}
 
-			if (!instance) {
-				instance = new JoomlaCalendar(element);
-				instance.inputField.form.addEventListener('submit', function () {
+		var onSubmit = function () {
+			var elements = (container || document).querySelectorAll(".field-calendar");
+
+			for (var i = 0; i < elements.length; i++) {
+				var element  = elements[i],
+				    instance = element._joomlaCalendar;
+
+				if (instance) {
 					instance.setAltValue();
-				});
+				}
 			}
+		};
+
+		if (element && element.getElementsByTagName('input')[0] && element.getElementsByTagName('input')[0].form) {
+			element.getElementsByTagName('input')[0].form.addEventListener('submit', onSubmit);
 		}
 	};
 
@@ -1069,11 +1126,90 @@
 
 	/** Instantiate all the calendar fields when the document is ready */
 	document.addEventListener("DOMContentLoaded", function() {
-		JoomlaCalendar.init(".field-calendar");
+		var elements, i;
+
+		elements = document.querySelectorAll(".field-calendar");
+
+		for (i = 0; i < elements.length; i++) {
+			JoomlaCalendar.init(elements[i]);
+		}
 
 		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
-            JoomlaCalendar.init(".field-calendar", row);
-        });
-	});
+			JoomlaCalendar.init(".field-calendar", row);
+		});
 
+		/** B/C related code
+		 *  @deprecated 4.0
+		 */
+		window.Calendar = {};
+
+		/** B/C related code
+		 *  @deprecated 4.0
+		 */
+		Calendar.setup = function(obj) {
+
+			if (obj.inputField && document.getElementById(obj.inputField)) {
+				var element = document.getElementById(obj.inputField),
+					cal = element.parentNode.querySelectorAll('button')[0];
+
+				for (var property in obj) {
+					if (obj.hasOwnProperty(property)) {
+						switch (property) {
+							case 'ifFormat':
+								if (cal) cal.setAttribute('data-dayformat', obj.ifFormat);
+								break;
+
+							case 'firstDay':
+								if (cal) cal.setAttribute('data-firstday', parseInt(obj.firstDay));
+								break;
+
+							case 'weekNumbers':
+								if (cal) cal.setAttribute('data-week-numbers', (obj.weekNumbers === "true" || obj.weekNumbers === true) ? '1' : '0');
+								break;
+
+							case 'showOthers':
+								if (cal) cal.setAttribute('data-show-others', (obj.showOthers === "true" || obj.showOthers === true) ? '1' : '0');
+								break;
+
+							case 'showsTime':
+								if (cal) cal.setAttribute('data-show-time', (obj.showsTime === "true" || obj.showsTime === true) ? '1' : '0');
+								break;
+
+							case 'timeFormat':
+								if (cal) cal.setAttribute('data-time-24', parseInt(obj.timeFormat));
+								break;
+
+							case 'displayArea':
+							case 'inputField':
+							case 'button':
+							case 'eventName':
+							case 'daFormat':
+							case 'disableFunc':
+							case 'dateStatusFunc':
+							case 'dateTooltipFunc':
+							case 'dateText':
+							case 'align':
+							case 'range':
+							case 'flat':
+							case 'flatCallback':
+							case 'onSelect':
+							case 'onClose':
+							case 'onUpdate':
+							case 'date':
+							case 'electric':
+							case 'step':
+							case 'position':
+							case 'cache':
+							case 'multiple':
+								break;
+						}
+
+
+					}
+				}
+				JoomlaCalendar.init(element.parentNode.parentNode);
+			}
+			return null;
+		};
+	});
 })(window, document);

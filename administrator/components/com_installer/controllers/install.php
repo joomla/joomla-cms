@@ -19,7 +19,7 @@ class InstallerControllerInstall extends JControllerLegacy
 	/**
 	 * Install an extension.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   1.5
 	 */
@@ -30,7 +30,7 @@ class InstallerControllerInstall extends JControllerLegacy
 
 		$model = $this->getModel('install');
 
-		if ($model->install())
+		if ($result = $model->install())
 		{
 			$cache = JFactory::getCache('mod_menu');
 			$cache->clean();
@@ -65,5 +65,36 @@ class InstallerControllerInstall extends JControllerLegacy
 		}
 
 		$this->setRedirect($redirect_url);
+
+		return $result;
+	}
+
+	/**
+	 * Install an extension from drag & drop ajax upload.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function ajax_upload()
+	{
+		$app = JFactory::getApplication();
+		$message = $app->getUserState('com_installer.message');
+
+		// Do install
+		$result = $this->install();
+
+		// Get redirect URL
+		$redirect = $this->redirect;
+
+		// Push message queue to session because we will redirect page by Javascript, not $app->redirect().
+		// The "application.queue" is only set in redirect() method, so we must manually store it.
+		$app->getSession()->set('application.queue', $app->getMessageQueue());
+
+		header('Content-Type: application/json');
+
+		echo new JResponseJson(array('redirect' => $redirect), $message, !$result);
+
+		exit();
 	}
 }

@@ -1135,7 +1135,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to update menu database entries for a component in case if the component has been uninstalled before.
+	 * Method to update menu database entries for a component in case the component has been uninstalled before.
 	 * NOTE: This will not update admin menus. Use _updateMenus() instead to update admin menus ase well.
 	 *
 	 * @param   int|null  $component_id  The component ID.

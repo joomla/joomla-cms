@@ -18,26 +18,6 @@ BDD Testing with Gherkin and Codeception
 ---
 
 ### What is Gherkin – BDD Language?
-=======
-What is this?
----------------------
-* This is a Joomla! 3.x installation/upgrade package.
-* Joomla's [Official website](https://www.joomla.org).
-* Joomla! 3.7 [version history](https://docs.joomla.org/Joomla_3.7_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
-
-What is Joomla?
----------------------
-* [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
-* It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
-* Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
-
-Is Joomla! for you?
----------------------
-* Joomla! is [the right solution for most content web projects](https://docs.joomla.org/Portal:Learn_More).
-* View Joomla's [core features here](https://www.joomla.org/core-features.html).
-* Try it out for yourself in our [online demo](https://demo.joomla.org).
->>>>>>> upstream/staging
 
 * Gherkin is a **human-readable** language for system behaviour description.
 * Gherkin is a _natural_ language for testing that **Codeception** uses to define test cases.
@@ -57,7 +37,6 @@ Is Joomla! for you?
 * Background
 * Scenario outline
 * Examples
-
 
 ### Example
 Create a .feature using command `tests/codeception/vendor/bin/codecept generate:feature acceptance content`
@@ -198,7 +177,7 @@ Mentors
  
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
 * [Special Thanks](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Joomla_Licenses)

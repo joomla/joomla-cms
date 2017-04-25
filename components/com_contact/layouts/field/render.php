@@ -32,9 +32,9 @@ if ($field->context == 'com_contact.mail')
 
 ?>
 
-<dt class="contact-field-entry <?php echo $class; ?>" id="contact-field-entry-label-<?php echo $field->id; ?>">
+<dt class="contact-field-entry <?php echo $class; ?>">
 	<span class="field-label"><?php echo htmlentities($label); ?>: </span>
 </dt>
-<dd class="contact-field-entry <?php echo $class; ?>" id="contact-field-entry-value-<?php echo $field->id; ?>">
+<dd class="contact-field-entry <?php echo $class; ?>">
 	<span class="field-value"><?php echo $value; ?></span>
 </dd>
