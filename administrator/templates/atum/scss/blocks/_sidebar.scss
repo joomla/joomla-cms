@@ -305,7 +305,7 @@
     transition: all .3s ease;
   }
   > li {
-    &.parent .collapse-arrow::after {
+    &.parent > .collapse-arrow::after {
       visibility: hidden;
       opacity: 0;
       transition-delay: 0s;
@@ -329,6 +329,7 @@
       display: block;
     }
   }
+
 
   // Tooltips
   .sidebar-item-title {
