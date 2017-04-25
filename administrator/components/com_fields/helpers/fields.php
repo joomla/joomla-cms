@@ -493,7 +493,7 @@ class FieldsHelper
 		}
 
 		// Loading the XML fields string into the form
-		$form->load(html_entity_decode($xml->saveXML(), ENT_QUOTES, 'UTF-8'));
+		$form->load($xml->saveXML());
 
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
