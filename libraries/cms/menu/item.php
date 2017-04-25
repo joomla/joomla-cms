@@ -249,7 +249,7 @@ class JMenuItem extends stdClass
 	/**
 	 * Method check if a certain otherwise inaccessible properties of the form field object is set.
 	 *
-	 * @param   string  $name   The property name to check.
+	 * @param   string  $name  The property name to check.
 	 *
 	 * @return  boolean
 	 *
