@@ -73,7 +73,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '19-April-2017';
+	const RELDATE = '25-April-2017';
 
 	/**
 	 * Release time.
@@ -81,7 +81,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '20:10';
+	const RELTIME = '16:42';
 
 	/**
 	 * Release timezone.

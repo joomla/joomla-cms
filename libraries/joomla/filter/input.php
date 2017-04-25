@@ -831,61 +831,61 @@ class JFilterInput extends InputFilter
 		$attr = '';
 
 		// Is there a tag? If so it will certainly start with a '<'.
-		$tagOpen_start = strpos($source, '<');
+		$tagOpen_start = StringHelper::strpos($source, '<');
 
 		while ($tagOpen_start !== false)
 		{
 			// Get some information about the tag we are processing
-			$preTag .= substr($postTag, 0, $tagOpen_start);
-			$postTag = substr($postTag, $tagOpen_start);
-			$fromTagOpen = substr($postTag, 1);
-			$tagOpen_end = strpos($fromTagOpen, '>');
+			$preTag .= StringHelper::substr($postTag, 0, $tagOpen_start);
+			$postTag = StringHelper::substr($postTag, $tagOpen_start);
+			$fromTagOpen = StringHelper::substr($postTag, 1);
+			$tagOpen_end = StringHelper::strpos($fromTagOpen, '>');
 
 			// Check for mal-formed tag where we have a second '<' before the first '>'
-			$nextOpenTag = (strlen($postTag) > $tagOpen_start) ? strpos($postTag, '<', $tagOpen_start + 1) : false;
+			$nextOpenTag = (StringHelper::strlen($postTag) > $tagOpen_start) ? StringHelper::strpos($postTag, '<', $tagOpen_start + 1) : false;
 
 			if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpen_end))
 			{
 				// At this point we have a mal-formed tag -- remove the offending open
-				$postTag = substr($postTag, 0, $tagOpen_start) . substr($postTag, $tagOpen_start + 1);
-				$tagOpen_start = strpos($postTag, '<');
+				$postTag = StringHelper::substr($postTag, 0, $tagOpen_start) . StringHelper::substr($postTag, $tagOpen_start + 1);
+				$tagOpen_start = StringHelper::strpos($postTag, '<');
 				continue;
 			}
 
 			// Let's catch any non-terminated tags and skip over them
 			if ($tagOpen_end === false)
 			{
-				$postTag = substr($postTag, $tagOpen_start + 1);
-				$tagOpen_start = strpos($postTag, '<');
+				$postTag = StringHelper::substr($postTag, $tagOpen_start + 1);
+				$tagOpen_start = StringHelper::strpos($postTag, '<');
 				continue;
 			}
 
 			// Do we have a nested tag?
-			$tagOpen_nested = strpos($fromTagOpen, '<');
+			$tagOpen_nested = StringHelper::strpos($fromTagOpen, '<');
 
 			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
 			{
-				$preTag .= substr($postTag, 0, ($tagOpen_nested + 1));
-				$postTag = substr($postTag, ($tagOpen_nested + 1));
-				$tagOpen_start = strpos($postTag, '<');
+				$preTag .= StringHelper::substr($postTag, 0, ($tagOpen_nested + 1));
+				$postTag = StringHelper::substr($postTag, ($tagOpen_nested + 1));
+				$tagOpen_start = StringHelper::strpos($postTag, '<');
 				continue;
 			}
 
 			// Let's get some information about our tag and setup attribute pairs
-			$tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
-			$currentTag = substr($fromTagOpen, 0, $tagOpen_end);
-			$tagLength = strlen($currentTag);
+			$tagOpen_nested = (StringHelper::strpos($fromTagOpen, '<') + $tagOpen_start + 1);
+			$currentTag = StringHelper::substr($fromTagOpen, 0, $tagOpen_end);
+			$tagLength = StringHelper::strlen($currentTag);
 			$tagLeft = $currentTag;
 			$attrSet = array();
-			$currentSpace = strpos($tagLeft, ' ');
+			$currentSpace = StringHelper::strpos($tagLeft, ' ');
 
 			// Are we an open tag or a close tag?
-			if (substr($currentTag, 0, 1) == '/')
+			if (StringHelper::substr($currentTag, 0, 1) == '/')
 			{
 				// Close Tag
 				$isCloseTag = true;
 				list ($tagName) = explode(' ', $currentTag);
-				$tagName = substr($tagName, 1);
+				$tagName = StringHelper::substr($tagName, 1);
 			}
 			else
 			{
@@ -901,8 +901,8 @@ class JFilterInput extends InputFilter
 			 */
 			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
 			{
-				$postTag = substr($postTag, ($tagLength + 2));
-				$tagOpen_start = strpos($postTag, '<');
+				$postTag = StringHelper::substr($postTag, ($tagLength + 2));
+				$tagOpen_start = StringHelper::strpos($postTag, '<');
 
 				// Strip tag
 				continue;
@@ -915,11 +915,11 @@ class JFilterInput extends InputFilter
 			while ($currentSpace !== false)
 			{
 				$attr = '';
-				$fromSpace = substr($tagLeft, ($currentSpace + 1));
-				$nextEqual = strpos($fromSpace, '=');
-				$nextSpace = strpos($fromSpace, ' ');
-				$openQuotes = strpos($fromSpace, '"');
-				$closeQuotes = strpos(substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
+				$fromSpace = StringHelper::substr($tagLeft, ($currentSpace + 1));
+				$nextEqual = StringHelper::strpos($fromSpace, '=');
+				$nextSpace = StringHelper::strpos($fromSpace, ' ');
+				$openQuotes = StringHelper::strpos($fromSpace, '"');
+				$closeQuotes = StringHelper::strpos(StringHelper::substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
 				$startAtt = '';
 				$startAttPosition = 0;
 
@@ -928,10 +928,12 @@ class JFilterInput extends InputFilter
 				{
 					$startAtt = $matches[0][0];
 					$startAttPosition = $matches[0][1];
-					$closeQuotes = strpos(substr($fromSpace, ($startAttPosition + strlen($startAtt))), '"') + $startAttPosition + strlen($startAtt);
-					$nextEqual = $startAttPosition + strpos($startAtt, '=');
-					$openQuotes = $startAttPosition + strpos($startAtt, '"');
-					$nextSpace = strpos(substr($fromSpace, $closeQuotes), ' ') + $closeQuotes;
+					$closeQuotes = StringHelper::strpos(
+						StringHelper::substr($fromSpace, ($startAttPosition + StringHelper::strlen($startAtt))), '"'
+						) + $startAttPosition + StringHelper::strlen($startAtt);
+					$nextEqual = $startAttPosition + StringHelper::strpos($startAtt, '=');
+					$openQuotes = $startAttPosition + StringHelper::strpos($startAtt, '"');
+					$nextSpace = StringHelper::strpos(StringHelper::substr($fromSpace, $closeQuotes), ' ') + $closeQuotes;
 				}
 
 				// Do we have an attribute to process? [check for equal sign]
@@ -939,7 +941,7 @@ class JFilterInput extends InputFilter
 				{
 					if (!$nextEqual)
 					{
-						$attribEnd = strpos($fromSpace, '/') - 1;
+						$attribEnd = StringHelper::strpos($fromSpace, '/') - 1;
 					}
 					else
 					{
@@ -949,23 +951,23 @@ class JFilterInput extends InputFilter
 					// If there is an ending, use this, if not, do not worry.
 					if ($attribEnd > 0)
 					{
-						$fromSpace = substr($fromSpace, $attribEnd + 1);
+						$fromSpace = StringHelper::substr($fromSpace, $attribEnd + 1);
 					}
 				}
 
-				if (strpos($fromSpace, '=') !== false)
+				if (StringHelper::strpos($fromSpace, '=') !== false)
 				{
 					/*
-					 * If the attribute value is wrapped in quotes we need to grab the substring from
+					 * If the attribute value is wrapped in quotes we need to grab the StringHelper::substring from
 					 * the closing quote, otherwise grab until the next space.
 					 */
-					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes + 1)), '"') !== false))
+					if (($openQuotes !== false) && (StringHelper::strpos(StringHelper::substr($fromSpace, ($openQuotes + 1)), '"') !== false))
 					{
-						$attr = substr($fromSpace, 0, ($closeQuotes + 1));
+						$attr = StringHelper::substr($fromSpace, 0, ($closeQuotes + 1));
 					}
 					else
 					{
-						$attr = substr($fromSpace, 0, $nextSpace);
+						$attr = StringHelper::substr($fromSpace, 0, $nextSpace);
 					}
 				}
 
@@ -974,7 +976,7 @@ class JFilterInput extends InputFilter
 				{
 					if ($fromSpace != '/')
 					{
-						$attr = substr($fromSpace, 0, $nextSpace);
+						$attr = StringHelper::substr($fromSpace, 0, $nextSpace);
 					}
 				}
 
@@ -988,8 +990,8 @@ class JFilterInput extends InputFilter
 				$attrSet[] = $attr;
 
 				// Move search point and continue iteration
-				$tagLeft = substr($fromSpace, strlen($attr));
-				$currentSpace = strpos($tagLeft, ' ');
+				$tagLeft = StringHelper::substr($fromSpace, StringHelper::strlen($attr));
+				$currentSpace = StringHelper::strpos($tagLeft, ' ');
 			}
 
 			// Is our tag in the user input array?
@@ -1010,7 +1012,7 @@ class JFilterInput extends InputFilter
 					}
 
 					// Reformat single tags to XHTML
-					if (strpos($fromTagOpen, '</' . $tagName))
+					if (StringHelper::strpos($fromTagOpen, '</' . $tagName))
 					{
 						$preTag .= '>';
 					}
@@ -1028,8 +1030,8 @@ class JFilterInput extends InputFilter
 			}
 
 			// Find next tag's start and continue iteration
-			$postTag = substr($postTag, ($tagLength + 2));
-			$tagOpen_start = strpos($postTag, '<');
+			$postTag = StringHelper::substr($postTag, ($tagLength + 2));
+			$tagOpen_start = StringHelper::strpos($postTag, '<');
 		}
 
 		// Append any code after the end of tags and return
@@ -1080,17 +1082,17 @@ class JFilterInput extends InputFilter
 		{
 			// Get the portion before the attribute value
 			$quotePosition = $matches[0][1];
-			$nextBefore = $quotePosition + strlen($matches[0][0]);
+			$nextBefore = $quotePosition + StringHelper::strlen($matches[0][0]);
 
 			/*
 			 * Figure out if we have a single or double quote and look for the matching closing quote
 			 * Closing quote should be "/>, ">, "<space>, or " at the end of the string
 			 */
-			$quote = substr($matches[0][0], -1);
+			$quote = StringHelper::substr($matches[0][0], -1);
 			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
 			// Get the portion after attribute value
-			if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
+			if (preg_match($pregMatch, StringHelper::substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
 			{
 				// We have a closing quote
 				$nextAfter = $nextBefore + $matches[0][1];
@@ -1098,17 +1100,17 @@ class JFilterInput extends InputFilter
 			else
 			{
 				// No closing quote
-				$nextAfter = strlen($remainder);
+				$nextAfter = StringHelper::strlen($remainder);
 			}
 
 			// Get the actual attribute value
-			$attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
+			$attributeValue = StringHelper::substr($remainder, $nextBefore, $nextAfter - $nextBefore);
 
 			// Escape bad chars
 			$attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
 			$attributeValue = $this->_stripCSSExpressions($attributeValue);
-			$alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
-			$remainder = substr($remainder, $nextAfter + 1);
+			$alreadyFiltered .= StringHelper::substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
+			$remainder = StringHelper::substr($remainder, $nextAfter + 1);
 		}
 
 		// At this point, we just have to return the $alreadyFiltered and the $remainder

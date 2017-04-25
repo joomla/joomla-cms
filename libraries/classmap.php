@@ -6,6 +6,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+// No direct access.
+defined('_JEXEC') or die;
+
 JLoader::registerAlias('JRegistry',                         '\\Joomla\\Registry\\Registry', '4.0');
 JLoader::registerAlias('JRegistryFormat',                   '\\Joomla\\Registry\\AbstractRegistryFormat', '4.0');
 JLoader::registerAlias('JRegistryFormatIni',                '\\Joomla\\Registry\\Format\\Ini', '4.0');
@@ -144,3 +147,4 @@ JLoader::registerAlias('JUcmContent',                       '\\Joomla\\CMS\\Ucm\
 JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\Ucm\\UcmType', '4.0');
 
 JLoader::registerAlias('JVersion',                          '\\Joomla\\CMS\\Version', '4.0');
+
