@@ -3,8 +3,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+Joomla = window.Joomla || {};
+
 (function() {
-	"use strict";
+	'use strict';
 
 	document.addEventListener('DOMContentLoaded', function() {
 
@@ -64,6 +66,20 @@
 				Joomla.displayLoader();
 
 				form.installtype.value = 'url';
+				form.submit();
+			}
+		};
+
+		Joomla.submitbuttonUpload = function() {
+			var form = document.getElementById('uploadForm');
+
+			// do field validation
+			if (form.install_package.value == '') {
+				alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
+			}
+			else {
+				Joomla.displayLoader();
+
 				form.submit();
 			}
 		};

@@ -5,7 +5,7 @@
 
 #loading {
 	position: fixed;
-	background-image: url(../../jui/img/ajax-loader.gif);
+	background-image: url(../../system/images/ajax-loader.gif);
 	background-color: rgba(255,255,255,.8);
 	background-repeat: no-repeat;
 	background-position: center center;
