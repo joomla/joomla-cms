@@ -14,7 +14,7 @@
 
 Joomla = window.Joomla || {};
 
-(function( Joomla, document ) {
+(function(Joomla, document) {
 	'use strict';
 
 	Joomla.hideAssociation = function(formControl, languageCode)
@@ -31,7 +31,7 @@ Joomla = window.Joomla || {};
 			}
 		}
 	}
-	
+
 	Joomla.showAssociationMessage = function()
 	{
 		var controlGroup = document.querySelectorAll('#associations .control-group');
@@ -42,7 +42,9 @@ Joomla = window.Joomla || {};
 			var associations = document.getElementById('associations'),
 			    html         = '<div id="associations-notice" class="alert alert-info">' + Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE') + '</div>';
 
-			associations.insertBefore(html, associations.firstChild);
+			if (associations) {
+				associations.insertAdjacentHTML('afterbegin', html);
+			}
 		}
 	}
 
@@ -58,8 +60,7 @@ Joomla = window.Joomla || {};
 			Joomla.showAssociationMessage();
 		}
 		// Hide only the associations for the current language
-		else
-		{
+		else {
 			if (formControlLanguage) {
 				Joomla.hideAssociation(formControl, formControlLanguage.value);
 			}
@@ -122,4 +123,4 @@ Joomla = window.Joomla || {};
 
 	});
 
-})();
+})(Joomla, document);
