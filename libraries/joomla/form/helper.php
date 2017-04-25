@@ -340,8 +340,15 @@ class JFormHelper
 
 		if ($group)
 		{
-
 			$groups = explode('.', $group);
+			
+			// An empty formControl leads to invalid shown property
+			// Use the 1st part of the group instead to avoid. 
+			if (empty($formPath) && isset($groups[0]))
+			{
+				$formPath = $groups[0];
+				array_shift($groups);
+			}
 
 			foreach ($groups as $group)
 			{
