@@ -28,35 +28,6 @@ class ModulesController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$id     = $this->input->getInt('id');
-
-		$document = JFactory::getDocument();
-
-		// For JSON requests
-		if ($document->getType() == 'json')
-		{
-
-			$view = new ModulesViewModule;
-
-			// Get/Create the model
-			if ($model = new ModulesModelModule)
-			{
-				// Checkin table entry
-				if (!$model->checkout($id))
-				{
-					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), 'error');
-					return false;
-				}
-
-				// Push the model into the view (as default)
-				$view->setModel($model, true);
-			}
-
-			$view->document = $document;
-
-			return $view->display();
-		}
-
 		JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
 
 		$layout = $this->input->get('layout', 'edit');

@@ -16,6 +16,6 @@ $input = JFactory::getApplication()->input;
 		<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 		<input type="hidden" class="address" name="address">
 		<?php echo JHtml::_('form.token'); ?>
-		<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE'); ?>" class="btn btn-danger">
+		<button type="submit" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
 	</fieldset>
 </form>
