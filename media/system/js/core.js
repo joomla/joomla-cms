@@ -235,54 +235,6 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 		}
 	};
-	
-	/**
-	 * USED IN: administrator/components/com_banners/views/client/tmpl/default.php
-	 * Actually, probably not used anywhere. Can we deprecate in favor of <input type="email">?
-	 *
-	 * Verifies if the string is in a valid email format
-	 *
-	 * @param string
-	 * @return boolean
-	 */
-	Joomla.isEmail = function( text ) {
-		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
-		return regex.test( text );
-	};
-
-	/**
-	 * USED IN: all list forms.
-	 *
-	 * Toggles the check state of a group of boxes
-	 *
-	 * Checkboxes must have an id attribute in the form cb0, cb1...
-	 *
-	 * @param   mixed   The number of box to 'check', for a checkbox element
-	 * @param   string  An alternative field name
-	 */
-	Joomla.checkAll = function( checkbox, stub ) {
-		if (!checkbox.form) return false;
-
-		stub = stub ? stub : 'cb';
-
-		var c = 0,
-		    i, e, n;
-
-		for ( i = 0, n = checkbox.form.elements.length; i < n; i++ ) {
-			e = checkbox.form.elements[ i ];
-
-			if ( e.type == checkbox.type && e.id.indexOf( stub ) === 0 ) {
-				e.checked = checkbox.checked;
-				c += e.checked ? 1 : 0;
-			}
-		}
-
-		if ( checkbox.form.boxchecked ) {
-			checkbox.form.boxchecked.value = c;
-		}
-
-		return true;
-	};
 
 	/**
 	 * Render messages send via JSON
@@ -445,43 +397,6 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 
 		return msg;
-	};
-
-	/**
-	 * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
-	 * administrator/components/com_installer/views/discover/tmpl/default_item.php
-	 * administrator/components/com_installer/views/update/tmpl/default_item.php
-	 * administrator/components/com_languages/helpers/html/languages.php
-	 * libraries/joomla/html/html/grid.php
-	 *
-	 * @param isitchecked
-	 * @param form
-	 * @return
-	 */
-	Joomla.isChecked = function( isitchecked, form ) {
-		if ( typeof form  === 'undefined' ) {
-			form = document.getElementById( 'adminForm' );
-		}
-
-		form.boxchecked.value = isitchecked ? parseInt(form.boxchecked.value) + 1 : parseInt(form.boxchecked.value) - 1;
-
-		// If we don't have a checkall-toggle, done.
-		if ( !form.elements[ 'checkall-toggle' ] ) return;
-
-		// Toggle main toggle checkbox depending on checkbox selection
-		var c = true,
-		    i, e, n;
-
-		for ( i = 0, n = form.elements.length; i < n; i++ ) {
-			e = form.elements[ i ];
-
-			if ( e.type == 'checkbox' && e.name != 'checkall-toggle' && !e.checked ) {
-				c = false;
-				break;
-			}
-		}
-
-		form.elements[ 'checkall-toggle' ].checked = c;
 	};
 
 	/**
@@ -661,91 +576,6 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		} else {
 			return null;
 		}
-	};
-
-	/**
-	 * USED IN: all over :)
-	 *
-	 * @param id
-	 * @param task
-	 * @return
-	 */
-	window.listItemTask = function ( id, task ) {
-		var f = document.adminForm,
-		    i = 0, cbx,
-		    cb = f[ id ];
-
-		if ( !cb ) return false;
-
-		while ( true ) {
-			cbx = f[ 'cb' + i ];
-
-			if ( !cbx ) break;
-
-			cbx.checked = false;
-
-			i++;
-		}
-
-		cb.checked = true;
-		f.boxchecked.value = 1;
-		window.submitform( task );
-
-		return false;
-	};
-	/**
-	 * Default function. Usually would be overriden by the component
-	 *
-	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
-	 */
-	window.submitbutton = function ( pressbutton ) {
-		Joomla.submitbutton( pressbutton );
-	};
-
-	/**
-	 * Submit the admin form
-	 *
-	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
-	 */
-	window.submitform = function ( pressbutton ) {
-		Joomla.submitform(pressbutton);
-	};
-
-	// needed for Table Column ordering
-	/**
-	 * USED IN: libraries/joomla/html/html/grid.php
-	 * There's a better way to do this now, can we try to kill it?
-	 */
-	window.saveorder = function ( n, task ) {
-		window.checkAll_button( n, task );
-	};
-
-	/**
-	 * Checks all the boxes unless one is missing then it assumes it's checked out.
-	 * Weird. Probably only used by ^saveorder
-	 *
-	 * @param   integer  n     The total number of checkboxes expected
-	 * @param   string   task  The task to perform
-	 *
-	 * @return  void
-	 */
-	window.checkAll_button = function ( n, task ) {
-		task = task ? task : 'saveorder';
-
-		var j, box;
-
-		for ( j = 0; j <= n; j++ ) {
-			box = document.adminForm[ 'cb' + j ];
-
-			if ( box ) {
-				box.checked = true;
-			} else {
-				alert( "You cannot change the order of items, as an item in the list is `Checked Out`" );
-				return;
-			}
-		}
-
-		Joomla.submitform( task );
 	};
 
 	/**

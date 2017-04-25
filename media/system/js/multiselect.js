@@ -62,6 +62,145 @@ Joomla.changeRowListBg = function(item, checkall) {
 	}
 };
 
+/**
+ * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
+ * administrator/components/com_installer/views/discover/tmpl/default_item.php
+ * administrator/components/com_installer/views/update/tmpl/default_item.php
+ * administrator/components/com_languages/helpers/html/languages.php
+ * libraries/joomla/html/html/grid.php
+ *
+ * @param isitchecked
+ * @param form
+ * @return
+ */
+Joomla.isChecked = function( isitchecked, form ) {
+	if ( typeof form  === 'undefined' ) {
+		form = document.getElementById( 'adminForm' );
+	}
+
+	form.boxchecked.value = isitchecked ? parseInt(form.boxchecked.value) + 1 : parseInt(form.boxchecked.value) - 1;
+
+	// If we don't have a checkall-toggle, done.
+	if ( !form.elements[ 'checkall-toggle' ] ) return;
+
+	// Toggle main toggle checkbox depending on checkbox selection
+	var c = true,
+	    i, e, n;
+
+	for ( i = 0, n = form.elements.length; i < n; i++ ) {
+		e = form.elements[ i ];
+
+		if ( e.type == 'checkbox' && e.name != 'checkall-toggle' && !e.checked ) {
+			c = false;
+			break;
+		}
+	}
+
+	form.elements[ 'checkall-toggle' ].checked = c;
+};
+
+/**
+ * USED IN: all list forms.
+ *
+ * Toggles the check state of a group of boxes
+ *
+ * Checkboxes must have an id attribute in the form cb0, cb1...
+ *
+ * @param   mixed   The number of box to 'check', for a checkbox element
+ * @param   string  An alternative field name
+ */
+Joomla.checkAll = function( checkbox, stub ) {
+	if (!checkbox.form) return false;
+
+	stub = stub ? stub : 'cb';
+
+	var c = 0,
+	    i, e, n;
+
+	for ( i = 0, n = checkbox.form.elements.length; i < n; i++ ) {
+		e = checkbox.form.elements[ i ];
+
+		if ( e.type == checkbox.type && e.id.indexOf( stub ) === 0 ) {
+			e.checked = checkbox.checked;
+			c += e.checked ? 1 : 0;
+		}
+	}
+
+	if ( checkbox.form.boxchecked ) {
+		checkbox.form.boxchecked.value = c;
+	}
+
+	return true;
+};
+
+/**
+ * USED IN: all over :)
+ *
+ * @param id
+ * @param task
+ * @return
+ */
+Joomla.listItemTask = function ( id, task ) {
+	var f = document.adminForm,
+	    i = 0, cbx,
+	    cb = f[ id ];
+
+	if ( !cb ) return false;
+
+	while ( true ) {
+		cbx = f[ 'cb' + i ];
+
+		if ( !cbx ) break;
+
+		cbx.checked = false;
+
+		i++;
+	}
+
+	cb.checked = true;
+	f.boxchecked.value = 1;
+	window.submitform( task );
+
+	return false;
+};
+
+// needed for Table Column ordering
+/**
+ * USED IN: libraries/joomla/html/html/grid.php
+ * There's a better way to do this now, can we try to kill it?
+ */
+Joomla.saveorder = function ( n, task ) {
+	Joomla.checkAll_button( n, task );
+};
+
+/**
+ * Checks all the boxes unless one is missing then it assumes it's checked out.
+ * Weird. Probably only used by ^saveorder
+ *
+ * @param   integer  n     The total number of checkboxes expected
+ * @param   string   task  The task to perform
+ *
+ * @return  void
+ */
+Joomla.checkAll_button = function ( n, task ) {
+	task = task ? task : 'saveorder';
+
+	var j, box;
+
+	for ( j = 0; j <= n; j++ ) {
+		box = document.adminForm[ 'cb' + j ];
+
+		if ( box ) {
+			box.checked = true;
+		} else {
+			alert( "You cannot change the order of items, as an item in the list is `Checked Out`" );
+			return;
+		}
+	}
+
+	Joomla.submitform( task );
+};
+
 document.addEventListener('DOMContentLoaded', function() {
 	'use strict';
 
@@ -89,5 +228,31 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		});
 	}
+
+
+		var actions = [].slice.call(document.querySelectorAll('a.move_up, a.move_down, a.grid_true, a.grid_false, a.grid_trash'));
+
+		if (actions.length) {
+			actions.each(function(action){
+				action.addEventListener('click', function(event){
+					var args = JSON.decode(event.target.getAttribute(rel));
+					Joomla.listItemTask(args.id, args.task);
+				});
+			});
+			[].slice.call(document.querySelectorAll('input.check-all-toggle')).each(function(item){
+				item.addEventListener('click', function(event){
+					if (event.target.checked) {
+						[].slice.call(event.target.form.querySelectorAll('input[type="checkbox"]')).each(function(item){
+							item.checked = true;
+						})
+					}
+					else {
+						[].slice.call(event.target.form.querySelectorAll('input[type="checkbox"]')).each(function(item){
+							item.checked = false;
+						})
+					}
+				});
+			});
+		}
 });
 
