@@ -47,44 +47,47 @@ Joomla.JMultiSelect = function(table) {
 	initialize(table);
 };
 
-document.addEventListener('DOMContentLoaded', function(event) {
-	'use strict';
-	var rows = document.querySelectorAll('tr[class^="row"]');
+// Changes the background-color on every <td> inside a <tr>
+Joomla.changeRowListBg = function(item, checkall) {
 
-	// Changes the background-color on every <td> inside a <tr>
-	function changeBg(item, checkall) {
-		// Check if it should add or remove the background colour
-		if (checkall.checked) {
-			item.querySelectorAll('td').forEach (function(td) {
-				td.classList.add('row-selected');
-			});
-		}
-		else {
-			item.querySelectorAll('td').forEach (function(td) {
-				td.classList.remove('row-selected');
-			});
-		}
+	// Check if it should add or remove the background colour
+	if (checkall.checked) {
+		item.querySelectorAll('td').forEach (function(td) {
+			td.classList.add('row-selected');
+		});
+	} else {
+		item.querySelectorAll('td').forEach (function(td) {
+			td.classList.remove('row-selected');
+		});
 	}
+};
 
-	document.getElementsByName('checkall-toggle')[0].addEventListener('click', function(event) {
-		var checkall = this;
+document.addEventListener('DOMContentLoaded', function() {
+	'use strict';
+
+	var rows = [].slice.call(document.querySelectorAll('tr[class^="row"]'));
+
+	if (rows.length) {
+		document.getElementsByName('checkall-toggle')[0].addEventListener('click', function() {
+			var checkall = this;
+
+			rows.forEach(function(row) {
+				Joomla.changeRowListBg(row, checkall);
+			});
+		});
 
 		rows.forEach(function(row, index) {
-			changeBg(row, checkall);
-		});
-	});
+			row.addEventListener('click', function(event) {
+				var clicked   = 'cb' + index, cbClicked = document.getElementById(clicked);
 
-	rows.forEach(function(row, index) {
-		row.addEventListener('click', function(event) {
-			var clicked   = 'cb' + index, cbClicked = document.getElementById(clicked);
+				if (!(event.target.id == clicked)) {
+					cbClicked.checked = !cbClicked.checked;
+					Joomla.isChecked(cbClicked.checked);
+				}
 
-			if (!(event.target.id == clicked)) {
-				cbClicked.checked = !cbClicked.checked;
-				Joomla.isChecked(cbClicked.checked);
-			}
-	
-			changeBg(this, cbClicked);
+				Joomla.changeRowListBg(this, cbClicked);
+			});
 		});
-	});
+	}
 });
 
