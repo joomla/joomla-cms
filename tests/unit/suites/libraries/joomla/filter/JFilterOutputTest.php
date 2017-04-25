@@ -41,7 +41,7 @@ class FilterTestObject
  * @subpackage  Filter
  * @since       11.1
  */
-class JFilterOutputTest extends PHPUnit_Framework_TestCase
+class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var beforeObject
@@ -68,7 +68,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

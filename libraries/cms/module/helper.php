@@ -500,7 +500,7 @@ abstract class JModuleHelper
 	 *
 	 * @param   object  $module        Module object
 	 * @param   object  $moduleparams  Module parameters
-	 * @param   object  $cacheparams   Module cache parameters - id or url parameters, depending on the module cache mode
+	 * @param   object  $cacheparams   Module cache parameters - id or URL parameters, depending on the module cache mode
 	 *
 	 * @return  string
 	 *

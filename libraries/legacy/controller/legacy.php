@@ -276,19 +276,18 @@ class JControllerLegacy extends JObject
 		// Include the class if not present.
 		if (!class_exists($class))
 		{
-			JLoader::register($class, $path);
-
-			if (!class_exists($class))
+			// If the controller file path exists, include it.
+			if (file_exists($path))
 			{
-				if (isset($backuppath) && file_exists($backuppath))
-				{
-					JLoader::register($class, $backuppath);
-				}
-
-				if (!class_exists($class))
-				{
-					throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
-				}
+				require_once $path;
+			}
+			elseif (isset($backuppath) && file_exists($backuppath))
+			{
+				require_once $backuppath;
+			}
+			else
+			{
+				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
@@ -449,7 +448,7 @@ class JControllerLegacy extends JObject
 		foreach ((array) $path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(JPath::check($dir, '/'), '/') . '/';
+			$dir = rtrim(JPath::check($dir), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
@@ -587,7 +586,7 @@ class JControllerLegacy extends JObject
 				return null;
 			}
 
-			JLoader::register($viewClass, $path);
+			require_once $path;
 
 			if (!class_exists($viewClass))
 			{
@@ -605,7 +604,7 @@ class JControllerLegacy extends JObject
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
@@ -649,7 +648,7 @@ class JControllerLegacy extends JObject
 
 				foreach ($urlparams as $key => $value)
 				{
-					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
+					// Add your safe URL parameters with variable type as value {@see JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 

@@ -212,7 +212,7 @@ class JFormHelper
 				continue;
 			}
 
-			JLoader::register($class, $file);
+			require_once $file;
 
 			if (class_exists($class))
 			{
@@ -338,8 +338,9 @@ class JFormHelper
 
 		$formPath = $formControl ?: '';
 
-		if ($formPath && $group)
+		if ($group)
 		{
+
 			$groups = explode('.', $group);
 
 			foreach ($groups as $group)

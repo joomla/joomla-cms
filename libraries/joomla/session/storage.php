@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Custom session storage handler for PHP
  *
- * @see    https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @todo   When dropping compatibility with PHP 5.3 use the SessionHandlerInterface and the SessionHandler class
- * @since  11.1
+ * @see         https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @since       11.1
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 abstract class JSessionStorage
 {
