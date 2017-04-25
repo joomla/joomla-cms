@@ -580,7 +580,7 @@ abstract class JHtmlBehavior
 
 		JHtml::_('stylesheet', 'system/calendarjos.css', array('version' => 'auto', 'relative' => true), $attribs);
 		JHtml::_('script', $tag . '/calendar.js', array('version' => 'auto', 'relative' => true));
-		JHtml::_('script', $tag . '/calendarsetup.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', $tag . '/calendar-setup.js', array('version' => 'auto', 'relative' => true));
 
 		$translation = static::calendartranslation();
 
