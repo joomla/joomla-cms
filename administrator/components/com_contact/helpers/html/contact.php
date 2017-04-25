@@ -112,7 +112,7 @@ abstract class JHtmlContact
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-xs btn-secondary hasTooltip'
+			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-xs btn-secondary hasTooltip'
 				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 		else

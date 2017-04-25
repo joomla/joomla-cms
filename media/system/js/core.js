@@ -236,6 +236,37 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
+	 * USED IN: all over :)
+	 *
+	 * @param id
+	 * @param task
+	 * @return
+	 */
+	Joomla.listItemTask = function ( id, task ) {
+		var f = document.adminForm,
+		    i = 0, cbx,
+		    cb = f[ id ];
+
+		if ( !cb ) return false;
+
+		while ( true ) {
+			cbx = f[ 'cb' + i ];
+
+			if ( !cbx ) break;
+
+			cbx.checked = false;
+
+			i++;
+		}
+
+		cb.checked = true;
+		f.boxchecked.value = 1;
+		window.submitform( task );
+
+		return false;
+	};
+
+	/**
 	 * Render messages send via JSON
 	 * Used by some javascripts such as validate.js
 	 *
