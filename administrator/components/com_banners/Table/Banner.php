@@ -307,7 +307,7 @@ class Banner extends Table
 
 		// Get an instance of the table
 		/** @var Banner $table */
-		$table = Table::getInstance('Banner', 'BannersTable');
+		$table = Table::getInstance('Banner', __NAMESPACE__ . '\\');
 
 		// For all keys
 		foreach ($pks as $pk)

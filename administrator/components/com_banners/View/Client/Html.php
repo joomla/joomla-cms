@@ -12,12 +12,14 @@ defined('_JEXEC') or die;
 
 \JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
+use Joomla\CMS\View\HtmlView;
+
 /**
  * View to edit a client.
  *
  * @since  1.5
  */
-class BannersViewClient extends HtmlView
+class Html extends HtmlView
 {
 	/**
 	 * The \JForm object
