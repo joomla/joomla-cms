@@ -75,7 +75,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
-	 * Default function. Can be overriden by the component to add custom logic
+	 * Default function. Can be overridden by the component to add custom logic
 	 */
 	Joomla.submitbutton = function( task ) {
 		var form = document.querySelectorAll( 'form.form-validate' );
@@ -261,7 +261,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		cb.checked = true;
 		f.boxchecked.value = 1;
-		window.submitform( task );
+		Joomla.submitform( task );
 
 		return false;
 	};
