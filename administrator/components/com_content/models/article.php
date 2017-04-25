@@ -414,7 +414,7 @@ class ContentModelArticle extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data))
@@ -473,11 +473,13 @@ class ContentModelArticle extends JModelAdmin
 			{
 				unset($data['created_by']);
 			}
+
 			if (isset($data['modified_by']))
 			{
 				unset($data['modified_by']);
 			}
 		}
+
 		return parent::validate($form, $data, $group);
 	}
 
