@@ -39,11 +39,16 @@ Joomla = window.Joomla || {};
 		for (var i = 0, l = controlGroup.length; i < l; i++) {
 			controlGroup[i].style.display = 'none';
 
-			var associations = document.getElementById('associations'),
-			    html         = '<div id="associations-notice" class="alert alert-info">' + Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE') + '</div>';
+			var associations = document.getElementById('associations');
 
 			if (associations) {
-				associations.insertAdjacentHTML('afterbegin', html);
+				var html = document.createElement('div');
+				html.classList.add('alert')
+				html.classList.add('alert-info')
+				html.id = 'associations-notice';
+				html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
+
+				associations.insertAdjacentElement('afterbegin', html);
 			}
 		}
 	}

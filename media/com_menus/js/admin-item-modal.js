@@ -3,13 +3,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-Joomla = window.Joomla || parent.Joomla || {};
+Joomla = window.Joomla || {};
  
 (function(Joomla, document) {
 	'use strict';
 
 	Joomla.setMenuType = function(type, tmpl) {
-		console.log(tmpl);
 		if (tmpl != '') {
 			window.parent.Joomla.submitbutton('item.setType', type);
 			window.parent.jQuery('#menuTypeModal').modal('hide');
