@@ -727,8 +727,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		// Create the loading layer (hidden by default).
 		if (task == 'load')
 		{
-			// Gets the site base path from the body element (defaults to empty - no subfolder)
-			var basePath = document.getElementsByTagName('body')[0].getAttribute('data-basepath') || '';
+			// Gets the site base path from the predefined language string
+			var basePath = Joomla.JText._('JOOMLA_BASE_PATH');
 
 			var loadingDiv = document.createElement('div');
 
