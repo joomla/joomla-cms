@@ -606,7 +606,7 @@ class Article extends Admin
 			return false;
 		}
 
-		$table = $this->getTable('Featured', 'ContentTable');
+		$table = $this->getTable('Featured', 'Administrator');
 
 		try
 		{
@@ -715,7 +715,7 @@ class Article extends Admin
 
 			if (count($languages) > 1)
 			{
-				$addform = new SimpleXMLElement('<form />');
+				$addform = new \SimpleXMLElement('<form />');
 				$fields = $addform->addChild('fields');
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');

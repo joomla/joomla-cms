@@ -744,37 +744,4 @@ class JMail extends PHPMailer
 
 		return $this->Send();
 	}
-
-	/**
-	 * Sends mail to administrator for approval of a user submission
-	 *
-	 * @param   string  $adminName   Name of administrator
-	 * @param   string  $adminEmail  Email address of administrator
-	 * @param   string  $email       [NOT USED TODO: Deprecate?]
-	 * @param   string  $type        Type of item to approve
-	 * @param   string  $title       Title of item to approve
-	 * @param   string  $author      Author of item to approve
-	 * @param   string  $url         A URL to included in the mail
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   11.1
-	 */
-	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
-	{
-		$subject = JText::sprintf('JLIB_MAIL_USER_SUBMITTED', $type);
-
-		$message = sprintf(JText::_('JLIB_MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
-		$message .= JText::_('JLIB_MAIL_MSG') . "\n";
-
-		if ($this->addRecipient($adminEmail) === false)
-		{
-			return false;
-		}
-
-		$this->setSubject($subject);
-		$this->setBody($message);
-
-		return $this->Send();
-	}
 }

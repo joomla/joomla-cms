@@ -194,7 +194,7 @@ class PlgSystemDebug extends JPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('stylesheet', 'system/debug.css', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
 			JHtml::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
 

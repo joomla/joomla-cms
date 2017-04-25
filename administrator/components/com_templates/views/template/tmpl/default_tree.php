@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ksort($this->files, SORT_STRING);
 ?>
 
-<ul class='list-unstyled directory-tree'>
+<ul class="directory-tree treeselect">
 	<?php foreach ($this->files as $key => $value) : ?>
 		<?php if (is_array($value)) : ?>
 			<?php
@@ -45,8 +45,8 @@ ksort($this->files, SORT_STRING);
 
 			?>
 			<li class="<?php echo $class; ?>">
-				<a class='folder-url nowrap' href=''>
-					<i class='fa-fw fa fa-folder'></i>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?>
+				<a class="folder-url nowrap" href="">
+					<span class="fa-fw fa fa-folder" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
 			</li>
@@ -54,7 +54,7 @@ ksort($this->files, SORT_STRING);
 		<?php if (is_object($value)) : ?>
 			<li>
 				<a class="file" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
-					<i class='fa fa-fw fa-file-o'></i>&nbsp;<?php echo $value->name; ?>
+					<span class="fa fa-fw fa-file-o" aria-hidden="true"></span>&nbsp;<?php echo $value->name; ?>
 				</a>
 			</li>
 		<?php endif; ?>

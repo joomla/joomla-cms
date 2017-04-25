@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\String\StringHelper;
 
 /**
@@ -29,7 +31,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Current JApplication-Object
 	 *
-	 * @var    JApplicationCms
+	 * @var    CmsApplication
 	 * @since  3.4
 	 */
 	protected $app;
@@ -37,7 +39,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Current JMenu-Object
 	 *
-	 * @var    JMenu
+	 * @var    AbstractMenu
 	 * @since  3.4
 	 */
 	protected $menu;
@@ -45,14 +47,14 @@ class JRouterSite extends JRouter
 	/**
 	 * Class constructor
 	 *
-	 * @param   JApplicationCms  $app   JApplicationCms Object
-	 * @param   JMenu            $menu  JMenu object
+	 * @param   CmsApplication  $app   JApplicationCms Object
+	 * @param   AbstractMenu    $menu  JMenu object
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JApplicationCms $app = null, JMenu $menu = null)
+	public function __construct(CmsApplication $app = null, AbstractMenu $menu = null)
 	{
-		$this->app  = $app ?: JApplicationCms::getInstance('site');
+		$this->app  = $app ?: CmsApplication::getInstance('site');
 		$this->menu = $menu ?: $this->app->getMenu();
 
 		// Add core rules

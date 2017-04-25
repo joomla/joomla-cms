@@ -197,6 +197,12 @@ class PlgEditorCodemirror extends JPlugin
 		// Options for the CodeMirror constructor.
 		$options = new stdClass;
 
+		// Is field readonly?
+		if (!empty($params['readonly']))
+		{
+			$options->readOnly = 'nocursor';
+		}
+
 		// Should we focus on the editor on load?
 		$options->autofocus = (boolean) $this->params->get('autoFocus', true);
 

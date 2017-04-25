@@ -126,7 +126,7 @@ class Articles extends Admin
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Article', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

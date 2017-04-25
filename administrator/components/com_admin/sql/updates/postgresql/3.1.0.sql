@@ -7,7 +7,7 @@ ALTER TABLE "#__updates" ALTER COLUMN "data" SET DEFAULT '';
 --
 -- Table: #__content_types
 --
-CREATE TABLE "#__content_types" (
+CREATE TABLE IF NOT EXISTS "#__content_types" (
   "type_id" serial NOT NULL,
   "type_title" character varying(255) NOT NULL DEFAULT '',
   "type_alias" character varying(255) NOT NULL DEFAULT '',
@@ -38,7 +38,7 @@ SELECT setval('#__content_types_type_id_seq', 10000, false);
 --
 -- Table: #__contentitem_tag_map
 --
-CREATE TABLE "#__contentitem_tag_map" (
+CREATE TABLE IF NOT EXISTS "#__contentitem_tag_map" (
   "type_alias" character varying(255) NOT NULL DEFAULT '',
   "core_content_id" integer NOT NULL,
   "content_item_id" integer NOT NULL,
@@ -62,7 +62,7 @@ COMMENT ON COLUMN "#__contentitem_tag_map"."tag_date" IS 'Date of most recent sa
 --
 -- Table: #__tags
 --
-CREATE TABLE "#__tags" (
+CREATE TABLE IF NOT EXISTS "#__tags" (
   "id" serial NOT NULL,
   "parent_id" bigint DEFAULT 0 NOT NULL,
   "lft" bigint DEFAULT 0 NOT NULL,
@@ -116,7 +116,7 @@ SELECT setval('#__tags_id_seq', 2, false);
 --
 -- Table: #__ucm_base
 --
-CREATE TABLE "#__ucm_base" (
+CREATE TABLE IF NOT EXISTS "#__ucm_base" (
   "ucm_id" serial NOT NULL,
   "ucm_item_id" bigint NOT NULL,
   "ucm_type_id" bigint NOT NULL,
@@ -130,7 +130,7 @@ CREATE INDEX "#__ucm_base_ucm_language_id" ON "#__ucm_base" ("ucm_language_id");
 --
 -- Table: #__ucm_content
 --
-CREATE TABLE "#__ucm_content" (
+CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_content_id" serial NOT NULL,
   "core_type_alias" character varying(255) DEFAULT '' NOT NULL,
   "core_title" character varying(255) NOT NULL,

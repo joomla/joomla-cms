@@ -124,9 +124,11 @@ class PlgEditorNone extends JPlugin
 			$height .= 'px';
 		}
 
+		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
+
 		$editor = '<div class="js-editor-none">'
 			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
-			. '" style="width: ' . $width . '; height: ' . $height . ';">' . $content . '</textarea>'
+			. '" style="width: ' . $width . '; height: ' . $height . ';"' . $readonly . '>' . $content . '</textarea>'
 			. $this->_displayButtons($id, $buttons, $asset, $author)
 			. '</div>';
 

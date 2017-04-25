@@ -147,7 +147,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	// Menu Types
 	$menuTypes = ModMenuHelper::getMenus();
-	$menuTypes = ArrayHelper::sortObjects($menuTypes, array('client_id', 'title'), 1, false);
+	$menuTypes = ArrayHelper::sortObjects($menuTypes, isset($menuTypes[0]->client_id) ? array('client_id', 'title') : 'title', 1, false);
 
 	foreach ($menuTypes as $mti => $menuType)
 	{
@@ -182,7 +182,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 			$titleicon = ' <span class="label" title="' . $menuType->title_native . '">' . $menuType->sef . '</span>';
 		}
 
-		if (isset($menuTypes[$mti - 1]) && $menuTypes[$mti - 1]->client_id != $menuType->client_id)
+		if (isset($menuTypes[$mti - 1], $menuType->client_id) && $menuTypes[$mti - 1]->client_id != $menuType->client_id)
 		{
 			$this->addSeparator(JText::_('JADMINISTRATOR'));
 		}

@@ -563,6 +563,6 @@ class ComponentHelper
 		$from = strpos($reflect->getNamespaceName(), '\\Component');
 		$to   = strpos(substr($reflect->getNamespaceName(), $from + 11), '\\');
 
-		return 'com_' .  strtolower(substr($reflect->getNamespaceName(), $from + 11, $to));
+		return 'com_' . strtolower(substr($reflect->getNamespaceName(), $from + 11, $to));
 	}
 }

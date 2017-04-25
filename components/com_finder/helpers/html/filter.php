@@ -172,9 +172,9 @@ abstract class JHtmlFilter
 			);
 
 			// Populate the toggle button.
-			$html .= '<button class="btn jform-rightbtn" type="button" onclick="jQuery(\'[id=&quot;tax-'
-				. $bk . '&quot;]\').each(function(){this.click();});"><span class="icon-checkbox-partial"></span> '
-				. JText::_('JGLOBAL_SELECTION_INVERT') . '</button><hr/>';
+			$html .= '<button class="btn btn-secondary" type="button" onclick="jQuery(\'[id=&quot;tax-'
+				. $bk . '&quot;]\').each(function(){this.click();});"><span class="fa fa-square" aria-hidden="true"></span> '
+				. JText::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
 
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
@@ -183,15 +183,11 @@ abstract class JHtmlFilter
 				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
 				// Build a node.
-				$html .= '<div class="control-group">';
-				$html .= '<div class="controls">';
-				$html .= '<label class="checkbox" tax-'
-					. $bk . '>';
-				$html .= '<input type="checkbox" class="selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $bk . '"' . $checked . '>';
-				$html .= $nv->title;
+				$html .= '<div class="form-check">';
+				$html .= '<label class="form-check-label" tax-' . $bk . '>';
+				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
+					. $bk . '"' . $checked . '> ' . $nv->title;
 				$html .= '</label>';
-				$html .= '</div>';
 				$html .= '</div>';
 			}
 			$html .= JHtml::_('bootstrap.endSlide');

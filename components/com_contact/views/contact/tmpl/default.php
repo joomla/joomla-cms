@@ -77,7 +77,7 @@ jimport('joomla.html.html.bootstrap');
 		<?php endif; ?>
 
 		<?php if ($this->contact->image && $tparams->get('show_image')) : ?>
-			<div class="thumbnail pull-right">
+			<div class="thumbnail float-right">
 				<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('align' => 'middle', 'itemprop' => 'image')); ?>
 			</div>
 		<?php endif; ?>

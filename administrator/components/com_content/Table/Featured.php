@@ -23,7 +23,7 @@ class Featured extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  &$db  Database connector object
+	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.6
 	 */

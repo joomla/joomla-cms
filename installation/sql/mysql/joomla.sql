@@ -513,7 +513,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (29, 0, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '', '{"tag_layout":"_:default","save_history":"1","history_limit":5,"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_descripion":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (30, 0, 'com_contenthistory', 'component', 'com_contenthistory', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (31, 0, 'com_ajax', 'component', 'com_ajax', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(32, 0, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(32, 0, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Postinstall'),
 (33, 0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (34, 0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -621,7 +621,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (464, 0, 'plg_fields_color', 'plugin', 'color', 'fields', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (465, 0, 'plg_fields_editor', 'plugin', 'editor', 'fields', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (466, 0, 'plg_fields_imagelist', 'plugin', 'imagelist', 'fields', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(467, 0, 'plg_fields_integer', 'plugin', 'integer', 'fields', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(467, 0, 'plg_fields_integer', 'plugin', 'integer', 'fields', 0, 1, 1, 0, '', '{"multiple":"0","first":"1","last":"100","step":"1"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (468, 0, 'plg_fields_list', 'plugin', 'list', 'fields', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (469, 0, 'plg_fields_media', 'plugin', 'media', 'fields', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (470, 0, 'plg_fields_radio', 'plugin', 'radio', 'fields', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -688,7 +688,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
 -- Table structure for table `#__fields_categories`
 --
 
-CREATE TABLE `#__fields_categories` (
+CREATE TABLE IF NOT EXISTS `#__fields_categories` (
   `field_id` int(11) NOT NULL DEFAULT 0,
   `category_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`field_id`,`category_id`)
