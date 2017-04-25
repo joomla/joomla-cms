@@ -11,7 +11,7 @@ are running on windows this is a good tutorial on how to install node (which wil
 http://blog.teamtreehouse.com/install-node-js-npm-windows. If you are running on OSX we recommend installing Node with
 brew.
 
-Then navigate on command line to the Joomla Install and run the following command
+Then navigate on command line to the Joomla install and run the following command
 
 `npm install`
 
@@ -23,7 +23,7 @@ This will install all node dependencies onto your system. Then there are 3 easy 
 
 
 ### Maintainer's Area (TODO: This list of commands needs updating)
-- Running `grunt` will automatically update all the assets. Make sure that you have updated the settings.yaml file in
+- Running `grunt` will automatically update all the assets. Make sure that you have updated the grunt-settings.yaml file in
 order to update the libraries!!!
 
 The full list of other Grunt Tasks available are:
@@ -47,22 +47,8 @@ For running sass linting we require that ruby is installed on the system.
 - Install Ruby:  https://rubyinstaller.org
 - Run: `gem install scss_lint` to install the linter
 
-Will update the following external sourced static assets that Joomla is using.
+Will update the following external sourced static assets that Joomla is using and is defined in /grunt_settings.yaml
 
-- Jquery
-- Jquery-migrate
-- Bootstrap
-- Tether
-- Font awesome
-- Chosen
-- Jquery-minicolors
-- Jquery-sortable
-- Jquery-ui
-- MediaElement
-- Punycode
-- TinyMCE
-- Awesomplete
-- Codemirror
 
 The following are always fetched with curl (no module available)
 
