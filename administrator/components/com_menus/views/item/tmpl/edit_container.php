@@ -13,24 +13,8 @@ use Joomla\Registry\Registry;
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
-JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', array('version' => 'auto', 'relative' => true));
-
-$script = <<<'JS'
-	jQuery(document).ready(function ($) {
-		var propagate = function () {
-			var $this = $(this);
-			var sub = $this.closest('li').find('.treeselect-sub [type="checkbox"]');
-			sub.prop('checked', this.checked);
-			if ($this.val() == 1)
-				sub.each(propagate);
-			else
-				sub.attr('disabled', this.checked ? 'disabled' : null);
-		};
-		$('.treeselect')
-			.on('click', '[type="checkbox"]', propagate)
-			.find('[type="checkbox"]:checked').each(propagate);
-	});
-JS;
+JHtml::_('script', 'com_menus/admin-item-edit_container.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 
 $style = <<<'CSS'
 	.checkbox-toggle {
@@ -53,7 +37,6 @@ $style = <<<'CSS'
 	}
 CSS;
 
-JFactory::getDocument()->addScriptDeclaration($script);
 JFactory::getDocument()->addStyleDeclaration($style);
 ?>
 <div id="menuselect-group" class="control-group">
@@ -72,7 +55,7 @@ JFactory::getDocument()->addStyleDeclaration($style);
 					<a id="treeUncheckAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
 					<a id="treeCheckAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
 				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="input-medium search-query pull-right" size="16"
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="input-medium search-query float-right" size="16"
 					autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
 			</div>
 
@@ -111,17 +94,17 @@ JFactory::getDocument()->addStyleDeclaration($style);
 						$selected = in_array($link->value, $hiddenLinks) ? 1 : 0;
 						?>
 							<li>
-								<div class="treeselect-item pull-left">
+								<div class="treeselect-item float-left">
 									<input type="checkbox" <?php echo $link->value > 1 ? ' name="jform[params][hideitems][]" ' : ''; ?>
 										   id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>" class="novalidate checkbox-toggle"
 										<?php echo $selected ? ' checked="checked"' : ''; ?>>
 
 									<?php if ($link->value == 1): ?>
-										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-info pull-left"><?php echo JText::_('JALL') ?></label>
+										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-info float-left"><?php echo JText::_('JALL') ?></label>
 									<?php else: ?>
-										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-danger btn-hide pull-left"><?php echo JText::_('JHIDE') ?></label>
-										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-success btn-show pull-left"><?php echo JText::_('JSHOW') ?></label>
-										<label for="<?php echo $id . $link->value; ?>" class="pull-left"><?php echo JText::_($link->text); ?></label>
+										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-danger btn-hide float-left"><?php echo JText::_('JHIDE') ?></label>
+										<label for="<?php echo $id . $link->value; ?>" class="btn btn-mini btn-success btn-show float-left"><?php echo JText::_('JSHOW') ?></label>
+										<label for="<?php echo $id . $link->value; ?>" class="float-left"><?php echo JText::_($link->text); ?></label>
 									<?php endif; ?>
 								</div>
 						<?php

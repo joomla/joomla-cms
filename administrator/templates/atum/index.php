@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -17,20 +17,21 @@ $this->language  = $doc->language;
 $this->direction = $doc->direction;
 $input           = $app->input;
 
-// Add JavaScript Frameworks
+// Add JavaScript
 JHtml::_('bootstrap.framework');
-$doc->addScriptVersion(JUri::root() . 'media/vendor/flying-focus-a11y/js/flying-focus.min.js');
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', array('version' => 'auto'));
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min.css');
+JHtml::_('stylesheet', 'template.min.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
 $languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (file_exists($languageCss) && filesize($languageCss) > 0)
 {
-	$doc->addStyleSheetVersion($languageCss);
+	JHtml::_('stylesheet', $languageCss, array('version' => 'auto'));
 }
 
 // Load custom.css
@@ -38,7 +39,7 @@ $customCss = 'templates/' . $this->template . '/css/custom.css';
 
 if (file_exists($customCss) && filesize($customCss) > 0)
 {
-	$doc->addStyleSheetVersion($customCss);
+	JHtml::_('stylesheet', $customCss, array('version' => 'auto'));
 }
 
 // Detecting Active Variables
@@ -91,22 +92,32 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
-				<div class="text-center">
-					<div class="menu-collapse hidden-lg-up">
-						<a id="menu-collapse" class="menu-toggle" href="#">
-							<span class="fa fa-bars fa-fw">
-								<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
-							</span>
-						</a>
+				<div class="d-flex justify-content-between align-items-center">
+					<div class="d-flex justify-content-start align-items-center">
+						<div class="menu-collapse hidden-lg-up">
+							<a id="menu-collapse" class="menu-toggle" href="#">
+								<span class="fa fa-bars fa-fw" aria-hidden="true">
+									<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
+								</span>
+							</a>
+						</div>
+
+						<div class="container-title hidden-md-down">
+							<jdoc:include type="modules" name="title" />
+						</div>
 					</div>
 
-					<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
+					<a class="navbar-brand hidden-md-down" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
 						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
 						<span class="icon-out-2 small"></span>
 					</a>
 
+					<div class="container-title hidden-lg-up">
+						<jdoc:include type="modules" name="title" />
+					</div>
+
 					<nav>
-						<ul class="nav">
+						<ul class="nav text-center">
 							<li class="nav-item">
 								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
 									<span class="fa fa-envelope"><span class="sr-only"><?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?></span>
@@ -119,8 +130,13 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php
 								try
 								{
-									JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_postinstall/models');
-									$messages_model = JModelLegacy::getInstance('Messages', 'PostinstallModel', array('ignore_request' => true));
+									JLoader::register('PostinstallDispatcher', JPATH_ADMINISTRATOR . '/components/com_postinstall/dispatcher.php');
+									$oldScope = $app->scope;
+									$app->scope = 'com_postinstall';
+									$namespace = \Joomla\CMS\Component\ComponentHelper::getComponent($app->scope)->namespace;
+									$dispatcher = new PostinstallDispatcher($namespace, JFactory::getApplication());
+
+									$messages_model = $dispatcher->getFactory()->createModel('Messages', 'Administrator', array('ignore_request' => true));
 
 									$messages       = $messages_model->getItems();
 								}
@@ -184,15 +200,6 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 				</div>
 			</div>
 		</header>
-		<div class="container-title">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-12">
-						<jdoc:include type="modules" name="title" />
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<?php // container-fluid ?>
 		<div class="container-fluid container-main">

@@ -41,7 +41,9 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php $menutype = base64_encode(json_encode($menutype)); ?>
 					<a class="choose_type list-group-item list-group-item-action" href="#" title="<?php echo JText::_($item->description); ?>"
 						onclick="setmenutype('<?php echo $menutype; ?>')">
-						<?php echo $title; ?>
+						<div class="pr-2">
+							<?php echo $title; ?>
+						</div>
 						<small class="text-muted">
 							<?php echo JText::_($item->description); ?>
 						</small>

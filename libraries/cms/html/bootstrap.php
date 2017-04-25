@@ -38,6 +38,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  4.0  Bootstrap 4.0 dropped this so will Joomla.
 	 */
 	public static function affix($selector = 'affix', $params = array())
 	{
@@ -277,18 +279,21 @@ abstract class JHtmlBootstrap
 	 * @param   string  $selector  Selector for the popover
 	 * @param   array   $params    An array of options for the popover.
 	 *                  Options for the popover can be:
-	 *                      animation  boolean          apply a css fade transition to the popover
-	 *                      html       boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
-	 *                                                  content into the dom.
-	 *                      placement  string|function  how to position the popover - top | bottom | left | right
-	 *                      selector   string           If a selector is provided, popover objects will be delegated to the specified targets.
-	 *                      trigger    string           how popover is triggered - hover | focus | manual
-	 *                      title      string|function  default title value if `title` tag isn't present
-	 *                      content    string|function  default content value if `data-content` attribute isn't present
-	 *                      delay      number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
-	 *                                                  If a number is supplied, delay is applied to both hide/show
-	 *                                                  Object structure is: delay: { show: 500, hide: 100 }
-	 *                      container  string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 *                      animation    boolean          apply a css fade transition to the popover
+	 *                      container    string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 *                      content      string|function  default content value if `data-content` attribute isn't present
+	 *                      delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
+	 *                                                    If a number is supplied, delay is applied to both hide/show
+	 *                                                    Object structure is: delay: { show: 500, hide: 100 }
+	 *                      html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
+	 *                                                    content into the dom.
+	 *                      placement    string|function  how to position the popover - top | bottom | left | right
+	 *                      selector     string           If a selector is provided, popover objects will be delegated to the specified targets.
+	 *                      template     string           Base HTML to use when creating the popover.
+	 *                      title        string|function  default title value if `title` tag isn't present
+	 *                      trigger      string           how popover is triggered - hover | focus | manual
+	 *                      constraints  array            An array of constraints - passed through to Tether.
+	 *                      offset       string           Offset of the popover relative to its target.
 	 *
 	 * @return  void
 	 *
@@ -305,21 +310,26 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		JHtml::_('bootstrap.framework');
 
-		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
-		$opt['html']      = isset($params['html']) ? $params['html'] : true;
-		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
-		$opt['title']     = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['content']   = isset($params['content']) ? $params['content'] : null;
-		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
-		$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
+		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
+		$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
+		$opt['content']     = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']       = isset($params['delay']) ? $params['delay'] : null;
+		$opt['html']        = isset($params['html']) ? $params['html'] : true;
+		$opt['placement']   = isset($params['placement']) ? $params['placement'] : null;
+		$opt['selector']    = isset($params['selector']) ? $params['selector'] : null;
+		$opt['template']    = isset($params['template']) ? $params['template'] : null;
+		$opt['title']       = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
+		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
+		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
 
-		$options = JHtml::getJSObject($opt);
+		$opt     = (object) array_filter((array) $opt);
+		$options = json_encode($opt);
 
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			'jQuery(function($){ $(' . json_encode($selector) . ').popover(' . $options . '); });'
+			'var popoverOptions = ' . $options . '; popoverOptions.constraints = [popoverOptions.constraints];
+			jQuery(function($){ $(' . json_encode($selector) . ').popover(popoverOptions); });'
 		);
 
 		static::$loaded[__METHOD__][$selector] = true;
@@ -374,17 +384,21 @@ abstract class JHtmlBootstrap
 	 * @param   string  $selector  The ID selector for the tooltip.
 	 * @param   array   $params    An array of options for the tooltip.
 	 *                             Options for the tooltip can be:
-	 *                             - animation  boolean          Apply a CSS fade transition to the tooltip
-	 *                             - html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
-	 *                                                           content into the dom.
-	 *                             - placement  string|function  How to position the tooltip - top | bottom | left | right
-	 *                             - selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
-	 *                             - title      string|function  Default title value if `title` tag isn't present
-	 *                             - trigger    string           How tooltip is triggered - hover | focus | manual
-	 *                             - delay      integer          Delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
-	 *                                                           If a number is supplied, delay is applied to both hide/show
-	 *                                                           Object structure is: delay: { show: 500, hide: 100 }
-	 *                             - container  string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 *                                animation    boolean          apply a css fade transition to the popover
+	 *                                container    string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 *                                delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
+	 *                                                              If a number is supplied, delay is applied to both hide/show
+	 *                                                              Object structure is: delay: { show: 500, hide: 100 }
+	 *                                html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
+	 *                                                              content into the dom.
+	 *                                placement    string|function  how to position the popover - top | bottom | left | right
+	 *                                selector     string           If a selector is provided, popover objects will be 
+	 *                                                              delegated to the specified targets.
+	 *                                template     string           Base HTML to use when creating the popover.
+	 *                                title        string|function  default title value if `title` tag isn't present
+	 *                                trigger      string           how popover is triggered - hover | focus | manual
+	 *                                constraints  array            An array of constraints - passed through to Tether.
+	 *                                offset       string           Offset of the popover relative to its target.
 	 *
 	 * @return  void
 	 *
@@ -398,24 +412,27 @@ abstract class JHtmlBootstrap
 			JHtml::_('bootstrap.framework');
 
 			// Setup options object
-			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
-			$opt['html']      = isset($params['html']) ? (boolean) $params['html'] : true;
-			$opt['placement'] = isset($params['placement']) ? (string) $params['placement'] : null;
-			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
-			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
-			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
-			$opt['delay']     = isset($params['delay']) ? (is_array($params['delay']) ? $params['delay'] : (int) $params['delay']) : null;
-			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
-			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
-			$onShow           = isset($params['onShow']) ? (string) $params['onShow'] : null;
-			$onShown          = isset($params['onShown']) ? (string) $params['onShown'] : null;
-			$onHide           = isset($params['onHide']) ? (string) $params['onHide'] : null;
-			$onHidden         = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+			$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
+			$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
+			$opt['delay']       = isset($params['delay']) ? $params['delay'] : null;
+			$opt['html']        = isset($params['html']) ? $params['html'] : true;
+			$opt['placement']   = isset($params['placement']) ? $params['placement'] : null;
+			$opt['selector']    = isset($params['selector']) ? $params['selector'] : null;
+			$opt['template']    = isset($params['template']) ? $params['template'] : null;
+			$opt['title']       = isset($params['title']) ? $params['title'] : null;
+			$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
+			$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
+			$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
+			$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
-			$options = JHtml::getJSObject($opt);
+			$opt     = (object) array_filter((array) $opt);
+			$options = json_encode($opt);
 
 			// Build the script.
-			$script = array('$(' . json_encode($selector) . ').tooltip(' . $options . ')');
+			$script = array('$(' . json_encode($selector) . ').tooltip(tooltipOptions)');
 
 			if ($onShow)
 			{
@@ -438,7 +455,10 @@ abstract class JHtmlBootstrap
 			}
 
 			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration('jQuery(function($){ ' . implode('.', $script) . '; });');
+			JFactory::getDocument()->addScriptDeclaration(
+				'var tooltipOptions = ' . $options . '; tooltipOptions.constraints = [tooltipOptions.constraints];
+				jQuery(function($){ ' . implode('.', $script) . '; });'
+			);
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;
@@ -455,6 +475,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.6
+	 *
+	 * @deprecated  4.0 No replacement, use Bootstrap tooltips.
 	 */
 	public static function tooltipExtended($extended = true)
 	{
@@ -490,6 +512,8 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  4.0  Bootstrap 4.0 dropped this so will Joomla.
 	 */
 	public static function typeahead($selector = '.typeahead', $params = array())
 	{

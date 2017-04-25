@@ -41,9 +41,9 @@ if ($params->get('logoFile'))
 {
 	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '" />';
 }
-elseif ($params->get('sitetitle'))
+elseif ($params->get('siteTitle'))
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($params->get('sitetitle')) . '</span>';
+	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle')) . '</span>';
 }
 else
 {
@@ -99,10 +99,10 @@ else
 			<!-- Header -->
 			<header class="header" role="banner">
 				<div class="header-inner clearfix">
-					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>/">
+					<a class="brand float-left" href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
 					</a>
-					<div class="header-search pull-right">
+					<div class="header-search float-right">
 						<?php // Display position-0 modules ?>
 						<?php echo $this->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
 					</div>
@@ -178,7 +178,7 @@ else
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<hr>
 			<?php echo $this->getBuffer('modules', 'footer', array('style' => 'none')); ?>
-			<p class="pull-right">
+			<p class="float-right">
 				<a href="#top" id="back-top">
 					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
 				</a>

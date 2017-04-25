@@ -69,25 +69,6 @@ class JFormFieldCategory extends JFormFieldList
 				$options = JHtml::_('category.options', $extension, $filters);
 			}
 
-			// Displays language code if not set to All
-			foreach ($options as $option)
-			{
-				// Create a new query object.
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select($db->quoteName('language'))
-					->where($db->quoteName('id') . '=' . (int) $option->value)
-					->from($db->quoteName('#__categories'));
-
-				$db->setQuery($query);
-				$language = $db->loadResult();
-
-				if ($language !== '*')
-				{
-					$option->text = $option->text . ' (' . $language . ')';
-				}
-			}
-
 			// Verify permissions.  If the action attribute is set, then we scan the options.
 			if ((string) $this->element['action'])
 			{

@@ -6,7 +6,7 @@
 -- Table structure for table `#__assets`
 --
 
-CREATE TABLE "#__assets" (
+CREATE TABLE IF NOT EXISTS "#__assets" (
   "id" serial NOT NULL,
   "parent_id" bigint DEFAULT 0 NOT NULL,
   "lft" bigint DEFAULT 0 NOT NULL,
@@ -94,7 +94,7 @@ SELECT setval('#__assets_id_seq', 55, false);
 -- Table structure for table `#__associations`
 --
 
-CREATE TABLE "#__associations" (
+CREATE TABLE IF NOT EXISTS "#__associations" (
   "id" int NOT NULL,
   "context" varchar(50) NOT NULL,
   "key" char(32) NOT NULL,
@@ -110,7 +110,7 @@ COMMENT ON COLUMN "#__associations"."key" IS 'The key for the association comput
 -- Table structure for table `#__banners`
 --
 
-CREATE TABLE "#__banners" (
+CREATE TABLE IF NOT EXISTS "#__banners" (
   "id" serial NOT NULL,
   "cid" bigint DEFAULT 0 NOT NULL,
   "type" bigint DEFAULT 0 NOT NULL,
@@ -157,7 +157,7 @@ CREATE INDEX "#__banners_idx_language" ON "#__banners" ("language");
 -- Table structure for table `#__banner_clients`
 --
 
-CREATE TABLE "#__banner_clients" (
+CREATE TABLE IF NOT EXISTS "#__banner_clients" (
   "id" serial NOT NULL,
   "name" varchar(255) DEFAULT '' NOT NULL,
   "contact" varchar(255) DEFAULT '' NOT NULL,
@@ -181,7 +181,7 @@ CREATE INDEX "#__banner_clients_idx_metakey_prefix" ON "#__banner_clients" ("met
 -- Table structure for table `#__banner_tracks`
 --
 
-CREATE TABLE "#__banner_tracks" (
+CREATE TABLE IF NOT EXISTS "#__banner_tracks" (
   "track_date" timestamp without time zone NOT NULL,
   "track_type" bigint NOT NULL,
   "banner_id" bigint NOT NULL,
@@ -196,7 +196,7 @@ CREATE INDEX "#__banner_tracks_idx_banner_id" ON "#__banner_tracks" ("banner_id"
 -- Table structure for table `#__categories`
 --
 
-CREATE TABLE "#__categories" (
+CREATE TABLE IF NOT EXISTS "#__categories" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "parent_id" integer DEFAULT 0 NOT NULL,
@@ -257,7 +257,7 @@ SELECT setval('#__categories_id_seq', 8, false);
 -- Table structure for table `#__contact_details`
 --
 
-CREATE TABLE "#__contact_details" (
+CREATE TABLE IF NOT EXISTS "#__contact_details" (
   "id" serial NOT NULL,
   "name" varchar(255) NOT NULL,
   "alias" varchar(255) NOT NULL,
@@ -319,7 +319,7 @@ COMMENT ON COLUMN "#__contact_details"."xreference" IS 'A reference to enable li
 -- Table structure for table `#__content`
 --
 
-CREATE TABLE "#__content" (
+CREATE TABLE IF NOT EXISTS "#__content" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
@@ -370,7 +370,7 @@ COMMENT ON COLUMN "#__content"."xreference" IS 'A reference to enable linkages t
 -- Table structure for table `#__content_frontpage`
 --
 
-CREATE TABLE "#__content_frontpage" (
+CREATE TABLE IF NOT EXISTS "#__content_frontpage" (
   "content_id" bigint DEFAULT 0 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("content_id")
@@ -380,7 +380,7 @@ CREATE TABLE "#__content_frontpage" (
 -- Table structure for table `#__content_rating`
 --
 
-CREATE TABLE "#__content_rating" (
+CREATE TABLE IF NOT EXISTS "#__content_rating" (
   "content_id" bigint DEFAULT 0 NOT NULL,
   "rating_sum" bigint DEFAULT 0 NOT NULL,
   "rating_count" bigint DEFAULT 0 NOT NULL,
@@ -392,7 +392,7 @@ CREATE TABLE "#__content_rating" (
 -- Table structure for table `#__content_types`
 --
 
-CREATE TABLE "#__content_types" (
+CREATE TABLE IF NOT EXISTS "#__content_types" (
   "type_id" serial NOT NULL,
   "type_title" varchar(255) NOT NULL DEFAULT '',
   "type_alias" varchar(255) NOT NULL DEFAULT '',
@@ -432,7 +432,7 @@ SELECT setval('#__content_types_type_id_seq', 10000, false);
 -- Table structure for table `#__contentitem_tag_map`
 --
 
-CREATE TABLE "#__contentitem_tag_map" (
+CREATE TABLE IF NOT EXISTS "#__contentitem_tag_map" (
   "type_alias" varchar(255) NOT NULL DEFAULT '',
   "core_content_id" integer NOT NULL,
   "content_item_id" integer NOT NULL,
@@ -457,7 +457,7 @@ COMMENT ON COLUMN "#__contentitem_tag_map"."type_id" IS 'PK from the content_typ
 -- Table structure for table `#__core_log_searches`
 --
 
-CREATE TABLE "#__core_log_searches" (
+CREATE TABLE IF NOT EXISTS "#__core_log_searches" (
   "search_term" varchar(128) DEFAULT '' NOT NULL,
   "hits" bigint DEFAULT 0 NOT NULL
 );
@@ -466,7 +466,7 @@ CREATE TABLE "#__core_log_searches" (
 -- Table structure for table `#__extensions`
 --
 
-CREATE TABLE "#__extensions" (
+CREATE TABLE IF NOT EXISTS "#__extensions" (
   "extension_id" serial NOT NULL,
   "package_id" bigint DEFAULT 0 NOT NULL,
   "name" varchar(100) NOT NULL,
@@ -633,7 +633,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (464, 0, 'plg_fields_color', 'plugin', 'color', 'fields', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (465, 0, 'plg_fields_editor', 'plugin', 'editor', 'fields', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (466, 0, 'plg_fields_imagelist', 'plugin', 'imagelist', 'fields', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(467, 0, 'plg_fields_integer', 'plugin', 'integer', 'fields', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(467, 0, 'plg_fields_integer', 'plugin', 'integer', 'fields', 0, 1, 1, 0, '', '{"multiple":"0","first":"1","last":"100","step":"1"}', 0, '1970-01-01 00:00:00', 0, 0),
 (468, 0, 'plg_fields_list', 'plugin', 'list', 'fields', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (469, 0, 'plg_fields_media', 'plugin', 'media', 'fields', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (470, 0, 'plg_fields_radio', 'plugin', 'radio', 'fields', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -663,7 +663,7 @@ SELECT setval('#__extensions_extension_id_seq', 10000, false);
 -- Table structure for table `#__fields`
 --
 
-CREATE TABLE "#__fields" (
+CREATE TABLE IF NOT EXISTS "#__fields" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "context" varchar(255) DEFAULT '' NOT NULL,
@@ -701,7 +701,7 @@ CREATE INDEX "#__fields_idx_language" ON "#__fields" ("language");
 -- Table structure for table `#__fields_categories`
 --
 
-CREATE TABLE "#__fields_categories" (
+CREATE TABLE IF NOT EXISTS "#__fields_categories" (
   "field_id" bigint DEFAULT 0 NOT NULL,
   "category_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("field_id", "category_id")
@@ -711,7 +711,7 @@ CREATE TABLE "#__fields_categories" (
 -- Table structure for table `#__fields_groups`
 --
 
-CREATE TABLE "#__fields_groups" (
+CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "context" varchar(255) DEFAULT '' NOT NULL,
@@ -741,7 +741,7 @@ CREATE INDEX "#__fields_groups_idx_language" ON "#__fields_groups" ("language");
 -- Table structure for table `#__fields_values`
 --
 
-CREATE TABLE "#__fields_values" (
+CREATE TABLE IF NOT EXISTS "#__fields_values" (
 "field_id" bigint DEFAULT 0 NOT NULL,
 "item_id" varchar(255) DEFAULT '' NOT NULL,
 "value" text DEFAULT '' NOT NULL
@@ -753,7 +753,7 @@ CREATE INDEX "#__fields_values_idx_item_id" ON "#__fields_values" ("item_id");
 -- Table structure for table `#__finder_filters`
 --
 
-CREATE TABLE "#__finder_filters" (
+CREATE TABLE IF NOT EXISTS "#__finder_filters" (
   "filter_id" serial NOT NULL,
   "title" varchar(255) NOT NULL,
   "alias" varchar(255) NOT NULL,
@@ -775,7 +775,7 @@ CREATE TABLE "#__finder_filters" (
 -- Table structure for table `#__finder_links`
 --
 
-CREATE TABLE "#__finder_links" (
+CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "link_id" serial NOT NULL,
   "url" varchar(255) NOT NULL,
   "route" varchar(255) NOT NULL,
@@ -808,7 +808,7 @@ CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("publish
 -- Table structure for table `#__finder_links_terms0`
 --
 
-CREATE TABLE "#__finder_links_terms0" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms0" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -821,7 +821,7 @@ CREATE INDEX "#__finder_links_terms0_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_terms1`
 --
 
-CREATE TABLE "#__finder_links_terms1" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms1" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -834,7 +834,7 @@ CREATE INDEX "#__finder_links_terms1_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_terms2`
 --
 
-CREATE TABLE "#__finder_links_terms2" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms2" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -847,7 +847,7 @@ CREATE INDEX "#__finder_links_terms2_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_terms3`
 --
 
-CREATE TABLE "#__finder_links_terms3" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms3" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -860,7 +860,7 @@ CREATE INDEX "#__finder_links_terms3_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_terms4`
 --
 
-CREATE TABLE "#__finder_links_terms4" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms4" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -873,7 +873,7 @@ CREATE INDEX "#__finder_links_terms4_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_terms5`
 --
 
-CREATE TABLE "#__finder_links_terms5" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms5" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -886,7 +886,7 @@ CREATE INDEX "#__finder_links_terms5_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_terms6`
 --
 
-CREATE TABLE "#__finder_links_terms6" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms6" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -899,7 +899,7 @@ CREATE INDEX "#__finder_links_terms6_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_terms7`
 --
 
-CREATE TABLE "#__finder_links_terms7" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms7" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -912,7 +912,7 @@ CREATE INDEX "#__finder_links_terms7_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_terms8`
 --
 
-CREATE TABLE "#__finder_links_terms8" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms8" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -925,7 +925,7 @@ CREATE INDEX "#__finder_links_terms8_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_terms9`
 --
 
-CREATE TABLE "#__finder_links_terms9" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_terms9" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -938,7 +938,7 @@ CREATE INDEX "#__finder_links_terms9_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_termsa`
 --
 
-CREATE TABLE "#__finder_links_termsa" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_termsa" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -951,7 +951,7 @@ CREATE INDEX "#__finder_links_termsa_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_termsb`
 --
 
-CREATE TABLE "#__finder_links_termsb" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_termsb" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -964,7 +964,7 @@ CREATE INDEX "#__finder_links_termsb_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_termsc`
 --
 
-CREATE TABLE "#__finder_links_termsc" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_termsc" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -977,7 +977,7 @@ CREATE INDEX "#__finder_links_termsc_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_termsd`
 --
 
-CREATE TABLE "#__finder_links_termsd" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_termsd" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -990,7 +990,7 @@ CREATE INDEX "#__finder_links_termsd_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_termse`
 --
 
-CREATE TABLE "#__finder_links_termse" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_termse" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -1003,7 +1003,7 @@ CREATE INDEX "#__finder_links_termse_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_links_termsf`
 --
 
-CREATE TABLE "#__finder_links_termsf" (
+CREATE TABLE IF NOT EXISTS "#__finder_links_termsf" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
   "weight" numeric(8,2) NOT NULL,
@@ -1016,7 +1016,7 @@ CREATE INDEX "#__finder_links_termsf_idx_link_term_weight" on "#__finder_links_t
 -- Table structure for table `#__finder_taxonomy`
 --
 
-CREATE TABLE "#__finder_taxonomy" (
+CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
   "id" serial NOT NULL,
   "parent_id" integer DEFAULT 0 NOT NULL,
   "title" varchar(255) NOT NULL,
@@ -1044,7 +1044,7 @@ SELECT setval('#__finder_taxonomy_id_seq', 2, false);
 -- Table structure for table `#__finder_taxonomy_map`
 --
 
-CREATE TABLE "#__finder_taxonomy_map" (
+CREATE TABLE IF NOT EXISTS "#__finder_taxonomy_map" (
   "link_id" integer NOT NULL,
   "node_id" integer NOT NULL,
   PRIMARY KEY ("link_id", "node_id")
@@ -1056,7 +1056,7 @@ CREATE INDEX "#__finder_taxonomy_map_node_id" on "#__finder_taxonomy_map" ("node
 -- Table structure for table `#__finder_terms`
 --
 
-CREATE TABLE "#__finder_terms" (
+CREATE TABLE IF NOT EXISTS "#__finder_terms" (
   "term_id" serial NOT NULL,
   "term" varchar(75) NOT NULL,
   "stem" varchar(75) NOT NULL,
@@ -1077,7 +1077,7 @@ CREATE INDEX "#__finder_terms_idx_soundex_phrase" on "#__finder_terms" ("soundex
 -- Table structure for table `#__finder_terms_common`
 --
 
-CREATE TABLE "#__finder_terms_common" (
+CREATE TABLE IF NOT EXISTS "#__finder_terms_common" (
   "term" varchar(75) NOT NULL,
   "language" varchar(3) DEFAULT '' NOT NULL
 );
@@ -1204,7 +1204,7 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 -- Table structure for table `#__finder_tokens`
 --
 
-CREATE TABLE "#__finder_tokens" (
+CREATE TABLE IF NOT EXISTS "#__finder_tokens" (
   "term" varchar(75) NOT NULL,
   "stem" varchar(75) NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
@@ -1220,7 +1220,7 @@ CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
 -- Table structure for table `#__finder_tokens_aggregate`
 --
 
-CREATE TABLE "#__finder_tokens_aggregate" (
+CREATE TABLE IF NOT EXISTS "#__finder_tokens_aggregate" (
   "term_id" integer NOT NULL,
   "map_suffix" varchar(1) NOT NULL,
   "term" varchar(75) NOT NULL,
@@ -1240,7 +1240,7 @@ CREATE INDEX "_#__finder_tokens_aggregate_keyword_id" on "#__finder_tokens_aggre
 -- Table structure for table `#__finder_types`
 --
 
-CREATE TABLE "#__finder_types" (
+CREATE TABLE IF NOT EXISTS "#__finder_types" (
   "id" serial NOT NULL,
   "title" varchar(100) NOT NULL,
   "mime" varchar(100) NOT NULL,
@@ -1252,7 +1252,7 @@ CREATE TABLE "#__finder_types" (
 -- Table structure for table `#__languages`
 --
 
-CREATE TABLE "#__languages" (
+CREATE TABLE IF NOT EXISTS "#__languages" (
   "lang_id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "lang_code" varchar(7) NOT NULL,
@@ -1287,7 +1287,7 @@ SELECT setval('#__languages_lang_id_seq', 2, false);
 -- Table structure for table `#__menu`
 --
 
-CREATE TABLE "#__menu" (
+CREATE TABLE IF NOT EXISTS "#__menu" (
   "id" serial NOT NULL,
   "menutype" varchar(24) NOT NULL,
   "title" varchar(255) NOT NULL,
@@ -1376,7 +1376,7 @@ SELECT setval('#__menu_id_seq', 102, false);
 -- Table structure for table `#__menu_types`
 --
 
-CREATE TABLE "#__menu_types" (
+CREATE TABLE IF NOT EXISTS "#__menu_types" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "menutype" varchar(24) NOT NULL,
@@ -1400,7 +1400,7 @@ SELECT setval('#__menu_types_id_seq', 2, false);
 -- Table structure for table `#__messages`
 --
 
-CREATE TABLE "#__messages" (
+CREATE TABLE IF NOT EXISTS "#__messages" (
   "message_id" serial NOT NULL,
   "user_id_from" bigint DEFAULT 0 NOT NULL,
   "user_id_to" bigint DEFAULT 0 NOT NULL,
@@ -1418,7 +1418,7 @@ CREATE INDEX "#__messages_useridto_state" ON "#__messages" ("user_id_to", "state
 -- Table structure for table `#__messages_cfg`
 --
 
-CREATE TABLE "#__messages_cfg" (
+CREATE TABLE IF NOT EXISTS "#__messages_cfg" (
   "user_id" bigint DEFAULT 0 NOT NULL,
   "cfg_name" varchar(100) DEFAULT '' NOT NULL,
   "cfg_value" varchar(255) DEFAULT '' NOT NULL,
@@ -1429,7 +1429,7 @@ CREATE TABLE "#__messages_cfg" (
 -- Table structure for table `#__modules`
 --
 
-CREATE TABLE "#__modules" (
+CREATE TABLE IF NOT EXISTS "#__modules" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(100) DEFAULT '' NOT NULL,
@@ -1481,7 +1481,7 @@ SELECT setval('#__modules_id_seq', 87, false);
 -- Table structure for table `#__modules_menu`
 --
 
-CREATE TABLE "#__modules_menu" (
+CREATE TABLE IF NOT EXISTS "#__modules_menu" (
   "moduleid" bigint DEFAULT 0 NOT NULL,
   "menuid" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("moduleid", "menuid")
@@ -1514,7 +1514,7 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 -- Table structure for table `#__newsfeeds`
 --
 
-CREATE TABLE "#__newsfeeds" (
+CREATE TABLE IF NOT EXISTS "#__newsfeeds" (
   "catid" bigint DEFAULT 0 NOT NULL,
   "id" serial NOT NULL,
   "name" varchar(100) DEFAULT '' NOT NULL,
@@ -1561,7 +1561,7 @@ COMMENT ON COLUMN "#__newsfeeds"."xreference" IS 'A reference to enable linkages
 -- Table structure for table `#__overrider`
 --
 
-CREATE TABLE "#__overrider" (
+CREATE TABLE IF NOT EXISTS "#__overrider" (
   "id" serial NOT NULL,
   "constant" varchar(255) NOT NULL,
   "string" text NOT NULL,
@@ -1575,7 +1575,7 @@ COMMENT ON COLUMN "#__overrider"."id" IS 'Primary Key';
 -- Table structure for table `#__postinstall_messages`
 --
 
-CREATE TABLE "#__postinstall_messages" (
+CREATE TABLE IF NOT EXISTS "#__postinstall_messages" (
   "postinstall_message_id" serial NOT NULL,
   "extension_id" bigint NOT NULL DEFAULT 700,
   "title_key" varchar(255) NOT NULL DEFAULT '',
@@ -1619,7 +1619,7 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 -- Table structure for table `#__redirect_links`
 --
 
-CREATE TABLE "#__redirect_links" (
+CREATE TABLE IF NOT EXISTS "#__redirect_links" (
   "id" serial NOT NULL,
   "old_url" varchar(2048) NOT NULL,
   "new_url" varchar(2048),
@@ -1639,7 +1639,7 @@ CREATE INDEX "#__redirect_links_idx_link_modifed" ON "#__redirect_links" ("modif
 -- Table structure for table `#__schemas`
 --
 
-CREATE TABLE "#__schemas" (
+CREATE TABLE IF NOT EXISTS "#__schemas" (
   "extension_id" bigint NOT NULL,
   "version_id" varchar(20) NOT NULL,
   PRIMARY KEY ("extension_id", "version_id")
@@ -1649,7 +1649,7 @@ CREATE TABLE "#__schemas" (
 -- Table structure for table `#__session`
 --
 
-CREATE TABLE "#__session" (
+CREATE TABLE IF NOT EXISTS "#__session" (
   "session_id" varchar(200) DEFAULT '' NOT NULL,
   "client_id" smallint DEFAULT NULL,
   "guest" smallint DEFAULT 1,
@@ -1666,7 +1666,7 @@ CREATE INDEX "#__session_time" ON "#__session" ("time");
 -- Table structure for table `#__tags`
 --
 
-CREATE TABLE "#__tags" (
+CREATE TABLE IF NOT EXISTS "#__tags" (
   "id" serial NOT NULL,
   "parent_id" bigint DEFAULT 0 NOT NULL,
   "lft" bigint DEFAULT 0 NOT NULL,
@@ -1720,7 +1720,7 @@ SELECT setval('#__tags_id_seq', 2, false);
 -- Table structure for table `#__template_styles`
 --
 
-CREATE TABLE "#__template_styles" (
+CREATE TABLE IF NOT EXISTS "#__template_styles" (
   "id" serial NOT NULL,
   "template" varchar(50) DEFAULT '' NOT NULL,
   "client_id" smallint DEFAULT 0 NOT NULL,
@@ -1746,7 +1746,7 @@ SELECT setval('#__template_styles_id_seq', 11, false);
 -- Table structure for table `#__ucm_base`
 --
 
-CREATE TABLE "#__ucm_base" (
+CREATE TABLE IF NOT EXISTS "#__ucm_base" (
   "ucm_id" serial NOT NULL,
   "ucm_item_id" bigint NOT NULL,
   "ucm_type_id" bigint NOT NULL,
@@ -1761,7 +1761,7 @@ CREATE INDEX "#__ucm_base_ucm_language_id" ON "#__ucm_base" ("ucm_language_id");
 -- Table structure for table `#__ucm_content`
 --
 
-CREATE TABLE "#__ucm_content" (
+CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_content_id" serial NOT NULL,
   "core_type_alias" varchar(255) DEFAULT '' NOT NULL,
   "core_title" varchar(255) DEFAULT '' NOT NULL,
@@ -1814,7 +1814,7 @@ CREATE INDEX "#__ucm_content_idx_core_type_id" ON "#__ucm_content" ("core_type_i
 -- Table structure for table `#__ucm_history`
 --
 
-CREATE TABLE "#__ucm_history" (
+CREATE TABLE IF NOT EXISTS "#__ucm_history" (
   "version_id" serial NOT NULL,
   "ucm_item_id" integer NOT NULL,
   "ucm_type_id" integer NOT NULL,
@@ -1840,7 +1840,7 @@ COMMENT ON COLUMN "#__ucm_history"."keep_forever" IS '0=auto delete; 1=keep';
 -- Table structure for table `#__updates`
 --
 
-CREATE TABLE "#__updates" (
+CREATE TABLE IF NOT EXISTS "#__updates" (
   "update_id" serial NOT NULL,
   "update_site_id" bigint DEFAULT 0,
   "extension_id" bigint DEFAULT 0,
@@ -1864,7 +1864,7 @@ COMMENT ON TABLE "#__updates" IS 'Available Updates';
 -- Table structure for table `#__update_sites`
 --
 
-CREATE TABLE "#__update_sites" (
+CREATE TABLE IF NOT EXISTS "#__update_sites" (
   "update_site_id" serial NOT NULL,
   "name" varchar(100) DEFAULT '',
   "type" varchar(20) DEFAULT '',
@@ -1892,7 +1892,7 @@ SELECT setval('#__update_sites_update_site_id_seq', 4, false);
 -- Table structure for table `#__update_sites_extensions`
 --
 
-CREATE TABLE "#__update_sites_extensions" (
+CREATE TABLE IF NOT EXISTS "#__update_sites_extensions" (
   "update_site_id" bigint DEFAULT 0 NOT NULL,
   "extension_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("update_site_id", "extension_id")
@@ -1913,7 +1913,7 @@ INSERT INTO "#__update_sites_extensions" ("update_site_id", "extension_id") VALU
 -- Table structure for table `#__usergroups`
 --
 
-CREATE TABLE "#__usergroups" (
+CREATE TABLE IF NOT EXISTS "#__usergroups" (
   "id" serial NOT NULL,
   "parent_id" bigint DEFAULT 0 NOT NULL,
   "lft" bigint DEFAULT 0 NOT NULL,
@@ -1952,7 +1952,7 @@ SELECT setval('#__usergroups_id_seq', 10, false);
 -- Table structure for table `#__users`
 --
 
-CREATE TABLE "#__users" (
+CREATE TABLE IF NOT EXISTS "#__users" (
   "id" serial NOT NULL,
   "name" varchar(255) DEFAULT '' NOT NULL,
   "username" varchar(150) DEFAULT '' NOT NULL,
@@ -1984,7 +1984,7 @@ COMMENT ON COLUMN "#__users"."requireReset" IS 'Require user to reset password o
 -- Table structure for table `#__user_keys`
 --
 
-CREATE TABLE "#__user_keys" (
+CREATE TABLE IF NOT EXISTS "#__user_keys" (
   "id" serial NOT NULL,
   "user_id" varchar(255) NOT NULL,
   "token" varchar(255) NOT NULL,
@@ -2002,7 +2002,7 @@ CREATE INDEX "#__user_keys_idx_user_id" ON "#__user_keys" ("user_id");
 -- Table structure for table `#__user_notes`
 --
 
-CREATE TABLE "#__user_notes" (
+CREATE TABLE IF NOT EXISTS "#__user_notes" (
   "id" serial NOT NULL,
   "user_id" integer DEFAULT 0 NOT NULL,
   "catid" integer DEFAULT 0 NOT NULL,
@@ -2027,7 +2027,7 @@ CREATE INDEX "#__user_notes_idx_category_id" ON "#__user_notes" ("catid");
 -- Table structure for table `#__user_profiles`
 --
 
-CREATE TABLE "#__user_profiles" (
+CREATE TABLE IF NOT EXISTS "#__user_profiles" (
   "user_id" bigint NOT NULL,
   "profile_key" varchar(100) NOT NULL,
   "profile_value" text NOT NULL,
@@ -2041,7 +2041,7 @@ COMMENT ON TABLE "#__user_profiles" IS 'Simple user profile storage table';
 -- Table structure for table `#__user_usergroup_map`
 --
 
-CREATE TABLE "#__user_usergroup_map" (
+CREATE TABLE IF NOT EXISTS "#__user_usergroup_map" (
   "user_id" bigint DEFAULT 0 NOT NULL,
   "group_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("user_id", "group_id")
@@ -2054,7 +2054,7 @@ COMMENT ON COLUMN "#__user_usergroup_map"."group_id" IS 'Foreign Key to #__userg
 -- Table structure for table `#__viewlevels`
 --
 
-CREATE TABLE "#__viewlevels" (
+CREATE TABLE IF NOT EXISTS "#__viewlevels" (
   "id" serial NOT NULL,
   "title" varchar(100) DEFAULT '' NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,

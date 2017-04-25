@@ -204,6 +204,9 @@ class Editor implements DispatcherAwareInterface
 		$args['row'] = $row;
 		$args['buttons'] = $buttons;
 		$args['id'] = $id ?: $name;
+		$args['asset'] = $asset;
+		$args['author'] = $author;
+		$args['params'] = $params;
 
 		$editorId = (object) array('id' => $args['id']);
 

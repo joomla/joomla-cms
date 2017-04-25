@@ -469,11 +469,17 @@ abstract class Model extends \JObject
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = '', $prefix = 'Table', $options = array())
+	public function getTable($name = '', $prefix = '', $options = array())
 	{
 		if (empty($name))
 		{
 			$name = $this->getName();
+		}
+
+		// We need this ugly code to deal with non-namespaced MVC code
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		{
+			$prefix = 'Table';
 		}
 
 		if ($table = $this->_createTable($name, $prefix, $options))
