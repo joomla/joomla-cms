@@ -19,6 +19,22 @@ use Joomla\Utilities\ArrayHelper;
 class CategoriesControllerCategories extends JControllerAdmin
 {
 	/**
+	 * Proxy for getModel
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  The array of possible config values. Optional.
+	 *
+	 * @return  JModelLegacy  The model.
+	 *
+	 * @since   1.6
+	 */
+	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
+	{
+		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
 	 * Rebuild the nested set tree.
 	 *
 	 * @return  bool  False on failure or error, true on success.
