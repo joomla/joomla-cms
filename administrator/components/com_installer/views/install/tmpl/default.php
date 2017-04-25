@@ -39,7 +39,7 @@ JHtml::_('script', 'com_installer/installer.js', false, true);
 								'link',
 								JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
 								'',
-								'class="alert-options float-right hasTooltip icon-options icon-white" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
+								'class="alert-options float-right hasTooltip icon-options" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
 							);
 							?>
 							<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
