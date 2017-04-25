@@ -201,6 +201,20 @@ Joomla.checkAll_button = function ( n, task ) {
 	Joomla.submitform( task );
 };
 
+/**
+ * USED IN: libraries/joomla/html/html/grid.php
+ * In other words, on any reorderable table
+ */
+Joomla.tableOrdering = function( order, dir, task, form ) {
+	if ( typeof form  === 'undefined' ) {
+		form = document.getElementById( 'adminForm' );
+	}
+
+	form.filter_order.value = order;
+	form.filter_order_Dir.value = dir;
+	Joomla.submitform( task, form );
+};
+
 document.addEventListener('DOMContentLoaded', function() {
 	'use strict';
 
