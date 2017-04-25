@@ -43,5 +43,5 @@ define(['jquery', 'text!testsRoot/sendtestmail/fixtures/fixture.html', 'libs/sen
 		mailonline: ['mailonline']
 	};
 
-	$('#sendtestmail').click(sendTestMail);
+	$('#sendtestmail').click(Joomla.sendTestMail);
 });
