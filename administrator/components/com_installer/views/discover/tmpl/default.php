@@ -39,6 +39,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 			<?php else : ?>
+			<div class="alert alert-no-items alert-info">
+				<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
+			</div>
+
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -115,7 +119,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tbody>
 			</table>
 			<?php endif; ?>
-			<div><?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?></div>
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
 			<?php echo JHtml::_('form.token'); ?>
