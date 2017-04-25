@@ -9022,7 +9022,7 @@ legend {
     background-image: linear-gradient(to right, #59afff 0%, #59daff 100%); }
   .header .page-title {
     display: inline-block;
-    margin: 0 0 0 25px;
+    margin: 0 0 0 53px;
     font-size: 1.3rem;
     font-weight: normal;
     line-height: 48px;
@@ -9102,7 +9102,8 @@ legend {
     display: block;
     width: 48px;
     line-height: 48px;
-    color: #fff; }
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.15); }
 
 .icon-back::before {
   content: "\e008"; }
@@ -9357,7 +9358,7 @@ iframe {
 
 .wrapper {
   padding-left: 250px;
-  transition: all .5s ease; }
+  transition: all .3s ease; }
   @media (max-width: 991px) {
     .wrapper {
       padding-left: 0; } }
@@ -9370,7 +9371,8 @@ iframe {
   height: 100%;
   margin-left: 0;
   background-color: #1c3d5c;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5), inset -1px 0 0 rgba(0, 0, 0, 0.2); }
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5), inset -1px 0 0 rgba(0, 0, 0, 0.2);
+  transition: all .3s ease; }
   .sidebar-wrapper .sidebar-brand {
     position: absolute;
     top: 0;
@@ -9385,7 +9387,7 @@ iframe {
       .sidebar-wrapper .main-nav {
         max-height: calc(100vh - 147px); } }
   .sidebar-wrapper .main-brand {
-    margin-left: 8px;
+    margin-left: 5px;
     font-size: 30px;
     line-height: 96px;
     text-align: center;
@@ -9432,8 +9434,6 @@ iframe {
     border-bottom: 1px solid rgba(0, 0, 0, 0.15); }
     .main-nav > li:first-of-type {
       border-top: 1px solid rgba(0, 0, 0, 0.15); }
-    .main-nav > li > .no-dropdown {
-      color: #fff; }
   .main-nav li {
     max-height: 40px;
     line-height: 40px; }
@@ -9457,10 +9457,10 @@ iframe {
     .main-nav li ul {
       position: absolute;
       top: 0;
-      left: 45px;
+      left: 50px;
       z-index: -3;
       display: block;
-      width: 205px;
+      width: 200px;
       height: 100%;
       padding: 0;
       background-color: #0f2131;
@@ -9478,10 +9478,9 @@ iframe {
     padding: 2px 10px;
     font-size: 1.7rem;
     color: #fefefe;
-    text-shadow: none;
-    transition-delay: 0; }
+    text-shadow: none; }
   .main-nav .open > a + ul {
-    left: 45px;
+    left: 50px;
     z-index: -1;
     opacity: 1;
     transition-delay: 0s; }
@@ -9507,7 +9506,7 @@ iframe {
     position: relative;
     top: -2px;
     display: inline-block;
-    margin: 0 8px 0 10px;
+    margin: 0 8px 0 12px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle; }
@@ -9531,31 +9530,29 @@ iframe {
       text-indent: 15px; }
     .main-nav .collapse-level-2 li:first-of-type {
       display: none; }
-  .main-nav > .parent .collapse-arrow::after {
+  .main-nav .parent .collapse-arrow::after {
     position: absolute;
     top: 0;
     right: 15px;
     font-family: FontAwesome;
     font-size: .75rem;
     color: #fff;
+    visibility: visible;
     content: "\f0da";
-    opacity: 1;
-    transition: opacity .1s ease;
-    transition-delay: .3s; }
+    transition-delay: .25s; }
 
 .child-open {
-  width: 45px;
+  width: 50px;
   overflow: visible; }
   .child-open::after {
-    width: 45px;
+    width: 50px;
     transition: all .3s ease; }
-  .child-open > li > .collapse-arrow::after, .child-open > li > a .sidebar-item-title {
+  .child-open > li.parent .collapse-arrow::after {
     visibility: hidden;
     opacity: 0;
-    transition-delay: 0;
-    transition-duration: 0; }
-  .child-open > li > .collapse-arrow::after {
-    opacity: 0 !important; }
+    transition-delay: 0s; }
+  .child-open > li > a .sidebar-item-title {
+    visibility: hidden; }
   .child-open > li.open > a::before {
     position: absolute;
     top: 1px;
@@ -9597,6 +9594,16 @@ iframe {
         transform: translateY(-50%); }
   .child-open > .open:hover > a .sidebar-item-title {
     visibility: hidden !important; }
+
+.closed {
+  padding-left: 50px; }
+  .closed .child-open::after {
+    display: none; }
+  .closed .sidebar-wrapper, .closed .main-nav {
+    width: 50px; }
+  .closed .parent .collapse-arrow::after {
+    visibility: hidden;
+    transition-delay: 0s !important; }
 
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
   color: #fff;

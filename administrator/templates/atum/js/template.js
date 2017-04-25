@@ -69,7 +69,18 @@
 			// Toggle menu
 			menuToggle.addEventListener('click', function(e) {
 				wrapper.classList.toggle("closed");
+
+				var listItems = document.querySelectorAll('.main-nav li');
+				for (var i = 0; i < listItems.length; i++) {
+				 	listItems[i].classList.remove('open');
+				}
+
+				var childOpen = document.querySelector(".child-open");
+				childOpen.classList.remove("child-open");
+
 			});
+
+			
 
 			/**
 			 * Sidebar 
@@ -126,6 +137,7 @@
 					parent.attr('aria-hidden', 'false');
 					parent.find('ul').attr('aria-hidden', 'false');
 					siblings.find('li').removeClass('open');
+					jQuery('.wrapper').removeClass('closed');
 					jQuery('.main-nav').addClass('child-open');
 					parent.find('.collapse-level-1').children().attr('tabindex', '1');
 				}
@@ -142,6 +154,8 @@
 				jQuery('.active').parents('.main-nav > li').addClass('open');
 			    jQuery('.main-nav').addClass('child-open');
 			}
+
+			// When sidebar closed remove .open from all li - NEEDS VANILLA CONVERSION
 
 			// A11y - add tabindex - NEEDS VANILLA CONVERSION
 			jQuery('.main-nav').children().attr('tabindex', '1');

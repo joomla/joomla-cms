@@ -2,7 +2,7 @@
 
 .wrapper {
   padding-left: 250px;
-  transition: all .5s ease;
+  transition: all .3s ease;
 
   @include media-breakpoint-down(md) {
     padding-left: 0;
@@ -19,7 +19,7 @@
   margin-left: 0;
   background-color: $atum-template-color-light;
   box-shadow: 0 3px 10px rgba(0,0,0,.5), inset -1px 0 0 rgba(0,0,0,.2);
-
+  transition: all .3s ease;
   .sidebar-brand {
     position: absolute;
     top: 0;
@@ -41,7 +41,7 @@
   }
 
   .main-brand {
-    margin-left: 8px;
+    margin-left: 5px;
     font-size: 30px;
     line-height: 96px;
     text-align: center;
@@ -74,6 +74,7 @@
   background-color: $atum-sidebar-child-bg;
 }
 
+// Sidebar navigation
 .main-nav {
   position: relative;
   z-index: 1;
@@ -87,6 +88,7 @@
   transition: all .3s ease;
   transition-delay: 0;
 
+  // Background for animation
   &::after {
     position: absolute;
     top: 0;
@@ -98,15 +100,12 @@
     transition: all .3s ease;
   }
 
+  // Parent items
   > li {
     background-color: $atum-template-color-light;
     border-bottom: 1px solid rgba(0,0,0,.15);
     &:first-of-type {
       border-top: 1px solid rgba(0,0,0,.15);
-    }
-
-    >.no-dropdown {
-      color: $white;
     }
 
   }
@@ -144,10 +143,10 @@
     ul {
       position: absolute;
       top: 0;
-      left: 45px;
+      left: 50px;
       z-index: -3;
       display: block;
-      width: 205px;
+      width: 200px;
       height: 100%;
       padding: 0;
       background-color: $atum-sidebar-child-bg;
@@ -179,7 +178,7 @@
     font-size: 1.7rem;
     color: $white-offset;
     text-shadow: none;
-    transition-delay: 0;
+    // transition-delay: .25;
   }
 
   .open {
@@ -187,7 +186,7 @@
     > a {
 
       + ul {
-        left: 45px;
+        left: 50px;
         z-index: -1;
         opacity: 1;
         transition-delay: 0s;
@@ -232,16 +231,18 @@
 
   }
 
+  // Parent icons
   .fa {
     position: relative;
     top: -2px;
     display: inline-block;
-    margin: 0 8px 0 10px;
+    margin: 0 8px 0 12px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle;
   }
 
+  // 2nd level items
   .collapse-level-1 {
     a::before {
       display: none;
@@ -254,6 +255,7 @@
     }
   }
 
+  // 3rd level items
   .collapse-level-2 {
     position: absolute;
     top: 0;
@@ -267,6 +269,7 @@
     > li > a {
       color: $white;
       text-indent: 15px;
+
     }
 
     li:first-of-type {
@@ -275,37 +278,40 @@
 
   }
 
-  > .parent .collapse-arrow::after {
+  // Parent arrow indicator
+  .parent .collapse-arrow::after {
     position: absolute;
     top: 0;
     right: 15px;
     font-family: FontAwesome;
     font-size: .75rem;
     color: $white;
+    visibility: visible;
     content: "\f0da";
-    opacity: 1;
-    transition: opacity .1s ease;
-    transition-delay: .3s;
+    transition-delay: .25s;
+
   }
 
 }
 
+
+// Child open
 .child-open {
-  width: 45px;
+  width: 50px;
   overflow: visible;
+
   &::after {
-    width: 45px;
+    width: 50px;
     transition: all .3s ease;
   }
   > li {
-    > .collapse-arrow::after, > a .sidebar-item-title {
+    &.parent .collapse-arrow::after {
       visibility: hidden;
       opacity: 0;
-      transition-delay: 0;
-      transition-duration: 0;
+      transition-delay: 0s;
     }
-    > .collapse-arrow::after {
-      opacity: 0 !important;
+    > a .sidebar-item-title {
+      visibility: hidden;
     }
     &.open > a::before {
       position: absolute;
@@ -327,9 +333,12 @@
   // Tooltips
   .sidebar-item-title {
     transition: opacity .2s ease;
+
   }
+
   > li:hover > a {
     overflow: visible;
+
     .sidebar-item-title {
       position: absolute;
       left: 100%;
@@ -342,6 +351,7 @@
       background-color: $white;
       border-radius: $border-radius;
       opacity: 1;
+
       &::before {
         position: absolute;
         top: 50%;
@@ -353,16 +363,33 @@
         border-style: solid;
         border-width: $tooltip-arrow-width $tooltip-arrow-width $tooltip-arrow-width 0;
         transform: translateY(-50%);
+
       }
     }
   }
+
   > .open:hover > a {
     .sidebar-item-title {
       visibility: hidden !important;
     }
   }
+
 }
 
+.closed {
+  padding-left: 50px;
+  .child-open::after {
+    display: none;
+  }
+  .sidebar-wrapper, .main-nav {
+    width: 50px;
+  }
+  .parent .collapse-arrow::after {
+    visibility: hidden;
+    transition-delay: 0s !important;
+  }
+
+}
 
 // Edit view
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
