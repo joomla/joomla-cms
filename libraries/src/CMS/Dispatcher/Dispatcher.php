@@ -65,24 +65,23 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @param   CMSApplication  $app     The JApplication for the dispatcher
 	 * @param   \JInput         $input   JInput
-	 * @param   string          $option  The component name
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(CmsApplication $app, \JInput $input = null, $option = null)
+	public function __construct(CmsApplication $app, \JInput $input = null)
 	{
 		$this->app   = $app;
 		$this->input = $input ?: $app->input;
 
+		// If option is not provided, detect it from dispatcher class name if not provided, ie ContentDispatcher
 		if (empty($this->option))
 		{
-			if ($option)
+			$className = get_class($this);
+			$pos       = strpos($className, 'Dispatcher');
+
+			if ($pos !== false)
 			{
-				$this->option = $option;
-			}
-			else
-			{
-				$this->option = $this->input->getCmd('option');
+				$this->option = 'com_' . strtolower(substr($className, 0, $pos));
 			}
 		}
 

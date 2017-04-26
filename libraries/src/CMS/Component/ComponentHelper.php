@@ -377,7 +377,7 @@ class ComponentHelper
 			}
 
 			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($app, $app->input, $option));
+			$contents = static::dispatchComponent(new $class($app, $app->input));
 		}
 		else
 		{
