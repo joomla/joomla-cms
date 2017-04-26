@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ abstract class ModLatestHelper
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state');
+			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down');
 
 		// Set Ordering filter
 		switch ($params->get('ordering'))
@@ -46,7 +46,7 @@ abstract class ModLatestHelper
 
 			case 'c_dsc':
 			default:
-				$model->setState('list.fullordering', 'created');
+				$model->setState('list.fullordering', 'created DESC');
 				$model->setState('list.direction', 'DESC');
 				break;
 		}
@@ -134,6 +134,6 @@ abstract class ModLatestHelper
 			$title = '';
 		}
 
-		return JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? "_CATEGORY" : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

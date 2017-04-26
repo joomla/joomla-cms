@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,14 +65,14 @@ function colorIsLight($color)
 // Background color
 if ($background_color)
 {
-	$this->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	.view-login {
-		background-color: " . $background_color . ";
-	}");
+		background-color: ' . $background_color . ';
+	}');
 }
 
 // Responsive Styles
-$this->addStyleDeclaration("
+$this->addStyleDeclaration('
 	@media (max-width: 480px) {
 		.view-login .container {
 			margin-top: -170px;
@@ -81,12 +81,12 @@ $this->addStyleDeclaration("
 			font-size: 13px;
 			padding: 4px 10px 4px;
 		}
-	}");
+	}');
 
 // Check if debug is on
 if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) || $app->get('debug', 0)))
 {
-	$this->addStyleDeclaration("
+	$this->addStyleDeclaration('
 	.view-login .container {
 		position: static;
 		margin-top: 20px;
@@ -95,7 +95,7 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 	}
 	.view-login .navbar-fixed-bottom {
 		display: none;
-	}");
+	}');
 }
 ?>
 <!DOCTYPE html>
@@ -105,7 +105,7 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
 </head>
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " "; ?>">
+<body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
 	<!-- Container -->
 	<div class="container">
 		<div id="content">
@@ -130,7 +130,7 @@ if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) |
 		<p class="pull-right">
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
-		<a class="login-joomla hasTooltip" href="https://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>"><span class="icon-joomla"></span></a>
+		<a class="login-joomla hasTooltip" href="https://www.joomla.org" target="_blank"  rel="noopener noreferrer" title="<?php echo JHtml::_('tooltipText', 'TPL_ISIS_ISFREESOFTWARE'); ?>"><span class="icon-joomla"></span></a>
 		<a href="<?php echo $frontEndUri->toString(); ?>" target="_blank" class="pull-left"><span class="icon-out-2"></span><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />

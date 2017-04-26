@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,8 +83,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 						</td>
 						<td>
-							<label for="cb<?php echo $i; ?>">
-								<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
+							<label for="cb<?php echo $i;?>">
+								<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
 							</label>
 						</td>
 						<td>
@@ -100,7 +100,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
+							<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 								<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 							</span>
 						</td>

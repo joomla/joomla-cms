@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -313,9 +313,7 @@ class JSession implements IteratorAggregate
 
 		if (!$app->input->$method->get($token, '', 'alnum'))
 		{
-			$session = JFactory::getSession();
-
-			if ($session->isNew())
+			if (JFactory::getSession()->isNew())
 			{
 				// Redirect to login screen.
 				$app->enqueueMessage(JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
@@ -323,15 +321,11 @@ class JSession implements IteratorAggregate
 
 				return true;
 			}
-			else
-			{
-				return false;
-			}
+
+			return false;
 		}
-		else
-		{
-			return true;
-		}
+
+		return true;
 	}
 
 	/**
@@ -343,7 +337,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function getName()
 	{
-		if ($this->_state === 'destroyed')
+		if ($this->getState() === 'destroyed')
 		{
 			// @TODO : raise error
 			return;
@@ -361,7 +355,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function getId()
 	{
-		if ($this->_state === 'destroyed')
+		if ($this->getState() === 'destroyed')
 		{
 			// @TODO : raise error
 			return;
@@ -434,7 +428,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function isActive()
 	{
-		return (bool) ($this->_state == 'active');
+		return (bool) ($this->getState() == 'active');
 	}
 
 	/**
@@ -446,9 +440,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function isNew()
 	{
-		$counter = $this->get('session.counter');
-
-		return (bool) ($counter === 1);
+		return (bool) ($this->get('session.counter') === 1);
 	}
 
 	/**
@@ -489,10 +481,15 @@ class JSession implements IteratorAggregate
 	 */
 	public function get($name, $default = null, $namespace = 'default')
 	{
+		if (!$this->isActive())
+		{
+			$this->start();
+		}
+
 		// Add prefix to namespace to avoid collisions
 		$namespace = '__' . $namespace;
 
-		if ($this->_state === 'destroyed')
+		if ($this->getState() === 'destroyed')
 		{
 			// @TODO :: generated error here
 			$error = null;
@@ -516,10 +513,15 @@ class JSession implements IteratorAggregate
 	 */
 	public function set($name, $value = null, $namespace = 'default')
 	{
+		if (!$this->isActive())
+		{
+			$this->start();
+		}
+
 		// Add prefix to namespace to avoid collisions
 		$namespace = '__' . $namespace;
 
-		if ($this->_state !== 'active')
+		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
 			return;
@@ -543,10 +545,15 @@ class JSession implements IteratorAggregate
 	 */
 	public function has($name, $namespace = 'default')
 	{
+		if (!$this->isActive())
+		{
+			$this->start();
+		}
+
 		// Add prefix to namespace to avoid collisions.
 		$namespace = '__' . $namespace;
 
-		if ($this->_state !== 'active')
+		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
 			return;
@@ -567,10 +574,15 @@ class JSession implements IteratorAggregate
 	 */
 	public function clear($name, $namespace = 'default')
 	{
+		if (!$this->isActive())
+		{
+			$this->start();
+		}
+
 		// Add prefix to namespace to avoid collisions
 		$namespace = '__' . $namespace;
 
-		if ($this->_state !== 'active')
+		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
 			return;
@@ -588,7 +600,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function start()
 	{
-		if ($this->_state === 'active')
+		if ($this->getState() === 'active')
 		{
 			return;
 		}
@@ -649,7 +661,14 @@ class JSession implements IteratorAggregate
 		// Temporary, PARTIAL, data migration of existing session data to avoid logout on update from J < 3.4.7
 		if (isset($_SESSION['__default']) && !empty($_SESSION['__default']))
 		{
-			$migratableKeys = array("user", "session.token", "session.counter", "session.timer.start", "session.timer.last", "session.timer.now");
+			$migratableKeys = array(
+				'user',
+				'session.token',
+				'session.counter',
+				'session.timer.start',
+				'session.timer.last',
+				'session.timer.now'
+			);
 
 			foreach ($migratableKeys as $migratableKey)
 			{
@@ -693,7 +712,7 @@ class JSession implements IteratorAggregate
 	public function destroy()
 	{
 		// Session was already destroyed
-		if ($this->_state === 'destroyed')
+		if ($this->getState() === 'destroyed')
 		{
 			return true;
 		}
@@ -721,7 +740,7 @@ class JSession implements IteratorAggregate
 	{
 		$this->destroy();
 
-		if ($this->_state !== 'destroyed')
+		if ($this->getState() !== 'destroyed')
 		{
 			// @TODO :: generated error here
 			return false;
@@ -760,7 +779,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function fork()
 	{
-		if ($this->_state !== 'active')
+		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
 			return false;
@@ -941,10 +960,10 @@ class JSession implements IteratorAggregate
 		}
 
 		// Check if session has expired
-		if ($this->_expire)
+		if ($this->getExpire())
 		{
 			$curTime = $this->get('session.timer.now', 0);
-			$maxTime = $this->get('session.timer.last', 0) + $this->_expire;
+			$maxTime = $this->get('session.timer.last', 0) + $this->getExpire();
 
 			// Empty session variables
 			if ($maxTime < $curTime)

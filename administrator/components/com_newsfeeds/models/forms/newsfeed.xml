@@ -140,8 +140,9 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_CREATED_LABEL"
 			description="JGLOBAL_FIELD_CREATED_DESC"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -166,9 +167,10 @@
 			label="JGLOBAL_FIELD_Modified_Label"
 			description="COM_NEWSFEEDS_FIELD_MODIFIED_DESC"
 			class="readonly"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -218,8 +220,9 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -228,8 +231,9 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 

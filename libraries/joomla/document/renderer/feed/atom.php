@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 	 * @var    string
 	 * @since  3.5
 	 */
-	protected $_mime = "application/atom+xml";
+	protected $_mime = 'application/atom+xml';
 
 	/**
 	 * Render the feed.
@@ -105,7 +105,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 			$feed .= "	<author>\n";
 			$feed .= "		<name>" . $data->editor . "</name>\n";
 
-			if ($data->editorEmail != "")
+			if ($data->editorEmail != '')
 			{
 				$feed .= "		<email>" . htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8') . "</email>\n";
 			}
@@ -121,7 +121,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 		}
 
 		$feed .= "	<generator uri=\"https://www.joomla.org\"" . $versionHtmlEscaped . ">" . $data->getGenerator() . "</generator>\n";
-		$feed .= '	<link rel="self" type="application/atom+xml" href="' . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
+		$feed .= "	<link rel=\"self\" type=\"application/atom+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
@@ -129,12 +129,12 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 
 			if (preg_match('/[\x80-\xFF]/', $itemlink))
 			{
-				$itemlink = implode("/", array_map("rawurlencode", explode("/", $itemlink)));
+				$itemlink = implode('/', array_map('rawurlencode', explode('/', $itemlink)));
 			}
 
 			$feed .= "	<entry>\n";
 			$feed .= "		<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= '		<link rel="alternate" type="text/html" href="' . $url . $itemlink . "\"/>\n";
+			$feed .= "		<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . $itemlink . "\"/>\n";
 
 			if ($data->items[$i]->date == '')
 			{
@@ -157,7 +157,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 
 			$feed .= "		<id>" . $itemGuid . "</id>\n";
 
-			if ($data->items[$i]->author != "")
+			if ($data->items[$i]->author != '')
 			{
 				$feed .= "		<author>\n";
 				$feed .= "			<name>" . htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8') . "</name>\n";

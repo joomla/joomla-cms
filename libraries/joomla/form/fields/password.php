@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -170,7 +170,6 @@ class JFormFieldPassword extends JFormField
 			'maxLength' => $this->maxLength,
 			'meter'     => $this->meter,
 			'threshold' => $this->threshold,
-			'meter'     => $this->meter,
 		);
 
 		return array_merge($data, $extraData);

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Request
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,9 +60,7 @@ class JRequest
 	 */
 	public static function getMethod()
 	{
-		$method = strtoupper($_SERVER['REQUEST_METHOD']);
-
-		return $method;
+		return strtoupper($_SERVER['REQUEST_METHOD']);
 	}
 
 	/**
@@ -452,9 +450,7 @@ class JRequest
 				break;
 		}
 
-		$result = self::_cleanVar($input, $mask);
-
-		return $result;
+		return self::_cleanVar($input, $mask);
 	}
 
 	/**

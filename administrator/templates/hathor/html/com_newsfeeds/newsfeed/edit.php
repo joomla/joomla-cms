@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -131,7 +131,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</fieldset>
 
 			<?php if ($assoc) : ?>
-				<?php echo JHtml::_('sliders.panel', JText::_('COM_NEWSFEEDS_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+				<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php endif; ?>
 

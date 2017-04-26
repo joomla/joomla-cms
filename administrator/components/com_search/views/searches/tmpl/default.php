@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->state->get('show_results')) : ?>
 
 					<td class="center btns">
-						<a class="badge <?php if ($item->returns > 0) echo "badge-success"; ?>" target="_blank" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
+						<a class="badge <?php if ($item->returns > 0) echo 'badge-success'; ?>" target="_blank" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
 							<?php echo $item->returns; ?><span class="icon-out-2"><span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span></span></a>
 					</td>
 					<?php else : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 	 * @var    string
 	 * @since  3.5
 	 */
-	protected $_mime = "application/rss+xml";
+	protected $_mime = 'application/rss+xml';
 
 	/**
 	 * Render the feed.
@@ -70,7 +70,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 
 		if (preg_match('/[\x80-\xFF]/', $datalink))
 		{
-			$datalink = implode("/", array_map("rawurlencode", explode("/", $datalink)));
+			$datalink = implode('/', array_map('rawurlencode', explode('/', $datalink)));
 		}
 
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
@@ -80,7 +80,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 		$feed .= "		<link>" . str_replace(' ', '%20', $url . $datalink) . "</link>\n";
 		$feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
 		$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
-		$feed .= '		<atom:link rel="self" type="application/rss+xml" href="' . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
+		$feed .= "		<atom:link rel=\"self\" type=\"application/rss+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
 		if ($data->image != null)
 		{
@@ -181,7 +181,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 
 			if (preg_match('/[\x80-\xFF]/', $itemlink))
 			{
-				$itemlink = implode("/", array_map("rawurlencode", explode("/", $itemlink)));
+				$itemlink = implode('/', array_map('rawurlencode', explode('/', $itemlink)));
 			}
 
 			if ((strpos($itemlink, 'http://') === false) && (strpos($itemlink, 'https://') === false))
@@ -206,7 +206,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 
 			if ($data->items[$i]->authorEmail != '')
 			{
-				$feed .= "			<author>"
+				$feed .= '			<author>'
 					. htmlspecialchars($data->items[$i]->authorEmail . ' (' . $data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8') . "</author>\n";
 			}
 

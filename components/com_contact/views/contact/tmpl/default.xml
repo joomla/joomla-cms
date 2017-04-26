@@ -33,6 +33,7 @@
 		<!-- Basic options. -->
 		<fieldset name="params"
 			label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
+			addfieldpath="/administrator/components/com_fields/models/fields"
 		>
 			<field name="presentation_style"
 				type="list"
@@ -273,9 +274,9 @@
 
 			<field
 				name="show_user_custom_fields"
-				type="category"
+				type="fieldgroups"
 				multiple="true"
-				extension="com_users.user.fields"
+				context="com_users.user"
 				label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
 				>
