@@ -14,7 +14,7 @@
 
 Joomla = window.Joomla || {};
 
-(function( Joomla, document ) {
+(function(Joomla, document) {
 	'use strict';
 
 	Joomla.hideAssociation = function(formControl, languageCode)
@@ -31,7 +31,7 @@ Joomla = window.Joomla || {};
 			}
 		}
 	}
-	
+
 	Joomla.showAssociationMessage = function()
 	{
 		var controlGroup = document.querySelectorAll('#associations .control-group');
@@ -39,10 +39,17 @@ Joomla = window.Joomla || {};
 		for (var i = 0, l = controlGroup.length; i < l; i++) {
 			controlGroup[i].style.display = 'none';
 
-			var associations = document.getElementById('associations'),
-			    html         = '<div id="associations-notice" class="alert alert-info">' + Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE') + '</div>';
+			var associations = document.getElementById('associations');
 
-			associations.insertBefore(html, associations.firstChild);
+			if (associations) {
+				var html = document.createElement('div');
+				html.classList.add('alert')
+				html.classList.add('alert-info')
+				html.id = 'associations-notice';
+				html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
+
+				associations.insertAdjacentElement('afterbegin', html);
+			}
 		}
 	}
 
@@ -58,8 +65,7 @@ Joomla = window.Joomla || {};
 			Joomla.showAssociationMessage();
 		}
 		// Hide only the associations for the current language
-		else
-		{
+		else {
 			if (formControlLanguage) {
 				Joomla.hideAssociation(formControl, formControlLanguage.value);
 			}
@@ -122,4 +128,4 @@ Joomla = window.Joomla || {};
 
 	});
 
-})();
+})(Joomla, document);
