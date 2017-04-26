@@ -25,10 +25,10 @@
 					name="query"
 					type="textarea"
 					filter="raw"
-					default="select id as value, name as text from #__users"
 					label="PLG_FIELDS_SQL_PARAMS_QUERY_LABEL"
 					description="PLG_FIELDS_SQL_PARAMS_QUERY_DESC"
 					rows="10"
+					required="true"
 				/>
 	
 				<field

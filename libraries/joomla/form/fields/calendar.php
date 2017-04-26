@@ -226,7 +226,7 @@ class JFormFieldCalendar extends JFormField
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
-					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+					$date->setTimezone($user->getTimezone());
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);

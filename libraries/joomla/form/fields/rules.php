@@ -248,14 +248,9 @@ class JFormFieldRules extends JFormField
 		foreach ($groups as $group)
 		{
 			// Initial Active Tab
-			$active = '';
+			$active = (int) $group->value === 1 ? ' class="active"' : '';
 
-			if ((int) $group->value === 1)
-			{
-				$active = 'active';
-			}
-
-			$html[] = '<li class="' . $active . '">';
+			$html[] = '<li' . $active . '>';
 			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
 			$html[] = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '</a>';
@@ -270,12 +265,7 @@ class JFormFieldRules extends JFormField
 		foreach ($groups as $group)
 		{
 			// Initial Active Pane
-			$active = '';
-
-			if ((int) $group->value === 1)
-			{
-				$active = ' active';
-			}
+			$active = (int) $group->value === 1 ? ' active' : '';
 
 			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
 			$html[] = '<table class="table table-striped">';
@@ -381,7 +371,7 @@ class JFormFieldRules extends JFormField
 
 					/**
 					 * @to do: incorrect info
-					 * If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+					 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 					 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 					 */
 

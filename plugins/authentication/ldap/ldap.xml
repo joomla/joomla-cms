@@ -30,11 +30,16 @@
 
 				<field
 					name="port"
-					type="text"
+					type="number"
 					label="PLG_LDAP_FIELD_PORT_LABEL"
 					description="PLG_LDAP_FIELD_PORT_DESC"
+					min="1"
+					max="65535"
 					default="389"
-					size="20"
+					hint="389"
+					validate="number"
+					filter="integer"
+					size="5"
 				/>
 
 				<field

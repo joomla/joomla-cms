@@ -30,7 +30,7 @@ defined('JPATH_BASE') or die;
 			{
 				JHtml::_('jquery.framework');
 				JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
-				$datashowon = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->formControl, $field->showon)) . '\'';
+				$datashowon = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\'';
 			}
 			?>
 			<div class="control-group"<?php echo $datashowon; ?>>

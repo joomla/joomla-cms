@@ -74,7 +74,15 @@ class MessagesModelMessage extends JModelAdmin
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+					try
+					{
+						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+					}
+					catch (RuntimeException $exception)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+					}
 
 					return false;
 				}
@@ -254,7 +262,15 @@ class MessagesModelMessage extends JModelAdmin
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+					try
+					{
+						JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+					}
+					catch (RuntimeException $exception)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
+					}
 
 					return false;
 				}

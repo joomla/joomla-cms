@@ -71,7 +71,7 @@ class JFormFieldType extends JFormFieldList
 		// Reload the page when the type changes
 		$uri = clone JUri::getInstance('index.php');
 
-		// Removing the catid parameter from the actual url and set it as
+		// Removing the catid parameter from the actual URL and set it as
 		// return
 		$returnUri = clone JUri::getInstance();
 		$returnUri->setVar('catid', null);
@@ -86,13 +86,19 @@ class JFormFieldType extends JFormFieldList
 		$uri->setVar('view', null);
 		$uri->setVar('layout', null);
 
-		JFactory::getDocument()->addScriptDeclaration(
-				"function typeHasChanged(element){
+
+		JFactory::getDocument()->addScriptDeclaration("
+			jQuery( document ).ready(function() {
+				Joomla.loadingLayer('load');
+			});
+			function typeHasChanged(element){
+				Joomla.loadingLayer('show');
 				var cat = jQuery(element);
 				jQuery('input[name=task]').val('field.storeform');
 				element.form.action='" . $uri . "';
 				element.form.submit();
-			}");
+			}
+		");
 
 		return $options;
 	}

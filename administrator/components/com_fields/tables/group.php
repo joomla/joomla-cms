@@ -119,7 +119,9 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetName()
 	{
-		return $this->context . '.fieldgroup.' . (int) $this->id;
+		$component = explode('.', $this->context);
+
+		return $component[0] . '.fieldgroup.' . (int) $this->id;
 	}
 
 	/**
@@ -155,11 +157,12 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
+		$component = explode('.', $this->context);
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($this->context));
+			->where($db->quoteName('name') . ' = ' . $db->quote($component[0]));
 		$db->setQuery($query);
 
 		if ($assetId = (int) $db->loadResult())

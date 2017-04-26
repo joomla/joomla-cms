@@ -82,7 +82,7 @@ if ($showPreview)
 	}
 }
 
-// The url for the modal
+// The URL for the modal
 $url    = ($readonly ? ''
 	: ($link ? $link
 		: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
@@ -107,12 +107,13 @@ $url    = ($readonly ? ''
 >
 	<?php
 	// Render the modal
-	echo JHtml::_('bootstrap.renderModal',
-		'imageModal_'. $id,
+	echo JHtml::_(
+		'bootstrap.renderModal',
+		'imageModal_' . $id,
 		array(
-			'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
+			'title'       => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer' => '<button class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+			'footer'      => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>',
 		)
 	);
 
@@ -123,7 +124,7 @@ $url    = ($readonly ? ''
 		<span rel="popover" class="add-on pop-helper field-media-preview"
 			title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
 			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
-			<i class="icon-eye"></i>
+			<span class="icon-eye" aria-hidden="true"></span>
 		</span>
 	<?php else: ?>
 	<div class="input-append">
