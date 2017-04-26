@@ -635,6 +635,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (478, 0, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (479, 0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (480, 0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(481, 0, 'plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (510, 0, 'aurora', 'template', 'aurora', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),

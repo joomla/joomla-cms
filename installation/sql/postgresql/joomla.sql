@@ -647,6 +647,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (478, 0, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (479, 0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
 (480, 0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(481, 0, 'plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
