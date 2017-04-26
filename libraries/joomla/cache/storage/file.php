@@ -45,6 +45,31 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		parent::__construct($options);
 		$this->_root = $options['cachebase'];
+
+		// Workaround for php 5.3
+		$locked_files = &$this->_locked_files;
+
+		// Remove empty locked files at script shutdown.
+		$clearAtShutdown = function () use (&$locked_files)
+		{
+			foreach ($locked_files as $path => $handle)
+			{
+				if (is_resource($handle))
+				{
+					@flock($handle, LOCK_UN);
+					@fclose($handle);
+				}
+
+				if (@filesize($path) === 0)
+				{
+					@unlink($path);
+				}
+
+				unset($locked_files[$path]);
+			}
+		};
+
+		register_shutdown_function($clearAtShutdown);
 	}
 
 	/**
@@ -417,6 +442,11 @@ class JCacheStorageFile extends JCacheStorage
 			{
 				@unlink($path);
 
+				return false;
+			}
+
+			if (filesize($path) == 0)
+			{
 				return false;
 			}
 
