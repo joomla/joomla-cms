@@ -170,6 +170,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
+					// Debug Bar files
+					{ expand: true, cwd: 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources', src: ['**'], dest: 'media/vendor/debugbar/', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
