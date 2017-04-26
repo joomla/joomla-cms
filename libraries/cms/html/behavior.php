@@ -287,16 +287,16 @@ abstract class JHtmlBehavior
 		static::framework(true);
 
 		// Setup options object
-		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && $params['maxTitleChars']) ? (int) $params['maxTitleChars'] : 50;
+		$opt['maxTitleChars'] = isset($params['maxTitleChars']) && $params['maxTitleChars'] ? (int) $params['maxTitleChars'] : 50;
 
 		// Offsets needs an array in the format: array('x'=>20, 'y'=>30)
-		$opt['offset']    = (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
-		$opt['showDelay'] = (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;
-		$opt['hideDelay'] = (isset($params['hideDelay'])) ? (int) $params['hideDelay'] : null;
-		$opt['className'] = (isset($params['className'])) ? $params['className'] : null;
-		$opt['fixed']     = (isset($params['fixed']) && ($params['fixed']));
-		$opt['onShow']    = (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
-		$opt['onHide']    = (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
+		$opt['offset']    = isset($params['offset']) && is_array($params['offset']) ? $params['offset'] : null;
+		$opt['showDelay'] = isset($params['showDelay']) ? (int) $params['showDelay'] : null;
+		$opt['hideDelay'] = isset($params['hideDelay']) ? (int) $params['hideDelay'] : null;
+		$opt['className'] = isset($params['className']) ? $params['className'] : null;
+		$opt['fixed']     = isset($params['fixed']) && $params['fixed'];
+		$opt['onShow']    = isset($params['onShow']) ? '\\' . $params['onShow'] : null;
+		$opt['onHide']    = isset($params['onHide']) ? '\\' . $params['onHide'] : null;
 
 		$options = JHtml::getJSObject($opt);
 
@@ -900,10 +900,7 @@ abstract class JHtmlBehavior
 			return false;
 		}
 
-		if (!is_array($polyfillTypes))
-		{
-			$polyfillTypes = array($polyfillTypes);
-		}
+		$polyfillTypes = array($polyfillTypes);
 
 		foreach ($polyfillTypes as $polyfillType)
 		{
