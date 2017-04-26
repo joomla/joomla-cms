@@ -72,7 +72,7 @@
 
 			// Create a new instance
 			var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
-			ed.render();
+ed.render()
 
 			/** Register the editor's instance to Joomla Object */
 			Joomla.editors.instances[element.id] = {
@@ -83,17 +83,12 @@
 				// Some extra instance dependent
 				'id': element.id,
 				'instance': ed,
-				'onSave': function() { if (this.instance.isHidden()) { this.instance.show()}; },
+				'onSave': function() { if (this.instance.isHidden()) { this.instance.show()}; return '';},
 			};
 
 			/** On save **/
-			element.form.addEventListener('submit', function() {
-				for (var instance in Joomla.editors.instances) {
-					if (Joomla.editors.instances.hasOwnProperty(instance)) {
-						console.log(instance, Joomla.editors.instances[instance]);
-						Joomla.editors.instances[instance].onSave();
-					}
-				}
+			document.getElementById(ed.id).form.addEventListener('submit', function() {
+				Joomla.editors.instances[ed.targetElm.id].onSave();
 			})
 		}
 
