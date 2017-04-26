@@ -8,7 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
 use Joomla\Component\Banners\Site\Helper\BannerHelper;
+
 $baseurl = JUri::base();
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx; ?>">

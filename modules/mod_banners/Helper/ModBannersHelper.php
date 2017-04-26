@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Module\Banners\Site\Helper;
 
 defined('_JEXEC') or die;
 
@@ -27,8 +28,8 @@ class ModBannersHelper
 	 */
 	public static function &getList(&$params)
 	{
-		$document = JFactory::getDocument();
-		$app      = JFactory::getApplication();
+		$document = \JFactory::getDocument();
+		$app      = \JFactory::getApplication();
 		$keywords = explode(',', $document->getMetaData('keywords'));
 
 		$model = new Banners(array('ignore_request' => true));
