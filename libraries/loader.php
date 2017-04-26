@@ -571,8 +571,15 @@ abstract class JLoader
 		// Define the root of the path
 		$path = self::$extensionRootFolders[$key];
 
-		// Convert the name of the extension from camelcase to _
-		$name = strtolower(implode('_', self::fromCamelCase($segments[2], true)));
+		// Convert the name of the extension from camelcase to underscore for module
+		if ($segments[1] == 'Module')
+		{
+			$name = strtolower(implode('_', self::fromCamelCase($segments[2], true)));
+		}
+		else
+		{
+			$name = strtolower($segments[2]);
+		}
 
 		// Add the extension specific folder to the path
 		switch ($segments[1])
