@@ -7,7 +7,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/calendar/fixtures/fixture.html', 'libs/fields/calendar-vanilla'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/calendar/fixtures/fixture.html', 'libs/fields/calendar'], function ($, fixture) {
 
 	$('body').append(fixture);
 

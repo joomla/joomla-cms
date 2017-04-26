@@ -123,11 +123,11 @@ class JToolbarButtonTest extends TestCaseDatabase
 	{
 		$type = array('Standard', 'test');
 
-		$expected = "<div class=\"btn-wrapper\"  id=\"toolbar-test\">" . PHP_EOL
-			. "\t<button onclick=\"if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } else { Joomla.submitbutton(''); }\" class=\"btn btn-small\">" . PHP_EOL
-			. "\t<span class=\"icon-test\"></span>" . PHP_EOL
-			. "\t</button>" . PHP_EOL
-			. "</div>" . PHP_EOL;
+		$expected = "<div class=\"btn-wrapper\"  id=\"toolbar-test\">\n"
+			. "\t<button onclick=\"if (document.adminForm.boxchecked.value == 0) { alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')); } else { Joomla.submitbutton(''); }\" class=\"btn btn-small\">\n"
+			. "\t<span class=\"icon-test\"></span>\n"
+			. "\t</button>\n"
+			. "</div>\n";
 
 		$this->assertEquals(
 			$expected,

@@ -52,7 +52,7 @@ class PlgSystemStats extends JPlugin
 	protected $db;
 
 	/**
-	 * Url to send the statistics.
+	 * URL to send the statistics.
 	 *
 	 * @var    string
 	 * @since  3.5

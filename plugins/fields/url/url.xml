@@ -25,7 +25,6 @@
 					name="schemes"
 					type="list"
 					multiple="true"
-					default="https"
 					label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
 					description="PLG_FIELDS_URL_PARAMS_SCHEMES_DESC"
 				>
