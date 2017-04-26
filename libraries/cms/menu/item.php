@@ -253,7 +253,7 @@ class JMenuItem extends stdClass
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 * @deprecated  4.0 Deprecated without replacement
 	 */
 	public function __isset($name)
