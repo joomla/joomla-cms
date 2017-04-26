@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,6 +36,14 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	 * @since  3.2
 	 */
 	protected $menuType;
+
+	/**
+	 * The client id.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $clientId;
 
 	/**
 	 * The language.
@@ -75,6 +83,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		switch ($name)
 		{
 			case 'menuType':
+			case 'clientId':
 			case 'language':
 			case 'published':
 			case 'disable':
@@ -100,6 +109,10 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		{
 			case 'menuType':
 				$this->menuType = (string) $value;
+				break;
+
+			case 'clientId':
+				$this->clientId = (int) $value;
 				break;
 
 			case 'language':
@@ -135,6 +148,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		if ($result == true)
 		{
 			$this->menuType  = (string) $this->element['menu_type'];
+			$this->clientId  = (int) $this->element['client_id'];
 			$this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array();
 			$this->disable   = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : array();
 			$this->language  = $this->element['language'] ? explode(',', (string) $this->element['language']) : array();
@@ -157,7 +171,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		$menuType = $this->menuType;
 
 		// Get the menu items.
-		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language);
+		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language, $this->clientId);
 
 		// Build group for a specific menu type.
 		if ($menuType)

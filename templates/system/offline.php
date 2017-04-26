@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 // Styles
 JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
 
-if ($this->direction == 'rtl')
+if ($this->direction === 'rtl')
 {
 	JHtml::_('stylesheet', 'offline_rtl.css', array('version' => 'auto', 'relative' => true));
 }
@@ -49,11 +49,11 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<h1>
 			<?php echo htmlspecialchars($app->get('sitename'), ENT_COMPAT, 'UTF-8'); ?>
 		</h1>
-	<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
+	<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) !== '') : ?>
 		<p>
 			<?php echo $app->get('offline_message'); ?>
 		</p>
-	<?php elseif ($app->get('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != '') : ?>
+	<?php elseif ($app->get('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) !== '') : ?>
 		<p>
 			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
 		</p>

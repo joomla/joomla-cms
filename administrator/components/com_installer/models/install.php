@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class InstallerModelInstall extends JModelLegacy
 	}
 
 	/**
-	 * Install an extension from either folder, url or upload.
+	 * Install an extension from either folder, URL or upload.
 	 *
 	 * @return  boolean result of install.
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -327,9 +327,6 @@ abstract class JUserHelper
 	 */
 	public static function verifyPassword($password, $hash, $user_id = 0)
 	{
-		$rehash = false;
-		$match = false;
-
 		// If we are using phpass
 		if (strpos($hash, '$P$') === 0)
 		{
@@ -353,7 +350,6 @@ abstract class JUserHelper
 		{
 			// Check the password
 			$parts     = explode(':', $hash);
-			$crypt     = $parts[0];
 			$salt      = @$parts[1];
 			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
 
@@ -365,7 +361,6 @@ abstract class JUserHelper
 		{
 			// Check the password
 			$parts = explode(':', $hash);
-			$crypt = $parts[0];
 			$salt  = @$parts[1];
 
 			$rehash = true;
@@ -643,7 +638,7 @@ abstract class JUserHelper
 	 */
 	public static function genRandomPassword($length = 8)
 	{
-		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		$salt = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		$base = strlen($salt);
 		$makepass = '';
 
