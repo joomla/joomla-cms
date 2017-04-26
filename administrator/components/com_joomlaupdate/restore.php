@@ -7878,26 +7878,6 @@ if (!defined('KICKSTART'))
 
 				$postproc = AKFactory::getPostProc();
 
-				// Rename htaccess.bak to .htaccess
-				if (file_exists($root . '/htaccess.bak'))
-				{
-					if (file_exists($root . '/.htaccess'))
-					{
-						$postproc->unlink($root . '/.htaccess');
-					}
-					$postproc->rename($root . '/htaccess.bak', $root . '/.htaccess');
-				}
-
-				// Rename htaccess.bak to .htaccess
-				if (file_exists($root . '/web.config.bak'))
-				{
-					if (file_exists($root . '/web.config'))
-					{
-						$postproc->unlink($root . '/web.config');
-					}
-					$postproc->rename($root . '/web.config.bak', $root . '/web.config');
-				}
-
 				// Remove restoration.php
 				$basepath = KSROOTDIR;
 				$basepath = rtrim(str_replace('\\', '/', $basepath), '/');
