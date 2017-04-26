@@ -372,14 +372,14 @@ abstract class JHtmlBehavior
 		JLog::add('JHtmlBehavior::modal is deprecated. Use the modal equivalent from bootstrap.', JLog::WARNING, 'deprecated');
 
 		// Setup options object
-		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && is_array($params['ajaxOptions'])) ? $params['ajaxOptions'] : null;
+		$opt['ajaxOptions']   = isset($params['ajaxOptions']) && is_array($params['ajaxOptions']) ? $params['ajaxOptions'] : null;
 		$opt['handler']       = isset($params['handler']) ? $params['handler'] : null;
 		$opt['parseSecure']   = isset($params['parseSecure']) ? (bool) $params['parseSecure'] : null;
 		$opt['closable']      = isset($params['closable']) ? (bool) $params['closable'] : null;
 		$opt['closeBtn']      = isset($params['closeBtn']) ? (bool) $params['closeBtn'] : null;
 		$opt['iframePreload'] = isset($params['iframePreload']) ? (bool) $params['iframePreload'] : null;
-		$opt['iframeOptions'] = (isset($params['iframeOptions']) && is_array($params['iframeOptions'])) ? $params['iframeOptions'] : null;
-		$opt['size']          = (isset($params['size']) && is_array($params['size'])) ? $params['size'] : null;
+		$opt['iframeOptions'] = isset($params['iframeOptions']) && is_array($params['iframeOptions']) ? $params['iframeOptions'] : null;
+		$opt['size']          = isset($params['size']) && is_array($params['size']) ? $params['size'] : null;
 		$opt['shadow']        = isset($params['shadow']) ? $params['shadow'] : null;
 		$opt['overlay']       = isset($params['overlay']) ? $params['overlay'] : null;
 		$opt['onOpen']        = isset($params['onOpen']) ? $params['onOpen'] : null;
@@ -900,7 +900,7 @@ abstract class JHtmlBehavior
 			return false;
 		}
 
-		$polyfillTypes = array($polyfillTypes);
+		$polyfillTypes = (array) $polyfillTypes;
 
 		foreach ($polyfillTypes as $polyfillType)
 		{
