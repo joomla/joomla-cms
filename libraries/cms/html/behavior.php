@@ -89,8 +89,6 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/core.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
-
-		return;
 	}
 
 	/**
@@ -895,14 +893,12 @@ abstract class JHtmlBehavior
 	 */
 	public static function polyfill($polyfillTypes = null, $conditionalBrowser = null)
 	{
-		if (is_null($polyfillTypes))
+		if ($polyfillTypes === null)
 		{
-			return false;
+			return;
 		}
 
-		$polyfillTypes = (array) $polyfillTypes;
-
-		foreach ($polyfillTypes as $polyfillType)
+		foreach ((array) $polyfillTypes as $polyfillType)
 		{
 			$sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
 
