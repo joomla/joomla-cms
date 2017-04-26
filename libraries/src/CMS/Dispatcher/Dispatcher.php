@@ -73,7 +73,7 @@ abstract class Dispatcher implements DispatcherInterface
 		$this->app   = $app;
 		$this->input = $input ?: $app->input;
 
-		// If option is not provided, detect it from dispatcher class name if not provided, ie ContentDispatcher
+		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
 		{
 			$className = get_class($this);
