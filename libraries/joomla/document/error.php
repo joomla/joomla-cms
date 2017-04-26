@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -131,7 +131,15 @@ class JDocumentError extends JDocument
 			$status = 500;
 		}
 
-		JFactory::getApplication()->setHeader('status',  $status . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
+		$errorReporting = JFactory::getConfig()->get('error_reporting');
+
+		if ($errorReporting === "development" || $errorReporting === "maximum")
+		{
+			$status .= ' ' . str_replace("\n", ' ', $this->_error->getMessage());
+		}
+
+		JFactory::getApplication()->setHeader('status', $status);
+
 		$file = 'error.php';
 
 		// Check template
@@ -153,7 +161,7 @@ class JDocumentError extends JDocument
 		if (JFactory::$language)
 		{
 			$lang = JFactory::getLanguage();
-	
+
 			// 1.5 or core then 1.6
 			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 				|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
@@ -212,55 +220,6 @@ class JDocumentError extends JDocument
 			return;
 		}
 
-		$contents = null;
-		$backtrace = $this->_error->getTrace();
-
-		if (is_array($backtrace))
-		{
-			ob_start();
-			$j = 1;
-			echo '<table cellpadding="0" cellspacing="0" class="Table">';
-			echo '	<tr>';
-			echo '		<td colspan="3" class="TD"><strong>Call stack</strong></td>';
-			echo '	</tr>';
-			echo '	<tr>';
-			echo '		<td class="TD"><strong>#</strong></td>';
-			echo '		<td class="TD"><strong>Function</strong></td>';
-			echo '		<td class="TD"><strong>Location</strong></td>';
-			echo '	</tr>';
-
-			for ($i = count($backtrace) - 1; $i >= 0; $i--)
-			{
-				echo '	<tr>';
-				echo '		<td class="TD">' . $j . '</td>';
-
-				if (isset($backtrace[$i]['class']))
-				{
-					echo '	<td class="TD">' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
-				}
-				else
-				{
-					echo '	<td class="TD">' . $backtrace[$i]['function'] . '()</td>';
-				}
-
-				if (isset($backtrace[$i]['file']))
-				{
-					echo '		<td class="TD">' . $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . '</td>';
-				}
-				else
-				{
-					echo '		<td class="TD">&#160;</td>';
-				}
-
-				echo '	</tr>';
-				$j++;
-			}
-
-			echo '</table>';
-			$contents = ob_get_contents();
-			ob_end_clean();
-		}
-
-		return $contents;
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $this->_error->getTrace()));
 	}
 }

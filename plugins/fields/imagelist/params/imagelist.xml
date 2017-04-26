@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="directory"
+				type="folderlist"
+				directory="images"
+				hide_none="true"
+				hide_default="true"
+				recursive="true"
+				label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
+				description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
+			>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+				<option value="/">/</option>
+			</field>
+
+			<field
+				name="multiple"
+				type="list"
+				label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
+				description="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_DESC"
+			>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="image_class"
+				type="textarea"
+				label="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_LABEL"
+				description="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_DESC"
+				size="40"
+			/>
+		</fieldset>
+	</fields>
+</form>

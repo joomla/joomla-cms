@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,10 +82,9 @@ if ($showPreview)
 	}
 }
 
-// The url for the modal
+// The URL for the modal
 $url    = ($readonly ? ''
-	: ($link ? $link
-		: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
+	: ($link ?: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
 	. '&amp;fieldid={field-media-id}&amp;ismoo=0&amp;folder=' . $folder);
 ?>
@@ -123,7 +122,7 @@ $url    = ($readonly ? ''
 		<span rel="popover" class="add-on pop-helper field-media-preview"
 			title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
 			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
-			<i class="icon-eye"></i>
+			<span class="icon-eye" aria-hidden="true"></span>
 		</span>
 	<?php else: ?>
 	<div class="input-append">

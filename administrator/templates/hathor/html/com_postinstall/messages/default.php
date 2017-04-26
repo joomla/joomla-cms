@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,17 @@ defined('_JEXEC') or die;
 $renderer       = JFactory::getDocument()->loadRenderer('module');
 $options        = array('style' => 'raw');
 $mod            = JModuleHelper::getModule('mod_feed');
-$param          = array("rssurl" => "https://www.joomla.org/announcements/release-news.feed?type=rss",
-						"rsstitle" => 0,
-						"rssdesc" => 0,
-						"rssimage" => 1,
-						"rssitems" => 5,
-						"rssitemdesc" => 1,
-						"word_count" => 200,
-						"cache" => 0,
-						"moduleclass_sfx" => ' list-striped');
+$param          = array(
+	'rssurl'          => 'https://www.joomla.org/announcements/release-news.feed?type=rss',
+	'rsstitle'        => 0,
+	'rssdesc'         => 0,
+	'rssimage'        => 1,
+	'rssitems'        => 5,
+	'rssitemdesc'     => 1,
+	'word_count'      => 200,
+	'cache'           => 0,
+	'moduleclass_sfx' => ' list-striped'
+);
 $params         = array('params' => json_encode($param));
 ?>
 

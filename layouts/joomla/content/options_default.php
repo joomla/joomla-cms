@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,24 +26,11 @@ defined('JPATH_BASE') or die;
 		{
 			$datashowon = '';
 
-			if ($showonstring = $displayData->form->getFieldAttribute($field->fieldname, 'showon'))
+			if ($field->showon)
 			{
 				JHtml::_('jquery.framework');
 				JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
-
-				$showonarr = array();
-
-				foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
-				{
-					$showon   = explode(':', $showonfield, 2);
-					$showonarr[] = array(
-						'field'  => $displayData->form->getFormControl() . '[' . $displayData->form->getFieldAttribute($showon[0], 'name') . ']',
-						'values' => explode(',', $showon[1]),
-						'op'     => preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches) ? $matches[1] : ''
-					);
-				}
-
-				$datashowon = ' data-showon=\'' . json_encode($showonarr) . '\'';
+				$datashowon = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\'';
 			}
 			?>
 			<div class="control-group"<?php echo $datashowon; ?>>

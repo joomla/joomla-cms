@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,30 +87,24 @@ class ContactControllerContact extends JControllerForm
 			return false;
 		}
 
-		$validate = $model->validate($form, $data);
-
-		if ($validate === false)
+		if (!$model->validate($form, $data))
 		{
-			// Get the validation messages.
 			$errors = $model->getErrors();
 
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			foreach ($errors as $error)
 			{
-				if ($errors[$i] instanceof Exception)
+				$errorMessage = $error;
+
+				if ($error instanceof Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$errorMessage = $error->getMessage();
 				}
-				else
-				{
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
+
+				$app->enqueueMessage($errorMessage, 'error');
 			}
 
-			// Save the data in the session.
 			$app->setUserState('com_contact.contact.data', $data);
 
-			// Redirect back to the contact form.
 			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
 
 			return false;
@@ -199,7 +193,7 @@ class ContactControllerContact extends JControllerForm
 			$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 			// Load the custom fields
-			if ($data['params'] && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['params']))
+			if ($data['com_fields'] && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
 			{
 				$output = FieldsHelper::render(
 							'com_contact.mail',

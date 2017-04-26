@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -387,7 +387,7 @@ class ContentModelArticle extends JModelAdmin
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated
-		if ($this->getState('article.id') && $app->isSite() && $assoc)
+		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
 		{
 			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
@@ -414,7 +414,7 @@ class ContentModelArticle extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data))
@@ -449,6 +449,38 @@ class ContentModelArticle extends JModelAdmin
 		$this->preprocessData('com_content.article', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.7.0
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (($data['created_by'] || $data['modified_by']) && !JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_by']))
+			{
+				unset($data['created_by']);
+			}
+
+			if (isset($data['modified_by']))
+			{
+				unset($data['modified_by']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 
 	/**
@@ -652,15 +684,15 @@ class ContentModelArticle extends JModelAdmin
 					->where('content_id IN (' . implode(',', $pks) . ')');
 				$db->setQuery($query);
 
-				$old_featured = $db->loadColumn();
+				$oldFeatured = $db->loadColumn();
 
 				// We diff the arrays to get a list of the articles that are newly featured
-				$new_featured = array_diff($pks, $old_featured);
+				$newFeatured = array_diff($pks, $oldFeatured);
 
 				// Featuring.
 				$tuples = array();
 
-				foreach ($new_featured as $pk)
+				foreach ($newFeatured as $pk)
 				{
 					$tuples[] = $pk . ', 0';
 				}
@@ -735,7 +767,6 @@ class ContentModelArticle extends JModelAdmin
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
 				$fieldset->addAttribute('name', 'item_associations');
-				$fieldset->addAttribute('description', 'COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 
 				foreach ($languages as $language)
 				{
@@ -810,7 +841,7 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function delete(&$pks)
 	{

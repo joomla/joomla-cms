@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,13 +63,13 @@ defined('_JEXEC') or die;
 										<?php echo $readmore; ?>
 										<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 											<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
-												<?php echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit')); ?>
+												<?php echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
 											<?php endif; ?>
 									<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
 										<?php echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
 									<?php else : ?>
 										<?php echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
-										<?php echo JHtml::_('string.truncate', ($item->title), $params->get('readmore_limit')); ?>
+										<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 									<?php endif; ?>
 								</a>
 							</p>

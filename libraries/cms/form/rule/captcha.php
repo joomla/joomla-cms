@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ class JFormRuleCaptcha extends JFormRule
 		$app    = JFactory::getApplication();
 		$plugin = $app->get('captcha');
 
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			$plugin = $app->getParams()->get('captcha', $plugin);
 		}

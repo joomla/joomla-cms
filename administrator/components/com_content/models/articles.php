@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -252,11 +252,11 @@ class ContentModelArticles extends JModelList
 
 		if (is_numeric($categoryId))
 		{
-			$cat_tbl = JTable::getInstance('Category', 'JTable');
-			$cat_tbl->load($categoryId);
-			$rgt = $cat_tbl->rgt;
-			$lft = $cat_tbl->lft;
-			$baselevel = (int) $cat_tbl->level;
+			$categoryTable= JTable::getInstance('Category', 'JTable');
+			$categoryTable->load($categoryId);
+			$rgt = $categoryTable->rgt;
+			$lft = $categoryTable->lft;
+			$baselevel = (int) $categoryTable->level;
 			$query->where('c.lft >= ' . (int) $lft)
 				->where('c.rgt <= ' . (int) $rgt);
 		}
@@ -375,7 +375,7 @@ class ContentModelArticles extends JModelList
 	{
 		$items = parent::getItems();
 
-		if (JFactory::getApplication()->isSite())
+		if (JFactory::getApplication()->isClient('site'))
 		{
 			$groups = JFactory::getUser()->getAuthorisedViewLevels();
 
