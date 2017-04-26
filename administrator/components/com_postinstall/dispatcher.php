@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Dispatcher\Dispatcher;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Dispatcher class for com_postinstall
@@ -20,12 +18,5 @@ use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
  */
 class PostinstallDispatcher extends Dispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $namespace = 'Joomla\\Component\\Postinstall';
+
 }
