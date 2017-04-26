@@ -60,6 +60,7 @@ class JCacheStorageFile extends JCacheStorage
 					@fclose($handle);
 				}
 
+				// Delete only the existing file if it is empty.
 				if (@filesize($path) === 0)
 				{
 					@unlink($path);
@@ -445,7 +446,8 @@ class JCacheStorageFile extends JCacheStorage
 				return false;
 			}
 
-			if (filesize($path) == 0)
+			// If now the file does not exist then return false too.
+			if (@filesize($path) == 0)
 			{
 				return false;
 			}
