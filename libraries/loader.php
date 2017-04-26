@@ -571,20 +571,22 @@ abstract class JLoader
 		// Define the root of the path
 		$path = self::$extensionRootFolders[$key];
 
-		// Convert the name of the extension from camelcase to _
-		$name = strtolower(implode('_', self::fromCamelCase($segments[2], true)));
-
 		// Add the extension specific folder to the path
 		switch ($segments[1])
 		{
 			case 'Component':
+				$name = strtolower($segments[2]);
 				$path .= '/components/com_' . $name;
 				break;
 			case 'Module':
+				// Convert the name of the extension from camelcase to underscore for module
+				$name = strtolower(implode('_', self::fromCamelCase($segments[2], true)));
 				$path .= '/modules/mod_' . $name;
 				break;
 			case 'Plugin':
-				$path .= '/plugins/' . $name . '/' . strtolower($segments[3]);
+				$group = strtolower($segments[2]);
+				$name  = strtolower($segments[3]);
+				$path .= '/plugins/' . $group . '/' . $name;
 				break;
 		}
 
