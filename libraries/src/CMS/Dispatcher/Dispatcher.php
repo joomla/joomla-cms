@@ -11,7 +11,7 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CmsApplication;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Mvc\Factory\MvcFactory;
 
@@ -25,6 +25,14 @@ use Joomla\CMS\Mvc\Factory\MvcFactory;
  */
 abstract class Dispatcher implements DispatcherInterface
 {
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  1.6
+	 */
+	protected $option;
+
 	/**
 	 * The extension namespace
 	 *
@@ -55,20 +63,34 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   CMSApplication  $app    The JApplication for the dispatcher
-	 * @param   \JInput         $input  JInput
+	 * @param   CMSApplication  $app     The JApplication for the dispatcher
+	 * @param   \JInput         $input   JInput
+	 * @param   string          $option  The component name
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(CMSApplication $app, \JInput $input = null)
+	public function __construct(CmsApplication $app, \JInput $input = null, $option = null)
 	{
-		if (empty($this->namespace))
+		$this->app   = $app;
+		$this->input = $input ?: $app->input;
+
+		if (empty($this->option))
 		{
-			throw new \RuntimeException('Namespace can not be empty!');
+			if ($option)
+			{
+				$this->option = $option;
+			}
+			else
+			{
+				$this->option = $this->input->getCmd('option');
+			}
 		}
 
-		$this->app   = $app;
-		$this->input = $input ? $input : $app->input;
+		// If namespace is not provided, use standard component namespace
+		if (empty($this->namespace))
+		{
+			$this->namespace = '\\Joomla\\Component\\' . ucfirst(substr($this->option, 4));
+		}
 
 		$this->loadLanguage();
 	}
@@ -83,8 +105,8 @@ abstract class Dispatcher implements DispatcherInterface
 	protected function loadLanguage()
 	{
 		// Load common and local language files.
-		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
-		$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+		$this->app->getLanguage()->load($this->option, JPATH_BASE, null, false, true) ||
+		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT, null, false, true);
 	}
 
 	/**
@@ -97,7 +119,7 @@ abstract class Dispatcher implements DispatcherInterface
 	public function dispatch()
 	{
 		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->app->scope))
+		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->option))
 		{
 			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -121,7 +143,7 @@ abstract class Dispatcher implements DispatcherInterface
 		}
 
 		// Build controller config data
-		$config['option'] = $this->app->scope;
+		$config['option'] = $this->option;
 
 		// Set name of controller if it is passed in the request
 		if ($this->input->exists('controller'))
@@ -164,7 +186,7 @@ abstract class Dispatcher implements DispatcherInterface
 		$namespace = rtrim($this->namespace, '\\') . '\\';
 
 		// Set up the client
-		$client = $client ? $client : ucfirst($this->app->getName()) . '\\';
+		$client = $client ? $client : ucfirst($this->app->getName());
 
 		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
 
