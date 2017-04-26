@@ -584,18 +584,9 @@ abstract class JLoader
 				$path .= '/modules/mod_' . $name;
 				break;
 			case 'Plugin':
-				$pluginGroup = strtolower($segments[2]);
-				$name        = strtolower($segments[3]);
-
-				// Special case for editor-xtd group
-				if ($pluginGroup == 'editorsxtd')
-				{
-					$path .= '/plugins/editors-xtd/' . $name;
-				}
-				else
-				{
-					$path .= '/plugins/' . $pluginGroup . '/' . $name;
-				}
+				$group = strtolower($segments[2]);
+				$name  = strtolower($segments[3]);
+				$path .= '/plugins/' . $group . '/' . $name;
 				break;
 		}
 
