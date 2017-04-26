@@ -6427,7 +6427,7 @@ class AKFactory
 				'add_path'            => self::get('kickstart.setup.targetpath', $destdir),
 				'remove_path'         => self::get('kickstart.setup.removepath', ''),
 				'rename_files'        => self::get('kickstart.setup.renamefiles', array(
-					'.htaccess' => 'htaccess.bak', 'php.ini' => 'php.ini.bak', 'web.config' => 'web.config.bak',
+					'php.ini' => 'php.ini.bak',
 					'.user.ini' => '.user.ini.bak'
 				)),
 				'skip_files'          => self::get('kickstart.setup.skipfiles', array(
