@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,6 +53,57 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	{
 		$this->freeResult();
 		$this->connection = null;
+	}
+
+	/**
+	 * Connects to the database if needed.
+	 *
+	 * @return  void  Returns void if the database connected successfully.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function connect()
+	{
+		if ($this->connection)
+		{
+			return;
+		}
+
+		parent::connect();
+
+		$this->connection->sqliteCreateFunction(
+			'ROW_NUMBER',
+			function($init = null)
+			{
+				static $rownum, $partition;
+
+				if ($init !== null)
+				{
+					$rownum = $init;
+					$partition = null;
+
+					return $rownum;
+				}
+
+				$args = func_get_args();
+				array_shift($args);
+
+				$partitionBy = $args ? implode(',', $args) : null;
+
+				if ($partitionBy === null || $partitionBy === $partition)
+				{
+					$rownum++;
+				}
+				else
+				{
+					$rownum    = 1;
+					$partition = $partitionBy;
+				}
+
+				return $rownum;
+			}
+		);
 	}
 
 	/**
@@ -297,7 +348,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$this->setQuery("SELECT sqlite_version()");
+		$this->setQuery('SELECT sqlite_version()');
 
 		return $this->loadResult();
 	}

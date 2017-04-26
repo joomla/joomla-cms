@@ -3,9 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Rule to identify the right Itemid for a view in a component
@@ -17,7 +19,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Router this rule belongs to
 	 *
-	 * @var JComponentRouterAdvanced
+	 * @var   JComponentRouterView
 	 * @since 3.4
 	 */
 	protected $router;
@@ -25,7 +27,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Lookup array of the menu items
 	 *
-	 * @var array
+	 * @var   array
 	 * @since 3.4
 	 */
 	protected $lookup = array();
@@ -33,7 +35,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JComponentRouterAdvanced  $router  Router this rule belongs to
+	 * @param   JComponentRouterView  $router  Router this rule belongs to
 	 *
 	 * @since   3.4
 	 */
@@ -46,11 +48,11 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 
 	/**
 	 * Finds the right Itemid for this query
-	 * 
+	 *
 	 * @param   array  &$query  The query array to process
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.4
 	 */
 	public function preprocess(&$query)
@@ -136,11 +138,11 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 
 	/**
 	 * Method to build the lookup array
-	 * 
+	 *
 	 * @param   string  $language  The language that the lookup should be built up for
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.4
 	 */
 	protected function buildLookup($language = '*')

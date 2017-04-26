@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -453,11 +453,13 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Get the system message queue.
 	 *
+	 * @param   boolean  $clear  Clear the messages currently attached to the application object
+	 *
 	 * @return  array  The system message queue.
 	 *
 	 * @since   3.2
 	 */
-	public function getMessageQueue()
+	public function getMessageQueue($clear = false)
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->_messageQueue))
@@ -471,8 +473,15 @@ class JApplicationCms extends JApplicationWeb
 				$session->set('application.queue', null);
 			}
 		}
+		
+		$messageQueue = $this->_messageQueue;
+		
+		if ($clear)
+		{
+			$this->_messageQueue = array();
+		}
 
-		return $this->_messageQueue;
+		return $messageQueue;
 	}
 
 	/**
@@ -752,7 +761,7 @@ class JApplicationCms extends JApplicationWeb
 		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
 
 		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
+		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);
 
 		// Initialize the options for JSession.
 		$options = array(

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -805,7 +805,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setLanguage($lang = "en-gb")
+	public function setLanguage($lang = 'en-gb')
 	{
 		$this->language = strtolower($lang);
 
@@ -833,7 +833,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setDirection($dir = "ltr")
+	public function setDirection($dir = 'ltr')
 	{
 		$this->direction = strtolower($dir);
 
