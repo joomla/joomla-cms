@@ -59,6 +59,7 @@ class QueryDataCollector extends AbstractDataCollector
 	{
 		return [
 			'queries'       => [
+				'icon' => 'database',
 				'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
 				'map'     => $this->name . '.data',
 				'default' => '[]',

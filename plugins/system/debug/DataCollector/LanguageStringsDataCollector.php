@@ -59,6 +59,7 @@ class LanguageStringsDataCollector extends AbstractDataCollector
 	{
 		return [
 			'untranslated' => [
+				'icon' => 'question-circle',
 				'widget' => 'PhpDebugBar.Widgets.KVListWidget',
 				'map' => $this->name . '.data',
 				'default' => ''

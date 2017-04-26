@@ -59,6 +59,7 @@ class LanguageErrorsDataCollector extends AbstractDataCollector
 	{
 		return [
 			'errors'       => [
+				'icon' => 'warning',
 				'widget'  => 'PhpDebugBar.Widgets.KVListWidget',
 				'map'     => $this->name . '.data',
 				'default' => '',

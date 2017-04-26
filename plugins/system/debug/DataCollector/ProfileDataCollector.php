@@ -299,7 +299,7 @@ class ProfileDataCollector extends AbstractDataCollector
 				'default' => "'0ms'",
 			),
 			'profile'     => array(
-				'icon'    => 'tasks',
+				'icon'    => 'clock-o',
 				'widget'  => 'PhpDebugBar.Widgets.TimelineWidget',
 				'map'     => 'profile',
 				'default' => '{}',

@@ -69,6 +69,7 @@ class LanguageFilesDataCollector extends AbstractDataCollector implements AssetP
 	{
 		return [
 			'loaded' => [
+				'icon' => 'language',
 				'widget' => 'PhpDebugBar.Widgets.languageFilesWidget',
 				'map' => $this->name,
 				'default' => '[]'
