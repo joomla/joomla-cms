@@ -413,7 +413,7 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			$time = @filemtime($path);
 
-			if (($time + $this->_lifetime) < $this->_now || empty($time))
+			if (($time + $this->_lifetime) < $this->_now || empty($time) || filesize($path) === 0)
 			{
 				@unlink($path);
 
