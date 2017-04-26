@@ -11,11 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
-
-// Include the banners functions only once
-JLoader::registerNamespace('Joomla\\Component\\Banners\\Administrator', JPATH_ADMINISTRATOR . '/components/com_banners', false, false, 'psr4');
-JLoader::registerNamespace('Joomla\\Component\\Banners\\Site', JPATH_ROOT . '/components/com_banners', false, false, 'psr4');
-JLoader::register('ModBannersHelper', __DIR__ . '/helper.php');
+use Joomla\Module\Banners\Site\Helper\ModBannersHelper;
 
 $headerText = trim($params->get('header_text'));
 $footerText = trim($params->get('footer_text'));
