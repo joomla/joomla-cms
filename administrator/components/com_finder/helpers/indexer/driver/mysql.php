@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -289,17 +289,19 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		 */
 		$query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
 			' (' . $db->quoteName('term_id') .
-			', ' . $db->quoteName('term') .
+			', ' . $db->quoteName('map_suffix') .
+				', ' . $db->quoteName('term') .
 			', ' . $db->quoteName('stem') .
 			', ' . $db->quoteName('common') .
 			', ' . $db->quoteName('phrase') .
 			', ' . $db->quoteName('term_weight') .
 			', ' . $db->quoteName('context') .
 			', ' . $db->quoteName('context_weight') .
-			', ' . $db->quoteName('language') . ')' .
+			', ' . $db->quoteName('total_weight') .
+				', ' . $db->quoteName('language') . ')' .
 			' SELECT' .
-			' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, ' .
-			' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
+			' COALESCE(t.term_id, 0), \'\', t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
+			' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, 0, t1.language' .
 			' FROM (' .
 			'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 			'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
@@ -308,7 +310,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
 			' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
 			' WHERE t2.context = %d' .
-			' GROUP BY t1.term' .
+			' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 			' ORDER BY t1.term DESC';
 
 		// Iterate through the contexts and aggregate the tokens per context.
@@ -341,7 +343,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 			' WHERE ta.term_id = 0' .
-			' GROUP BY ta.term'
+			' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
 		);
 		$db->execute();
 
@@ -415,7 +417,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
 				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
 				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
-				' GROUP BY ' . $db->quoteName('term') .
+				' GROUP BY ' . $db->quoteName('term') . ', ' . $db->quoteName('term_id') .
 				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
 			$db->execute();

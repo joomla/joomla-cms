@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -358,6 +358,8 @@ class InstallerModelUpdate extends JModelList
 			$update->loadFromXml($instance->detailsurl, $minimum_stability);
 			$update->set('extra_query', $instance->extra_query);
 
+			$this->preparePreUpdate($update, $instance);
+
 			// Install sets state and enqueues messages
 			$res = $this->install($update);
 
@@ -508,5 +510,67 @@ class InstallerModelUpdate extends JModelList
 		$data = JFactory::getApplication()->getUserState($this->context, array());
 
 		return $data;
+	}
+
+	/**
+	 * Method to add parameters to the update
+	 *
+	 * @param   JUpdate       $update  An update definition
+	 * @param   JTableUpdate  $table   The update instance from the database
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function preparePreUpdate($update, $table)
+	{
+		jimport('joomla.filesystem.file');
+		
+		switch ($table->type)
+		{
+			// Components could have a helper which adds additional data
+			case 'component':
+				$ename = str_replace('com_', '', $table->element);
+				$fname = $ename . '.php';
+				$cname = ucfirst($ename) . 'Helper';
+
+				$path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
+				
+				if (JFile::exists($path))
+				{
+					require_once $path;
+					
+					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
+					{
+						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+					}
+				}
+
+				break;
+
+			// Modules could have a helper which adds additional data
+			case 'module':
+				$cname = str_replace('_', '', $table->element) . 'Helper';
+				$path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
+				
+				if (JFile::exists($path))
+				{
+					require_once $path;
+					
+					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
+					{
+						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+					}
+				}
+			
+				break;
+				
+			// If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
+			// But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
+			case 'plugin':
+				$cname = str_replace('plg_', '', $table->element);
+				JPluginHelper::importPlugin($table->folder, $cname);
+				break;
+		}
 	}
 }

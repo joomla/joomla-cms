@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -278,7 +278,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			// Do we have a URL Language Code ?
 			if (!isset($this->sefs[$sef]))
 			{
-				// Check if remove default url language code is set
+				// Check if remove default URL language code is set
 				if ($this->params->get('remove_default_prefix', 0))
 				{
 					if ($parts[0])

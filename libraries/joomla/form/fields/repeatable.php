@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,7 +57,7 @@ class JFormFieldRepeatable extends JFormField
 		$head_row_str = array();
 		$body_row_str = array();
 		$head_row_str[] = '<th></th>';
-		$body_row_str[] = '<td><span class="sortable-handler " style="cursor: move;"><i class="icon-menu"></i></span></td>';
+		$body_row_str[] = '<td><span class="sortable-handler " style="cursor: move;"><span class="icon-menu" aria-hidden="true"></span></span></td>';
 		foreach ($subForm->getFieldset() as $field)
 		{
 			// Reset name to simple

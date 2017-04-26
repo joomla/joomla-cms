@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -298,14 +298,15 @@ abstract class FinderIndexer
 	 */
 	public function remove($linkId)
 	{
-		$db = $this->db;
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Update the link counts and remove the mapping records.
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			$query->update($db->quoteName('#__finder_terms') . ' AS t')
+			$query->clear()
+				->update($db->quoteName('#__finder_terms') . ' AS t')
 				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
 				->set('t.links = t.links - 1')
 				->where('m.link_id = ' . $db->quote((int) $linkId));

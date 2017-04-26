@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,7 +104,7 @@ class UsersModelRegistration extends JModelForm
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-			// Remove administrator/ from activate url in case this method is called from admin
+			// Remove administrator/ from activate URL in case this method is called from admin
 			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
@@ -134,7 +134,8 @@ class UsersModelRegistration extends JModelForm
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('sendEmail') . ' = ' . 1);
+				->where($db->quoteName('sendEmail') . ' = 1')
+				->where($db->quoteName('block') . ' = 0');
 
 			$db->setQuery($query);
 
@@ -325,6 +326,11 @@ class UsersModelRegistration extends JModelForm
 	{
 		$data = $this->getData();
 
+		if (JLanguageMultilang::isEnabled() && empty($data->language))
+		{
+			$data->language = JFactory::getLanguage()->getTag();
+		}
+
 		$this->preprocessData('com_users.registration', $data);
 
 		return $data;
@@ -448,7 +454,7 @@ class UsersModelRegistration extends JModelForm
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-			// Remove administrator/ from activate url in case this method is called from admin
+			// Remove administrator/ from activate URL in case this method is called from admin
 			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
@@ -492,7 +498,7 @@ class UsersModelRegistration extends JModelForm
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-			// Remove administrator/ from activate url in case this method is called from admin
+			// Remove administrator/ from activate URL in case this method is called from admin
 			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
@@ -582,7 +588,8 @@ class UsersModelRegistration extends JModelForm
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail')))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('sendEmail') . ' = ' . 1);
+				->where($db->quoteName('sendEmail') . ' = 1')
+				->where($db->quoteName('block') . ' = 0');
 
 			$db->setQuery($query);
 

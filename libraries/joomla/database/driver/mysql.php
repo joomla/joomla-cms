@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @see         http://dev.mysql.com/doc/
  * @since       12.1
- * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
+ * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 {
@@ -109,7 +109,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
 		{
-			mysql_query("SET profiling = 1;", $this->connection);
+			mysql_query('SET profiling = 1;', $this->connection);
 		}
 	}
 
