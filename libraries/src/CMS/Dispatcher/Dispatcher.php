@@ -63,8 +63,8 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   CMSApplication  $app     The JApplication for the dispatcher
-	 * @param   \JInput         $input   JInput
+	 * @param   CMSApplication  $app    The JApplication for the dispatcher
+	 * @param   \JInput         $input  JInput
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
