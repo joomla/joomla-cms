@@ -14,7 +14,7 @@ matrix:
   fast_finish: true
   include:
     - php: 5.3
-      env: INSTALL_APC="yes" crappy=true
+      env: INSTALL_APC="yes" crappy=true RUN_UNIT_TESTS="no"
     - php: 5.3
       env: INSTALL_APC="yes" crappy=false
     - php: 5.4
@@ -68,6 +68,7 @@ before_script:
   - if [[ $RUN_UNIT_TESTS == "yes" ]]; then bash build/travis/unit-tests.sh $PWD; fi
 
 script:
+  - if [[ $crappy ]]; then libraries/vendor/bin/phpunit --verbose --configuration travisci-phpunit.xml; fi
   - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
 
 branches:
