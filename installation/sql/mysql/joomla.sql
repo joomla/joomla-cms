@@ -473,7 +473,6 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) DEFAULT 0,
   `state` int(11) DEFAULT 0,
-  `autoload` tinyint(3) NOT NULL DEFAULT 0,
   PRIMARY KEY (`extension_id`),
   KEY `element_clientid` (`element`,`client_id`),
   KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
