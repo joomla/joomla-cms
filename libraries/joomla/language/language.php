@@ -830,7 +830,14 @@ class JLanguage
 			ini_set('track_errors', true);
 		}
 
-		$strings = FOFUtilsIniParser::parse_ini_file($filename, true);
+        if (!function_exists('parse_ini_file'))
+        {
+            return FOFUtilsIniParser::parse_ini_file_php($filename, true);
+        }
+        else
+        {
+            return parse_ini_file($filename);
+        }
 
 		// Restore error tracking to what it was before.
 		if ($this->debug)
