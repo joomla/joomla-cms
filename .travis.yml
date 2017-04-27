@@ -49,16 +49,13 @@ before_install:
   - |
     if [[ $crappy ]]; then
       INI=~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-      echo date.timezone = Europe/Paris >> $INI
+      echo date.timezone = "" >> $INI
       echo memory_limit = 8M >> $INI
       echo disable_functions = parse_ini_file >> $INI
       echo session.gc_probability = 0 >> $INI
       echo opcache.enable_cli = 1 >> $INI
       echo hhvm.jit = 0 >> $INI
       echo apc.enable_cli = 0 >> $INI
-      echo extension = ldap.so >> $INI
-      echo extension = redis.so >> $INI
-      echo extension = memcached.so >> $INI
     fi
 
 services:
