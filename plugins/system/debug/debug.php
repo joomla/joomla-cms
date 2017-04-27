@@ -150,8 +150,7 @@ class PlgSystemDebug extends CMSPlugin
 		$this->setupLogging();
 
 		// Prepare disconnect handler for SQL profiling.
-		$db = JFactory::getDbo();
-		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
+		JFactory::getDbo()->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
 	}
 
 	/**
