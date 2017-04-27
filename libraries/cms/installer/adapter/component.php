@@ -454,6 +454,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->extension->enabled = 1;
 		$this->extension->params = $this->parent->getParams();
 		$this->extension->namespace = $manifest_details['namespace'];
+		$this->extension->autoload = $manifest_details['autoload'];
 
 		$stored = false;
 
@@ -623,6 +624,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		$this->extension->namespace = (string) $this->manifest->namespace;
+		$this->extension->autoload = ((string) $this->manifest->autoload) ? 1 : 0;
 
 		// If there is not already a row, generate a heap of defaults
 		if (!$this->currentExtensionId)
@@ -1289,6 +1291,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->namespace = $manifest_details['namespace'];
+		$this->parent->extension->autoload = $manifest_details['autoload'];
 
 		try
 		{

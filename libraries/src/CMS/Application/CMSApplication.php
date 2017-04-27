@@ -372,6 +372,8 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
+		$this->autoloadExtensions();
+
 		\JPluginHelper::importPlugin('system');
 
 		// Trigger the onBeforeExecute event.
@@ -413,6 +415,73 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 
 		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
+	}
+
+	/**
+	 * Autoloads the enabled extensions.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function autoloadExtensions()
+	{
+		$roots = array(
+			'component' => JPATH_ADMINISTRATOR . '/components/',
+			'module1'   => JPATH_ADMINISTRATOR . '/modules/',
+			'module0'   => JPATH_SITE . '/modules/',
+			'plugin'    => JPATH_PLUGINS . '/',
+			'library'   => JPATH_LIBRARIES . '/',
+			'template'  => JPATH_THEMES . '/'
+		);
+
+		$db = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('extension_id', 'type', 'element', 'folder', 'client_id')))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('autoload') . ' = 1');
+		$db->setQuery($query);
+
+		$extensions = $db->loadObjectList();
+
+		// Loop over the extensions
+		foreach ($extensions as $extension)
+		{
+			$folder = '';
+
+			// Set up the folder
+			if ($extension->folder)
+			{
+				$folder = $extension->folder . '/';
+			}
+
+			// The key
+			$key = $extension->type;
+
+			// Handle modules special, as they can be on the front or admin side
+			if ($key == 'module')
+			{
+				$key .= $extension->client_id;
+			}
+
+			// An extension we don't support
+			if (!key_exists($key, $roots))
+			{
+				continue;
+			}
+
+			$path = $roots[$key] . $folder . $extension->element . '/autoload.php';
+
+			// Check if an autoload file is available
+			if (!file_exists($path))
+			{
+				continue;
+			}
+
+			// Run the autoload
+			require_once $path;
+		}
 	}
 
 	/**

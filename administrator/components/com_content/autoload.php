@@ -9,11 +9,4 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Content component helper.
- *
- * @since  1.6
- */
-class ContentHelper extends \Joomla\Component\Content\Administrator\Helper\ContentHelper
-{
-}
+JLoader::registerAlias('ContentHelper', '\\Joomla\\Component\\Content\\Administrator\\Helper\\ContentHelper');

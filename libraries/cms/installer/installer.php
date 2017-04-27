@@ -2222,6 +2222,7 @@ class JInstaller extends JAdapter
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
 		$data['namespace'] = (string) $xml->namespace;
+		$data['autoload'] = ((string) $xml->attributes()->autoload) ? 1 : 0;
 
 		if ($xml->files && count($xml->files->children()))
 		{

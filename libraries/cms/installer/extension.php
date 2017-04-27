@@ -90,6 +90,14 @@ class JInstallerExtension extends JObject
 	public $namespace = null;
 
 	/**
+	 * Does the extension support autoload
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $autoload = 0;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
