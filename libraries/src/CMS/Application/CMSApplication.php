@@ -437,10 +437,10 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 
 		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('extension_id', 'type', 'element', 'folder', 'client_id')))
+			->select($db->quoteName(array('extension_id', 'type', 'element', 'folder', 'client_id', 'autoload')))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('autoload') . ' = 1');
+			->where($db->quoteName('autoload') . ' IS NOT NULL AND ' . $db->quoteName('autoload') . " != ''");
 		$db->setQuery($query);
 
 		$extensions = $db->loadObjectList();
@@ -471,7 +471,7 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 				continue;
 			}
 
-			$path = $roots[$key] . $folder . $extension->element . '/autoload.php';
+			$path = $roots[$key] . $folder . $extension->element . '/' . $extension->autoload;
 
 			// Check if an autoload file is available
 			if (!file_exists($path))

@@ -82,20 +82,12 @@ class JInstallerExtension extends JObject
 	public $params = null;
 
 	/**
-	 * The namespace of the extension
+	 * The autoloader file of the extension
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public $namespace = null;
-
-	/**
-	 * Does the extension support autoload
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public $autoload = 0;
+	public $autoload = null;
 
 	/**
 	 * Constructor
