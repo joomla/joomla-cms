@@ -13,6 +13,8 @@ env:
 matrix:
   fast_finish: true
   include:
+    - php: 5.3.10
+      env: INSTALL_APC="yes"
     - php: 5.3
       env: INSTALL_APC="yes"
     - php: 5.4
@@ -43,6 +45,20 @@ matrix:
   allow_failures:
     - php: hhvm
 
+before_install:
+  if [[ $PHP = 5.3.10 ]]; then
+    INI=~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    echo date.timezone = Europe/Paris >> $INI
+    echo memory_limit = 8M >> $INI
+    echo disable_functions = parse_ini_file >> $INI
+    echo session.gc_probability = 0 >> $INI
+    echo opcache.enable_cli = 1 >> $INI
+    echo hhvm.jit = 0 >> $INI
+    echo apc.enable_cli = 0 >> $INI
+    echo extension = ldap.so >> $INI
+    echo extension = redis.so >> $INI
+    echo extension = memcached.so >> $INI
+  fi
 services:
   - memcache
   - memcached
