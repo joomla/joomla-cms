@@ -755,8 +755,6 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Test parsing of language ini files
-	 * Note that if parse_ini_file is disabled on the webhost then FOF parser is used which actually repairs bad
-	 * ini syntax slightly so the bad.ini test will fail, because bad.ini will be cleaned and loaded correctly by FOF
 	 *
 	 * @return void
 	 */
