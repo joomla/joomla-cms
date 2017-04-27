@@ -13,10 +13,10 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: 5.3.29
-      env: INSTALL_APC="yes"
     - php: 5.3
-      env: INSTALL_APC="yes"
+      env: INSTALL_APC="yes" crappy=true
+    - php: 5.3
+      env: INSTALL_APC="yes" crappy=false
     - php: 5.4
       env: INSTALL_APC="yes"
     - php: 5.5
@@ -47,7 +47,7 @@ matrix:
 
 before_install:
   - |
-    if [[ $PHP = 5.3.29 ]]; then
+    if [[ $crappy ]]; then
       INI=~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
       echo date.timezone = Europe/Paris >> $INI
       echo memory_limit = 8M >> $INI
