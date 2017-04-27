@@ -63,7 +63,7 @@ $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
 $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
-$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
+$hint         = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ' placeholder="' . $placeholder . '"';
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
@@ -77,7 +77,7 @@ JHtml::_('stylesheet', 'jui/jquery.minicolors.css', array('version' => 'auto', '
 JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
-echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo htmlspecialchars($hint, ENT_COMPAT, 'UTF-8'); ?><?php echo $class; ?><?php echo
+echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $hint . $class; ?><?php echo
 $position; ?><?php echo $control; ?><?php echo $readonly; ?><?php echo $disabled; ?><?php echo
 $required; ?><?php echo $onchange; ?><?php echo $autocomplete; ?><?php echo $autofocus; ?><?php echo
 $format; ?><?php echo $keywords; ?><?php echo $direction; ?><?php echo $validate; ?>/>
