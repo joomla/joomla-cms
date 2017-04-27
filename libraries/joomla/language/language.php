@@ -830,16 +830,9 @@ class JLanguage
 			ini_set('track_errors', true);
 		}
 
-		if (!function_exists('parse_ini_file'))
-		{
-			$contents = file_get_contents($filename);
-			$contents = str_replace('_QQ_', '"\""', $contents);
-			$strings = @parse_ini_string($contents);
-		}
-		else
-		{
-			$strings = @parse_ini_file($filename);
-		}
+		$contents = file_get_contents($filename);
+		$contents = str_replace('_QQ_', '"\""', $contents);
+		$strings = @parse_ini_string($contents);
 
 		if (!is_array($strings))
 		{
