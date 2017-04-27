@@ -185,7 +185,7 @@ CREATE TABLE `jos_extensions` (
   `protected` INTEGER NOT NULL DEFAULT '0',
   `manifest_cache` TEXT NOT NULL DEFAULT '',
   `params` TEXT NOT NULL DEFAULT '',
-  `namespace` VARCHAR(500) NULL DEFAULT '',
+  `autoload` VARCHAR(255) NULL DEFAULT '',
   `checked_out` INTEGER NOT NULL DEFAULT '0',
   `checked_out_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` INTEGER DEFAULT '0',
@@ -195,6 +195,7 @@ CREATE TABLE `jos_extensions` (
 CREATE INDEX `idx_extensions_client_id` ON `jos_extensions` (`element`,`client_id`);
 CREATE INDEX `idx_extensions_folder_client_id` ON `jos_extensions` (`element`,`folder`,`client_id`);
 CREATE INDEX `idx_extensions_lookup` ON `jos_extensions` (`type`,`element`,`folder`,`client_id`);
+CREATE INDEX `idx_extensions_autoload` ON `jos_extensions` (`autoload`);
 
 -- --------------------------------------------------------
 
