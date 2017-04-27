@@ -673,7 +673,7 @@ abstract class JHtml
 	public static function script($file, $options = array(), $attribs = array())
 	{
 		// B/C before 3.7.0
-		if (!is_array($options) && !is_array($attribs))
+		if (!is_array($options))
 		{
 			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
