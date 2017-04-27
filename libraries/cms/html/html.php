@@ -617,6 +617,10 @@ abstract class JHtml
 		}
 		else
 		{
+			if (!is_array($options))
+			{
+				$options = array();
+			}
 			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
 			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
 			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
