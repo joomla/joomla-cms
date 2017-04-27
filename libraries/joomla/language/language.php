@@ -832,11 +832,18 @@ class JLanguage
 
 		if (!function_exists('parse_ini_file'))
 		{
-			return FOFUtilsIniParser::parse_ini_file_php($filename, true);
+			$contents = file_get_contents($filename);
+			$contents = str_replace('_QQ_', '"\""', $contents);
+			$strings = @parse_ini_string($contents);
 		}
 		else
 		{
-			return parse_ini_file($filename);
+			$strings = @parse_ini_file($filename);
+		}
+
+		if (!is_array($strings))
+		{
+			$strings = array();
 		}
 
 		// Restore error tracking to what it was before.
