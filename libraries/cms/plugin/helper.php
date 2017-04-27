@@ -155,7 +155,18 @@ abstract class JPluginHelper
 			$defaults = true;
 		}
 
-		if (!isset($loaded[$type]) || !$defaults)
+		// Ensure we have a dispatcher now so we can correctly track the loaded plugins
+		$dispatcher = $dispatcher ?: JEventDispatcher::getInstance();
+
+		// Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
+		$dispatcherHash = spl_object_hash($dispatcher);
+
+		if (!isset($loaded[$dispatcherHash]))
+		{
+			$loaded[$dispatcherHash] = array();
+		}
+
+		if (!isset($loaded[$dispatcherHash][$type]) || !$defaults)
 		{
 			$results = null;
 
@@ -178,10 +189,10 @@ abstract class JPluginHelper
 				return $results;
 			}
 
-			$loaded[$type] = $results;
+			$loaded[$dispatcherHash][$type] = $results;
 		}
 
-		return $loaded[$type];
+		return $loaded[$dispatcherHash][$type];
 	}
 
 	/**
