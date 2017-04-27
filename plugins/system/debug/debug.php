@@ -14,6 +14,9 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\Storage\FileStorage;
+use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoDataCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsDataCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesDataCollector;
@@ -27,7 +30,7 @@ use Joomla\Plugin\System\Debug\DataCollector\SessionDataCollector;
  *
  * @since  1.5
  */
-class PlgSystemDebug extends JPlugin
+class PlgSystemDebug extends CMSPlugin
 {
 	/**
 	 * xdebug.file_link_format from the php.ini.
@@ -88,7 +91,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 * @since  3.3
 	 */
 	protected $app;
@@ -110,12 +113,12 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   DispatcherInterface  &$subject  The object to observe.
+	 * @param   array                $config    An optional associative array of configuration settings.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(&$subject, $config)
+	public function __construct(DispatcherInterface &$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
