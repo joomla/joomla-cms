@@ -206,7 +206,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			<hr>
 			<p class="float-right">
 				<a href="#top" id="back-top" class="back-top">
-					<span class="icon-arrow-up-4"></span>
+					<span class="icon-arrow-up-4"><span class="sr-only"><?php echo JText::_('TPL_AURORA_BACKTOTOP'); ?></span></span>
 				</a>
 			</p>
 			<jdoc:include type="modules" name="footer" style="none" />
