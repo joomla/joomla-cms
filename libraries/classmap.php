@@ -148,3 +148,6 @@ JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\Ucm\
 
 JLoader::registerAlias('JVersion',                          '\\Joomla\\CMS\\Version', '4.0');
 
+JLoader::registerAlias('JAuthentication',                   '\\Joomla\\CMS\\Authentication\\Authentication', '4.0');
+JLoader::registerAlias('JAuthenticationResponse',           '\\Joomla\\CMS\\Authentication\\AuthenticationResponse', '4.0');
+
