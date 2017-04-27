@@ -784,7 +784,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(
 			$strings,
-			false, // False because it did not load correctly, which is good, thats what we are testing
+			array(),
 			'Line: ' . __LINE__ . ' bad ini file should not load properly.'
 		);
 	}
