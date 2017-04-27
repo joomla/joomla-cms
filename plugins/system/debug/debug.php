@@ -14,7 +14,7 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\Storage\FileStorage;
-use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoDataCollector;
