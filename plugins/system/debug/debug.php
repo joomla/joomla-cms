@@ -17,13 +17,13 @@ use DebugBar\Storage\FileStorage;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\System\Debug\DataCollector\InfoDataCollector;
-use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsDataCollector;
-use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesDataCollector;
-use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsDataCollector;
-use Joomla\Plugin\System\Debug\DataCollector\ProfileDataCollector;
-use Joomla\Plugin\System\Debug\DataCollector\QueryDataCollector;
-use Joomla\Plugin\System\Debug\DataCollector\SessionDataCollector;
+use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
+use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
+use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesCollector;
+use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
+use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
+use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
+use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
 
 /**
  * Joomla! Debug plugin.
@@ -231,20 +231,20 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
 
-		$this->debugBar->addCollector(new InfoDataCollector($this->params, $this->debugBar->getCurrentRequestId()));
+		$this->debugBar->addCollector(new InfoCollector($this->params, $this->debugBar->getCurrentRequestId()));
 		$this->debugBar->addCollector(new RequestDataCollector);
 
 		if (JDEBUG)
 		{
 			if ($this->params->get('session', 1))
 			{
-				$this->debugBar->addCollector(new SessionDataCollector($this->params));
+				$this->debugBar->addCollector(new SessionCollector($this->params));
 			}
 
 			if ($this->params->get('profile', 1))
 			{
 				$html[] = $this->display('profile_information');
-				$this->debugBar->addCollector(new ProfileDataCollector($this->params));
+				$this->debugBar->addCollector(new ProfileCollector($this->params));
 			}
 
 			if ($this->params->get('memory', 1))
@@ -255,7 +255,7 @@ class PlgSystemDebug extends CMSPlugin
 			if ($this->params->get('queries', 1))
 			{
 				$html[] = $this->display('queries');
-				$this->debugBar->addCollector(new QueryDataCollector($this->params));
+				$this->debugBar->addCollector(new QueryCollector($this->params));
 			}
 
 			if ($this->params->get('logs', 1) && !empty($this->logEntries))
@@ -267,9 +267,9 @@ class PlgSystemDebug extends CMSPlugin
 
 		if ($this->debugLang)
 		{
-				$this->debugBar->addCollector(new LanguageFilesDataCollector($this->params));
-				$this->debugBar->addCollector(new LanguageStringsDataCollector($this->params));
-				$this->debugBar->addCollector(new LanguageErrorsDataCollector($this->params));
+				$this->debugBar->addCollector(new LanguageFilesCollector($this->params));
+				$this->debugBar->addCollector(new LanguageStringsCollector($this->params));
+				$this->debugBar->addCollector(new LanguageErrorsCollector($this->params));
 		}
 
 		foreach (self::$displayCallbacks as $name => $callable)

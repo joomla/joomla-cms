@@ -12,13 +12,13 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
- * QueryDataCollector
+ * LanguageErrorsDataCollector
  *
  * @since  version
  */
-class QueryDataCollector extends AbstractDataCollector
+class LanguageErrorsCollector extends AbstractDataCollector
 {
-	private $name = 'queries';
+	private $name = 'languageErrors';
 
 	/**
 	 * Called by the DebugBar when data needs to be collected
@@ -58,13 +58,13 @@ class QueryDataCollector extends AbstractDataCollector
 	public function getWidgets()
 	{
 		return [
-			'queries'       => [
-				'icon' => 'database',
-				'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
+			'errors'       => [
+				'icon' => 'warning',
+				'widget'  => 'PhpDebugBar.Widgets.KVListWidget',
 				'map'     => $this->name . '.data',
-				'default' => '[]',
+				'default' => '',
 			],
-			'queries:badge' => [
+			'errors:badge' => [
 				'map'     => $this->name . '.count',
 				'default' => 'null',
 			],
@@ -80,7 +80,24 @@ class QueryDataCollector extends AbstractDataCollector
 	 */
 	private function getData()
 	{
-		return \JFactory::getDbo()->getLog();
+		$errorFiles = \JFactory::getLanguage()->getErrorFiles();
+		$errors     = [];
+
+		if (count($errorFiles))
+		{
+			$count = 1;
+			foreach ($errorFiles as $error)
+			{
+				$errors[$count] = $this->getDataFormatter()->formatPath($error);
+				$count++;
+			}
+		}
+		else
+		{
+			$errors[] = \JText::_('JNONE');
+		}
+
+		return $errors;
 	}
 
 	/**
@@ -92,6 +109,6 @@ class QueryDataCollector extends AbstractDataCollector
 	 */
 	private function getCount()
 	{
-		return count(\JFactory::getDbo()->getLog());
+		return count(\JFactory::getLanguage()->getErrorFiles());
 	}
 }

@@ -19,7 +19,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
  *
  * @since  version
  */
-class ProfileDataCollector extends AbstractDataCollector
+class ProfileCollector extends AbstractDataCollector
 {
 	/**
 	 * @var float

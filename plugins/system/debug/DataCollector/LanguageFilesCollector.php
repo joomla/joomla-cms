@@ -11,33 +11,15 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DataCollector\AssetProvider;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
-use Joomla\Registry\Registry;
 
 /**
- * InfoDataCollector
+ * LanguageFilesDataCollector
  *
  * @since  version
  */
-class InfoDataCollector extends AbstractDataCollector implements AssetProvider
+class LanguageFilesCollector extends AbstractDataCollector implements AssetProvider
 {
-	private $name = 'info';
-
-	private $requestId;
-
-	/**
-	 * InfoDataCollector constructor.
-	 *
-	 * @param   Registry  $params     Parameters
-	 * @param   string    $requestId  Request ID
-	 *
-	 * @since  version
-	 */
-	public function __construct(Registry $params, $requestId)
-	{
-		$this->requestId = $requestId;
-
-		return parent::__construct($params);
-	}
+	private $name = 'languageFiles';
 
 	/**
 	 * Called by the DebugBar when data needs to be collected
@@ -48,17 +30,26 @@ class InfoDataCollector extends AbstractDataCollector implements AssetProvider
 	 */
 	public function collect()
 	{
-		return [
-			'phpVersion' => PHP_VERSION,
-			'joomlaVersion' => JVERSION,
-			'requestId' => $this->requestId
-		];
+		$paths = \JFactory::getLanguage()->getPaths();
+		$loaded = [];
+
+		foreach ($paths as $extension => $files)
+		{
+			$loaded[$extension] = [];
+			foreach ($files as $file => $status)
+			{
+				$loaded[$extension][$this->getDataFormatter()->formatPath($file)] = $status;
+			}
+		}
+
+		return $loaded;
 	}
 
 	/**
 	 * Returns the unique name of the collector
 	 *
 	 * @since  version
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -71,16 +62,17 @@ class InfoDataCollector extends AbstractDataCollector implements AssetProvider
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
 	 * @since  version
+	 *
 	 * @return array
 	 */
 	public function getWidgets()
 	{
 		return [
-			'info' => [
-				'icon' => 'info-circle',
-				'widget'  => 'PhpDebugBar.Widgets.InfoWidget',
-				'map'     => $this->name,
-				'default' => '{}',
+			'loaded' => [
+				'icon' => 'language',
+				'widget' => 'PhpDebugBar.Widgets.languageFilesWidget',
+				'map' => $this->name,
+				'default' => '[]'
 			]
 		];
 	}
@@ -98,8 +90,8 @@ class InfoDataCollector extends AbstractDataCollector implements AssetProvider
 	public function getAssets()
 	{
 		return array(
-			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/info/widget.js',
-			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/info/widget.css',
+			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.js',
+			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.css',
 		);
 	}
 }
