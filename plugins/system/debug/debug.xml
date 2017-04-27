@@ -75,19 +75,12 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+X			</fieldset>
 
-				<field
-					name="memory"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-					description="PLG_DEBUG_FIELD_MEMORY_DESC"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
+			<fieldset
+				name="logging"
+				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL"
+				>
 				<field
 						name="logs"
 						type="radio"
@@ -99,54 +92,25 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-			</fieldset>
 
-			<fieldset
-				name="language"
-				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL"
-				>
-
-				<field
-					name="strip-first"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
-					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
-					default="0"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="strip-prefix"
-					type="textarea"
-					label="PLG_DEBUG_FIELD_STRIP_PREFIX_LABEL"
-					description="PLG_DEBUG_FIELD_STRIP_PREFIX_DESC"
-					cols="30"
-					rows="4"
-				/>
-
-				<field
-					name="strip-suffix"
-					type="textarea"
-					label="PLG_DEBUG_FIELD_STRIP_SUFFIX_LABEL"
-					description="PLG_DEBUG_FIELD_STRIP_SUFFIX_DESC"
-					cols="30"
-					rows="4"
-				/>
-			</fieldset>
-
-			<fieldset
-				name="logging"
-				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL"
-				>
 				<field
 					name="log-deprecated"
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="log-deprecated-core"
+					type="radio"
+					class="switcher"
+					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
+					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_DESC"
 					default="0"
 					>
 					<option value="0">JNO</option>
@@ -204,6 +168,42 @@
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
 				</field>
+			</fieldset>
+
+			<fieldset
+					name="language"
+					label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL"
+			>
+
+				<field
+						name="strip-first"
+						type="radio"
+						class="switcher"
+						label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
+						description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
+						default="0"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+						name="strip-prefix"
+						type="textarea"
+						label="PLG_DEBUG_FIELD_STRIP_PREFIX_LABEL"
+						description="PLG_DEBUG_FIELD_STRIP_PREFIX_DESC"
+						cols="30"
+						rows="4"
+				/>
+
+				<field
+						name="strip-suffix"
+						type="textarea"
+						label="PLG_DEBUG_FIELD_STRIP_SUFFIX_LABEL"
+						description="PLG_DEBUG_FIELD_STRIP_SUFFIX_DESC"
+						cols="30"
+						rows="4"
+				/>
 			</fieldset>
 		</fields>
 	</config>

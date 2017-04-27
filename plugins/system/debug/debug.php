@@ -126,81 +126,29 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// Skip the plugin if debug is off
-		if ($this->app->get('debug_lang') == '0' && $this->app->get('debug') == '0')
+		if ($this->app->get('debug') == '0' && $this->app->get('debug_lang') == '0')
 		{
 			return;
 		}
 
-		// Only if debugging or language debug is enabled.
-		if (JDEBUG || $this->debugLang)
-		{
-			$this->app->set('gzip', 0);
-			ob_start();
-			ob_implicit_flush(false);
-		}
+		$this->app->set('gzip', 0);
+		ob_start();
+		ob_implicit_flush(false);
 
 		$this->debugLang = $this->app->get('debug_lang');
 		$this->linkFormat = ini_get('xdebug.file_link_format');
-
-		// Log the deprecated API.
-		if ($this->params->get('log-deprecated'))
-		{
-			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
-		}
-
-		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything'))
-		{
-			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
-		}
-
-		if ($this->params->get('logs', 1))
-		{
-			$priority = 0;
-
-			foreach ($this->params->get('log_priorities', array()) as $p)
-			{
-				$const = 'JLog::' . strtoupper($p);
-
-				if (!defined($const))
-				{
-					continue;
-				}
-
-				$priority |= constant($const);
-			}
-
-			// Split into an array at any character other than alphabet, numbers, _, ., or -
-			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
-			$mode = $this->params->get('log_category_mode', 0);
-
-			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
-		}
-
-		// Prepare disconnect handler for SQL profiling.
-		$db = JFactory::getDbo();
-		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
-
-		// Log deprecated class aliases
-		foreach (JLoader::getDeprecatedAliases() as $deprecation)
-		{
-			JLog::add(
-				sprintf(
-					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
-					$deprecation['old'],
-					$deprecation['new'],
-					$deprecation['version']
-				),
-				JLog::WARNING,
-				'deprecated'
-			);
-		}
 
 		// @todo Remove when a standard autoloader is available.
 		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
 
 		$this->debugBar = new DebugBar;
 		$this->debugBar->setStorage(new FileStorage($this->app->get('tmp_path')));
+
+		$this->setupLogging();
+
+		// Prepare disconnect handler for SQL profiling.
+		$db = JFactory::getDbo();
+		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
 	}
 
 	/**
@@ -330,7 +278,7 @@ class PlgSystemDebug extends JPlugin
 		$html[] = '</div>';
 
 		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
-		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/');
+		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
 		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
 
@@ -368,6 +316,69 @@ class PlgSystemDebug extends JPlugin
 		unset(self::$displayCallbacks[$name]);
 
 		return true;
+	}
+
+	/**
+	 * Setup logging fuctionality.
+	 *
+	 * @return $this
+	 *
+	 * @since version
+	 */
+	private function setupLogging()
+	{
+		// Log the deprecated API.
+		if ($this->params->get('log-deprecated'))
+		{
+			// @todo uncomment when JLog is free of deprecated API :P
+			// JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
+		}
+
+		// Log everything (except deprecated APIs, these are logged separately with the option above).
+		if ($this->params->get('log-everything'))
+		{
+			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
+		}
+
+		if ($this->params->get('logs', 1))
+		{
+			$priority = 0;
+
+			foreach ($this->params->get('log_priorities', array()) as $p)
+			{
+				$const = 'JLog::' . strtoupper($p);
+
+				if (!defined($const))
+				{
+					continue;
+				}
+
+				$priority |= constant($const);
+			}
+
+			// Split into an array at any character other than alphabet, numbers, _, ., or -
+			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
+			$mode = $this->params->get('log_category_mode', 0);
+
+			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
+		}
+
+		// Log deprecated class aliases
+		foreach (JLoader::getDeprecatedAliases() as $deprecation)
+		{
+			JLog::add(
+				sprintf(
+					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
+					$deprecation['old'],
+					$deprecation['new'],
+					$deprecation['version']
+				),
+				JLog::WARNING,
+				'deprecation-notes'
+			);
+		}
+
+		return $this;
 	}
 
 	/**
@@ -1602,21 +1613,60 @@ class PlgSystemDebug extends JPlugin
 			return $this;
 		}
 
+		$logDeprecated = $this->params->get('log-deprecated', 0);
+		$logDeprecatedCore = $this->params->get('log-deprecated-core', 0);
+
 		$this->debugBar->addCollector(new MessagesCollector('log'));
-		$this->debugBar->addCollector(new MessagesCollector('deprecated'));
+
+		if ($logDeprecated)
+		{
+			$this->debugBar->addCollector(new MessagesCollector('deprecated'));
+			$this->debugBar->addCollector(new MessagesCollector('deprecation-notes'));
+		}
+		if ($logDeprecatedCore)
+		{
+			$this->debugBar->addCollector(new MessagesCollector('deprecated-core'));
+		}
 
 		foreach ($this->logEntries as $entry)
 		{
 			switch ($entry->category)
 			{
-				case 'deprecated':
-					// @todo Add $entry->callstack
-					$level = 'info';
-					if (strpos($entry->message, 'removed'))
+				case 'deprecation-notes':
+					if ($logDeprecated)
 					{
-						$level = 'warning';
+						$this->debugBar[$entry->category]->addMessage($entry->message);
 					}
-					$this->debugBar[$entry->category]->addMessage($entry->message, $level);
+				break;
+				case 'deprecated':
+					if (!$logDeprecated && !$logDeprecatedCore)
+					{
+						continue;
+					}
+					$file = isset($entry->callStack[2]['file']) ? str_replace(JPATH_ROOT, 'JROOT', $entry->callStack[2]['file']) : '';
+					$line = isset($entry->callStack[2]['line']) ? $entry->callStack[2]['line'] : '';
+					$category = $entry->category;
+					if (0 === strpos($file, 'JROOT/libraries/joomla')
+						|| 0 === strpos($file, 'JROOT/libraries/cms')
+						|| 0 === strpos($file, 'JROOT/libraries/src'))
+					{
+						if (!$logDeprecatedCore)
+						{
+							continue;
+						}
+						$category .= '-core';
+					}
+					elseif (!$logDeprecated)
+					{
+						continue;
+					}
+
+					$message = [
+						'message' => $entry->message,
+						'caller' => $file . ':' . $line
+						// @todo 'stack' => $entry->callStack;
+					];
+					$this->debugBar[$category]->addMessage($message, 'warning');
 				break;
 
 				case 'databasequery':
@@ -1624,7 +1674,12 @@ class PlgSystemDebug extends JPlugin
 				break;
 
 				default:
-					$this->debugBar['log']->addMessage($entry->message, 'error');
+					$level = 'info';
+					if (0 != strpos($entry->message, 'error'))
+					{
+						$level = 'error';
+					}
+					$this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);
 					break;
 			}
 		}
