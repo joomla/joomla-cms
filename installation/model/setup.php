@@ -199,12 +199,12 @@ class InstallationModelSetup extends JModelBase
 				$disabled_functions[$i] = trim($disabled_functions[$i]);
 			}
 
-			$result = !in_array('parse_ini_string', $disabled_functions);
+			$result = !in_array('parse_ini_string', $disabled_functions) && !in_array('parse_ini_file', $disabled_functions);
 		}
 		else
 		{
 			// Attempt to detect their existence; even pure PHP implementation of them will trigger a positive response, though.
-			$result = function_exists('parse_ini_string');
+			$result = function_exists('parse_ini_string') && function_exists('parse_ini_file');
 		}
 
 		return $result;
