@@ -485,7 +485,10 @@ abstract class CmsApplication extends WebApplication implements ContainerAwareIn
 				require_once $path;
 			};
 
-			// Call the autoloader file in a closure
+			// Remove $this from the scope in the loader
+			$loader = $loader->bindTo(null);
+
+			// Call the autoloader file
 			$loader($path);
 		}
 	}
