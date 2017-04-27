@@ -148,3 +148,6 @@ JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\Ucm\
 
 JLoader::registerAlias('JVersion',                          '\\Joomla\\CMS\\Version', '4.0');
 
+JLoader::registerAlias('JAssociationExtensionInterface',    '\\Joomla\\CMS\\Association\\AssociationExtensionInterface', '4.0');
+JLoader::registerAlias('JAssociationExtensionHelper',       '\\Joomla\\CMS\\Association\\AssociationExtensionHelper', '4.0');
+
