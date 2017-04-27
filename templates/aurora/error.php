@@ -180,7 +180,7 @@ else
 			<?php echo $this->getBuffer('modules', 'footer', array('style' => 'none')); ?>
 			<p class="float-right">
 				<a href="#top" id="back-top">
-					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
+					<?php echo JText::_('TPL_AURORA_BACKTOTOP'); ?>
 				</a>
 			</p>
 			<p>
