@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Authentication
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Authentication;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JAuthenticationResponse
+class AuthenticationResponse
 {
 	/**
 	 * Response status (see status codes)
@@ -22,7 +23,7 @@ class JAuthenticationResponse
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $status = JAuthentication::STATUS_FAILURE;
+	public $status = Authentication::STATUS_FAILURE;
 
 	/**
 	 * The type of authentication that was successful
