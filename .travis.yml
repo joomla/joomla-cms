@@ -65,6 +65,7 @@ services:
 
 before_script:
   # Make sure all dev dependencies are installed
+  - if [[ $crappy ]]; then bash build/travis/unit-tests.sh $PWD; fi
   - if [[ $RUN_UNIT_TESTS == "yes" ]]; then bash build/travis/unit-tests.sh $PWD; fi
 
 script:
