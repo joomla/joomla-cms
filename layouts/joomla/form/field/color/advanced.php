@@ -55,6 +55,9 @@ else
 	$placeholder = '#rrggbb';
 }
 
+$attributes = [
+
+];
 $inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
 $class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
 $control      = $control ? ' data-control="' . $control . '"' : '';
@@ -76,8 +79,5 @@ JHtml::_('script', 'jui/jquery.minicolors.min.js', array('version' => 'auto', 'r
 JHtml::_('stylesheet', 'jui/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
-<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
-echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $hint . $class; ?><?php echo
-$position; ?><?php echo $control; ?><?php echo $readonly; ?><?php echo $disabled; ?><?php echo
-$required; ?><?php echo $onchange; ?><?php echo $autocomplete; ?><?php echo $autofocus; ?><?php echo
-$format; ?><?php echo $keywords; ?><?php echo $direction; ?><?php echo $validate; ?>/>
+<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>" <?php
+echo $hint . $class . $position . $control . $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus . $format . $keywords . $direction . $validate; ?>/>
