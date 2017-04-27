@@ -94,11 +94,9 @@ JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options'])
 		</div>
 	</div>
 	<!-- Filters div -->
-	<?php if ($data['options']['filterButton']) : ?>
 	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
 		<?php echo $this->sublayout('filters', $data); ?>
 	</div>
-	<?php endif; ?>
 </div>
 <?php if ($data['options']['showNoResults']) : ?>
 	<?php echo $this->sublayout('noitems', $data); ?>
