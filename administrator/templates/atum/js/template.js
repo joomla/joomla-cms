@@ -117,49 +117,51 @@
 			}
 
 
-			// Item navigation - NEEDS VANILLA CONVERSION
-			jQuery('.main-nav li.parent > a').on('click', function() {
-				var $self  = jQuery(this),
-				    parent = $self.parent('li');
+			// Menu navigation
+			var mainNav      = document.getElementById('menu'),
+				menuParents  = mainNav.querySelectorAll('li.parent > a'),
+				subMenuClose = mainNav.querySelectorAll('li.parent .close');
+			
+			// Child open toggle
+			function openToggle() {
+				var menuItem = this.parentNode;
 
-				$self.removeAttr('href');
-
-				if (parent.hasClass('open')) {
-					parent.removeClass('open');
-					parent.attr('aria-hidden', 'true');
-					parent.find('li').removeClass('open');
-					jQuery('.main-nav').removeClass('child-open');
+				if (menuItem.classList.contains('open')) {
+					menuItem.classList.remove('open');
+					mainNav.classList.remove('child-open');
 				}
 				else {
-					var siblings = parent.siblings('li');
-					parent.addClass('open');
-					siblings.removeClass('open');
-					parent.attr('aria-hidden', 'false');
-					parent.find('ul').attr('aria-hidden', 'false');
-					siblings.find('li').removeClass('open');
-					jQuery('.wrapper').removeClass('closed');
-					jQuery('.main-nav').addClass('child-open');
-					parent.find('.collapse-level-1').children().attr('tabindex', '1');
+					var siblings = menuItem.parentNode.children;
+					for (var i = 0; i < siblings.length; i++) {
+					 	siblings[i].classList.remove('open');
+					}
+					wrapper.classList.remove('closed');
+					menuItem.classList.add('open');
+					mainNav.classList.add('child-open');
 				}
-			});
+			}
 
-			// Menu close - NEEDS VANILLA CONVERSION
-			jQuery('.main-nav .close').on('click', function() {
-				jQuery('.main-nav').removeClass('child-open');
-				jQuery('.main-nav').find('li').removeClass('open');
-			});
+			for (var i = 0; i < menuParents.length; i += 1) {
+			 	menuParents[i].addEventListener('click', openToggle);
+			}
+
+			// Menu close 
+			for(var i=0;i<subMenuClose.length;i++){
+				subMenuClose[i].addEventListener('click', function(e) {
+					var menuChildOpen = mainNav.querySelectorAll('.open');
+
+					for (var i = 0; i < menuChildOpen.length; i++) {
+						menuChildOpen[i].classList.remove('open');
+					}
+					mainNav.classList.remove('child-open');	
+				});
+			}
 
 			// Open menu to active class - NEEDS VANILLA CONVERSION
 			if (jQuery('.main-nav a').is('.active')) {
 				jQuery('.active').parents('.main-nav > li').addClass('open');
 			    jQuery('.main-nav').addClass('child-open');
 			}
-
-			// When sidebar closed remove .open from all li - NEEDS VANILLA CONVERSION
-
-			// A11y - add tabindex - NEEDS VANILLA CONVERSION
-			jQuery('.main-nav').children().attr('tabindex', '1');
-
 
 			/** Accessibility */
 			var allLiEl = sidebar.querySelectorAll('ul[role="menubar"] li');
