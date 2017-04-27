@@ -1,0 +1,1 @@
+ALTER TABLE `#__extensions` ADD autoload tinyint(3) DEFAULT 0 AFTER state;
