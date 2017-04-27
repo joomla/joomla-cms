@@ -801,10 +801,10 @@
 			})();
 		}
 
-		if (this.params.showsTodayBtn) {                                                                    // Head - today
-			row = createElement("div", this.wrapper);
-			row.className = "buttons-wrapper btn-group";
+		row = createElement("div", this.wrapper);
+		row.className = "buttons-wrapper btn-group";
 
+		if (this.params.showsTodayBtn) {
 			this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'a', '', 'js-btn btn btn-clear', {"data-action": "clear"});
 
 			if (!this.inputField.hasAttribute('required')) {
