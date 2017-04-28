@@ -48,7 +48,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		<div class="js-stools-container-bar">
 			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
 		</div>
-		<div class="js-stools-container-list hidden-xs hidden-tablet">
+		<div class="js-stools-container-list hidden-xs hidden-sm">
 			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
 		</div>
 	</div>
