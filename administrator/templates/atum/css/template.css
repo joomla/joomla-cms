@@ -9483,7 +9483,7 @@ iframe {
   .main-nav .close {
     padding: 2px 10px;
     font-size: 1.7rem;
-    color: #fefefe;
+    color: rgba(255, 255, 255, 0.8);
     text-indent: 0;
     text-shadow: none; }
   .main-nav .open > a + ul {
