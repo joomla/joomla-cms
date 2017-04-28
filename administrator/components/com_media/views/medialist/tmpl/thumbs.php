@@ -82,7 +82,7 @@ $doc->addScriptDeclaration(
 );
 ?>
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
-	<div class="muted">
+	<div class="text-muted">
 		<p>
 			<span class="icon-folder"></span>
 			<?php

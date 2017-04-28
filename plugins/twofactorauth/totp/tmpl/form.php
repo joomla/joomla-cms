@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
 			</a>
 		</li>
 	</ul>
-	<div class="alert">
+	<div class="alert alert-warning">
 		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN') ?>
 	</div>
 </fieldset>
@@ -44,7 +44,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_HEAD') ?>
 	</legend>
 
-	<div class="span6">
+	<div class="col-md-6">
 		<p>
 			<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_TEXT') ?>
 		</p>
@@ -68,7 +68,7 @@ defined('_JEXEC') or die;
 		</table>
 	</div>
 
-	<div class="span6">
+	<div class="col-md-6">
 		<p>
 			<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ALTTEXT') ?>
 			<br>
