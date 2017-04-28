@@ -1137,7 +1137,7 @@ class PlgSystemDebug extends JPlugin
 						}
 					}
 
-					$htmlQuery = '<div class="alert alert-error">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
+					$htmlQuery = '<div class="alert alert-danger">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
 						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
 				}
 				else
@@ -1189,7 +1189,7 @@ class PlgSystemDebug extends JPlugin
 
 		if ($total_duplicates)
 		{
-			$html[] = '<div class="alert alert-error">'
+			$html[] = '<div class="alert alert-danger">'
 				. '<h4>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_TOTAL_NUMBER', $total_duplicates) . '</h4>';
 
 			foreach ($duplicates as $dups)
