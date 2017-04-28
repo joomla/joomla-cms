@@ -48,12 +48,12 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		<div class="js-stools-container-bar">
 			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
 		</div>
-		<div class="js-stools-container-list hidden-phone hidden-tablet">
+		<div class="js-stools-container-list hidden-xs hidden-tablet">
 			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersClass; ?>">
+	<div class="js-stools-container-filters hidden-xs clearfix<?php echo $filtersClass; ?>">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
 	</div>
 </div>

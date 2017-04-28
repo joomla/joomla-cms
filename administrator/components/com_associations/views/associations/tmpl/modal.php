@@ -75,11 +75,11 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 						</th>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
-						<th style="width:5%" class="nowrap hidden-phone">
+						<th style="width:5%" class="nowrap hidden-xs">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
 					<?php endif; ?>
-					<th style="width:1%" class="nowrap hidden-phone">
+					<th style="width:1%" class="nowrap hidden-xs">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -130,11 +130,11 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 						</td>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
-						<td class="small hidden-phone">
+						<td class="small hidden-xs">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 					<?php endif; ?>
-					<td class="hidden-phone">
+					<td class="hidden-xs">
 						<?php echo $item->id; ?>
 					</td>
 				</tr>

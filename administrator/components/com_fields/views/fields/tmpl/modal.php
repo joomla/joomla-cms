@@ -92,7 +92,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 =======
 							<a class="btn btn-sm btn-block btn-success" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-xs">
 							<a class="btn btn-sm btn-block btn-warning" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : JText::_('JNONE'); ?></a>
 >>>>>>> 3.9-dev
 						</td>
