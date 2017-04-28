@@ -55,8 +55,8 @@ class JFormFieldConfigComponents extends JFormFieldList
 				// Load language
 				$extension = $item->value;
 
-				if (JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml') ||
-					JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config/config.xml'))
+				if (JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config.xml')
+					|| JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $extension . '/config/config.xml'))
 				{
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 					$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
