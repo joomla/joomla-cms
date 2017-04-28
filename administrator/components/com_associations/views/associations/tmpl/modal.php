@@ -48,7 +48,7 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 <?php endif;?>
 <?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 	<?php else : ?>

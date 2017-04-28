@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
 			</a>
 		</li>
 	</ul>
-	<div class="alert">
+	<div class="alert alert-warning">
 		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN') ?>
 	</div>
 </fieldset>
