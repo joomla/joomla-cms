@@ -79,20 +79,20 @@
 			
 
 			/**
-			 * Sidebar 
+			 * Sidebar Nav
 			 */
 
-			/** Set active class */
 			var allLinks     = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow"),
 			    currentUrl   = window.location.href.toLowerCase(),
 			    mainNav      = document.getElementById('menu'),
 		 	    menuParents  = mainNav.querySelectorAll('li.parent > a'),
 			    subMenuClose = mainNav.querySelectorAll('li.parent .close');
 
-			// Auto Expand First Level
+			// Set active class
 			for (var i = 0; i < allLinks.length; i++) {
 				if (currentUrl === allLinks[i].href) {
 					allLinks[i].classList.add('active');
+					// Auto Expand First Level
 					if (!allLinks[i].parentNode.classList.contains('parent')) {
 						mainNav.classList.add('child-open');
 						allLinks[i].closest('.collapse-level-1').parentNode.classList.add('open');
