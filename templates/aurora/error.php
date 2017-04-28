@@ -116,12 +116,12 @@ else
 			<div class="banner">
 				<?php echo $this->getBuffer('modules', 'banner', array('style' => 'xhtml')); ?>
 			</div>
-			<div class="row-fluid">
+			<div class="row">
 				<div id="content" class="span12">
 					<!-- Begin Content -->
 					<h1 class="page-header"><?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
 					<div class="well">
-						<div class="row-fluid">
+						<div class="row">
 							<div class="span6">
 								<p><strong><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></strong></p>
 								<p><?php echo JText::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></p>

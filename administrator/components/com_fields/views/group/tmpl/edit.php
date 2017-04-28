@@ -25,7 +25,7 @@ $input = $app->input;
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
-		<div class="row-fluid">
+		<div class="row">
 			<div class="span9">
 				<?php echo $this->form->renderField('label'); ?>
 				<?php echo $this->form->renderField('context'); ?>
@@ -50,7 +50,7 @@ $input = $app->input;
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
-		<div class="row-fluid form-horizontal-desktop">
+		<div class="row form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 			</div>

@@ -44,9 +44,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 				<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 					<?php if ($this->items[$i]->published == 0) : ?>
-						<li class="row-fluid system-unpublished cat-list-row<?php echo $i % 2; ?>">
+						<li class="row system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else : ?>
-						<li class="row-fluid cat-list-row<?php echo $i % 2; ?>" >
+						<li class="row cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_image_heading')) : ?>
