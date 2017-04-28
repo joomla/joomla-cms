@@ -399,6 +399,9 @@ class ModulesModelModules extends JModelList
 				$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 			}
 		}
+		
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onComModulesGetListQuery', array( &$query));
 
 		return $query;
 	}

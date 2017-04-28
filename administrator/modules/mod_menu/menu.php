@@ -165,6 +165,12 @@ class JAdminCssMenu
 	 */
 	public function renderLevel($depth)
 	{
+		$dispatcher = JDispatcher::getInstance();
+		// If a plugin returns 404, prevent rendering the menu item		
+		$res = $dispatcher->trigger('onModMenuRender', array($this->_current));
+		if (in_array(404, $res))
+			return;
+
 		// Build the CSS class suffix
 		$class = '';
 

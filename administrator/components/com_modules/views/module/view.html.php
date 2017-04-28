@@ -36,6 +36,9 @@ class ModulesViewModule extends JViewLegacy
 		$this->state = $this->get('State');
 		$this->canDo = JHelperContent::getActions('com_modules', 'module', $this->item->id);
 
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onComModulesView', array( $this, $this->item));
+		
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

@@ -101,6 +101,9 @@ class ModulesModelSelect extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onComModulesSelectGetListQuery', array( &$query));
+
 		return $query;
 	}
 
