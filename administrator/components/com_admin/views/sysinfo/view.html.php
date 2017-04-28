@@ -92,6 +92,7 @@ class AdminViewSysinfo extends JViewLegacy
 	 *
 	 * @since   1.6
 	 * @note    Necessary for Hathor compatibility
+ 	 * @deprecated  4.0 To be removed with Hathor
 	 */
 	protected function _setSubMenu()
 	{
