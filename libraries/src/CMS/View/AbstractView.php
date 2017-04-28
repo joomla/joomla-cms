@@ -217,7 +217,7 @@ abstract class AbstractView extends \JObject
 
 				if ($pos !== false)
 				{
-					$this->_name = strtolower(substr($viewNamespace, $pos));
+					$this->_name = trim(strtolower(substr($viewNamespace, $pos)), '\\');
 				}
 			}
 			else
