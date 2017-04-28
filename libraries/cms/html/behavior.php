@@ -388,8 +388,8 @@ JS
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/js/fields/jquery.simplecolors.min.js', array('version' => 'auto', 'relative' => true));
-		JHtml::_('stylesheet', 'system/js/fields/jquery.simplecolors.css', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/js/fields/simplecolors.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'system/js/fields/simplecolors.css', array('version' => 'auto', 'relative' => true));
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('select.simplecolors').simplecolors();

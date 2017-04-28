@@ -36,7 +36,7 @@ JFactory::getDocument()->addScriptDeclaration("
 ?>
 <div class="container-popup">
 
-	<div class="pull-right">
+	<div class="float-right">
 		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.apply');"><?php echo JText::_('JTOOLBAR_APPLY') ?></button>
 		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.save');"><?php echo JText::_('JTOOLBAR_SAVE') ?></button>
 		<button class="btn" type="button" onclick="Joomla.submitbutton('field.cancel');"><?php echo JText::_('JCANCEL') ?></button>

@@ -223,7 +223,7 @@ class AssociationsHelper extends JHelperContent
 					$db->setQuery($query);
 					$category_title = $db->loadResult();
 
-					$additional = '<strong>' . JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br />';
+					$additional = '<strong>' . JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br>';
 				}
 				elseif (isset($items[$langCode]['menutype']))
 				{
@@ -238,10 +238,10 @@ class AssociationsHelper extends JHelperContent
 					$db->setQuery($query);
 					$menutype_title = $db->loadResult();
 
-					$additional = '<strong>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br />';
+					$additional = '<strong>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
 				}
 
-				$labelClass  = '';
+				$labelClass  = 'badge-association';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
@@ -255,7 +255,7 @@ class AssociationsHelper extends JHelperContent
 
 				$title      = JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
 				$additional = $addLink ? JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-				$labelClass = 'label-warning';
+				$labelClass = 'badge-warning';
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
 			}
@@ -275,8 +275,8 @@ class AssociationsHelper extends JHelperContent
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
 
-			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional;
-			$classes = 'hasPopover label ' . $labelClass . ' label-' . $language->sef;
+			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
+			$classes = 'hasPopover badge ' . $labelClass . ' badge-' . $language->sef;
 
 			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'

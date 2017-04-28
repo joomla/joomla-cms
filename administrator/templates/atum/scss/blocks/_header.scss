@@ -4,7 +4,6 @@
   position: relative;
   z-index: 5;
   height: $header-height;
-  margin-bottom: 3px;
   background: $atum-template-color-light;
 
   &::after {
@@ -20,29 +19,22 @@
   .page-title {
     display: inline-block;
     margin: 0 0 0 25px;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: normal;
     line-height: $header-height;
-    color: $atum-inverted-text-color;
-    border-bottom: 1px solid #20252e;
-
-    .icon-list {
-      color: $atum-inverted-text-color;
-    }
+    color: $white-offset;
 
     [class^="icon-"] {
       margin-right: 15px;
+      font-size: $font-size-h1;
+      vertical-align: middle;
     }
 
   }
 
   .navbar-brand {
-    position: relative;
-    display: inline-block;
-    float: none;
     padding: 0;
-    font-size: 1.3rem;
-    line-height: $header-height;
+    font-size: 1.1rem;
     color: $white-offset;
 
     &:hover,
@@ -55,12 +47,6 @@
       margin-left: 10px;
     }
 
-  }
-
-  nav {
-    position: absolute;
-    top: 0;
-    right: 15px;
   }
 
   .nav-item + .nav-item {
@@ -101,21 +87,13 @@
     border: 0;
   }
 
-  .dropdown-menu {
-
-    &::after {
-      left: .65rem;
-    }
-
+  .dropdown-menu::after {
+    left: .65rem;
   }
 
-  .dropdown-menu-right {
-
-    &::after {
-      right: .65rem;
-      left: auto;
-    }
-
+  .dropdown-menu-right::after {
+    right: .65rem;
+    left: auto;
   }
 
   .header-profile {
@@ -137,35 +115,6 @@
     background-color: $atum-container-main-bg;
     border-bottom: 1px solid rgba(0,0,0,.1);
     border-radius: $border-radius $border-radius 0 0;
-  }
-
-}
-
-.container-title {
-  padding-top: 13px;
-  padding-bottom: 13px;
-  color: $white;
-  background-color: $atum-template-color-light;
-
-  .row {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  .page-title {
-    margin-bottom: 0;
-    font-size: 1.3rem;
-    font-weight: normal;
-
-    span {
-      position: relative;
-      top: 3px;
-      margin-right: 15px;
-      margin-left: 5px;
-      font-size: $font-size-h1;
-      color: $white-offset;
-    }
-
   }
 
 }

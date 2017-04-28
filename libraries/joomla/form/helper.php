@@ -338,9 +338,9 @@ class JFormHelper
 
 		$formPath = $formControl ?: '';
 
-		if ($formPath && $group)
+		if ($group)
 		{
-			$formPath .= '[' . $group . ']';
+			$formPath .= $formPath ? '[' . $group . ']' : $group;
 		}
 
 		$showOnData  = array();

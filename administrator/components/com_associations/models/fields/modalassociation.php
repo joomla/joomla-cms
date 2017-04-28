@@ -33,22 +33,12 @@ class JFormFieldModalAssociation extends JFormField
 	 */
 	protected function getInput()
 	{
+		// @TODO USE JLayouts here!!!
 		// The active item id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
-		// Build the script.
-		$script = array();
-
-		// Select button script
-		$script[] = 'function jSelectAssociation_' . $this->id . '(id) {';
-		$script[] = '   target = document.getElementById("target-association");';
-		$script[] = '   document.getElementById("target-association").src = target.getAttribute("data-editurl") + '
-						. '"&task=" + target.getAttribute("data-item") + ".edit" + "&id=" + id';
-		$script[] = '	jQuery("#associationSelect' . $this->id . 'Modal").modal("hide");';
-		$script[] = '}';
-
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		JFactory::getDocument()->addScriptOptions('modal-associations', ['itemId' => $value]);
+		JHtml::_('script', 'com_associations/modal-associations.min.js', false, true);
 
 		// Setup variables for display.
 		$html = array();

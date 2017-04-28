@@ -84,7 +84,7 @@ abstract class JHtmlFormbehavior
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/legacy/chosen.jquery.min.js', false, true, false, false, $debug);
+		JHtml::_('script', 'system/legacy/chosen.min.js', ['version' => 'auto', 'relative' => true]);
 		JHtml::_('stylesheet', 'system/legacy/chosen.css', false, true);
 
 		// Options array to json options string

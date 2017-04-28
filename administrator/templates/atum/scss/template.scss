@@ -72,6 +72,11 @@
   min-height: calc(100vh - 50px);
   padding-top: 15px;
   background-color: $atum-container-main-bg;
+
+  @include media-breakpoint-down(md) {
+    // 50px - 3px which is the header bottom border
+    margin-top: 47px;
+  }
 }
 
 .list-view-main {
@@ -118,4 +123,21 @@
 .btn:hover,
 .btn:focus {
   cursor: pointer;
+}
+// Multilingual associations specific
+.item-associations {
+  padding: 0;
+}
+
+.item-associations li {
+  display: inline-block;
+  list-style: none;
+}
+
+.badge-association {
+  background-color: #636c72;
+}
+
+.badge-association[href]:focus, .badge-association[href]:hover {
+  background-color: #4b5257;
 }

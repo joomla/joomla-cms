@@ -20,71 +20,12 @@ JHtml::_('behavior.keepalive');
 JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
+JFactory::getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
+JHtml::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true]);
+
 $assoc = JLanguageAssociations::isEnabled();
-
-// Ajax for parent items
-$script = "
-jQuery(document).ready(function ($){
-	$('#jform_menutype').change(function(){
-		var menutype = $(this).val();
-		$.ajax({
-			url: 'index.php?option=com_menus&task=item.getParentItem&menutype=' + menutype,
-			dataType: 'json'
-		}).done(function(data) {
-			$('#jform_parent_id option').each(function() {
-				if ($(this).val() != '1') {
-					$(this).remove();
-				}
-			});
-
-			$.each(data, function (i, val) {
-				var option = $('<option>');
-				option.text(val.title).val(val.id);
-				$('#jform_parent_id').append(option);
-			});
-			$('#jform_parent_id').trigger('liszt:updated');
-		});
-	});
-});
-Joomla.submitbutton = function(task, type){
-	if (task == 'item.setType' || task == 'item.setMenuType')
-	{
-		if (task == 'item.setType')
-		{
-			jQuery('#item-form input[name=\"jform[type]\"]').val(type);
-			jQuery('#fieldtype').val('type');
-		} else {
-			jQuery('#item-form input[name=\"jform[menutype]\"]').val(type);
-		}
-		Joomla.submitform('item.setType', document.getElementById('item-form'));
-	} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
-	{
-		Joomla.submitform(task, document.getElementById('item-form'));
-
-		// @deprecated 4.0  The following js is not needed since 3.7.0.
-		if (task !== 'item.apply')
-		{
-			window.parent.jQuery('#menuEdit" . (int) $this->item->id . "Modal').modal('hide');
-		}
-	}
-	else
-	{
-		// special case for modal popups validation response
-		jQuery('#item-form .modal-value.invalid').each(function(){
-			var field = jQuery(this),
-				idReversed = field.attr('id').split('').reverse().join(''),
-				separatorLocation = idReversed.indexOf('_'),
-				nameId = '#' + idReversed.substr(separatorLocation).split('').reverse().join('') + 'name';
-			jQuery(nameId).addClass('invalid');
-		});
-	}
-};
-";
-
 $input = JFactory::getApplication()->input;
 
-// Add the script to the document head.
-JFactory::getDocument()->addScriptDeclaration($script);
 // In case of modal
 $isModal  = $input->get('layout') == 'modal' ? true : false;
 $layout   = $isModal ? 'modal' : 'edit';

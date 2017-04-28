@@ -1,13 +1,32 @@
-#### Maintainer's Area
+## Doing Javascript and SASS work in Joomla
+### Day to Day to maintenance
+There are 3 tasks that are commonly used by Joomla contributors:
 
-- Install Node:  https://nodejs.org/en
-- Install Ruby:  https://rubyinstaller.org
-- Run: `npm install` in this folder if this is the first time!
-- Run: `gem install scss_lint` to install the linter
+1. Updating dependencies
+2. Compiling SASS
+3. Minifying Javascript
 
-- Run: `grunt` will do the automatic update for all the assets
+First things first you must install node onto your system (this will also install Node Package Manager (NPM)). If you
+are running on windows this is a good tutorial on how to install node (which will automatically install NPM):
+http://blog.teamtreehouse.com/install-node-js-npm-windows. If you are running on OSX we recommend installing Node with
+brew.
 
-possible commands:
+Then navigate on command line to the Joomla install and run the following command
+
+`npm install`
+
+This will install all node dependencies onto your system. Then there are 3 easy commands
+
+* To update dependencies to the version in grunt_settings.yaml run `npm run update-dependencies`
+* To compile the SASS run `npm run compile-sass`
+* To minify the javascript run `npm run compile-js`
+
+
+### Maintainer's Area (TODO: This list of commands needs updating)
+- Running `grunt` will automatically update all the assets. Make sure that you have updated the grunt-settings.yaml file in
+order to update the libraries!!!
+
+The full list of other Grunt Tasks available are:
 
 - `grunt clean:assets`.................clears the media/vendor folder
 - `grunt shell:update`.................will update all the npm packages to the version defined in /dev/assets/package.json
@@ -23,24 +42,13 @@ possible commands:
 - `grunt text-scss`....................validate/lint the template SCSS
 - `grunt compile`......................minifies all template JS, lints SCSS then compiles it
 
-Make sure that you have updated the settings.yaml file in order to update the libraries!!!
+For running sass linting we require that ruby is installed on the system.
 
-Will update the following external sourced static assets that Joomla is using.
+- Install Ruby:  https://rubyinstaller.org
+- Run: `gem install scss_lint` to install the linter
 
-- Jquery
-- Jquery-migrate
-- Bootstrap
-- Tether
-- Font awesome
-- Chosen
-- Jquery-minicolors
-- Jquery-sortable
-- Jquery-ui
-- MediaElement
-- Punycode
-- TinyMCE
-- Awesomplete
-- Codemirror
+Will update the following external sourced static assets that Joomla is using and is defined in /grunt_settings.yaml
+
 
 The following are always fetched with curl (no module available)
 

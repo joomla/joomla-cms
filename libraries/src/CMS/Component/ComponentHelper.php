@@ -379,7 +379,7 @@ class ComponentHelper
 			$namespace = self::getComponent($option)->namespace;
 
 			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($namespace, $app));
+			$contents = static::dispatchComponent(new $class($app, $app->input));
 		}
 		else
 		{
