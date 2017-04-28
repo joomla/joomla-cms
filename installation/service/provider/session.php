@@ -55,7 +55,7 @@ class InstallationServiceProviderSession implements ServiceProviderInterface
 					);
 
 					// Set up the storage handler
-					$handler = new FilesystemHandler('/tmp');
+					$handler = new FilesystemHandler(JPATH_INSTALLATION . '/sessions');
 
 					$input = $app->input;
 
