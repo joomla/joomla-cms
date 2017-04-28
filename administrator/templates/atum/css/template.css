@@ -9455,7 +9455,9 @@ iframe {
         text-decoration: none;
         background-color: rgba(0, 0, 0, 0.2); }
       .main-nav li a:active, .main-nav li a:focus {
-        text-decoration: none; }
+        text-decoration: none;
+        outline: 0;
+        box-shadow: inset 0 0 0 1px #78aeda; }
     .main-nav li a:not([href]):not([tabindex]) {
       color: #fff; }
     .main-nav li ul {

@@ -99,6 +99,16 @@
 					}
 				}
 			}
+
+			// If com_cpanel - close menu
+			if (document.body.classList.contains('com_cpanel')) {
+			    var menuChildOpen = mainNav.querySelectorAll('.open');
+
+				for (var i = 0; i < menuChildOpen.length; i++) {
+					menuChildOpen[i].classList.remove('open');
+				}
+				mainNav.classList.remove('child-open');
+			}
 			
 			// Child open toggle
 			function openToggle() {
@@ -121,6 +131,7 @@
 
 			for (var i = 0; i < menuParents.length; i += 1) {
 			 	menuParents[i].addEventListener('click', openToggle);
+			 	menuParents[i].addEventListener('keyup', openToggle);
 			}
 
 			// Menu close 
