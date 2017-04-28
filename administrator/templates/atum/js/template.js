@@ -87,40 +87,22 @@
 			 */
 
 			/** Set active class */
-			var allLinks = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow");
-			var currentUrl = window.location.href.toLowerCase();
+			var allLinks     = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow"),
+			    currentUrl   = window.location.href.toLowerCase(),
+			    mainNav      = document.getElementById('menu'),
+		 	    menuParents  = mainNav.querySelectorAll('li.parent > a'),
+			    subMenuClose = mainNav.querySelectorAll('li.parent .close');
 
+			// Auto Expand First Level
 			for (var i = 0; i < allLinks.length; i++) {
 				if (currentUrl === allLinks[i].href) {
 					allLinks[i].classList.add('active');
 					if (!allLinks[i].parentNode.classList.contains('parent')) {
-						var parentLink = closest(allLinks[i], '.panel-collapse');
-						/** Auto Expand First Level */
-						if (parentLink){
-							parentLink.parentNode.querySelector('a.collapse-arrow').classList.add('active');
-							if (!wrapper.classList.contains('closed')) {
-									parentLink.classList.add('in');
-							}
-						}
-						/** Auto Expand Second Level */
-						if (allLinks[i].parentNode.parentNode.parentNode.classList.contains('parent')) {
-							var parentLink2 = closest(parentLink, '.panel-collapse');
-							if (parentLink2){
-								parentLink2.parentNode.parentNode.parentNode.querySelector('a.collapse-arrow').classList.add('active');
-								if (!wrapper.classList.contains('closed')) {
-									parentLink2.classList.add('in');
-								}
-							}
-						}
+						mainNav.classList.add('child-open');
+						allLinks[i].closest('.collapse-level-1').parentNode.classList.add('open');
 					}
 				}
 			}
-
-
-			// Menu navigation
-			var mainNav      = document.getElementById('menu'),
-				menuParents  = mainNav.querySelectorAll('li.parent > a'),
-				subMenuClose = mainNav.querySelectorAll('li.parent .close');
 			
 			// Child open toggle
 			function openToggle() {
@@ -155,12 +137,6 @@
 					}
 					mainNav.classList.remove('child-open');	
 				});
-			}
-
-			// Open menu to active class - NEEDS VANILLA CONVERSION
-			if (jQuery('.main-nav a').is('.active')) {
-				jQuery('.active').parents('.main-nav > li').addClass('open');
-			    jQuery('.main-nav').addClass('child-open');
 			}
 
 			/** Accessibility */
