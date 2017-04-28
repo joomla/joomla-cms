@@ -36,7 +36,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		$view   = $view === null ? $jinput->get('view') : $view;
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
-		if ($view === 'article' || $view === 'category' || $view === 'featured')
+		if ($view === 'article' || $view === 'featured')
 		{
 			if ($id)
 			{
