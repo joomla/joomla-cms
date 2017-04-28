@@ -9405,6 +9405,10 @@ iframe {
     .sidebar-wrapper .main-brand img {
       width: 190px; }
 
+.menu-toggle-icon {
+  width: 48px;
+  font-size: 1.7rem; }
+
 .main-nav-container {
   background-color: #0f2131; }
 
@@ -9604,6 +9608,8 @@ iframe {
   .closed .parent .collapse-arrow::after {
     visibility: hidden;
     transition-delay: 0s !important; }
+  .closed .menu-toggle-icon::before {
+    content: "\f054"; }
 
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
   color: #fff;

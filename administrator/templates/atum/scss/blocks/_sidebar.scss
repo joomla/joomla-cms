@@ -70,6 +70,11 @@
 
 }
 
+.menu-toggle-icon {
+  width: $header-height;
+  font-size: 1.7rem;
+}
+
 .main-nav-container {
   background-color: $atum-sidebar-child-bg;
 }
@@ -178,7 +183,6 @@
     font-size: 1.7rem;
     color: $white-offset;
     text-shadow: none;
-    // transition-delay: .25;
   }
 
   .open {
@@ -389,7 +393,9 @@
     visibility: hidden;
     transition-delay: 0s !important;
   }
-
+  .menu-toggle-icon::before {
+    content: "\f054";
+  }
 }
 
 // Edit view
