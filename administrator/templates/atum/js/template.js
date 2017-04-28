@@ -95,7 +95,8 @@
 					// Auto Expand First Level
 					if (!allLinks[i].parentNode.classList.contains('parent')) {
 						mainNav.classList.add('child-open');
-						allLinks[i].closest('.collapse-level-1').parentNode.classList.add('open');
+						var firstLevel = allLinks[i].closest('.collapse-level-1');
+						if (firstLevel) firstLevel.parentNode.classList.add('open');
 					}
 				}
 			}
@@ -111,7 +112,7 @@
 			}
 			
 			// Child open toggle
-			function openToggle() {
+			var openToggle = function() {
 				var menuItem = this.parentNode;
 
 				if (menuItem.classList.contains('open')) {
