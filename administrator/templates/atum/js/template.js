@@ -74,12 +74,8 @@
 				for (var i = 0; i < listItems.length; i++) {
 				 	listItems[i].classList.remove('open');
 				}
-
-				var childOpen = document.querySelector(".child-open");
-				childOpen.classList.remove("child-open");
-
+				document.querySelector('.child-open').classList.remove('child-open');
 			});
-
 			
 
 			/**
