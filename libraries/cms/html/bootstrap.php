@@ -460,7 +460,7 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Build the script.
-			$script = array('$(' . json_encode($selector) . ').tooltip(' . $options . ')');
+			$script = array('$(' . json_encode($selector) . ').tooltip(' . $options . ').each(function(){this.show = null; this.hide = null;})');
 
 			if ($onShow)
 			{
