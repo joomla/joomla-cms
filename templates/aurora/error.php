@@ -117,12 +117,12 @@ else
 				<?php echo $this->getBuffer('modules', 'banner', array('style' => 'xhtml')); ?>
 			</div>
 			<div class="row">
-				<div id="content" class="span12">
+				<div id="content" class="col-md-12">
 					<!-- Begin Content -->
 					<h1 class="page-header"><?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
 					<div class="well">
 						<div class="row">
-							<div class="span6">
+							<div class="col-md-6">
 								<p><strong><?php echo JText::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></strong></p>
 								<p><?php echo JText::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></p>
 								<ul>
@@ -132,7 +132,7 @@ else
 									<li><?php echo JText::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
 								</ul>
 							</div>
-							<div class="span6">
+							<div class="col-md-6">
 								<?php if (JModuleHelper::getModule('search')) : ?>
 									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>

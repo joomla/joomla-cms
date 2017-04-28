@@ -41,7 +41,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<div class="row">
 
 		<!-- Begin Content -->
-		<div class="span12">
+		<div class="col-md-12">
 
 			<div class="btn-toolbar">
 				<div class="btn-group">
@@ -81,7 +81,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<hr>
 
 			<div class="row">
-				<div class="span12">
+				<div class="col-md-12">
 					<fieldset class="form-horizontal">
 						<div class="control-group">
 							<div class="control-label">
