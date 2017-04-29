@@ -61,6 +61,14 @@ class ContentViewArticle extends JViewLegacy
 	protected $pageclass_sfx = '';
 
 	/**
+	 * The default language
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $language = '';
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -72,10 +80,11 @@ class ContentViewArticle extends JViewLegacy
 		$app        = JFactory::getApplication();
 		$user       = JFactory::getUser();
 
-		$this->item  = $this->get('Item');
-		$this->print = $app->input->getBool('print', false);
-		$this->state = $this->get('State');
-		$this->user  = $user;
+		$this->item     = $this->get('Item');
+		$this->print    = $app->input->getBool('print', false);
+		$this->state    = $this->get('State');
+		$this->user     = $user;
+		$this->language = $app->get('language');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
