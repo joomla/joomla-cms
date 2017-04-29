@@ -54,9 +54,6 @@ class UsersModelGroups extends JModelList
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);

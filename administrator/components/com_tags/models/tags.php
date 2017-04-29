@@ -63,21 +63,6 @@ class TagsModelTags extends JModelList
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '');
-		$this->setState('filter.level', $level);
-
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '');
-		$this->setState('filter.access', $access);
-
-		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
-
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-		$this->setState('filter.language', $language);
-
 		$extension = $this->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.extension', $extension);

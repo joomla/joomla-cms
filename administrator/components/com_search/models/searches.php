@@ -51,9 +51,6 @@ class SearchModelSearches extends JModelList
 	 */
 	protected function populateState($ordering = 'a.hits', $direction = 'asc')
 	{
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-
 		// Special state for toggle results button.
 		$this->setState('show_results', $this->getUserStateFromRequest($this->context . '.show_results', 'show_results', 1, 'int'));
 
