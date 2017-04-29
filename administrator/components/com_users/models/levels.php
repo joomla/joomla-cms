@@ -52,9 +52,6 @@ class UsersModelLevels extends JModelList
 	 */
 	protected function populateState($ordering = 'a.ordering', $direction = 'asc')
 	{
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
