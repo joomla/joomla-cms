@@ -52,9 +52,10 @@ extract($displayData);
  */
 
 JHtml::_('behavior.core');
-JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
+JHtml::_('formbehavior.chosen', '.access-select');
+JHtml::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
 JHtml::_('jquery.ui', array('core', 'sortable'));
-JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'editors/tinymce/tinymce-builder.min.js', array('version' => 'auto', 'relative' => true));
 
 if ($languageFile)
 {
@@ -71,6 +72,10 @@ $doc->addScriptOptions('plg_editors_tinymce_builder', array(
 	)
 );
 $doc->addStyleDeclaration('
+.chzn-container.chzn-container-multi .chzn-container.chzn-container-multi.chzn-with-drop.chzn-container-active #jform_params__configuration__setoptions__1__access_chzn {
+width: 100%;
+}
+
     #joomla-tinymce-builder{
 		margin-left: -180px;
 	}
@@ -126,8 +131,8 @@ $doc->addStyleDeclaration('
 	<!-- Render tabs for each set -->
 	<ul class="nav nav-tabs" id="set-tabs">
 		<?php foreach ( $setsNames as $num => $title ) : ?>
-		<li class="<?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>">
-			<a href="#set-<?php echo $num; ?>"><?php echo $title; ?></a>
+		<li class="nav-item">
+			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>"><?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>
 	</ul>

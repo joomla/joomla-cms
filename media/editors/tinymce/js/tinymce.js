@@ -40,9 +40,9 @@
 		 */
 		setupEditor: function ( element, pluginOptions ) {
 			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
-			    tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
-			    defaultOptions = tinyMCEOptions['default'] || {},
-			    options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
+				tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
+				defaultOptions = tinyMCEOptions['default'] || {},
+				options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
 
 			// Avoid an unexpected changes, and copy the options object
 			if (options.joomlaMergeDefaults) {
@@ -72,7 +72,7 @@
 
 			// Create a new instance
 			var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
-			ed.render();
+ed.render()
 
 			/** Register the editor's instance to Joomla Object */
 			Joomla.editors.instances[element.id] = {
@@ -88,7 +88,7 @@
 
 			/** On save **/
 			document.getElementById(ed.id).form.addEventListener('submit', function() {
-        return Joomla.editors.instances[ed.targetElm.id].onSave();
+				Joomla.editors.instances[ed.targetElm.id].onSave();
 			})
 		}
 
