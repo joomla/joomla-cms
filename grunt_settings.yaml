@@ -1,7 +1,7 @@
 vendors:
 #### PLEASE ALTER ONLY THE VERSIONS NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
     'jquery':
-                 'version': '3.2.0'
+                 'version': '3.2.1'
                  'dependencies': ''
 
     'jquery-migrate':
