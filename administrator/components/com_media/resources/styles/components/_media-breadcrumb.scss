@@ -1,7 +1,8 @@
 .media-breadcrumb.breadcrumb {
   margin: 0;
-  padding: 0 7.5px;
+  padding: 0 15px;
   background: transparent;
+  line-height: 3.4rem; 
   & > li > a {
     cursor: pointer;
   }

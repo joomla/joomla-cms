@@ -1,5 +1,5 @@
 <template>
-    <ol class="media-breadcrumb breadcrumb">
+    <ol class="media-breadcrumb breadcrumb mr-auto">
         <li class="breadcrumb-item">
             <a @click.stop.prevent="goTo('/')">Home</a>
         </li>

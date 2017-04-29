@@ -1,6 +1,25 @@
 .media-toolbar {
-  padding: 15px;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #ccc;
-  border-radius: 0.25rem 0.25rem 0 0;
+	display: flex;
+	padding: 0;
+	background-color: #f5f5f5;
+	border-bottom: 1px solid #ccc;
+	border-radius: 0.25rem 0.25rem 0 0;
+}
+.media-view-icons {
+
+}
+.media-toolbar-icon { 
+	// @TODO - Global class should be created for these
+	display: inline-block;
+	border-left: 1px solid #ccc;
+	font-size: 1.3rem;
+	line-height: 3.4rem; 
+	text-align: center;
+	width: 3.8rem;
+	color: #464a4c;
+	box-shadow: 1px 0 #fefefe inset;
+	&:hover {
+		background-color: #f0f0f0;
+  		box-shadow: none;
+	}
 }

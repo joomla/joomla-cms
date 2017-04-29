@@ -36,8 +36,9 @@
 
 .media-breadcrumb.breadcrumb {
   margin: 0;
-  padding: 0 7.5px;
-  background: transparent; }
+  padding: 0 15px;
+  background: transparent;
+  line-height: 3.4rem; }
   .media-breadcrumb.breadcrumb > li > a {
     cursor: pointer; }
   .media-breadcrumb.breadcrumb > li:last-child a {
@@ -106,7 +107,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  color: #BBB; }
+  color: #BBB;
+  justify-content: center; }
 
 @media only screen and (max-width: 1140px) {
   .media-browser-item {
@@ -143,10 +145,24 @@
   padding: 15px; }
 
 .media-toolbar {
-  padding: 15px;
+  display: flex;
+  padding: 0;
   background-color: #f5f5f5;
   border-bottom: 1px solid #ccc;
   border-radius: 0.25rem 0.25rem 0 0; }
+
+.media-toolbar-icon {
+  display: inline-block;
+  border-left: 1px solid #ccc;
+  font-size: 1.3rem;
+  line-height: 3.4rem;
+  text-align: center;
+  width: 3.8rem;
+  color: #464a4c;
+  box-shadow: 1px 0 #fefefe inset; }
+  .media-toolbar-icon:hover {
+    background-color: #f0f0f0;
+    box-shadow: none; }
 
 /* Media Tree */
 ul.media-tree {
