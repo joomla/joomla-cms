@@ -156,9 +156,9 @@ module.exports = function(grunt) {
 					// Media Element css, png, gif, svg files
 					{ expand: true, cwd: '<%= folder.node_module %>mediaelement/build', src: ['*.css', '*.png', '*.svg', '*.gif'], dest: 'media/vendor/mediaelement/css/', filter: 'isFile'},
 					// MiniColors js files
-					{ expand: true, cwd: '<%= folder.node_module %>jquery-minicolors', src: ['*.js'], dest: 'media/vendor/minicolors/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>@claviska/jquery-minicolors/', src: ['jquery.minicolors.js','jquery.minicolors.min.js'], dest: 'media/vendor/minicolors/js/', filter: 'isFile'},
 					// MiniColors css, ong files
-					{ expand: true, cwd: '<%= folder.node_module %>jquery-minicolors', src: ['*.css', '*.png'], dest: 'media/vendor/minicolors/css/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>@claviska/jquery-minicolors', src: ['*.css', '*.png'], dest: 'media/vendor/minicolors/css/', filter: 'isFile'},
 					// Awesomplete js files
 					{ expand: true, cwd: '<%= folder.node_module %>awesomplete', src: ['awesomplete.js', 'awesomplete.min.js'], dest: 'media/vendor/awesomplete/js/', filter: 'isFile'},
 					// Awesomplete css files

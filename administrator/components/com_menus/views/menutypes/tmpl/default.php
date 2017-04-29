@@ -13,22 +13,9 @@ $input = JFactory::getApplication()->input;
 
 // Checking if loaded via index.php or component.php
 $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
+$tmpl = json_encode($tmpl, JSON_NUMERIC_CHECK);
 
-JHtml::_('behavior.core');
-JFactory::getDocument()->addScriptDeclaration('
-	setmenutype = function(type) {
-		var tmpl = ' . json_encode($tmpl) . ';
-		if (tmpl)
-		{
-			window.parent.Joomla.submitbutton("item.setType", type);
-			window.parent.jQuery("#menuTypeModal").modal("hide");
-		}
-		else
-		{
-			window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=" + type;
-		}
-	};
-');
+JHtml::_('script', 'com_menus/admin-item-modal.js', ['version' => 'auto', 'relative' => true]);
 
 ?>
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
@@ -40,7 +27,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php $menutype = array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request); ?>
 					<?php $menutype = base64_encode(json_encode($menutype)); ?>
 					<a class="choose_type list-group-item list-group-item-action" href="#" title="<?php echo JText::_($item->description); ?>"
-						onclick="setmenutype('<?php echo $menutype; ?>')">
+						onclick="Joomla.setMenuType('<?php echo $menutype; ?>', '<?php echo $tmpl; ?>')">
 						<div class="pr-2">
 							<?php echo $title; ?>
 						</div>

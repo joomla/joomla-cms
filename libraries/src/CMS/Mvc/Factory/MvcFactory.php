@@ -156,15 +156,12 @@ class MvcFactory implements MvcFactoryInterface
 	 */
 	private function getClassName($suffix, $prefix)
 	{
-		// @todo decide what todo with the prefix as it doesn't fit into the namespace approach
-		$prefix = '';
-
 		if (!$prefix)
 		{
 			$prefix = $this->application->getName();
 		}
 
-		$className = $this->namespace . '\\' . ucfirst($prefix) . '\\' . $suffix;
+		$className = trim($this->namespace, '\\') . '\\' . ucfirst($prefix) . '\\' . $suffix;
 
 		if (!class_exists($className))
 		{
