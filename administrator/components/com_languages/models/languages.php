@@ -59,11 +59,6 @@ class LanguagesModelLanguages extends JModelList
 	 */
 	protected function populateState($ordering = 'a.ordering', $direction = 'asc')
 	{
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
-		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_languages');
 		$this->setState('params', $params);

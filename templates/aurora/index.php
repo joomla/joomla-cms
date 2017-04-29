@@ -69,9 +69,9 @@ if ($this->params->get('logoFile'))
 {
 	$logo = '<img src="' . JUri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
 }
-elseif ($this->params->get('sitetitle'))
+elseif ($this->params->get('siteTitle'))
 {
-	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('sitetitle'), ENT_COMPAT, 'UTF-8') . '</span>';
+	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
@@ -106,13 +106,13 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<a href="<?php echo $this->baseurl; ?>/">
 					<?php echo $logo; ?>
 				</a>
-				<?php if ($this->params->get('sitedescription')) : ?>
-					<div class="site-description"><?php echo htmlspecialchars($this->params->get('sitedescription')); ?></div>
+				<?php if ($this->params->get('siteDescription')) : ?>
+					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
 				<?php endif; ?>
 			</div>
 
 			<?php if ($this->countModules('menu')) : ?>
-				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo JText::_('TPL_AURORA_TOGGLE'); ?>">
 					<span class="fa fa-bars"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbar">
@@ -206,7 +206,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			<hr>
 			<p class="float-right">
 				<a href="#top" id="back-top" class="back-top">
-					<i class="icon-arrow-up-4"></i>
+					<span class="icon-arrow-up-4"><span class="sr-only"><?php echo JText::_('TPL_AURORA_BACKTOTOP'); ?></span></span>
 				</a>
 			</p>
 			<jdoc:include type="modules" name="footer" style="none" />

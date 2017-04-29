@@ -11,84 +11,51 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+JHtml::_('behavior.core');
 
+JText::script('COM_FINDER_FILTER_SHOW_ALL', true);
+JText::script('COM_FINDER_FILTER_HIDE_ALL', true);
 
-JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function($) {
-		$("#rightbtn").on("click", function() {
-			if($(this).text() == "' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '") {
-				$(".collapse:not(.in)").each(function (index) {
-					$(this).collapse("toggle");
-				});
-				$(this).text("' . JText::_('COM_FINDER_FILTER_HIDE_ALL') . '");
-			} else {
-				$(this).text("' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '");
-				$(".collapse.in").each(function (index) {
-				$(this).collapse("toggle");
-			});
-		}
-		return false;
-		});
-
-		$(".filter-node").change(function() {
-			$(\'input[id="jform_map_count"]\').val(document.querySelectorAll(\'input[type="checkbox"]:checked\').length);
-		});
-
-
-	});
-');
-
-JFactory::getDocument()->addStyleDeclaration('
-	.accordion-inner .control-group .controls {
-		margin-left: 10px;
-	}
-	.accordion-inner > .control-group {
-		margin-bottom: 0;
-	}
-	');
+JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
-		<div class="row">
-			<div class="col-md-9">
-				<?php if ($this->total > 0) : ?>
-					<div class="well">
-						<?php echo $this->form->renderField('map_count'); ?>
-					</div>
-					<button class="btn btn-secondary" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
-						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
-
-					<button class="btn btn-secondary float-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
-					<hr>
-				<?php endif; ?>
-
-				<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
-			</div>
-			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
+	<div class="row">
+		<div class="col-md-9">
+			<?php if ($this->total > 0) : ?>
+				<div class="well">
+					<?php echo $this->form->renderField('map_count'); ?>
 				</div>
+				<button class="btn btn-secondary" type="button" onclick="jQuery('.filter-node').each(function(){ this.click(); });">
+					<span class="fa fa-square" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
+
+				<button class="btn btn-secondary float-right" type="button" id="expandAccordion"><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
+				<hr>
+			<?php endif; ?>
+
+			<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+		</div>
+		<div class="col-md-3">
+			<div class="card card-block card-light">
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
-		<div class="row">
-			<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-		</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
-
-		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+	<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
+	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd'); ?>">

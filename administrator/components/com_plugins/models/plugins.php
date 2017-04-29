@@ -62,22 +62,6 @@ class PluginsModelPlugins extends JModelList
 	 */
 	protected function populateState($ordering = 'folder', $direction = 'asc')
 	{
-		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string');
-		$this->setState('filter.search', $search);
-
-		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd');
-		$this->setState('filter.access', $accessId);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'cmd');
-		$this->setState('filter.enabled', $state);
-
-		$folder = $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string');
-		$this->setState('filter.folder', $folder);
-
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string');
-		$this->setState('filter.language', $language);
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_plugins');
 		$this->setState('params', $params);
@@ -104,7 +88,6 @@ class PluginsModelPlugins extends JModelList
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
-		$id .= ':' . $this->getState('filter.language');
 
 		return parent::getStoreId($id);
 	}

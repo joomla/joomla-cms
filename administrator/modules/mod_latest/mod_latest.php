@@ -9,17 +9,10 @@
 
 defined('_JEXEC') or die;
 
-// Include dependencies.
-JLoader::register('ModLatestHelper', __DIR__ . '/helper.php');
+use Joomla\Component\Content\Administrator\Model\Articles;
+use Joomla\Module\Latest\Administrator\Helper\ModLatestHelper;
 
-JLoader::register('ContentDispatcher', JPATH_ADMINISTRATOR . '/components/com_content/dispatcher.php');
-$oldScope = $app->scope;
-$app->scope = 'com_content';
-$namespace = \Joomla\CMS\Component\ComponentHelper::getComponent($app->scope)->namespace;
-$dispatcher = new ContentDispatcher($namespace, JFactory::getApplication());
-
-$list = ModLatestHelper::getList($params, $dispatcher->getFactory());
-$app->scope = $oldScope;
+$list = ModLatestHelper::getList($params, new Articles(array('ignore_request' => true)));
 
 if ($params->get('automatic_title', 0))
 {

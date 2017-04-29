@@ -16,9 +16,8 @@ use Joomla\Registry\Registry;
  * Menu class
  *
  * @since  1.5
- * @note   Will become abstract in Joomla 4
  */
-class AbstractMenu
+abstract class AbstractMenu
 {
 	/**
 	 * Array to hold the menu items
@@ -99,6 +98,11 @@ class AbstractMenu
 	 */
 	public static function getInstance($client, $options = array())
 	{
+		if (!$client)
+		{
+			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
+		}
+
 		if (empty(self::$instances[$client]))
 		{
 			// Create a Menu object
@@ -349,8 +353,5 @@ class AbstractMenu
 	 *
 	 * @since   1.5
 	 */
-	public function load()
-	{
-		return array();
-	}
+	abstract public function load();
 }

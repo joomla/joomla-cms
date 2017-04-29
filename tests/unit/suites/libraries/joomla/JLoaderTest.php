@@ -297,6 +297,58 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Tests if JLoader can autoload a component.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadComponentClass()
+	{
+		JLoader::registerExtensionRootFolder('Administrator', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Component\\Foo\\Administrator\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader can autoload a module.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadModuleClass()
+	{
+		JLoader::registerExtensionRootFolder('Site', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Module\\FooBar\\Site\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader can autoload a plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadPluginClass()
+	{
+		JLoader::registerExtensionRootFolder('', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Plugin\\Test\\Foo\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader fails to autoload an extension which doesn't exist.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadNotExistingExtensionClass()
+	{
+		JLoader::registerExtensionRootFolder('Administrator', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertFalse(class_exists('Vendor\\Component\\Fooinvalid\\Administrator\\Helper\\Bar'));
+	}
+
+	/**
 	 * Tests if JLoader::applyAliasFor runs automatically when loading a class by its real name
 	 *
 	 * @return  void

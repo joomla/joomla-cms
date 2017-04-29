@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 <?php endif; ?>
 
 <div class="contact-links">
-	<ul class="nav nav-tabs nav-stacked">
+	<ul class="nav nav-pills flex-column">
 		<?php
 		// Letters 'a' to 'e'
 		foreach (range('a', 'e') as $char) :
@@ -38,8 +38,8 @@ defined('_JEXEC') or die;
 			// If no label is present, take the link
 			$label = $label ?: $link;
 			?>
-			<li>
-				<a href="<?php echo $link; ?>" itemprop="url">
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo $link; ?>" itemprop="url">
 					<?php echo $label; ?>
 				</a>
 			</li>
