@@ -326,4 +326,278 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 
 		return $dateObj;
 	}
+
+	/**
+	 * Copies a file or folder to a destination
+	 * If the destination folder or file already exists, it will not overwrite them without
+	 * force.
+	 *
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws MediaFileAdapterFilenotfoundexception
+	 */
+	public function copy($sourcePath, $destinationPath, $force = false)
+	{
+		// Get absolute paths from relative paths
+		$sourcePath = $this->rootPath . $sourcePath;
+		$destinationPath = $this->rootPath . $destinationPath;
+
+		if (!file_exists($sourcePath))
+		{
+			throw new MediaFileAdapterFilenotfoundexception;
+		}
+
+		// Check for existence of the file in destination
+		// if it does not exists simply copy source to destination
+
+		if (is_dir($sourcePath))
+		{
+			$this->copyFolder($sourcePath, $destinationPath, $force);
+		}
+		else
+		{
+			$this->copyFile($sourcePath, $destinationPath, $force);
+		}
+	}
+
+	/**
+	 * Copies a file
+	 *
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	protected function copyFile($sourcePath, $destinationPath, $force = false)
+	{
+		$success = false;
+
+		$fileExists = file_exists($destinationPath);
+		if (!$fileExists)
+		{
+			$success = JFile::copy($sourcePath, $destinationPath);
+		}
+		else
+		{
+			// Overwrite file if it is forced, otherwise skip
+			// We do not allow to copy same file name to a existing folder in destination
+			if ($force && !is_dir($destinationPath))
+			{
+				$success = JFile::copy($sourcePath, $destinationPath);
+			}
+		}
+
+		if (!$success)
+		{
+			throw new Exception('Copy is not possible');
+		}
+	}
+
+	/**
+	 * Copies a folder
+	 *
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	protected function copyFolder($sourcePath, $destinationPath, $force = false)
+	{
+		$success = false;
+
+		if (file_exists($destinationPath))
+		{
+			if (is_dir($destinationPath))
+			{
+				// We need to bypass exception thrown in JFolder when destination exists
+				// So we only copy it in forced condition
+				if ($force)
+				{
+					$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
+				}
+			}
+			else
+			{
+				// Sometimes a file with destination path could exists
+				// If forced we can delete it and copy folder
+				if ($force)
+				{
+					JFile::delete($destinationPath);
+					$success = JFolder::copy($sourcePath, $destinationPath, '', $force);
+				}
+			}
+		}
+		else
+		{
+			// Perform usual copy
+			$success = JFolder::copy($sourcePath, $destinationPath);
+		}
+
+		if (!$success)
+		{
+			throw new Exception('Copy is not possible');
+		}
+	}
+
+	/**
+	 * Moves a file or folder to a destination
+	 * If the destination folder or file already exists, it will not overwrite them without
+	 * force.
+	 *
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws MediaFileAdapterFilenotfoundexception
+	 */
+	public function move($sourcePath, $destinationPath, $force = false)
+	{
+		// Get absolute paths from relative paths
+		$sourcePath = $this->rootPath . $sourcePath;
+		$destinationPath = $this->rootPath . $destinationPath;
+
+		if (!file_exists($sourcePath))
+		{
+			throw new MediaFileAdapterFilenotfoundexception;
+		}
+
+		if (is_dir($sourcePath))
+		{
+			$this->moveFolder($sourcePath, $destinationPath, $force);
+		}
+		else
+		{
+			$this->moveFile($sourcePath, $destinationPath, $force);
+		}
+	}
+
+	/**
+	 * Moves a file
+	 *
+	 * @param   string  $sourcePath       Absolute path of source
+	 * @param   string  $destinationPath  Absolute path of destination
+	 * @param   bool    $force            Set true to overwrite file if exists
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	protected function moveFile($sourcePath, $destinationPath, $force = false)
+	{
+		$success = false;
+		if (!file_exists($destinationPath))
+		{
+			$success  = JFile::move($sourcePath, $destinationPath);
+		}
+		else
+		{
+			if ($force && !is_dir($destinationPath))
+			{
+				$success  = JFile::move($sourcePath, $destinationPath);
+			}
+		}
+
+		if (!$success)
+		{
+			throw new Exception('Move is not possible');
+		}
+	}
+
+	/**
+	 * Moves a folder from source to destination
+	 *
+	 * @param   string  $sourcePath       Source path of the file or directory
+	 * @param   string  $destinationPath  Destination path of the file or directory
+	 * @param   bool    $force            Set true to overwrite files or directories
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	protected function moveFolder($sourcePath, $destinationPath, $force = false)
+	{
+		if (file_exists($destinationPath))
+		{
+			if (is_dir($destinationPath))
+			{
+				// We need to bypass exception thrown in JFolder when destination exists
+				// So we only copy it in forced condition, then delete the source to simulate a move
+
+				$success = false;
+				if ($force)
+				{
+					$copySuccess = JFolder::copy($sourcePath, $destinationPath, '', true);
+					$deleteSuccess = false;
+
+					if ($copySuccess)
+					{
+						$deleteSuccess = JFolder::delete($sourcePath);
+					}
+					else
+					{
+						// Undo previous copy
+						JFolder::delete($destinationPath);
+					}
+
+					$success = $copySuccess && $deleteSuccess;
+				}
+
+				if (!$success)
+				{
+					throw new Exception('Move not possible');
+				}
+			}
+			else
+			{
+				// Sometimes a file with destination path could exists
+				// If forced we can delete it and move folder
+
+				$value = false;
+
+				if ($force)
+				{
+					$deleteSuccess = JFile::delete($destinationPath);
+
+					if ($deleteSuccess)
+					{
+						$value = JFolder::move($sourcePath, $destinationPath);
+					}
+				}
+
+				if ($value !== true)
+				{
+					throw new Exception($value);
+				}
+			}
+		}
+		else
+		{
+			// Perform usual moves
+			$value = JFolder::move($sourcePath, $destinationPath);
+
+			if ($value !== true)
+			{
+				throw new Exception($value);
+			}
+		}
+
+	}
 }
