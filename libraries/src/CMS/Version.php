@@ -209,7 +209,7 @@ final class Version
 	 */
 	public function generateMediaVersion()
 	{
-		return md5($this->getLongVersion() . JFactory::getConfig()->get('secret') . (new \JDate)->toSql());
+		return md5($this->getLongVersion() . \JFactory::getConfig()->get('secret') . (new \JDate)->toSql());
 	}
 
 	/**
