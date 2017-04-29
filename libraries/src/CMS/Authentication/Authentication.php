@@ -1,15 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Authentication
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Authentication;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Event\DispatcherAwareInterface;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 
@@ -18,7 +19,7 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  11.1
  */
-class JAuthentication extends JObject
+class Authentication extends \JObject
 {
 	use DispatcherAwareTrait;
 
@@ -65,7 +66,7 @@ class JAuthentication extends JObject
 	const STATUS_UNKNOWN = 32;
 
 	/**
-	 * @var    JAuthentication  JAuthentication instances container.
+	 * @var    Authentication  JAuthentication instances container.
 	 * @since  11.3
 	 */
 	protected static $instance;
@@ -82,16 +83,16 @@ class JAuthentication extends JObject
 		// Set the dispatcher
 		if (!is_object($dispatcher))
 		{
-			$dispatcher = JFactory::getContainer()->get('dispatcher');
+			$dispatcher = \JFactory::getContainer()->get('dispatcher');
 		}
 
 		$this->setDispatcher($dispatcher);
 
-		$isLoaded = JPluginHelper::importPlugin('authentication');
+		$isLoaded = PluginHelper::importPlugin('authentication');
 
 		if (!$isLoaded)
 		{
-			JLog::add(JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'), \JLog::WARNING, 'jerror');
 		}
 	}
 
@@ -99,7 +100,7 @@ class JAuthentication extends JObject
 	 * Returns the global authentication object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  JAuthentication  The global JAuthentication object
+	 * @return  Authentication  The global Authentication object
 	 *
 	 * @since   11.1
 	 */
@@ -120,19 +121,18 @@ class JAuthentication extends JObject
 	 * @param   array  $credentials  Array holding the user credentials.
 	 * @param   array  $options      Array holding user options.
 	 *
-	 * @return  JAuthenticationResponse  Response object with status variable filled in for last plugin or first successful plugin.
+	 * @return  AuthenticationResponse  Response object with status variable filled in for last plugin or first successful plugin.
 	 *
-	 * @see     JAuthenticationResponse
+	 * @see     AuthenticationResponse
 	 * @since   11.1
 	 */
 	public function authenticate($credentials, $options = array())
 	{
 		// Get plugins
-		$plugins = JPluginHelper::getPlugin('authentication');
+		$plugins = PluginHelper::getPlugin('authentication');
 
 		// Create authentication response
-		JLoader::register('JAuthenticationResponse', __DIR__ . '/response.php');
-		$response = new JAuthenticationResponse;
+		$response = new AuthenticationResponse;
 
 		// Get the dispatcher
 		$dispatcher = $this->getDispatcher();
@@ -141,7 +141,7 @@ class JAuthentication extends JObject
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user
 		 *
-		 * Any errors raised in the plugin should be returned via the JAuthenticationResponse
+		 * Any errors raised in the plugin should be returned via the AuthenticationResponse
 		 * and handled appropriately.
 		 */
 		foreach ($plugins as $plugin)
@@ -155,7 +155,7 @@ class JAuthentication extends JObject
 			else
 			{
 				// Bail here if the plugin can't be created
-				JLog::add(JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), JLog::WARNING, 'jerror');
+				\JLog::add(\JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), \JLog::WARNING, 'jerror');
 				continue;
 			}
 
@@ -195,20 +195,19 @@ class JAuthentication extends JObject
 	/**
 	 * Authorises that a particular user should be able to login
 	 *
-	 * @param   JAuthenticationResponse  $response  response including username of the user to authorise
-	 * @param   array                    $options   list of options
+	 * @param   AuthenticationResponse  $response  response including username of the user to authorise
+	 * @param   array                   $options   list of options
 	 *
-	 * @return  array[JAuthenticationResponse]  results of authorisation
+	 * @return  array[AuthenticationResponse]  results of authorisation
 	 *
 	 * @since  11.2
 	 */
 	public static function authorise($response, $options = array())
 	{
 		// Get plugins in case they haven't been imported already
-		JPluginHelper::importPlugin('user');
-
-		JPluginHelper::importPlugin('authentication');
-		$results = JFactory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
+		PluginHelper::importPlugin('user');
+		PluginHelper::importPlugin('authentication');
+		$results = \JFactory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
 
 		return $results;
 	}

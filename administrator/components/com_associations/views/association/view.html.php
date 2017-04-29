@@ -78,7 +78,7 @@ class AssociationsViewAssociation extends JViewLegacy
 		$input      = $this->app->input;
 		$this->referenceId = $input->get('id', 0, 'int');
 
-		list($extensionName, $typeName) = explode('.', $input->get('itemtype'));
+		list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'));
 
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
@@ -198,13 +198,13 @@ class AssociationsViewAssociation extends JViewLegacy
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-32-apply icon-white"></span>'
+			. 'class="btn btn-sm btn-success"><span class="icon-32-apply icon-white"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-32-apply icon-white"></span>'
+			. 'class="btn btn-sm btn-success"><span class="icon-32-apply icon-white"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 

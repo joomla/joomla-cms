@@ -45,8 +45,11 @@ extract($displayData);
  * @var   mixed    $excluded        The users to exclude from the list of users
  */
 
-JHtml::_('behavior.modal', 'a.modal_' . $id);
-JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+if (!$readonly)
+{
+	JHtml::_('behavior.modal', 'a.modal_' . $id);
+	JHtml::_('script', 'system/fields/fielduser.min.js', array('version' => 'auto', 'relative' => true));
+}
 
 $uri = new JUri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 
@@ -129,3 +132,9 @@ if (!$readonly)
 		class="field-user-input <?php echo $class ? (string) $class : ''?>"
 		data-onchange="<?php echo $this->escape($onchange); ?>">
 </div>
+<<<<<<< HEAD
+=======
+<?php if (!$readonly) : ?>
+	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" data-onchange="<?php echo $this->escape($onchange); ?>" />
+<?php endif; ?>
+>>>>>>> 3.9-dev

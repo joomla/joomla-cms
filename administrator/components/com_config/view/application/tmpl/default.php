@@ -108,7 +108,7 @@ JText::script('MESSAGE');
 					</div>
 				<?php endif; ?>
 				<div id="page-permissions" class="tab-pane">
-					<div class="row-fluid">
+					<div class="row">
 						<?php echo $this->loadTemplate('permissions'); ?>
 					</div>
 				</div>

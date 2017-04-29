@@ -41,7 +41,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th style="width:15%" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:15%" class="hidden-phone">
+							<th style="width:15%" class="hidden-xs-down">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap text-center">

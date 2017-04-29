@@ -13,21 +13,11 @@ defined('_JEXEC') or die;
 
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
-JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 'relative' => true));
 
-JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function($) {
-	$('#extraction_method').change(function(e){
-		extractionMethodHandler('#extraction_method', 'row_ftp');
-	});
-	$('#upload_method').change(function(e){
-		extractionMethodHandler('#upload_method', 'upload_ftp');
-	});
+JHtml::_('behavior.core');
+JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 
-	$('button.submit').on('click', function() {
-		$('div.download_message').show();
-	});
-});");
+JHtml::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <div id="joomlaupdate-wrapper">
@@ -71,7 +61,7 @@ jQuery(document).ready(function($) {
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<?php endif; ?>
 
-	<div class="download_message" style="display:none">
+	<div id="download-message" style="display:none">
 		<p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
 		<div class="joomlaupdate_spinner"></div>
 	</div>

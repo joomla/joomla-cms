@@ -38,10 +38,10 @@ JFactory::getDocument()->addScriptDeclaration("
 	method="post" name="adminForm" id="modules-form"
 	class="form-validate">
 
-	<div class="row-fluid">
+	<div class="row">
 
 		<!-- Begin Content -->
-		<div class="span12">
+		<div class="col-md-12">
 
 			<div class="btn-toolbar">
 				<div class="btn-group">
@@ -80,8 +80,8 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 			<hr>
 
-			<div class="row-fluid">
-				<div class="span12">
+			<div class="row">
+				<div class="col-md-12">
 					<fieldset class="form-horizontal">
 						<div class="control-group">
 							<div class="control-label">

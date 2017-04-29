@@ -18,7 +18,7 @@
 
   .page-title {
     display: inline-block;
-    margin: 0 0 0 25px;
+    margin: 0;
     font-size: 1.3rem;
     font-weight: normal;
     line-height: $header-height;
@@ -46,7 +46,9 @@
       margin-right: 0;
       margin-left: 10px;
     }
-
+    span {
+      margin-left: .4rem;
+    }
   }
 
   .nav-item + .nav-item {

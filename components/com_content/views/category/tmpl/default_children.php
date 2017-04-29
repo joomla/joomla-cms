@@ -37,7 +37,7 @@ $lang  = JFactory::getLanguage();
 				<?php echo $this->escape($child->title); ?></a>
 
 				<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-					<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini float-right"><span class="icon-plus"></span></a>
+					<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right"><span class="icon-plus"></span></a>
 				<?php endif; ?>
 			</h3>
 			<?php else : ?>
@@ -50,7 +50,7 @@ $lang  = JFactory::getLanguage();
 				<?php endif; ?>
 
 				<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-					<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini float-right"><span class="icon-plus"></span></a>
+					<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right"><span class="icon-plus"></span></a>
 				<?php endif; ?>
 			<?php endif; ?>
 			</h3>

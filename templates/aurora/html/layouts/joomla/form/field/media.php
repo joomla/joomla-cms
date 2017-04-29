@@ -119,7 +119,7 @@ $url    = ($readonly ? ''
 	?>
 	<?php if ($showPreview && $showAsTooltip) : ?>
 	<div class="input-prepend input-append">
-		<span rel="popover" class="add-on pop-helper field-media-preview"
+		<span rel="popover" class="input-group-addon pop-helper field-media-preview"
 			title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
 			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
 			<span class="icon-eye" aria-hidden="true"></span>
@@ -129,8 +129,8 @@ $url    = ($readonly ? ''
 	<?php endif; ?>
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>/>
 		<?php if ($disabled != true) : ?>
-			<a class="btn add-on button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
-			<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
+			<a class="btn input-group-addon button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
+			<a class="btn icon-remove hasTooltip input-group-addon button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
 		<?php endif; ?>
 	</div>
 	<?php if ($showPreview && !$showAsTooltip) : ?>

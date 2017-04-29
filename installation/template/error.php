@@ -39,7 +39,7 @@ defined('_JEXEC') or die;
 			<jdoc:include type="message" />
 			<div id="javascript-warning">
 				<noscript>
-					<div class="alert alert-error">
+					<div class="alert alert-danger">
 						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
 					</div>
 				</noscript>
