@@ -13,7 +13,6 @@
 		<folder>js</folder>
 	</media>
 	<administration>
-		<menu img="class:joomlaupdate">com_joomlaupdate</menu>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
