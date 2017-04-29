@@ -365,9 +365,9 @@ class ComponentHelper
 		$contents = null;
 
 		// Check if we have a dispatcher
-		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
+		if (file_exists(JPATH_COMPONENT . '/src/dispatcher.php'))
 		{
-			require_once JPATH_COMPONENT . '/dispatcher.php';
+			require_once JPATH_COMPONENT . '/src/dispatcher.php';
 			$class = ucwords($file) . 'Dispatcher';
 
 			// Check the class exists and implements the dispatcher interface

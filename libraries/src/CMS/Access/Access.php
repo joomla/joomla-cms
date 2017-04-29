@@ -1110,8 +1110,15 @@ class Access
 	{
 		\JLog::add(__METHOD__ . ' is deprecated. Use Access::getActionsFromFile or Access::getActionsFromData instead.', \JLog::WARNING, 'deprecated');
 
+		$file = JPATH_ADMINISTRATOR . '/components/' . $component . '/config/access.xml';
+
+		if (!file_exists($file))
+		{
+			$file = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
+		}
+
 		$actions = self::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			$file,
 			"/access/section[@name='" . $section . "']/"
 		);
 

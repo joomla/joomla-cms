@@ -213,6 +213,8 @@ abstract class Form extends Model
 		}
 
 		// Get the form.
+		\JForm::addFormPath(JPATH_COMPONENT . '/forms');
+		\JForm::addFieldPath(JPATH_COMPONENT . '/fields');
 		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 		\JForm::addFormPath(JPATH_COMPONENT . '/model/form');

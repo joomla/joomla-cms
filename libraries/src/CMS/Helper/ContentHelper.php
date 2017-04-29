@@ -59,8 +59,15 @@ class ContentHelper
 
 		$user = \JFactory::getUser();
 
+		$file = JPATH_ADMINISTRATOR . '/components/' . $component . '/config/access.xml';
+
+		if (!file_exists($file))
+		{
+			$file = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
+		}
+
 		$actions = Access::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
+			$file, '/access/section[@name="component"]/'
 		);
 
 		if ($actions === false)
