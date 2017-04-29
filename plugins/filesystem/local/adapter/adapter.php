@@ -415,11 +415,9 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 			throw new Exception('Copy folder is not possible as destination folder already exists');
 		}
 
-		if (!is_dir($destinationPath))
+		if (is_file($destinationPath) && !JFile::delete($destinationPath))
 		{
-			// Sometimes a file with destination path could exists
-			// We can delete it and copy folder
-			JFile::delete($destinationPath);
+			throw new Exception('Copy folder is not possible as destination folder is a file and can not be deleted');
 		}
 
 		if (!JFolder::copy($sourcePath, $destinationPath, '', $force))
