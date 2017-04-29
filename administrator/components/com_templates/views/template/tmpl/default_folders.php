@@ -16,7 +16,7 @@ ksort($this->files, SORT_STRING);
 		<?php if (is_array($value)) : ?>
 			<li class="folder-select">
 				<a class='folder-url nowrap' data-id='<?php echo base64_encode($key); ?>' href=''>
-                    <span class='icon-folder'>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?></span>
+					<span class='icon-folder'>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?></span>
 				</a>
 				<?php echo $this->folderTree($value); ?>
 			</li>
