@@ -128,13 +128,9 @@ if (!$readonly)
 			<?php endif; ?>
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
-	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
-		class="field-user-input <?php echo $class ? (string) $class : ''?>"
-		data-onchange="<?php echo $this->escape($onchange); ?>">
+	<?php if (!$readonly) : ?>
+        <input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
+            class="field-user-input <?php echo $class ? (string) $class : ''?>"
+            data-onchange="<?php echo $this->escape($onchange); ?>">
+	<?php endif; ?>
 </div>
-<<<<<<< HEAD
-=======
-<?php if (!$readonly) : ?>
-	<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>" data-onchange="<?php echo $this->escape($onchange); ?>" />
-<?php endif; ?>
->>>>>>> 3.9-dev
