@@ -458,11 +458,13 @@ class Article extends Admin
 			{
 				unset($data['created_by']);
 			}
+
 			if (isset($data['modified_by']))
 			{
 				unset($data['modified_by']);
 			}
 		}
+
 		return parent::validate($form, $data, $group);
 	}
 
