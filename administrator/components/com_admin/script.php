@@ -1766,6 +1766,7 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/plugins/jdragdrop/plugin.min.js',
 			// Joomla 3.7.1
 			'/media/editors/tinymce/langs/uk-UA.js',
+			'/media/system/js/fields/calendar-locales/zh.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
