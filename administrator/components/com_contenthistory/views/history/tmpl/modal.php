@@ -115,13 +115,13 @@ JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('versi
 					<td>
 						<?php if ($item->keep_forever) : ?>
 							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
-								onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
+								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')"
 								data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
 								<?php echo JText::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
 							</a>
 						<?php else : ?>
 							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
-								onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
+								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')"
 								data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
 								<?php echo JText::_('JNO'); ?>
 							</a>

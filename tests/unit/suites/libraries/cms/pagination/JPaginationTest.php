@@ -529,8 +529,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderUpIcon()
 	{
 		return array(
-			array(0, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
-			array(2, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(0, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return Joomla.listItemTask(\'cb0\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(2, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return Joomla.listItemTask(\'cb2\',\'orderup\')"><span class="icon-uparrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 			array(2, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
 		);
 	}
@@ -570,8 +570,8 @@ class JPaginationTest extends TestCase
 	public function dataTestOrderDownIcon()
 	{
 		return array(
-			array(0, 100, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
-			array(2, 100, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(0, 100, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return Joomla.listItemTask(\'cb0\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(2, 100, '<a class="btn btn-secondary btn-xs" href="javascript:void(0);" onclick="return Joomla.listItemTask(\'cb2\',\'orderup\')"><span class="icon-downarrow"></span></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 			array(2, 100, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
 		);
 	}

@@ -216,7 +216,7 @@ abstract class JHtmlGrid
 		$alt = $value ? JText::_('JPUBLISHED') : JText::_('JUNPUBLISHED');
 		$action = $value ? JText::_('JLIB_HTML_UNPUBLISH_ITEM') : JText::_('JLIB_HTML_PUBLISH_ITEM');
 
-		return '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
+		return '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
 			. JHtml::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
 	}
 
@@ -273,7 +273,7 @@ abstract class JHtmlGrid
 	 */
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		return '<a href="javascript:saveorder('
+		return '<a href="javascript:Joomla.saveorder('
 			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-xs btn-secondary float-right" title="'
 			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
 	}
@@ -319,38 +319,8 @@ abstract class JHtmlGrid
 
 		if (!$loaded)
 		{
-			// Include jQuery
-			JHtml::_('jquery.framework');
-
-			// Build the behavior script.
-			$js = '
-		jQuery(function($){
-			$actions = $(\'a.move_up, a.move_down, a.grid_true, a.grid_false, a.grid_trash\');
-			$actions.each(function(){
-				$(this).on(\'click\', function(){
-					args = JSON.decode(this.rel);
-					listItemTask(args.id, args.task);
-				});
-			});
-			$(\'input.check-all-toggle\').each(function(){
-				$(this).on(\'click\', function(){
-					if (this.checked) {
-						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
-							this.checked = true;
-						})
-					}
-					else {
-						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
-							this.checked = false;
-						})
-					}
-				});
-			});
-		});';
-
-			// Add the behavior to the document head.
-			$document = JFactory::getDocument();
-			$document->addScriptDeclaration($js);
+			// Include Multiselect
+			JHtml::_('behavior.multiselect');
 
 			$loaded = true;
 		}

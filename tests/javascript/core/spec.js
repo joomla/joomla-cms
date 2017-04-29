@@ -130,6 +130,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 	});
 
+	/** Move these to Multiselect
 	describe('Core Joomla.checkAll', function () {
 		var form = document.getElementById('check-all-form');
 		form.boxchecked = {};
@@ -162,6 +163,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			expect($('#stub-check-test-2')).toBeChecked();
 		});
 	});
+	 */
 
 	describe('Core Joomla.renderMessages and Joomla.removeMessages', function () {
 		var messages = {
@@ -196,6 +198,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 	});
 
+	/** Move these to Multiselect
 	describe('Core Joomla.isChecked', function () {
 		var form = document.getElementById('ischecked-test-form');
 		form.boxchecked = {value: 5};
@@ -238,4 +241,5 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			expect(this.form.filter_order_Dir.value).toEqual('dir')
 		});
 	});
+	*/
 });
