@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
-/*
+/**
  * Helper class to load Categorytree
  *
  * @since  1.6
