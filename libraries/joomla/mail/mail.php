@@ -57,6 +57,9 @@ class JMail extends PHPMailer
 		{
 			$this->SMTPDebug = 4;
 		}
+
+		// Don't disclosure the PHPMailer version
+		$this->XMailer = ' ';
 	}
 
 	/**
