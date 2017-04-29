@@ -1,22 +1,23 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Association
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\Utilities\ArrayHelper;
+namespace Joomla\CMS\Association;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Association Extension Helper
  *
  * @since  3.7.0
  */
-abstract class JAssociationExtensionHelper  implements JAssociationExtensionInterface
+abstract class AssociationExtensionHelper  implements AssociationExtensionInterface
 {
 	/**
 	 * The extension name
