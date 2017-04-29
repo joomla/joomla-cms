@@ -69,25 +69,6 @@ class UsersViewDebuguser extends JViewLegacy
 	public $activeFilters;
 
 	/**
-	 * An array containing the component levels.
-	 *
-	 * @var         array
-	 * @since       __DEPLOY_VERSION__
-	 * @deprecated  4.0 To be removed with Hathor
-	 */
-	public $levels;
-
-	/**
-	 * An array of installed components with a text property containing component name and the value property
-	 * containing the extension element (e.g. plg_system_debug)
-	 *
-	 * @var         stdClass[]
-	 * @since       __DEPLOY_VERSION__
-	 * @deprecated  4.0 To be removed with Hathor
-	 */
-	public $components;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
