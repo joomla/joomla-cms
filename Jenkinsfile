@@ -10,20 +10,12 @@ pipeline {
       }
     }
     stage('Test'){
-      parallel (
-        steps {
-          agent {
-            docker 'rdeutz/docker-phpcs'
-          }
-          sh 'echo php53'
-        },  
-        steps {
-          agent {
-            docker 'rdeutz/docker-phpcs'
-          }
-          sh 'echo php56'
-        }  
-      )
+      steps {
+        agent {
+          docker 'rdeutz/docker-phpcs'
+        }
+        sh 'echo php53'
+      }
     }
   }
 }  
