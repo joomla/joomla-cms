@@ -9,15 +9,11 @@ pipeline {
         sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
       }
     }
-    stage('Test') {
+    stage('Testing') {
       steps {
         parallel(
-          "Test": {
-            agent() {
-              docker 'rdeutz/docker-phpcs'
-            }
-            
-            sh 'echo php53'
+          "Testing": {
+            sh 'echo \'php53\''
             
           },
           "": {
