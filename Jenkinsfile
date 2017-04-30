@@ -9,7 +9,7 @@ pipeline {
             	sh "/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla ."
           }
       }
-    }
+    },
     stage('test') {	
         parallel(
           steps {
