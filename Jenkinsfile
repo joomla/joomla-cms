@@ -16,9 +16,6 @@ pipeline {
         }
         sh 'echo php53'
       }
-      steps {
-        sh 'echo php54'
-      }
     }
   }
 }  
