@@ -10,9 +10,14 @@ pipeline {
       }
     }
     stage('Test'){
-      steps {
-        sh 'echo php53'
-      }  
+      parallel (
+        steps {
+          sh 'echo php53'
+        },  
+        steps {
+          sh 'echo php56'
+        }  
+      )
     }
   }
 }  
