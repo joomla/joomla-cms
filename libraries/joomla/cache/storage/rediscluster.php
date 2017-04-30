@@ -44,19 +44,25 @@ class JCacheStorageRediscluster extends JCacheStorageRedis
 			return false;
 		}
 		$app = JFactory::getApplication();
+
 		$string = $app->get('redis_server_cluster_host_port');
 		$string = str_replace(' ', '', $string);
 		$arr = explode(",",$string);
 		if (empty($arr)) {
 			return false;
 		}
+
 		static::$_redis = new RedisCluster(NULL, $arr);
+
 		// The default option, only send commands to master nodes
 		static::$_redis->setOption(RedisCluster::OPT_SLAVE_FAILOVER, RedisCluster::FAILOVER_NONE);
+
 		// In the event we can't reach a master, and it has slaves, failover for read commands
 		static::$_redis->setOption(RedisCluster::OPT_SLAVE_FAILOVER, RedisCluster::FAILOVER_ERROR);
+
 		// Always distribute readonly commands between masters and slaves, at random
 		static::$_redis->setOption(RedisCluster::OPT_SLAVE_FAILOVER, RedisCluster::FAILOVER_DISTRIBUTE);
+
 		try
 		{
 			static::$_redis->ping();
@@ -84,7 +90,7 @@ class JCacheStorageRediscluster extends JCacheStorageRedis
 		return class_exists('RedisCluster');
 	}
 	/**
-	 * Test to see if the Redis connection is available.
+	 * Test to see if the Redis Cluster connection is available.
 	 *
 	 * @return  boolean
 	 *
