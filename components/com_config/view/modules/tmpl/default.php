@@ -67,7 +67,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				</div>
 			</div>
 
-			<hr class="hr-condensed" />
+			<hr>
 
 			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 

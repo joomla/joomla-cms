@@ -42,7 +42,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 		</div>
 
-		<hr class="hr-condensed" />
+		<hr>
 
 		<div id="page-site" class="tab-pane active">
 			<div class="row">
