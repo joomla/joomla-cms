@@ -355,8 +355,8 @@ class Contact extends Form
 	* Generate column expression for slug or catslug.
 	*
 	* @param   \JDatabaseQuery  $query  Current query instance.
-	* @param   string          $id     Column id name.
-	* @param   string          $alias  Column alias name.
+	* @param   string           $id     Column id name.
+	* @param   string           $alias  Column alias name.
 	*
 	* @return  string
 	*

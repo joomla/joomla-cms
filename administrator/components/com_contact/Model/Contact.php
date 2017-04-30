@@ -492,8 +492,8 @@ class Contact extends Admin
 	 * Preprocess the form.
 	 *
 	 * @param   \JForm   $form   Form object.
-	 * @param   object  $data   Data object.
-	 * @param   string  $group  Group name.
+	 * @param   object   $data   Data object.
+	 * @param   string   $group  Group name.
 	 *
 	 * @return  void
 	 *
