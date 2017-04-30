@@ -1,13 +1,13 @@
 pipeline {
       agent {
-        docker 'joomlaprojects/docker-phpcs'
+        docker 'rdeutz/docker-phpcs'
       }
   stages {
     stage('codestyles') {
       steps {
         parallel(
           "codestyles": {
-            	sh "/root/.composer/vendor/bin/phpcs ."
+            	sh "phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla ."
           },
           "cs2": {
             sh 'php --version'
