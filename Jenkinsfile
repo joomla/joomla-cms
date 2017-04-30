@@ -10,6 +10,9 @@ pipeline {
       }
     }
     stage('Test'){
+      agent {
+        docker 'rdeutz/docker-phpcs'
+      }
       parallel(
         steps {
           sh 'echo php53'
