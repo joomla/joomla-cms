@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Model\ListModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +18,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class ContactModelCategories extends JModelList
+class Categories extends ListModel
 {
 	/**
 	 * Model context string.
@@ -50,7 +52,7 @@ class ContactModelCategories extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$this->setState('filter.extension', $this->_extension);
 
 		// Get the parent id if defined.
@@ -95,7 +97,7 @@ class ContactModelCategories extends JModelList
 	{
 		if (!count($this->_items))
 		{
-			$app = JFactory::getApplication();
+			$app = \JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;
@@ -107,7 +109,7 @@ class ContactModelCategories extends JModelList
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items_cat', 1) || !$params->get('show_empty_categories_cat', 0);
-			$categories = JCategories::getInstance('Contact', $options);
+			$categories = \JCategories::getInstance('Contact', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
 			if (is_object($this->_parent))

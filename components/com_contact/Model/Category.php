@@ -6,9 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
 /**
@@ -18,7 +24,7 @@ use Joomla\Registry\Registry;
  * @subpackage  com_contact
  * @since       1.5
  */
-class ContactModelCategory extends JModelList
+class Category extends ListModel
 {
 	/**
 	 * Category items data
@@ -98,7 +104,7 @@ class ContactModelCategory extends JModelList
 			{
 				$item->params = new Registry($item->params);
 			}
-			$this->tags = new JHelperTags;
+			$this->tags = new TagsHelper;
 			$this->tags->getItemTags('com_contact.contact', $item->id);
 		}
 
@@ -114,7 +120,7 @@ class ContactModelCategory extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$user   = JFactory::getUser();
+		$user   = \JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -160,7 +166,7 @@ class ContactModelCategory extends JModelList
 
 		// Filter by start and end dates.
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(JFactory::getDate()->toSql());
+		$nowDate = $db->quote(\JFactory::getDate()->toSql());
 
 		if ($this->getState('filter.publish_date'))
 		{
@@ -179,7 +185,7 @@ class ContactModelCategory extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Set sortname ordering if selected
@@ -211,8 +217,8 @@ class ContactModelCategory extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication();
-		$params = JComponentHelper::getParams('com_contact');
+		$app = \JFactory::getApplication();
+		$params = ComponentHelper::getParams('com_contact');
 
 		// List state information
 		$format = $app->input->getWord('format');
@@ -264,7 +270,7 @@ class ContactModelCategory extends JModelList
 		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{
@@ -275,7 +281,7 @@ class ContactModelCategory extends JModelList
 			$this->setState('filter.publish_date', true);
 		}
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Load the parameters.
 		$this->setState('params', $params);
@@ -292,7 +298,7 @@ class ContactModelCategory extends JModelList
 	{
 		if (!is_object($this->_item))
 		{
-			$app = JFactory::getApplication();
+			$app = \JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;
@@ -304,7 +310,7 @@ class ContactModelCategory extends JModelList
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-			$categories = JCategories::getInstance('Contact', $options);
+			$categories = \JCategories::getInstance('Contact', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 			if (is_object($this->_item))
 			{
@@ -392,9 +398,9 @@ class ContactModelCategory extends JModelList
 	/**
 	* Generate column expression for slug or catslug.
 	*
-	* @param   JDatabaseQuery  $query  Current query instance.
-	* @param   string          $id     Column id name.
-	* @param   string          $alias  Column alias name.
+	* @param   \JDatabaseQuery  $query  Current query instance.
+	* @param   string           $id     Column id name.
+	* @param   string           $alias  Column alias name.
 	*
 	* @return  string
 	*
@@ -421,14 +427,14 @@ class ContactModelCategory extends JModelList
 	 */
 	public function hit($pk = 0)
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
 		{
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
-			$table = JTable::getInstance('Category', 'JTable');
+			$table = Table::getInstance('Category');
 			$table->load($pk);
 			$table->hit($pk);
 		}

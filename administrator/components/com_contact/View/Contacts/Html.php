@@ -6,15 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Administrator\View\Contacts;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 
 /**
  * View class for a list of contacts.
  *
  * @since  1.6
  */
-class ContactViewContacts extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * An array of items
@@ -26,21 +32,21 @@ class ContactViewContacts extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination
+	 * @var  \JPagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	public $filterForm;
 
@@ -81,7 +87,7 @@ class ContactViewContacts extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -96,16 +102,16 @@ class ContactViewContacts extends JViewLegacy
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = JHtmlSidebar::render();
+			$this->sidebar = \JHtmlSidebar::render();
 		}
 		else
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
 			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
-				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 
 				// Also, unset the active language filter so the search tools is not open by default with this filter.
@@ -128,29 +134,29 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
-		$user  = JFactory::getUser();
+		$canDo = ContentHelper::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
+		$user  = \JFactory::getUser();
 
-		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
+		\JToolbarHelper::title(\JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0)
 		{
-			JToolbarHelper::addNew('contact.add');
+			\JToolbarHelper::addNew('contact.add');
 		}
 
 		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
 		{
-			JToolbarHelper::editList('contact.edit');
+			\JToolbarHelper::editList('contact.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('contacts.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-			JToolbarHelper::custom('contacts.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			JToolbarHelper::archiveList('contacts.archive');
-			JToolbarHelper::checkin('contacts.checkin');
+			\JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
+			\JToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			\JToolbarHelper::custom('contacts.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+			\JToolbarHelper::custom('contacts.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
+			\JToolbarHelper::archiveList('contacts.archive');
+			\JToolbarHelper::checkin('contacts.checkin');
 		}
 
 		// Add a batch button
@@ -158,32 +164,32 @@ class ContactViewContacts extends JViewLegacy
 			&& $user->authorise('core.edit', 'com_contact')
 			&& $user->authorise('core.edit.state', 'com_contact'))
 		{
-			$title = JText::_('JTOOLBAR_BATCH');
+			$title = \JText::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('joomla.toolbar.batch');
+			// Instantiate a new \JLayoutFile instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
-			JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
+			\JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::trash('contacts.trash');
+			\JToolbarHelper::trash('contacts.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))
 		{
-			JToolbarHelper::preferences('com_contact');
+			\JToolbarHelper::preferences('com_contact');
 		}
 
-		JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
+		\JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
 
-		JHtmlSidebar::setAction('index.php?option=com_contact');
+		\JHtmlSidebar::setAction('index.php?option=com_contact');
 	}
 
 	/**
@@ -196,15 +202,15 @@ class ContactViewContacts extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.name' => JText::_('JGLOBAL_TITLE'),
-			'category_title' => JText::_('JCATEGORY'),
-			'ul.name' => JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
-			'a.featured' => JText::_('JFEATURED'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.ordering' => \JText::_('JGRID_HEADING_ORDERING'),
+			'a.published' => \JText::_('JSTATUS'),
+			'a.name' => \JText::_('JGLOBAL_TITLE'),
+			'category_title' => \JText::_('JCATEGORY'),
+			'ul.name' => \JText::_('COM_CONTACT_FIELD_LINKED_USER_LABEL'),
+			'a.featured' => \JText::_('JFEATURED'),
+			'a.access' => \JText::_('JGRID_HEADING_ACCESS'),
+			'a.language' => \JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' => \JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

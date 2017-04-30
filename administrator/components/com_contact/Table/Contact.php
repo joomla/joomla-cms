@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -17,7 +20,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.0
  */
-class ContactTableContact extends JTable
+class Contact extends Table
 {
 	/**
 	 * Ensure the params and metadata in json encoded in the bind method
@@ -30,13 +33,14 @@ class ContactTableContact extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object
+	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_contact.contact';
+
 		parent::__construct('#__contact_details', 'id', $db);
 	}
 
@@ -58,8 +62,8 @@ class ContactTableContact extends JTable
 			$this->params = (string) $registry;
 		}
 
-		$date   = JFactory::getDate()->toSql();
-		$userId = JFactory::getUser()->id;
+		$date   = \JFactory::getDate()->toSql();
+		$userId = \JFactory::getUser()->id;
 
 		$this->modified = $date;
 
@@ -102,17 +106,17 @@ class ContactTableContact extends JTable
 		}
 
 		// Store utf8 email as punycode
-		$this->email_to = JStringPunycode::emailToPunycode($this->email_to);
+		$this->email_to = \JStringPunycode::emailToPunycode($this->email_to);
 
 		// Convert IDN urls to punycode
-		$this->webpage = JStringPunycode::urlToPunycode($this->webpage);
+		$this->webpage = \JStringPunycode::urlToPunycode($this->webpage);
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Contact', 'ContactTable');
+		$table = Table::getInstance('Contact', __NAMESPACE__ . '\\');
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}
@@ -125,7 +129,7 @@ class ContactTableContact extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     JTable::check
+	 * @see     \JTable::check
 	 * @since   1.5
 	 */
 	public function check()
@@ -143,9 +147,9 @@ class ContactTableContact extends JTable
 
 		$this->default_con = (int) $this->default_con;
 
-		if (JFilterInput::checkAttribute(array('href', $this->webpage)))
+		if (\JFilterInput::checkAttribute(array('href', $this->webpage)))
 		{
-			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
+			$this->setError(\JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
 			return false;
 		}
@@ -153,7 +157,7 @@ class ContactTableContact extends JTable
 		// Check for valid name
 		if (trim($this->name) == '')
 		{
-			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(\JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -164,7 +168,7 @@ class ContactTableContact extends JTable
 		// Check for valid category
 		if (trim($this->catid) == '')
 		{
-			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));
+			$this->setError(\JText::_('COM_CONTACT_WARNING_CATEGORY'));
 
 			return false;
 		}
@@ -178,7 +182,7 @@ class ContactTableContact extends JTable
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
-			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			$this->setError(\JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
 			return false;
 		}
@@ -255,11 +259,11 @@ class ContactTableContact extends JTable
 			$this->alias = $this->name;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
+		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return $this->alias;

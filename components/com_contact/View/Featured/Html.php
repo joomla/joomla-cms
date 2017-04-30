@@ -6,17 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Featured View class
  *
  * @since  1.6
  */
-class ContactViewFeatured extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The item model state
@@ -29,7 +30,7 @@ class ContactViewFeatured extends JViewLegacy
 	/**
 	 * The item details
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  1.6.0
 	 */
 	protected $items;
@@ -37,7 +38,7 @@ class ContactViewFeatured extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    \JPagination
 	 * @since  1.6.0
 	 */
 	protected $pagination;
@@ -89,13 +90,13 @@ class ContactViewFeatured extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  Exception on failure, void on success.
+	 * @return  mixed  \Exception on failure, void on success.
 	 *
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$app    = JFactory::getApplication();
+		$app    = \JFactory::getApplication();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -109,7 +110,7 @@ class ContactViewFeatured extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Prepare the data.
@@ -126,9 +127,9 @@ class ContactViewFeatured extends JViewLegacy
 			{
 				$item->email_to = trim($item->email_to);
 
-				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to))
+				if (!empty($item->email_to) && \JMailHelper::isEmailAddress($item->email_to))
 				{
-					$item->email_to = JHtml::_('email.cloak', $item->email_to);
+					$item->email_to = \JHtml::_('email.cloak', $item->email_to);
 				}
 				else
 				{
@@ -164,7 +165,7 @@ class ContactViewFeatured extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -178,7 +179,7 @@ class ContactViewFeatured extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', \JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -189,11 +190,11 @@ class ContactViewFeatured extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

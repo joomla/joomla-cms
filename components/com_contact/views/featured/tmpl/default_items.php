@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+
 JHtml::_('behavior.core');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
