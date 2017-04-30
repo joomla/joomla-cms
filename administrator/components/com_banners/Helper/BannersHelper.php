@@ -90,8 +90,6 @@ class BannersHelper extends ContentHelper
 			return false;
 		}
 
-		Table::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-
 		foreach ($rows as $row)
 		{
 			$purchaseType = $row->purchase_type;
