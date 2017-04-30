@@ -7,7 +7,7 @@ pipeline {
       steps {
         parallel(
           "codestyles": {
-            	sh "whoami"
+            	sh "/root/.composer/vendor/bin/phpcs ."
           },
           "cs2": {
             sh 'php --version'
