@@ -1,21 +1,31 @@
 pipeline {
-      agent none
+  agent none
   stages {
     stage('codestyles') {
       agent {
         docker 'rdeutz/docker-phpcs'
       }
       steps {
-      	sh "/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla ."
+        sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
       }
     }
-    stage('Test'){
+    stage('Test') {
       steps {
-        agent {
-          docker 'rdeutz/docker-phpcs'
-        }
-        sh 'echo php53'
+        parallel(
+          "Test": {
+            agent() {
+              docker 'rdeutz/docker-phpcs'
+            }
+            
+            sh 'echo php53'
+            
+          },
+          "": {
+            sh 'echo \'php54\''
+            
+          }
+        )
       }
     }
   }
-}  
+}
