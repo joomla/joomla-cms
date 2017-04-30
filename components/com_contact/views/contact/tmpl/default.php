@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+
 $cparams = JComponentHelper::getParams('com_media');
 $tparams = $this->params;
 jimport('joomla.html.html.bootstrap');

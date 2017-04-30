@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Form;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContactControllerContact extends JControllerForm
+class Contact extends Form
 {
 	/**
 	 * Method override to check if you can add a new record.
@@ -35,7 +37,7 @@ class ContactControllerContact extends JControllerForm
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = JFactory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = \JFactory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -76,7 +78,7 @@ class ContactControllerContact extends JControllerForm
 			return false;
 		}
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Check if can edit own core.edit.own.
 		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $item->catid) && $item->created_by == $user->id;
@@ -96,14 +98,14 @@ class ContactControllerContact extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		/** @var ContactModelContact $model */
-		$model = $this->getModel('Contact', '', array());
+		/** @var \Joomla\Component\Contact\Administrator\Model\Contact $model */
+		$model = $this->getModel('Contact', 'Administrator', array());
 
 		// Preset the redirect
-		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

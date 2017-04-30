@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Model\ListModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6.0
  */
-class ContactModelFeatured extends JModelList
+class Featured extends ListModel
 {
 	/**
 	 * Constructor.
@@ -75,7 +79,7 @@ class ContactModelFeatured extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -107,7 +111,7 @@ class ContactModelFeatured extends JModelList
 
 			// Filter by start and end dates.
 			$nullDate = $db->quote($db->getNullDate());
-			$date = JFactory::getDate();
+			$date = \JFactory::getDate();
 			$nowDate = $db->quote($date->toSql());
 
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
@@ -117,7 +121,7 @@ class ContactModelFeatured extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Add the list ordering clause.
@@ -140,8 +144,8 @@ class ContactModelFeatured extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication();
-		$params = JComponentHelper::getParams('com_contact');
+		$app = \JFactory::getApplication();
+		$params = ComponentHelper::getParams('com_contact');
 
 		// List state information
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
@@ -164,7 +168,7 @@ class ContactModelFeatured extends JModelList
 		}
 		$this->setState('list.direction', $listOrder);
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{
 			// Limit to published for people who can't edit or edit.state.
@@ -174,7 +178,7 @@ class ContactModelFeatured extends JModelList
 			$this->setState('filter.publish_date', true);
 		}
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Load the parameters.
 		$this->setState('params', $params);

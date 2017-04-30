@@ -6,20 +6,25 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Administrator\View\Contact;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Cms\Helper\ContentHelper;
 
 /**
  * View to edit a contact.
  *
  * @since  1.6
  */
-class ContactViewContact extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
-	 * The JForm object
+	 * The \JForm object
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	protected $form;
 
@@ -33,7 +38,7 @@ class ContactViewContact extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
@@ -54,11 +59,11 @@ class ContactViewContact extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -85,17 +90,17 @@ class ContactViewContact extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo = JHelperContent::getActions('com_contact', 'category', $this->item->catid);
+		$canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 
-		JToolbarHelper::title($isNew ? JText::_('COM_CONTACT_MANAGER_CONTACT_NEW') : JText::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address contact');
+		\JToolbarHelper::title($isNew ? \JText::_('COM_CONTACT_MANAGER_CONTACT_NEW') : \JText::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address contact');
 
 		// Build the actions for new and existing records.
 		if ($isNew)
@@ -103,7 +108,7 @@ class ContactViewContact extends JViewLegacy
 			// For new records, check the create permission.
 			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
 			{
-				JToolbarHelper::saveGroup(
+				\JToolbarHelper::saveGroup(
 					[
 						['apply', 'contact.apply'],
 						['save', 'contact.save'],
@@ -113,7 +118,7 @@ class ContactViewContact extends JViewLegacy
 				);
 			}
 
-			JToolbarHelper::cancel('contact.cancel');
+			\JToolbarHelper::cancel('contact.cancel');
 		}
 		else
 		{
@@ -141,20 +146,20 @@ class ContactViewContact extends JViewLegacy
 				$toolbarButtons[] = ['save2copy', 'contact.save2copy'];
 			}
 
-			JToolbarHelper::saveGroup(
+			\JToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
-			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
-				JToolbarHelper::versions('com_contact.contact', $this->item->id);
+				\JToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}
 
-			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
 	}
 }

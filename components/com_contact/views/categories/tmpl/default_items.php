@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+
 JHtml::_('bootstrap.tooltip');
 
 $class = ' class="first"';

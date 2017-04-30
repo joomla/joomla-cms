@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,14 +19,14 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContactModelContacts extends JModelList
+class Contacts extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
+	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -52,7 +55,7 @@ class ContactModelContacts extends JModelList
 				'level', 'c.level',
 			);
 
-			$assoc = JLanguageAssociations::isEnabled();
+			$assoc = Associations::isEnabled();
 
 			if ($assoc)
 			{
@@ -77,7 +80,7 @@ class ContactModelContacts extends JModelList
 	 */
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -133,7 +136,7 @@ class ContactModelContacts extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -142,7 +145,7 @@ class ContactModelContacts extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -200,7 +203,7 @@ class ContactModelContacts extends JModelList
 			);
 
 		// Join over the associations.
-		$assoc = JLanguageAssociations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{

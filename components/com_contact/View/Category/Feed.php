@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contact\Site\View\Category;
 
 defined('_JEXEC') or die;
+
+use Joomla\Cms\View\CategoryFeed;
 
 /**
  * HTML View class for the Contact component
  *
  * @since  1.5
  */
-class ContactViewCategory extends JViewCategoryfeed
+class Feed extends CategoryFeed
 {
 	/**
 	 * @var    string  The name of the view to link individual items to
