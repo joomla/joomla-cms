@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 /**
- * Test class for JCacheStorageRedis.
+ * Test class for JCacheStorageRediscluster.
  */
 class JCacheStorageRedisclusterTest extends TestCaseCache
 {
