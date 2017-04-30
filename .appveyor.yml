@@ -33,7 +33,7 @@ install:
           $VC = "vc14"
           $PHPBuild = "x64"
         }
-    - cinst -y sqlite
+    - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
     # Get the MSSQL DLL's
     - ps: >-
