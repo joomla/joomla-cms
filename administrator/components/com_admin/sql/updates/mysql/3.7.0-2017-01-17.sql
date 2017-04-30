@@ -1,2 +1,3 @@
--- Sync menutype for admin menu and set client_id correct
-UPDATE `#__menu` SET `menutype` = 'main', `client_id` = 1  WHERE `menutype` = 'main' OR `menutype` = 'menu';
+-- Replace menutype = 'main' is reserved for backend so replace it
+UPDATE `#__menu` SET `#__menu`.`menutype` = 'menutype_main_is_reserved', `client_id` = 1 WHERE `#__menu`.`menutype` = 'main';
+UPDATE `#__menu_types` SET `#__menu_types`.`menutype` = 'menutype_main_is_reserved', `client_id` = 1 WHERE  `#__menu_types`.`menutype` = 'main';
