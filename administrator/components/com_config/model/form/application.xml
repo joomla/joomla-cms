@@ -154,7 +154,6 @@
 			size="100"
 		/>
 
-
 		<field
 			name="redis_server_host"
 			type="text"
