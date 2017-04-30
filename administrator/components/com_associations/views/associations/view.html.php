@@ -60,6 +60,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 * @return  void
 	 *
 	 * @since   3.7.0
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{

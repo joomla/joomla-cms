@@ -313,6 +313,8 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 * @return  mixed  Data from Google.
 	 *
 	 * @since   12.3
+	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public function save($match = '*')
 	{

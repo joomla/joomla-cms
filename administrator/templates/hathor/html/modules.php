@@ -23,8 +23,12 @@ defined('_JEXEC') or die;
  * two arguments.
  */
 
-/*
+/**
  * Module chrome for rendering the module in a submenu
+ *
+ * @param stdClass  $module   The module object
+ * @param Registry  $params   The module parameters
+ * @param array     $attribs  The module attributes
  */
 function modChrome_xhtmlid($module, &$params, &$attribs)
 {

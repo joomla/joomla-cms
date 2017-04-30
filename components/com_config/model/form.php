@@ -129,7 +129,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 	 * @param   string   $source   The form source. Can be XML string if file flag is set to false.
 	 * @param   array    $options  Optional array of options for the form creation.
 	 * @param   boolean  $clear    Optional argument to force load a new form.
-	 * @param   string   $xpath    An optional xpath to search for the fields.
+	 * @param   string|boolean   $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  mixed  JForm object on success, False on error.
 	 *

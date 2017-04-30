@@ -204,7 +204,7 @@ class JProfiler
 	 *
 	 * @since   12.1
 	 */
-	public function setStart($startTime = 0, $startMem = 0)
+	public function setStart($startTime = 0.0, $startMem = 0)
 	{
 		$this->start       = (double) $startTime;
 		$this->previousMem = (int) $startMem / 1048576;

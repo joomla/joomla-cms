@@ -92,7 +92,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @since   12.3
 	 */
-	public function createAlbum($userID = 'default', $title = '', $access = 'private', $summary = '', $location = '', $time = false, $keywords = array())
+	public function createAlbum($userID = 'default', $title = '', $access = 'private', $summary = '', $location = '', $time = null, $keywords = array())
 	{
 		if ($this->isAuthenticated())
 		{

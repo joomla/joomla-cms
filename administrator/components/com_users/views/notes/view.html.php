@@ -58,6 +58,7 @@ class UsersViewNotes extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 *
 	 * @since   2.5
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{

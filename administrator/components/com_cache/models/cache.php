@@ -176,6 +176,8 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache instance.
 	 *
+	 * @param int|null  $clientId  The client identifier. 1 for administrator, 0 for site.
+	 *
 	 * @return JCacheController
 	 */
 	public function getCache($clientId = null)
