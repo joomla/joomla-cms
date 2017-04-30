@@ -284,7 +284,7 @@ class JCacheStorageRedis extends JCacheStorage
 			return false;
 		}
 
-		return (bool) static::$_redis->delete($this->_getCacheId($id, $group));
+		return static::$_redis->del($this->_getCacheId($id, $group))>0;
 	}
 
 	/**
@@ -320,12 +320,12 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode == 'group')
 			{
-				static::$_redis->delete($key);
+				static::$_redis->del($key);
 			}
 
 			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode != 'group')
 			{
-				static::$_redis->delete($key);
+				static::$_redis->del($key);
 			}
 		}
 
