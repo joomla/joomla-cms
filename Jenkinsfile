@@ -10,28 +10,30 @@ pipeline {
       }
     }
     stage('Testing') {
-      parallel(
-        "Testing-PHP53" : {
-          stage('Testing-PHP53') {
-            agent {
-              docker 'rdeutz/docker-php56'
+      steps {
+        parallel(
+          "Testing-PHP53" : {
+            stage('Testing-PHP53') {
+              agent {
+                docker 'rdeutz/docker-php56'
+              }
+              steps {
+                sh 'echo "php53"'
+              }
+            }        
+          },
+          "Testing-PHP56" : {
+            stage('Testing-PHP56') {
+              agent {
+                docker 'rdeutz/docker-php56'
+              }
+              steps {
+                sh 'echo "php56"'
+              }
             }
-            steps {
-              sh 'echo "php53"'
-            }
-          }        
-        },
-        "Testing-PHP56" : {
-          stage('Testing-PHP56') {
-            agent {
-              docker 'rdeutz/docker-php56'
-            }
-            steps {
-              sh 'echo "php56"'
-            }
-          }
-        }  
-      )     
+          }  
+        )     
+      }
     }
   }
 }
