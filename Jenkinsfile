@@ -7,7 +7,7 @@ pipeline {
       steps {
         parallel(
           "codestyles": {
-            	sh "phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla ."
+            	sh "/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla ."
           },
           "cs2": {
             sh 'php --version'
