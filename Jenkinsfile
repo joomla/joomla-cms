@@ -15,7 +15,8 @@ pipeline {
         docker 'rdeutz/docker-php56'
       }
       steps {
-        sh 'phpunit'
+        sh 'echo $(date)'
+        //sh 'phpunit'
       }
     }
     stage('Testing-Javascript') {
@@ -23,6 +24,17 @@ pipeline {
         docker 'joomlaprojects/docker-systemtests'
       }
       steps {
+        sh 'echo $(date)'
+        sh 'apt-get install nodejs npm'
+        sh 'ln -s /usr/bin/nodejs /usr/bin/node'
+        sh 'export DISPLAY=:0'
+        sh 'Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &'
+        sh 'sleep 3'
+        sh 'fluxbox  > /dev/null 2>&1 &'
+        sh 'cd tests/javascript'
+        sh 'npm install'
+        sh 'cd ../..'
+        sh 'tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run'
         sh 'echo $(date)'
       }
     }
