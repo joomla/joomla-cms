@@ -24,8 +24,6 @@ install:
     - IF EXIST C:\tools\php (SET PHP=0)
     - ps: >-
           appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
-          $VC = "vc14"
-          $PHPBuild = "x64"
     - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
     # Get the MSSQL DLL's
@@ -62,8 +60,8 @@ install:
         If ($env:PHP -eq "1") {
           $wincache = "2.0.0.8"
           cd c:\tools\php\ext
-          appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip
-          7z x -y php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip > $null
+          appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-vc14-x64.zip
+          7z x -y php_wincache-$($wincache)-$($env:php_ver_target)-nts-vc14-x64.zip > $null
           Remove-Item C:\tools\php\ext* -include .zip
           cd c:\tools\php}
     - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
