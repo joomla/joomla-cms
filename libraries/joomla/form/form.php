@@ -704,7 +704,7 @@ class JForm
 	 * method will move on to the next field to load.
 	 *
 	 * @param   string  $data     The name of an XML string or object.
-	 * @param   bool  $replace  Flag to toggle whether form fields should be replaced if a field
+	 * @param   bool    $replace  Flag to toggle whether form fields should be replaced if a field
 	 *                            already exists with the same group/name.
 	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
 	 *
@@ -828,7 +828,7 @@ class JForm
 	 * to false.
 	 *
 	 * @param   string  $file   The filesystem path of an XML file.
-	 * @param   bool  $reset  Flag to toggle whether form fields should be replaced if a field
+	 * @param   bool    $reset  Flag to toggle whether form fields should be replaced if a field
 	 *                          already exists with the same group/name.
 	 * @param   string|boolean  $xpath  An optional xpath to search for the fields.
 	 *
