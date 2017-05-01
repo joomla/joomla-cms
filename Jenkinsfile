@@ -14,7 +14,7 @@ pipeline {
         docker 'rdeutz/docker-php56'
       }
       steps {
-        sh 'phpunit --version'
+        sh 'phpunit'
       }
     }
     stage('Testing-Javascript') {
