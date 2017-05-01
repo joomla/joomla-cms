@@ -69,8 +69,6 @@ class AssociationsViewAssociation extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors), 500);
-
-			return false;
 		}
 
 		$this->app  = JFactory::getApplication();
