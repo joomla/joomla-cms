@@ -6,7 +6,8 @@ pipeline {
         docker 'rdeutz/docker-phpcs'
       }
       steps {
-        sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
+        sh 'echo $(date)'
+        //sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
       }
     }
     stage('Testing-PHP5') {
