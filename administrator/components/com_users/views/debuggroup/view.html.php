@@ -54,7 +54,7 @@ class UsersViewDebuggroup extends JViewLegacy
 		// Access check.
 		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
 		{
-			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$this->actions       = $this->get('DebugActions');
