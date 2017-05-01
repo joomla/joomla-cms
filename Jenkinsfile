@@ -17,5 +17,13 @@ pipeline {
         sh 'phpunit --version'
       }
     }
+    stage('Testing-Javascrip') {
+      agent {
+        docker 'joomlaprojects/docker-systemtests'
+      }
+      steps {
+        sh 'echo $(date)'
+      }
+    }
   }
 }
