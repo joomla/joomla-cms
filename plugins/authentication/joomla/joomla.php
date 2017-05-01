@@ -47,6 +47,12 @@ class PlgAuthenticationJoomla extends JPlugin
 			->from('#__users')
 			->where('username=' . $db->quote($credentials['username']));
 
+		// should we check the email too=
+		if((bool)$this->params->get('login_with_email_allowed', 0))
+		{
+			$query->orWhere($db->qn('email') . ' = ' . $db->q($credentials['username']));
+		}
+
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
@@ -60,6 +66,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				$user               = JUser::getInstance($result->id);
 				$response->email    = $user->email;
 				$response->fullname = $user->name;
+				$response->username = $user->username;
 
 				if (JFactory::getApplication()->isClient('administrator'))
 				{

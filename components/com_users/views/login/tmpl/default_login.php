@@ -11,6 +11,21 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+
+$isJoomlaAuthenticationEnabled = JPluginHelper::isEnabled('authentication' , 'joomla');
+
+if($isJoomlaAuthenticationEnabled)
+{
+	$jAuthPlugin                = JPluginHelper::getPlugin('authentication', 'joomla');
+	$jAuthPluginParams          = new Joomla\Registry\Registry($jAuthPlugin->params);
+	$isLoginWithEmailAllowed    = (bool)$jAuthPluginParams->get('login_with_email_allowed');
+
+	if($isJoomlaAuthenticationEnabled && $isLoginWithEmailAllowed)
+	{
+		$this->form->setFieldAttribute('username','label', JText::_('COM_USERS_LOGIN_USERNAME_OR_EMAIL_LABEL'));
+	}
+}
+
 ?>
 <div class="login<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>

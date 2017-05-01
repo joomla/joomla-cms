@@ -14,6 +14,21 @@ JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helper
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 
+$isJoomlaAuthenticationEnabled = JPluginHelper::isEnabled('authentication' , 'joomla');
+$usernameTextToken             = 'MOD_LOGIN_VALUE_USERNAME';
+
+if($isJoomlaAuthenticationEnabled)
+{
+    $jAuthPlugin                = JPluginHelper::getPlugin('authentication', 'joomla');
+    $jAuthPluginParams          = new Joomla\Registry\Registry($jAuthPlugin->params);
+    $isLoginWithEmailAllowed    = (bool)$jAuthPluginParams->get('login_with_email_allowed');
+
+    if($isJoomlaAuthenticationEnabled && $isLoginWithEmailAllowed)
+    {
+	    $usernameTextToken = 'MOD_LOGIN_VALUE_USERNAME_OR_EMAIL';
+    }
+}
+
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-inline">
 	<?php if ($params->get('pretext')) : ?>
@@ -27,14 +42,14 @@ JHtml::_('bootstrap.tooltip');
 				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-prepend">
 						<span class="add-on">
-							<span class="icon-user hasTooltip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
-							<label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+							<span class="icon-user hasTooltip" title="<?php echo JText::_($usernameTextToken); ?>"></span>
+							<label for="modlgn-username" class="element-invisible"><?php echo JText::_($usernameTextToken); ?></label>
 						</span>
-						<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>" />
+						<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_($usernameTextToken); ?>" />
 					</div>
 				<?php else : ?>
-					<label for="modlgn-username"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-					<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>" />
+					<label for="modlgn-username"><?php echo JText::_($usernameTextToken); ?></label>
+					<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_($usernameTextToken); ?>" />
 				<?php endif; ?>
 			</div>
 		</div>
