@@ -54,7 +54,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			$redirect = JUri::base();
 		}
 
-		$moduleData = (new \Joomla\Component\Modules\Administrator\Model\Module())->getItem($this->input->getInt('id'));
+		$moduleData = (new \Joomla\Component\Modules\Administrator\Model\Module)->getItem($this->input->getInt('id'));
 
 		if (!$moduleData)
 		{

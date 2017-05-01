@@ -164,7 +164,7 @@ abstract class Dispatcher implements DispatcherInterface
 		$namespace = rtrim($this->namespace, '\\') . '\\';
 
 		// Set up the client
-		$client = $client ? $client : ucfirst($this->app->getName()) . '\\';
+		$client = $client ? $client : ucfirst($this->app->getName());
 
 		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
 
