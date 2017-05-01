@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_stats
  *
- * @package     Joomla.Site
- * @subpackage  mod_stats
- * @since       1.5
+ * @since  1.5
  */
 class ModStatsHelper
 {
@@ -140,6 +138,7 @@ class ModStatsHelper
 				$rows[$i] = new stdClass;
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->data  = $hits + $increase;
+				$i++;
 			}
 		}
 
