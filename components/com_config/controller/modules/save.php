@@ -59,11 +59,13 @@ class ConfigControllerModulesSave extends JControllerBase
 			$redirect = '&return=' . $returnUri;
 		}
 
-		// Access backend com_modules to be done
-		JLoader::register('ModulesControllerModule', JPATH_ADMINISTRATOR . '/components/com_modules/controllers/module.php');
-		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');
+		JLoader::register('ModulesDispatcher', JPATH_ADMINISTRATOR . '/components/com_modules/dispatcher.php');
 
-		$controllerClass = new ModulesControllerModule;
+		$app = \Joomla\CMS\Application\CmsApplication::getInstance('administrator');
+		$app->loadLanguage($this->app->getLanguage());
+		$dispatcher      = new ModulesDispatcher($app, $this->input);
+
+		$controllerClass = $dispatcher->getController('Module');
 
 		// Get a document object
 		$document = JFactory::getDocument();

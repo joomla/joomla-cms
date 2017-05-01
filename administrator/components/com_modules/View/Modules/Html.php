@@ -6,15 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\View\Modules;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View class for a list of modules.
  *
  * @since  1.6
  */
-class ModulesViewModules extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * An array of items
@@ -26,21 +31,21 @@ class ModulesViewModules extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination
+	 * @var  \JPagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    JForm
+	 * @var    \JForm
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $filterForm;
@@ -82,7 +87,7 @@ class ModulesViewModules extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// We don't need the toolbar in the modal window.
@@ -97,7 +102,7 @@ class ModulesViewModules extends JViewLegacy
 			$this->filterForm->removeField('client_id', '');
 
 			// If in the frontend state and language should not activate the search tools.
-			if (JFactory::getApplication()->isClient('site'))
+			if (\JFactory::getApplication()->isClient('site'))
 			{
 				unset($this->activeFilters['state']);
 				unset($this->activeFilters['language']);
@@ -105,7 +110,7 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		return parent::display($tpl);
 	}
@@ -120,55 +125,55 @@ class ModulesViewModules extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state = $this->get('State');
-		$canDo = JHelperContent::getActions('com_modules');
-		$user  = JFactory::getUser();
+		$canDo = ContentHelper::getActions('com_modules');
+		$user  = \JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = \JToolbar::getInstance('toolbar');
 
 		if ($state->get('client_id') == 1)
 		{
-			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+			\JToolbarHelper::title(\JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+			\JToolbarHelper::title(\JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.newmodule');
+			// Instantiate a new \JLayoutFile instance and render the layout
+			$layout = new FileLayout('toolbar.newmodule');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'new');
 		}
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::editList('module.edit');
+			\JToolbarHelper::editList('module.edit');
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+			\JToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::checkin('modules.checkin');
+			\JToolbarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
+			\JToolbarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			\JToolbarHelper::checkin('modules.checkin');
 		}
 
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			JHtml::_('bootstrap.renderModal', 'collapseModal');
-			$title = JText::_('JTOOLBAR_BATCH');
+			\JHtml::_('bootstrap.renderModal', 'collapseModal');
+			$title = \JText::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('joomla.toolbar.batch');
+			// Instantiate a new \JLayoutFile instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -176,23 +181,23 @@ class ModulesViewModules extends JViewLegacy
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::trash('modules.trash');
+			\JToolbarHelper::trash('modules.trash');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolbarHelper::preferences('com_modules');
+			\JToolbarHelper::preferences('com_modules');
 		}
 
-		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+		\JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 
-		if (JHtmlSidebar::getEntries())
+		if (\JHtmlSidebar::getEntries())
 		{
-			$this->sidebar = JHtmlSidebar::render();
+			$this->sidebar = \JHtmlSidebar::render();
 		}
 	}
 
@@ -208,26 +213,26 @@ class ModulesViewModules extends JViewLegacy
 		if ($this->getLayout() == 'default')
 		{
 			return array(
-				'ordering'       => JText::_('JGRID_HEADING_ORDERING'),
-				'a.published'    => JText::_('JSTATUS'),
-				'a.title'        => JText::_('JGLOBAL_TITLE'),
-				'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
-				'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
-				'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
-				'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
-				'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
-				'a.id'           => JText::_('JGRID_HEADING_ID')
+				'ordering'       => \JText::_('JGRID_HEADING_ORDERING'),
+				'a.published'    => \JText::_('JSTATUS'),
+				'a.title'        => \JText::_('JGLOBAL_TITLE'),
+				'position'       => \JText::_('COM_MODULES_HEADING_POSITION'),
+				'name'           => \JText::_('COM_MODULES_HEADING_MODULE'),
+				'pages'          => \JText::_('COM_MODULES_HEADING_PAGES'),
+				'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
+				'language_title' => \JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'           => \JText::_('JGRID_HEADING_ID')
 			);
 		}
 
 		return array(
-			'a.title'        => JText::_('JGLOBAL_TITLE'),
-			'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
-			'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
-			'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
-			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
-			'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'           => JText::_('JGRID_HEADING_ID')
+			'a.title'        => \JText::_('JGLOBAL_TITLE'),
+			'position'       => \JText::_('COM_MODULES_HEADING_POSITION'),
+			'name'           => \JText::_('COM_MODULES_HEADING_MODULE'),
+			'pages'          => \JText::_('COM_MODULES_HEADING_PAGES'),
+			'a.access'       => \JText::_('JGRID_HEADING_ACCESS'),
+			'language_title' => \JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => \JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

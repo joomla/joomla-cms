@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,14 +19,14 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class ModulesModelModules extends JModelList
+class Modules extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     \JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -69,7 +72,7 @@ class ModulesModelModules extends JModelList
 	 */
 	protected function populateState($ordering = 'a.position', $direction = 'asc')
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$layout = $app->input->get('layout', '', 'cmd');
 
@@ -112,7 +115,7 @@ class ModulesModelModules extends JModelList
 		}
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_modules');
+		$params = ComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -148,9 +151,9 @@ class ModulesModelModules extends JModelList
 	/**
 	 * Returns an object list
 	 *
-	 * @param   string  $query       The query
-	 * @param   int     $limitstart  Offset
-	 * @param   int     $limit       The number of records
+	 * @param   \JDatabaseQuery  $query       The query
+	 * @param   int              $limitstart  Offset
+	 * @param   int              $limit       The number of records
 	 *
 	 * @return  array
 	 */
@@ -218,7 +221,7 @@ class ModulesModelModules extends JModelList
 	 */
 	protected function translate(&$items)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 		foreach ($items as $item)
@@ -227,23 +230,23 @@ class ModulesModelModules extends JModelList
 			$source = $clientPath . "/modules/$extension";
 			$lang->load("$extension.sys", $clientPath, null, false, true)
 				|| $lang->load("$extension.sys", $source, null, false, true);
-			$item->name = JText::_($item->name);
+			$item->name = \JText::_($item->name);
 
 			if (is_null($item->pages))
 			{
-				$item->pages = JText::_('JNONE');
+				$item->pages = \JText::_('JNONE');
 			}
 			elseif ($item->pages < 0)
 			{
-				$item->pages = JText::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
+				$item->pages = \JText::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
 			}
 			elseif ($item->pages > 0)
 			{
-				$item->pages = JText::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
+				$item->pages = \JText::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
 			}
 			else
 			{
-				$item->pages = JText::_('JALL');
+				$item->pages = \JText::_('JALL');
 			}
 		}
 	}
@@ -251,12 +254,10 @@ class ModulesModelModules extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
-		$app = JFactory::getApplication();
-
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -392,7 +393,7 @@ class ModulesModelModules extends JModelList
 		{
 			if ($language === 'current')
 			{
-				$query->where($db->quoteName('a.language') . ' IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$query->where($db->quoteName('a.language') . ' IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 			else
 			{

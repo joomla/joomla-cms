@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Admin;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ModulesControllerModules extends JControllerAdmin
+class Modules extends Admin
 {
 	/**
 	 * Method to clone an existing module.
@@ -28,7 +30,7 @@ class ModulesControllerModules extends JControllerAdmin
 	public function duplicate()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$pks = ArrayHelper::toInteger($pks);
@@ -37,16 +39,16 @@ class ModulesControllerModules extends JControllerAdmin
 		{
 			if (empty($pks))
 			{
-				throw new Exception(JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
+				throw new \Exception(\JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
 			}
 
 			$model = $this->getModel();
 			$model->duplicate($pks);
-			$this->setMessage(JText::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
+			$this->setMessage(\JText::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			$this->app->enqueueMessage($e->getMessage(), 'warning');
 		}
 
 		$this->setRedirect('index.php?option=com_modules&view=modules');
@@ -63,7 +65,7 @@ class ModulesControllerModules extends JControllerAdmin
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Module', $prefix = 'ModulesModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Module', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

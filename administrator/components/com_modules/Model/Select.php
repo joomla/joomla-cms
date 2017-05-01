@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ModulesModelSelect extends JModelList
+class Select extends ListModel
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -32,14 +36,14 @@ class ModulesModelSelect extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		// Load the filter state.
 		$clientId = $app->getUserState('com_modules.modules.client_id', 0);
 		$this->setState('client_id', (int) $clientId);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_modules');
+		$params = ComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);
 
 		// Manually set limits to get all modules.
@@ -71,7 +75,7 @@ class ModulesModelSelect extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -114,14 +118,14 @@ class ModulesModelSelect extends JModelList
 		// Get the list of items from the database.
 		$items = parent::getItems();
 
-		$client = JApplicationHelper::getClientInfo($this->getState('client_id', 0));
-		$lang = JFactory::getLanguage();
+		$client = ApplicationHelper::getClientInfo($this->getState('client_id', 0));
+		$lang = \JFactory::getLanguage();
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.
 		foreach ($items as &$item)
 		{
-			$path = JPath::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
+			$path = \JPath::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
 
 			if (file_exists($path))
 			{
@@ -136,15 +140,15 @@ class ModulesModelSelect extends JModelList
 			// 1.6 3PD Extension Support
 			$lang->load($item->module . '.sys', $client->path, null, false, true)
 				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, true);
-			$item->name = JText::_($item->name);
+			$item->name = \JText::_($item->name);
 
 			if (isset($item->xml) && $text = trim($item->xml->description))
 			{
-				$item->desc = JText::_($text);
+				$item->desc = \JText::_($text);
 			}
 			else
 			{
-				$item->desc = JText::_('COM_MODULES_NODESCRIPTION');
+				$item->desc = \JText::_('COM_MODULES_NODESCRIPTION');
 			}
 		}
 
