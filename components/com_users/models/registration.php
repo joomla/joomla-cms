@@ -243,7 +243,8 @@ class UsersModelRegistration extends JModelForm
 			// Override the base user data with any data in the session.
 			$temp = (array) $app->getUserState('com_users.registration.data', array());
 
-			$form = $this->getForm(array());
+			// Don't load the data in this getForm call, or we'll call ourself
+			$form = $this->getForm(array(), false);
 
 			foreach ($temp as $k => $v)
 			{
