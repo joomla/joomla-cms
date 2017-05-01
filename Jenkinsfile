@@ -9,7 +9,7 @@ pipeline {
         sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
       }
     }
-    stage('Testing-PHP') {
+    stage('Testing-PHP5') {
       agent {
         docker 'rdeutz/docker-php56'
       }
