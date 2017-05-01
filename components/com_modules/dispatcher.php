@@ -65,9 +65,9 @@ class ModulesDispatcher extends Dispatcher
 	/**
 	 * Get a controller from the component
 	 *
-	 * @param   string $name    Controller name
-	 * @param   string $client  Optional client (like Administrator, Site etc.)
-	 * @param   array  $config Optional controller config
+	 * @param   string  $name    Controller name
+	 * @param   string  $client  Optional client (like Administrator, Site etc.)
+	 * @param   array   $config  Optional controller config
 	 *
 	 * @return  \Joomla\CMS\Controller\Controller
 	 *
