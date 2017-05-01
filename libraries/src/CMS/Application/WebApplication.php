@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Version;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
@@ -39,7 +41,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	/**
 	 * The application language object.
 	 *
-	 * @var    \JLanguage
+	 * @var    Language
 	 * @since  11.3
 	 */
 	protected $language;
@@ -364,7 +366,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	/**
 	 * Method to get the application language object.
 	 *
-	 * @return  \JLanguage  The language object
+	 * @return  Language  The language object
 	 *
 	 * @since   11.3
 	 */
@@ -382,8 +384,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function flushAssets()
 	{
-		$version = new \JVersion;
-		$version->refreshMediaVersion();
+		(new Version)->refreshMediaVersion();
 	}
 
 	/**
@@ -413,13 +414,13 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * but for many applications it will make sense to override this method and create a language,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   \JLanguage  $language  An optional language object. If omitted, the factory language is created.
+	 * @param   Language  $language  An optional language object. If omitted, the factory language is created.
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   11.3
 	 */
-	public function loadLanguage(\JLanguage $language = null)
+	public function loadLanguage(Language $language = null)
 	{
 		$this->language = ($language === null) ? \JFactory::getLanguage() : $language;
 
