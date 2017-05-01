@@ -17,7 +17,7 @@ pipeline {
         sh 'phpunit --version'
       }
     }
-    stage('Testing-Javascrip') {
+    stage('Testing-Javascript') {
       agent {
         docker 'joomlaprojects/docker-systemtests'
       }
