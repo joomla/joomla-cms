@@ -71,7 +71,7 @@ jQuery(function ($) {
         function saveActiveTab(event) {
 
             // Dont store state if there is no id in the url, allows for not storing on create screens
-            if (null == $.urlParam('id')) return;
+            if (null == $.urlParam('id') &&$.urlParam('option') != 'com_config') return;
 
             // get this tabs own href
             var href = $(event.target).attr('href');
@@ -132,10 +132,12 @@ jQuery(function ($) {
             });
 
         } else {
+
             alltabs.parents('ul').each(function (index, ul) {
                 // If no tabs is saved, activate first tab from each tab set and save it
                 saveActiveTab($(ul).find('a').first().tab('show').attr('href'));
             });
+
         }
     };
 
