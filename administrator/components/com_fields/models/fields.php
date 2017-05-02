@@ -34,7 +34,7 @@ class FieldsModelFields extends JModelList
 				'id', 'a.id',
 				'title', 'a.title',
 				'type', 'a.type',
-				'alias', 'a.alias',
+				'name', 'a.name',
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
@@ -133,7 +133,7 @@ class FieldsModelFields extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.note' .
+				'a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'
@@ -228,7 +228,7 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Implement View Level Access
-		if (!$user->authorise('core.admin'))
+		if (!$app->isClient('administrator') || !$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ') AND (a.group_id = 0 OR g.access IN (' . $groups . '))');
@@ -284,7 +284,7 @@ class FieldsModelFields extends JModelList
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.name LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 

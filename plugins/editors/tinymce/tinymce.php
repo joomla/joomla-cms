@@ -130,10 +130,12 @@ class PlgEditorTinymce extends JPlugin
 	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
 	 * @param   string   $asset    The object asset
 	 * @param   object   $author   The author.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	public function onDisplay(
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		$app = JFactory::getApplication();
 
@@ -149,7 +151,7 @@ class PlgEditorTinymce extends JPlugin
 				$app->setUserState('plg_editors_tinymce.config_legacy_warn_count', ++$config_warn_count);
 			}
 
-			return $this->onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons, $id, $asset, $author);
+			return $this->onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons, $id, $asset, $author, $params);
 		}
 
 		if (empty($id))
@@ -198,6 +200,9 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
+		// Set editor to readonly mode
+		$textarea->readonly = !empty($params['readonly']);
+
 		// Render Editor markup
 		$editor = '<div class="js-editor-tinymce">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
@@ -212,6 +217,12 @@ class PlgEditorTinymce extends JPlugin
 			if (!empty($btns['names']))
 			{
 				JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+			}
+
+			// Set editor to readonly mode
+			if (!empty($params['readonly']))
+			{
+				$options['tinyMCE'][$fieldName]['readonly'] = 1;
 			}
 
 			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
@@ -575,7 +586,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$plugins[]     = 'jdragdrop';
+			$externalPlugins['jdragdrop'] = JUri::root() . '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
@@ -600,18 +611,15 @@ class PlgEditorTinymce extends JPlugin
 
 			if (!empty($tempPath))
 			{
-				$tempPath = rtrim($tempPath, '/');
-				$tempPath = ltrim($tempPath, '/');
+				// Remove the root images path
+				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
 			}
 
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			$doc->addScriptDeclaration(
-				"
-		var setCustomDir    = '" . $isSubDir . "';
-		var mediaUploadPath = '" . $tempPath . "';
-		var uploadUri       = '" . $uploadUrl . "';
-			"
-			);
+
+			$scriptOptions['setCustomDir']    = $isSubDir;
+			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 
 		// Build the final options set
@@ -657,6 +665,8 @@ class PlgEditorTinymce extends JPlugin
 			'resize'             => $resizing,
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
+			'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+
 		)
 		);
 
@@ -1203,6 +1213,7 @@ class PlgEditorTinymce extends JPlugin
 	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
 	 * @param   string   $asset    The object asset
 	 * @param   object   $author   The author.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string
 	 *
@@ -1210,7 +1221,8 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @deprecated 4.0
 	 */
-	private function onDisplayLegacy($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	private function onDisplayLegacy(
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id))
 		{
@@ -1248,6 +1260,9 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
+		// Set editor to readonly mode
+		$textarea->readonly = !empty($params['readonly']);
+
 		// Render Editor markup
 		$editor = '<div class="editor js-editor-tinymce">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
@@ -1262,6 +1277,12 @@ class PlgEditorTinymce extends JPlugin
 			if (!empty($btns['names']))
 			{
 				JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+			}
+
+			// Set editor to readonly mode
+			if (!empty($params['readonly']))
+			{
+				$options['tinyMCE'][$fieldName]['readonly'] = 1;
 			}
 
 			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
@@ -1843,9 +1864,9 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Drag and drop Images
-		$allowImgPaste = false;
-		$dragDropPlg   = '';
-		$dragdrop      = $this->params->get('drag_drop', 1);
+		$externalPlugins = array();
+		$allowImgPaste   = false;
+		$dragdrop        = $this->params->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
@@ -1873,19 +1894,18 @@ class PlgEditorTinymce extends JPlugin
 
 			if (!empty($tempPath))
 			{
-				$tempPath = rtrim($tempPath, '/');
-				$tempPath = ltrim($tempPath, '/');
+				// Remove the root images path
+				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
 			}
 
-			$dragDropPlg = 'jdragdrop';
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			$doc->addScriptDeclaration(
-				"
-		var setCustomDir    = '" . $isSubDir . "';
-		var mediaUploadPath = '" . $tempPath . "';
-		var uploadUri       = '" . $uploadUrl . "';
-			"
+
+			$scriptOptions['setCustomDir']    = $isSubDir;
+			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['uploadUri']       = $uploadUrl;
+
+			$externalPlugins = array(
+				array('jdragdrop' => JUri::root() . '/media/editors/tinymce/js/plugins/dragdrop/plugin.min.js'),
 			);
 		}
 
@@ -1928,6 +1948,7 @@ class PlgEditorTinymce extends JPlugin
 			'content_css'        => $content_css,
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
+			'externalPlugins'    => json_encode($externalPlugins),
 		)
 		);
 
@@ -1964,7 +1985,7 @@ class PlgEditorTinymce extends JPlugin
 			case 0: /* Simple mode*/
 				$scriptOptions['menubar']  = false;
 				$scriptOptions['toolbar1'] = 'bold italic underline strikethrough | undo redo | bullist numlist | code';
-				$scriptOptions['plugins']  = $dragDropPlg . ' code';
+				$scriptOptions['plugins']  = ' code';
 
 				break;
 
@@ -1976,7 +1997,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg;
+				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ';
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['importcss_append']  = true;
@@ -1990,7 +2011,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = $plugins . ' ' . $dragDropPlg;
+				$scriptOptions['plugins']  = $plugins;
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
