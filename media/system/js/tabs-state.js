@@ -141,7 +141,7 @@ jQuery(function ($) {
 
             alltabs.parents('ul').each(function (index, ul) {
                 // If no tabs is saved, activate first tab from each tab set and save it
-                saveActiveTab($(ul).find('a').first().tab('show').attr('href'));
+                saveActiveTab($(ul).find('a').first().click());
             });
 
         }
