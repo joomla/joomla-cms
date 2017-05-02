@@ -75,9 +75,9 @@ jQuery(function ($) {
              * Allow storing of state on Global Config pages
              * Allow storing of state on frontend edit (when a_id is in url)
              */
-             if ((null == $.urlParam('id') && $.urlParam('option') != 'com_config') && null == $.urlParam('a_id')) {
-                 return;
-             }
+            if ((null == $.urlParam('id') && $.urlParam('option') != 'com_config') && null == $.urlParam('a_id')) {
+                return;
+            }
 
             // get this tabs own href
             var href = $(event.target).attr('href');
@@ -109,17 +109,13 @@ jQuery(function ($) {
             sessionStorage.setItem(getStorageKey(), JSON.stringify(activeTabsHrefs));
         }
 
-        function activateTab(tabFakexPath) {
-            var parts = tabFakexPath.split('|');
-            $.findXpath(parts[0]).find('a[data-toggle="tab"][href="' + parts[1] + '"]').tab('show');
-        }
-
         // Array with active tabs hrefs
         var activeTabsHrefs = JSON.parse(sessionStorage.getItem(getStorageKey()));
 
         // jQuery object with all tabs links
         var alltabs = $('a[data-toggle="tab"]');
 
+        // When a tab is clicked, save its state!
         alltabs.on('click', function (e) {
             saveActiveTab(e);
         });
@@ -132,8 +128,9 @@ jQuery(function ($) {
             // When moving from tab area to a different view
             $.each(activeTabsHrefs, function (index, tabFakexPath) {
 
-                // Add active attribute for selected tab indicated by url
-                activateTab(tabFakexPath);
+                // Click the tab
+                var parts = tabFakexPath.split('|');
+                $.findXpath(parts[0]).find('a[data-toggle="tab"][href="' + parts[1] + '"]').click();
 
             });
 
