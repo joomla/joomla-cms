@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$params             = $this->params;
+$params             = $this->item->params;
 $presentation_style = $params->get('presentation_style');
 
 $displayGroups      = $params->get('show_user_custom_fields');
