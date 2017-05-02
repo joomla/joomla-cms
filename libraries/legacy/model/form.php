@@ -184,11 +184,11 @@ abstract class JModelForm extends JModelLegacy
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param   string   $name     The name of the form.
-	 * @param   string   $source   The form source. Can be XML string if file flag is set to false.
-	 * @param   array    $options  Optional array of options for the form creation.
-	 * @param   boolean  $clear    Optional argument to force load a new form.
-	 * @param   string|boolean   $xpath    An optional xpath to search for the fields.
+	 * @param   string          $name     The name of the form.
+	 * @param   string          $source   The form source. Can be XML string if file flag is set to false.
+	 * @param   array           $options  Optional array of options for the form creation.
+	 * @param   boolean         $clear    Optional argument to force load a new form.
+	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  JForm|boolean  JForm object on success, false on error.
 	 *
