@@ -192,7 +192,7 @@ class JFilterInput extends InputFilter
 				break;
 			case 'FLOAT':
 			case 'DOUBLE':
-				$pattern = '/[-+]?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/';
+				$pattern = '/[-+]?[0-9]*(\.[0-9]+)?([eE][-+]?[0-9]+)?/';
 
 				if (is_array($source))
 				{
