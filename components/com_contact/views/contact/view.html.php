@@ -192,7 +192,9 @@ class ContactViewContact extends JViewLegacy
 				}
 				else
 				{
-					$image1 = JHtml::_('image', 'contacts/' . $item->params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS') . ': ', null, true);
+					$image1 = JHtml::_(
+						'image', 'contacts/' . $item->params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS') . ': ', null, true
+					);
 				}
 
 				if ($item->params->get('icon_email'))
@@ -210,7 +212,9 @@ class ContactViewContact extends JViewLegacy
 				}
 				else
 				{
-					$image3 = JHtml::_('image', 'contacts/' . $item->params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE') . ': ', null, true);
+					$image3 = JHtml::_(
+						'image', 'contacts/' . $item->params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE') . ': ', null, true
+					);
 				}
 
 				if ($item->params->get('icon_fax'))
@@ -241,7 +245,9 @@ class ContactViewContact extends JViewLegacy
 				}
 				else
 				{
-					$image6 = JHtml::_('image', 'contacts/' . $item->params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE') . ': ', null, true);
+					$image6 = JHtml::_(
+						'image', 'contacts/' . $item->params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE') . ': ', null, true
+					);
 				}
 
 				$item->params->set('marker_address',   $image1);
