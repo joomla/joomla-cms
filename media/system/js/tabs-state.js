@@ -70,8 +70,14 @@ jQuery(function ($) {
          */
         function saveActiveTab(event) {
 
-            // Dont store state if there is no id in the url, allows for not storing on create screens
-            if (null == $.urlParam('id') &&$.urlParam('option') != 'com_config') return;
+            /**
+             * Don't store state if there is no id in the url, allows for not storing on create screens
+             * Allow storing of state on Global Config pages
+             * Allow storing of state on frontend edit (when a_id is in url)
+             */
+             if ((null == $.urlParam('id') && $.urlParam('option') != 'com_config') && null == $.urlParam('a_id')) {
+                 return;
+             }
 
             // get this tabs own href
             var href = $(event.target).attr('href');
