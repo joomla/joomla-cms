@@ -565,8 +565,8 @@ class JApplicationWeb extends JApplicationBase
 				}
 
 				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($this->responseMap[$status]);
-				$this->header('Location: ' . $url);
+				$this->setHeader('Status', $this->responseMap[$status], true);
+				$this->setHeader('Location', $url, true);
 			}
 		}
 
