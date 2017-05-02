@@ -854,7 +854,7 @@ class JLanguage
 			$this->debugFile($filename);
 		}
 
-		return is_array($strings) ? $strings : array();
+		return $strings;
 	}
 
 	/**
