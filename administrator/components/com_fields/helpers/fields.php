@@ -60,6 +60,11 @@ class FieldsHelper
 				{
 					$parts[1] = $section;
 				}
+				else
+				{
+					// should not display here since its not a valid context - must not fall back to the default $parts array
+					return null;
+				}
 			}
 		}
 
@@ -95,7 +100,7 @@ class FieldsHelper
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
 			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
-				'ignore_request' => true)
+				    'ignore_request' => true)
 			);
 
 			self::$fieldsCache->setState('filter.state', 1);
@@ -148,7 +153,7 @@ class FieldsHelper
 			$fieldIds = array_map(
 				function($f)
 				{
-					return $f->id;
+				return $f->id;
 				},
 				$fields
 			);
@@ -318,7 +323,7 @@ class FieldsHelper
 			/*
 			 * Removing the catid parameter from the actual URL and set it as
 			 * return
-			*/
+			 */
 			$returnUri = clone JUri::getInstance();
 			$returnUri->setVar('catid', null);
 			$uri->setVar('return', base64_encode($returnUri->toString()));
@@ -334,7 +339,7 @@ class FieldsHelper
 			/*
 			 * Setting the onchange event to reload the page when the category
 			 * has changed
-			*/
+			 */
 			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
 
 			// Preload spindle-wheel when we need to submit form due to category selector changed
@@ -583,7 +588,7 @@ class FieldsHelper
 			$fields = $db->loadObjectList();
 
 			$states = array(
-				'-2' => 'count_trashed',
+			    '-2' => 'count_trashed',
 				'0'  => 'count_unpublished',
 				'1'  => 'count_published',
 				'2'  => 'count_archived',
@@ -621,9 +626,9 @@ class FieldsHelper
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('c.title'))
-				->from($db->quoteName('#__fields_categories', 'a'))
-				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
-				->where('field_id = ' . $fieldId);
+			->from($db->quoteName('#__fields_categories', 'a'))
+			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);
 
@@ -641,10 +646,10 @@ class FieldsHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->select($db->quoteName('extension_id'))
-		->from($db->quoteName('#__extensions'))
-		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-		->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
 		$db->setQuery($query);
 
 		try
