@@ -350,7 +350,7 @@
 			type="plugins"
 			label="COM_CONTENT_FIELD_CAPTCHA_LABEL"
 			description="COM_CONTENT_FIELD_CAPTCHA_DESC"
-			default="0"
+			default=""
 			folder="captcha"
 			filter="cmd"
 		>
