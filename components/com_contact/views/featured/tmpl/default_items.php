@@ -37,61 +37,65 @@ $params = &$this->item->params;
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
 	</fieldset>
 
-	<table class="category">
+	<table class="table">
 		<?php if ($this->params->get('show_headings')) : ?>
-		<thead><tr>
-			<th class="item-num">
-				<?php echo JText::_('JGLOBAL_NUM'); ?>
-			</th>
-			<th class="item-title">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
-			</th>
-			<?php if ($this->params->get('show_position_headings')) : ?>
-			<th class="item-position">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
-			</th>
-			<?php endif; ?>
-			<?php if ($this->params->get('show_email_headings')) : ?>
-			<th class="item-email">
-				<?php echo JText::_('JGLOBAL_EMAIL'); ?>
-			</th>
-			<?php endif; ?>
-			<?php if ($this->params->get('show_telephone_headings')) : ?>
-			<th class="item-phone">
-				<?php echo JText::_('COM_CONTACT_TELEPHONE'); ?>
-			</th>
-			<?php endif; ?>
+		<thead class="thead-default">
+			<tr>
+				<th class="item-num">
+					<?php echo JText::_('JGLOBAL_NUM'); ?>
+				</th>
 
-			<?php if ($this->params->get('show_mobile_headings')) : ?>
-			<th class="item-phone">
-				<?php echo JText::_('COM_CONTACT_MOBILE'); ?>
-			</th>
-			<?php endif; ?>
+				<th class="item-title">
+					<?php echo JHtml::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
+				</th>
 
-			<?php if ($this->params->get('show_fax_headings')) : ?>
-			<th class="item-phone">
-				<?php echo JText::_('COM_CONTACT_FAX'); ?>
-			</th>
-			<?php endif; ?>
+				<?php if ($this->params->get('show_position_headings')) : ?>
+				<th class="item-position">
+					<?php echo JHtml::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
+				</th>
+				<?php endif; ?>
 
-			<?php if ($this->params->get('show_suburb_headings')) : ?>
-			<th class="item-suburb">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
-			</th>
-			<?php endif; ?>
+				<?php if ($this->params->get('show_email_headings')) : ?>
+				<th class="item-email">
+					<?php echo JText::_('JGLOBAL_EMAIL'); ?>
+				</th>
+				<?php endif; ?>
 
-			<?php if ($this->params->get('show_state_headings')) : ?>
-			<th class="item-state">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
-			</th>
-			<?php endif; ?>
+				<?php if ($this->params->get('show_telephone_headings')) : ?>
+				<th class="item-phone">
+					<?php echo JText::_('COM_CONTACT_TELEPHONE'); ?>
+				</th>
+				<?php endif; ?>
 
-			<?php if ($this->params->get('show_country_headings')) : ?>
-			<th class="item-state">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
-			</th>
-			<?php endif; ?>
+				<?php if ($this->params->get('show_mobile_headings')) : ?>
+				<th class="item-phone">
+					<?php echo JText::_('COM_CONTACT_MOBILE'); ?>
+				</th>
+				<?php endif; ?>
 
+				<?php if ($this->params->get('show_fax_headings')) : ?>
+				<th class="item-phone">
+					<?php echo JText::_('COM_CONTACT_FAX'); ?>
+				</th>
+				<?php endif; ?>
+
+				<?php if ($this->params->get('show_suburb_headings')) : ?>
+				<th class="item-suburb">
+					<?php echo JHtml::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
+				</th>
+				<?php endif; ?>
+
+				<?php if ($this->params->get('show_state_headings')) : ?>
+				<th class="item-state">
+					<?php echo JHtml::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
+				</th>
+				<?php endif; ?>
+
+				<?php if ($this->params->get('show_country_headings')) : ?>
+				<th class="item-state">
+					<?php echo JHtml::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
+				</th>
+				<?php endif; ?>
 			</tr>
 		</thead>
 		<?php endif; ?>
@@ -161,7 +165,6 @@ $params = &$this->item->params;
 					<?php endif; ?>
 				</tr>
 			<?php endforeach; ?>
-
 		</tbody>
 	</table>
 
