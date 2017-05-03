@@ -193,6 +193,9 @@ class JFormFieldFolderList extends JFormFieldList
 		
 		$path = JPath::clean($path);
 
+		$pathObject = new JFilesystemWrapperPath;
+		$path = $pathObject->check($path);
+
 		// Prepend some default options based on field attributes.
 		if (!$this->hideNone)
 		{
@@ -222,7 +225,7 @@ class JFormFieldFolderList extends JFormFieldList
 				}
 
 				// Remove the root part and the leading /
-				$folder = trim(str_replace($path, '', $folder), '/');
+				$folder = trim(str_replace($path, '', $folder), DIRECTORY_SEPARATOR);
 
 				$options[] = JHtml::_('select.option', $folder, $folder);
 			}
