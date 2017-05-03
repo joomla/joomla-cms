@@ -79,9 +79,7 @@ jQuery(function ($) {
             var storageKey = getStorageKey();
 
             /**
-             * Don't store state if there is no id in the url, allows for not storing on create screens
-             * Allow storing of state on Global Config pages
-             * Allow storing of state on frontend edit (when a_id is in url)
+             * Allow storing of state if there is no id in the url, allows for storing on create screens and is picked up on page after save then deleted
              */
             if ((null == $.urlParam("id") && $.urlParam("option") != "com_config") && null == $.urlParam("a_id")) {
                 storageKey = "UNSAVED_ITEM";
