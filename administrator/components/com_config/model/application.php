@@ -282,22 +282,18 @@ class ConfigModelApplication extends ConfigModelForm
 		/*
 		 * Look for a custom cache_path
 		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
-		 * The check should only be done for administrator client
 		 */
-		if ($app->isClient('administrator'))
+		if (isset($data['cache_path']))
 		{
-			if ($data['cache_path'])
-			{
-				$path = $data['cache_path'];
-			}
-			elseif (!empty($prev['cache_path']))
-			{
-				$path = $prev['cache_path'];
-			}
-			else
-			{
-				$path = JPATH_SITE . '/cache';
-			}
+			$path = $data['cache_path'];
+		}
+		elseif (!empty($prev['cache_path']))
+		{
+			$path = $prev['cache_path'];
+		}
+		else
+		{
+			$path = JPATH_SITE . '/cache';
 		}
 
 		// Give a warning if the cache-folder can not be opened
