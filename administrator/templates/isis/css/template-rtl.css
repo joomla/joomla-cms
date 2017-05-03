@@ -8561,6 +8561,9 @@ td.nowrap.has-context {
 	margin-right: 4px;
 	padding: 0 10px;
 }
+#toolbar .btn-success {
+	min-width: 148px;
+}
 #toolbar .btn-primary [class^="icon-"],
 #toolbar .btn-primary [class*=" icon-"],
 #toolbar .btn-warning [class^="icon-"],
@@ -8599,9 +8602,6 @@ td.nowrap.has-context {
 }
 #toolbar iframe .btn-group .btn {
 	margin-left: -1px !important;
-}
-#toolbar-new .btn-success {
-	width: 148px;
 }
 html[dir=rtl] #toolbar #toolbar-options,
 html[dir=rtl] #toolbar #toolbar-help {
