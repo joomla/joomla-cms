@@ -64,6 +64,8 @@ JFactory::getDocument()->addScriptDeclaration('
 						<li><?php echo $field->renderField(); ?></li>
 					<?php endforeach; ?>
 				<?php endforeach; ?>
+			</ul>
+		</fieldset>
 
 	</div>
 	<div class="col options-section">
@@ -85,11 +87,11 @@ JFactory::getDocument()->addScriptDeclaration('
 				); ?>
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 				<?php $this->set('fields', null); ?>
-			
+
 		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_OPTIONS'), '-options'); ?>
 		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
-			
+
 		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 			<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
@@ -108,7 +110,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<li><?php echo $this->form->getLabel('modified_time'); ?>
 						<?php echo $this->form->getInput('modified_time'); ?></li>
 					<?php endif; ?>
-					
+
 					<li><?php echo $this->form->getLabel('id'); ?>
 					<?php echo $this->form->getInput('id'); ?></li>
 
@@ -132,7 +134,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php echo JHtml::_('sliders.end'); ?>
 			</div>
 		<?php endif; ?>
-		
+
 		<?php echo $this->form->getInput('context'); ?>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>

@@ -673,7 +673,7 @@ abstract class JHtml
 	public static function script($file, $options = array(), $attribs = array())
 	{
 		// B/C before 3.7.0
-		if (!is_array($options) && !is_array($attribs))
+		if (!is_array($options))
 		{
 			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
@@ -1020,7 +1020,7 @@ abstract class JHtml
 		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
 		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
 		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : false;
-		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : true;
+		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : false;
 		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
 		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;
 		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
@@ -1028,11 +1028,11 @@ abstract class JHtml
 		$class        = isset($attribs['class']) ? $attribs['class'] : '';
 		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
 
-		$showTime     = !empty($showTime) ? ($showTime === 'true' ? "1" : "0") : "1";
-		$todayBtn     = !empty($todayBtn) ? ($todayBtn === 'true' ? "1" : "0") : "1";
-		$weekNumbers  = !empty($weekNumbers) ? ($weekNumbers === 'true' ? "1" : "0") : "0";
-		$fillTable    = !empty($fillTable) ? ($fillTable === 'true' ? "1" : "0") : "1";
-		$singleHeader = !empty($singleHeader) ? ($singleHeader === 'true' ? "1" : "0") : "0";
+		$showTime     = ($showTime) ? "1" : "0";
+		$todayBtn     = ($todayBtn) ? "1" : "0";
+		$weekNumbers  = ($weekNumbers) ? "1" : "0";
+		$fillTable    = ($fillTable) ? "1" : "0";
+		$singleHeader = ($singleHeader) ? "1" : "0";
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
