@@ -1620,8 +1620,6 @@ legend + .control-group {
 }
 .form-horizontal .control-label {
 	float: left;
-	max-width: 160px;
-	min-width: 160px;
 	width: 160px;
 	padding-top: 5px;
 	text-align: right;
@@ -7291,7 +7289,6 @@ h6 {
 	max-height: 800px;
 }
 .form-horizontal .control-label {
-	width: auto;
 	padding-right: 5px;
 	text-align: left;
 }
