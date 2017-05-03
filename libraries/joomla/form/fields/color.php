@@ -208,7 +208,7 @@ class JFormFieldColor extends JFormField
 		{
 			$color = 'none';
 		}
-		elseif ($color['0'] != '#')
+		elseif ($color['0'] != '#' && $this->format == 'hex')
 		{
 			$color = '#' . $color;
 		}
