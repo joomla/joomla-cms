@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 $app       = JFactory::getApplication();
 $form      = $displayData->getForm();
-$fieldSets = $form->getFieldsets();
+$fieldSets = $form->getFieldsets('params');
 
 if (empty($fieldSets))
 {
