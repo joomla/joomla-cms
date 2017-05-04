@@ -62,11 +62,11 @@ jQuery(function ($) {
          * Remove an item from an array
          */
         function remove_item(activeTabsHrefs, tabCollection) {
-            activeTabsHrefs.forEach(function (i, b) {
-                if (activeTabsHrefs[b].indexOf(tabCollection) > -1) {
-                    activeTabsHrefs.splice(b, 1);
+            for (var i = 0; i < activeTabsHrefs.length; i++) {
+                if (activeTabsHrefs[i].indexOf(tabCollection) > -1) {
+                    activeTabsHrefs.splice(i, 1);
                 }
-            });
+            }
 
             return activeTabsHrefs;
         }
