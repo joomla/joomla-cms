@@ -1065,6 +1065,60 @@ class JForm
 	}
 
 	/**
+	 * Method to add a list option for a field XML element.
+	 *
+	 * @param   string  $name      The name of the form field for which to set the attribute value.
+	 * @param   string  $value     The option's value attribute.
+	 * @param   string  $text      The option's display text.
+	 * @param   string  $optGroup  The option's group label.
+	 * @param   string  $group     The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  UnexpectedValueException
+	 */
+	public function addFieldOption($name, $value, $text, $optGroup = null, $group = null)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!($this->xml instanceof SimpleXMLElement))
+		{
+			throw new UnexpectedValueException(sprintf('%s::addFieldOption `xml` is not an instance of SimpleXMLElement', get_class($this)));
+		}
+
+		// Find the form field element from the definition.
+		$element = $this->findField($name, $group);
+
+		// If the element doesn't exist return false.
+		if (!($element instanceof SimpleXMLElement))
+		{
+			return false;
+		}
+
+		// Otherwise add the option and return true.
+		else
+		{
+			// If we have an option group
+			if ($optGroup)
+			{
+				$groups  = $element->xpath('group[@label="' . $optGroup . '"]');
+				$element = count($groups) ? $groups[0] : $element->addChild('group');
+
+				$element['label'] = $optGroup;
+			}
+
+			$option = $element->addChild('option', $text);
+
+			$option['value'] = $value;
+
+			// Synchronize any paths found in the load.
+			$this->syncPaths();
+
+			return true;
+		}
+	}
+
+	/**
 	 * Method to set some field XML elements to the form definition.  If the replace flag is set then
 	 * the fields will be set whether they already exists or not.  If it isn't set, then the fields
 	 * will not be replaced if they already exist.

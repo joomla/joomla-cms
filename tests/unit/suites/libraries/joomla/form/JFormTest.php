@@ -2127,6 +2127,34 @@ class JFormTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test for JForm::setFieldAttribute method.
+	 *
+	 * @return void
+	 */
+	public function testAddFieldOption()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->addFieldOption('title', '2', 'Unsure'),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The method should return true.'
+		);
+
+		$this->assertThat(
+			$form->getFieldXml('title')->asXML(),
+			$this->stringContains('<option value="2">Unsure</option>'),
+			'Line:' . __LINE__ . ' The method should return true.'
+		);
+	}
+
+	/**
 	 * Test for JForm::setFields method.
 	 *
 	 * @return void
