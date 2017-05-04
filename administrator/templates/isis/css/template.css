@@ -204,6 +204,9 @@ a:focus {
 	color: #1f496e;
 	text-decoration: underline;
 }
+.span12 a:hover {
+    text-decoration: none;
+}
 .img-rounded {
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
@@ -282,6 +285,9 @@ a:focus {
 }
 .span1 {
 	width: 60px;
+}
+.span12 span:hover {
+    text-decoration: underline;
 }
 .offset12 {
 	margin-left: 980px;
