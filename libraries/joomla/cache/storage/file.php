@@ -425,7 +425,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * Using @ error suppressor here because between if we did a file_exists() and then filemsize() there will
 	 * be a little time space when another process can delete the file and then you get PHP Warning
-
+	 *
 	 *
 	 * @param   string  $id     Cache ID to check
 	 * @param   string  $group  The cache data group
