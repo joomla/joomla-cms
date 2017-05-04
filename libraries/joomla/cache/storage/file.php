@@ -446,7 +446,12 @@ class JCacheStorageFile extends JCacheStorage
 				return false;
 			}
 
-			// If now the file does not exist then return false too.
+			/**
+			 * If now the file does not now exist then return false
+			 *
+			 * Using @ error supressor here because between if we did a file_exists() and then filemsize() there will
+			 * be a little time space when another process can delete the file and then you get PHP Warning
+			 */
 			if (@filesize($path) == 0)
 			{
 				return false;
