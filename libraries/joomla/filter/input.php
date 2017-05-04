@@ -618,8 +618,8 @@ class JFilterInput extends InputFilter
 
 				// 3. File contents scanner (PHP tag in file contents)
 				if ($options['php_tag_in_content']
-				    || $options['shorttag_in_content']
-				    || ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
+					|| $options['shorttag_in_content']
+					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
 					$fp = @fopen($tempName, 'r');
 
@@ -901,8 +901,8 @@ class JFilterInput extends InputFilter
 			 * OR remove if xssauto is on and tag is blacklisted
 			 */
 			if (!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)
-			    || (!$tagName)
-			    || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
+				|| (!$tagName)
+				|| ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
 			{
 				$postTag = StringHelper::substr($postTag, ($tagLength + 2));
 				$tagOpen_start = StringHelper::strpos($postTag, '<');
