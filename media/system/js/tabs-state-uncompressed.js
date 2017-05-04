@@ -11,9 +11,16 @@
 
 jQuery(function ($) {
 
-    // jQuery extension to allow getting of url params
+    /**
+     * Tiny jQuery extension to allow getting of url params
+     * @use jQuery.urlParam('param') or $.urlParam('myRegex|anotherRegex')
+     * If no trailing equals sign in name, add one, allows for general reuse
+     */
     $.urlParam = function (name) {
-        var results = new RegExp("[\\?&]" + name + "=([^&#]*)").exec(window.location.href);
+        if (!new RegExp("=$").exec(name)) {
+            name = name + '=';
+        }
+        var results = new RegExp("[\\?&](" + name + ")([^&#]*)").exec(window.location.href);
         return results ? results[1] : null;
     };
 
@@ -76,12 +83,14 @@ jQuery(function ($) {
          */
         function saveActiveTab(event) {
 
+
             var storageKey = getStorageKey();
 
             /**
              * Allow storing of state if there is no id in the url, allows for storing on create screens and is picked up on page after save then deleted
+             * Always run on com_config and its massive use of tabs, on a url that has no id in it
              */
-            if (((null == $.urlParam("id") && null == $.urlParam("s_id") && null == $.urlParam("a_id") && null == $.urlParam("e_id")) && $.urlParam("option") != "com_config") && null == $.urlParam("a_id")) {
+            if ((null == $.urlParam('id=|[a-z]{1}_id=', false) && $.urlParam("option") != "com_config")) {
                 storageKey = "UNSAVED_ITEM";
             }
 
