@@ -81,11 +81,22 @@ class InstallerViewDatabase extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
+		$canDo = JHelperContent::getActions('com_installer');
+
 		/*
 		 * Set toolbar items for the page.
 		 */
 		JToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false);
 		JToolbarHelper::divider();
+
+		if ($canDo->get('core.admin'))
+		{
+			$link = 'index.php?option=com_installer&task=database.backup&format=raw';
+
+			JToolbarHelper::link(JRoute::_($link), 'COM_INSTALLER_TOOLBAR_DATABASE_BACKUP', 'download');
+			JToolbarHelper::divider();
+		}
+
 		parent::addToolbar();
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');
 	}

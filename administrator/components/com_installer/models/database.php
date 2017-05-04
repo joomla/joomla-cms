@@ -81,6 +81,94 @@ class InstallerModelDatabase extends InstallerModel
 	}
 
 	/**
+	 * Create a full database backup.
+	 *
+	 * @return  void
+	 */
+	public function getBackup()
+	{
+		jimport('joomla.filesystem.path');
+		jimport('joomla.filesystem.file');
+
+		$app = JFactory::getApplication();
+		$now = JFactory::getDate();
+		$config = JFactory::getConfig();
+
+		$path = JPath::check($config->get('tmp_path', JPATH_ROOT . '/tmp'));
+
+		if (!is_writable($path))
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 500);
+		}
+
+		$tables = $this->getDbo()->getTableList();
+
+		$creates = $this->getDbo()->getTableCreate($tables);
+
+		// Holds the whole backup content
+		$backup = '';
+
+		foreach ($creates as $table => $command)
+		{
+			$backup .= $command . ";\n\n";
+
+			$query = $this->getDbo()->getQuery(true);
+
+			$query	->select('*')
+					->from($query->qn($table));
+
+			$rows = $this->getDbo()->setQuery($query)->loadAssocList();
+
+			if (!empty($rows))
+			{
+				$query = $this->getDbo()->getQuery(true);
+
+				$query	->insert($query->qn($table));
+
+				$columns = $this->getDbo()->getTableColumns($table);
+
+				$query	->columns($query->qn(array_keys($columns)));
+
+				foreach ($rows as $row)
+				{
+					$query->values(implode(',', $query->q($row)));
+				}
+
+				$backup .= (string) $query . ";\n\n";
+			}
+		}
+
+		// Try to zip the backup and send to browser
+		$zip = JArchive::getAdapter('zip');
+
+		$file = array();
+
+		$file['name'] = 'backup-' . JFilterOutput::stringURLSafe($now->toSql()) . '.sql';
+		$file['data'] = $backup;
+		$file['time'] = $now->toUnix();
+
+		$filename = JUserHelper::genRandomPassword(20);
+
+		if (!$zip->create($path . '/backup_' . $filename . '.zip', array($file)))
+		{
+			// Cleanup broken files
+			if (JFile::exists($path . '/backup_' . $filename . '.zip'))
+			{
+				JFile::delete($path . '/backup_' . $filename . '.zip');
+			}
+
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_ZIP_CREATION'), 500);
+		}
+
+		// Zip is created, so let's load the content and return it
+		$content = file_get_contents($path . '/backup_' . $filename . '.zip');
+
+		JFile::delete($path . '/backup_' . $filename . '.zip');
+
+		return $content;
+	}
+
+	/**
 	 * Gets the changeset object.
 	 *
 	 * @return  JSchemaChangeset
