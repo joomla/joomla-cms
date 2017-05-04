@@ -62,7 +62,7 @@ class FieldsHelper
 				}
 				else
 				{
-					// should not display here since its not a valid context - must not fall back to the default $parts array
+					// Should not display here since its not a valid context - must not fall back to the default $parts array
 					return null;
 				}
 			}
