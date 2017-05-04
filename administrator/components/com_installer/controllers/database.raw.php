@@ -25,8 +25,6 @@ class InstallerControllerDatabase extends JControllerLegacy
 	 */
 	public function backup()
 	{
-		$canDo = JHelperContent::getActions('com_installer');
-
 		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
 		{
 			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -36,12 +34,10 @@ class InstallerControllerDatabase extends JControllerLegacy
 
 		$backup = $model->getBackup();
 
-		$app = JFactory::getApplication();
-
-		$app->setHeader('Pragma', 'public');
-		$app->setHeader('Content-Type', 'application/zip');
-		$app->setHeader('Content-Disposition', 'attachment; filename=backup.zip');
-		$app->setHeader('Content-Length', strlen($app->getBody()));
+		JFactory::getApplication()->setHeader('Pragma', 'public')
+			->setHeader('Content-Type', 'application/zip')
+			->setHeader('Content-Disposition', 'attachment; filename=backup.zip')
+			->setHeader('Content-Length', strlen($backup));
 
 		echo $backup;
 	}

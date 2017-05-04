@@ -92,9 +92,8 @@ class InstallerModelDatabase extends InstallerModel
 
 		$app = JFactory::getApplication();
 		$now = JFactory::getDate();
-		$config = JFactory::getConfig();
 
-		$path = JPath::check($config->get('tmp_path', JPATH_ROOT . '/tmp'));
+		$path = JPath::check($app->get('tmp_path', JPATH_ROOT . '/tmp'));
 
 		if (!is_writable($path))
 		{
@@ -103,19 +102,18 @@ class InstallerModelDatabase extends InstallerModel
 
 		$tables = $this->getDbo()->getTableList();
 
-		$creates = $this->getDbo()->getTableCreate($tables);
+		$list = $this->getDbo()->getTableCreate($tables);
 
 		// Holds the whole backup content
 		$backup = '';
 
-		foreach ($creates as $table => $command)
+		foreach ($list as $table => $command)
 		{
 			$backup .= $command . ";\n\n";
 
 			$query = $this->getDbo()->getQuery(true);
 
-			$query	->select('*')
-					->from($query->qn($table));
+			$query->select('*')->from($query->quoteName($table));
 
 			$rows = $this->getDbo()->setQuery($query)->loadAssocList();
 
@@ -123,15 +121,15 @@ class InstallerModelDatabase extends InstallerModel
 			{
 				$query = $this->getDbo()->getQuery(true);
 
-				$query	->insert($query->qn($table));
+				$query->insert($query->quoteName($table));
 
 				$columns = $this->getDbo()->getTableColumns($table);
 
-				$query	->columns($query->qn(array_keys($columns)));
+				$query->columns($query->quoteName(array_keys($columns)));
 
 				foreach ($rows as $row)
 				{
-					$query->values(implode(',', $query->q($row)));
+					$query->values(implode(',', $query->quote($row)));
 				}
 
 				$backup .= (string) $query . ";\n\n";
