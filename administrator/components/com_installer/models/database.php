@@ -83,7 +83,9 @@ class InstallerModelDatabase extends InstallerModel
 	/**
 	 * Create a full database backup.
 	 *
-	 * @return  void
+	 * @return string  The backup string
+	 * 
+	 * @throws RuntimeException
 	 */
 	public function getBackup()
 	{
