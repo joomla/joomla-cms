@@ -3,13 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
+ * Mailer Component Controller.
+ *
  * @package     Joomla.Site
  * @subpackage  com_mailto
  * @since       1.5
@@ -41,7 +43,7 @@ class MailtoController extends JControllerLegacy
 	public function send()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();
@@ -133,7 +135,6 @@ class MailtoController extends JControllerLegacy
 
 		// Build the message to send
 		$msg  = JText::_('COM_MAILTO_EMAIL_MSG');
-		$link = $link;
 		$body = sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data

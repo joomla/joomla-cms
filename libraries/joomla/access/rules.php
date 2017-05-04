@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -168,7 +168,7 @@ class JAccessRules
 			return $this->data[$action]->allow($identity);
 		}
 
-		return null;
+		return;
 	}
 
 	/**

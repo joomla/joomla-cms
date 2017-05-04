@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
 	<name>Norwegian Nynorsk (nn-NO)</name>
-	<version>3.4.2</version>
-	<creationDate>2015-04-14</creationDate>
+	<version>3.6.1</version>
+	<creationDate>2016-07-24</creationDate>
 	<author>Norsk Joomla and Skolelinux</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>nn-NO.ini</filename>
 	</files>

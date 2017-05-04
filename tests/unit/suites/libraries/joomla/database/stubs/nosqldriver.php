@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,7 +84,6 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 */
 	public function disconnect()
 	{
-		return;
 	}
 
 	/**
@@ -195,6 +194,17 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 * @since   11.4
 	 */
 	public function getCollation()
+	{
+		return false;
+	}
+
+	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
 	{
 		return false;
 	}

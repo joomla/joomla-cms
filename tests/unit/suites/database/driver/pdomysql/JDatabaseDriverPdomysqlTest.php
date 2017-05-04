@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,22 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		return array(
 			array("'%_abc123", false, '\\\'%_abc123'),
 			array("'%_abc123", true, '\\\'\\%\_abc123')
+		);
+	}
+
+	/**
+	 * Data for the testQuoteName test.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public function dataTestQuoteName()
+	{
+		return array(
+			array('protected`title', null, '`protected``title`'),
+			array('protected"title', null, '`protected"title`'),
+			array('protected]title', null, '`protected]title`'),
 		);
 	}
 
@@ -112,6 +128,27 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 			self::$driver->escape($text, $extra),
 			$this->equalTo($expected),
 			'The string was not escaped properly'
+		);
+	}
+
+	/**
+	 * Test the quoteName method.
+	 *
+	 * @param   string  $text      The column name or alias to be quote.
+	 * @param   string  $asPart    String used for AS query part.
+	 * @param   string  $expected  The expected result.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestQuoteName
+	 * @since         3.7.0
+	 */
+	public function testQuoteName($text, $asPart, $expected)
+	{
+		$this->assertThat(
+			self::$driver->quoteName($text, $asPart),
+			$this->equalTo($expected),
+			'The name was not quoted properly'
 		);
 	}
 
@@ -629,17 +666,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 			"REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle', `start_date` = '2014-08-17 00:00:00', `description` = 'testDescription'"
 		);
 
-		$this->assertThat(
-			(bool) self::$driver->execute(),
-			$this->isTrue(),
-			__LINE__
-		);
-
-		$this->assertThat(
-			self::$driver->insertid(),
-			$this->equalTo(5),
-			__LINE__
-		);
+		$this->assertInstanceOf('PDOStatement', self::$driver->execute());
 
 	}
 

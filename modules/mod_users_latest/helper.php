@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,17 +21,17 @@ class ModUsersLatestHelper
 {
 	/**
 	 * Get users sorted by activation date
-	 * 
+	 *
 	 * @param   \Joomla\Registry\Registry  $params  module parameters
-	 * 
+	 *
 	 * @return  array  The array of users
-	 * 
+	 *
 	 * @since   1.6
 	 */
 	public static function getUsers($params)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.registerDate')))
 			->order($db->quoteName('a.registerDate') . ' DESC')
 			->from('#__users AS a');

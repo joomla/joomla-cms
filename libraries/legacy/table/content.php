@@ -3,19 +3,20 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Content table
  *
- * @since       11.1
- * @deprecated  Class will be removed upon completion of transition to UCM
+ * @since       1.5
+ * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
  */
 class JTableContent extends JTable
 {
@@ -24,7 +25,8 @@ class JTableContent extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -44,7 +46,8 @@ class JTableContent extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	protected function _getAssetName()
 	{
@@ -58,7 +61,8 @@ class JTableContent extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	protected function _getAssetTitle()
 	{
@@ -73,13 +77,14 @@ class JTableContent extends JTable
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
 		$assetId = null;
 
-		// This is a article under a category.
+		// This is an article under a category.
 		if ($this->catid)
 		{
 			// Build the query to get the asset id for the parent category.
@@ -118,7 +123,8 @@ class JTableContent extends JTable
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
 	 * @see     JTable::bind()
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -141,15 +147,13 @@ class JTableContent extends JTable
 
 		if (isset($array['attribs']) && is_array($array['attribs']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['attribs']);
+			$registry = new Registry($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['metadata']);
+			$registry = new Registry($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
@@ -169,7 +173,8 @@ class JTableContent extends JTable
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	public function check()
 	{
@@ -185,7 +190,7 @@ class JTableContent extends JTable
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -251,10 +256,10 @@ class JTableContent extends JTable
 			// Only process if not empty
 
 			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", "<", ">");
+			$bad_characters = array("\n", "\r", "\"", '<', '>');
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -270,7 +275,7 @@ class JTableContent extends JTable
 				}
 			}
 			// Put array back together delimited by ", "
-			$this->metakey = implode(", ", $clean_keys);
+			$this->metakey = implode(', ', $clean_keys);
 		}
 
 		return true;
@@ -279,9 +284,12 @@ class JTableContent extends JTable
 	/**
 	 * Gets the default asset values for a component.
 	 *
-	 * @param   $string  $component  The component asset name to search for
+	 * @param   string  $component  The component asset name to search for
 	 *
 	 * @return  JAccessRules  The JAccessRules object for the asset
+	 *
+	 * @since   3.4
+	 * @deprecated  3.4 Class will be removed upon completion of transition to UCM
 	 */
 	protected function getDefaultAssetValues($component)
 	{
@@ -304,7 +312,8 @@ class JTableContent extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	public function store($updateNulls = false)
 	{
@@ -334,7 +343,7 @@ class JTableContent extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Content', 'JTable', array('dbo', $this->getDbo()));
+		$table = JTable::getInstance('Content', 'JTable', array('dbo' => $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

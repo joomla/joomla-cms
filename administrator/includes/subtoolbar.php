@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,8 +58,20 @@ abstract class JSubMenuHelper
 	 */
 	public static function addEntry($name, $link = '', $active = false)
 	{
-		JLog::add('JSubMenuHelper::addEntry() is deprecated. Use JHtmlSidebar::addEntry() instead.', JLog::WARNING, 'deprecated');
-		array_push(self::$entries, array($name, $link, $active));
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHtmlSidebar::addEntry() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
+		self::$entries[] = array($name, $link, $active);
 	}
 
 	/**
@@ -72,7 +84,18 @@ abstract class JSubMenuHelper
 	 */
 	public static function getEntries()
 	{
-		JLog::add('JSubMenuHelper::getEntries() is deprecated. Use JHtmlSidebar::getEntries() instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHtmlSidebar::getEntries() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		return self::$entries;
 	}
@@ -92,8 +115,20 @@ abstract class JSubMenuHelper
 	 */
 	public static function addFilter($label, $name, $options, $noDefault = false)
 	{
-		JLog::add('JSubMenuHelper::addFilter() is deprecated. Use JHtmlSidebar::addFilter() instead.', JLog::WARNING, 'deprecated');
-		array_push(self::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault));
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHtmlSidebar::addFilter() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
+		self::$filters[] = array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault);
 	}
 
 	/**
@@ -106,7 +141,18 @@ abstract class JSubMenuHelper
 	 */
 	public static function getFilters()
 	{
-		JLog::add('JSubMenuHelper::getFilters() is deprecated. Use JHtmlSidebar::getFilters() instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHtmlSidebar::getFilters() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		return self::$filters;
 	}
@@ -123,7 +169,19 @@ abstract class JSubMenuHelper
 	 */
 	public static function setAction($action)
 	{
-		JLog::add('JSubMenuHelper::setAction() is deprecated. Use JHtmlSidebar::setAction() instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHtmlSidebar::setAction() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		self::$action = $action;
 	}
 
@@ -137,7 +195,18 @@ abstract class JSubMenuHelper
 	 */
 	public static function getAction()
 	{
-		JLog::add('JSubMenuHelper::getAction() is deprecated. Use JHtmlSidebar::getAction() instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHtmlSidebar::getAction() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		return self::$action;
 	}

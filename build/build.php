@@ -17,22 +17,14 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
 passthru('which git', $systemGit);
-$systemGit = ob_get_clean();
-$gitPath   = '/usr/bin/git';
-
-// Sanity check - Make sure $gitPath is the same path the system recognizes
-if (substr($systemGit, 0, -1) != $gitPath)
-{
-	echo '$gitPath does not match path to local git executable, please set $gitPath to: ' . substr($systemGit, 0, -1) . "\n";
-	exit;
-}
+$systemGit = trim(ob_get_clean());
 
 // Make sure file and folder permissions are set correctly
 umask(022);
@@ -40,12 +32,11 @@ umask(022);
 // Import JVersion to set the version information
 define('JPATH_PLATFORM', 1);
 require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
-$jversion = new JVersion;
 
 // Set version information for the build
-$version     = $jversion->RELEASE;
-$release     = $jversion->DEV_LEVEL;
-$stability   = $jversion->DEV_STATUS;
+$version     = JVersion::RELEASE;
+$release     = JVersion::DEV_LEVEL;
+$stability   = JVersion::DEV_STATUS;
 $fullVersion = $version . '.' . $release;
 
 // Shortcut the paths to the repository root and build folder
@@ -64,15 +55,12 @@ mkdir($fullpath);
 
 echo "Copy the files from the git repository.\n";
 chdir($repo);
-system($gitPath . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
+system($systemGit . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
 
 chdir($tmp);
 system('mkdir diffdocs');
 system('mkdir diffconvert');
 system('mkdir packages' . $version);
-
-echo "Copy manifest file to root directory for install packages.\n";
-system('cp ' . $fullpath . '/administrator/manifests/files/joomla.xml ' . $fullpath);
 
 echo "Create list of changed files from git repository.\n";
 
@@ -93,7 +81,6 @@ $filesArray = array(
 	"language/index.html\n" => true,
 	"layouts/index.html\n" => true,
 	"libraries/index.html\n" => true,
-	"logs/index.html\n" => true,
 	"media/index.html\n" => true,
 	"modules/index.html\n" => true,
 	"plugins/index.html\n" => true,
@@ -104,8 +91,7 @@ $filesArray = array(
 	"LICENSE.txt\n" => true,
 	"README.txt\n" => true,
 	"robots.txt.dist\n" => true,
-	"web.config.txt\n" => true,
-	"joomla.xml\n" => true
+	"web.config.txt\n" => true
 );
 
 /*
@@ -113,17 +99,26 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'.appveyor.yml',
+	'.drone.yml',
+	'.github',
 	'.gitignore',
+	'.php_cs',
 	'.travis.yml',
-	'CONTRIBUTING.md',
 	'README.md',
+	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
 	'composer.json',
 	'composer.lock',
+	'karma.conf.js',
 	'phpunit.xml.dist',
 	'tests',
 	'travisci-phpunit.xml',
+	// Remove the testing sample data from all packages
+	'installation/sql/mysql/sample_testing.sql',
+	'installation/sql/postgresql/sample_testing.sql',
+	'installation/sql/sqlazure/sample_testing.sql',
 );
 
 /*
@@ -131,6 +126,7 @@ $doNotPackage = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPatch = array(
+	'administrator/logs',
 	'installation',
 	'images',
 );
@@ -145,7 +141,7 @@ for ($num = $release - 1; $num >= 0; $num--)
 
 	// Here we get a list of all files that have changed between the two tags ($previousTag and $fullVersion) and save in diffdocs
 	$previousTag = $version . '.' . $num;
-	$command     = $gitPath . ' diff tags/' . $previousTag . ' tags/' . $fullVersion . ' --name-status > diffdocs/' . $version . '.' . $num;
+	$command     = $systemGit . ' diff tags/' . $previousTag . ' tags/' . $fullVersion . ' --name-status > diffdocs/' . $version . '.' . $num;
 
 	system($command);
 
@@ -170,15 +166,33 @@ for ($num = $release - 1; $num >= 0; $num--)
 			continue;
 		}
 
-		// Don't add deleted files to the list
-		if (substr($file, 0, 1) != 'D')
+		// Act on the file based on the action
+		switch (substr($file, 0, 1))
 		{
-			$filesArray[$fileName] = true;
-		}
-		else
-		{
-			// Add deleted files to the deleted files list
-			$deletedFiles[] = $fileName;
+			// This is a new case with git 2.9 to handle renamed files
+			case 'R':
+				// Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
+				$renamedFileData = explode("\t", $file);
+
+				// Add the new file for packaging
+				$filesArray[$renamedFileData[2]] = true;
+
+				// And flag the old file as deleted
+				$deletedFiles[] = $renamedFileData[1];
+
+				break;
+
+			// Deleted files
+			case 'D':
+				$deletedFiles[] = $fileName;
+
+				break;
+
+			// Regular additions and modifications
+			default:
+				$filesArray[$fileName] = true;
+
+				break;
 		}
 	}
 
@@ -229,8 +243,9 @@ system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_'
 
 system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip * > /dev/null');
 
-// Create full update file without installation folder or sample images.
+// Create full update file without the default logs directory, installation folder, or sample images.
 echo "Build full update package.\n";
+system('rm -r administrator/logs');
 system('rm -r installation');
 system('rm -r images/banners');
 system('rm -r images/headers');

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,10 +31,10 @@ class LanguagesViewLanguage extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->item 	= $this->get('Item');
-		$this->form 	= $this->get('Form');
-		$this->state 	= $this->get('State');
-		$this->canDo	= JHelperContent::getActions('com_languages');
+		$this->item  = $this->get('Item');
+		$this->form  = $this->get('Form');
+		$this->state = $this->get('State');
+		$this->canDo = JHelperContent::getActions('com_languages');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -57,7 +57,7 @@ class LanguagesViewLanguage extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
@@ -90,7 +90,5 @@ class LanguagesViewLanguage extends JViewLegacy
 
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
-
-		$this->sidebar = JHtmlSidebar::render();
 	}
 }

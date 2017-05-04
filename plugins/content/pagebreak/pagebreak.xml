@@ -3,7 +3,7 @@
 	<name>plg_content_pagebreak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -20,52 +20,70 @@
 		<fields name="params">
 
 			<fieldset name="basic">
-				<field name="title" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
+				<field
+					name="title"
+					type="radio"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
-				>
+					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
-				<field name="article_index" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
+
+				<field
+					name="article_index"
+					type="radio"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
-				>
+					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
-				<field name="article_index_text"  type="text" default=""
+
+				<field
+					name="article_index_text"
+					type="text"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT"
-					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC" />
+					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC"
+					default=""
+					showon="article_index:1"
+				/>
 
-				<field name="multipage_toc" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
+				<field
+					name="multipage_toc"
+					type="radio"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
-				>
+					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="showall" type="radio"
+				<field
+					name="showall"
+					type="radio"
+					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
+					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
-					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
-				>
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
-				<field name="style" type="list"
-					default="pages"
-					description="PLG_CONTENT_PAGEBREAK_STYLE_DESC"
+
+				<field
+					name="style"
+					type="list"
 					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL"
-				>
+					description="PLG_CONTENT_PAGEBREAK_STYLE_DESC"
+					default="pages"
+					>
 					<option value="pages">PLG_CONTENT_PAGEBREAK_PAGES</option>
 					<option value="sliders">PLG_CONTENT_PAGEBREAK_SLIDERS</option>
 					<option value="tabs">PLG_CONTENT_PAGEBREAK_TABS</option>

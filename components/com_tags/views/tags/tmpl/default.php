@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,10 +21,10 @@ $descriptionImage = $this->params->get('all_tags_description_image');
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
 		</h1>
 	<?php endif; ?>
-	<?php if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage)): ?>
+	<?php if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage)) : ?>
 		<div><?php echo '<img src="' . $descriptionImage . '">'; ?></div>
 	<?php endif; ?>
-	<?php if (!empty($description)): ?>
+	<?php if (!empty($description)) : ?>
 		<div><?php echo $description; ?></div>
 	<?php endif; ?>
 

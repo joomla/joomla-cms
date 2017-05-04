@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of plugin records.
@@ -58,22 +60,22 @@ class PluginsModelPlugins extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'folder', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string');
 		$this->setState('filter.search', $search);
 
-		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int');
+		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd');
 		$this->setState('filter.access', $accessId);
 
-		$state = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string');
+		$state = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'cmd');
 		$this->setState('filter.enabled', $state);
 
-		$folder = $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', null, 'cmd');
+		$folder = $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string');
 		$this->setState('filter.folder', $folder);
 
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string');
 		$this->setState('filter.language', $language);
 
 		// Load the parameters.
@@ -81,7 +83,7 @@ class PluginsModelPlugins extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('folder', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -100,7 +102,7 @@ class PluginsModelPlugins extends JModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.access');
-		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
 		$id .= ':' . $this->getState('filter.language');
 
@@ -121,6 +123,12 @@ class PluginsModelPlugins extends JModelList
 		$search = $this->getState('filter.search');
 		$ordering = $this->getState('list.ordering', 'ordering');
 
+		// If "Sort Table By:" is not set, set ordering to name
+		if ($ordering == '')
+		{
+			$ordering = 'name';
+		}
+
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
 			$this->_db->setQuery($query);
@@ -140,8 +148,9 @@ class PluginsModelPlugins extends JModelList
 				}
 			}
 
-			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
-			JArrayHelper::sortObjects($result, $ordering, $direction, true, true);
+			$orderingDirection = strtolower($this->getState('list.direction'));
+			$direction         = ($orderingDirection == 'desc') ? -1 : 1;
+			$result = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
@@ -266,5 +275,23 @@ class PluginsModelPlugins extends JModelList
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 *
+	 * @since	3.5
+	 */
+	protected function loadFormData()
+	{
+		$data = parent::loadFormData();
+
+		// Set the selected filter values for pages that use the JLayouts for filtering
+		$data->list['sortTable'] = $this->state->get('list.ordering');
+		$data->list['directionTable'] = $this->state->get('list.direction');
+
+		return $data;
 	}
 }

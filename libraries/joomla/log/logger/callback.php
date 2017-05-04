@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,7 +20,9 @@ defined('JPATH_PLATFORM') or die;
 class JLogLoggerCallback extends JLogLogger
 {
 	/**
-	 * @var    callable  The function to call when an entry is added - should return True on success
+	 * The function to call when an entry is added
+	 *
+	 * @var    callable
 	 * @since  12.2
 	 */
 	protected $callback;
@@ -52,10 +54,10 @@ class JLogLoggerCallback extends JLogLogger
 	 *
 	 * @param   JLogEntry  $entry  The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   12.2
-	 * @throws  LogException
+	 * @throws  RuntimeException
 	 */
 	public function addEntry(JLogEntry $entry)
 	{

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/2.5/template-install.dtd">
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "https://www.joomla.org/xml/dtd/2.5/template-install.dtd">
 <extension version="3.1" type="template" client="administrator">
 	<name>isis</name>
 	<version>1.0</version>
 	<creationDate>3/30/2012</creationDate>
 	<author>Kyle Ledbetter</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.</copyright>
 	<description>TPL_ISIS_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
@@ -66,6 +66,11 @@
 				validate="color"
 				label="TPL_ISIS_COLOR_LINK_LABEL"
 				description="TPL_ISIS_COLOR_LINK_DESC" />
+
+				<field name="loginBackgroundColor" class="" type="color" default="#17568C"
+				validate="color"
+				label="TPL_ISIS_COLOR_LOGIN_BACKGROUND_LABEL"
+				description="TPL_ISIS_COLOR_LOGIN_BACKGROUND_DESC" />
 
 				<field name="logoFile" class="" type="media" default=""
 				label="TPL_ISIS_LOGO_LABEL"

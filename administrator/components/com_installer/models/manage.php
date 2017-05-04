@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/extension.php';
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
  * Installer Manage Model
@@ -30,7 +30,16 @@ class InstallerModelManage extends InstallerModel
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('name', 'client_id', 'status', 'type', 'folder', 'extension_id',);
+			$config['filter_fields'] = array(
+				'status',
+				'name',
+				'client_id',
+				'client', 'client_translated',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
+				'package_id',
+				'extension_id',
+			);
 		}
 
 		parent::__construct($config);
@@ -48,32 +57,23 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		$app = JFactory::getApplication();
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '');
-		$this->setState('filter.client_id', $clientId);
-
-		$status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '');
-		$this->setState('filter.status', $status);
-
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '');
-		$this->setState('filter.type', $categoryId);
-
-		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
-		$this->setState('filter.group', $group);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+		$this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
+		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
+		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
-		parent::populateState('name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -198,8 +198,6 @@ class InstallerModelManage extends InstallerModel
 			return false;
 		}
 
-		$failed = array();
-
 		/*
 		 * Ensure eid is an array of extension ids in the form id => client_id
 		 * TODO: If it isn't an array do we want to set an error and fail?
@@ -231,7 +229,7 @@ class InstallerModelManage extends InstallerModel
 				$rowtype = $row->type;
 			}
 
-			if ($row->type && $row->type != 'language')
+			if ($row->type)
 			{
 				$result = $installer->uninstall($row->type, $id);
 
@@ -244,17 +242,9 @@ class InstallerModelManage extends InstallerModel
 					continue;
 				}
 
-				// Package uninstalled sucessfully
+				// Package uninstalled successfully
 				$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
 				$result = true;
-
-				continue;
-			}
-
-			if ($row->type == 'language')
-			{
-				// One should always uninstall a language package, not a single language
-				$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
 
 				continue;
 			}
@@ -263,7 +253,7 @@ class InstallerModelManage extends InstallerModel
 			$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 		}
 
-		$msg = implode("<br />", $msgs);
+		$msg = implode('<br />', $msgs);
 		$app = JFactory::getApplication();
 		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
@@ -283,15 +273,17 @@ class InstallerModelManage extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$status = $this->getState('filter.status');
-		$type = $this->getState('filter.type');
-		$client = $this->getState('filter.client_id');
-		$group = $this->getState('filter.group');
 		$query = $this->getDbo()->getQuery(true)
 			->select('*')
-			->select('2*protected+(1-protected)*enabled as status')
+			->select('2*protected+(1-protected)*enabled AS status')
 			->from('#__extensions')
-			->where('state=0');
+			->where('state = 0');
+
+		// Process select filters.
+		$status   = $this->getState('filter.status');
+		$type     = $this->getState('filter.type');
+		$clientId = $this->getState('filter.client_id');
+		$folder   = $this->getState('filter.folder');
 
 		if ($status != '')
 		{
@@ -306,32 +298,34 @@ class InstallerModelManage extends InstallerModel
 			else
 			{
 				$query->where('protected = 0')
-					->where('enabled=' . (int) $status);
+					->where('enabled = ' . (int) $status);
 			}
 		}
 
 		if ($type)
 		{
-			$query->where('type=' . $this->_db->quote($type));
+			$query->where('type = ' . $this->_db->quote($type));
 		}
 
-		if ($client != '')
+		if ($clientId != '')
 		{
-			$query->where('client_id=' . (int) $client);
+			$query->where('client_id = ' . (int) $clientId);
 		}
 
-		if ($group != '')
+		if ($folder != '')
 		{
-			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
+			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
 		}
 
-		// Filter by search in id
+		// Process search filter (extension id).
 		$search = $this->getState('filter.search');
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
 			$query->where('extension_id = ' . (int) substr($search, 3));
 		}
+
+		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
 
 		return $query;
 	}

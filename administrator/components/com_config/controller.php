@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Config Component Controller
  *
- * @since  1.5
+ * @since       1.5
+ * @deprecated  4.0
  */
 class ConfigController extends JControllerLegacy
 {
@@ -27,7 +28,7 @@ class ConfigController extends JControllerLegacy
 	 * Method to display the view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  ConfigController  This object to support chaining.
 	 *
@@ -39,11 +40,18 @@ class ConfigController extends JControllerLegacy
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'application');
 
-		JLog::add(
-			'ConfigController is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.',
-			JLog::WARNING,
-			'deprecated'
-		);
+		try
+		{
+			JLog::add(
+				sprintf('%s is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.', __CLASS__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		if (ucfirst($vName) == 'Application')
 		{

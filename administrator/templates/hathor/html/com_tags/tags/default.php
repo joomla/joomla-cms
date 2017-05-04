@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,14 +13,15 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$saveOrder	= $listOrder == 'a.ordering';
-$n			= count($this->items);
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$saveOrder = $listOrder == 'a.ordering';
+$n         = count($this->items);
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_tags&view=tags');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -128,11 +129,7 @@ $n			= count($this->items);
 					<?php echo $this->escape($item->access_title); ?>
 				</td>
 				<td class="center">
-					<?php if ($item->language == '*'):?>
-						<?php echo JText::alt('JALL', 'language'); ?>
-					<?php else:?>
-						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-					<?php endif;?>
+					<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>
@@ -150,8 +147,8 @@ $n			= count($this->items);
 			'bootstrap.renderModal',
 			'collapseModal',
 			array(
-				'title' => JText::_('COM_TAGS_BATCH_OPTIONS'),
-				'footer' => $this->loadTemplate('batch_footer')
+				'title'  => JText::_('COM_TAGS_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer'),
 			),
 			$this->loadTemplate('batch_body')
 		); ?>

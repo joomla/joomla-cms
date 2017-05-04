@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,9 +16,8 @@ JLog::add('JDaemon has been renamed to JApplicationDaemon.', JLog::WARNING, 'dep
 /**
  * Backward Compatability Stub for JApplicationDaemon
  *
- * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationDaemon instead.
- * @codeCoverageIgnore
+ * @since       1.7
+ * @deprecated  2.5 Use JApplicationDaemon instead.
  */
 class JDaemon extends JApplicationDaemon
 {
@@ -36,8 +35,8 @@ class JDaemon extends JApplicationDaemon
 	 *                                         the application's event dispatcher, if it is null then the default event dispatcher
 	 *                                         will be created based on the application's loadDispatcher() method.
 	 *
-	 * @since   11.1
-	 * @deprecated  12.3 Use JApplicationDaemon instead.
+	 * @since   1.7
+	 * @deprecated  2.5 Use JApplicationDaemon instead.
 	 * @throws  RuntimeException
 	 */
 	public function __construct(JInputCli $input = null, Registry $config = null, JEventDispatcher $dispatcher = null)

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,21 +31,29 @@ class ContentViewFeatured extends JViewLegacy
 	protected $link_items = array();
 
 	protected $columns = 1;
+	
+	/**
+	 * An instance of JDatabaseDriver.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.6.3
+	 */
+	 protected $db;
 
 	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
 		$user = JFactory::getUser();
 
-		$state 		= $this->get('State');
-		$items 		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
+		$state      = $this->get('State');
+		$items      = $this->get('Items');
+		$pagination = $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,26 +68,26 @@ class ContentViewFeatured extends JViewLegacy
 		// PREPARE THE DATA
 
 		// Get the metrics for the structural page layout.
-		$numLeading	= (int) $params->def('num_leading_articles', 1);
-		$numIntro	= (int) $params->def('num_intro_articles', 4);
-		$numLinks	= (int) $params->def('num_links', 4);
+		$numLeading = (int) $params->def('num_leading_articles', 1);
+		$numIntro   = (int) $params->def('num_intro_articles', 4);
+
+		JPluginHelper::importPlugin('content');
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($items as &$item)
 		{
-			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 			// No link for ROOT category
-			if ($item->parent_alias == 'root')
+			if ($item->parent_alias === 'root')
 			{
 				$item->parent_slug = null;
 			}
 
 			$item->event = new stdClass;
-
-			$dispatcher = JEventDispatcher::getInstance();
+			$dispatcher  = JEventDispatcher::getInstance();
 
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))
@@ -87,7 +95,6 @@ class ContentViewFeatured extends JViewLegacy
 				$item->text = $item->introtext;
 			}
 
-			JPluginHelper::importPlugin('content');
 			$dispatcher->trigger('onContentPrepare', array ('com_content.featured', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
@@ -146,6 +153,7 @@ class ContentViewFeatured extends JViewLegacy
 		$this->items      = &$items;
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
+		$this->db         = JFactory::getDbo();
 
 		$this->_prepareDocument();
 

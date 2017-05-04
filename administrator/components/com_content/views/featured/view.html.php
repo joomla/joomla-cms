@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,18 +16,61 @@ defined('_JEXEC') or die;
  */
 class ContentViewFeatured extends JViewLegacy
 {
+	/**
+	 * The item authors
+	 *
+	 * @var  stdClass
+	 */
+	protected $authors;
+
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var  JForm
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var  array
+	 */
+	public $activeFilters;
+
+	/**
+	 * The sidebar markup
+	 *
+	 * @var  string
+	 */
+	protected $sidebar;
 
 	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -39,6 +82,7 @@ class ContentViewFeatured extends JViewLegacy
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->vote          = JPluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -48,24 +92,24 @@ class ContentViewFeatured extends JViewLegacy
 			return false;
 		}
 
-		// Levels filter.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', JText::_('J1'));
-		$options[]	= JHtml::_('select.option', '2', JText::_('J2'));
-		$options[]	= JHtml::_('select.option', '3', JText::_('J3'));
-		$options[]	= JHtml::_('select.option', '4', JText::_('J4'));
-		$options[]	= JHtml::_('select.option', '5', JText::_('J5'));
-		$options[]	= JHtml::_('select.option', '6', JText::_('J6'));
-		$options[]	= JHtml::_('select.option', '7', JText::_('J7'));
-		$options[]	= JHtml::_('select.option', '8', JText::_('J8'));
-		$options[]	= JHtml::_('select.option', '9', JText::_('J9'));
-		$options[]	= JHtml::_('select.option', '10', JText::_('J10'));
-
-		$this->f_levels = $options;
+		// Levels filter - Used in Hathor.
+		$this->f_levels = array(
+			JHtml::_('select.option', '1', JText::_('J1')),
+			JHtml::_('select.option', '2', JText::_('J2')),
+			JHtml::_('select.option', '3', JText::_('J3')),
+			JHtml::_('select.option', '4', JText::_('J4')),
+			JHtml::_('select.option', '5', JText::_('J5')),
+			JHtml::_('select.option', '6', JText::_('J6')),
+			JHtml::_('select.option', '7', JText::_('J7')),
+			JHtml::_('select.option', '8', JText::_('J8')),
+			JHtml::_('select.option', '9', JText::_('J9')),
+			JHtml::_('select.option', '10', JText::_('J10')),
+		);
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -77,8 +121,8 @@ class ContentViewFeatured extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+		$state = $this->get('State');
+		$canDo = JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
 
 		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
 
@@ -86,6 +130,7 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::addNew('article.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('article.edit');
@@ -102,7 +147,7 @@ class ContentViewFeatured extends JViewLegacy
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{

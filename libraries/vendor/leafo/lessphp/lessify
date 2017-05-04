@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-if (php_sapi_name() != "cli") { 
+if (php_sapi_name() != "cli") {
 	err($fa.$argv[0]." must be run in the command line.");
 	exit(1);
 }

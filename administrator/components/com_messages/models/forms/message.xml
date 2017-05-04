@@ -23,7 +23,6 @@
 			description="COM_MESSAGES_FIELD_MESSAGE_DESC"
 			required="true"
 			filter="JComponentHelper::filterText"
-			buttons="true"
-			hide="readmore,pagebreak,image,article" />
+			buttons="false" />
 	</fieldset>
 </form>

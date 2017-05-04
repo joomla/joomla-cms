@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ class JFilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @see     http://www.php.net/manual/en/function.filesize.php#71098
+	 * @see     https://secure.php.net/manual/en/function.filesize.php#71098
 	 * @since   11.1
 	 */
 	public static function remotefsize($url)
@@ -120,7 +120,7 @@ class JFilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @see     http://www.php.net/manual/en/function.ftp-chmod.php
+	 * @see     https://secure.php.net/manual/en/function.ftp-chmod.php
 	 * @since   11.1
 	 */
 	public static function ftpChmod($url, $mode)

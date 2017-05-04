@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,11 +23,11 @@ function modChrome_none($module, &$params, &$attribs)
 function modChrome_html5($module, &$params, &$attribs)
 {
 	$moduleTag      = $params->get('module_tag');
-	$headerTag      = htmlspecialchars($params->get('header_tag'));
+	$headerTag      = htmlspecialchars($params->get('header_tag'), ENT_COMPAT, 'UTF-8');
 	$headerClass    = $params->get('header_class');
 	$bootstrapSize  = $params->get('bootstrap_size');
 	$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
-	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
+	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 	if (!empty ($module->content))
 	{
@@ -52,18 +52,18 @@ function modChrome_html5($module, &$params, &$attribs)
 function modChrome_xhtml($module, &$params, &$attribs)
 {
 	$moduleTag      = $params->get('module_tag', 'div');
-	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
+	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
 	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
 
 	// Temporarily store header class in variable
 	$headerClass    = $params->get('header_class');
-	$headerClass    = ($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
+	$headerClass    = ($headerClass) ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
 
 	$content = trim($module->content);
 
 	if (!empty ($content)) : ?>
-		<<?php echo $moduleTag; ?> class="module<?php echo htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass; ?>">
+		<<?php echo $moduleTag; ?> class="module<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
 			<?php if ($module->showtitle != 0) : ?>
 				<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
 			<?php endif; ?>
@@ -78,6 +78,7 @@ function modChrome_xhtml($module, &$params, &$attribs)
 function modChrome_sliders($module, &$params, &$attribs)
 {
 	$content = trim($module->content);
+
 	if (!empty($content))
 	{
 		echo JHtml::_('sliders.panel', $module->title, 'module' . $module->id);
@@ -91,6 +92,7 @@ function modChrome_sliders($module, &$params, &$attribs)
 function modChrome_tabs($module, &$params, &$attribs)
 {
 	$content = trim($module->content);
+
 	if (!empty($content))
 	{
 		echo JHtml::_('tabs.panel', $module->title, 'module' . $module->id);

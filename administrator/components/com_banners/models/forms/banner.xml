@@ -1,220 +1,380 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="details"
-		addfieldpath="/administrator/components/com_banners/models/fields">
+	<fieldset name="details" addfieldpath="/administrator/components/com_banners/models/fields">
 
-		<field name="id" type="text" default="0"
-			readonly="true" class="readonly"
-			label="JGLOBAL_FIELD_ID_LABEL" description="JGLOBAL_FIELD_ID_DESC" />
+		<field
+			name="id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			default="0"
+			readonly="true"
+			class="readonly"
+		/>
 
-		<field name="name" type="text"
+		<field
+			name="name"
+			type="text"
+			label="COM_BANNERS_FIELD_NAME_LABEL"
+			description="COM_BANNERS_FIELD_NAME_DESC"
 			class="input-xxlarge input-large-text"
-			size="40" label="COM_BANNERS_FIELD_NAME_LABEL"
-			description="COM_BANNERS_FIELD_NAME_DESC" required="true" />
-
-		<field name="alias" type="text"
-			size="40" label="JFIELD_ALIAS_LABEL"
-			description="COM_BANNERS_FIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER" />
-
-		<field name="catid" type="categoryedit" extension="com_banners"
-			label="JCATEGORY" description="COM_BANNERS_FIELD_CATEGORY_DESC"
+			size="40"
 			required="true"
-			addfieldpath="/administrator/components/com_categories/models/fields" />
+		/>
 
-		<field name="state" type="list"
-			label="JSTATUS" description="COM_BANNERS_FIELD_STATE_DESC"
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="COM_BANNERS_FIELD_ALIAS_DESC"
+			size="40"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+		/>
+
+		<field
+			name="catid"
+			type="categoryedit"
+			label="JCATEGORY"
+			description="COM_BANNERS_FIELD_CATEGORY_DESC"
+			extension="com_banners"
+			required="true"
+			addfieldpath="/administrator/components/com_categories/models/fields"
+			default=""
+		/>
+
+		<field
+			name="state"
+			type="list"
+			label="JSTATUS"
+			description="COM_BANNERS_FIELD_STATE_DESC"
 			class="chzn-color-state"
-			size="1" default="1">
+			size="1"
+			default="1"
+			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
 
-		<field name="ordering" type="ordering" label="JFIELD_ORDERING_LABEL"
+		<field
+			name="ordering"
+			type="ordering"
+			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
-			table="#__banners" />
+			table="#__banners"
+		/>
 
-		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_BANNERS_FIELD_LANGUAGE_DESC">
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_BANNERS_FIELD_LANGUAGE_DESC"
+			>
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="version_note"
+		<field
+			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-			class="span12" size="45"
+			maxlength="255"
+			class="span12"
+			size="45"
 			labelclass="control-label"
 		/>
 
-		<field name="description" type="textarea"
-			rows="3" cols="30" label="JGLOBAL_DESCRIPTION"
-			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
+		<field
+			name="description"
+			type="editor"
+			label="JGLOBAL_DESCRIPTION"
+			description="COM_BANNERS_FIELD_DESCRIPTION_DESC"
+			filter="JComponentHelper::filterText"
+			buttons="true"
+			hide="readmore,pagebreak,module,article,contact,menu"
+		/>
 
-		<field name="type" type="list"
-			label="COM_BANNERS_FIELD_TYPE_LABEL" description="COM_BANNERS_FIELD_TYPE_DESC"
-			default="0">
-			<option value="0">COM_BANNERS_FIELD_VALUE_IMAGE
-			</option>
-			<option value="1">COM_BANNERS_FIELD_VALUE_CUSTOM
-			</option>
+		<field
+			name="type"
+			type="list"
+			label="COM_BANNERS_FIELD_TYPE_LABEL"
+			description="COM_BANNERS_FIELD_TYPE_DESC"
+			default="0"
+			>
+			<option value="0">COM_BANNERS_FIELD_VALUE_IMAGE</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_CUSTOM</option>
 		</field>
 
-		<field name="custombannercode" type="textarea"
-			rows="3" cols="30" filter="raw"
-			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
+		<field
+			name="custombannercode"
+			type="textarea"
+			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL"
+			description="COM_BANNERS_FIELD_CUSTOMCODE_DESC"
+			rows="3"
+			cols="30"
+			filter="raw"
+		/>
 
-		<field name="clickurl" type="url" filter="url"
-			label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />
+		<field
+			name="clickurl"
+			type="url"
+			label="COM_BANNERS_FIELD_CLICKURL_LABEL"
+			description="COM_BANNERS_FIELD_CLICKURL_DESC"
+			filter="url"
+		/>
 	</fieldset>
 
-	<fieldset name="publish"
-		label="COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS">
+	<fieldset name="publish" label="COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS">
 
-		<field name="created" type="calendar"
-			label="COM_BANNERS_FIELD_CREATED_LABEL" description="COM_BANNERS_FIELD_CREATED_DESC"
-			size="22" format="%Y-%m-%d %H:%M:%S"
-			filter="user_utc" />
+		<field
+			name="created"
+			type="calendar"
+			label="COM_BANNERS_FIELD_CREATED_LABEL"
+			description="COM_BANNERS_FIELD_CREATED_DESC"
+			size="22"
+			translateformat="true"
+			showtime="true"
+			filter="user_utc"
+		/>
 
-		<field name="created_by" type="user"
-			label="COM_BANNERS_FIELD_CREATED_BY_LABEL" description="COM_BANNERS_FIELD_CREATED_BY_DESC" />
+		<field
+			name="created_by"
+			type="user"
+			label="COM_BANNERS_FIELD_CREATED_BY_LABEL"
+			description="COM_BANNERS_FIELD_CREATED_BY_DESC"
+		/>
 
-		<field name="created_by_alias" type="text"
-			label="COM_BANNERS_FIELD_CREATED_BY_ALIAS_LABEL" description="COM_BANNERS_FIELD_CREATED_BY_ALIAS_DESC"
-			size="20" />
+		<field
+			name="created_by_alias"
+			type="text"
+			label="COM_BANNERS_FIELD_CREATED_BY_ALIAS_LABEL"
+			description="COM_BANNERS_FIELD_CREATED_BY_ALIAS_DESC"
+			size="20"
+		/>
 
-		<field name="modified" type="calendar" class="readonly"
-			label="JGLOBAL_FIELD_MODIFIED_LABEL" description="COM_BANNERS_FIELD_MODIFIED_DESC"
-			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+		<field
+			name="modified"
+			type="calendar"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
+			description="COM_BANNERS_FIELD_MODIFIED_DESC"
+			class="readonly"
+			size="22"
+			readonly="true"
+			translateformat="true"
+			showtime="true"
+			filter="user_utc"
+		/>
 
-		<field name="modified_by" type="user"
+		<field
+			name="modified_by"
+			type="user"
 			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			description="COM_BANNERS_FIELD_MODIFIED_BY_DESC"
 			class="readonly"
 			readonly="true"
-			filter="unset" />
+			filter="unset"
+		/>
 
-		<field name="version" type="text" class="readonly"
-			label="COM_BANNERS_FIELD_VERSION_LABEL" size="6" description="COM_BANNERS_FIELD_VERSION_DESC"
-			readonly="true" filter="unset" />
+		<field
+			name="version"
+			type="text"
+			label="COM_BANNERS_FIELD_VERSION_LABEL"
+			description="COM_BANNERS_FIELD_VERSION_DESC"
+			class="readonly"
+			size="6"
+			readonly="true"
+			filter="unset"
+		/>
 
-		<field name="publish_up" type="calendar"
-			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL" description="COM_BANNERS_FIELD_PUBLISH_UP_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />
+		<field
+			name="publish_up"
+			type="calendar"
+			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL"
+			description="COM_BANNERS_FIELD_PUBLISH_UP_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
 
-		<field name="publish_down" type="calendar"
-			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL" description="COM_BANNERS_FIELD_PUBLISH_DOWN_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />
+		<field
+			name="publish_down"
+			type="calendar"
+			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL"
+			description="COM_BANNERS_FIELD_PUBLISH_DOWN_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
 	</fieldset>
 
-	<fieldset name="bannerdetails"
-		label="COM_BANNERS_GROUP_LABEL_BANNER_DETAILS">
+	<fieldset name="bannerdetails" label="COM_BANNERS_GROUP_LABEL_BANNER_DETAILS">
 
-		<field name="sticky" type="radio" default="0"
+		<field
+			name="sticky"
+			type="radio"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
-			class="btn-group btn-group-yesno">
+			default="0"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 	</fieldset>
 
 	<fieldset name="otherparams">
-		<field name="imptotal" type="imptotal" default="0"
-			label="COM_BANNERS_FIELD_IMPTOTAL_LABEL" description="COM_BANNERS_FIELD_IMPTOTAL_DESC" />
+		<field
+			name="imptotal"
+			type="imptotal"
+			label="COM_BANNERS_FIELD_IMPTOTAL_LABEL"
+			description="COM_BANNERS_FIELD_IMPTOTAL_DESC"
+			default="0"
+		/>
 
-		<field name="impmade" type="impmade" default="0"
-			label="COM_BANNERS_FIELD_IMPMADE_LABEL" description="COM_BANNERS_FIELD_IMPMADE_DESC" />
+		<field
+			name="impmade"
+			type="impmade"
+			label="COM_BANNERS_FIELD_IMPMADE_LABEL"
+			description="COM_BANNERS_FIELD_IMPMADE_DESC"
+			default="0"
+		/>
 
-		<field name="clicks" type="clicks" default="0"
-			label="COM_BANNERS_FIELD_CLICKS_LABEL" description="COM_BANNERS_FIELD_CLICKS_DESC" />
+		<field
+			name="clicks"
+			type="clicks"
+			label="COM_BANNERS_FIELD_CLICKS_LABEL"
+			description="COM_BANNERS_FIELD_CLICKS_DESC"
+			default="0"
+		/>
 
-		<field name="cid" type="bannerclient"
-			label="COM_BANNERS_FIELD_CLIENT_LABEL" description="COM_BANNERS_FIELD_CLIENT_DESC" />
+		<field
+			name="cid"
+			type="bannerclient"
+			label="COM_BANNERS_FIELD_CLIENT_LABEL"
+			description="COM_BANNERS_FIELD_CLIENT_DESC"
+		/>
 
-		<field name="purchase_type" type="list"
-			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
-			default="0">
-			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
-			</option>
-			<option value="1">COM_BANNERS_FIELD_VALUE_1
-			</option>
-			<option value="2">COM_BANNERS_FIELD_VALUE_2
-			</option>
-			<option value="3">COM_BANNERS_FIELD_VALUE_3
-			</option>
-			<option value="4">COM_BANNERS_FIELD_VALUE_4
-			</option>
-			<option value="5">COM_BANNERS_FIELD_VALUE_5
-			</option>
+		<field
+			name="purchase_type"
+			type="list"
+			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
+			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
+			default="0"
+			>
+			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
+			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
+			<option value="3">COM_BANNERS_FIELD_VALUE_MONTHLY</option>
+			<option value="4">COM_BANNERS_FIELD_VALUE_WEEKLY</option>
+			<option value="5">COM_BANNERS_FIELD_VALUE_DAILY</option>
 		</field>
 
-		<field name="track_impressions" type="list" default="0"
+		<field
+			name="track_impressions"
+			type="list"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
-			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC">
-			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
-			</option>
+			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
+			default="0"
+			>
+			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
-		<field name="track_clicks" type="list" default="0"
-			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC">
-			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
-			</option>
+		<field
+			name="track_clicks"
+			type="list"
+			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
+			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
+			default="0"
+			>
+			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 
-	<fieldset name="metadata"
-		label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
-		<field name="metakey" type="textarea"
-			rows="3" cols="30" label="JFIELD_META_KEYWORDS_LABEL"
-			description="COM_BANNERS_FIELD_METAKEYWORDS_DESC" />
+		<field
+			name="metakey"
+			type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			description="COM_BANNERS_FIELD_METAKEYWORDS_DESC"
+			rows="3"
+			cols="30"
+		/>
 
-		<field name="own_prefix" type="radio"
-			class="btn-group btn-group-yesno"
+		<field
+			name="own_prefix"
+			type="radio"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_BANNEROWNPREFIX_DESC"
-			default="0">
+			class="btn-group btn-group-yesno"
+			default="0"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field name="metakey_prefix" type="text"
+		<field
+			name="metakey_prefix"
+			type="text"
 			label="COM_BANNERS_FIELD_METAKEYWORDPREFIX_LABEL"
-			description="COM_BANNERS_FIELD_METAKEYWORDPREFIX_DESC" />
+			description="COM_BANNERS_FIELD_METAKEYWORDPREFIX_DESC"
+		/>
 	</fieldset>
 
 	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 		<fieldset name="image">
-			<field name="imageurl" type="media" directory="banners"
-				hide_none="1" label="COM_BANNERS_FIELD_IMAGE_LABEL"
+			<field
+				name="imageurl"
+				type="media"
+				label="COM_BANNERS_FIELD_IMAGE_LABEL"
+				description="COM_BANNERS_FIELD_IMAGE_DESC"
+				directory="banners"
+				hide_none="1"
 				size="40"
-				description="COM_BANNERS_FIELD_IMAGE_DESC" />
+			/>
 
-			<field name="width" type="text"
-				class="input-mini validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
-				description="COM_BANNERS_FIELD_WIDTH_DESC" />
+			<field
+				name="width"
+				type="text"
+				label="COM_BANNERS_FIELD_WIDTH_LABEL"
+				description="COM_BANNERS_FIELD_WIDTH_DESC"
+				class="input-mini validate-numeric"
+			/>
 
-			<field name="height" type="text"
-				class="input-mini validate-numeric" label="COM_BANNERS_FIELD_HEIGHT_LABEL"
-				description="COM_BANNERS_FIELD_HEIGHT_DESC" />
+			<field
+				name="height"
+				type="text"
+				label="COM_BANNERS_FIELD_HEIGHT_LABEL"
+				description="COM_BANNERS_FIELD_HEIGHT_DESC"
+				class="input-mini validate-numeric"
+			/>
 
-			<field name="alt" type="text"
-				label="COM_BANNERS_FIELD_ALT_LABEL" description="COM_BANNERS_FIELD_ALT_DESC" />
+			<field
+				name="alt"
+				type="text"
+				label="COM_BANNERS_FIELD_ALT_LABEL"
+				description="COM_BANNERS_FIELD_ALT_DESC"
+			/>
 		</fieldset>
 	</fields>
 
 	<fieldset name="custom">
-		<field name="bannercode" type="textarea"
-			rows="3" cols="30" filter="raw"
-			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
+		<field
+			name="bannercode"
+			type="textarea"
+			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL"
+			description="COM_BANNERS_FIELD_CUSTOMCODE_DESC"
+			rows="3"
+			cols="30"
+			filter="raw"
+		/>
 	</fieldset>
 
 </form>

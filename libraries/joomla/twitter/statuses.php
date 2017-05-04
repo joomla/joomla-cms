@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Statuses class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterStatuses extends JTwitterObject
 {
@@ -25,7 +26,7 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   boolean  $entities    When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
 	 *                                about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $my_retweet  When set to either true, t or 1, any statuses returned that have been retweeted by the authenticating user will
-	 * 								  include an additional current_user_retweet node, containing the ID of the source status for the retweet.
+	 *                                include an additional current_user_retweet node, containing the ID of the source status for the retweet.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -34,7 +35,7 @@ class JTwitterStatuses extends JTwitterObject
 	public function getTweetById($id, $trim_user = null, $entities = null, $my_retweet = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit("statuses", "show/:id");
+		$this->checkRateLimit('statuses', 'show/:id');
 
 		// Set the API base
 		$path = '/statuses/show/' . $id . '.json';
@@ -77,7 +78,7 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   boolean  $trim_user    When set to true, each tweet returned in a timeline will include a user object including only
 	 *                                 the status author's numerical ID.
 	 * @param   boolean  $contributor  This parameter enhances the contributors element of the status response to include the screen_name of the
-	 * 								   contributor. By default only the user_id of the contributor is included.
+	 *                                 contributor. By default only the user_id of the contributor is included.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -231,7 +232,7 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   boolean  $trim_user    When set to true, each tweet returned in a timeline will include a user object including only
 	 *                                 the status author's numerical ID.
 	 * @param   string   $contributor  This parameter enhances the contributors element of the status response to include the screen_name
-	 *                                  of the contributor.
+	 *                                 of the contributor.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -294,14 +295,14 @@ class JTwitterStatuses extends JTwitterObject
 	 * Method to get the most recent tweets of the authenticated user that have been retweeted by others.
 	 *
 	 * @param   integer  $count          Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
-	 *                               	 in the count, so it is always suggested to set $include_rts to true
+	 *                                   in the count, so it is always suggested to set $include_rts to true
 	 * @param   integer  $since_id       Returns results with an ID greater than (that is, more recent than) the specified ID.
 	 * @param   boolean  $entities       When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                               	 about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 *                                   about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $user_entities  The user entities node will be disincluded when set to false.
 	 * @param   integer  $max_id         Returns results with an ID less than (that is, older than) the specified ID.
 	 * @param   boolean  $trim_user      When set to true, each tweet returned in a timeline will include a user object including only
-	 *                               	 the status author's numerical ID.
+	 *                                   the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -358,9 +359,9 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   integer  $id             The numerical ID of the desired status.
 	 * @param   integer  $count          Specifies the number of retweets to try and retrieve, up to a maximum of 100.
 	 * @param   integer  $cursor         Causes the list of IDs to be broken into pages of no more than 100 IDs at a time.
-	 * 									 The number of IDs returned is not guaranteed to be 100 as suspended users are
-	 * 									 filtered out after connections are queried. If no cursor is provided, a value of
-	 * 									 -1 will be assumed, which is the first "page."
+	 *                                   The number of IDs returned is not guaranteed to be 100 as suspended users are
+	 *                                   filtered out after connections are queried. If no cursor is provided, a value of
+	 *                                   -1 will be assumed, which is the first "page."
 	 * @param   boolean  $stringify_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
@@ -513,7 +514,7 @@ class JTwitterStatuses extends JTwitterObject
 		// Set POST data.
 		$data = array(
 			'status' => utf8_encode($status),
-			'media[]' => "@{$media}"
+			'media[]' => "@{$media}",
 		);
 
 		$header = array('Content-Type' => 'multipart/form-data');
@@ -565,17 +566,18 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   integer  $id           The Tweet/status ID to return embed code for.
 	 * @param   string   $url          The URL of the Tweet/status to be embedded.
 	 * @param   integer  $maxwidth     The maximum width in pixels that the embed should be rendered at. This value is constrained to be
-	 * 								   between 250 and 550 pixels.
+	 *                                 between 250 and 550 pixels.
 	 * @param   boolean  $hide_media   Specifies whether the embedded Tweet should automatically expand images which were uploaded via
-	 * 								   POST statuses/update_with_media.
+	 *                                 POST statuses/update_with_media.
 	 * @param   boolean  $hide_thread  Specifies whether the embedded Tweet should automatically show the original message in the case that
-	 * 								   the embedded Tweet is a reply.
-	 * @param   boolean  $omit_script  Specifies whether the embedded Tweet HTML should include a <script> element pointing to widgets.js. In cases where
-	 * 								   a page already includes widgets.js, setting this value to true will prevent a redundant script element from being included.
+	 *                                 the embedded Tweet is a reply.
+	 * @param   boolean  $omit_script  Specifies whether the embedded Tweet HTML should include a `<script>` element pointing to widgets.js.
+	 *                                 In cases where a page already includes widgets.js, setting this value to true will prevent a redundant
+	 *                                 script element from being included.
 	 * @param   string   $align        Specifies whether the embedded Tweet should be left aligned, right aligned, or centered in the page.
-	 * 								   Valid values are left, right, center, and none.
+	 *                                 Valid values are left, right, center, and none.
 	 * @param   string   $related      A value for the TWT related parameter, as described in Web Intents. This value will be forwarded to all
-	 * 								   Web Intents calls.
+	 *                                 Web Intents calls.
 	 * @param   string   $lang         Language code for the rendered embed. This will affect the text and localization of the rendered HTML.
 	 *
 	 * @return  array  The decoded JSON response

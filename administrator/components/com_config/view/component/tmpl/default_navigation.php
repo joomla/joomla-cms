@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 ?>
 <ul class="nav nav-list">
-	<?php if ($this->userIsSuperAdmin): ?>
+	<?php if ($this->userIsSuperAdmin) : ?>
 		<li class="nav-header"><?php echo JText::_('COM_CONFIG_SYSTEM'); ?></li>
 		<li><a href="index.php?option=com_config"><?php echo JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'); ?></a></li>
 		<li class="divider"></li>

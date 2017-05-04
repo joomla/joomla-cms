@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,7 +43,8 @@ class JMailTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -193,8 +194,8 @@ class JMailTest extends TestCase
 
 		foreach ($actual as $attach)
 		{
-			array_push($actual_attachments, $attach[0]);
-			array_push($actual_names, $attach[2]);
+			$actual_attachments[] = $attach[0];
+			$actual_names[]       = $attach[2];
 		}
 
 		$this->assertThat($attachments, $this->equalTo($actual_attachments));
@@ -276,8 +277,10 @@ class JMailTest extends TestCase
 	 */
 	public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
 	{
-		$mail = $this->getMock('JMail', array('SetLanguage', 'IsSMTP', 'IsMail'));
-
+		// Build the mock object.
+		$mail  = $this->getMockBuilder('JMail')
+					->setMethods(array('SetLanguage', 'IsSMTP', 'IsMail'))
+					->getMock();
 		$mail->expects(
 			$this->once()
 		)

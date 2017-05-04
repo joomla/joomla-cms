@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ jQuery(document).ready(function() {
 	}
 });');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id);?>" method="post" name="adminForm" id="note-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="note-form" class="form-validate form-horizontal">
 		<fieldset class="adminform">
 			<div class="control-group">
 				<div class="control-label">

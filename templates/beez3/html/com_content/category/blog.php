@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ $cparams = JComponentHelper::getParams('com_media');
 </div>
 <?php endif; ?>
 <?php
-	$introcount = (count($this->intro_items));
+	$introcount = count($this->intro_items);
 	$counter = 0;
 ?>
 <?php if (!empty($this->intro_items)) : ?>

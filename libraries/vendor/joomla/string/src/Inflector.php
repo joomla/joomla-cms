@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework String Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -157,7 +157,7 @@ class Inflector
 	 */
 	private function getCachedPlural($singular)
 	{
-		$singular = String::strtolower($singular);
+		$singular = StringHelper::strtolower($singular);
 
 		// Check if the word is in cache.
 		if (isset($this->cache[$singular]))
@@ -179,7 +179,7 @@ class Inflector
 	 */
 	private function getCachedSingular($plural)
 	{
-		$plural = String::strtolower($plural);
+		$plural = StringHelper::strtolower($plural);
 
 		return array_search($plural, $this->cache);
 	}
@@ -226,7 +226,7 @@ class Inflector
 	 */
 	private function setCache($singular, $plural = null)
 	{
-		$singular = String::strtolower($singular);
+		$singular = StringHelper::strtolower($singular);
 
 		if ($plural === null)
 		{
@@ -234,7 +234,7 @@ class Inflector
 		}
 		else
 		{
-			$plural = String::strtolower($plural);
+			$plural = StringHelper::strtolower($plural);
 		}
 
 		$this->cache[$singular] = $plural;
@@ -336,7 +336,7 @@ class Inflector
 	 *
 	 * @return  boolean  True if word is countable, false otherwise.
 	 *
-	 * @since  1.0
+	 * @since   1.0
 	 */
 	public function isCountable($word)
 	{
@@ -350,7 +350,7 @@ class Inflector
 	 *
 	 * @return  boolean  True if word is plural, false if not.
 	 *
-	 * @since  1.0
+	 * @since   1.0
 	 */
 	public function isPlural($word)
 	{
@@ -362,8 +362,15 @@ class Inflector
 			return true;
 		}
 
+		$singularWord = $this->toSingular($word);
+
+		if ($singularWord === false)
+		{
+			return false;
+		}
+
 		// Compute the inflection to cache the values, and compare.
-		return $this->toPlural($this->toSingular($word)) == $word;
+		return $this->toPlural($singularWord) == $word;
 	}
 
 	/**
@@ -373,7 +380,7 @@ class Inflector
 	 *
 	 * @return  boolean  True if word is singular, false if not.
 	 *
-	 * @since  1.0
+	 * @since   1.0
 	 */
 	public function isSingular($word)
 	{
@@ -385,8 +392,15 @@ class Inflector
 			return true;
 		}
 
+		$pluralWord = $this->toPlural($word);
+
+		if ($pluralWord === false)
+		{
+			return false;
+		}
+
 		// Compute the inflection to cache the values, and compare.
-		return $this->toSingular($this->toPlural($word)) == $word;
+		return $this->toSingular($pluralWord) == $word;
 	}
 
 	/**
@@ -396,7 +410,7 @@ class Inflector
 	 *
 	 * @return  mixed  An inflected string, or false if no rule could be applied.
 	 *
-	 * @since  1.0
+	 * @since   1.0
 	 */
 	public function toPlural($word)
 	{
@@ -435,7 +449,7 @@ class Inflector
 	 *
 	 * @return  mixed  An inflected string, or false if no rule could be applied.
 	 *
-	 * @since  1.0
+	 * @since   1.0
 	 */
 	public function toSingular($word)
 	{

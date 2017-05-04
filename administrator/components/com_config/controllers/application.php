@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,18 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function save()
 	{
-		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationSave instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use ConfigControllerApplicationSave instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		$controller = new ConfigControllerApplicationSave;
 
@@ -59,27 +70,22 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function cancel()
 	{
-		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationCancel instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use ConfigControllerApplicationCancel instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		$controller = new ConfigControllerApplicationCancel;
 
 		return $controller->execute();
-	}
-
-	/**
-	 * Method to refresh the help display.
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  4,0  Use ConfigControllerApplicationRefreshhelp instead.
-	 */
-	public function refreshHelp()
-	{
-		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRefreshhelp instead.', JLog::WARNING, 'deprecated');
-
-		$controller = new ConfigControllerApplicationRefreshhelp;
-
-		$controller->execute();
 	}
 
 	/**
@@ -92,7 +98,18 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function removeroot()
 	{
-		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRemoveroot instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use ConfigControllerApplicationRemoveroot instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		$controller = new ConfigControllerApplicationRemoveroot;
 

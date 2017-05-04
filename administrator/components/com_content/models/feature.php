@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/article.php';
+JLoader::register('ContentModelArticle', __DIR__ . '/article.php');
 
 /**
  * Feature model.
@@ -37,7 +37,7 @@ class ContentModelFeature extends ContentModelArticle
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object	A record object.
+	 * @param   object  $table  A record object.
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *
@@ -45,8 +45,6 @@ class ContentModelFeature extends ContentModelArticle
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-
-		return $condition;
+		return array();
 	}
 }

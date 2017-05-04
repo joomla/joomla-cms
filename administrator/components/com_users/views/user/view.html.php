@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * User view class.
- * 
+ *
  * @since  1.5
  */
 class UsersViewUser extends JViewLegacy
@@ -39,8 +39,6 @@ class UsersViewUser extends JViewLegacy
 	{
 		$this->form      = $this->get('Form');
 		$this->item      = $this->get('Item');
-		$this->grouplist = $this->get('Groups');
-		$this->groups    = $this->get('AssignedGroups');
 		$this->state     = $this->get('State');
 		$this->tfaform   = $this->get('Twofactorform');
 		$this->otpConfig = $this->get('otpConfig');
@@ -51,6 +49,15 @@ class UsersViewUser extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
+		}
+
+		// Prevent user from modifying own group(s)
+		$user = JFactory::getUser();
+
+		if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin'))
+		{
+			$this->grouplist = $this->get('Groups');
+			$this->groups    = $this->get('AssignedGroups');
 		}
 
 		$this->form->setValue('password', null);
@@ -76,7 +83,12 @@ class UsersViewUser extends JViewLegacy
 		$isNew     = ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
 
-		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')), 'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit')));
+		JToolbarHelper::title(
+			JText::_(
+				$isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')
+			),
+			'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
+		);
 
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{

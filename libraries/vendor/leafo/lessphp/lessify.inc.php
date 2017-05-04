@@ -49,7 +49,7 @@ class easyparse {
 	}
 
 	function literal($what, $eatWhitespace = true) {
-		// this is here mainly prevent notice from { } string accessor 
+		// this is here mainly prevent notice from { } string accessor
 		if ($this->count >= strlen($this->buffer)) return false;
 
 		// shortcut on single letter
@@ -157,7 +157,7 @@ class tagparse extends easyparse {
 					if (!$escapeNext) {
 						break 3;
 					}
-					
+
 					$buff .= $char;
 					$escapeNext = false;
 					break;
@@ -419,7 +419,7 @@ class lessify extends lessc {
 					$order[] = array('compressed', $common, $block);
 					continue;
 				}
-				
+
 			}
 
 			$order[] = array('none', $block['__tags'], $block);

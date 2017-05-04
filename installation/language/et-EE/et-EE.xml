@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
 	<name>Estonian</name>
-	<version>3.4.0</version>
-	<creationDate>2012-09-22</creationDate>
+	<version>3.6.3</version>
+	<creationDate>2016-09-16</creationDate>
 	<author>Joomla! Project</author>
-	<authorUrl>eraser.ee</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Joomla! 3.0 paigaldusprotsessi eesti keele tõlge</description>
 	<files>
 		<filename>et-EE.ini</filename>
 	</files>

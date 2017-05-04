@@ -3,41 +3,57 @@ sudo: false
 
 language: php
 
-php:
-  - 5.3
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7.0
+env:
+  global:
+    - RUN_UNIT_TESTS="yes"
+    - INSTALL_MEMCACHE="yes"
+    - INSTALL_MEMCACHED="yes"
+    - INSTALL_REDIS="yes"
 
 matrix:
-  allow_failures:
+  fast_finish: true
+  include:
+    - php: 5.3
+      env: INSTALL_APC="yes"
+    - php: 5.4
+      env: INSTALL_APC="yes"
+    - php: 5.5
+      env: INSTALL_APCU="yes"
+    - php: 5.6
+      env: INSTALL_APCU="yes"
     - php: 7.0
+      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
+    - php: 7.1
+      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
+    - php: hhvm
+      sudo: true
+      dist: trusty
+      group: edge # until the next update
+      addons:
+        apt:
+          packages:
+            - mysql-server-5.6
+            - mysql-client-core-5.6
+            - mysql-client-5.6
+      services:
+        - mysql
+        - postgresql
+        - redis-server
+      env: INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" # Disabled items that currently do not work in travis-ci hhvm
+  allow_failures:
+    - php: hhvm
 
 services:
+  - memcache
   - memcached
   - redis-server
 
 before_script:
   # Make sure all dev dependencies are installed
-  - composer install
-  # Set up databases for testing
-  - mysql -e 'create database joomla_ut;'
-  - mysql joomla_ut < tests/unit/schema/mysql.sql
-  - psql -c 'create database joomla_ut;' -U postgres
-  - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
-  # Set up Apache
-  # - ./build/travis/php-apache.sh
-  # Enable additional PHP extensions
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then phpenv config-add build/travis/phpenv/memcached.ini; fi"
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' == '5.3' ] || [ '$TRAVIS_PHP_VERSION' == '5.4' ]; then phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini; fi"
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then phpenv config-add build/travis/phpenv/redis.ini; fi"
-  # PHP 5.5+ needs APCu
-  - if [ '$TRAVIS_PHP_VERSION' == "5.5" ] || [ '$TRAVIS_PHP_VERSION' == "5.6" ]; then printf "\n" | echo -e "extension = apcu.so\napc.enabled=1\napc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
+  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then bash build/travis/unit-tests.sh $PWD; fi
 
 script:
-  - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi"
+  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
 
 branches:
   except:

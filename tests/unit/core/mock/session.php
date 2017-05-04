@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ class TestMockSession
 	 *
 	 * @since   11.3
 	 */
-	public function getOption($name, $default = null)
+	public static function getOption($name, $default = null)
 	{
 		return isset(self::$options[$name]) ? self::$options[$name] : $default;
 	}
@@ -81,17 +81,13 @@ class TestMockSession
 			'set',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JSession',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JSession')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
@@ -119,14 +115,11 @@ class TestMockSession
 	 *
 	 * @since   11.3
 	 */
-	public function mockGet($key)
+	public static function mockGet($key)
 	{
 		switch ($key)
 		{
 			case 'user':
-				// Attempt to load JUser.
-				class_exists('JUser');
-
 				$user = new JUser;
 
 				$user->id = (int) self::getOption('get.user.id', 0);

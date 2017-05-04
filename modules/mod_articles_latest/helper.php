@@ -3,22 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Helper for mod_articles_latest
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_latest
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModArticlesLatestHelper
 {
@@ -101,9 +101,10 @@ abstract class ModArticlesLatestHelper
 			'mc_dsc' => 'CASE WHEN (a.modified = ' . $db->quote($db->getNullDate()) . ') THEN a.created ELSE a.modified END',
 			'c_dsc' => 'a.created',
 			'p_dsc' => 'a.publish_up',
-			'random' => 'RAND()',
+			'random' => $db->getQuery(true)->Rand(),
 		);
-		$ordering = JArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
+
+		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
 		$dir      = 'DESC';
 
 		$model->setState('list.ordering', $ordering);
@@ -114,6 +115,8 @@ abstract class ModArticlesLatestHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

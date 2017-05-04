@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,7 +53,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -169,7 +169,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 
 		$extension = 'lib_' . $this->getElement();
 		$librarypath = (string) $this->getManifest()->libraryname;
-		$source = $path ? $path : JPATH_PLATFORM . '/' . $librarypath;
+		$source = $path ?: JPATH_PLATFORM . '/' . $librarypath;
 
 		$this->doLoadLanguage($extension, $source, JPATH_SITE);
 	}
@@ -266,6 +266,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 
 		// Custom data
 		$this->extension->custom_data = '';
+		$this->extension->system_data = '';
 
 		// Update the manifest cache for the entry
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -289,7 +290,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	/**
 	 * Custom update method
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
@@ -373,6 +374,17 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		if ($row->protected)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_WARNCORELIBRARY'), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
 
 			return false;
 		}

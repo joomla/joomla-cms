@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,14 +51,11 @@ class InstallerModelInstall extends JModelLegacy
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
-		// Recall the 'Install from Directory' path.
-		$path = $app->getUserStateFromRequest($this->_context . '.install_directory', 'install_directory', $app->get('tmp_path'));
-		$this->setState('install.directory', $path);
 		parent::populateState();
 	}
 
 	/**
-	 * Install an extension from either folder, url or upload.
+	 * Install an extension from either folder, URL or upload.
 	 *
 	 * @return  boolean result of install.
 	 *
@@ -138,6 +135,41 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
+		// Get an installer instance.
+		$installer = JInstaller::getInstance();
+
+		/*
+		 * Check for a Joomla core package.
+		 * To do this we need to set the source path to find the manifest (the same first step as JInstaller::install())
+		 *
+		 * This must be done before the unpacked check because JInstallerHelper::detectType() returns a boolean false since the manifest
+		 * can't be found in the expected location.
+		 */
+		if (is_array($package) && isset($package['dir']) && is_dir($package['dir']))
+		{
+			$installer->setPath('source', $package['dir']);
+
+			if (!$installer->findManifest())
+			{
+				// If a manifest isn't found at the source, this may be a Joomla package; check the package directory for the Joomla manifest
+				if (file_exists($package['dir'] . '/administrator/manifests/files/joomla.xml'))
+				{
+					// We have a Joomla package
+					if (in_array($installType, array('upload', 'url')))
+					{
+						JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+					}
+
+					$app->enqueueMessage(
+						JText::sprintf('COM_INSTALLER_UNABLE_TO_INSTALL_JOOMLA_PACKAGE', JRoute::_('index.php?option=com_joomlaupdate')),
+						'warning'
+					);
+
+					return false;
+				}
+			}
+		}
+
 		// Was the package unpacked?
 		if (!$package || !$package['type'])
 		{
@@ -151,9 +183,6 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
-		// Get an installer instance.
-		$installer = JInstaller::getInstance();
-
 		// Install the package.
 		if (!$installer->install($package['dir']))
 		{
@@ -164,7 +193,7 @@ class InstallerModelInstall extends JModelLegacy
 		}
 		else
 		{
-			// Package installed sucessfully.
+			// Package installed successfully.
 			$msg = JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
 			$msgType = 'message';
@@ -174,7 +203,7 @@ class InstallerModelInstall extends JModelLegacy
 		$dispatcher->trigger('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
 
 		// Set some model state values.
-		$app	= JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$app->enqueueMessage($msg, $msgType);
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
@@ -203,6 +232,7 @@ class InstallerModelInstall extends JModelLegacy
 	{
 		// Get the uploaded file information.
 		$input    = JFactory::getApplication()->input;
+
 		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See JInputFiles::get.
 		$userfile = $input->files->get('install_package', null, 'raw');
 
@@ -233,7 +263,10 @@ class InstallerModelInstall extends JModelLegacy
 		// Is the PHP tmp directory missing?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'));
+			JError::raiseWarning(
+				'',
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
+			);
 
 			return false;
 		}
@@ -241,7 +274,10 @@ class InstallerModelInstall extends JModelLegacy
 		// Is the max upload size too small in php.ini?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'));
+			JError::raiseWarning(
+				'',
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
+			);
 
 			return false;
 		}
@@ -255,9 +291,9 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// Build the appropriate paths.
-		$config		= JFactory::getConfig();
-		$tmp_dest	= $config->get('tmp_path') . '/' . $userfile['name'];
-		$tmp_src	= $userfile['tmp_name'];
+		$config   = JFactory::getConfig();
+		$tmp_dest = $config->get('tmp_path') . '/' . $userfile['name'];
+		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
 		jimport('joomla.filesystem.file');

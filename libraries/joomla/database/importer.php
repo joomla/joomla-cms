@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -193,15 +193,7 @@ abstract class JDatabaseImporter
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-
-						try
-						{
-							$this->db->execute();
-						}
-						catch (RuntimeException $e)
-						{
-							throw $e;
-						}
+						$this->db->execute();
 					}
 				}
 			}
@@ -211,15 +203,7 @@ abstract class JDatabaseImporter
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-
-				try
-				{
-					$this->db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					throw $e;
-				}
+				$this->db->execute();
 			}
 		}
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,7 +86,7 @@ abstract class JHtmlLinks
 	}
 
 	/**
-	 * Method to generate html code for a list of links
+	 * Method to generate html code for a single link
 	 *
 	 * @param   array  $link  link properties
 	 *

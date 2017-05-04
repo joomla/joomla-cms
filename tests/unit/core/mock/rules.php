@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,17 +30,13 @@ class TestMockRules
 			'allow',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JAccessRules',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JAccessRules')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$test->assignMockCallbacks(
 			$mockObject,
@@ -62,7 +58,7 @@ class TestMockRules
 	 *
 	 * @since   11.3
 	 */
-	public function mockAllow($action, $identity)
+	public static function mockAllow($action, $identity)
 	{
 		switch ($action)
 		{
@@ -76,7 +72,6 @@ class TestMockRules
 					// Odds return true, evens false.
 					return (boolean) ($identity % 2);
 				}
-				return false;
 
 			case 'walk':
 				if ($identity == 0)

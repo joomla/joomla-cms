@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,8 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Deprecated class placeholder.  You should use JApplicationWeb instead.
  *
- * @since       11.3
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationWeb instead.
+ * @since       1.7
+ * @deprecated  2.5 Use JApplicationWeb instead.
  * @codeCoverageIgnore
  */
 class JWeb extends JApplicationWeb
@@ -33,8 +33,8 @@ class JWeb extends JApplicationWeb
 	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
 	 *                                          the application's client object, otherwise a default client object is created.
 	 *
-	 * @since   11.3
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) Use JApplicationWeb instead.
+	 * @since   1.7
+	 * @deprecated  2.5 Use JApplicationWeb instead.
 	 */
 	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{

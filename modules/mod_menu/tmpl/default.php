@@ -3,30 +3,32 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Note. It is important to remove spaces between elements.
-?>
-<?php // The menu class is deprecated. Use nav instead. ?>
-<ul class="nav menu<?php echo $class_sfx;?>"<?php
-	$tag = '';
+$id = '';
 
-	if ($params->get('tag_id') != null)
-	{
-		$tag = $params->get('tag_id') . '';
-		echo ' id="' . $tag . '"';
-	}
-?>>
-<?php
-foreach ($list as $i => &$item)
+if ($tagId = $params->get('tag_id', ''))
+{
+	$id = ' id="' . $tagId . '"';
+}
+
+// The menu class is deprecated. Use nav instead
+?>
+<ul class="nav menu<?php echo $class_sfx; ?>"<?php echo $id; ?>>
+<?php foreach ($list as $i => &$item)
 {
 	$class = 'item-' . $item->id;
 
-	if (($item->id == $active_id) OR ($item->type == 'alias' AND $item->params->get('aliasoptions') == $active_id))
+	if ($item->id == $default_id)
+	{
+		$class .= ' default';
+	}
+
+	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
 	}
@@ -35,7 +37,7 @@ foreach ($list as $i => &$item)
 	{
 		$class .= ' active';
 	}
-	elseif ($item->type == 'alias')
+	elseif ($item->type === 'alias')
 	{
 		$aliasToId = $item->params->get('aliasoptions');
 
@@ -49,7 +51,7 @@ foreach ($list as $i => &$item)
 		}
 	}
 
-	if ($item->type == 'separator')
+	if ($item->type === 'separator')
 	{
 		$class .= ' divider';
 	}
@@ -64,19 +66,13 @@ foreach ($list as $i => &$item)
 		$class .= ' parent';
 	}
 
-	if (!empty($class))
-	{
-		$class = ' class="' . trim($class) . '"';
-	}
+	echo '<li class="' . $class . '">';
 
-	echo '<li' . $class . '>';
-
-	// Render the menu item.
 	switch ($item->type) :
 		case 'separator':
-		case 'url':
 		case 'component':
 		case 'heading':
+		case 'url':
 			require JModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
 			break;
 
@@ -90,15 +86,15 @@ foreach ($list as $i => &$item)
 	{
 		echo '<ul class="nav-child unstyled small">';
 	}
+	// The next item is shallower.
 	elseif ($item->shallower)
 	{
-		// The next item is shallower.
 		echo '</li>';
 		echo str_repeat('</ul></li>', $item->level_diff);
 	}
+	// The next item is on the same level.
 	else
 	{
-		// The next item is on the same level.
 		echo '</li>';
 	}
 }

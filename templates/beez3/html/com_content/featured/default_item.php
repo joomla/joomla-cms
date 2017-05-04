@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,14 +62,14 @@ $templateparams = $app->getTemplate(true)->params;
 
 <?php // to do not that elegant would be nice to group the params ?>
 
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) : ?>
+<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
 <?php if ($params->get('show_parent_category') && $this->item->parent_id != 1) : ?>
 		<dd class="parent-category-name">
 			<?php $title = $this->escape($this->item->parent_title);
-				$title = ($title) ? $title : JText::_('JGLOBAL_UNCATEGORISED');
+				$title = $title ?: JText::_('JGLOBAL_UNCATEGORISED');
 				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
 			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
@@ -81,7 +81,7 @@ $templateparams = $app->getTemplate(true)->params;
 <?php if ($params->get('show_category')) : ?>
 		<dd class="category-name">
 			<?php 	$title = $this->escape($this->item->category_title);
-					$title = ($title) ? $title : JText::_('JGLOBAL_UNCATEGORISED');
+					$title = $title ?: JText::_('JGLOBAL_UNCATEGORISED');
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
 			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
@@ -108,7 +108,7 @@ $templateparams = $app->getTemplate(true)->params;
 <?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
-		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
+		<?php $author = ($this->item->created_by_alias ?: $author);?>
 		<?php if (!empty($this->item->contact_link ) &&  $params->get('link_author') == true) : ?>
 			<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
 		<?php else :?>
@@ -121,18 +121,18 @@ $templateparams = $app->getTemplate(true)->params;
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 		</dd>
 <?php endif; ?>
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) : ?>
+<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) : ?>
  </dl>
 <?php endif; ?>
 
 <?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
-	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
-	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>">
+	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
+	<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 	<img
 		<?php if ($images->image_intro_caption):
-			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
+			echo 'class="caption"'.' title="' . htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8') .'"';
 		endif; ?>
-		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
+		src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"/>
 	</div>
 <?php endif; ?>
 
@@ -146,7 +146,7 @@ $templateparams = $app->getTemplate(true)->params;
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-		$link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language), false)));
+		$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
 	endif;
 ?>
 		<p class="readmore">
@@ -156,13 +156,13 @@ $templateparams = $app->getTemplate(true)->params;
 					elseif ($readmore = $this->item->alternative_readmore) :
 						echo $readmore;
 						if ($params->get('show_readmore_title', 0) != 0) :
-							echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+							echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 						endif;
 					elseif ($params->get('show_readmore_title', 0) == 0) :
 						echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
 					else :
 						echo JText::_('COM_CONTENT_READ_MORE');
-						echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+						echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 					endif; ?></a>
 		</p>
 <?php endif; ?>

@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.folder');
 
@@ -27,7 +29,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	protected $clientId;
 
 	/**
-	 * <scriptfile> element of the extension manifest
+	 * `<scriptfile>` element of the extension manifest
 	 *
 	 * @var    object
 	 * @since  3.1
@@ -50,7 +52,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 				array(
 					'element'   => $this->element,
 					'type'      => $this->type,
-					'client_id' => $this->clientId
+					'client_id' => $this->clientId,
 				)
 			);
 		}
@@ -62,13 +64,15 @@ class JInstallerAdapterModule extends JInstallerAdapter
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
 					JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
-				)
+				),
+				$e->getCode(),
+				$e
 			);
 		}
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -116,7 +120,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			array(
 				'element'   => $this->element,
 				'type'      => 'module',
-				'client_id' => $this->clientId
+				'client_id' => $this->clientId,
 			)
 		);
 
@@ -193,7 +197,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 			if ($extension)
 			{
-				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
+				$source = $path ?: ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
 				$folder = (string) $this->getManifest()->files->attributes()->folder;
 
 				if ($folder && file_exists($path . '/' . $folder))
@@ -372,6 +376,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 			// Custom data
 			$this->extension->custom_data    = '';
+			$this->extension->system_data    = '';
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			if (!$this->extension->store())
@@ -391,7 +396,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$this->parent->pushStep(
 				array(
 					'type' => 'extension',
-					'extension_id' => $this->extension->extension_id
+					'extension_id' => $this->extension->extension_id,
 				)
 			);
 
@@ -528,6 +533,17 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			return false;
 		}
 
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
 		// Get the extension root path
 		$element = $this->extension->element;
 		$client  = JApplicationHelper::getClientInfo($this->extension->client_id);
@@ -564,14 +580,10 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		{
 			$manifestScriptFile = $this->parent->getPath('extension_root') . '/' . $manifestScript;
 
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
-
 			// Set the class name
 			$classname = $element . 'InstallerScript';
+
+			JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{
@@ -645,7 +657,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		if (count($modules))
 		{
 			// Ensure the list is sane
-			JArrayHelper::toInteger($modules);
+			$modules = ArrayHelper::toInteger($modules);
 			$modID = implode(',', $modules);
 
 			// Wipe out any items assigned to menus

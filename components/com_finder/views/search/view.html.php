@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,13 +41,13 @@ class FinderViewSearch extends JViewLegacy
 		// Get view data.
 		$state = $this->get('State');
 		$query = $this->get('Query');
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderQuery') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderQuery') : null;
 		$results = $this->get('Results');
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderResults') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderResults') : null;
 		$total = $this->get('Total');
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderTotal') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderTotal') : null;
 		$pagination = $this->get('Pagination');
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderPagination') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -74,7 +74,7 @@ class FinderViewSearch extends JViewLegacy
 		if (strpos($this->query->input, '"'))
 		{
 			// Get the application router.
-			$router =& $app::getRouter();
+			$router = &$app::getRouter();
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)
@@ -105,11 +105,11 @@ class FinderViewSearch extends JViewLegacy
 
 		$this->prepareDocument($query);
 
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('beforeFinderLayout') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('beforeFinderLayout') : null;
 
 		parent::display($tpl);
 
-		JDEBUG ? $GLOBALS['_PROFILER']->mark('afterFinderLayout') : null;
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderLayout') : null;
 	}
 
 	/**

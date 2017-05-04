@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ $i = 0;
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
 	<?php
 	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL';
-	echo JHtml::_('bootstrap.addSlide', 'categoryOptions', JText::_($label), 'collapse' . $i++);
+	echo JHtml::_('bootstrap.addSlide', 'categoryOptions', JText::_($label), 'collapse' . ($i++));
 	if (isset($fieldSet->description) && trim($fieldSet->description))
 	{
 		echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
@@ -33,7 +33,7 @@ $i = 0;
 		</div>
 	<?php endforeach; ?>
 
-	<?php if ($name == 'basic'): ?>
+	<?php if ($name == 'basic') : ?>
 		<div class="control-group">
 			<div class="control-label">
 				<?php echo $this->form->getLabel('note'); ?>

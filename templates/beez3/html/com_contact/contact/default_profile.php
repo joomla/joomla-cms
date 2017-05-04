@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,10 +19,10 @@ defined('_JEXEC') or die;
 			$profile->text = htmlspecialchars($profile->value, ENT_COMPAT, 'UTF-8');
 
 			switch ($profile->id) :
-				case "profile_website" :
+				case 'profile_website' :
 					$v_http = substr($profile->profile_value, 0, 4);
 
-					if ($v_http == "http") :
+					if ($v_http === 'http') :
 						echo '<dd><a href="'.$profile->text.'">'.$profile->text.'</a></dd>';
 					else :
 						echo '<dd><a href="http://'.$profile->text.'">'.$profile->text.'</a></dd>';

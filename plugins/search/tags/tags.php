@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -57,14 +57,14 @@ class PlgSearchTags extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$lang = JFactory::getLanguage();
+		$app   = JFactory::getApplication();
+		$user  = JFactory::getUser();
+		$lang  = JFactory::getLanguage();
 
 		$section = JText::_('PLG_SEARCH_TAGS_TAGS');
-		$limit = $this->params->def('search_limit', 50);
+		$limit   = $this->params->def('search_limit', 50);
 
 		if (is_array($areas))
 		{
@@ -102,15 +102,15 @@ class PlgSearchTags extends JPlugin
 				$order = 'a.title DESC';
 		}
 
-		$query->select('a.id, a.title, a.alias, a.note, a.published, a.access' .
-			', a.checked_out, a.checked_out_time, a.created_user_id' .
-			', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-			', a.language, a.created_time AS created, a.note, a.description');
+		$query->select('a.id, a.title, a.alias, a.note, a.published, a.access'
+			. ', a.checked_out, a.checked_out_time, a.created_user_id'
+			. ', a.path, a.parent_id, a.level, a.lft, a.rgt'
+			. ', a.language, a.created_time AS created, a.description');
 
-		$case_when_item_alias = ' CASE WHEN ';
+		$case_when_item_alias  = ' CASE WHEN ';
 		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
+		$a_id                  = $query->castAsChar('a.id');
 		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id . ' END as slug';
@@ -121,13 +121,15 @@ class PlgSearchTags extends JPlugin
 
 		$query->where('(a.title LIKE ' . $text . ' OR a.alias LIKE ' . $text . ')');
 
+		$query->where($db->qn('a.published') . ' = 1');
+
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
 		}
 
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -136,6 +138,7 @@ class PlgSearchTags extends JPlugin
 		$query->order($order);
 
 		$db->setQuery($query, 0, $limit);
+
 		try
 		{
 			$rows = $db->loadObjectList();
@@ -148,13 +151,13 @@ class PlgSearchTags extends JPlugin
 
 		if ($rows)
 		{
-			require_once JPATH_ROOT . '/components/com_tags/helpers/route.php';
+			JLoader::register('TagsHelperRoute', JPATH_SITE . '/components/com_tags/helpers/route.php');
 
 			foreach ($rows as $key => $row)
 			{
 				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->id);
-				$rows[$key]->text       = ($row->description != "" ? $row->description : $row->title);
-				$rows[$key]->text       .= $row->note;
+				$rows[$key]->text       = ($row->description != '' ? $row->description : $row->title);
+				$rows[$key]->text      .= $row->note;
 				$rows[$key]->section    = $section;
 				$rows[$key]->created    = $row->created;
 				$rows[$key]->browsernav = 0;
@@ -191,10 +194,10 @@ class PlgSearchTags extends JPlugin
 						$type = implode('_', $parts);
 						$type = $comp . '_CONTENT_TYPE_' . $type;
 
-						$new_item = new stdClass;
-						$new_item->href = $item->link;
+						$new_item        = new stdClass;
+						$new_item->href  = $item->link;
 						$new_item->title = $item->core_title;
-						$new_item->text = $item->core_body;
+						$new_item->text  = $item->core_body;
 
 						if ($lang->hasKey($type))
 						{
@@ -205,9 +208,9 @@ class PlgSearchTags extends JPlugin
 							$new_item->section = JText::sprintf('PLG_SEARCH_TAGS_ITEM_TAGGED_WITH', $item->content_type_title, $row->title);
 						}
 
-						$new_item->created = $item->displayDate;
+						$new_item->created    = $item->displayDate;
 						$new_item->browsernav = 0;
-						$final_items[] = $new_item;
+						$final_items[]        = $new_item;
 					}
 				}
 			}

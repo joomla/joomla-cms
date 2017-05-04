@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Plugin model.
@@ -62,7 +63,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm	A JForm object on success, false on failure.
+	 * @return  JForm    A JForm object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -71,19 +72,22 @@ class PluginsModelPlugin extends JModelAdmin
 		// The folder and element vars are passed when saving the form.
 		if (empty($data))
 		{
-			$item		= $this->getItem();
-			$folder		= $item->folder;
-			$element	= $item->element;
+			$item    = $this->getItem();
+			$folder  = $item->folder;
+			$element = $item->element;
 		}
 		else
 		{
-			$folder		= JArrayHelper::getValue($data, 'folder', '', 'cmd');
-			$element	= JArrayHelper::getValue($data, 'element', '', 'cmd');
+			$folder  = ArrayHelper::getValue($data, 'folder', '', 'cmd');
+			$element = ArrayHelper::getValue($data, 'element', '', 'cmd');
 		}
 
+		// Add the default fields directory
+		JForm::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
+
 		// These variables are used to add data from the plugin XML files.
-		$this->setState('item.folder',	$folder);
-		$this->setState('item.element',	$element);
+		$this->setState('item.folder', $folder);
+		$this->setState('item.element', $element);
 
 		// Get the form.
 		$form = $this->loadForm('com_plugins.plugin', 'plugin', array('control' => 'jform', 'load_data' => $loadData));
@@ -144,8 +148,6 @@ class PluginsModelPlugin extends JModelAdmin
 
 		if (!isset($this->_cache[$pk]))
 		{
-			$false	= false;
-
 			// Get a row instance.
 			$table = $this->getTable();
 
@@ -157,16 +159,15 @@ class PluginsModelPlugin extends JModelAdmin
 			{
 				$this->setError($table->getError());
 
-				return $false;
+				return false;
 			}
 
 			// Convert to the JObject before adding other data.
 			$properties = $table->getProperties(1);
-			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-			$registry = new Registry;
-			$registry->loadString($table->params);
+			$registry = new Registry($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
@@ -236,12 +237,12 @@ class PluginsModelPlugin extends JModelAdmin
 	{
 		jimport('joomla.filesystem.path');
 
-		$folder		= $this->getState('item.folder');
-		$element	= $this->getState('item.element');
-		$lang		= JFactory::getLanguage();
+		$folder  = $this->getState('item.folder');
+		$element = $this->getState('item.element');
+		$lang    = JFactory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
@@ -252,8 +253,8 @@ class PluginsModelPlugin extends JModelAdmin
 
 		foreach ($elements as $elementa)
 		{
-				$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-			||	$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa, null, false, true);
+			$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa, null, false, true);
 		}
 
 		if (empty($folder) || empty($element))

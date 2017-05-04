@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -35,14 +35,14 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 			$this->app->redirect('index.php');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$this->app->redirect('index.php');
 		}
 
@@ -71,7 +71,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
-		// Save the data in the session.
+		// Save the posted data in the session.
 		$this->app->setUserState('com_config.config.global.data', $data);
 
 		// Check for validation errors.
@@ -86,8 +86,11 @@ class ConfigControllerApplicationSave extends JControllerBase
 		}
 
 		// Attempt to save the configuration.
-		$data	= $return;
+		$data   = $return;
 		$return = $model->save($data);
+
+		// Save the validated data in the session.
+		$this->app->setUserState('com_config.config.global.data', $data);
 
 		// Check the return value.
 		if ($return === false)
@@ -96,15 +99,12 @@ class ConfigControllerApplicationSave extends JControllerBase
 			 * The save method enqueued all messages for us, so we just need to redirect back.
 			 */
 
-			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
-
 			// Save failed, go back to the screen and display a notice.
 			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
 		}
 
 		// Set the success message.
-		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'));
+		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
 
 		// Set the redirect based on the task.
 		switch ($this->options[3])

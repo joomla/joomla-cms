@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,24 +41,26 @@ class JFeedFactory
 		// Open the URI within the stream reader.
 		if (!@$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 		{
-			// If allow_url_fopen is enabled
-			if (ini_get('allow_url_fopen'))
+			// Retry with JHttpFactory that allow using CURL and Sockets as alternative method when available
+
+			// Adding a valid user agent string, otherwise some feed-servers returning an error
+			$options 	= new \joomla\Registry\Registry;
+			$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
+
+			$connector 	= JHttpFactory::getHttp($options);
+			$feed 		= $connector->get($uri);
+
+			if ($feed->code != 200)
 			{
-				// This is an error
 				throw new RuntimeException('Unable to open the feed.');
 			}
-			else
-			{
-				// Retry with JHttpFactory that allow using CURL and Sockets as alternative method when available
-				$connector = JHttpFactory::getHttp();
-				$feed = $connector->get($uri);
 
-				// Set the value to the XMLReader parser
-				if (!$reader->xml($feed->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
-				{
-					throw new RuntimeException('Unable to parse the feed.');
-				}
+			// Set the value to the XMLReader parser
+			if (!$reader->xml($feed->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
+			{
+				throw new RuntimeException('Unable to parse the feed.');
 			}
+
 		}
 
 		try
@@ -74,7 +76,7 @@ class JFeedFactory
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeException('Error reading feed.');
+			throw new RuntimeException('Error reading feed.', $e->getCode(), $e);
 		}
 
 		// Setup the appopriate feed parser for the feed.

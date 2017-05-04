@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ defined('_JEXEC') or die;
 			// Prepare the pagination string.  Results X - Y of Z
 			$start = (int) $this->pagination->get('limitstart') + 1;
 			$total = (int) $this->pagination->get('total');
-			$limit = (int) $this->pagination->get('limit') * $this->pagination->pagesTotal;
+			$limit = (int) $this->pagination->get('limit') * $this->pagination->get('pages.current');
 			$limit = (int) ($limit > $total ? $total : $limit);
 
 			echo JText::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total);

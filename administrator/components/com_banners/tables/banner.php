@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Banner table
@@ -21,18 +22,17 @@ class BannersTableBanner extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$_db  Database connector object
+	 * @param   JDatabaseDriver  &$db  Database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(&$_db)
+	public function __construct(&$db)
 	{
-		parent::__construct('#__banners', 'id', $_db);
+		parent::__construct('#__banners', 'id', $db);
 
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.banner'));
 
-		$date = JFactory::getDate();
-		$this->created = $date->toSql();
+		$this->created = JFactory::getDate()->toSql();
 		$this->setColumnAlias('published', 'state');
 	}
 
@@ -65,11 +65,16 @@ class BannersTableBanner extends JTable
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
 		// Set alias
-		$this->alias = JApplication::stringURLSafe($this->alias);
-
-		if (empty($this->alias))
+		if (trim($this->alias) == '')
 		{
-			$this->alias = JApplication::stringURLSafe($this->name);
+			$this->alias = $this->name;
+		}
+
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
+
+		if (trim(str_replace('-', '', $this->alias)) == '')
+		{
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -92,16 +97,31 @@ class BannersTableBanner extends JTable
 			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . '=' . $this->_db->quote($this->catid) . ' AND state>=0');
 		}
 
+		if (empty($this->publish_up))
+		{
+			$this->publish_up = $this->getDbo()->getNullDate();
+		}
+
+		if (empty($this->publish_down))
+		{
+			$this->publish_down = $this->getDbo()->getNullDate();
+		}
+
+		if (empty($this->modified))
+		{
+			$this->modified = $this->getDbo()->getNullDate();
+		}
+
 		return true;
 	}
 
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param   array  $array   Named array to bind
+	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
 	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
 	 */
@@ -109,8 +129,7 @@ class BannersTableBanner extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 
 			if ((int) $registry->get('width', 0) < 0)
 			{
@@ -127,7 +146,7 @@ class BannersTableBanner extends JTable
 			}
 
 			// Converts the width and height to an absolute numeric value:
-			$width = abs((int) $registry->get('width', 0));
+			$width  = abs((int) $registry->get('width', 0));
 			$height = abs((int) $registry->get('height', 0));
 
 			// Sets the width and height to an empty string if = 0
@@ -156,49 +175,51 @@ class BannersTableBanner extends JTable
 	{
 		if (empty($this->id))
 		{
-			$purchase_type = $this->purchase_type;
+			$purchaseType = $this->purchase_type;
 
-			if ($purchase_type < 0 && $this->cid)
+			if ($purchaseType < 0 && $this->cid)
 			{
+				/** @var BannersTableClient $client */
 				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($this->cid);
-				$purchase_type = $client->purchase_type;
+				$purchaseType = $client->purchase_type;
 			}
 
-			if ($purchase_type < 0)
+			if ($purchaseType < 0)
 			{
-				$params = JComponentHelper::getParams('com_banners');
-				$purchase_type = $params->get('purchase_type');
+				$purchaseType = JComponentHelper::getParams('com_banners')->get('purchase_type');
 			}
 
-			switch ($purchase_type)
+			switch ($purchaseType)
 			{
 				case 1:
 					$this->reset = $this->_db->getNullDate();
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $this->_db->quote($date->toSql());
+					$date = JFactory::getDate('+1 year ' . date('Y-m-d'));
+					$this->reset = $date->toSql();
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $this->_db->quote($date->toSql());
+					$date = JFactory::getDate('+1 month ' . date('Y-m-d'));
+					$this->reset = $date->toSql();
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $this->_db->quote($date->toSql());
+					$date = JFactory::getDate('+7 day ' . date('Y-m-d'));
+					$this->reset = $date->toSql();
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $this->_db->quote($date->toSql());
+					$date = JFactory::getDate('+1 day ' . date('Y-m-d'));
+					$this->reset = $date->toSql();
 					break;
 			}
+
 			// Store the row
 			parent::store($updateNulls);
 		}
 		else
 		{
 			// Get the old row
+			/** @var BannersTableBanner $oldrow */
 			$oldrow = JTable::getInstance('Banner', 'BannersTable');
 
 			if (!$oldrow->load($this->id) && $oldrow->getError())
@@ -207,6 +228,7 @@ class BannersTableBanner extends JTable
 			}
 
 			// Verify that the alias is unique
+			/** @var BannersTableBanner $table */
 			$table = JTable::getInstance('Banner', 'BannersTable');
 
 			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
@@ -248,7 +270,7 @@ class BannersTableBanner extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks    = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state  = (int) $state;
 
@@ -269,6 +291,7 @@ class BannersTableBanner extends JTable
 		}
 
 		// Get an instance of the table
+		/** @var BannersTableBanner $table */
 		$table = JTable::getInstance('Banner', 'BannersTable');
 
 		// For all keys

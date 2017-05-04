@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-include_once __DIR__ . '/../default/view.php';
+JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
  * Extension Manager Templates View
@@ -32,6 +32,15 @@ class InstallerViewWarnings extends InstallerViewDefault
 		$items = $this->get('Items');
 		$this->messages = &$items;
 		parent::display($tpl);
+
+		if (count($items) > 0)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_NOTICE'), 'warning');
+		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_NONE'), 'notice');
+		}
 	}
 
 	/**

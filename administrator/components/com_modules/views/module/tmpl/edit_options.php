@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . $name . '_FIELDSET_LABEL';
 		$class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
 
-		echo JHtml::_('bootstrap.addSlide', 'moduleOptions', JText::_($label), 'collapse' . $i++, $class);
+		echo JHtml::_('bootstrap.addSlide', 'moduleOptions', JText::_($label), 'collapse' . ($i++), $class);
 			if (isset($fieldSet->description) && trim($fieldSet->description)) :
 				echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
 			endif;

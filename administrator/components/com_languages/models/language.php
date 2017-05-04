@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Languages Component Language Model
@@ -85,8 +87,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 */
 	public function getItem($langId = null)
 	{
-		$langId	= (!empty($langId)) ? $langId : (int) $this->getState('language.id');
-		$false  = false;
+		$langId = (!empty($langId)) ? $langId : (int) $this->getState('language.id');
 
 		// Get a member row instance.
 		$table = $this->getTable();
@@ -99,7 +100,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		{
 			$this->setError($table->getError());
 
-			return $false;
+			return false;
 		}
 
 		// Set a valid accesslevel in case '0' is stored due to a bug in the installation SQL (was fixed with PR 2714).
@@ -109,7 +110,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		$properties = $table->getProperties(1);
-		$value = JArrayHelper::toObject($properties, 'JObject');
+		$value      = ArrayHelper::toObject($properties, 'JObject');
 
 		return $value;
 	}
@@ -171,7 +172,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	public function save($data)
 	{
 		$langId = (!empty($data['lang_id'])) ? $data['lang_id'] : (int) $this->getState('language.id');
-		$isNew	= true;
+		$isNew  = true;
 
 		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin($this->events_map['save']);

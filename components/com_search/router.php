@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,9 +68,9 @@ class SearchRouter extends JComponentRouterBase
 			$segments[$i] = urldecode(urldecode(stripcslashes($segments[$i])));
 		}
 
-		$searchword	= array_shift($segments);
+		$searchword         = array_shift($segments);
 		$vars['searchword'] = $searchword;
-		$vars['view'] = 'search';
+		$vars['view']       = 'search';
 
 		return $vars;
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,6 +36,9 @@ class JUserHelperTest extends TestCaseDatabase
 		parent::setUp();
 
 		$this->saveFactoryState();
+
+		// Set the session object for JUserHelper::addUserToGroup()
+		JFactory::$session = $this->getMockSession();
 	}
 
 	/**
@@ -49,6 +52,7 @@ class JUserHelperTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
 		parent::tearDown();
 	}
 
@@ -80,7 +84,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *                    empty if undefined
 	 * - array    error   error info, given as hash
 	 *                    with indices 'code', 'msg', and
-	 *                    'info', empty, if no error occured
+	 *                    'info', empty, if no error occurred
 	 *
 	 * @see ... (link to where the group and error structures are
 	 *      defined)
@@ -353,6 +357,21 @@ class JUserHelperTest extends TestCaseDatabase
 			JUserHelper::verifyPassword('mySuperSecretPassword', '693560686f4d591d8dd5e34006442061'),
 			'Properly verifies a password hashed with Joomla legacy MD5'
 		);
+
+		$password = 'mySuperSecretPassword';
+		// Generate the old style password hash used before phpass was implemented.
+		$salt		= JUserHelper::genRandomPassword(32);
+		$crypted	= JUserHelper::getCryptedPassword($password, $salt);
+		$hashed	        = $crypted . ':' . $salt;
+		$this->assertTrue(
+			JUserHelper::verifyPassword('mySuperSecretPassword', $hashed),
+			'Properly verifies a password which was hashed before phpass was implemented'
+		);
+
+		$this->assertTrue(
+			JUserHelper::verifyPassword('mySuperSecretPassword', 'fb7b0a16d7e0e6706c0f962832e1fdd8:vQnUrofbvGRcBR6l502Bt8nioKj8MObh'),
+			'Properly verifies an existing password hash which was hashed before phpass was implimented'
+		);
 	}
 
 	/**
@@ -369,6 +388,198 @@ class JUserHelperTest extends TestCaseDatabase
 		$this->assertTrue(
 			JUserHelper::verifyPassword('test', '098f6bcd4621d373cade4e832627b4f6:'),
 			'Joomla 1.0 passwords without a legacy hash are not verified correctly'
+		);
+	}
+
+	/**
+	 * Testing getCryptedPassword().
+	 *
+	 * @covers  JUserHelper::getCryptedPassword
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function testGetCryptedPassword()
+	{
+		$this->assertSame(
+			'mySuperSecretPassword',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'plain'),
+			'Plain text password is returned'
+		);
+
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt')), 13, 'Password is hashed to crypt without salt'
+		);
+
+		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt');
+
+		$this->assertSame('myA38Ex7aHbws', $password, 'Password is hashed to crypt with salt');
+		$this->assertSame('my', substr($password, 0, 2), 'Password hash uses expected salt');
+
+		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt', true);
+
+		$this->assertSame('{crypt}myA38Ex7aHbws', $password, 'Password is hashed to crypt with salt with encryption prefix');
+		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
+
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-des')), 13, 'Password is hashed to crypt-des without salt'
+		);
+
+		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-des');
+
+		$this->assertSame('myA38Ex7aHbws', $password, 'Password is hashed to crypt-des with salt');
+		$this->assertSame('my', substr($password, 0, 2), 'Password hash uses expected salt');
+
+		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-des', true);
+
+		$this->assertSame('{crypt}myA38Ex7aHbws', $password, 'Password is hashed to crypt-des with salt with encryption prefix');
+		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
+
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-md5')), 34, 'Password is hashed to crypt-md5 without salt'
+		);
+
+		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-md5');
+
+		$this->assertSame('myA38Ex7aHbws', $password, 'Password is hashed to crypt-md5 with salt');
+		$this->assertSame('my', substr($password, 0, 2), 'Password hash uses expected salt');
+
+		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-md5', true);
+
+		$this->assertSame('{crypt}myA38Ex7aHbws', $password, 'Password is hashed to crypt-md5 with salt with encryption prefix');
+		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
+
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-blowfish')), 60, 'Password is hashed to crypt-blowfish without salt'
+		);
+
+		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-blowfish');
+
+		$this->assertSame('myA38Ex7aHbws', $password, 'Password is hashed to crypt-blowfish with salt');
+		$this->assertSame('my', substr($password, 0, 2), 'Password hash uses expected salt');
+
+		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-blowfish', true);
+
+		$this->assertSame('{crypt}myA38Ex7aHbws', $password, 'Password is hashed to crypt-blowfish with salt with encryption prefix');
+		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
+
+		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'aprmd5');
+
+		$this->assertSame(strlen($password), 37, 'Password is hashed to APRMD5 without salt');
+		$this->assertSame('$apr1$', substr($password, 0, 6), 'Password hash uses expected prefix');
+
+		$this->assertSame(
+			'$apr1$myPasssw$8f98MlB.CDF6iheQgsFmE.',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '$apr1$myPasssw$8f98MlB.CDF6iheQgsFmE.', 'aprmd5'),
+			'Password is hashed to APRMD5 with salt'
+		);
+
+		// Length should be 81 characters but due to a bug which causes the prefix to always render it adds 8 characters
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'sha256')), 89, 'Password is hashed to SHA256 without salt'
+		);
+
+		// Due to a bug which causes the prefix to always render it is present here
+		$this->assertSame(
+			'{SHA256}612994683da31910fdcabce8237303a57740e9b68b0584b2b1647539ccc28578:879334ce9ac922c6',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '879334ce9ac922c6', 'sha256'),
+			'Password is hashed to SHA256 with salt'
+		);
+
+		$this->assertSame(
+			'{SHA256}612994683da31910fdcabce8237303a57740e9b68b0584b2b1647539ccc28578:879334ce9ac922c6',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '879334ce9ac922c6', 'sha256', true),
+			'Password is hashed to SHA256 with salt with encryption prefix'
+		);
+
+		$this->assertSame(
+			'693560686f4d591d8dd5e34006442061',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'md5-hex'),
+			'Password is hashed to MD5-HEX without salt'
+		);
+
+		$this->assertSame(
+			'a334d9084fa0dc4ea5449afa047480e8',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', 'myPassswordHasSalt', 'md5-hex'),
+			'Password is hashed to MD5-HEX with salt'
+		);
+
+		$this->assertSame(
+			'{MD5}a334d9084fa0dc4ea5449afa047480e8',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', 'myPassswordHasSalt', 'md5-hex', true),
+			'Password is hashed to MD5-HEX with salt with encryption prefix'
+		);
+	}
+
+	/**
+	 * Testing getCryptedPassword(). This is an extension of the method above but requires
+	 * the PHP Mhash function which is missing in Travis and our current Jenkins Build
+	 *
+	 * @covers  JUserHelper::getCryptedPassword
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function testGetCryptedPasswordWithMhash()
+	{
+		if (!function_exists('mhash')) {
+			$this->markTestSkipped('The mhash function is not available');
+		}
+
+		$this->assertSame(
+			'9hyEDbdjNSZv5bjLaODLzA4dtrc=',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'sha'),
+			'Password is hashed to SHA without encryption prefix'
+		);
+
+		$this->assertSame(
+			'{SHA}9hyEDbdjNSZv5bjLaODLzA4dtrc=',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'sha', true),
+			'Password is hashed to SHA with encryption prefix'
+		);
+
+		$this->assertSame(
+			'aTVgaG9NWR2N1eNABkQgYQ==',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'md5-base64'),
+			'Password is hashed to MD5-BASE64 without encryption prefix'
+		);
+
+		$this->assertSame(
+			'{MD5}aTVgaG9NWR2N1eNABkQgYQ==',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'md5-base64', true),
+			'Password is hashed to MD5-BASE64 with encryption prefix'
+		);
+
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'ssha')), 32, 'Password is hashed to SSHA without salt'
+		);
+
+		$this->assertSame(
+			'CvjRrNi3CdI+JV7ovrXBVy/qg1djM056ZDI5eVpFaGhjMU5oYkhRPQ==',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '{SSHA}HoMCZZps34WkU6cM7J8r9OySD5xteVBhc3Nzd29yZEhhc1NhbHQ=', 'ssha'),
+			'Password is hashed to SSHA with salt'
+		);
+
+		$this->assertSame(
+			'{SSHA}CvjRrNi3CdI+JV7ovrXBVy/qg1djM056ZDI5eVpFaGhjMU5oYkhRPQ==',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '{SSHA}HoMCZZps34WkU6cM7J8r9OySD5xteVBhc3Nzd29yZEhhc1NhbHQ=', 'ssha', true),
+			'Password is hashed to SSHA with salt with encryption prefix'
+		);
+
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'smd5')), 28, 'Password is hashed to SMD5 without salt'
+		);
+
+		$this->assertSame(
+			's3Joy5bK4AR6mqKmjkc4S2QyOXlaRWhoYzFOaGJIUT0=',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '{SMD5}oY4N5uFk6w54Ni3eKYQxIlBhc3Nzd29yZEhhc1NhbHQ=', 'smd5'),
+			'Password is hashed to SMD5 with salt'
+		);
+
+		$this->assertSame(
+			'{SMD5}s3Joy5bK4AR6mqKmjkc4S2QyOXlaRWhoYzFOaGJIUT0=',
+			JUserHelper::getCryptedPassword('mySuperSecretPassword', '{SMD5}oY4N5uFk6w54Ni3eKYQxIlBhc3Nzd29yZEhhc1NhbHQ=', 'smd5', true),
+			'Password is hashed to SMD5 with salt with encryption prefix'
 		);
 	}
 }

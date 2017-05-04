@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,8 @@ class JTableContenthistory extends JTable
 			'checked_out_time',
 			'version',
 			'hits',
-			'path');
+			'path',
+		);
 		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured');
 	}
 
@@ -78,8 +79,12 @@ class JTableContenthistory extends JTable
 			$this->set('sha1_hash', $this->getSha1($this->get('version_data'), $typeTable));
 		}
 
-		$this->set('editor_user_id', JFactory::getUser()->id);
-		$this->set('save_date', JFactory::getDate()->toSql());
+		// Modify author and date only when not toggling Keep Forever
+		if (is_null($this->get('keep_forever')))
+		{
+			$this->set('editor_user_id', JFactory::getUser()->id);
+			$this->set('save_date', JFactory::getDate()->toSql());
+		}
 
 		return parent::store($updateNulls);
 	}
@@ -91,15 +96,15 @@ class JTableContenthistory extends JTable
 	 * @param   mixed              $jsonData   Either an object or a string with json-encoded data
 	 * @param   JTableContenttype  $typeTable  Table object with data for this content type
 	 *
-	 * @return  string  SHA1 hash on sucess. Empty string on failure.
+	 * @return  string  SHA1 hash on success. Empty string on failure.
 	 *
 	 * @since   3.2
 	 */
 	public function getSha1($jsonData, JTableContenttype $typeTable)
 	{
-		$object = (is_object($jsonData)) ? $jsonData : json_decode($jsonData);
+		$object = is_object($jsonData) ? $jsonData : json_decode($jsonData);
 
-		if (isset($typeTable->content_history_options) && (is_object(json_decode($typeTable->content_history_options))))
+		if (isset($typeTable->content_history_options) && is_object(json_decode($typeTable->content_history_options)))
 		{
 			$options = json_decode($typeTable->content_history_options);
 			$this->ignoreChanges = isset($options->ignoreChanges) ? $options->ignoreChanges : $this->ignoreChanges;
@@ -152,7 +157,7 @@ class JTableContenthistory extends JTable
 	 * Utility method to get a matching row based on the hash value and id columns.
 	 * This lets us check to make sure we don't save duplicate versions.
 	 *
-	 * @return  string  SHA1 hash on sucess. Empty string on failure.
+	 * @return  string  SHA1 hash on success. Empty string on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -162,8 +167,8 @@ class JTableContenthistory extends JTable
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . $this->get('ucm_item_id'))
-			->where($db->quoteName('ucm_type_id') . ' = ' . $this->get('ucm_type_id'))
+			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
+			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 			->where($db->quoteName('sha1_hash') . ' = ' . $db->quote($this->get('sha1_hash')));
 		$db->setQuery($query, 0, 1);
 
@@ -175,7 +180,7 @@ class JTableContenthistory extends JTable
 	 *
 	 * @param   integer  $maxVersions  The maximum number of versions to save. All others will be deleted.
 	 *
-	 * @return  boolean   true on sucess, false on failure.
+	 * @return  boolean   true on success, false on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -188,8 +193,8 @@ class JTableContenthistory extends JTable
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->ucm_item_id)
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->ucm_type_id)
+			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
+			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 			->where($db->quoteName('keep_forever') . ' != 1')
 			->order($db->quoteName('save_date') . ' DESC ');
 		$db->setQuery($query, 0, (int) $maxVersions);
@@ -201,8 +206,8 @@ class JTableContenthistory extends JTable
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);
 			$query->delete($db->quoteName('#__ucm_history'))
-				->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->ucm_item_id)
-				->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->ucm_type_id)
+				->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
+				->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 				->where($db->quoteName('version_id') . ' NOT IN (' . implode(',', $idsToSave) . ')')
 				->where($db->quoteName('keep_forever') . ' != 1');
 			$db->setQuery($query);
