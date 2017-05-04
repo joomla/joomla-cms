@@ -81,7 +81,7 @@ jQuery(function ($) {
             /**
              * Allow storing of state if there is no id in the url, allows for storing on create screens and is picked up on page after save then deleted
              */
-            if ((null == $.urlParam("id") && $.urlParam("option") != "com_config") && null == $.urlParam("a_id")) {
+            if (((null == $.urlParam("id") && null == $.urlParam("s_id") && null == $.urlParam("a_id") && null == $.urlParam("e_id")) && $.urlParam("option") != "com_config") && null == $.urlParam("a_id")) {
                 storageKey = "UNSAVED_ITEM";
             }
 
