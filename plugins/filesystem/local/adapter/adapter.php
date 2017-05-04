@@ -379,15 +379,15 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	private function copyFile($sourcePath, $destinationPath, $force = false)
 	{
-		if (file_exists($destinationPath) && !$force)
-		{
-			throw new Exception('Copy file is not possible as destination folder already exists');
-		}
-
 		if (is_dir($destinationPath))
 		{
 			// If the destination is a folder we create a file with the same name as the source
 			$destinationPath = $destinationPath . '/' . basename($sourcePath);
+		}
+
+		if (file_exists($destinationPath) && !$force)
+		{
+			throw new Exception('Copy file is not possible as destination file already exists');
 		}
 
 		if (!JFile::copy($sourcePath, $destinationPath))
@@ -475,15 +475,15 @@ class MediaFileAdapterLocal implements MediaFileAdapterInterface
 	 */
 	private function moveFile($sourcePath, $destinationPath, $force = false)
 	{
-		if (file_exists($destinationPath) && !$force)
-		{
-			throw new Exception('Move file is not possible as destination folder already exists');
-		}
-
 		if (is_dir($destinationPath))
 		{
 			// If the destination is a folder we create a file with the same name as the source
 			$destinationPath = $destinationPath . '/' . basename($sourcePath);
+		}
+
+		if (file_exists($destinationPath) && !$force)
+		{
+			throw new Exception('Move file is not possible as destination file already exists');
 		}
 
 		if (!JFile::move($sourcePath, $destinationPath))
