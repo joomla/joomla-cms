@@ -10,6 +10,17 @@
         <div class="media-browser-item-info">
             {{ item.name }} {{ item.filetype }}
         </div>
+        <div class="media-browser-actions d-flex">
+            <a href="#" class="action-delete">
+                <span class="image-browser-action fa fa-trash" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="action-download">
+                <span class="image-browser-action fa fa-download" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="action-edit">
+                <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click="openEditView()"></span>
+            </a>
+        </div>
     </div>
 </template>
 

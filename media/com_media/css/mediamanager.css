@@ -57,31 +57,82 @@
 
 .media-browser-item {
   position: relative;
-  margin-bottom: 15px;
-  margin-right: 15px;
-  width: calc(16.66% - 15px);
+  margin-bottom: 20px;
+  margin-right: 20px;
+  width: calc(16.66% - 20px);
   -moz-user-select: none;
   -webkit-user-select: none;
-  -ms-user-select: none; }
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer; }
 
 .media-browser-item-preview {
   position: relative;
   font-size: 60px;
-  color: #007eb7; }
+  color: #007eb7;
+  border-radius: .25rem; }
+  .media-browser-item-preview::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "";
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: .25rem;
+    opacity: 0;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .media-browser-item:hover .media-browser-item-preview::after {
+      opacity: 1; }
 
 .media-browser-item-info {
-  padding: 0 5px;
+  padding: 0 2px;
   font-size: .9rem;
-  font-weight: bold;
-  line-height: 34px;
+  line-height: 28px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
-  text-align: center; }
+  overflow: hidden; }
 
-.selected .media-browser-item-info {
-  background: #007eb7;
-  color: #fff; }
+.media-browser-actions {
+  position: absolute;
+  right: 0;
+  bottom: 32px;
+  padding: 2px;
+  overflow: hidden; }
+  .media-browser-actions a {
+    position: relative;
+    top: 20px;
+    opacity: 0;
+    transition: all .2s ease;
+    transition-delay: 0s; }
+    .media-browser-item:hover .media-browser-actions a {
+      top: 0;
+      opacity: 1; }
+      .media-browser-item:hover .media-browser-actions a:first-of-type {
+        transition-delay: .1s; }
+      .media-browser-item:hover .media-browser-actions a:nth-of-type(2) {
+        transition-delay: .15s; }
+      .media-browser-item:hover .media-browser-actions a:nth-of-type(3) {
+        transition-delay: .2s; }
+
+.image-browser-action {
+  height: 2.2rem;
+  width: 2.2rem;
+  margin-right: 5px;
+  color: white;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: .25rem;
+  cursor: pointer; }
+  .image-browser-action::before {
+    font-size: 1.3rem;
+    line-height: 2.2rem; }
+  .image-browser-action:hover {
+    background-color: white;
+    color: #464a4c; }
+
+.selected .image-cropped, .selected .file-background, .selected .folder-background {
+  box-shadow: 0 0 0 3px #007eb7 inset; }
 
 .image-brackground {
   background-position: 0px 0px, 10px 10px;
@@ -94,12 +145,12 @@
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.1); }
+  border-radius: .25rem; }
 
 .file-background, .folder-background {
   padding-bottom: 100%;
   background-color: #F5F5F5;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.1); }
+  border-radius: .25rem; }
 
 .file-icon, .folder-icon {
   position: absolute;
@@ -107,28 +158,34 @@
   left: 0;
   right: 0;
   bottom: 0;
-  color: #BBB;
-  justify-content: center; }
+  color: #BBB; }
 
-@media only screen and (max-width: 1140px) {
+@media only screen and (max-width: 1420px) {
   .media-browser-item {
-    width: calc(20% - 15px); }
+    width: calc(20% - 20px); }
   .media-browser-item-preview {
     font-size: 50px; } }
 
+@media only screen and (max-width: 1180px) {
+  .media-browser-item {
+    width: calc(25% - 20px); }
+  .media-browser-actions a {
+    top: 0;
+    opacity: 1; } }
+
 @media only screen and (max-width: 960px) {
   .media-browser-item {
-    width: calc(25% - 15px); } }
-
-@media only screen and (max-width: 720px) {
-  .media-browser-item {
-    width: calc(33.33% - 15px); }
+    width: calc(33.33% - 20px); }
   .media-browser-item-preview {
     font-size: 40px; } }
 
-@media only screen and (max-width: 540px) {
+@media only screen and (max-width: 720px) {
   .media-browser-item {
-    width: calc(50% - 15px); } }
+    width: calc(50% - 20px); } }
+
+@media only screen and (max-width: 440px) {
+  .media-browser-item {
+    width: calc(100% - 20px); } }
 
 .media-infobar {
   background-color: #fafafa;
