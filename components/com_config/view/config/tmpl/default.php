@@ -26,7 +26,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
 
-	<div class="row-fluid">
+	<div class="row">
 		<!-- Begin Content -->
 
 		<div class="btn-toolbar">
@@ -42,10 +42,10 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 		</div>
 
-		<hr class="hr-condensed" />
+		<hr>
 
 		<div id="page-site" class="tab-pane active">
-			<div class="row-fluid">
+			<div class="row">
 				<?php echo $this->loadTemplate('site'); ?>
 				<?php echo $this->loadTemplate('metadata'); ?>
 				<?php echo $this->loadTemplate('seo'); ?>

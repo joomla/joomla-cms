@@ -152,8 +152,8 @@
             return null;
 
           case "param-def":
-            if (match = stream.match(/^([\w]+)(?=:)/)) {
-              state.variables = prepend(state.variables, match[1]);
+            if (match = stream.match(/^\w+/)) {
+              state.variables = prepend(state.variables, match[0]);
               state.soyState.pop();
               state.soyState.push("param-type");
               return "def";
@@ -202,7 +202,9 @@
                 state.kindTag.push(state.tag);
                 var mode = modes[kind] || modes.html;
                 var localState = last(state.localStates);
-                state.indent += localState.mode.indent(localState.state, "");
+                if (localState.mode.indent) {
+                  state.indent += localState.mode.indent(localState.state, "");
+                }
                 state.localStates.push({
                   mode: mode,
                   state: CodeMirror.startState(mode)
@@ -259,7 +261,9 @@
             state.kindTag.pop();
             state.localStates.pop();
             var localState = last(state.localStates);
-            state.indent -= localState.mode.indent(localState.state, "");
+            if (localState.mode.indent) {
+              state.indent -= localState.mode.indent(localState.state, "");
+            }
           }
           state.soyState.push("tag");
           if (state.tag == "template" || state.tag == "deltemplate") {

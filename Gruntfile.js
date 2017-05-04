@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-	var settings      = grunt.file.readYAML('grunt_settings.yaml'),
+	var settings      = grunt.file.readYAML('grunt-settings.yaml'),
 		path          = require('path'),
 		preText       = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText      = '  },\n  "license": "GPL-2.0+"\n}',

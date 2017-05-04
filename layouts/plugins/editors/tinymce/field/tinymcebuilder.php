@@ -174,13 +174,13 @@ $doc->addStyleDeclaration('
 					<?php foreach(array_keys($toolbarPreset) as $presetName) :
 						$btnClass = empty($presetButtonClases[$presetName]) ? 'btn-primary' : $presetButtonClases[$presetName];
 						?>
-						<button type="button" class="btn btn-mini <?php echo $btnClass; ?> button-action"
+						<button type="button" class="btn btn-xs <?php echo $btnClass; ?> button-action"
 						    data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
 							<?php echo JText::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
 						</button>
 					<?php endforeach; ?>
 
-						<button type="button" class="btn btn-mini btn-danger button-action"
+						<button type="button" class="btn btn-xs btn-danger button-action"
 						     data-action="clearPane" data-set="<?php echo $num; ?>">
 							<?php echo JText::_('JCLEAR'); ?></button>
 					</div>

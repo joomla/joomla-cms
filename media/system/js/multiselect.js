@@ -9,7 +9,7 @@
 Joomla = window.Joomla || {};
 
 Joomla.JMultiSelect = function(table) {
-	"use strict";
+	'use strict';
 
 	var last, boxes,
 
@@ -19,7 +19,7 @@ Joomla.JMultiSelect = function(table) {
 			if (tableEl) {
 				boxes = tableEl.querySelectorAll('input[type=checkbox]');
 				var i = 0, countB = boxes.length;
-				for (i; boxes<countB; i++) {
+				for (i; boxes < countB; i++) {
 					boxes[i].addEventListener('click', function (e) {
 						doselect(e)
 					});
@@ -49,6 +49,7 @@ Joomla.JMultiSelect = function(table) {
 
 document.addEventListener('DOMContentLoaded', function(event) {
 	'use strict';
+
 	var rows = document.querySelectorAll('tr[class^="row"]');
 
 	// Changes the background-color on every <td> inside a <tr>
@@ -66,13 +67,16 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		}
 	}
 
-	document.getElementsByName('checkall-toggle')[0].addEventListener('click', function(event) {
-		var checkall = this;
+	var checkallToggle = document.getElementsByName('checkall-toggle')[0];
+	if (checkallToggle) {
+		checkallToggle.addEventListener('click', function(event) {
+			var checkall = this;
 
-		rows.forEach(function(row, index) {
-			changeBg(row, checkall);
+			rows.forEach(function(row, index) {
+				changeBg(row, checkall);
+			});
 		});
-	});
+	}
 
 	rows.forEach(function(row, index) {
 		row.addEventListener('click', function(event) {

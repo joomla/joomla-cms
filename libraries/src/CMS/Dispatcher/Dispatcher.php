@@ -8,13 +8,12 @@
 
 namespace Joomla\CMS\Dispatcher;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Mvc\Factory\MvcFactory;
-
-defined('_JEXEC') or die;
 
 /**
  * Base class for a Joomla Dispatcher
@@ -27,7 +26,16 @@ defined('_JEXEC') or die;
 abstract class Dispatcher implements DispatcherInterface
 {
 	/**
-	 * The JApplication instance
+	 * The extension namespace
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $namespace;
+
+	/**
+	 * The CmsApplication instance
 	 *
 	 * @var    CMSApplication
 	 *
@@ -45,42 +53,24 @@ abstract class Dispatcher implements DispatcherInterface
 	protected $input;
 
 	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $namespace;
-
-	/**
-	 * The extension namespace
-	 *
-	 * @var    MvcFactoryInterface
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $factory;
-
-	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   string               $namespace  Namespace of the Extension
-	 * @param   CMSApplication       $app        The JApplication for the dispatcher
-	 * @param   \JInput              $input      JInput
-	 * @param   MvcFactoryInterface  $factory    The factory object for the component
+	 * @param   CMSApplication  $app    The JApplication for the dispatcher
+	 * @param   \JInput         $input  JInput
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, CMSApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
+	public function __construct(CMSApplication $app, \JInput $input = null)
 	{
-		$this->namespace = rtrim($namespace, '\\') . '\\';
-		$this->app       = $app;
-		$this->input     = $input ? $input : $app->input;
-		$this->factory   = $factory ? $factory : new MvcFactory($namespace, $this->app);
+		if (empty($this->namespace))
+		{
+			throw new \RuntimeException('Namespace can not be empty!');
+		}
+
+		$this->app   = $app;
+		$this->input = $input ? $input : $app->input;
 
 		$this->loadLanguage();
-		$this->autoLoad();
 	}
 
 	/**
@@ -95,23 +85,6 @@ abstract class Dispatcher implements DispatcherInterface
 		// Load common and local language files.
 		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
 		$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
-	}
-
-
-	/**
-	 * Autoload the extension files
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function autoLoad()
-	{
-		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
-
-		// Autoload the component
-		$autoLoader->setPsr4($this->namespace . 'Administrator\\', JPATH_ADMINISTRATOR . '/components/' . $this->app->scope);
-		$autoLoader->setPsr4($this->namespace . 'Site\\', JPATH_BASE . '/components/' . $this->app->scope);
 	}
 
 	/**
@@ -187,27 +160,21 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function getController($name, $client = null, $config = array())
 	{
-		$client = $client ? $client : ucfirst($this->app->getName());
+		// Set up the namespace
+		$namespace = rtrim($this->namespace, '\\') . '\\';
 
-		$controllerClass = $this->namespace . $client . '\\Controller\\' . ucfirst($name);
+		// Set up the client
+		$client = $client ? $client : ucfirst($this->app->getName()) . '\\';
+
+		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
 
 		if (!class_exists($controllerClass))
 		{
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$controller = new $controllerClass($config, $this->factory, $this->app, $this->input);
+		$controller = new $controllerClass($config, new MvcFactory($namespace, $this->app), $this->app, $this->input);
 
 		return $controller;
-	}
-
-	/**
-	 * Method to get factory object
-	 *
-	 * @return  MvcFactoryInterface
-	 */
-	public function getFactory()
-	{
-		return $this->factory;
 	}
 }

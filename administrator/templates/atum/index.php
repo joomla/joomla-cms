@@ -92,8 +92,8 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
-				<div class="d-flex justify-content-between align-items-center">
-					<div class="d-flex justify-content-start align-items-center">
+				<div class="d-flex">
+					<div class="d-flex col">
 						<div class="menu-collapse hidden-lg-up">
 							<a id="menu-collapse" class="menu-toggle" href="#">
 								<span class="fa fa-bars fa-fw" aria-hidden="true">
@@ -107,16 +107,16 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 						</div>
 					</div>
 
-					<a class="navbar-brand hidden-md-down" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
+					<a class="navbar-brand d-flex col justify-content-center align-items-center hidden-md-down" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
 						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
 						<span class="icon-out-2 small"></span>
 					</a>
 
-					<div class="container-title hidden-lg-up">
+					<div class="container-title hidden-lg-up col">
 						<jdoc:include type="modules" name="title" />
 					</div>
 
-					<nav>
+					<nav class="d-flex col justify-content-end">
 						<ul class="nav text-center">
 							<li class="nav-item">
 								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
@@ -130,15 +130,8 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php
 								try
 								{
-									JLoader::register('PostinstallDispatcher', JPATH_ADMINISTRATOR . '/components/com_postinstall/dispatcher.php');
-									$oldScope = $app->scope;
-									$app->scope = 'com_postinstall';
-									$namespace = \Joomla\CMS\Component\ComponentHelper::getComponent($app->scope)->namespace;
-									$dispatcher = new PostinstallDispatcher($namespace, JFactory::getApplication());
-
-									$messages_model = $dispatcher->getFactory()->createModel('Messages', 'Administrator', array('ignore_request' => true));
-
-									$messages       = $messages_model->getItems();
+									$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\Messages(array('ignore_request' => true));
+									$messages      = $messagesModel->getItems();
 								}
 								catch (RuntimeException $e)
 								{

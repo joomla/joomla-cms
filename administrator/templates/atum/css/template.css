@@ -9022,7 +9022,7 @@ legend {
     background-image: linear-gradient(to right, #59afff 0%, #59daff 100%); }
   .header .page-title {
     display: inline-block;
-    margin: 0 0 0 25px;
+    margin: 0;
     font-size: 1.3rem;
     font-weight: normal;
     line-height: 48px;
@@ -9042,6 +9042,8 @@ legend {
   .header .navbar-brand {
     margin-right: 0;
     margin-left: 10px; } }
+    .header .navbar-brand span {
+      margin-left: .4rem; }
   .header .nav-item + .nav-item {
     margin-left: 1px; }
   .header .nav-link {
