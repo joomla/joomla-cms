@@ -423,6 +423,10 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Check if a cache object has expired
 	 *
+	 * Using @ error suppressor here because between if we did a file_exists() and then filemsize() there will
+	 * be a little time space when another process can delete the file and then you get PHP Warning
+
+	 *
 	 * @param   string  $id     Cache ID to check
 	 * @param   string  $group  The cache data group
 	 *
@@ -446,12 +450,7 @@ class JCacheStorageFile extends JCacheStorage
 				return false;
 			}
 
-			/**
-			 * If, right now, the file does not exist then return false
-			 *
-			 * Using @ error suppressor here because between if we did a file_exists() and then filemsize() there will
-			 * be a little time space when another process can delete the file and then you get PHP Warning
-			 */
+			// If, right now, the file does not exist then return false
 			if (@filesize($path) == 0)
 			{
 				return false;
