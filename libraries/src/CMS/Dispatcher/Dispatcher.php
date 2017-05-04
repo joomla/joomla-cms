@@ -74,7 +74,7 @@ abstract class Dispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Load the laguage
+	 * Load the language
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
@@ -89,6 +89,10 @@ abstract class Dispatcher implements DispatcherInterface
 
 	/**
 	 * Method to check component access permission
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
 	 */
 	protected function checkAccess()
 	{

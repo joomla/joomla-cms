@@ -28,7 +28,9 @@ class CpanelDispatcher extends Dispatcher
 	protected $namespace = 'Joomla\\Component\\Cpanel';
 
 	/**
-	 * No access permission check needed
+	 * com_cpanel does not require check permission, so we override checkAccess method and have it empty
+	 *
+	 * @return  void
 	 */
 	protected function checkAccess()
 	{
