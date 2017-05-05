@@ -104,7 +104,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php echo JHtml::_('grid.id', $i, $item->id, $item->title); ?>
 						</td>
 						<td>
 							<?php if ($canManageItems) : ?>
