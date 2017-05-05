@@ -116,8 +116,20 @@ class JCacheStorageFile extends JCacheStorage
 				{
 					$_fileopen = @fopen($path, 'rb');
 
-					// There is no lock, we have to close file after store data
-					$close = true;
+					if ($_fileopen)
+					{
+						// There is no exclusive lock, we have to close file after store data
+						$close = true;
+
+						// Set the shared lock to prevent reading the partially saved file
+						if (!@flock($_fileopen, LOCK_SH|LOCK_NB))
+						{
+							// Another process writes data
+							@fclose($_fileopen);
+
+							return false;
+						}
+					}
 				}
 
 				if ($_fileopen)
@@ -127,6 +139,8 @@ class JCacheStorageFile extends JCacheStorage
 
 					if ($close)
 					{
+						// Release shared lock
+						@flock($_fileopen, LOCK_UN);
 						@fclose($_fileopen);
 					}
 
