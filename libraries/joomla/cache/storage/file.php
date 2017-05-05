@@ -210,6 +210,9 @@ class JCacheStorageFile extends JCacheStorage
 			$length = strlen($data);
 			$result = @fwrite($_fileopen, $data, $length);
 
+			// Flush data to disk before unlock resource
+			fflush($_fileopen);
+
 			if ($close)
 			{
 				@fclose($_fileopen);
@@ -381,6 +384,12 @@ class JCacheStorageFile extends JCacheStorage
 			}
 
 			$returning->locklooped = true;
+
+			if ($data_lock === true)
+			{
+				// Another process has stored file, clear the stat cache to get a new value for its size
+				clearstatcache(true, $path);
+			}
 		}
 
 		if ($data_lock === true)
