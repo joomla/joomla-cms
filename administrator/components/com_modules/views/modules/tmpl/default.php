@@ -110,7 +110,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 						</td>
 						<td class="center">
 							<?php if ($item->enabled > 0) : ?>
-								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+								<?php echo JHtml::_('grid.id', $i, $item->id, $item->title); ?>
 							<?php endif; ?>
 						</td>
 						<td class="center">
