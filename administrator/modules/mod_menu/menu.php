@@ -232,9 +232,9 @@ class JAdminCssMenu
 
 		// Recurse through children if they exist
 		// @TODO - A better solution needed to add 2nd level title ($this->_current->title) & 'close'
-		  while ($this->_current->hasChildren())
-		  {
-		   echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">
+		while ($this->_current->hasChildren())
+		{
+			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">
 		   <li>' . $this->_current->title . '<a href="#" class="close"><span aria-label="Close Menu">×</span></a></li>' . "\n";
 
 			foreach ($this->_current->getChildren() as $child)
