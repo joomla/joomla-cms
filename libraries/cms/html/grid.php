@@ -144,7 +144,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   1.5
 	 */
-	public static function id($rowNum, $recId, $title, $checkedOut = false, $name = 'cid', $stub = 'cb')
+	public static function id($rowNum, $recId, $title ='', $checkedOut = false, $name = 'cid', $stub = 'cb')
 	{
 		return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="element-invisible">' . JText::_('JSELECT') . ' ' . $title . '</span> <input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 			. '" onclick="Joomla.isChecked(this.checked);" />';
