@@ -18,7 +18,7 @@ JHtml::_('behavior.keepalive');
 		<input name="username" id="mod-login-username" type="text" size="15" autofocus="true" />
 
 		<label id="mod-login-password-lbl" for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-		<input name="passwd" id="mod-login-password" type="password" size="15" />
+		<input name="passwd" id="mod-login-password" type="password" size="15"  autocapitalize="none" />
 		<?php if (count($twofactormethods) > 1): ?>
 			<div class="control-group">
 				<div class="controls">
