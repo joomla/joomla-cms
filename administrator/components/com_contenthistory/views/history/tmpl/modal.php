@@ -99,7 +99,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<span class="icon-zoom-in" aria-hidden="true"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span></button>
 		<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.keep')}" class="btn pointer hasTooltip" aria-label="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
 			<span class="icon-lock" aria-hidden="true"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span></button>
-		<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.delete')}" class="btn pointer hasTooltip" taria-label="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
+		<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.delete')}" class="btn pointer hasTooltip" aria-label="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
 			<span class="icon-delete" aria-hidden="true"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span></button>
 	</div>
 
