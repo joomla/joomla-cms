@@ -145,7 +145,7 @@ abstract class JHtmlGrid
 	 */
 	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb')
 	{
-		return $checkedOut ? '' : '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
+		return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="element-invisible">' . JText::_('JSELECT') . ' ' . $recId . '</span> <input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 			. '" onclick="Joomla.isChecked(this.checked);" />';
 	}
 
