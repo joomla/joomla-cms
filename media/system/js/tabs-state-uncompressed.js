@@ -78,6 +78,7 @@ jQuery(function ($) {
 
         /**
          * Generate the sessionStorage key we will use
+         * This is the URL minus some cleanup
          */
         function getStorageKey() {
             return window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, "").replace(/#[a-zA-Z0-9%]+/, "");
@@ -88,16 +89,8 @@ jQuery(function ($) {
          */
         function saveActiveTab(event) {
 
-
+            // Get a new storage key, normally the full url we are on with some cleanup
             var storageKey = getStorageKey();
-
-            /**
-             * Allow storing of state if there is no id in the url, allows for storing on create screens and is picked up on page after save then deleted
-             * Always run on com_config and its massive use of tabs, on a url that has no id in it
-             */
-            if ((null == $.urlParam('id=|[a-z]{1}_id=', false) && $.urlParam("option") != "com_config")) {
-                storageKey = "UNSAVED_ITEM";
-            }
 
             // get this tabs own href
             var href = $(event.target).attr("href");
@@ -119,10 +112,10 @@ jQuery(function ($) {
             // If none start a new array
             if (!activeTabsHrefs) {
                 var activeTabsHrefs = [];
+            } else {
+                // Avoid Duplicates in the storage
+                remove_item(activeTabsHrefs, tabCollection);
             }
-
-            // Avoid Duplicates in the storage
-            remove_item(activeTabsHrefs, tabCollection);
 
             // Save clicked tab, with relationship to tabCollection to the array
             activeTabsHrefs.push(storageValue);
@@ -146,13 +139,14 @@ jQuery(function ($) {
         alltabs.parent(".active").removeClass("active");
 
         // If we cannot find a tab storage for this url, see if we are coming from a save of a new item
-        if (activeTabsHrefs === null) {
-            var activeTabsHrefs = JSON.parse(sessionStorage.getItem("UNSAVED_ITEM"));
-            sessionStorage.removeItem("UNSAVED_ITEM");
+        if (!activeTabsHrefs) {
+            var unSavedStateUrl = getStorageKey().replace(/\&id=[0-9]*|[a-z]\&{1}_id=[0-9]*/,'');
+            activeTabsHrefs = JSON.parse(sessionStorage.getItem(unSavedStateUrl));
+            sessionStorage.removeItem(unSavedStateUrl);
         }
 
-        // we have some tab states to restore
-        if (activeTabsHrefs !== null) {
+        // we have some tab states to restore, if we see a hash then let that trump the saved state
+        if (activeTabsHrefs !== null && !window.location.hash) {
 
             // When moving from tab area to a different view
             $.each(activeTabsHrefs, function (index, tabFakexPath) {
@@ -165,11 +159,21 @@ jQuery(function ($) {
 
         } else { // clean slate start
 
-            alltabs.parents("ul").each(function (index, ul) {
-                // If no tabs is saved, activate first tab from each tab set and save it
-                $(ul).find("a").first().click();
-            });
+            // If we are passing a hash then this trumps everything
+            if (window.location.hash){
 
+                alltabs.parents("ul").each(function (index, ul) {
+                    // If no tabs is saved, activate first tab from each tab set and save it
+                    $(ul).find("a[href='"+window.location.hash+"']").first().click();
+                });
+
+            } else {
+
+                alltabs.parents("ul").each(function (index, ul) {
+                    // If no tabs is saved, activate first tab from each tab set and save it
+                    $(ul).find("a").first().click();
+                });
+            }
         }
     };
 
