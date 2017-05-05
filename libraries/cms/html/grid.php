@@ -135,10 +135,10 @@ abstract class JHtmlGrid
 	 *
 	 * @param   integer  $rowNum      The row index
 	 * @param   integer  $recId       The record id
+	 * @param   string   $title       The name of the item
 	 * @param   boolean  $checkedOut  True if item is checked out
 	 * @param   string   $name        The name of the form element
 	 * @param   string   $stub        The name of stub identifier
-	 * @param   string   $title       The name of the item
 	 *
 	 * @return  mixed    String of html with a checkbox if item is not checked out, null if checked out.
 	 *
