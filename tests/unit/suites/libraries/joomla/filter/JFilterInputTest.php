@@ -1357,7 +1357,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'tracker25558e' => array(
 				'string',
 				'<b><script<b></b><alert(1)</script </b>',
-				'<b>script<b></b>alert(1)/script</b>',
+				'<b>script<b></b>alert(1)/script </b>',
 				'Test mal-formed element from 25558e'
 			),
 			'security_20110329a' => array(
@@ -1370,6 +1370,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'html',
 				'<div>Hello</div>',
 				'<div>Hello</div>',
+				'Generic test case for HTML cleaning'
+			),
+			'html_02' => array(
+				'html',
+				'<br/>',
+				'<br />',
 				'Generic test case for HTML cleaning'
 			),
 			'tracker26439a' => array(
