@@ -115,7 +115,7 @@ if ($saveOrder)
 							<?php endif; ?>
 						</td>
 						<td>
-							<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
+							<?php echo JHtml::_('grid.id', $i, $item->lang_id, $item->title); ?>
 						</td>
 						<td class="center">
 							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>

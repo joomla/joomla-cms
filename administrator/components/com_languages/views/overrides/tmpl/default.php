@@ -84,7 +84,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 				<?php foreach ($this->items as $key => $text) : ?>
 					<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $key); ?>
+							<?php echo JHtml::_('grid.id', $i, $key, $key); ?>
 						</td>
 						<td>
 							<?php if ($canEdit) : ?>
