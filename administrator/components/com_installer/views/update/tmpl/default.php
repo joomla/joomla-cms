@@ -89,7 +89,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td>
-									<?php echo JHtml::_('grid.id', $i, $item->update_id); ?>
+									<?php echo JHtml::_('grid.id', $i, $item->update_id, $item->name); ?>
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">
