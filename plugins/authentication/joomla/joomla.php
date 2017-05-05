@@ -47,7 +47,7 @@ class PlgAuthenticationJoomla extends JPlugin
 			->from('#__users')
 			->where('username=' . $db->quote($credentials['username']));
 
-		// should we check the email too=
+		// Should we check the email too?
 		if($this->params->get('login_with_email_allowed', 0))
 		{
 			$query->orWhere($db->qn('email') . ' = ' . $db->q($credentials['username']));
