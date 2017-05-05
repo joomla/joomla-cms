@@ -1082,7 +1082,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass')
+	protected function fetchObject($cursor = null, $class = '\\stdClass')
 	{
 		return pg_fetch_object(is_null($cursor) ? $this->cursor : $cursor, null, $class);
 	}

@@ -741,7 +741,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	abstract protected function fetchObject($cursor = null, $class = 'stdClass');
+	abstract protected function fetchObject($cursor = null, $class = '\\stdClass');
 
 	/**
 	 * Method to free up the memory used for the result set.
@@ -1231,7 +1231,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function getIterator($column = null, $class = 'stdClass')
+	public function getIterator($column = null, $class = '\\stdClass')
 	{
 		// Derive the class name from the driver.
 		$iteratorClass = 'JDatabaseIterator' . ucfirst($this->name);
@@ -1555,7 +1555,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @throws  RuntimeException
 	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use getIterator() instead
 	 */
-	public function loadNextObject($class = 'stdClass')
+	public function loadNextObject($class = '\\stdClass')
 	{
 		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
@@ -1632,7 +1632,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function loadObject($class = 'stdClass')
+	public function loadObject($class = '\\stdClass')
 	{
 		$this->connect();
 
@@ -1671,7 +1671,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function loadObjectList($key = '', $class = 'stdClass')
+	public function loadObjectList($key = '', $class = '\\stdClass')
 	{
 		$this->connect();
 

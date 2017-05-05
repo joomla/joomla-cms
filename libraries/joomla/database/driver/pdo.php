@@ -853,7 +853,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass')
+	protected function fetchObject($cursor = null, $class = '\\stdClass')
 	{
 		if (!empty($cursor) && $cursor instanceof PDOStatement)
 		{
@@ -903,7 +903,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 * @throws  RuntimeException
 	 * @deprecated  4.0 (CMS)  Use getIterator() instead
 	 */
-	public function loadNextObject($class = 'stdClass')
+	public function loadNextObject($class = '\\stdClass')
 	{
 		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();

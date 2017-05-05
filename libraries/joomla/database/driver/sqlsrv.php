@@ -907,7 +907,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	protected function fetchObject($cursor = null, $class = 'stdClass')
+	protected function fetchObject($cursor = null, $class = '\\stdClass')
 	{
 		// Class has to be loaded for sqlsrv on windows platform
 		class_exists($class);
