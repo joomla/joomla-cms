@@ -181,7 +181,7 @@ if ($saveOrder)
 								<?php endif; ?>
 							</td>
 							<td class="center">
-								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+								<?php echo JHtml::_('grid.id', $i, $item->id, $item->title); ?>
 							</td>
 							<td class="center">
 								<div class="btn-group">
