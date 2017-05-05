@@ -242,20 +242,15 @@ class JMenu
 	 *
 	 * @param   JUser  $user  The user object
 	 *
-	 * @return  JMenu|null  The menu object if the user property has been set or null
+	 * @return  JMenu  The menu object if the user property has been set or null
 	 *
 	 * @since   3.7.1
 	 */
-	public function setUser($user)
+	public function setUser(JUser $user)
 	{
-		if ($user instanceof JUser)
-		{
-			$this->user = $user;
+		$this->user = $user;
 
-			return $this;
-		}
-
-		return;
+		return $this;
 	}
 
 	/**
