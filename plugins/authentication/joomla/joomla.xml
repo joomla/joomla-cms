@@ -16,21 +16,4 @@
 		<language tag="en-GB">en-GB.plg_authentication_joomla.ini</language>
 		<language tag="en-GB">en-GB.plg_authentication_joomla.sys.ini</language>
 	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-						name="login_with_email_allowed"
-						type="list"
-						default="0"
-						description="PLG_AUTHENTICATION_JOOMLA_LOGIN_WITH_EMAIL_ALLOWED_DESC"
-						label="PLG_AUTHENTICATION_JOOMLA_LOGIN_WITH_EMAIL_ALLOWED_LABEL"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-			</fieldset>
-
-		</fields>
-	</config>
 </extension>
