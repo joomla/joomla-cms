@@ -48,7 +48,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 			<div class="btn-group">
 				<?php if ($this->params->get('filter_field') !== 'tag') : ?>
-					<label class="filter-search-lbl element-invisible" for="filter-search">
+					<label class="filter-search-lbl sr-only" for="filter-search">
 						<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
 					</label>
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
@@ -62,7 +62,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
 			<div class="btn-group float-right">
-				<label for="limit" class="element-invisible">
+				<label for="limit" class="sr-only">
 					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>
 				<?php echo $this->pagination->getLimitBox(); ?>

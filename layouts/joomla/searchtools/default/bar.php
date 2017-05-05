@@ -30,7 +30,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
-		<label for="filter_search" class="element-invisible">
+		<label for="filter_search" class="sr-only">
 			<?php if (isset($filters['filter_search']->label)) : ?>
 				<?php echo JText::_($filters['filter_search']->label); ?>
 			<?php else : ?>
