@@ -42,17 +42,6 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	public function __construct($options = array())
 	{
-		// Only allow session config to be changed if no session yet started to avoid warnings
-		if ($this->getId() === "")
-		{
-			// Disable transparent sid support
-			ini_set('session.use_trans_sid', '0');
-
-			// Only allow the session ID to come from cookies and nothing else.
-			ini_set('session.use_only_cookies', '1');
-		}
-
-		// Set options
 		$this->setOptions($options);
 		$this->setCookieParams();
 	}
