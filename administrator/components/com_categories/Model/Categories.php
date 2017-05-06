@@ -6,25 +6,31 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Model\ListModel;
 
 /**
  * Categories Component Categories Model
  *
  * @since  1.6
  */
-class CategoriesModelCategories extends JModelList
+class Categories extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JControllerLegacy
+	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -47,7 +53,7 @@ class CategoriesModelCategories extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -64,7 +70,7 @@ class CategoriesModelCategories extends JModelList
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -131,7 +137,7 @@ class CategoriesModelCategories extends JModelList
 	/**
 	 * Method to get a database query to list categories.
 	 *
-	 * @return  JDatabaseQuery object.
+	 * @return  \JDatabaseQuery object.
 	 *
 	 * @since   1.6
 	 */
@@ -140,7 +146,7 @@ class CategoriesModelCategories extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -266,7 +272,7 @@ class CategoriesModelCategories extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		// Group by on Categories for JOIN with component tables to count items
+		// Group by on Categories for \JOIN with component tables to count items
 		$query->group('a.id,
 				a.title,
 				a.alias,
@@ -310,7 +316,7 @@ class CategoriesModelCategories extends JModelList
 
 		$extension = $this->getState('filter.extension');
 
-		$assoc = JLanguageAssociations::isEnabled();
+		$assoc = Associations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);
@@ -322,7 +328,7 @@ class CategoriesModelCategories extends JModelList
 		else
 		{
 			$hname = $cname . 'HelperAssociation';
-			JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
+			\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
 			$assoc = class_exists($hname) && !empty($hname::$category_association);
 		}
@@ -354,8 +360,8 @@ class CategoriesModelCategories extends JModelList
 	/**
 	 * Method to load the countItems method from the extensions
 	 *
-	 * @param   stdClass[]  &$items     The category items
-	 * @param   string      $extension  The category extension
+	 * @param   \stdClass[]  &$items     The category items
+	 * @param   string       $extension  The category extension
 	 *
 	 * @return  void
 	 *
@@ -374,14 +380,14 @@ class CategoriesModelCategories extends JModelList
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (file_exists($file))
 		{
 			$prefix = ucfirst($eName);
 			$cName = $prefix . 'Helper';
 
-			JLoader::register($cName, $file);
+			\JLoader::register($cName, $file);
 
 			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
 			{

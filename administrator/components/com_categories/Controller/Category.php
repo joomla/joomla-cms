@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Categories\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Controller\Form;
+use Joomla\CMS\Model\Model;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class CategoriesControllerCategory extends JControllerForm
+class Category extends Form
 {
 	/**
 	 * The extension for which the categories apply.
@@ -29,16 +33,18 @@ class CategoriesControllerCategory extends JControllerForm
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
 	 * @since  1.6
-	 * @see    JControllerLegacy
+	 * @see    \JControllerLegacy
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 
-		// Guess the JText message prefix. Defaults to the option.
 		if (empty($this->extension))
 		{
 			$this->extension = $this->input->get('extension', 'com_content');
@@ -56,7 +62,7 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		return ($user->authorise('core.create', $this->extension) || count($user->getAuthorisedCategories($this->extension, 'core.create')));
 	}
@@ -74,7 +80,7 @@ class CategoriesControllerCategory extends JControllerForm
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.category.' . $recordId))
@@ -116,10 +122,10 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		/** @var CategoriesModelCategory $model */
+		/** @var \Joomla\Component\Categories\Administrator\Model\Category $model */
 		$model = $this->getModel('Category');
 
 		// Preset the redirect
@@ -164,14 +170,14 @@ class CategoriesControllerCategory extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   JModelLegacy  $model      The data model object.
-	 * @param   array         $validData  The validated data.
+	 * @param   \Joomla\Cms\Model\Model  $model      The data model object.
+	 * @param   array                    $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	protected function postSaveHook(Model $model, $validData = array())
 	{
 		$item = $model->getItem();
 
