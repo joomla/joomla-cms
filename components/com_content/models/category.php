@@ -402,6 +402,19 @@ class ContentModelCategory extends JModelList
 			$this->getCategory();
 		}
 
+		// Filter Parent category by language
+		if ($this->getState('filter.language'))
+		{
+			if (in_array($this->_item->language, array(JFactory::getLanguage()->getTag(), '*')))
+			{
+				return $this->_parent;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
 		return $this->_parent;
 	}
 
@@ -451,6 +464,22 @@ class ContentModelCategory extends JModelList
 		if (!is_object($this->_item))
 		{
 			$this->getCategory();
+		}
+
+		// Filter subcategories by language
+		if (count($this->_children) && $this->getState('filter.language'))
+		{
+			$children = array();
+
+			foreach ($this->_children as $id => $child)
+			{
+				if (in_array($child->language, array(JFactory::getLanguage()->getTag(), '*')))
+				{
+					$children[] = $child;
+				}
+			}
+
+			$this->_children = $children;
 		}
 
 		// Order subcategories
