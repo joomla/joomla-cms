@@ -25,19 +25,19 @@ JFactory::getDocument()->addScriptDeclaration("
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
-
 	<div class="row">
-		<!-- Begin Content -->
 
-		<div class="btn-toolbar">
+		<div>
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.save.templates.apply')">
-					<span class="icon-ok"></span> <?php echo JText::_('JSAVE') ?>
+					<span class="icon-ok"></span>
+					<?php echo JText::_('JSAVE') ?>
 				</button>
 			</div>
 			<div class="btn-group">
-				<button type="button" class="btn" onclick="Joomla.submitbutton('config.cancel')">
-					<span class="icon-cancel"></span> <?php echo JText::_('JCANCEL') ?>
+				<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('config.cancel')">
+					<span class="icon-cancel"></span>
+					<?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
 		</div>
@@ -54,7 +54,5 @@ JFactory::getDocument()->addScriptDeclaration("
 		<input type="hidden" name="task" value="">
 		<?php echo JHtml::_('form.token'); ?>
 
-		<!-- End Content -->
 	</div>
-
 </form>
