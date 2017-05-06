@@ -6,22 +6,25 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Cache\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Pagination\Pagination;
 
 /**
  * Cache Model
  *
  * @since  1.6
  */
-class CacheModelCache extends JModelList
+class Cache extends ListModel
 {
 	/**
 	 * An Array of CacheItems indexed by cache group ID
 	 *
-	 * @var Array
+	 * @var array
 	 */
 	protected $_data = array();
 
@@ -158,14 +161,14 @@ class CacheModelCache extends JModelList
 					$this->_data = array();
 				}
 			}
-			catch (JCacheExceptionConnecting $exception)
+			catch (\JCacheExceptionConnecting $exception)
 			{
-				$this->setError(JText::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
+				$this->setError(\JText::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
 				$this->_data = array();
 			}
-			catch (JCacheExceptionUnsupported $exception)
+			catch (\JCacheExceptionUnsupported $exception)
 			{
-				$this->setError(JText::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
+				$this->setError(\JText::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
 				$this->_data = array();
 			}
 		}
@@ -176,11 +179,11 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache instance.
 	 *
-	 * @return JCacheController
+	 * @return \JCacheController
 	 */
 	public function getCache($clientId = null)
 	{
-		$conf = JFactory::getConfig();
+		$conf = \JFactory::getConfig();
 
 		if (is_null($clientId))
 		{
@@ -194,7 +197,7 @@ class CacheModelCache extends JModelList
 			'cachebase'    => (int) $clientId === 1 ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
-		return JCache::getInstance('', $options);
+		return \JCache::getInstance('', $options);
 	}
 
 	/**
@@ -215,13 +218,13 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get a pagination object for the cache.
 	 *
-	 * @return  JPagination
+	 * @return  Pagination
 	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('list.start'), $this->getState('list.limit'));
+			$this->_pagination = new Pagination($this->getTotal(), $this->getState('list.start'), $this->getState('list.limit'));
 		}
 
 		return $this->_pagination;
@@ -241,11 +244,11 @@ class CacheModelCache extends JModelList
 		{
 			return $this->getCache()->clean($group);
 		}
-		catch (JCacheExceptionConnecting $exception)
+		catch (\JCacheExceptionConnecting $exception)
 		{
 			return false;
 		}
-		catch (JCacheExceptionUnsupported $exception)
+		catch (\JCacheExceptionUnsupported $exception)
 		{
 			return false;
 		}
@@ -282,13 +285,13 @@ class CacheModelCache extends JModelList
 	{
 		try
 		{
-			return JFactory::getCache('')->gc();
+			return \JFactory::getCache('')->gc();
 		}
-		catch (JCacheExceptionConnecting $exception)
+		catch (\JCacheExceptionConnecting $exception)
 		{
 			return false;
 		}
-		catch (JCacheExceptionUnsupported $exception)
+		catch (\JCacheExceptionUnsupported $exception)
 		{
 			return false;
 		}
