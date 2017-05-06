@@ -170,7 +170,7 @@ class Category extends Form
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   \Joomla\Cms\Model\Model  $model      The data model object.
+	 * @param   \Joomla\CMS\Model\Model  $model      The data model object.
 	 * @param   array                    $validData  The validated data.
 	 *
 	 * @return  void

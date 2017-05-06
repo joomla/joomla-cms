@@ -59,7 +59,7 @@ class Category extends Admin
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\Cms\Model\Model
+	 * @see     \Joomla\CMS\Model\Model
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
@@ -125,7 +125,7 @@ class Category extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\Cms\Table\Table  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A JTable object
 	 *
 	 * @since   1.6
 	 */
