@@ -41,31 +41,29 @@ class CategoriesHelper
 			$section = $parts[1];
 		}
 
+
+		$prefix = ucfirst(str_replace('com_', '', $component));
+		$cName = $prefix . 'Helper';
+
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (file_exists($file))
 		{
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
-
 			JLoader::register($cName, $file);
+		}
 
-			if (class_exists($cName))
-			{
-				if (is_callable(array($cName, 'addSubmenu')))
-				{
-					$lang = JFactory::getLanguage();
+		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
+		{
+			$lang = JFactory::getLanguage();
 
-					// Loading language file from the administrator/language directory then
-					// loading language file from the administrator/components/*extension*/language directory
-					$lang->load($component, JPATH_BASE, null, false, true)
-					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+			// Loading language file from the administrator/language directory then
+			// loading language file from the administrator/components/*extension*/language directory
+			$lang->load($component, JPATH_BASE, null, false, true)
+			|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
-					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
-				}
-			}
+			call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
 		}
 	}
 
