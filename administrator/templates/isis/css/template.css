@@ -7300,6 +7300,9 @@ h6 {
 		width: 220px;
 	}
 }
+.form-horizontal .field-spacer>.control-label {
+	width: auto;
+}
 .form-horizontal #jform_catid_chzn {
 	vertical-align: middle;
 }
