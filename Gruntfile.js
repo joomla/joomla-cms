@@ -453,4 +453,39 @@ module.exports = function(grunt) {
 		]);
 	 });
 
+	grunt.registerTask('installation', 'Compiles the error.js translation file', function() {
+
+		// Set the initial template
+		var template = `
+window.errorLocale = {`;
+
+		function callback(abspath, rootdir, subdir, filename) {
+			// The full path to the current file, which is nothing more than
+			// the rootdir + subdir + filename arguments, joined.
+			if (abspath.indexOf('.ini') > -1) {
+				var fs = require('fs'), ini = require('ini'), languageStrings = ini.parse(fs.readFileSync(abspath, 'utf-8'));
+
+				if (languageStrings["MIN_PHP_ERROR_LANGUAGE"]) {
+					template = template + `
+	"` + subdir + `": {
+		"language": "` + languageStrings["MIN_PHP_ERROR_LANGUAGE"] + `",
+		"header": "` + languageStrings["MIN_PHP_ERROR_HEADER"] + `",
+		"text1": "` + languageStrings["MIN_PHP_ERROR_TEXT"] + `",
+		"help-url": "` + languageStrings["MIN_PHP_ERROR_URL"] + `",
+		"help-url-text": "` + languageStrings["MIN_PHP_ERROR_URL_TEXT"] + `"
+	},`;
+				}
+			}
+		}
+
+		grunt.file.recurse('installation/language', callback);
+
+		// Add the closing bracket
+		template = template + `
+}`;
+
+		// Write the Custom element
+		grunt.file.write('installation/template/js/error-locales.js', template);
+	});
+
 };
