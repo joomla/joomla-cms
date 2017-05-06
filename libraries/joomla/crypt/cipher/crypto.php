@@ -10,6 +10,10 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Crypt\Key;
+use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key as CryptoKey;
+use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
+use Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException;
 
 /**
  * JCrypt cipher for encryption, decryption and key generation via the php-encryption library.
@@ -37,20 +41,18 @@ class JCryptCipherCrypto implements JCryptCipher
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
 		}
 
+		$cryptoKey = CryptoKey::loadFromAsciiSafeString($key->getPublic());
+
 		// Decrypt the data.
 		try
 		{
-			return Crypto::Decrypt($data, $key->getPublic());
+			return Crypto::Decrypt($data, $cryptoKey);
 		}
-		catch (InvalidCiphertextException $ex)
+		catch (WrongKeyOrModifiedCiphertextException $ex)
 		{
 			throw new RuntimeException('DANGER! DANGER! The ciphertext has been tampered with!', $ex->getCode(), $ex);
 		}
-		catch (CryptoTestFailedException $ex)
-		{
-			throw new RuntimeException('Cannot safely perform decryption', $ex->getCode(), $ex);
-		}
-		catch (CannotPerformOperationException $ex)
+		catch (EnvironmentIsBrokenException $ex)
 		{
 			throw new RuntimeException('Cannot safely perform decryption', $ex->getCode(), $ex);
 		}
@@ -75,16 +77,14 @@ class JCryptCipherCrypto implements JCryptCipher
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
 		}
 
+		$cryptoKey = CryptoKey::loadFromAsciiSafeString($key->getPublic());
+
 		// Encrypt the data.
 		try
 		{
-			return Crypto::Encrypt($data, $key->getPublic());
+			return Crypto::Encrypt($data, $cryptoKey);
 		}
-		catch (CryptoTestFailedException $ex)
-		{
-			throw new RuntimeException('Cannot safely perform encryption', $ex->getCode(), $ex);
-		}
-		catch (CannotPerformOperationException $ex)
+		catch (EnvironmentIsBrokenException $ex)
 		{
 			throw new RuntimeException('Cannot safely perform encryption', $ex->getCode(), $ex);
 		}
@@ -105,13 +105,9 @@ class JCryptCipherCrypto implements JCryptCipher
 		// Generate the encryption key.
 		try
 		{
-			$public = Crypto::CreateNewRandomKey();
+			$public = CryptoKey::CreateNewRandomKey();
 		}
-		catch (CryptoTestFailedException $ex)
-		{
-			throw new RuntimeException('Cannot safely create a key', $ex->getCode(), $ex);
-		}
-		catch (CannotPerformOperationException $ex)
+		catch (EnvironmentIsBrokenException $ex)
 		{
 			throw new RuntimeException('Cannot safely create a key', $ex->getCode(), $ex);
 		}
