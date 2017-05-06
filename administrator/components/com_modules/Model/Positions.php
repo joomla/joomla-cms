@@ -6,22 +6,28 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 /**
  * Modules Component Positions Model
  *
  * @since  1.6
  */
-class ModulesModelPositions extends JModelList
+class Positions extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     \JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -51,8 +57,6 @@ class ModulesModelPositions extends JModelList
 	 */
 	protected function populateState($ordering = 'value', $direction = 'asc')
 	{
-		$app = JFactory::getApplication('administrator');
-
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -72,7 +76,7 @@ class ModulesModelPositions extends JModelList
 		$this->setState('client_id', $clientId);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_modules');
+		$params = ComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -90,7 +94,7 @@ class ModulesModelPositions extends JModelList
 	{
 		if (!isset($this->items))
 		{
-			$lang            = JFactory::getLanguage();
+			$lang            = \JFactory::getLanguage();
 			$search          = $this->getState('filter.search');
 			$state           = $this->getState('filter.state');
 			$clientId        = $this->getState('client_id');
@@ -100,7 +104,7 @@ class ModulesModelPositions extends JModelList
 			$direction       = $this->getState('list.direction');
 			$limitstart      = $this->getState('list.start');
 			$limit           = $this->getState('list.limit');
-			$client          = JApplicationHelper::getClientInfo($clientId);
+			$client          = ApplicationHelper::getClientInfo($clientId);
 
 			if ($type != 'template')
 			{
@@ -122,7 +126,7 @@ class ModulesModelPositions extends JModelList
 				{
 					$positions = $this->_db->loadObjectList('value');
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 
@@ -142,7 +146,7 @@ class ModulesModelPositions extends JModelList
 			// Load the positions from the installed templates.
 			foreach (ModulesHelper::getTemplates($clientId) as $template)
 			{
-				$path = JPath::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
+				$path = \JPath::clean($client->path . '/templates/' . $template->element . '/templateDetails.xml');
 
 				if (file_exists($path))
 				{

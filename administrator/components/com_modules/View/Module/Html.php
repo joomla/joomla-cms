@@ -6,20 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\View\Module;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View to edit a module.
  *
  * @since  1.6
  */
-class ModulesViewModule extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
-	 * The JForm object
+	 * The \JForm object
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	protected $form;
 
@@ -33,14 +37,14 @@ class ModulesViewModule extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $canDo;
@@ -57,12 +61,12 @@ class ModulesViewModule extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = JHelperContent::getActions('com_modules', 'module', $this->item->id);
+		$this->canDo = ContentHelper::getActions('com_modules', 'module', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -78,19 +82,19 @@ class ModulesViewModule extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
-		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'cube module');
+		\JToolbarHelper::title(\JText::sprintf('COM_MODULES_MANAGER_MODULE', \JText::_($this->item->module)), 'cube module');
 
 		// For new records, check the create permission.
 		if ($isNew && $canDo->get('core.create'))
 		{
-			JToolbarHelper::saveGroup(
+			\JToolbarHelper::saveGroup(
 				[
 					['apply', 'module.apply'],
 					['save', 'module.save'],
@@ -99,7 +103,7 @@ class ModulesViewModule extends JViewLegacy
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('module.cancel');
+			\JToolbarHelper::cancel('module.cancel');
 		}
 		else
 		{
@@ -128,23 +132,23 @@ class ModulesViewModule extends JViewLegacy
 				$toolbarButtons[] = ['save2copy', 'module.save2copy'];
 			}
 
-			JToolbarHelper::saveGroup(
+			\JToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		// Get the help information for the menu item.
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = JText::_($help->url);
+			$url = \JText::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -152,6 +156,6 @@ class ModulesViewModule extends JViewLegacy
 			$url = null;
 		}
 
-		JToolbarHelper::help($help->key, false, $url);
+		\JToolbarHelper::help($help->key, false, $url);
 	}
 }

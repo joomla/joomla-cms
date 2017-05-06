@@ -6,9 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -18,7 +24,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ModulesModelModule extends JModelAdmin
+class Module extends Admin
 {
 	/**
 	 * The type alias for this content type.
@@ -98,7 +104,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -114,7 +120,7 @@ class ModulesModelModule extends JModelAdmin
 		$this->setState('module.id', $pk);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_modules');
+		$params = ComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);
 	}
 
@@ -132,7 +138,7 @@ class ModulesModelModule extends JModelAdmin
 	protected function batchCopy($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$table = $this->getTable();
 		$newIds = array();
 
@@ -204,7 +210,7 @@ class ModulesModelModule extends JModelAdmin
 			}
 			else
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -230,7 +236,7 @@ class ModulesModelModule extends JModelAdmin
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -265,7 +271,7 @@ class ModulesModelModule extends JModelAdmin
 			}
 			else
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -288,7 +294,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Check for existing module.
 		if (!empty($record->id))
@@ -310,17 +316,18 @@ class ModulesModelModule extends JModelAdmin
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
 	 * @since   1.6
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function delete(&$pks)
 	{
+		$app        = \JFactory::getApplication();
 		$pks        = (array) $pks;
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
 		// Include the plugins for the on delete events.
-		JPluginHelper::importPlugin($this->events_map['delete']);
+		PluginHelper::importPlugin($this->events_map['delete']);
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $pk)
@@ -330,17 +337,17 @@ class ModulesModelModule extends JModelAdmin
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_modules.module.' . (int) $pk) || $table->published != -2)
 				{
-					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+					\JError::raiseWarning(403, \JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 
 					return;
 				}
 
 				// Trigger the before delete event.
-				$result = JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+				$result = $app->triggerEvent($this->event_before_delete, array($context, $table));
 
 				if (in_array(false, $result, true) || !$table->delete($pk))
 				{
-					throw new Exception($table->getError());
+					throw new \Exception($table->getError());
 				}
 				else
 				{
@@ -353,7 +360,7 @@ class ModulesModelModule extends JModelAdmin
 					$db->execute();
 
 					// Trigger the after delete event.
-					JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+					$app->triggerEvent($this->event_after_delete, array($context, $table));
 				}
 
 				// Clear module cache
@@ -361,7 +368,7 @@ class ModulesModelModule extends JModelAdmin
 			}
 			else
 			{
-				throw new Exception($table->getError());
+				throw new \Exception($table->getError());
 			}
 		}
 
@@ -376,20 +383,20 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @param   array  &$pks  An array of primary key IDs.
 	 *
-	 * @return  boolean|JException  Boolean true on success, JException instance on error
+	 * @return  boolean|\JException  Boolean true on success, \JException instance on error
 	 *
 	 * @since   1.6
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function duplicate(&$pks)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$db   = $this->getDbo();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_modules'))
 		{
-			throw new Exception(JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
+			throw new \Exception(\JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
 		$table = $this->getTable();
@@ -417,7 +424,7 @@ class ModulesModelModule extends JModelAdmin
 
 				if (!$table->check() || !$table->store())
 				{
-					throw new Exception($table->getError());
+					throw new \Exception($table->getError());
 				}
 
 				$query = $db->getQuery(true)
@@ -435,7 +442,7 @@ class ModulesModelModule extends JModelAdmin
 			}
 			else
 			{
-				throw new Exception($table->getError());
+				throw new \Exception($table->getError());
 			}
 		}
 
@@ -453,9 +460,9 @@ class ModulesModelModule extends JModelAdmin
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				return JError::raiseWarning(500, $e->getMessage());
+				return \JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 
@@ -507,7 +514,7 @@ class ModulesModelModule extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm  A JForm object on success, false on failure
+	 * @return  \JForm  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -530,7 +537,7 @@ class ModulesModelModule extends JModelAdmin
 
 		// Add the default fields directory
 		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
+		\JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
@@ -546,7 +553,7 @@ class ModulesModelModule extends JModelAdmin
 
 		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		/**
 		 * Check for existing module
@@ -581,10 +588,10 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());
 
 		if (empty($data))
 		{
@@ -597,7 +604,7 @@ class ModulesModelModule extends JModelAdmin
 				$data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access'))));
 			}
 
 			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -665,7 +672,7 @@ class ModulesModelModule extends JModelAdmin
 					{
 						$extension = $db->loadObject();
 					}
-					catch (RuntimeException $e)
+					catch (\RuntimeException $e)
 					{
 						$this->setError($e->getMessage());
 
@@ -685,13 +692,13 @@ class ModulesModelModule extends JModelAdmin
 				}
 				else
 				{
-					JFactory::getApplication()->redirect(JRoute::_('index.php?option=com_modules&view=modules', false));
+					\JFactory::getApplication()->redirect(\JRoute::_('index.php?option=com_modules&view=modules', false));
 
 					return false;
 				}
 			}
 
-			// Convert to the JObject before adding other data.
+			// Convert to the \JObject before adding other data.
 			$properties        = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
@@ -737,8 +744,8 @@ class ModulesModelModule extends JModelAdmin
 			$this->_cache[$pk]->assignment = $assignment;
 
 			// Get the module XML.
-			$client = JApplicationHelper::getClientInfo($table->client_id);
-			$path   = JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
+			$client = ApplicationHelper::getClientInfo($table->client_id);
+			$path   = \JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
 
 			if (file_exists($path))
 			{
@@ -772,19 +779,19 @@ class ModulesModelModule extends JModelAdmin
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A database object
+	 * @return  Table  A database object
 	 *
 	 * @since   1.6
 	 */
 	public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   JTable  $table  The database object
+	 * @param   Table  $table  The database object
 	 *
 	 * @return  void
 	 *
@@ -799,25 +806,25 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   JForm   $form   A form object.
+	 * @param   \JForm  $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
-	 * @throws  Exception if there is an error loading the form.
+	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.path');
 
-		$lang     = JFactory::getLanguage();
+		$lang     = \JFactory::getLanguage();
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');
 
-		$client   = JApplicationHelper::getClientInfo($clientId);
-		$formFile = JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
+		$client   = ApplicationHelper::getClientInfo($clientId);
+		$formFile = \JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
@@ -828,13 +835,13 @@ class ModulesModelModule extends JModelAdmin
 			// Get the module form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile))
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Get the help data from the XML file if present.
@@ -851,7 +858,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Load the default advanced params
-		JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
+		\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
 		$form->loadFile('advanced', false);
 
 		// Trigger the default form events.
@@ -871,7 +878,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
+		\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 		return parent::validate($form, $data, $group);
 	}
@@ -887,14 +894,14 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$input      = JFactory::getApplication()->input;
+		$input      = \JFactory::getApplication()->input;
 		$table      = $this->getTable();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 
 		// Include the plugins for the save event.
-		JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing record.
 		if ($pk > 0)
@@ -912,7 +919,7 @@ class ModulesModelModule extends JModelAdmin
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
+				$data['title'] .= ' ' . \JText::_('JGLOBAL_COPY');
 			}
 		}
 
@@ -936,7 +943,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Trigger the before save event.
-		$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -967,7 +974,7 @@ class ModulesModelModule extends JModelAdmin
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -1001,7 +1008,7 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 
@@ -1028,7 +1035,7 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 
@@ -1038,7 +1045,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Trigger the after save event.
-		JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query->clear()
@@ -1052,9 +1059,9 @@ class ModulesModelModule extends JModelAdmin
 		{
 			$extensionId = $db->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			\JError::raiseWarning(500, $e->getMessage());
 
 			return false;
 		}

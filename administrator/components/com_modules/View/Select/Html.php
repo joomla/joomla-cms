@@ -6,20 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\View\Select;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * HTML View class for the Modules component
  *
  * @since  1.6
  */
-class ModulesViewSelect extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
@@ -45,7 +49,7 @@ class ModulesViewSelect extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->state = &$state;
@@ -69,18 +73,18 @@ class ModulesViewSelect extends JViewLegacy
 		// Add page title
 		if ($state->get('client_id') == 1)
 		{
-			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+			\JToolbarHelper::title(\JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+			\JToolbarHelper::title(\JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
 		}
 
 		// Get the toolbar object instance
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = \JToolbar::getInstance('toolbar');
 
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new JLayoutFile('toolbar.cancelselect');
+		// Instantiate a new \JLayoutFile instance and render the layout
+		$layout = new FileLayout('toolbar.cancelselect');
 
 		$bar->appendButton('Custom', $layout->render(array()), 'new');
 	}

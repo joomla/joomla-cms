@@ -6,20 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Modules\Administrator\View\Preview;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Editor\Editor;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * HTML View class for the Modules component
  *
  * @since  1.6
  */
-class ModulesViewPreview extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The editor instance
 	 *
-	 * @var  JEditor
+	 * @var  Editor
 	 */
 	protected $editor;
 
@@ -32,9 +36,9 @@ class ModulesViewPreview extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$editor = JFactory::getConfig()->get('editor');
+		$editor = \JFactory::getConfig()->get('editor');
 
-		$this->editor = JEditor::getInstance($editor);
+		$this->editor = Editor::getInstance($editor);
 
 		parent::display($tpl);
 	}
