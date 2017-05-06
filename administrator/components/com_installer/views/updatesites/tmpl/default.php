@@ -73,7 +73,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php foreach ($this->items as $i => $item) : ?>
 					<tr class="row<?php echo $i % 2; if ($item->enabled == 2) echo ' protected'; ?>">
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->uodate_site_id, false, 'cid', 'cb', $item->update_site_name); ?>
+							<?php echo JHtml::_('grid.id', $i, $item->update_site_id, false, 'cid', 'cb', $item->update_site_name); ?>
 						</td>
 						<td class="center">
 							<?php if (!$item->element) : ?>

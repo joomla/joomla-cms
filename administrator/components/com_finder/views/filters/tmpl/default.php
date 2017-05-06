@@ -96,7 +96,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
-						<?php echo JHtml::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+						<?php echo JHtml::_('grid.id', $i, $item->filter_id, false, 'cid', 'cb', $item->title); ?>
 					</td>
 					<td class="center nowrap">
 						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
