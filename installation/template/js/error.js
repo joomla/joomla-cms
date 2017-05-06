@@ -30,6 +30,11 @@
 					helpLink.href = errorLocale[ref]["help-url"];
 					helpLink.innerText = errorLocale[ref]["help-url-text"];
 				}
+
+				var meta = document.querySelector('[http-equiv="Content-Language"]');
+				if (meta) {
+					meta.setAttribute('content', ref);
+				}
 			});
 
 			sel.appendChild(opt)
@@ -50,6 +55,11 @@
 				if (helpLink) {
 					helpLink.href = errorLocale[key]["help-url"];
 					helpLink.innerText = errorLocale[key]["help-url-text"];
+				}
+
+				var meta = document.querySelector('[http-equiv="Content-Language"]');
+				if (meta) {
+					meta.setAttribute('content', key);
 				}
 			}
 		});
