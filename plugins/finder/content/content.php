@@ -140,6 +140,12 @@ class PlgFinderContent extends FinderIndexerAdapter
 		// We only want to handle articles here.
 		if ($context === 'com_content.article' || $context === 'com_content.form')
 		{
+			// Handle only articles that are published
+			if ($row->published != 1)
+			{
+				return false;
+			}
+
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_access != $row->access)
 			{
