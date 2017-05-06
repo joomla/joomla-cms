@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Categories\Administrator\Table;
 
 defined('_JEXEC') or die;
 
@@ -14,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class CategoriesTableCategory extends JTableCategory
+class Category extends \JTableCategory
 {
 	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.

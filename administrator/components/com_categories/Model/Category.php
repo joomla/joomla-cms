@@ -6,19 +6,28 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
  * Categories Component Category Model
  *
  * @since  1.6
  */
-class CategoriesModelCategory extends JModelAdmin
+class Category extends Admin
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -47,16 +56,18 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Override parent constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JModelLegacy
+	 * @see     \Joomla\Cms\Model\Model
 	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
-		$extension = JFactory::getApplication()->input->get('extension', 'com_content');
+		$extension = \JFactory::getApplication()->input->get('extension', 'com_content');
 		$this->typeAlias = $extension . '.category';
-		parent::__construct($config);
+
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -75,7 +86,7 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		return JFactory::getUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
+		return \JFactory::getUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
 	}
 
 	/**
@@ -89,7 +100,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Check for existing category.
 		if (!empty($record->id))
@@ -114,13 +125,13 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  \Joomla\Cms\Table\Table  A JTable object
 	 *
 	 * @since   1.6
 	 */
-	public function getTable($type = 'Category', $prefix = 'CategoriesTable', $config = array())
+	public function getTable($type = 'Category', $prefix = 'Administrator', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return parent::getTable($type, $prefix, $config);
 	}
 
 	/**
@@ -134,7 +145,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		$parentId = $app->input->getInt('parent_id');
 		$this->setState('category.parent_id', $parentId);
@@ -154,7 +165,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$this->setState('category.section', (count($parts) > 1) ? $parts[1] : null);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_categories');
+		$params = ComponentHelper::getParams('com_categories');
 		$this->setState('params', $params);
 	}
 
@@ -183,11 +194,11 @@ class CategoriesModelCategory extends JModelAdmin
 			$result->metadata = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
+			$tz = new \DateTimeZone(\JFactory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
-				$date = new JDate($result->created_time);
+				$date = new \JDate($result->created_time);
 				$date->setTimezone($tz);
 				$result->created_time = $date->toSql(true);
 			}
@@ -198,7 +209,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if ((int) $result->modified_time)
 			{
-				$date = new JDate($result->modified_time);
+				$date = new \JDate($result->modified_time);
 				$date->setTimezone($tz);
 				$result->modified_time = $date->toSql(true);
 			}
@@ -209,7 +220,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if (!empty($result->id))
 			{
-				$result->tags = new JHelperTags;
+				$result->tags = new TagsHelper;
 				$result->tags->getTagIds($result->id, $result->extension . '.category');
 			}
 		}
@@ -237,14 +248,14 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  \JForm|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		$extension = $this->getState('category.extension');
-		$jinput = JFactory::getApplication()->input;
+		$jinput = \JFactory::getApplication()->input;
 
 		// A workaround to get the extension into the model for save requests.
 		if (empty($extension) && isset($data['extension']))
@@ -275,7 +286,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$parts      = explode('.', $extension);
 		$assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
-		if (!JFactory::getUser()->authorise('core.edit.state', $assetKey))
+		if (!\JFactory::getUser()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -294,7 +305,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * A protected method to get the where clause for the reorder
 	 * This ensures that the row will be moved relative to a row with the same extension
 	 *
-	 * @param   JTableCategory  $table  Current table instance
+	 * @param   \JTableCategory  $table  Current table instance
 	 *
 	 * @return  array           An array of conditions to add to add to ordering queries.
 	 *
@@ -315,7 +326,7 @@ class CategoriesModelCategory extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data', array());
 
 		if (empty($data))
@@ -339,7 +350,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
 				);
 			}
 		}
@@ -352,35 +363,35 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   \JForm  $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *
 	 * @return  void
 	 *
-	 * @see     JFormField
+	 * @see     \JFormField
 	 * @since   1.6
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.path');
 
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
-		$extension = JFactory::getApplication()->input->get('extension', null);
+		$extension = \JFactory::getApplication()->input->get('extension', null);
 
 		// Get the component form if it exists
 		$name = 'category' . ($section ? ('.' . $section) : '');
 
 		// Looking first in the component models/forms folder
-		$path = JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+		$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
 
 		// Old way: looking in the component folder
 		if (!file_exists($path))
 		{
-			$path = JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/$name.xml");
+			$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/$name.xml");
 		}
 
 		if (file_exists($path))
@@ -390,19 +401,19 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if (!$form->loadFile($path, false))
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$path = JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
+		$path = \JPath::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
 
 		if (file_exists($path))
 		{
 			$cName = ucfirst($eName) . ucfirst($section) . 'HelperCategory';
 
-			JLoader::register($cName, $path);
+			\JLoader::register($cName, $path);
 
 			if (class_exists($cName) && is_callable(array($cName, 'onPrepareForm')))
 			{
@@ -413,7 +424,7 @@ class CategoriesModelCategory extends JModelAdmin
 				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
 
 				// Check for an error.
-				if ($form instanceof Exception)
+				if ($form instanceof \Exception)
 				{
 					$this->setError($form->getMessage());
 
@@ -429,11 +440,11 @@ class CategoriesModelCategory extends JModelAdmin
 		// Association category items
 		if ($this->getAssoc())
 		{
-			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
-				$addform = new SimpleXMLElement('<form />');
+				$addform = new \SimpleXMLElement('<form />');
 				$fields = $addform->addChild('fields');
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
@@ -474,7 +485,7 @@ class CategoriesModelCategory extends JModelAdmin
 	public function save($data)
 	{
 		$table      = $this->getTable();
-		$input      = JFactory::getApplication()->input;
+		$input      = \JFactory::getApplication()->input;
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
@@ -485,7 +496,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Include the plugins for the save events.
-		JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing category.
 		if ($pk > 0)
@@ -534,7 +545,7 @@ class CategoriesModelCategory extends JModelAdmin
 		// Bind the rules.
 		if (isset($data['rules']))
 		{
-			$rules = new JAccessRules($data['rules']);
+			$rules = new \JAccessRules($data['rules']);
 			$table->setRules($rules);
 		}
 
@@ -547,7 +558,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Trigger the before save event.
-		$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
+		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		if (in_array(false, $result, true))
 		{
@@ -572,7 +583,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$associations = isset($data['associations']) ? $data['associations'] : array();
 
 			// Unset any invalid associations
-			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+			$associations = ArrayHelper::toInteger($associations);
 
 			foreach ($associations as $tag => $id)
 			{
@@ -587,7 +598,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if ($allLanguage && !empty($associations))
 			{
-				JError::raiseNotice(403, JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+				\JError::raiseNotice(403, \JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'));
 			}
 
 			// Get associationskey for edited item
@@ -621,7 +632,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 
@@ -652,7 +663,7 @@ class CategoriesModelCategory extends JModelAdmin
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 
@@ -662,7 +673,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Trigger the after save event.
-		JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew, $data));
+		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew, $data));
 
 		// Rebuild the path for the category:
 		if (!$table->rebuildPath($table->id))
@@ -702,13 +713,13 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		if (parent::publish($pks, $value))
 		{
-			$extension = JFactory::getApplication()->input->get('extension');
+			$extension = \JFactory::getApplication()->input->get('extension');
 
 			// Include the content plugins for the change of category state event.
-			JPluginHelper::importPlugin('content');
+			PluginHelper::importPlugin('content');
 
 			// Trigger the onCategoryChangeState event.
-			JFactory::getApplication()->triggerEvent('onCategoryChangeState', array($extension, $pks, $value));
+			\JFactory::getApplication()->triggerEvent('onCategoryChangeState', array($extension, $pks, $value));
 
 			return true;
 		}
@@ -782,7 +793,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		$type = new JUcmType;
+		$type = new \JUcmType;
 		$this->type = $type->getTypeByAlias($this->typeAlias);
 
 		// $value comes as {parent_id}.{extension}
@@ -790,7 +801,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$parentId = (int) ArrayHelper::getValue($parts, 0, 1);
 
 		$db = $this->getDbo();
-		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
+		$extension = \JFactory::getApplication()->input->get('extension', '', 'word');
 		$newIds = array();
 
 		// Check that the parent exists
@@ -808,7 +819,7 @@ class CategoriesModelCategory extends JModelAdmin
 				else
 				{
 					// Non-fatal error
-					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -826,7 +837,7 @@ class CategoriesModelCategory extends JModelAdmin
 			if (!$canCreate)
 			{
 				// Error since user cannot create in parent category
-				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+				$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -844,7 +855,7 @@ class CategoriesModelCategory extends JModelAdmin
 			// Make sure we can create in root
 			elseif (!$this->user->authorise('core.create', $extension))
 			{
-				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+				$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -863,7 +874,7 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			$count = $db->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -891,7 +902,7 @@ class CategoriesModelCategory extends JModelAdmin
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -995,12 +1006,12 @@ class CategoriesModelCategory extends JModelAdmin
 	protected function batchMove($value, $pks, $contexts)
 	{
 		$parentId = (int) $value;
-		$type = new JUcmType;
+		$type = new \JUcmType;
 		$this->type = $type->getTypeByAlias($this->typeAlias);
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
+		$extension = \JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Check that the parent exists.
 		if ($parentId)
@@ -1017,7 +1028,7 @@ class CategoriesModelCategory extends JModelAdmin
 				else
 				{
 					// Non-fatal error.
-					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -1035,7 +1046,7 @@ class CategoriesModelCategory extends JModelAdmin
 			if (!$canCreate)
 			{
 				// Error since user cannot create in parent category
-				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+				$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -1047,7 +1058,7 @@ class CategoriesModelCategory extends JModelAdmin
 				if (!$this->user->authorise('core.edit', $extension . '.category.' . $pk))
 				{
 					// Error since user cannot edit this category
-					$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
+					$this->setError(\JText::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
 
 					return false;
 				}
@@ -1073,7 +1084,7 @@ class CategoriesModelCategory extends JModelAdmin
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -1095,7 +1106,7 @@ class CategoriesModelCategory extends JModelAdmin
 				{
 					$children = array_merge($children, (array) $db->loadColumn());
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 
@@ -1143,7 +1154,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$extension = JFactory::getApplication()->input->get('extension');
+		$extension = \JFactory::getApplication()->input->get('extension');
 
 		switch ($extension)
 		{
@@ -1203,7 +1214,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$extension = $this->getState('category.extension');
 
-		$assoc = JLanguageAssociations::isEnabled();
+		$assoc = Associations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);
@@ -1215,7 +1226,7 @@ class CategoriesModelCategory extends JModelAdmin
 		else
 		{
 			$hname = $cname . 'HelperAssociation';
-			JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
+			\JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
 			$assoc = class_exists($hname) && !empty($hname::$category_association);
 		}
