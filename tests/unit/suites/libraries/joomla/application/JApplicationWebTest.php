@@ -1122,8 +1122,9 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testRedirectWithExistingStatusCode()
+	public function testRedirectWithExistingStatusCode1()
 	{
+		// Case Sensitive: status
 		$this->class->setHeader('status', 201);
 
 		$base = 'http://mydomain.com/';
@@ -1179,6 +1180,68 @@ class JApplicationWebTest extends TestCase
 		$this->assertEquals(
 			array('Pragma: no-cache', true, null),
 			$this->class->headers[7]
+		);
+	}
+
+	/**
+	 * Tests the JApplicationWeb::redirect method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRedirectWithExistingStatusCode2()
+	{	
+		// Case Sensitive: Status
+		$this->class->setHeader('Status', 201);
+
+		$base = 'http://mydomain.com/';
+		$url = 'index.php';
+
+		// Inject the client information.
+		TestReflection::setValue(
+			$this->class,
+			'client',
+			(object) array(
+				'engine' => JApplicationWebClient::GECKO,
+			)
+		);
+
+		// Inject the internal configuration.
+		$config = new Registry;
+		$config->set('uri.base.full', $base);
+
+		TestReflection::setValue($this->class, 'config', $config);
+
+		$this->class->redirect($url, false);
+
+		$this->assertEquals(
+			array('HTTP/1.1 303', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
