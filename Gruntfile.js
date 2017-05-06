@@ -471,7 +471,6 @@ window.errorLocale = {`;
 		"language": "` + languageStrings["MIN_PHP_ERROR_LANGUAGE"] + `",
 		"header": "` + languageStrings["MIN_PHP_ERROR_HEADER"] + `",
 		"text1": "` + languageStrings["MIN_PHP_ERROR_TEXT"] + `",
-		"help-url": "` + languageStrings["MIN_PHP_ERROR_URL"] + `",
 		"help-url-text": "` + languageStrings["MIN_PHP_ERROR_URL_TEXT"] + `"
 	},`;
 				}

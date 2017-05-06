@@ -27,7 +27,6 @@
 
 				var helpLink = document.getElementById('linkHelp');
 				if (helpLink) {
-					helpLink.href = errorLocale[ref]["help-url"];
 					helpLink.innerText = errorLocale[ref]["help-url-text"];
 				}
 
@@ -53,7 +52,6 @@
 
 				var helpLink = document.getElementById('linkHelp');
 				if (helpLink) {
-					helpLink.href = errorLocale[key]["help-url"];
 					helpLink.innerText = errorLocale[key]["help-url-text"];
 				}
 
