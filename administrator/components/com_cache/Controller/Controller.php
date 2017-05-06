@@ -6,32 +6,34 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Cache\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\Cms\Controller\Controller as BaseController;
+use Joomla\Component\Cache\Administrator\Helper\CacheHelper;
 
 /**
  * Cache Controller
  *
  * @since  1.6
  */
-class CacheController extends JControllerLegacy
+class Controller extends BaseController
 {
 	/**
 	 * Display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  JController  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		JLoader::register('CacheHelper', JPATH_ADMINISTRATOR . '/components/com_cache/helpers/cache.php');
-
 		// Get the document object.
-		$document = JFactory::getDocument();
+		$document = \JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'cache');
@@ -44,6 +46,7 @@ class CacheController extends JControllerLegacy
 			switch ($vName)
 			{
 				case 'purge':
+					$this->app->enqueueMessage(\JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'), 'warning');
 					break;
 				case 'cache':
 				default:
@@ -72,13 +75,13 @@ class CacheController extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$cid = $this->input->post->get('cid', array(), 'array');
 
 		if (empty($cid))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
+			$this->app->enqueueMessage(\JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -86,11 +89,11 @@ class CacheController extends JControllerLegacy
 
 			if ($result !== array())
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'error');
+				$this->app->enqueueMessage(\JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'error');
 			}
 			else
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_DELETED'), 'message');
+				$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_DELETED'), 'message');
 			}
 		}
 
@@ -107,9 +110,9 @@ class CacheController extends JControllerLegacy
 	public function deleteAll()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app        = JFactory::getApplication();
+		$app        = $this->app;
 		$model      = $this->getModel('cache');
 		$allCleared = true;
 		$clients    = array(1, 0);
@@ -117,13 +120,13 @@ class CacheController extends JControllerLegacy
 		foreach ($clients as $client)
 		{
 			$mCache    = $model->getCache($client);
-			$clientStr = JText::_($client ? 'JADMINISTRATOR' : 'JSITE') .' > ';
+			$clientStr = \JText::_($client ? 'JADMINISTRATOR' : 'JSITE') .' > ';
 
 			foreach ($mCache->getAll() as $cache)
 			{
 				if ($mCache->clean($cache->group) === false)
 				{
-					$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'error');
+					$app->enqueueMessage(\JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'error');
 					$allCleared = false;
 				}
 			}
@@ -131,11 +134,11 @@ class CacheController extends JControllerLegacy
 
 		if ($allCleared)
 		{
-			$app->enqueueMessage(JText::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
+			$app->enqueueMessage(\JText::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
+			$app->enqueueMessage(\JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
 		}
 
 		$this->setRedirect('index.php?option=com_cache&view=cache');
@@ -149,15 +152,15 @@ class CacheController extends JControllerLegacy
 	public function purge()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		if (!$this->getModel('cache')->purge())
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR'), 'error');
+			$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR'), 'error');
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
+			$this->app->enqueueMessage(\JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
 		}
 
 		$this->setRedirect('index.php?option=com_cache&view=purge');
