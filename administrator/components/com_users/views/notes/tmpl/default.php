@@ -72,7 +72,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center checklist">
-						<?php echo JHtml::_('grid.id', $i, $item->id, $item->subject); ?>
+						<?php echo JHtml::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->subject); ?>
 					</td>
 					<td class="center">
 						<div class="btn-group">

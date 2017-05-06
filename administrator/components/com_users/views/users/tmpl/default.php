@@ -93,7 +93,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
 							<?php if ($canEdit || $canChange) : ?>
-								<?php echo JHtml::_('grid.id', $i, $item->id, $item->name); ?>
+								<?php echo JHtml::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->name); ?>
 							<?php endif; ?>
 						</td>
 						<td>

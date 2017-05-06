@@ -73,7 +73,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td width="1%" class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->id, $item->title); ?>
+							<?php echo JHtml::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 						</td>
 						<td>
 							<?php if ($this->preview && $item->client_id == '0') : ?>

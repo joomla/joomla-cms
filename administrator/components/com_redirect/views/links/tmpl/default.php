@@ -74,7 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->id, $item->old_url); ?>
+							<?php echo JHtml::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->old_url); ?>
 						</td>
 						<td class="center">
 							<div class="btn-group">

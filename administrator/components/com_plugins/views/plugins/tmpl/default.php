@@ -107,7 +107,7 @@ if ($saveOrder)
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->extension_id, $item->name); ?>
+							<?php echo JHtml::_('grid.id', $i, $item->extension_id, false, 'cid', 'cb', $item->name); ?>
 						</td>
 						<td class="center">
 							<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>

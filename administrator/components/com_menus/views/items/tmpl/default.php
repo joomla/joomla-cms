@@ -170,7 +170,7 @@ if ($menuType == '')
 							</td>
 						<?php endif; ?>
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->id, $item->title); ?>
+							<?php echo JHtml::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 						</td>
 						<td class="center">
 							<?php

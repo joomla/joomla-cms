@@ -81,7 +81,7 @@ JFactory::getDocument()->addStyleDeclaration(
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->message_id, $item->subject); ?>
+							<?php echo JHtml::_('grid.id', $i, $item->message_id, false, 'cid', 'cb', $item->subject); ?>
 						</td>
 						<td>
 							<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id=' . (int) $item->message_id); ?>">
