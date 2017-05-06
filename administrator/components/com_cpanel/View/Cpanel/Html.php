@@ -6,6 +6,10 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
+
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\View\HtmlView;
 
 defined('_JEXEC') or die;
 
@@ -14,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.0
  */
-class CpanelViewCpanel extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * Array of cpanel modules
@@ -22,14 +26,6 @@ class CpanelViewCpanel extends JViewLegacy
 	 * @var  array
 	 */
 	protected $modules = null;
-
-	/**
-	 * Number of unread postinstall messages
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $postinstall_message_count = null;
 
 	/**
 	 * Execute and display a template script.
@@ -41,19 +37,11 @@ class CpanelViewCpanel extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		JToolbarHelper::title(JText::_('COM_CPANEL'), 'home-2 cpanel');
-		JToolbarHelper::help('screen.cpanel');
-
-		$input = JFactory::getApplication()->input;
-
-		/*
-		 * Set the template - this will display cpanel.php
-		 * from the selected admin template.
-		 */
-		$input->set('tmpl', 'cpanel');
+		\JToolbarHelper::title(\JText::_('COM_CPANEL'), 'home-2 cpanel');
+		\JToolbarHelper::help('screen.cpanel');
 
 		// Display the cpanel modules
-		$this->modules = JModuleHelper::getModules('cpanel');
+		$this->modules = ModuleHelper::getModules('cpanel');
 
 		parent::display($tpl);
 	}
