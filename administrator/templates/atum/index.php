@@ -75,7 +75,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 	</noscript>
 
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?> closed">
+	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?>">
 
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
@@ -94,9 +94,9 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 			<div class="container-fluid">
 				<div class="d-flex">
 					<div class="d-flex col">
-						<div class="menu-collapse hidden-lg-up">
+						<div class="menu-collapse">
 							<a id="menu-collapse" class="menu-toggle" href="#">
-								<span class="fa fa-bars fa-fw" aria-hidden="true">
+								<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true">
 									<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
 								</span>
 							</a>
