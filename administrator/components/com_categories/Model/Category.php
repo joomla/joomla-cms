@@ -56,7 +56,7 @@ class Category extends Admin
 	/**
 	 * Override parent constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \Joomla\Cms\Model\Model
@@ -363,7 +363,7 @@ class Category extends Admin
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm   $form   A \JForm object.
+	 * @param   \JForm  $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *

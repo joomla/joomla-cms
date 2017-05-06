@@ -225,7 +225,7 @@ class Html extends HtmlView
 				'btn-success'
 			);
 
-			if (Comp::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
+			if (ComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
 				\JToolbarHelper::versions($typeAlias, $this->item->id);
