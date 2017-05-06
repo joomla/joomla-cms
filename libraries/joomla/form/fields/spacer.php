@@ -116,7 +116,7 @@ class JFormFieldSpacer extends JFormField
 	 */
 	public function renderField($options = array())
 	{
-		$options['class'] = empty($options['class']) ? 'field-spacer' : $options['class'] .  ' field-spacer';
+		$options['class'] = empty($options['class']) ? 'field-spacer' : $options['class'] . ' field-spacer';
 
 		return parent::renderField($options);
 	}
