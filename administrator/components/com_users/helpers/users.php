@@ -78,6 +78,13 @@ class UsersHelper
 				'index.php?option=com_fields&view=groups&context=com_users.user',
 				$vName == 'fields.groups'
 			);
+
+			JHtmlSidebar::addEntry(
+				JText::_('COM_USERS_SUBMENU_MASSMAIL'),
+				'index.php?option=com_users&view=mail',
+				$vName == 'mail'
+			);
+
 		}
 	}
 
