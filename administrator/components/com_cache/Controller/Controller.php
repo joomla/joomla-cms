@@ -10,7 +10,7 @@ namespace Joomla\Component\Cache\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Controller\Controller as BaseController;
+use Joomla\CMS\Controller\Controller as BaseController;
 use Joomla\Component\Cache\Administrator\Helper\CacheHelper;
 
 /**
