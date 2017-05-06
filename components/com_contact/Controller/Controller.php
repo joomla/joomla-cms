@@ -10,7 +10,7 @@ namespace Joomla\Component\Contact\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Controller\Controller as BaseController;
+use Joomla\CMS\Controller\Controller as BaseController;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
