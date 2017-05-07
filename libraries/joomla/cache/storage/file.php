@@ -26,13 +26,32 @@ class JCacheStorageFile extends JCacheStorage
 	protected $_root;
 
 	/**
-	 * Locked resources
+	 * Check digit at the end of the cache buffer to determine its integrity
+	 * against concurrent reading while a write is in progress on the same file
 	 *
-	 * @var    array
-	 * @since  3.7.0
-	 *
+	 * @const  string
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_locked_files = array();
+	const INTEGRITY_DIGIT = "\x00";
+
+	/**
+	 * PHP Heading protection from remote access.
+	 * In case of future changes, PHP_HEADING_SIZE must be changed accordingly
+	 * to reflect the actual size of this constant.
+	 *
+	 * @const  string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const PHP_HEADING_PROTECTION = '<?php die("Access Denied"); ?>';
+
+	/**
+	 * Size of the protection heading PHP_HEADING_PROTECTION
+	 * Just avoid calculating the lenght of the protection heading over and over at runtime
+	 *
+	 * @const  int
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const PHP_HEADING_SIZE = 30;
 
 	/**
 	 * Constructor
@@ -45,32 +64,6 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		parent::__construct($options);
 		$this->_root = $options['cachebase'];
-
-		// Workaround for php 5.3
-		$locked_files = &$this->_locked_files;
-
-		// Remove empty locked files at script shutdown.
-		$clearAtShutdown = function () use (&$locked_files)
-		{
-			foreach ($locked_files as $path => $handle)
-			{
-				if (is_resource($handle))
-				{
-					@flock($handle, LOCK_UN);
-					@fclose($handle);
-				}
-
-				// Delete only the existing file if it is empty.
-				if (@filesize($path) === 0)
-				{
-					@unlink($path);
-				}
-
-				unset($locked_files[$path]);
-			}
-		};
-
-		register_shutdown_function($clearAtShutdown);
 	}
 
 	/**
@@ -102,39 +95,18 @@ class JCacheStorageFile extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		$path  = $this->_getFilePath($id, $group);
-		$close = false;
 
 		if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true))
 		{
-			if (file_exists($path))
+			$data = file_get_contents($path, false, null, self::PHP_HEADING_SIZE);
+			// is_string($data) also implies $data !== false so avoid the latter check
+			if (is_string($data))
 			{
-				if (isset($this->_locked_files[$path]))
+				// Integrity check: the last character must correspond to the expected digit
+				if ($data[strlen($data) - 1] === self::INTEGRITY_DIGIT)
 				{
-					$_fileopen = $this->_locked_files[$path];
-				}
-				else
-				{
-					$_fileopen = @fopen($path, 'rb');
-
-					// There is no lock, we have to close file after store data
-					$close = true;
-				}
-
-				if ($_fileopen)
-				{
-					// On Windows system we can not use file_get_contents on the file locked by yourself
-					$data = stream_get_contents($_fileopen);
-
-					if ($close)
-					{
-						@fclose($_fileopen);
-					}
-
-					if ($data !== false)
-					{
-						// Remove the initial die() statement
-						return str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
-					}
+					// Remove the integrity digit while returning the buffer
+					return rtrim($data, self::INTEGRITY_DIGIT);
 				}
 			}
 		}
@@ -185,40 +157,15 @@ class JCacheStorageFile extends JCacheStorage
 	public function store($id, $group, $data)
 	{
 		$path  = $this->_getFilePath($id, $group);
-		$close = false;
 
-		// Prepend a die string
-		$data = '<?php die("Access Denied"); ?>#x#' . $data;
+		// Add protection from remote access at the beginning of the buffer,
+		// and integrity check byte at the end of it
+		$data = self::PHP_HEADING_PROTECTION . $data . self::INTEGRITY_DIGIT;
 
-		if (isset($this->_locked_files[$path]))
-		{
-			$_fileopen = $this->_locked_files[$path];
+		$bytes_written = file_put_contents($path, $data, LOCK_EX);
 
-			// Because lock method uses flag c+b we have to truncate it manually
-			@ftruncate($_fileopen, 0);
-		}
-		else
-		{
-			$_fileopen = @fopen($path, 'wb');
-
-			// There is no lock, we have to close file after store data
-			$close = true;
-		}
-
-		if ($_fileopen)
-		{
-			$length = strlen($data);
-			$result = @fwrite($_fileopen, $data, $length);
-
-			if ($close)
-			{
-				@fclose($_fileopen);
-			}
-
-			return $result === $length;
-		}
-
-		return false;
+		// $bytes_written === strlen($data) also implies $bytes_written !== false so avoid the latter check
+		return $bytes_written === strlen($data);
 	}
 
 	/**
@@ -235,12 +182,7 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$path = $this->_getFilePath($id, $group);
 
-		if (!@unlink($path))
-		{
-			return false;
-		}
-
-		return true;
+		return @unlink($path);
 	}
 
 	/**
@@ -310,9 +252,11 @@ class JCacheStorageFile extends JCacheStorage
 
 		foreach ($files as $file)
 		{
-			$time = @filemtime($file);
+			// The cast to int ensures that in case the cache file has been deleted meanwhile,
+			// it will be consider expired (time = 0 belongs to a far past)
+			$filetime = (int) @filemtime($file);
 
-			if (($time + $this->_lifetime) < $this->_now || empty($time))
+			if (($filetime + $this->_lifetime) < $this->_now)
 			{
 				$result |= @unlink($file);
 			}
@@ -346,52 +290,12 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning             = new stdClass;
-		$returning->locklooped = false;
-
-		$looptime  = $locktime * 10;
-		$path      = $this->_getFilePath($id, $group);
-		$_fileopen = @fopen($path, 'c+b');
-
-		if (!$_fileopen)
-		{
-			$returning->locked = false;
-
-			return $returning;
-		}
-
-		$data_lock = (bool) @flock($_fileopen, LOCK_EX|LOCK_NB);
-
-		if ($data_lock === false)
-		{
-			$lock_counter = 0;
-
-			// Loop until you find that the lock has been released.
-			// That implies that data get from other thread has finished
-			while ($data_lock === false)
-			{
-				if ($lock_counter > $looptime)
-				{
-					break;
-				}
-
-				usleep(100);
-				$data_lock = (bool) @flock($_fileopen, LOCK_EX|LOCK_NB);
-				$lock_counter++;
-			}
-
-			$returning->locklooped = true;
-		}
-
-		if ($data_lock === true)
-		{
-			// Remember resource, flock release lock if you unset/close resource
-			$this->_locked_files[$path] = $_fileopen;
-		}
-
-		$returning->locked = $data_lock;
-
-		return $returning;
+		// Simulates s successful lock, but actually do nothing,
+		// this cache storage engines delegates file locking to the filesystem.
+		return (object) array(
+			'locked' => true,
+			'locklooped' => false
+		);
 	}
 
 	/**
@@ -406,25 +310,13 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		$path = $this->_getFilePath($id, $group);
-
-		if (isset($this->_locked_files[$path]))
-		{
-			$ret = (bool) @flock($this->_locked_files[$path], LOCK_UN);
-			@fclose($this->_locked_files[$path]);
-			unset($this->_locked_files[$path]);
-
-			return $ret;
-		}
-
+		// Simulates s successful unlock, but actually do nothing,
+		// this cache storage engines delegates file locking to the filesystem.
 		return true;
 	}
 
 	/**
 	 * Check if a cache object has expired
-	 *
-	 * Using @ error suppressor here because between if we did a file_exists() and then filemsize() there will
-	 * be a little time space when another process can delete the file and then you get PHP Warning
 	 *
 	 * @param   string  $id     Cache ID to check
 	 * @param   string  $group  The cache data group
@@ -437,28 +329,12 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$path = $this->_getFilePath($id, $group);
 
-		// Check prune period
-		if (file_exists($path))
-		{
-			$time = @filemtime($path);
+		// The cast to int ensures that in case the cache file has been deleted meanwhile,
+		// it will be consider expired (time = 0 belongs to a far past)
+		$filetime = (int) @filemtime($path);
 
-			if (($time + $this->_lifetime) < $this->_now || empty($time))
-			{
-				@unlink($path);
-
-				return false;
-			}
-
-			// If, right now, the file does not exist then return false
-			if (@filesize($path) == 0)
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		return false;
+		// To be valid, the expiration time must be in the future
+		return $filetime + $this->_lifetime > $this->_now;
 	}
 
 	/**
