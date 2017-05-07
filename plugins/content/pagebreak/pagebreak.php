@@ -17,14 +17,14 @@ jimport('joomla.utilities.utility');
  * Page break plugin
  *
  * <b>Usage:</b>
- * <code><hr class="system-pagebreak" /></code>
- * <code><hr class="system-pagebreak" title="The page title" /></code>
+ * <code><hr class="system-pagebreak"></code>
+ * <code><hr class="system-pagebreak" title="The page title"></code>
  * or
- * <code><hr class="system-pagebreak" alt="The first page" /></code>
+ * <code><hr class="system-pagebreak" alt="The first page"></code>
  * or
- * <code><hr class="system-pagebreak" title="The page title" alt="The first page" /></code>
+ * <code><hr class="system-pagebreak" title="The page title" alt="The first page"></code>
  * or
- * <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
+ * <code><hr class="system-pagebreak" alt="The first page" title="The page title"></code>
  *
  * @since  1.6
  */

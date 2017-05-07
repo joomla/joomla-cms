@@ -12,9 +12,9 @@
 
 <link rel="stylesheet" type="text/css" href="default.css" />
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="keywords" content="darwin, evolution, natural selection, species, beagle, 1859" />
-<meta scheme="ISBN"  name="identifier" content="0-14-043205-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="keywords" content="darwin, evolution, natural selection, species, beagle, 1859">
+<meta scheme="ISBN"  name="identifier" content="0-14-043205-1">
 
 <h1>Main title</h1>immediately followed by some text.
 
