@@ -84,7 +84,7 @@ class Plugins extends ListModel
 	 *
 	 * @param   string  $id  A prefix for the store id.
 	 *
-	 * @return  string    A store id.
+	 * @return  string       A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
