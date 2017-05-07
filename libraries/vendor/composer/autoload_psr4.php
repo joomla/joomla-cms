@@ -10,7 +10,9 @@ return array(
     'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
     'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
+    'Symfony\\Component\\WebLink\\' => array($vendorDir . '/symfony/web-link'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'Psr\\Link\\' => array($vendorDir . '/psr/link/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
@@ -35,5 +37,6 @@ return array(
     'Joomla\\Controller\\' => array($vendorDir . '/joomla/controller/src'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),
     'Joomla\\' => array($baseDir . '/libraries/src'),
+    'Fig\\Link\\' => array($vendorDir . '/fig/link-util/src'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
 );

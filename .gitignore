@@ -82,6 +82,10 @@ Desktop.ini
 # Extra files installed by Composer not needed in the CMS environment
 # This should only ignore files like unit testing or READMEs, production
 # code must remain to ensure all libraries properly function
+/libraries/vendor/fig/link-util/test
+/libraries/vendor/fig/link-util/composer.json
+/libraries/vendor/fig/link-util/phpcs.xml
+/libraries/vendor/fig/link-util/README.md
 /libraries/vendor/ircmaxell/password-compat/test
 /libraries/vendor/ircmaxell/password-compat/.travis.yml
 /libraries/vendor/ircmaxell/password-compat/composer.json
@@ -159,6 +163,8 @@ Desktop.ini
 /libraries/vendor/psr/http-message/CHANGELOG.md
 /libraries/vendor/psr/http-message/composer.json
 /libraries/vendor/psr/http-message/README.md
+/libraries/vendor/psr/link/composer.json
+/libraries/vendor/psr/link/README.md
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
@@ -170,6 +176,12 @@ Desktop.ini
 /libraries/vendor/symfony/polyfill-util/composer.json
 /libraries/vendor/symfony/polyfill-util/README.md
 /libraries/vendor/symfony/polyfill-util/TestListener.php
+/libraries/vendor/symfony/web-link/Tests
+/libraries/vendor/symfony/web-link/.gitignore
+/libraries/vendor/symfony/web-link/CHANGELOG.md
+/libraries/vendor/symfony/web-link/composer.json
+/libraries/vendor/symfony/web-link/phpunit.xml.dist
+/libraries/vendor/symfony/web-link/README.md
 /libraries/vendor/symfony/yaml/Tests
 /libraries/vendor/symfony/yaml/.gitignore
 /libraries/vendor/symfony/yaml/CHANGELOG.md
