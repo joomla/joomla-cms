@@ -18,11 +18,6 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 defined('IS_WIN') or define('IS_WIN', ($os === 'WIN') ? true : false);
 defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
 
-/**
- * @deprecated 13.3  Use IS_UNIX instead
- */
-defined('IS_MAC') or define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
-
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
 {
@@ -91,11 +86,6 @@ if (!interface_exists('JsonSerializable'))
 {
 	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
-
-// Add deprecated constants
-// @deprecated 4.0
-define('JPATH_ISWIN', IS_WIN);
-define('JPATH_ISMAC', IS_MAC);
 
 // Register the PasswordHash library.
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
