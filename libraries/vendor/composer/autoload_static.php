@@ -25,6 +25,8 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
         'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
@@ -38,7 +40,9 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
             'Symfony\\Polyfill\\Util\\' => 22,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Php55\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Yaml\\' => 23,
+            'Symfony\\Component\\VarDumper\\' => 28,
         ),
         'P' => 
         array (
@@ -70,6 +74,10 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
             'Joomla\\Application\\' => 19,
             'Joomla\\' => 7,
         ),
+        'D' => 
+        array (
+            'DebugBar\\' => 9,
+        ),
         'C' => 
         array (
             'Composer\\CaBundle\\' => 18,
@@ -93,9 +101,17 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php55',
         ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Symfony\\Component\\VarDumper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
         'Psr\\Log\\' => 
         array (
@@ -192,6 +208,10 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         'Joomla\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/libraries/src',
+        ),
+        'DebugBar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
         ),
         'Composer\\CaBundle\\' => 
         array (

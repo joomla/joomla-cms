@@ -1,0 +1,9 @@
+table.phpdebugbar-widgets-info {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+table.phpdebugbar-widgets-info td {
+    border-bottom: 1px solid silver;
+    padding-right: 10px;
+}
