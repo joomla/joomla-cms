@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Checkin\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Checkin Model
  *
  * @since  1.6
  */
-class CheckinModelCheckin extends JModelList
+class Checkin extends ListModel
 {
 	/**
 	 * Count of the total items checked out
@@ -34,12 +38,13 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   3.5
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -49,7 +54,7 @@ class CheckinModelCheckin extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -66,8 +71,6 @@ class CheckinModelCheckin extends JModelList
 	 */
 	protected function populateState($ordering = 'table', $direction = 'asc')
 	{
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
-
 		// List state information.
 		parent::populateState($ordering, $direction);
 	}
@@ -97,7 +100,7 @@ class CheckinModelCheckin extends JModelList
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
-			if (stripos($tn, JFactory::getApplication()->get('dbprefix')) !== 0)
+			if (stripos($tn, \JFactory::getApplication()->get('dbprefix')) !== 0)
 			{
 				continue;
 			}
@@ -163,7 +166,7 @@ class CheckinModelCheckin extends JModelList
 			foreach ($tables as $i => $tn)
 			{
 				// Make sure we get the right tables based on prefix.
-				if (stripos($tn, JFactory::getApplication()->get('dbprefix')) !== 0)
+				if (stripos($tn, \JFactory::getApplication()->get('dbprefix')) !== 0)
 				{
 					unset($tables[$i]);
 					continue;
