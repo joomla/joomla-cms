@@ -6,34 +6,38 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Plugins\Administrator\View\Plugin;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View to edit a plugin.
  *
  * @since  1.5
  */
-class PluginsViewPlugin extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The item object for the newsfeed
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 */
 	protected $item;
 
 	/**
 	 * The form object for the newsfeed
 	 *
-	 * @var    JForm
+	 * @var    \JForm
 	 */
 	protected $form;
 
 	/**
 	 * The model state of the newsfeed
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 */
 	protected $state;
 
@@ -53,7 +57,7 @@ class PluginsViewPlugin extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -69,16 +73,16 @@ class PluginsViewPlugin extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo = JHelperContent::getActions('com_plugins');
+		$canDo = ContentHelper::getActions('com_plugins');
 
-		JToolbarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->item->name)), 'power-cord plugin');
+		\JToolbarHelper::title(\JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', \JText::_($this->item->name)), 'power-cord plugin');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::saveGroup(
+			\JToolbarHelper::saveGroup(
 				[
 					['apply', 'plugin.apply'],
 					['save', 'plugin.save']
@@ -87,18 +91,18 @@ class PluginsViewPlugin extends JViewLegacy
 			);
 		}
 
-		JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
-		JToolbarHelper::divider();
+		\JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
+		\JToolbarHelper::divider();
 
 		// Get the help information for the plugin item.
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = JText::_($help->url);
+			$url = \JText::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -106,6 +110,6 @@ class PluginsViewPlugin extends JViewLegacy
 			$url = null;
 		}
 
-		JToolbarHelper::help($help->key, false, $url);
+		\JToolbarHelper::help($help->key, false, $url);
 	}
 }

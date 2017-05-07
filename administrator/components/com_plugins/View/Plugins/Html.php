@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Plugins\Administrator\View\Plugins;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View class for a list of plugins.
  *
  * @since  1.5
  */
-class PluginsViewPlugins extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * An array of items
@@ -26,21 +30,21 @@ class PluginsViewPlugins extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    JForm
+	 * @var    \JForm
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $filterForm;
@@ -71,7 +75,7 @@ class PluginsViewPlugins extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -88,28 +92,28 @@ class PluginsViewPlugins extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_plugins');
+		$canDo = ContentHelper::getActions('com_plugins');
 
-		JToolbarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
+		\JToolbarHelper::title(\JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::editList('plugin.edit');
+			\JToolbarHelper::editList('plugin.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
-			JToolbarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
-			JToolbarHelper::checkin('plugins.checkin');
+			\JToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
+			\JToolbarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
+			\JToolbarHelper::checkin('plugins.checkin');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolbarHelper::preferences('com_plugins');
+			\JToolbarHelper::preferences('com_plugins');
 		}
 
-		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+		\JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
 
 	}
 
@@ -123,13 +127,13 @@ class PluginsViewPlugins extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-				'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-				'enabled' => JText::_('JSTATUS'),
-				'name' => JText::_('JGLOBAL_TITLE'),
-				'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'),
-				'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
-				'access' => JText::_('JGRID_HEADING_ACCESS'),
-				'extension_id' => JText::_('JGRID_HEADING_ID')
+				'ordering' => \JText::_('JGRID_HEADING_ORDERING'),
+				'enabled' => \JText::_('JSTATUS'),
+				'name' => \JText::_('JGLOBAL_TITLE'),
+				'folder' => \JText::_('COM_PLUGINS_FOLDER_HEADING'),
+				'element' => \JText::_('COM_PLUGINS_ELEMENT_HEADING'),
+				'access' => \JText::_('JGRID_HEADING_ACCESS'),
+				'extension_id' => \JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

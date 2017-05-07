@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Plugins\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,17 +20,18 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class PluginsModelPlugins extends JModelList
+class Plugins extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   1.6
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -45,7 +50,7 @@ class PluginsModelPlugins extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -63,7 +68,7 @@ class PluginsModelPlugins extends JModelList
 	protected function populateState($ordering = 'folder', $direction = 'asc')
 	{
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_plugins');
+		$params = ComponentHelper::getParams('com_plugins');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -95,7 +100,7 @@ class PluginsModelPlugins extends JModelList
 	/**
 	 * Returns an object list.
 	 *
-	 * @param   JDatabaseQuery  $query       A database query object.
+	 * @param   \JDatabaseQuery  $query       A database query object.
 	 * @param   integer         $limitstart  Offset.
 	 * @param   integer         $limit       The number of records.
 	 *
@@ -177,7 +182,7 @@ class PluginsModelPlugins extends JModelList
 	 */
 	protected function translate(&$items)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		foreach ($items as &$item)
 		{
@@ -185,14 +190,14 @@ class PluginsModelPlugins extends JModelList
 			$extension = 'plg_' . $item->folder . '_' . $item->element;
 			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
 				|| $lang->load($extension . '.sys', $source, null, false, true);
-			$item->name = JText::_($item->name);
+			$item->name = \JText::_($item->name);
 		}
 	}
 
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -271,7 +276,7 @@ class PluginsModelPlugins extends JModelList
 	{
 		$data = parent::loadFormData();
 
-		// Set the selected filter values for pages that use the JLayouts for filtering
+		// Set the selected filter values for pages that use the \JLayouts for filtering
 		$data->list['sortTable'] = $this->state->get('list.ordering');
 		$data->list['directionTable'] = $this->state->get('list.direction');
 
