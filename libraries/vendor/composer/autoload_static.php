@@ -37,10 +37,12 @@ class ComposerStaticInit423c8facdf90155590c7b49e979f3a1e
             'Symfony\\Polyfill\\Util\\' => 22,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
+            'Symfony\\Component\\WebLink\\' => 26,
         ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
+            'Psr\\Link\\' => 9,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'PHPMailer\\PHPMailer\\' => 20,
@@ -69,6 +71,10 @@ class ComposerStaticInit423c8facdf90155590c7b49e979f3a1e
             'Joomla\\Application\\' => 19,
             'Joomla\\' => 7,
         ),
+        'F' => 
+        array (
+            'Fig\\Link\\' => 9,
+        ),
         'C' => 
         array (
             'Composer\\CaBundle\\' => 18,
@@ -92,9 +98,17 @@ class ComposerStaticInit423c8facdf90155590c7b49e979f3a1e
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
+        'Symfony\\Component\\WebLink\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/web-link',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Link\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/link/src',
         ),
         'Psr\\Http\\Message\\' => 
         array (
@@ -191,6 +205,10 @@ class ComposerStaticInit423c8facdf90155590c7b49e979f3a1e
         'Joomla\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/libraries/src',
+        ),
+        'Fig\\Link\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fig/link-util/src',
         ),
         'Composer\\CaBundle\\' => 
         array (
