@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Login\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Model\Model;
 
 /**
  * Login Model
  *
  * @since  1.5
  */
-class LoginModelLogin extends JModelLegacy
+class Login extends Model
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -27,7 +30,7 @@ class LoginModelLogin extends JModelLegacy
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$input = $app->input;
 		$method = $input->getMethod();
@@ -44,7 +47,7 @@ class LoginModelLogin extends JModelLegacy
 		{
 			$return = base64_decode($return);
 
-			if (!JUri::isInternal($return))
+			if (!\JUri::isInternal($return))
 			{
 				$return = '';
 			}
@@ -88,7 +91,7 @@ class LoginModelLogin extends JModelLegacy
 		// If we didn't find it, and the name is mod_something, create a dummy object.
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
-			$result = new stdClass;
+			$result = new \stdClass;
 			$result->id = 0;
 			$result->title = '';
 			$result->module = $name;
@@ -127,15 +130,15 @@ class LoginModelLogin extends JModelLegacy
 			return $clean;
 		}
 
-		$app      = JFactory::getApplication();
-		$lang     = JFactory::getLanguage()->getTag();
+		$app      = \JFactory::getApplication();
+		$lang     = \JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
-		/** @var JCacheControllerCallback $cache */
-		$cache = JFactory::getCache('com_modules', 'callback');
+		/** @var \JCacheControllerCallback $cache */
+		$cache = \JFactory::getCache('com_modules', 'callback');
 
 		$loader = function () use ($app, $lang, $module) {
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 
 			$query = $db->getQuery(true)
 				->select('m.id, m.title, m.module, m.position, m.showtitle, m.params')
@@ -162,22 +165,22 @@ class LoginModelLogin extends JModelLegacy
 		{
 			return $clean = $cache->get($loader, array(), md5(serialize(array($clientId, $lang))));
 		}
-		catch (JCacheException $cacheException)
+		catch (\JCacheException $cacheException)
 		{
 			try
 			{
 				return $loader();
 			}
-			catch (JDatabaseExceptionExecuting $databaseException)
+			catch (\JDatabaseExceptionExecuting $databaseException)
 			{
-				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()));
+				\JError::raiseWarning(500, \JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()));
 
 				return array();
 			}
 		}
-		catch (JDatabaseExceptionExecuting $databaseException)
+		catch (\JDatabaseExceptionExecuting $databaseException)
 		{
-			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()));
+			\JError::raiseWarning(500, \JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()));
 
 			return array();
 		}
