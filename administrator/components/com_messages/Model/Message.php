@@ -6,15 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Messages\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Model\Admin;
 
 /**
  * Private Message model.
  *
  * @since  1.6
  */
-class MessagesModelMessage extends JModelAdmin
+class Message extends Admin
 {
 	/**
 	 * Message
@@ -38,9 +43,9 @@ class MessagesModelMessage extends JModelAdmin
 	{
 		parent::populateState();
 
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
-		$user  = JFactory::getUser();
+		$user  = \JFactory::getUser();
 		$this->setState('user.id', $user->get('id'));
 
 		$messageId = (int) $input->getInt('message_id');
@@ -63,7 +68,7 @@ class MessagesModelMessage extends JModelAdmin
 	{
 		$pks   = (array) $pks;
 		$table = $this->getTable();
-		$user  = JFactory::getUser();
+		$user  = \JFactory::getUser();
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -77,11 +82,11 @@ class MessagesModelMessage extends JModelAdmin
 
 					try
 					{
-						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 					}
-					catch (RuntimeException $exception)
+					catch (\RuntimeException $exception)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+						\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
 					}
 
 					return false;
@@ -96,22 +101,6 @@ class MessagesModelMessage extends JModelAdmin
 		}
 
 		return parent::delete($pks);
-	}
-
-	/**
-	 * Returns a Table object, always creating it.
-	 *
-	 * @param   type    $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A database object
-	 *
-	 * @since   1.6
-	 */
-	public function getTable($type = 'Message', $prefix = 'MessagesTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
 	}
 
 	/**
@@ -146,7 +135,7 @@ class MessagesModelMessage extends JModelAdmin
 						{
 							$message = $db->setQuery($query)->loadObject();
 						}
-						catch (RuntimeException $e)
+						catch (\RuntimeException $e)
 						{
 							$this->setError($e->getMessage());
 
@@ -154,7 +143,7 @@ class MessagesModelMessage extends JModelAdmin
 						}
 
 						$this->item->set('user_id_to', $message->user_id_from);
-						$re = JText::_('COM_MESSAGES_RE');
+						$re = \JText::_('COM_MESSAGES_RE');
 
 						if (stripos($message->subject, $re) !== 0)
 						{
@@ -162,9 +151,9 @@ class MessagesModelMessage extends JModelAdmin
 						}
 					}
 				}
-				elseif ($this->item->user_id_to != JFactory::getUser()->id)
+				elseif ($this->item->user_id_to != \JFactory::getUser()->id)
 				{
-					$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+					$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
 
 					return false;
 				}
@@ -181,7 +170,7 @@ class MessagesModelMessage extends JModelAdmin
 			}
 
 			// Get the user name for an existing messasge.
-			if ($this->item->user_id_from && $fromUser = new JUser($this->item->user_id_from))
+			if ($this->item->user_id_from && $fromUser = new \JUser($this->item->user_id_from))
 			{
 				$this->item->set('from_user_name', $fromUser->name);
 			}
@@ -196,7 +185,7 @@ class MessagesModelMessage extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm   A JForm object on success, false on failure
+	 * @return  \JForm   A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -223,7 +212,7 @@ class MessagesModelMessage extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_messages.edit.message.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_messages.edit.message.data', array());
 
 		if (empty($data))
 		{
@@ -247,7 +236,7 @@ class MessagesModelMessage extends JModelAdmin
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user  = JFactory::getUser();
+		$user  = \JFactory::getUser();
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 
@@ -265,11 +254,11 @@ class MessagesModelMessage extends JModelAdmin
 
 					try
 					{
-						JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 					}
-					catch (RuntimeException $exception)
+					catch (\RuntimeException $exception)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
+						\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
 					}
 
 					return false;
@@ -304,12 +293,12 @@ class MessagesModelMessage extends JModelAdmin
 		// Assign empty values.
 		if (empty($table->user_id_from))
 		{
-			$table->user_id_from = JFactory::getUser()->get('id');
+			$table->user_id_from = \JFactory::getUser()->get('id');
 		}
 
 		if ((int) $table->date_time == 0)
 		{
-			$table->date_time = JFactory::getDate()->toSql();
+			$table->date_time = \JFactory::getDate()->toSql();
 		}
 
 		// Check the data.
@@ -321,7 +310,7 @@ class MessagesModelMessage extends JModelAdmin
 		}
 
 		// Load the recipient user configuration.
-		$model  = JModelLegacy::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
+		$model  = new Config(array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 
@@ -334,7 +323,7 @@ class MessagesModelMessage extends JModelAdmin
 
 		if ($config->get('locked', false))
 		{
-			$this->setError(JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
+			$this->setError(\JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
 
 			return false;
 		}
@@ -350,21 +339,21 @@ class MessagesModelMessage extends JModelAdmin
 		if ($config->get('mail_on_new', true))
 		{
 			// Load the user details (already valid from table check).
-			$fromUser         = JUser::getInstance($table->user_id_from);
-			$toUser           = JUser::getInstance($table->user_id_to);
-			$debug            = JFactory::getConfig()->get('debug_lang');
-			$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-			$lang             = JLanguage::getInstance($toUser->getParam('admin_language', $default_language), $debug);
+			$fromUser         = \JUser::getInstance($table->user_id_from);
+			$toUser           = \JUser::getInstance($table->user_id_to);
+			$debug            = \JFactory::getConfig()->get('debug_lang');
+			$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
+			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
 			// Build the email subject and message
-			$sitename = JFactory::getApplication()->get('sitename');
-			$siteURL  = JUri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
+			$sitename = \JFactory::getApplication()->get('sitename');
+			$siteURL  = \JUri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
 			$subject  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
 			$msg      = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			// Send the email
-			JFactory::getMailer()->sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
+			\JFactory::getMailer()->sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
 		}
 
 		return true;

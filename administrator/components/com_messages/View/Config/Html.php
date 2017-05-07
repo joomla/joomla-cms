@@ -6,20 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Messages\Administrator\View\Config;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View to edit messages user configuration.
  *
  * @since  1.6
  */
-class MessagesViewConfig extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
-	 * The JForm object
+	 * The \JForm object
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	protected $form;
 
@@ -33,7 +36,7 @@ class MessagesViewConfig extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
@@ -55,7 +58,7 @@ class MessagesViewConfig extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Bind the record to the form.
