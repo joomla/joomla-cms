@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * File cache storage handler
  *
+ * In general this class makes abundant use of the "Error Control Operator" @ to mute the filesystem function,
+ * since they can fail for multiple reasons, including process concurrence, without consequences.
+ *
  * @since  11.1
  * @note   For performance reasons this class does not use the Filesystem package's API
  */
@@ -46,7 +49,7 @@ class JCacheStorageFile extends JCacheStorage
 
 	/**
 	 * Size of the protection heading PHP_HEADING_PROTECTION
-	 * Just avoid calculating the lenght of the protection heading over and over at runtime
+	 * Just avoid calculating the length of the protection heading over and over at runtime
 	 *
 	 * @const  int
 	 * @since  __DEPLOY_VERSION__
@@ -290,8 +293,8 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		// Simulates s successful lock, but actually do nothing,
-		// this cache storage engines delegates file locking to the filesystem.
+		// Simulates a successful lock, but actually do nothing,
+		// this cache storage engines delegates file locking to a lower level (LOCK_EX).
 		return (object) array(
 			'locked' => true,
 			'locklooped' => false
@@ -310,8 +313,8 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		// Simulates s successful unlock, but actually do nothing,
-		// this cache storage engines delegates file locking to the filesystem.
+		// Simulates a successful unlock, but actually do nothing,
+		// this cache storage engines delegates file locking to a lower level (LOCK_EX).
 		return true;
 	}
 
