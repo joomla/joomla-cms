@@ -10,7 +10,7 @@ namespace Joomla\Component\Plugins\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller as BasseController;
+use Joomla\CMS\Controller\Controller as BaseController;
 use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
  *
  * @since  1.5
  */
-class Controller extends BasseController
+class Controller extends BaseController
 {
 	/**
 	 * The default view.
