@@ -136,7 +136,7 @@ class ContentModelForm extends ContentModelArticle
 
 		if (!empty($value->fulltext))
 		{
-			$value->articletext .= '<hr id="system-readmore" />' . $value->fulltext;
+			$value->articletext .= '<hr id="system-readmore">' . $value->fulltext;
 		}
 
 		// Convert the metadata field to an array.
