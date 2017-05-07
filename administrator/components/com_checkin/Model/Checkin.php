@@ -80,8 +80,6 @@ class Checkin extends ListModel
 	 *
 	 * @param   array  $ids  An array of table names. Optional.
 	 *
-	 * @return  integer  Checked in item count
-	 *
 	 * @since   1.6
 	 */
 	public function checkin($ids = array())
