@@ -14,10 +14,10 @@
 			<filename>checkin.xml</filename>
 			<filename>config.xml</filename>
 			<filename>dispatcher.php</filename>
-            <folder>Controller</folder>
-            <folder>Model</folder>
+            		<folder>Controller</folder>
+           		 <folder>Model</folder>
 			<folder>models</folder>
-            <folder>View</folder>
+            		<folder>View</folder>
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
