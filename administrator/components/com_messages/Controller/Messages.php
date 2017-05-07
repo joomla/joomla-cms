@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Messages\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Admin;
 
 /**
  * Messages list controller class.
  *
  * @since  1.6
  */
-class MessagesControllerMessages extends JControllerAdmin
+class Messages extends Admin
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -27,7 +30,7 @@ class MessagesControllerMessages extends JControllerAdmin
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Message', $prefix = 'MessagesModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Message', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

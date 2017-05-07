@@ -6,25 +6,30 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Messages\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Messages Component Messages Model
  *
  * @since  1.6
  */
-class MessagesModelMessages extends JModelList
+class Messages extends ListModel
 {
 	/**
-	 * Constructor.
+	 * Override parent constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   1.6
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -39,7 +44,7 @@ class MessagesModelMessages extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -89,7 +94,7 @@ class MessagesModelMessages extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -98,7 +103,7 @@ class MessagesModelMessages extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(

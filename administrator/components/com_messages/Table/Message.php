@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Messages\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,16 +18,16 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class MessagesTableMessage extends JTable
+class Message extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object
+	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
 	}
@@ -51,34 +53,34 @@ class MessagesTableMessage extends JTable
 		}
 
 		// Check the to and from users.
-		$user = new JUser($this->user_id_from);
+		$user = new \JUser($this->user_id_from);
 
 		if (empty($user->id))
 		{
-			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
+			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
 
 			return false;
 		}
 
-		$user = new JUser($this->user_id_to);
+		$user = new \JUser($this->user_id_to);
 
 		if (empty($user->id))
 		{
-			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
+			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
 
 			return false;
 		}
 
 		if (empty($this->subject))
 		{
-			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
+			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
 
 			return false;
 		}
 
 		if (empty($this->message))
 		{
-			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
+			$this->setError(\JText::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
 
 			return false;
 		}
@@ -118,7 +120,7 @@ class MessagesTableMessage extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -138,14 +140,14 @@ class MessagesTableMessage extends JTable
 		{
 			$this->_db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
 			return false;
 		}
 
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
+		// If the \JTable instance value is in the list of primary keys that were set, set the instance.
 		if (in_array($this->$k, $pks))
 		{
 			$this->state = $state;

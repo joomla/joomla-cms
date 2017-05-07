@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Messages\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Form;
 
 /**
  * Messages Component Message Model
  *
  * @since  1.6
  */
-class MessagesControllerMessage extends JControllerForm
+class Message extends Form
 {
 	/**
 	 * Method (override) to check if you can save a new or existing record.
@@ -50,7 +53,7 @@ class MessagesControllerMessage extends JControllerForm
 		}
 		else
 		{
-			$this->setMessage(JText::_('COM_MESSAGES_INVALID_REPLY_ID'));
+			$this->setMessage(\JText::_('COM_MESSAGES_INVALID_REPLY_ID'));
 			$this->setRedirect('index.php?option=com_messages&view=messages');
 		}
 	}

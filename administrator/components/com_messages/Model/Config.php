@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Messages\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\Form;
 
 /**
  * Message configuration model.
  *
  * @since  1.6
  */
-class MessagesModelConfig extends JModelForm
+class Config extends Form
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -31,12 +35,12 @@ class MessagesModelConfig extends JModelForm
 	 */
 	protected function populateState()
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		$this->setState('user.id', $user->get('id'));
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_messages');
+		$params = ComponentHelper::getParams('com_messages');
 		$this->setState('params', $params);
 	}
 
@@ -49,7 +53,7 @@ class MessagesModelConfig extends JModelForm
 	 */
 	public function &getItem()
 	{
-		$item = new JObject;
+		$item = new \JObject;
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -63,7 +67,7 @@ class MessagesModelConfig extends JModelForm
 		{
 			$rows = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -86,7 +90,7 @@ class MessagesModelConfig extends JModelForm
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm	 A JForm object on success, false on failure
+	 * @return  \JForm	 A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -127,7 +131,7 @@ class MessagesModelConfig extends JModelForm
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 
@@ -151,7 +155,7 @@ class MessagesModelConfig extends JModelForm
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 
