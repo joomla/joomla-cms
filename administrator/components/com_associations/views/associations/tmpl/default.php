@@ -122,6 +122,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						</td>
 					<?php endif; ?>
 					<td class="nowrap has-context">
+						<span style="display: none"><?php echo JHtml::_('grid.id', $i, $item->id); ?></span>
 						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>
@@ -173,6 +174,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		</table>
 	<?php endif; ?>
 	<input type="hidden" name="task" value=""/>
-	<?php echo JHtml::_('form.token'); ?>
+    <input type="hidden" name="boxchecked" value="0" />
+    <?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
