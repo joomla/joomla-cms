@@ -101,8 +101,8 @@ class Plugins extends ListModel
 	 * Returns an object list.
 	 *
 	 * @param   \JDatabaseQuery  $query       A database query object.
-	 * @param   integer         $limitstart  Offset.
-	 * @param   integer         $limit       The number of records.
+	 * @param   integer          $limitstart  Offset.
+	 * @param   integer          $limit       The number of records.
 	 *
 	 * @return  array
 	 */
