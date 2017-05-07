@@ -11,6 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Factory;
 use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Document\PreloadManager;
+use Joomla\CMS\Document\PreloadManagerInterface;
 use Joomla\CMS\Document\RendererInterface;
 
 /**
@@ -227,6 +229,14 @@ class JDocument
 	protected $factory;
 
 	/**
+	 * Preload manager
+	 *
+	 * @var    PreloadManagerInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $preloadManager = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
@@ -282,6 +292,15 @@ class JDocument
 		else
 		{
 			$this->setFactory(new Factory);
+		}
+
+		if (array_key_exists('preloadManager', $options))
+		{
+			$this->setPreloadManager($options['preloadManager']);
+		}
+		else
+		{
+			$this->setPreloadManager(new PreloadManager);
 		}
 	}
 
@@ -911,6 +930,34 @@ class JDocument
 	public function getMediaVersion()
 	{
 		return $this->mediaVersion;
+	}
+
+	/**
+	 * Set the preload manager
+	 *
+	 * @param   PreloadManagerInterface  $preloadManager  The preload manager service
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setPreloadManager(PreloadManagerInterface $preloadManager)
+	{
+		$this->preloadManager = $preloadManager;
+
+		return $this;
+	}
+
+	/**
+	 * Return the preload manager
+	 *
+	 * @return  PreloadManagerInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getPreloadManager()
+	{
+		return $this->preloadManager;
 	}
 
 	/**
