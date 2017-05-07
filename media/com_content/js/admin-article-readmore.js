@@ -26,7 +26,7 @@ window.insertReadmore = function(editor) {
 		if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty(editor)) {
 			window.Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />');
 		} else {
-			window.parent.jInsertEditorText('<hr id="system-readmore" />', editor);
+			window.jInsertEditorText('<hr id="system-readmore" />', editor);
 		}
 	}
 };
