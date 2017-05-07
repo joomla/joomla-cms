@@ -6,24 +6,28 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Redirect\Administrator\Table;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Table\Table;
 
 /**
  * Link Table for Redirect.
  *
  * @since  1.6
  */
-class RedirectTableLink extends JTable
+class Link extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database object.
+	 * @param   \JDatabaseDriver  $db  Database object.
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__redirect_links', 'id', $db);
 	}
@@ -54,7 +58,7 @@ class RedirectTableLink extends JTable
 		// Check for valid name.
 		if (empty($this->old_url))
 		{
-			$this->setError(JText::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
+			$this->setError(\JText::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
 
 			return false;
 		}
@@ -65,18 +69,18 @@ class RedirectTableLink extends JTable
 		}
 
 		// Check for valid name if not in advanced mode.
-		if (empty($this->new_url) && JComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
+		if (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
 		{
-			$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+			$this->setError(\JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
 			return false;
 		}
-		elseif (empty($this->new_url) && JComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
+		elseif (empty($this->new_url) && ComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
 		{
 			// Else if an empty URL and in redirect mode only throw the same error if the code is a 3xx status code
 			if ($this->header < 400 && $this->header >= 300)
 			{
-				$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
+				$this->setError(\JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 
 				return false;
 			}
@@ -85,7 +89,7 @@ class RedirectTableLink extends JTable
 		// Check for duplicates
 		if ($this->old_url == $this->new_url)
 		{
-			$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
+			$this->setError(\JText::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
 
 			return false;
 		}
@@ -103,7 +107,7 @@ class RedirectTableLink extends JTable
 
 		if ($xid && $xid != (int) $this->id)
 		{
-			$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
+			$this->setError(\JText::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
 
 			return false;
 		}
@@ -122,7 +126,7 @@ class RedirectTableLink extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate()->toSql();
+		$date = \JFactory::getDate()->toSql();
 
 		$this->modified_date = $date;
 

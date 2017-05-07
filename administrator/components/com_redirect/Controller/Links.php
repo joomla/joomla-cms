@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Redirect\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Admin;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class RedirectControllerLinks extends JControllerAdmin
+class Links extends Admin
 {
 	/**
 	 * Method to update a record.
@@ -28,7 +30,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	public function activate()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$ids     = $this->input->get('cid', array(), 'array');
 		$newUrl  = $this->input->getString('new_url');
@@ -36,7 +38,7 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		if (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_ITEM_SELECTED'));
+			$this->app->enqueueMessage(\JText::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -48,11 +50,11 @@ class RedirectControllerLinks extends JControllerAdmin
 			// Remove the items.
 			if (!$model->activate($ids, $newUrl, $comment))
 			{
-				JError::raiseWarning(500, $model->getError());
+				$this->app->enqueueMessage($model->getError(), 'warning');
 			}
 			else
 			{
-				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+				$this->setMessage(\JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
 			}
 		}
 
@@ -69,7 +71,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	public function duplicateUrls()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$ids     = $this->input->get('cid', array(), 'array');
 		$newUrl  = $this->input->getString('new_url');
@@ -77,7 +79,7 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		if (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_ITEM_SELECTED'));
+			$this->app->enqueueMessage(\JText::_('COM_REDIRECT_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -89,11 +91,11 @@ class RedirectControllerLinks extends JControllerAdmin
 			// Remove the items.
 			if (!$model->duplicateUrls($ids, $newUrl, $comment))
 			{
-				JError::raiseWarning(500, $model->getError());
+				$this->app->enqueueMessage($model->getError(), 'warning');
 			}
 			else
 			{
-				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+				$this->setMessage(\JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
 			}
 		}
 
@@ -107,11 +109,11 @@ class RedirectControllerLinks extends JControllerAdmin
 	 * @param   string  $prefix  The prefix of the model.
 	 * @param   array   $config  An array of settings.
 	 *
-	 * @return  JModelLegacy instance
+	 * @return  \Joomla\CMS\Model\Model The model instance
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Link', $prefix = 'RedirectModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Link', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -137,7 +139,7 @@ class RedirectControllerLinks extends JControllerAdmin
 		}
 
 		// Set default message on error - overwrite if successful
-		$this->setMessage(JText::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
+		$this->setMessage(\JText::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
 
 		if (!empty($batch_urls))
 		{
@@ -146,7 +148,7 @@ class RedirectControllerLinks extends JControllerAdmin
 			// Execute the batch process
 			if ($model->batchProcess($batch_urls))
 			{
-				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_ADDED', count($batch_urls)));
+				$this->setMessage(\JText::plural('COM_REDIRECT_N_LINKS_ADDED', count($batch_urls)));
 			}
 		}
 
@@ -166,11 +168,11 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		if ($model->purge())
 		{
-			$message = JText::_('COM_REDIRECT_CLEAR_SUCCESS');
+			$message = \JText::_('COM_REDIRECT_CLEAR_SUCCESS');
 		}
 		else
 		{
-			$message = JText::_('COM_REDIRECT_CLEAR_FAIL');
+			$message = \JText::_('COM_REDIRECT_CLEAR_FAIL');
 		}
 
 		$this->setRedirect('index.php?option=com_redirect&view=links', $message);
