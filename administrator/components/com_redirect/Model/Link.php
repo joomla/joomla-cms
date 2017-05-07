@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Redirect\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\Admin;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class RedirectModelLink extends JModelAdmin
+class Link extends Admin
 {
 	/**
 	 * @var        string    The prefix to use with controller messages.
@@ -40,7 +43,7 @@ class RedirectModelLink extends JModelAdmin
 			return false;
 		}
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		return $user->authorise('core.delete', 'com_redirect');
 	}
@@ -56,26 +59,8 @@ class RedirectModelLink extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		// Check the component since there are no categories or other assets.
-		return $user->authorise('core.edit.state', 'com_redirect');
-	}
-
-	/**
-	 * Returns a reference to the a Table object, always creating it.
-	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  JTable    A database object
-	 *
-	 * @since   1.6
-	 */
-	public function getTable($type = 'Link', $prefix = 'RedirectTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
+		return \JFactory::getUser()->authorise('core.edit.state', 'com_redirect');
 	}
 
 	/**
@@ -84,7 +69,7 @@ class RedirectModelLink extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm  A JForm object on success, false on failure
+	 * @return  \JForm   A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -111,7 +96,7 @@ class RedirectModelLink extends JModelAdmin
 
 		// If in advanced mode then we make sure the new URL field is not compulsory and the header
 		// field compulsory in case people select non-3xx redirects
-		if (JComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
+		if (ComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
 		{
 			$form->setFieldAttribute('new_url', 'required', 'false');
 			$form->setFieldAttribute('header', 'required', 'true');
@@ -130,7 +115,7 @@ class RedirectModelLink extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_redirect.edit.link.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_redirect.edit.link.data', array());
 
 		if (empty($data))
 		{
@@ -155,7 +140,7 @@ class RedirectModelLink extends JModelAdmin
 	 */
 	public function activate(&$pks, $url, $comment = null)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$db = $this->getDbo();
 
 		// Sanitize the ids.
@@ -163,13 +148,13 @@ class RedirectModelLink extends JModelAdmin
 		$pks = ArrayHelper::toInteger($pks);
 
 		// Populate default comment if necessary.
-		$comment = (!empty($comment)) ? $comment : JText::sprintf('COM_REDIRECT_REDIRECTED_ON', JHtml::_('date', time()));
+		$comment = (!empty($comment)) ? $comment : \JText::sprintf('COM_REDIRECT_REDIRECTED_ON', \JHtml::_('date', time()));
 
 		// Access checks.
 		if (!$user->authorise('core.edit', 'com_redirect'))
 		{
 			$pks = array();
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -189,7 +174,7 @@ class RedirectModelLink extends JModelAdmin
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 
@@ -213,7 +198,7 @@ class RedirectModelLink extends JModelAdmin
 	 */
 	public function duplicateUrls(&$pks, $url, $comment = null)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$db = $this->getDbo();
 
 		// Sanitize the ids.
@@ -224,14 +209,14 @@ class RedirectModelLink extends JModelAdmin
 		if (!$user->authorise('core.edit', 'com_redirect'))
 		{
 			$pks = array();
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
 			return false;
 		}
 
 		if (!empty($pks))
 		{
-			$date = JFactory::getDate()->toSql();
+			$date = \JFactory::getDate()->toSql();
 
 			// Update the link rows.
 			$query = $db->getQuery(true)
@@ -251,7 +236,7 @@ class RedirectModelLink extends JModelAdmin
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 

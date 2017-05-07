@@ -6,15 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Redirect\Administrator\View\Links;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
 /**
  * View class for a list of redirection links.
  *
  * @since  1.6
  */
-class RedirectViewLinks extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * True if "System - Redirect Plugin" is enabled
@@ -40,21 +46,21 @@ class RedirectViewLinks extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    JForm
+	 * @var    \JForm
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $filterForm;
@@ -79,9 +85,6 @@ class RedirectViewLinks extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Set variables
-		$app                        = JFactory::getApplication();
-		$this->enabled              = RedirectHelper::isEnabled();
-		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
 		$this->items                = $this->get('Items');
 		$this->pagination           = $this->get('Pagination');
 		$this->state                = $this->get('State');
@@ -91,23 +94,7 @@ class RedirectViewLinks extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
-		}
-
-		// Show messages about the enabled plugin and if the plugin should collect URLs
-		if ($this->enabled && $this->collect_urls_enabled)
-		{
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
-		}
-		elseif ($this->enabled && !$this->collect_urls_enabled)
-		{
-			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
-		}
-		else
-		{
-			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			$app->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'error');
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -125,40 +112,40 @@ class RedirectViewLinks extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state = $this->get('State');
-		$canDo = JHelperContent::getActions('com_redirect');
+		$canDo = ContentHelper::getActions('com_redirect');
 
-		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
+		\JToolbarHelper::title(\JText::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::addNew('link.add');
+			\JToolbarHelper::addNew('link.add');
 		}
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::editList('link.edit');
+			\JToolbarHelper::editList('link.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($state->get('filter.state') != 2)
 			{
-				JToolbarHelper::divider();
-				JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
-				JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
+				\JToolbarHelper::divider();
+				\JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
+				\JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
 
 			if ($state->get('filter.state') != -1 )
 			{
-				JToolbarHelper::divider();
+				\JToolbarHelper::divider();
 
 				if ($state->get('filter.state') != 2)
 				{
-					JToolbarHelper::archiveList('links.archive');
+					\JToolbarHelper::archiveList('links.archive');
 				}
 				elseif ($state->get('filter.state') == 2)
 				{
-					JToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
+					\JToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
 				}
 			}
 		}
@@ -166,12 +153,12 @@ class RedirectViewLinks extends JViewLegacy
 		if ($canDo->get('core.create'))
 		{
 			// Get the toolbar object instance
-			$bar = JToolbar::getInstance('toolbar');
+			$bar = \JToolbar::getInstance('toolbar');
 
-			$title = JText::_('JTOOLBAR_BULK_IMPORT');
+			$title = \JText::_('JTOOLBAR_BULK_IMPORT');
 
-			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('toolbar.batch');
+			// Instantiate a new \JLayoutFile instance and render the batch button
+			$layout = new FileLayout('toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -179,23 +166,23 @@ class RedirectViewLinks extends JViewLegacy
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolbarHelper::divider();
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
+			\JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::custom('links.purge', 'delete', 'delete', 'COM_REDIRECT_TOOLBAR_PURGE', false);
-			JToolbarHelper::trash('links.trash');
-			JToolbarHelper::divider();
+			\JToolbarHelper::custom('links.purge', 'delete', 'delete', 'COM_REDIRECT_TOOLBAR_PURGE', false);
+			\JToolbarHelper::trash('links.trash');
+			\JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			JToolbarHelper::preferences('com_redirect');
-			JToolbarHelper::divider();
+			\JToolbarHelper::preferences('com_redirect');
+			\JToolbarHelper::divider();
 		}
 
-		JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
+		\JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
 
 	}
 }

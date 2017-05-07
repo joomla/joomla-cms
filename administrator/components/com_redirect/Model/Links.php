@@ -6,24 +6,31 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Redirect\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Methods supporting a list of redirect links.
  *
  * @since  1.6
  */
-class RedirectModelLinks extends JModelList
+class Links extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
+	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -40,7 +47,7 @@ class RedirectModelLinks extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 	/**
 	 * Removes all of the unpublished redirects from the table.
@@ -63,7 +70,7 @@ class RedirectModelLinks extends JModelList
 		{
 			$db->execute();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			return false;
 		}
@@ -86,7 +93,7 @@ class RedirectModelLinks extends JModelList
 	protected function populateState($ordering = 'a.old_url', $direction = 'asc')
 	{
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_redirect');
+		$params = ComponentHelper::getParams('com_redirect');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -119,7 +126,7 @@ class RedirectModelLinks extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -192,7 +199,7 @@ class RedirectModelLinks extends JModelList
 	 */
 	public function batchProcess($batch_urls)
 	{
-		$db    = JFactory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		$columns = array(
@@ -210,9 +217,9 @@ class RedirectModelLinks extends JModelList
 		foreach ($batch_urls as $batch_url)
 		{
 			// Source URLs need to have the correct URL format to work properly
-			if (strpos($batch_url[0], JUri::root()) === false)
+			if (strpos($batch_url[0], \JUri::root()) === false)
 			{
-				$old_url = JUri::root() . $batch_url[0];
+				$old_url = \JUri::root() . $batch_url[0];
 			}
 			else
 			{
@@ -232,7 +239,7 @@ class RedirectModelLinks extends JModelList
 			$query->insert($db->quoteName('#__redirect_links'), false)
 				->values(
 					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
-					$db->quote(JFactory::getDate()->toSql())
+					$db->quote(\JFactory::getDate()->toSql())
 				);
 		}
 
