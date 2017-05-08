@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.visualchars.Plugin","tinymce.core.PluginManager","tinymce.core.util.Delay","ephox.katamari.api.Arr","ephox.sugar.api.node.Element","tinymce.plugins.visualchars.core.VisualChars","global!tinymce.util.Tools.resolve","ephox.katamari.api.Option","global!Array","global!Error","global!String","ephox.katamari.api.Fun","global!console","global!document","tinymce.plugins.visualchars.core.Data","tinymce.plugins.visualchars.core.Nodes","ephox.sugar.api.node.Node","global!Object","ephox.sugar.api.node.NodeTypes","tinymce.plugins.visualchars.core.Html"]
+["tinymce.plugins.help.Plugin","tinymce.core.PluginManager","tinymce.plugins.help.ui.Dialog","global!tinymce.util.Tools.resolve","tinymce.core.EditorManager","tinymce.plugins.help.ui.KeyboardShortcutsTab","tinymce.plugins.help.ui.PluginsTab","tinymce.plugins.help.ui.ButtonsRow","ephox.katamari.api.Arr","tinymce.plugins.help.data.KeyboardShortcuts","ephox.katamari.api.Obj","ephox.katamari.api.Fun","ephox.katamari.api.Strings","tinymce.plugins.help.data.PluginUrls","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.Env","global!Object","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -115,12 +115,12 @@ define(
  */
 
 define(
-  'tinymce.core.util.Delay',
+  'tinymce.core.EditorManager',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.util.Delay');
+    return resolve('tinymce.EditorManager');
   }
 );
 
@@ -697,60 +697,8 @@ define(
     };
   }
 );
-define("global!console", [], function () { if (typeof console === "undefined") console = { log: function () {} }; return console; });
-defineGlobal("global!document", document);
-define(
-  'ephox.sugar.api.node.Element',
-
-  [
-    'ephox.katamari.api.Fun',
-    'global!Error',
-    'global!console',
-    'global!document'
-  ],
-
-  function (Fun, Error, console, document) {
-    var fromHtml = function (html, scope) {
-      var doc = scope || document;
-      var div = doc.createElement('div');
-      div.innerHTML = html;
-      if (!div.hasChildNodes() || div.childNodes.length > 1) {
-        console.error('HTML does not have a single root node', html);
-        throw 'HTML must have a single root node';
-      }
-      return fromDom(div.childNodes[0]);
-    };
-
-    var fromTag = function (tag, scope) {
-      var doc = scope || document;
-      var node = doc.createElement(tag);
-      return fromDom(node);
-    };
-
-    var fromText = function (text, scope) {
-      var doc = scope || document;
-      var node = doc.createTextNode(text);
-      return fromDom(node);
-    };
-
-    var fromDom = function (node) {
-      if (node === null || node === undefined) throw new Error('Node cannot be null or undefined');
-      return {
-        dom: Fun.constant(node)
-      };
-    };
-
-    return {
-      fromHtml: fromHtml,
-      fromTag: fromTag,
-      fromText: fromText,
-      fromDom: fromDom
-    };
-  }
-);
-
 /**
- * Plugin.js
+ * ResolveGlobal.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -758,348 +706,647 @@ define(
  * License: http://www.tinymce.com/license
  * Contributing: http://www.tinymce.com/contributing
  */
+
 define(
-  'tinymce.plugins.visualchars.core.Data',
-
+  'tinymce.core.Env',
   [
+    'global!tinymce.util.Tools.resolve'
   ],
-
-  function () {
-    var charMap = {
-      '\u00a0': 'nbsp',
-      '\u00ad': 'shy'
-    };
-
-    var charMapToRegExp = function (charMap, global) {
-      var key, regExp = '';
-
-      for (key in charMap) {
-        regExp += key;
-      }
-
-      return new RegExp('[' + regExp + ']', global ? 'g' : '');
-    };
-
-    var charMapToSelector = function (charMap) {
-      var key, selector = '';
-
-      for (key in charMap) {
-        if (selector) {
-          selector += ',';
-        }
-        selector += 'span.mce-' + charMap[key];
-      }
-
-      return selector;
-    };
-
-    return {
-      charMap: charMap,
-      regExp: charMapToRegExp(charMap),
-      regExpGlobal: charMapToRegExp(charMap, true),
-      selector: charMapToSelector(charMap),
-      charMapToRegExp: charMapToRegExp,
-      charMapToSelector: charMapToSelector
-    };
+  function (resolve) {
+    return resolve('tinymce.Env');
   }
 );
+
 define(
-  'ephox.sugar.api.node.NodeTypes',
-
+  'tinymce.plugins.help.data.KeyboardShortcuts',
   [
-
+    'tinymce.core.Env'
   ],
+  function (Env) {
+    var meta = Env.mac ? '\u2318' : 'Ctrl';
+    var access = Env.mac ? 'Ctrl + Alt' : 'Shift + Alt';
 
-  function () {
+    var shortcuts = [
+      { shortcut: meta + ' + B', action: 'Bold' },
+      { shortcut: meta + ' + I', action: 'Italic' },
+      { shortcut: meta + ' + U', action: 'Underline' },
+      { shortcut: meta + ' + A', action: 'Select All' },
+      { shortcut: meta + ' + Y or ' + meta + ' + Shift + Z', action: 'Redo' },
+      { shortcut: meta + ' + Z', action: 'Undo' },
+      { shortcut: access + ' + 1', action: 'Header 1' },
+      { shortcut: access + ' + 2', action: 'Header 2' },
+      { shortcut: access + ' + 3', action: 'Header 3' },
+      { shortcut: access + ' + 4', action: 'Header 4' },
+      { shortcut: access + ' + 5', action: 'Header 5' },
+      { shortcut: access + ' + 6', action: 'Header 6' },
+      { shortcut: access + ' + 7', action: 'Paragraph' },
+      { shortcut: access + ' + 8', action: 'Div' },
+      { shortcut: access + ' + 9', action: 'Address' },
+      { shortcut: 'Alt + F9', action: 'Focus to menubar' },
+      { shortcut: 'Alt + F10', action: 'Focus to toolbar' },
+      { shortcut: 'Alt + F11', action: 'Focus to element path' },
+      {
+        shortcut: 'Ctrl + Shift + P > Ctrl + Shift + P',
+        action: 'Focus to contextual toolbar'
+      },
+      { shortcut: meta + ' + K', action: 'Insert link (if link plugin activated)' },
+      { shortcut: meta + ' + S', action: 'Save (if save plugin activated)' },
+      { shortcut: meta + ' + F', action: 'Find (if searchreplace plugin activated)' }
+    ];
+
     return {
-      ATTRIBUTE:              2,
-      CDATA_SECTION:          4,
-      COMMENT:                8,
-      DOCUMENT:               9,
-      DOCUMENT_TYPE:          10,
-      DOCUMENT_FRAGMENT:      11,
-      ELEMENT:                1,
-      TEXT:                   3,
-      PROCESSING_INSTRUCTION: 7,
-      ENTITY_REFERENCE:       5,
-      ENTITY:                 6,
-      NOTATION:               12
+      shortcuts: shortcuts
     };
-  }
-);
+  });
+
 define(
-  'ephox.sugar.api.node.Node',
-
+  'tinymce.plugins.help.ui.KeyboardShortcutsTab',
   [
-    'ephox.sugar.api.node.NodeTypes'
+    'ephox.katamari.api.Arr',
+    'tinymce.plugins.help.data.KeyboardShortcuts'
   ],
-
-  function (NodeTypes) {
-    var name = function (element) {
-      var r = element.dom().nodeName;
-      return r.toLowerCase();
-    };
-
-    var type = function (element) {
-      return element.dom().nodeType;
-    };
-
-    var value = function (element) {
-      return element.dom().nodeValue;
-    };
-
-    var isType = function (t) {
-      return function (element) {
-        return type(element) === t;
+  function (Arr, KeyboardShortcuts) {
+    var makeTab = function () {
+      var makeAriaLabel = function (shortcut) {
+        return 'aria-label="Action: ' + shortcut.action + ', Shortcut: ' + shortcut.shortcut.replace(/Ctrl/g, 'Control') + '"';
       };
-    };
-
-    var isComment = function (element) {
-      return type(element) === NodeTypes.COMMENT || name(element) === '#comment';
-    };
-
-    var isElement = isType(NodeTypes.ELEMENT);
-    var isText = isType(NodeTypes.TEXT);
-    var isDocument = isType(NodeTypes.DOCUMENT);
-
-    return {
-      name: name,
-      type: type,
-      value: value,
-      isElement: isElement,
-      isText: isText,
-      isDocument: isDocument,
-      isComment: isComment
-    };
-  }
-);
-
-define(
-  'tinymce.plugins.visualchars.core.Html',
-  [
-    'tinymce.plugins.visualchars.core.Data'
-  ],
-    function (Data) {
-      var wrapCharWithSpan = function (value) {
-        return '<span data-mce-bogus="1" class="mce-' + Data.charMap[value] + '">' + value + '</span>';
-      };
+      var shortcutLisString = Arr.map(KeyboardShortcuts.shortcuts, function (shortcut) {
+        return '<tr data-mce-tabstop="1" tabindex="-1" ' + makeAriaLabel(shortcut) + '>' +
+                  '<td>' + shortcut.action + '</td>' +
+                  '<td>' + shortcut.shortcut + '</td>' +
+                '</tr>';
+      }).join('');
 
       return {
-        wrapCharWithSpan: wrapCharWithSpan
-      };
-    }
-);
-
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.visualchars.core.Nodes',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.node.Node',
-    'tinymce.plugins.visualchars.core.Data',
-    'tinymce.plugins.visualchars.core.Html'
-  ],
-
-  function (Arr, Element, Node, Data, Html) {
-    var isMatch = function (n) {
-      return Node.isText(n) &&
-        Node.value(n) !== undefined &&
-        Data.regExp.test(Node.value(n));
-    };
-
-    // inlined sugars PredicateFilter.descendants for file size
-    var filterDescendants = function (scope, predicate) {
-      var result = [];
-      var dom = scope.dom();
-      var children = Arr.map(dom.childNodes, Element.fromDom);
-
-      Arr.each(children, function (x) {
-        if (predicate(x)) {
-          result = result.concat([ x ]);
-        }
-        result = result.concat(filterDescendants(x, predicate));
-      });
-      return result;
-    };
-
-    var findParentElm = function (elm, rootElm) {
-      while (elm.parentNode) {
-        if (elm.parentNode === rootElm) {
-          return elm;
-        }
-        elm = elm.parentNode;
-      }
-    };
-
-    var replaceWithSpans = function (html) {
-      return html.replace(Data.regExpGlobal, Html.wrapCharWithSpan);
-    };
-
-    return {
-      isMatch: isMatch,
-      filterDescendants: filterDescendants,
-      findParentElm: findParentElm,
-      replaceWithSpans: replaceWithSpans
-    };
-  }
-);
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.visualchars.core.VisualChars',
-
-  [
-    'tinymce.plugins.visualchars.core.Data',
-    'tinymce.plugins.visualchars.core.Nodes',
-    'ephox.katamari.api.Arr',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.node.Node'
-  ],
-
-  function (Data, Nodes, Arr, Element, Node) {
-    var show = function (editor, rootElm) {
-      var node, div;
-      var nodeList = Nodes.filterDescendants(Element.fromDom(rootElm), Nodes.isMatch);
-
-      Arr.each(nodeList, function (n) {
-        var withSpans = Nodes.replaceWithSpans(Node.value(n));
-
-        div = editor.dom.create('div', null, withSpans);
-        while ((node = div.lastChild)) {
-          editor.dom.insertAfter(node, n.dom());
-        }
-
-        editor.dom.remove(n.dom());
-      });
-    };
-
-    var hide = function (editor, body) {
-      var nodeList = editor.dom.select(Data.selector, body);
-
-      Arr.each(nodeList, function (node) {
-        editor.dom.remove(node, 1);
-      });
-    };
-
-    var toggle = function (editor) {
-      var body = editor.getBody();
-      var bookmark = editor.selection.getBookmark();
-      var parentNode = Nodes.findParentElm(editor.selection.getNode(), body);
-
-      // if user does select all the parentNode will be undefined
-      parentNode = parentNode !== undefined ? parentNode : body;
-
-      hide(editor, parentNode);
-      show(editor, parentNode);
-
-      editor.selection.moveToBookmark(bookmark);
-    };
-
-
-    return {
-      show: show,
-      hide: hide,
-      toggle: toggle
-    };
-  }
-);
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-define(
-  'tinymce.plugins.visualchars.Plugin',
-  [
-    'tinymce.core.PluginManager',
-    'tinymce.core.util.Delay',
-    'ephox.katamari.api.Arr',
-    'ephox.sugar.api.node.Element',
-    'tinymce.plugins.visualchars.core.VisualChars'
-  ],
-  function (PluginManager, Delay, Arr, Element, VisualChars) {
-    PluginManager.add('visualchars', function (editor) {
-      var self = this, state;
-
-      var toggleActiveState = function () {
-        var self = this;
-
-        editor.on('VisualChars', function (e) {
-          self.active(e.state);
-        });
-      };
-
-      var debouncedToggle = Delay.debounce(function () {
-        VisualChars.toggle(editor);
-      }, 300);
-
-      if (editor.settings.forced_root_block !== false) {
-        editor.on('keydown', function (e) {
-          if (self.state === true) {
-            e.keyCode === 13 ? VisualChars.toggle(editor) : debouncedToggle();
+        title: 'Handy Shortcuts',
+        type: 'container',
+        style: 'overflow-y: auto; overflow-x: hidden; max-height: 250px',
+        items: [
+          {
+            type: 'container',
+            html: '<div>' +
+                    '<table class="mce-table-striped">' +
+                      '<thead>' +
+                        '<th>Action</th>' +
+                        '<th>Shortcut</th>' +
+                      '</thead>' +
+                      shortcutLisString +
+                    '</table>' +
+                  '</div>'
           }
-        });
-      }
+        ]
+      };
+    };
 
-      editor.addCommand('mceVisualChars', function () {
-        var body = editor.getBody(), selection = editor.selection, bookmark;
+    return {
+      makeTab: makeTab
+    };
+  });
 
-        state = !state;
-        self.state = state;
-        editor.fire('VisualChars', { state: state });
+define(
+  'ephox.katamari.api.Obj',
 
-        bookmark = selection.getBookmark();
+  [
+    'ephox.katamari.api.Option',
+    'global!Object'
+  ],
 
-        if (state === true) {
-          VisualChars.show(editor, body);
-        } else {
-          VisualChars.hide(editor, body);
+  function (Option, Object) {
+    // There are many variations of Object iteration that are faster than the 'for-in' style:
+    // http://jsperf.com/object-keys-iteration/107
+    //
+    // Use the native keys if it is available (IE9+), otherwise fall back to manually filtering
+    var keys = (function () {
+      var fastKeys = Object.keys;
+
+      // This technically means that 'each' and 'find' on IE8 iterate through the object twice.
+      // This code doesn't run on IE8 much, so it's an acceptable tradeoff.
+      // If it becomes a problem we can always duplicate the feature detection inside each and find as well.
+      var slowKeys = function (o) {
+        var r = [];
+        for (var i in o) {
+          if (o.hasOwnProperty(i)) {
+            r.push(i);
+          }
         }
+        return r;
+      };
 
-        selection.moveToBookmark(bookmark);
+      return fastKeys === undefined ? slowKeys : fastKeys;
+    })();
+
+
+    var each = function (obj, f) {
+      var props = keys(obj);
+      for (var k = 0, len = props.length; k < len; k++) {
+        var i = props[k];
+        var x = obj[i];
+        f(x, i, obj);
+      }
+    };
+
+    /** objectMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> x)) -> JsObj(k, x) */
+    var objectMap = function (obj, f) {
+      return tupleMap(obj, function (x, i, obj) {
+        return {
+          k: i,
+          v: f(x, i, obj)
+        };
       });
+    };
 
-      editor.addButton('visualchars', {
-        title: 'Show invisible characters',
-        cmd: 'mceVisualChars',
-        onPostRender: toggleActiveState
+    /** tupleMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> { k: x, v: y })) -> JsObj(x, y) */
+    var tupleMap = function (obj, f) {
+      var r = {};
+      each(obj, function (x, i) {
+        var tuple = f(x, i, obj);
+        r[tuple.k] = tuple.v;
       });
+      return r;
+    };
 
-      editor.addMenuItem('visualchars', {
-        text: 'Show invisible characters',
-        cmd: 'mceVisualChars',
-        onPostRender: toggleActiveState,
-        selectable: true,
-        context: 'view',
-        prependToContext: true
+    /** bifilter :: (JsObj(k, v), (v, k -> Bool)) -> { t: JsObj(k, v), f: JsObj(k, v) } */
+    var bifilter = function (obj, pred) {
+      var t = {};
+      var f = {};
+      each(obj, function(x, i) {
+        var branch = pred(x, i) ? t : f;
+        branch[i] = x;
+      });
+      return {
+        t: t,
+        f: f
+      };
+    };
+
+    /** mapToArray :: (JsObj(k, v), (v, k -> a)) -> [a] */
+    var mapToArray = function (obj, f) {
+      var r = [];
+      each(obj, function(value, name) {
+        r.push(f(value, name));
+      });
+      return r;
+    };
+
+    /** find :: (JsObj(k, v), (v, k, JsObj(k, v) -> Bool)) -> Option v */
+    var find = function (obj, pred) {
+      var props = keys(obj);
+      for (var k = 0, len = props.length; k < len; k++) {
+        var i = props[k];
+        var x = obj[i];
+        if (pred(x, i, obj)) {
+          return Option.some(x);
+        }
+      }
+      return Option.none();
+    };
+
+    /** values :: JsObj(k, v) -> [v] */
+    var values = function (obj) {
+      return mapToArray(obj, function (v) {
+        return v;
+      });
+    };
+
+    var size = function (obj) {
+      return values(obj).length;
+    };
+
+    return {
+      bifilter: bifilter,
+      each: each,
+      map: objectMap,
+      mapToArray: mapToArray,
+      tupleMap: tupleMap,
+      find: find,
+      keys: keys,
+      values: values,
+      size: size
+    };
+  }
+);
+define(
+  'ephox.katamari.str.StrAppend',
+
+  [
+
+  ],
+
+  function () {
+    var addToStart = function (str, prefix) {
+      return prefix + str;
+    };
+
+    var addToEnd = function (str, suffix) {
+      return str + suffix;
+    };
+
+    var removeFromStart = function (str, numChars) {
+      return str.substring(numChars);
+    };
+
+    var removeFromEnd = function (str, numChars) {
+      return str.substring(0, str.length - numChars);
+    };
+ 
+    return {
+      addToStart: addToStart,
+      addToEnd: addToEnd,
+      removeFromStart: removeFromStart,
+      removeFromEnd: removeFromEnd
+    };
+  }
+);
+define(
+  'ephox.katamari.str.StringParts',
+
+  [
+    'ephox.katamari.api.Option',
+    'global!Error'
+  ],
+
+  function (Option, Error) {
+    /** Return the first 'count' letters from 'str'.
+-     *  e.g. first("abcde", 2) === "ab"
+-     */
+    var first = function(str, count) {
+     return str.substr(0, count);
+    };
+
+    /** Return the last 'count' letters from 'str'.
+    *  e.g. last("abcde", 2) === "de"
+    */
+    var last = function(str, count) {
+     return str.substr(str.length - count, str.length);
+    };
+
+    var head = function(str) {
+      return str === '' ? Option.none() : Option.some(str.substr(0, 1));
+    };
+
+    var tail = function(str) {
+      return str === '' ? Option.none() : Option.some(str.substring(1));
+    };
+
+    return {
+      first: first,
+      last: last,
+      head: head,
+      tail: tail
+    };
+  }
+);
+define(
+  'ephox.katamari.api.Strings',
+
+  [
+    'ephox.katamari.str.StrAppend',
+    'ephox.katamari.str.StringParts',
+    'global!Error'
+  ],
+
+  function (StrAppend, StringParts, Error) {
+    var checkRange = function(str, substr, start) {
+      if (substr === '') return true;
+      if (str.length < substr.length) return false;
+      var x = str.substr(start, start + substr.length);
+      return x === substr;
+    };
+
+    /** Given a string and object, perform template-replacements on the string, as specified by the object.
+     * Any template fields of the form ${name} are replaced by the string or number specified as obj["name"]
+     * Based on Douglas Crockford's 'supplant' method for template-replace of strings. Uses different template format.
+     */
+    var supplant = function(str, obj) {
+      var isStringOrNumber = function(a) {
+        var t = typeof a;
+        return t === 'string' || t === 'number';
+      };
+
+      return str.replace(/\${([^{}]*)}/g,
+        function (a, b) {
+          var value = obj[b];
+          return isStringOrNumber(value) ? value : a;
+        }
+      );
+    };
+
+    var removeLeading = function (str, prefix) {
+      return startsWith(str, prefix) ? StrAppend.removeFromStart(str, prefix.length) : str;
+    };
+
+    var removeTrailing = function (str, prefix) {
+      return endsWith(str, prefix) ? StrAppend.removeFromEnd(str, prefix.length) : str;
+    };
+
+    var ensureLeading = function (str, prefix) {
+      return startsWith(str, prefix) ? str : StrAppend.addToStart(str, prefix);
+    };
+
+    var ensureTrailing = function (str, prefix) {
+      return endsWith(str, prefix) ? str : StrAppend.addToEnd(str, prefix);
+    };
+ 
+    var contains = function(str, substr) {
+      return str.indexOf(substr) !== -1;
+    };
+
+    var capitalize = function(str) {
+      return StringParts.head(str).bind(function (head) {
+        return StringParts.tail(str).map(function (tail) {
+          return head.toUpperCase() + tail;
+        });
+      }).getOr(str);
+    };
+
+    /** Does 'str' start with 'prefix'?
+     *  Note: all strings start with the empty string.
+     *        More formally, for all strings x, startsWith(x, "").
+     *        This is so that for all strings x and y, startsWith(y + x, y)
+     */
+    var startsWith = function(str, prefix) {
+      return checkRange(str, prefix, 0);
+    };
+
+    /** Does 'str' end with 'suffix'?
+     *  Note: all strings end with the empty string.
+     *        More formally, for all strings x, endsWith(x, "").
+     *        This is so that for all strings x and y, endsWith(x + y, y)
+     */
+    var endsWith = function(str, suffix) {
+      return checkRange(str, suffix, str.length - suffix.length);
+    };
+
+   
+    /** removes all leading and trailing spaces */
+    var trim = function(str) {
+      return str.replace(/^\s+|\s+$/g, '');
+    };
+
+    var lTrim = function(str) {
+      return str.replace(/^\s+/g, '');
+    };
+
+    var rTrim = function(str) {
+      return str.replace(/\s+$/g, '');
+    };
+
+    return {
+      supplant: supplant,
+      startsWith: startsWith,
+      removeLeading: removeLeading,
+      removeTrailing: removeTrailing,
+      ensureLeading: ensureLeading,
+      ensureTrailing: ensureTrailing,
+      endsWith: endsWith,
+      contains: contains,
+      trim: trim,
+      lTrim: lTrim,
+      rTrim: rTrim,
+      capitalize: capitalize
+    };
+  }
+);
+
+define(
+  'tinymce.plugins.help.data.PluginUrls',
+  [
+  ],
+  function () {
+    var urls = [
+      'advlist',
+      'anchor',
+      'autolink',
+      'autoresize',
+      'autosave',
+      'bbcode',
+      'charmap',
+      'code',
+      'codesample',
+      'colorpicker',
+      'compat3x',
+      'contextmenu',
+      'directionality',
+      'emoticons',
+      'fullpage',
+      'fullscreen',
+      'hr',
+      'image',
+      'imagetools',
+      'importcss',
+      'insertdatetime',
+      'legacyoutput',
+      'link',
+      'lists',
+      'media',
+      'nonbreaking',
+      'noneditable',
+      'pagebreak',
+      'paste',
+      'preview',
+      'print',
+      'save',
+      'searchreplace',
+      'spellchecker',
+      'tabfocus',
+      'table',
+      'template',
+      'textcolor',
+      'textpattern',
+      'toc',
+      'visualblocks',
+      'visualchars',
+      'wordcount'
+    ];
+
+    return {
+      urls: urls
+    };
+  });
+
+define(
+'tinymce.plugins.help.ui.PluginsTab',
+  [
+    'tinymce.core.EditorManager',
+    'ephox.katamari.api.Obj',
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Strings',
+    'tinymce.plugins.help.data.PluginUrls'
+  ],
+function (tinymce, Obj, Arr, Fun, Strings, PluginUrls) {
+  var maybeUrlize = function (name) {
+    return Arr.find(PluginUrls.urls, function (x) {
+      return x === name;
+    }).fold(Fun.constant(name), function (pluginName) {
+      return Strings.supplant('<a href="${url}" target="_blank">${name}</a>', {
+        name: pluginName,
+        url: 'https://www.tinymce.com/docs/plugins/' + pluginName
       });
     });
+  };
+
+  var pluginLister = function (editor) {
+    var plugins = Obj.mapToArray(editor.plugins, function (plugin, key) {
+      return '<li>' + maybeUrlize(key) + '</li>';
+    });
+    var count = plugins.length;
+    var pluginsString = plugins.join('');
+
+    return '<p><b>Plugins installed (' + count + '):</b></p>' +
+            '<ul>' + pluginsString + '</ul>';
+  };
+
+  var installedPlugins = function (editor) {
+    return {
+      type: 'container',
+      html: '<div style="overflow-y: auto; overflow-x: hidden; max-height: 230px; height: 230px;" data-mce-tabstop="1" tabindex="-1">' +
+              pluginLister(editor) +
+            '</div>',
+      flex: 1
+    };
+  };
+
+  var availablePlugins = function () {
+    return {
+      type: 'container',
+      html: '<div style="padding: 10px; background: #e3e7f4; height: 100%;" data-mce-tabstop="1" tabindex="-1">' +
+              '<p><b>Premium plugins:</b></p>' +
+              '<ul>' +
+                '<li>PowerPaste</li>' +
+                '<li>Spell Checker Pro</li>' +
+                '<li>Accessibility Checker</li>' +
+                '<li>Advanced Code Editor</li>' +
+                '<li>Enhanced Media Embed</li>' +
+                '<li>Link Checker</li>' +
+              '</ul><br />' +
+              '<p style="float: right;"><a href="https://www.tinymce.com/pricing/" target="_blank">Learn more...</a></p>' +
+            '</div>',
+      flex: 1
+    };
+  };
+
+  var makeTab = function (editor) {
+    return {
+      title: 'Plugins',
+      type: 'container',
+      style: 'overflow-y: auto; overflow-x: hidden;',
+      layout: 'flex',
+      padding: 10,
+      spacing: 10,
+      items:	[
+        installedPlugins(editor),
+        availablePlugins()
+      ]
+    };
+  };
+
+  return {
+    makeTab: makeTab
+  };
+});
+
+define(
+  'tinymce.plugins.help.ui.ButtonsRow',
+  [
+    'tinymce.core.EditorManager'
+  ],
+  function (EditorManager) {
+    var getVersion = function (major, minor) {
+      return major.indexOf('@') === 0 ? 'X.X.X' : major + '.' + minor;
+    };
+
+    var makeRow = function () {
+      var version = getVersion(EditorManager.majorVersion, EditorManager.minorVersion);
+      var changeLogLink = '<a href="https://www.tinymce.com/docs/changelog/" target="_blank">TinyMCE ' + version + '</a>';
+
+      return [
+        {
+          type: 'label',
+          html: 'You are using ' + changeLogLink
+        },
+        {
+          type: 'spacer',
+          flex: 1
+        },
+        {
+          text: 'Close',
+          onclick: function () {
+            this.parent().parent().close();
+          }
+        }
+      ];
+    };
+
+    return {
+      makeRow: makeRow
+    };
+  });
+
+
+//https://www.tinymce.com/docs/changelog/
+define(
+  'tinymce.plugins.help.ui.Dialog',
+  [
+    'tinymce.core.EditorManager',
+    'tinymce.plugins.help.ui.KeyboardShortcutsTab',
+    'tinymce.plugins.help.ui.PluginsTab',
+    'tinymce.plugins.help.ui.ButtonsRow'
+  ],
+  function (EditorManager, KeyboardShortcutsTab, PluginsTab, ButtonsRow) {
+    var openDialog = function (editor, url) {
+      return function () {
+        editor.windowManager.open({
+          title: 'Help',
+          bodyType: 'tabpanel',
+          layout: 'flex',
+          body: [
+            KeyboardShortcutsTab.makeTab(),
+            PluginsTab.makeTab(editor, url)
+          ],
+          buttons: ButtonsRow.makeRow(),
+          onPostRender: function () {
+            var title = this.getEl('title');
+            title.innerHTML = '<img src="' + url + '/img/logo.png" alt="TinyMCE Logo" style="width: 200px">';
+          }
+        });
+      };
+    };
+
+    return {
+      openDialog: openDialog
+    };
+  });
+
+define(
+  'tinymce.plugins.help.Plugin',
+  [
+    'tinymce.core.PluginManager',
+    'tinymce.plugins.help.ui.Dialog'
+  ],
+  function (PluginManager, Dialog) {
+    var Plugin = function (editor, url) {
+      editor.addButton('help', {
+        icon: 'help',
+        onclick: Dialog.openDialog(editor, url)
+      });
+
+      editor.addMenuItem('Help', {
+        text: 'Help',
+        icon: 'help',
+        context: 'view',
+        onclick: Dialog.openDialog(editor, url)
+      });
+
+      editor.addCommand('mceHelp', Dialog.openDialog(editor, url));
+
+      editor.shortcuts.add('Alt+0', 'Open help dialog', Dialog.openDialog(editor, url));
+    };
+
+    PluginManager.add('help', Plugin);
 
     return function () {};
-  }
-);
-dem('tinymce.plugins.visualchars.Plugin')();
+  });
+
+dem('tinymce.plugins.help.Plugin')();
 })();
