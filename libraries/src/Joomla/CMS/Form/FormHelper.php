@@ -1,26 +1,27 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\String\StringHelper;
 
-jimport('joomla.filesystem.path');
+\JLoader::import('joomla.filesystem.path');
 
 /**
- * JForm's helper class.
- * Provides a storage for filesystem's paths where JForm's entities reside and methods for creating those entities.
+ * Form's helper class.
+ * Provides a storage for filesystem's paths where Form's entities reside and methods for creating those entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
  * @since  11.1
  */
-class JFormHelper
+class FormHelper
 {
 	/**
 	 * Array with paths where entities(field, rule, form) can be found.
@@ -57,7 +58,7 @@ class JFormHelper
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  JFormField|boolean  JFormField object on success, false otherwise.
+	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -72,7 +73,7 @@ class JFormHelper
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  JFormRule|boolean  JFormRule object on success, false otherwise.
+	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -205,7 +206,7 @@ class JFormHelper
 
 		foreach ($paths as $path)
 		{
-			$file = JPath::find($path, $type);
+			$file = \JPath::find($path, $type);
 
 			if (!$file)
 			{
