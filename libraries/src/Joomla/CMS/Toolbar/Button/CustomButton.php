@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Toolbar\Button;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a custom button
  *
  * @since  3.0
  */
-class JToolbarButtonCustom extends JToolbarButton
+class CustomButton extends ToolbarButton
 {
 	/**
 	 * Button type
