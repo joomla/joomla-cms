@@ -69,28 +69,15 @@ abstract class Dispatcher implements DispatcherInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(CMSApplication $app, \JInput $input = null)
-	{
-		$this->app   = $app;
-		$this->input = $input ?: $app->input;
-
-		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
-		if (empty($this->option))
-		{
-			$className = get_class($this);
-			$pos       = strpos($className, 'Dispatcher');
-
-			if ($pos !== false)
-			{
-				$this->option = 'com_' . strtolower(substr($className, 0, $pos));
-			}
-		}
-
-		// If namespace is not provided, use standard component namespace
+	{		
 		if (empty($this->namespace))
 		{
-			$this->namespace = 'Joomla\\Component\\' . ucfirst(substr($this->option, 4));
+			throw new \RuntimeException('Namespace can not be empty!');
 		}
-
+		
+		$this->app   = $app;
+		$this->input = $input ?: $app->input;				
+		
 		$this->loadLanguage();
 	}
 
