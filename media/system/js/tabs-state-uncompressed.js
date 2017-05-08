@@ -81,7 +81,7 @@ jQuery(function ($) {
          * This is the URL minus some cleanup
          */
         function getStorageKey() {
-            return window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, "").replace(/#[a-zA-Z0-9%]+/, "");
+            return window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, "").split('#')[0];
         }
 
         /**
@@ -140,7 +140,7 @@ jQuery(function ($) {
 
         // If we cannot find a tab storage for this url, see if we are coming from a save of a new item
         if (!activeTabsHrefs) {
-            var unSavedStateUrl = getStorageKey().replace(/\&id=[0-9]*|[a-z]\&{1}_id=[0-9]*/,'');
+            var unSavedStateUrl = getStorageKey().replace(/\&id=[0-9]*|[a-z]\&{1}_id=[0-9]*/, '');
             activeTabsHrefs = JSON.parse(sessionStorage.getItem(unSavedStateUrl));
             sessionStorage.removeItem(unSavedStateUrl);
         }
@@ -159,16 +159,78 @@ jQuery(function ($) {
 
         } else { // clean slate start
 
-            // If we are passing a hash then this trumps everything
-            if (window.location.hash){
+            // a list of tabs to click
+            var tabsToClick = [];
 
+            // If we are passing a hash then this trumps everything
+            if (window.location.hash) {
+
+                // for each set of tabs on the page
                 alltabs.parents("ul").each(function (index, ul) {
+
                     // If no tabs is saved, activate first tab from each tab set and save it
-                    $(ul).find("a[href='"+window.location.hash+"']").first().click();
+                    var tabToClick = $(ul).find("a[href='" + window.location.hash + "']");
+
+                    // If we found some|one
+                    if (tabToClick.length) {
+
+                        // if we managed to locate its selector directly
+                        if (tabToClick.selector) {
+
+                            // highlight tab of the tabs if the hash matches
+                            tabsToClick.push(tabToClick);
+                        } else {
+
+                            // highlight first tab of the tabs
+                            tabsToClick.push(tabToClick.first());
+                        }
+
+                        var parentPane = tabToClick.closest('.tab-pane');
+
+                        // bubble up for nested tabs (like permissions tabs in the permissions pane
+                        if (parentPane) {
+                            var id = parentPane.attr('id');
+                            if (id) {
+                                var parentTabToClick = $(parentPane).find("a[href='#" + id + "']");
+                                if (parentTabToClick) {
+                                    tabsToClick.push(parentTabToClick);
+                                }
+                            }
+                        }
+                    }
+
+                    // cleanup for another loop
+                    parentTabToClick = null;
+                    tabToClick = null;
+                    parentPane = null;
+                    id = null;
                 });
 
-            } else {
+                // run in the right order bubbling up
+                tabsToClick.reverse();
 
+                // for all queued tabs
+                for (var i = 0; i < tabsToClick.length; i++) {
+
+                    // click the tabs, thus storing them
+                    jQuery(tabsToClick[i].selector).click();
+                }
+
+                // Remove the #hash in the url - with support for older browsers with no flicker
+                var scrollV, scrollH, loc = window.location;
+                if ("pushState" in history)
+                    history.pushState("", document.title, loc.pathname + loc.search);
+                else {
+                    // Prevent scrolling by storing the page's current scroll offset
+                    scrollV = document.body.scrollTop;
+                    scrollH = document.body.scrollLeft;
+                    loc.hash = "";
+                    // Restore the scroll offset, should be flicker free
+                    document.body.scrollTop = scrollV;
+                    document.body.scrollLeft = scrollH;
+                }
+
+            } else {
                 alltabs.parents("ul").each(function (index, ul) {
                     // If no tabs is saved, activate first tab from each tab set and save it
                     $(ul).find("a").first().click();
