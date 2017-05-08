@@ -154,7 +154,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 									<div class="list-group">
 										<?php if (empty($messages)) : ?>
 										<p class="list-group-item text-center">
-											<b><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></b>
+											<strong><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></strong>
 										</p>
 										<?php endif; ?>
 										<?php foreach ($messages as $message) : ?>

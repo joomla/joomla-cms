@@ -38,7 +38,7 @@ JHtml::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('ver
 			<tr>
 				<?php if (is_object($value->value)) : ?>
 					<td>
-						<b><?php echo $value->label; ?></b>
+						<strong><?php echo $value->label; ?></strong>
 					</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
@@ -58,7 +58,7 @@ JHtml::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('ver
 					<?php endforeach; ?>
 				<?php else : ?>
 					<td>
-						<b><?php echo $value->label; ?></b>
+						<strong><?php echo $value->label; ?></strong>
 					</td>
 					<td class="original"><?php echo htmlspecialchars($value->value); ?></td>
 					<?php $object2->$name->value = is_object($object2->$name->value) ? json_encode($object2->$name->value) : $object2->$name->value; ?>
