@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Plugins\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -17,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class PluginsModelPlugin extends JModelAdmin
+class Plugin extends Admin
 {
 	/**
 	 * @var     string  The help screen key for the module.
@@ -40,9 +44,13 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 *
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		$config = array_merge(
 			array(
@@ -54,7 +62,7 @@ class PluginsModelPlugin extends JModelAdmin
 			), $config
 		);
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -63,7 +71,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm    A JForm object on success, false on failure.
+	 * @return  \JForm    A \JForm object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -83,7 +91,7 @@ class PluginsModelPlugin extends JModelAdmin
 		}
 
 		// Add the default fields directory
-		JForm::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
+		\JForm::addFieldPath(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.folder', $folder);
@@ -123,7 +131,7 @@ class PluginsModelPlugin extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
 
 		if (empty($data))
 		{
@@ -162,7 +170,7 @@ class PluginsModelPlugin extends JModelAdmin
 				return false;
 			}
 
-			// Convert to the JObject before adding other data.
+			// Convert to the \JObject before adding other data.
 			$properties = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
@@ -171,7 +179,7 @@ class PluginsModelPlugin extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = JPath::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
+			$path = \JPath::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
 			if (file_exists($path))
 			{
@@ -193,11 +201,11 @@ class PluginsModelPlugin extends JModelAdmin
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable	A database object
+	 * @return  Table	A database object
 	 */
 	public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	/**
@@ -214,7 +222,7 @@ class PluginsModelPlugin extends JModelAdmin
 		// Execute the parent method.
 		parent::populateState();
 
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		// Load the User state.
 		$pk = $app->input->getInt('extension_id');
@@ -224,22 +232,22 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * Preprocess the form.
 	 *
-	 * @param   JForm   $form   A form object.
+	 * @param   \JForm  $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Cache group name.
 	 *
 	 * @return  mixed  True if successful.
 	 *
-	 * @throws	Exception if there is an error in the form event.
+	 * @throws	\Exception if there is an error in the form event.
 	 * @since   1.6
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.path');
 
 		$folder  = $this->getState('item.folder');
 		$element = $this->getState('item.element');
-		$lang    = JFactory::getLanguage();
+		$lang    = \JFactory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
 		$db    = $this->getDbo();
@@ -259,15 +267,15 @@ class PluginsModelPlugin extends JModelAdmin
 
 		if (empty($folder) || empty($element))
 		{
-			$app = JFactory::getApplication();
-			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
+			$app = \JFactory::getApplication();
+			$app->redirect(\JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		$formFile = \JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
 
 		if (!file_exists($formFile))
 		{
-			throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
+			throw new \Exception(\JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
 		}
 
 		// Load the core and/or local language file(s).
@@ -279,14 +287,14 @@ class PluginsModelPlugin extends JModelAdmin
 			// Get the plugin form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.
