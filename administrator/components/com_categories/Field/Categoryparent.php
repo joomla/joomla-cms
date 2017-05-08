@@ -19,7 +19,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class CategoryParent extends \JFormFieldList
+class Categoryparent extends \JFormFieldList
 {
 	/**
 	 * The form field type.

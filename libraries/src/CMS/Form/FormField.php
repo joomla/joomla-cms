@@ -169,6 +169,14 @@ abstract class FormField
 	protected $pattern;
 
 	/**
+	* The validation text of invalid value of the form field.
+	*
+	* @var    string
+	* @since  4.0
+	*/
+	protected $validationtext;
+
+	/**
 	 * The name of the form field.
 	 *
 	 * @var    string
@@ -340,7 +348,7 @@ abstract class FormField
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param   JForm  $form  The form to attach to the form field object.
+	 * @param   Form  $form  The form to attach to the form field object.
 	 *
 	 * @since   11.1
 	 */
@@ -406,6 +414,7 @@ abstract class FormField
 			case 'autofocus':
 			case 'autocomplete':
 			case 'spellcheck':
+			case 'validationtext':
 			case 'showon':
 				return $this->$name;
 
@@ -461,6 +470,7 @@ abstract class FormField
 			case 'onclick':
 			case 'validate':
 			case 'pattern':
+			case 'validationtext':
 			case 'group':
 			case 'showon':
 			case 'default':
@@ -583,7 +593,7 @@ abstract class FormField
 		$this->group = $group;
 
 		$attributes = array(
-			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'default',
+			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext', 'default',
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
 			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
 
