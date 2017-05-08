@@ -6,18 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Login\Administrator\View\Login;
 
 defined('_JEXEC') or die;
 
-$input = JFactory::getApplication()->input;
-$task = $input->get('task');
+use Joomla\CMS\View\HtmlView;
 
-if ($task != 'login' && $task != 'logout')
+/**
+ * HTML View class for the Login component
+ *
+ * @since  1.6
+ */
+class Html extends HtmlView
 {
-	$input->set('task', '');
-	$task = '';
-}
 
-$controller = JControllerLegacy::getInstance('Login');
-$controller->execute($task);
-$controller->redirect();
+}
