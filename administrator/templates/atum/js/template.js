@@ -68,7 +68,9 @@
 				 	listItems[i].classList.remove('open');
 				}
 				var elem = document.querySelector('.child-open');
-				if (elem) elem.classList.remove('child-open');
+				if (elem) {
+					elem.classList.remove('child-open');
+				}
 			});
 			
 
