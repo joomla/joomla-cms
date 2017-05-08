@@ -36,8 +36,8 @@ class ConfigControllerComponentSave extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
+			$this->getApplication()->redirect('index.php');
 		}
 
 		// Set FTP credentials, if given.
@@ -45,16 +45,16 @@ class ConfigControllerComponentSave extends JControllerBase
 
 		$model  = new ConfigModelComponent;
 		$form   = $model->getForm();
-		$data   = $this->input->get('jform', array(), 'array');
-		$id     = $this->input->getInt('id');
-		$option = $this->input->get('component');
+		$data   = $this->getInput()->get('jform', array(), 'array');
+		$id     = $this->getInput()->getInt('id');
+		$option = $this->getInput()->get('component');
 		$user   = JFactory::getUser();
 
 		// Check if the user is authorised to do this.
 		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->getApplication()->redirect('index.php');
 		}
 
 		// Remove the permissions rules data if user isn't allowed to edit them.
@@ -63,7 +63,7 @@ class ConfigControllerComponentSave extends JControllerBase
 			unset($data['params']['rules']);
 		}
 
-		$returnUri = $this->input->post->get('return', null, 'base64');
+		$returnUri = $this->getInput()->post->get('return', null, 'base64');
 
 		$redirect = '';
 
@@ -83,10 +83,10 @@ class ConfigControllerComponentSave extends JControllerBase
 			 */
 
 			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
+			$this->getApplication()->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->app->redirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
+			$this->getApplication()->redirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
 		}
 
 		// Attempt to save the configuration.
@@ -103,19 +103,19 @@ class ConfigControllerComponentSave extends JControllerBase
 		catch (RuntimeException $e)
 		{
 			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
+			$this->getApplication()->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->enqueueMessage(JText::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
-			$this->app->redirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
+			$this->getApplication()->enqueueMessage(JText::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+			$this->getApplication()->redirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
 		}
 
 		// Set the redirect based on the task.
 		switch ($this->options[3])
 		{
 			case 'apply':
-				$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
-				$this->app->redirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
+				$this->getApplication()->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
+				$this->getApplication()->redirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
 
 				break;
 
@@ -134,7 +134,7 @@ class ConfigControllerComponentSave extends JControllerBase
 					$redirect = JUri::base();
 				}
 
-				$this->app->redirect(JRoute::_($redirect, false));
+				$this->getApplication()->redirect(JRoute::_($redirect, false));
 
 				break;
 		}

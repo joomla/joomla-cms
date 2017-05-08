@@ -376,8 +376,6 @@ class ComponentHelper
 				throw new \LogicException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
 			}
 
-			$namespace = self::getComponent($option)->namespace;
-
 			// Dispatch the component.
 			$contents = static::dispatchComponent(new $class($app, $app->input));
 		}

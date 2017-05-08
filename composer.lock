@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4857162408ea82b596fb66fcf9444a31",
+    "content-hash": "0811b09a52a0563cd302c35abf1c7cf9",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -259,6 +259,57 @@
                 "joomla"
             ],
             "time": "2015-02-24T00:21:06+00:00"
+        },
+        {
+            "name": "joomla/controller",
+            "version": "dev-2.0-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/controller.git",
+                "reference": "441b110abd0c088fef356dd8dcb60cecd93e1f60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/controller/zipball/441b110abd0c088fef356dd8dcb60cecd93e1f60",
+                "reference": "441b110abd0c088fef356dd8dcb60cecd93e1f60",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|~7.0"
+            },
+            "require-dev": {
+                "joomla/application": "~1.0|~2.0",
+                "joomla/input": "~1.0|~2.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "suggest": {
+                "joomla/application": "The joomla/application package is required to use Joomla\\Controller\\AbstractController",
+                "joomla/input": "The joomla/input package is required to use Joomla\\Controller\\AbstractController"
+            },
+            "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.0-dev": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Controller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Controller Package",
+            "homepage": "https://github.com/joomla-framework/controller",
+            "keywords": [
+                "controller",
+                "framework",
+                "joomla"
+            ],
+            "time": "2017-02-19T22:01:31+00:00"
         },
         {
             "name": "joomla/crypt",
@@ -3164,6 +3215,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "joomla/application": 20,
+        "joomla/controller": 20,
         "joomla/crypt": 20,
         "joomla/event": 20,
         "joomla/http": 20,
