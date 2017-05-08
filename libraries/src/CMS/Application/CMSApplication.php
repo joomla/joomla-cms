@@ -29,7 +29,7 @@ use Joomla\Session\SessionEvent;
  *
  * @since  3.2
  */
-abstract class CmsApplication extends WebApplication implements ContainerAwareInterface
+abstract class CMSApplication extends WebApplication implements ContainerAwareInterface
 {
 	use ContainerAwareTrait;
 
