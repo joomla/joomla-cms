@@ -58,30 +58,7 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 			]
 		);
 
-		JHtml::_('jquery.framework');
 		JHtml::_('behavior.core');
-
-		$template = JFactory::getApplication()->getTemplate();
-		$token    = JSession::getFormToken() . '=' . 1;
-		$url      = JUri::base() . 'index.php?option=com_joomlaupdate';
-		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token;
-		$script   = array();
-		$script[] = 'var plg_quickicon_joomlaupdate_url = \'' . $url . '\';';
-		$script[] = 'var plg_quickicon_joomlaupdate_ajax_url = \'' . $ajax_url . '\';';
-		$script[] = 'var plg_quickicon_jupdatecheck_jversion = \'' . JVERSION . '\'';
-		$script[] = 'var plg_quickicon_joomlaupdate_text = {'
-			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true) . '",'
-			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true) . '",'
-			. '"UPDATEFOUND_MESSAGE": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true) . '",'
-			. '"UPDATEFOUND_BUTTON": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true) . '",'
-			. '"ERROR": "' . JText::_('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true) . '",'
-			. '};';
-		$script[] = 'var plg_quickicon_joomlaupdate_img = {'
-			. '"UPTODATE" : "' . JUri::base(true) . '/templates/' . $template . '/images/header/icon-48-jupdate-uptodate.png",'
-			. '"UPDATEFOUND": "' . JUri::base(true) . '/templates/' . $template . '/images/header/icon-48-jupdate-updatefound.png",'
-			. '"ERROR": "' . JUri::base(true) . '/templates/' . $template . '/images/header/icon-48-deny.png",'
-			. '};';
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.js', array('version' => 'auto', 'relative' => true));
 
 		return array(
