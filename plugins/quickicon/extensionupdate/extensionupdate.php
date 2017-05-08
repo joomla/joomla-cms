@@ -48,31 +48,15 @@ class PlgQuickiconExtensionupdate extends JPlugin
 			'ajaxUrl' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token,
 		);
 
+		JFactory::getDocument()->addScriptOptions('js-extensions-update', $options);
+
 		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true);
 		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true);
 		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true);
 		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true);
 		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true);
 
-		JHtml::_('jquery.framework');
 		JHtml::_('behavior.core');
-
-		JFactory::getDocument()->addScriptOptions('js-extensions-update', $options);
-		
-		$token    = JSession::getFormToken() . '=' . 1;
-		$url      = JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token;
-		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token;
-		$script   = array();
-		$script[] = 'var plg_quickicon_extensionupdate_url = \'' . $url . '\';';
-		$script[] = 'var plg_quickicon_extensionupdate_ajax_url = \'' . $ajax_url . '\';';
-		$script[] = 'var plg_quickicon_extensionupdate_text = {'
-			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true) . '",'
-			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true) . '",'
-			. '"UPDATEFOUND_MESSAGE": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true) . '",'
-			. '"UPDATEFOUND_BUTTON": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true) . '",'
-			. '"ERROR": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true) . '",'
-			. '};';
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', array('version' => 'auto', 'relative' => true));
 
 		return array(
