@@ -952,6 +952,7 @@ CREATE TABLE "#__fields_groups" (
   "asset_id" bigint NOT NULL DEFAULT 0,
   "context" nvarchar(255) NOT NULL DEFAULT '',
   "title" nvarchar(255) NOT NULL DEFAULT '',
+  "name" nvarchar(255) NOT NULL DEFAULT '',
   "note" nvarchar(255) NOT NULL DEFAULT '',
   "description" nvarchar(max) NOT NULL DEFAULT '',
   "state" smallint NOT NULL DEFAULT 0,
