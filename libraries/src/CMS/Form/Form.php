@@ -2057,11 +2057,11 @@ class Form
 			{
 				if ($element['label'])
 				{
-					$message = JText::_($element['label']);
+					$message = \JText::_($element['label']);
 				}
 				else
 				{
-					$message = JText::_($element['name']);
+					$message = \JText::_($element['name']);
 				}
 
 				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
