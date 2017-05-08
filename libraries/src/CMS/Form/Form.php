@@ -103,8 +103,6 @@ class Form
 
 		// Set the options if specified.
 		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
-
-		$this->factory = !empty($options['form_factory']) ? $options['form_factory'] : new LegacyFormFactory;
 	}
 
 	/**
@@ -1912,35 +1910,34 @@ class Form
 	}
 
 	/**
-	 * Proxy for {@link FormFieldFactoryInterface::getField()}.
+	 * Proxy for {@link FormHelper::loadFieldType()}.
 	 *
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
-	 * @see     FormFactoryInterface::getField()
 	 * @since   11.1
 	 */
 	protected function loadFieldType($type, $new = true)
 	{
-		return $this->factory->getField($type, $new);
+		return FormHelper::loadFieldType($type, $new);
 	}
 
 	/**
-	 * Proxy for {@link FormFieldFactoryInterface::getRule()}.
+	 * Proxy for FormHelper::loadRuleType().
 	 *
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
-	 * @see     FormFactoryInterface::getRule()
+	 * @see     FormHelper::loadRuleType()
 	 * @since   11.1
 	 */
 	protected function loadRuleType($type, $new = true)
 	{
-		return $this->factory->getRule($type, $new);
+		return FormHelper::loadRuleType($type, $new);
 	}
 
 	/**
@@ -1990,6 +1987,36 @@ class Form
 		{
 			$path = JPATH_ROOT . '/' . ltrim($path, '/\\');
 			self::addRulePath($path);
+		}
+
+		// Get any addfieldprefix attributes from the form definition.
+		$prefixes = $this->xml->xpath('//*[@addfieldprefix]/@addfieldprefix');
+		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+
+		// Add the field prefixes.
+		foreach ($prefixes as $prefix)
+		{
+			FormHelper::addFieldPrefix($prefix);
+		}
+
+		// Get any addformprefix attributes from the form definition.
+		$prefixes = $this->xml->xpath('//*[@addformprefix]/@addformprefix');
+		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+
+		// Add the field prefixes.
+		foreach ($prefixes as $prefix)
+		{
+			FormHelper::addFormPrefix($prefix);
+		}
+
+		// Get any addruleprefix attributes from the form definition.
+		$prefixes = $this->xml->xpath('//*[@addruleprefix]/@addruleprefix');
+		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+
+		// Add the field prefixes.
+		foreach ($prefixes as $prefix)
+		{
+			FormHelper::addRulePrefix($prefix);
 		}
 
 		return true;
@@ -2084,7 +2111,7 @@ class Form
 	}
 
 	/**
-	 * Proxy for {@link JFormHelper::addFieldPath()}.
+	 * Proxy for {@link FormHelper::addFieldPath()}.
 	 *
 	 * @param   mixed  $new  A path or array of paths to add.
 	 *
@@ -2094,11 +2121,11 @@ class Form
 	 */
 	public static function addFieldPath($new = null)
 	{
-		return \JFormHelper::addFieldPath($new);
+		return FormHelper::addFieldPath($new);
 	}
 
 	/**
-	 * Proxy for JFormHelper::addFormPath().
+	 * Proxy for FormHelper::addFormPath().
 	 *
 	 * @param   mixed  $new  A path or array of paths to add.
 	 *
@@ -2109,11 +2136,11 @@ class Form
 	 */
 	public static function addFormPath($new = null)
 	{
-		return \JFormHelper::addFormPath($new);
+		return FormHelper::addFormPath($new);
 	}
 
 	/**
-	 * Proxy for JFormHelper::addRulePath().
+	 * Proxy for FormHelper::addRulePath().
 	 *
 	 * @param   mixed  $new  A path or array of paths to add.
 	 *
@@ -2124,7 +2151,7 @@ class Form
 	 */
 	public static function addRulePath($new = null)
 	{
-		return \JFormHelper::addRulePath($new);
+		return FormHelper::addRulePath($new);
 	}
 
 	/**

@@ -6,19 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Categories\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * Category Edit field..
  *
  * @since  1.6
  */
-class JFormFieldCategoryEdit extends JFormFieldList
+class Categoryedit extends \JFormFieldList
 {
 	/**
 	 * To allow creation of new categories.
@@ -39,18 +41,18 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.2
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
 
@@ -123,7 +125,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
-		$jinput = JFactory::getApplication()->input;
+		$jinput = \JFactory::getApplication()->input;
 
 		// Load the category options for a given extension.
 
@@ -141,8 +143,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}
 
-		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
+		$db = \JFactory::getDbo();
+		$user = \JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		$query = $db->getQuery(true)
@@ -215,9 +217,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			\JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
@@ -228,12 +230,12 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			{
 				if ($options[$i]->level == 0)
 				{
-					$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
+					$options[$i]->text = \JText::_('JGLOBAL_ROOT_PARENT');
 				}
 			}
 
 			// Displays language code if not set to All
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('language'))
 				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
@@ -258,7 +260,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 
 		// Get the current user object.
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// For new items we want a list of categories you are allowed to create in.
 		if ($oldCat == 0)
@@ -325,12 +327,12 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			if ($row->parent_id == '1')
 			{
-				$parent = new stdClass;
-				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
+				$parent = new \stdClass;
+				$parent->text = \JText::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}
 
-			array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
+			array_unshift($options, \JHtml::_('select.option', '0', \JText::_('JGLOBAL_ROOT')));
 		}
 
 		// Merge any additional options in the XML definition.
@@ -356,12 +358,12 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		if ($this->allowAdd)
 		{
-			$customGroupText = JText::_('JGLOBAL_CUSTOM_CATEGORY');
+			$customGroupText = \JText::_('JGLOBAL_CUSTOM_CATEGORY');
 
 			$class[] = 'chzn-custom-value';
 			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
-					. 'data-no_results_text="' . JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
-					. 'data-placeholder="' . JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
+					. 'data-no_results_text="' . \JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
+					. 'data-placeholder="' . \JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
 		}
 
 		if ($class)
@@ -392,7 +394,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// Create a read-only list (no name) with hidden input(s) to store the value(s).
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
-			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = \JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 
 			// E.g. form field type tag sends $this->value as array
 			if ($this->multiple && is_array($this->value))
@@ -415,7 +417,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		else
 			// Create a regular list.
 		{
-			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = \JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 
 		return implode($html);

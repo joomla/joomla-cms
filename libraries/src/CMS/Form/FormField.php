@@ -983,7 +983,7 @@ abstract class FormField
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;
-		$description = !empty($description) && $this->translateDescription ? JText::_($description) : $description;
+		$description = !empty($description) && $this->translateDescription ? \JText::_($description) : $description;
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
@@ -996,7 +996,7 @@ abstract class FormField
 			'field'          => $this,
 			'group'          => $this->group,
 			'hidden'         => $this->hidden,
-			'hint'           => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
+			'hint'           => $this->translateHint ? \JText::alt($this->hint, $alt) : $this->hint,
 			'id'             => $this->id,
 			'label'          => $label,
 			'labelclass'     => $this->labelclass,
