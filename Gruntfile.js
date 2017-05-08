@@ -177,7 +177,7 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
-					// JSDiff js files
+					// Focus ring js files
 					{ expand: true, cwd: '<%= folder.node_module %>wicg-focus-ring/dist', src: ['*.js'], dest: 'media/vendor/wicg-focus-ring/js/', filter: 'isFile'},
 
 					// Licenses
@@ -415,7 +415,7 @@ module.exports = function(grunt) {
 			'cssmin:adminTemplate',
 			'cssmin:siteTemplate',
 			'updateXML',
-			//'clean:temp'
+			'clean:temp'
 		]
 	);
 
