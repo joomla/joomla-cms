@@ -69,15 +69,15 @@ abstract class Dispatcher implements DispatcherInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(CMSApplication $app, \JInput $input = null)
-	{		
+	{
 		if (empty($this->namespace))
 		{
 			throw new \RuntimeException('Namespace can not be empty!');
 		}
-		
+
 		$this->app   = $app;
-		$this->input = $input ?: $app->input;				
-		
+		$this->input = $input ?: $app->input;
+
 		$this->loadLanguage();
 	}
 
