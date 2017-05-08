@@ -18,5 +18,12 @@ use Joomla\CMS\Dispatcher\Dispatcher;
  */
 class PostinstallDispatcher extends Dispatcher
 {
-
+	/**
+	 * The extension namespace
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $namespace = 'Joomla\\Component\\Postinstall';
 }
