@@ -103,7 +103,8 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			$data = file_get_contents($path, false, null, self::PHP_HEADING_SIZE);
 			// is_string($data) also implies $data !== false so avoid the latter check
-			if (is_string($data))
+			// Explicitly check the case of zero length data, which would cause an illegal array element access below [-1]
+			if (is_string($data) && !empty($data))
 			{
 				// Integrity check: the last character must correspond to the expected digit
 				if ($data[strlen($data) - 1] === self::INTEGRITY_DIGIT)

@@ -54,4 +54,40 @@ class JCacheStorageFileTest extends TestCaseCache
 
 		$this->assertFalse($this->handler->get($this->id, $this->group), 'No data should be returned from the cache store when expired.');
 	}
+
+	/**
+	 * @testdox  Can't test race conditions with a single process, not even with pcntl_fork()
+	 */
+	public function testCacheLock()
+	{
+	}
+
+	/**
+	 * @testdox  Test the integrity checker
+	 */
+	public function testCacheIntegrityChecker()
+	{
+		// To determine the path of the cache buffer, is required to gain access
+		// to the protected method JCacheStorageFile::_getFilePath()
+		$reflector = new ReflectionObject($this->handler);
+		$_getFilePath = $reflector->getMethod('_getFilePath');
+		$_getFilePath->setAccessible(true);
+		$file_path = $_getFilePath->invoke($this->handler, $this->id, $this->group);
+		// Prepare arbitrary test data
+		$testData = 'testData';
+
+		// Craft a cache buffer file, and ask the cache object to read the data contained in it
+		file_put_contents($file_path, JCacheStorageFile::PHP_HEADING_PROTECTION . $testData . JCacheStorageFile::INTEGRITY_DIGIT);
+		$readback = $this->handler->get($this->id, $this->group);
+		// Decode the data and comare it with the original
+		$this->assertSame($readback, $testData, 'Integrity check failed on File Storage Engine');
+
+		// Now save some data into the cache
+		$this->handler->store($this->id, $this->group, $testData);
+		// Intentionally corrupt the cache file, streaming arbitrary data directly on it
+		file_put_contents($file_path, $testData);
+		$readback = $this->handler->get($this->id, $this->group);
+		// The resulting data must be boolean false
+		$this->assertSame($readback, false, 'Integrity check failed on File Storage Engine');
+	}
 }
