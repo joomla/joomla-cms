@@ -18,7 +18,7 @@ window.insertReadmore = function(editor) {
 		content = (new Function('return ' + options.editor))();
 	}
 
-	if (content.match(/<hr\s+id=("|')system-readmore("|')\s*>/i)) {
+	if (content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
 		alert(options.exists);
 		return false;
 	} else {
