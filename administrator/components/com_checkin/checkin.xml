@@ -11,10 +11,13 @@
 	<description>COM_CHECKIN_XML_DESCRIPTION</description>
 	<administration>
 		<files folder="admin">
-			<filename>checkin.php</filename>
+			<filename>checkin.xml</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
+			<filename>dispatcher.php</filename>
+            		<folder>Controller</folder>
+           		 <folder>Model</folder>
 			<folder>models</folder>
+            		<folder>View</folder>
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">

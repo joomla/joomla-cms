@@ -52,7 +52,7 @@ extract($displayData);
  */
 
 JHtml::_('behavior.core');
-JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
+JHtml::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
 JHtml::_('jquery.ui', array('core', 'sortable'));
 JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
 
@@ -82,6 +82,7 @@ $doc->addStyleDeclaration('
 	}
 	.mce-tinymce {
 		margin-bottom: 20px;
+		clear: both;
 	}
 	.mce-panel .drop-area-highlight{
 		background-color: #d0d0d0;
@@ -125,9 +126,12 @@ $doc->addStyleDeclaration('
 
 	<!-- Render tabs for each set -->
 	<ul class="nav nav-tabs" id="set-tabs">
-		<?php foreach ( $setsNames as $num => $title ) : ?>
-		<li class="<?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>">
-			<a href="#set-<?php echo $num; ?>"><?php echo $title; ?></a>
+		<?php foreach ( $setsNames as $num => $title ) :
+			$isActive = $num === $setsAmount - 1;
+		?>
+		<li class="nav-item">
+			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $isActive ? 'active' : ''; ?>">
+				<?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>
 	</ul>
@@ -168,20 +172,20 @@ $doc->addStyleDeclaration('
 			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
 		?>
 			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" id="set-<?php echo $num; ?>">
-				<div class="btn-toolbar clearfix">
-					<div class="btn-group float-right">
+				<div class="btn-toolbar float-right">
+					<div class="btn-group btn-group-sm">
 
 					<?php foreach(array_keys($toolbarPreset) as $presetName) :
 						$btnClass = empty($presetButtonClases[$presetName]) ? 'btn-primary' : $presetButtonClases[$presetName];
 						?>
-						<button type="button" class="btn btn-xs <?php echo $btnClass; ?> button-action"
-						    data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
+						<button type="button" class="btn <?php echo $btnClass; ?> button-action"
+							data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
 							<?php echo JText::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
 						</button>
 					<?php endforeach; ?>
 
 						<button type="button" class="btn btn-xs btn-danger button-action"
-						     data-action="clearPane" data-set="<?php echo $num; ?>">
+							 data-action="clearPane" data-set="<?php echo $num; ?>">
 							<?php echo JText::_('JCLEAR'); ?></button>
 					</div>
 				</div>

@@ -30,16 +30,16 @@ class ConfigControllerModulesCancel extends ConfigControllerCanceladmin
 		// Check if the user is authorized to do this.
 		$user = JFactory::getUser();
 
-		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id')))
+		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->getInput()->get('id')))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->getApplication()->redirect('index.php');
 		}
 
 		$this->context = 'com_config.config.global';
 
 		// Get returnUri
-		$returnUri = $this->input->post->get('return', null, 'base64');
+		$returnUri = $this->getInput()->post->get('return', null, 'base64');
 
 		if (!empty($returnUri))
 		{
@@ -50,7 +50,7 @@ class ConfigControllerModulesCancel extends ConfigControllerCanceladmin
 			$this->redirect = JUri::base();
 		}
 
-		$id = $this->input->getInt('id');
+		$id = $this->getInput()->getInt('id');
 
 		// Access backend com_module
 		JLoader::register('ModulesControllerModule', JPATH_ADMINISTRATOR . '/components/com_modules/controllers/module.php');

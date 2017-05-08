@@ -34,7 +34,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 				<div class="input-prepend input-append">
 					<span class="input-group-addon">
 						<span class="icon-user hasTooltip" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"></span>
-						<label for="mod-login-username" class="element-invisible">
+						<label for="mod-login-username" class="sr-only">
 							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
 						</label>
 					</span>
@@ -47,7 +47,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 				<div class="input-prepend input-append">
 					<span class="input-group-addon">
 						<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"></span>
-						<label for="mod-login-password" class="element-invisible">
+						<label for="mod-login-password" class="sr-only">
 							<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
 						</label>
 					</span>
@@ -61,7 +61,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 					<div class="input-prepend input-append">
 						<span class="input-group-addon">
 							<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"></span>
-							<label for="mod-login-secretkey" class="element-invisible">
+							<label for="mod-login-secretkey" class="sr-only">
 								<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
 							</label>
 						</span>
