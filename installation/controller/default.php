@@ -38,13 +38,13 @@ class InstallationControllerDefault extends JControllerBase
 			$defaultView = 'remove';
 		}
 
-		$vName   = $this->input->getWord('view', $defaultView);
+		$vName   = $this->getInput()->getWord('view', $defaultView);
 		$vFormat = $app->getDocument()->getType();
-		$lName   = $this->input->getWord('layout', 'default');
+		$lName   = $this->getInput()->getWord('layout', 'default');
 
 		if (strcmp($vName, $defaultView) == 0)
 		{
-			$this->input->set('view', $defaultView);
+			$this->getInput()->set('view', $defaultView);
 		}
 
 		switch ($vName)
