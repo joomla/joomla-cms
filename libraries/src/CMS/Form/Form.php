@@ -1323,7 +1323,10 @@ class Form
 					}
 					catch (\Exception $e)
 					{
-						\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', \JText::_((string) $element['label'])), 'warning');
+						\JFactory::getApplication()->enqueueMessage(
+							\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', \JText::_((string) $element['label'])),
+							'warning'
+						);
 
 						$return = '';
 					}
@@ -1365,7 +1368,10 @@ class Form
 					}
 					catch (\Exception $e)
 					{
-						\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', \JText::_((string) $element['label'])), 'warning');
+						\JFactory::getApplication()->enqueueMessage(
+							\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', \JText::_((string) $element['label'])),
+							'warning'
+						);
 
 						$return = '';
 					}
