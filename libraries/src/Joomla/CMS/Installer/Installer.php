@@ -1027,7 +1027,7 @@ class Installer extends \JAdapter
 	 * Set the schema version for an extension by looking at its latest update
 	 *
 	 * @param   \SimpleXMLElement  $schema  Schema Tag
-	 * @param   integer           $eid     Extension ID
+	 * @param   integer            $eid     Extension ID
 	 *
 	 * @return  void
 	 *
@@ -1096,7 +1096,7 @@ class Installer extends \JAdapter
 	 * Method to process the updates for an item
 	 *
 	 * @param   \SimpleXMLElement  $schema  The XML node to process
-	 * @param   integer           $eid     Extension Identifier
+	 * @param   integer            $eid     Extension Identifier
 	 *
 	 * @return  boolean           Result of the operations
 	 *
@@ -1241,9 +1241,9 @@ class Installer extends \JAdapter
 	 * action.
 	 *
 	 * @param   \SimpleXMLElement  $element   The XML node to process
-	 * @param   integer           $cid       Application ID of application to install to
-	 * @param   array             $oldFiles  List of old files (SimpleXMLElement's)
-	 * @param   array             $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
+	 * @param   integer            $cid       Application ID of application to install to
+	 * @param   array              $oldFiles  List of old files (SimpleXMLElement's)
+	 * @param   array              $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
 	 *
 	 * @return  boolean      True on success
 	 *
@@ -1369,7 +1369,7 @@ class Installer extends \JAdapter
 	 * action.
 	 *
 	 * @param   \SimpleXMLElement  $element  The XML node to process
-	 * @param   integer           $cid      Application ID of application to install to
+	 * @param   integer            $cid      Application ID of application to install to
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -1485,7 +1485,7 @@ class Installer extends \JAdapter
 	 * action.
 	 *
 	 * @param   \SimpleXMLElement  $element  The XML node to process
-	 * @param   integer           $cid      Application ID of application to install to
+	 * @param   integer            $cid      Application ID of application to install to
 	 *
 	 * @return  boolean     True on success
 	 *

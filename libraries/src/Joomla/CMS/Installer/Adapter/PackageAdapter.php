@@ -155,7 +155,7 @@ class PackageAdapter extends InstallerAdapter
 				$package = InstallerHelper::unpack($file);
 			}
 
-			$tmpInstaller  = new Installer();
+			$tmpInstaller  = new Installer;
 			$installResult = $tmpInstaller->install($package['dir']);
 
 			if (!$installResult)

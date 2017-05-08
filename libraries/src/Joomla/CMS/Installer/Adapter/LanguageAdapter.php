@@ -228,7 +228,9 @@ class LanguageAdapter extends InstallerAdapter
 				{
 					// If the admin exists say so.
 					\JLog::add(
-						\JText::sprintf('JLIB_INSTALLER_ABORT', \JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))),
+						\JText::sprintf('JLIB_INSTALLER_ABORT',
+							\JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))
+						),
 						\JLog::WARNING, 'jerror'
 					);
 				}
