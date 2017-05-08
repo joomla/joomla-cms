@@ -29,7 +29,7 @@ var_dump('TEST');
 	<div class="row">
 		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></h3>
-			<hr class="hr-condensed" />
+			<hr>
 			<p class="install-text">
 				<?php echo JText::_('INSTL_PRECHECK_DESC'); ?>
 			</p>
@@ -60,7 +60,7 @@ var_dump('TEST');
 		</div>
 		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
-			<hr class="hr-condensed" />
+			<hr>
 			<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
 			<table class="table table-striped table-sm">
 				<thead>

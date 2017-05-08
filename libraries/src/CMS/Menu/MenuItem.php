@@ -16,8 +16,9 @@ use Joomla\Registry\Registry;
  * Object representing a menu item
  *
  * @since  3.7.0
+ * @note   This class will no longer extend stdClass in Joomla 4
  */
-class MenuItem extends \JObject
+class MenuItem extends \stdClass
 {
 	/**
 	 * Primary key
@@ -247,6 +248,26 @@ class MenuItem extends \JObject
 	}
 
 	/**
+	 * Method check if a certain otherwise inaccessible properties of the form field object is set.
+	 *
+	 * @param   string  $name  The property name to check.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @deprecated  4.0 Deprecated without replacement
+	 */
+	public function __isset($name)
+	{
+		if ($name === 'params')
+		{
+			return !($this->params instanceof Registry);
+		}
+
+		return $this->get($name) !== null;
+	}
+
+	/**
 	 * Returns the menu item parameters
 	 *
 	 * @return  Registry
@@ -287,5 +308,45 @@ class MenuItem extends \JObject
 	public function setParams($params)
 	{
 		$this->params = $params;
+	}
+
+	/**
+	 * Returns a property of the object or the default value if the property is not set.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $default   The default value.
+	 *
+	 * @return  mixed    The value of the property.
+	 *
+	 * @since   3.7.0
+	 * @deprecated  4.0
+	 */
+	public function get($property, $default = null)
+	{
+		if (isset($this->$property))
+		{
+			return $this->$property;
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Modifies a property of the object, creating it if it does not already exist.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $value     The value of the property to set.
+	 *
+	 * @return  mixed  Previous value of the property.
+	 *
+	 * @since   3.7.0
+	 * @deprecated  4.0
+	 */
+	public function set($property, $value = null)
+	{
+		$previous = isset($this->$property) ? $this->$property : null;
+		$this->$property = $value;
+
+		return $previous;
 	}
 }

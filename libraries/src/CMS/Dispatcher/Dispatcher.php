@@ -95,7 +95,7 @@ abstract class Dispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Load the laguage
+	 * Load the language
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
@@ -109,6 +109,22 @@ abstract class Dispatcher implements DispatcherInterface
 	}
 
 	/**
+	 * Method to check component access permission
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	protected function checkAccess()
+	{
+		// Check the user has permission to access this component if in the backend
+		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->option))
+		{
+			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+	}
+
+	/**
 	 * Dispatch a controller task. Redirecting the user if appropriate.
 	 *
 	 * @return  void
@@ -117,11 +133,8 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function dispatch()
 	{
-		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->option))
-		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+		// Check component access permission
+		$this->checkAccess();
 
 		$command = $this->input->getCmd('task', 'display');
 

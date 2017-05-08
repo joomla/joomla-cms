@@ -75,7 +75,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 	</noscript>
 
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?> closed">
+	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?>">
 
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
@@ -92,11 +92,11 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
-				<div class="d-flex justify-content-between align-items-center">
-					<div class="d-flex justify-content-start align-items-center">
-						<div class="menu-collapse hidden-lg-up">
+				<div class="d-flex">
+					<div class="d-flex col">
+						<div class="menu-collapse">
 							<a id="menu-collapse" class="menu-toggle" href="#">
-								<span class="fa fa-bars fa-fw" aria-hidden="true">
+								<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true">
 									<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
 								</span>
 							</a>
@@ -107,16 +107,16 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 						</div>
 					</div>
 
-					<a class="navbar-brand hidden-md-down" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
+					<a class="navbar-brand d-flex col justify-content-center align-items-center hidden-md-down" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
 						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
 						<span class="icon-out-2 small"></span>
 					</a>
 
-					<div class="container-title hidden-lg-up">
+					<div class="container-title hidden-lg-up col">
 						<jdoc:include type="modules" name="title" />
 					</div>
 
-					<nav>
+					<nav class="d-flex col justify-content-end">
 						<ul class="nav text-center">
 							<li class="nav-item">
 								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">

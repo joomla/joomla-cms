@@ -9,91 +9,17 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.core');
+JText::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
+JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
+JText::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
+JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
+
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.tabstate');
-
-JFactory::getDocument()->addScriptDeclaration(
-	'
-	Joomla.submitbutton4 = function() {
-		var form = document.getElementById("adminForm");
-
-		// do field validation
-		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
-			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
-		}
-		else
-		{
-			JoomlaInstaller.showLoading();
-			
-			form.installtype.value = "url";
-			form.submit();
-		}
-	};
-
-	Joomla.submitbuttonInstallWebInstaller = function() {
-		var form = document.getElementById("adminForm");
-		
-		form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
-		
-		Joomla.submitbutton4();
-	};
-
-	// Add spindle-wheel for installations:
-	jQuery(document).ready(function($) {
-		var outerDiv = $("#installer-install");
-		
-		JoomlaInstaller.getLoadingOverlay()
-			.css("top", outerDiv.position().top - $(window).scrollTop())
-			.css("left", "0")
-			.css("width", "100%")
-			.css("height", "100%")
-			.css("display", "none")
-			.css("margin-top", "-10px");
-	});
-	
-	var JoomlaInstaller = {
-		getLoadingOverlay: function () {
-			return jQuery("#loading");
-		},
-		showLoading: function () {
-			this.getLoadingOverlay().css("display", "block");
-		},
-		hideLoading: function () {
-			this.getLoadingOverlay().css("display", "none");
-		}
-	};
-	'
-);
-
-JFactory::getDocument()->addStyleDeclaration(
-	'
-	#loading {
-		background: rgba(255, 255, 255, .8) url(\'' . JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true) . '\') 50% 15% no-repeat;
-		position: fixed;
-		opacity: 0.8;
-		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
-		filter: alpha(opacity = 80);
-		overflow: hidden;
-	}
-	'
-);
-
+JHtml::_('stylesheet', 'com_installer/installer.css', false, true);
+JHtml::_('script', 'com_installer/installer.js', false, true);
 ?>
-
-<script type="text/javascript">
-	// Set the first tab to active if there is no other active tab
-	jQuery(document).ready(function($) {
-		var hasTab = function(href){
-			return $('a[data-toggle="tab"]a[href*="' + href + '"]').length;
-		};
-		if (!hasTab(localStorage.getItem('tab-href')))
-		{
-			var tabAnchor = $("#myTabTabs li:first a");
-			window.localStorage.setItem('tab-href', tabAnchor.attr('href'));
-			tabAnchor.click();
-		}
-	});
-</script>
 
 <div id="installer-install" class="clearfix">
 
@@ -113,14 +39,14 @@ JFactory::getDocument()->addStyleDeclaration(
 								'link',
 								JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
 								'',
-								'class="close hasTooltip icon-options" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
+								'class="alert-options float-right hasTooltip icon-options" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
 							);
 							?>
 							<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
 								<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
-							<input class="btn btn-primary" type="button"
-								value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>"
-								onclick="Joomla.submitbuttonInstallWebInstaller()">
+							<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonInstallWebInstaller()">
+								<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>
+							</button>
 						</div>
 					<?php endif; ?>
 					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab'); ?>

@@ -154,6 +154,16 @@
 		}
 	};
 
+	/** Removes the calendar object from the DOM tree and destroys it and then recreates it. */
+	JoomlaCalendar.prototype.recreate = function () {
+		var element = this.element, el = element.querySelector('.js-calendar');
+		if (el) {
+			element._joomlaCalendar = null;
+			el.parentNode.removeChild(el);
+			new JoomlaCalendar(element);
+		}
+	};
+
 	/** Time Control */
 	JoomlaCalendar.prototype.updateTime = function (hours, mins, secs) {
 		var self = this,
@@ -791,10 +801,10 @@
 			})();
 		}
 
-		if (this.params.showsTodayBtn) {                                                                    // Head - today
-			row = createElement("div", this.wrapper);
-			row.className = "buttons-wrapper btn-group";
+		row = createElement("div", this.wrapper);
+		row.className = "buttons-wrapper btn-group";
 
+		if (this.params.showsTodayBtn) {
 			this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'a', '', 'js-btn btn btn-clear', {"data-action": "clear"});
 
 			if (!this.inputField.hasAttribute('required')) {
@@ -1061,13 +1071,10 @@
 	/**
 	 * Init the Calendars on the page
 	 *
-	 * @param {String}      className  The field class name (required)
+	 * @param {Node}        element    The element node
 	 * @param {HTMLElement} container  The field container (optional)
 	 */
-	JoomlaCalendar.init = function (className, container) {
-		var elements, i, instance;
-
-		elements = (container || document).querySelectorAll(className);
+	JoomlaCalendar.init = function (element, container) {
 
 		// Fall back for translation strings
 		window.JoomlaCalLocale           = window.JoomlaCalLocale ? JoomlaCalLocale : {};
@@ -1090,21 +1097,18 @@
 		JoomlaCalLocale.exit             = JoomlaCalLocale.exit ? JoomlaCalLocale.exit : 'Cancel';
 		JoomlaCalLocale.clear            = JoomlaCalLocale.clear ? JoomlaCalLocale.clear : 'Clear';
 
-		for (i = 0; i < elements.length; i++) {
-			var element  = elements[i];
-			instance = element._joomlaCalendar;
-			if (!instance) {
-				instance = new JoomlaCalendar(element);
-			}
+		var instance = element._joomlaCalendar;
+		if (!instance) {
+			new JoomlaCalendar(element);
+		} else {
+			instance.recreate();
 		}
 
 		var onSubmit = function () {
 			var elements = (container || document).querySelectorAll(".field-calendar");
 
-			for (i = 0; i < elements.length; i++) {
+			for (var i = 0; i < elements.length; i++) {
 				var element  = elements[i],
-				    inputs   = element.getElementsByTagName('input')[0],
-				    buttton  = element.getElementsByTagName('button')[0],
 				    instance = element._joomlaCalendar;
 
 				if (instance) {
@@ -1113,8 +1117,8 @@
 			}
 		};
 
-		if (elements[0] && elements[0].getElementsByTagName('input')[0] && elements[0].getElementsByTagName('input')[0].form) {
-			elements[0].getElementsByTagName('input')[0].form.addEventListener('submit', onSubmit);
+		if (element && element.getElementsByTagName('input')[0] && element.getElementsByTagName('input')[0].form) {
+			element.getElementsByTagName('input')[0].form.addEventListener('submit', onSubmit);
 		}
 	};
 
@@ -1122,10 +1126,90 @@
 
 	/** Instantiate all the calendar fields when the document is ready */
 	document.addEventListener("DOMContentLoaded", function() {
-		JoomlaCalendar.init(".field-calendar");
+		var elements, i;
+
+		elements = document.querySelectorAll(".field-calendar");
+
+		for (i = 0; i < elements.length; i++) {
+			JoomlaCalendar.init(elements[i]);
+		}
 
 		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
 			JoomlaCalendar.init(".field-calendar", row);
 		});
+
+		/** B/C related code
+		 *  @deprecated 4.0
+		 */
+		window.Calendar = {};
+
+		/** B/C related code
+		 *  @deprecated 4.0
+		 */
+		Calendar.setup = function(obj) {
+
+			if (obj.inputField && document.getElementById(obj.inputField)) {
+				var element = document.getElementById(obj.inputField),
+					cal = element.parentNode.querySelectorAll('button')[0];
+
+				for (var property in obj) {
+					if (obj.hasOwnProperty(property)) {
+						switch (property) {
+							case 'ifFormat':
+								if (cal) cal.setAttribute('data-dayformat', obj.ifFormat);
+								break;
+
+							case 'firstDay':
+								if (cal) cal.setAttribute('data-firstday', parseInt(obj.firstDay));
+								break;
+
+							case 'weekNumbers':
+								if (cal) cal.setAttribute('data-week-numbers', (obj.weekNumbers === "true" || obj.weekNumbers === true) ? '1' : '0');
+								break;
+
+							case 'showOthers':
+								if (cal) cal.setAttribute('data-show-others', (obj.showOthers === "true" || obj.showOthers === true) ? '1' : '0');
+								break;
+
+							case 'showsTime':
+								if (cal) cal.setAttribute('data-show-time', (obj.showsTime === "true" || obj.showsTime === true) ? '1' : '0');
+								break;
+
+							case 'timeFormat':
+								if (cal) cal.setAttribute('data-time-24', parseInt(obj.timeFormat));
+								break;
+
+							case 'displayArea':
+							case 'inputField':
+							case 'button':
+							case 'eventName':
+							case 'daFormat':
+							case 'disableFunc':
+							case 'dateStatusFunc':
+							case 'dateTooltipFunc':
+							case 'dateText':
+							case 'align':
+							case 'range':
+							case 'flat':
+							case 'flatCallback':
+							case 'onSelect':
+							case 'onClose':
+							case 'onUpdate':
+							case 'date':
+							case 'electric':
+							case 'step':
+							case 'position':
+							case 'cache':
+							case 'multiple':
+								break;
+						}
+
+
+					}
+				}
+				JoomlaCalendar.init(element.parentNode.parentNode);
+			}
+			return null;
+		};
 	});
 })(window, document);

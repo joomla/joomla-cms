@@ -77,7 +77,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     return jsKeywords;
   }();
 
-  var isOperatorChar = /[+\-*&%=<>!?|~^]/;
+  var isOperatorChar = /[+\-*&%=<>!?|~^@]/;
   var isJsonldKeyword = /^@(context|id|value|language|type|container|list|set|reverse|index|base|vocab|graph)"/;
 
   function readRegexp(stream) {
@@ -374,6 +374,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     if (type == "module") return cont(pushlex("form"), pattern, pushlex("}"), expect("{"), block, poplex, poplex)
     if (type == "type") return cont(typeexpr, expect("operator"), typeexpr, expect(";"));
     if (type == "async") return cont(statement)
+    if (value == "@") return cont(expression, statement)
     return pass(pushlex("stat"), expression, expect(";"), poplex);
   }
   function expression(type) {
@@ -620,6 +621,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     if (value == "*") {cx.marked = "keyword"; return cont(functiondef);}
     if (type == "variable") {register(value); return cont(functiondef);}
     if (type == "(") return cont(pushcontext, pushlex(")"), commasep(funarg, ")"), poplex, maybetype, statement, popcontext);
+    if (isTS && value == "<") return cont(pushlex(">"), commasep(typeexpr, ">"), poplex, functiondef)
   }
   function funarg(type) {
     if (type == "spread") return cont(funarg);
@@ -658,6 +660,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     }
     if (type == ";") return cont(classBody);
     if (type == "}") return cont();
+    if (value == "@") return cont(expression, classBody)
   }
   function classfield(type, value) {
     if (value == "?") return cont(classfield)

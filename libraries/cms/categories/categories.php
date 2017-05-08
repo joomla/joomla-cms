@@ -123,7 +123,7 @@ class JCategories
 	 */
 	public static function getInstance($extension, $options = array())
 	{
-		$hash = md5($extension . serialize($options));
+		$hash = md5(strtolower($extension) . serialize($options));
 
 		if (isset(self::$instances[$hash]))
 		{

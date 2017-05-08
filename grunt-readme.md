@@ -17,7 +17,7 @@ Then navigate on command line to the Joomla install and run the following comman
 
 This will install all node dependencies onto your system. Then there are 3 easy commands
 
-* To update dependencies to the version in grunt_settings.yaml run `npm run update-dependencies`
+* To update dependencies to the version in grunt-settings.yaml run `npm run update-dependencies`
 * To compile the SASS run `npm run compile-sass`
 * To minify the javascript run `npm run compile-js`
 
@@ -47,7 +47,7 @@ For running sass linting we require that ruby is installed on the system.
 - Install Ruby:  https://rubyinstaller.org
 - Run: `gem install scss_lint` to install the linter
 
-Will update the following external sourced static assets that Joomla is using and is defined in /grunt_settings.yaml
+Will update the following external sourced static assets that Joomla is using and is defined in /grunt-settings.yaml
 
 
 The following are always fetched with curl (no module available)

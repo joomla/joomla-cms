@@ -80,30 +80,8 @@ class AdminViewSysinfo extends JViewLegacy
 		$this->directory    = $this->get('directory');
 
 		$this->addToolbar();
-		$this->_setSubMenu();
 
 		return parent::display($tpl);
-	}
-
-	/**
-	 * Setup the SubMenu
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 * @note    Necessary for Hathor compatibility
-	 */
-	protected function _setSubMenu()
-	{
-		try
-		{
-			$contents = $this->loadTemplate('navigation');
-			$document = JFactory::getDocument();
-			$document->setBuffer($contents, 'modules', 'submenu');
-		}
-		catch (Exception $e)
-		{
-		}
 	}
 
 	/**

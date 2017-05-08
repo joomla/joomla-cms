@@ -18,5 +18,4 @@ use Joomla\CMS\Dispatcher\Dispatcher;
  */
 class BannersDispatcher extends Dispatcher
 {
-
 }

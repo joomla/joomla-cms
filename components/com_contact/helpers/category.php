@@ -28,6 +28,7 @@ class ContactCategories extends JCategories
 		$options['table'] = '#__contact_details';
 		$options['extension'] = 'com_contact';
 		$options['statefield'] = 'published';
+
 		parent::__construct($options);
 	}
 }

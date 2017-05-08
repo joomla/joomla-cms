@@ -12,6 +12,10 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Pathway\Pathway;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
@@ -145,7 +149,7 @@ final class SiteApplication extends CMSApplication
 			case 'html':
 				// Get language
 				$lang_code = $this->getLanguage()->getTag();
-				$languages = \JLanguageHelper::getLanguages('lang_code');
+				$languages = LanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
 				if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey)
@@ -195,7 +199,7 @@ final class SiteApplication extends CMSApplication
 		$document->setBuffer($contents, 'component');
 
 		// Trigger the onAfterDispatch event.
-		\JPluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterDispatch');
 	}
 
@@ -261,12 +265,12 @@ final class SiteApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the \JMenu object.
+	 * Return a reference to the AbstractMenu object.
 	 *
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JMenu  \JMenu object.
+	 * @return  AbstractMenu  AbstractMenu object.
 	 *
 	 * @since   3.2
 	 */
@@ -312,7 +316,7 @@ final class SiteApplication extends CMSApplication
 
 			// Get language
 			$lang_code = $this->getLanguage()->getTag();
-			$languages = \JLanguageHelper::getLanguages('lang_code');
+			$languages = LanguageHelper::getLanguages('lang_code');
 
 			$title = $this->get('sitename');
 
@@ -359,12 +363,12 @@ final class SiteApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the \JPathway object.
+	 * Return a reference to the Pathway object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JPathway  A \JPathway object
+	 * @return  Pathway  A Pathway object
 	 *
 	 * @since   3.2
 	 */
@@ -588,7 +592,7 @@ final class SiteApplication extends CMSApplication
 			$lang = $this->input->getString('language', null);
 
 			// Make sure that the user's language exists
-			if ($lang && \JLanguageHelper::exists($lang))
+			if ($lang && LanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -600,7 +604,7 @@ final class SiteApplication extends CMSApplication
 			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
 
 			// Make sure that the user's language exists
-			if ($lang && \JLanguageHelper::exists($lang))
+			if ($lang && LanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -612,7 +616,7 @@ final class SiteApplication extends CMSApplication
 			$lang = $user->getParam('language');
 
 			// Make sure that the user's language exists
-			if ($lang && \JLanguageHelper::exists($lang))
+			if ($lang && LanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -621,10 +625,10 @@ final class SiteApplication extends CMSApplication
 		if ($this->getDetectBrowser() && empty($options['language']))
 		{
 			// Detect browser language
-			$lang = \JLanguageHelper::detectLanguage();
+			$lang = LanguageHelper::detectLanguage();
 
 			// Make sure that the user's language exists
-			if ($lang && \JLanguageHelper::exists($lang))
+			if ($lang && LanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -638,11 +642,11 @@ final class SiteApplication extends CMSApplication
 		}
 
 		// One last check to make sure we have something
-		if (!\JLanguageHelper::exists($options['language']))
+		if (!LanguageHelper::exists($options['language']))
 		{
 			$lang = $this->config->get('language', 'en-GB');
 
-			if (\JLanguageHelper::exists($lang))
+			if (LanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}

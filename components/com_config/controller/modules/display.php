@@ -35,8 +35,8 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 
 		$viewName     = 'modules';
 		$viewFormat   = $document->getType();
-		$layoutName   = $this->input->getWord('layout', 'default');
-		$returnUri    = $this->input->get->get('return', null, 'base64');
+		$layoutName   = $this->getInput()->getWord('layout', 'default');
+		$returnUri    = $this->getInput()->get->get('return', null, 'base64');
 
 		// Construct redirect URI
 		if (!empty($returnUri))
@@ -54,9 +54,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			$redirect = JUri::base();
 		}
 
-		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');
-
-		$moduleData = (new ModulesModelModule)->getItem($this->input->getInt('id'));
+		$moduleData = (new \Joomla\Component\Modules\Administrator\Model\Module)->getItem($this->getInput()->getInt('id'));
 
 		if (!$moduleData)
 		{

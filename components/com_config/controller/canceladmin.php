@@ -53,8 +53,8 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->getApplication()->redirect('index.php');
 		}
 
 		if (empty($this->context))
@@ -63,7 +63,7 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 		}
 
 		// Redirect.
-		$this->app->setUserState($this->context . '.data', null);
+		$this->getApplication()->setUserState($this->context . '.data', null);
 
 		if (!empty($this->redirect))
 		{
@@ -73,7 +73,7 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 				$this->redirect = JUri::base();
 			}
 
-			$this->app->redirect($this->redirect);
+			$this->getApplication()->redirect($this->redirect);
 		}
 		else
 		{

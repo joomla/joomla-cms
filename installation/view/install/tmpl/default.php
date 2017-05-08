@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<h3><?php echo JText::_('INSTL_INSTALLING'); ?></h3>
-	<hr class="hr-condensed" />
+	<hr>
 
 	<div id="install_progress" class="progress">
 		<div

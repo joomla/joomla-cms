@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+
 JHtml::_('behavior.core');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -44,14 +46,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 				<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 					<?php if ($this->items[$i]->published == 0) : ?>
-						<li class="row-fluid system-unpublished cat-list-row<?php echo $i % 2; ?>">
+						<li class="row system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else : ?>
-						<li class="row-fluid cat-list-row<?php echo $i % 2; ?>" >
+						<li class="row cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_image_heading')) : ?>
 						<?php $contact_width = 7; ?>
-						<div class="span2 col-md-2">
+						<div class="col-md-2">
 							<?php if ($this->items[$i]->image) : ?>
 								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 									<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
@@ -61,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php $contact_width = 9; ?>
 					<?php endif; ?>
 
-					<div class="list-title span<?php echo $contact_width; ?> col-md-<?php echo $contact_width; ?>">
+					<div class="list-title col-md-<?php echo $contact_width; ?>">
 						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 							<?php echo $item->name; ?></a>
 						<?php if ($this->items[$i]->published == 0) : ?>
@@ -90,7 +92,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo implode($location, ', '); ?>
 					</div>
 
-					<div class="span3 col-md-3">
+					<div class="col-md-3">
 						<?php if ($this->params->get('show_telephone_headings') && !empty($item->telephone)) : ?>
 							<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br>
 						<?php endif; ?>

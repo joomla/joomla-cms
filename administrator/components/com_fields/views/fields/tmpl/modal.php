@@ -32,7 +32,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -84,17 +84,10 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 						</td>
 						<td class="has-context">
-<<<<<<< HEAD
-							<a class="btn btn-sm btn-block btn-success" href="#" onclick="fieldIns('<?php echo $this->escape($item->id); ?>');"><?php echo $this->escape($item->title); ?></a>
+							<a class="btn btn-sm btn-block btn-success" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
 						</td>
 						<td class="small hidden-sm-down">
-							<a class="btn btn-sm btn-block btn-warning" href="#" onclick="fieldgroupIns('<?php echo $this->escape($item->group_id); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : JText::_('JNONE'); ?></a>
-=======
-							<a class="btn btn-small btn-block btn-success" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
-						</td>
-						<td class="small hidden-phone">
-							<a class="btn btn-small btn-block btn-warning" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : JText::_('JNONE'); ?></a>
->>>>>>> 3.9-dev
+							<a class="btn btn-sm btn-block btn-warning" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : JText::_('JNONE'); ?></a>
 						</td>
 						<td class="small hidden-sm-down">
 							<?php echo $item->type; ?>

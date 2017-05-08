@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-	var settings      = grunt.file.readYAML('grunt_settings.yaml'),
+	var settings      = grunt.file.readYAML('grunt-settings.yaml'),
 		path          = require('path'),
 		preText       = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText      = '  },\n  "license": "GPL-2.0+"\n}',
@@ -452,5 +452,36 @@ module.exports = function(grunt) {
 			'cssmin:siteTemplate'
 		]);
 	 });
+
+	grunt.registerTask('installation', 'Compiles the error-locales.js translation file', function() {
+
+		// Set the initial template
+		var template = `
+window.errorLocale = {`;
+
+		grunt.file.recurse('installation/language', function(abspath, rootdir, subdir, filename) {
+
+			if (abspath.indexOf('.ini') > -1) {
+				var fs = require('fs'), ini = require('ini'), languageStrings = ini.parse(fs.readFileSync(abspath, 'utf-8'));
+
+				if (languageStrings["MIN_PHP_ERROR_LANGUAGE"]) {
+					template = template + `
+	"` + subdir + `": {
+		"language": "` + languageStrings["MIN_PHP_ERROR_LANGUAGE"] + `",
+		"header": "` + languageStrings["MIN_PHP_ERROR_HEADER"] + `",
+		"text1": "` + languageStrings["MIN_PHP_ERROR_TEXT"] + `",
+		"help-url-text": "` + languageStrings["MIN_PHP_ERROR_URL_TEXT"] + `"
+	},`;
+				}
+			}
+		});
+
+		// Add the closing bracket
+		template = template + `
+}`;
+
+		// Write the file
+		grunt.file.write('installation/template/js/error-locales.js', template);
+	});
 
 };
