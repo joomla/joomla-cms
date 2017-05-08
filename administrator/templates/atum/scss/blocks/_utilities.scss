@@ -17,3 +17,7 @@
   display: none;
   visibility: hidden;
 }
+
+:focus:not(.focus-ring) {
+  outline: none;
+}
