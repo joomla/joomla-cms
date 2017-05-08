@@ -69,7 +69,7 @@ var FinderIndexer = function(){
 			json = json.responseText != null ? Json.evaluate(json.responseText, true) : json;
 		}
 		var header = json ? json.header : Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
-		var message = json ? json.message : Joomla.JText._('COM_FINDER_MESSAGE_RETURNED') + ' <br />' + json;
+		var message = json ? json.message : Joomla.JText._('COM_FINDER_MESSAGE_RETURNED') + ' <br>' + json;
 		jQuery('#finder-progress-header').text(header).addClass('finder-error');
 		jQuery('#finder-progress-message').html(message).addClass('finder-error');
 	};
