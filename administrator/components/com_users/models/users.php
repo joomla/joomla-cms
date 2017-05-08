@@ -310,7 +310,12 @@ class UsersModelUsers extends JModelList
 							'a.lastvisitDate',
 							'a.activation',
 							'a.params',
-							'a.email'
+							'a.email',
+							'a.lastResetTime',
+							'a.resetCount',
+							'a.otpKey',
+							'a.otep',
+							'a.requireReset'
 						)
 					)
 				);

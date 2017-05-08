@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\View\HtmlView;
-use Joomla\Cms\Helper\ContentHelper;
+use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * View to edit a contact.

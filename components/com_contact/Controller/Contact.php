@@ -28,7 +28,7 @@ class Contact extends Form
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\Cms\Model\Model  The model.
+	 * @return  \Joomla\CMS\Model\Model  The model.
 	 *
 	 * @since   1.6.4
 	 */

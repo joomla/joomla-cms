@@ -31,9 +31,9 @@ class ConfigControllerTemplatesDisplay extends ConfigControllerDisplay
 		// Get the document object.
 		$document     = JFactory::getDocument();
 
-		$viewName     = $this->input->getWord('view', 'templates');
+		$viewName     = $this->getInput()->getWord('view', 'templates');
 		$viewFormat   = $document->getType();
-		$layoutName   = $this->input->getWord('layout', 'default');
+		$layoutName   = $this->getInput()->getWord('layout', 'default');
 
 		// Access backend com_config
 		JLoader::register('TemplatesController', JPATH_ADMINISTRATOR . '/components/com_templates/controller.php');
@@ -44,14 +44,14 @@ class ConfigControllerTemplatesDisplay extends ConfigControllerDisplay
 
 		// Set backend required params
 		$document->setType('json');
-		$this->input->set('id', $app->getTemplate('template')->id);
+		$this->getInput()->set('id', $app->getTemplate('template')->id);
 
 		// Execute backend controller
 		$serviceData = json_decode($displayClass->display(), true);
 
 		// Reset params back after requesting from service
 		$document->setType('html');
-		$this->input->set('view', $viewName);
+		$this->getInput()->set('view', $viewName);
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;

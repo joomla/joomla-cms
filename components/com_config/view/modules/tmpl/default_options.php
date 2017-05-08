@@ -26,7 +26,7 @@ endif;
 ?>
 <?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($label), 'collapse' . ($i++)); ?>
 
-<ul class="nav nav-tabs nav-stacked">
+<ul class="nav flex-column">
 <?php foreach ($this->form->getFieldset($name) as $field) : ?>
 
 	<li>

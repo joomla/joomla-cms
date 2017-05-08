@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 $positions = $this->model->getPositions();
 
+JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
+
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 
@@ -17,7 +19,7 @@ $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 $attr = array(
 	'id'          => 'jform_position',
 	'list.select' => $this->item['position'],
-	'list.attr'   => 'class="chzn-custom-value" '
+	'list.attr'   => 'class="chzn-custom-value custom-select" '
 		. 'data-custom_group_text="' . $customGroupText . '" '
 		. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
 		. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '

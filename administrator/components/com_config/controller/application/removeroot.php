@@ -35,15 +35,15 @@ class ConfigControllerApplicationRemoveroot extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken('get'))
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->getApplication()->redirect('index.php');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->getApplication()->redirect('index.php');
 		}
 
 		// Initialise model.
@@ -57,12 +57,12 @@ class ConfigControllerApplicationRemoveroot extends JControllerBase
 		catch (RuntimeException $e)
 		{
 			// Save failed, go back to the screen and display a notice.
-			$this->app->enqueueMessage(JText::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
-			$this->app->redirect(JRoute::_('index.php', false));
+			$this->getApplication()->enqueueMessage(JText::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+			$this->getApplication()->redirect(JRoute::_('index.php', false));
 		}
 
 		// Set the redirect based on the task.
-		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'));
-		$this->app->redirect(JRoute::_('index.php', false));
+		$this->getApplication()->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'));
+		$this->getApplication()->redirect(JRoute::_('index.php', false));
 	}
 }
