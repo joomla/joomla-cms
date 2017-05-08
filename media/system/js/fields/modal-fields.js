@@ -40,19 +40,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				document.getElementById(fieldPrefix + '_select').classList.add('element-invisible');
+				document.getElementById(fieldPrefix + '_select').classList.add('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				document.getElementById(fieldPrefix + '_new').classList.add('element-invisible');
+				document.getElementById(fieldPrefix + '_new').classList.add('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				document.getElementById(fieldPrefix + '_edit').classList.remove('element-invisible');
+				document.getElementById(fieldPrefix + '_edit').classList.remove('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				document.getElementById(fieldPrefix + '_clear').classList.remove('element-invisible');
+				document.getElementById(fieldPrefix + '_clear').classList.remove('sr-only');
 			}
 		}
 		else
@@ -62,19 +62,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				document.getElementById(fieldPrefix + '_select').classList.remove('element-invisible');
+				document.getElementById(fieldPrefix + '_select').classList.remove('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				document.getElementById(fieldPrefix + '_new').classList.remove('element-invisible');
+				document.getElementById(fieldPrefix + '_new').classList.remove('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				document.getElementById(fieldPrefix + '_edit').classList.add('element-invisible');
+				document.getElementById(fieldPrefix + '_edit').classList.add('sr-only');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				document.getElementById(fieldPrefix + '_clear').classList.add('element-invisible');
+				document.getElementById(fieldPrefix + '_clear').classList.add('sr-only');
 			}
 		}
 
@@ -146,7 +146,7 @@
 				}
 
 				// Show the iframe again for future modals or in case of error.
-				jQuery('#' + modalId + ' iframe').removeClass('element-invisible');
+				jQuery('#' + modalId + ' iframe').removeClass('sr-only');
 			});
 
 			// Submit button on child iframe.
@@ -156,7 +156,7 @@
 				if (task === 'save')
 				{
 					submittedTask = 'apply';
-					jQuery('#' + modalId + ' iframe').addClass('element-invisible');
+					jQuery('#' + modalId + ' iframe').addClass('sr-only');
 				}
 
 				document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);

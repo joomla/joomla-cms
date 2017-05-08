@@ -40,7 +40,7 @@ abstract class JHtmlActionsDropdown
 
 		if ($item)
 		{
-			$html[] = '<span class="element-invisible">' . JText::sprintf('JACTIONS', $item) . '</span>';
+			$html[] = '<span class="sr-only">' . JText::sprintf('JACTIONS', $item) . '</span>';
 		}
 
 		$html[] = '</button>';

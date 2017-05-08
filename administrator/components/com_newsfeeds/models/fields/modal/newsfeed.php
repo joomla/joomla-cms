@@ -128,7 +128,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		if ($allowSelect)
 		{
 			$html .= '<a'
-				. ' class="btn btn-primary hasTooltip' . ($value ? ' element-invisible' : '') . '"'
+				. ' class="btn btn-primary hasTooltip' . ($value ? ' sr-only' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
@@ -142,7 +142,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		if ($allowNew)
 		{
 			$html .= '<a'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? ' element-invisible' : '') . '"'
+				. ' class="btn btn-secondary hasTooltip' . ($value ? ' sr-only' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
@@ -156,7 +156,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		if ($allowEdit)
 		{
 			$html .= '<a'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' element-invisible') . '"'
+				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' sr-only') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
@@ -170,7 +170,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		if ($allowClear)
 		{
 			$html .= '<a'
-				. ' class="btn btn-secondary' . ($value ? '' : ' element-invisible') . '"'
+				. ' class="btn btn-secondary' . ($value ? '' : ' sr-only') . '"'
 				. ' id="' . $this->id . '_clear"'
 				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
