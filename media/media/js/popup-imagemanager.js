@@ -153,7 +153,7 @@
 			}
 
 			window.parent.Joomla.editors.instances[this.editor].replaceSelection(tag);
-
+			window.parent.Joomla.UI.Modal.close();
 			return true;
 		},
 

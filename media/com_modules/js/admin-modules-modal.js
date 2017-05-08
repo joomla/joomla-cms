@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				editor = event.target.getAttribute('data-editor');
 
 			window.parent.Joomla.editors.instances[editor].replaceSelection("{loadmodule " + type + "," + name + "}");
-			window.parent.jModalClose();
+			window.parent.Joomla.UI.Modal.close();
 		});
 	}
 
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				editor = event.target.getAttribute('data-editor');
 
 			window.parent.Joomla.editors.instances[editor].replaceSelection("{loadposition " + position + "}");
-			window.parent.jModalClose();
+			window.parent.Joomla.UI.Modal.close();
 		});
 	}
 });
