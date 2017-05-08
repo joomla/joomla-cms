@@ -6,9 +6,6 @@
 ;(function(tinyMCE, Joomla, window, document){
 	"use strict";
 
-	// This line is for Mootools b/c
-	window.getSize = window.getSize || function(){return {x: window.innerWidth, y: window.innerHeight};};
-
 	var JoomlaTinyMCE = {
 
 		/**
@@ -91,7 +88,6 @@
         return Joomla.editors.instances[ed.targetElm.id].onSave();
 			})
 		}
-
 	};
 
 	Joomla.JoomlaTinyMCE = JoomlaTinyMCE;

@@ -63,69 +63,57 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 
 	}
 
-	// Listers for drag and drop
-	if (typeof FormData != 'undefined'){
+	// Fix for Chrome
+	editor.on('dragenter', function(e) {
+		e.stopPropagation();
 
-		// Fix for Chrome
-		editor.on('dragenter', function(e) {
-			e.stopPropagation();
+		return false;
+	});
 
-			return false;
-		});
+	// Notify user when file is over the drop area
+	editor.on('dragover', function(e) {
+		e.preventDefault();
+		editor.contentAreaContainer.style.borderStyle = 'dashed';
+		editor.contentAreaContainer.style.borderWidth = '5px';
 
+		return false;
+	});
 
-		// Notify user when file is over the drop area
-		editor.on('dragover', function(e) {
-			e.preventDefault();
-			editor.contentAreaContainer.style.borderStyle = 'dashed';
-			editor.contentAreaContainer.style.borderWidth = '5px';
+	// Logic for the dropped file
+	editor.on('drop', function(e) {
 
-			return false;
-		});
+		// We override only for files
+		if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+			for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
 
-		// Logic for the dropped file
-		editor.on('drop', function(e) {
+				// Only images allowed
+				if (f.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
 
-			// We override only for files
-			if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-				for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
+					// Create and display the progress bar
+					var container, innerDiv, progressBar = '';
+					container = document.createElement('div');
+					container.id = 'jloader';
+					innerDiv = document.createElement('div');
+					innerDiv.classList.add('progress');
+					innerDiv.classList.add('progress-success');
+					innerDiv.classList.add('progress-striped');
+					innerDiv.classList.add('active');
+					innerDiv.style.width = '100%';
+					innerDiv.style.height = '30px';
+					progressBar = document.createElement('div');
+					progressBar.classList.add('bar');
+					progressBar.style.width = '0';
+					innerDiv.appendChild(progressBar);
+					container.appendChild(innerDiv);
+					document.querySelector('.mce-toolbar-grp').appendChild(container);
 
-					// Only images allowed
-					if (f.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
-
-						// Create and display the progress bar
-						var container, innerDiv, progressBar = '';
-						container = document.createElement('div');
-						container.id = 'jloader';
-						innerDiv = document.createElement('div');
-						innerDiv.classList.add('progress');
-						innerDiv.classList.add('progress-success');
-						innerDiv.classList.add('progress-striped');
-						innerDiv.classList.add('active');
-						innerDiv.style.width = '100%';
-						innerDiv.style.height = '30px';
-						progressBar = document.createElement('div');
-						progressBar.classList.add('bar');
-						progressBar.style.width = '0';
-						innerDiv.appendChild(progressBar);
-						container.appendChild(innerDiv);
-						document.querySelector('.mce-toolbar-grp').appendChild(container);
-
-						// Upload the file(s)
-						UploadFile(f);
-					}
-
-					e.preventDefault();
+					// Upload the file(s)
+					UploadFile(f);
 				}
-			}
-			editor.contentAreaContainer.style.borderWidth = '1px 0 0';
-		});
-	} else {
-		Joomla.renderMessages({'error': [Joomla.JText._("PLG_TINY_ERR_UNSUPPORTEDBROWSER")]});
-		editor.on('drop', function(e) {
-			e.preventDefault();
 
-			return false;
-		});
-	}
+				e.preventDefault();
+			}
+		}
+		editor.contentAreaContainer.style.borderWidth = '1px 0 0';
+	});
 });
