@@ -18,4 +18,12 @@ use Joomla\CMS\Dispatcher\Dispatcher;
  */
 class BannersDispatcher extends Dispatcher
 {
+	/**
+	 * The extension namespace
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $namespace = 'Joomla\\Component\\Banners';
 }
