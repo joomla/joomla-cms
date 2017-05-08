@@ -108,7 +108,7 @@ Joomla.UI = Joomla.UI || {};
 				});
 			});
 
-			// API used to be jMoadalClose
+			// API used to be jModalClose
 			if(!Joomla.UI.Modal.close) {
 				Joomla.UI.Modal = {
 					close: function() {
