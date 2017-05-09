@@ -41,11 +41,11 @@
 		</field>
 
 		<field
-            name="author_id"
-            type="author"
-            label="COM_CONTENT_FILTER_AUTHOR"
-            description="COM_CONTENT_FILTER_AUTHOR_DESC"
-            onchange="this.form.submit();"
+			name="author_id"
+			type="author"
+			label="COM_CONTENT_FILTER_AUTHOR"
+			description="COM_CONTENT_FILTER_AUTHOR_DESC"
+			onchange="this.form.submit();"
             >
         	<option value="">JOPTION_SELECT_AUTHOR</option>
         </field>
@@ -71,9 +71,9 @@
 			>
 			<option value="">JOPTION_SELECT_TAG</option>
 		</field>
-    	<field
-            name="level"
-            type="integer"
+		<field
+			name="level"
+			type="integer"
             label="JOPTION_FILTER_LEVEL"
             description="JOPTION_FILTER_LEVEL_DESC"
             first="1"

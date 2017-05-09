@@ -16,7 +16,7 @@
 			name="title" 
 			type="text" 
 			label="JGLOBAL_TITLE"
-		    description="COM_FINDER_FILTER_TITLE_DESCRIPTION"
+			description="COM_FINDER_FILTER_TITLE_DESCRIPTION"
 		    class="input-xxlarge input-large-text"
 		    size="40"
 		    id="title"
