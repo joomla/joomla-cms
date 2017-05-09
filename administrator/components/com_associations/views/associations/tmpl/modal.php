@@ -104,7 +104,6 @@ $app->getDocument()->addScriptDeclaration(
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canCheckin = true;
 				$canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
 				$canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
 				$isCheckout = AssociationsHelper::isCheckoutItem($this->extensionName, $this->typeName, $item->id);
