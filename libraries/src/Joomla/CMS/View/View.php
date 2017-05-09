@@ -229,7 +229,7 @@ class View extends \JObject
 	{
 		$result = $this->loadTemplate($tpl);
 
-		if ($result instanceof Exception)
+		if ($result instanceof \Exception)
 		{
 			return $result;
 		}
@@ -248,7 +248,7 @@ class View extends \JObject
 	 * within the template script itself.
 	 *
 	 * <code>
-	 * $view = new \JView;
+	 * $view = new \Joomla\CMS\View\View;
 	 *
 	 * // Assign directly
 	 * $view->var1 = 'something';
@@ -263,7 +263,7 @@ class View extends \JObject
 	 * $view->assign($obj);
 	 *
 	 * // Assign by object
-	 * $obj = new stdClass;
+	 * $obj = new \stdClass;
 	 * $obj->var1 = 'something';
 	 * $obj->var2 = 'else';
 	 * $view->assign($obj);
@@ -495,7 +495,7 @@ class View extends \JObject
 
 			if ($viewpos === false)
 			{
-				throw new Exception(\JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
+				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
 			$this->_name = strtolower(substr($classname, $viewpos + 4));
@@ -703,7 +703,7 @@ class View extends \JObject
 		}
 		else
 		{
-			throw new Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
+			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 		}
 	}
 

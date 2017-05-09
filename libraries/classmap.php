@@ -6,6 +6,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+// No direct access.
+defined('_JEXEC') or die;
+
 JLoader::registerAlias('JRegistry',                         '\\Joomla\\Registry\\Registry', '4.0');
 JLoader::registerAlias('JRegistryFormat',                   '\\Joomla\\Registry\\AbstractRegistryFormat', '4.0');
 JLoader::registerAlias('JRegistryFormatIni',                '\\Joomla\\Registry\\Format\\Ini', '4.0');
@@ -138,6 +141,15 @@ JLoader::registerAlias('JSchemaChangeitemMysql',            '\\Joomla\\CMS\\Sche
 JLoader::registerAlias('JSchemaChangeitemPostgresql',       '\\Joomla\\CMS\\Schema\\ChangeItem\\PostgresqlChangeItem', '4.0');
 JLoader::registerAlias('JSchemaChangeitemSqlsrv',           '\\Joomla\\CMS\\Schema\\ChangeItem\\SqlsrvChangeItem', '4.0');
 
-JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '4.0');
-JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
-JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
+JLoader::registerAlias('JUcm',                              '\\Joomla\\CMS\\Ucm\\Ucm', '4.0');
+JLoader::registerAlias('JUcmBase',                          '\\Joomla\\CMS\\Ucm\\UcmBase', '4.0');
+JLoader::registerAlias('JUcmContent',                       '\\Joomla\\CMS\\Ucm\\UcmContent', '4.0');
+JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\Ucm\\UcmType', '4.0');
+
+JLoader::registerAlias('JVersion',                          '\\Joomla\\CMS\\Version', '4.0');
+
+JLoader::registerAlias('JAuthentication',                   '\\Joomla\\CMS\\Authentication\\Authentication', '4.0');
+JLoader::registerAlias('JAuthenticationResponse',           '\\Joomla\\CMS\\Authentication\\AuthenticationResponse', '4.0');
+
+JLoader::registerAlias('JAssociationExtensionInterface',    '\\Joomla\\CMS\\Association\\AssociationExtensionInterface', '4.0');
+JLoader::registerAlias('JAssociationExtensionHelper',       '\\Joomla\\CMS\\Association\\AssociationExtensionHelper', '4.0');

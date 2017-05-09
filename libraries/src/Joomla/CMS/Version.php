@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Version
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +17,7 @@ use Joomla\CMS\Helper\LibraryHelper;
  *
  * @since  1.0
  */
-final class JVersion
+final class Version
 {
 	/**
 	 * Product name.
@@ -72,7 +73,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '19-April-2017';
+	const RELDATE = '25-April-2017';
 
 	/**
 	 * Release time.
@@ -80,7 +81,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '20:10';
+	const RELTIME = '16:42';
 
 	/**
 	 * Release timezone.
@@ -120,13 +121,13 @@ final class JVersion
 	{
 		if (defined("JVersion::$name"))
 		{
-			JLog::add(
-				'Accessing JVersion data through class member variables is deprecated, use the corresponding constant instead.',
-				JLog::WARNING,
+			\JLog::add(
+				'Accessing Version data through class member variables is deprecated, use the corresponding constant instead.',
+				\JLog::WARNING,
 				'deprecated'
 			);
 
-			return constant("JVersion::$name");
+			return constant("\\Joomla\\CMS\\Version::$name");
 		}
 
 		$trace = debug_backtrace();
@@ -245,9 +246,9 @@ final class JVersion
 	 */
 	public function generateMediaVersion()
 	{
-		$date = new JDate;
+		$date = new \JDate;
 
-		return md5($this->getLongVersion() . JFactory::getConfig()->get('secret') . $date->toSql());
+		return md5($this->getLongVersion() . \JFactory::getConfig()->get('secret') . $date->toSql());
 	}
 
 	/**
@@ -289,7 +290,7 @@ final class JVersion
 	/**
 	 * Function to refresh the media version
 	 *
-	 * @return  JVersion  Instance of $this to allow chaining.
+	 * @return  Version  Instance of $this to allow chaining.
 	 *
 	 * @since   3.2
 	 */
@@ -305,7 +306,7 @@ final class JVersion
 	 *
 	 * @param   string  $mediaVersion  The media version.
 	 *
-	 * @return  JVersion  Instance of $this to allow chaining.
+	 * @return  Version  Instance of $this to allow chaining.
 	 *
 	 * @since   3.2
 	 */
