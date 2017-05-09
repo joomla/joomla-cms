@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Translator;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -68,6 +69,12 @@ class WebApplication extends BaseApplication
 	 * @since  11.3
 	 */
 	protected $response;
+
+	/**
+	 * @var    Translator  The application translator object.
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $translator = null;
 
 	/**
 	 * @var    WebApplication  The application instance.
@@ -820,6 +827,20 @@ class WebApplication extends BaseApplication
 	}
 
 	/**
+	 * Method to get the application translator object.
+	 *
+	 * Whenever a new language is loaded, the translator is recreated,
+	 *
+	 * @return  Translator  The translator object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTranslator()
+	{
+		return $this->translator;
+	}
+
+	/**
 	 * Method to get the application session object.
 	 *
 	 * @return  \JSession  The session object
@@ -1040,7 +1061,8 @@ class WebApplication extends BaseApplication
 	 */
 	public function loadLanguage(\JLanguage $language = null)
 	{
-		$this->language = ($language === null) ? \JFactory::getLanguage() : $language;
+		$this->language = $language === null ? \JFactory::getLanguage() : $language;
+		$this->translator = new Translator($this->language);
 
 		return $this;
 	}
