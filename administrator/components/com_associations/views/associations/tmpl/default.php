@@ -22,10 +22,10 @@ $canManageCheckin = JFactory::getUser()->authorise('core.manage', 'com_checkin')
 $colSpan          = 5;
 
 $iconStates = array(
-	-2 => 'icon-trash',
-	0  => 'icon-unpublish',
-	1  => 'icon-publish',
-	2  => 'icon-archive',
+		-2 => 'icon-trash',
+		0  => 'icon-unpublish',
+		1  => 'icon-publish',
+		2  => 'icon-archive',
 );
 
 JText::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT');
@@ -110,7 +110,6 @@ JFactory::getDocument()->addScriptDeclaration('
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canCheckin = true;
 				$canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
 				$canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
 				$isCheckout = AssociationsHelper::isCheckoutItem($this->extensionName, $this->typeName, $item->id);
@@ -125,6 +124,9 @@ JFactory::getDocument()->addScriptDeclaration('
 						<span style="display: none"><?php echo JHtml::_('grid.id', $i, $item->id); ?></span>
 						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+						<?php endif; ?>
+						<?php if (!$canCheckin && $isCheckout) : ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
 						<?php endif; ?>
 						<?php if ($canCheckin && $isCheckout) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
@@ -174,7 +176,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		</table>
 	<?php endif; ?>
 	<input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0" />
-    <?php echo JHtml::_('form.token'); ?>
+	<input type="hidden" name="boxchecked" value="0" />
+	<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
