@@ -40,11 +40,11 @@
 			var sidebar      = document.getElementById('sidebar-wrapper'),
 			    menu         = sidebar.querySelector('#menu'),
 			    menuToggle   = document.getElementById('header').querySelector('.menu-toggle'),
-				allLinks     = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow"),
-				currentUrl   = window.location.href.toLowerCase(),
-				mainNav      = document.getElementById('menu'),
-				menuParents  = mainNav.querySelectorAll('li.parent > a'),
-				subMenuClose = mainNav.querySelectorAll('li.parent .close'),
+			    allLinks     = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow"),
+			    currentUrl   = window.location.href.toLowerCase(),
+			    mainNav      = document.getElementById('menu'),
+			    menuParents  = mainNav.querySelectorAll('li.parent > a'),
+			    subMenuClose = mainNav.querySelectorAll('li.parent .close'),
 
 			    // Apply 2nd level collapse
 			    first         = menu.querySelectorAll('.collapse-level-1');
