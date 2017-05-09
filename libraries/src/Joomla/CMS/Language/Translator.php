@@ -34,13 +34,22 @@ class Translator
 	private $language = null;
 
 	/**
+	 * The document.
+	 *
+	 * @var \JDocument
+	 */
+	private $document = null;
+
+	/**
 	 * Translator constructor.
 	 *
-	 * @param  Language  $language  The language
+	 * @param  Language    $language  The language
+	 * @param  \JDocument  $document  The document
 	 */
-	public function __construct(Language $language)
+	public function __construct(Language $language, \JDocument $document = null)
 	{
 		$this->language = $language;
+		$this->document = $document;
 	}
 
 	/**
@@ -417,7 +426,8 @@ class Translator
 			\JHtml::_('behavior.core');
 
 			// Update Joomla.JText script options
-			\JFactory::getDocument()->addScriptOptions('joomla.jtext', $this->strings, false);
+			$document = $this->document ? : \JFactory::getDocument();
+			$document->addScriptOptions('joomla.jtext', $this->strings, false);
 		}
 
 		return $this->getScriptStrings();
