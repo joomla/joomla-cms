@@ -647,7 +647,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  int  The language filter system plugin extension id.
 	 *
-	 * @since   3.7.1
+	 * @since   3.7.2
 	 */
 	public static function getLanguagefilterPluginId()
 	{
