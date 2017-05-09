@@ -11,6 +11,7 @@ namespace Joomla\Component\Categories\Administrator\Helper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Mvc\Factory\MvcFactory;
 use Joomla\Component\Categories\Administrator\Model\Category;
 
 defined('_JEXEC') or die;
@@ -160,7 +161,8 @@ class CategoriesHelper
 	 */
 	public static function createCategory($data)
 	{
-		$categoryModel = new Category(array('ignore_request' => true));
+		$factory = new MvcFactory('\\Joomla\\Component\\Categories', \JFactory::getApplication());
+		$categoryModel = new Category(array('ignore_request' => true), $factory);
 		$categoryModel->save($data);
 
 		$catid = $categoryModel->getState('category.id');
