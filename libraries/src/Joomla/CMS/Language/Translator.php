@@ -43,8 +43,8 @@ class Translator
 	/**
 	 * Translator constructor.
 	 *
-	 * @param  Language    $language  The language
-	 * @param  \JDocument  $document  The document
+	 * @param   Language    $language  The language
+	 * @param   \JDocument  $document  The document
 	 */
 	public function __construct(Language $language, \JDocument $document = null)
 	{

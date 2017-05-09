@@ -32,8 +32,8 @@ class JText
 	 *
 	 * @return  string  The translated string or the key if $script is true
 	 *
-	 * @since   11.1
-	 * @deprecated use the translator object of the application
+	 * @since       11.1
+	 * @deprecated  use the translator object of the application
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
@@ -55,8 +55,8 @@ class JText
 	 *
 	 * @return  string  The translated string or the key if $script is true
 	 *
-	 * @since   11.1
-	 * @deprecated use the translator object of the application
+	 * @since       11.1
+	 * @deprecated  use the translator object of the application
 	 */
 	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
@@ -88,8 +88,8 @@ class JText
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options
 	 *
-	 * @since   11.1
-	 * @deprecated use the translator object of the application
+	 * @since       11.1
+	 * @deprecated  use the translator object of the application
 	 */
 	public static function plural($string, $n)
 	{
@@ -115,8 +115,8 @@ class JText
 	 *
 	 * @return  string  The translated strings or the key if 'script' is true in the array of options.
 	 *
-	 * @since   11.1
-	 * @deprecated use the translator object of the application
+	 * @since       11.1
+	 * @deprecated  use the translator object of the application
 	 */
 	public static function sprintf($string)
 	{
@@ -132,8 +132,8 @@ class JText
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
-	 * @deprecated use the translator object of the application
+	 * @since       11.1
+	 * @deprecated  use the translator object of the application
 	 */
 	public static function printf($string)
 	{
@@ -149,8 +149,8 @@ class JText
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 * @deprecated use the translator object of the application
+	 * @since       11.1
+	 * @deprecated  use the translator object of the application
 	 */
 	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
 	{
@@ -162,8 +162,8 @@ class JText
 	 *
 	 * @return  array
 	 *
-	 * @since   3.7.0
-	 * @deprecated use the translator object of the application
+	 * @since       3.7.0
+	 * @deprecated  use the translator object of the application
 	 */
 	public static function getScriptStrings()
 	{
