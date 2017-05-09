@@ -416,6 +416,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				array('images/system', '/var/www/html/index.html'),
 				'From generic cases'
 			),
+			'path_06' => array(
+				'path',
+				'../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
+				'../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
+				'From generic cases'
+			),
 			'user_01' => array(
 				'username',
 				'&<f>r%e\'d',
@@ -432,6 +438,18 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'username',
 				array('&<f>r%e\'d', '$user69'),
 				array('fred', '$user69'),
+				'From generic cases'
+			),
+			'user_04' => array(
+				'username',
+				'фамилия',
+				'фамилия',
+				'From generic cases'
+			),
+			'user_05' => array(
+				'username',
+				'Φρεντ',
+				'Φρεντ',
 				'From generic cases'
 			),
 			'trim_01' => array(
@@ -546,6 +564,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'',
 				'<em><strong>Fred</strong></em>',
 				'<em><strong>Fred</strong></em>',
+				'From generic cases'
+			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'<em><strong>Φρεντ</strong></em>',
 				'From generic cases'
 			),
 			'Malformed Nested tags' => array(
@@ -685,6 +709,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'Fred',
 				'From specific cases'
 			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
+				'From specific cases'
+			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
@@ -802,6 +832,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
+				'From specific cases'
+			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
 				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
@@ -942,6 +978,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'Fred',
 				'From specific cases'
 			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
+				'From specific cases'
+			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
@@ -1048,6 +1090,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
+				'From specific cases'
+			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
 				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
