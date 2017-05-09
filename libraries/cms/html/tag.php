@@ -172,35 +172,49 @@ abstract class JHtmlTag
 
 		// Include scripts
 		JHtml::_('behavior.core');
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/legacy/ajax-chosen.min.js', false, true, false, false, JDEBUG);
+		JHtml::_('stylesheet', 'vendor/choices/choices.min.css', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'vendor/choices/choices.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/fields/tag.js', array('version' => 'auto', 'relative' => true));
 
 		JFactory::getDocument()->addScriptOptions(
-			'ajax-chosen',
-			array(
+			'js-choices-tags',
+			[
+				'elementId'      => $selector,
 				'url'            => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
-				'debug'          => JDEBUG,
-				'selector'       => $selector,
-				'type'           => 'GET',
-				'dataType'       => 'json',
-				'jsonTermKey'    => 'like',
-				'afterTypeDelay' => 500,
-				'minTermLength'  => $minTermLength
-			)
+				'addItems'       => true,
+				'duplicateItems' => false,
+				'flip'           => true,
+				'shouldSort'     => true,
+				'search'         => true,
+			]
 		);
+
+//		JFactory::getDocument()->addScriptOptions(
+//			'js-choices-tags',
+//			array(
+//
+//				'debug'          => JDEBUG,
+//				'selector'       => $selector,
+//				'type'           => 'GET',
+//				'dataType'       => 'json',
+//				'jsonTermKey'    => 'like',
+//				'afterTypeDelay' => 500,
+//				'minTermLength'  => $minTermLength
+//			)
+//		);
 
 		// Allow custom values ?
 		if ($allowCustom)
 		{
-			JHtml::_('script', 'system/fields/tag.min.js', false, true, false, false, JDEBUG);
-			JFactory::getDocument()->addScriptOptions(
-				'field-tag-custom',
-				array(
-					'minTermLength' => $minTermLength,
-					'selector'      => $selector,
-					'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
-				)
-			);
+//			JHtml::_('script', 'system/fields/tag.min.js', false, true, false, false, JDEBUG);
+//			JFactory::getDocument()->addScriptOptions(
+//				'field-tag-custom',
+//				array(
+//					'minTermLength' => $minTermLength,
+//					'selector'      => $selector,
+//					'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
+//				)
+//			);
 		}
 	}
 }
