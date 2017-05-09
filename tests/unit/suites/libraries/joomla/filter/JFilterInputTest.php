@@ -418,8 +418,8 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			),
 			'path_06' => array(
 				'path',
-				'../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
-				'../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
+				'/var/www/html/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
+				'/var/www/html/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
 				'From generic cases'
 			),
 			'user_01' => array(
