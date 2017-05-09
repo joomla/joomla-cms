@@ -17,7 +17,7 @@ vendors:
                   'version': '4.7.0'
                   'dependencies': ''
     '@claviska/jquery-minicolors':
-                  'version': '2.2.5'
+                  'version': '2.2.6'
                   'dependencies': 'jquery'
     'jquery-sortable':
                   'version': '0.9.13'
