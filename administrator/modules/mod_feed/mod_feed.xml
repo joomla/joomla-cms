@@ -65,6 +65,8 @@
 					class="btn-group btn-group-yesno"
 					default="1"
 					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="rssimage"
