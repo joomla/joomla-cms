@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Text handling class.
  *
- * @since  11.1
- * @deprecated use the translator object of the application
+ * @since       11.1
+ * @deprecated  use the translator object of the application
  */
 class JText
 {
