@@ -26,9 +26,9 @@
 			<fieldset name="options" label="COM_MODULES_BASIC_FIELDSET_LABEL">
 				<field
 					name="prepare_content"
+					type="radio"
 					label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
-					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
 					>
