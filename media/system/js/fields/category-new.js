@@ -8,18 +8,19 @@ Joomla = window.Joomla || {};
 	'use strict';
 
 	document.addEventListener('DOMContentLoaded', function(){
-
 		if (Joomla.getOptions('js-category-edit')) {
 			var options = Joomla.getOptions('js-category-edit');
-console.log(options['search'])
+
 			if (options['elementId']) {
 				new Choices(document.getElementById(options['elementId']), {
-					addItems: options['addItems'] ? options['addItems'] : false,
+					addItems: options['addItems'] ? options['addItems'] : true,
 					duplicateItems: options['duplicateItems'] ? options['duplicateItems'] : false,
-					flip: options['flip'] ? options['flip'] : false,
+					flip: options['flip'] ? options['flip'] : true,
 					shouldSort: options['shouldSort'] ? options['shouldSort'] : false,
-					search: options['search'] ? options['search'] : false,
+					search: options['search'] ? options['search'] : true,
 				});
+			} else {
+				throw new Error('Element Id id required, Choices cannot be initiated for category on the fly.');
 			}
 		}
 	});
