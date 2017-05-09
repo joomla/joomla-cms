@@ -42,7 +42,6 @@
 
 		<field name="catid"
 			   type="categoryedit"
-			   class="advancedSelect"
 			label="JCATEGORY"
 			   description="JFIELD_CATEGORY_DESC"
 			required="true"

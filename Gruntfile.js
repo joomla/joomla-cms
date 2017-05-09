@@ -177,6 +177,14 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
+					// Choices js files
+					{ expand: true, cwd: 'build/assets_tmp/node_modules/choices.js/assets/scripts/dist', src: ['**'], dest: 'media/vendor/choices/js/', filter: 'isFile'},
+					// Choices css files
+					{ cwd: 'build/assets_tmp/node_modules/choices.js/assets/styles/css', src: ['*.css'], dest: 'media/vendor/choices/css/', expand: true, filter: 'isFile'},
+					// Choices scss files
+					{ cwd: 'build/assets_tmp/node_modules/choices.js/assets/styles/scss', src: ['*.scss'], dest: 'media/vendor/choices/scss/', expand: true, filter: 'isFile'},
+					// Choices icon files
+					{ cwd: 'build/assets_tmp/node_modules/choices.js/assets/icons', src: ['*.svg'], dest: 'media/vendor/choices/icons/', expand: true, filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
