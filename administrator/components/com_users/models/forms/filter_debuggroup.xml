@@ -16,7 +16,7 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_COMPONENT</option>
-		</field>
+		/>
 		<field
 			name="level_start"
 			type="Levels"
@@ -25,7 +25,7 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_START</option>
-		</field>
+		/>
 		<field
 			name="level_end"
 			type="Levels"
@@ -34,7 +34,7 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_END</option>
-		</field>
+		/>
 	</fields>
 	<fields name="list">
 		<field
