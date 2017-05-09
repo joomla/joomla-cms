@@ -371,9 +371,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 			// Include scripts
 			JHtml::_('behavior.core');
-			JHtml::_('stylesheet', 'vendor/choices/choices.css', array('version' => 'auto', 'relative' => true));
-			JHtml::_('script', 'vendor/choices/choices.js', array('version' => 'auto', 'relative' => true));
-			JHtml::_('script', 'system/fields/category-new.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'vendor/choices/choices.min.css', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'vendor/choices/choices.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'system/fields/category-new.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		if ($class)
