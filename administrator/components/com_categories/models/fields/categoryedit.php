@@ -350,19 +350,24 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		$html = array();
 		$class = array();
 		$attr = '';
+
 		// Initialize some field attributes.
 		$class[] = !empty($this->class) ? $this->class : '';
+
 		if ($this->allowAdd)
 		{
 			JText::script('JGLOBAL_CUSTOM_CATEGORY');
-			JFactory::getDocument()->addScriptOptions('js-category-edit', [
-				'elementId' => $this->id,
-				'addItems' => true,
+			JFactory::getDocument()->addScriptOptions(
+				'js-category-edit',
+				[
+				'elementId'      => $this->id,
+				'addItems'       => true,
 				'duplicateItems' => false,
-				'flip' => true,
-				'shouldSort' => false,
-				'search' => true,
-			]);
+				'flip'           => true,
+				'shouldSort'     => false,
+				'search'         => true,
+				]
+			);
 
 			// Include scripts
 			JHtml::_('behavior.core');
