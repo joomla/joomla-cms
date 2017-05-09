@@ -22,10 +22,10 @@ $canManageCheckin = JFactory::getUser()->authorise('core.manage', 'com_checkin')
 $colSpan          = 5;
 
 $iconStates = array(
-		-2 => 'icon-trash',
-		0  => 'icon-unpublish',
-		1  => 'icon-publish',
-		2  => 'icon-archive',
+	-2 => 'icon-trash',
+	0  => 'icon-unpublish',
+	1  => 'icon-publish',
+	2  => 'icon-archive',
 );
 
 JText::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT');
