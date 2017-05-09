@@ -20,7 +20,7 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_STATUS" />
 	<config>
 		<fields name="params">
-		<fieldset name="basic">
+			<fieldset name="basic">
 			<field
 				name="show_viewsite"
 				type="radio"
