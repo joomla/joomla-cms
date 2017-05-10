@@ -52,7 +52,7 @@ $alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="buttons"' : '';
 
 ?>
-<fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
+<div id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
 	<?php echo $required ? 'required aria-required="true"' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>
@@ -82,4 +82,4 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 			</label>
 		<?php endforeach; ?>
 	<?php endif; ?>
-</fieldset>
+</div>
