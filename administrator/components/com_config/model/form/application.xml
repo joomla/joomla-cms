@@ -303,7 +303,7 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -316,16 +316,14 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>
 
-	<fieldset
-		name="ftp"
-		label="CONFIG_FTP_SETTINGS_LABEL">
+	<fieldset name="ftp" label="CONFIG_FTP_SETTINGS_LABEL">
 
 		<field
 			name="ftp_enable"
@@ -335,7 +333,7 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -1169,7 +1167,7 @@
 			translate_label="false"
 			validate="rules"
 			filter="rules"
-		>
+			>
 			<action
 				name="core.login.site"
 				title="JACTION_LOGIN_SITE"
