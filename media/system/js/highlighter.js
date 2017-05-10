@@ -4,11 +4,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// Only define the Joomla namespace if not defined.
 Joomla = window.Joomla || {};
 
-(function(Joomla) {
+(function(Joomla, jQuery) {
 	Joomla.Highlighter = function(_options){
-		var words, options = {
+		var $, words, options = {
 			    autoUnhighlight: true,
 			    caseSensitive: false,
 			    startElement: false,
@@ -43,10 +44,10 @@ Joomla = window.Joomla || {};
 			    words.map(function(word){
 				    word = (options.caseSensitive ? word : word.toUpperCase());
 				    if (words[word]) {
-					    $elements = [].splice.call(document.querySelectorAll(words[word]));
+					    $elements = $(words[word]);
 					    $elements.removeClass();
-					    $elements.forEach(function (el) {
-						    tn = document.createTextNode(el.tagName);
+					    $elements.each(function (index, el) {
+						    tn = document.createTextNode($(el).text());
 						    el.parentNode.replaceChild(tn, el);
 					    });
 				    }
@@ -59,17 +60,17 @@ Joomla = window.Joomla || {};
 				    var match = node.nodeValue.match(regex), highlight, $highlight, wordNode, wordClone, comparer, i;
 				    if (match) {
 					    highlight = document.createElement(options.tag);
-					    $highlight = highlight;
-					    $highlight.classList.add(klass);
+					    $highlight = $(highlight);
+					    $highlight.addClass(klass);
 					    wordNode = node.splitText(match.index);
 					    wordNode.splitText(match[0].length);
 					    wordClone = wordNode.cloneNode(true);
-					    $highlight.appendChild(wordClone);
-					    document.querySelector(wordNode).replaceWith(highlight)
-					    $highlight.setAttribute('rel', $highlight.innerText);
-					    comparer = $highlight.innerText
+					    $highlight.append(wordClone);
+					    $(wordNode).replaceWith(highlight)
+					    $highlight.attr('rel', $highlight.text());
+					    comparer = $highlight.text()
 					    if (!options.caseSensitive) {
-						    comparer = $highlight.innerText.toUpperCase();
+						    comparer = $highlight.text().toUpperCase();
 					    }
 					    if (!words[comparer]) {
 						    words[comparer] = [];
@@ -87,15 +88,16 @@ Joomla = window.Joomla || {};
 
 		    getElements = function ($start, $end) {
 			    var $next = $start.next();
-			    if ($next.getAttribute('id') !== $end.getAttribute('id')) {
-				    options.elements.push($next);
+			    if ($next.attr('id') !== $end.attr('id')) {
+				    options.elements.push($next.get(0));
 				    getElements($next, $end);
 			    }
 		    },
 
 		    initialize = function(_options) {
-			    Joomla.extend(options, _options);
-			    getElements(document.querySelector(options.startElement), document.querySelector(options.endElement));
+			    $ = jQuery.noConflict();
+			    $.extend(options, _options);
+			    getElements($(options.startElement), $(options.endElement));
 			    words = [];
 		    };
 
@@ -107,7 +109,7 @@ Joomla = window.Joomla || {};
 		};
 	};
 
-	document.addEventListener('DOMContentLoaded',  function() {
+	jQuery(document).ready(function($) {
 		var options = Joomla.getOptions('js-highlighter');
 
 		if (options.length) {
@@ -118,14 +120,14 @@ Joomla = window.Joomla || {};
 				return true;
 			}
 			highlighter = new Joomla.Highlighter({
-				startElement: start,
-				endElement: end,
+				startElement: $(start),
+				endElement: $(end),
 				className: options['class'],
 				onlyWords: false,
 				tag: options.tag
 			}).highlight(options.terms);
-			document.querySelector(start).remove();
-			document.querySelector(end).remove();
+			$(start).remove();
+			$(end).remove();
 		}
 	});
-})(Joomla);
+})(Joomla, jQuery);
