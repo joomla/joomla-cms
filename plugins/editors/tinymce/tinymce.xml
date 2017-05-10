@@ -32,13 +32,14 @@
 				<field
 					name="sets_amount"
 					type="number"
+					label="PLG_TINY_FIELD_NUMBER_OF_SETS_LABEL"
+					description="PLG_TINY_FIELD_NUMBER_OF_SETS_DESC"
 					filter="int"
 					validate="number"
 					min="3"
-					label="PLG_TINY_FIELD_NUMBER_OF_SETS_LABEL"
-					description="PLG_TINY_FIELD_NUMBER_OF_SETS_DESC"
 					default="3"
 				/>
+
 				<field
 					name="html_height"
 					type="text"
