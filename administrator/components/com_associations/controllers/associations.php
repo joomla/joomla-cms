@@ -78,7 +78,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 */
 	public function checkin()
 	{
-		// Set the redirect so we can just stop processing when we find a  condition we can't process
+		// Set the redirect so we can just stop processing when we find a condition we can't process
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 		// Figure out if the item supports checking and check it in
