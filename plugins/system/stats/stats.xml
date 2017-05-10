@@ -47,8 +47,8 @@
 				<field
 					name="mode"
 					type="list"
-					description="PLG_SYSTEM_STATS_MODE_DESC"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
+					description="PLG_SYSTEM_STATS_MODE_DESC"
 					default="1"
 					>
 					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
