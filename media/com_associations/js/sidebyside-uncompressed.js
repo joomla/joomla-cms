@@ -154,6 +154,10 @@ jQuery(document).ready(function($) {
 
 	// Attach behaviour to reference frame load event.
 	$('#reference-association').on('load', function() {
+
+		// Load Target Pane
+        $('iframe#target-association').attr('src', jQuery('iframe#target-association').data('url'));
+
 		// If copy button used
 		if ($(this).contents().find('#jform_id').val() !== this.getAttribute('data-id'))
 		{
