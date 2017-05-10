@@ -87,12 +87,12 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php foreach ($this->items as $i => $item) : ?>
 
 			<?php if ($n == 1 || $i == 0 || $bscolumns == 1 || $i % $bscolumns == 0) : ?>
-				<ul class="thumbnails">
+				<ul class="category list-group">
 			<?php endif; ?>
 
-			<li>
+			<li class="list-group-item list-group-item-action">
 				<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-				<h3>
+				<h3 class="mb-0">
 					<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . '-' . $item->alias)); ?>">
 						<?php echo $this->escape($item->title); ?>
 					</a>
