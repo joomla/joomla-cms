@@ -73,11 +73,19 @@ $attributes = array(
 	// @TODO add a proper string here!!!
 	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
 );
+
+$addonBeforeHtml = '<span class="input-group-addon">' .$addonBefore . '</span>';
+$addonAfterHtml  = '<span class="input-group-addon">' .$addonAfter . '</span>';
 ?>
 
-<?php if (!empty($addon)) : ?>
+<?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>
 <div class="input-group">
 <?php endif; ?>
+
+	<?php if (!empty($addonBefore)) : ?>
+		<?php echo $addonBeforeHtml; ?>
+	<?php endif; ?>
+
 	<input
 		type="text"
 		name="<?php echo $name; ?>"
@@ -85,8 +93,12 @@ $attributes = array(
 		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 		<?php echo $dirname; ?>
 		<?php echo implode(' ', $attributes); ?>>
-<?php if (!empty($addon)) : ?>
-	<span class="input-group-addon"><?php echo $addon; ?></span>
+
+	<?php if (!empty($addonAfter)) : ?>
+		<?php echo $addonAfterHtml; ?>
+	<?php endif; ?>
+
+<?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>
 </div>
 <?php endif; ?>
 

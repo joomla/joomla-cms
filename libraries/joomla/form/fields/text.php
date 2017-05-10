@@ -51,12 +51,20 @@ class JFormFieldText extends JFormField
 	protected $dirname;
 
 	/**
-	 * Input addon
+	 * Input addon before
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $addon;
+	protected $addonBefore;
+
+	/**
+	 * Input addon after
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $addonAfter;
 
 	/**
 	 * Name of the layout being used to render the field
@@ -81,7 +89,8 @@ class JFormFieldText extends JFormField
 		{
 			case 'maxLength':
 			case 'dirname':
-			case 'addon':
+			case 'addonBefore':
+			case 'addonAfter':
 			case 'inputmode':
 				return $this->$name;
 		}
@@ -116,8 +125,12 @@ class JFormFieldText extends JFormField
 				$this->inputmode = (string) $value;
 				break;
 
-			case 'addon':
-				$this->addon = (string) $value;
+			case 'addonBefore':
+				$this->addonBefore = (string) $value;
+				break;
+
+			case 'addonAfter':
+				$this->addonAfter = (string) $value;
 				break;
 
 			default:
@@ -170,7 +183,8 @@ class JFormFieldText extends JFormField
 
 			$this->maxLength = (int) $this->element['maxlength'];
 
-			$this->addon = (string) $this->element['addon'];
+			$this->addonBefore = (string) $this->element['addonBefore'];
+			$this->addonAfter  = (string) $this->element['addonAfter'];
 		}
 
 		return $result;
@@ -286,12 +300,13 @@ class JFormFieldText extends JFormField
 		$options  = (array) $this->getSuggestions();
 
 		$extraData = array(
-			'maxLength' => $maxLength,
-			'pattern'   => $this->pattern,
-			'inputmode' => $inputmode,
-			'dirname'   => $dirname,
-			'addon'     => $this->addon,
-			'options'   => $options,
+			'maxLength'   => $maxLength,
+			'pattern'     => $this->pattern,
+			'inputmode'   => $inputmode,
+			'dirname'     => $dirname,
+			'addonBefore' => $this->addonBefore,
+			'addonAfter'  => $this->addonAfter,
+			'options'     => $options,
 		);
 
 		return array_merge($data, $extraData);
