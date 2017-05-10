@@ -15,11 +15,6 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		var form = document.getElementById('adminForm');
 		form.task = {};
 
-		// Load te options
-		beforeAll(function () {
-			Joomla.loadOptions();
-		});
-
 		beforeEach(function () {
 			spyOnEvent('#adminForm', 'submit');
 			form.removeChild = jasmine.createSpy('removeChild');
@@ -60,7 +55,9 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('should return default value for not existing key Joomla.getOptions("com_foobar4", 123)', function () {
 			expect(Joomla.getOptions("com_foobar4", 123)).toEqual(123)
 		});
+	});
 
+	describe('Core Joomla.getOptions programmatically', function () {
 		// Test dynamically added options
 		it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
 			$('#get-options').append($('<script>', {

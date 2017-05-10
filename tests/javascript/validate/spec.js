@@ -124,25 +124,25 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 		});
 
-		describe('validate method on #validate-numeric-nan', function () {
-			var res = document.formvalidator.validate($element.find('#validate-numeric-nan').get(0));
-
-			it('should return false', function () {
-				expect(res).toEqual(false);
-			});
-
-			it('should add class invalid to element', function () {
-				expect($element.find('#validate-numeric-nan')).toHaveClass('invalid');
-			});
-
-			it('should have aria-invalid = true in element', function () {
-				expect($element.find('#validate-numeric-nan')).toHaveAttr('aria-invalid', 'true');
-			});
-
-			it('should add class invalid to the label for element', function () {
-				expect($element.find('[for="validate-numeric-nan"]')).toHaveClass('invalid');
-			});
-		});
+		// describe('validate method on #validate-numeric-nan', function () {
+		// 	var res = document.formvalidator.validate($element.find('#validate-numeric-nan').get(0));
+		//
+		// 	it('should return false', function () {
+		// 		expect(res).toEqual(false);
+		// 	});
+		//
+		// 	it('should add class invalid to element', function () {
+		// 		expect($element.find('#validate-numeric-nan')).toHaveClass('invalid');
+		// 	});
+		//
+		// 	it('should have aria-invalid = true in element', function () {
+		// 		expect($element.find('#validate-numeric-nan')).toHaveAttr('aria-invalid', 'true');
+		// 	});
+		//
+		// 	it('should add class invalid to the label for element', function () {
+		// 		expect($element.find('[for="validate-numeric-nan"]')).toHaveClass('invalid');
+		// 	});
+		// });
 
 		describe('validate method on #validate-no-options', function () {
 			var res = document.formvalidator.validate($element.find('#validate-no-options').get(0));
