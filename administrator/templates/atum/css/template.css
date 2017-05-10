@@ -9550,6 +9550,8 @@ iframe {
     visibility: visible;
     content: "\f0da";
     transition-delay: .25s; }
+  .closed .main-nav {
+    overflow-x: hidden; }
 
 .child-open {
   width: 50px;
@@ -9644,7 +9646,7 @@ iframe {
   background: #ebebeb;
   border-top: 1px solid #d4d4d4;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
-  transition: all .4s ease;
+  transition: all .3s ease;
   transition-delay: 0s; }
   .status p {
     margin: 0; }
@@ -9652,6 +9654,8 @@ iframe {
   .status a {
     font-size: 14px;
     color: #555; }
+  .closed .status {
+    margin-left: 50px; }
 
 .sidebar-wrapper[data-hidden="1"] ~ .status {
   margin-left: 0; }
