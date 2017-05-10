@@ -12,12 +12,31 @@
 define(['jquery', 'testsRoot/caption/spec-setup', 'jasmineJquery'], function ($) {
 
 	describe('JCaption applied to single image', function () {
+		// Set up the script
+		beforeAll(function () {
+			Joomla.optionsStorage = {
+				'js-image-caption': {
+					'selector': '#single img.test'
+				}
+			};
+			new Joomla.JCaption('#single img.test');
+		});
+
 		it('Should have caption as "Joomla Title 1" under image', function () {
 			expect($('#single').find('p')).toHaveText('Joomla Title 1');
 		});
 	});
 
 	describe('JCaption applied for multiple images', function () {
+		beforeAll(function () {
+			Joomla.optionsStorage = {
+				'js-image-caption': {
+					'selector': '#multiple img.test'
+				}
+			};
+
+			new Joomla.JCaption('#multiple img.test');
+		});
 		it('Should have caption "Joomla Title 1" under image 1', function () {
 			expect($('#multiple').find('p').first()).toHaveText('Joomla Title 1');
 		});
@@ -28,6 +47,15 @@ define(['jquery', 'testsRoot/caption/spec-setup', 'jasmineJquery'], function ($)
 	});
 
 	describe('JCaption with empty title attribute value', function () {
+		beforeAll(function () {
+			Joomla.optionsStorage = {
+				'js-image-caption': {
+					'selector': '#empty img.test'
+				}
+			};
+			new Joomla.JCaption('#empty img.test');
+
+		});
 		it('Should not have a <p> element inside the image container', function () {
 			expect($('#empty')).not.toContainElement('p');
 		});
@@ -43,6 +71,16 @@ define(['jquery', 'testsRoot/caption/spec-setup', 'jasmineJquery'], function ($)
 	});
 
 	describe('JCaption with additional options', function () {
+		beforeAll(function () {
+			Joomla.optionsStorage = {
+				'js-image-caption': {
+					'selector': '#options img.test'
+				}
+			};
+
+			new Joomla.JCaption('#options img.test');
+		});
+
 		it('Should have 2 elements with class right', function () {
 			expect($('#options').find('.right').length).toEqual(2);
 		});

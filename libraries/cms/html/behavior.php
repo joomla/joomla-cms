@@ -84,14 +84,8 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/legacy/caption.min.js', array('version' => 'auto', 'relative' => true));
 
-		// Attach caption to document
-		JFactory::getDocument()->addScriptDeclaration(
-<<<JS
-document.addEventListener('DOMContentLoaded',  function() {
-	new JCaption('$selector');
-});
-JS
-		);
+		// Pass the required options to the javascript
+		JFactory::getDocument()->addScriptOptions('js-image-caption', ['selector' => $selector]);
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;

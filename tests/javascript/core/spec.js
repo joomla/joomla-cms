@@ -15,6 +15,11 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		var form = document.getElementById('adminForm');
 		form.task = {};
 
+		// Load te options
+		beforeAll(function () {
+			Joomla.loadOptions();
+		});
+
 		beforeEach(function () {
 			spyOnEvent('#adminForm', 'submit');
 			form.removeChild = jasmine.createSpy('removeChild');
