@@ -85,7 +85,7 @@
 				<field
 					name="showAllChildren"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
 					description="MOD_MENU_FIELD_ALLCHILDREN_DESC"
 					default="1"

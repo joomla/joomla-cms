@@ -22,7 +22,7 @@
 				<field
 					name="collect_urls"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_LABEL"
 					description="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_DESC"
 					default="1"

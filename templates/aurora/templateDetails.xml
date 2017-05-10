@@ -74,7 +74,7 @@
 				<field
 					name="fluidContainer"
 					type="radio"
-					class="switcher switcher-primary"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="TPL_AURORA_FLUID_LABEL"
 					description="TPL_AURORA_FLUID_DESC"

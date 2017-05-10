@@ -50,11 +50,11 @@
 			label="COM_MENUS_MENU_CLIENT_ID_LABEL"
 			description="COM_MENUS_MENU_CLIENT_ID_DESC"
 			default="0"
-			class="switcher switcher-primary"
+			class="btn-group btn-group-yesno"
 			required="true"
 		>
-			<option value="0">JSITE</option>
 			<option value="1">JADMINISTRATOR</option>
+			<option value="0">JSITE</option>
 		</field>
 		<field
 			name="rules"

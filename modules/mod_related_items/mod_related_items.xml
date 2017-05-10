@@ -25,7 +25,7 @@
 				<field
 					name="showDate"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_RELATED_FIELD_SHOWDATE_LABEL"
 					description="MOD_RELATED_FIELD_SHOWDATE_DESC"
 					default="0"

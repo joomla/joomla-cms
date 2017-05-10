@@ -33,7 +33,7 @@
 				<field
 					name="filter_groups"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_LABEL"
 					description="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_DESC"
 					default="0"

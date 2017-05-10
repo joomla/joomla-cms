@@ -39,7 +39,7 @@
 				<field
 					name="multiple"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
 					description="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_DESC"

@@ -28,7 +28,7 @@
 				<field
 					name="lineNumbers"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
 					default="0"
@@ -41,7 +41,7 @@
 				<field
 					name="codeFolding"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
 					default="0"
@@ -54,7 +54,7 @@
 				<field
 					name="markerGutter"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
 					default="1"
@@ -80,7 +80,7 @@
 				<field
 					name="activeLine"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
 					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
 					default="0"
@@ -93,7 +93,7 @@
 				<field
 					name="selectionMatches"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_LABEL"
 					description="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_DESC"
 					default="0"
@@ -106,7 +106,7 @@
 				<field
 					name="matchTags"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
 					default="1"
@@ -119,7 +119,7 @@
 				<field
 					name="matchBrackets"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
 					default="1"
@@ -132,7 +132,7 @@
 				<field
 					name="autoCloseTags"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
 					default="1"
@@ -145,7 +145,7 @@
 				<field
 					name="autoCloseBrackets"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
 					description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
 					default="1"
@@ -158,7 +158,7 @@
 				<field
 					name="autoFocus"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
 					description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
 					default="1"
@@ -171,7 +171,7 @@
 				<field
 					name="vimKeyBinding"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_DESC"
 					default="0"

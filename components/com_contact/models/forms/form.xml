@@ -292,8 +292,8 @@
 			label="CONTACT_PARAMS_NAME_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_position" type="list"
@@ -301,8 +301,8 @@
 			label="CONTACT_PARAMS_CONTACT_POSITION_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_email" type="list"
@@ -310,8 +310,8 @@
 			label="CONTACT_PARAMS_CONTACT_POSITION_E_MAIL_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_street_address" type="list"
@@ -319,8 +319,8 @@
 			label="CONTACT_PARAMS_STREET_ADDRESS_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_suburb" type="list"
@@ -328,8 +328,8 @@
 			label="CONTACT_PARAMS_TOWN_SUBURB_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_state" type="list"
@@ -337,8 +337,8 @@
 			label="CONTACT_PARAMS_STATE_COUNTY_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_postcode" type="list"
@@ -346,8 +346,8 @@
 			label="CONTACT_PARAMS_POST_ZIP_CODE_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_country" type="list"
@@ -355,8 +355,8 @@
 			label="CONTACT_PARAMS_COUNTRY_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_telephone" type="list"
@@ -364,8 +364,8 @@
 			label="CONTACT_PARAMS_TELEPHONE_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_mobile" type="list"
@@ -373,8 +373,8 @@
 			label="CONTACT_PARAMS_MOBILE_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_fax" type="list"
@@ -382,8 +382,8 @@
 			label="CONTACT_PARAMS_FAX_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_webpage" type="list"
@@ -391,8 +391,8 @@
 			label="CONTACT_PARAMS_WEBPAGE_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_image" type="list"
@@ -400,8 +400,8 @@
 			label="CONTACT_PARAMS_IMAGE_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="allow_vcard" type="list"
@@ -409,8 +409,8 @@
 			label="CONTACT_PARAMS_VCARD_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -420,8 +420,8 @@
 			description="CONTACT_PARAMS_NAME_DESC"
 			>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_articles" type="list"
@@ -429,8 +429,8 @@
 			label="CONTACT_SHOW_ARTICLES_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="articles_display_num" type="list" default=""
@@ -458,8 +458,8 @@
 			label="CONTACT_PROFILE_SHOW_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 			
 		<field
@@ -478,8 +478,8 @@
 			label="CONTACT_SHOW_LINKS_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="linka_name" type="text"
@@ -553,8 +553,8 @@
 			label="CONTACT_EMAIL_SHOW_FORM_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="email_description" type="text"
@@ -568,8 +568,8 @@
 			label="CONTACT_EMAIL_EMAIL_COPY_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="banned_email" type="textarea"
@@ -598,8 +598,8 @@
 			label="CONTACT_CONFIG_SESSION_CHECK_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field name="custom_reply" type="list"
@@ -607,8 +607,8 @@
 			label="CONTACT_CONFIG_CUSTOM_REPLY"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field name="redirect" type="text"

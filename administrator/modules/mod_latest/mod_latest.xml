@@ -82,7 +82,7 @@
 				<field
 					name="automatic_title"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
 					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC">

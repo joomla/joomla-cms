@@ -191,7 +191,7 @@
 			<field
 				name="show_feed"
 				type="radio"
-				class="switcher"
+				class="btn-group btn-group-yesno"
 				label="COM_FINDER_CONFIG_SHOW_FEED_LABEL"
 				description="COM_FINDER_CONFIG_SHOW_FEED_DESC"
 				default="0"
@@ -203,7 +203,7 @@
 			<field
 				name="show_feed_text"
 				type="radio"
-				class="switcher"
+				class="btn-group btn-group-yesno"
 				label="COM_FINDER_CONFIG_SHOW_FEED_TEXT_LABEL"
 				description="COM_FINDER_CONFIG_SHOW_FEED_TEXT_DESC"
 				default="0"

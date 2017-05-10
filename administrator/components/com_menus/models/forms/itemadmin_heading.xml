@@ -40,7 +40,7 @@
 			<field
 				name="menu_text"
 				type="radio"
-				class="switcher"
+				class="btn-group btn-group-yesno"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
 				default="1"
@@ -53,7 +53,7 @@
 			<field
 				name="menu_show"
 				type="radio"
-				class="switcher"
+				class="btn-group btn-group-yesno"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
 				default="1"

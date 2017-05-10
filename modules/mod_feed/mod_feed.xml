@@ -36,7 +36,7 @@
 				<field
 					name="rssrtl"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_FEED_FIELD_RTL_LABEL"
 					description="MOD_FEED_FIELD_RTL_DESC"
 					default="0"
@@ -48,7 +48,7 @@
 				<field
 					name="rsstitle"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
 					description="MOD_FEED_FIELD_RSSTITLE_DESC"
 					default="1"
@@ -60,7 +60,7 @@
 				<field
 					name="rssdesc"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_DESCRIPTION_DESC"
 					default="1"
@@ -72,7 +72,7 @@
 				<field
 					name="rssimage"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
 					description="MOD_FEED_FIELD_IMAGE_DESC"
 					default="1"
@@ -92,7 +92,7 @@
 				<field
 					name="rssitemdesc"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC"
 					default="1"
