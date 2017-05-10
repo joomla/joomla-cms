@@ -32,7 +32,7 @@ class TagsControllerTags extends JControllerLegacy
 			'title'     => trim($app->input->get('title', null, 'string')),
 			'flanguage' => $app->input->get('flanguage', null, 'word'),
 			'published' => $app->input->get('published', 1, 'int'),
-			'parent_id' => $app->input->get('parent_id', null, 'int'),
+			'parent_id' => $app->input->get('parent_id', 0, 'int'),
 		);
 
 		if ($results = JHelperTags::searchTags($filters))
