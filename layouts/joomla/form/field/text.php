@@ -75,23 +75,19 @@ $attributes = array(
 );
 ?>
 
-
-
 <?php if (!empty($addon)) : ?>
-	<div class="input-group">
+<div class="input-group">
 <?php endif; ?>
-
-<input
-	type="text"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo $dirname; ?>
-	<?php echo implode(' ', $attributes); ?>>
-
+	<input
+		type="text"
+		name="<?php echo $name; ?>"
+		id="<?php echo $id; ?>"
+		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+		<?php echo $dirname; ?>
+		<?php echo implode(' ', $attributes); ?>>
 <?php if (!empty($addon)) : ?>
 	<span class="input-group-addon"><?php echo $addon; ?></span>
-	</div>
+</div>
 <?php endif; ?>
 
 <?php if ($options) : ?>
