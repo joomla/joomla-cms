@@ -121,3 +121,14 @@ legend {
 .valid {
   border-color: $switcher-color-success;
 }
+
+.controls .btn-group.btn-group-yesno {
+  width: 220px;
+  max-width: 100%;
+  > .btn {
+    width: 50%;
+    min-width: 40px;
+    padding: 2px 0;
+  }
+}
+

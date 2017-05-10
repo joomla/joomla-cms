@@ -8555,6 +8555,14 @@ legend {
 .valid {
   border-color: #64bd63; }
 
+.controls .btn-group.btn-group-yesno {
+  width: 220px;
+  max-width: 100%; }
+  .controls .btn-group.btn-group-yesno > .btn {
+    width: 50%;
+    min-width: 40px;
+    padding: 2px 0; }
+
 .header {
   position: relative;
   z-index: 5;
