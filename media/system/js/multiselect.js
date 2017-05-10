@@ -8,13 +8,13 @@
  */
 Joomla = window.Joomla || {};
 
-Joomla.JMultiSelect = function(table) {
+Joomla.JMultiSelect = function(formElement) {
 	'use strict';
 
 	var last, boxes,
 
-		initialize = function(table) {
-			var tableEl = document.querySelector(table);
+		initialize = function(formElement) {
+			var tableEl = document.querySelector(formElement);
 
 			if (tableEl) {
 				boxes = tableEl.querySelectorAll('input[type=checkbox]');
@@ -44,11 +44,19 @@ Joomla.JMultiSelect = function(table) {
 
 			last = current;
 	};
-	initialize(table);
+	initialize(formElement);
 };
 
 document.addEventListener('DOMContentLoaded', function(event) {
 	'use strict';
+
+	if (Joomla.getOptions('js-multiselect')) {
+		if (Joomla.getOptions('js-multiselect').formName) {
+			Joomla.JMultiSelect(Joomla.getOptions('js-multiselect').formName);
+		} else {
+			Joomla.JMultiSelect('adminForm');
+		}
+	}
 
 	var rows = document.querySelectorAll('tr[class^="row"]');
 
@@ -68,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	}
 
 	var checkallToggle = document.getElementsByName('checkall-toggle')[0];
+
 	if (checkallToggle) {
 		checkallToggle.addEventListener('click', function(event) {
 			var checkall = this;
@@ -78,17 +87,19 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		});
 	}
 
-	rows.forEach(function(row, index) {
-		row.addEventListener('click', function(event) {
-			var clicked   = 'cb' + index, cbClicked = document.getElementById(clicked);
+	if (rows.length) {
+		rows.forEach(function(row, index) {
+			row.addEventListener('click', function(event) {
+				var clicked   = 'cb' + index, cbClicked = document.getElementById(clicked);
 
-			if (!(event.target.id == clicked)) {
-				cbClicked.checked = !cbClicked.checked;
-				Joomla.isChecked(cbClicked.checked);
-			}
-	
-			changeBg(this, cbClicked);
+				if (!(event.target.id == clicked)) {
+					cbClicked.checked = !cbClicked.checked;
+					Joomla.isChecked(cbClicked.checked);
+				}
+
+				changeBg(this, cbClicked);
+			});
 		});
-	});
+	}
 });
 
