@@ -11,6 +11,7 @@
     <description>PLG_MEDIA-ACTION_CROP_XML_DESCRIPTION</description>
     <files>
         <filename plugin="crop">crop.php</filename>
+        <folder>form</folder>
     </files>
     <languages>
         <language tag="en-GB">en-GB.plg_media-action_crop.ini</language>
