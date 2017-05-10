@@ -5,11 +5,11 @@
                 <div class="image-cropped" :style="{ backgroundImage: 'url(' + itemUrl + ')' }"
                  @dblclick="openEditView()"></div>
             </div>
-
         </div>
         <div class="media-browser-item-info">
             {{ item.name }} {{ item.filetype }}
         </div>
+        <div class="media-browser-select"></div>
         <div class="media-browser-actions d-flex">
             <a href="#" class="action-delete">
                 <span class="image-browser-action fa fa-trash" aria-hidden="true"></span>

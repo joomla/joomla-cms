@@ -82,7 +82,7 @@
     border-radius: .25rem;
     opacity: 0;
     transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .media-browser-item:hover .media-browser-item-preview::after {
+    .media-browser-item:hover .media-browser-item-preview::after, .selected .media-browser-item-preview::after {
       opacity: 1; }
 
 .media-browser-item-info {
@@ -92,6 +92,43 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden; }
+
+.media-browser-select {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  height: 2rem;
+  width: 2rem;
+  border-radius: .25rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid white;
+  box-shadow: inset 0 0 0 0 white;
+  content: "";
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0; }
+  .media-browser-item:hover .media-browser-select {
+    opacity: 1; }
+  .media-browser-select:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "\f00c";
+    font-family: FontAwesome;
+    font-size: 1.3rem;
+    height: 1.7rem;
+    line-height: 1.7rem;
+    text-align: center;
+    width: 1.7rem;
+    transform: scale(0.5);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .selected .media-browser-select:after {
+      transform: scale(1);
+      opacity: 1; }
+  .selected .media-browser-select {
+    box-shadow: inset 0 0 0 15px white;
+    background-color: white;
+    opacity: 1; }
 
 .media-browser-actions {
   position: absolute;
@@ -130,9 +167,6 @@
   .image-browser-action:hover {
     background-color: white;
     color: #464a4c; }
-
-.selected .image-cropped, .selected .file-background, .selected .folder-background {
-  box-shadow: 0 0 0 3px #007eb7 inset; }
 
 .image-brackground {
   background-position: 0px 0px, 10px 10px;
