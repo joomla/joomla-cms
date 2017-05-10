@@ -51,6 +51,14 @@ class JFormFieldText extends JFormField
 	protected $dirname;
 
 	/**
+	 * Input addon
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $addon;
+
+	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
@@ -73,6 +81,7 @@ class JFormFieldText extends JFormField
 		{
 			case 'maxLength':
 			case 'dirname':
+			case 'addon':
 			case 'inputmode':
 				return $this->$name;
 		}
@@ -105,6 +114,10 @@ class JFormFieldText extends JFormField
 
 			case 'inputmode':
 				$this->inputmode = (string) $value;
+				break;
+
+			case 'addon':
+				$this->addon = (string) $value;
 				break;
 
 			default:
@@ -156,6 +169,8 @@ class JFormFieldText extends JFormField
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
 			$this->maxLength = (int) $this->element['maxlength'];
+
+			$this->addon = (string) $this->element['addon'];
 		}
 
 		return $result;
@@ -275,6 +290,7 @@ class JFormFieldText extends JFormField
 			'pattern'   => $this->pattern,
 			'inputmode' => $inputmode,
 			'dirname'   => $dirname,
+			'addon'     => $this->addon,
 			'options'   => $options,
 		);
 

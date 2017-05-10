@@ -74,11 +74,26 @@ $attributes = array(
 	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
 );
 ?>
-<input type="text" name="<?php
-echo $name; ?>" id="<?php
-echo $id; ?>" <?php
-echo $dirname; ?> value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?>>
+
+
+
+<?php if (!empty($addon)) : ?>
+	<div class="input-group">
+<?php endif; ?>
+
+<input
+	type="text"
+	name="<?php echo $name; ?>"
+	id="<?php echo $id; ?>"
+	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+	<?php echo $dirname; ?>
+	<?php echo implode(' ', $attributes); ?>>
+
+<?php if (!empty($addon)) : ?>
+	<span class="input-group-addon"><?php echo $addon; ?></span>
+	</div>
+<?php endif; ?>
+
 <?php if ($options) : ?>
 	<datalist id="<?php echo $id; ?>_datalist">
 		<?php foreach ($options as $option) : ?>
