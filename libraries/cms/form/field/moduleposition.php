@@ -35,6 +35,13 @@ class JFormFieldModulePosition extends JFormFieldText
 	protected $clientId;
 
 	/**
+	* Layout to render the label
+	*
+	* @var  string
+	*/
+	protected $layout = 'joomla.form.field.moduleposition';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -131,32 +138,31 @@ class JFormFieldModulePosition extends JFormFieldText
 	 */
 	protected function getInput()
 	{
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal');
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
 
-		// Build the script.
-		$script = array();
-		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
-		$script[] = '		document.getElementById("' . $this->id . '").value = name;';
-		$script[] = '		jModalClose();';
-		$script[] = '	}';
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
 
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getLayoutData()
+	{
+		// Get the basic field data
+		$data = parent::getLayoutData();
 
-		// Setup variables for display.
-		$html = array();
-		$link = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_' . $this->id
-			. '&amp;client_id=' . $this->clientId;
+		$extraData = array(
+				'clientId' => $this->clientId,
+				'inputTag' => parent::getInput()
+		);
 
-		// The current user display field.
-		$html[] = '<div class="input-append">';
-		$html[] = parent::getInput()
-			. '<a class="btn modal" title="' . JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
-			. '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
-		$html[] = '</div>';
-
-		return implode("\n", $html);
+		return array_merge($data, $extraData);
 	}
 }
