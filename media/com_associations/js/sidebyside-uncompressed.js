@@ -156,7 +156,7 @@ jQuery(document).ready(function($) {
 	$('#reference-association').on('load', function() {
 
 		// Load Target Pane
-        $('iframe#target-association').attr('src', $('iframe#target-association').data('url'));
+        document.getElementById('target-association').setAttribute('src', document.getElementById('target-association').getAttribute('data-url'));
 
 		// If copy button used
 		if ($(this).contents().find('#jform_id').val() !== this.getAttribute('data-id'))
