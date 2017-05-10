@@ -1067,18 +1067,19 @@ class JForm
 	/**
 	 * Method to add a list option for a field XML element.
 	 *
-	 * @param   string  $name      The name of the form field for which to set the attribute value.
-	 * @param   string  $value     The option's value attribute.
-	 * @param   string  $text      The option's display text.
-	 * @param   string  $optGroup  The option's group label.
-	 * @param   string  $group     The optional dot-separated form group path on which to find the field.
+	 * @param   string  $name        The name of the form field for which to set the attribute value.
+	 * @param   string  $value       The option's value attribute.
+	 * @param   string  $text        The option's display text.
+	 * @param   string  $optGroup    The option's group label.
+	 * @param   string  $group       The optional dot-separated form group path on which to find the field.
+	 * @param   array   $attributes  The additional attributes for the option element
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  UnexpectedValueException
 	 */
-	public function addFieldOption($name, $value, $text, $optGroup = null, $group = null)
+	public function addFieldOption($name, $value, $text, $optGroup = null, $group = null, array $attributes = array())
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
@@ -1110,6 +1111,11 @@ class JForm
 			$option = $element->addChild('option', $text);
 
 			$option['value'] = $value;
+
+			foreach ($attributes as $index => $attribute)
+			{
+				$option[$index] = $attribute;
+			}
 
 			// Synchronize any paths found in the load.
 			$this->syncPaths();
