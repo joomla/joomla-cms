@@ -187,7 +187,7 @@ jQuery(function ($) {
 
                         var parentPane = tabToClick.closest('.tab-pane');
 
-                        // bubble up for nested tabs (like permissions tabs in the permissions pane
+                        // bubble up for nested tabs (like permissions tabs in the permissions pane)
                         if (parentPane) {
                             var id = parentPane.attr('id');
                             if (id) {
