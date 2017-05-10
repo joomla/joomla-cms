@@ -283,12 +283,14 @@
 
 				<field
 					name="fontSize"
-					type="text"
+					type="integer"
 					label="PLG_CODEMIRROR_FIELD_FONT_SIZE_LABEL"
 					description="PLG_CODEMIRROR_FIELD_FONT_SIZE_DESC"
+					first="6"
+					last="16"
+					step="1"
 					default="13"
 					filter="intval"
-					addon="px"
 				/>
 
 				<field
