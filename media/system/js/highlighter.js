@@ -6,7 +6,7 @@
 
 Joomla = window.Joomla || {};
 
-(function(window, Joomla) {
+(function(Joomla) {
 	Joomla.Highlighter = function(_options){
 		var words, options = {
 			    autoUnhighlight: true,
@@ -128,4 +128,4 @@ Joomla = window.Joomla || {};
 			document.querySelector(end).remove();
 		}
 	});
-})(window, Joomla);
+})(Joomla);

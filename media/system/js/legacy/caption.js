@@ -14,7 +14,7 @@
  */
 Joomla = window.Joomla || {};
 
-(function(window, Joomla) {
+(function(Joomla) {
 	Joomla.JCaption = function(selector) {
 		var insertBefore = function(el, referenceNode) {
 			    referenceNode.parentNode.insertBefore(el, referenceNode);
@@ -63,5 +63,5 @@ Joomla = window.Joomla || {};
 			}
 		}
 	});
-})(window, Joomla);
+})(Joomla);
 
