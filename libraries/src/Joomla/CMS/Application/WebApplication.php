@@ -837,6 +837,17 @@ class WebApplication extends BaseApplication
 	 */
 	public function getTranslator()
 	{
+		if ($this->translator === null)
+		{
+			$language = $this->language;
+
+			if (!$language)
+			{
+				$language = \JFactory::getLanguage();
+			}
+
+			$this->translator = new Translator($language);
+		}
 		return $this->translator;
 	}
 
@@ -945,7 +956,7 @@ class WebApplication extends BaseApplication
 	 * @since   11.3
 	 * @throws  \RuntimeException
 	 */
-	protected function fetchConfigurationData($file = '', $class = '\JConfig')
+	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
 		// Instantiate variables.
 		$config = array();
