@@ -43,6 +43,9 @@ class LanguagesControllerInstalled extends JControllerLegacy
 
 			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
 			$type = 'message';
+
+			// Reset the application language
+			JFactory::getApplication()->setUserState('application.lang', $cid);
 		}
 		else
 		{
