@@ -115,6 +115,18 @@
 		</field>
 
 		<field
+			name="add_mailto_link"
+			type="radio"
+			label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
+			description="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>		
+		
+		<field
 			name="show_position"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
