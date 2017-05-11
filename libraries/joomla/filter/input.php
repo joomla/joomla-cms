@@ -1097,10 +1097,11 @@ class JFilterInput extends InputFilter
 			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
 			// Get the portion after attribute value
-			if (preg_match($pregMatch, StringHelper::substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
+			$attributeValueRemainder = StringHelper::substr($remainder, $nextBefore);
+			if (preg_match($pregMatch, $attributeValueRemainder, $matches, PREG_OFFSET_CAPTURE))
 			{
 				// We have a closing quote, convert its byte position to a UTF-8 string length, using non-multibyte substr()
-				$stringBeforeQuote = substr($remainder, 0, $matches[0][1]);
+				$stringBeforeQuote = substr($attributeValueToEnd, 0, $matches[0][1]);
 				$closeQuoteChars = StringHelper::strlen($stringBeforeQuote);
 				$nextAfter = $nextBefore + $matches[0][1];
 			}
