@@ -1082,12 +1082,12 @@ class JFilterInput extends InputFilter
 		 */
 		while (preg_match('#<[^>]*?=\s*?(\"|\')#s', $remainder, $matches, PREG_OFFSET_CAPTURE))
 		{
-			// We have found an opening quote, convert its byte position to a UTF-8 string length, using non-multibyte substr()
-			$stringBeforeQuote = substr($remainder, 0, $matches[1][1]);
-			$quotePosition = StringHelper::strlen($stringBeforeQuote);
+			// We have found a tag with an attribute, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+			$stringBeforeTag = substr($remainder, 0, $matches[0][1]);
+			$tagPosition = StringHelper::strlen($stringBeforeTag);
 
-			// Get the portion before the attribute value
-			$nextBefore = $quotePosition + StringHelper::strlen($matches[0][0]);
+			// Get the character length before the attribute value
+			$nextBefore = $tagPosition + StringHelper::strlen($matches[0][0]);
 
 			/*
 			 * Figure out if we have a single or double quote and look for the matching closing quote
