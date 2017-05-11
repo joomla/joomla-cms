@@ -214,21 +214,59 @@ class JFormFieldList extends JFormField
 	 * Method to add an option to the list field.
 	 *
 	 * @param   string  $text        Text/Language variable of the option.
-	 * @param   array   $attributes  Array of attributes ('name' => 'value' format)
+	 * @param   string  $value       The option's value attribute.
+	 * @param   array   $attributes  The additional attributes for the option element array('name' => 'value') format.
+	 * @param   string  $optGroup    The option's group label.
 	 *
 	 * @return  JFormFieldList  For chaining.
 	 *
 	 * @since   3.7.0
 	 */
-	public function addOption($text, $attributes = array())
+	public function addOption($text, $value = null, $attributes = array(), $optGroup = null)
 	{
+		// B/C for J3.7.0: addOption($text, $attributes = array())
+		if (is_array($value))
+		{
+			$attributes = $value;
+			$value      = null;
+			$optGroup   = null;
+		}
+
 		if ($text && $this->element instanceof SimpleXMLElement)
 		{
-			$child = $this->element->addChild('option', $text);
-
-			foreach ($attributes as $name => $value)
+			// If we have an option group, add it first
+			if ($optGroup)
 			{
-				$child->addAttribute($name, $value);
+				$groups = $this->element->xpath('group[@label="' . $optGroup . '"]');
+
+				if (count($groups))
+				{
+					$element = $groups[0];
+				}
+				else
+				{
+					$element = $this->element->addChild('group');
+
+					$element['label'] = $optGroup;
+				}
+			}
+			else
+			{
+				$element = $this->element;
+			}
+
+			// Add the option element
+			$option = $element->addChild('option', $text);
+
+			if (isset($value))
+			{
+				$option['value'] = $value;
+			}
+
+			// Add additional attributes
+			foreach ($attributes as $index => $attribute)
+			{
+				$option[$index] = $attribute;
 			}
 		}
 

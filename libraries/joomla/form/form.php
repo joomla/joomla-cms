@@ -1088,40 +1088,17 @@ class JForm
 		}
 
 		// Find the form field element from the definition.
-		$element = $this->findField($name, $group);
+		$field = $this->getField($name, $group);
 
-		// If the element doesn't exist return false.
-		if (!($element instanceof SimpleXMLElement))
+		// Make sure the field supports adding options.
+		if (!is_callable(array($field, 'addOption')))
 		{
-			return false;
+			throw new UnexpectedValueException(sprintf('%s::addFieldOption `field` does not support options', get_class($this)));
 		}
 
-		// Otherwise add the option and return true.
-		else
-		{
-			// If we have an option group
-			if ($optGroup)
-			{
-				$groups  = $element->xpath('group[@label="' . $optGroup . '"]');
-				$element = count($groups) ? $groups[0] : $element->addChild('group');
+		$field->addOption($text, $value, $attributes, $optGroup);
 
-				$element['label'] = $optGroup;
-			}
-
-			$option = $element->addChild('option', $text);
-
-			$option['value'] = $value;
-
-			foreach ($attributes as $index => $attribute)
-			{
-				$option[$index] = $attribute;
-			}
-
-			// Synchronize any paths found in the load.
-			$this->syncPaths();
-
-			return true;
-		}
+		return true;
 	}
 
 	/**
