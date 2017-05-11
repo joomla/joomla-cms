@@ -153,7 +153,7 @@ class JCacheStorageCachelite extends JCacheStorage
 
 				$filename = $file->getFilename();
 
-				$item->updateSize(filesize($path . '/' . $foldername . '/' . $filename) / 1024);
+				$item->updateSize(filesize($path . '/' . $foldername . '/' . $filename));
 			}
 
 			$data[$foldername] = $item;
