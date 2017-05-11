@@ -125,7 +125,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
