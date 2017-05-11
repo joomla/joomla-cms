@@ -9007,6 +9007,11 @@ legend {
 .valid {
   border-color: #64bd63; }
 
+.btn-status .fa {
+  width: 14px;
+  height: 14px;
+  line-height: 14px; }
+
 .header {
   position: relative;
   z-index: 5;

@@ -121,3 +121,10 @@ legend {
 .valid {
   border-color: $switcher-color-success;
 }
+
+// Status buttons with icons
+.btn-status .fa {
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+}
