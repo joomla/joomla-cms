@@ -26,15 +26,17 @@ abstract class JHtmlNumber
 	 * However, one of the allowed unit types (viz. 'b', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB') may also be used instead.
 	 * IEC standard unit types ('KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB') can be used as well.
 	 *
-	 * @param   string   $bytes      The number of bytes. Can be either numeric or suffixed format: 32M, 60K, 12G or 812b
-	 * @param   string   $unit       The type of unit to return, few special values are:
-	 *                               Blank string '' for no unit,
-	 *                               'auto' to choose automatically (default)
-	 *                               'binary' to choose automatically but use binary unit prefix
-	 * @param   integer  $precision  The number of digits to be used after the decimal place.
-	 * @param   bool     $iec        Whether to be aware of IEC standards. IEC prefixes are always acceptable in input.
-	 *                               When IEC is ON:  KiB = 1024 B, KB = 1000 B
-	 *                               When IEC is OFF: KiB = 1024 B, KB = 1024 B
+	 * @param   string      $bytes       The number of bytes. Can be either numeric or suffixed format: 32M, 60K, 12G or 812b
+	 * @param   string      $unit        The type of unit to return, few special values are:
+	 *                                   Blank string '' for no unit,
+	 *                                   'auto' to choose automatically (default)
+	 *                                   'binary' to choose automatically but use binary unit prefix
+	 * @param   integer     $precision   The number of digits to be used after the decimal place.
+	 * @param   bool        $iec         Whether to be aware of IEC standards. IEC prefixes are always acceptable in input.
+	 *                                   When IEC is ON:  KiB = 1024 B, KB = 1000 B
+	 *                                   When IEC is OFF: KiB = 1024 B, KB = 1024 B
+	 *
+	 * @param   Translator  $translator  The translator.
 	 *
 	 * @return  string   The number of bytes in the proper units.
 	 *
