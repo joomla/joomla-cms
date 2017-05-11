@@ -56,9 +56,9 @@ class Translator
 	 * Translates a string into the current language.
 	 *
 	 * Examples:
-	 * `<script>alert(Joomla.JText._('<?php echo $translator->_("JDEFAULT", array("script"=>true)); ?>'));</script>`
+	 * `<script>alert(Joomla.JText._('<?php echo $translator->translate("JDEFAULT", array("script"=>true)); ?>'));</script>`
 	 * will generate an alert message containing 'Default'
-	 * `<?php echo $translator->_("JDEFAULT"); ?>` will generate a 'Default' string
+	 * `<?php echo $translator->translate("JDEFAULT"); ?>` will generate a 'Default' string
 	 *
 	 * @param   string   $string                The string to translate.
 	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
@@ -69,7 +69,7 @@ class Translator
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
+	public function translate($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
 		if (is_array($jsSafe))
 		{
@@ -185,7 +185,7 @@ class Translator
 			$string .= '_' . $alt;
 		}
 
-		return $this->_($string, $jsSafe, $interpretBackSlashes, $script);
+		return $this->translate($string, $jsSafe, $interpretBackSlashes, $script);
 	}
 
 	/**
@@ -340,7 +340,7 @@ class Translator
 	 *
 	 * Note that this method can take a mixed number of arguments as for the sprintf function.
 	 *
-	 * @param   format  $string  The format string.
+	 * @param   string  $string  The format string.
 	 *
 	 * @return  mixed
 	 *

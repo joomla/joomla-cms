@@ -37,7 +37,7 @@ class JText
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		return JFactory::getApplication()->getTranslator()->_($string, $jsSafe, $interpretBackSlashes, $script);
+		return JFactory::getApplication()->getTranslator()->translate($string, $jsSafe, $interpretBackSlashes, $script);
 	}
 
 	/**
