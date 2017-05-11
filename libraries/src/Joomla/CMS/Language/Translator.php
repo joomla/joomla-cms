@@ -17,7 +17,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class Translator
 {
-
 	/**
 	 * JavaScript strings
 	 *
