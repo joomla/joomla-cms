@@ -1,13 +1,11 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  com_media
+ * @subpackage  Plugins
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-
 
 /**
  * Test class for local file adapter.
@@ -390,6 +388,25 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
+	 * MediaFileAdapterLocal::copy with a file to a folder
+	 *
+	 * @return void
+	 */
+	public function testFileCopyToFolder()
+	{
+		$adapter = new MediaFileAdapterLocal($this->root);
+
+		$this->cleanRootFolder();
+
+		JFile::write($this->root . 'test-src.txt', 'test');
+		JFolder::create($this->root . 'src');
+
+		// Test file copy
+		$adapter->copy('test-src.txt', 'src');
+		$this->assertTrue(JFile::exists($this->root . 'src/test-src.txt'));
+	}
+
+	/**
 	 * MediaFileAdapterLocal::copy with a file without force condition
 	 * When destination already has a file with same name it will throw an exception
 	 *
@@ -519,6 +536,26 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 	}
 
 	/**
+	 * MediaFileAdapterLocal::copy a folder to a file
+	 *
+	 * @return void
+	 */
+	public function testFolderCopyToFile()
+	{
+		$adapter = new MediaFileAdapterLocal($this->root);
+		$this->cleanRootFolder();
+
+		// Make some mock folders in the root
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar.txt', 'bar');
+		JFile::write($this->root . 'dest/bar.txt', 'bar');
+
+		// Test folder copy to a file
+		$adapter->copy('src', 'dest/bar.txt', true);
+		$this->assertTrue(JFile::exists($this->root . 'dest/bar.txt/bar.txt'));
+	}
+
+	/**
 	 * MediaFileAdapterLocal::move with a file
 	 *
 	 * @return void
@@ -536,6 +573,26 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		// Test file move
 		$adapter->move('src-text.txt', 'dest-text.txt');
 		$this->assertTrue(JFile::exists($this->root . 'dest-text.txt'));
+		$this->assertFalse(JFile::exists('src-text.txt'));
+	}
+
+	/**
+	 * MediaFileAdapterLocal::move with a file to a folder
+	 *
+	 * @return void
+	 */
+	public function testMoveFileToFolder()
+	{
+		$adapter = new MediaFileAdapterLocal($this->root);
+		$this->cleanRootFolder();
+
+		// Make some mock folders in the root
+		JFile::write($this->root . 'src/src-text.txt', 'some text here');
+		JFolder::create($this->root . 'dest');
+
+		// Test file move
+		$adapter->move('src/src-text.txt', 'dest');
+		$this->assertTrue(JFile::exists($this->root . 'dest/src-text.txt'));
 		$this->assertFalse(JFile::exists('src-text.txt'));
 	}
 
@@ -664,4 +721,24 @@ class MediaFileAdapterLocalTest extends TestCaseDatabase
 		$adapter->move('invalid', 'invalid-new');
 	}
 
+	/**
+	 * MediaFileAdapterLocal::copy a folder to a file
+	 *
+	 * @return void
+	 */
+	public function testMoveFolderToFile()
+	{
+		$adapter = new MediaFileAdapterLocal($this->root);
+		$this->cleanRootFolder();
+
+		// Make some mock folders in the root
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar.txt', 'bar');
+		JFile::write($this->root . 'dest/bar.txt', 'bar');
+
+		// Test folder copy to a file
+		$adapter->move('src', 'dest/bar.txt', true);
+		$this->assertTrue(JFile::exists($this->root . 'dest/bar.txt/bar.txt'));
+		$this->assertFalse(JFile::exists($this->root . 'src/bar.txt'));
+	}
 }
