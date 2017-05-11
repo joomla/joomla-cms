@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\BaseApplication;
+use Joomla\CMS\Language\Translator;
 use Joomla\Registry\Registry;
 
 JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
@@ -88,6 +89,12 @@ class JApplication extends BaseApplication
 	 * @deprecated  3.2
 	 */
 	public $client;
+
+	/**
+	 * @var    Translator  The application translator object.
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $translator = null;
 
 	/**
 	 * JApplication instances container.
@@ -922,6 +929,24 @@ class JApplication extends BaseApplication
 	public static function getHash($seed)
 	{
 		return JApplicationHelper::getHash($seed);
+	}
+
+	/**
+	 * Method to get the application translator object.
+	 *
+	 * Whenever a new language is loaded, the translator is recreated,
+	 *
+	 * @return  Translator  The translator object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTranslator()
+	{
+		if ($this->translator === null)
+		{
+			$this->translator = new Translator(\JFactory::getLanguage());
+		}
+		return $this->translator;
 	}
 
 	/**
