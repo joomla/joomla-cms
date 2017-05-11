@@ -24,7 +24,7 @@
 # Grunt #
 node_modules/
 /build/assets_tmp
-scss-lint-report.xml
+/scss-lint-report.xml
 /dev/assets/packages.json
 
 # Removed in Joomla 4 #
