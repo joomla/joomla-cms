@@ -9,7 +9,7 @@
 				description="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_DESC"
 				icon="list" 
 				multiple="true"
-			/>
+			>
 				<form hidden="true" name="list_templates_modal" repeat="true">
 					<field
 						name="name"
