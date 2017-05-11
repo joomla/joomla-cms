@@ -215,12 +215,12 @@ $assoc = JLanguageAssociations::isEnabled();
 								</td>
 								<?php if ($this->vote) : ?>
 									<td class="hidden-sm-down text-center">
-										<span class="badge badge-success">
+										<span class="badge badge-info">
 										<?php echo (int) $item->rating_count; ?>
 										</span>
 									</td>
 									<td class="hidden-sm-down text-center">
-										<span class="badge badge-warning">
+										<span class="badge badge-info">
 										<?php echo (int) $item->rating; ?>
 										</span>
 									</td>
