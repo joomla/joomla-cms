@@ -19,3 +19,7 @@
 .icon-unpublish {
   color: $brand-danger;
 }
+
+.sortable-handler.inactive {
+  opacity: .5;
+}

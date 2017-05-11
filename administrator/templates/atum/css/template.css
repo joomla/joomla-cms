@@ -9128,6 +9128,9 @@ legend {
 .icon-unpublish {
   color: #d9534f; }
 
+.sortable-handler.inactive {
+  opacity: .5; }
+
 iframe {
   border: 0; }
 
