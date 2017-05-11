@@ -14,40 +14,8 @@
  * @subpackage  Html
  * @since       3.1
  */
-class JHtmlNumberTest extends TestCaseDatabase
+class JHtmlNumberTest extends TestCase
 {
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		$this->saveFactoryState();
-
-		JFactory::$application = $this->getMockCmsApp();
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function tearDown()
-	{
-		$this->restoreFactoryState();
-
-		parent::tearDown();
-	}
-
 	/**
 	 * Test...
 	 *
@@ -271,6 +239,9 @@ class JHtmlNumberTest extends TestCaseDatabase
 	 */
 	public function testBytes($result, $bytes, $unit = 'auto', $precision = 2, $iec = false)
 	{
-		$this->assertEquals($result, JHtmlNumber::bytes($bytes, $unit, $precision, $iec));
+		$translator = $this->getMockBuilder('\\Joomla\\CMS\\Language\\Translator')
+			->setConstructorArgs(array($this->getMockLanguage(), $this->getMockDocument()))
+			->getMock();
+		$this->assertEquals($result, JHtmlNumber::bytes($bytes, $unit, $precision, $iec, $translator));
 	}
 }

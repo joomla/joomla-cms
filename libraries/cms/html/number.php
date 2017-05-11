@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Translator;
+
 /**
  * HTML helper class for rendering numbers.
  *
@@ -39,7 +41,7 @@ abstract class JHtmlNumber
 	 * @since   1.6
 	 * @see     https://en.wikipedia.org/wiki/Binary_prefix
 	 */
-	public static function bytes($bytes, $unit = 'auto', $precision = 2, $iec = false)
+	public static function bytes($bytes, $unit = 'auto', $precision = 2, $iec = false, Translator $translator = null)
 	{
 		/*
 		 * Allowed 123.45, 123.45 M, 123.45 Mi, 123.45 MB, 123.45 MiB, 1.2345E+12MB, 1.2345E+12 MB , 1.2345E+12 MiB etc.
@@ -105,8 +107,16 @@ abstract class JHtmlNumber
 			$suffix = $stdSuffixes[$i];
 		}
 
+		if (!$translator)
+		{
+			$translator = JFactory::getApplication()->getTranslator();
+		}
+
 		return number_format(
-			round($oBytes / pow($base, $i), (int) $precision), (int) $precision, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')
+			round($oBytes / pow($base, $i), (int) $precision),
+			(int) $precision,
+			$translator->translate('DECIMALS_SEPARATOR'),
+			$translator->translate('THOUSANDS_SEPARATOR')
 		) . ' ' . $suffix;
 	}
 }
