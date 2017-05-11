@@ -538,9 +538,9 @@
 				class="chzn-color"
 				useglobal="true"
 				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-			</field>		
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 
 			<field
 				name="show_street_address"
