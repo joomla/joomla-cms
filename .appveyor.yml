@@ -5,6 +5,7 @@ clone_folder: C:\projects\joomla-cms
 ## Build matrix for lowest and highest possible targets
 environment:
   matrix:
+  - php_ver_target: 5.6
   - php_ver_target: 7.0
   - php_ver_target: 7.1
 
@@ -38,7 +39,7 @@ install:
     - ps: >-
         If ($env:PHP -eq "1") {
           If ($env:php_ver_target -eq "5.6") {
-            appveyor-retry appveyor DownloadFile https://files.nette.org/misc/php-sqlsrv.zip
+            appveyor-retry appveyor DownloadFile https://cdn.joomla.org/ci/php-sqlsrv.zip
             7z x -y php-sqlsrv.zip > $null
             copy SQLSRV\php_sqlsrv_56_nts.dll ext\php_sqlsrv_nts.dll
             copy SQLSRV\php_pdo_sqlsrv_56_nts.dll ext\php_pdo_sqlsrv_nts.dll
