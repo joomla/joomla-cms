@@ -1043,9 +1043,6 @@ class JAccess
 	 */
 	public static function getAuthorisedViewLevels($userId)
 	{
-		// Get all groups that the user is mapped to recursively.
-		$groups = self::getGroupsByUser($userId);
-
 		// Only load the view levels once.
 		if (empty(self::$viewLevels))
 		{
@@ -1066,6 +1063,31 @@ class JAccess
 				self::$viewLevels[$level['id']] = (array) json_decode($level['rules']);
 			}
 		}
+
+		// Check for the recovery mode setting and return early.
+		$user      = JFactory::getUser($userId);
+		$root_user = JFactory::getApplication()->get('root_user');
+
+		if ($root_user && ($root_user == $user->username || $root_user == $user->id))
+		{
+			// Find the super user levels.
+			foreach (self::$viewLevels as $level => $rule)
+			{
+				foreach ($rule as $id)
+				{
+					if ($id > 0 && JAccess::checkGroup($id, 'core.admin'))
+					{
+						$authorised[] = $level;
+						break;
+					}
+				}
+			}
+
+			return $authorised = array_keys(self::$viewLevels);
+		}
+
+		// Get all groups that the user is mapped to recursively.
+		$groups = self::getGroupsByUser($userId);
 
 		// Initialise the authorised array.
 		$authorised = array(1);
