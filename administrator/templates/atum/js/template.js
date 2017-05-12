@@ -30,17 +30,22 @@
 
 		// Fix toolbar and footer width for edit views
 		if (document.getElementById('wrapper').classList.contains('wrapper0')) {
-			document.querySelector('.subhead').style.left = 0;
-			document.getElementById('status').style.marginLeft = 0;
+			var subHead = document.querySelector('.subhead'), statusEl = document.getElementById('status');
+			if (subHead) subHead.style.left = 0;
+			if (statusEl) statusEl.style.marginLeft = 0;
 		}
+
 		if (document.getElementById('sidebar-wrapper') && !document.getElementById('sidebar-wrapper').getAttribute('data-hidden')) {
 			/** Sidebar */
-			var sidebar       = document.getElementById('sidebar-wrapper'),
-			    menu          = sidebar.querySelector('#menu'),
-			    logo          = document.getElementById('main-brand'),
-			    logoSm        = document.getElementById('main-brand-sm'),
-			    menuToggle    = document.getElementById('header').querySelector('.menu-toggle'),
-			    wrapperClosed = document.querySelector('#wrapper.closed'),
+			var sidebar      = document.getElementById('sidebar-wrapper'),
+			    menu         = sidebar.querySelector('#menu'),
+			    menuToggle   = document.getElementById('header').querySelector('.menu-toggle'),
+			    allLinks     = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow"),
+			    currentUrl   = window.location.href.toLowerCase(),
+			    mainNav      = document.getElementById('menu'),
+			    menuParents  = mainNav.querySelectorAll('li.parent > a'),
+			    subMenuClose = mainNav.querySelectorAll('li.parent .close'),
+
 			    // Apply 2nd level collapse
 			    first         = menu.querySelectorAll('.collapse-level-1');
 
@@ -72,17 +77,6 @@
 					elem.classList.remove('child-open');
 				}
 			});
-			
-
-			/**
-			 * Sidebar Nav
-			 */
-
-			var allLinks     = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow"),
-			    currentUrl   = window.location.href.toLowerCase(),
-			    mainNav      = document.getElementById('menu'),
-		 	    menuParents  = mainNav.querySelectorAll('li.parent > a'),
-			    subMenuClose = mainNav.querySelectorAll('li.parent .close');
 
 			// Set active class
 			for (var i = 0; i < allLinks.length; i++) {
@@ -124,7 +118,7 @@
 					menuItem.classList.add('open');
 					mainNav.classList.add('child-open');
 				}
-			}
+			};
 
 			for (var i = 0; i < menuParents.length; i += 1) {
 			 	menuParents[i].addEventListener('click', openToggle);

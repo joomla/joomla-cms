@@ -18,6 +18,7 @@ $this->setHtml5(true);
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', array('version' => 'auto'));
+JHtml::_('script', 'media/vendor/wicg-focus-ring/js/focus-ring.min.js', array('version' => 'auto'));
 
 // Add Stylesheets
 JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', array('version' => 'auto', 'relative' => true));

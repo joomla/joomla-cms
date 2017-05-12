@@ -177,6 +177,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
+					// Focus ring js files
+					{ expand: true, cwd: '<%= folder.node_module %>wicg-focus-ring/dist', src: ['*.js'], dest: 'media/vendor/wicg-focus-ring/js/', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
@@ -189,6 +191,7 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>perfect-scrollbar/LICENSE'], dest: 'media/vendor/perfect-scrollbar/LICENSE'},
 					{ src: ['<%= folder.node_module %>flying-focus-a11y/MIT-LICENSE.txt'], dest: 'media/vendor/flying-focus-a11y/MIT-LICENSE.txt'},
 					{ src: ['<%= folder.node_module %>diff/LICENSE'], dest: 'media/vendor/diff/LICENSE'},
+					{ src: ['<%= folder.node_module %>wicg-focus-ring/LICENSE.md'], dest: 'media/vendor/wicg-focus-ring/LICENSE.md'},
 				]
 			}
 		},
@@ -244,6 +247,7 @@ module.exports = function(grunt) {
 							'<%= folder.codemirror %>/theme/*/*.js',
 							'!<%= folder.codemirror %>/theme/*/*.min.js',
 							'<%= folder.vendor %>/flying-focus-a11y/js/*.js',
+							'<%= folder.vendor %>/wicg-focus-ring/js/*.js',
 							'<%= folder.editors %>/none/js/*.js',
 							'!<%= folder.editors %>/none/js/*.min.js',
 							'<%= folder.editors %>/tinymce/js/*.js',

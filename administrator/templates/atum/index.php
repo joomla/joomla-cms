@@ -20,6 +20,7 @@ $input           = $app->input;
 // Add JavaScript
 JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', array('version' => 'auto'));
+JHtml::_('script', 'media/vendor/wicg-focus-ring/js/focus-ring.min.js', array('version' => 'auto'));
 JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
 
 // Add Stylesheets
