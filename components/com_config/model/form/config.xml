@@ -59,12 +59,9 @@
 			default="0"
 			filter="integer"
 			>
-			<option
-				value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
-			<option
-				value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
-			<option
-				value="0">JNO</option>
+			<option value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
+			<option value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
+			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>	

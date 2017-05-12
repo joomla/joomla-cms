@@ -227,8 +227,8 @@
 			name="metadesc" 
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
-			cols="30"
 			description="JFIELD_META_DESCRIPTION_DESC"
+			cols="30"
 			rows="3"
 		/>
 
