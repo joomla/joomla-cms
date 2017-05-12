@@ -16,6 +16,7 @@
     "grunt": "latest",
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
+    "grunt-contrib-watch": "^1.0.0",
     "grunt-contrib-concat": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-cssmin": "latest",
