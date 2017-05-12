@@ -100,7 +100,6 @@
             default="en"
             hide_default="1"
             filter="\.js$"
-            size="10"
             showon="lang_mode:0"
     />
 
