@@ -3,10 +3,10 @@
     <field
         name="access"
         type="usergrouplist"
-        multiple="true"
-        class="access-select"
         label="PLG_TINY_FIELD_SETACCESS_LABEL"
         description="PLG_TINY_FIELD_SETACCESS_DESC"
+        multiple="true"
+        class="access-select"
         labelclass="label label-success"
     />
 
