@@ -2050,7 +2050,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/access/exception',
 			'/libraries/joomla/access/wrapper',
 			'/libraries/joomla/access',
-			'/libraries/joomla/application',
 			'/libraries/joomla/association/extension',
 			'/libraries/joomla/association',
 			'/libraries/joomla/authentication',
