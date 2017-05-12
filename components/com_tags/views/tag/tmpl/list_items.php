@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 
-
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
 JFactory::getDocument()->addScriptDeclaration("
 		var resetFilter = function() {
 		document.getElementById('filter-search').value = '';
@@ -24,19 +24,21 @@ JFactory::getDocument()->addScriptDeclaration("
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-	<fieldset class="filters btn-toolbar">
+	<fieldset class="filters d-flex justify-content-between mb-3">
 		<?php if ($this->params->get('filter_field')) : ?>
-			<div class="btn-group">
+			<div class="input-group">
 				<label class="filter-search-lbl sr-only" for="filter-search">
 					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 				</label>
-				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
-				<button type="button" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn">
-					<span class="icon-search"></span>
-				</button>
-				<button type="reset" name="filter-clear-button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn" onclick="resetFilter(); document.adminForm.submit();">
-					<span class="icon-remove"></span>
-				</button>
+				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
+				<span class="input-group-btn">
+					<button type="button" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn btn-secondary">
+						<span class="fa fa-search" aria-hidden="true"></span>
+					</button>
+					<button type="reset" name="filter-clear-button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary" onclick="resetFilter(); document.adminForm.submit();">
+						<span class="fa fa-times" aria-hidden="true"></span>
+					</button>
+				</span>
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -52,7 +54,6 @@ JFactory::getDocument()->addScriptDeclaration("
 		<input type="hidden" name="filter_order_Dir" value="">
 		<input type="hidden" name="limitstart" value="">
 		<input type="hidden" name="task" value="">
-		<div class="clearfix"></div>
 	</fieldset>
 	<?php endif; ?>
 
@@ -84,16 +85,16 @@ JFactory::getDocument()->addScriptDeclaration("
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php if ($this->items[$i]->core_state == 0) : ?>
-					 <tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
+					<tr class="table-danger">
 					<?php else : ?>
-					<tr class="cat-list-row<?php echo $i % 2; ?>" >
+					<tr>
 					<?php endif; ?>
 						<td <?php if ($this->params->get('show_headings')) echo "headers=\"categorylist_header_title\""; ?> class="list-title">
 							<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 								<?php echo $this->escape($item->core_title); ?>
 							</a>
 							<?php if ($item->core_state == 0) : ?>
-								<span class="list-published label label-warning">
+								<span class="list-published badge badge-warning">
 									<?php echo JText::_('JUNPUBLISHED'); ?>
 								</span>
 							<?php endif; ?>
