@@ -858,7 +858,7 @@ class JFilterInput extends InputFilter
 			// Remove every '<' character if '>' does not exists or we have '<>'
 			if ($tagOpenStartOffset !== false && $tagOpenEndOffset === false || $tagOpenStartOffset + 1 == $tagOpenEndOffset)
 			{
-				$offset += 1;
+				$offset++;
 
 				// Search for new open tag
 				$tagOpenStartOffset = strpos($source, '<', $offset);
@@ -881,7 +881,7 @@ class JFilterInput extends InputFilter
 			if ($nextOpenStartOffset !== false && $nextOpenStartOffset < $tagOpenEndOffset)
 			{
 				// At this point we have a mal-formed tag, replace previous '<' by '&lt;'
-				$offset += 1;
+				$offset++;
 
 				// Set a new open tag position
 				$tagOpenStartOffset = $nextOpenStartOffset;
