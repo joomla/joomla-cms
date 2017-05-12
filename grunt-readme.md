@@ -37,8 +37,11 @@ The full list of other Grunt Tasks available are:
 - `grunt gitclone:cloneAutojs`.........fetches latest autocomplete to assets/tmp folder
 - `grunt concat:someFiles`.............concatenates some codemirror files
 - `grunt copy:fromSource`..............copy everything to media/vendor/*
-- `grunt uglify:allJs`.................minifies various javascripts
-- `grunt cssmin:allCss`................minifies various stylesheets
+- `grunt uglify:allJs`.................minifies various javascripts, excluding template files
+- `grunt uglify:templates`.............minifies template javascripts
+- `grunt cssmin:allCss`................minifies various stylesheets, currently it only affects codemirror files
+- `grunt cssmin:adminTemplate`.........minifies the admin template (Atum) stylesheet
+- `grunt cssmin:siteTemplate`..........minifies the site template (Aurora) stylesheet
 - `grunt text-scss`....................validate/lint the template SCSS
 - `grunt compile`......................minifies all template JS, lints SCSS then compiles it
 
