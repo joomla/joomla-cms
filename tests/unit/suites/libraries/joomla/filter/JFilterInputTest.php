@@ -36,10 +36,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'ÃŒÃ�ÃŽÃ�Ã�Ã‘Ã’Ã“Ã”Ã•Ã–Ã—Ã˜Ã™ÃšÃ›ÃœÃ�ÃžÃ' .
 			'ŸÃ Ã¡Ã¢Ã£Ã¤Ã¥Ã¦Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã' .
 			'°Ã±Ã²Ã³Ã´ÃµÃ¶Ã·Ã¸Ã¹ÃºÃ»Ã¼Ã½Ã¾Ã¿';
-		$input2 = '<ul>
-<li><a href="../">презентация</a>)</li>
-<li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
-</ul>';
+
 		return array(
 			'int_01' => array(
 				'int',
