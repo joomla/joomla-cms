@@ -546,7 +546,7 @@ class JDateTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.1
 	 * @covers  JDate::__construct
 	 */
 	public function test__constructForNowWhenNotUsingUTC()
@@ -565,7 +565,7 @@ class JDateTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.1
 	 * @covers  JDate::__construct
 	 */
 	public function test__constructForNowWhenUsingUTC()
