@@ -9007,6 +9007,11 @@ legend {
 .valid {
   border-color: #64bd63; }
 
+.btn-status .fa {
+  width: 14px;
+  height: 14px;
+  line-height: 14px; }
+
 .header {
   position: relative;
   z-index: 5;
@@ -9122,6 +9127,9 @@ legend {
 
 .icon-unpublish {
   color: #d9534f; }
+
+.sortable-handler.inactive {
+  opacity: .5; }
 
 iframe {
   border: 0; }

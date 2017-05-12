@@ -144,7 +144,7 @@ $assoc = JLanguageAssociations::isEnabled();
 										<span class="icon-menu" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
-										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order ">
+										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
@@ -153,14 +153,13 @@ $assoc = JLanguageAssociations::isEnabled();
 								<td class="text-center">
 									<div class="btn-group">
 										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+										<?php if ($item->checked_out) : ?>
+											<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
+										<?php endif; ?>
 									</div>
 								</td>
 								<td class="has-context">
 									<div class="float-left break-word">
-										<?php if ($item->checked_out) : ?>
-											<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
-										<?php endif; ?>
 										<?php if ($item->language == '*') : ?>
 											<?php $language = JText::alt('JALL', 'language'); ?>
 										<?php else : ?>
@@ -210,18 +209,18 @@ $assoc = JLanguageAssociations::isEnabled();
 									?>
 								</td>
 								<td class="hidden-sm-down text-center">
-									<span class="badge badge-info">
+									<span class="badge badge-default">
 										<?php echo (int) $item->hits; ?>
 									</span>
 								</td>
 								<?php if ($this->vote) : ?>
 									<td class="hidden-sm-down text-center">
-										<span class="badge badge-success">
+										<span class="badge badge-default">
 										<?php echo (int) $item->rating_count; ?>
 										</span>
 									</td>
 									<td class="hidden-sm-down text-center">
-										<span class="badge badge-warning">
+										<span class="badge badge-default">
 										<?php echo (int) $item->rating; ?>
 										</span>
 									</td>

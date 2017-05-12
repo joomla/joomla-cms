@@ -43,16 +43,16 @@ abstract class JHtmlJGrid
 	{
 		if (is_array($prefix))
 		{
-			$options = $prefix;
-			$active_title = array_key_exists('active_title', $options) ? $options['active_title'] : $active_title;
+			$options        = $prefix;
+			$active_title   = array_key_exists('active_title', $options) ? $options['active_title'] : $active_title;
 			$inactive_title = array_key_exists('inactive_title', $options) ? $options['inactive_title'] : $inactive_title;
-			$tip = array_key_exists('tip', $options) ? $options['tip'] : $tip;
-			$active_class = array_key_exists('active_class', $options) ? $options['active_class'] : $active_class;
+			$tip            = array_key_exists('tip', $options) ? $options['tip'] : $tip;
+			$active_class   = array_key_exists('active_class', $options) ? $options['active_class'] : $active_class;
 			$inactive_class = array_key_exists('inactive_class', $options) ? $options['inactive_class'] : $inactive_class;
-			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
-			$translate = array_key_exists('translate', $options) ? $options['translate'] : $translate;
-			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$enabled        = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+			$translate      = array_key_exists('translate', $options) ? $options['translate'] : $translate;
+			$checkbox       = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+			$prefix         = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
 		if ($tip)
@@ -66,26 +66,41 @@ abstract class JHtmlJGrid
 
 		if ($enabled)
 		{
-			$html[] = '<a class="btn btn-secondary btn-xs' . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
+			$btnClass = '';
+
+			if ($active_class === 'check')
+			{
+				$btnClass = ' btn-success';
+			}
+			else if ($inactive_class === 'times')
+			{
+				$btnClass = ' btn-danger';
+			}
+			else if ($inactive_class === 'lock')
+			{
+				$btnClass = ' btn-warning';
+			}
+
+			$html[] = '<a class="btn btn-xs btn-status' . $btnClass . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<span class="icon-' . $active_class . '"></span>';
+			$html[] = '<span class="fa fa-' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
 		}
 		else
 		{
-			$html[] = '<a class="btn btn-xs btn-secondary disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="btn btn-xs btn-status btn-secondary disabled' . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
 			if ($active_class == 'protected')
 			{
-				$html[] = '<span class="icon-lock"></span>';
+				$html[] = '<span class="fa fa-lock" aria-hidden="true"></span>';
 			}
 			else
 			{
-				$html[] = '<span class="icon-' . $inactive_class . '"></span>';
+				$html[] = '<span class="fa fa-' . $inactive_class . '" aria-hidden="true"></span>';
 			}
 
 			$html[] = '</a>';
@@ -117,20 +132,20 @@ abstract class JHtmlJGrid
 	{
 		if (is_array($prefix))
 		{
-			$options = $prefix;
-			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+			$options   = $prefix;
+			$enabled   = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$translate = array_key_exists('translate', $options) ? $options['translate'] : $translate;
-			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$checkbox  = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+			$prefix    = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$state = ArrayHelper::getValue($states, (int) $value, $states[0]);
-		$task = array_key_exists('task', $state) ? $state['task'] : $state[0];
-		$text = array_key_exists('text', $state) ? $state['text'] : (array_key_exists(1, $state) ? $state[1] : '');
-		$active_title = array_key_exists('active_title', $state) ? $state['active_title'] : (array_key_exists(2, $state) ? $state[2] : '');
+		$state          = ArrayHelper::getValue($states, (int) $value, $states[0]);
+		$task           = array_key_exists('task', $state) ? $state['task'] : $state[0];
+		$text           = array_key_exists('text', $state) ? $state['text'] : (array_key_exists(1, $state) ? $state[1] : '');
+		$active_title   = array_key_exists('active_title', $state) ? $state['active_title'] : (array_key_exists(2, $state) ? $state[2] : '');
 		$inactive_title = array_key_exists('inactive_title', $state) ? $state['inactive_title'] : (array_key_exists(3, $state) ? $state[3] : '');
-		$tip = array_key_exists('tip', $state) ? $state['tip'] : (array_key_exists(4, $state) ? $state[4] : false);
-		$active_class = array_key_exists('active_class', $state) ? $state['active_class'] : (array_key_exists(5, $state) ? $state[5] : '');
+		$tip            = array_key_exists('tip', $state) ? $state['tip'] : (array_key_exists(4, $state) ? $state[4] : false);
+		$active_class   = array_key_exists('active_class', $state) ? $state['active_class'] : (array_key_exists(5, $state) ? $state[5] : '');
 		$inactive_class = array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (array_key_exists(6, $state) ? $state[6] : '');
 
 		return static::action(
@@ -159,16 +174,16 @@ abstract class JHtmlJGrid
 	{
 		if (is_array($prefix))
 		{
-			$options = $prefix;
-			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+			$options  = $prefix;
+			$enabled  = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
 		$states = array(
-			1 => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'),
-			0 => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'),
-			2 => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'),
+			1  => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'check', 'check'),
+			0  => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'times', 'times'),
+			2  => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'),
 			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'),
 		);
 
@@ -176,11 +191,11 @@ abstract class JHtmlJGrid
 		if ($publish_up || $publish_down)
 		{
 			$nullDate = JFactory::getDbo()->getNullDate();
-			$nowDate = JFactory::getDate()->toUnix();
+			$nowDate  = JFactory::getDate()->toUnix();
 
 			$tz = JFactory::getUser()->getTimezone();
 
-			$publish_up = ($publish_up != $nullDate) ? JFactory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
+			$publish_up   = ($publish_up != $nullDate) ? JFactory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
 			$publish_down = ($publish_down != $nullDate) ? JFactory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
 
 			// Create tip text, only we have publish up or down settings
@@ -326,25 +341,26 @@ abstract class JHtmlJGrid
 	 *
 	 * @since   1.6
 	 */
-	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb')
+	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb', 
+		$classActive = 'lock', $classInactive = 'lock')
 	{
 		JHtml::_('bootstrap.tooltip');
 
 		if (is_array($prefix))
 		{
-			$options = $prefix;
-			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+			$options  = $prefix;
+			$enabled  = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$text = $editorName . '<br>' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br>' . JHtml::_('date', $time, 'H:i');
-		$active_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKIN'), $text, 0);
+		$text           = $editorName . '<br>' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br>' . JHtml::_('date', $time, 'H:i');
+		$active_title   = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKIN'), $text, 0);
 		$inactive_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
 		return static::action(
 			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), html_entity_decode($active_title, ENT_QUOTES, 'UTF-8'),
-			html_entity_decode($inactive_title, ENT_QUOTES, 'UTF-8'), true, 'checkedout', 'checkedout', $enabled, false, $checkbox
+			html_entity_decode($inactive_title, ENT_QUOTES, 'UTF-8'), true, $classActive, $classInactive, $enabled, false, $checkbox
 		);
 	}
 
@@ -366,11 +382,11 @@ abstract class JHtmlJGrid
 	{
 		if (is_array($prefix))
 		{
-			$options = $prefix;
-			$text = array_key_exists('text', $options) ? $options['text'] : $text;
-			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+			$options  = $prefix;
+			$text     = array_key_exists('text', $options) ? $options['text'] : $text;
+			$enabled  = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
 		return static::action($i, $task, $prefix, $text, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox);
@@ -394,11 +410,11 @@ abstract class JHtmlJGrid
 	{
 		if (is_array($prefix))
 		{
-			$options = $prefix;
-			$text = array_key_exists('text', $options) ? $options['text'] : $text;
-			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+			$options  = $prefix;
+			$text     = array_key_exists('text', $options) ? $options['text'] : $text;
+			$enabled  = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
 		return static::action($i, $task, $prefix, $text, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox);
