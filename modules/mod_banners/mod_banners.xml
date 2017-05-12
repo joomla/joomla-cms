@@ -71,7 +71,7 @@
 				<field
 					name="tag_search"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_BANNERS_FIELD_TAG_LABEL"
 					description="MOD_BANNERS_FIELD_TAG_DESC"
 					default="0"

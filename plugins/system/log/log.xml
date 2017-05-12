@@ -22,7 +22,7 @@
 				<field
 					name="log_username"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_LABEL"
 					description="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_DESC"
 					default="0"

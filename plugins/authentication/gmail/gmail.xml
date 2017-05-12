@@ -43,7 +43,7 @@
 				<field
 					name="verifypeer"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_GMAIL_FIELD_VERIFYPEER_LABEL"
 					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
 					default="1"
@@ -62,7 +62,7 @@
 				<field
 					name="backendLogin"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_GMAIL_FIELD_BACKEND_LOGIN_LABEL"
 					description="PLG_GMAIL_FIELD_BACKEND_LOGIN_DESC"
 					default="0"

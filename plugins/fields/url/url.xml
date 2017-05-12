@@ -40,7 +40,7 @@
 				<field
 					name="relative"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
 					description="PLG_FIELDS_URL_PARAMS_RELATIVE_DESC"

@@ -98,7 +98,7 @@
 		<field
 				name="sendEmail"
 				type="radio"
-				class="switcher"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 				description="COM_USERS_USER_FIELD_SENDEMAIL_DESC">
@@ -109,23 +109,23 @@
 		<field
 				name="block"
 				type="radio"
-				class="switcher switcher-danger"
+				class="btn-group btn-group-yesno btn-group-reversed"
 				default="0"
 				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 				description="COM_USERS_USER_FIELD_BLOCK_DESC">
-				<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 				<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
+				<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 		</field>
 
 		<field
 			name="requireReset"
 			type="radio"
-			class="switcher"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
 			description="COM_USERS_USER_FIELD_REQUIRERESET_DESC">
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field

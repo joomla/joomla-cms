@@ -25,7 +25,7 @@
 				<field
 					name="showHere"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWHERE_DESC"
 					default="1"

@@ -195,8 +195,8 @@
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
 			useglobal="true"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_email_headings" type="list"
@@ -204,8 +204,8 @@
 			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
 			useglobal="true"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_telephone_headings"
@@ -214,8 +214,8 @@
 			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
 			useglobal="true"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_mobile_headings"
@@ -224,8 +224,8 @@
 			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
 			useglobal="true"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_fax_headings"
@@ -234,8 +234,8 @@
 			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
 			useglobal="true"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_suburb_headings" type="list"
@@ -243,8 +243,8 @@
 			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
 			useglobal="true"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_state_headings"
@@ -253,8 +253,8 @@
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
 			useglobal="true"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_country_headings"
@@ -263,8 +263,8 @@
 			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
 			useglobal="true"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 			<field name="show_pagination" type="list"

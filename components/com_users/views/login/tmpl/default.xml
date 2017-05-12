@@ -18,13 +18,13 @@
 		<field
 			name="loginredirectchoice"
 			type="radio"
-			class="switcher switcher-primary"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_LABEL"
 			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
 		>
-			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
 			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
+			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
 		</field>
 
 		<field
@@ -62,8 +62,8 @@
 			description="JFIELD_BASIS_LOGIN_DESCRIPTION_SHOW_DESC"
 			default="1"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -91,13 +91,13 @@
 		<field
 			name="logoutredirectchoice"
 			type="radio"
-			class="switcher switcher-primary"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_LABEL"
 			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
 		>
-			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
 			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
+			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
 		</field>
 
 		<field

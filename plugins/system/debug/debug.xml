@@ -31,7 +31,7 @@
 				<field
 					name="session"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
 					description="PLG_DEBUG_FIELD_SESSION_DESC"
 					default="1"
@@ -43,7 +43,7 @@
 				<field
 					name="profile"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
 					description="PLG_DEBUG_FIELD_PROFILING_DESC"
 					default="1"
@@ -55,7 +55,7 @@
 				<field
 					name="queries"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
 					description="PLG_DEBUG_FIELD_QUERIES_DESC"
 					default="1"
@@ -67,7 +67,7 @@
 				<field
 					name="query_types"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
 					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
 					default="1"
@@ -79,7 +79,7 @@
 				<field
 					name="memory"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
 					description="PLG_DEBUG_FIELD_MEMORY_DESC"
 					default="1"
@@ -91,7 +91,7 @@
 				<field
 					name="logs"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
 					description="PLG_DEBUG_FIELD_LOGS_DESC"
 					default="1"
@@ -131,13 +131,13 @@
 				<field
 					name="log_category_mode"
 					type="radio"
-					class="switcher switcher-danger"
+					class="btn-group btn-group-yesno btn-group-reversed"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 					default="0"
 					>
-					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
+					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 				</field>
 			</fieldset>
 
@@ -149,7 +149,7 @@
 				<field
 					name="language_errorfiles"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
 					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
 					default="1"
@@ -161,7 +161,7 @@
 				<field
 					name="language_files"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
 					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
 					default="1"
@@ -173,7 +173,7 @@
 				<field
 					name="language_strings"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
 					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
 					default="1"
@@ -185,7 +185,7 @@
 				<field
 					name="strip-first"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
 					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
 					default="1"
@@ -220,7 +220,7 @@
 				<field
 					name="log-deprecated"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
 					default="0"
@@ -232,7 +232,7 @@
 				<field
 					name="log-everything"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
 					default="0"
@@ -244,7 +244,7 @@
 				<field
 					name="log-executed-sql"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
 					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
 					default="0"

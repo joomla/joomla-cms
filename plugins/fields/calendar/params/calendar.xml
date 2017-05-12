@@ -5,7 +5,7 @@
 			<field
 				name="showtime"
 				type="radio"
-				class="switcher"
+				class="btn-group btn-group-yesno"
 				label="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_LABEL"
 				description="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_DESC"
 				size="20"

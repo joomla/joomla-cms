@@ -56,7 +56,7 @@
 		<fieldset name="advanced">
 
 			<field name="height_auto" type="radio"
-				class="switcher"
+				class="btn-group btn-group-yesno"
 				default="0"
 				description="COM_WRAPPER_FIELD_HEIGHTAUTO_DESC"
 				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
@@ -67,7 +67,7 @@
 
 			<field name="add_scheme"
 				type="radio"
-				class="switcher"
+				class="btn-group btn-group-yesno"
 				default="1"
 				description="COM_WRAPPER_FIELD_ADD_DESC"
 				label="COM_WRAPPER_FIELD_ADD_LABEL"
@@ -78,7 +78,7 @@
 
 			<field name="frameborder"
 				type="radio"
-				class="switcher"
+				class="btn-group btn-group-yesno"
 				default="1"
 				description="COM_WRAPPER_FIELD_FRAME_DESC"
 				label="COM_WRAPPER_FIELD_FRAME_LABEL"

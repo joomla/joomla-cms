@@ -31,7 +31,7 @@
 				<field
 					name="search_content"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="JFIELD_PLG_SEARCH_ALL_LABEL"
 					description="JFIELD_PLG_SEARCH_ALL_DESC"
 					default="0"
@@ -43,7 +43,7 @@
 				<field
 					name="search_archived"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
 					default="0"

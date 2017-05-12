@@ -39,7 +39,7 @@
 				<field
 					name="show_description"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC"
 					default="0"
@@ -51,7 +51,7 @@
 				<field
 					name="numitems"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_DESC"
 					default="0"
@@ -63,7 +63,7 @@
 				<field
 					name="show_children"
 					type="radio"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC"
 					default="0"
