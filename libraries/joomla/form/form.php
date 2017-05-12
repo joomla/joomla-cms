@@ -1014,7 +1014,6 @@ class JForm
 		// We couldn't find a fieldset to add the field. Now we are checking, if we have set only a group
 		if (!empty($group))
 		{
-			// Roberto condition
 			$fields = &$this->findGroup($group);
 
 			// If an appropriate fields element was found for the group, add the element.
