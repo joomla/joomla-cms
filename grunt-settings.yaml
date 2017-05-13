@@ -52,6 +52,10 @@ vendors:
     'diff':
                   'version': '3.2.0'
                   'dependencies': ''
+# Request https://github.com/julmot/mark.js/ to publish in the npm db
+#    'mark.js':
+#                  'version': '8.10.1'
+#                  'dependencies': ''
 
 ## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:

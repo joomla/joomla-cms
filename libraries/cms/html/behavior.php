@@ -481,72 +481,43 @@ JS
 	 * Highlight some words via Javascript.
 	 *
 	 * @param   array   $terms      Array of words that should be highlighted.
-	 * @param   string  $start      ID of the element that marks the begin of the section in which words
-	 *                              should be highlighted. Note this element will be removed from the DOM.
-	 * @param   string  $end        ID of the element that end this section.
-	 *                              Note this element will be removed from the DOM.
-	 * @param   string  $className  Class name of the element highlights are wrapped in.
-	 * @param   string  $tag        Tag that will be used to wrap the highlighted words.
+	 * @param   array   $options    Array of options to pass to the javascript
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
+	public static function highlight(array $terms, $options = array())
 	{
-		$sig = md5(serialize(array($terms, $start, $end)));
-
-		if (isset(static::$loaded[__METHOD__][$sig]))
-		{
-			return;
-		}
-
 		$terms = array_filter($terms, 'strlen');
 
 		// Nothing to Highlight
 		if (empty($terms))
 		{
-			static::$loaded[__METHOD__][$sig] = true;
-
 			return;
 		}
 
 		// Include core
 		static::core();
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		JHtml::_('script', 'system/highlighter.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'vendor/mark.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/highlight.min.js', array('version' => 'auto', 'relative' => true));
 
 		foreach ($terms as $i => $term)
 		{
 			$terms[$i] = JFilterOutput::stringJSSafe($term);
 		}
 
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration("
-			jQuery(function ($) {
-				var start = document.getElementById('" . $start . "');
-				var end = document.getElementById('" . $end . "');
-				if (!start || !end || !Joomla.Highlighter) {
-					return true;
-				}
-				highlighter = new Joomla.Highlighter({
-					startElement: start,
-					endElement: end,
-					className: '" . $className . "',
-					onlyWords: false,
-					tag: '" . $tag . "'
-				}).highlight([\"" . implode('","', $terms) . "\"]);
-				$(start).remove();
-				$(end).remove();
-			});
-		");
-
-		static::$loaded[__METHOD__][$sig] = true;
-
-		return;
+		JFactory::getDocument()->addScriptOptions(
+			'js-highlight',
+			[
+				'class'          => $options['class'] ? $options['class'] : 'js-highlight',
+				'exclude'        => $options['exclude'] ? $options['exclude'] : [],
+				'iframes'        => $options['iframes'] ? $options['iframes'] : false,
+				'iframesTimeout' => $options['iframesTimeout'] ? $options['iframesTimeout'] : 5000,
+				'done'           => $options['done'] ? $options['done'] : function(){},
+				'debug'          => $options['debug'] ? $options['debug'] : false,
+			]
+		);
 	}
 
 	/**
