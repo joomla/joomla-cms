@@ -227,6 +227,12 @@ class JFormFieldList extends JFormField
 		// B/C for J3.7.0: addOption($text, $attributes = array())
 		if (is_array($value))
 		{
+			JLog::add(
+				sprintf('%1$s($text, $attributes) syntax is deprecated. Use %1$s($text, $value, $attributes, $optGroup) instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+
 			$attributes = $value;
 			$value      = null;
 			$optGroup   = null;
