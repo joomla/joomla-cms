@@ -145,7 +145,6 @@ class ModStatsHelper
 		// Include additional data defined by published system plugins
 		JPluginHelper::importPlugin('system');
 
-		$app    = JFactory::getApplication();
 		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats'));
 
 		foreach ($arrays as $response)
