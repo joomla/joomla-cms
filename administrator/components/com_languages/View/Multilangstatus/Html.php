@@ -6,15 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\View\Multilangstatus;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Languages\Administrator\Helper\MultilangstatusHelper;
 
 /**
  * Displays the multilang status.
  *
  * @since  1.7.1
  */
-class LanguagesViewMultilangstatus extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * Display the view.
@@ -25,16 +31,14 @@ class LanguagesViewMultilangstatus extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
-
 		$this->homes           = MultilangstatusHelper::getHomes();
-		$this->language_filter = JLanguageMultilang::isEnabled();
+		$this->language_filter = Multilanguage::isEnabled();
 		$this->switchers       = MultilangstatusHelper::getLangswitchers();
 		$this->listUsersError  = MultilangstatusHelper::getContacts();
 		$this->contentlangs    = MultilangstatusHelper::getContentlangs();
-		$this->site_langs      = JLanguageHelper::getInstalledLanguages(0);
+		$this->site_langs      = LanguageHelper::getInstalledLanguages(0);
 		$this->statuses        = MultilangstatusHelper::getStatus();
-		$this->homepages       = JLanguageMultilang::getSiteHomePages();
+		$this->homepages       = Multilanguage::getSiteHomePages();
 		$this->defaultHome     = MultilangstatusHelper::getDefaultHomeModule();
 
 		parent::display($tpl);

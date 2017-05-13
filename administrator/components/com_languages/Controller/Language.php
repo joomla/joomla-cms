@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Form;
 
 /**
  * Languages list actions controller.
  *
  * @since  1.6
  */
-class LanguagesControllerLanguage extends JControllerForm
+class Language extends Form
 {
 	/**
 	 * Gets the URL arguments to append to an item redirect.

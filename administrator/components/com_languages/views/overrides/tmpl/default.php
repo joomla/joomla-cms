@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+
 
 JHtml::_('bootstrap.tooltip');
 

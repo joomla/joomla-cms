@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
@@ -28,18 +29,18 @@ class LanguagesHelper
 	 */
 	public static function addSubmenu($vName, $client = 0)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED'),
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_LANGUAGES_SUBMENU_INSTALLED'),
 			'index.php?option=com_languages&view=installed',
 			$vName == 'installed'
 		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
 			'index.php?option=com_languages&view=languages',
 			$vName == 'languages'
 		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
 			'index.php?option=com_languages&view=overrides',
 			$vName == 'overrides'
 		);
@@ -75,7 +76,7 @@ class LanguagesHelper
 
 	/**
 	 * Filter method for language keys.
-	 * This method will be called by JForm while filtering the form data.
+	 * This method will be called by \JForm while filtering the form data.
 	 *
 	 * @param   string  $value  The language key to filter.
 	 *
@@ -85,14 +86,14 @@ class LanguagesHelper
 	 */
 	public static function filterKey($value)
 	{
-		$filter = JFilterInput::getInstance(null, null, 1, 1);
+		$filter = \JFilterInput::getInstance(null, null, 1, 1);
 
 		return strtoupper($filter->clean($value, 'cmd'));
 	}
 
 	/**
 	 * Filter method for language strings.
-	 * This method will be called by JForm while filtering the form data.
+	 * This method will be called by \JForm while filtering the form data.
 	 *
 	 * @param   string  $value  The language string to filter.
 	 *
@@ -102,7 +103,7 @@ class LanguagesHelper
 	 */
 	public static function filterText($value)
 	{
-		$filter = JFilterInput::getInstance(null, null, 1, 1);
+		$filter = \JFilterInput::getInstance(null, null, 1, 1);
 
 		return $filter->clean($value);
 	}

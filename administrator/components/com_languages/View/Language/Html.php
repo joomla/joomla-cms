@@ -6,15 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\View\Language;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
  * HTML View class for the Languages component.
  *
  * @since  1.5
  */
-class LanguagesViewLanguage extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The active item
@@ -24,23 +29,23 @@ class LanguagesViewLanguage extends JViewLegacy
 	public $item;
 
 	/**
-	 * The JForm object
+	 * The \JForm object
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	public $form;
 
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	public $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $canDo;
@@ -57,12 +62,12 @@ class LanguagesViewLanguage extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->form  = $this->get('Form');
 		$this->state = $this->get('State');
-		$this->canDo = JHelperContent::getActions('com_languages');
+		$this->canDo = ContentHelper::getActions('com_languages');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -78,14 +83,12 @@ class LanguagesViewLanguage extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
-
-		JFactory::getApplication()->input->set('hidemainmenu', 1);
+		\JFactory::getApplication()->input->set('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
 		$canDo = $this->canDo;
 
-		JToolbarHelper::title(
-			JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
+		\JToolbarHelper::title(
+			\JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
 		);
 
 		$toolbarButtons = [];
@@ -102,21 +105,21 @@ class LanguagesViewLanguage extends JViewLegacy
 			$toolbarButtons[] = ['save2new', 'language.save2new'];
 		}
 
-		JToolbarHelper::saveGroup(
+		\JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if ($isNew)
 		{
-			JToolbarHelper::cancel('language.cancel');
+			\JToolbarHelper::cancel('language.cancel');
 		}
 		else
 		{
-			JToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
 	}
 }

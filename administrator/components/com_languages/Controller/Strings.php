@@ -6,6 +6,10 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\Controller;
+
+use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\Response\JsonResponse;
 
 defined('_JEXEC') or die;
 
@@ -14,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.5
  */
-class LanguagesControllerStrings extends JControllerAdmin
+class Strings extends Admin
 {
 	/**
 	 * Method for refreshing the cache in the database with the known language strings
@@ -25,7 +29,7 @@ class LanguagesControllerStrings extends JControllerAdmin
 	 */
 	public function refresh()
 	{
-		echo new JResponseJson($this->getModel('strings')->refresh());
+		echo new JsonResponse($this->getModel('strings')->refresh());
 	}
 
 	/**
@@ -37,6 +41,6 @@ class LanguagesControllerStrings extends JControllerAdmin
 	 */
 	public function search()
 	{
-		echo new JResponseJson($this->getModel('strings')->search());
+		echo new JsonResponse($this->getModel('strings')->search());
 	}
 }
