@@ -350,7 +350,7 @@
 			type="plugins"
 			label="COM_CONTENT_FIELD_CAPTCHA_LABEL"
 			description="COM_CONTENT_FIELD_CAPTCHA_DESC"
-			default="0"
+			default=""
 			folder="captcha"
 			filter="cmd"
 		>
@@ -762,6 +762,7 @@
 	<fieldset name="list_default_parameters"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTENT_CONFIG_LIST_SETTINGS_DESC"
+		addfieldpath="/administrator/components/com_content/models/fields"
 	>
 
 		<field name="show_pagination_limit"
@@ -836,21 +837,21 @@
 		</field>
 
 		<field name="list_show_votes"
-			type="list"
+			type="votelist"
 			default="0"
 			label="JGLOBAL_LIST_VOTES_LABEL"
 			description="JGLOBAL_LIST_VOTES_DESC">
-			<option value="1" requires="vote">JSHOW</option>
-			<option value="0" requires="vote">JHIDE</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="list_show_ratings"
-			type="list"
+			type="votelist"
 			default="0"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
 			description="JGLOBAL_LIST_RATINGS_DESC">
-			<option value="1" requires="vote">JSHOW</option>
-			<option value="0" requires="vote">JHIDE</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
