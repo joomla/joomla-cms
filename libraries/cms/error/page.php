@@ -30,6 +30,12 @@ class JErrorPage
 		$expectedClass = PHP_MAJOR_VERSION >= 7 ? 'Throwable' : 'Exception';
 		$isException   = $error instanceof $expectedClass;
 
+		// If the error code is 0 we have a fatal error that must be passed to the default error handler
+		if (!$error->getCode())
+		{
+			trigger_error($error->getMessage(), E_USER_ERROR);
+		}
+
 		// In PHP 5, the $error object should be an instance of Exception; PHP 7 should be a Throwable implementation
 		if ($isException)
 		{
