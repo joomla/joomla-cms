@@ -145,7 +145,6 @@ class JErrorPage
 		if (!headers_sent())
 		{
 			header('HTTP/1.1 500 Internal Server Error');
-			trigger_error($error->getMessage(), E_USER_ERROR);
 		}
 
 		$message = 'Error displaying the error page';
