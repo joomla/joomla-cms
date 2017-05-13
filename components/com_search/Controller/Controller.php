@@ -6,28 +6,33 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Search\Site\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Controller as BaseController;
 
 /**
  * Search Component Controller
  *
  * @since  1.5
  */
-class SearchController extends JControllerLegacy
+class Controller extends BaseController
 {
 	/**
 	 * Method to display a view.
 	 *
 	 * @param   bool  $cachable   If true, the view output will be cached
-	 * @param   bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  JControllerLegacy This object to support chaining.
+	 * @return  static This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+		\JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
+
 		// Force it to be the search view
 		$this->input->set('view', 'search');
 
@@ -39,7 +44,7 @@ class SearchController extends JControllerLegacy
 	 *
 	 * @return void
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function search()
 	{
@@ -73,7 +78,7 @@ class SearchController extends JControllerLegacy
 		{
 			foreach ($areas as $area)
 			{
-				$post['areas'][] = JFilterInput::getInstance()->clean($area, 'cmd');
+				$post['areas'][] = \JFilterInput::getInstance()->clean($area, 'cmd');
 			}
 		}
 
@@ -81,8 +86,7 @@ class SearchController extends JControllerLegacy
 		$post['Itemid'] = $this->input->getInt('Itemid');
 
 		// Set Itemid id for links from menu
-		$app  = JFactory::getApplication();
-		$menu = $app->getMenu();
+		$menu = $this->app->getMenu();
 		$item = $menu->getItem($post['Itemid']);
 
 		// The requested Item is not a search page so we need to find one
@@ -100,10 +104,10 @@ class SearchController extends JControllerLegacy
 
 		unset($post['task'], $post['submit']);
 
-		$uri = JUri::getInstance();
+		$uri = \JUri::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
 
-		$this->setRedirect(JRoute::_('index.php' . $uri->toString(array('query', 'fragment')), false));
+		$this->setRedirect(\JRoute::_('index.php' . $uri->toString(array('query', 'fragment')), false));
 	}
 }

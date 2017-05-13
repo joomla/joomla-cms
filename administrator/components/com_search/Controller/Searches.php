@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Search\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Controller;
 
 /**
  * Methods supporting a list of search terms.
  *
  * @since  1.6
  */
-class SearchControllerSearches extends JControllerLegacy
+class Searches extends Controller
 {
 	/**
 	 * Method to reset the search log table.
@@ -24,13 +27,13 @@ class SearchControllerSearches extends JControllerLegacy
 	public function reset()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('Searches');
 
 		if (!$model->reset())
 		{
-			JError::raiseWarning(500, $model->getError());
+			$this->app->enqueueMessage($model->getError(), 'error');
 		}
 
 		$this->setRedirect('index.php?option=com_search&view=searches');
@@ -44,7 +47,7 @@ class SearchControllerSearches extends JControllerLegacy
 	public function toggleResults()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		if ($this->getModel('Searches')->getState('show_results', 1, 'int') === 0)
 		{

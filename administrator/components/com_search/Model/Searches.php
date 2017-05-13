@@ -6,25 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Search\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Methods supporting a list of search terms.
  *
  * @since  1.6
  */
-class SearchModelSearches extends JModelList
+class Searches extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   1.6
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -34,7 +41,7 @@ class SearchModelSearches extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -55,7 +62,7 @@ class SearchModelSearches extends JModelList
 		$this->setState('show_results', $this->getUserStateFromRequest($this->context . '.show_results', 'show_results', 1, 'int'));
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_search');
+		$params = ComponentHelper::getParams('com_search');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -87,7 +94,7 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -134,13 +141,13 @@ class SearchModelSearches extends JModelList
 		// by default it is `off` as it is highly query intensive
 		if ($this->getState('show_results'))
 		{
-			JPluginHelper::importPlugin('search');
-			$app = JFactory::getApplication();
+			PluginHelper::importPlugin('search');
+			$app = \JFactory::getApplication();
 
 			if (!class_exists('JSite'))
 			{
 				// This fools the routers in the search plugins into thinking it's in the frontend
-				JLoader::register('JSite', JPATH_ADMINISTRATOR . '/components/com_search/helpers/site.php');
+				\JLoader::register('JSite', \JPATH_ADMINISTRATOR . '/components/com_search/helpers/site.php');
 			}
 
 			foreach ($items as &$item)
@@ -176,7 +183,7 @@ class SearchModelSearches extends JModelList
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
