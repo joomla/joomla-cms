@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class NewsfeedsTableNewsfeed extends JTable
+class Newsfeed extends Table
 {
 	/**
 	 * Ensure the params, metadata and images are json encoded in the bind method
@@ -29,9 +32,9 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_newsfeeds.newsfeed';
 		parent::__construct('#__newsfeeds', 'id', $db);
@@ -58,7 +61,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		// Check for valid name.
 		if (trim($this->name) == '')
 		{
-			$this->setError(JText::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(\JText::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
 			return false;
 		}
 
@@ -67,17 +70,17 @@ class NewsfeedsTableNewsfeed extends JTable
 			$this->alias = $this->name;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
+		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
-			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			$this->setError(\JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
 			return false;
 		}
@@ -121,7 +124,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	}
 
 	/**
-	 * Overriden JTable::store to set modified data.
+	 * Overriden \JTable::store to set modified data.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -131,8 +134,8 @@ class NewsfeedsTableNewsfeed extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		$this->modified = $date->toSql();
 
@@ -155,18 +158,31 @@ class NewsfeedsTableNewsfeed extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
+
+		// Set publish_up to null date if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = $this->_db->getNullDate();
+		}
+
+		// Set publish_down to null date if not set
+		if (!$this->publish_down)
+		{
+			$this->publish_down = $this->_db->getNullDate();
+		}
+
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
+		$table = Table::getInstance('Newsfeed', __NAMESPACE__ . '\\');
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}
 
 		// Save links as punycode.
-		$this->link = JStringPunycode::urlToPunycode($this->link);
+		$this->link = \JStringPunycode::urlToPunycode($this->link);
 
 		return parent::store($updateNulls);
 	}

@@ -6,20 +6,25 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeed;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View to edit a newsfeed.
  *
  * @since  1.6
  */
-class NewsfeedsViewNewsfeed extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The item object for the newsfeed
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  1.6
 	 */
 	protected $item;
@@ -27,7 +32,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	/**
 	 * The form object for the newsfeed
 	 *
-	 * @var    JForm
+	 * @var    \JForm
 	 * @since  1.6
 	 */
 	protected $form;
@@ -35,7 +40,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	/**
 	 * The model state of the newsfeed
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  1.6
 	 */
 	protected $state;
@@ -58,11 +63,11 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -88,16 +93,17 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		 \JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo = JHelperContent::getActions('com_newsfeeds', 'category', $this->item->catid);
+		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
 
-		JToolbarHelper::title($isNew ? JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT'), 'feed newsfeeds');
+		$title = $isNew ? \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
+		 \JToolbarHelper::title($title, 'feed newsfeeds');
 
 		$toolbarButtons = [];
 
@@ -117,26 +123,26 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$toolbarButtons[] = ['save2copy', 'newsfeed.save2copy'];
 		}
 		
-		JToolbarHelper::saveGroup(
+		 \JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			JToolbarHelper::cancel('newsfeed.cancel');
+			 \JToolbarHelper::cancel('newsfeed.cancel');
 		}
 		else
 		{
-			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
-				JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
+				 \JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}
 
-			JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
+			 \JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
+		 \JToolbarHelper::divider();
+		 \JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
 	}
 }

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
+
 JHtml::_('bootstrap.tooltip');
 
 $class = ' class="first"';

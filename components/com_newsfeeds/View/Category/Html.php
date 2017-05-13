@@ -6,17 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Site\View\Category;
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\CMS\View\Category;
+use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 
 /**
  * HTML View class for the Newsfeeds component
  *
  * @since  1.0
  */
-class NewsfeedsViewCategory extends JViewCategory
+class Html extends Category
 {
 	/**
 	 * @var    string  Default title to use for page title

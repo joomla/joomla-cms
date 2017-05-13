@@ -6,20 +6,25 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-
-JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 
 /**
  * Newsfeed model.
  *
  * @since  1.6
  */
-class NewsfeedsModelNewsfeed extends JModelAdmin
+class Newsfeed extends Admin
 {
 	/**
 	 * The type alias for this content type.
@@ -86,7 +91,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -153,7 +158,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				return false;
 			}
 
-			$user = JFactory::getUser();
+			$user = \JFactory::getUser();
 
 			if (!empty($record->catid))
 			{
@@ -179,32 +184,14 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if (!empty($record->catid))
 		{
 			return $user->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
 		}
-		else
-		{
-			return parent::canEditState($record);
-		}
-	}
 
-	/**
-	 * Returns a Table object, always creating it.
-	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  JTable    A database object
-	 *
-	 * @since   1.6
-	 */
-	public function getTable($type = 'Newsfeed', $prefix = 'NewsfeedsTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
+		return parent::canEditState($record);
 	}
 
 	/**
@@ -213,7 +200,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm    A JForm object on success, false on failure
+	 * @return  \JForm    A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -269,7 +256,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
 
 		if (empty($data))
 		{
@@ -278,7 +265,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('newsfeed.id') == 0)
 			{
-				$app = JFactory::getApplication();
+				$app = \JFactory::getApplication();
 				$data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
 			}
 		}
@@ -299,9 +286,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
-		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+		 \JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 		// Cast catid to integer for comparison
 		$catid = (int) $data['catid'];
@@ -309,7 +296,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		// Check if New Category exists
 		if ($catid > 0)
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
+			$catid = \CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
 		}
 
 		// Save New Category
@@ -323,7 +310,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$table['published'] = 1;
 
 			// Create new category and get catid back
-			$data['catid'] = CategoriesHelper::createCategory($table);
+			$data['catid'] = \CategoriesHelper::createCategory($table);
 		}
 
 		// Alter the name for save as copy
@@ -374,8 +361,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 
 		// Load associated newsfeeds items
-		$app = JFactory::getApplication();
-		$assoc = JLanguageAssociations::isEnabled();
+		$assoc =  Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -383,7 +369,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 			if ($item->id != null)
 			{
-				$associations = JLanguageAssociations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
+				$associations =  Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
@@ -394,7 +380,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 		if (!empty($item->id))
 		{
-			$item->tags = new JHelperTags;
+			$item->tags = new  TagsHelper;
 			$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 			$item->metadata['tags'] = $item->tags;
 		}
@@ -405,21 +391,21 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   JTable  $table  The table object
+	 * @param   \JTable  $table  The table object
 	 *
 	 * @return  void
 	 */
 	protected function prepareTable($table)
 	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias = JApplicationHelper::stringURLSafe($table->alias, $table->language);
+		$table->alias =  ApplicationHelper::stringURLSafe($table->alias, $table->language);
 
 		if (empty($table->alias))
 		{
-			$table->alias = JApplicationHelper::stringURLSafe($table->name, $table->language);
+			$table->alias =  ApplicationHelper::stringURLSafe($table->name, $table->language);
 		}
 
 		if (empty($table->id))
@@ -490,7 +476,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JForm   $form   The form object.
+	 * @param   \JForm  $form   The form object.
 	 * @param   array   $data   The data to be injected into the form
 	 * @param   string  $group  The plugin group to process
 	 *
@@ -498,7 +484,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{
@@ -506,13 +492,13 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 
 		// Association newsfeeds items
-		if (JLanguageAssociations::isEnabled())
+		if (Associations::isEnabled())
 		{
-			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages =  LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
-				$addform = new SimpleXMLElement('<form />');
+				$addform = new \SimpleXMLElement('<form />');
 				$fields = $addform->addChild('fields');
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
@@ -575,6 +561,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	private function canCreateCategory()
 	{
-		return JFactory::getUser()->authorise('core.create', 'com_newsfeeds');
+		return \JFactory::getUser()->authorise('core.create', 'com_newsfeeds');
 	}
 }
