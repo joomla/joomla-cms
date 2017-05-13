@@ -6,15 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Search\Site\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Model\Model;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Search Component Search Model
  *
  * @since  1.5
  */
-class SearchModelSearch extends JModelLegacy
+class Search extends Model
 {
 	/**
 	 * Search data array
@@ -54,8 +59,8 @@ class SearchModelSearch extends JModelLegacy
 		parent::__construct();
 
 		// Get configuration
-		$app    = JFactory::getApplication();
-		$config = JFactory::getConfig();
+		$app    = \JFactory::getApplication();
+		$config = \JFactory::getConfig();
 
 		// Get the pagination request variables
 		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'uint'));
@@ -136,8 +141,8 @@ class SearchModelSearch extends JModelLegacy
 		{
 			$areas = $this->getAreas();
 
-			JPluginHelper::importPlugin('search');
-			$results = JFactory::getApplication()->triggerEvent('onContentSearch', array(
+			PluginHelper::importPlugin('search');
+			$results = \JFactory::getApplication()->triggerEvent('onContentSearch', array(
 				$this->getState('keyword'),
 				$this->getState('match'),
 				$this->getState('ordering'),
@@ -197,14 +202,14 @@ class SearchModelSearch extends JModelLegacy
 	/**
 	 * Method to get a pagination object of the weblink items for the category
 	 *
-	 * @return  JPagination
+	 * @return  Pagination
 	 */
 	public function getPagination()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_pagination))
 		{
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+			$this->_pagination = new Pagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -224,8 +229,8 @@ class SearchModelSearch extends JModelLegacy
 		{
 			$areas = array();
 
-			JPluginHelper::importPlugin('search');
-			$searchareas = JFactory::getApplication()->triggerEvent('onContentSearchAreas');
+			PluginHelper::importPlugin('search');
+			$searchareas = \JFactory::getApplication()->triggerEvent('onContentSearchAreas');
 
 			foreach ($searchareas as $area)
 			{

@@ -6,17 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Search\Site\View\Search;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\View\HtmlView;
 use Joomla\String\StringHelper;
+use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 
 /**
  * HTML View class for the search component
  *
  * @since  1.0
  */
-class SearchViewSearch extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The page class suffix
@@ -29,7 +32,7 @@ class SearchViewSearch extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination|null
+	 * @var    \Joomla\CMS\Pagination\Pagination|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination = null;
@@ -118,7 +121,7 @@ class SearchViewSearch extends JViewLegacy
 	/**
 	 * The URL instance
 	 *
-	 * @var    JUri|null
+	 * @var    \JUri|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $action = null;
@@ -134,10 +137,8 @@ class SearchViewSearch extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		JLoader::register('SearchHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/search.php');
-
-		$app     = JFactory::getApplication();
-		$uri     = JUri::getInstance();
+		$app     = \JFactory::getApplication();
+		$uri     = \JUri::getInstance();
 		$error   = null;
 		$results = null;
 		$total   = 0;
@@ -156,23 +157,23 @@ class SearchViewSearch extends JViewLegacy
 		{
 			if (!$menu->params->get('page_title'))
 			{
-				$params->set('page_title', JText::_('COM_SEARCH_SEARCH'));
+				$params->set('page_title', \JText::_('COM_SEARCH_SEARCH'));
 			}
 		}
 		else
 		{
-			$params->set('page_title', JText::_('COM_SEARCH_SEARCH'));
+			$params->set('page_title', \JText::_('COM_SEARCH_SEARCH'));
 		}
 
 		$title = $params->get('page_title');
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -194,43 +195,43 @@ class SearchViewSearch extends JViewLegacy
 
 		// Built select lists
 		$orders   = array();
-		$orders[] = JHtml::_('select.option', 'newest', JText::_('COM_SEARCH_NEWEST_FIRST'));
-		$orders[] = JHtml::_('select.option', 'oldest', JText::_('COM_SEARCH_OLDEST_FIRST'));
-		$orders[] = JHtml::_('select.option', 'popular', JText::_('COM_SEARCH_MOST_POPULAR'));
-		$orders[] = JHtml::_('select.option', 'alpha', JText::_('COM_SEARCH_ALPHABETICAL'));
-		$orders[] = JHtml::_('select.option', 'category', JText::_('JCATEGORY'));
+		$orders[] = \JHtml::_('select.option', 'newest', \JText::_('COM_SEARCH_NEWEST_FIRST'));
+		$orders[] = \JHtml::_('select.option', 'oldest', \JText::_('COM_SEARCH_OLDEST_FIRST'));
+		$orders[] = \JHtml::_('select.option', 'popular', \JText::_('COM_SEARCH_MOST_POPULAR'));
+		$orders[] = \JHtml::_('select.option', 'alpha', \JText::_('COM_SEARCH_ALPHABETICAL'));
+		$orders[] = \JHtml::_('select.option', 'category', \JText::_('JCATEGORY'));
 
 		$lists             = array();
-		$lists['ordering'] = JHtml::_('select.genericlist', $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering'));
+		$lists['ordering'] = \JHtml::_('select.genericlist', $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering'));
 
 		$searchphrases         = array();
-		$searchphrases[]       = JHtml::_('select.option', 'all', JText::_('COM_SEARCH_ALL_WORDS'));
-		$searchphrases[]       = JHtml::_('select.option', 'any', JText::_('COM_SEARCH_ANY_WORDS'));
-		$searchphrases[]       = JHtml::_('select.option', 'exact', JText::_('COM_SEARCH_EXACT_PHRASE'));
-		$lists['searchphrase'] = JHtml::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
+		$searchphrases[]       = \JHtml::_('select.option', 'all', \JText::_('COM_SEARCH_ALL_WORDS'));
+		$searchphrases[]       = \JHtml::_('select.option', 'any', \JText::_('COM_SEARCH_ANY_WORDS'));
+		$searchphrases[]       = \JHtml::_('select.option', 'exact', \JText::_('COM_SEARCH_EXACT_PHRASE'));
+		$lists['searchphrase'] = \JHtml::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		// Log the search
 		\Joomla\CMS\Helper\SearchHelper::logSearch($searchWord, 'com_search');
 
 		// Limit search-word
-		$lang        = JFactory::getLanguage();
+		$lang        = \JFactory::getLanguage();
 		$upper_limit = $lang->getUpperLimitSearchWord();
 		$lower_limit = $lang->getLowerLimitSearchWord();
 
 		if (SearchHelper::limitSearchWord($searchWord))
 		{
-			$error = JText::sprintf('COM_SEARCH_ERROR_SEARCH_MESSAGE', $lower_limit, $upper_limit);
+			$error = \JText::sprintf('COM_SEARCH_ERROR_SEARCH_MESSAGE', $lower_limit, $upper_limit);
 		}
 
 		// Sanitise search-word
 		if (SearchHelper::santiseSearchWord($searchWord, $state->get('match')))
 		{
-			$error = JText::_('COM_SEARCH_ERROR_IGNOREKEYWORD');
+			$error = \JText::_('COM_SEARCH_ERROR_IGNOREKEYWORD');
 		}
 
 		if (!$searchWord && !empty($this->input) && count($this->input->post))
 		{
-			// $error = JText::_('COM_SEARCH_ERROR_ENTERKEYWORD');
+			// $error = \JText::_('COM_SEARCH_ERROR_ENTERKEYWORD');
 		}
 
 		// Put the filtered results back into the model
@@ -260,7 +261,7 @@ class SearchViewSearch extends JViewLegacy
 				$needle      = $searchWords[0];
 			}
 
-			JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+			\JLoader::register('ContentHelperRoute', \JPATH_SITE . '/components/com_content/helpers/route.php');
 
 			for ($i = 0, $count = count($results); $i < $count; ++$i)
 			{
@@ -364,21 +365,21 @@ class SearchViewSearch extends JViewLegacy
 
 				if ($result->created)
 				{
-					$created = JHtml::_('date', $result->created, JText::_('DATE_FORMAT_LC3'));
+					$created = \JHtml::_('date', $result->created, \JText::_('DATE_FORMAT_LC3'));
 				}
 				else
 				{
 					$created = '';
 				}
 
-				$result->text    = JHtml::_('content.prepare', $result->text, '', 'com_search.search');
+				$result->text    = \JHtml::_('content.prepare', $result->text, '', 'com_search.search');
 				$result->created = $created;
 				$result->count   = $i + 1;
 			}
 		}
 
 		// Check for layout override
-		$active = JFactory::getApplication()->getMenu()->getActive();
+		$active = \JFactory::getApplication()->getMenu()->getActive();
 
 		if (isset($active->query['layout']))
 		{
