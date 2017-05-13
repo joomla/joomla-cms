@@ -51,11 +51,11 @@ class ContenthistoryHelper
 	}
 
 	/**
-	 * Method to decode \JSON-encoded fields in a standard object. Used to unpack \JSON strings in the content history data column.
+	 * Method to decode JSON-encoded fields in a standard object. Used to unpack JSON strings in the content history data column.
 	 *
-	 * @param   \stdClass  $jsonString  Standard class object that may contain one or more \JSON-encoded fields.
+	 * @param   \stdClass  $jsonString  Standard class object that may contain one or more JSON-encoded fields.
 	 *
-	 * @return  \stdClass  Object with any \JSON-encoded fields unpacked.
+	 * @return  \stdClass  Object with any JSON-encoded fields unpacked.
 	 *
 	 * @since   3.2
 	 */
@@ -78,7 +78,7 @@ class ContenthistoryHelper
 	}
 
 	/**
-	 * Method to get field labels for the fields in the \JSON-encoded object.
+	 * Method to get field labels for the fields in the JSON-encoded object.
 	 * First we see if we can find translatable labels for the fields in the object.
 	 * We translate any we can find and return an array in the format object->name => label.
 	 *
@@ -283,7 +283,7 @@ class ContenthistoryHelper
 	 *
 	 * Value can be a std object with name, value pairs.
 	 *
-	 * @param   \stdClass  $object      The std object from the \JSON string. Can be nested 1 level deep.
+	 * @param   \stdClass  $object      The std object from the JSON string. Can be nested 1 level deep.
 	 * @param   \stdClass  $formValues  Standard class of label and value in an associative array.
 	 *
 	 * @return  \stdClass  Object with translated labels where available
@@ -348,7 +348,7 @@ class ContenthistoryHelper
 	 * Method to process any lookup values found in the content_history_options column for this table.
 	 * This allows category title and user name to be displayed instead of the id column.
 	 *
-	 * @param   \stdClass    $object      The std object from the \JSON string. Can be nested 1 level deep.
+	 * @param   \stdClass    $object      The std object from the JSON string. Can be nested 1 level deep.
 	 * @param   ContentType  $typesTable  Table object loaded with data.
 	 *
 	 * @return  \stdClass  Object with lookup values inserted.
