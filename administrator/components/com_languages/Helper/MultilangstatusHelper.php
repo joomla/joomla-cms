@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\Helper;
+
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die;
-use Joomla\Registry\Registry;
 
 /**
  * Multilang status helper.
@@ -25,7 +29,7 @@ abstract class MultilangstatusHelper
 	public static function getHomes()
 	{
 		// Check for multiple Home pages.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__menu'))
@@ -45,7 +49,7 @@ abstract class MultilangstatusHelper
 	public static function getLangswitchers()
 	{
 		// Check if switcher is published.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__modules'))
@@ -65,7 +69,7 @@ abstract class MultilangstatusHelper
 	public static function getContentlangs()
 	{
 		// Check for published Content Languages.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.lang_code AS lang_code')
 			->select('a.published AS published')
@@ -80,24 +84,24 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  array of language extension objects.
 	 *
-	 * @deprecated  4.0  Use JLanguageHelper::getInstalledLanguages(0) instead.
+	 * @deprecated  4.0  Use \JLanguageHelper::getInstalledLanguages(0) instead.
 	 */
 	public static function getSitelangs()
 	{
 		try
 		{
-			JLog::add(
-				sprintf('%s() is deprecated, use JLanguageHelper::getInstalledLanguages(0) instead.', __METHOD__),
-				JLog::WARNING,
+			\JLog::add(
+				sprintf('%s() is deprecated, use \JLanguageHelper::getInstalledLanguages(0) instead.', __METHOD__),
+				\JLog::WARNING,
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
 
-		return JLanguageHelper::getInstalledLanguages(0);
+		return LanguageHelper::getInstalledLanguages(0);
 	}
 
 	/**
@@ -105,24 +109,24 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  array of menu objects.
 	 *
-	 * @deprecated  4.0  Use JLanguageMultilang::getSiteHomePages() instead.
+	 * @deprecated  4.0  Use \JLanguageMultilang::getSiteHomePages() instead.
 	 */
 	public static function getHomepages()
 	{
 		try
 		{
-			JLog::add(
-				sprintf('%s() is deprecated, use JLanguageHelper::getSiteHomePages() instead.', __METHOD__),
-				JLog::WARNING,
+			\JLog::add(
+				sprintf('%s() is deprecated, use \JLanguageHelper::getSiteHomePages() instead.', __METHOD__),
+				\JLog::WARNING,
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
 
-		return JLanguageMultilang::getSiteHomePages();
+		return Multilanguage::getSiteHomePages();
 	}
 
 	/**
@@ -133,7 +137,7 @@ abstract class MultilangstatusHelper
 	public static function getStatus()
 	{
 		// Check for combined status.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select all fields from the languages table.
@@ -165,8 +169,8 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getContacts()
 	{
-		$db = JFactory::getDbo();
-		$languages = count(JLanguageHelper::getLanguages());
+		$db = \JFactory::getDbo();
+		$languages = count(LanguageHelper::getLanguages());
 
 		// Get the number of contact with all as language
 		$alang = $db->getQuery(true)
@@ -238,7 +242,7 @@ abstract class MultilangstatusHelper
 	public static function getDefaultHomeModule()
 	{
 		// Find Default Home menutype.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('menutype'))
 			->from($db->qn('#__menu'))
@@ -267,7 +271,7 @@ abstract class MultilangstatusHelper
 		foreach ($menutitles as $menutitle)
 		{
 			$module       = self::getModule('mod_menu', $menutitle);
-			$moduleParams = new JRegistry($module->params);
+			$moduleParams = new Registry($module->params);
 			$param        = $moduleParams->get('menutype', '');
 
 			if ($param && $param != $menutype)
@@ -285,13 +289,13 @@ abstract class MultilangstatusHelper
 	 * @param   string  $moduleName     The name of the module
 	 * @param   string  $instanceTitle  The title of the module, optional
 	 *
-	 * @return  stdClass  The Module object
+	 * @return  \stdClass  The Module object
 	 *
 	 * @since   3.7.0
 	 */
 	public static function getModule($moduleName, $instanceTitle = null)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('id, title, module, position, content, showtitle, params')
@@ -311,9 +315,9 @@ abstract class MultilangstatusHelper
 		{
 			$modules = $db->loadObject();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
 		}
 
 		return $modules;

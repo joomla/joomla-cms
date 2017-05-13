@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Form;
 
 /**
  * Languages Override Controller
  *
  * @since  2.5
  */
-class LanguagesControllerOverride extends JControllerForm
+class Override extends Form
 {
 	/**
 	 * Method to edit an existing override.
@@ -29,9 +32,9 @@ class LanguagesControllerOverride extends JControllerForm
 	public function edit($key = null, $urlVar = null)
 	{
 		// Do not cache the response to this, its a redirect
-		JFactory::getApplication()->allowCache(false);
+		$this->app->allowCache(false);
 
-		$app     = JFactory::getApplication();
+		$app     = \JFactory::getApplication();
 		$cid     = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 
@@ -41,8 +44,8 @@ class LanguagesControllerOverride extends JControllerForm
 		// Access check.
 		if (!$this->allowEdit())
 		{
-			$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+			$this->setMessage(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return;
 		}
@@ -64,9 +67,9 @@ class LanguagesControllerOverride extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app     = JFactory::getApplication();
+		$app     = $this->app;
 		$model   = $this->getModel();
 		$data    = $this->input->post->get('jform', array(), 'array');
 		$context = "$this->option.edit.$this->context";
@@ -78,8 +81,8 @@ class LanguagesControllerOverride extends JControllerForm
 		// Access check.
 		if (!$this->allowSave($data, 'id'))
 		{
-			$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+			$this->setMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return;
 		}
@@ -94,8 +97,8 @@ class LanguagesControllerOverride extends JControllerForm
 			return;
 		}
 
-		// Require helper for filter functions called by JForm.
-		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
+		// Require helper for filter functions called by \JForm.
+		\JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
@@ -109,7 +112,7 @@ class LanguagesControllerOverride extends JControllerForm
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if ($errors[$i] instanceof Exception)
+				if ($errors[$i] instanceof \Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
@@ -124,7 +127,7 @@ class LanguagesControllerOverride extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
-				JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'), false)
+				\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'), false)
 			);
 
 			return;
@@ -137,16 +140,16 @@ class LanguagesControllerOverride extends JControllerForm
 			$app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect(
-				JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'), false)
+				\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'), false)
 			);
 
 			return;
 		}
 
 		// Add message of success.
-		$this->setMessage(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SAVE_SUCCESS'));
+		$this->setMessage(\JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -157,7 +160,7 @@ class LanguagesControllerOverride extends JControllerForm
 
 				// Redirect back to the edit screen
 				$this->setRedirect(
-					JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($validData['key'], 'id'), false)
+					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($validData['key'], 'id'), false)
 				);
 				break;
 
@@ -167,7 +170,7 @@ class LanguagesControllerOverride extends JControllerForm
 
 				// Redirect back to the edit screen
 				$this->setRedirect(
-					JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, 'id'), false)
+					\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(null, 'id'), false)
 				);
 				break;
 
@@ -176,7 +179,7 @@ class LanguagesControllerOverride extends JControllerForm
 				$app->setUserState($context . '.data', null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+				$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 				break;
 		}
 	}
@@ -192,12 +195,11 @@ class LanguagesControllerOverride extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app     = JFactory::getApplication();
 		$context = "$this->option.edit.$this->context";
 
-		$app->setUserState($context . '.data', null);
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+		$this->app->setUserState($context . '.data', null);
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 	}
 }

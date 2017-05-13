@@ -6,25 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Table\Table;
 
 /**
  * Languages Model Class
  *
  * @since  1.6
  */
-class LanguagesModelLanguages extends JModelList
+class Languages extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   1.6
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -42,7 +49,7 @@ class LanguagesModelLanguages extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -60,7 +67,7 @@ class LanguagesModelLanguages extends JModelList
 	protected function populateState($ordering = 'a.ordering', $direction = 'asc')
 	{
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_languages');
+		$params = ComponentHelper::getParams('com_languages');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -160,7 +167,7 @@ class LanguagesModelLanguages extends JModelList
 	 */
 	public function setPublished($cid, $value = 0)
 	{
-		return JTable::getInstance('Language')->publish($cid, $value);
+		return Table::getInstance('Language', 'Joomla\\CMS\\Table\\')->publish($cid, $value);
 	}
 
 	/**
@@ -178,7 +185,7 @@ class LanguagesModelLanguages extends JModelList
 		$pks = (array) $pks;
 
 		// Get a row instance.
-		$table = JTable::getInstance('Language');
+		$table = Table::getInstance('Language', 'Joomla\\CMS\\Table\\');
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $itemId)

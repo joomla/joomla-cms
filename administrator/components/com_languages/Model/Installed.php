@@ -6,9 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class LanguagesModelInstalled extends JModelList
+class Installed extends ListModel
 {
 	/**
 	 * @var object client object
@@ -30,7 +37,7 @@ class LanguagesModelInstalled extends JModelList
 	protected $user = null;
 
 	/**
-	 * @var boolean|JExeption True, if FTP settings should be shown, or an exeption
+	 * @var boolean|\JExeption True, if FTP settings should be shown, or an exeption
 	 */
 	protected $ftp = null;
 
@@ -63,12 +70,13 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   3.5
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -87,7 +95,7 @@ class LanguagesModelInstalled extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -113,7 +121,7 @@ class LanguagesModelInstalled extends JModelList
 		$this->setState('client_id', $clientId);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_languages');
+		$params = ComponentHelper::getParams('com_languages');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -151,7 +159,7 @@ class LanguagesModelInstalled extends JModelList
 	 */
 	public function getClient()
 	{
-		return JApplicationHelper::getClientInfo($this->getState('client_id', 0));
+		return ApplicationHelper::getClientInfo($this->getState('client_id', 0));
 	}
 
 	/**
@@ -165,7 +173,7 @@ class LanguagesModelInstalled extends JModelList
 	{
 		if (is_null($this->ftp))
 		{
-			$this->ftp = JClientHelper::setCredentialsFromRequest('ftp');
+			$this->ftp = \JClientHelper::setCredentialsFromRequest('ftp');
 		}
 
 		return $this->ftp;
@@ -199,18 +207,18 @@ class LanguagesModelInstalled extends JModelList
 		{
 			$this->data = array();
 
-			$isCurrentLanguageRtl = JFactory::getLanguage()->isRtl();
-			$params               = JComponentHelper::getParams('com_languages');
-			$installedLanguages   = JLanguageHelper::getInstalledLanguages(null, true, true, null, null, null);
+			$isCurrentLanguageRtl = \JFactory::getLanguage()->isRtl();
+			$params               = ComponentHelper::getParams('com_languages');
+			$installedLanguages   = LanguageHelper::getInstalledLanguages(null, true, true, null, null, null);
 
 			// Compute all the languages.
 			foreach ($installedLanguages as $clientId => $languages)
 			{
-				$defaultLanguage = $params->get(JApplicationHelper::getClientInfo($clientId)->name, 'en-GB');
+				$defaultLanguage = $params->get(ApplicationHelper::getClientInfo($clientId)->name, 'en-GB');
 
 				foreach ($languages as $lang)
 				{
-					$row               = new stdClass;
+					$row               = new \stdClass;
 					$row->language     = $lang->element;
 					$row->name         = $lang->metadata['name'];
 					$row->nativeName   = isset($lang->metadata['nativeName']) ? $lang->metadata['nativeName'] : '-';
@@ -353,10 +361,10 @@ class LanguagesModelInstalled extends JModelList
 		{
 			$client = $this->getClient();
 
-			$params = JComponentHelper::getParams('com_languages');
+			$params = ComponentHelper::getParams('com_languages');
 			$params->set($client->name, $cid);
 
-			$table = JTable::getInstance('extension');
+			$table = Table::getInstance('extension', 'Joomla\\CMS\\Table\\');
 			$id    = $table->find(array('element' => 'com_languages'));
 
 			// Load.
@@ -387,7 +395,7 @@ class LanguagesModelInstalled extends JModelList
 		}
 		else
 		{
-			$this->setError(JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
+			$this->setError(\JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
 
 			return false;
 		}
@@ -413,7 +421,7 @@ class LanguagesModelInstalled extends JModelList
 		{
 			$path = $this->getPath();
 			jimport('joomla.filesystem.folder');
-			$this->folders = JFolder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
+			$this->folders = \JFolder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
 		}
 
 		return $this->folders;
@@ -431,7 +439,7 @@ class LanguagesModelInstalled extends JModelList
 		if (is_null($this->path))
 		{
 			$client     = $this->getClient();
-			$this->path = JLanguageHelper::getLanguagePath($client->path);
+			$this->path = LanguageHelper::getLanguagePath($client->path);
 		}
 
 		return $this->path;
@@ -471,12 +479,12 @@ class LanguagesModelInstalled extends JModelList
 
 			if ($client->name == 'administrator')
 			{
-				JFactory::getApplication()->setUserState('application.lang', $cid);
+				\JFactory::getApplication()->setUserState('application.lang', $cid);
 			}
 		}
 		else
 		{
-			JError::raiseWarning(500, JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
+			\JError::raiseWarning(500, \JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
 
 			return false;
 		}

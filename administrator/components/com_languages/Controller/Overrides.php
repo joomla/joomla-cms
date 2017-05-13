@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Admin;
 
 /**
  * Languages Overrides Controller.
  *
  * @since  2.5
  */
-class LanguagesControllerOverrides extends JControllerAdmin
+class Overrides extends Admin
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -34,14 +37,14 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	public function delete()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to dlete from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			$this->setMessage(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+			$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -51,15 +54,15 @@ class LanguagesControllerOverrides extends JControllerAdmin
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(\JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
 			}
 			else
 			{
-				$this->setMessage($model->getError());
+				$this->setMessage($model->getError(), 'error');
 			}
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
@@ -73,6 +76,6 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	{
 		$model = $this->getModel('overrides');
 		$model->purge();
-		$this->setRedirect(JRoute::_('index.php?option=com_languages&view=overrides', false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_languages&view=overrides', false));
 	}
 }

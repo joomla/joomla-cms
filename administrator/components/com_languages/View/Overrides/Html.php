@@ -6,15 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\View\Overrides;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
  * View for language overrides list.
  *
  * @since  2.5
  */
-class LanguagesViewOverrides extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The items to list.
@@ -77,7 +82,7 @@ class LanguagesViewOverrides extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors));
+			throw new \JViewGenericdataexception(implode("\n", $errors));
 		}
 
 		$this->addToolbar();
@@ -94,47 +99,47 @@ class LanguagesViewOverrides extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Get the results for each action
-		$canDo = JHelperContent::getActions('com_languages');
+		$canDo = ContentHelper::getActions('com_languages');
 
-		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments-2 langmanager');
+		\JToolbarHelper::title(\JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments-2 langmanager');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::addNew('override.add');
+			\JToolbarHelper::addNew('override.add');
 		}
 
 		if ($canDo->get('core.edit') && $this->pagination->total)
 		{
-			JToolbarHelper::editList('override.edit');
+			\JToolbarHelper::editList('override.edit');
 		}
 
 		if ($canDo->get('core.delete') && $this->pagination->total)
 		{
-			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
+			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
 		}
 
-		if (JFactory::getUser()->authorise('core.admin'))
+		if (\JFactory::getUser()->authorise('core.admin'))
 		{
-			JToolbarHelper::custom('overrides.purge', 'refresh.png', 'refresh_f2.png', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
+			\JToolbarHelper::custom('overrides.purge', 'refresh.png', 'refresh_f2.png', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolbarHelper::preferences('com_languages');
+			\JToolbarHelper::preferences('com_languages');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
 
-		JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
+		\JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
 
-		JHtmlSidebar::addFilter(
+		\JHtmlSidebar::addFilter(
 			'',
 			'filter_language_client',
-			JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
+			\JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
 			true
 		);
 
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = \JHtmlSidebar::render();
 	}
 }

@@ -6,24 +6,35 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Languages Component Language Model
  *
  * @since  1.5
  */
-class LanguagesModelLanguage extends JModelAdmin
+class Language extends Admin
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 *
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		$config = array_merge(
 			array(
@@ -35,7 +46,7 @@ class LanguagesModelLanguage extends JModelAdmin
 			), $config
 		);
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -45,13 +56,13 @@ class LanguagesModelLanguage extends JModelAdmin
 	 * @param   string  $prefix   Table name prefix.
 	 * @param   array   $options  Array of options.
 	 *
-	 * @return  JTable
+	 * @return  Table
 	 *
 	 * @since   1.6
 	 */
 	public function getTable($name = '', $prefix = '', $options = array())
 	{
-		return JTable::getInstance('Language');
+		return Table::getInstance('Language', 'Joomla\\CMS\\Table\\');
 	}
 
 	/**
@@ -65,8 +76,8 @@ class LanguagesModelLanguage extends JModelAdmin
 	 */
 	protected function populateState()
 	{
-		$app    = JFactory::getApplication('administrator');
-		$params = JComponentHelper::getParams('com_languages');
+		$app    = \JFactory::getApplication('administrator');
+		$params = ComponentHelper::getParams('com_languages');
 
 		// Load the User state.
 		$langId = $app->input->getInt('lang_id');
@@ -106,7 +117,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		// Set a valid accesslevel in case '0' is stored due to a bug in the installation SQL (was fixed with PR 2714).
 		if ($table->access == '0')
 		{
-			$table->access = (int) JFactory::getConfig()->get('access');
+			$table->access = (int) \JFactory::getConfig()->get('access');
 		}
 
 		$properties = $table->getProperties(1);
@@ -121,7 +132,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure.
+	 * @return  mixed  A \JForm object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -148,7 +159,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_languages.edit.language.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_languages.edit.language.data', array());
 
 		if (empty($data))
 		{
@@ -174,7 +185,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		$langId = (!empty($data['lang_id'])) ? $data['lang_id'] : (int) $this->getState('language.id');
 		$isNew  = true;
 
-		JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		$table   = $this->getTable();
 		$context = $this->option . '.' . $this->name;
@@ -194,13 +205,13 @@ class LanguagesModelLanguage extends JModelAdmin
 		// Prevent saving an incorrect language tag
 		if (!preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code']))
 		{
-			$this->setError(JText::_('COM_LANGUAGES_ERROR_LANG_TAG'));
+			$this->setError(\JText::_('COM_LANGUAGES_ERROR_LANG_TAG'));
 
 			return false;
 		}
 
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
-		$data['sef'] = JApplicationHelper::stringURLSafe($data['sef']);
+		$data['sef'] = ApplicationHelper::stringURLSafe($data['sef']);
 
 		// Bind the data.
 		if (!$table->bind($data))
@@ -219,7 +230,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		// Trigger the before save event.
-		$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
 
 		// Check the event responses.
 		if (in_array(false, $result, true))
@@ -238,7 +249,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		// Trigger the after save event.
-		JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		$this->setState('language.id', $table->lang_id);
 
