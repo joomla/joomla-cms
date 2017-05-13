@@ -1064,9 +1064,12 @@ class JAccess
 			}
 		}
 
+		// Initialise the authorised array.
+		$authorised = array(1);
+
 		// Check for the recovery mode setting and return early.
-		$user      = JFactory::getUser($userId);
-		$root_user = JFactory::getApplication()->get('root_user');
+		$user      = JUser::getInstance($userId);
+		$root_user = JFactory::getConfig()->get('root_user');
 
 		if ($root_user && ($root_user == $user->username || $root_user == $user->id))
 		{
@@ -1075,7 +1078,7 @@ class JAccess
 			{
 				foreach ($rule as $id)
 				{
-					if ($id > 0 && JAccess::checkGroup($id, 'core.admin'))
+					if ($id > 0 && self::checkGroup($id, 'core.admin'))
 					{
 						$authorised[] = $level;
 						break;
@@ -1083,14 +1086,11 @@ class JAccess
 				}
 			}
 
-			return $authorised = array_keys(self::$viewLevels);
+			return $authorised;
 		}
 
 		// Get all groups that the user is mapped to recursively.
 		$groups = self::getGroupsByUser($userId);
-
-		// Initialise the authorised array.
-		$authorised = array(1);
 
 		// Find the authorised levels.
 		foreach (self::$viewLevels as $level => $rule)
