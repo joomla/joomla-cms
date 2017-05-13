@@ -28,16 +28,12 @@ class JErrorPage
 	public static function render($error)
 	{
 		$expectedClass = PHP_MAJOR_VERSION >= 7 ? 'Throwable' : 'Exception';
-		$isException   = $error instanceof $expectedClass;
 
-		// If the error code is 0 we have a fatal error that must be passed to the default error handler
-		if (!$error->getCode())
-		{
-			trigger_error($error->getMessage(), E_USER_ERROR);
-		}
+		$isException   = $error instanceof $expectedClass;
+		$isError       = get_parent_class($error) === 'Error';
 
 		// In PHP 5, the $error object should be an instance of Exception; PHP 7 should be a Throwable implementation
-		if ($isException)
+		if ($isException && !$isError)
 		{
 			try
 			{
@@ -149,6 +145,7 @@ class JErrorPage
 		if (!headers_sent())
 		{
 			header('HTTP/1.1 500 Internal Server Error');
+			trigger_error($error->getMessage(), E_USER_ERROR);
 		}
 
 		$message = 'Error displaying the error page';
