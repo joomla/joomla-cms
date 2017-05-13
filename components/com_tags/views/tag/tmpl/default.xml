@@ -15,14 +15,14 @@
 
 			<field 
 				name="id" 
-				type="tag" 				
+				type="tag"
 				label="COM_TAGS_FIELD_TAG_LABEL"
 				description="COM_TAGS_FIELD_SELECT_TAG_DESC"
 				custom="deny"
 				required="true"
 				multiple="true"
 			/>
-			
+
 			<field 
 				name="types" 
 				type="contenttype"
@@ -30,19 +30,19 @@
 				description="COM_TAGS_FIELD_TYPE_DESC"
 				multiple="true"
 			/>
-			
+
 			<field 
 				name="tag_list_language_filter"
 				type="contentlanguage"
 				label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
 				description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC"
 				default=""
-				>
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="all">JALL</option>
-					<option value="current_language">JCURRENT</option>
+				useglobal="true"
+			>
+				<option value="all">JALL</option>
+				<option value="current_language">JCURRENT</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
 
@@ -55,8 +55,8 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 				description="COM_TAGS_SHOW_TAG_TITLE_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -65,9 +65,9 @@
 				name="tag_list_show_tag_image" 
 				type="list"
 				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
-				description="COM_TAGS_SHOW_TAG_IMAGE_DESC"			
+				description="COM_TAGS_SHOW_TAG_IMAGE_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -77,40 +77,29 @@
 				type="list"
 				label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 				description="COM_TAGS_SHOW_TAG_DESCRIPTION_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field 
 				name="tag_list_image" 
 				type="media"
 				label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 				description="COM_TAGS_TAG_LIST_MEDIA_DESC"
 			/>
-			
+
 			<field 
 				name="tag_list_description" 
 				type="textarea"
 				class="inputbox"
 				label="COM_TAGS_SHOW_TAG_LIST_DESCRIPTION_LABEL"
-				description="COM_TAGS_TAG_LIST_DESCRIPTION_DESC"		
+				description="COM_TAGS_TAG_LIST_DESCRIPTION_DESC"
 				rows="3" 
 				cols="30" 
 				filter="safehtml"
 			/>
-
-			<field 
-				name="show_tag_num_items" 
-				type="list"
-				label="COM_TAGS_NUMBER_TAG_ITEMS_LABEL"
-				description="COM_TAGS_NUMBER_TAG_ITEMS_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
 
 			<field 
 				name="tag_list_orderby"
@@ -118,13 +107,13 @@
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 				default=""
+				useglobal="true"
 			>
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="c.core_title">JGLOBAL_TITLE</option>
-					<option value="match_count">COM_TAGS_MATCH_COUNT</option>
-					<option value="c.core_created_time">JGLOBAL_CREATED_DATE</option>
-					<option value="c.core_modified_time">JGLOBAL_MODIFIED_DATE</option>
-					<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
+				<option value="c.core_title">JGLOBAL_TITLE</option>
+				<option value="match_count">COM_TAGS_MATCH_COUNT</option>
+				<option value="c.core_created_time">JGLOBAL_CREATED_DATE</option>
+				<option value="c.core_modified_time">JGLOBAL_MODIFIED_DATE</option>
+				<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
 			</field>
 
 			<field 
@@ -132,8 +121,8 @@
 				type="list"
 				label="JGLOBAL_ORDER_DIRECTION_LABEL"
 				description="JGLOBAL_ORDER_DIRECTION_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
 				<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
 			</field>
@@ -141,21 +130,21 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="COM_TAGS_ITEM_OPTIONS">
-			
+
 			<field 
 				name="spacer2" 
 				type="spacer" 
 				class="text"
 				label="COM_TAGS_SUBSLIDER_DRILL_TAG_LIST_LABEL"
 			/>
-			
+
 			<field 
 				name="tag_list_show_item_image" 
 				type="list"
-				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"				
+				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"
 				description="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -165,18 +154,19 @@
 				type="list"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 				description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field
 				name="tag_list_item_maximum_characters"
 				type="text"
 				filter="integer"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
+				useglobal="true"
 			/>
 
 			<field
@@ -185,8 +175,8 @@
 				default=""
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				description="JGLOBAL_FILTER_FIELD_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -194,13 +184,13 @@
 
 		<fieldset name="pagination" label="COM_TAGS_PAGINATION_OPTIONS">
 
-			<field	
+			<field
 				name="show_pagination_limit" 
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -210,8 +200,8 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				description="JGLOBAL_PAGINATION_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>
@@ -221,59 +211,51 @@
 				name="show_pagination_results" 
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+				description="JGLOBAL_PAGINATION_RESULTS_DESC"
+				useglobal="true"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
-			
+
 		</fieldset>
-		
+
 		<fieldset name="selection" label="COM_TAGS_LIST_SELECTION_OPTIONS">
-			
-			<field 
+
+			<field
 				name="return_any_or_all" 
 				type="list"
 				label="COM_TAGS_SEARCH_TYPE_LABEL"
 				description="COM_TAGS_SEARCH_TYPE_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">COM_TAGS_ALL</option>
 				<option value="1">COM_TAGS_ANY</option>
 			</field>
-			
+
 			<field 
 				name="include_children" 
 				type="list"
 				label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
 				description="COM_TAGS_INCLUDE_CHILDREN_DESC"
 				default=""
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">COM_TAGS_EXCLUDE</option>
 				<option value="1">COM_TAGS_INCLUDE</option>
-			</field>		
-		
-			<field
-				name="maximum"
-				type="text"
-				default="200"
-				filter="integer"
-				label="COM_TAGS_LIST_MAX_LABEL"
-				description="COM_TAGS_LIST_MAX_DESC">
 			</field>
-				
+
 		</fieldset>
-		
+
 		<fieldset name="integration">
-			
-			<field 
+
+			<field
 				name="show_feed_link" 
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				description="JGLOBAL_SHOW_FEED_LINK_DESC"
+				useglobal="true"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>

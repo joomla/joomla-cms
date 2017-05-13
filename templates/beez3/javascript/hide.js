@@ -25,7 +25,7 @@ function wrapperwidth(width) {
 // add Wai-Aria landmark-roles
 jQuery(function($) {
 	$('#nav').attr('role', 'navigation');
-	$('#mod-search-searchword').closest('form').attr('role', 'search');
+	$('input[id^="mod-search-searchword"]').closest('form').attr('role', 'search');
 	$('#main').attr('role', 'main');
 	$('#right').attr('role', 'contentinfo');
 });
@@ -265,7 +265,7 @@ var mobileMenu = function(){
 		$menuWrapper = $('<div>', {id : 'menuwrapper', role: 'menubar'});
 
 		// create the menu opener and assign events
-		$mobile = $('<div>', {id: 'mobile_select'}).html('<h2><a href=#" id="menuopener" onclick="return false;"><span>Openmenu</span></a></h2>').show();
+		$mobile = $('<div>', {id: 'mobile_select'}).html('<h2><a href="#" id="menuopener" onclick="return false;"><span>'+Openmenu+'</span></a></h2>').show();
 		$mobile.on('click', function(){
 			var state = $menuWrapper.css('display');
 			$menuWrapper.slideToggle();

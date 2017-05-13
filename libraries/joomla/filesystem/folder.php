@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -231,11 +231,11 @@ abstract class JFolder
 			{
 				if (IS_WIN)
 				{
-					$obdSeparator = ";";
+					$obdSeparator = ';';
 				}
 				else
 				{
-					$obdSeparator = ":";
+					$obdSeparator = ':';
 				}
 
 				// Create the array of open_basedir paths
@@ -292,7 +292,6 @@ abstract class JFolder
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
 	 */
 	public static function delete($path)
 	{
@@ -310,15 +309,8 @@ abstract class JFolder
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		try
-		{
-			// Check to make sure the path valid and clean
-			$path = $pathObject->clean($path);
-		}
-		catch (UnexpectedValueException $e)
-		{
-			throw $e;
-		}
+		// Check to make sure the path valid and clean
+		$path = $pathObject->clean($path);
 
 		// Is this really a folder?
 		if (!is_dir($path))
@@ -452,7 +444,7 @@ abstract class JFolder
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest))
 				{
-					return JText::_('Rename failed');
+					return JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
 				}
 
 				$ret = true;
@@ -461,7 +453,7 @@ abstract class JFolder
 			{
 				if (!@rename($src, $dest))
 				{
-					return JText::_('Rename failed');
+					return JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
 				}
 
 				$ret = true;
@@ -697,8 +689,13 @@ abstract class JFolder
 			{
 				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
 				$fullName = $pathObject->clean($path . '/' . $name);
-				$dirs[] = array('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName,
-					'relname' => str_replace(JPATH_ROOT, '', $fullName));
+				$dirs[] = array(
+					'id' => $id,
+					'parent' => $parent,
+					'name' => $name,
+					'fullname' => $fullName,
+					'relname' => str_replace(JPATH_ROOT, '', $fullName),
+				);
 				$dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);
 				$dirs = array_merge($dirs, $dirs2);
 			}

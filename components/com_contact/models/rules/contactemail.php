@@ -3,25 +3,26 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 JFormHelper::loadRuleClass('email');
 
 /**
- * JFormRule for com_contact to make sure the E-Mail adress is not blocked.
+ * JFormRule for com_contact to make sure the email address is not blocked.
  *
  * @since  1.6
  */
 class JFormRuleContactEmail extends JFormRuleEmail
 {
 	/**
-	 * Method to test for banned e-mail addresses
+	 * Method to test for banned email addresses
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
@@ -47,7 +48,7 @@ class JFormRuleContactEmail extends JFormRuleEmail
 		{
 			foreach (explode(';', $banned) as $item)
 			{
-				if ($item != '' && JString::stristr($value, $item) !== false)
+				if ($item != '' && StringHelper::stristr($value, $item) !== false)
 				{
 					return false;
 				}

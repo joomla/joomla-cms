@@ -1,4 +1,4 @@
-tinymce.addI18n('ko_KR',{
+tinymce.addI18n('ko',{
 "Cut": "\uc798\ub77c\ub0b4\uae30",
 "Header 2": "\uc81c\ubaa9 2",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "\ube0c\ub77c\uc6b0\uc838\uac00 \ud074\ub9bd\ubcf4\ub4dc \uc811\uadfc\uc744 \ud5c8\uc6a9\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4. Ctrl+X\/C\/V \ud0a4\ub97c \uc774\uc6a9\ud574 \uc8fc\uc138\uc694.",

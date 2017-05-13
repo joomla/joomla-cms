@@ -1,0 +1,50 @@
+<div id="corejs">
+	<div id="submitform">
+		<form id="adminForm" onsubmit="return false"></form>
+	</div>
+	<div id="replace-tokens">
+		<input class="replace-tokens-input" type="hidden" value="1" name="123456789123456789123456789EDBCA">
+		<input class="replace-tokens-input" type="hidden" value="1" name="123456789123456789123456789EDBCA">
+		<input class="replace-tokens-input" id="invalid-type" type="submit" value="1" name="123456789123456789123456789EDBCA">
+		<input class="replace-tokens-input" id="invalid-value" type="hidden" value="0" name="123456789123456789123456789EDBCA">
+		<input class="replace-tokens-input" id="invalid-name" type="hidden" value="1" name="123">
+	</div>
+	<div id="check-all">
+		<input type="checkbox" id="cb-no-form" checked>
+		<form id="check-all-form">
+			<input type="checkbox" class="checked" id="cb0" checked>
+			<input type="checkbox" class="unchecked" id="cb1">
+			<input type="checkbox" class="unchecked" id="cb2">
+			<input type="checkbox" class="unchecked" id="no-cb3">
+		</form>
+		<form id="check-all-stub-form">
+			<input type="checkbox" id="stub-check-test-1" checked>
+			<input type="checkbox" id="stub-check-test-2">
+		</form>
+	</div>
+	<div id="render-messages-remove-messages">
+		<div id="system-message-container">
+		</div>
+	</div>
+	<div id="ischecked">
+		<form id="ischecked-test-form">
+			<input type="checkbox" id="check-all-box" name="checkall-toggle">
+			<input type="checkbox">
+		</form>
+	</div>
+	<div id="table-ordering">
+		<form id="table-ordering-test-form">
+		</form>
+	</div>
+	<div id="get-options">
+		<script type="application/json" class="joomla-script-options new">{
+			"com_foobar": ["my options"],
+			"com_foobar2": "Alert message!",
+			"com_foobar3": false,
+			"joomla.jtext": {
+				"string1": "String 1",
+				"STRING2": "String 2"
+			}
+		}</script>
+	</div>
+</div>

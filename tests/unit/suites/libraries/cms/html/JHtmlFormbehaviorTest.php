@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,6 +38,7 @@ class JHtmlFormbehaviorTest extends TestCase
 		parent::setUp();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$config = $this->getMockConfig();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;
@@ -57,7 +58,7 @@ class JHtmlFormbehaviorTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -75,8 +76,7 @@ class JHtmlFormbehaviorTest extends TestCase
 	public function testChosen()
 	{
 		// Initialise the chosen script
-		JHtmlFormbehavior::chosen('.testSelect1');
-		JHtmlFormbehavior::chosen('.testSelect2', null, array('key1' => 'val1', 'key2' => 'val2'));
+		JHtmlFormbehavior::chosen('testSelect');
 
 		// Get the document instance
 		$document = JFactory::getDocument();
@@ -94,31 +94,15 @@ class JHtmlFormbehaviorTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/core.js',
-			$document->_scripts,
-			'Verify that the Core initialised as well'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/jui/js/behavior-form.min.js',
-			$document->_scripts,
-			'Verify that the Behavior Form initialised as well'
-		);
-
-		$this->assertArrayHasKey(
 			'/media/jui/css/chosen.css',
 			$document->_styleSheets,
 			'Verify that the Chosen CSS is loaded'
 		);
 
-		$this->assertEquals(
-			$document->getScriptOptions('chosen'),
-			array(
-				'.testSelect1' => array(),
-				'.testSelect2' => array('key1' => 'val1', 'key2' => 'val2'),
-			),
-			'Verify that the Chosen JS is initialised with the supplied selectors'
+		$this->assertContains(
+			'$(container).find("testSelect").chosen',
+			$document->_script['text/javascript'],
+			'Verify that the Chosen JS is initialised with the supplied selector'
 		);
-
 	}
 }

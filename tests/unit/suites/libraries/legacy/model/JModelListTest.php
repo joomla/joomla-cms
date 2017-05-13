@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,6 +40,7 @@ class JModelListTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$session = $this->getMockSession();
 
 		$this->object = new JModelList(array("filter_fields" => array("field1", "field2")));
 	}
@@ -51,7 +52,7 @@ class JModelListTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -437,7 +438,7 @@ class JModelListTest extends TestCaseDatabase
 
 		TestReflection::setValue($object, '__state_set', true);
 
-		$this->assertSame(false, $object->getItems());
+		$this->assertFalse($object->getItems());
 	}
 
 	/**
@@ -592,6 +593,9 @@ class JModelListTest extends TestCaseDatabase
 			)
 		);
 
+		// We've set the state manually, populateState call will overwrite it.
+		TestReflection::setValue($this->object, '__state_set', true);
+
 		$this->assertEquals($expected, $method->invoke($this->object));
 	}
 
@@ -715,7 +719,7 @@ class JModelListTest extends TestCaseDatabase
 					array(),
 					false,
 					30,
-					// Returning a column name that is not on the white list
+					// Returning a column name that is not on the whitelist
 					'notinwhitelist',
 					'ASC',
 					0
@@ -724,7 +728,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Set up the white list of valid order columns
+		// Set up the whitelist of valid order columns
 		TestReflection::setValue($this->object, 'filter_fields', array('inwhitelist'));
 
 		// Call the actual method and pass default values for ordering and order direction
@@ -828,7 +832,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Add the usercol to the column white list
+		// Add the usercol to the column whitelist
 		TestReflection::setValue($this->object, 'filter_fields', array('usercol'));
 
 		$method->invokeArgs($this->object, array('col', 'ASC'));
@@ -859,7 +863,8 @@ class JModelListTest extends TestCaseDatabase
 			"ordering" => "listcol",
 			"direction" => "DESC",
 			"limit" => "100",
-			"foo" => "bar"
+			"foo" => "bar",
+			"select" => "foo"
 		);
 
 		// Set up a quite complex mock object that checks if the correct calls are made and simulates the user output
@@ -880,7 +885,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Add the usercol to the column white list
+		// Add the usercol to the column whitelist
 		TestReflection::setValue($this->object, 'filter_fields', array('listcol'));
 
 		$method->invokeArgs($this->object, array('col', 'ASC'));
@@ -893,6 +898,7 @@ class JModelListTest extends TestCaseDatabase
 		$this->assertEquals('listcol', $this->object->getState('list.ordering'));
 		$this->assertEquals('bar', $this->object->getState('list.foo'));
 		$this->assertEquals('100', $this->object->getState('list.limit'));
+		$this->assertNull($this->object->getState('list.select'), 'The list blacklist does not allow this variable to be set.');
 	}
 
 	/**
@@ -932,7 +938,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Add the listcol to the column white list
+		// Add the listcol to the column whitelist
 		TestReflection::setValue($this->object, 'filter_fields', array('listcol'));
 
 		$method->invokeArgs($this->object, array('col', 'ASC'));

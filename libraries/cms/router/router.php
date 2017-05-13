@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,6 +59,7 @@ class JRouter
 	 *
 	 * @var    integer
 	 * @since  1.5
+	 * @deprecated  4.0
 	 */
 	protected $mode = null;
 
@@ -67,7 +68,7 @@ class JRouter
 	 *
 	 * @var    integer
 	 * @since  1.5
-	 * @deprecated  4.0 Will convert to $mode
+	 * @deprecated  4.0
 	 */
 	protected $_mode = null;
 
@@ -100,7 +101,7 @@ class JRouter
 		'buildpostprocess' => array(),
 		'parsepreprocess' => array(),
 		'parse' => array(),
-		'parsepostprocess' => array()
+		'parsepostprocess' => array(),
 	);
 
 	/**
@@ -116,7 +117,7 @@ class JRouter
 		'buildpostprocess' => array(),
 		'parsepreprocess' => array(),
 		'parse' => array(),
-		'parsepostprocess' => array()
+		'parsepostprocess' => array(),
 	);
 
 	/**
@@ -130,7 +131,7 @@ class JRouter
 	/**
 	 * JRouter instances container.
 	 *
-	 * @var    array
+	 * @var    JRouter[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();
@@ -183,10 +184,11 @@ class JRouter
 				{
 					$path = $info->path . '/includes/router.php';
 
-					if (file_exists($path))
+					JLoader::register($classname, $path);
+
+					if (class_exists($classname))
 					{
 						JLog::add('Non-autoloadable JRouter subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
 					}
 				}
 			}
@@ -245,7 +247,7 @@ class JRouter
 	 *
 	 * @param   string  $url  The internal URL or an associative array
 	 *
-	 * @return  string  The absolute search engine friendly URL
+	 * @return  JUri  The absolute search engine friendly URL object
 	 *
 	 * @since   1.5
 	 */
@@ -294,6 +296,7 @@ class JRouter
 	 * @return  integer
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function getMode()
 	{
@@ -308,6 +311,7 @@ class JRouter
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function setMode($mode)
 	{
@@ -391,7 +395,7 @@ class JRouter
 	/**
 	 * Attach a build rule
 	 *
-	 * @param   callback  $callback  The function to be called
+	 * @param   callable  $callback  The function to be called
 	 * @param   string    $stage     The stage of the build process that
 	 *                               this should be added to. Possible values:
 	 *                               'preprocess', '' for the main build process,
@@ -414,7 +418,7 @@ class JRouter
 	/**
 	 * Attach a parse rule
 	 *
-	 * @param   callback  $callback  The function to be called.
+	 * @param   callable  $callback  The function to be called.
 	 * @param   string    $stage     The stage of the parse process that
 	 *                               this should be added to. Possible values:
 	 *                               'preprocess', '' for the main parse process,
@@ -637,7 +641,7 @@ class JRouter
 	}
 
 	/**
-	 * Create a uri based on a full or partial url string
+	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   string  $url  The URI
 	 *
@@ -653,7 +657,7 @@ class JRouter
 	}
 
 	/**
-	 * Create a uri based on a full or partial url string
+	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   string  $url  The URI or an associative array
 	 *
@@ -690,7 +694,7 @@ class JRouter
 
 		foreach ($vars as $key => $var)
 		{
-			if ($var == "")
+			if ($var == '')
 			{
 				unset($vars[$key]);
 			}

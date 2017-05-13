@@ -690,6 +690,23 @@ legend + .control-group {
 }
 
 /*Fix for tooltips wrong positioning*/
+.control-label .hasPopover,
 .control-label .hasTooltip {
   display: inline-block;
+}
+
+/* Field subform repeatable */
+.subform-repeatable-wrapper{
+
+	.btn-group>.btn.button{
+		min-width: 0;
+	}
+
+	.ui-sortable-helper{
+		background: @white;
+	}
+
+	tr.ui-sortable-helper{
+		display: table;
+	}
 }

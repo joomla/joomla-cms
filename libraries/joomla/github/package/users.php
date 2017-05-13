@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,17 +12,16 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/users
+ * @documentation https://developer.github.com/v3/repos/users
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageUsers extends JGithubPackage
 {
 	protected $name = 'Users';
 
-	protected $packages = array(
-		'emails', 'followers', 'keys'
-	);
+	protected $packages = array('emails', 'followers', 'keys');
 
 	/**
 	 * Get a single user.
@@ -86,7 +85,7 @@ class JGithubPackageUsers extends JGithubPackage
 			'company'  => $company,
 			'location' => $location,
 			'hireable' => $hireable,
-			'bio'      => $bio
+			'bio'      => $bio,
 		);
 
 		// Build the request path.

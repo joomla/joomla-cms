@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework String Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -130,7 +130,7 @@ abstract class Normalise
 		$input = self::toCamelCase($input);
 
 		// Remove leading digits.
-		$input = preg_replace('#^[0-9]+.*$#', '', $input);
+		$input = preg_replace('#^[0-9]+#', '', $input);
 
 		// Lowercase the first character.
 		$first = substr($input, 0, 1);

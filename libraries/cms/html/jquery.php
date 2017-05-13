@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,22 +46,21 @@ abstract class JHtmlJquery
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
+			$debug = (boolean) JFactory::getConfig()->get('debug');
 		}
 
-		JHtml::_('script', 'jui/jquery.min.js', false, true, false, false, $debug);
+		JHtml::_('script', 'jui/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			JHtml::_('script', 'jui/jquery-noconflict.js', false, true, false, false, false);
+			JHtml::_('script', 'jui/jquery-noconflict.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			JHtml::_('script', 'jui/jquery-migrate.min.js', false, true, false, false, $debug);
+			JHtml::_('script', 'jui/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
 
 		static::$loaded[__METHOD__] = true;
@@ -92,8 +91,7 @@ abstract class JHtmlJquery
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
+			$debug = JDEBUG;
 		}
 
 		// Load each of the requested components
@@ -102,7 +100,7 @@ abstract class JHtmlJquery
 			// Only attempt to load the component if it's supported in core and hasn't already been loaded
 			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
 			{
-				JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', false, true, false, false, $debug);
+				JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 				static::$loaded[__METHOD__][$component] = true;
 			}
 		}

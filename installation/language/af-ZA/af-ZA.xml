@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.2"
-	client="installation">
+<metafile version="3.7" client="installation">
 	<name>Afrikaans (Suid-Afrika)</name>
-	<version>3.2.0</version>
-	<creationDate>09 FEB 2013</creationDate>
+	<version>3.7.0</version>
+	<creationDate>2017-02-14</creationDate>
 	<author>Joomla4Africa Project</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>3.0 Joomla Afrikaanse Taalpaket</description>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>af-ZA.ini</filename>
-	</files>	
+	</files>
 	<metadata>
 		<name>Afrikaans (South Africa)</name>
+		<nativeName>Afrikaans</nativeName>
 		<tag>af-ZA</tag>
 		<rtl>0</rtl>
 	</metadata>

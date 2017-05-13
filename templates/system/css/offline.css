@@ -1,11 +1,11 @@
 /**
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 body {
 	margin: 0; padding: 0;
-	font-family: Arial, Helvetica, Sans Serif; font-size: 78%;
+	font-family: Arial, Helvetica, Sans Serif; font-size: 14px;
 	color: #333333;
 	text-align: center;
 }
@@ -20,7 +20,7 @@ img  {
 
 #frame {
 	margin: 20px auto;
-	width: 400px;
+	max-width: 400px;
 	padding: 20px;
 }
 
@@ -36,38 +36,77 @@ img  {
 /* -- class styles ---------------------------------- */
 
 .outline {
-  border: 1px solid #cccccc;
-  background: #ffffff;
-  padding: 2px;
+	border: 1px solid #cccccc;
+	background: #ffffff;
+	padding: 2px;
 }
 
 /* -- form styles ----------------------------------- */
 
-form    { margin: auto; }
-form p  { margin: 0; padding: 0; }
-form fieldset { border: 0 none; margin: 0em; padding: 0.2em;}
-label         { display: block; float: left; }
-input 		  { padding: 1px; }
-input.button  { width: auto; height: 1.8em; cursor: pointer; }
+form {
+	margin: auto;
+}
 
-label   { margin: 5px 0px 2px 0px; width: 10em;}
-form p  { padding: 0.2em 0 0.2em 0; }
-form br  { display: none; }
-input    { border: 1px solid #0E67A1; }
-input.button 		 { background-color: white; }
-input.button:hover { border-color:  #FC902E; }
+form br {
+	display: none;
+}
 
-fieldset.input p {clear: left;}
+form p {
+	margin: 0;
+	padding: 0.5em 0 0.5em 0;
+}
 
-#frmlogin	      { margin: 0 10px 0 10px;  }
-#frmlogin fieldset.button { text-align: right; }
+form fieldset {
+	border: 0 none;
+	margin: 0em;
+	padding: 0.2em;
+}
+
+label {
+	display: block;
+	margin: 5px 0 2px 0;
+}
+
+input {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 5px 10px;
+	border: 1px solid #0E67A1;
+	font-size: inherit;
+	font-family: inherit;
+}
+
+input.button {
+	width: auto;
+	cursor: pointer;
+	background-color: #006dcc;
+	border-color: #04c;
+	color: #fff;
+	-webkit-appearance: none;
+}
+
+input.button:hover {
+	background-color: #04c;
+}
+
+fieldset.input p {
+	clear: left;
+}
+
+#frmlogin {
+	margin: 0 10px 0 10px;
+}
+
+#frmlogin fieldset.button {
+	text-align: right;
+}
 
 /* -- message styles ----------------------------------- */
 
 #system-message {
 	margin: 0 auto;
 	padding: 20px 0 0;
-	width: 445px;
+	max-width: 445px;
 }
 
 .alert {

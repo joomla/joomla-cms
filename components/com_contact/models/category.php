@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class ContactModelCategory extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-
+	 *
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -96,9 +96,7 @@ class ContactModelCategory extends JModelList
 			$item = & $items[$i];
 			if (!isset($this->_params))
 			{
-				$params = new Registry;
-				$params->loadString($item->params);
-				$item->params = $params;
+				$item->params = new Registry($item->params);
 			}
 			$this->tags = new JHelperTags;
 			$this->tags->getItemTags('com_contact.contact', $item->id);
@@ -111,6 +109,7 @@ class ContactModelCategory extends JModelList
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return  string    An SQL query
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -140,9 +139,11 @@ class ContactModelCategory extends JModelList
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id . ' END as catslug';
 		$query->select($this->getState('list.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
-		// TODO: we actually should be doing it but it's wrong this way
-		//	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-		//	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
+		/**
+		 * TODO: we actually should be doing it but it's wrong this way
+		 *	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+		 *	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
+		 */
 			->from($db->quoteName('#__contact_details') . ' AS a')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid')
 			->where('a.access IN (' . $groups . ')');
@@ -156,7 +157,7 @@ class ContactModelCategory extends JModelList
 
 		// Join over the users for the author and modified_by names.
 		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
-			->select("ua.email AS author_email")
+			->select('ua.email AS author_email')
 
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
 			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
@@ -198,7 +199,7 @@ class ContactModelCategory extends JModelList
 		}
 
 		// Set sortname ordering if selected
-		if ($this->getState('list.ordering') == 'sortname')
+		if ($this->getState('list.ordering') === 'sortname')
 		{
 			$query->order($db->escape('a.sortname1') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
 				->order($db->escape('a.sortname2') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
@@ -217,6 +218,11 @@ class ContactModelCategory extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -227,7 +233,7 @@ class ContactModelCategory extends JModelList
 		// List state information
 		$format = $app->input->getWord('format');
 
-		if ($format == 'feed')
+		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}

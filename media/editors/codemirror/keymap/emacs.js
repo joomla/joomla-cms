@@ -271,6 +271,8 @@
     clearMark(cm);
   }
 
+  CodeMirror.emacs = {kill: kill, killRegion: killRegion, repeated: repeated};
+
   // Actual keymap
 
   var keyMap = CodeMirror.keyMap.emacs = CodeMirror.normalizeKeyMap({
@@ -369,7 +371,9 @@
     "Shift-Alt-,": "goDocStart", "Shift-Alt-.": "goDocEnd",
     "Ctrl-S": "findNext", "Ctrl-R": "findPrev", "Ctrl-G": quit, "Shift-Alt-5": "replace",
     "Alt-/": "autocomplete",
-    "Ctrl-J": "newlineAndIndent", "Enter": false, "Tab": "indentAuto",
+    "Enter": "newlineAndIndent",
+    "Ctrl-J": repeated(function(cm) { cm.replaceSelection("\n", "end"); }),
+    "Tab": "indentAuto",
 
     "Alt-G G": function(cm) {
       var prefix = getPrefix(cm, true);
@@ -377,7 +381,7 @@
 
       getInput(cm, "Goto line", function(str) {
         var num;
-        if (str && !isNaN(num = Number(str)) && num == num|0 && num > 0)
+        if (str && !isNaN(num = Number(str)) && num == (num|0) && num > 0)
           cm.setCursor(num - 1);
       });
     },

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,7 +20,7 @@ class TestMockDatabaseDriver
 	 * @var    mixed
 	 * @since  11.3
 	 */
-	public static $lastQuery = null;
+	public static $lastQuery;
 
 	/**
 	 * Creates and instance of the mock JDatabaseDriver object.
@@ -51,6 +51,7 @@ class TestMockDatabaseDriver
 			'freeResult',
 			'getAffectedRows',
 			'getCollation',
+			'getConnectionCollation',
 			'getConnectors',
 			'getDateFormat',
 			'getErrorMsg',
@@ -96,17 +97,13 @@ class TestMockDatabaseDriver
 			'updateObject',
 		));
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JDatabaseDriver' . $driver,
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JDatabaseDriver' . $driver)
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
@@ -139,7 +136,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @since   11.3
 	 */
-	public function mockEscape($text)
+	public static function mockEscape($text)
 	{
 		return "_{$text}_";
 	}

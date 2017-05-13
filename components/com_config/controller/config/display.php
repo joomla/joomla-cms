@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,15 +35,15 @@ class ConfigControllerConfigDisplay extends ConfigControllerDisplay
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
 
-		// Access back-end com_config
+		// Access backend com_config
 		JLoader::registerPrefix(ucfirst($viewName), JPATH_ADMINISTRATOR . '/components/com_config');
 		$displayClass = new ConfigControllerApplicationDisplay;
 
-		// Set back-end required params
+		// Set backend required params
 		$document->setType('json');
 		$app->input->set('view', 'application');
 
-		// Execute back-end controller
+		// Execute backend controller
 		$serviceData = json_decode($displayClass->execute(), true);
 
 		// Reset params back after requesting from service
@@ -59,7 +59,7 @@ class ConfigControllerConfigDisplay extends ConfigControllerDisplay
 
 		if (class_exists($viewClass))
 		{
-			if ($viewName != 'close')
+			if ($viewName !== 'close')
 			{
 				$model = new $modelClass;
 

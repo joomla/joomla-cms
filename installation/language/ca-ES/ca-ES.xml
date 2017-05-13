@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
-	<name>Catalan (ES)</name>
-	<version>3.4.0</version>
-	<creationDate>2011-12-16</creationDate>
-	<author>Catalan Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<name>Catalan (Spain)</name>
+	<version>3.7.0</version>
+	<creationDate>February 2017</creationDate>
+	<author>Catmidia.cat</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>ca-ES.ini</filename>
 	</files>
 	<metadata>
-		<name>Catalan (ES)</name>
+		<name>Català (Spain)</name>
+		<nativeName>Català (Spain)</nativeName>
 		<tag>ca-ES</tag>
 		<rtl>0</rtl>
 	</metadata>

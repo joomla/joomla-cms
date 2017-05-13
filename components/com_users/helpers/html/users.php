@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ abstract class JHtmlUsers
 
 		elseif (!is_array($value))
 		{
-			return htmlspecialchars($value);
+			return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 		}
 	}
 
@@ -90,9 +90,9 @@ abstract class JHtmlUsers
 				}
 			}
 
-			$value = htmlspecialchars($value);
+			$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 
-			if (substr($value, 0, 4) == "http")
+			if (substr($value, 0, 4) == 'http')
 			{
 				return '<a href="' . $value . '">' . $text . '</a>';
 			}
@@ -130,7 +130,7 @@ abstract class JHtmlUsers
 
 			if ($title)
 			{
-				return htmlspecialchars($title);
+				return htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 			}
 			else
 			{
@@ -156,19 +156,18 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR, $value);
-			$file = "$value.xml";
+			$file = JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
-			if (is_file("$path/$file"))
+			if (is_file($file))
 			{
-				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+				$result = JLanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
 			{
-				return htmlspecialchars($result['name']);
+				return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
 			}
 			else
 			{
@@ -194,19 +193,18 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$path = JLanguage::getLanguagePath(JPATH_SITE, $value);
-			$file = "$value.xml";
+			$file = JLanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
-			if (is_file("$path/$file"))
+			if (is_file($file))
 			{
-				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+				$result = JLanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
 			{
-				return htmlspecialchars($result['name']);
+				return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
 			}
 			else
 			{

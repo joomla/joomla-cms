@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Extension Manager Abstract Extension Model.
@@ -31,9 +33,10 @@ class InstallerModel extends JModelList
 			$config['filter_fields'] = array(
 				'name',
 				'client_id',
+				'client', 'client_translated',
 				'enabled',
-				'type',
-				'folder',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
 				'extension_id',
 			);
 		}
@@ -52,33 +55,64 @@ class InstallerModel extends JModelList
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$ordering	= $this->getState('list.ordering');
-		$search		= $this->getState('filter.search');
+		$listOrder = $this->getState('list.ordering', 'name');
+		$listDirn  = $this->getState('list.direction', 'asc');
 
 		// Replace slashes so preg_match will work
-		$search 	= str_replace('/', ' ', $search);
-		$db			= $this->getDbo();
+		$search = $this->getState('filter.search');
+		$search = str_replace('/', ' ', $search);
+		$db     = $this->getDbo();
 
-		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
+		// Define which fields have to be processed in a custom way because of translation.
+		$customOrderFields = array('name', 'client_translated', 'type_translated', 'folder_translated');
+
+		// Process searching, ordering and pagination for fields that need to be translated.
+		if (in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
+			// Get results from database and translate them.
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
 			$this->translate($result);
 
-			if (!empty($search))
+			// Process searching.
+			if (!empty($search) && stripos($search, 'id:') !== 0)
 			{
 				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
+				// By default search only the extension name field.
+				$searchFields = array('name');
+
+				// If in update sites view search also in the update site name field.
+				if ($this instanceof InstallerModelUpdatesites)
+				{
+					$searchFields[] = 'update_site_name';
+				}
+
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$escapedSearchString/i", $item->name))
+					// Check if search string exists in any of the fields to be searched.
+					$found = 0;
+					foreach ($searchFields as $key => $field)
+					{
+						if (!$found && preg_match('/' . $escapedSearchString . '/i', $item->{$field}))
+						{
+							$found = 1;
+						}
+					}
+
+					// If search string was not found in any of the fields searched remove it from results array.
+					if (!$found)
 					{
 						unset($result[$i]);
 					}
 				}
 			}
 
-			JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1, true, true);
+			// Process ordering.
+			// Sort array object by selected ordering and selected direction. Sort is case insensative and using locale sorting.
+			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
+
+			// Process pagination.
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 
@@ -91,7 +125,8 @@ class InstallerModel extends JModelList
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
 
-		$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+		// Process searching, ordering and pagination for regular database fields.
+		$query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
 		$result = parent::_getList($query, $limitstart, $limit);
 		$this->translate($result);
 
@@ -125,8 +160,12 @@ class InstallerModel extends JModelList
 				}
 			}
 
-			$item->author_info = @$item->authorEmail . '<br />' . @$item->authorUrl;
-			$item->client = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+			$item->author_info       = @$item->authorEmail . '<br />' . @$item->authorUrl;
+			$item->client            = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+			$item->client_translated = $item->client;
+			$item->type_translated   = JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+			$item->folder_translated = @$item->folder ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
+
 			$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 			switch ($item->type)
@@ -170,10 +209,8 @@ class InstallerModel extends JModelList
 				break;
 			}
 
-			if (!in_array($item->type, array('language', 'template', 'library')))
-			{
-				$item->name = JText::_($item->name);
-			}
+			// Translate the extension name if possible
+			$item->name = JText::_($item->name);
 
 			settype($item->description, 'string');
 

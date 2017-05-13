@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,8 +20,8 @@ abstract class JToolbarHelper
 	/**
 	 * Title cell.
 	 * For the title and toolbar to be rendered correctly,
-	 * this title fucntion must be called before the starttable function and the toolbars icons
-	 * this is due to the nature of how the css has been used to postion the title in respect to the toolbar.
+	 * this title function must be called before the starttable function and the toolbars icons
+	 * this is due to the nature of how the css has been used to position the title in respect to the toolbar.
 	 *
 	 * @param   string  $title  The title.
 	 * @param   string  $icon   The space-separated names of the image.
@@ -37,7 +37,7 @@ abstract class JToolbarHelper
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . strip_tags($title));
+		JFactory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION'));
 	}
 
 	/**
@@ -75,7 +75,7 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a custom option and task button for the button bar.
 	 *
-	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks.
+	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
 	 * @param   string  $icon        The image to display.
 	 * @param   string  $iconOver    The image to display when moused over.
 	 * @param   string  $alt         The alt text for the icon image.
@@ -154,9 +154,27 @@ abstract class JToolbarHelper
 	}
 
 	/**
+	 * Creates a button to redirect to a link
+	 *
+	 * @param   string  $url   The link url
+	 * @param   string  $text  Button text
+	 * @param   string  $name  Name to be used as apart of the id
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public static function link($url, $text, $name = 'link')
+	{
+		$bar = JToolbar::getInstance('toolbar');
+
+		$bar->appendButton('Link', $name, $text, $url);
+	}
+
+	/**
 	 * Writes a media_manager button.
 	 *
-	 * @param   string  $directory  The sub-directory to upload the media to.
+	 * @param   string  $directory  The subdirectory to upload the media to.
 	 * @param   string  $alt        An override for the alt text.
 	 *
 	 * @return  void
@@ -566,7 +584,7 @@ abstract class JToolbarHelper
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		$uri = (string) JUri::getInstance();
 		$return = urlencode(base64_encode($uri));
@@ -595,8 +613,8 @@ abstract class JToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
-
+		$lang = JFactory::getLanguage();
+		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 		$contentTypeTable = JTable::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
@@ -627,11 +645,9 @@ abstract class JToolbarHelper
 	 */
 	public static function modal($targetModalId, $icon, $alt)
 	{
-		JHtml::_('bootstrap.framework');
-
 		$title = JText::_($alt);
-		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
-			<span class='" . $icon . "' title='" . $title . "'></span> " . $title . "</button>";
+		$dhtml = '<button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-small">
+			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button>';
 
 		$bar = JToolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

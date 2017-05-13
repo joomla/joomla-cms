@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,20 +16,47 @@ defined('_JEXEC') or die;
  */
 class CategoriesViewCategory extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
+	/**
+	 * Flag if an association exists
+	 *
+	 * @var  boolean
+	 */
 	protected $assoc;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var  JObject
+	 */
+	protected $canDo;
 
 	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -39,8 +66,6 @@ class CategoriesViewCategory extends JViewLegacy
 		$section = $this->state->get('category.section') ? $this->state->get('category.section') . '.' : '';
 		$this->canDo = JHelperContent::getActions($this->state->get('category.component'), $section . 'category', $this->item->id);
 		$this->assoc = $this->get('Assoc');
-
-		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -53,16 +78,25 @@ class CategoriesViewCategory extends JViewLegacy
 		// Check for tag type
 		$this->checkTags = JHelperTags::getTypes('objectList', array($this->state->get('category.extension') . '.category'), true);
 
-		$input->set('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		if ($this->getLayout() == 'modal')
+		// If we are forcing a language in modal (used for associations).
+		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
+			// Set the language field to the forcedLanguage and disable changing it.
+			$this->form->setValue('language', null, $forcedLanguage);
 			$this->form->setFieldAttribute('language', 'readonly', 'true');
-			$this->form->setFieldAttribute('parent_id', 'readonly', 'true');
+
+			// Only allow to select categories with All language or with the forced language.
+			$this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
+
+			// Only allow to select tags with All language or with the forced language.
+			$this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
 		}
 
 		$this->addToolbar();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -74,10 +108,9 @@ class CategoriesViewCategory extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$input = JFactory::getApplication()->input;
-		$extension = $input->get('extension');
+		$extension = JFactory::getApplication()->input->get('extension');
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
+		$userId = $user->id;
 
 		$isNew = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
@@ -104,7 +137,7 @@ class CategoriesViewCategory extends JViewLegacy
 		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// Load the category helper.
-		require_once JPATH_COMPONENT . '/helpers/categories.php';
+		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 		// Get the results for each action.
 		$canDo = $this->canDo;
@@ -117,7 +150,9 @@ class CategoriesViewCategory extends JViewLegacy
 		// Else if the component section string exits, let's use it
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
-			$title = JText::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', $this->escape(JText::_($component_section_key)));
+			$title = JText::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
+					. '_TITLE', $this->escape(JText::_($component_section_key))
+					);
 		}
 		// Else use the base title
 		else
@@ -126,7 +161,7 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 
 		// Load specific css component
-		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
+		JHtml::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
 		JToolbarHelper::title(
@@ -141,33 +176,34 @@ class CategoriesViewCategory extends JViewLegacy
 			JToolbarHelper::apply('category.apply');
 			JToolbarHelper::save('category.save');
 			JToolbarHelper::save2new('category.save2new');
+			JToolbarHelper::cancel('category.cancel');
 		}
 
 		// If not checked out, can save the item.
-		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId)))
-		{
-			JToolbarHelper::apply('category.apply');
-			JToolbarHelper::save('category.save');
-
-			if ($canDo->get('core.create'))
-			{
-				JToolbarHelper::save2new('category.save2new');
-			}
-		}
-
-		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save2copy('category.save2copy');
-		}
-
-		if (empty($this->item->id))
-		{
-			JToolbarHelper::cancel('category.cancel');
-		}
 		else
 		{
-			if ($componentParams->get('save_history', 0) && $user->authorise('core.edit'))
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
+
+			// Can't save the record if it's checked out and editable
+			if (!$checkedOut && $itemEditable)
+			{
+				JToolbarHelper::apply('category.apply');
+				JToolbarHelper::save('category.save');
+
+				if ($canDo->get('core.create'))
+				{
+					JToolbarHelper::save2new('category.save2new');
+				}
+			}
+
+			// If an existing item, can save to a copy.
+			if ($canDo->get('core.create'))
+			{
+				JToolbarHelper::save2copy('category.save2copy');
+			}
+
+			if (JComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
 				JToolbarHelper::versions($typeAlias, $this->item->id);
@@ -178,13 +214,19 @@ class CategoriesViewCategory extends JViewLegacy
 
 		JToolbarHelper::divider();
 
-		// Compute the ref_key if it does exist in the component
-		if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY'))
+		// Compute the ref_key
+		$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
+
+		// Check if thr computed ref_key does exist in the component
+		if (!$lang->hasKey($ref_key))
 		{
-			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
+			$ref_key = 'JHELP_COMPONENTS_'
+						. strtoupper(substr($component, 4) . ($section ? "_$section" : ''))
+						. '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
 		}
 
-		/* Get help for the category/section view for the component by
+		/*
+		 * Get help for the category/section view for the component by
 		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
 		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''

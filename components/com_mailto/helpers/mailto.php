@@ -3,15 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
+ * Mailto route helper class.
+ *
  * @package     Joomla.Site
  * @subpackage  com_mailto
+ * @since       1.6.1
  */
 abstract class MailtoHelper
 {
@@ -20,7 +23,7 @@ abstract class MailtoHelper
 	 *
 	 * @param   string  $url  Url
 	 *
-	 * @return URL hash
+	 * @return  string  URL hash
 	 */
 	public static function addLink($url)
 	{

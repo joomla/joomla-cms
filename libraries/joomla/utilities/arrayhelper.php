@@ -3,12 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -64,29 +65,7 @@ abstract class JArrayHelper
 	 */
 	public static function toInteger(&$array, $default = null)
 	{
-		if (is_array($array))
-		{
-			foreach ($array as $i => $v)
-			{
-				$array[$i] = (int) $v;
-			}
-		}
-		else
-		{
-			if ($default === null)
-			{
-				$array = array();
-			}
-			elseif (is_array($default))
-			{
-				self::toInteger($default, null);
-				$array = $default;
-			}
-			else
-			{
-				$array = array((int) $default);
-			}
-		}
+		$array = ArrayHelper::toInteger($array, $default);
 	}
 
 	/**
@@ -327,64 +306,15 @@ abstract class JArrayHelper
 	public static function pivot($source, $key = null)
 	{
 		$result = array();
-		$counter = array();
 
-		foreach ($source as $index => $value)
+		if (is_array($source))
 		{
-			// Determine the name of the pivot key, and its value.
-			if (is_array($value))
-			{
-				// If the key does not exist, ignore it.
-				if (!isset($value[$key]))
-				{
-					continue;
-				}
-
-				$resultKey = $value[$key];
-				$resultValue = &$source[$index];
-			}
-			elseif (is_object($value))
-			{
-				// If the key does not exist, ignore it.
-				if (!isset($value->$key))
-				{
-					continue;
-				}
-
-				$resultKey = $value->$key;
-				$resultValue = &$source[$index];
-			}
-			else
-			{
-				// Just a scalar value.
-				$resultKey = $value;
-				$resultValue = $index;
-			}
-
-			// The counter tracks how many times a key has been used.
-			if (empty($counter[$resultKey]))
-			{
-				// The first time around we just assign the value to the key.
-				$result[$resultKey] = $resultValue;
-				$counter[$resultKey] = 1;
-			}
-			elseif ($counter[$resultKey] == 1)
-			{
-				// If there is a second time, we convert the value into an array.
-				$result[$resultKey] = array(
-					$result[$resultKey],
-					$resultValue,
-				);
-				$counter[$resultKey]++;
-			}
-			else
-			{
-				// After the second time, no need to track any more. Just append to the existing array.
-				$result[$resultKey][] = $resultValue;
-			}
+			$result = ArrayHelper::pivot($source, $key);
 		}
-
-		unset($counter);
+		else
+		{
+			JLog::add('This method is typehinted to be an array in \Joomla\Utilities\ArrayHelper::pivot.', JLog::WARNING, 'deprecated');
+		}
 
 		return $result;
 	}
@@ -393,7 +323,7 @@ abstract class JArrayHelper
 	 * Utility function to sort an array of objects on a given field
 	 *
 	 * @param   array  &$a             An array of objects
-	 * @param   mixed  $k              The key (string) or a array of key to sort on
+	 * @param   mixed  $k              The key (string) or an array of keys to sort on
 	 * @param   mixed  $direction      Direction (integer) or an array of direction to sort in [1 = Ascending] [-1 = Descending]
 	 * @param   mixed  $caseSensitive  Boolean or array of booleans to let sort occur case sensitive or insensitive
 	 * @param   mixed  $locale         Boolean or array of booleans to let sort occur using the locale language or not
@@ -466,11 +396,11 @@ abstract class JArrayHelper
 			}
 			elseif ($caseSensitive)
 			{
-				$cmp = JString::strcmp($va, $vb, $locale);
+				$cmp = StringHelper::strcmp($va, $vb, $locale);
 			}
 			else
 			{
-				$cmp = JString::strcasecmp($va, $vb, $locale);
+				$cmp = StringHelper::strcasecmp($va, $vb, $locale);
 			}
 
 			if ($cmp > 0)
@@ -494,29 +424,12 @@ abstract class JArrayHelper
 	 *
 	 * @return  array
 	 *
-	 * @see     http://php.net/manual/en/function.array-unique.php
+	 * @see     https://secure.php.net/manual/en/function.array-unique.php
 	 * @since   11.2
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::arrayUnique instead
 	 */
 	public static function arrayUnique($myArray)
 	{
-		if (!is_array($myArray))
-		{
-			return $myArray;
-		}
-
-		foreach ($myArray as &$myvalue)
-		{
-			$myvalue = serialize($myvalue);
-		}
-
-		$myArray = array_unique($myArray);
-
-		foreach ($myArray as &$myvalue)
-		{
-			$myvalue = unserialize($myvalue);
-		}
-
-		return $myArray;
+		return is_array($myArray) ? ArrayHelper::arrayUnique($myArray) : $myArray;
 	}
 }

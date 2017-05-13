@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for eAccelerator compatibility.
@@ -12,15 +12,15 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
- * Checks if the eAccelerator caching method is enabled. This check should be
- * done through the 3.x series as the issue impacts migrated sites which will
- * most often come from the previous LTS release (2.5). Remove for version 4 or
- * when eAccelerator support is added.
+ * Checks if the eAccelerator caching method is enabled.
  *
- * This check returns true when the eAccelerator caching method is user, meaning
- * that the message concerning it should be displayed.
+ * This check should be done through the 3.x series as the issue impacts migrated sites which will
+ * most often come from the previous LTS release (2.5). Remove for version 4 or when eAccelerator support is added.
+ *
+ * This check returns true when the eAccelerator caching method is user, meaning that the message concerning it should be displayed.
  *
  * @return  integer
  *
@@ -35,8 +35,7 @@ function admin_postinstall_eaccelerator_condition()
 }
 
 /**
- * Disables the unsupported eAccelerator caching method, replacing it with the
- * "file" caching method.
+ * Disables the unsupported eAccelerator caching method, replacing it with the "file" caching method.
  *
  * @return  void
  *
@@ -44,15 +43,10 @@ function admin_postinstall_eaccelerator_condition()
  */
 function admin_postinstall_eaccelerator_action()
 {
-	$prev = new JConfig;
-	$prev = JArrayHelper::fromObject($prev);
+	$prev = ArrayHelper::fromObject(new JConfig);
+	$data = array_merge($prev, array('cacheHandler' => 'file'));
 
-	$data = array('cacheHandler' => 'file');
-
-	$data = array_merge($prev, $data);
-
-	$config = new Registry('config');
-	$config->loadArray($data);
+	$config = new Registry($data);
 
 	jimport('joomla.filesystem.path');
 	jimport('joomla.filesystem.file');

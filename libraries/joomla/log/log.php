@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,6 +24,7 @@ class JLog
 {
 	/**
 	 * All log priorities.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -31,6 +32,7 @@ class JLog
 
 	/**
 	 * The system is unusable.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -38,6 +40,7 @@ class JLog
 
 	/**
 	 * Action must be taken immediately.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -45,6 +48,7 @@ class JLog
 
 	/**
 	 * Critical conditions.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -52,6 +56,7 @@ class JLog
 
 	/**
 	 * Error conditions.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -59,6 +64,7 @@ class JLog
 
 	/**
 	 * Warning conditions.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -66,6 +72,7 @@ class JLog
 
 	/**
 	 * Normal, but significant condition.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -73,6 +80,7 @@ class JLog
 
 	/**
 	 * Informational message.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -80,6 +88,7 @@ class JLog
 
 	/**
 	 * Debugging message.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -87,6 +96,7 @@ class JLog
 
 	/**
 	 * The global JLog instance.
+	 *
 	 * @var    JLog
 	 * @since  11.1
 	 */
@@ -94,6 +104,7 @@ class JLog
 
 	/**
 	 * Container for JLogLogger configurations.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -101,13 +112,15 @@ class JLog
 
 	/**
 	 * Container for JLogLogger objects.
-	 * @var    array
+	 *
+	 * @var    JLogLogger[]
 	 * @since  11.1
 	 */
 	protected $loggers = array();
 
 	/**
 	 * Lookup array for loggers.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -137,9 +150,9 @@ class JLog
 	public static function add($entry, $priority = self::INFO, $category = '', $date = null)
 	{
 		// Automatically instantiate the singleton object if not already done.
-		if (empty(self::$instance))
+		if (empty(static::$instance))
 		{
-			self::setInstance(new JLog);
+			static::setInstance(new JLog);
 		}
 
 		// If the entry object isn't a JLogEntry object let's make one.
@@ -148,7 +161,7 @@ class JLog
 			$entry = new JLogEntry((string) $entry, $priority, $category, $date);
 		}
 
-		self::$instance->addLogEntry($entry);
+		static::$instance->addLogEntry($entry);
 	}
 
 	/**
@@ -166,12 +179,12 @@ class JLog
 	public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
 	{
 		// Automatically instantiate the singleton object if not already done.
-		if (empty(self::$instance))
+		if (empty(static::$instance))
 		{
-			self::setInstance(new JLog);
+			static::setInstance(new JLog);
 		}
 
-		self::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
+		static::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
 	}
 
 	/**
@@ -199,10 +212,18 @@ class JLog
 
 		// Special case - if a Closure object is sent as the callback (in case of JLogLoggerCallback)
 		// Closure objects are not serializable so swap it out for a unique id first then back again later
-		if (isset($options['callback']) && is_a($options['callback'], 'closure'))
+		if (isset($options['callback']))
 		{
-			$callback = $options['callback'];
-			$options['callback'] = spl_object_hash($options['callback']);
+			if (is_a($options['callback'], 'closure'))
+			{
+				$callback = $options['callback'];
+				$options['callback'] = spl_object_hash($options['callback']);
+			}
+			elseif (is_array($options['callback']) && count($options['callback']) == 2 && is_object($options['callback'][0]))
+			{
+				$callback = $options['callback'];
+				$options['callback'] = spl_object_hash($options['callback'][0]) . '::' . $options['callback'][1];
+			}
 		}
 
 		// Generate a unique signature for the JLog instance based on its options.
@@ -223,7 +244,8 @@ class JLog
 		$this->lookup[$signature] = (object) array(
 			'priorities' => $priorities,
 			'categories' => array_map('strtolower', (array) $categories),
-			'exclude' => (bool) $exclude);
+			'exclude' => (bool) $exclude,
+		);
 	}
 
 	/**
@@ -240,7 +262,7 @@ class JLog
 	{
 		if (($instance instanceof JLog) || $instance === null)
 		{
-			self::$instance = & $instance;
+			static::$instance = & $instance;
 		}
 	}
 
@@ -266,14 +288,12 @@ class JLog
 			{
 				$class = 'JLogLogger' . ucfirst($this->configurations[$signature]['logger']);
 
-				if (class_exists($class))
-				{
-					$this->loggers[$signature] = new $class($this->configurations[$signature]);
-				}
-				else
+				if (!class_exists($class))
 				{
 					throw new RuntimeException('Unable to create a JLogLogger instance: ' . $class);
 				}
+
+				$this->loggers[$signature] = new $class($this->configurations[$signature]);
 			}
 
 			// Add the entry to the logger.
@@ -316,7 +336,7 @@ class JLog
 				else
 				{
 					// If either there are no set categories (meaning all) or the specific category is set, add this logger.
-					if (empty($category) || empty($rules->categories) || in_array($category, $rules->categories))
+					if (empty($rules->categories) || in_array($category, $rules->categories))
 					{
 						$loggers[] = $signature;
 					}

@@ -3,17 +3,16 @@
 	<name>mod_languages</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.0.0</version>
+	<version>3.5.0</version>
 	<description>MOD_LANGUAGES_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_languages">mod_languages.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_languages.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_languages.ini</language>
@@ -22,10 +21,12 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LANGUAGE_SWITCHER" />
 	<config>
 		<fieldset>
-			<field name="language"
+			<field
+				name="language"
 				type="list"
+				label="JFIELD_LANGUAGE_LABEL"
 				description="JFIELD_MODULE_LANGUAGE_DESC"
-				label="JFIELD_LANGUAGE_LABEL">
+				>
 				<option value="*">JALL</option>
 			</field>
 		</fieldset>
@@ -34,74 +35,117 @@
 				<field
 					name="header_text"
 					type="textarea"
+					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
+					description="MOD_LANGUAGES_FIELD_HEADER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
-					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
-					description="MOD_LANGUAGES_FIELD_HEADER_DESC" />
+				/>
 
 				<field
 					name="footer_text"
 					type="textarea"
+					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
+					description="MOD_LANGUAGES_FIELD_FOOTER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
-					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
-					description="MOD_LANGUAGES_FIELD_FOOTER_DESC" />
+				/>
 
 				<field
 					name="dropdown"
 					type="radio"
+					label="MOD_LANGUAGES_FIELD_DROPDOWN_LABEL"
+					description="MOD_LANGUAGES_FIELD_DROPDOWN_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="MOD_LANGUAGES_FIELD_DROPDOWN_LABEL"
-					description="MOD_LANGUAGES_FIELD_DROPDOWN_DESC" >
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="spacer1" type="spacer" class="text"
-					label="MOD_LANGUAGES_SPACERDROP_LABEL"
-				/>
+
+				<field
+					name="dropdownimage"
+					type="radio"
+					label="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_LABEL"
+					description="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					showon="dropdown:1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="lineheight"
+					type="radio"
+					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
+					description="MOD_LANGUAGES_FIELD_LINEHEIGHT_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					showon="dropdown:1[AND]dropdownimage:1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 				<field
 					name="image"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
 					label="MOD_LANGUAGES_FIELD_USEIMAGE_LABEL"
-					description="MOD_LANGUAGES_FIELD_USEIMAGE_DESC" >
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="inline"
-					type="radio"
+					description="MOD_LANGUAGES_FIELD_USEIMAGE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_LANGUAGES_FIELD_INLINE_LABEL"
-					description="MOD_LANGUAGES_FIELD_INLINE_DESC" >
+					showon="dropdown:0"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
+				<field
+					name="spacer3"
+					type="spacer"
+					label="MOD_LANGUAGES_SPACER_USENAME_LABEL"
+					class="text"
+					showon="image:0[AND]dropdown:0"
+				/>
+
 				<field
 					name="show_active"
 					type="radio"
+					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
+					description="MOD_LANGUAGES_FIELD_ACTIVE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
-					description="MOD_LANGUAGES_FIELD_ACTIVE_DESC" >
+					showon="dropdownimage:1[OR]dropdown:0"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="spacer2" type="spacer" class="text"
-					label="MOD_LANGUAGES_SPACERNAME_LABEL"
-				/>
+
 				<field
 					name="full_name"
 					type="radio"
+					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
+					description="MOD_LANGUAGES_FIELD_FULL_NAME_DESC"
+					class="btn-group btn-group-yesno"
+					showon="dropdown:0[AND]image:0"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="inline"
+					type="radio"
+					label="MOD_LANGUAGES_FIELD_INLINE_LABEL"
+					description="MOD_LANGUAGES_FIELD_INLINE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
-					description="MOD_LANGUAGES_FIELD_FULL_NAME_DESC" >
+					showon="dropdown:0"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -111,39 +155,41 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC" />
+					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+				/>
 
 				<field
 					name="cache"
 					type="list"
-					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="MOD_LANGUAGES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					description="MOD_LANGUAGES_FIELD_CACHING_DESC"
+					default="0"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 
 				<field
 					name="cachemode"
 					type="hidden"
-					default="itemid">
-					<option
-						value="itemid"></option>
+					default="itemid"
+					>
+					<option	value="itemid"></option>
 				</field>
 			</fieldset>
 		</fields>

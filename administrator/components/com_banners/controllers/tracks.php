@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,9 +17,10 @@ defined('_JEXEC') or die;
 class BannersControllerTracks extends JControllerLegacy
 {
 	/**
-	 * @var     string  The prefix to use with controller messages.
+	 * The prefix to use with controller messages.
 	 *
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $context = 'com_banners.tracks';
 
@@ -30,15 +31,13 @@ class BannersControllerTracks extends JControllerLegacy
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  JModelLegacy  The model.
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Tracks', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -54,26 +53,17 @@ class BannersControllerTracks extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the model.
+		/** @var BannersModelTracks $model */
 		$model = $this->getModel();
 
 		// Load the filter state.
 		$app = JFactory::getApplication();
 
-		$type = $app->getUserState($this->context . '.filter.type');
-		$model->setState('filter.type', $type);
-
-		$begin = $app->getUserState($this->context . '.filter.begin');
-		$model->setState('filter.begin', $begin);
-
-		$end = $app->getUserState($this->context . '.filter.end');
-		$model->setState('filter.end', $end);
-
-		$categoryId = $app->getUserState($this->context . '.filter.category_id');
-		$model->setState('filter.category_id', $categoryId);
-
-		$clientId = $app->getUserState($this->context . '.filter.client_id');
-		$model->setState('filter.client_id', $clientId);
-
+		$model->setState('filter.type', $app->getUserState($this->context . '.filter.type'));
+		$model->setState('filter.begin', $app->getUserState($this->context . '.filter.begin'));
+		$model->setState('filter.end', $app->getUserState($this->context . '.filter.end'));
+		$model->setState('filter.category_id', $app->getUserState($this->context . '.filter.category_id'));
+		$model->setState('filter.client_id', $app->getUserState($this->context . '.filter.client_id'));
 		$model->setState('list.limit', 0);
 		$model->setState('list.start', 0);
 
@@ -84,7 +74,7 @@ class BannersControllerTracks extends JControllerLegacy
 		{
 			JError::raiseWarning(500, $model->getError());
 		}
-		elseif (count > 0)
+		elseif ($count > 0)
 		{
 			$this->setMessage(JText::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
 		}

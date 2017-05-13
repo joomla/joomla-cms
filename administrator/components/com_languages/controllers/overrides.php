@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,5 +60,19 @@ class LanguagesControllerOverrides extends JControllerAdmin
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+	}
+
+	/**
+	 * Method to purge the overrider table.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4.2
+	 */
+	public function purge()
+	{
+		$model = $this->getModel('overrides');
+		$model->purge();
+		$this->setRedirect(JRoute::_('index.php?option=com_languages&view=overrides', false));
 	}
 }

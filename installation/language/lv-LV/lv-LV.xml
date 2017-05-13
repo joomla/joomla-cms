@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.6"
 	client="installation">
 	<name>Latvian (LV)</name>
-	<version>3.2.0</version>
-	<creationDate>16.09.2012</creationDate>
+	<version>3.4.4</version>
+	<creationDate>August 2015</creationDate>
 	<author>Latvian Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Latvian language installation for Joomla 3.0</description>
 	<files>
 		<filename>lv-LV.ini</filename>
 	</files>

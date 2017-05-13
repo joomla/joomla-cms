@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Observer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observer updater pattern implementation for Joomla
  *
- * @link   https://docs.joomla.org/JObserverUpdater
  * @since  3.1.2
  */
 class JObserverUpdater implements JObserverUpdaterInterface
@@ -47,7 +46,7 @@ class JObserverUpdater implements JObserverUpdaterInterface
 
 	/**
 	 * Adds an observer to the JObservableInterface instance updated by this
-	 * This method can be called fron JObservableInterface::attachObserver
+	 * This method can be called from JObservableInterface::attachObserver
 	 *
 	 * @param   JObserverInterface  $observer  The observer object
 	 *
@@ -58,6 +57,24 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	public function attachObserver(JObserverInterface $observer)
 	{
 		$this->observers[get_class($observer)] = $observer;
+	}
+
+	/**
+	 * Removes an observer from the JObservableInterface instance updated by this
+	 * This method can be called from JObservableInterface::attachObserver
+	 *
+	 * @param   String  $observer  The observer class name
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
+	 */
+	public function detachObserver($observer)
+	{
+		if (isset($this->observers[$observer]))
+		{
+			unset($this->observers[$observer]);
+		}
 	}
 
 	/**
@@ -76,7 +93,7 @@ class JObserverUpdater implements JObserverUpdaterInterface
 			return $this->observers[$observerClass];
 		}
 
-		return null;
+		return;
 	}
 
 	/**

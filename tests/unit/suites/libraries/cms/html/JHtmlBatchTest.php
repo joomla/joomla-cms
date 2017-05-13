@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,7 +58,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -201,7 +201,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 			'tag'   => 'select',
 			'child' => array(
 				'tag'        => 'option',
-				'content'    => 'English (UK)',
+				'content'    => 'English (en-GB)',
 				'attributes' => array('value' => 'en-GB')
 			)
 		);

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,12 +25,12 @@ class JFormRuleEmail extends JFormRule
 	 * @since  11.1
 	 * @see    http://www.w3.org/TR/html-markup/input.email.html
 	 */
-	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+	protected $regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -57,7 +57,8 @@ class JFormRuleEmail extends JFormRule
 
 		if ($tld)
 		{
-			$this->regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+			$this->regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])"
+				. '?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$';
 		}
 
 		// Determine if the multiple attribute is present
@@ -65,7 +66,7 @@ class JFormRuleEmail extends JFormRule
 
 		if (!$multiple)
 		{
-			// Handle idn e-mail addresses by converting to punycode.
+			// Handle idn email addresses by converting to punycode.
 			$value = JStringPunycode::emailToPunycode($value);
 
 			// Test the value against the regular expression.
@@ -80,7 +81,7 @@ class JFormRuleEmail extends JFormRule
 
 			foreach ($values as $value)
 			{
-				// Handle idn e-mail addresses by converting to punycode.
+				// Handle idn email addresses by converting to punycode.
 				$value = JStringPunycode::emailToPunycode($value);
 
 				// Test the value against the regular expression.

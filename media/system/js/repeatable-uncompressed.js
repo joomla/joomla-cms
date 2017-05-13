@@ -1,6 +1,6 @@
 /**
  * @package		Joomla.JavaScript
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@
  * 			<thead>
  * 				<tr>
  * 					<th>Field label 1</th>
- * 					<th>Field lable 2</th>
+ * 					<th>Field label 2</th>
  * 					<th><a href="#" class="add">Add new</a></th>
  * 				</tr>
  * 			</thead>
@@ -344,7 +344,7 @@
         	// try find out with related scripts,
         	// tricky thing, so be careful
         	try {
-        		self.applyScripts($row);
+        		self.fixScripts($row);
 			} catch (e) {
 				if(window.console){
 					console.log(e);
@@ -369,22 +369,22 @@
         self.fixUniqueAttributes = function($row, count){
         	//all elements that have a "id" attribute
         	var haveIds = $row.find('*[id]');
-        	self.incresseAttrName(haveIds, 'id', count);
+        	self.increaseAttrName(haveIds, 'id', count);
         	// all labels that have a "for" attribute
         	var haveFor = $row.find('label[for]');
-        	self.incresseAttrName(haveFor, 'for', count);
+        	self.increaseAttrName(haveFor, 'for', count);
         	// all inputs that have a "name" attribute
         	var haveName = $row.find('*[name]');
-        	self.incresseAttrName(haveName, 'name', count);
+        	self.increaseAttrName(haveName, 'name', count);
         };
 
-        // increse attribute name like: attribute_value + '-' + count
-        self.incresseAttrName = function (elements, attr, count){
+        // increase attribute name like: attribute_value + '-' + count
+        self.increaseAttrName = function (elements, attr, count){
         	for(var i = 0, l = elements.length; i < l; i++){
         		var $el =  $(elements[i]);
         		var oldValue = $el.attr(attr);
         		// set new
-        		$el.attr(attr, oldValue + '-' + count);
+        		$el.attr(attr, count + '-' + oldValue);
         	}
         };
 
@@ -432,16 +432,37 @@
             self.$input.trigger('value-update', self.values);
         };
 
-        // Remove scripts attached to fields
+        // remove scripts attached to fields
         self.clearScripts = function($row){
-        	Joomla.Behavior.call('remove', $row.get(0));
+        	// destroy chosen if any
+        	if($.fn.chosen){
+                $row.find('select').each(function(){
+                	if ($(this).data('chosen')) {
+                        $(this).chosen('destroy');
+					}
+				});
+        	}
+        	// colorpicker
+        	if($.fn.minicolors){
+        		$row.find('.minicolors input').each(function(){
+        			$(this).minicolors('destroy', $(this));
+        		});
+        	}
         };
 
-        // Method for initialise the scripts that can be related
+        // method for hack the scripts that can be related
         // to the one of field that in given $row
-        self.applyScripts = function($row){
+        self.fixScripts = function($row){
 
-        	Joomla.Behavior.call('update', $row.get(0));
+        	//color picker
+        	$row.find('.minicolors').each(function() {
+        		var $el = $(this);
+        		$el.minicolors({
+					control: $el.attr('data-control') || 'hue',
+					position: $el.attr('data-position') || 'right',
+					theme: 'bootstrap'
+				});
+			});
 
         	// fix media field
         	$row.find('a[onclick*="jInsertFieldValue"]').each(function(){
@@ -450,10 +471,16 @@
         			$select = $el.prev(),
         			oldHref = $select.attr('href');
         		// update the clear button
-        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;")
+        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;");
         		// update select button
         		$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
+				jMediaRefreshPreview(inputId);
         	});
+
+        	// another modals
+        	if(window.SqueezeBox && window.SqueezeBox.assign){
+        		SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
+        	}
         };
 
         // Run initializer
@@ -487,10 +514,11 @@
         });
     };
 
-    // Initialise all available
-    Joomla.Behavior.add('field.repeatable', 'load update', function(event){
-		$(event.target).find('input.form-field-repeatable').JRepeatable(event.options || {});
-	});
+    // initialise all available
+    // wait when all will be loaded, important for scripts fix
+	$(window).on('load', function(){
+		$('input.form-field-repeatable').JRepeatable();
+	})
 
 })(jQuery);
 

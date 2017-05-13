@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPicasaPhoto extends JGoogleData
 {
@@ -77,7 +78,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
 
 				throw $e;
@@ -334,7 +335,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
 
 				throw $e;

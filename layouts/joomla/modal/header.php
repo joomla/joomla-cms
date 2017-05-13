@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,13 +26,15 @@ extract($displayData);
  *                             - url          string   URL of a resource to be inserted as an <iframe> inside the modal body
  *                             - height       string   height of the <iframe> containing the remote resource
  *                             - width        string   width of the <iframe> containing the remote resource
- * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
+ *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
+ *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
+ * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  *
  */
 ?>
 <div class="modal-header">
 	<?php if (!isset($params['closeButton']) || $params['closeButton']) : ?>
-		<button type="button" class="close" data-dismiss="modal">×</button>
+		<button type="button" class="close novalidate" data-dismiss="modal">×</button>
 	<?php endif; ?>
 	<?php if (isset($params['title'])) : ?>
 		<h3><?php echo $params['title']; ?></h3>

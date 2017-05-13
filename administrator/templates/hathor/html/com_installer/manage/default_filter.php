@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 			</label>
 			<select name="filter_status" id="filter_status">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.status'), true);?>
+				<?php echo JHtml::_('select.options', InstallerHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.status'), true);?>
 			</select>
 
             <label class="selectlabel" for="filter_type">
@@ -43,12 +43,12 @@ defined('_JEXEC') or die;
 				<?php echo JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.type'), true);?>
 			</select>
 
-			<label class="selectlabel" for="filter_group">
+			<label class="selectlabel" for="filter_folder">
 				<?php echo JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'); ?>
 			</label>
-			<select name="filter_group" id="filter_group">
+			<select name="filter_folder" id="filter_folder">
 				<option value=""><?php echo JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT');?></option>
-				<?php echo JHtml::_('select.options', array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value', 'text', $this->state->get('filter.group'), true);?>
+				<?php echo JHtml::_('select.options', array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value', 'text', $this->state->get('filter.folder'), true);?>
 			</select>
 
 			<button type="submit" id="filter-go">

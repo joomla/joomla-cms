@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Modules component helper.
@@ -40,7 +42,18 @@ abstract class ModulesHelper
 	public static function getActions($moduleId = 0)
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions
 		if (empty($moduleId))
@@ -63,11 +76,11 @@ abstract class ModulesHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('JPUBLISHED'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('JUNPUBLISHED'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
-		$options[]	= JHtml::_('select.option',	'*',	JText::_('JALL'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
+		$options[] = JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
+		$options[] = JHtml::_('select.option', '-2', JText::_('JTRASHED'));
+		$options[] = JHtml::_('select.option', '*', JText::_('JALL'));
 
 		return $options;
 	}
@@ -80,9 +93,9 @@ abstract class ModulesHelper
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '0', JText::_('JSITE'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
 
 		return $options;
 	}
@@ -97,8 +110,8 @@ abstract class ModulesHelper
 	 */
 	public static function getPositions($clientId, $editPositions = false)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('DISTINCT(position)')
 			->from('#__modules')
 			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
@@ -125,11 +138,11 @@ abstract class ModulesHelper
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[]	= JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
+				$options[] = JHtml::_('select.option', 'none', JText::_('COM_MODULES_NONE'));
 			}
 			else
 			{
-				$options[]	= JHtml::_('select.option', $position, $position);
+				$options[] = JHtml::_('select.option', $position, $position);
 			}
 		}
 
@@ -150,7 +163,7 @@ abstract class ModulesHelper
 		$db = JFactory::getDbo();
 
 		// Get the database object and a new query object.
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		// Build the query.
 		$query->select('element, name, enabled')
@@ -184,8 +197,8 @@ abstract class ModulesHelper
 	 */
 	public static function getModules($clientId)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('element AS value, name AS text')
 			->from('#__extensions as e')
 			->where('e.client_id = ' . (int) $clientId)
@@ -208,7 +221,7 @@ abstract class ModulesHelper
 			$modules[$i]->text = JText::_($module->text);
 		}
 
-		JArrayHelper::sortObjects($modules, 'text', 1, true, true);
+		$modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);
 
 		return $modules;
 	}
@@ -252,10 +265,16 @@ abstract class ModulesHelper
 		$lang = JFactory::getLanguage();
 		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
-		$lang->load('tpl_' . $template . '.sys', $path, null, false, false)
-		||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
-		||	$lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+		$loaded = $lang->getPaths('tpl_' . $template . '.sys');
+
+		// Only load the template's language file if it hasn't been already
+		if (!$loaded)
+		{
+			$lang->load('tpl_' . $template . '.sys', $path, null, false, false)
+			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+			||	$lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
+			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+		}
 
 		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
 		$text = JText::_($langKey);

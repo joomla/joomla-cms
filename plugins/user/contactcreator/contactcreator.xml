@@ -3,7 +3,7 @@
 	<name>plg_user_contactcreator</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2009</creationDate>
-	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -19,27 +19,30 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="autowebpage"
+				<field
+					name="autowebpage"
 					type="text"
-					size="40"
-					description="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_DESC"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_LABEL"
+					description="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_DESC"
+					size="40"
 				/>
 
-				<field name="category"
+				<field
+					name="category"
 					type="category"
+					label="JCATEGORY"
 					description="PLG_CONTACTCREATOR_FIELD_CATEGORY_DESC"
 					extension="com_contact"
-					label="JCATEGORY"
 				/>
 
-				<field name="autopublish"
+				<field
+					name="autopublish"
 					type="radio"
+					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
+					description="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					description="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_DESC"
-					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>

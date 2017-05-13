@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,13 +20,13 @@ class TestMockInput
 	 * @var    array
 	 * @since  3.4
 	 */
-	private $inputs;
+	private static $inputs;
 
 	/**
 	 * @var    PHPUnit_Framework_TestCase
 	 * @since  3.4
 	 */
-	private $test;
+	private static $test;
 
 	/**
 	 * Class contructor.
@@ -37,14 +37,14 @@ class TestMockInput
 	 */
 	public function __construct(PHPUnit_Framework_TestCase $test)
 	{
-		$this->inputs = array();
-		$this->test = $test;
+		self::$inputs = array();
+		self::$test = $test;
 	}
 
 	/**
 	 * Creates an instance of a mock JInput object.
 	 *
-	 * @param   array  $options  A associative array of options to configure the mock.
+	 * @param   array  $options  An associative array of options to configure the mock.
 	 *                           * methods => an array of additional methods to mock
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
@@ -72,25 +72,21 @@ class TestMockInput
 			$methods = array_merge($methods, $options['methods']);
 		}
 
-		// Create the mock.
-		$mockObject = $this->test->getMock(
-			'JInput',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = self::$test->getMockBuilder('JInput')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
-		$this->test->assignMockCallbacks(
+		self::$test->assignMockCallbacks(
 			$mockObject,
 			array(
-				'get' => array((is_callable(array($this->test, 'mockInputGet')) ? $this->test : $this), 'mockInputGet'),
-				'getArray' => array((is_callable(array($this->test, 'mockInputGetArray')) ? $this->test : $this), 'mockInputGetArray'),
-				'getInt' => array((is_callable(array($this->test, 'mockInputGetInt')) ? $this->test : $this), 'mockInputGetInt'),
-				'set' => array((is_callable(array($this->test, 'mockInputSet')) ? $this->test : $this), 'mockInputSet'),
+				'get' => array((is_callable(array(self::$test, 'mockInputGet')) ? self::$test : $this), 'mockInputGet'),
+				'getArray' => array((is_callable(array(self::$test, 'mockInputGetArray')) ? self::$test : $this), 'mockInputGetArray'),
+				'getInt' => array((is_callable(array(self::$test, 'mockInputGetInt')) ? self::$test : $this), 'mockInputGetInt'),
+				'set' => array((is_callable(array(self::$test, 'mockInputSet')) ? self::$test : $this), 'mockInputSet'),
 			)
 		);
 
@@ -112,10 +108,10 @@ class TestMockInput
 	{
 		$mockObject = $this->createInput(array('methods' => array('getRaw')));
 
-		$this->test->assignMockCallbacks(
+		self::$test->assignMockCallbacks(
 			$mockObject,
 			array(
-				'getRaw' => array((is_callable(array($this->test, 'mockInputGetRaw')) ? $this->test : $this), 'mockInputGetRaw'),
+				'getRaw' => array((is_callable(array(self::$test, 'mockInputGetRaw')) ? self::$test : $this), 'mockInputGetRaw'),
 			)
 		);
 
@@ -133,9 +129,9 @@ class TestMockInput
 	 *
 	 * @since   3.4
 	 */
-	public function mockInputGet($name, $default = null, $filter = 'cmd')
+	public static function mockInputGet($name, $default = null, $filter = 'cmd')
 	{
-		return isset($this->inputs[$name]) ? $this->inputs[$name] : $default;
+		return isset(self::$inputs[$name]) ? self::$inputs[$name] : $default;
 	}
 
 	/**
@@ -150,7 +146,7 @@ class TestMockInput
 	 *
 	 * @since   3.4
 	 */
-	public function mockInputGetArray(array $vars = array(), $datasource = null)
+	public static function mockInputGetArray(array $vars = array(), $datasource = null)
 	{
 		return array();
 	}
@@ -165,9 +161,9 @@ class TestMockInput
 	 *
 	 * @since   3.4
 	 */
-	public function mockInputGetInt($name, $default = null)
+	public static function mockInputGetInt($name, $default = null)
 	{
-		return (int) $this->mockInputGet($name, $default);
+		return (int) self::mockInputGet($name, $default);
 	}
 
 	/**
@@ -177,7 +173,7 @@ class TestMockInput
 	 *
 	 * @since   3.4
 	 */
-	public function mockInputGetRaw()
+	public static function mockInputGetRaw()
 	{
 		return '';
 	}
@@ -192,8 +188,8 @@ class TestMockInput
 	 *
 	 * @since   3.4
 	 */
-	public function mockInputSet($name, $value)
+	public static function mockInputSet($name, $value)
 	{
-		$this->inputs[$name] = $value;
+		self::$inputs[$name] = $value;
 	}
 }

@@ -437,7 +437,14 @@ body {
 }
 .dl-horizontal dt {
 	float: right;
+	text-align: left;
+	clear: right;
 }
+.dl-horizontal dd {
+	margin-left: 0;
+	margin-right: 180px;
+}
+.dl-horizontal dt,
 .profile> ul {
 	margin: 9px 25px 0 0;
 }
@@ -578,8 +585,17 @@ body {
 #mediamanager-form .dimensions {
 	direction: ltr;
 }
+.popover,
 .tooltip-inner {
 	text-align: right;
+}
+.popover.top .arrow,
+.popover.bottom .arrow {
+	margin-right: -11px;
+}
+.popover.top .arrow:after,
+.popover.bottom .arrow:after {
+	margin-right: -10px;
 }
 @media (max-width: 480px) {
 	.btn-toolbar .btn-wrapper {

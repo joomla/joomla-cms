@@ -3,14 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the helper functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModArticlesCategoriesHelper', __DIR__ . '/helper.php');
+
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 JLoader::register('JCategoryNode', JPATH_BASE . '/libraries/legacy/categories/categories.php');
 
@@ -27,7 +29,8 @@ $list = JModuleHelper::moduleCache($module, $params, $cacheparams);
 
 if (!empty($list))
 {
-	$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+	$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 	$startLevel      = reset($list)->getParent()->level;
+
 	require JModuleHelper::getLayoutPath('mod_articles_categories', $params->get('layout', 'default'));
 }

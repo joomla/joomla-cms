@@ -3,50 +3,60 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * WINCACHE cache storage handler
+ * WinCache cache storage handler
  *
- * @see    http://php.net/manual/en/book.wincache.php
+ * @see    https://secure.php.net/manual/en/book.wincache.php
  * @since  11.1
  */
 class JCacheStorageWincache extends JCacheStorage
 {
 	/**
-	 * Get cached data from WINCACHE by id and group
+	 * Check if the cache contains data stored by ID and group
 	 *
-	 * @param   string   $id         The cache data id
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		return wincache_ucache_exists($this->_getCacheId($id, $group));
+	}
+
+	/**
+	 * Get cached data by ID and group
+	 *
+	 * @param   string   $id         The cache data ID
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
 	 *
-	 * @return  mixed  Boolean false on failure or a cached data string
+	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		$cache_id      = $this->_getCacheId($id, $group);
-		$cache_content = wincache_ucache_get($cache_id);
-
-		return $cache_content;
+		return wincache_ucache_get($this->_getCacheId($id, $group));
 	}
 
 	/**
 	 * Get all cached data
 	 *
-	 * @return  array    data
+	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
 	public function getAll()
 	{
-		parent::getAll();
-
 		$allinfo = wincache_ucache_info();
 		$keys    = $allinfo['ucache_entries'];
 		$secret  = $this->_hash;
@@ -88,49 +98,46 @@ class JCacheStorageWincache extends JCacheStorage
 	}
 
 	/**
-	 * Store the data to WINCACHE by id and group
+	 * Store the data to cache by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 * @param   string  $data   The data to store in cache
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
 	public function store($id, $group, $data)
 	{
-		$cache_id = $this->_getCacheId($id, $group);
-
-		return wincache_ucache_set($cache_id, $data, $this->_lifetime);
+		return wincache_ucache_set($this->_getCacheId($id, $group), $data, $this->_lifetime);
 	}
 
 	/**
-	 * Remove a cached data entry by id and group
+	 * Remove a cached data entry by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
 	public function remove($id, $group)
 	{
-		$cache_id = $this->_getCacheId($id, $group);
-
-		return wincache_ucache_delete($cache_id);
+		return wincache_ucache_delete($this->_getCacheId($id, $group));
 	}
 
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * @param   string  $group  The cache data group
-	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
 	 * group mode    : cleans all cache in the group
 	 * notgroup mode : cleans all cache not in the group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @param   string  $group  The cache data group
+	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+	 *
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -152,9 +159,9 @@ class JCacheStorageWincache extends JCacheStorage
 	}
 
 	/**
-	 * Force garbage collect expired cache data as items are removed only on get/add/delete/info etc
+	 * Garbage collect expired cache data
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -171,19 +178,19 @@ class JCacheStorageWincache extends JCacheStorage
 				wincache_ucache_get($key['key_name']);
 			}
 		}
+
+		return true;
 	}
 
 	/**
-	 * Test to see if the cache storage is available.
+	 * Test to see if the storage handler is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   12.1
 	 */
 	public static function isSupported()
 	{
-		$test = extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
-
-		return $test;
+		return extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
 	}
 }

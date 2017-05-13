@@ -3,42 +3,43 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 $published = $this->state->get('filter.published');
 ?>
 
-<p><?php echo JText::_('COM_CONTACT_BATCH_TIP'); ?></p>
-<div class="row-fluid">
-	<div class="control-group span6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.language'); ?>
-		</div>
-	</div>
-	<div class="control-group span6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.access'); ?>
-		</div>
-	</div>
-</div>
-<div class="row-fluid">
-	<?php if ($published >= 0) : ?>
+<div class="container-fluid">
+	<div class="row-fluid">
 		<div class="control-group span6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.item', 'com_contact'); ?>
+				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
-	<?php endif; ?>
-	<div class="control-group span6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.tag'); ?>
+		<div class="control-group span6">
+			<div class="controls">
+				<?php echo JHtml::_('batch.access'); ?>
+			</div>
 		</div>
 	</div>
-	<div class="control-group span6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.user'); ?>
+	<div class="row-fluid">
+		<?php if ($published >= 0) : ?>
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.item', 'com_contact'); ?>
+				</div>
+			</div>
+		<?php endif; ?>
+		<div class="control-group span6">
+			<div class="controls">
+				<?php echo JHtml::_('batch.tag'); ?>
+			</div>
+		</div>
+		<div class="control-group span6">
+			<div class="controls">
+				<?php echo JHtml::_('batch.user'); ?>
+			</div>
 		</div>
 	</div>
 </div>

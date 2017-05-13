@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,10 +30,12 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getTemplate',
 			'getLanguageFilter',
 			'initialiseApp',
+			'isClient',
 			'isAdmin',
 			'isSite',
 			'getUserState',
-			'getUserStateFromRequest'
+			'getUserStateFromRequest',
+			'setUserState',
 		);
 
 		return array_merge($methods, parent::getMethods());
@@ -88,17 +90,14 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 		$methods = self::getMethods();
 
 		if (isset($options))
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JApplicationCms',
-			$methods,
-			// Constructor arguments.
-			$constructor,
-			// Mock class name.
-			'',
-			// Call original constructor.
-			true
-		);
+		{
+			// Build the mock object & allow call to original constructor.
+			$mockObject = $test->getMockBuilder('JApplicationCms')
+						->setMethods($methods)
+						->setConstructorArgs($constructor)
+						->setMockClassName('')
+						->getMock();
+		}
 
 		$mockObject = self::addBehaviours($test, $mockObject, $options);
 

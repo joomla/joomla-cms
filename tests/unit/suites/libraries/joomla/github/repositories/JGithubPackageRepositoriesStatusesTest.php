@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,7 +60,7 @@ class JGithubPackageRepositoriesStatusesTest extends TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->client = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
 
 		$this->object = new JGithubPackageRepositoriesStatuses($this->options, $this->client);
 	}
@@ -143,13 +143,6 @@ class JGithubPackageRepositoriesStatusesTest extends TestCase
 		$returnData = new stdClass;
 		$returnData->code = 501;
 		$returnData->body = $this->errorString;
-
-		// Build the request data.
-		$data = json_encode(
-			array(
-				'state' => 'pending'
-			)
-		);
 
 		$this->object->create('joomla', 'joomla-platform', '6dcb09b5b57875f334f61aebed695e2e4193db5e', 'invalid');
 	}

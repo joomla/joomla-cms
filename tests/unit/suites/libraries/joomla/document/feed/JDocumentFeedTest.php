@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/document/feed/feed.php';
 
 /**
  * Test class for JDocumentFeed
@@ -41,7 +39,7 @@ class JDocumentFeedTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 

@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,9 +44,9 @@ var JTabs = new Class({
 
 		if (this.options.useStorage) {
 			if (Browser.Features.localstorage) {
-				this.options.display = localStorage[this.storageName];
+				this.options.display = this.options.display || localStorage[this.storageName];
 			} else {
-				this.options.display = Cookie.read(this.storageName);
+				this.options.display = this.options.display || Cookie.read(this.storageName);
 			}
 		}
 		if (this.options.display === null || this.options.display === undefined) {

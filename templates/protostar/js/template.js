@@ -1,23 +1,29 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.2
  */
 
-(function($, Joomla)
+(function($)
 {
-	Joomla.Behavior.add('template.protostar', 'ready update', function(event)
+	$(document).ready(function()
 	{
-		var $target = $(event.target);
-
-		$target.find('*[rel=tooltip]').tooltip()
+		$('*[rel=tooltip]').tooltip()
 
 		// Turn radios into btn-group
-		$target.find('.radio.btn-group label').addClass('btn');
-		$target.find('.btn-group label').not('.template-protostar-radio')
-			.addClass('template-protostar-radio').on('click.templateProtostarRadio', function()
+		$('.radio.btn-group label').addClass('btn');
+
+		$('fieldset.btn-group').each(function() {
+			// Handle disabled, prevent clicks on the container, and add disabled style to each button
+			if ($(this).prop('disabled')) {
+				$(this).css('pointer-events', 'none').off('click');
+				$(this).find('.btn').addClass('disabled');
+			}
+		});
+
+		$(".btn-group label:not(.active)").click(function()
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
@@ -35,8 +41,7 @@
 				input.trigger('change');
 			}
 		});
-
-		$target.find(".btn-group input:checked").each(function()
+		$(".btn-group input[checked=checked]").each(function()
 		{
 			if ($(this).val() == '') {
 				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
@@ -46,12 +51,10 @@
 				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
 			}
 		});
-	});
-
-	Joomla.Behavior.add('template.protostar', 'remove', function(event)
-	{
-		var $target = $(event.target);
-		$target.find('label.template-protostar-radio').removeClass('template-protostar-radio').off('click.templateProtostarRadio');
-	});
-
-})(jQuery, Joomla);
+		
+		$('#back-top').on('click', function(e) {
+			e.preventDefault();
+			$("html, body").animate({scrollTop: 0}, 1000);
+		});
+	})
+})(jQuery);

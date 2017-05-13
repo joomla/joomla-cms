@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ class ConfigControllerModulesSave extends JControllerBase
 			$redirect = '&return=' . $returnUri;
 		}
 
-		// Access back-end com_modules to be done
+		// Access backend com_modules to be done
 		JLoader::register('ModulesControllerModule', JPATH_ADMINISTRATOR . '/components/com_modules/controllers/module.php');
 		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');
 
@@ -68,10 +68,10 @@ class ConfigControllerModulesSave extends JControllerBase
 		// Get a document object
 		$document = JFactory::getDocument();
 
-		// Set back-end required params
+		// Set backend required params
 		$document->setType('json');
 
-		// Execute back-end controller
+		// Execute backend controller
 		$return = $controllerClass->save();
 
 		// Reset params back after requesting from service

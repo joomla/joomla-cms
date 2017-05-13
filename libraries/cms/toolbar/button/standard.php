@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,16 +92,14 @@ class JToolbarButtonStandard extends JToolbarButton
 	 */
 	protected function _getCommand($name, $task, $list)
 	{
-		$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-		$message = addslashes($message);
+		JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+
+		$cmd = "Joomla.submitbutton('" . $task . "');";
 
 		if ($list)
 		{
-			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
-		}
-		else
-		{
-			$cmd = "Joomla.submitbutton('$task')";
+			$alert = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
+			$cmd   = "if (document.adminForm.boxchecked.value == 0) { " . $alert . " } else { " . $cmd . " }";
 		}
 
 		return $cmd;

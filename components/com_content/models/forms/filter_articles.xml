@@ -4,7 +4,8 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_CONTENT_FILTER_SEARCH_DESC"
+			label="COM_CONTENT_MODAL_FILTER_SEARCH_LABEL"
+			description="COM_CONTENT_MODAL_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field

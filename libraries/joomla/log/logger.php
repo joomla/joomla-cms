@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,13 +21,16 @@ abstract class JLogLogger
 {
 	/**
 	 * Options array for the JLog instance.
+	 *
 	 * @var    array
 	 * @since  12.2
 	 */
 	protected $options = array();
 
 	/**
-	 * @var    array  Translation array for JLogEntry priorities to text strings.
+	 * Translation array for JLogEntry priorities to text strings.
+	 *
+	 * @var    array
 	 * @since  12.2
 	 */
 	protected $priorities = array(
@@ -38,7 +41,8 @@ abstract class JLogLogger
 		JLog::WARNING => 'WARNING',
 		JLog::NOTICE => 'NOTICE',
 		JLog::INFO => 'INFO',
-		JLog::DEBUG => 'DEBUG');
+		JLog::DEBUG => 'DEBUG',
+	);
 
 	/**
 	 * Constructor.
@@ -61,6 +65,7 @@ abstract class JLogLogger
 	 * @return  void
 	 *
 	 * @since   12.2
+	 * @throws  RuntimeException
 	 */
 	abstract public function addEntry(JLogEntry $entry);
 }

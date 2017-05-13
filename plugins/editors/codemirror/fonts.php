@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ class JFormFieldFonts extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$fonts = json_decode(JFile::read(__DIR__ . '/fonts.json'));
+		$fonts = json_decode(file_get_contents(__DIR__ . '/fonts.json'));
 		$options = array();
 
 		foreach ($fonts as $key => $info)

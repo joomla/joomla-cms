@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for Joomla Newsfeeds.
@@ -92,7 +92,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
 		// Make sure we're handling com_newsfeeds categories.
-		if ($extension == 'com_newsfeeds')
+		if ($extension === 'com_newsfeeds')
 		{
 			$this->categoryStateChange($pks, $value);
 		}
@@ -111,11 +111,11 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterDelete($context, $table)
 	{
-		if ($context == 'com_newsfeeds.newsfeed')
+		if ($context === 'com_newsfeeds.newsfeed')
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context === 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -146,7 +146,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle newsfeeds here.
-		if ($context == 'com_newsfeeds.newsfeed')
+		if ($context === 'com_newsfeeds.newsfeed')
 		{
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_access != $row->access)
@@ -160,7 +160,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		}
 
 		// Check for access changes in the category.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_cataccess != $row->access)
@@ -188,7 +188,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle newsfeeds here.
-		if ($context == 'com_newsfeeds.newsfeed')
+		if ($context === 'com_newsfeeds.newsfeed')
 		{
 			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
@@ -198,7 +198,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		}
 
 		// Check for access levels from the category.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
@@ -226,13 +226,13 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle newsfeeds here.
-		if ($context == 'com_newsfeeds.newsfeed')
+		if ($context === 'com_newsfeeds.newsfeed')
 		{
 			$this->itemStateChange($pks, $value);
 		}
 
 		// Handle when the plugin is disabled.
-		if ($context == 'com_plugins.plugin' && $value === 0)
+		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
 		}
@@ -260,13 +260,9 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$registry = new Registry;
-		$registry->loadString($item->params);
-		$item->params = $registry;
+		$item->params = new Registry($item->params);
 
-		$registry = new Registry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
+		$item->metadata = new Registry($item->metadata);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
@@ -274,13 +270,13 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		/*
-		 * Add the meta-data processing instructions based on the newsfeeds
+		 * Add the metadata processing instructions based on the newsfeeds
 		 * configuration parameters.
 		 */
-		// Add the meta-author.
+		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
-		// Handle the link to the meta-data.
+		// Handle the link to the metadata.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
 
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
@@ -315,7 +311,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE . '/components/com_newsfeeds/helpers/route.php';
+		JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_newsfeeds/helpers/route.php');
 
 		return true;
 	}

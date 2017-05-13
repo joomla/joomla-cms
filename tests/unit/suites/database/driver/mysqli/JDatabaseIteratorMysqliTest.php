@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -149,21 +149,18 @@ class JDatabaseIteratorMysqliTest extends TestCaseDatabaseMysqli
 	public function testCount()
 	{
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'));
-		$this->assertEquals(
-			4,
-			count(self::$driver->getIterator())
+		$this->assertCount(
+			4, self::$driver->getIterator()
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 0, 2);
-		$this->assertEquals(
-			2,
-			count(self::$driver->getIterator())
+		$this->assertCount(
+			2, self::$driver->getIterator()
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 3, 2);
-		$this->assertEquals(
-			1,
-			count(self::$driver->getIterator())
+		$this->assertCount(
+			1, self::$driver->getIterator()
 		);
 	}
 }
