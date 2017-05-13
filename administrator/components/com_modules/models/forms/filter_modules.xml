@@ -6,6 +6,8 @@
 		name="client_id"
 		type="list"
 		label=""
+		filtermode="selector"
+		layout="default"
 		onchange="jQuery('#filter_position, #filter_module, #filter_language, #filter_menuitem').val('');this.form.submit();"
 		>
 		<option value="0">JSITE</option>
@@ -18,6 +20,7 @@
 			label="COM_MODULES_MODULES_FILTER_SEARCH_LABEL"
 			description="COM_MODULES_MODULES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
+			noresults="COM_MODULES_MSG_MANAGE_NO_MODULES"
 		/>
 		<field
 			name="state"

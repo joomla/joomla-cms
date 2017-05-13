@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,6 +60,7 @@ class LanguagesViewInstalled extends JViewLegacy
 		$this->option        = $this->get('Option');
 		$this->pagination    = $this->get('Pagination');
 		$this->rows          = $this->get('Data');
+		$this->total         = $this->get('Total');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');

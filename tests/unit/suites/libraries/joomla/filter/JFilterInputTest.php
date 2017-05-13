@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Filter
  * @since       11.1
  */
-class JFilterInputTest extends PHPUnit_Framework_TestCase
+class JFilterInputTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Produces the array of test cases common to all test runs.
@@ -416,6 +416,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				array('images/system', '/var/www/html/index.html'),
 				'From generic cases'
 			),
+			'path_06' => array(
+				'path',
+				'/var/www/html/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
+				'/var/www/html/pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf',
+				'From generic cases'
+			),
 			'user_01' => array(
 				'username',
 				'&<f>r%e\'d',
@@ -432,6 +438,18 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'username',
 				array('&<f>r%e\'d', '$user69'),
 				array('fred', '$user69'),
+				'From generic cases'
+			),
+			'user_04' => array(
+				'username',
+				'фамилия',
+				'фамилия',
+				'From generic cases'
+			),
+			'user_05' => array(
+				'username',
+				'Φρεντ',
+				'Φρεντ',
 				'From generic cases'
 			),
 			'trim_01' => array(
@@ -546,6 +564,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'',
 				'<em><strong>Fred</strong></em>',
 				'<em><strong>Fred</strong></em>',
+				'From generic cases'
+			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'<em><strong>Φρεντ</strong></em>',
 				'From generic cases'
 			),
 			'Malformed Nested tags' => array(
@@ -685,6 +709,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'Fred',
 				'From specific cases'
 			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
+				'From specific cases'
+			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
@@ -746,7 +776,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<scrip &nbsp; t>alert(\'test\');</scrip t>',
 				'alert(\'test\');',
 				'From generic cases'
-			),
+			)
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -802,6 +832,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
+				'From specific cases'
+			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
 				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
@@ -942,6 +978,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'Fred',
 				'From specific cases'
 			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
+				'From specific cases'
+			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
@@ -1048,6 +1090,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
+				'From specific cases'
+			),
+			'Nested tags 02' => array(
+				'',
+				'<em><strong>Φρεντ</strong></em>',
+				'Φρεντ',
 				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
@@ -1478,6 +1526,30 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<img class="one two" />',
 				'<img />',
 				'From specific cases'
+			),
+			'tracker15673' => array(
+				'raw',
+				'<ul>
+<li><a href="../">презентация</a>)</li>
+<li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
+</ul>',
+				'<ul>
+<li><a href="../">презентация</a>)</li>
+<li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
+</ul>',
+				'From generic cases'
+			),
+			'tracker15673' => array(
+				'string',
+				'<ul>
+<li><a href="../">презентация</a>)</li>
+<li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
+</ul>',
+				'<ul>
+<li><a href="../">презентация</a>)</li>
+<li>Елфимова О.Т. Разработка системы отделения космического аппарата Метеор-М в системе MSC.Adams<a style="color: maroon;" href="../../pub/diplom_labors/2016/2016_Elfimova_O_rpz.pdf">диплом</a></li>
+</ul>',
+				'From generic cases'
 			)
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);

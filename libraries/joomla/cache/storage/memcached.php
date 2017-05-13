@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,11 +69,11 @@ class JCacheStorageMemcached extends JCacheStorage
 
 		$config = JFactory::getConfig();
 
-		$host = $config->get('memcache_server_host', 'localhost');
-		$port = $config->get('memcache_server_port', 11211);
+		$host = $config->get('memcached_server_host', 'localhost');
+		$port = $config->get('memcached_server_port', 11211);
 
 
-		// Create the memcache connection
+		// Create the memcached connection
 		if ($config->get('memcached_persist', true))
 		{
 			static::$_db = new Memcached($this->_hash);
@@ -133,6 +133,23 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		return $cache_id;
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		static::$_db->get($this->_getCacheId($id, $group));
+
+		return static::$_db->getResultCode() !== Memcached::RES_NOTFOUND;
 	}
 
 	/**
@@ -326,7 +343,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function flush()
 	{

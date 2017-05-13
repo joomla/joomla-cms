@@ -3,13 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Filter\OutputFilter;
+use Joomla\String\StringHelper;
 
 /**
  * JFilterOutput
@@ -72,7 +73,7 @@ class JFilterOutput extends OutputFilter
 		$str = $lang->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
-		$str = trim(JString::strtolower($str));
+		$str = trim(StringHelper::strtolower($str));
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);

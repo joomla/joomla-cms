@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,23 +27,54 @@ class JFormFieldUser extends JFormField
 	/**
 	 * Filtering groups
 	 *
-	 * @var  array
+	 * @var   array
+	 * @since 3.5
 	 */
 	protected $groups = null;
 
 	/**
 	 * Users to exclude from the list of users
 	 *
-	 * @var  array
+	 * @var   array
+	 * @since 3.5
 	 */
 	protected $excluded = null;
 
 	/**
 	 * Layout to render
 	 *
-	 * @var  string
+	 * @var   string
+	 * @since 3.5
 	 */
 	protected $layout = 'joomla.form.field.user';
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.7.0
+	 *
+	 * @see     JFormField::setup()
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$return = parent::setup($element, $value, $group);
+
+		// If user can't access com_users the field should be readonly.
+		if ($return)
+		{
+			$this->readonly = !JFactory::getUser()->authorise('core.manage', 'com_users');
+		}
+
+		return $return;
+	}
 
 	/**
 	 * Method to get the user field input markup.
@@ -67,6 +98,8 @@ class JFormFieldUser extends JFormField
 	 * Get the data that is going to be passed to the layout
 	 *
 	 * @return  array
+	 *
+	 * @since   3.5
 	 */
 	public function getLayoutData()
 	{
@@ -74,7 +107,7 @@ class JFormFieldUser extends JFormField
 		$data = parent::getLayoutData();
 
 		// Initialize value
-		$name = '';
+		$name = JText::_('JLIB_FORM_SELECT_USER');
 
 		if (is_numeric($this->value))
 		{
@@ -85,19 +118,24 @@ class JFormFieldUser extends JFormField
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
 			$current = JFactory::getUser();
+
 			$this->value = $current->id;
+
 			$data['value'] = $this->value;
+
 			$name = $current->name;
 		}
-		else
+
+		// User lookup went wrong, we assign the value instead.
+		if ($name === null && $this->value)
 		{
-			$name = JText::_('JLIB_FORM_SELECT_USER');
+			$name = $this->value;
 		}
 
 		$extraData = array(
-				'userName'  => $name,
-				'groups'    => $this->getGroups(),
-				'excluded'  => $this->getExcluded(),
+			'userName'  => $name,
+			'groups'    => $this->getGroups(),
+			'excluded'  => $this->getExcluded(),
 		);
 
 		return array_merge($data, $extraData);
@@ -106,7 +144,7 @@ class JFormFieldUser extends JFormField
 	/**
 	 * Method to get the filtering groups (null means no filtering)
 	 *
-	 * @return  mixed  array of filtering groups or null.
+	 * @return  mixed  Array of filtering groups or null.
 	 *
 	 * @since   1.6
 	 */
@@ -129,6 +167,11 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getExcluded()
 	{
-		return explode(',', $this->element['exclude']);
+		if (isset($this->element['exclude']))
+		{
+			return explode(',', $this->element['exclude']);
+		}
+
+		return;
 	}
 }

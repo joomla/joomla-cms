@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 JFormHelper::loadRuleClass('email');
 
@@ -47,7 +48,7 @@ class JFormRuleContactEmail extends JFormRuleEmail
 		{
 			foreach (explode(';', $banned) as $item)
 			{
-				if ($item != '' && JString::stristr($value, $item) !== false)
+				if ($item != '' && StringHelper::stristr($value, $item) !== false)
 				{
 					return false;
 				}

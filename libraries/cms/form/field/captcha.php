@@ -3,14 +3,14 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Form Field class for the Joomla Framework.
+ * Captcha field.
  *
  * @since  2.5
  */
@@ -86,11 +86,13 @@ class JFormFieldCaptcha extends JFormField
 	{
 		$result = parent::setup($element, $value, $group);
 
-		$default = JFactory::getConfig()->get('captcha');
+		$app = JFactory::getApplication();
 
-		if (JFactory::getApplication()->isSite())
+		$default = $app->get('captcha');
+
+		if ($app->isClient('site'))
 		{
-			$default = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+			$default = $app->getParams()->get('captcha', $default);
 		}
 
 		$plugin = $this->element['plugin'] ?

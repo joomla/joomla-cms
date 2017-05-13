@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,6 +57,9 @@ class JMail extends PHPMailer
 		{
 			$this->SMTPDebug = 4;
 		}
+
+		// Don't disclose the PHPMailer version
+		$this->XMailer = ' ';
 	}
 
 	/**
@@ -457,24 +460,24 @@ class JMail extends PHPMailer
 				{
 					if (!empty($name) && count($path) != count($name))
 					{
-						throw new InvalidArgumentException("The number of attachments must be equal with the number of name");
+						throw new InvalidArgumentException('The number of attachments must be equal with the number of name');
 					}
 
 					foreach ($path as $key => $file)
 					{
 						if (!empty($name))
 						{
-							$result = parent::addAttachment($file, $name[$key], $encoding, $type);
+							$result = parent::addAttachment($file, $name[$key], $encoding, $type, $disposition);
 						}
 						else
 						{
-							$result = parent::addAttachment($file, $name, $encoding, $type);
+							$result = parent::addAttachment($file, $name, $encoding, $type, $disposition);
 						}
 					}
 				}
 				else
 				{
-					$result = parent::addAttachment($path, $name, $encoding, $type);
+					$result = parent::addAttachment($path, $name, $encoding, $type, $disposition);
 				}
 
 				// Check for boolean false return if exception handling is disabled
@@ -674,6 +677,9 @@ class JMail extends PHPMailer
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null)
 	{
+		// Create config object
+		$config = JFactory::getConfig();
+
 		$this->setSubject($subject);
 		$this->setBody($body);
 
@@ -724,6 +730,10 @@ class JMail extends PHPMailer
 				return false;
 			}
 		}
+		elseif ($config->get('replyto'))
+		{
+			$this->addReplyTo($config->get('replyto'), $config->get('replytoname'));
+		}
 
 		// Add sender to replyTo only if no replyTo received
 		$autoReplyTo = (empty($this->ReplyTo)) ? true : false;
@@ -750,6 +760,7 @@ class JMail extends PHPMailer
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Without replacement please implement it in your own code
 	 */
 	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
