@@ -58,6 +58,7 @@ class JFormFieldListTest extends TestCase
 		$form = new JForm('form1');
 		$form->load('<form><field name="list" type="list" /></form>');
 
+		/** @var  \JFormFieldList  $field */
 		$field = $form->getField('list');
 
 		// Test adding a simple option

@@ -1065,43 +1065,6 @@ class JForm
 	}
 
 	/**
-	 * Method to add a list option for a field XML element.
-	 *
-	 * @param   string  $name        The name of the form field for which to set the attribute value.
-	 * @param   string  $value       The option's value attribute.
-	 * @param   string  $text        The option's display text.
-	 * @param   string  $optGroup    The option's group label.
-	 * @param   string  $group       The optional dot-separated form group path on which to find the field.
-	 * @param   array   $attributes  The additional attributes for the option element
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  UnexpectedValueException
-	 */
-	public function addFieldOption($name, $value, $text, $optGroup = null, $group = null, array $attributes = array())
-	{
-		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof SimpleXMLElement))
-		{
-			throw new UnexpectedValueException(sprintf('%s::addFieldOption `xml` is not an instance of SimpleXMLElement', get_class($this)));
-		}
-
-		// Find the form field element from the definition.
-		$field = $this->getField($name, $group);
-
-		// Make sure the field supports adding options.
-		if (!is_callable(array($field, 'addOption')))
-		{
-			throw new UnexpectedValueException(sprintf('%s::addFieldOption `field` does not support options', get_class($this)));
-		}
-
-		$field->addOption($text, $value, $attributes, $optGroup);
-
-		return true;
-	}
-
-	/**
 	 * Method to set some field XML elements to the form definition.  If the replace flag is set then
 	 * the fields will be set whether they already exists or not.  If it isn't set, then the fields
 	 * will not be replaced if they already exist.
