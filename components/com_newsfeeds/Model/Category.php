@@ -6,9 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class NewsfeedsModelCategory extends JModelList
+class Category extends ListModel
 {
 	/**
 	 * Category items data
@@ -52,12 +59,13 @@ class NewsfeedsModelCategory extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   1.6
+	 * @see    \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -70,7 +78,7 @@ class NewsfeedsModelCategory extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -94,7 +102,7 @@ class NewsfeedsModelCategory extends JModelList
 			}
 
 			// Get the tags
-			$item->tags = new JHelperTags;
+			$item->tags = new TagsHelper;
 			$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 		}
 
@@ -110,7 +118,7 @@ class NewsfeedsModelCategory extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -144,7 +152,7 @@ class NewsfeedsModelCategory extends JModelList
 
 		// Filter by start and end dates.
 		$nullDate = $db->quote($db->getNullDate());
-		$date = JFactory::getDate();
+		$date = \JFactory::getDate();
 		$nowDate = $db->quote($date->format($db->getDateFormat()));
 
 		if ($this->getState('filter.publish_date'))
@@ -165,7 +173,7 @@ class NewsfeedsModelCategory extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Add the list ordering clause.
@@ -186,12 +194,12 @@ class NewsfeedsModelCategory extends JModelList
 	 *
 	 * @since   1.6
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication();
-		$params = JComponentHelper::getParams('com_newsfeeds');
+		$app = \JFactory::getApplication();
+		$params = ComponentHelper::getParams('com_newsfeeds');
 
 		// List state information
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
@@ -224,7 +232,7 @@ class NewsfeedsModelCategory extends JModelList
 		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds')))
 		{
@@ -235,7 +243,7 @@ class NewsfeedsModelCategory extends JModelList
 			$this->setState('filter.publish_date', true);
 		}
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Load the parameters.
 		$this->setState('params', $params);
@@ -252,7 +260,7 @@ class NewsfeedsModelCategory extends JModelList
 	{
 		if (!is_object($this->_item))
 		{
-			$app = JFactory::getApplication();
+			$app = \JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;
@@ -264,7 +272,7 @@ class NewsfeedsModelCategory extends JModelList
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-			$categories = JCategories::getInstance('Newsfeeds', $options);
+			$categories = \JCategories::getInstance('Newsfeeds', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
 			if (is_object($this->_item))
@@ -359,13 +367,13 @@ class NewsfeedsModelCategory extends JModelList
 	 */
 	public function hit($pk = 0)
 	{
-		$input    = JFactory::getApplication()->input;
+		$input    = \JFactory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
-			$table = JTable::getInstance('Category', 'JTable');
+			$table = Table::getInstance('Category', 'JTable');
 			$table->load($pk);
 			$table->hit($pk);
 		}

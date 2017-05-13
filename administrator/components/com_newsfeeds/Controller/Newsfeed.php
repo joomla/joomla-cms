@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Form;
+use Joomla\CMS\Model\Model;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class NewsfeedsControllerNewsfeed extends JControllerForm
+class Newsfeed extends Form
 {
 	/**
 	 * Method override to check if you can add a new record.
@@ -35,7 +38,7 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = JFactory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow =  $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -78,7 +81,7 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 			return false;
 		}
 
-		$user = JFactory::getUser();
+		$user =  $this->app->getIdentity();
 
 		// Check if can edit own core.edit.own.
 		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $item->catid) && $item->created_by == $user->id;
@@ -98,13 +101,13 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		 \JSession::checkToken() or jexit( \JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Newsfeed', '', array());
 
 		// Preset the redirect
-		$this->setRedirect(JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect( \JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}
@@ -112,14 +115,14 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   JModelLegacy  $model      The data model object.
-	 * @param   array         $validData  The validated data.
+	 * @param   Model  $model      The data model object.
+	 * @param   array  $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	protected function postSaveHook(Model $model, $validData = array())
 	{
 
 	}

@@ -6,24 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Methods supporting a list of newsfeed records.
  *
  * @since  1.6
  */
-class NewsfeedsModelNewsfeeds extends JModelList
+class Newsfeeds extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @since   1.6
+	 * @see    \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -48,14 +56,14 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'level', 'c.level',
 			);
 
-			$assoc = JLanguageAssociations::isEnabled();
+			$assoc =  Associations::isEnabled();
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
 			}
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -72,7 +80,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 */
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -89,7 +97,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		}
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_newsfeeds');
+		$params =  ComponentHelper::getParams('com_newsfeeds');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -130,15 +138,14 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user  = JFactory::getUser();
-		$app   = JFactory::getApplication();
+		$user  = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -169,7 +176,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('a.catid'));
 
 		// Join over the associations.
-		$assoc = JLanguageAssociations::isEnabled();
+		$assoc =  Associations::isEnabled();
 
 		if ($assoc)
 		{

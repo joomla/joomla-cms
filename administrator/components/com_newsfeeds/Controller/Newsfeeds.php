@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\Model\Model;
 
 /**
  * Newsfeeds list controller class.
  *
  * @since  1.6
  */
-class NewsfeedsControllerNewsfeeds extends JControllerAdmin
+class Newsfeeds extends Admin
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -27,7 +31,7 @@ class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Newsfeed', $prefix = 'NewsfeedsModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Newsfeed', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -36,14 +40,14 @@ class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $ids    The validated data.
+	 * @param   Model    $model  The data model object.
+	 * @param   integer  $ids    The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	protected function postDeleteHook(Model $model, $ids = null)
 	{
 	}
 }

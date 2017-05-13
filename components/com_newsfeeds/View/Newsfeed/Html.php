@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
+use Joomla\Component\Newsfeeds\Site\Model\Category;
 
 /**
  * HTML View class for the Newsfeeds component
  *
  * @since  1.0
  */
-class NewsfeedsViewNewsfeed extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The model state
@@ -45,7 +49,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	/**
 	 * The current user instance
 	 *
-	 * @var    JUser|null
+	 * @var    \JUser|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $user = null;
@@ -86,8 +90,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app  = JFactory::getApplication();
-		$user = JFactory::getUser();
+		$app  = \JFactory::getApplication();
+		$user = \JFactory::getUser();
 
 		// Get view related request variables.
 		$print = $app->input->getBool('print');
@@ -99,7 +103,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		if ($item)
 		{
 			// Get Category Model data
-			$categoryModel = JModelLegacy::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
+			$categoryModel = new Category(array('ignore_request' => true));
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
@@ -109,10 +113,10 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 
 		// Check for errors.
-		// @TODO: Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
+		// @TODO: Maybe this could go into \JComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Add router helpers.
@@ -178,7 +182,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		if (!in_array($item->access, $levels) or (in_array($item->access, $levels) and (!in_array($item->category_access, $levels))))
 		{
-			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return;
@@ -194,20 +198,21 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		try
 		{
-			$feed = new JFeedFactory;
+			$feed = new \JFeedFactory;
 			$this->rssDoc = $feed->getFeed($newsfeed->link);
 		}
-		catch (InvalidArgumentException $e)
+		catch (\InvalidArgumentException $e)
 		{
-			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
+
 		if (empty($this->rssDoc))
 		{
-			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			$msg = \JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
 		$feed_display_order = $params->get('feed_display_order', 'des');
@@ -220,7 +225,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-    $this->params = $params;
+        $this->params = $params;
 		$this->newsfeed = $newsfeed;
 		$this->state = $state;
 		$this->item = $item;
@@ -233,7 +238,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		$this->print = $print;
 
-		$item->tags = new JHelperTags;
+		$item->tags = new TagsHelper;
 		$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 
 		// Increment the hit counter of the newsfeed.
@@ -254,7 +259,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = JFactory::getApplication();
+		$app     = \JFactory::getApplication();
 		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
 		$title   = null;
@@ -269,7 +274,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', \JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -286,7 +291,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			}
 
 			$path = array(array('title' => $this->item->name, 'link' => ''));
-			$category = JCategories::getInstance('Newsfeeds')->get($this->item->catid);
+			$category = \JCategories::getInstance('Newsfeeds')->get($this->item->catid);
 
 			while (($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $category->id) && $category->id > 1)
 			{
@@ -308,11 +313,11 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
