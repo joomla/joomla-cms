@@ -6,25 +6,35 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\CMSHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Methods supporting a list of contenthistory records.
  *
  * @since  3.2
  */
-class ContenthistoryModelHistory extends JModelList
+class History extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JControllerLegacy
+	 * @see     \Joomla\CMS\Model\Model
 	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -40,13 +50,13 @@ class ContenthistoryModelHistory extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
 	 * Method to test whether a record is editable
 	 *
-	 * @param   JTableContenthistory  $record  A JTable object.
+	 * @param   ContentHistory  $record  A Table object.
 	 *
 	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *
@@ -59,10 +69,10 @@ class ContenthistoryModelHistory extends JModelList
 		if (!empty($record->ucm_type_id))
 		{
 			// Check that the type id matches the type alias
-			$typeAlias = JFactory::getApplication()->input->get('type_alias');
+			$typeAlias = \JFactory::getApplication()->input->get('type_alias');
 
-			/** @var JTableContenttype $contentTypeTable */
-			$contentTypeTable = JTable::getInstance('Contenttype', 'JTable');
+			/** @var ContentType $contentTypeTable */
+			$contentTypeTable = $this->getTable('ContentType');
 
 			if ($contentTypeTable->getTypeId($typeAlias) == $record->ucm_type_id)
 			{
@@ -70,7 +80,7 @@ class ContenthistoryModelHistory extends JModelList
 				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 				 * for the content item, not delete permissions for the content history row.
 				 */
-				$user   = JFactory::getUser();
+				$user   = \JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
 			}
 
@@ -78,7 +88,7 @@ class ContenthistoryModelHistory extends JModelList
 			if (!$result)
 			{
 				$contentTypeTable->load($record->ucm_type_id);
-				$typeEditables = (array) JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$typeEditables = (array) \JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
 				$result = in_array((int) $record->ucm_item_id, $typeEditables);
 			}
 		}
@@ -90,7 +100,7 @@ class ContenthistoryModelHistory extends JModelList
 	 * Method to test whether a history record can be deleted. Note that we check whether we have edit permissions
 	 * for the content item row.
 	 *
-	 * @param   JTableContenthistory  $record  A JTable object.
+	 * @param   ContentHistory  $record  A Table object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
@@ -98,7 +108,7 @@ class ContenthistoryModelHistory extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		return canEdit($record);
+		return $this->canEdit($record);
 	}
 
 	/**
@@ -139,11 +149,11 @@ class ContenthistoryModelHistory extends JModelList
 					{
 						try
 						{
-							JLog::add($error, JLog::WARNING, 'jerror');
+							\JLog::add($error, \JLog::WARNING, 'jerror');
 						}
-						catch (RuntimeException $exception)
+						catch (\RuntimeException $exception)
 						{
-							JFactory::getApplication()->enqueueMessage($error, 'warning');
+							\JFactory::getApplication()->enqueueMessage($error, 'warning');
 						}
 
 						return false;
@@ -152,11 +162,11 @@ class ContenthistoryModelHistory extends JModelList
 					{
 						try
 						{
-							JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+							\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 						}
-						catch (RuntimeException $exception)
+						catch (\RuntimeException $exception)
 						{
-							JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
 						}
 
 						return false;
@@ -187,7 +197,7 @@ class ContenthistoryModelHistory extends JModelList
 	public function getItems()
 	{
 		$items = parent::getItems();
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ($items === false)
 		{
@@ -201,8 +211,8 @@ class ContenthistoryModelHistory extends JModelList
 		}
 
 		// Get the content type's record so we can check ACL
-		/** @var JTableContenttype $contentTypeTable */
-		$contentTypeTable = JTable::getInstance('Contenttype');
+		/** @var ContentType $contentTypeTable */
+		$contentTypeTable = $this->getTable('ContentType');
 		$ucmTypeId        = $items[0]->ucm_type_id;
 
 		if (!$contentTypeTable->load($ucmTypeId))
@@ -218,7 +228,7 @@ class ContenthistoryModelHistory extends JModelList
 		}
 		else
 		{
-			$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
@@ -231,15 +241,14 @@ class ContenthistoryModelHistory extends JModelList
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  Table   A Table object
 	 *
 	 * @since   3.2
 	 */
-	public function getTable($type = 'Contenthistory', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Contenthistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
-
 	/**
 	 * Method to toggle on and off the keep forever value for one or more records from content history table.
 	 *
@@ -280,11 +289,11 @@ class ContenthistoryModelHistory extends JModelList
 					{
 						try
 						{
-							JLog::add($error, JLog::WARNING, 'jerror');
+							\JLog::add($error, \JLog::WARNING, 'jerror');
 						}
-						catch (RuntimeException $exception)
+						catch (\RuntimeException $exception)
 						{
-							JFactory::getApplication()->enqueueMessage($error, 'warning');
+							\JFactory::getApplication()->enqueueMessage($error, 'warning');
 						}
 
 						return false;
@@ -293,11 +302,11 @@ class ContenthistoryModelHistory extends JModelList
 					{
 						try
 						{
-							JLog::add(JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+							\JLog::add(\JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
 						}
-						catch (RuntimeException $exception)
+						catch (\RuntimeException $exception)
 						{
-							JFactory::getApplication()->enqueueMessage(JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
+							\JFactory::getApplication()->enqueueMessage(\JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
 						}
 
 						return false;
@@ -332,7 +341,7 @@ class ContenthistoryModelHistory extends JModelList
 	 */
 	protected function populateState($ordering = 'h.save_date', $direction = 'DESC')
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$itemId = $input->get('item_id', 0, 'integer');
 		$typeId = $input->get('type_id', 0, 'integer');
 		$typeAlias = $input->get('type_alias', '', 'string');
@@ -343,7 +352,7 @@ class ContenthistoryModelHistory extends JModelList
 		$this->setState('sha1_hash', $this->getSha1Hash());
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_contenthistory');
+		$params = ComponentHelper::getParams('com_contenthistory');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -353,7 +362,7 @@ class ContenthistoryModelHistory extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   3.2
 	 */
@@ -397,20 +406,20 @@ class ContenthistoryModelHistory extends JModelList
 	protected function getSha1Hash()
 	{
 		$result = false;
-		$typeTable = JTable::getInstance('Contenttype', 'JTable');
-		$typeId = JFactory::getApplication()->input->getInteger('type_id', 0);
+		$typeTable = $this->getTable('ContentType');
+		$typeId = \JFactory::getApplication()->input->getInteger('type_id', 0);
 		$typeTable->load($typeId);
 		$typeAliasArray = explode('.', $typeTable->type_alias);
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAliasArray[0] . '/tables');
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAliasArray[0] . '/tables');
 		$contentTable = $typeTable->getContentTable();
-		$keyValue = JFactory::getApplication()->input->getInteger('item_id', 0);
+		$keyValue = \JFactory::getApplication()->input->getInteger('item_id', 0);
 
 		if ($contentTable && $contentTable->load($keyValue))
 		{
-			$helper = new JHelper;
+			$helper = new CMSHelper;
 
 			$dataObject = $helper->getDataObject($contentTable);
-			$result = $this->getTable('Contenthistory', 'JTable')->getSha1(json_encode($dataObject), $typeTable);
+			$result = $this->getTable('Contenthistory')->getSha1(json_encode($dataObject), $typeTable);
 		}
 
 		return $result;

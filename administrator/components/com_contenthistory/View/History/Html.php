@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View class for a list of contenthistory.
  *
  * @since  3.2
  */
-class ContenthistoryViewCompare extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * An array of items
@@ -26,7 +29,14 @@ class ContenthistoryViewCompare extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \Joomla\CMS\Pagination\Pagination
+	 */
+	protected $pagination;
+
+	/**
+	 * The model state
+	 *
+	 * @var  \JObject
 	 */
 	protected $state;
 
@@ -35,7 +45,7 @@ class ContenthistoryViewCompare extends JViewLegacy
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  Exception on failure, void on success.
+	 * @return  mixed  \Exception on failure, void on success.
 	 *
 	 * @since   3.2
 	 */
@@ -43,11 +53,12 @@ class ContenthistoryViewCompare extends JViewLegacy
 	{
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		return parent::display($tpl);
