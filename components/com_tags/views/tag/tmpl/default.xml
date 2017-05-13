@@ -56,7 +56,7 @@
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 				description="COM_TAGS_SHOW_TAG_TITLE_DESC"
 				useglobal="true"
-					>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -67,7 +67,7 @@
 				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 				description="COM_TAGS_SHOW_TAG_IMAGE_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
