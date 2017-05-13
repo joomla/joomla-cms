@@ -37,6 +37,8 @@ else
 	$fullWidth = 0;
 }
 
+JHtml::_('behavior.core');
+
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 

@@ -8,14 +8,15 @@
 
 (function($)
 {
-	$(document).ready(function()
+	Joomla.Behavior.add('template.protostar', 'ready update', function(event)
 	{
-		$('*[rel=tooltip]').tooltip()
+		var $target = $(event.target);
+		$target.find('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
-		$('.radio.btn-group label').addClass('btn');
+		$target.find('.radio.btn-group label').addClass('btn');
 
-		$('fieldset.btn-group').each(function() {
+		$target.find('fieldset.btn-group').each(function() {
 			// Handle disabled, prevent clicks on the container, and add disabled style to each button
 			if ($(this).prop('disabled')) {
 				$(this).css('pointer-events', 'none').off('click');
@@ -23,7 +24,7 @@
 			}
 		});
 
-		$(".btn-group label:not(.active)").click(function()
+		$target.find(".btn-group label:not(.active)").click(function()
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
@@ -41,7 +42,7 @@
 				input.trigger('change');
 			}
 		});
-		$(".btn-group input[checked=checked]").each(function()
+		$target.find(".btn-group input[checked=checked]").each(function()
 		{
 			if ($(this).val() == '') {
 				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
@@ -51,8 +52,8 @@
 				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
 			}
 		});
-		
-		$('#back-top').on('click', function(e) {
+
+		$target.find('#back-top').on('click', function(e) {
 			e.preventDefault();
 			$("html, body").animate({scrollTop: 0}, 1000);
 		});
