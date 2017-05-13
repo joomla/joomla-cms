@@ -29,11 +29,21 @@ class JErrorPage
 	{
 		$expectedClass = PHP_MAJOR_VERSION >= 7 ? 'Throwable' : 'Exception';
 
+		$class         = get_class($error);
 		$isException   = $error instanceof $expectedClass;
-		$isError       = get_parent_class($error) === 'Error';
+
+		// Check if it's internal server error that should be skipped
+		$internalError = in_array($class, array(
+			'Error',
+			'TypeError',
+			'ParseError',
+			'AssertionError',
+			'DivisionByZeroError',
+			'ArithmeticError'
+		));
 
 		// In PHP 5, the $error object should be an instance of Exception; PHP 7 should be a Throwable implementation
-		if ($isException && !$isError)
+		if ($isException && !$internalError)
 		{
 			try
 			{
