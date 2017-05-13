@@ -885,96 +885,30 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		return xhr;
 	};
 
-	/**
-	 * Domready listener
-	 * Based on https://github.com/dperini/ContentLoaded by Diego Perini
-	 */
-	Joomla.domReady = Joomla.domReady || function (callback) {
-		var done = false, top = true,
-			root = document.documentElement,
-			modern = document.addEventListener;
-
-		var init = function(e) {
-			if (e.type === 'readystatechange' && document.readyState !== 'complete') {
-			return;
-			}
-			Joomla.removeListener(e.type, init, e.type === 'load' ? window : document);
-			if (!done) {
-				callback.call(window, e.type || e);
-				done = true
-			}
-		};
-
-		var poll = function() {
-			try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
-			init('poll');
-		};
-
-		if (document.readyState === 'complete') {
-			// DOM are ready since a years! call the callback
-			callback.call(window, 'lazyload');
-		}
-		else {
-			// IE trick
-			if (!modern && root.doScroll) {
-				try { top = !window.frameElement; } catch(e) { }
-				if (top) poll();
-			}
-			// Listen when DOM will become ready
-			Joomla.addListener('DOMContentLoaded', init, document);
-			Joomla.addListener('readystatechange', init, document);
-			Joomla.addListener('load', init, window);
-		}
-	};
-
-	/**
-	 * Register the event listener
-	 * @param string  event    Event name
-	 * @param method  callback Callback function
-	 * @param element element  Add listener to element, default is window
-	 */
-	Joomla.addListener = Joomla.addListener || function(event, callback, element) {
-		var element = element || window,
-			modern = document.addEventListener,
-			method = modern ? 'addEventListener' : 'attachEvent',
-			event  = modern ? event : 'on' + event;
-
-		// Add event listener,
-		element[method](event, callback);
-	};
-
-	/**
-	 * Unregister the event listener
-	 * @param string  event    Event name
-	 * @param method  callback Callback function
-	 * @param element element  DOM object, default is window,
-	 */
-	Joomla.removeListener = Joomla.removeListener || function(event, callback, element){
-		var element = element || window,
-			modern = document.removeEventListener,
-			method = modern ? 'removeEventListener' : 'detachEvent',
-			event  = modern ? event : 'on' + event;
-
-		// Remove event listener,
-		element[method](event, callback);
-	};
-
 }( Joomla, document ));
 
 
 /**
  * Joomla Behavior
+ * @since   __DEPLOY_VERSION__
  */
 (function(window, document, Joomla){
 	'use strict';
 
 	/**
 	 * Private behaviors storage
+	 * @since   __DEPLOY_VERSION__
 	 */
 	var _behaviorsStorage = {};
 
+	/**
+	 * @param   {String} key
+	 * @returns {*}
+	 * @private
+	 * @since   __DEPLOY_VERSION__
+	 */
 	var _getBehaviorsStorage = function (key) {
-		if(!_behaviorsStorage[key]) {
+		if (!_behaviorsStorage[key]) {
 			_behaviorsStorage[key] = [];
 		}
 		return _behaviorsStorage[key];
@@ -982,6 +916,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 	/**
 	 * Behavior item object
+	 * @param {String} name The behavior name
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	var JoomlaBehaviorItem = window.JoomlaBehaviorItem || function(name) {
 			this.name    = name;
@@ -992,8 +929,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 	/**
 	 * Event object
+	 * @param {String}       type         The event name
+	 * @param {HTMLElement}  target       The target element
+	 * @param {Event}        eventOrigin  The original event
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	var JoomlaEvent = window.JoomlaEvent || function(type, target){
+	var JoomlaEvent = window.JoomlaEvent || function(type, target, eventOrigin){
 			var event = type,
 				name = '',
 				i = type.indexOf('.');
@@ -1008,10 +950,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			this.nameFull     = type;
 			this.behaviorName = name;
 			this.target       = target || document;
+			this.eventOrigin  = eventOrigin;
 		};
 
 	/**
 	 * Behaviors object
+	 * @since  __DEPLOY_VERSION__
 	 */
 	var JoomlaBehavior = window.JoomlaBehavior || function() {
 			// Key for behaviors storage
@@ -1024,10 +968,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Add new behavior
 	 *
-	 * @param string       name     Behavior name
-	 * @param string|array event    Event(s) subscribed to
-	 * @param method       callback Callback to be executed
-	 * @param bool  optionsRequired If true, then Behavior will be executed only when
+	 * @param {String}       name             Behavior name
+	 * @param {String|Array} event            Event(s) subscribed to
+	 * @param {Function}     callback         Callback to be executed
+	 * @param {Boolean}      optionsRequired  If true, then Behavior will be executed only when
 	 * 								options for this name available in Joomla.optionsStorage
 	 *
 	 * @example:
@@ -1048,6 +992,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * 			console.log(event.name, event.target);
 	 * 		});
 	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	JoomlaBehavior.prototype.add = function (name, event, callback, optionsRequired) {
 		var events  = event.toString === '[object Array]' ? event : event.split(' '),
@@ -1063,7 +1008,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 
 		// Create new if not
-		if(!behavior) {
+		if (!behavior) {
 			behavior = new JoomlaBehaviorItem(name);
 			behavior.optionsRequired = !!optionsRequired;
 			storage.push(behavior);
@@ -1080,7 +1025,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Remove new behavior
 	 *
-	 * @param string event Event to be removed, can be in format event.behaviorname
+	 * @param {String}  event  The name of an Event which to be removed, can be in format event.behaviorname
 	 *
 	 * @example:
 	 * 	Unbind specific event from all behaviors:
@@ -1091,6 +1036,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 *  Remove myBehavior:
 	 * 		Joomla.Behavior.remove('.myBehavior');
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	JoomlaBehavior.prototype.remove = function (event) {
 		var jevent = new JoomlaEvent(event),
@@ -1111,11 +1058,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		// Remove behavior with all events
 		else if (removeByName){
-			for (var i = 0, l = storage.length; i < l; i++ ) {
+			for (var i = storage.length - 1; i >= 0; i--) {
 				behavior = storage[i];
-				if(behavior && behavior.name === jevent.behaviorName) {
-					//storage.splice(i, 1);
-					storage[i] = null; // We cannot totally remove it as it will change storage length
+				if (behavior && behavior.name === jevent.behaviorName) {
+					storage.splice(i, 1);
 					break;
 				}
 			}
@@ -1136,9 +1082,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Call behaviors
 	 *
-	 * @param string  event   Event to be called, can be in format event.behaviorname
-	 * @param element element Target DOM element
-	 * @param object  options Custom options for Behavior, used only when call specific behavior, eg event.behaviorname
+	 * @param {String}       event        Event to be called, can be in format event.behaviorname
+	 * @param {HTMLElement}  element      Target DOM element
+	 * @param {Object}       options      Custom options for Behavior, used only when call specific behavior, eg event.behaviorname
+	 * @param {Event}        eventOrigin  The original event
 	 *
 	 * @example:
 	 * 	Notify all behaviors about DOM changes:
@@ -1153,10 +1100,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *  Request to clean up inside Target container:
 	 * 		Joomla.Behavior.call('remove', container);
 	 *
-	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	JoomlaBehavior.prototype.call = function (event, element, options) {
-		var jevent  = new JoomlaEvent(event, element),
+	JoomlaBehavior.prototype.call = function (event, element, options, eventOrigin) {
+		var jevent  = new JoomlaEvent(event, element, eventOrigin),
 			storage = _getBehaviorsStorage(this.key),
 			target  = jevent.target,
 			behavior,
@@ -1197,21 +1144,21 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 */
 	Joomla.Behavior = Joomla.Behavior || new JoomlaBehavior;
 
-	Joomla.domReady(function(){
-		Joomla.Behavior.call('ready');
+	var _readyCallback = function(event){
+		document.removeEventListener('DOMContentLoaded', _readyCallback);
+		Joomla.Behavior.call('ready', document, null, event);
 		Joomla.Behavior.remove('ready');
-	});
-
-	var _loadCallback = function(){
-		Joomla.removeListener('load', _loadCallback);
-		Joomla.Behavior.call('load');
+	};
+	var _loadCallback = function(event){
+		window.removeEventListener('load', _loadCallback);
+		Joomla.Behavior.call('load', document, null, event);
 		Joomla.Behavior.remove('load');
 	};
 
-	Joomla.addListener('load', _loadCallback);
-
-	Joomla.addListener('unload', function(){
-		Joomla.Behavior.call('unload');
+	document.addEventListener('DOMContentLoaded', _readyCallback);
+	window.addEventListener('load', _loadCallback, window);
+	window.addEventListener('unload', function(event){
+		Joomla.Behavior.call('unload', document, null, event);
 	});
 
 	// Make thing global
