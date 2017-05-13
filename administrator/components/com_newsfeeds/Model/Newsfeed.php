@@ -91,7 +91,7 @@ class Newsfeed extends Admin
 				else
 				{
 					// Not fatal error
-					$this->setError( \JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -484,7 +484,7 @@ class Newsfeed extends Admin
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm( \JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{

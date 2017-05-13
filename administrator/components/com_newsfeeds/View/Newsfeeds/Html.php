@@ -117,7 +117,7 @@ class Html extends HtmlView
 
 		// Get the toolbar object instance
 		$bar = \JToolbar::getInstance('toolbar');
-		\JToolbarHelper::title( \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
+		\JToolbarHelper::title(\JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
 
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{

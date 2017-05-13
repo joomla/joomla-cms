@@ -49,8 +49,8 @@ class Controller extends BaseController
 		if ($view == 'newsfeed' && $layout == 'edit' && !$this->checkEditId('com_newsfeeds.edit.newsfeed', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage( \JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect( \JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds', false));
+			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setRedirect(\JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds', false));
 
 			return false;
 		}

@@ -101,7 +101,7 @@ class NewsfeedsHelper extends ContentHelper
 	 * Adds Count Items for Tag Manager.
 	 *
 	 * @param   \stdClass[]  &$items     The newsfeed tag objects
-	 * @param   string      $extension  The name of the active view.
+	 * @param   string       $extension  The name of the active view.
 	 *
 	 * @return  \stdClass[]
 	 *
