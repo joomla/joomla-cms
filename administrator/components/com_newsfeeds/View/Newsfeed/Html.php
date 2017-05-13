@@ -102,7 +102,8 @@ class Html extends HtmlView
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
 
-		 \JToolbarHelper::title($isNew ? \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT'), 'feed newsfeeds');
+		$title = $isNew ? \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : \JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
+		 \JToolbarHelper::title($title, 'feed newsfeeds');
 
 		$toolbarButtons = [];
 

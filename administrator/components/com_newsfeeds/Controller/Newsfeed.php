@@ -101,13 +101,13 @@ class Newsfeed extends Form
 	 */
 	public function batch($model = null)
 	{
-		 \JSession::checkToken() or jexit( \JText::_('JINVALID_TOKEN'));
+		 \JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Newsfeed', '', array());
 
 		// Preset the redirect
-		$this->setRedirect( \JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}

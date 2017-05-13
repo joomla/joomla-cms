@@ -476,7 +476,7 @@ class Newsfeed extends Admin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   \JForm   $form   The form object.
+	 * @param   \JForm  $form   The form object.
 	 * @param   array   $data   The data to be injected into the form
 	 * @param   string  $group  The plugin group to process
 	 *
