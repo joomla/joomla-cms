@@ -31,20 +31,13 @@ if (!empty($this->items))
 		}
 	}
 }
-
-// For B/C we also add the css classes inline. This will be removed in 4.0.
-JFactory::getDocument()->addStyleDeclaration('
-.hide { display: none; }
-.table-noheader { border-collapse: collapse; }
-.table-noheader thead { display: none; }
-');
-
-$tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 ?>
+
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+
 <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar clearfix">
-		<legend class="hide"><?php echo JText::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
+		<legend class="hidden-xs-up"><?php echo JText::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 			<div class="btn-group">
 				<?php if ($this->params->get('filter_field') !== 'tag') : ?>
@@ -75,12 +68,11 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<input type="hidden" name="task" value="">
 	</fieldset>
 
-	<div class="control-group hide float-right">
+	<div class="control-group hidden-xs-up float-right">
 		<div class="controls">
 			<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
 		</div>
 	</div>
-
 <?php endif; ?>
 
 <?php if (empty($this->items)) : ?>
@@ -178,9 +170,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				<?php else : ?>
 					<?php
 					echo $this->escape($article->title) . ' : ';
-					$menu   = JFactory::getApplication()->getMenu();
-					$active = $menu->getActive();
-					$itemId = $active->id;
+					$itemId = JFactory::getApplication()->getMenu()->getActive()->id;
 					$link   = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
 					$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)));
 					?>
@@ -202,18 +192,18 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 				<?php endif; ?>
 				<?php if ($article->state == 0) : ?>
 					<span class="list-published label label-warning">
-								<?php echo JText::_('JUNPUBLISHED'); ?>
-							</span>
+						<?php echo JText::_('JUNPUBLISHED'); ?>
+					</span>
 				<?php endif; ?>
 				<?php if (strtotime($article->publish_up) > strtotime(JFactory::getDate())) : ?>
 					<span class="list-published label label-warning">
-								<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
-							</span>
+						<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
+					</span>
 				<?php endif; ?>
 				<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()) : ?>
 					<span class="list-published label label-warning">
-								<?php echo JText::_('JEXPIRED'); ?>
-							</span>
+						<?php echo JText::_('JEXPIRED'); ?>
+					</span>
 				<?php endif; ?>
 			</td>
 			<?php if ($this->params->get('list_show_date')) : ?>
@@ -240,10 +230,10 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_hits', 1)) : ?>
 				<td headers="categorylist_header_hits" class="list-hits">
-							<span class="badge badge-info">
-								<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
-							</span>
-						</td>
+					<span class="badge badge-info">
+						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
+					</span>
+				</td>
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 				<td headers="categorylist_header_votes" class="list-votes">

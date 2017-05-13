@@ -384,6 +384,20 @@ module.exports = function(grunt) {
 				}]
 			}
 		},
+
+		// Watch files for changes and run tasks based on the changed files
+		watch: {
+			sass: {
+				files: [
+					'<%= folder.adminTemplate %>/**/*.scss',
+					'<%= folder.siteTemplate %>/**/*.scss',
+				],
+				tasks: ['compile']
+			},
+			gruntfile: {
+				files: ['Gruntfile.js']
+			}
+		}
 	});
 
 	// Load required modules
@@ -392,6 +406,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-scss-lint');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-shell');
@@ -449,7 +464,8 @@ module.exports = function(grunt) {
 			'sass:dist',
 			'postcss',
 			'cssmin:adminTemplate',
-			'cssmin:siteTemplate'
+			'cssmin:siteTemplate',
+			'watch'
 		]);
 	 });
 

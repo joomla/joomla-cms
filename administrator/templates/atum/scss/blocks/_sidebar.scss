@@ -299,6 +299,10 @@
 
   }
 
+  .closed & {
+    overflow-x: hidden;
+  }
+
 }
 
 
