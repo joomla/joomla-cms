@@ -274,7 +274,7 @@ class Toolbar
 	 *
 	 * @param   string  $type  Button Type
 	 *
-	 * @return  void
+	 * @return  string|null
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
