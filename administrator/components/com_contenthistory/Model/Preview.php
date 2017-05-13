@@ -6,30 +6,33 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-JLoader::register('ContenthistoryHelper', JPATH_ADMINISTRATOR . '/components/com_contenthistory/helpers/contenthistory.php');
+use Joomla\CMS\Model\Item;
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 
 /**
  * Methods supporting a list of contenthistory records.
  *
  * @since  3.2
  */
-class ContenthistoryModelPreview extends JModelItem
+class Preview extends Item
 {
 	/**
 	 * Method to get a version history row.
 	 *
-	 * @return  stdClass|boolean    On success, standard object with row data. False on failure.
+	 * @return  \stdClass|boolean    On success, standard object with row data. False on failure.
 	 *
 	 * @since   3.2
 	 */
 	public function getItem()
 	{
-		/** @var JTableContenthistory $table */
-		$table = JTable::getInstance('Contenthistory');
-		$versionId = JFactory::getApplication()->input->getInt('version_id');
+		/** @var \Joomla\CMS\Table\ContentHistory $table */
+		$table = $this->getTable('Contenthistory');
+		$versionId = \JFactory::getApplication()->input->getInt('version_id');
 
 		if (!$table->load($versionId))
 		{
@@ -37,8 +40,8 @@ class ContenthistoryModelPreview extends JModelItem
 		}
 
 		// Get the content type's record so we can check ACL
-		/** @var JTableContenttype $contentTypeTable */
-		$contentTypeTable = JTable::getInstance('Contenttype');
+		/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
+		$contentTypeTable = $this->getTable('Contenttype');
 
 		if (!$contentTypeTable->load($table->ucm_type_id))
 		{
@@ -46,7 +49,7 @@ class ContenthistoryModelPreview extends JModelItem
 			return false;
 		}
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Access check
 		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table->ucm_item_id) || $this->canEdit($table))
@@ -55,7 +58,7 @@ class ContenthistoryModelPreview extends JModelItem
 		}
 		else
 		{
-			$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
@@ -63,12 +66,12 @@ class ContenthistoryModelPreview extends JModelItem
 		// Good to go, finish processing the data
 		if ($return == true)
 		{
-			$result = new stdClass;
+			$result = new \stdClass;
 			$result->version_note = $table->version_note;
 			$result->data = ContenthistoryHelper::prepareData($table);
 
 			// Let's use custom calendars when present
-			$result->save_date = JHtml::_('date', $table->save_date, 'Y-m-d H:i:s');
+			$result->save_date = \JHtml::_('date', $table->save_date, 'Y-m-d H:i:s');
 
 			$dateProperties = array (
 				'modified_time',
@@ -80,11 +83,13 @@ class ContenthistoryModelPreview extends JModelItem
 				'publish_down',
 			);
 
+			$nullDate = $this->getDbo()->getNullDate();
+
 			foreach ($dateProperties as $dateProperty)
 			{
-				if (array_key_exists($dateProperty, $result->data) && $result->data->$dateProperty->value != '0000-00-00 00:00:00')
+				if (array_key_exists($dateProperty, $result->data) && $result->data->$dateProperty->value != $nullDate)
 				{
-					$result->data->$dateProperty->value = JHtml::_('date', $result->data->$dateProperty->value, 'Y-m-d H:i:s');
+					$result->data->$dateProperty->value = \JHtml::_('date', $result->data->$dateProperty->value, 'Y-m-d H:i:s');
 				}
 			}
 
@@ -93,9 +98,25 @@ class ContenthistoryModelPreview extends JModelItem
 	}
 
 	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $type    The table name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  Table   A Table object
+	 *
+	 * @since   3.2
+	 */
+	public function getTable($type = 'Contenthistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+	{
+		return Table::getInstance($type, $prefix, $config);
+	}
+
+	/**
 	 * Method to test whether a record is editable
 	 *
-	 * @param   JTableContenthistory  $record  A JTable object.
+	 * @param   \Joomla\CMS\Table\ContentHistory  $record  A Table object.
 	 *
 	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *
@@ -108,10 +129,10 @@ class ContenthistoryModelPreview extends JModelItem
 		if (!empty($record->ucm_type_id))
 		{
 			// Check that the type id matches the type alias
-			$typeAlias = JFactory::getApplication()->input->get('type_alias');
+			$typeAlias = \JFactory::getApplication()->input->get('type_alias');
 
-			/** @var JTableContenttype $contentTypeTable */
-			$contentTypeTable = JTable::getInstance('Contenttype', 'JTable');
+			/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
+			$contentTypeTable = $this->getTable('Contenttype');
 
 			if ($contentTypeTable->getTypeId($typeAlias) == $record->ucm_type_id)
 			{
@@ -119,7 +140,7 @@ class ContenthistoryModelPreview extends JModelItem
 				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 				 * for the content item, not delete permissions for the content history row.
 				 */
-				$user   = JFactory::getUser();
+				$user   = \JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
 			}
 
@@ -127,7 +148,7 @@ class ContenthistoryModelPreview extends JModelItem
 			if (!$result)
 			{
 				$contentTypeTable->load($record->ucm_type_id);
-				$typeEditables = (array) JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$typeEditables = (array) \JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
 				$result = in_array((int) $record->ucm_item_id, $typeEditables);
 			}
 		}

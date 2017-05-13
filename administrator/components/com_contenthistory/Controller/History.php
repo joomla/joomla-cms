@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contenthistory\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Admin;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.2
  */
-class ContenthistoryControllerHistory extends JControllerAdmin
+class History extends Admin
 {
 	/**
 	 * Deletes and returns correctly.
@@ -27,14 +29,14 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseWarning(500, JText::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'));
+			$this->app->enqueueMessage(\JText::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -47,19 +49,19 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(JText::plural('COM_CONTENTHISTORY_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(\JText::plural('COM_CONTENTHISTORY_N_ITEMS_DELETED', count($cid)));
 			}
 			else
 			{
-				$this->setMessage($model->getError());
+				$this->setMessage($model->getError(), 'error');
 			}
 		}
 
 		$this->setRedirect(
-			JRoute::_(
+			\JRoute::_(
 				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
 				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . JSession::getFormToken() . '=1', false
+				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . \JSession::getFormToken() . '=1', false
 			)
 		);
 	}
@@ -71,11 +73,11 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 	 * @param   string  $prefix  The prefix for the model
 	 * @param   array   $config  An additional array of parameters
 	 *
-	 * @return  JModelLegacy  The model
+	 * @return  \Joomla\CMS\Model\Model  The model
 	 *
 	 * @since   3.2
 	 */
-	public function getModel($name = 'History', $prefix = 'ContenthistoryModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'History', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -89,14 +91,14 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 	 */
 	public function keep()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseWarning(500, JText::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'));
+			$this->app->enqueueMessage(\JText::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -109,19 +111,19 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 			// Remove the items.
 			if ($model->keep($cid))
 			{
-				$this->setMessage(JText::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
+				$this->setMessage(\JText::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
 			}
 			else
 			{
-				$this->setMessage($model->getError());
+				$this->setMessage($model->getError(), 'error');
 			}
 		}
 
 		$this->setRedirect(
-			JRoute::_(
+			\JRoute::_(
 				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
 				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . JSession::getFormToken() . '=1', false
+				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . \JSession::getFormToken() . '=1', false
 			)
 		);
 	}

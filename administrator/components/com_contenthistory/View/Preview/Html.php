@@ -6,27 +6,30 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Contenthistory\Administrator\View\Preview;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View class for a list of contenthistory.
  *
  * @since  1.5
  */
-class ContenthistoryViewPreview extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * An array of items
 	 *
-	 * @var  stdClass|false
+	 * @var  \stdClass|false
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
@@ -35,7 +38,7 @@ class ContenthistoryViewPreview extends JViewLegacy
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  Exception on failure, void on success.
+	 * @return  mixed  \Exception on failure, void on success.
 	 *
 	 * @since   3.2
 	 */
@@ -46,9 +49,9 @@ class ContenthistoryViewPreview extends JViewLegacy
 
 		if (false === $this->item)
 		{
-			JFactory::getLanguage()->load('com_content', JPATH_SITE, null, true);
+			\JFactory::getLanguage()->load('com_content', JPATH_SITE, null, true);
 
-			JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+			\JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 
 			return false;
 		}
@@ -56,7 +59,7 @@ class ContenthistoryViewPreview extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		return parent::display($tpl);
