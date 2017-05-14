@@ -268,12 +268,6 @@ class Html extends HtmlView
 			{
 				\JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
 			}
-
-			// Add a Compile Button
-			if ($ext == 'less')
-			{
-				\JToolbarHelper::custom('template.less', 'play', 'play', 'COM_TEMPLATES_BUTTON_LESS', false);
-			}
 		}
 
 		if ($this->type == 'home')

@@ -793,43 +793,6 @@ class Template extends Form
 	}
 
 	/**
-	 * Compile less using the less compiler under /build.
-	 *
-	 * @param   string  $input  The relative location of the less file.
-	 *
-	 * @return  boolean  true if compilation is successful, false otherwise
-	 *
-	 * @since   3.2
-	 */
-	public function compileLess($input)
-	{
-		if ($template = $this->getTemplate())
-		{
-			$app          = \JFactory::getApplication();
-			$client       = ApplicationHelper::getClientInfo($template->client_id);
-			$path         = \JPath::clean($client->path . '/templates/' . $template->element . '/');
-			$inFile       = urldecode(base64_decode($input));
-			$explodeArray = explode('/', $inFile);
-			$fileName     = end($explodeArray);
-			$outFile      = reset(explode('.', $fileName));
-
-			$less = new \JLess;
-			$less->setFormatter(new \JLessFormatterJoomla);
-
-			try
-			{
-				$less->compileFile($path . $inFile, $path . 'css/' . $outFile . '.css');
-
-				return true;
-			}
-			catch (\Exception $e)
-			{
-				$app->enqueueMessage($e->getMessage(), 'error');
-			}
-		}
-	}
-
-	/**
 	 * Delete a particular file.
 	 *
 	 * @param   string  $file  The relative location of the file.

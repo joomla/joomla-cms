@@ -215,7 +215,6 @@ class Template extends Controller
 		// Check for request forgeries.
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app          = $this->app;
 		$data         = $this->input->post->get('jform', array(), 'array');
 		$task         = $this->getTask();
 
@@ -275,11 +274,11 @@ class Template extends Controller
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$this->setMessage($errors[$i]->getMessage(), 'warning');
+					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else
 				{
-					$this->setMessage($errors[$i], 'warning');
+					$this->app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 
@@ -345,32 +344,6 @@ class Template extends Controller
 		}
 
 		// Redirect back to the edit screen.
-		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-		$this->setRedirect(\JRoute::_($url, false));
-	}
-
-	/**
-	 * Method for compiling LESS.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function less()
-	{
-		$model = $this->getModel();
-		$id    = $this->input->get('id');
-		$file  = $this->input->get('file');
-
-		if ($model->compileLess($file))
-		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_COMPILE_SUCCESS'));
-		}
-		else
-		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_COMPILE_ERROR'), 'error');
-		}
-
 		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 		$this->setRedirect(\JRoute::_($url, false));
 	}
