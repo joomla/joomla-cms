@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\Toolbar;
 
-use Joomla\CMS\Layout\FileLayout;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * ToolBar handler
@@ -76,7 +76,7 @@ class Toolbar
 	 *
 	 * @param   string  $name  The name of the toolbar.
 	 *
-	 * @return  JToolbar  The JToolbar object.
+	 * @return  Toolbar  The JToolbar object.
 	 *
 	 * @since   1.5
 	 */

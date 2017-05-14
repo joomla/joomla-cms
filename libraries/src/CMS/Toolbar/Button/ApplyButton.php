@@ -7,14 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\CMS\Toolbar\Button;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders an apply/save button
  *
  * @since  __DEPLOY_VERSION__
  */
-class JToolbarButtonApply extends JToolbarButton
+class ApplyButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -40,7 +45,7 @@ class JToolbarButtonApply extends JToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text'] = JText::_($text);
+		$options['text'] = \JText::_($text);
 		$options['class'] = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
 
@@ -55,7 +60,7 @@ class JToolbarButtonApply extends JToolbarButton
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new JLayoutFile('joomla.toolbar.apply');
+		$layout = new FileLayout('joomla.toolbar.apply');
 
 		return $layout->render($options);
 	}
@@ -92,7 +97,7 @@ class JToolbarButtonApply extends JToolbarButton
 	 */
 	protected function _getCommand($name, $task, $list)
 	{
-		$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+		$message = \JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		$message = addslashes($message);
 
 		if ($list)
