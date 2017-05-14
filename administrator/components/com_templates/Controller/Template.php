@@ -146,7 +146,7 @@ class Template extends Controller
 
 			// Call installation model
 			$this->input->set('install_directory', \JFactory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
-			$installModel = new \InstallerModelInstall();
+			$installModel = new \InstallerModelInstall;
 			\JFactory::getLanguage()->load('com_installer');
 
 			if (!$installModel->install())
