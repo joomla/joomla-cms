@@ -6,25 +6,33 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
 /**
  * Methods supporting a list of template extension records.
  *
  * @since  1.6
  */
-class TemplatesModelTemplates extends JModelList
+class Templates extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JControllerLegacy
-	 * @since   1.6
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -41,7 +49,7 @@ class TemplatesModelTemplates extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -57,7 +65,7 @@ class TemplatesModelTemplates extends JModelList
 
 		foreach ($items as &$item)
 		{
-			$client = JApplicationHelper::getClientInfo($item->client_id);
+			$client = ApplicationHelper::getClientInfo($item->client_id);
 			$item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
 		}
 
@@ -67,7 +75,7 @@ class TemplatesModelTemplates extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -154,7 +162,7 @@ class TemplatesModelTemplates extends JModelList
 		$this->setState('client_id', $clientId);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_templates');
+		$params = ComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
 
 		// List state information.

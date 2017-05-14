@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\Model\Model;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class TemplatesControllerStyles extends JControllerAdmin
+class Styles extends Admin
 {
 	/**
 	 * Method to clone and existing template style.
@@ -26,7 +29,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function duplicate()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -34,18 +37,18 @@ class TemplatesControllerStyles extends JControllerAdmin
 		{
 			if (empty($pks))
 			{
-				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
+				throw new \Exception(\JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
 			$pks = ArrayHelper::toInteger($pks);
 
 			$model = $this->getModel();
 			$model->duplicate($pks);
-			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_DUPLICATED'));
+			$this->setMessage(\JText::_('COM_TEMPLATES_SUCCESS_DUPLICATED'));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			\JError::raiseWarning(500, $e->getMessage());
 		}
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');
@@ -58,11 +61,11 @@ class TemplatesControllerStyles extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModelLegacy
+	 * @return  Model
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Style', $prefix = 'TemplatesModel', $config = array())
+	public function getModel($name = 'Style', $prefix = 'Administrator', $config = array())
 	{
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
@@ -77,7 +80,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function setDefault()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -85,20 +88,22 @@ class TemplatesControllerStyles extends JControllerAdmin
 		{
 			if (empty($pks))
 			{
-				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
+				throw new \Exception(\JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
 			$pks = ArrayHelper::toInteger($pks);
 
 			// Pop off the first element.
 			$id = array_shift($pks);
+
+			/* @var \Joomla\Component\Templates\Administrator\Model\Style $model */
 			$model = $this->getModel();
 			$model->setHome($id);
-			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
+			$this->setMessage(\JText::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			$this->setMessage($e->getMessage(), 'warning');
 		}
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');
@@ -114,7 +119,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function unsetDefault()
 	{
 		// Check for request forgeries
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->get->get('cid', array(), 'array');
 		$pks = ArrayHelper::toInteger($pks);
@@ -123,18 +128,20 @@ class TemplatesControllerStyles extends JControllerAdmin
 		{
 			if (empty($pks))
 			{
-				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
+				throw new \Exception(\JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
 			// Pop off the first element.
 			$id = array_shift($pks);
+
+			/* @var \Joomla\Component\Templates\Administrator\Model\Style $model */
 			$model = $this->getModel();
 			$model->unsetHome($id);
-			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_HOME_UNSET'));
+			$this->setMessage(\JText::_('COM_TEMPLATES_SUCCESS_HOME_UNSET'));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			$this->setMessage($e->getMessage(), 'warning');
 		}
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');

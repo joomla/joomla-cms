@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,16 +18,16 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class TemplatesTableStyle extends JTable
+class Style extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__template_styles', 'id', $db);
 	}
@@ -51,7 +53,7 @@ class TemplatesTableStyle extends JTable
 		// Verify that the default style is not unset
 		if ($array['home'] == '0' && $this->home == '1')
 		{
-			$this->setError(JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
+			$this->setError(\JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 
 			return false;
 		}
@@ -81,7 +83,7 @@ class TemplatesTableStyle extends JTable
 
 		if (empty($this->title))
 		{
-			$this->setError(JText::_('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE'));
+			$this->setError(\JText::_('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE'));
 
 			return false;
 		}
@@ -140,7 +142,7 @@ class TemplatesTableStyle extends JTable
 
 			if (count($results) == 1 && $results[0] == $pk)
 			{
-				$this->setError(JText::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
+				$this->setError(\JText::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 
 				return false;
 			}
