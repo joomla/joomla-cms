@@ -78,8 +78,6 @@ JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
 
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  4.0
-JLoader::register('JToolBar', JPATH_PLATFORM . '/cms/toolbar/toolbar.php');
-JLoader::register('JButton',  JPATH_PLATFORM . '/cms/toolbar/button.php');
 JLoader::register('JInstallerComponent',  JPATH_PLATFORM . '/cms/installer/adapter/component.php');
 JLoader::register('JInstallerFile',  JPATH_PLATFORM . '/cms/installer/adapter/file.php');
 JLoader::register('JInstallerLanguage',  JPATH_PLATFORM . '/cms/installer/adapter/language.php');

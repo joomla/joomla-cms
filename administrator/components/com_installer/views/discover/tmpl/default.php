@@ -32,6 +32,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
+					<div class="alert alert-info">
+						<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
+					</div>
+
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
@@ -112,7 +116,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</tbody>
 					</table>
 					<?php endif; ?>
-					<div class="p-3"><?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?></div>
 					<input type="hidden" name="task" value="">
 					<input type="hidden" name="boxchecked" value="0">
 					<?php echo JHtml::_('form.token'); ?>
