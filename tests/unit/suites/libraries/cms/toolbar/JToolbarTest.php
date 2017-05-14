@@ -171,7 +171,7 @@ class JToolbarTest extends TestCase
 	{
 		$this->assertThat(
 			$this->object->loadButtonType('Separator'),
-			$this->isInstanceOf('JToolbarButtonSeparator')
+			$this->isInstanceOf('Joomla\\CMS\\Toolbar\\Button\\SeparatorButton')
 		);
 	}
 

@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Toolbar\Button;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a modal window button
  *
  * @since  3.0
  */
-class JToolbarButtonPopup extends JToolbarButton
+class PopupButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -54,13 +58,13 @@ class JToolbarButtonPopup extends JToolbarButton
 		// Store all data to the options array for use with JLayout
 		$options = array();
 		$options['name']   = $name;
-		$options['text']   = JText::_($text);
-		$options['title']  = JText::_($title);
+		$options['text']   = \JText::_($text);
+		$options['title']  = \JText::_($title);
 		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($url);
 
 		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new JLayoutFile('joomla.toolbar.popup');
+		$layout = new FileLayout('joomla.toolbar.popup');
 
 		$html = array();
 		$html[] = $layout->render($options);
@@ -82,7 +86,7 @@ class JToolbarButtonPopup extends JToolbarButton
 			$params['footer'] = $footer;
 		}
 
-		$html[] = JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
+		$html[] = \JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
 		if (strlen($onClose) >= 1)
@@ -125,7 +129,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	{
 		if (substr($url, 0, 4) !== 'http')
 		{
-			$url = JUri::base() . $url;
+			$url = \JUri::base() . $url;
 		}
 
 		return $url;

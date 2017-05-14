@@ -61,7 +61,7 @@ JText::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 JText::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 
 $attributes = array(
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	$readonly ? 'readonly' : '',

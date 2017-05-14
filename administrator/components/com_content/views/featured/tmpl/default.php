@@ -16,7 +16,7 @@ JHtml::_('behavior.multiselect');
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'fp.ordering';
 $columns   = 10;

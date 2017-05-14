@@ -1,11 +1,14 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Toolbar;
+
+use Joomla\CMS\Layout\FileLayout;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.0
  */
-abstract class JToolbarButton
+abstract class ToolbarButton
 {
 	/**
 	 * element name
@@ -84,7 +87,7 @@ abstract class JToolbarButton
 		$options['id'] = $id;
 		$options['action'] = $action;
 
-		$layout = new JLayoutFile('joomla.toolbar.base');
+		$layout = new FileLayout('joomla.toolbar.base');
 
 		return $layout->render($options);
 	}
@@ -103,7 +106,7 @@ abstract class JToolbarButton
 	public function fetchIconClass($identifier)
 	{
 		// It's an ugly hack, but this allows templates to define the icon classes for the toolbar
-		$layout = new JLayoutFile('joomla.toolbar.iconclass');
+		$layout = new FileLayout('joomla.toolbar.iconclass');
 
 		return $layout->render(array('icon' => $identifier));
 	}

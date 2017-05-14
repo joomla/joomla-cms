@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Toolbar\Button;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a standard button
  *
  * @since  3.0
  */
-class JToolbarButtonStandard extends JToolbarButton
+class StandardButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -41,7 +45,7 @@ class JToolbarButtonStandard extends JToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text']   = JText::_($text);
+		$options['text']   = \JText::_($text);
 		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
 		$options['group']  = $group;
@@ -78,7 +82,7 @@ class JToolbarButtonStandard extends JToolbarButton
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new JLayoutFile('joomla.toolbar.standard');
+		$layout = new FileLayout('joomla.toolbar.standard');
 
 		return $layout->render($options);
 	}
@@ -115,8 +119,8 @@ class JToolbarButtonStandard extends JToolbarButton
 	 */
 	protected function _getCommand($name, $task, $list)
 	{
-		JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-		JText::script('ERROR');
+		\JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+		\JText::script('ERROR');
 
 		$cmd = "Joomla.submitbutton('" . $task . "');";
 
