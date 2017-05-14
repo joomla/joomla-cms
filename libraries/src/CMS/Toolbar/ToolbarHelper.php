@@ -18,7 +18,7 @@ use Joomla\CMS\Layout\FileLayout;
  *
  * @since  1.5
  */
-abstract class JToolbarHelper
+abstract class ToolbarHelper
 {
 	/**
 	 * Title cell.
