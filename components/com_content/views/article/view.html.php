@@ -220,7 +220,9 @@ class ContentViewArticle extends JViewLegacy
 		$title   = null;
 
 		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
+		// we need to get it from the menu item itself and if one is
+		// not available, check to see if the site owner wants to show
+		// the default one.
 		$menu = $menus->getActive();
 
 		if ($menu)
