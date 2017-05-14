@@ -29,7 +29,7 @@
   span {
     width: 26px;
     height: 26px;
-    font-size: 14px;
+    font-size: 1rem;
     line-height: 22px;
     color: #ccc;
     border: 2px solid #ccc;
@@ -47,8 +47,16 @@
     color: $brand-danger;
     border-color: $brand-danger;
   }
-  .icon-checkedout, .icon-archive {
+  .icon-archive {
     color: $gray;
     border-color: $gray;
+  }
+  .icon-checkedout {
+    width: auto;
+    height: auto;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    color: $gray;
+    border: 0;
   }
 }
