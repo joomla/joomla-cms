@@ -6,9 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -18,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class TemplatesModelStyle extends JModelAdmin
+class Style extends Admin
 {
 	/**
 	 * The help screen key for the module.
@@ -47,9 +54,13 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 *
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		$config = array_merge(
 			array(
@@ -61,7 +72,7 @@ class TemplatesModelStyle extends JModelAdmin
 			), $config
 		);
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -75,14 +86,14 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
 		$this->setState('style.id', $pk);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_templates');
+		$params = ComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
 	}
 
@@ -94,16 +105,16 @@ class TemplatesModelStyle extends JModelAdmin
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
 	 * @since   1.6
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function delete(&$pks)
 	{
 		$pks        = (array) $pks;
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
-		JPluginHelper::importPlugin($this->events_map['delete']);
+		PluginHelper::importPlugin($this->events_map['delete']);
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $pk)
@@ -113,19 +124,19 @@ class TemplatesModelStyle extends JModelAdmin
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_templates'))
 				{
-					throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+					throw new \Exception(\JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
 
 				// You should not delete a default style
 				if ($table->home != '0')
 				{
-					JError::raiseWarning(SOME_ERROR_NUMBER, JText::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
+					\JError::raiseWarning(SOME_ERROR_NUMBER, \JText::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
 
 					return false;
 				}
 
 				// Trigger the before delete event.
-				$result = JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+				$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 				if (in_array(false, $result, true) || !$table->delete($pk))
 				{
@@ -135,7 +146,7 @@ class TemplatesModelStyle extends JModelAdmin
 				}
 
 				// Trigger the after delete event.
-				JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+				\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 			}
 			else
 			{
@@ -158,22 +169,22 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful.
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function duplicate(&$pks)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))
 		{
-			throw new Exception(JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
+			throw new \Exception(\JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
 		$context    = $this->option . '.' . $this->name;
 
 		// Include the plugins for the save events.
-		JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		$table = $this->getTable();
 
@@ -193,23 +204,23 @@ class TemplatesModelStyle extends JModelAdmin
 
 				if (!$table->check())
 				{
-					throw new Exception($table->getError());
+					throw new \Exception($table->getError());
 				}
 
 				// Trigger the before save event.
-				$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, true));
+				$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, true));
 
 				if (in_array(false, $result, true) || !$table->store())
 				{
-					throw new Exception($table->getError());
+					throw new \Exception($table->getError());
 				}
 
 				// Trigger the after save event.
-				JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, true));
+				\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, true));
 			}
 			else
 			{
-				throw new Exception($table->getError());
+				throw new \Exception($table->getError());
 			}
 		}
 
@@ -249,7 +260,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm  A JForm object on success, false on failure
+	 * @return  \JForm  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -270,7 +281,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 		// Add the default fields directory
 		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
-		JForm::addFieldPath($baseFolder . '/templates/' . $template . '/field');
+		\JForm::addFieldPath($baseFolder . '/templates/' . $template . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
@@ -308,7 +319,7 @@ class TemplatesModelStyle extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_templates.edit.style.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_templates.edit.style.data', array());
 
 		if (empty($data))
 		{
@@ -347,7 +358,7 @@ class TemplatesModelStyle extends JModelAdmin
 				return false;
 			}
 
-			// Convert to the JObject before adding other data.
+			// Convert to the \JObject before adding other data.
 			$properties        = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
@@ -356,8 +367,8 @@ class TemplatesModelStyle extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the template XML.
-			$client = JApplicationHelper::getClientInfo($table->client_id);
-			$path   = JPath::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
+			$client = ApplicationHelper::getClientInfo($table->client_id);
+			$path   = \JPath::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
 
 			if (file_exists($path))
 			{
@@ -373,46 +384,32 @@ class TemplatesModelStyle extends JModelAdmin
 	}
 
 	/**
-	 * Returns a reference to the a Table object, always creating it.
-	 *
-	 * @param   type    $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A database object
-	*/
-	public function getTable($type = 'Style', $prefix = 'TemplatesTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   \JForm   $form   A \JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		$clientId = $this->getState('item.client_id');
 		$template = $this->getState('item.template');
-		$lang     = JFactory::getLanguage();
-		$client   = JApplicationHelper::getClientInfo($clientId);
+		$lang     = \JFactory::getLanguage();
+		$client   = ApplicationHelper::getClientInfo($clientId);
 
 		if (!$form->loadFile('style_' . $client->name, true))
 		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		jimport('joomla.filesystem.path');
 
-		$formFile = JPath::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
+		$formFile = \JPath::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template, $client->path, null, false, true)
@@ -423,7 +420,7 @@ class TemplatesModelStyle extends JModelAdmin
 			// Get the template form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
@@ -438,7 +435,7 @@ class TemplatesModelStyle extends JModelAdmin
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.
@@ -467,22 +464,22 @@ class TemplatesModelStyle extends JModelAdmin
 	public function save($data)
 	{
 		// Detect disabled extension
-		$extension = JTable::getInstance('Extension');
+		$extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
 
 		if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $data['template'], 'client_id' => $data['client_id'])))
 		{
-			$this->setError(JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
+			$this->setError(\JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
 
 			return false;
 		}
 
-		$app        = JFactory::getApplication();
+		$app        = \JFactory::getApplication();
 		$table      = $this->getTable();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('style.id');
 		$isNew      = true;
 
 		// Include the extension plugins for the save events.
-		JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing record.
 		if ($pk > 0)
@@ -518,7 +515,7 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Trigger the before save event.
-		$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array('com_templates.style', &$table, $isNew));
+		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array('com_templates.style', &$table, $isNew));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -528,13 +525,13 @@ class TemplatesModelStyle extends JModelAdmin
 			return false;
 		}
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0)
 		{
 			$n    = 0;
 			$db   = $this->getDbo();
-			$user = JFactory::getUser();
+			$user = \JFactory::getUser();
 
 			if (!empty($data['assigned']) && is_array($data['assigned']))
 			{
@@ -572,7 +569,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 			if ($n > 0)
 			{
-				$app->enqueueMessage(JText::plural('COM_TEMPLATES_MENU_CHANGED', $n));
+				$app->enqueueMessage(\JText::plural('COM_TEMPLATES_MENU_CHANGED', $n));
 			}
 		}
 
@@ -580,7 +577,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$this->cleanCache();
 
 		// Trigger the after save event.
-		JFactory::getApplication()->triggerEvent($this->event_after_save, array('com_templates.style', &$table, $isNew));
+		\JFactory::getApplication()->triggerEvent($this->event_after_save, array('com_templates.style', &$table, $isNew));
 
 		$this->setState('style.id', $table->id);
 
@@ -594,32 +591,32 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful.
 	 *
-	 * @throws	Exception
+	 * @throws	\Exception
 	 */
 	public function setHome($id = 0)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$db   = $this->getDbo();
 
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates'))
 		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 
-		$style = JTable::getInstance('Style', 'TemplatesTable');
+		$style = $this->getTable();
 
 		if (!$style->load((int) $id))
 		{
-			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
+			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 
 		// Detect disabled extension
-		$extension = JTable::getInstance('Extension');
+		$extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
 
 		if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $style->template, 'client_id' => $style->client_id)))
 		{
-			throw new Exception(JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
+			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
 		}
 
 		// Reset the home fields for the client_id.
@@ -652,17 +649,17 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful.
 	 *
-	 * @throws	Exception
+	 * @throws	\Exception
 	 */
 	public function unsetHome($id = 0)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$db   = $this->getDbo();
 
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates'))
 		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 
 		// Lookup the client_id.
@@ -675,11 +672,11 @@ class TemplatesModelStyle extends JModelAdmin
 
 		if (!is_numeric($style->client_id))
 		{
-			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
+			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 		elseif ($style->home == '1')
 		{
-			throw new Exception(JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
+			throw new \Exception(\JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 		}
 
 		// Set the new home style.

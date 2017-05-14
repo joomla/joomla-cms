@@ -6,25 +6,31 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Methods supporting a list of template style records.
  *
  * @since  1.6
  */
-class TemplatesModelStyles extends JModelList
+class Styles extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JControllerLegacy
-	 * @since   1.6
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -37,7 +43,7 @@ class TemplatesModelStyles extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -65,7 +71,7 @@ class TemplatesModelStyles extends JModelList
 		$this->setState('client_id', $clientId);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_templates');
+		$params = ComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -97,7 +103,7 @@ class TemplatesModelStyles extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

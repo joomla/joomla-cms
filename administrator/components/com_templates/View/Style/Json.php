@@ -6,34 +6,37 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\View\Style;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View to edit a template style.
  *
  * @since  1.6
  */
-class TemplatesViewStyle extends JViewLegacy
+class Json extends HtmlView
 {
 	/**
-	 * The JObject (on success, false on failure)
+	 * The \JObject (on success, false on failure)
 	 *
-	 * @var   JObject
+	 * @var   \JObject
 	 */
 	protected $item;
 
 	/**
 	 * The form object
 	 *
-	 * @var   JForm
+	 * @var   \JForm
 	 */
 	protected $form;
 
 	/**
 	 * The model state
 	 *
-	 * @var   JObject
+	 * @var   \JObject
 	 */
 	protected $state;
 
@@ -52,9 +55,9 @@ class TemplatesViewStyle extends JViewLegacy
 		{
 			$this->item = $this->get('Item');
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			$app = JFactory::getApplication();
+			$app = \JFactory::getApplication();
 			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
@@ -67,6 +70,5 @@ class TemplatesViewStyle extends JViewLegacy
 		$paramsList = json_encode($paramsList);
 
 		return $paramsList;
-
 	}
 }

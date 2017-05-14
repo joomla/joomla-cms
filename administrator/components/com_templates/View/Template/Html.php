@@ -6,34 +6,38 @@
 * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
 * @license     GNU General Public License version 2 or later; see LICENSE.txt
 */
+namespace Joomla\Component\Templates\Administrator\View\Template;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
 * View to edit a template style.
 *
 * @since  1.6
 */
-class TemplatesViewTemplate extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The Model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * The template details
 	 *
-	 * @var  stdClass|false
+	 * @var  \stdClass|false
 	 */
 	protected $template;
 
 	/**
 	 * For loading the source form
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	protected $form;
 
@@ -87,7 +91,7 @@ class TemplatesViewTemplate extends JViewLegacy
 	/**
 	 * Template id for showing preview button
 	 *
-	 * @var  stdClass
+	 * @var  \stdClass
 	 */
 	protected $preview;
 
@@ -121,9 +125,9 @@ class TemplatesViewTemplate extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
+		$app            = \JFactory::getApplication();
 		$this->file     = $app->input->get('file');
-		$this->fileName = JFilterInput::getInstance()->clean(base64_decode($this->file), 'string');
+		$this->fileName = \JFilterInput::getInstance()->clean(base64_decode($this->file), 'string');
 		$explodeArray   = explode('.', $this->fileName);
 		$ext            = end($explodeArray);
 		$this->files    = $this->get('Files');
@@ -131,7 +135,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->template = $this->get('Template');
 		$this->preview  = $this->get('Preview');
 
-		$params       = JComponentHelper::getParams('com_templates');
+		$params       = ComponentHelper::getParams('com_templates');
 		$imageTypes   = explode(',', $params->get('image_formats'));
 		$sourceTypes  = explode(',', $params->get('source_formats'));
 		$fontTypes    = explode(',', $params->get('font_formats'));
@@ -177,7 +181,7 @@ class TemplatesViewTemplate extends JViewLegacy
 
 		$this->addToolbar();
 
-		if (!JFactory::getUser()->authorise('core.admin'))
+		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
 			$this->setLayout('readonly');
 		}
@@ -194,19 +198,19 @@ class TemplatesViewTemplate extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$app   = JFactory::getApplication();
-		$user  = JFactory::getUser();
+		$app   = \JFactory::getApplication();
+		$user  = \JFactory::getUser();
 		$app->input->set('hidemainmenu', true);
 
 		// User is global SuperUser
 		$isSuperUser = $user->authorise('core.admin');
 
 		// Get the toolbar object instance
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = \JToolbar::getInstance('toolbar');
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
-		JToolbarHelper::title(JText::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
+		\JToolbarHelper::title(\JText::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
 
 		// Only show file edit buttons for global SuperUser
 		if ($isSuperUser)
@@ -214,7 +218,7 @@ class TemplatesViewTemplate extends JViewLegacy
 			// Add an Apply and save button
 			if ($this->type == 'file')
 			{
-				JToolbarHelper::saveGroup(
+				\JToolbarHelper::saveGroup(
 					[
 						['apply', 'template.apply'],
 						['save', 'template.save']
@@ -225,64 +229,64 @@ class TemplatesViewTemplate extends JViewLegacy
 			// Add a Crop and Resize button
 			elseif ($this->type == 'image')
 			{
-				JToolbarHelper::custom('template.cropImage', 'crop', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
-				JToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
+				\JToolbarHelper::custom('template.cropImage', 'crop', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
+				\JToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
 			}
 			// Add an extract button
 			elseif ($this->type == 'archive')
 			{
-				JToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
+				\JToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
 
 			// Add a copy template button
-			JToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+			\JToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 		}
 
 		// Add a Template preview button
 		if ($this->preview->client_id == 0)
 		{
-			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
+			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', \JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
 		}
 
 		// Only show file manage buttons for global SuperUser
 		if ($isSuperUser)
 		{
 			// Add Manage folders button
-			JToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
+			\JToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
 
 			// Add a new file button
-			JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
+			\JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
 
 			// Add a Rename file Button
 			if ($this->type != 'home')
 			{
-				JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
+				\JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 			}
 
 			// Add a Delete file Button
 			if ($this->type != 'home')
 			{
-				JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
+				\JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
 			}
 
 			// Add a Compile Button
 			if ($ext == 'less')
 			{
-				JToolbarHelper::custom('template.less', 'play', 'play', 'COM_TEMPLATES_BUTTON_LESS', false);
+				\JToolbarHelper::custom('template.less', 'play', 'play', 'COM_TEMPLATES_BUTTON_LESS', false);
 			}
 		}
 
 		if ($this->type == 'home')
 		{
-			JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
 		}
 		else
 		{
-			JToolbarHelper::cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
+			\JToolbarHelper::cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
+		\JToolbarHelper::divider();
+		\JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
 	}
 
 	/**
