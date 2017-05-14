@@ -1753,6 +1753,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_messages/layouts/toolbar/mysettings.php',
 			'/media/editors/tinymce/plugins/jdragdrop/plugin.js',
 			'/media/editors/tinymce/plugins/jdragdrop/plugin.min.js',
+			// Joomla 4.0
+			'components/com_contact/models/forms/form.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
