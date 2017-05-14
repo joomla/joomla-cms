@@ -152,7 +152,7 @@ class JTableCategory extends JTableNested
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = 'a' . JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return true;
@@ -237,6 +237,14 @@ class JTableCategory extends JTableNested
 			&& ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
+
+			return false;
+		}
+
+		// Verify if the alias starts with a number
+		if (preg_match('/^\d/', $this->alias) === 1 && $this->modified_time === $this->created_time)
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_ALIAS_STARTS_WITH_A_NUMBER'));
 
 			return false;
 		}
