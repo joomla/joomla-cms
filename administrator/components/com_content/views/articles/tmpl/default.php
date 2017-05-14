@@ -153,14 +153,15 @@ $assoc = JLanguageAssociations::isEnabled();
 								<td class="text-center">
 									<div class="btn-group">
 										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+										<?php if ($item->checked_out) { ?>
+											<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
+										<?php } else { ?>
+											<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+										<?php } ?>
 									</div>
 								</td>
 								<td class="has-context">
 									<div class="float-left break-word">
-										<?php if ($item->checked_out) : ?>
-											<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
-										<?php endif; ?>
 										<?php if ($item->language == '*') : ?>
 											<?php $language = JText::alt('JALL', 'language'); ?>
 										<?php else : ?>
