@@ -234,7 +234,7 @@ class UsersHelper
 	 * Adds Count Items for Tag Manager.
 	 *
 	 * @param   \stdClass[]  &$items     The user note tag objects
-	 * @param   string      $extension  The name of the active view.
+	 * @param   string       $extension  The name of the active view.
 	 *
 	 * @return  \stdClass[]
 	 *

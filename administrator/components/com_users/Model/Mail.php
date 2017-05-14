@@ -65,8 +65,8 @@ class Mail extends Admin
 	 * Method to preprocess the form
 	 *
 	 * @param   \JForm   $form   A form object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 * @param   mixed    $data   The data expected for the form.
+	 * @param   string   $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
@@ -88,7 +88,7 @@ class Mail extends Admin
 		$app    = \JFactory::getApplication();
 		$data   = $app->input->post->get('jform', array(), 'array');
 		$user   = \JFactory::getUser();
-		$access = new Access();
+		$access = new Access;
 		$db     = $this->getDbo();
 
 		$mode         = array_key_exists('mode', $data) ? (int) $data['mode'] : 0;

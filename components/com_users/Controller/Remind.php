@@ -20,8 +20,6 @@ class Remind extends Controller
 	/**
 	 * Method to request a username reminder.
 	 *
-	 * @return  boolean
-	 *
 	 * @since   1.6
 	 */
 	public function remind()

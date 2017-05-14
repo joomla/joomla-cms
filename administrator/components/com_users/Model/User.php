@@ -191,8 +191,8 @@ class User extends Admin
 	 * Override \JModelAdmin::preprocessForm to ensure the correct plugin group is loaded.
 	 *
 	 * @param   \JForm   $form   A \JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 * @param   mixed    $data   The data expected for the form.
+	 * @param   string   $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
@@ -1094,7 +1094,7 @@ class User extends Admin
 	 * configuration for a particular user. The $otpConfig object is the same as
 	 * the one returned by the getOtpConfig method.
 	 *
-	 * @param   integer   $user_id    The numeric ID of the user
+	 * @param   integer    $user_id    The numeric ID of the user
 	 * @param   \stdClass  $otpConfig  The OTP configuration object
 	 *
 	 * @return  boolean  True on success
