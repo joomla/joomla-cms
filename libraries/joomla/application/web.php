@@ -144,13 +144,13 @@ class JApplicationWeb extends JApplicationBase
 		511	=> 'HTTP/1.1 511 Network Authentication Required',	);
 
 	/**
-         * A map of HTTP Response headers which may only send a single value, all others
-         * are considered to allow multiple
-         * 
-         * @var    object
-         * @since  3.5.2
-         * @see    https://tools.ietf.org/html/rfc7230
-         */
+	 * A map of HTTP Response headers which may only send a single value, all others
+	 * are considered to allow multiple
+	 *
+	 * @var    object
+	 * @since  3.5.2
+	 * @see    https://tools.ietf.org/html/rfc7230
+	 */
 	private $singleValueResponseHeaders = array(
 		'status', // This is not a valid header name, but the representation used by Joomla to identify the HTTP Response Code
 		'Content-Length',
@@ -609,7 +609,7 @@ class JApplicationWeb extends JApplicationBase
 
 				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
 				// @deprecated 4.0 From 4.0 if no valid status code is given an InvalidArgumentException will be thrown
-				if (!is_int($status) || is_int($status) && !isset($this->responseMap[$status]))
+				if (!is_int($status) || !$this->isRedirectState($status))
 				{
 					$status = 303;
 				}
@@ -625,6 +625,22 @@ class JApplicationWeb extends JApplicationBase
 
 		//  Close the application after the redirect.
 		$this->close();
+	}
+
+	/**
+	 * Checks if a state is a redirect state
+	 *
+	 * @param   integer  $state  The HTTP 1.1 status code.
+	 *
+	 * @return  bool
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function isRedirectState($state)
+	{
+		$state = (int) $state;
+
+		return ($state > 299 && $state < 400);
 	}
 
 	/**
@@ -710,10 +726,10 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		/**
-         * If no keys found, safe to insert (!$keys)
-         * If ($keys && $replace) it's a replacement and previous have been deleted
-         * if($keys && !in_array...) it's a multiple value header
-         */
+		 * If no keys found, safe to insert (!$keys)
+		 * If ($keys && $replace) it's a replacement and previous have been deleted
+		 * if($keys && !in_array...) it's a multiple value header
+		 */
 		$single = in_array($name, $this->singleValueResponseHeaders);
 		if ($value && (!$keys || ($keys && ($replace || !$single))))
 		{
@@ -785,7 +801,7 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Check is a given value can be successfully mapped to a valid http status value
+	 * Check if a given value can be successfully mapped to a valid http status value
 	 *
 	 * @param   string  $value  The given status as int or string
 	 *
