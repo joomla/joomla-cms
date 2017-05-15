@@ -52,8 +52,9 @@ extract($displayData);
  */
 
 JHtml::_('behavior.core');
-JHtml::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
 JHtml::_('jquery.ui', array('core', 'sortable'));
+JHtml::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
+JHtml::_('stylesheet', 'editors/tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
 
 if ($languageFile)
@@ -61,43 +62,13 @@ if ($languageFile)
 	JHtml::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
 }
 
-
-$doc = JFactory::getDocument();
-$doc->addScriptOptions('plg_editors_tinymce_builder', array(
+JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 		'menus'         => $menus,
 		'buttons'       => $buttons,
 		'toolbarPreset' => $toolbarPreset,
 		'formControl'   => $name . '[toolbars]',
 	)
 );
-$doc->addStyleDeclaration('
-    #joomla-tinymce-builder{
-		margin-left: -180px;
-	}
-	.mce-menubar,
-	.mce-panel {
-		min-height: 18px;
-		border-bottom: 1px solid rgba(217,217,217,0.52);
-		white-space: normal;
-	}
-	.mce-tinymce {
-		margin-bottom: 20px;
-		clear: both;
-	}
-	.mce-panel .drop-area-highlight{
-		background-color: #d0d0d0;
-	}
-	.mce-panel .mce-btn.ui-state-highlight{
-		height: 28px;
-		width: 40px;
-		background-color: #409740;
-		border: 1px solid #f0f0f0;
-	}
-	.timymce-builder-toolbar .mce-btn.ui-state-highlight{
-		height: 22px;
-		width: 28px;
-	}
-');
 
 ?>
 <div id="joomla-tinymce-builder">
@@ -124,7 +95,7 @@ $doc->addStyleDeclaration('
 	<hr>
 	<p><?php echo JText::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 
-	<!-- Render tabs for each set -->
+	<?php // Render tabs for each set ?>
 	<ul class="nav nav-tabs" id="set-tabs">
 		<?php foreach ( $setsNames as $num => $title ) :
 			$isActive = $num === $setsAmount - 1;
@@ -136,7 +107,7 @@ $doc->addStyleDeclaration('
 		<?php endforeach; ?>
 	</ul>
 
-	<!-- Render tab content for each set -->
+	<?php // Render tab content for each set ?>
 	<div class="tab-content">
 		<?php
 		$presetButtonClases = array(
@@ -184,7 +155,7 @@ $doc->addStyleDeclaration('
 						</button>
 					<?php endforeach; ?>
 
-						<button type="button" class="btn btn-xs btn-danger button-action"
+						<button type="button" class="btn btn-danger button-action"
 							 data-action="clearPane" data-set="<?php echo $num; ?>">
 							<?php echo JText::_('JCLEAR'); ?></button>
 					</div>
@@ -207,7 +178,7 @@ $doc->addStyleDeclaration('
 					</div>
 				</div>
 
-				<!-- Render the form for extra options -->
+				<?php // Render the form for extra options ?>
 				<?php echo $this->sublayout('setoptions', array('form' => $setsForms[$num])); ?>
 			</div>
 		<?php endforeach; ?>

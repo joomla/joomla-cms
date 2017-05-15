@@ -61,7 +61,8 @@ class AssociationsViewAssociation extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since  3.7.0
+	 * @since   3.7.0
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -69,8 +70,6 @@ class AssociationsViewAssociation extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors), 500);
-
-			return false;
 		}
 
 		$this->app  = JFactory::getApplication();

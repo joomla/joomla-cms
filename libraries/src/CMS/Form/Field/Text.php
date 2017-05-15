@@ -54,6 +54,22 @@ class Text extends FormField
 	protected $dirname;
 
 	/**
+	 * Input addon before
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $addonBefore;
+
+	/**
+	 * Input addon after
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $addonAfter;
+
+	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
@@ -76,6 +92,8 @@ class Text extends FormField
 		{
 			case 'maxLength':
 			case 'dirname':
+			case 'addonBefore':
+			case 'addonAfter':
 			case 'inputmode':
 				return $this->$name;
 		}
@@ -108,6 +126,14 @@ class Text extends FormField
 
 			case 'inputmode':
 				$this->inputmode = (string) $value;
+				break;
+
+			case 'addonBefore':
+				$this->addonBefore = (string) $value;
+				break;
+
+			case 'addonAfter':
+				$this->addonAfter = (string) $value;
 				break;
 
 			default:
@@ -159,6 +185,9 @@ class Text extends FormField
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
 			$this->maxLength = (int) $this->element['maxlength'];
+
+			$this->addonBefore = (string) $this->element['addonBefore'];
+			$this->addonAfter  = (string) $this->element['addonAfter'];
 		}
 
 		return $result;
@@ -274,11 +303,13 @@ class Text extends FormField
 		$options  = (array) $this->getSuggestions();
 
 		$extraData = array(
-			'maxLength' => $maxLength,
-			'pattern'   => $this->pattern,
-			'inputmode' => $inputmode,
-			'dirname'   => $dirname,
-			'options'   => $options,
+			'maxLength'   => $maxLength,
+			'pattern'     => $this->pattern,
+			'inputmode'   => $inputmode,
+			'dirname'     => $dirname,
+			'addonBefore' => $this->addonBefore,
+			'addonAfter'  => $this->addonAfter,
+			'options'     => $options,
 		);
 
 		return array_merge($data, $extraData);

@@ -28,13 +28,6 @@
 			return null;
 		}
 
-		/**
-		 * Bootstrap tooltips
-		 */
-		jQuery('*[rel=tooltip]').tooltip({
-			html: true
-		});
-
 		// Fix toolbar and footer width for edit views
 		if (document.getElementById('wrapper').classList.contains('wrapper0')) {
 			document.querySelector('.subhead').style.left = 0;
@@ -74,7 +67,10 @@
 				for (var i = 0; i < listItems.length; i++) {
 				 	listItems[i].classList.remove('open');
 				}
-				document.querySelector('.child-open').classList.remove('child-open');
+				var elem = document.querySelector('.child-open');
+				if (elem) {
+					elem.classList.remove('child-open');
+				}
 			});
 			
 
