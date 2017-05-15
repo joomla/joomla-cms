@@ -175,10 +175,11 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 				);
 			}
 
-			// If the version is still supported, check if it has reached security support only
-			$phpSecurityOnlyDate = new JDate($phpSupportData[$activePhpVersion]['security']);
+			// If the version is still supported, check if it has reached eol minus 3 month
+			$interval = new DateInterval('P3M');
+			$phpEndOfSupport->sub($interval);
 
-			if (!$phpNotSupported && $today > $phpSecurityOnlyDate)
+			if (!$phpNotSupported && $today > $phpEndOfSupport)
 			{
 				$supportStatus['status']  = self::PHP_SECURITY_ONLY;
 				$supportStatus['message'] = JText::sprintf(
