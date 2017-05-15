@@ -28,10 +28,10 @@ if ($item->anchor_rel)
 
 $linktype = $item->title;
 
-if ($item->menu_image)
+if ($item->menu_image && $params->get('showIcons', 1) )
 {
 	$linktype = JHtml::_('image', $item->menu_image, $item->title);
-
+	
 	if ($item->params->get('menu_text', 1))
 	{
 		$linktype .= '<span class="image-title">' . $item->title . '</span>';
