@@ -6,11 +6,12 @@
  * @since       4.0
  */
 
+Joomla = window.Joomla || {};
+
 (function() {
 	'use strict';
 
 	document.addEventListener('DOMContentLoaded', function() {
-		var wrapper = document.getElementById('wrapper');
 
 		/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
 		function closest(el, selector) {
@@ -28,18 +29,33 @@
 			return null;
 		}
 
+		var wrapper = document.getElementById('wrapper'),
+		    sidebar = document.getElementById('sidebar-wrapper');
+
+		// Set the initial state of the sidebar based on the localStorage value
+		if (Joomla.localStorageEnabled()) {
+			var sidebarState = localStorage.getItem('atum-sidebar');
+			if (sidebarState === 'open' || sidebarState === null) {
+				wrapper.classList.remove('closed');
+				localStorage.setItem('atum-sidebar', 'open');
+			} else {
+				wrapper.classList.add('closed');
+				localStorage.setItem('atum-sidebar', 'closed');
+			}
+		}
+
 		// Fix toolbar and footer width for edit views
-		if (document.getElementById('wrapper').classList.contains('wrapper0')) {
+		if (wrapper.classList.contains('wrapper0')) {
 			document.querySelector('.subhead').style.left = 0;
 			document.getElementById('status').style.marginLeft = 0;
 		}
-		if (document.getElementById('sidebar-wrapper') && !document.getElementById('sidebar-wrapper').getAttribute('data-hidden')) {
-			/** Sidebar */
-			var sidebar       = document.getElementById('sidebar-wrapper'),
-			    menuToggle    = document.getElementById('header').querySelector('.menu-toggle'),
-			    // Apply 2nd level collapse
-			    first         = sidebar.querySelectorAll('.collapse-level-1');
 
+		if (sidebar && !sidebar.getAttribute('data-hidden')) {
+			/** Sidebar */
+			var menuToggle = document.getElementById('menu-collapse'),
+			    first      = sidebar.querySelectorAll('.collapse-level-1');
+
+			// Apply 2nd level collapse
 			for (var i = 0; i < first.length; i++) {
 				var second = first[i].querySelectorAll('.collapse-level-1');
 				for (var j = 0; j < second.length; j++) {
@@ -57,15 +73,25 @@
 
 			// Toggle menu
 			menuToggle.addEventListener('click', function(e) {
-				wrapper.classList.toggle("closed");
+				wrapper.classList.toggle('closed');
 
 				var listItems = document.querySelectorAll('.main-nav li');
 				for (var i = 0; i < listItems.length; i++) {
 				 	listItems[i].classList.remove('open');
 				}
+
 				var elem = document.querySelector('.child-open');
 				if (elem) {
 					elem.classList.remove('child-open');
+				}
+				
+				// Save the sidebar state
+				if (Joomla.localStorageEnabled()) {
+					if (wrapper.classList.contains('closed')) {
+						localStorage.setItem('atum-sidebar', 'closed');
+					} else {
+						localStorage.setItem('atum-sidebar', 'open');
+					}
 				}
 			});
 			
@@ -73,8 +99,7 @@
 			/**
 			 * Sidebar Nav
 			 */
-
-			var allLinks     = wrapper.querySelectorAll("a.no-dropdown, a.collapse-arrow"),
+			var allLinks     = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow'),
 			    currentUrl   = window.location.href.toLowerCase(),
 			    mainNav      = document.getElementById('menu'),
 		 	    menuParents  = mainNav.querySelectorAll('li.parent > a'),
@@ -159,20 +184,21 @@
 				setMenuHeight();
 			});
 
-			if (typeof(Storage) !== 'undefined') {
-				if (localStorage.getItem('adminMenuState') == "true") {
+			if (Joomla.localStorageEnabled()) {
+				if (localStorage.getItem('adminMenuState') == 'true') {
 					menuClose();
 				}
 			}
 
 		} else {
-			if (document.getElementById('sidebar-wrapper')) {
-				document.getElementById('sidebar-wrapper').style.display = 'none';
-				document.getElementById('sidebar-wrapper').style.width = '0';
+			if (sidebar) {
+				sidebar.style.display = 'none';
+				sidebar.style.width = 0;
 			}
 
-			if (document.getElementsByClassName('wrapper').length)
+			if (document.getElementsByClassName('wrapper').length) {
 				document.getElementsByClassName('wrapper')[0].style.paddingLeft = '0';
+			}
 		}
 
 
