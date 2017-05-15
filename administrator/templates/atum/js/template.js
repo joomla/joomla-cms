@@ -7,7 +7,7 @@
  */
 
 (function() {
-	"use strict";
+	'use strict';
 
 	document.addEventListener('DOMContentLoaded', function() {
 		var wrapper = document.getElementById('wrapper');
@@ -36,13 +36,9 @@
 		if (document.getElementById('sidebar-wrapper') && !document.getElementById('sidebar-wrapper').getAttribute('data-hidden')) {
 			/** Sidebar */
 			var sidebar       = document.getElementById('sidebar-wrapper'),
-			    menu          = sidebar.querySelector('#menu'),
-			    logo          = document.getElementById('main-brand'),
-			    logoSm        = document.getElementById('main-brand-sm'),
 			    menuToggle    = document.getElementById('header').querySelector('.menu-toggle'),
-			    wrapperClosed = document.querySelector('#wrapper.closed'),
 			    // Apply 2nd level collapse
-			    first         = menu.querySelectorAll('.collapse-level-1');
+			    first         = sidebar.querySelectorAll('.collapse-level-1');
 
 			for (var i = 0; i < first.length; i++) {
 				var second = first[i].querySelectorAll('.collapse-level-1');
@@ -124,7 +120,7 @@
 					menuItem.classList.add('open');
 					mainNav.classList.add('child-open');
 				}
-			}
+			};
 
 			for (var i = 0; i < menuParents.length; i += 1) {
 			 	menuParents[i].addEventListener('click', openToggle);
@@ -201,11 +197,10 @@
 		var btnNotActive = document.querySelector('.btn-group label:not(.active)');
 		if (btnNotActive) {
 			btnNotActive.addEventListener('click', function(event) {
-				var label = event.target,
-					input = document.getElementById(label.getAttribute('for'));
+				var input = document.getElementById(event.target.getAttribute('for'));
 
 				if (input.getAttribute('checked') !== 'checked') {
-					var label = closest(label, '.btn-group').querySelector('label');
+					var label = closest(event.target, '.btn-group').querySelector('label');
 					label.classList.remove('active');
 					label.classList.remove('btn-success');
 					label.classList.remove('btn-danger');
@@ -213,11 +208,11 @@
 
 					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
 						if (!label.classList.contains('btn')) label.classList.add('btn');
-						if (input.value == '') {
+						if (input.value === '') {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-primary');
-						} else if (input.value == 0) {
+						} else if (input.value === 0) {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-success');
@@ -227,11 +222,11 @@
 							label.classList.add('btn-outline-danger');
 						}
 					} else {
-						if (input.value == '') {
+						if (input.value === '') {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-primary');
-						} else if (input.value == 0) {
+						} else if (input.value === 0) {
 							label.classList.add('active');
 							label.classList.add('btn');
 							label.classList.add('btn-outline-danger');
@@ -250,14 +245,14 @@
 		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
 		for (var i = 0, l = btsGrouped.length; l>i; i++) {
 			var self   = btsGrouped[i],
-			    attrId = self.id;
+			    attrId = self.id,
+			    label = document.querySelector('label[for=' + attrId + ']');
 			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
-				var label = document.querySelector('label[for=' + attrId + ']');
-				if (self.value == '') {
+				if (self.value === '') {
 					label.classList.add('active');
 					label.classList.add('btn');
 					label.classList.add('btn-outline-primary');
-				} else if (self.value == 0) {
+				} else if (self.value === 0) {
 					label.classList.add('active');
 					label.classList.add('btn');
 					label.classList.add('btn-outline-success');
@@ -267,11 +262,10 @@
 					label.classList.add('btn-outline-danger');
 				}
 			} else {
-				var label = document.querySelector('label[for=' + attrId + ']');
-				if (self.value == '') {
+				if (self.value === '') {
 					label.classList.add('active');
 					label.classList.add('btn-outline-primary');
-				} else if (self.value == 0) {
+				} else if (self.value === 0) {
 					label.classList.add('active');
 					label.classList.add('btn');
 					label.classList.add('btn-outline-danger');
