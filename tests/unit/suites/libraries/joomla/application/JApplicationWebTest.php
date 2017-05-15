@@ -1086,7 +1086,7 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -1149,12 +1149,12 @@ class JApplicationWebTest extends TestCase
 
 		// It has two statuses, but the second status will be the final status
 		$this->assertEquals(
-			array('HTTP/1.1 201', true, null),
+			array('HTTP/1.1 201 Created', true, 201),
 			$this->class->headers[0]
 		);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[1]
 		);
 
@@ -1216,7 +1216,7 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -1328,7 +1328,7 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array('HTTP/1.1 301', true, null),
+			array('HTTP/1.1 301 Moved Permanently', true, 301),
 			$this->class->headers[0]
 		);
 
@@ -1453,7 +1453,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->assertEquals(
 			array(
-				array('HTTP/1.1 200', true, null),
+				array('HTTP/1.1 200 OK', true, 200),
 				array('X-JWeb-SendHeaders: foo', true, null),
 			),
 			$this->class->headers
