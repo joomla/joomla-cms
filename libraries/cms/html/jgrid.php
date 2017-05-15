@@ -75,7 +75,7 @@ abstract class JHtmlJGrid
 		}
 		else
 		{
-			$html[] = '<a class="btn btn-xs btn-secondary disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="tbody-icon disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
