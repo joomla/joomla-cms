@@ -110,7 +110,7 @@ class Translator
 	 *
 	 * @return  boolean  Whether the string be interpreted as sprintf
 	 *
-	 * @since   3.4.4
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{

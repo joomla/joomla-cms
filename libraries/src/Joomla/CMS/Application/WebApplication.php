@@ -848,6 +848,7 @@ class WebApplication extends BaseApplication
 
 			$this->translator = new Translator($language);
 		}
+
 		return $this->translator;
 	}
 
@@ -1072,7 +1073,7 @@ class WebApplication extends BaseApplication
 	 */
 	public function loadLanguage(\JLanguage $language = null)
 	{
-		$this->language = $language === null ? \JFactory::getLanguage() : $language;
+		$this->language   = $language === null ? \JFactory::getLanguage() : $language;
 		$this->translator = new Translator($this->language, $this->document);
 
 		return $this;

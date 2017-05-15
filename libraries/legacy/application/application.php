@@ -946,6 +946,7 @@ class JApplication extends BaseApplication
 		{
 			$this->translator = new Translator(\JFactory::getLanguage());
 		}
+
 		return $this->translator;
 	}
 
