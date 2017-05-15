@@ -9123,6 +9123,39 @@ legend {
 .icon-unpublish {
   color: #d9534f; }
 
+.tbody-icon {
+  padding: 0 3px;
+  text-align: center;
+  background-color: transparent;
+  border: 0; }
+  .tbody-icon span {
+    width: 26px;
+    height: 26px;
+    font-size: 1rem;
+    line-height: 22px;
+    color: #ccc;
+    border: 2px solid #ccc;
+    border-radius: 50%; }
+  .tbody-icon .icon-publish {
+    color: #348534;
+    border-color: #348534; }
+  .tbody-icon .icon-featured {
+    color: #f0ad4e;
+    border-color: #f0ad4e; }
+  .tbody-icon .icon-unpublish {
+    color: #d9534f;
+    border-color: #d9534f; }
+  .tbody-icon .icon-archive {
+    color: #464a4c;
+    border-color: #464a4c; }
+  .tbody-icon .icon-checkedout {
+    width: auto;
+    height: auto;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    color: #464a4c;
+    border: 0; }
+
 iframe {
   border: 0; }
 
