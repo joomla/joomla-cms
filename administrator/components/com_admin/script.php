@@ -1878,6 +1878,8 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view/category.php',
 			'/libraries/legacy/view/categoryfeed.php',
 			'/libraries/legacy/view/legacy.php',
+			// Joomla 4.0
+			'/components/com_contact/models/forms/form.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
