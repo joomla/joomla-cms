@@ -27,6 +27,20 @@ class InstallationModelDatabase extends JModelBase
 	protected static $userId = 0;
 
 	/**
+	 * The list of core sample data sets wich should got the date updates
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $coreSampleData = array(
+		'sample_blog.sql',
+		'sample_brochure.sql',
+		'sample_data.sql',
+		'sample_learn.sql',
+		'sample_testing.sql',
+	);
+	
+	/**
 	 * Generates the user ID.
 	 *
 	 * @return  integer  The user ID.
@@ -768,8 +782,8 @@ class InstallationModelDatabase extends JModelBase
 		// Update the sample data user ids.
 		$this->updateUserIds($db);
 
-		// If not joomla sample data for testing, update the sample data dates.
-		if ($sampleFileName !== 'sample_testing.sql')
+		// If it is the joomla core sample data, update the sample data dates.
+		if (in_array($sampleFileName, $this->coreSampleData))
 		{
 			$this->updateDates($db);
 		}
