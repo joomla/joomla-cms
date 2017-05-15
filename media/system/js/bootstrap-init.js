@@ -1,4 +1,12 @@
-;(function() {
+/**
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+Joomla = window.Joomla || {};
+Joomla.UI = Joomla.UI || {};
+
+(function(window, Joomla) {
 	"use strict";
 
 	jQuery(document).ready(function($) {
@@ -99,6 +107,15 @@
 					$('.modalTooltip').tooltip('destroy');
 				});
 			});
+
+			// API used to be jModalClose
+			if(!Joomla.UI.Modal.close) {
+				Joomla.UI.Modal = {
+					close: function() {
+						jQuery('.joomla-modal.modal.fade.show').modal('hide');
+					}
+				}
+			}
 		}
 
 		/** Popover **/
@@ -143,4 +160,4 @@
 			});
 		}
 	});
-})();
+})(window, Joomla);

@@ -51,9 +51,9 @@ class PlgEditorTinymce extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('behavior.core');
-		JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 		JHtml::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
 		JHtml::_('script', 'editors/tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -617,8 +617,6 @@ class PlgEditorTinymce extends JPlugin
 				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
 			}
 
-			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-
 			$scriptOptions['setCustomDir']    = $isSubDir;
 			$scriptOptions['mediaUploadPath'] = $tempPath;
 			$scriptOptions['uploadUri']       = $uploadUrl;
@@ -794,66 +792,39 @@ class PlgEditorTinymce extends JPlugin
 
 				// Now we can built the script
 				$tempConstructor = '!(function(){';
-
-				// Get the modal width/height
-				if ($options && is_scalar($options))
-				{
-					$tempConstructor .= '
-				var getBtnOptions = new Function("return ' . addslashes($options) . '"),
-					btnOptions = getBtnOptions(),
-					modalWidth = btnOptions.size && btnOptions.size.x ?  btnOptions.size.x : null,
-					modalHeight = btnOptions.size && btnOptions.size.y ?  btnOptions.size.y : null;';
-				}
-				else
-				{
-					$tempConstructor .= '
-				var btnOptions = {}, modalWidth = null, modalHeight = null;';
-				}
-
-				$tempConstructor .= "
-				editor.addButton(\"" . $name . "\", {
-					text: \"" . $title . "\",
-					title: \"" . $title . "\",
-					icon: \"" . $icon . "\",
-					onclick: function () {";
+				$tempConstructor .= "editor.addButton(\"" . $name . "\", {";
+				$tempConstructor .= "text: \"" . $title . "\",";
+				$tempConstructor .= "title: \"" . $title . "\",";
+				$tempConstructor .= "icon: \"" . $icon . "\",";
+				$tempConstructor .= "onclick: function () {";
 
 				if ($button->get('modal') || $href)
 				{
-					$tempConstructor .= "
-							var modalOptions = {
-								title  : \"" . $title . "\",
-								url : '" . $href . "',
-								buttons: [{
-									text   : \"Close\",
-									onclick: \"close\"
-								}]
-							}
-							if(modalWidth){
-								modalOptions.width = modalWidth;
-							}
-							if(modalHeight){
-								modalOptions.height = modalHeight;
-							}
-							editor.windowManager.open(modalOptions);";
+					$tempConstructor .= "var modalOptions = {";
+						$tempConstructor .= "title  : \"" . $title . "\",";
+						$tempConstructor .= "url : '" . $href . "',";
+						$tempConstructor .= "buttons: [{";
+							$tempConstructor .= "text   : \"Close\",";
+							$tempConstructor .= "onclick: \"close\"";
+						$tempConstructor .= "}]";
+					$tempConstructor .= "};";
+					$tempConstructor .= "modalOptions.width = parseInt(window.outerWidth * (parseInt(" . $options['modalWidth'] . ") /100))+ 'px';";
+					$tempConstructor .= "modalOptions.height = parseInt(window.outerHeight * (parseInt(" . $options['bodyHeight'] . ") /100))+ 'px';";
+					$tempConstructor .= "editor.windowManager.open(modalOptions);";
 
 					if ($onclick && ($button->get('modal') || $href))
 					{
-						$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+						$tempConstructor .= "$onclick";
 					}
 				}
 				else
 				{
-					$tempConstructor .= "\r\n
-						" . $onclick . "
-							";
+					$tempConstructor .= "$onclick";
 				}
 
-				$tempConstructor .= "
-					}
+				$tempConstructor .= "}
 				});
-			})();";
+				})();";
 
 				// The array with the toolbar buttons
 				$btnsNames[] = $name . ' | ';

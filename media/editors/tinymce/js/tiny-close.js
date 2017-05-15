@@ -11,12 +11,16 @@
  * @since       3.5.1
  * @version     1.0
  */
+Joomla = window.Joomla || {};
+Joomla.UI = Joomla.UI || {};
+Joomla.UI.Modal = Joomla.UI.Modal || {};
+
 document.addEventListener('DOMContentLoaded', function () {
 	if (typeof window.jModalClose_no_tinyMCE === 'undefined')
 	{
-		window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
+		window.jModalClose_no_tinyMCE = typeof(Joomla.UI.Modal.close) == 'function'  ?  Joomla.UI.Modal.close  :  false;
 
-		jModalClose = function () {
+		Joomla.UI.Modal.close = function () {
 			if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
 			tinyMCE.activeEditor.windowManager.close();
 		};

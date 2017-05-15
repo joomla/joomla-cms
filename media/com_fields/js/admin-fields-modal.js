@@ -14,7 +14,7 @@ Joomla = window.Joomla || {};
 			window.parent.jInsertEditorText("{field " + id + "}", editor);
 		}
 
-		window.parent.jModalClose();
+		window.parent.Joomla.UI.Modal.close();
 	};
 
 	Joomla.fieldgroupIns = function(id, editor) {
@@ -25,6 +25,6 @@ Joomla = window.Joomla || {};
 			window.parent.jInsertEditorText("{fieldgroup " + id + "}", editor);
 		}
 
-		window.parent.jModalClose();
+		window.parent.Joomla.UI.Modal.close();
 	};
 })(Joomla);

@@ -17,7 +17,7 @@
 
 		if (!Joomla.getOptions('xtd-menus')) {
 			// Something went wrong!
-			window.parent.jModalClose();
+			window.parent.Joomla.UI.Modal.close();
 			return false;
 		}
 
@@ -31,7 +31,7 @@
 		tag = '<a href=\"' + uri + thislang + lang + '">' + title + '</a>';
 
 		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-		window.parent.jModalClose();
+		window.parent.Joomla.UI.Modal.close();
 	};
 
 	document.addEventListener('DOMContentLoaded', function(){

@@ -15,7 +15,7 @@
 
 		if (!Joomla.getOptions('xtd-articles')) {
 			// Something went wrong!
-			window.parent.jModalClose();
+			window.parent.Joomla.UI.Modal.close();
 			return false;
 		}
 
@@ -29,7 +29,7 @@
 		tag = '<a' + hreflang + ' href="' + link + '">' + title + '</a>';
 
 		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-		window.parent.jModalClose();
+		window.parent.Joomla.UI.Modal.close();
 	};
 
 	document.addEventListener('DOMContentLoaded', function(){
