@@ -95,15 +95,15 @@ class JApplicationWeb extends JApplicationBase
 		207	=> 'HTTP/1.1 207 Multi-Status',
 		208	=> 'HTTP/1.1 208 Already Reported',
 		226	=> 'HTTP/1.1 226 IM Used',
-		300 	=> 'HTTP/1.1 300 Multiple Choices',
-		301 	=> 'HTTP/1.1 301 Moved Permanently',
-		302 	=> 'HTTP/1.1 302 Found',
-		303 	=> 'HTTP/1.1 303 See other',
-		304 	=> 'HTTP/1.1 304 Not Modified',
-		305 	=> 'HTTP/1.1 305 Use Proxy',
-		306 	=> 'HTTP/1.1 306 (Unused)',
-		307 	=> 'HTTP/1.1 307 Temporary Redirect',
-		308 	=> 'HTTP/1.1 308 Permanent Redirect',
+		300 => 'HTTP/1.1 300 Multiple Choices',
+		301 => 'HTTP/1.1 301 Moved Permanently',
+		302 => 'HTTP/1.1 302 Found',
+		303 => 'HTTP/1.1 303 See other',
+		304 => 'HTTP/1.1 304 Not Modified',
+		305 => 'HTTP/1.1 305 Use Proxy',
+		306 => 'HTTP/1.1 306 (Unused)',
+		307 => 'HTTP/1.1 307 Temporary Redirect',
+		308 => 'HTTP/1.1 308 Permanent Redirect',
 		400	=> 'HTTP/1.1 400 Bad Request',
 		401	=> 'HTTP/1.1 401 Unauthorized',
 		402	=> 'HTTP/1.1 402 Payment Required',
@@ -729,7 +729,7 @@ class JApplicationWeb extends JApplicationBase
 		/**
 		 * If no keys found, safe to insert (!$keys)
 		 * If ($keys && $replace) it's a replacement and previous have been deleted
-		 * if($keys && !in_array...) it's a multiple value header
+		 * If ($keys && !in_array...) it's a multiple value header
 		 */
 		$single = in_array($name, $this->singleValueResponseHeaders);
 		if ($value && (!$keys || ($keys && ($replace || !$single))))
