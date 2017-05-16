@@ -214,4 +214,40 @@ class MediaModelApi extends Model
 
 		return $name;
 	}
+
+	/**
+	 * Copies file or folder from source path to destination path
+	 * If forced, existing files/folders would be overwritten
+	 *
+	 * @param   string  $sourcePath       Source path of the file or folder (relative)
+	 * @param   string  $destinationPath  Destination path(relative)
+	 * @param   bool    $force            Force to overwrite
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function copy($sourcePath, $destinationPath, $force = false)
+	{
+		$this->adapter->copy($sourcePath, $destinationPath, $force);
+	}
+
+	/**
+	 * Moves file or folder from source path to destination path
+	 * If forced, existing files/folders would be overwritten
+	 *
+	 * @param   string  $sourcePath       Source path of the file or folder (relative)
+	 * @param   string  $destinationPath  Destination path(relative)
+	 * @param   bool    $force            Force to overwrite
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function move($sourcePath, $destinationPath, $force = false)
+	{
+		 $this->adapter->move($sourcePath, $destinationPath, $force);
+	}
 }
