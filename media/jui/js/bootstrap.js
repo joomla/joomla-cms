@@ -1184,6 +1184,11 @@
       }, this)
 
       self = $(e.currentTarget)[this.type](options).data(this.type)
+	  
+	  if (self && self.$tip && self.$tip.is(':visible')) {
+		  self.hoverState = 'in'
+		  return
+	  }
 
       if (!self.options.delay || !self.options.delay.show) return self.show()
 
