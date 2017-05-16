@@ -5,6 +5,9 @@
   thead th {
     white-space: nowrap;
     border-bottom-width: 1px;
+    a {
+      font-size: .9rem;
+    }
   }
 
   th,
@@ -18,4 +21,24 @@
 
   }
 
+}
+
+.table-actions {
+  &:hover {
+    cursor: pointer;
+  }
+  .dropdown-toggle::after {
+    display: none;
+  }
+  .dropdown-menu::after {
+    left: 9px;
+  }
+}
+.table-row-actions {
+  display: inline-block;
+  .fa {
+    width: 2.3rem;
+    font-size: 1.3rem;
+    color: $gray;
+  }
 }

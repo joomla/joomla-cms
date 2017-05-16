@@ -10192,6 +10192,8 @@ iframe {
 .table thead th {
   white-space: nowrap;
   border-bottom-width: 1px; }
+  .table thead th a {
+    font-size: .9rem; }
 
 .table th,
 .table td {
@@ -10200,6 +10202,22 @@ iframe {
   .table th label,
   .table td label {
     margin-bottom: 0; }
+
+.table-actions:hover {
+  cursor: pointer; }
+
+.table-actions .dropdown-toggle::after {
+  display: none; }
+
+.table-actions .dropdown-menu::after {
+  left: 9px; }
+
+.table-row-actions {
+  display: inline-block; }
+  .table-row-actions .fa {
+    width: 2.3rem;
+    font-size: 1.3rem;
+    color: #464a4c; }
 
 .chzn-container.chzn-container-single .chzn-single {
   display: inline-block;

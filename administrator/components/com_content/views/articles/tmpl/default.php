@@ -42,6 +42,9 @@ if ($saveOrder)
 }
 
 $assoc = JLanguageAssociations::isEnabled();
+
+$canDo = JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -71,6 +74,30 @@ $assoc = JLanguageAssociations::isEnabled();
 								</th>
 								<th style="width:1%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+								</th>
+								<th style="width:1%" class="nowrap text-center row-actions-head">
+									<div class="dropdown table-actions">
+										<a type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Actions<span class="ml-1 fa fa-caret-down"></span>
+										</a>
+										<div class="dropdown-menu">
+											<?php if ($canDo->get('core.edit.state')) { ?>
+											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.publish'); }"><?php echo JText::_('JTOOLBAR_PUBLISH'); ?></a>
+											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.unpublish'); }"><?php echo JText::_('JTOOLBAR_UNPUBLISH'); ?></a>
+											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.featured'); }"><?php echo JText::_('JFEATURE'); ?></a>
+											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.unfeatured'); }"><?php echo JText::_('JUNFEATURE'); ?></a>
+											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.archive'); }"><?php echo JText::_('JTOOLBAR_ARCHIVE'); ?></a>
+											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.checkin'); }"><?php echo JText::_('JTOOLBAR_CHECKIN'); ?></a>
+											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.trash'); }"><?php echo JText::_('JTOOLBAR_TRASH'); ?></a>
+											<?php } ?>
+											<?php if ($user->authorise('core.create', 'com_content')
+												&& $user->authorise('core.edit', 'com_content')
+												&& $user->authorise('core.edit.state', 'com_content'))
+											{ ?>
+											<a class="dropdown-item" data-toggle="modal" onclick="if (document.adminForm.boxchecked.value==0){Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]})}else{jQuery( '#collapseModal' ).modal('show'); return true;}"><?php echo JText::_('JTOOLBAR_BATCH'); ?></a>
+											<?php } ?>
+										</div>
+									</div>
 								</th>
 								<th style="min-width:100px" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -155,6 +182,15 @@ $assoc = JLanguageAssociations::isEnabled();
 										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 									</div>
+								</td>
+								<td style="width:3%" class="nowrap text-center row-actions">
+									<?php if ($canChange)
+										{
+											JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'articles');
+											JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'articles');
+											echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+										}
+									?>
 								</td>
 								<td class="has-context">
 									<div class="float-left break-word">

@@ -35,18 +35,20 @@ abstract class JHtmlActionsDropdown
 	{
 		$html = array();
 
-		$html[] = '<button data-toggle="dropdown" class="dropdown-toggle btn btn-xs btn-secondary">';
-		$html[] = '<span class="caret"></span>';
+		$html[] = '<div class="dropdown table-actions table-row-actions">';
+		$html[] = '<a data-toggle="dropdown">';
+		$html[] = '<span class="fa fa-ellipsis-h" aria-hidden="true"></span>';
 
 		if ($item)
 		{
 			$html[] = '<span class="sr-only">' . JText::sprintf('JACTIONS', $item) . '</span>';
 		}
 
-		$html[] = '</button>';
-		$html[] = '<ul class="dropdown-menu">';
+		$html[] = '</a>';
+		$html[] = '<div class="dropdown-menu">';
 		$html[] = implode('', static::$dropDownList);
-		$html[] = '</ul>';
+		$html[] = '</div>';
+		$html[] = '</div>';
 
 		static::$dropDownList = null;
 
@@ -205,7 +207,7 @@ abstract class JHtmlActionsDropdown
 	 */
 	public static function divider()
 	{
-		static::$dropDownList[] = '<li class="divider"></li>';
+		static::$dropDownList[] = '<div class="dropdown-divider"></div>';
 	}
 
 	/**
@@ -222,11 +224,9 @@ abstract class JHtmlActionsDropdown
 	 */
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
-		static::$dropDownList[] = '<li>'
-			. '<a href = "javascript://" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
+		static::$dropDownList[] = '<a href = "javascript://" class="dropdown-item" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
 			. ($icon ? '<span class="icon-' . $icon . '"></span> ' : '')
 			. $label
-			. '</a>'
-			. '</li>';
+			. '</a>';
 	}
 }
