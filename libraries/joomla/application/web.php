@@ -142,7 +142,8 @@ class JApplicationWeb extends JApplicationBase
 		507	=> 'HTTP/1.1 507 Insufficient Storage',
 		508	=> 'HTTP/1.1 508 Loop Detected',
 		510	=> 'HTTP/1.1 510 Not Extended',
-		511	=> 'HTTP/1.1 511 Network Authentication Required',	);
+		511	=> 'HTTP/1.1 511 Network Authentication Required',
+	);
 
 	/**
 	 * A map of HTTP Response headers which may only send a single value, all others
