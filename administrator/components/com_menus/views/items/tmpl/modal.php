@@ -33,7 +33,7 @@ $editor       = $app->input->getCmd('editor', '');
 $listOrder    = $this->escape($this->state->get('list.ordering'));
 $listDirn     = $this->escape($this->state->get('list.direction'));
 $enable       = $app->input->get('enable', '', 'string');
-$enable       = explode(',',$enable);
+$enable       = explode(',', $enable);
 
 if (!empty($editor))
 {
@@ -88,7 +88,7 @@ if (!empty($editor))
 				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ( !in_array($item->type,$enable) ) continue; ?>
+					<?php if ( !in_array($item->type, $enable) ) continue; ?>
 					<?php if ($item->language && JLanguageMultilang::isEnabled())
 					{
 						if ($item->language !== '*')
