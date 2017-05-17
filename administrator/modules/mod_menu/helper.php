@@ -34,6 +34,7 @@ abstract class ModMenuHelper
 			->from('#__menu_types AS a')
 			->join('LEFT', '#__menu AS b ON b.menutype = a.menutype AND b.home != 0')
 			->select('b.language')
+			->select('b.client_id')
 			->join('LEFT', '#__languages AS l ON l.lang_code = language')
 			->select('l.image')
 			->select('l.sef')
