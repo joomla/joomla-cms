@@ -8,6 +8,7 @@
             </div>
         </div>
         <div class="media-browser-item-info">{{ item.name }}</div>
+        <div class="media-browser-select"></div>
     </div>
 </template>
 
