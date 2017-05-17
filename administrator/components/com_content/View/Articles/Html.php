@@ -156,6 +156,20 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('article.add');
 		}
 
+		// Add a batch button
+		if ($user->authorise('core.create', 'com_content')
+			&& $user->authorise('core.edit', 'com_content')
+			&& $user->authorise('core.edit.state', 'com_content'))
+		{
+			$title = \JText::_('JTOOLBAR_BATCH');
+
+			// Instantiate a new \JLayoutFile instance and render the batch button
+			$layout = new \JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
+			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');

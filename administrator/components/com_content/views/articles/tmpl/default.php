@@ -91,12 +91,6 @@ $canDo = JHelperContent::getActions('com_content', 'category', $this->state->get
 											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.checkin'); }"><?php echo JText::_('JTOOLBAR_CHECKIN'); ?></a>
 											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.trash'); }"><?php echo JText::_('JTOOLBAR_TRASH'); ?></a>
 											<?php } ?>
-											<?php if ($user->authorise('core.create', 'com_content')
-												&& $user->authorise('core.edit', 'com_content')
-												&& $user->authorise('core.edit.state', 'com_content'))
-											{ ?>
-											<a class="dropdown-item" data-toggle="modal" onclick="if (document.adminForm.boxchecked.value==0){Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]})}else{jQuery( '#collapseModal' ).modal('show'); return true;}"><?php echo JText::_('JTOOLBAR_BATCH'); ?></a>
-											<?php } ?>
 										</div>
 									</div>
 								</th>
