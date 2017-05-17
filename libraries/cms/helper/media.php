@@ -98,7 +98,7 @@ class JHelperMedia
 			// If we cant detect the mime try it again
 			if ($mime == 'application/octet-stream' && $isImage === true)
 			{
-				$this->checkMimeType($file, $component, false);
+				return $this->checkMimeType($file, $component, false);
 			}
 
 			// Get the mime type configuration
