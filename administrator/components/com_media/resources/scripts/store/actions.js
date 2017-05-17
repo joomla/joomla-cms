@@ -57,9 +57,27 @@ export const uploadFile = (context, payload) => {
 }
 
 /**
+ * Delete a single item
+ * @param context
+ * @param payload object: the item to delete
+ */
+export const deleteItem = (context, payload) => {
+    const item = payload;
+    api.delete(item.path)
+        .then(() => {
+            context.commit(types.DELETE_SUCCESS, item);
+            context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+        })
+        .catch(error => {
+            // TODO error handling
+            console.log("error", error);
+        })
+}
+
+/**
  * Delete the selected items
  * @param context
- * @param payload object with the new folder name and its parent directory
+ * @param payload object
  */
 export const deleteSelectedItems = (context, payload) => {
     // Get the selected items from the store

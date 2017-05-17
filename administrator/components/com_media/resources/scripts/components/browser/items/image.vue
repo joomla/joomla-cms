@@ -12,13 +12,13 @@
         <div class="media-browser-select"></div>
         <div class="media-browser-actions d-flex">
             <a href="#" class="action-delete">
-                <span class="image-browser-action fa fa-trash" aria-hidden="true"></span>
+                <span class="image-browser-action fa fa-trash" aria-hidden="true" @click="deleteItem()"></span>
             </a>
             <a href="#" class="action-download">
-                <span class="image-browser-action fa fa-download" aria-hidden="true"></span>
+                <span class="image-browser-action fa fa-download" aria-hidden="true" ></span>
             </a>
             <a href="#" class="action-edit">
-                <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click="openEditView()"></span>
+                <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click="editItem()"></span>
             </a>
         </div>
     </div>
@@ -39,7 +39,12 @@
             }
         },
         methods: {
-            openEditView() {
+            /* Delete am item */
+            deleteItem() {
+                this.$store.dispatch('deleteItem', this.item);
+            },
+            /* Edit an item */
+            editItem() {
               // TODO should we use relative urls here?
               const fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
 

@@ -8814,7 +8814,10 @@ exports.default = {
         }
     },
     methods: {
-        openEditView: function openEditView() {
+        deleteItem: function deleteItem() {
+            this.$store.dispatch('deleteItem', this.item);
+        },
+        editItem: function editItem() {
             var fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
 
             window.location.href = fileBaseUrl + this.item.path;
@@ -8825,8 +8828,8 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-image"},[_c('div',{staticClass:"media-browser-item-preview"},[_c('div',{staticClass:"image-brackground"},[_c('div',{staticClass:"image-cropped",style:({ backgroundImage: 'url(' + _vm.itemUrl + ')' }),on:{"dblclick":function($event){_vm.openEditView()}}})])]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+" "+_vm._s(_vm.item.filetype)+"\n    ")]),_vm._v(" "),_c('div',{staticClass:"media-browser-select"}),_vm._v(" "),_c('div',{staticClass:"media-browser-actions d-flex"},[_vm._m(0),_vm._v(" "),_vm._m(1),_vm._v(" "),_c('a',{staticClass:"action-edit",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-pencil",attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.openEditView()}}})])])])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"action-delete",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-trash",attrs:{"aria-hidden":"true"}})])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"action-download",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-download",attrs:{"aria-hidden":"true"}})])}]
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-image"},[_c('div',{staticClass:"media-browser-item-preview"},[_c('div',{staticClass:"image-brackground"},[_c('div',{staticClass:"image-cropped",style:({ backgroundImage: 'url(' + _vm.itemUrl + ')' }),on:{"dblclick":function($event){_vm.openEditView()}}})])]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+" "+_vm._s(_vm.item.filetype)+"\n    ")]),_vm._v(" "),_c('div',{staticClass:"media-browser-select"}),_vm._v(" "),_c('div',{staticClass:"media-browser-actions d-flex"},[_c('a',{staticClass:"action-delete",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-trash",attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.deleteItem()}}})]),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('a',{staticClass:"action-edit",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-pencil",attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.editItem()}}})])])])}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"action-download",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-download",attrs:{"aria-hidden":"true"}})])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -9463,7 +9466,7 @@ exports.default = Translate;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.deleteSelectedItems = exports.uploadFile = exports.createDirectory = exports.getContents = undefined;
+exports.deleteSelectedItems = exports.deleteItem = exports.uploadFile = exports.createDirectory = exports.getContents = undefined;
 
 var _Api = require("../app/Api");
 
@@ -9523,9 +9526,26 @@ var uploadFile = exports.uploadFile = function uploadFile(context, payload) {
 };
 
 /**
+ * Delete a single item
+ * @param context
+ * @param payload object: the item to delete
+ */
+var deleteItem = exports.deleteItem = function deleteItem(context, payload) {
+    console.log(payload);
+    var item = payload;
+    _Api.api.delete(item.path).then(function () {
+        context.commit(types.DELETE_SUCCESS, item);
+        context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+    }).catch(function (error) {
+        // TODO error handling
+        console.log("error", error);
+    });
+};
+
+/**
  * Delete the selected items
  * @param context
- * @param payload object with the new folder name and its parent directory
+ * @param payload object
  */
 var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedItems(context, payload) {
     // Get the selected items from the store
