@@ -82,6 +82,7 @@ $canDo = JHelperContent::getActions('com_content', 'category', $this->state->get
 										</a>
 										<div class="dropdown-menu">
 											<?php if ($canDo->get('core.edit.state')) { ?>
+											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('article.edit'); }"><?php echo JText::_('JTOOLBAR_EDIT'); ?></a>
 											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.publish'); }"><?php echo JText::_('JTOOLBAR_PUBLISH'); ?></a>
 											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.unpublish'); }"><?php echo JText::_('JTOOLBAR_UNPUBLISH'); ?></a>
 											<a class="dropdown-item" onclick="if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton('articles.featured'); }"><?php echo JText::_('JFEATURE'); ?></a>

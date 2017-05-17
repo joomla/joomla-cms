@@ -156,11 +156,6 @@ class Html extends HtmlView
 			\JToolbarHelper::addNew('article.add');
 		}
 
-		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
-		{
-			\JToolbarHelper::editList('article.edit');
-		}
-
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');

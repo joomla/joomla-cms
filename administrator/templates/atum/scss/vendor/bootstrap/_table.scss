@@ -41,4 +41,7 @@
     font-size: 1.3rem;
     color: $gray;
   }
+  .dropdown-item.active, .dropdown-item:active {
+    background-color: $gray-light;
+  }
 }

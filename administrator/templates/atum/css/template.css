@@ -10218,6 +10218,8 @@ iframe {
     width: 2.3rem;
     font-size: 1.3rem;
     color: #464a4c; }
+  .table-row-actions .dropdown-item.active, .table-row-actions .dropdown-item:active {
+    background-color: #636c72; }
 
 .chzn-container.chzn-container-single .chzn-single {
   display: inline-block;
