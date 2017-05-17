@@ -218,7 +218,7 @@ class JHelperMedia
 					// Did we got anything usefull?
 					if ($mime != false)
 					{
-						$result = $this->checkMimeType($mime, $component, true);
+						$result = $this->checkMimeType($mime, $component);
 
 						// If the mime type is not allowed we don't upload it and show the mime code error to the user
 						if ($result === false)
@@ -251,7 +251,7 @@ class JHelperMedia
 				// Did we got anything usefull?
 				if ($mime != false)
 				{
-					$result = $this->checkMimeType($mime, $component, true);
+					$result = $this->checkMimeType($mime, $component);
 
 					// If the mime type is not allowed we don't upload it and show the mime code error to the user
 					if ($result === false)
