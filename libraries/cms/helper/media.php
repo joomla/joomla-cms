@@ -88,7 +88,7 @@ class JHelperMedia
 			return false;
 		}
 
-		// If we cant detect the mime try it again
+		// If we can't detect the mime try it again
 		if ($mime == 'application/octet-stream' && $isImage === true)
 		{
 			$mime = $this->getMimeType($file, false);
@@ -228,7 +228,7 @@ class JHelperMedia
 							return false;
 						}
 					}
-					// We can't detect the mime type so it looks like a invalid image'
+					// We can't detect the mime type so it looks like an invalid image
 					else
 					{
 						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
@@ -261,7 +261,7 @@ class JHelperMedia
 						return false;
 					}
 				}
-				// We can't detect the mime type so it looks like a invalid image'
+				// We can't detect the mime type so it looks like an invalid file
 				else
 				{
 					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
