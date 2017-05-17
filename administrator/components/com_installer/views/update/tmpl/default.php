@@ -78,11 +78,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tfoot>
 							<tbody>
 							<?php foreach ($this->items as $i => $item) : ?>
-								<?php
-								$client          = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-								$manifest        = json_decode($item->manifest_cache);
-								$current_version = isset($manifest->version) ? $manifest->version : JText::_('JLIB_UNKNOWN');
-								?>
+								<?php $client          = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE'); ?>
+								<?php $manifest        = json_decode($item->manifest_cache); ?>
+								<?php $current_version = isset($manifest->version) ? $manifest->version : JText::_('JLIB_UNKNOWN'); ?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td>
 										<?php echo JHtml::_('grid.id', $i, $item->update_id); ?>
@@ -105,12 +103,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td>
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
-										<?php
-										$modal_params = array();
-										$modal_params['title'] = $item->version . " - " . $item->name;
-										$modal_params['height'] = '500px';
-										$body = '<iframe height="500px" src="' . $item->changelogurl . '"></iframe>';
-										?>
+										<?php $modal_params = array(); ?>
+										<?php $modal_params['title'] = $item->version . " - " . $item->name; ?>
+										<?php $modal_params['height'] = '500px'; ?>
+										<?php $body = '<iframe height="500px" src="' . $item->changelogurl . '"></iframe>'; ?>
+
 										<a href="#myModal" class="btn" data-toggle="modal"> <?php echo $item->version; ?></a>
 
 										<?php echo JHTML::_('bootstrap.renderModal', 'myModal', $modal_params, $body); ?>
