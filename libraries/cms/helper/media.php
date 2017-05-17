@@ -101,8 +101,8 @@ class JHelperMedia
 	/**
 	 * Checks the Mime type
 	 *
-	 * @param   string   $mime       The mime to be checked
-	 * @param   string   $component  The optional name for the component storing the parameters
+	 * @param   string  $mime       The mime to be checked
+	 * @param   string  $component  The optional name for the component storing the parameters
 	 *
 	 * @return  boolean  true if mime type checking is disabled or it passes the checks else false
 	 *
