@@ -78,7 +78,7 @@ $canDo = JHelperContent::getActions('com_content', 'category', $this->state->get
 								<th style="width:1%" class="nowrap text-center row-actions-head">
 									<div class="dropdown table-actions">
 										<a type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										Actions<span class="ml-1 fa fa-caret-down"></span>
+										<?php echo JText::_('JTOOLBAR_ACTIONS'); ?><span class="ml-1 fa fa-caret-down"></span>
 										</a>
 										<div class="dropdown-menu">
 											<?php if ($canDo->get('core.edit.state')) { ?>
