@@ -24,7 +24,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $type = 'Modal_Menu';
-	
+
 	/**
 	 * Determinate, if the select button is shown
 	 *
@@ -32,7 +32,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowSelect = true;
-	
+
 	/**
 	 * Determinate, if the clear button is shown
 	 *
@@ -40,7 +40,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowClear = true;
-	
+
 	/**
 	 * Determinate, if the create button is shown
 	 *
@@ -48,7 +48,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowNew = false;
-	
+
 	/**
 	 * Determinate, if the edit button is shown
 	 *
@@ -56,6 +56,14 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowEdit = false;
+
+	/**
+	 * The enabled status. [need check]
+	 *
+	 * @var     array
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $enable = array('component');
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -74,6 +82,7 @@ class JFormFieldModal_Menu extends JFormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+			case 'enable':
 				return $this->$name;
 		}
 
@@ -99,6 +108,11 @@ class JFormFieldModal_Menu extends JFormField
 			case 'allowNew':
 			case 'allowEdit':
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
+				break;
+
+			case 'enable':
+				$value = (string) $value;
+				$this->$name = $value ? explode(',', $value) : $this->$name;
 				break;
 
 			default:
@@ -127,9 +141,10 @@ class JFormFieldModal_Menu extends JFormField
 		if ($return)
 		{
 			$this->allowSelect = ((string) $this->element['select']) !== 'false';
-			$this->allowClear = ((string) $this->element['clear']) !== 'false';
-			$this->allowNew = ((string) $this->element['new']) === 'true';
-			$this->allowEdit = ((string) $this->element['edit']) === 'true';
+			$this->allowClear  = ((string) $this->element['clear']) !== 'false';
+			$this->allowNew    = ((string) $this->element['new']) === 'true';
+			$this->allowEdit   = ((string) $this->element['edit']) === 'true';
+			$this->enable      = $this->element['enable'] ? explode(',', (string) $this->element['enable']) : $this->enable;
 		}
 
 		return $return;
@@ -183,7 +198,7 @@ class JFormFieldModal_Menu extends JFormField
 
 		// Setup variables for display.
 		$linkSuffix = '&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
-		$linkItems  = 'index.php?option=com_menus&amp;view=items' . $linkSuffix;
+		$linkItems  = 'index.php?option=com_menus&amp;view=items&enable=' . implode(',',$this->enable) . $linkSuffix;
 		$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
 		$modalTitle = JText::_('COM_MENUS_CHANGE_MENUITEM');
 

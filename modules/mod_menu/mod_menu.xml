@@ -41,6 +41,7 @@
 					new="true"
 					edit="true"
 					clear="true"
+					enable="component,separator,alias,heading,url"
 					>
 					<option value="">JCURRENT</option>
 				</field>
