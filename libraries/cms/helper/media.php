@@ -49,45 +49,46 @@ class JHelperMedia
 	/**
 	 * Checks the Mime type
 	 *
-	 * @param   string  $file       The filename or tmp_name
-	 * @param   string  $component  The optional name for the component storing the parameters
+	 * @param   string   $file       The filename or tmp_name
+	 * @param   string   $component  The optional name for the component storing the parameters
+	 * @param   boolean  $image      True if the passed file is a image else false
 	 *
 	 * @return  boolean  true if mime type checking is disabled or it passes the checks else false
 	 *
 	 * @since   3.7
 	 */
-	private function checkMimeType($file, $component = 'com_media')
+	private function checkMimeType($file, $component = 'com_media', $isImage = false)
 	{
 		$params = JComponentHelper::getParams($component);
 
 		if ($params->get('check_mime', 1))
 		{
-			$mime = false;
+			$mime    = false;
 
 			try
 			{
-				if (function_exists('exif_imagetype'))
+				if ($isImage && function_exists('exif_imagetype'))
 				{
 					$mime = image_type_to_mime_type(exif_imagetype($file));
 				}
-				elseif (function_exists('finfo_open'))
+				elseif ($isImage && function_exists('getimagesize'))
 				{
-					// We have fileinfo
-					$finfo = finfo_open(FILEINFO_MIME);
-					$mime  = finfo_file($finfo, $file);
-
-					finfo_close($finfo);
+					$imagesize = getimagesize($file);
+					$mime      = (isset($imagesize['mime'])) ? $imagesize['mime'] : false;
 				}
 				elseif (function_exists('mime_content_type'))
 				{
 					// We have mime magic.
 					$mime = mime_content_type($file);
 				}
-				elseif (function_exists('getimagesize'))
+				elseif (function_exists('finfo_open'))
 				{
-					$imagesize = getimagesize($file);
-					$mime      = (isset($imagesize['mime'])) ? $imagesize['mime'] : false;
+					// We have fileinfo
+					$finfo = finfo_open(FILEINFO_MIME_TYPE);
+					$mime  = finfo_file($finfo, $file);
+					finfo_close($finfo);
 				}
+
 			}
 			catch (Exception $e)
 			{
@@ -164,7 +165,7 @@ class JHelperMedia
 			return false;
 		}
 
-		$filetype = array_pop($filetypes);
+		$filetype  = array_pop($filetypes);
 		$allowable = array_map('trim', explode(',', $params->get('upload_extensions')));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
@@ -193,7 +194,7 @@ class JHelperMedia
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
 				{
-					$result = $this->checkMimeType($file['tmp_name'], $component);
+					$result = $this->checkMimeType($file['tmp_name'], $component, true);
 
 					// If the mime type is not allowed we don't upload it
 					if ($result === false)
@@ -212,7 +213,7 @@ class JHelperMedia
 			}
 			elseif (!in_array($filetype, $ignored))
 			{
-				$result = $this->checkMimeType($file['tmp_name'], $component);
+				$result = $this->checkMimeType($file['tmp_name'], $component, false);
 
 				// If the mime type is not allowed we don't upload it
 				if ($result === false)
