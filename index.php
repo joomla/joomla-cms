@@ -26,6 +26,9 @@ $startMem  = memory_get_usage();
  */
 define('_JEXEC', 1);
 
+// This define will be removed in a future release. Use '/' instead.
+define('DS', DIRECTORY_SEPARATOR);
+
 if (file_exists(__DIR__ . '/defines.php'))
 {
 	include_once __DIR__ . '/defines.php';
