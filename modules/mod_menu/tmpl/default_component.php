@@ -49,4 +49,4 @@ elseif ($item->browserNav == 2)
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
 
-echo JHtml::_('link', JFilterOutput::ampReplace(htmlspecialchars($item->flink)), $linktype, $attributes);
+echo JHtml::_('link', JFilterOutput::ampReplace($item->flink), $linktype, $attributes);
