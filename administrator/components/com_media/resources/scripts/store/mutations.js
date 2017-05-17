@@ -138,6 +138,18 @@ export default {
     },
 
     /**
+     * Unselect a browser item
+     * @param state
+     * @param payload the item
+     */
+    [types.UNSELECT_BROWSER_ITEM]: (state, payload) => {
+        const item = payload;
+        state.selectedItems.splice(state.selectedItems.findIndex(
+            selectedItem => selectedItem.path === item.path
+        ), 1);
+    },
+
+    /**
      * Unselect all browser items
      * @param state
      * @param payload the item

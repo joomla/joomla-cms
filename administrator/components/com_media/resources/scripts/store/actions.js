@@ -24,6 +24,21 @@ export const getContents = (context, payload) => {
 }
 
 /**
+ * Toggle the selection state of an item
+ * @param commit
+ * @param payload
+ */
+export const toggleBrowserItemSelect = (context, payload) => {
+    const item = payload;
+    const isSelected = context.state.selectedItems.some(selected => selected.path === item.path);
+    if (!isSelected) {
+        context.commit(types.SELECT_BROWSER_ITEM, item);
+    } else {
+        context.commit(types.UNSELECT_BROWSER_ITEM, item);
+    }
+}
+
+/**
  * Create a new folder
  * @param commit
  * @param payload object with the new folder name and its parent directory

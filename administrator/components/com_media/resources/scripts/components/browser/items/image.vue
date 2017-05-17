@@ -9,16 +9,16 @@
         <div class="media-browser-item-info">
             {{ item.name }} {{ item.filetype }}
         </div>
-        <div class="media-browser-select"></div>
+        <div class="media-browser-select" @click.stop="toggleSelect()"></div>
         <div class="media-browser-actions d-flex">
             <a href="#" class="action-delete">
-                <span class="image-browser-action fa fa-trash" aria-hidden="true" @click="deleteItem()"></span>
+                <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
             </a>
             <a href="#" class="action-download">
                 <span class="image-browser-action fa fa-download" aria-hidden="true" ></span>
             </a>
             <a href="#" class="action-edit">
-                <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click="editItem()"></span>
+                <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
             </a>
         </div>
     </div>
@@ -49,6 +49,10 @@
               const fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
 
               window.location.href = fileBaseUrl + this.item.path;
+            },
+            /* Toggle the item selection */
+            toggleSelect() {
+                this.$store.dispatch('toggleBrowserItemSelect', this.item);
             }
         }
     }

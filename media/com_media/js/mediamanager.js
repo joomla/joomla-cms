@@ -8821,6 +8821,9 @@ exports.default = {
             var fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
 
             window.location.href = fileBaseUrl + this.item.path;
+        },
+        toggleSelect: function toggleSelect() {
+            this.$store.dispatch('toggleBrowserItemSelect', this.item);
         }
     }
 };
@@ -8828,7 +8831,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-image"},[_c('div',{staticClass:"media-browser-item-preview"},[_c('div',{staticClass:"image-brackground"},[_c('div',{staticClass:"image-cropped",style:({ backgroundImage: 'url(' + _vm.itemUrl + ')' }),on:{"dblclick":function($event){_vm.openEditView()}}})])]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+" "+_vm._s(_vm.item.filetype)+"\n    ")]),_vm._v(" "),_c('div',{staticClass:"media-browser-select"}),_vm._v(" "),_c('div',{staticClass:"media-browser-actions d-flex"},[_c('a',{staticClass:"action-delete",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-trash",attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.deleteItem()}}})]),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('a',{staticClass:"action-edit",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-pencil",attrs:{"aria-hidden":"true"},on:{"click":function($event){_vm.editItem()}}})])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"media-browser-image"},[_c('div',{staticClass:"media-browser-item-preview"},[_c('div',{staticClass:"image-brackground"},[_c('div',{staticClass:"image-cropped",style:({ backgroundImage: 'url(' + _vm.itemUrl + ')' }),on:{"dblclick":function($event){_vm.openEditView()}}})])]),_vm._v(" "),_c('div',{staticClass:"media-browser-item-info"},[_vm._v("\n        "+_vm._s(_vm.item.name)+" "+_vm._s(_vm.item.filetype)+"\n    ")]),_vm._v(" "),_c('div',{staticClass:"media-browser-select",on:{"click":function($event){$event.stopPropagation();_vm.toggleSelect()}}}),_vm._v(" "),_c('div',{staticClass:"media-browser-actions d-flex"},[_c('a',{staticClass:"action-delete",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-trash",attrs:{"aria-hidden":"true"},on:{"click":function($event){$event.stopPropagation();_vm.deleteItem()}}})]),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('a',{staticClass:"action-edit",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-pencil",attrs:{"aria-hidden":"true"},on:{"click":function($event){$event.stopPropagation();_vm.editItem()}}})])])])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('a',{staticClass:"action-download",attrs:{"href":"#"}},[_c('span',{staticClass:"image-browser-action fa fa-download",attrs:{"aria-hidden":"true"}})])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -9466,7 +9469,7 @@ exports.default = Translate;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.deleteSelectedItems = exports.deleteItem = exports.uploadFile = exports.createDirectory = exports.getContents = undefined;
+exports.deleteSelectedItems = exports.deleteItem = exports.uploadFile = exports.createDirectory = exports.toggleBrowserItemSelect = exports.getContents = undefined;
 
 var _Api = require("../app/Api");
 
@@ -9494,6 +9497,23 @@ var getContents = exports.getContents = function getContents(context, payload) {
         // TODO error handling
         console.log("error", error);
     });
+};
+
+/**
+ * Toggle the selection state of an item
+ * @param commit
+ * @param payload
+ */
+var toggleBrowserItemSelect = exports.toggleBrowserItemSelect = function toggleBrowserItemSelect(context, payload) {
+    var item = payload;
+    var isSelected = context.state.selectedItems.some(function (selected) {
+        return selected.path === item.path;
+    });
+    if (!isSelected) {
+        context.commit(types.SELECT_BROWSER_ITEM, item);
+    } else {
+        context.commit(types.UNSELECT_BROWSER_ITEM, item);
+    }
 };
 
 /**
@@ -9531,7 +9551,6 @@ var uploadFile = exports.uploadFile = function uploadFile(context, payload) {
  * @param payload object: the item to delete
  */
 var deleteItem = exports.deleteItem = function deleteItem(context, payload) {
-    console.log(payload);
     var item = payload;
     _Api.api.delete(item.path).then(function () {
         context.commit(types.DELETE_SUCCESS, item);
@@ -9617,6 +9636,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var SELECT_DIRECTORY = exports.SELECT_DIRECTORY = 'SELECT_DIRECTORY';
 var SELECT_BROWSER_ITEM = exports.SELECT_BROWSER_ITEM = 'SELECT_BROWSER_ITEM';
+var UNSELECT_BROWSER_ITEM = exports.UNSELECT_BROWSER_ITEM = 'UNSELECT_BROWSER_ITEM';
 var UNSELECT_ALL_BROWSER_ITEMS = exports.UNSELECT_ALL_BROWSER_ITEMS = 'UNSELECT_ALL_BROWSER_ITEMS';
 
 // Api handlers
@@ -9769,6 +9789,11 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
     }
 }), _defineProperty(_types$SELECT_DIRECTO, types.SELECT_BROWSER_ITEM, function (state, payload) {
     state.selectedItems.push(payload);
+}), _defineProperty(_types$SELECT_DIRECTO, types.UNSELECT_BROWSER_ITEM, function (state, payload) {
+    var item = payload;
+    state.selectedItems.splice(state.selectedItems.findIndex(function (selectedItem) {
+        return selectedItem.path === item.path;
+    }), 1);
 }), _defineProperty(_types$SELECT_DIRECTO, types.UNSELECT_ALL_BROWSER_ITEMS, function (state, payload) {
     state.selectedItems = [];
 }), _defineProperty(_types$SELECT_DIRECTO, types.SHOW_CREATE_FOLDER_MODAL, function (state) {
