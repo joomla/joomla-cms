@@ -88,12 +88,17 @@ class JHelperMedia
 					$mime  = finfo_file($finfo, $file);
 					finfo_close($finfo);
 				}
-
 			}
 			catch (Exception $e)
 			{
 				// If we have any kind of error here => false;
 				return false;
+			}
+
+			// If we cant detect the mime try it again
+			if ($mime == 'application/octet-stream' && $isImage === true)
+			{
+				$this->checkMimeType($file, $component, false);
 			}
 
 			// Get the mime type configuration
