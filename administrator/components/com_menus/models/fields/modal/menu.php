@@ -198,7 +198,7 @@ class JFormFieldModal_Menu extends JFormField
 
 		// Setup variables for display.
 		$linkSuffix = '&amp;layout=modal&amp;client_id=' . $clientId . '&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
-		$linkItems  = 'index.php?option=com_menus&amp;view=items&enable=' . implode(',',$this->enable) . $linkSuffix;
+		$linkItems  = 'index.php?option=com_menus&amp;view=items&enable=' . implode(',', $this->enable) . $linkSuffix;
 		$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
 		$modalTitle = JText::_('COM_MENUS_CHANGE_MENUITEM');
 
