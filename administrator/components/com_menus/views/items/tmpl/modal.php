@@ -171,6 +171,7 @@ if (!empty($editor))
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="function" value="<?php echo $function; ?>" />
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>" />
+		<input type="hidden" name="enable" value="<?php echo $app->input->get('enable', '', 'string'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 
 	</form>
