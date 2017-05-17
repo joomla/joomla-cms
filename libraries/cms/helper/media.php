@@ -91,7 +91,7 @@ class JHelperMedia
 		// If we cant detect the mime try it again
 		if ($mime == 'application/octet-stream' && $isImage === true)
 		{
-			return $this->getMimeType($file, false);
+			$mime = $this->getMimeType($file, false);
 		}
 
 		// We have a mime here
@@ -223,7 +223,7 @@ class JHelperMedia
 						// If the mime type is not allowed we don't upload it and show the mime code error to the user
 						if ($result === false)
 						{
-							$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+							$app->enqueueMessage(JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 							return false;
 						}
@@ -256,7 +256,7 @@ class JHelperMedia
 					// If the mime type is not allowed we don't upload it and show the mime code error to the user
 					if ($result === false)
 					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+						$app->enqueueMessage(JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 						return false;
 					}
