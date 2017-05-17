@@ -375,6 +375,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 			// Custom data
 			$this->extension->custom_data = '';
+			// System data
+			$this->extension->system_data = '';
 		}
 
 		// Name might change in an update
