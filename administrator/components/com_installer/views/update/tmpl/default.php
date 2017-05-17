@@ -105,6 +105,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td>
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
+										<?php
+										$modal_params = array();
+										$modal_params['title'] = $item->version . " - " . $item->name;
+										$modal_params['height'] = '500px';
+										$body = '<iframe height="500px" src="' . $item->changelogurl . '"></iframe>';
+										?>
+										<a href="#myModal" class="btn" data-toggle="modal"> <?php echo $item->version; ?></a>
+
+										<?php echo JHTML::_('bootstrap.renderModal', 'myModal', $modal_params, $body); ?>
 									</td>
 									<td class="hidden-sm-down text-center">
 										<?php echo $item->folder_translated; ?>
