@@ -17,8 +17,9 @@ export const getSelectedDirectory = (state) => {
  * @returns {Array|directories|{/}|computed.directories|*|Object}
  */
 export const getSelectedDirectoryDirectories = (state, getters) => {
-    return getters.getSelectedDirectory.directories
-        .map(directoryPath => state.directories.find(directory => (directory.path === directoryPath)));
+    return state.directories.filter(
+        directory => (directory.directory === state.selectedDirectory)
+    );
 }
 
 /**
@@ -27,7 +28,8 @@ export const getSelectedDirectoryDirectories = (state, getters) => {
  * @param getters
  * @returns {Array|files|{}|FileList|*}
  */
-export const getSelectedDirectoryFiles= (state, getters) => {
-    return getters.getSelectedDirectory.files
-        .map(filePath => state.files.find(file => (file.path === filePath)));
+export const getSelectedDirectoryFiles = (state, getters) => {
+    return state.files.filter(
+        file => (file.directory === state.selectedDirectory)
+    );
 }

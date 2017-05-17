@@ -10,3 +10,6 @@ export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 // Create folder modal
 export const SHOW_CREATE_FOLDER_MODAL = 'SHOW_CREATE_FOLDER_MODAL';
 export const HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_FOLDER_MODAL';
+
+// Delete items
+export const DELETE_SUCCESS = 'DELETE_SUCCESS';

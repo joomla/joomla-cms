@@ -54,15 +54,25 @@ class MediaViewMedia extends HtmlView
 		if ($user->authorise('core.create', 'com_media'))
 		{
 			// Add the upload button
-			$layout = new JLayoutFile('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
+			$layout = new JLayoutFile('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
 
 			// Add the create folder button
-			$layout = new JLayoutFile('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/legacy/layouts');
+			$layout = new JLayoutFile('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
 			$bar->appendButton('Custom', $layout->render(array()), 'new');
+			JToolbarHelper::divider();
+		}
+
+		// Add a delete button
+		if ($user->authorise('core.delete', 'com_media'))
+		{
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.delete');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'delete');
 			JToolbarHelper::divider();
 		}
 

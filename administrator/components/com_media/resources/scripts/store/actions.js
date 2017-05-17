@@ -8,14 +8,14 @@ import * as types from "./mutation-types";
 /**
  * Get contents of a directory from the api
  * @param commit
- * @param dir
+ * @param payload
  */
-export const getContents = ({commit}, dir) => {
-    api.getContents(dir)
+export const getContents = (context, payload) => {
+    api.getContents(payload)
         .then(contents => {
-            commit(types.LOAD_CONTENTS_SUCCESS, contents);
-            commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-            commit(types.SELECT_DIRECTORY, dir);
+            context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
+            context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+            context.commit(types.SELECT_DIRECTORY, payload);
         })
         .catch(error => {
             // TODO error handling
@@ -28,11 +28,11 @@ export const getContents = ({commit}, dir) => {
  * @param commit
  * @param payload object with the new folder name and its parent directory
  */
-export const createDirectory = ({commit}, payload) => {
+export const createDirectory = (context, payload) => {
     api.createDirectory(payload.name, payload.parent)
         .then(folder => {
-            commit(types.CREATE_DIRECTORY_SUCCESS, folder);
-            commit(types.HIDE_CREATE_FOLDER_MODAL);
+            context.commit(types.CREATE_DIRECTORY_SUCCESS, folder);
+            context.commit(types.HIDE_CREATE_FOLDER_MODAL);
         })
         .catch(error => {
             // TODO error handling
@@ -45,14 +45,39 @@ export const createDirectory = ({commit}, payload) => {
  * @param commit
  * @param payload object with the new folder name and its parent directory
  */
-export const uploadFile = ({commit}, payload) => {
+export const uploadFile = (context, payload) => {
     api.upload(payload.name, payload.parent, payload.content)
         .then(file => {
-            commit(types.UPLOAD_SUCCESS, file);
+            context.commit(types.UPLOAD_SUCCESS, file);
         })
         .catch(error => {
             // TODO error handling
             console.log("error", error);
         })
+}
+
+/**
+ * Delete the selected items
+ * @param context
+ * @param payload object with the new folder name and its parent directory
+ */
+export const deleteSelectedItems = (context, payload) => {
+    // Get the selected items from the store
+    const selectedItems = context.state.selectedItems;
+    if (selectedItems.length > 0) {
+        selectedItems.forEach(item => {
+            api.delete(item.path)
+                .then(() => {
+                    context.commit(types.DELETE_SUCCESS, item);
+                    context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+                })
+                .catch(error => {
+                    // TODO error handling
+                    console.log("error", error);
+                })
+        })
+    } else {
+        // TODO notify the user that he has to select at least one item
+    }
 }
 

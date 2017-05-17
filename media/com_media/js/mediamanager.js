@@ -8385,6 +8385,34 @@ var Api = function () {
         }
 
         /**
+         * Upload a file
+         * @param path
+         * @return {Promise.<T>}
+         */
+
+    }, {
+        key: 'delete',
+        value: function _delete(path) {
+            var _this4 = this;
+
+            // Wrap the jquery call into a real promise
+            return new Promise(function (resolve, reject) {
+                var url = _this4._baseUrl + '&task=api.files&path=' + path;
+                var data = _defineProperty({}, _this4._csrfToken, '1');
+                jQuery.ajax({
+                    url: url,
+                    type: "DELETE",
+                    data: JSON.stringify(data),
+                    contentType: "application/json"
+                }).done(function (json) {
+                    return resolve();
+                }).fail(function (xhr, status, error) {
+                    reject(xhr);
+                });
+            }).catch(this._handleError);
+        }
+
+        /**
          * Normalize a single item
          * @param item
          * @returns {*}
@@ -8414,17 +8442,17 @@ var Api = function () {
     }, {
         key: '_normalizeArray',
         value: function _normalizeArray(data) {
-            var _this4 = this;
+            var _this5 = this;
 
             var directories = data.filter(function (item) {
                 return item.type === 'dir';
             }).map(function (directory) {
-                return _this4._normalizeItem(directory);
+                return _this5._normalizeItem(directory);
             });
             var files = data.filter(function (item) {
                 return item.type === 'file';
             }).map(function (file) {
-                return _this4._normalizeItem(file);
+                return _this5._normalizeItem(file);
             });
 
             return {
@@ -8469,7 +8497,7 @@ var api = exports.api = new Api();
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -8487,44 +8515,44 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var Event = function () {
 
-    /**
-     * Media Event constructor
-     */
-    function Event() {
-        _classCallCheck(this, Event);
+  /**
+   * Media Event constructor
+   */
+  function Event() {
+    _classCallCheck(this, Event);
 
-        this.vue = new _vue2.default();
+    this.vue = new _vue2.default();
+  }
+
+  /**
+   * Fire an event
+   * @param event
+   * @param data
+   */
+
+
+  _createClass(Event, [{
+    key: "fire",
+    value: function fire(event) {
+      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      this.vue.$emit(event, data);
     }
 
     /**
-     * Fire an event
+     * Listen to events
      * @param event
-     * @param data
+     * @param callback
      */
 
+  }, {
+    key: "listen",
+    value: function listen(event, callback) {
+      this.vue.$on(event, callback);
+    }
+  }]);
 
-    _createClass(Event, [{
-        key: "fire",
-        value: function fire(event) {
-            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-            this.vue.$emit(event, data);
-        }
-
-        /**
-         * Listen to events
-         * @param event
-         * @param callback
-         */
-
-    }, {
-        key: "listen",
-        value: function listen(event, callback) {
-            this.vue.$on(event, callback);
-        }
-    }]);
-
-    return Event;
+  return Event;
 }();
 
 exports.default = Event;
@@ -8562,6 +8590,9 @@ exports.default = {
         MediaManager.Event.listen('onClickCreateFolder', function () {
             return _this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL);
         });
+        MediaManager.Event.listen('onClickDelete', function () {
+            return _this.$store.dispatch('deleteSelectedItems');
+        });
     },
     mounted: function mounted() {
         var _this2 = this;
@@ -8589,9 +8620,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1f0e8028", __vue__options__)
+    hotAPI.createRecord("data-v-02393475", __vue__options__)
   } else {
-    hotAPI.reload("data-v-1f0e8028", __vue__options__)
+    hotAPI.reload("data-v-02393475", __vue__options__)
   }
 })()}
 },{"./../store/mutation-types":28,"vue":5,"vue-hot-reload-api":4}],11:[function(require,module,exports){
@@ -8640,9 +8671,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-80f631f2", __vue__options__)
+    hotAPI.createRecord("data-v-5a2cfde3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-80f631f2", __vue__options__)
+    hotAPI.reload("data-v-5a2cfde3", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],12:[function(require,module,exports){
@@ -8701,9 +8732,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7ea4be3f", __vue__options__)
+    hotAPI.createRecord("data-v-cd88c8d6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-7ea4be3f", __vue__options__)
+    hotAPI.reload("data-v-cd88c8d6", __vue__options__)
   }
 })()}
 },{"./../../store/mutation-types":28,"vue":5,"vue-hot-reload-api":4}],13:[function(require,module,exports){
@@ -8733,9 +8764,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2e7d3630", __vue__options__)
+    hotAPI.createRecord("data-v-3c2c1b4b", __vue__options__)
   } else {
-    hotAPI.reload("data-v-2e7d3630", __vue__options__)
+    hotAPI.reload("data-v-3c2c1b4b", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],14:[function(require,module,exports){
@@ -8760,9 +8791,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-c8c2745e", __vue__options__)
+    hotAPI.createRecord("data-v-744344e4", __vue__options__)
   } else {
-    hotAPI.reload("data-v-c8c2745e", __vue__options__)
+    hotAPI.reload("data-v-744344e4", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],15:[function(require,module,exports){
@@ -8801,9 +8832,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-16111b54", __vue__options__)
+    hotAPI.createRecord("data-v-12aad239", __vue__options__)
   } else {
-    hotAPI.reload("data-v-16111b54", __vue__options__)
+    hotAPI.reload("data-v-12aad239", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],16:[function(require,module,exports){
@@ -8947,9 +8978,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-27fd218e", __vue__options__)
+    hotAPI.createRecord("data-v-06984c8f", __vue__options__)
   } else {
-    hotAPI.reload("data-v-27fd218e", __vue__options__)
+    hotAPI.reload("data-v-06984c8f", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],18:[function(require,module,exports){
@@ -9014,9 +9045,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3a329564", __vue__options__)
+    hotAPI.createRecord("data-v-1e731972", __vue__options__)
   } else {
-    hotAPI.reload("data-v-3a329564", __vue__options__)
+    hotAPI.reload("data-v-1e731972", __vue__options__)
   }
 })()}
 },{"./../../store/mutation-types":28,"vue":5,"vue-focus":3,"vue-hot-reload-api":4}],19:[function(require,module,exports){
@@ -9082,9 +9113,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9f721108", __vue__options__)
+    hotAPI.createRecord("data-v-afa4aac0", __vue__options__)
   } else {
-    hotAPI.reload("data-v-9f721108", __vue__options__)
+    hotAPI.reload("data-v-afa4aac0", __vue__options__)
   }
 })()}
 },{"./../../store/mutation-types":28,"vue":5,"vue-hot-reload-api":4,"vueify/lib/insert-css":6}],20:[function(require,module,exports){
@@ -9108,9 +9139,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-110a38e5", __vue__options__)
+    hotAPI.createRecord("data-v-2ba1163b", __vue__options__)
   } else {
-    hotAPI.reload("data-v-110a38e5", __vue__options__)
+    hotAPI.reload("data-v-2ba1163b", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],21:[function(require,module,exports){
@@ -9158,9 +9189,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0f2e6fc8", __vue__options__)
+    hotAPI.createRecord("data-v-4c306eb8", __vue__options__)
   } else {
-    hotAPI.reload("data-v-0f2e6fc8", __vue__options__)
+    hotAPI.reload("data-v-4c306eb8", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],22:[function(require,module,exports){
@@ -9196,9 +9227,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-04d88327", __vue__options__)
+    hotAPI.createRecord("data-v-58a029c3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-04d88327", __vue__options__)
+    hotAPI.reload("data-v-58a029c3", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],23:[function(require,module,exports){
@@ -9301,9 +9332,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7faeb4c7", __vue__options__)
+    hotAPI.createRecord("data-v-f6c333ba", __vue__options__)
   } else {
-    hotAPI.reload("data-v-7faeb4c7", __vue__options__)
+    hotAPI.reload("data-v-f6c333ba", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":4}],24:[function(require,module,exports){
@@ -9432,7 +9463,7 @@ exports.default = Translate;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.uploadFile = exports.createDirectory = exports.getContents = undefined;
+exports.deleteSelectedItems = exports.uploadFile = exports.createDirectory = exports.getContents = undefined;
 
 var _Api = require("../app/Api");
 
@@ -9449,15 +9480,13 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 /**
  * Get contents of a directory from the api
  * @param commit
- * @param dir
+ * @param payload
  */
-var getContents = exports.getContents = function getContents(_ref, dir) {
-    var commit = _ref.commit;
-
-    _Api.api.getContents(dir).then(function (contents) {
-        commit(types.LOAD_CONTENTS_SUCCESS, contents);
-        commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        commit(types.SELECT_DIRECTORY, dir);
+var getContents = exports.getContents = function getContents(context, payload) {
+    _Api.api.getContents(payload).then(function (contents) {
+        context.commit(types.LOAD_CONTENTS_SUCCESS, contents);
+        context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+        context.commit(types.SELECT_DIRECTORY, payload);
     }).catch(function (error) {
         // TODO error handling
         console.log("error", error);
@@ -9469,12 +9498,10 @@ var getContents = exports.getContents = function getContents(_ref, dir) {
  * @param commit
  * @param payload object with the new folder name and its parent directory
  */
-var createDirectory = exports.createDirectory = function createDirectory(_ref2, payload) {
-    var commit = _ref2.commit;
-
+var createDirectory = exports.createDirectory = function createDirectory(context, payload) {
     _Api.api.createDirectory(payload.name, payload.parent).then(function (folder) {
-        commit(types.CREATE_DIRECTORY_SUCCESS, folder);
-        commit(types.HIDE_CREATE_FOLDER_MODAL);
+        context.commit(types.CREATE_DIRECTORY_SUCCESS, folder);
+        context.commit(types.HIDE_CREATE_FOLDER_MODAL);
     }).catch(function (error) {
         // TODO error handling
         console.log("error", error);
@@ -9486,22 +9513,43 @@ var createDirectory = exports.createDirectory = function createDirectory(_ref2, 
  * @param commit
  * @param payload object with the new folder name and its parent directory
  */
-var uploadFile = exports.uploadFile = function uploadFile(_ref3, payload) {
-    var commit = _ref3.commit;
-
+var uploadFile = exports.uploadFile = function uploadFile(context, payload) {
     _Api.api.upload(payload.name, payload.parent, payload.content).then(function (file) {
-        commit(types.UPLOAD_SUCCESS, file);
+        context.commit(types.UPLOAD_SUCCESS, file);
     }).catch(function (error) {
         // TODO error handling
         console.log("error", error);
     });
+};
+
+/**
+ * Delete the selected items
+ * @param context
+ * @param payload object with the new folder name and its parent directory
+ */
+var deleteSelectedItems = exports.deleteSelectedItems = function deleteSelectedItems(context, payload) {
+    // Get the selected items from the store
+    var selectedItems = context.state.selectedItems;
+    if (selectedItems.length > 0) {
+        selectedItems.forEach(function (item) {
+            _Api.api.delete(item.path).then(function () {
+                context.commit(types.DELETE_SUCCESS, item);
+                context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+            }).catch(function (error) {
+                // TODO error handling
+                console.log("error", error);
+            });
+        });
+    } else {
+        // TODO notify the user that he has to select at least one item
+    }
 };
 
 },{"../app/Api":8,"./mutation-types":28}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 // Sometimes we may need to compute derived state based on store state,
 // for example filtering through a list of items and counting them.
@@ -9512,9 +9560,9 @@ Object.defineProperty(exports, "__esModule", {
  * @returns {*}
  */
 var getSelectedDirectory = exports.getSelectedDirectory = function getSelectedDirectory(state) {
-  return state.directories.find(function (directory) {
-    return directory.path === state.selectedDirectory;
-  });
+    return state.directories.find(function (directory) {
+        return directory.path === state.selectedDirectory;
+    });
 };
 
 /**
@@ -9524,11 +9572,9 @@ var getSelectedDirectory = exports.getSelectedDirectory = function getSelectedDi
  * @returns {Array|directories|{/}|computed.directories|*|Object}
  */
 var getSelectedDirectoryDirectories = exports.getSelectedDirectoryDirectories = function getSelectedDirectoryDirectories(state, getters) {
-  return getters.getSelectedDirectory.directories.map(function (directoryPath) {
-    return state.directories.find(function (directory) {
-      return directory.path === directoryPath;
+    return state.directories.filter(function (directory) {
+        return directory.directory === state.selectedDirectory;
     });
-  });
 };
 
 /**
@@ -9538,11 +9584,9 @@ var getSelectedDirectoryDirectories = exports.getSelectedDirectoryDirectories = 
  * @returns {Array|files|{}|FileList|*}
  */
 var getSelectedDirectoryFiles = exports.getSelectedDirectoryFiles = function getSelectedDirectoryFiles(state, getters) {
-  return getters.getSelectedDirectory.files.map(function (filePath) {
-    return state.files.find(function (file) {
-      return file.path === filePath;
+    return state.files.filter(function (file) {
+        return file.directory === state.selectedDirectory;
     });
-  });
 };
 
 },{}],28:[function(require,module,exports){
@@ -9564,8 +9608,11 @@ var UPLOAD_SUCCESS = exports.UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 var SHOW_CREATE_FOLDER_MODAL = exports.SHOW_CREATE_FOLDER_MODAL = 'SHOW_CREATE_FOLDER_MODAL';
 var HIDE_CREATE_FOLDER_MODAL = exports.HIDE_CREATE_FOLDER_MODAL = 'HIDE_CREATE_FOLDER_MODAL';
 
+// Delete items
+var DELETE_SUCCESS = exports.DELETE_SUCCESS = 'DELETE_SUCCESS';
+
 },{}],29:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -9573,7 +9620,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _types$SELECT_DIRECTO;
 
-var _mutationTypes = require("./mutation-types");
+var _mutationTypes = require('./mutation-types');
 
 var types = _interopRequireWildcard(_mutationTypes);
 
@@ -9683,6 +9730,22 @@ exports.default = (_types$SELECT_DIRECTO = {}, _defineProperty(_types$SELECT_DIR
         state.directories.splice(parentDirectoryIndex, 1, Object.assign({}, parentDirectory, {
             directories: [].concat(_toConsumableArray(parentDirectory.directories), [directory.path])
         }));
+    }
+}), _defineProperty(_types$SELECT_DIRECTO, types.DELETE_SUCCESS, function (state, payload) {
+    var item = payload;
+
+    // Delete file
+    if (item.type === 'file') {
+        state.files.splice(state.files.findIndex(function (file) {
+            return file.path === item.path;
+        }), 1);
+    }
+
+    // Delete dir
+    if (item.type === 'dir') {
+        state.directories.splice(state.directories.findIndex(function (directory) {
+            return directory.path === item.path;
+        }), 1);
     }
 }), _defineProperty(_types$SELECT_DIRECTO, types.SELECT_BROWSER_ITEM, function (state, payload) {
     state.selectedItems.push(payload);

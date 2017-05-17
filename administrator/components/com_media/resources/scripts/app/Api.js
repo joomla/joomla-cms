@@ -92,6 +92,31 @@ class Api {
     }
 
     /**
+     * Upload a file
+     * @param path
+     * @return {Promise.<T>}
+     */
+    delete(path) {
+        // Wrap the jquery call into a real promise
+        return new Promise((resolve, reject) => {
+            const url = this._baseUrl + '&task=api.files&path=' + path;
+            const data = {
+                [this._csrfToken]: '1',
+            };
+            jQuery.ajax({
+                url: url,
+                type: "DELETE",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+            })
+                .done((json) => resolve())
+                .fail((xhr, status, error) => {
+                    reject(xhr)
+                })
+        }).catch(this._handleError);
+    }
+
+    /**
      * Normalize a single item
      * @param item
      * @returns {*}

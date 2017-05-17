@@ -9,6 +9,6 @@
 defined('_JEXEC') or die;
 $title = JText::_('JTOOLBAR_DELETE');
 ?>
-<button class="btn btn-sm btn-outline-danger">
+<button class="btn btn-sm btn-outline-danger" onclick="MediaManager.Event.fire('onClickDelete');">
     <span class="icon-delete" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
 </button>
