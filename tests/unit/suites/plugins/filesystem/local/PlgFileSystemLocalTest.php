@@ -86,7 +86,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 */
 	public function testOnFileSystemGetAdapters()
 	{
-		$adapter = $this->pluginClass->onFileSystemGetAdapters($this->root);
+		$adapter = $this->pluginClass->onFileSystemGetAdapters();
 		self::assertInstanceOf('MediaFileAdapterLocal', $adapter);
 	}
 }

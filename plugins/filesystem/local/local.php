@@ -32,14 +32,16 @@ class PlgFileSystemLocal extends JPlugin
 	/**
 	 * Returns a local media adapter to the caller which can be used to manipulate files
 	 *
-	 * @param   string  $path  The path used to be initialize a MediaFileAdapter
-	 *
 	 * @return   MediaFileAdapterLocal return a new MediaFileAdapterLocal
 	 *
 	 * @since    version  __DEPLOY_VERSION__
 	 */
-	public function onFileSystemGetAdapters($path)
+	public function onFileSystemGetAdapters()
 	{
-		return new MediaFileAdapterLocal($path);
+		// Compile the root path
+		$root = JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('file_path', 'images');
+		$root = rtrim($root) . '/';
+
+		return new MediaFileAdapterLocal($root);
 	}
 }
