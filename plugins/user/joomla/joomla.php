@@ -144,25 +144,34 @@ class PlgUserJoomla extends JPlugin
 						$user['password_clear']
 					);
 
-					// Assemble the email data...the sexy way!
-					$mail = JFactory::getMailer()
-						->setSender(
-							array(
-								$this->app->get('mailfrom'),
-								$this->app->get('fromname')
-							)
-						)
-						->addRecipient($user['email'])
-						->setSubject($emailSubject)
-						->setBody($emailBody);
-
-					// Set application language back to default if we changed it
-					if ($userLocale != $defaultLocale)
+					// Check if we have a valid email to send from
+					if (strpos($this->app->get('mailfrom'), '@'))
 					{
-						$lang->setLanguage($defaultLocale);
-					}
 
-					if (!$mail->Send())
+						// Assemble the email data...the sexy way!
+						$mail = JFactory::getMailer()
+							->setSender(
+								array(
+									$this->app->get('mailfrom'),
+									$this->app->get('fromname')
+								)
+							)
+							->addRecipient($user['email'])
+							->setSubject($emailSubject)
+							->setBody($emailBody);
+
+						// Set application language back to default if we changed it
+						if ($userLocale != $defaultLocale)
+						{
+							$lang->setLanguage($defaultLocale);
+						}
+
+						if (!$mail->Send())
+						{
+							$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
+						}
+					}
+					else
 					{
 						$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
 					}
