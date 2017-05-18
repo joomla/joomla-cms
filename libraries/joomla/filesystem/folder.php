@@ -506,7 +506,7 @@ abstract class JFolder
 		{
 			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FILES', $path), JLog::WARNING, 'jerror');
 
-			return false;
+			return array();
 		}
 
 		// Compute the excludefilter string
