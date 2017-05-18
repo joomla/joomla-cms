@@ -1,23 +1,24 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Helper
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Installer;
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
+\JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.folder');
 
 /**
  * Base install script for use by extensions providing helper methods for common behaviours.
  *
  * @since  3.6
  */
-class JInstallerScript
+class InstallerScript
 {
 	/**
 	 * The version number of the extension.
@@ -96,8 +97,8 @@ class JInstallerScript
 	/**
 	 * Function called before extension installation/update/removal procedure commences
 	 *
-	 * @param   string             $type    The type of change (install, update or discover_install, not uninstall)
-	 * @param   JInstallerAdapter  $parent  The class calling this method
+	 * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
+	 * @param   InstallerAdapter  $parent  The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -108,13 +109,13 @@ class JInstallerScript
 		// Check for the minimum PHP version before continuing
 		if (!empty($this->minimumPhp) && !version_compare(PHP_VERSION, $this->minimumPhp, '>'))
 		{
-			JLog::add(JText::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), \JLog::WARNING, 'jerror');
 		}
 
 		// Check for the minimum Joomla version before continuing
 		if (!empty($this->minimumJoomla) && !version_compare(JVERSION, $this->minimumJoomla, '>'))
 		{
-			JLog::add(JText::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), \JLog::WARNING, 'jerror');
 		}
 
 		// Extension manifest file version
@@ -134,12 +135,12 @@ class JInstallerScript
 		// Abort if the extension being installed is not newer than the currently installed version
 		if (strtolower($type) == 'update' && !$this->allowDowngrades)
 		{
-			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', JFactory::getDbo()->quote($this->extension));
+			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', \JFactory::getDbo()->quote($this->extension));
 			$oldRelease = $manifest['version'];
 
 			if (version_compare($this->release, $oldRelease, '<'))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
+				\JFactory::getApplication()->enqueueMessage(\JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
 
 				return false;
 			}
@@ -159,7 +160,7 @@ class JInstallerScript
 	 */
 	public function getInstances($isModule)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the item(s) and retrieve the id
@@ -254,7 +255,7 @@ class JInstallerScript
 		// Store the combined new and existing values back as a JSON string
 		$paramsString = json_encode($params);
 
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->update($db->quoteName($this->paramTable))
 			->set('params = ' . $db->quote($paramsString))
@@ -283,7 +284,7 @@ class JInstallerScript
 	public function getItemArray($element, $table, $column, $identifier)
 	{
 		// Get the DB and query objects
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Build the query
 		$query = $db->getQuery(true)
@@ -309,9 +310,9 @@ class JInstallerScript
 		{
 			foreach ($this->deleteFiles as $file)
 			{
-				if (file_exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
+				if (file_exists(JPATH_ROOT . $file) && !\JFile::delete(JPATH_ROOT . $file))
 				{
-					echo JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br />';
+					echo \JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br />';
 				}
 			}
 		}
@@ -320,9 +321,9 @@ class JInstallerScript
 		{
 			foreach ($this->deleteFolders as $folder)
 			{
-				if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
+				if (\JFolder::exists(JPATH_ROOT . $folder) && !\JFolder::delete(JPATH_ROOT . $folder))
 				{
-					echo JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br />';
+					echo \JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br />';
 				}
 			}
 		}
@@ -343,9 +344,9 @@ class JInstallerScript
 			{
 				$name = basename($file);
 
-				if (file_exists(JPATH_ROOT . $file) && !JFile::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
+				if (file_exists(JPATH_ROOT . $file) && !\JFile::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
 				{
-					echo JText::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
+					echo \JText::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
 				}
 			}
 		}

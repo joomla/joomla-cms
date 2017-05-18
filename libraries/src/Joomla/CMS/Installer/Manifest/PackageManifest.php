@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Installer
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installer\Manifest;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Installer\InstallerExtension;
+use Joomla\CMS\Installer\Manifest;
 
 /**
  * Joomla! Package Manifest File
  *
  * @since  3.1
  */
-class JInstallerManifestPackage extends JInstallerManifest
+class PackageManifest extends Manifest
 {
 	/**
 	 * Unique name of the package
@@ -49,15 +53,15 @@ class JInstallerManifestPackage extends JInstallerManifest
 	public $blockChildUninstall = false;
 
 	/**
-	 * Apply manifest data from a SimpleXMLElement to the object.
+	 * Apply manifest data from a \SimpleXMLElement to the object.
 	 *
-	 * @param   SimpleXMLElement  $xml  Data to load
+	 * @param   \SimpleXMLElement  $xml  Data to load
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function loadManifestFromData(SimpleXMLElement $xml)
+	protected function loadManifestFromData(\SimpleXMLElement $xml)
 	{
 		$this->name        = (string) $xml->name;
 		$this->packagename = (string) $xml->packagename;
@@ -87,7 +91,7 @@ class JInstallerManifestPackage extends JInstallerManifest
 			{
 				// NOTE: JInstallerExtension doesn't expect a string.
 				// DO NOT CAST $file
-				$this->filelist[] = new JInstallerExtension($file);
+				$this->filelist[] = new InstallerExtension($file);
 			}
 		}
 
@@ -98,7 +102,7 @@ class JInstallerManifestPackage extends JInstallerManifest
 			{
 				// NOTE: JInstallerExtension doesn't expect a string.
 				// DO NOT CAST $folder
-				$this->filelist[] = new JInstallerExtension($folder);
+				$this->filelist[] = new InstallerExtension($folder);
 			}
 		}
 	}
