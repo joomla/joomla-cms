@@ -218,7 +218,7 @@ class JHelperMedia
 					// Get the mime type this is a image file
 					$mime = $this->getMimeType($file['tmp_name'], true);
 
-					// Did we got anything usefull?
+					// Did we get anything useful?
 					if ($mime != false)
 					{
 						$result = $this->checkMimeType($mime, $component);
