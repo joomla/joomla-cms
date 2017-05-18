@@ -165,6 +165,8 @@ JLoader::registerAlias('JVersion',                          '\\Joomla\\CMS\\Vers
 JLoader::registerAlias('JAuthentication',                   '\\Joomla\\CMS\\Authentication\\Authentication', '4.0');
 JLoader::registerAlias('JAuthenticationResponse',           '\\Joomla\\CMS\\Authentication\\AuthenticationResponse', '4.0');
 
+JLoader::registerAlias('JBrowser',                          '\\Joomla\\CMS\\Environment\\Browser', '4.0');
+
 JLoader::registerAlias('JAssociationExtensionInterface',    '\\Joomla\\CMS\\Association\\AssociationExtensionInterface', '4.0');
 JLoader::registerAlias('JAssociationExtensionHelper',       '\\Joomla\\CMS\\Association\\AssociationExtensionHelper', '4.0');
 

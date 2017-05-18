@@ -107,7 +107,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	{
 		return array(
 			'fred.factory' => array('fred.factory', false, 'fred.factory does not exist'),
-			'browser' => array('joomla.environment.browser', true, 'JBrowser should load properly'));
+			'classloader' => array('cms.class.loader', true, 'JClassLoader should load properly'));
 	}
 
 	/**
