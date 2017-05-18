@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Toolbar\Button;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a standard button with a confirm dialog
  *
  * @since  3.0
  */
-class JToolbarButtonConfirm extends JToolbarButton
+class ConfirmButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -42,13 +46,13 @@ class JToolbarButtonConfirm extends JToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text'] = JText::_($text);
-		$options['msg'] = JText::_($msg, true);
+		$options['text'] = \JText::_($text);
+		$options['msg'] = \JText::_($msg, true);
 		$options['class'] = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['msg'], $name, $task, $list);
 
 		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new JLayoutFile('joomla.toolbar.confirm');
+		$layout = new FileLayout('joomla.toolbar.confirm');
 
 		return $layout->render($options);
 	}
@@ -87,7 +91,7 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 */
 	protected function _getCommand($msg, $name, $task, $list)
 	{
-		JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+		\JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
 		$cmd = "if (confirm('" . $msg . "')) { Joomla.submitbutton('" . $task . "'); }";
 

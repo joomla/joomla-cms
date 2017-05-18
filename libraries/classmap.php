@@ -146,6 +146,20 @@ JLoader::registerAlias('JUcmBase',                          '\\Joomla\\CMS\\Ucm\
 JLoader::registerAlias('JUcmContent',                       '\\Joomla\\CMS\\Ucm\\UcmContent', '4.0');
 JLoader::registerAlias('JUcmType',                          '\\Joomla\\CMS\\Ucm\\UcmType', '4.0');
 
+JLoader::registerAlias('JToolbar',                          '\\Joomla\\CMS\\Toolbar\\Toolbar', '4.0');
+JLoader::registerAlias('JToolBar',                          '\\Joomla\\CMS\\Toolbar\\Toolbar', '4.0');
+JLoader::registerAlias('JToolbarButton',                    '\\Joomla\\CMS\\Toolbar\\ToolbarButton', '4.0');
+JLoader::registerAlias('JToolbarButtonConfirm',             '\\Joomla\\CMS\\Toolbar\\Button\\ConfirmButton', '4.0');
+JLoader::registerAlias('JToolbarButtonCustom',              '\\Joomla\\CMS\\Toolbar\\Button\\CustomButton', '4.0');
+JLoader::registerAlias('JToolbarButtonHelp',                '\\Joomla\\CMS\\Toolbar\\Button\\HelpButton', '4.0');
+JLoader::registerAlias('JToolbarButtonLink',                '\\Joomla\\CMS\\Toolbar\\Button\\LinkButton', '4.0');
+JLoader::registerAlias('JToolbarButtonPopup',               '\\Joomla\\CMS\\Toolbar\\Button\\PopupButton', '4.0');
+JLoader::registerAlias('JToolbarButtonSeparator',           '\\Joomla\\CMS\\Toolbar\\Button\\SeparatorButton', '4.0');
+JLoader::registerAlias('JToolbarButtonSlider',              '\\Joomla\\CMS\\Toolbar\\Button\\SliderButton', '4.0');
+JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '4.0');
+JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '4.0');
+JLoader::registerAlias('JButton',                           '\\Joomla\\CMS\\Toolbar\\ToolbarButton', '4.0');
+
 JLoader::registerAlias('JVersion',                          '\\Joomla\\CMS\\Version', '4.0');
 
 JLoader::registerAlias('JAuthentication',                   '\\Joomla\\CMS\\Authentication\\Authentication', '4.0');
@@ -153,6 +167,32 @@ JLoader::registerAlias('JAuthenticationResponse',           '\\Joomla\\CMS\\Auth
 
 JLoader::registerAlias('JAssociationExtensionInterface',    '\\Joomla\\CMS\\Association\\AssociationExtensionInterface', '4.0');
 JLoader::registerAlias('JAssociationExtensionHelper',       '\\Joomla\\CMS\\Association\\AssociationExtensionHelper', '4.0');
+
+JLoader::registerAlias('JInstaller',                        '\\Joomla\\CMS\\Installer\\Installer', '4.0');
+JLoader::registerAlias('JInstallerAdapter',                 '\\Joomla\\CMS\\Installer\\InstallerAdapter', '4.0');
+JLoader::registerAlias('JInstallerExtension',               '\\Joomla\\CMS\\Installer\\InstallerExtension', '4.0');
+JLoader::registerAlias('JExtension',                        '\\Joomla\\CMS\\Installer\\InstallerExtension', '4.0');
+JLoader::registerAlias('JInstallerHelper',                  '\\Joomla\\CMS\\Installer\\InstallerHelper', '4.0');
+JLoader::registerAlias('JInstallerScript',                  '\\Joomla\\CMS\\Installer\\InstallerScript', '4.0');
+JLoader::registerAlias('JInstallerManifest',                '\\Joomla\\CMS\\Installer\\Manifest', '4.0');
+JLoader::registerAlias('JInstallerAdapterComponent',        '\\Joomla\\CMS\\Installer\\Adapter\\ComponentAdapter', '4.0');
+JLoader::registerAlias('JInstallerComponent',               '\\Joomla\\CMS\\Installer\\Adapter\\ComponentAdapter', '4.0');
+JLoader::registerAlias('JInstallerAdapterFile',             '\\Joomla\\CMS\\Installer\\Adapter\\FileAdapter', '4.0');
+JLoader::registerAlias('JInstallerFile',                    '\\Joomla\\CMS\\Installer\\Adapter\\FileAdapter', '4.0');
+JLoader::registerAlias('JInstallerAdapterLanguage',         '\\Joomla\\CMS\\Installer\\Adapter\\LanguageAdapter', '4.0');
+JLoader::registerAlias('JInstallerLanguage',                '\\Joomla\\CMS\\Installer\\Adapter\\LanguageAdapter', '4.0');
+JLoader::registerAlias('JInstallerAdapterLibrary',          '\\Joomla\\CMS\\Installer\\Adapter\\LibraryAdapter', '4.0');
+JLoader::registerAlias('JInstallerLibrary',                 '\\Joomla\\CMS\\Installer\\Adapter\\LibraryAdapter', '4.0');
+JLoader::registerAlias('JInstallerAdapterModule',           '\\Joomla\\CMS\\Installer\\Adapter\\ModuleAdapter', '4.0');
+JLoader::registerAlias('JInstallerModule',                  '\\Joomla\\CMS\\Installer\\Adapter\\ModuleAdapter', '4.0');
+JLoader::registerAlias('JInstallerAdapterPackage',          '\\Joomla\\CMS\\Installer\\Adapter\\PackageAdapter', '4.0');
+JLoader::registerAlias('JInstallerPackage',                 '\\Joomla\\CMS\\Installer\\Adapter\\PackageAdapter', '4.0');
+JLoader::registerAlias('JInstallerAdapterPlugin',           '\\Joomla\\CMS\\Installer\\Adapter\\PluginAdapter', '4.0');
+JLoader::registerAlias('JInstallerPlugin',                  '\\Joomla\\CMS\\Installer\\Adapter\\PluginAdapter', '4.0');
+JLoader::registerAlias('JInstallerAdapterTemplate',         '\\Joomla\\CMS\\Installer\\Adapter\\TemplateAdapter', '4.0');
+JLoader::registerAlias('JInstallerTemplate',                '\\Joomla\\CMS\\Installer\\Adapter\\TemplateAdapter', '4.0');
+JLoader::registerAlias('JInstallerManifestLibrary',         '\\Joomla\\CMS\\Installer\\Manifest\\LibraryManifest', '4.0');
+JLoader::registerAlias('JInstallerManifestPackage',         '\\Joomla\\CMS\\Installer\\Manifest\\PackageManifest', '4.0');
 
 JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '4.0');
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
