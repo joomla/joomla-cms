@@ -3,7 +3,7 @@
   overflow: hidden;
   position: absolute;
   right: 0;
-  top: 52px;
+  top: 49px;
   bottom: 0;
   z-index: 4;
   float: none;
@@ -11,4 +11,44 @@
   width: 25%;
   border-left: 1px solid #ccc;
   padding: 15px;
+  h2 {
+    padding: 0 15px;
+    margin: -15px -15px 15px;
+    background-color: rgba(0, 0, 0, 0.015);
+    border-bottom: 1px solid #eee;
+    font-weight: normal;
+    line-height: 3.6rem;
+  }
+  dt {
+    color: rgba(0, 0, 0, 0.54);
+    font-weight: normal;
+  }
+}
+
+.infobar-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0 15px;
+  color: #ccc;
+  font-size: 2.6rem;
+  line-height: 3.6rem;
+  text-indent: 0;
+  text-shadow: none;
+  &:hover {
+    color: #aaa;
+    cursor: pointer;
+  }
+}
+
+.placeholder-icon.fa {
+  display: block;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  color: #ccc;
+  font-size: 2rem;
+  height: 4rem;
+  line-height: calc(4rem - 4px);
+  margin: 20px auto 15px;
+  width: 4rem;
 }

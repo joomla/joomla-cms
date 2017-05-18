@@ -1,8 +1,9 @@
 <template>
     <div class="media-infobar">
+        <span class="infobar-close" aria-label="Close Menu">×</span>
         <h2>{{ item.name }}</h2>
         <div v-if="item.path === '/'" class="text-center">
-            <span class="fa fa-info"></span>
+            <span class="fa fa-file placeholder-icon"></span>
             Select file or folder to view its details.
         </div>
         <dl v-else class="row">
