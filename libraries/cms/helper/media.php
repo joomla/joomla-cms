@@ -58,6 +58,9 @@ class JHelperMedia
 	 */
 	private function getMimeType($file, $isImage = false)
 	{
+		// If we can't detect anything mime is false
+		$mime = false;
+		
 		try
 		{
 			if ($isImage && function_exists('exif_imagetype'))
