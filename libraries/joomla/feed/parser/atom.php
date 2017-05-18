@@ -213,22 +213,29 @@ class JFeedParserAtom extends JFeedParser
 			{
 				$link = $this->bestLinkForUri($link);
 			}
-			$uri = (string)$link['href'];
+			$uri = (string) $link['href'];
 			if ($uri)
 			{
 				$entry->uri = $uri;
 			}
 		}
 	}
+
+	/**
+	 * If there is more than one <link> in the feed entry, find the most appropriate one and return it.
+	 *
+	 * @param   array             $links  Array of <link> elements from the feed entry.
+	 *
+	 * @return  SimpleXMLElement
+	 */
 	private function bestLinkForUri(array $links)
 	{
-		//if there is more than one link, then find the most appropriate one and return it.
 		$linkPrefs = array('', 'self', 'alternate');
 		foreach ($linkPrefs as $pref)
 		{
 			foreach ($links as $link)
 			{
-				$rel = (string)$link['rel'];
+				$rel = (string) $link['rel'];
 				if ($rel === $pref)
 				{
 					return $link;
