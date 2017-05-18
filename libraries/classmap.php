@@ -193,3 +193,7 @@ JLoader::registerAlias('JInstallerAdapterTemplate',         '\\Joomla\\CMS\\Inst
 JLoader::registerAlias('JInstallerTemplate',                '\\Joomla\\CMS\\Installer\\Adapter\\TemplateAdapter', '4.0');
 JLoader::registerAlias('JInstallerManifestLibrary',         '\\Joomla\\CMS\\Installer\\Manifest\\LibraryManifest', '4.0');
 JLoader::registerAlias('JInstallerManifestPackage',         '\\Joomla\\CMS\\Installer\\Manifest\\PackageManifest', '4.0');
+
+JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '4.0');
+JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
+JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
