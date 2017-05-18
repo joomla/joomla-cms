@@ -224,7 +224,7 @@ class JFeedParserAtom extends JFeedParser
 	/**
 	 * If there is more than one <link> in the feed entry, find the most appropriate one and return it.
 	 *
-	 * @param   array             $links  Array of <link> elements from the feed entry.
+	 * @param   array  $links  Array of <link> elements from the feed entry.
 	 *
 	 * @return  SimpleXMLElement
 	 */
