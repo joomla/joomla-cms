@@ -554,7 +554,9 @@ class Item extends Form
 		$app->setUserState('com_menus.edit.item.data', $data);
 
 		$this->type = $type;
-		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false));
+		$this->setRedirect(
+			\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
+		);
 	}
 
 	/**

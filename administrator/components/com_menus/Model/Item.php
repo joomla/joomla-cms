@@ -1045,7 +1045,7 @@ class Item extends Admin
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm   $form   A \JForm object.
+	 * @param   \JForm  $form   A \JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *
