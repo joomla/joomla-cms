@@ -13,6 +13,7 @@
 		<filename>dispatcher.php</filename>
 		<folder>Controller</folder>
 		<folder>Helper</folder>
+		<folder>helpers</folder>
 		<folder>View</folder>
 		<folder>views</folder>
 	</files>
