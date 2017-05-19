@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Mailto\Site\View\Mailto;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Class for Mail.
  * 
  * @since  1.5
  */
-class MailtoViewMailto extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * Execute and display a template script.
@@ -48,9 +51,9 @@ class MailtoViewMailto extends JViewLegacy
 	 */
 	protected function getData()
 	{
-		$user = JFactory::getUser();
-		$app  = JFactory::getApplication();
-		$data = new stdClass;
+		$user = \JFactory::getUser();
+		$app  = \JFactory::getApplication();
+		$data = new \stdClass;
 
 		$input      = $app->input;
 		$method     = $input->getMethod();
@@ -58,7 +61,7 @@ class MailtoViewMailto extends JViewLegacy
 
 		if ($data->link == '')
 		{
-			throw new Exception(JText::_('COM_MAILTO_LINK_IS_MISSING'), 400);
+			throw new \Exception(\JText::_('COM_MAILTO_LINK_IS_MISSING'), 400);
 		}
 
 		// Load with previous data, if it exists
@@ -75,11 +78,11 @@ class MailtoViewMailto extends JViewLegacy
 		else
 		{
 			$data->sender = $sender;
-			$data->from   = JStringPunycode::emailToPunycode($from);
+			$data->from   = \JStringPunycode::emailToPunycode($from);
 		}
 
 		$data->subject = $subject;
-		$data->mailto  = JStringPunycode::emailToPunycode($mailto);
+		$data->mailto  = \JStringPunycode::emailToPunycode($mailto);
 
 		return $data;
 	}
