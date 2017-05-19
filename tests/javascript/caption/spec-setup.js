@@ -9,11 +9,11 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/caption/fixtures/fixture.html', 'legacy_libs/caption'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/caption/fixtures/fixture.html', 'legacy_libs/caption', 'libs/core'], function ($, fixture) {
 	$('body').append(fixture);
 
-	new JCaption('#single img.test');
-	new JCaption('#multiple img.test');
-	new JCaption('#empty img.test');
-	new JCaption('#options img.test');
+	new Joomla.JCaption('#single img.test');
+	new Joomla.JCaption('#multiple img.test');
+	new Joomla.JCaption('#empty img.test');
+	new Joomla.JCaption('#options img.test');
 });

@@ -7,7 +7,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/highlighter/fixtures/fixture.html', 'libs/highlighter'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/highlighter/fixtures/fixture.html', 'libs/highlighter', 'libs/core'], function ($, fixture) {
 	$('body').append(fixture);
 
 	var start = document.getElementById('highlighter-start');

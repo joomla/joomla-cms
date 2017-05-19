@@ -119,9 +119,9 @@ class JHtmlBehaviorTest extends TestCase
 	 *
 	 * @since   3.1
 	 */
-	public function testFormvalidation()
+	public function testFormvalidator()
 	{
-		JHtmlBehavior::formvalidation();
+		JHtmlBehavior::formvalidator();
 
 		$this->assertEquals(
 			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::formvalidator' => true),
@@ -199,24 +199,6 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * Tests the colorpicker method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testColorpicker()
-	{
-		JHtmlBehavior::colorpicker();
-
-		$this->assertEquals(
-			array('JHtmlBehavior::colorpicker' => true),
-			JHtmlBehaviorInspector::getLoaded(),
-			'The colorpicker behavior is not loaded with all dependencies'
-		);
-	}
-
-	/**
 	 * Tests the keepalive method.
 	 *
 	 * @return  void
@@ -234,24 +216,6 @@ class JHtmlBehaviorTest extends TestCase
 			),
 			JHtmlBehaviorInspector::getLoaded(),
 			'The keepalive behavior is not loaded with all dependencies'
-		);
-	}
-
-	/**
-	 * Tests the noframes method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testNoFrames()
-	{
-		JHtmlBehavior::noframes();
-
-		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true),
-			JHtmlBehaviorInspector::getLoaded(),
-			'The no frames behavior is not loaded with all dependencies'
 		);
 	}
 }
