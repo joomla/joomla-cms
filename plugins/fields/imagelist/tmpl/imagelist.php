@@ -17,7 +17,7 @@ $class = $fieldParams->get('image_class');
 
 if ($class)
 {
-	$class = 'class="' . htmlentities($class, ENT_COMPAT,'UTF-8', true) . '"';
+	$class = 'class="' . htmlentities($class, ENT_COMPAT, 'UTF-8', true) . '"';
 }
 
 $value  = (array) $field->value;
