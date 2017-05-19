@@ -40,7 +40,7 @@ foreach ($value as $path)
 	}
 	else
 	{
-		$buffer .= '<img src="images/' . htmlentities($path) . '"' . $class . '/>';
+		$buffer .= '<img src="images/' . htmlentities($path, ENT_COMPAT, true) . '"' . $class . '/>';
 	}
 }
 
