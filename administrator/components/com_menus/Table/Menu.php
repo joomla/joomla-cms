@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Table;
 
 defined('_JEXEC') or die;
 
@@ -14,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class MenusTableMenu extends JTableMenu
+class Menu extends \JTableMenu
 {
 	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.
@@ -33,7 +34,7 @@ class MenusTableMenu extends JTableMenu
 		if ($return)
 		{
 			// Delete key from the #__modules_menu table
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__modules_menu'))
 				->where($db->quoteName('menuid') . ' = ' . $pk);

@@ -6,22 +6,29 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 jimport('joomla.filesystem.path');
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
  * Menu Item Model for Menus.
  *
  * @since  1.6
  */
-class MenusModelItem extends JModelAdmin
+class Item extends Admin
 {
 	/**
 	 * The type alias for this content type.
@@ -92,7 +99,7 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if (!empty($record->id))
 		{
@@ -129,7 +136,7 @@ class MenusModelItem extends JModelAdmin
 		$menuTypeId = !empty($record->menutype) ? $this->getMenuTypeId($record->menutype) : 0;
 		$assetKey   = $menuTypeId ? 'com_menus.menu.' . (int) $menuTypeId : 'com_menus';
 
-		return JFactory::getUser()->authorise('core.edit.state', $assetKey);
+		return \JFactory::getUser()->authorise('core.edit.state', $assetKey);
 	}
 
 	/**
@@ -170,7 +177,7 @@ class MenusModelItem extends JModelAdmin
 				else
 				{
 					// Non-fatal error
-					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -188,13 +195,13 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Check that user has create permission for menus
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		$menuTypeId = (int) $this->getMenuTypeId($menuType);
 
 		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
-			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			$this->setError(\JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
 			return false;
 		}
@@ -211,7 +218,7 @@ class MenusModelItem extends JModelAdmin
 		{
 			$count = $db->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -239,7 +246,7 @@ class MenusModelItem extends JModelAdmin
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -374,27 +381,27 @@ class MenusModelItem extends JModelAdmin
 				else
 				{
 					// Non-fatal error
-					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
 		}
 
 		// Check that user has create and edit permission for menus
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		$menuTypeId = (int) $this->getMenuTypeId($menuType);
 
 		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
-			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			$this->setError(\JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
 			return false;
 		}
 
 		if (!$user->authorise('core.edit', 'com_menus.menu.' . $menuTypeId))
 		{
-			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
+			$this->setError(\JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
 
 			return false;
 		}
@@ -418,7 +425,7 @@ class MenusModelItem extends JModelAdmin
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -484,7 +491,7 @@ class MenusModelItem extends JModelAdmin
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 
@@ -510,7 +517,7 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function canSave($data = array(), $key = 'id')
 	{
-		return JFactory::getUser()->authorise('core.edit', $this->option);
+		return \JFactory::getUser()->authorise('core.edit', $this->option);
 	}
 
 	/**
@@ -519,7 +526,7 @@ class MenusModelItem extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -593,16 +600,16 @@ class MenusModelItem extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+		$data = array_merge((array) $this->getItem(), (array) \JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
 
 		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
 		if ($this->getItem()->id == 0)
 		{
 			// Get selected fields
-			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$filters = \JFactory::getApplication()->getUserState('com_menus.items.filter');
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'));
+			$data['access'] = (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -716,12 +723,12 @@ class MenusModelItem extends JModelAdmin
 				if (isset($args['option']))
 				{
 					// Load the language file for the component.
-					$lang = JFactory::getLanguage();
+					$lang = \JFactory::getLanguage();
 					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true)
 					|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
 
 					// Determine the component id.
-					$component = JComponentHelper::getComponent($args['option']);
+					$component = ComponentHelper::getComponent($args['option']);
 
 					if (isset($component->id))
 					{
@@ -734,7 +741,7 @@ class MenusModelItem extends JModelAdmin
 		// We have a valid type, inject it into the state for forms to use.
 		$this->setState('item.type', $table->type);
 
-		// Convert to the JObject before adding the params.
+		// Convert to the \JObject before adding the params.
 		$properties = $table->getProperties(1);
 		$result = ArrayHelper::toObject($properties);
 
@@ -778,7 +785,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Load associated menu items, only supported for frontend for now
-		if ($this->getState('item.client_id') == 0 && JLanguageAssociations::isEnabled())
+		if ($this->getState('item.client_id') == 0 && Associations::isEnabled())
 		{
 			if ($pk != null)
 			{
@@ -836,7 +843,7 @@ class MenusModelItem extends JModelAdmin
 		{
 			$result = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -849,7 +856,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Get the list of all view levels
 	 *
-	 * @return  stdClass[]|bool  An array of all view levels (id, title).
+	 * @return  \stdClass[]|bool  An array of all view levels (id, title).
 	 *
 	 * @since   3.4
 	 */
@@ -870,7 +877,7 @@ class MenusModelItem extends JModelAdmin
 		{
 			$result = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -878,21 +885,6 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		return $result;
-	}
-
-	/**
-	 * A protected method to get the where clause for the reorder.
-	 * This ensures that the row will be moved relative to a row with the same menutype.
-	 *
-	 * @param   JTableMenu  $table  instance.
-	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
-	 *
-	 * @since   1.6
-	 */
-	protected function getReorderConditions($table)
-	{
-		return array('menutype = ' . $this->_db->quote($table->get('menutype')));
 	}
 
 	/**
@@ -906,9 +898,24 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	public function getTable($type = 'Menu', $prefix = 'MenusTable', $config = array())
+	public function getTable($type = 'Menu', $prefix = 'Administrator', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return parent::getTable($type, $prefix, $config);
+	}
+
+	/**
+	 * A protected method to get the where clause for the reorder.
+	 * This ensures that the row will be moved relative to a row with the same menutype.
+	 *
+	 * @param   \JTableMenu  $table  instance.
+	 *
+	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
+	 * @since   1.6
+	 */
+	protected function getReorderConditions($table)
+	{
+		return array('menutype = ' . $this->_db->quote($table->get('menutype')));
 	}
 
 	/**
@@ -922,7 +929,7 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -997,7 +1004,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_menus');
+		$params = ComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
 	}
 
@@ -1006,13 +1013,13 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @param   string  $menutype  The given menutype
 	 *
-	 * @return  stdClass
+	 * @return  \stdClass
 	 *
 	 * @since   3.7.0
 	 */
 	protected function getMenuType($menutype)
 	{
-		$table = $this->getTable('MenuType', 'JTable');
+		$table = $this->getTable('MenuType');
 
 		$table->load(array('menutype' => $menutype));
 
@@ -1038,16 +1045,16 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   \JForm  $form   A \JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		$link     = $this->getState('item.link');
 		$type     = $this->getState('item.type');
@@ -1056,7 +1063,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Load the specific type file
 		$typeFile   = $clientId == 1 ? 'itemadmin_' . $type : 'item_' . $type;
-		$clientInfo = JApplicationHelper::getClientInfo($clientId);
+		$clientInfo = ApplicationHelper::getClientInfo($clientId);
 
 		// Initialise form with component view params if available.
 		if ($type == 'component')
@@ -1097,7 +1104,7 @@ class MenusModelItem extends JModelAdmin
 					$base . '/views/' . $view . '/tmpl',
 					$base . '/view/' . $view . '/tmpl'
 				);
-				$path = JPath::find($tplFolders, $layout . '.xml');
+				$path = \JPath::find($tplFolders, $layout . '.xml');
 
 				if (is_file($path))
 				{
@@ -1110,7 +1117,7 @@ class MenusModelItem extends JModelAdmin
 				{
 					list($altTmpl, $altLayout) = explode(':', $layout);
 
-					$templatePath = JPath::clean($clientInfo->path . '/templates/' . $altTmpl . '/html/' . $option . '/' . $view . '/' . $altLayout . '.xml');
+					$templatePath = \JPath::clean($clientInfo->path . '/templates/' . $altTmpl . '/html/' . $option . '/' . $view . '/' . $altLayout . '.xml');
 
 					if (is_file($templatePath))
 					{
@@ -1128,9 +1135,9 @@ class MenusModelItem extends JModelAdmin
 						$base . '/view/' . $view,
 						$base . '/views/' . $view
 					);
-					$metaPath = JPath::find($metadataFolders, 'metadata.xml');
+					$metaPath = \JPath::find($metadataFolders, 'metadata.xml');
 
-					if (is_file($path = JPath::clean($metaPath)))
+					if (is_file($path = \JPath::clean($metaPath)))
 					{
 						$formFile = $path;
 					}
@@ -1138,7 +1145,7 @@ class MenusModelItem extends JModelAdmin
 				else
 				{
 					// Now check for a component manifest file
-					$path = JPath::clean($base . '/metadata.xml');
+					$path = \JPath::clean($base . '/metadata.xml');
 
 					if (is_file($path))
 					{
@@ -1155,13 +1162,13 @@ class MenusModelItem extends JModelAdmin
 
 			if ($form->loadFile($formFile, true, '/metadata') == false)
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile))
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Get the help data from the XML file if present.
@@ -1170,13 +1177,13 @@ class MenusModelItem extends JModelAdmin
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = JPath::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
+			$xmlFile = \JPath::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
 
 			if ($xmlFile)
 			{
 				if (!$xml = simplexml_load_file($xmlFile))
 				{
-					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+					throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 				}
 
 				// Get the help data from the XML file if present.
@@ -1197,17 +1204,17 @@ class MenusModelItem extends JModelAdmin
 
 		if (!$form->loadFile($typeFile, true, false))
 		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Association menu items, we currently do not support this for admin menu… may be later
-		if ($clientId == 0 && JLanguageAssociations::isEnabled())
+		if ($clientId == 0 && Associations::isEnabled())
 		{
-			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
-				$addform = new SimpleXMLElement('<form />');
+				$addform = new \SimpleXMLElement('<form />');
 				$fields = $addform->addChild('fields');
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
@@ -1240,7 +1247,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method rebuild the entire nested set tree.
 	 *
-	 * @return  boolean|JException  Boolean true on success, boolean false or JException instance on error
+	 * @return  boolean|\JException  Boolean true on success, boolean false or \JException instance on error
 	 *
 	 * @since   1.6
 	 */
@@ -1255,7 +1262,7 @@ class MenusModelItem extends JModelAdmin
 		{
 			$rebuildResult = $table->rebuild();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -1279,9 +1286,9 @@ class MenusModelItem extends JModelAdmin
 		{
 			$items = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			return JError::raiseWarning(500, $e->getMessage());
+			return \JError::raiseWarning(500, $e->getMessage());
 		}
 
 		foreach ($items as &$item)
@@ -1298,9 +1305,9 @@ class MenusModelItem extends JModelAdmin
 			{
 				$db->setQuery($query)->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				return JError::raiseWarning(500, $e->getMessage());
+				return \JError::raiseWarning(500, $e->getMessage());
 			}
 
 			unset($registry);
@@ -1329,7 +1336,7 @@ class MenusModelItem extends JModelAdmin
 		$context = $this->option . '.' . $this->name;
 
 		// Include the plugins for the on save events.
-		JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing item.
 		if ($pk > 0)
@@ -1358,7 +1365,7 @@ class MenusModelItem extends JModelAdmin
 				{
 					$table->setLocation($data['menuordering'], 'after');
 				}
-				// Just leave it where it is if no change is made.
+				// \Just leave it where it is if no change is made.
 				elseif ($data['menuordering'] && $table->id == $data['menuordering'])
 				{
 					unset($data['menuordering']);
@@ -1408,7 +1415,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Trigger the before save event.
-		$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
 
 		// Store the data.
 		if (in_array(false, $result, true)|| !$table->store())
@@ -1419,7 +1426,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Trigger the after save event.
-		JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		// Rebuild the tree path.
 		if (!$table->rebuildPath($table->id))
@@ -1433,13 +1440,13 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.menutype', $table->menutype);
 
 		// Load associated menu items, for now not supported for admin menu… may be later
-		if ($table->get('client_id') == 0 && JLanguageAssociations::isEnabled())
+		if ($table->get('client_id') == 0 && Associations::isEnabled())
 		{
 			// Adding self to the association
 			$associations = isset($data['associations']) ? $data['associations'] : array();
 
 			// Unset any invalid associations
-			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+			$associations = ArrayHelper::toInteger($associations);
 
 			foreach ($associations as $tag => $id)
 			{
@@ -1454,7 +1461,7 @@ class MenusModelItem extends JModelAdmin
 
 			if ($all_language && !empty($associations))
 			{
-				JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+				\JError::raiseNotice(403, \JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'));
 			}
 
 			// Get associationskey for edited item
@@ -1488,7 +1495,7 @@ class MenusModelItem extends JModelAdmin
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 
@@ -1519,7 +1526,7 @@ class MenusModelItem extends JModelAdmin
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 
@@ -1533,8 +1540,8 @@ class MenusModelItem extends JModelAdmin
 
 		if (isset($data['link']))
 		{
-			$base = JUri::base();
-			$juri = JUri::getInstance($base . $data['link']);
+			$base = \JUri::base();
+			$juri = \JUri::getInstance($base . $data['link']);
 			$option = $juri->getVar('option');
 
 			// Clean the cache
@@ -1605,13 +1612,13 @@ class MenusModelItem extends JModelAdmin
 					if ($table->home == $value)
 					{
 						unset($pks[$i]);
-						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
+						\JError::raiseNotice(403, \JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
 					}
 					elseif ($table->menutype == 'main')
 					{
 						// Prune items that you can't change.
 						unset($pks[$i]);
-						JError::raiseWarning(403, JText::_('COM_MENUS_ERROR_MENUTYPE_HOME'));
+						\JError::raiseWarning(403, \JText::_('COM_MENUS_ERROR_MENUTYPE_HOME'));
 					}
 					else
 					{
@@ -1626,19 +1633,19 @@ class MenusModelItem extends JModelAdmin
 						{
 							// Prune items that you can't change.
 							unset($pks[$i]);
-							JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+							\JError::raiseWarning(403, \JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 						}
 						elseif (!$table->check())
 						{
 							// Prune the items that failed pre-save checks.
 							unset($pks[$i]);
-							JError::raiseWarning(403, $table->getError());
+							\JError::raiseWarning(403, $table->getError());
 						}
 						elseif (!$table->store())
 						{
 							// Prune the items that could not be stored.
 							unset($pks[$i]);
-							JError::raiseWarning(403, $table->getError());
+							\JError::raiseWarning(403, $table->getError());
 						}
 					}
 				}
@@ -1649,7 +1656,7 @@ class MenusModelItem extends JModelAdmin
 					if (!$onehome)
 					{
 						$onehome = true;
-						JError::raiseNotice(403, JText::sprintf('COM_MENUS_ERROR_ONE_HOME'));
+						\JError::raiseNotice(403, \JText::sprintf('COM_MENUS_ERROR_ONE_HOME'));
 					}
 				}
 			}
@@ -1684,7 +1691,7 @@ class MenusModelItem extends JModelAdmin
 				if ($table->load($pk) && $table->home && $table->language == '*')
 				{
 					// Prune items that you can't change.
-					JError::raiseWarning(403, JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
+					\JError::raiseWarning(403, \JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 					unset($pks[$i]);
 					break;
 				}

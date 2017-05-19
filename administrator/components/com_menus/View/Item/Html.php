@@ -6,27 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\View\Item;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * The HTML Menus Menu Item View.
  *
  * @since  1.6
  */
-class MenusViewItem extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
-	 * The JForm object
+	 * The \JForm object
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $item;
 
@@ -38,14 +43,14 @@ class MenusViewItem extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  3.7.0
 	 */
 	protected $canDo;
@@ -53,7 +58,7 @@ class MenusViewItem extends JViewLegacy
 	/**
 	 * A list of view levels containing the id and title of the view level
 	 *
-	 * @var    stdClass[]
+	 * @var    \stdClass[]
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $levels;
@@ -74,23 +79,23 @@ class MenusViewItem extends JViewLegacy
 		$this->item    = $this->get('Item');
 		$this->modules = $this->get('Modules');
 		$this->levels  = $this->get('ViewLevels');
-		$this->canDo   = JHelperContent::getActions('com_menus', 'menu', (int) $this->state->get('item.menutypeid'));
+		$this->canDo   = ContentHelper::getActions('com_menus', 'menu', (int) $this->state->get('item.menutypeid'));
 
 		// Check if we're allowed to edit this item
 		// No need to check for create, because then the moduletype select is empty
 		if (!empty($this->item->id) && !$this->canDo->get('core.edit'))
 		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
-		if ($this->getLayout() === 'modal' && $forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+		if ($this->getLayout() === 'modal' && $forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 		{
 			// Set the language field to the forcedLanguage and disable changing it.
 			$this->form->setValue('language', null, $forcedLanguage);
@@ -113,15 +118,15 @@ class MenusViewItem extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$input->set('hidemainmenu', true);
 
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
-		JToolbarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
+		ToolbarHelper::title(\JText::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
 		$toolbarButtons = [];
 
@@ -155,31 +160,31 @@ class MenusViewItem extends JViewLegacy
 			$toolbarButtons[] = ['save2copy', 'item.save2copy'];
 		}
 
-		JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if ($isNew)
 		{
-			JToolbarHelper::cancel('item.cancel');
+			ToolbarHelper::cancel('item.cancel');
 		}
 		else
 		{
-			JToolbarHelper::cancel('item.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('item.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::divider();
+		ToolbarHelper::divider();
 
 		// Get the help information for the menu item.
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url   = JText::_($help->url);
+			$url   = \JText::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -187,6 +192,6 @@ class MenusViewItem extends JViewLegacy
 			$url = $help->url;
 		}
 
-		JToolbarHelper::help($help->key, $help->local, $url);
+		ToolbarHelper::help($help->key, $help->local, $url);
 	}
 }

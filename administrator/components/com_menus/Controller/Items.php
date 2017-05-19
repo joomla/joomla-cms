@@ -6,28 +6,36 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Admin;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * The Menu Item Controller
  *
  * @since  1.6
  */
-class MenusControllerItems extends JControllerAdmin
+class Items extends Admin
 {
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @param   array  $config  Optional configuration array
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
-	 * @since   1.6
+	 * @since  1.6
+	 * @see    \JControllerLegacy
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
+
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
 
@@ -42,9 +50,9 @@ class MenusControllerItems extends JControllerAdmin
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Item', $prefix = 'MenusModel', $config = array())
+	public function getModel($name = 'Item', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -56,23 +64,24 @@ class MenusControllerItems extends JControllerAdmin
 	 */
 	public function rebuild()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=items');
 
+		/* @var \Joomla\Component\Menus\Administrator\Model\Item $model */
 		$model = $this->getModel();
 
 		if ($model->rebuild())
 		{
 			// Reorder succeeded.
-			$this->setMessage(JText::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
+			$this->setMessage(\JText::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
 
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
+			$this->setMessage(\JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
 
 			return false;
 		}
@@ -83,22 +92,22 @@ class MenusControllerItems extends JControllerAdmin
 	 *
 	 * @return      void
 	 *
-	 * @see         JControllerAdmin::saveorder()
+	 * @see         \JControllerAdmin::saveorder()
 	 * @deprecated  4.0
 	 */
 	public function saveorder()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		try
 		{
-			JLog::add(
+			\JLog::add(
 				sprintf('%s() is deprecated. Function will be removed in 4.0.', __METHOD__),
-				JLog::WARNING,
+				\JLog::WARNING,
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
@@ -115,7 +124,7 @@ class MenusControllerItems extends JControllerAdmin
 		else
 		{
 			// Nothing to reorder
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 			return true;
 		}
@@ -131,9 +140,9 @@ class MenusControllerItems extends JControllerAdmin
 	public function setDefault()
 	{
 		// Check for request forgeries
-		JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken('request') or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
+		$app = $this->app;
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
@@ -143,7 +152,7 @@ class MenusControllerItems extends JControllerAdmin
 
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+			$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -156,7 +165,7 @@ class MenusControllerItems extends JControllerAdmin
 			// Publish the items.
 			if (!$model->setHome($cid, $value))
 			{
-				JError::raiseWarning(500, $model->getError());
+				$this->setMessage($model->getError(), 'warning');
 			}
 			else
 			{
@@ -169,12 +178,12 @@ class MenusControllerItems extends JControllerAdmin
 					$ntext = 'COM_MENUS_ITEMS_UNSET_HOME';
 				}
 
-				$this->setMessage(JText::plural($ntext, count($cid)));
+				$this->setMessage(\JText::plural($ntext, count($cid)));
 			}
 		}
 
 		$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_list
 						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 						)
@@ -191,10 +200,10 @@ class MenusControllerItems extends JControllerAdmin
 	public function publish()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 		$data = array('publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
@@ -203,11 +212,11 @@ class MenusControllerItems extends JControllerAdmin
 		{
 			try
 			{
-				JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+				\JLog::add(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), \JLog::WARNING, 'jerror');
 			}
-			catch (RuntimeException $exception)
+			catch (\RuntimeException $exception)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+				$this->setMessage(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 			}
 		}
 		else
@@ -246,19 +255,19 @@ class MenusControllerItems extends JControllerAdmin
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				$this->setMessage(JText::plural($ntext, count($cid)), $messageType);
+				$this->setMessage(\JText::plural($ntext, count($cid)), $messageType);
 
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				$this->setMessage($e->getMessage(), 'error');
 			}
 		}
 
 		$this->setRedirect(
-			JRoute::_(
+			\JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list . '&menutype=' .
-				JFactory::getApplication()->getUserState('com_menus.items.menutype'),
+				\JFactory::getApplication()->getUserState('com_menus.items.menutype'),
 				false
 			)
 		);
@@ -274,9 +283,9 @@ class MenusControllerItems extends JControllerAdmin
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
@@ -284,11 +293,11 @@ class MenusControllerItems extends JControllerAdmin
 		if ($return === false)
 		{
 			// Checkin failed.
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'),
+					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
 					false
 				),
 				$message,
@@ -300,11 +309,11 @@ class MenusControllerItems extends JControllerAdmin
 		else
 		{
 			// Checkin succeeded.
-			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
+			$message = \JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'),
+					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
 					false
 				),
 				$message

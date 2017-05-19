@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Controller;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,15 +18,15 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class MenusControllerMenus extends JControllerLegacy
+class Menus extends Controller
 {
 	/**
 	 * Display the view
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached.
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  JController        This object to support chaining.
+	 * @return  static   This object to support chaining.
 	 *
 	 * @since   1.6
 	 */
@@ -43,7 +45,7 @@ class MenusControllerMenus extends JControllerLegacy
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Menu', $prefix = 'MenusModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Menu', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -58,15 +60,15 @@ class MenusControllerMenus extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$user = JFactory::getUser();
-		$app  = JFactory::getApplication();
+		$user = \JFactory::getUser();
+		$app  = \JFactory::getApplication();
 		$cids = (array) $this->input->get('cid', array(), 'array');
 
 		if (count($cids) < 1)
 		{
-			$app->enqueueMessage(JText::_('COM_MENUS_NO_MENUS_SELECTED'), 'notice');
+			$this->setMessage(\JText::_('COM_MENUS_NO_MENUS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -77,13 +79,14 @@ class MenusControllerMenus extends JControllerLegacy
 				{
 					// Prune items that you can't change.
 					unset($cids[$i]);
-					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+					$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
 				}
 			}
 
 			if (count($cids) > 0)
 			{
 				// Get the model.
+				/* @var \Joomla\Component\Menus\Administrator\Model\Menu $model */
 				$model = $this->getModel();
 
 				// Make sure the item ids are integers
@@ -92,11 +95,11 @@ class MenusControllerMenus extends JControllerLegacy
 				// Remove the items.
 				if (!$model->delete($cids))
 				{
-					$this->setMessage($model->getError());
+					$this->setMessage($model->getError(), 'error');
 				}
 				else
 				{
-					$this->setMessage(JText::plural('COM_MENUS_N_MENUS_DELETED', count($cids)));
+					$this->setMessage(\JText::plural('COM_MENUS_N_MENUS_DELETED', count($cids)));
 				}
 			}
 		}
@@ -113,23 +116,24 @@ class MenusControllerMenus extends JControllerLegacy
 	 */
 	public function rebuild()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 
+		/* @var \Joomla\Component\Menus\Administrator\Model\Item $model */
 		$model = $this->getModel('Item');
 
 		if ($model->rebuild())
 		{
 			// Reorder succeeded.
-			$this->setMessage(JText::_('JTOOLBAR_REBUILD_SUCCESS'));
+			$this->setMessage(\JText::_('JTOOLBAR_REBUILD_SUCCESS'));
 
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
+			$this->setMessage(\JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
 
 			return false;
 		}
@@ -138,13 +142,13 @@ class MenusControllerMenus extends JControllerLegacy
 	/**
 	 * Temporary method. This should go into the 1.5 to 1.6 upgrade routines.
 	 *
-	 * @return  JException|void  JException instance on error
+	 * @return  \JException|void  \JException instance on error
 	 *
 	 * @since   1.6
 	 */
 	public function resync()
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$parts = null;
 
@@ -157,9 +161,11 @@ class MenusControllerMenus extends JControllerLegacy
 
 			$components = $db->loadAssocList('element', 'extension_id');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			return JError::raiseWarning(500, $e->getMessage());
+			$this->setMessage($e->getMessage(), 'warning');
+
+			return;
 		}
 
 		// Load all the component menu links
@@ -174,9 +180,11 @@ class MenusControllerMenus extends JControllerLegacy
 		{
 			$items = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			return JError::raiseWarning(500, $e->getMessage());
+			$this->setMessage($e->getMessage(), 'warning');
+
+			return;
 		}
 
 		foreach ($items as $item)
@@ -216,9 +224,11 @@ class MenusControllerMenus extends JControllerLegacy
 					{
 						$db->setQuery($query)->execute();
 					}
-					catch (RuntimeException $e)
+					catch (\RuntimeException $e)
 					{
-						return JError::raiseWarning(500, $e->getMessage());
+						$this->setMessage($e->getMessage(), 'warning');
+
+						return;
 					}
 				}
 			}

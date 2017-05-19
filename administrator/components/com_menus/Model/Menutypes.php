@@ -6,8 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Model\Model;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.path');
@@ -16,7 +21,7 @@ jimport('joomla.filesystem.path');
  *
  * @since  1.6
  */
-class MenusModelMenutypes extends JModelLegacy
+class Menutypes extends Model
 {
 	/**
 	 * A reverse lookup of the base link URL to Title
@@ -41,8 +46,7 @@ class MenusModelMenutypes extends JModelLegacy
 	{
 		parent::populateState();
 
-		$app      = JFactory::getApplication();
-		$clientId = $app->input->get('client_id', 0);
+		$clientId = \JFactory::getApplication()->input->get('client_id', 0);
 
 		$this->state->set('client_id', $clientId);
 	}
@@ -75,7 +79,7 @@ class MenusModelMenutypes extends JModelLegacy
 	{
 		jimport('joomla.filesystem.file');
 
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$list = array();
 
 		// Get the list of components.
@@ -116,7 +120,7 @@ class MenusModelMenutypes extends JModelLegacy
 		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		JFactory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', array(&$list, $this));
+		\JFactory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', array(&$list, $this));
 
 		return $list;
 	}
@@ -125,7 +129,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 * Method to create the reverse lookup for link-to-name.
 	 * (can be used from onAfterGetMenuTypeOptions handlers)
 	 *
-	 * @param   JObject  $option  with request array or string and title public variables
+	 * @param   \JObject  $option  with request array or string and title public variables
 	 *
 	 * @return  void
 	 *
@@ -148,7 +152,7 @@ class MenusModelMenutypes extends JModelLegacy
 	protected function getTypeOptionsByComponent($component)
 	{
 		$options = array();
-		$client  = JApplicationHelper::getClientInfo($this->getState('client_id'));
+		$client  = ApplicationHelper::getClientInfo($this->getState('client_id'));
 		$mainXML = $client->path . '/components/' . $component . '/metadata.xml';
 
 		if (is_file($mainXML))
@@ -203,7 +207,7 @@ class MenusModelMenutypes extends JModelLegacy
 		if (!empty($menu['options']) && $menu['options'] == 'none')
 		{
 			// Create the menu option for the component.
-			$o = new JObject;
+			$o = new \JObject;
 			$o->title       = (string) $menu['name'];
 			$o->description = (string) $menu['msg'];
 			$o->request     = array('option' => $component);
@@ -235,7 +239,7 @@ class MenusModelMenutypes extends JModelLegacy
 			if ($child->getName() == 'option')
 			{
 				// Create the menu option for the component.
-				$o = new JObject;
+				$o = new \JObject;
 				$o->title       = (string) $child['name'];
 				$o->description = (string) $child['msg'];
 				$o->request     = array('option' => $component, (string) $optionsNode['var'] => (string) $child['value']);
@@ -245,7 +249,7 @@ class MenusModelMenutypes extends JModelLegacy
 			elseif ($child->getName() == 'default')
 			{
 				// Create the menu option for the component.
-				$o = new JObject;
+				$o = new \JObject;
 				$o->title       = (string) $child['name'];
 				$o->description = (string) $child['msg'];
 				$o->request     = array('option' => $component);
@@ -269,12 +273,12 @@ class MenusModelMenutypes extends JModelLegacy
 	protected function getTypeOptionsFromMvc($component)
 	{
 		$options = array();
-		$client  = JApplicationHelper::getClientInfo($this->getState('client_id'));
+		$client  = ApplicationHelper::getClientInfo($this->getState('client_id'));
 
 		// Get the views for this component.
 		if (is_dir($client->path . '/components/' . $component))
 		{
-			$folders = JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
+			$folders = \JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
 		}
 
 		$path = '';
@@ -286,7 +290,7 @@ class MenusModelMenutypes extends JModelLegacy
 
 		if (is_dir($path))
 		{
-			$views = JFolder::folders($path);
+			$views = \JFolder::folders($path);
 		}
 		else
 		{
@@ -333,7 +337,7 @@ class MenusModelMenutypes extends JModelLegacy
 										if ($child->getName() == 'option')
 										{
 											// Create the menu option for the component.
-											$o = new JObject;
+											$o = new \JObject;
 											$o->title       = (string) $child['name'];
 											$o->description = (string) $child['msg'];
 											$o->request     = array('option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']);
@@ -343,7 +347,7 @@ class MenusModelMenutypes extends JModelLegacy
 										elseif ($child->getName() == 'default')
 										{
 											// Create the menu option for the component.
-											$o = new JObject;
+											$o = new \JObject;
 											$o->title       = (string) $child['name'];
 											$o->description = (string) $child['msg'];
 											$o->request     = array('option' => $component, 'view' => $view);
@@ -414,7 +418,7 @@ class MenusModelMenutypes extends JModelLegacy
 		}
 
 		// Create the root menu option.
-		$ro = new stdClass;
+		$ro = new \stdClass;
 		$ro->title       = (string) trim($rootMenu);
 		$ro->description = '';
 		$ro->request     = array('option' => $component);
@@ -431,7 +435,7 @@ class MenusModelMenutypes extends JModelLegacy
 		{
 			$attributes = $child->attributes();
 
-			$o = new stdClass;
+			$o = new \stdClass;
 			$o->title       = (string) trim($child);
 			$o->description = '';
 
@@ -453,7 +457,7 @@ class MenusModelMenutypes extends JModelLegacy
 			}
 
 			$o->request = array_filter($request, 'strlen');
-			$options[]  = new JObject($o);
+			$options[]  = new \JObject($o);
 
 			// Do not repeat the default view link (index.php?option=com_abc).
 			if (count($o->request) == 1)
@@ -464,7 +468,7 @@ class MenusModelMenutypes extends JModelLegacy
 
 		if ($ro)
 		{
-			$options[] = new JObject($ro);
+			$options[] = new \JObject($ro);
 		}
 
 		return $options;
@@ -485,14 +489,14 @@ class MenusModelMenutypes extends JModelLegacy
 		$options     = array();
 		$layouts     = array();
 		$layoutNames = array();
-		$lang        = JFactory::getLanguage();
+		$lang        = \JFactory::getLanguage();
 		$path        = '';
-		$client      = JApplicationHelper::getClientInfo($this->getState('client_id'));
+		$client      = ApplicationHelper::getClientInfo($this->getState('client_id'));
 
 		// Get the views for this component.
 		if (is_dir($client->path . '/components/' . $component))
 		{
-			$folders = JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
+			$folders = \JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
 		}
 
 		if (!empty($folders[0]))
@@ -502,7 +506,7 @@ class MenusModelMenutypes extends JModelLegacy
 
 		if (is_dir($path))
 		{
-			$layouts = array_merge($layouts, JFolder::files($path, '.xml$', false, true));
+			$layouts = array_merge($layouts, \JFolder::files($path, '.xml$', false, true));
 		}
 		else
 		{
@@ -522,7 +526,7 @@ class MenusModelMenutypes extends JModelLegacy
 
 		// Get the template layouts
 		// TODO: This should only search one template -- the current template for this item (default of specified)
-		$folders = JFolder::folders($client->path . '/templates', '', false, true);
+		$folders = \JFolder::folders($client->path . '/templates', '', false, true);
 
 		// Array to hold association between template file names and templates
 		$templateName = array();
@@ -535,7 +539,7 @@ class MenusModelMenutypes extends JModelLegacy
 				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, true)
 				|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, true);
 
-				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
+				$templateLayouts = \JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 
 				foreach ($templateLayouts as $layout)
 				{
@@ -566,7 +570,7 @@ class MenusModelMenutypes extends JModelLegacy
 				$layout = basename($layout, '.xml');
 
 				// Create the menu option for the layout.
-				$o = new JObject;
+				$o = new \JObject;
 				$o->title       = ucfirst($layout);
 				$o->description = '';
 				$o->request     = array('option' => $component, 'view' => $view);

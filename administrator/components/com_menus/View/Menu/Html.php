@@ -6,20 +6,25 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\View\Menu;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * The HTML Menus Menu Item View.
  *
  * @since  1.6
  */
-class MenusViewMenu extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
-	 * The JForm object
+	 * The \JForm object
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	protected $form;
 
@@ -33,14 +38,14 @@ class MenusViewMenu extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $canDo;
 
@@ -59,12 +64,12 @@ class MenusViewMenu extends JViewLegacy
 		$this->item	 = $this->get('Item');
 		$this->state = $this->get('State');
 
-		$this->canDo = JHelperContent::getActions('com_menus', 'menu', $this->item->id);
+		$this->canDo = ContentHelper::getActions('com_menus', 'menu', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		parent::display($tpl);
@@ -80,12 +85,12 @@ class MenusViewMenu extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 
-		JToolbarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
+		ToolbarHelper::title(\JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
 
 		$toolbarButtons = [];
 
@@ -113,21 +118,21 @@ class MenusViewMenu extends JViewLegacy
 			$toolbarButtons[] = ['save2new', 'menu.save2new'];
 		}
 
-		JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if ($isNew)
 		{
-			JToolbarHelper::cancel('menu.cancel');
+			ToolbarHelper::cancel('menu.cancel');
 		}
 		else
 		{
-			JToolbarHelper::cancel('menu.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('menu.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_MENUS_MENU_MANAGER_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER_EDIT');
 	}
 }

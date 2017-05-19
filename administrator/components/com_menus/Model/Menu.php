@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\Form;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -17,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class MenusModelMenu extends JModelForm
+class Menu extends Form
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -45,9 +49,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
+		return \JFactory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
@@ -61,9 +63,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
+		return \JFactory::getUser()->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
@@ -73,13 +73,13 @@ class MenusModelMenu extends JModelForm
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable    A database object
+	 * @return  \JTable    A database object
 	 *
 	 * @since   1.6
 	 */
-	public function getTable($type = 'MenuType', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'MenuType', $prefix = '\JTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return \JTable::getInstance($type, $prefix, $config);
 	}
 
 	/**
@@ -93,14 +93,14 @@ class MenusModelMenu extends JModelForm
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		// Load the User state.
 		$id = $app->input->getInt('id');
 		$this->setState('menu.id', $id);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_menus');
+		$params = ComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
 	}
 
@@ -143,7 +143,7 @@ class MenusModelMenu extends JModelForm
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm    A JForm object on success, false on failure
+	 * @return  \JForm    A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -170,7 +170,7 @@ class MenusModelMenu extends JModelForm
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_menus.edit.menu.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_menus.edit.menu.data', array());
 
 		if (empty($data))
 		{
@@ -200,7 +200,7 @@ class MenusModelMenu extends JModelForm
 		$table = $this->getTable();
 
 		// Include the plugins for the save events.
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 
 		// Load the row if saving an existing item.
 		if ($id > 0)
@@ -226,7 +226,7 @@ class MenusModelMenu extends JModelForm
 		}
 
 		// Trigger the before event.
-		$result = JFactory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew));
+		$result = \JFactory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -237,7 +237,7 @@ class MenusModelMenu extends JModelForm
 		}
 
 		// Trigger the after save event.
-		JFactory::getApplication()->triggerEvent('onContentAfterSave', array($this->_context, &$table, $isNew));
+		\JFactory::getApplication()->triggerEvent('onContentAfterSave', array($this->_context, &$table, $isNew));
 
 		$this->setState('menu.id', $table->id);
 
@@ -265,7 +265,7 @@ class MenusModelMenu extends JModelForm
 		$table = $this->getTable();
 
 		// Include the plugins for the delete events.
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 
 		// Iterate the items to delete each one.
 		foreach ($itemIds as $itemId)
@@ -273,7 +273,7 @@ class MenusModelMenu extends JModelForm
 			if ($table->load($itemId))
 			{
 				// Trigger the before delete event.
-				$result = JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array($this->_context, $table));
+				$result = \JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array($this->_context, $table));
 
 				if (in_array(false, $result, true) || !$table->delete($itemId))
 				{
@@ -283,7 +283,7 @@ class MenusModelMenu extends JModelForm
 				}
 
 				// Trigger the after delete event.
-				JFactory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
+				\JFactory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
 
 				// TODO: Delete the menu associations - Menu items and Modules
 			}

@@ -6,15 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\View\Menus;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * The HTML Menus Menu Menus View.
  *
  * @since  1.6
  */
-class MenusViewMenus extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * An array of items
@@ -33,21 +39,21 @@ class MenusViewMenus extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    JForm
+	 * @var    \JForm
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $filterForm;
@@ -95,11 +101,11 @@ class MenusViewMenus extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = \JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -112,35 +118,35 @@ class MenusViewMenus extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_menus');
+		$canDo = ContentHelper::getActions('com_menus');
 
-		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
+		ToolbarHelper::title(\JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::addNew('menu.add');
+			ToolbarHelper::addNew('menu.add');
 		}
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::editList('menu.edit');
+			ToolbarHelper::editList('menu.edit');
 		}
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::divider();
-			JToolbarHelper::deleteList('COM_MENUS_MENU_CONFIRM_DELETE', 'menus.delete', 'JTOOLBAR_DELETE');
+			ToolbarHelper::divider();
+			ToolbarHelper::deleteList('COM_MENUS_MENU_CONFIRM_DELETE', 'menus.delete', 'JTOOLBAR_DELETE');
 		}
 
-		JToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+		ToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_menus');
+			ToolbarHelper::divider();
+			ToolbarHelper::preferences('com_menus');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
 	}
 }

@@ -6,15 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\View\Menutypes;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * The HTML Menus Menu Item TYpes View.
  *
  * @since  1.6
  */
-class MenusViewMenutypes extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The menu type id
@@ -27,7 +32,7 @@ class MenusViewMenutypes extends JViewLegacy
 	/**
 	 * Array of menu types
 	 *
-	 * @var    JObject[]
+	 * @var    \JObject[]
 	 * @since  3.7.0
 	 */
 	protected $types;
@@ -43,7 +48,7 @@ class MenusViewMenutypes extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
+		$app            = \JFactory::getApplication();
 		$this->recordId = $app->input->getInt('recordId');
 
 		$types = $this->get('TypeOptions');
@@ -58,11 +63,11 @@ class MenusViewMenutypes extends JViewLegacy
 
 			foreach ($list as $item)
 			{
-				$tmp[JText::_($item->title)] = $item;
+				$tmp[\JText::_($item->title)] = $item;
 			}
 
 			ksort($tmp);
-			$sortedTypes[JText::_($name)] = $tmp;
+			$sortedTypes[\JText::_($name)] = $tmp;
 		}
 
 		ksort($sortedTypes);
@@ -84,13 +89,13 @@ class MenusViewMenutypes extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Add page title
-		JToolbarHelper::title(JText::_('COM_MENUS'), 'list menumgr');
+		ToolbarHelper::title(\JText::_('COM_MENUS'), 'list menumgr');
 
 		// Get the toolbar object instance
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Cancel
-		$title = JText::_('JTOOLBAR_CANCEL');
+		$title = \JText::_('JTOOLBAR_CANCEL');
 		$dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
 					<span class=\"icon-remove\" title=\"$title\"></span>
 					$title</button>";
@@ -115,28 +120,28 @@ class MenusViewMenutypes extends JViewLegacy
 
 		// Adding System Links
 		$list           = array();
-		$o              = new JObject;
+		$o              = new \JObject;
 		$o->title       = 'COM_MENUS_TYPE_EXTERNAL_URL';
 		$o->type        = 'url';
 		$o->description = 'COM_MENUS_TYPE_EXTERNAL_URL_DESC';
 		$o->request     = null;
 		$list[]         = $o;
 
-		$o              = new JObject;
+		$o              = new \JObject;
 		$o->title       = 'COM_MENUS_TYPE_ALIAS';
 		$o->type        = 'alias';
 		$o->description = 'COM_MENUS_TYPE_ALIAS_DESC';
 		$o->request     = null;
 		$list[]         = $o;
 
-		$o              = new JObject;
+		$o              = new \JObject;
 		$o->title       = 'COM_MENUS_TYPE_SEPARATOR';
 		$o->type        = 'separator';
 		$o->description = 'COM_MENUS_TYPE_SEPARATOR_DESC';
 		$o->request     = null;
 		$list[]         = $o;
 
-		$o              = new JObject;
+		$o              = new \JObject;
 		$o->title       = 'COM_MENUS_TYPE_HEADING';
 		$o->type        = 'heading';
 		$o->description = 'COM_MENUS_TYPE_HEADING_DESC';
@@ -145,7 +150,7 @@ class MenusViewMenutypes extends JViewLegacy
 
 		if ($this->get('state')->get('client_id') == 1)
 		{
-			$o              = new JObject;
+			$o              = new \JObject;
 			$o->title       = 'COM_MENUS_TYPE_CONTAINER';
 			$o->type        = 'container';
 			$o->description = 'COM_MENUS_TYPE_CONTAINER_DESC';

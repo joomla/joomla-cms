@@ -6,25 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Menu Item List Model for Menus.
  *
  * @since  1.6
  */
-class MenusModelItems extends JModelList
+class Items extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   1.6
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -47,8 +54,7 @@ class MenusModelItems extends JModelList
 				'a.ordering'
 			);
 
-			$app = JFactory::getApplication();
-			$assoc = JLanguageAssociations::isEnabled();
+			$assoc = Associations::isEnabled();
 
 			if ($assoc)
 			{
@@ -56,7 +62,7 @@ class MenusModelItems extends JModelList
 			}
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -73,8 +79,7 @@ class MenusModelItems extends JModelList
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = JFactory::getApplication('administrator');
-		$user = JFactory::getUser();
+		$app = \JFactory::getApplication('administrator');
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -173,7 +178,7 @@ class MenusModelItems extends JModelList
 		$this->setState('filter.language', $language);
 
 		// Component parameters.
-		$params = JComponentHelper::getParams('com_menus');
+		$params = ComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -216,7 +221,7 @@ class MenusModelItems extends JModelList
 	/**
 	 * Builds an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery    A query object.
+	 * @return  \JDatabaseQuery    A query object.
 	 *
 	 * @since   1.6
 	 */
@@ -225,8 +230,7 @@ class MenusModelItems extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
+		$user = \JFactory::getUser();
 
 		// Select all fields from the table.
 		$query->select(
@@ -284,7 +288,7 @@ class MenusModelItems extends JModelList
 			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.menutype'));
 
 		// Join over the associations.
-		$assoc = JLanguageAssociations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -465,16 +469,16 @@ class MenusModelItems extends JModelList
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   \JForm  $form   A \JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		$name = $form->getName();
 
@@ -517,12 +521,12 @@ class MenusModelItems extends JModelList
 			// Check if menu type exists.
 			if (!$cMenu)
 			{
-				$this->setError(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+				$this->setError(\JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
 			}
 			// Check if menu type is valid against ACL.
-			elseif (!JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
+			elseif (!\JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
-				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+				$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
 			}
 		}
 
@@ -543,7 +547,7 @@ class MenusModelItems extends JModelList
 		if (!isset($this->cache[$store]))
 		{
 			$items = parent::getItems();
-			$lang  = JFactory::getLanguage();
+			$lang  = \JFactory::getLanguage();
 
 			if ($items)
 			{
@@ -556,7 +560,7 @@ class MenusModelItems extends JModelList
 					}
 
 					// Translate component name
-					$item->title = JText::_($item->title);
+					$item->title = \JText::_($item->title);
 				}
 			}
 

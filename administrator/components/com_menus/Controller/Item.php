@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Controller\Form;
 
 /**
  * The Menu Item Controller
  *
  * @since  1.6
  */
-class MenusControllerItem extends JControllerForm
+class Item extends Form
 {
 	/**
 	 * Method to check if you can add a new record.
@@ -29,9 +33,9 @@ class MenusControllerItem extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
-		$menuType = JFactory::getApplication()->input->getCmd('menutype', isset($data['menutype']) ? $data['menutype'] : '');
+		$menuType = \JFactory::getApplication()->input->getCmd('menutype', isset($data['menutype']) ? $data['menutype'] : '');
 
 		$menutypeID = 0;
 
@@ -58,7 +62,7 @@ class MenusControllerItem extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		$menutypeID = 0;
 
@@ -94,7 +98,7 @@ class MenusControllerItem extends JControllerForm
 	protected function getMenuTypeId($menutype)
 	{
 		$model = $this->getModel();
-		$table = $model->getTable('MenuType', 'JTable');
+		$table = $model->getTable('MenuType');
 
 		$table->load(array('menutype' => $menutype));
 
@@ -104,21 +108,20 @@ class MenusControllerItem extends JControllerForm
 	/**
 	 * Method to add a new menu item.
 	 *
-	 * @return  mixed  True if the record can be added, a JError object if not.
+	 * @return  mixed  True if the record can be added, a \JError object if not.
 	 *
 	 * @since   1.6
 	 */
 	public function add()
 	{
-		$app = JFactory::getApplication();
-		$context = 'com_menus.edit.item';
-
 		$result = parent::add();
 
 		if ($result)
 		{
-			$app->setUserState($context . '.type', null);
-			$app->setUserState($context . '.link', null);
+			$context = 'com_menus.edit.item';
+
+			$this->app->setUserState($context . '.type', null);
+			$this->app->setUserState($context . '.link', null);
 		}
 
 		return $result;
@@ -135,12 +138,13 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$model = $this->getModel('Item', '', array());
+		/* @var \Joomla\Component\Menus\Administrator\Model\Item $model */
+		$model = $this->getModel('Item', 'Administrator', array());
 
 		// Preset the redirect
-		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_menus&view=items' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}
@@ -156,23 +160,22 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
-		$context = 'com_menus.edit.item';
 		$result = parent::cancel();
 
 		if ($result)
 		{
 			// Clear the ancillary data from the session.
-			$app->setUserState($context . '.type', null);
-			$app->setUserState($context . '.link', null);
+			$context = 'com_menus.edit.item';
+			$this->app->setUserState($context . '.type', null);
+			$this->app->setUserState($context . '.link', null);
 
 			// Redirect to the list screen.
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-				. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+				. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'), false
 				)
 			);
 		}
@@ -193,14 +196,13 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		$app = JFactory::getApplication();
 		$result = parent::edit();
 
 		if ($result)
 		{
 			// Push the new ancillary data into the session.
-			$app->setUserState('com_menus.edit.item.type', null);
-			$app->setUserState('com_menus.edit.item.link', null);
+			$this->app->setUserState('com_menus.edit.item.type', null);
+			$this->app->setUserState('com_menus.edit.item.link', null);
 		}
 
 		return $result;
@@ -222,6 +224,7 @@ class MenusControllerItem extends JControllerForm
 
 		if ($recordId)
 		{
+			/* @var \Joomla\Component\Menus\Administrator\Model\Item $model */
 			$model    = $this->getModel();
 			$item     = $model->getItem($recordId);
 			$clientId = $item->client_id;
@@ -229,9 +232,8 @@ class MenusControllerItem extends JControllerForm
 		}
 		else
 		{
-			$app      = JFactory::getApplication();
-			$clientId = $app->input->get('client_id', '0', 'int');
-			$menuType = $app->input->get('menutype', 'mainmenu', 'cmd');
+			$clientId = $this->input->get('client_id', '0', 'int');
+			$menuType = $this->input->get('menutype', 'mainmenu', 'cmd');
 			$append   = '&client_id=' . $clientId . ($menuType ? '&menutype=' . $menuType : '') . $append;
 		}
 
@@ -251,10 +253,12 @@ class MenusControllerItem extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app      = JFactory::getApplication();
-		$model    = $this->getModel('Item', '', array());
+		$app      = $this->app;
+
+		/* @var \Joomla\Component\Menus\Administrator\Model\Item $model */
+		$model    = $this->getModel('Item', 'Administrator', array());
 		$table    = $model->getTable();
 		$data     = $this->input->post->get('jform', array(), 'array');
 		$task     = $this->getTask();
@@ -284,7 +288,7 @@ class MenusControllerItem extends JControllerForm
 			if ($model->checkin($data['id']) === false)
 			{
 				// Check-in failed, go back to the item and display a notice.
-				$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
+				$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
 
 				return false;
 			}
@@ -298,10 +302,10 @@ class MenusControllerItem extends JControllerForm
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+			$this->setMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
-				JRoute::_(
+				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list
 					. $this->getRedirectToListAppend(), false
 				)
@@ -316,7 +320,7 @@ class MenusControllerItem extends JControllerForm
 
 		if (!$form)
 		{
-			JError::raiseError(500, $model->getError());
+			\JError::raiseError(500, $model->getError());
 
 			return false;
 		}
@@ -334,9 +338,9 @@ class MenusControllerItem extends JControllerForm
 
 				if (!in_array($protocol, $scheme))
 				{
-					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
+					$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
 					$this->setRedirect(
-						JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
+						\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
 					);
 
 					return false;
@@ -393,7 +397,7 @@ class MenusControllerItem extends JControllerForm
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if ($errors[$i] instanceof Exception)
+				if ($errors[$i] instanceof \Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
@@ -408,7 +412,7 @@ class MenusControllerItem extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-			$this->setRedirect(JRoute::_($editUrl, false));
+			$this->setRedirect(\JRoute::_($editUrl, false));
 
 			return false;
 		}
@@ -421,8 +425,8 @@ class MenusControllerItem extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
-			$this->setRedirect(JRoute::_($editUrl, false));
+			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+			$this->setRedirect(\JRoute::_($editUrl, false));
 
 			return false;
 		}
@@ -431,14 +435,14 @@ class MenusControllerItem extends JControllerForm
 		if ($model->checkin($data['id']) === false)
 		{
 			// Check-in failed, go back to the row and display a notice.
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
+			$this->setMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
 			$redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-			$this->setRedirect(JRoute::_($redirectUrl, false));
+			$this->setRedirect(\JRoute::_($redirectUrl, false));
 
 			return false;
 		}
 
-		$this->setMessage(JText::_('COM_MENUS_SAVE_SUCCESS'));
+		$this->setMessage(\JText::_('COM_MENUS_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -453,7 +457,7 @@ class MenusControllerItem extends JControllerForm
 
 				// Redirect back to the edit screen.
 				$editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-				$this->setRedirect(JRoute::_($editUrl, false));
+				$this->setRedirect(\JRoute::_($editUrl, false));
 				break;
 
 			case 'save2new':
@@ -464,7 +468,7 @@ class MenusControllerItem extends JControllerForm
 				$app->setUserState('com_menus.edit.item.link', null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(), false));
+				$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(), false));
 				break;
 
 			default:
@@ -476,7 +480,7 @@ class MenusControllerItem extends JControllerForm
 
 				// Redirect to the list screen.
 				$this->setRedirect(
-					JRoute::_(
+					\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
 					. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 					)
@@ -496,7 +500,7 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function setType()
 	{
-		$app = JFactory::getApplication();
+		$app = $this->app;
 
 		// Get the posted values from the request.
 		$data = $this->input->post->get('jform', array(), 'array');
@@ -526,10 +530,10 @@ class MenusControllerItem extends JControllerForm
 		{
 			if (isset($type->request))
 			{
-				$component = JComponentHelper::getComponent($type->request->option);
+				$component = ComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 
-				$app->setUserState('com_menus.edit.item.link', 'index.php?' . JUri::buildQuery((array) $type->request));
+				$app->setUserState('com_menus.edit.item.link', 'index.php?' . \JUri::buildQuery((array) $type->request));
 			}
 		}
 		// If the type is alias you just need the item id from the menu item referenced.
@@ -550,7 +554,9 @@ class MenusControllerItem extends JControllerForm
 		$app->setUserState('com_menus.edit.item.data', $data);
 
 		$this->type = $type;
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false));
+		$this->setRedirect(
+			\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
+		);
 	}
 
 	/**
@@ -562,21 +568,21 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function getParentItem()
 	{
-		$app = JFactory::getApplication();
+		$app = $this->app;
 
 		$results  = array();
 		$menutype = $this->input->get->get('menutype');
 
 		if ($menutype)
 		{
-			$model = $this->getModel('Items', '', array());
+			/* @var \Joomla\Component\Menus\Administrator\Model\Items $model */
+			$model = $this->getModel('Items', 'Administrator', array());
 			$model->getState();
 			$model->setState('filter.menutype', $menutype);
 			$model->setState('list.select', 'a.id, a.title, a.level');
 			$model->setState('list.start', '0');
 			$model->setState('list.limit', '0');
 
-			/** @var  MenusModelItems  $model */
 			$results = $model->getItems();
 
 			// Pad the option text with spaces using depth level as a multiplier.
@@ -586,7 +592,7 @@ class MenusControllerItem extends JControllerForm
 			}
 		}
 
-		// Output a JSON object
+		// Output a \JSON object
 		echo json_encode($results);
 
 		$app->close();
