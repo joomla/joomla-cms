@@ -212,6 +212,24 @@ var JFormValidator = function() {
  	 	 	var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
  	 	 	return regex.test(value);
  	 	});
+		setHandler('natural-number', function(value, element) {
+		    value = punycode.toASCII(value);
+ 	 	 	var regex = /^[1-9]\d*$/;
+ 	 	 	return regex.test(value);
+ 	 	});
+		setHandler('whole-number', function(value, element) {
+			value = punycode.toASCII(value);
+ 	 	 	var regex = /^[0-9]{1,9}$/;
+ 	 	 	return regex.test(value);
+ 	 	});
+		setHandler('date', function(value, element) {
+ 	 	 	var regex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+ 	 	 	return regex.test(value);
+ 	 	});
+		setHandler('datetime', function(value, element) {
+ 	 	 	var regex = /^(\d{4})(\/|\-)(\d{1,2})(\/|\-)(\d{1,2})\s(\d{1,2})(\/|\:)(\d{1,2})(\/|\:)(\d{1,2})$/;
+ 	 	 	return regex.test(value);
+ 	 	});
  	 	// Attach to forms with class 'form-validate'
  	 	var forms = jQuery('form.form-validate');
  	 	for (var i = 0, l = forms.length; i < l; i++) {
