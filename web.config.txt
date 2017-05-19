@@ -28,4 +28,11 @@
        </rewrite>
    </system.webServer>
    </location>
+   <location path="media">
+        <system.webServer>
+            <staticContent>
+                <mimeMap fileExtension=".woff" mimeType="application/x-woff" />
+            </staticContent>
+        </system.webServer>
+    </location>
 </configuration>
