@@ -50,7 +50,7 @@ class JHelperMedia
 	 * Get the Mime type
 	 *
 	 * @param   string   $file     The link to the file to be checked
-	 * @param   boolean  $isImage  True if the passed file is a image else false
+	 * @param   boolean  $isImage  True if the passed file is an image else false
 	 *
 	 * @return  mixed    the mime type detected false on error
 	 *
