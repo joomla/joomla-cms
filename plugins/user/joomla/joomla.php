@@ -148,17 +148,19 @@ class PlgUserJoomla extends JPlugin
 					if (strpos($this->app->get('mailfrom'), '@'))
 					{
 
-						// Assemble the email data...the sexy way!
-						$mail = JFactory::getMailer()
-							->setSender(
+						// Assemble the email data...
+						$mail = JFactory::getMailer();
+
+						$mail->setSender(
 								array(
 									$this->app->get('mailfrom'),
 									$this->app->get('fromname')
 								)
-							)
-							->addRecipient($user['email'])
-							->setSubject($emailSubject)
-							->setBody($emailBody);
+							);
+
+						$mail->addRecipient($user['email']);
+						$mail->setSubject($emailSubject);
+						$mail->setBody($emailBody);
 
 						// Set application language back to default if we changed it
 						if ($userLocale != $defaultLocale)
