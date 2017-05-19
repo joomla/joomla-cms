@@ -1294,6 +1294,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'<img src="xxx" height="zzz" />',
 				'Test empty alt attribute'
 			),
+			'infinte_loop_c' => array(
+				'string',
+				'<hr title="Äußerungen" class="system-pagebreak" alt="Äußerungen" />',
+				'<hr title="Äußerungen" class="system-pagebreak" alt="Äußerungen" />',
+				'Test correct position of close quote in UTF-8 value'
+			),
 			'quotes_in_text' => array(
 				'string',
 				$quotesInText1,
