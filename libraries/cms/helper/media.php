@@ -60,7 +60,7 @@ class JHelperMedia
 	{
 		// If we can't detect anything mime is false
 		$mime = false;
-		
+
 		try
 		{
 			if ($isImage && function_exists('exif_imagetype'))
@@ -215,7 +215,7 @@ class JHelperMedia
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
 				{
-					// Get the mime type this is a image file
+					// Get the mime type this is an image file
 					$mime = $this->getMimeType($file['tmp_name'], true);
 
 					// Did we get anything useful?
@@ -248,10 +248,10 @@ class JHelperMedia
 			}
 			elseif (!in_array($filetype, $ignored))
 			{
-				// Get the mime type this is not a image file
+				// Get the mime type this is not an image file
 				$mime = $this->getMimeType($file['tmp_name'], false);
 
-				// Did we got anything usefull?
+				// Did we get anything useful?
 				if ($mime != false)
 				{
 					$result = $this->checkMimeType($mime, $component);
