@@ -6,27 +6,31 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Menu List Model for Menus.
  *
  * @since  1.6
  */
-class MenusModelMenus extends JModelList
+class Menus extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   1.6
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -38,7 +42,7 @@ class MenusModelMenus extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -95,7 +99,7 @@ class MenusModelMenus extends JModelList
 		{
 			$countPublished = $db->loadAssocList('menutype', 'count_published');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -112,7 +116,7 @@ class MenusModelMenus extends JModelList
 		{
 			$countUnpublished = $db->loadAssocList('menutype', 'count_published');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -129,7 +133,7 @@ class MenusModelMenus extends JModelList
 		{
 			$countTrashed = $db->loadAssocList('menutype', 'count_published');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -237,7 +241,7 @@ class MenusModelMenus extends JModelList
 	 */
 	public function &getModules()
 	{
-		$model = JModelLegacy::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
+		$model = new Menu(array('ignore_request' => true));
 		$result = $model->getModules();
 
 		return $result;

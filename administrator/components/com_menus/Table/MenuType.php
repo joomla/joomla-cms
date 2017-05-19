@@ -6,15 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 /**
- * Menus component helper.
+ * Menu table
  *
  * @since  1.6
  */
-class MenusHelper extends \Joomla\Component\Menus\Administrator\Helper\MenusHelper
+class MenuType extends \JTableMenuType
 {
 
 }

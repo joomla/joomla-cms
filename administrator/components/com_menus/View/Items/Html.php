@@ -6,20 +6,28 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Menus\Administrator\View\Items;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * The HTML Menus Menu Items View.
  *
  * @since  1.6
  */
-class MenusViewItems extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * Array used for displaying the levels filter
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $f_levels;
@@ -34,21 +42,21 @@ class MenusViewItems extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    JForm
+	 * @var    \JForm
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $filterForm;
@@ -88,7 +96,7 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->total         = $this->get('Total');
@@ -105,7 +113,7 @@ class MenusViewItems extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->ordering = array();
@@ -119,23 +127,23 @@ class MenusViewItems extends JViewLegacy
 			switch ($item->type)
 			{
 				case 'url':
-					$value = JText::_('COM_MENUS_TYPE_EXTERNAL_URL');
+					$value = \JText::_('COM_MENUS_TYPE_EXTERNAL_URL');
 					break;
 
 				case 'alias':
-					$value = JText::_('COM_MENUS_TYPE_ALIAS');
+					$value = \JText::_('COM_MENUS_TYPE_ALIAS');
 					break;
 
 				case 'separator':
-					$value = JText::_('COM_MENUS_TYPE_SEPARATOR');
+					$value = \JText::_('COM_MENUS_TYPE_SEPARATOR');
 					break;
 
 				case 'heading':
-					$value = JText::_('COM_MENUS_TYPE_HEADING');
+					$value = \JText::_('COM_MENUS_TYPE_HEADING');
 					break;
 
 				case 'container':
-					$value = JText::_('COM_MENUS_TYPE_CONTAINER');
+					$value = \JText::_('COM_MENUS_TYPE_CONTAINER');
 					break;
 
 				case 'component':
@@ -147,7 +155,7 @@ class MenusViewItems extends JViewLegacy
 					if (!empty($item->componentname))
 					{
 						$titleParts   = array();
-						$titleParts[] = JText::_($item->componentname);
+						$titleParts[] = \JText::_($item->componentname);
 						$vars         = null;
 
 						parse_str($item->link, $vars);
@@ -175,7 +183,7 @@ class MenusViewItems extends JViewLegacy
 										// Check if the key is valid. Needed due to B/C so we don't show untranslated keys. This check should be removed with Joomla 4.
 										if ($lang->hasKey($viewTitle))
 										{
-											$titleParts[] = JText::_($viewTitle);
+											$titleParts[] = \JText::_($viewTitle);
 										}
 									}
 								}
@@ -213,13 +221,13 @@ class MenusViewItems extends JViewLegacy
 								{
 									if (!empty($layout[0]['title']))
 									{
-										$titleParts[] = JText::_(trim((string) $layout[0]['title']));
+										$titleParts[] = \JText::_(trim((string) $layout[0]['title']));
 									}
 								}
 
 								if (!empty($layout[0]->message[0]))
 								{
-									$item->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
+									$item->item_type_desc = \JText::_(trim((string) $layout[0]->message[0]));
 								}
 							}
 
@@ -238,11 +246,11 @@ class MenusViewItems extends JViewLegacy
 					{
 						if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result))
 						{
-							$value = JText::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
+							$value = \JText::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
 						}
 						else
 						{
-							$value = JText::_('COM_MENUS_TYPE_UNKNOWN');
+							$value = \JText::_('COM_MENUS_TYPE_UNKNOWN');
 						}
 					}
 					break;
@@ -254,16 +262,16 @@ class MenusViewItems extends JViewLegacy
 
 		// Levels filter.
 		$options   = array();
-		$options[] = JHtml::_('select.option', '1', JText::_('J1'));
-		$options[] = JHtml::_('select.option', '2', JText::_('J2'));
-		$options[] = JHtml::_('select.option', '3', JText::_('J3'));
-		$options[] = JHtml::_('select.option', '4', JText::_('J4'));
-		$options[] = JHtml::_('select.option', '5', JText::_('J5'));
-		$options[] = JHtml::_('select.option', '6', JText::_('J6'));
-		$options[] = JHtml::_('select.option', '7', JText::_('J7'));
-		$options[] = JHtml::_('select.option', '8', JText::_('J8'));
-		$options[] = JHtml::_('select.option', '9', JText::_('J9'));
-		$options[] = JHtml::_('select.option', '10', JText::_('J10'));
+		$options[] = \JHtml::_('select.option', '1', \JText::_('J1'));
+		$options[] = \JHtml::_('select.option', '2', \JText::_('J2'));
+		$options[] = \JHtml::_('select.option', '3', \JText::_('J3'));
+		$options[] = \JHtml::_('select.option', '4', \JText::_('J4'));
+		$options[] = \JHtml::_('select.option', '5', \JText::_('J5'));
+		$options[] = \JHtml::_('select.option', '6', \JText::_('J6'));
+		$options[] = \JHtml::_('select.option', '7', \JText::_('J7'));
+		$options[] = \JHtml::_('select.option', '8', \JText::_('J8'));
+		$options[] = \JHtml::_('select.option', '9', \JText::_('J9'));
+		$options[] = \JHtml::_('select.option', '10', \JText::_('J10'));
 
 		$this->f_levels = $options;
 
@@ -271,15 +279,15 @@ class MenusViewItems extends JViewLegacy
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = JHtmlSidebar::render();
+			$this->sidebar = \JHtmlSidebar::render();
 		}
 		else
 		{
 			// In menu items associations modal we need to remove language filter if forcing a language.
-			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
-				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 
 				// Also, unset the active language filter so the search tools is not open by default with this filter.
@@ -288,7 +296,7 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		JFactory::getApplication()->triggerEvent('onBeforeRenderMenuItems', array($this));
+		\JFactory::getApplication()->triggerEvent('onBeforeRenderMenuItems', array($this));
 
 		parent::display($tpl);
 	}
@@ -304,55 +312,55 @@ class MenusViewItems extends JViewLegacy
 	{
 		$menutypeId = (int) $this->state->get('menutypeid');
 
-		$canDo = JHelperContent::getActions('com_menus', 'menu', (int) $menutypeId);
-		$user  = JFactory::getUser();
+		$canDo = ContentHelper::getActions('com_menus', 'menu', (int) $menutypeId);
+		$user  = \JFactory::getUser();
 
 		// Get the menu title
 		$menuTypeTitle = $this->get('State')->get('menutypetitle');
 
 		// Get the toolbar object instance
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		if ($menuTypeTitle)
 		{
-			JToolbarHelper::title(JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+			ToolbarHelper::title(\JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_ALL_TITLE'), 'list menumgr');
+			ToolbarHelper::title(\JText::_('COM_MENUS_VIEW_ITEMS_ALL_TITLE'), 'list menumgr');
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			JToolbarHelper::addNew('item.add');
+			ToolbarHelper::addNew('item.add');
 		}
 
 		$protected = $this->state->get('filter.menutype') == 'main';
 
 		if ($canDo->get('core.edit') && !$protected)
 		{
-			JToolbarHelper::editList('item.edit');
+			ToolbarHelper::editList('item.edit');
 		}
 
 		if ($canDo->get('core.edit.state') && !$protected)
 		{
-			JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		if (JFactory::getUser()->authorise('core.admin') && !$protected)
+		if (\JFactory::getUser()->authorise('core.admin') && !$protected)
 		{
-			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
+			ToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
 		if ($canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
 		{
-			JToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
+			ToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 		}
 
-		if (JFactory::getUser()->authorise('core.admin'))
+		if (\JFactory::getUser()->authorise('core.admin'))
 		{
-			JToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
+			ToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
 		}
 
 		// Add a batch button
@@ -360,10 +368,10 @@ class MenusViewItems extends JViewLegacy
 			&& $user->authorise('core.edit', 'com_menus')
 			&& $user->authorise('core.edit.state', 'com_menus'))
 		{
-			$title = JText::_('JTOOLBAR_BATCH');
+			$title = \JText::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('joomla.toolbar.batch');
+			// Instantiate a new \JLayoutFile instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -371,20 +379,20 @@ class MenusViewItems extends JViewLegacy
 
 		if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif (!$protected && $canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::trash('items.trash');
+			ToolbarHelper::trash('items.trash');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			JToolbarHelper::divider();
-			JToolbarHelper::preferences('com_menus');
+			ToolbarHelper::divider();
+			ToolbarHelper::preferences('com_menus');
 		}
 
-		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
+		ToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
 	}
 
 	/**
@@ -401,23 +409,23 @@ class MenusViewItems extends JViewLegacy
 		if ($this->state->get('filter.client_id') == 0)
 		{
 			return array(
-				'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
-				'a.published' => JText::_('JSTATUS'),
-				'a.title'     => JText::_('JGLOBAL_TITLE'),
-				'a.home'      => JText::_('COM_MENUS_HEADING_HOME'),
-				'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
-				'association' => JText::_('COM_MENUS_HEADING_ASSOCIATION'),
-				'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
-				'a.id'        => JText::_('JGRID_HEADING_ID')
+				'a.lft'       => \JText::_('JGRID_HEADING_ORDERING'),
+				'a.published' => \JText::_('JSTATUS'),
+				'a.title'     => \JText::_('JGLOBAL_TITLE'),
+				'a.home'      => \JText::_('COM_MENUS_HEADING_HOME'),
+				'a.access'    => \JText::_('JGRID_HEADING_ACCESS'),
+				'association' => \JText::_('COM_MENUS_HEADING_ASSOCIATION'),
+				'language'    => \JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'        => \JText::_('JGRID_HEADING_ID')
 			);
 		}
 		else
 		{
 			return array(
-				'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
-				'a.published' => JText::_('JSTATUS'),
-				'a.title'     => JText::_('JGLOBAL_TITLE'),
-				'a.id'        => JText::_('JGRID_HEADING_ID')
+				'a.lft'       => \JText::_('JGRID_HEADING_ORDERING'),
+				'a.published' => \JText::_('JSTATUS'),
+				'a.title'     => \JText::_('JGLOBAL_TITLE'),
+				'a.id'        => \JText::_('JGRID_HEADING_ID')
 			);
 		}
 	}
