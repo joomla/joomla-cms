@@ -33,9 +33,10 @@ foreach ($value as $path)
 	if ($fieldParams->get('directory', '/') !== '/')
 	{
 		$buffer .= sprintf('<img src="images/%s/%s" %s />',
-			$fieldParams->get('directory') ,
+			$fieldParams->get('directory'),
 			htmlentities($path, ENT_COMPAT, true),
-			$class);
+			$class
+		);
 	}
 	else
 	{
