@@ -19,3 +19,44 @@
 .icon-unpublish {
   color: $brand-danger;
 }
+
+
+.tbody-icon {
+  padding: 0 3px;
+  text-align: center;
+  background-color: transparent;
+  border: 0;
+  span {
+    width: 26px;
+    height: 26px;
+    font-size: 1rem;
+    line-height: 22px;
+    color: #ccc;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+  }
+  .icon-publish {
+    color: $brand-success;
+    border-color: $brand-success;
+  }
+  .icon-featured {
+    color: $brand-warning;
+    border-color: $brand-warning;
+  }
+  .icon-unpublish {
+    color: $brand-danger;
+    border-color: $brand-danger;
+  }
+  .icon-archive {
+    color: $gray;
+    border-color: $gray;
+  }
+  .icon-checkedout {
+    width: auto;
+    height: auto;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    color: $gray;
+    border: 0;
+  }
+}

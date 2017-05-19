@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Form;
 
 /**
  * Template style controller class.
  *
  * @since  1.6
  */
-class TemplatesControllerStyle extends JControllerForm
+class Style extends Form
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -36,24 +39,22 @@ class TemplatesControllerStyle extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!JSession::checkToken())
+		if (!\JSession::checkToken())
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+			\JFactory::getApplication()->redirect('index.php', \JText::_('JINVALID_TOKEN'));
 		}
 
-		$document = JFactory::getDocument();
+		$document = \JFactory::getDocument();
 
 		if ($document->getType() == 'json')
 		{
 
-			$app   = JFactory::getApplication();
-			$lang  = JFactory::getLanguage();
+			$app   = \JFactory::getApplication();
 			$model = $this->getModel();
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');
 			$checkin = property_exists($table, 'checked_out');
 			$context = $this->option . '.edit.' . $this->context;
-			$task = $this->getTask();
 
 			$item = $model->getItem($app->getTemplate('template')->id);
 
@@ -69,12 +70,12 @@ class TemplatesControllerStyle extends JControllerForm
 			if (!$this->allowSave($data, $key))
 			{
 
-				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+				$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 				return false;
 			}
 
-			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/models/forms');
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/models/forms');
 
 			// Validate the posted data.
 			// Sometimes the form needs some posted data, such as for plugins and modules.
@@ -98,7 +99,7 @@ class TemplatesControllerStyle extends JControllerForm
 				// Push up to three validation messages out to the user.
 				for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 				{
-					if ($errors[$i] instanceof Exception)
+					if ($errors[$i] instanceof \Exception)
 					{
 						$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 					}
@@ -125,7 +126,7 @@ class TemplatesControllerStyle extends JControllerForm
 				// Save the data in the session.
 				$app->setUserState($context . '.data', $validData);
 
-				$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+				$app->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 				return false;
 			}
@@ -137,7 +138,7 @@ class TemplatesControllerStyle extends JControllerForm
 				$app->setUserState($context . '.data', $validData);
 
 				// Check-in failed, so go back to the record and display a notice.
-				$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+				$app->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 				return false;
 			}

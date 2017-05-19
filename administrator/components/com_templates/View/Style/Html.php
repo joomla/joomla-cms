@@ -6,41 +6,45 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Templates\Administrator\View\Style;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * View to edit a template style.
  *
  * @since  1.6
  */
-class TemplatesViewStyle extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
-	 * The JObject (on success, false on failure)
+	 * The \JObject (on success, false on failure)
 	 *
-	 * @var   JObject
+	 * @var   \JObject
 	 */
 	protected $item;
 
 	/**
 	 * The form object
 	 *
-	 * @var   JForm
+	 * @var   \JForm
 	 */
 	protected $form;
 
 	/**
 	 * The model state
 	 *
-	 * @var   JObject
+	 * @var   \JObject
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $canDo;
@@ -59,12 +63,12 @@ class TemplatesViewStyle extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->form  = $this->get('Form');
-		$this->canDo = JHelperContent::getActions('com_templates');
+		$this->canDo = ContentHelper::getActions('com_templates');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -81,14 +85,14 @@ class TemplatesViewStyle extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 		$canDo = $this->canDo;
 
-		JToolbarHelper::title(
-			$isNew ? JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
-			: JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
+		\JToolbarHelper::title(
+			$isNew ? \JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
+			: \JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
 		);
 
 		$toolbarButtons = [];
@@ -106,30 +110,30 @@ class TemplatesViewStyle extends JViewLegacy
 			$toolbarButtons[] = ['save2copy', 'style.save2copy'];
 		}
 
-		JToolbarHelper::saveGroup(
+		\JToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			JToolbarHelper::cancel('style.cancel');
+			\JToolbarHelper::cancel('style.cancel');
 		}
 		else
 		{
-			JToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
+			\JToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::divider();
+		\JToolbarHelper::divider();
 
 		// Get the help information for the template item.
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
-			$url = JText::_($help->url);
+			$url = \JText::_($help->url);
 			$lang->setDebug($debug);
 		}
 		else
@@ -137,6 +141,6 @@ class TemplatesViewStyle extends JViewLegacy
 			$url = null;
 		}
 
-		JToolbarHelper::help($help->key, false, $url);
+		\JToolbarHelper::help($help->key, false, $url);
 	}
 }

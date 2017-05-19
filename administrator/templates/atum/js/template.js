@@ -317,7 +317,7 @@
 			var subhead = document.getElementById('subhead');
 
 			if (subhead) {
-				var scrollTop = (window.pageYOffset || subhead.scrollTop)  - (subhead.clientTop || 40);
+				var scrollTop = (window.pageYOffset || subhead.scrollTop)  - (subhead.clientTop || 0);
 
 				if (scrollTop >= navTop && !isFixed) {
 					isFixed = true;
