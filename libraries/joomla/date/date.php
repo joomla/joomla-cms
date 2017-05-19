@@ -465,4 +465,122 @@ class JDate extends DateTime
 	{
 		return (int) parent::format('U');
 	}
+
+	/**
+	 * Adds an amount of days, months, years, hours, minutes and seconds to a JDate object
+	 *
+	 * @param  int     $number    Amount of <var>interval</var>(s) to add
+	 * @param  string  $interval  String literal to specify what to add
+	 *                            Allowed values (case insensitive) are: year, month, day, week, hour, minute, second
+	 *
+	 * @return  JDate  The current object to allow chaining
+	 *
+	 * @see  DateInterval
+	 */
+	public function addInterval($number, $interval)
+	{
+		$dateInterval = $this->createDateInterval($number, $interval);
+
+		if ($number >= 0)
+		{
+			$this->add($dateInterval);
+		}
+		else
+		{
+			$this->sub($dateInterval);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Subtract an amount of days, months, years, hours, minutes and seconds from a JDate object
+	 *
+	 * @param  int     $number    Amount of <var>interval</var>(s) to subtract
+	 * @param  string  $interval  String literal to specify what to subtract
+	 *                            Allowed values (case insensitive) are: year, month, day, week, hour, minute, second
+	 *
+	 * @return  JDate  The current object to allow chaining
+	 *
+	 * @see  DateInterval
+	 */
+	public function subInterval($number, $interval)
+	{
+		$dateInterval = $this->createDateInterval(abs($number), $interval);
+
+		if ($number >= 0)
+		{
+			$this->sub($dateInterval);
+		}
+		else
+		{
+			$this->add($dateInterval);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Create a DateInterval object from the given number and interval name
+	 *
+	 * @param  int     $number    Amount of <var>interval</var>(s)
+	 * @param  string  $interval  String literal to specify the type of interval
+	 *                            Allowed values (case insensitive) are: year, month, day, week, hour, minute, second
+	 *
+	 * @return  DateInterval
+	 */
+	protected function createDateInterval($number, $interval)
+	{
+		switch (strtolower($interval))
+		{
+			case 'years':
+			case 'year':
+			case 'yr':
+			case 'y':
+				$di = 'P%dY';
+				break;
+			case 'months':
+			case 'month':
+			case 'mo':
+				$di = 'P%dM';
+				break;
+			case 'days':
+			case 'day':
+			case 'd':
+				$di = 'P%dD';
+				break;
+			case 'weeks':
+			case 'week':
+			case 'wk':
+			case 'w':
+				$di = 'P%dW';
+				break;
+			case 'hours':
+			case 'hour':
+			case 'hr':
+			case 'h':
+				$di = 'PT%dH';
+				break;
+			case 'minutes':
+			case 'minute':
+			case 'min':
+			case 'mi':
+				$di = 'PT%dM';
+				break;
+			case 'seconds':
+			case 'second':
+			case 'sec':
+			case 's':
+				$di = 'PT%dS';
+				break;
+			default:
+				// todo: Throw an InvalidArgumentException exception
+				$di = 'P0D';
+		}
+
+		// Be double sure that the number are positive
+		$interval_spec = sprintf($di, abs($number));
+
+		return new DateInterval($interval_spec);
+	}
 }
