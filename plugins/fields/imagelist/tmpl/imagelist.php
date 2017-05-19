@@ -17,7 +17,7 @@ $class = $fieldParams->get('image_class');
 
 if ($class)
 {
-	$class = 'class="' . htmlentities($class, ENT_COMPAT, true) . '"';
+	$class = 'class="' . htmlentities($class, ENT_COMPAT,'UTF-8', true) . '"';
 }
 
 $value  = (array) $field->value;
@@ -34,13 +34,13 @@ foreach ($value as $path)
 	{
 		$buffer .= sprintf('<img src="images/%s/%s" %s />',
 			$fieldParams->get('directory'),
-			htmlentities($path, ENT_COMPAT, true),
+			htmlentities($path, ENT_COMPAT,'UTF-8', true),
 			$class
 		);
 	}
 	else
 	{
-		$buffer .= '<img src="images/' . htmlentities($path, ENT_COMPAT, true) . '"' . $class . '/>';
+		$buffer .= '<img src="images/' . htmlentities($path, ENT_COMPAT, 'UTF-8', true) . '"' . $class . '/>';
 	}
 }
 
