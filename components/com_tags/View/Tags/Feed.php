@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Site\View\Tags;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\HtmlView;
 
 /**
  * HTML View class for the Tags component all tags view
  *
  * @since  3.1
  */
-class TagsViewTags extends JViewLegacy
+class Feed extends HtmlView
 {
 	/**
 	 * Execute and display a template script.
@@ -25,9 +28,9 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
-		$document       = JFactory::getDocument();
-		$document->link = JRoute::_('index.php?option=com_tags&view=tags');
+		$app            = \JFactory::getApplication();
+		$document       = \JFactory::getDocument();
+		$document->link = \JRoute::_('index.php?option=com_tags&view=tags');
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -55,7 +58,7 @@ class TagsViewTags extends JViewLegacy
 			$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 			// Load individual item creator class
-			$feeditem = new JFeedItem;
+			$feeditem = new \JFeedItem;
 			$feeditem->title       = $title;
 			$feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
 			$feeditem->description = $description;

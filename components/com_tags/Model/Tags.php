@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Model\ListModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1
  */
-class TagsModelTags extends JModelList
+class Tags extends ListModel
 {
 	/**
 	 * Model context string.
@@ -40,7 +44,7 @@ class TagsModelTags extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('site');
+		$app = \JFactory::getApplication('site');
 
 		// Load state from the request.
 		$pid = $app->input->getInt('parent_id');
@@ -51,7 +55,7 @@ class TagsModelTags extends JModelList
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.offset', $offset);
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
@@ -61,7 +65,7 @@ class TagsModelTags extends JModelList
 		$this->setState('filter.published', 1);
 		$this->setState('filter.access', true);
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_tags')) &&  (!$user->authorise('core.edit', 'com_tags')))
 		{
@@ -88,7 +92,7 @@ class TagsModelTags extends JModelList
 
 		if (!count($items))
 		{
-			$app = JFactory::getApplication();
+			$app = \JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;
@@ -111,8 +115,8 @@ class TagsModelTags extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$app            = JFactory::getApplication('site');
-		$user           = JFactory::getUser();
+		$app            = \JFactory::getApplication('site');
+		$user           = \JFactory::getUser();
 		$groups         = implode(',', $user->getAuthorisedViewLevels());
 		$pid            = $this->getState('tag.parent_id');
 		$orderby        = $this->state->params->get('all_tags_orderby', 'title');
@@ -140,14 +144,14 @@ class TagsModelTags extends JModelList
 		// Optionally filter on language
 		if (empty($language))
 		{
-			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+			$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 		}
 
 		if ($language != 'all')
 		{
 			if ($language == 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = ContentHelper::getCurrentLanguage();
 			}
 
 			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');

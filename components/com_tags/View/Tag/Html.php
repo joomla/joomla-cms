@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Site\View\Tag;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\View\HtmlView;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,12 +19,12 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1
  */
-class TagsViewTag extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The model state
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  3.1
 	 */
 	protected $state;
@@ -29,7 +32,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * List of items associated with the tag
 	 *
-	 * @var    stdClass[]|false
+	 * @var    \stdClass[]|false
 	 * @since  3.1
 	 */
 	protected $items;
@@ -37,7 +40,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Tag data for the current tag or tags
 	 *
-	 * @var    JObject[]
+	 * @var    \JObject[]
 	 * @since  3.1
 	 */
 	protected $item;
@@ -61,7 +64,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 * @since  3.1
 	 */
 	protected $pagination;
@@ -93,7 +96,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * The logged in user
 	 *
-	 * @var    JUser|null
+	 * @var    \JUser|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $user = null;
@@ -109,7 +112,7 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app    = JFactory::getApplication();
+		$app    = \JFactory::getApplication();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -122,12 +125,12 @@ class TagsViewTag extends JViewLegacy
 
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
-		$user   = JFactory::getUser();
+		$user   = \JFactory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
 
 		foreach ($item as $itemElement)
@@ -149,24 +152,24 @@ class TagsViewTag extends JViewLegacy
 
 		if ($items !== false)
 		{
-			JPluginHelper::importPlugin('content');
+			PluginHelper::importPlugin('content');
 
 			foreach ($items as $itemElement)
 			{
-				$itemElement->event = new stdClass;
+				$itemElement->event = new \stdClass;
 
 				// For some plugins.
 				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
-				JFactory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				\JFactory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 
-				$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+				$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
 				// Write the results back into the body
@@ -271,7 +274,7 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -304,11 +307,11 @@ class TagsViewTag extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -346,9 +349,9 @@ class TagsViewTag extends JViewLegacy
 		{
 			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(\JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(\JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 
@@ -365,7 +368,7 @@ class TagsViewTag extends JViewLegacy
 
 		if (!empty($this->item))
 		{
-			$user   = JFactory::getUser();
+			$user   = \JFactory::getUser();
 			$groups = $user->getAuthorisedViewLevels();
 
 			foreach ($this->item as $item)

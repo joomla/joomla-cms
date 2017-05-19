@@ -6,17 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Tags Component Tag Model
  *
  * @since  3.1
  */
-class TagsModelTag extends JModelList
+class Tag extends ListModel
 {
 	/**
 	 * The tags that apply.
@@ -37,12 +42,13 @@ class TagsModelTag extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JController
-	 * @since   3.1
+	 * @see     \JControllerLegacy
+	 * @since   1.6
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -70,7 +76,7 @@ class TagsModelTag extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -141,11 +147,10 @@ class TagsModelTag extends JModelList
 		// Optionally filter on language
 		if (empty($language))
 		{
-			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+			$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 		}
 
-		$tagsHelper = new JHelperTags;
-		$query = $tagsHelper->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
+		$query = (new TagsHelper)->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
 
 		if ($this->state->get('list.filter'))
 		{
@@ -169,10 +174,10 @@ class TagsModelTag extends JModelList
 	 */
 	protected function populateState($ordering = 'c.core_title', $direction = 'ASC')
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Load the parameters.
-		$params = $app->isClient('administrator') ? JComponentHelper::getParams('com_tags') : $app->getParams();
+		$params = $app->isClient('administrator') ? ComponentHelper::getParams('com_tags') : $app->getParams();
 
 		$this->setState('params', $params);
 
@@ -268,7 +273,8 @@ class TagsModelTag extends JModelList
 			}
 
 			// Get a level row instance.
-			$table = JTable::getInstance('Tag', 'TagsTable');
+			/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			$table = $this->getTable();
 
 			$idsArray = explode(',', $id);
 
@@ -288,16 +294,16 @@ class TagsModelTag extends JModelList
 						}
 					}
 
-					if (!in_array($table->access, JFactory::getUser()->getAuthorisedViewLevels()))
+					if (!in_array($table->access, \JFactory::getUser()->getAuthorisedViewLevels()))
 					{
 						continue;
 					}
 
-					// Convert the JTable to a clean JObject.
+					// Convert the \JTable to a clean \JObject.
 					$properties = $table->getProperties(1);
 					$this->item[] = ArrayHelper::toObject($properties, 'JObject');
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 
@@ -308,7 +314,7 @@ class TagsModelTag extends JModelList
 
 		if (!$this->item)
 		{
-			return JError::raiseError(404, JText::_('COM_TAGS_TAG_NOT_FOUND'));
+			return \JError::raiseError(404, \JText::_('COM_TAGS_TAG_NOT_FOUND'));
 		}
 
 		return $this->item;
@@ -325,19 +331,21 @@ class TagsModelTag extends JModelList
 	 */
 	public function hit($pk = 0)
 	{
-		$input    = JFactory::getApplication()->input;
+		$input    = \JFactory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
-			$table = JTable::getInstance('Tag', 'TagsTable');
+
+			/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			$table = $this->getTable();
 			$table->load($pk);
 			$table->hit($pk);
 
 			if (!$table->hasPrimaryKey())
 			{
-				JError::raiseError(404, JText::_('COM_TAGS_TAG_NOT_FOUND'));
+				\JError::raiseError(404, \JText::_('COM_TAGS_TAG_NOT_FOUND'));
 			}
 		}
 

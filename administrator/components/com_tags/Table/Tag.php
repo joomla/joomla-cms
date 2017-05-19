@@ -6,27 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Table\Nested;
 
 /**
  * Tags table
  *
  * @since  3.1
  */
-class TagsTableTag extends JTableNested
+class Tag extends Nested
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_tags.tag';
+
 		parent::__construct('#__tags', 'id', $db);
 	}
 
@@ -39,7 +44,7 @@ class TagsTableTag extends JTableNested
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable::bind
+	 * @see     \JTable::bind
 	 * @since   3.1
 	 */
 	public function bind($array, $ignore = '')
@@ -77,7 +82,7 @@ class TagsTableTag extends JTableNested
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function check()
 	{
@@ -95,7 +100,7 @@ class TagsTableTag extends JTableNested
 		// Check for valid name.
 		if (trim($this->title) == '')
 		{
-			throw new UnexpectedValueException(sprintf('The title is empty'));
+			throw new \UnexpectedValueException(sprintf('The title is empty'));
 		}
 
 		if (empty($this->alias))
@@ -103,17 +108,17 @@ class TagsTableTag extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
+		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
-			throw new UnexpectedValueException(sprintf('End publish date is before start publish date.'));
+			throw new \UnexpectedValueException(sprintf('End publish date is before start publish date.'));
 		}
 
 		// Clean up keywords -- eliminate extra spaces between phrases
@@ -152,7 +157,7 @@ class TagsTableTag extends JTableNested
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
 		// Not Null sanity check
-		$date = JFactory::getDate();
+		$date = \JFactory::getDate();
 
 		if (empty($this->params))
 		{
@@ -213,7 +218,7 @@ class TagsTableTag extends JTableNested
 	}
 
 	/**
-	 * Overriden JTable::store to set modified data and user id.
+	 * Overriden \JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -223,8 +228,8 @@ class TagsTableTag extends JTableNested
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		$this->modified_time = $date->toSql();
 
@@ -249,11 +254,11 @@ class TagsTableTag extends JTableNested
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Tag', 'TagsTable', array('dbo' => $this->_db));
+		$table = new Tag($this->getDbo());
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
 		}
@@ -277,7 +282,7 @@ class TagsTableTag extends JTableNested
 
 		if ($return)
 		{
-			$helper = new JHelperTags;
+			$helper = new TagsHelper;
 			$helper->tagDeleteInstances($pk);
 		}
 
