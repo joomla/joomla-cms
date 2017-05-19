@@ -34,7 +34,7 @@ foreach ($value as $path)
 	{
 		$buffer .= sprintf('<img src="images/%s/%s" %s />',
 			$fieldParams->get('directory'),
-			htmlentities($path, ENT_COMPAT,'UTF-8', true),
+			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 			$class
 		);
 	}
