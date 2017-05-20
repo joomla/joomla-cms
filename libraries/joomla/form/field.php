@@ -536,7 +536,7 @@ abstract class JFormField
 				break;
 
 			case $this->dataAttributeName = $this->dataAttributeName ? $this->dataAttributeName : '' === $name:
-				$this->dataAttributeValues[] = $name . '="' . $value . '"';
+				$this->dataAttributeValues[] = $name . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
 				break;
 
 			default:
