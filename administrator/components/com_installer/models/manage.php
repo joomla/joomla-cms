@@ -146,6 +146,10 @@ class InstallerModelManage extends InstallerModel
 			}
 		}
 
+		// Clean the frontend and admin cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+
 		return $result;
 	}
 
@@ -260,6 +264,10 @@ class InstallerModelManage extends InstallerModel
 		$this->setState('name', $installer->get('name'));
 		$app->setUserState('com_installer.message', $installer->message);
 		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
+
+		// Clean the frontend and admin cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 
 		return $result;
 	}

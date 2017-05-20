@@ -371,6 +371,10 @@ class InstallerModelUpdate extends JModelList
 			$result = $res & $result;
 		}
 
+		// Clean the frontend and admin cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+
 		// Set the final state
 		$this->setState('result', $result);
 	}
