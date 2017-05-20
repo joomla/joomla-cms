@@ -61,8 +61,9 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		$input = str_replace(array('&nbsp;', '&#160;'), ' ', $input);
 
 		// This fixes issues such as '<h1>Title</h1><p>Paragraph</p>'
-		// being transformed into 'TitleParagraph' with no space.
-		$input = str_replace('>', '> ', $input);
+		// being transformed into 'TitleParagraph' with no space
+		// and issues such as '<b>T</b>itle' not being indexed as Title.
+		$input = str_replace('><', '> <', $input);
 
 		// Strip HTML tags.
 		$input = strip_tags($input);
