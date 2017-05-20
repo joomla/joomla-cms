@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// @deprecated  4.0 without replacement only used in hathor
+// @deprecated  4.0 not used for a long timme
 
 defined('_JEXEC') or die;
 
