@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\Model;
+use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class AdminModelSysInfo extends JModelLegacy
+class SysInfo extends Model
 {
 	/**
 	 * Some PHP settings
@@ -271,7 +275,7 @@ class AdminModelSysInfo extends JModelLegacy
 			return $this->config;
 		}
 
-		$registry = new Registry(new JConfig);
+		$registry = new Registry(new \JConfig);
 		$this->config = $registry->toArray();
 		$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass',);
 
@@ -307,7 +311,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'phpversion'            => phpversion(),
 			'server'                => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
 			'sapi_name'             => php_sapi_name(),
-			'version'               => (new JVersion)->getLongVersion(),
+			'version'               => (new Version)->getLongVersion(),
 			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		);
 
@@ -368,7 +372,7 @@ class AdminModelSysInfo extends JModelLegacy
 	{
 		if (!$this->phpinfoEnabled())
 		{
-			$this->php_info = JText::_('COM_ADMIN_PHPINFO_DISABLED');
+			$this->php_info = \JText::_('COM_ADMIN_PHPINFO_DISABLED');
 
 			return $this->php_info;
 		}
@@ -428,7 +432,7 @@ class AdminModelSysInfo extends JModelLegacy
 	public function getExtensions()
 	{
 		$installed = array();
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__extensions'));
@@ -438,16 +442,16 @@ class AdminModelSysInfo extends JModelLegacy
 		{
 			$extensions = $db->loadObjectList();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			try
 			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+				\JLog::add(\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), \JLog::WARNING, 'jerror');
 			}
-			catch (RuntimeException $exception)
+			catch (\RuntimeException $exception)
 			{
-				JFactory::getApplication()->enqueueMessage(
-					JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
+				\JFactory::getApplication()->enqueueMessage(
+					\JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
 					'warning'
 				);
 			}
@@ -470,7 +474,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$installed[$extension->name] = array(
 				'name'         => $extension->name,
 				'type'         => $extension->type,
-				'state'        => $extension->enabled ? JText::_('JENABLED') : JText::_('JDISABLED'),
+				'state'        => $extension->enabled ? \JText::_('JENABLED') : \JText::_('JDISABLED'),
 				'author'       => 'unknown',
 				'version'      => 'unknown',
 				'creationDate' => 'unknown',
@@ -479,7 +483,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 			$manifest = json_decode($extension->manifest_cache);
 
-			if (!$manifest instanceof stdClass)
+			if (!$manifest instanceof \stdClass)
 			{
 				continue;
 			}
@@ -515,14 +519,14 @@ class AdminModelSysInfo extends JModelLegacy
 
 		$this->directories = array();
 
-		$registry = JFactory::getConfig();
-		$cparams  = JComponentHelper::getParams('com_media');
+		$registry = \JFactory::getApplication()->getConfig();
+		$cparams  = ComponentHelper::getParams('com_media');
 
 		$this->addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
 		$this->addDirectory('administrator/language', JPATH_ADMINISTRATOR . '/language');
 
 		// List all admin languages
-		$admin_langs = new DirectoryIterator(JPATH_ADMINISTRATOR . '/language');
+		$admin_langs = new \DirectoryIterator(JPATH_ADMINISTRATOR . '/language');
 
 		foreach ($admin_langs as $folder)
 		{
@@ -538,7 +542,7 @@ class AdminModelSysInfo extends JModelLegacy
 		}
 
 		// List all manifests folders
-		$manifests = new DirectoryIterator(JPATH_ADMINISTRATOR . '/manifests');
+		$manifests = new \DirectoryIterator(JPATH_ADMINISTRATOR . '/manifests');
 
 		foreach ($manifests as $folder)
 		{
@@ -561,7 +565,7 @@ class AdminModelSysInfo extends JModelLegacy
 		$this->addDirectory($cparams->get('image_path'), JPATH_SITE . '/' . $cparams->get('image_path'));
 
 		// List all images folders
-		$image_folders = new DirectoryIterator(JPATH_SITE . '/' . $cparams->get('image_path'));
+		$image_folders = new \DirectoryIterator(JPATH_SITE . '/' . $cparams->get('image_path'));
 
 		foreach ($image_folders as $folder)
 		{
@@ -579,7 +583,7 @@ class AdminModelSysInfo extends JModelLegacy
 		$this->addDirectory('language', JPATH_SITE . '/language');
 
 		// List all site languages
-		$site_langs = new DirectoryIterator(JPATH_SITE . '/language');
+		$site_langs = new \DirectoryIterator(JPATH_SITE . '/language');
 
 		foreach ($site_langs as $folder)
 		{
@@ -597,7 +601,7 @@ class AdminModelSysInfo extends JModelLegacy
 		$this->addDirectory('modules', JPATH_SITE . '/modules');
 		$this->addDirectory('plugins', JPATH_PLUGINS);
 
-		$plugin_groups = new DirectoryIterator(JPATH_SITE . '/plugins');
+		$plugin_groups = new \DirectoryIterator(JPATH_SITE . '/plugins');
 
 		foreach ($plugin_groups as $folder)
 		{
@@ -685,7 +689,7 @@ class AdminModelSysInfo extends JModelLegacy
 			return $this->editor;
 		}
 
-		$this->editor = JFactory::getConfig()->get('editor');
+		$this->editor = \JFactory::getApplication()->get('editor');
 
 		return $this->editor;
 	}

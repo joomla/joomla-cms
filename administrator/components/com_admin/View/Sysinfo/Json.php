@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\AbstractView;
 
 /**
  * Sysinfo View class for the Admin component
  *
  * @since  3.5
  */
-class AdminViewSysinfo extends JViewLegacy
+class Json extends AbstractView
 {
 	/**
 	 * Execute and display a template script.
@@ -28,9 +31,9 @@ class AdminViewSysinfo extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!JFactory::getUser()->authorise('core.admin'))
+		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new JUserAuthorizationexception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \JUserAuthorizationexception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		header('MIME-Version: 1.0');
@@ -41,7 +44,7 @@ class AdminViewSysinfo extends JViewLegacy
 
 		echo json_encode($data);
 
-		JFactory::getApplication()->close();
+		\JFactory::getApplication()->close();
 	}
 
 	/**
@@ -53,6 +56,7 @@ class AdminViewSysinfo extends JViewLegacy
 	 */
 	protected function getLayoutData()
 	{
+		/* @var \Joomla\Component\Admin\Administrator\Model\SysInfo $model */
 		$model = $this->getModel();
 
 		return array(

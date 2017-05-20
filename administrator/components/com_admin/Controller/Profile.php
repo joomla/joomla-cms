@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Admin\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Form;
 
 /**
  * User profile controller class.
  *
  * @since  1.6
  */
-class AdminControllerProfile extends JControllerForm
+class Profile extends Form
 {
 	/**
 	 * Method to check if you can edit a record.
@@ -30,7 +33,7 @@ class AdminControllerProfile extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		return isset($data['id']) && $data['id'] == JFactory::getUser()->id;
+		return isset($data['id']) && $data['id'] == $this->app->getIdentity()->id;
 	}
 
 	/**
@@ -45,14 +48,14 @@ class AdminControllerProfile extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$this->setRedirect(JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id=' . JFactory::getUser()->id, false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->app->getIdentity()->id, false));
 
 		$return = parent::save();
 
 		if ($this->getTask() != 'apply')
 		{
 			// Redirect to the main page.
-			$this->setRedirect(JRoute::_('index.php', false));
+			$this->setRedirect(\JRoute::_('index.php', false));
 		}
 
 		return $return;
@@ -72,7 +75,7 @@ class AdminControllerProfile extends JControllerForm
 		$return = parent::cancel($key);
 
 		// Redirect to the main page.
-		$this->setRedirect(JRoute::_('index.php', false));
+		$this->setRedirect(\JRoute::_('index.php', false));
 
 		return $return;
 	}
