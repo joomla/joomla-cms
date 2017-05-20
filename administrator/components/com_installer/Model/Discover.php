@@ -133,8 +133,6 @@ class Discover extends Installer
 	 *
 	 * Finds uninstalled extensions
 	 *
-	 * @return  void
-	 *
 	 * @since   1.6
 	 */
 	public function discover()

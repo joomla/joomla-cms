@@ -23,8 +23,6 @@ class Install extends Controller
 	/**
 	 * Install an extension.
 	 *
-	 * @return  boolean
-	 *
 	 * @since   1.5
 	 */
 	public function install()

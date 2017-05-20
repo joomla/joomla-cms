@@ -343,8 +343,6 @@ class Update extends ListModel
 	 * @param   array  $uids               Array[int] List of updates to apply
 	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see \JUpdater}
 	 *
-	 * @return  void
-	 *
 	 * @since   1.6
 	 */
 	public function update($uids, $minimum_stability = \JUpdater::STABILITY_STABLE)

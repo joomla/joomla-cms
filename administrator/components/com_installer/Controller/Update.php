@@ -24,8 +24,6 @@ class Update extends Controller
 	/**
 	 * Update a set of extensions.
 	 *
-	 * @return  void
-	 *
 	 * @since   1.6
 	 */
 	public function update()
