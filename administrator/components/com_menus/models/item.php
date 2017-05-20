@@ -133,6 +133,27 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
+	 * Method to perform batch operations on an item or a set of items.
+	 *
+	 * @param   array  $commands  An array of commands to perform.
+	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function batch($commands, $pks, $contexts)
+	{
+		if ($this->getState('item.client_id') == 1)
+		{
+			$this->batch_commands = array();
+		}
+
+		return parent::batch($commands, $pks, $contexts);
+	}
+
+	/**
 	 * Batch copy menu items to a new menu or parent.
 	 *
 	 * @param   integer  $value     The new menu or sub-item.
