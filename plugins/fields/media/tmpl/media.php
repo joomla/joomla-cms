@@ -32,7 +32,8 @@ foreach ($value as $path)
 
 	$buffer .= sprintf('<img src="%s"%s>',
 			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
-			$class );
+			$class
+	);
 }
 
 echo $buffer;
