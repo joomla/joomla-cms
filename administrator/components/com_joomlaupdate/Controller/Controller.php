@@ -50,7 +50,7 @@ class Controller extends BaseController
 			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
 			$model = $this->getModel('Update');
 
-			$warningsModel = new Warnings();
+			$warningsModel = new Warnings;
 
 			if (is_object($warningsModel))
 			{
