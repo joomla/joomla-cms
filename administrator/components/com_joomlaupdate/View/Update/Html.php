@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Joomlaupdate\Administrator\View\Update;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Joomla! Update's Update View
  *
  * @since  2.5.4
  */
-class JoomlaupdateViewUpdate extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * Renders the view.
@@ -26,20 +30,17 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 	public function display($tpl=null)
 	{
 		// Set the toolbar information.
-		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		ToolbarHelper::title(\JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Add toolbar buttons.
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
 		{
-			JToolbarHelper::preferences('com_joomlaupdate');
+			ToolbarHelper::preferences('com_joomlaupdate');
 		}
-
-		// Import com_login's model
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_login/models', 'LoginModel');
 
 		// Render the view.
 		parent::display($tpl);

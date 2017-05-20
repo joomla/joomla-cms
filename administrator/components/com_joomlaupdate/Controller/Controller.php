@@ -6,50 +6,51 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\Component\Installer\Administrator\Model\Warnings;
 
 /**
  * Joomla! Update Controller
  *
  * @since  2.5.4
  */
-class JoomlaupdateController extends JControllerLegacy
+class Controller extends BaseController
 {
 	/**
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached.
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  JController  This object to support chaining.
+	 * @return  static   This object to support chaining.
 	 *
 	 * @since   2.5.4
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = JFactory::getDocument();
+		$document = \JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName   = $this->input->get('view', 'default');
+		$vName   = $this->input->get('view', 'Joomlaupdate');
 		$vFormat = $document->getType();
 		$lName   = $this->input->get('layout', 'default', 'string');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
-			$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+			$ftp = \JClientHelper::setCredentialsFromRequest('ftp');
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
-			/** @var JoomlaupdateModelDefault $model */
-			$model = $this->getModel('default');
+			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
+			$model = $this->getModel('Update');
 
-			// Push the Installer Warnings model into the view, if we can load it
-			static::addModelPath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
-
-			$warningsModel = $this->getModel('warnings', 'InstallerModel');
+			$warningsModel = new Warnings();
 
 			if (is_object($warningsModel))
 			{

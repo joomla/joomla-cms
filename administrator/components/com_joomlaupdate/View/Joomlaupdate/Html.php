@@ -6,15 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
 
 /**
  * Joomla! Update's Default View
  *
  * @since  2.5.4
  */
-class JoomlaupdateViewDefault extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * An array with the Joomla! update information.
@@ -46,7 +52,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $state;
@@ -66,7 +72,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->state = $this->get('State');
 
 		// Load useful classes.
-		/** @var JoomlaupdateModelDefault $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\Update $model */
 		$model = $this->getModel();
 		$this->loadHelper('select');
 
@@ -79,28 +85,28 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
 
 		// Set the toolbar information.
-		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
-		JToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
+		ToolbarHelper::title(\JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
 		{
-			JToolbarHelper::preferences('com_joomlaupdate');
+			ToolbarHelper::preferences('com_joomlaupdate');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		if (!is_null($this->updateInfo['object']))
 		{
 			// Show the message if an update is found.
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
 		}
 
 		$this->ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
-		$params                 = JComponentHelper::getParams('com_joomlaupdate');
+		$params                 = ComponentHelper::getParams('com_joomlaupdate');
 
 		switch ($params->get('updatesource', 'default'))
 		{
@@ -108,19 +114,19 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			case 'sts':
 			case 'next':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
-				$this->updateSourceKey = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
+				$this->updateSourceKey = \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
 				break;
 
 			// "Testing"
 			case 'testing':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_TESTING';
-				$this->updateSourceKey = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
+				$this->updateSourceKey = \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
 				break;
 
 			// "Custom"
 			case 'custom':
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
-				$this->updateSourceKey = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
+				$this->updateSourceKey = \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
 				break;
 
 			/**
@@ -132,16 +138,16 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			 */
 			default:
 				$this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
-				$this->updateSourceKey = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
+				$this->updateSourceKey = \JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
 		}
 
 		$this->warnings = array();
-		/** @var InstallerModelWarnings $warningsModel */
+		/** @var \Joomla\Component\Installer\Administrator\Model\Warnings $warningsModel */
 		$warningsModel = $this->getModel('warnings');
 
-		if (is_object($warningsModel) && $warningsModel instanceof JModelLegacy)
+		if (is_object($warningsModel) && $warningsModel instanceof \Joomla\CMS\Model\Model)
 		{
-			$language = JFactory::getLanguage();
+			$language = \JFactory::getLanguage();
 			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
 			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
@@ -151,7 +157,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->selfUpdate = $this->checkForSelfUpdate();
 
 		// Only Super Users have access to the Update & Install for obvious security reasons
-		$this->showUploadAndUpdate = JFactory::getUser()->authorise('core.admin');
+		$this->showUploadAndUpdate = \JFactory::getUser()->authorise('core.admin');
 
 		// Remove temporary files
 		$model->removePackageFiles();
@@ -169,7 +175,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 */
 	private function checkForSelfUpdate()
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
@@ -182,11 +188,11 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			// Get the component extension ID
 			$joomlaUpdateComponentId = $db->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Something is wrong here!
 			$joomlaUpdateComponentId = 0;
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Try the update only if we have an extension id
@@ -195,8 +201,8 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			// Allways force to check for an update!
 			$cache_timeout = 0;
 
-			$updater = JUpdater::getInstance();
-			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, JUpdater::STABILITY_STABLE);
+			$updater = \JUpdater::getInstance();
+			$updater->findUpdates($joomlaUpdateComponentId, $cache_timeout, \JUpdater::STABILITY_STABLE);
 
 			// Fetch the update information from the database.
 			$query = $db->getQuery(true)
@@ -209,11 +215,11 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			{
 				$joomlaUpdateComponentObject = $db->loadObject();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				// Something is wrong here!
 				$joomlaUpdateComponentObject = null;
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 
 			if (is_null($joomlaUpdateComponentObject))
