@@ -88,7 +88,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	public function __destruct()
 	{
 		$this->freeResult();
-		unset($this->connection);
+		$this->connection = null;
 	}
 
 	/**
