@@ -61,8 +61,6 @@ class Install extends Model
 	/**
 	 * Install an extension from either folder, URL or upload.
 	 *
-	 * @return  boolean result of install.
-	 *
 	 * @since   1.5
 	 */
 	public function install()
