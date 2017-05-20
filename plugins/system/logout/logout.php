@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class PlgSystemLogout extends JPlugin
 		$input = $app->input;
 		$hash  = JApplicationHelper::getHash('PlgSystemLogout');
 
-		if ($app->isSite() && $input->cookie->getString($hash))
+		if ($app->isClient('site') && $input->cookie->getString($hash))
 		{
 			// Destroy the cookie.
 			$cookie_domain = $app->get('cookie_domain', '');
@@ -66,7 +66,7 @@ class PlgSystemLogout extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			// Create the cookie.
 			$hash = JApplicationHelper::getHash('PlgSystemLogout');
@@ -94,7 +94,7 @@ class PlgSystemLogout extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 && $app->isSite())
+		if ($error->getCode() == 403 && $app->isClient('site'))
 		{
 			// Redirect to the home page.
 			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));

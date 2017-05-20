@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -143,7 +143,7 @@ class JFormFieldCheckbox extends JFormField
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
 
 		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange

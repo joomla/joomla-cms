@@ -3,7 +3,7 @@
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -88,6 +88,18 @@
 				</field>
 
 				<field
+					name="triggerevents"
+					type="radio"
+					label="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="showLastSeparator"
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
@@ -130,6 +142,18 @@
 					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC"
 					default="5"
 				/>
+
+				<field
+					name="show_featured"
+					type="list"
+					label="MOD_ARTICLES_NEWS_FIELD_FEATURED_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_FEATURED_DESC"
+					default=""
+					>
+					<option value="">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">MOD_ARTICLES_NEWS_VALUE_ONLY_SHOW_FEATURED</option>
+				</field>
 
 				<field
 					name="ordering"

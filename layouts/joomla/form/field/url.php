@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ extract($displayData);
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', false, true);
+JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
@@ -55,7 +55,7 @@ $attributes = array(
 	!empty($size) ? ' size="' . $size . '"' : '',
 	$disabled ? ' disabled' : '',
 	$readonly ? ' readonly' : '',
-	strlen($hint) ? ' placeholder="' . $hint . '"' : '',
+	strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$autocomplete,
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : ' spellcheck="false"',

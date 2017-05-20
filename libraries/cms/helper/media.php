@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,88 @@ class JHelperMedia
 	public static function getTypeIcon($fileName)
 	{
 		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
+	}
+
+	/**
+	 * Get the Mime type
+	 *
+	 * @param   string   $file     The link to the file to be checked
+	 * @param   boolean  $isImage  True if the passed file is an image else false
+	 *
+	 * @return  mixed    the mime type detected false on error
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getMimeType($file, $isImage = false)
+	{
+		// If we can't detect anything mime is false
+		$mime = false;
+
+		try
+		{
+			if ($isImage && function_exists('exif_imagetype'))
+			{
+				$mime = image_type_to_mime_type(exif_imagetype($file));
+			}
+			elseif ($isImage && function_exists('getimagesize'))
+			{
+				$imagesize = getimagesize($file);
+				$mime      = isset($imagesize['mime']) ? $imagesize['mime'] : false;
+			}
+			elseif (function_exists('mime_content_type'))
+			{
+				// We have mime magic.
+				$mime = mime_content_type($file);
+			}
+			elseif (function_exists('finfo_open'))
+			{
+				// We have fileinfo
+				$finfo = finfo_open(FILEINFO_MIME_TYPE);
+				$mime  = finfo_file($finfo, $file);
+				finfo_close($finfo);
+			}
+		}
+		catch (Exception $e)
+		{
+			// If we have any kind of error here => false;
+			return false;
+		}
+
+		// If we can't detect the mime try it again
+		if ($mime === 'application/octet-stream' && $isImage === true)
+		{
+			$mime = $this->getMimeType($file, false);
+		}
+
+		// We have a mime here
+		return $mime;
+	}
+
+	/**
+	 * Checks the Mime type
+	 *
+	 * @param   string  $mime       The mime to be checked
+	 * @param   string  $component  The optional name for the component storing the parameters
+	 *
+	 * @return  boolean  true if mime type checking is disabled or it passes the checks else false
+	 *
+	 * @since   3.7
+	 */
+	private function checkMimeType($mime, $component = 'com_media')
+	{
+		$params = JComponentHelper::getParams($component);
+
+		if ($params->get('check_mime', 1))
+		{
+			// Get the mime type configuration
+			$allowedMime = array_map('trim', explode(',', $params->get('upload_mime')));
+
+			// Mime should be available and in the whitelist
+			return !empty($mime) && in_array($mime, $allowedMime);
+		}
+
+		// We don't check mime at all or it passes the checks
+		return true;
 	}
 
 	/**
@@ -104,7 +186,7 @@ class JHelperMedia
 			return false;
 		}
 
-		$filetype = array_pop($filetypes);
+		$filetype  = array_pop($filetypes);
 		$allowable = array_map('trim', explode(',', $params->get('upload_extensions')));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
@@ -130,11 +212,27 @@ class JHelperMedia
 
 			if (in_array($filetype, $images))
 			{
-				// If it is an image run it through getimagesize
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
 				{
-					if (($imginfo = getimagesize($file['tmp_name'])) === false)
+					// Get the mime type this is an image file
+					$mime = $this->getMimeType($file['tmp_name'], true);
+
+					// Did we get anything useful?
+					if ($mime != false)
+					{
+						$result = $this->checkMimeType($mime, $component);
+
+						// If the mime type is not allowed we don't upload it and show the mime code error to the user
+						if ($result === false)
+						{
+							$app->enqueueMessage(JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+
+							return false;
+						}
+					}
+					// We can't detect the mime type so it looks like an invalid image
+					else
 					{
 						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
 
@@ -150,38 +248,31 @@ class JHelperMedia
 			}
 			elseif (!in_array($filetype, $ignored))
 			{
-				// If it's not an image, and we're not ignoring it
-				$allowed_mime = array_map('trim', explode(',', $params->get('upload_mime')));
-				$illegal_mime = array_map('trim', explode(',', $params->get('upload_mime_illegal')));
+				// Get the mime type this is not an image file
+				$mime = $this->getMimeType($file['tmp_name'], false);
 
-				if (function_exists('finfo_open') && $params->get('check_mime', 1))
+				// Did we get anything useful?
+				if ($mime != false)
 				{
-					// We have fileinfo
-					$finfo = finfo_open(FILEINFO_MIME);
-					$type  = finfo_file($finfo, $file['tmp_name']);
+					$result = $this->checkMimeType($mime, $component);
 
-					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
+					// If the mime type is not allowed we don't upload it and show the mime code error to the user
+					if ($result === false)
 					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
-
-						return false;
-					}
-
-					finfo_close($finfo);
-				}
-				elseif (function_exists('mime_content_type') && $params->get('check_mime', 1))
-				{
-					// We have mime magic.
-					$type = mime_content_type($file['tmp_name']);
-
-					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
-					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
+						$app->enqueueMessage(JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 						return false;
 					}
 				}
-				elseif (!JFactory::getUser()->authorise('core.manage', $component))
+				// We can't detect the mime type so it looks like an invalid file
+				else
+				{
+					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
+
+					return false;
+				}
+
+				if (!JFactory::getUser()->authorise('core.manage', $component))
 				{
 					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
 

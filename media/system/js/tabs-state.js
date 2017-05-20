@@ -1,25 +1,30 @@
 /**
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * JavaScript behavior to allow selected tab to be remained after save or page reload
- * keeping state in localstorage
+ * keeping state in sessionStorage
  */
 
 jQuery(function($) {
     var loadTabs = function() {
         function saveActiveTab(href) {
-            if (activeTabsHrefs === null) {
-                activeTabsHrefs = [];
+            // Remove the old entry if exists, key is always dependant on the url
+            // This should be removed in the future
+            if (sessionStorage.getItem('active-tab')) {
+                sessionStorage.removeItem('active-tab');
             }
+
+            // Reset the array
+            activeTabsHrefs = [];
 
             // Save clicked tab href to the array
             activeTabsHrefs.push(href);
 
-            // Store the selected tabs hrefs in localstorage
-            localStorage.setItem('active-tabs', JSON.stringify(activeTabsHrefs));
+            // Store the selected tabs hrefs in sessionStorage
+            sessionStorage.setItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, ''), JSON.stringify(activeTabsHrefs));
         }
 
         function activateTab(href) {
@@ -31,7 +36,7 @@ jQuery(function($) {
         }
 
         // Array with active tabs hrefs
-        var activeTabsHrefs = JSON.parse(localStorage.getItem('active-tabs'));
+        var activeTabsHrefs = JSON.parse(sessionStorage.getItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, '')));
 
         // jQuery object with all tabs links
         var $tabs = $('a[data-toggle="tab"]');
@@ -47,7 +52,7 @@ jQuery(function($) {
             // When moving from tab area to a different view
             $.each(activeTabsHrefs, function(index, tabHref) {
                 if (!hasTab(tabHref)) {
-                    localStorage.removeItem('active-tabs');
+                    sessionStorage.removeItem(window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, '').replace(/&[a-zA-Z-_]+=[0-9]+/, ''));
 
                     return true;
                 }

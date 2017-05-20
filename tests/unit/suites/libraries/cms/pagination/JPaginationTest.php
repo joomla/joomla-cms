@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,7 +53,7 @@ class JPaginationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.1
 	 */
 	protected function tearDown()
@@ -192,7 +192,7 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
-	 * This method tests the getAdditionalUrlParam function by setting a url with Reflection then retrieving it.
+	 * This method tests the getAdditionalUrlParam function by setting a URL with Reflection then retrieving it.
 	 *
 	 * @return  void
 	 *
@@ -510,7 +510,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 
@@ -692,7 +692,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
@@ -739,7 +739,7 @@ class JPaginationTest extends TestCase
 	{
 		// Set whether we are in the admin area or not
 		$app = $this->app;
-		$app->expects($this->any())->method('isAdmin')->willReturn($admin);
+		$app->expects($this->any())->method('isClient')->with($this->equalTo('administrator'))->willReturn($admin);
 
 		$pagination = new JPagination($total, $limitstart, $limit, '', $app);
 		$paginationObject = new JPaginationObject($text, 0);
@@ -832,7 +832,7 @@ class JPaginationTest extends TestCase
 		{
 			$result = TestReflection::getValue($pagination, $property);
 		}
-		elseif(strpos($property, '.'))
+		elseif (strpos($property, '.'))
 		{
 			$prop = explode('.', $property);
 			$prop[1] = ucfirst($prop[1]);

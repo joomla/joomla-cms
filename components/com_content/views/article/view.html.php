@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,7 +62,7 @@ class ContentViewArticle extends JViewLegacy
 		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 		// No link for ROOT category
-		if ($item->parent_alias == 'root')
+		if ($item->parent_alias === 'root')
 		{
 			$item->parent_slug = null;
 		}
@@ -82,7 +82,7 @@ class ContentViewArticle extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an article view for this article, then the menu item params take priority
-			if (strpos($currentLink, 'view=article') && (strpos($currentLink, '&id=' . (string) $item->id)))
+			if (strpos($currentLink, 'view=article') && strpos($currentLink, '&id=' . (string) $item->id))
 			{
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
@@ -139,6 +139,30 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
+		/* Check for no 'access-view' and empty fulltext,
+		 * - Redirect guest users to login
+		 * - Deny access to logged users with 403 code
+		 * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
+		 */
+		if ($item->params->get('access-view') == false && !strlen($item->fulltext))
+		{
+			if ($this->user->get('guest'))
+			{
+				$return = base64_encode(JUri::getInstance());
+				$login_url_with_return = JRoute::_('index.php?option=com_users&return=' . $return);
+				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
+				$app->redirect($login_url_with_return, 403);
+			}
+			else
+			{
+				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$app->setHeader('status', 403, true);
+				return;
+			}
+		}
+
+		// NOTE: The following code (usually) sets the text to contain the fulltext, but it is the
+		// responsibility of the layout to check 'access-view' and only use "introtext" for guests
 		if ($item->params->get('show_intro', '1') == '1')
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
@@ -213,7 +237,7 @@ class ContentViewArticle extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this article
-		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] != 'article' || $id != $this->item->id))
+		if ($menu && ($menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article' || $id != $this->item->id))
 		{
 			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
@@ -221,7 +245,7 @@ class ContentViewArticle extends JViewLegacy
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
+			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
 				$path[]   = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
@@ -281,7 +305,7 @@ class ContentViewArticle extends JViewLegacy
 
 		if ($app->get('MetaAuthor') == '1')
 		{
-			$author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author;
+			$author = $this->item->created_by_alias ?: $this->item->author;
 			$this->document->setMetaData('author', $author);
 		}
 

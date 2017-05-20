@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -187,7 +187,7 @@ class ContentModelCategory extends JModelList
 		$this->setState('list.start', $app->input->get('limitstart', 0, 'uint'));
 
 		// Set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-		if (($app->input->get('layout') == 'blog') || $params->get('layout_type') == 'blog')
+		if (($app->input->get('layout') === 'blog') || $params->get('layout_type') === 'blog')
 		{
 			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 			$this->setState('list.links', $params->get('num_links'));
@@ -458,9 +458,11 @@ class ContentModelCategory extends JModelList
 		{
 			$params = $this->getState()->get('params');
 
-			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha')
+			$orderByPri = $params->get('orderby_pri');
+
+			if ($orderByPri === 'alpha' || $orderByPri === 'ralpha')
 			{
-				$this->_children = ArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : (-1));
+				$this->_children = ArrayHelper::sortObjects($this->_children, 'title', ($orderByPri === 'alpha') ? 1 : (-1));
 			}
 		}
 

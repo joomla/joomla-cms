@@ -106,6 +106,7 @@
 			id="created"
 			name="created"
 			type="calendar"
+			translateformat="true"
 			filter="unset" />
 
 		<field
@@ -140,9 +141,11 @@
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			class="inputbox"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			filter="user_utc" />
+			filter="user_utc"
+		/>
 
 		<field
 			id="publish_down"
@@ -151,9 +154,11 @@
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox"
-			format="%Y-%m-%d %H:%M:%S"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			filter="user_utc" />
+			filter="user_utc"
+		/>
 
 		<field
 			name="language"
@@ -236,11 +241,12 @@
 				name="float_intro"
 				type="list"
 				label="COM_CONTENT_FLOAT_INTRO_LABEL"
-				description="COM_CONTENT_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_CONTENT_RIGHT</option>
-					<option value="left">COM_CONTENT_LEFT</option>
-					<option value="none">COM_CONTENT_NONE</option>
+				description="COM_CONTENT_FLOAT_DESC"
+				useglobal="true"
+				>
+				<option value="right">COM_CONTENT_RIGHT</option>
+				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>
 			</field>
 			</fieldset>
 			<fieldset name="image-full">
@@ -265,11 +271,12 @@
 				name="float_fulltext"
 				type="list"
 				label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
-				description="COM_CONTENT_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_CONTENT_RIGHT</option>
-					<option value="left">COM_CONTENT_LEFT</option>
-					<option value="none">COM_CONTENT_NONE</option>
+				description="COM_CONTENT_FLOAT_DESC"
+				useglobal="true"
+				>
+				<option value="right">COM_CONTENT_RIGHT</option>
+				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>
 			</field>
 			</fieldset>
 		</fields>

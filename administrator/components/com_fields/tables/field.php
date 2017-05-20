@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * Fields Table
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsTableField extends JTable
 {
@@ -22,7 +22,7 @@ class FieldsTableField extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  JDatabaseDriver object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($db = null)
 	{
@@ -41,7 +41,7 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function bind($src, $ignore = '')
@@ -63,7 +63,7 @@ class FieldsTableField extends JTable
 		// Bind the rules.
 		if (isset($src['rules']) && is_array($src['rules']))
 		{
-			$rules = new JRules($src['rules']);
+			$rules = new JAccessRules($src['rules']);
 			$this->setRules($rules);
 		}
 
@@ -79,40 +79,47 @@ class FieldsTableField extends JTable
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
 	 * @link    https://docs.joomla.org/JTable/check
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function check()
 	{
 		// Check for valid name
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_LOCATION_ERR_TABLES_TITLE'));
+			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
 			return false;
 		}
 
-		if (empty($this->alias))
+		if (empty($this->name))
 		{
-			$this->alias = $this->title;
+			$this->name = $this->title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->name = JApplicationHelper::stringURLSafe($this->name, $this->language);
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
+		if (trim(str_replace('-', '', $this->name)) == '')
 		{
-			$this->alias = JString::increment($alias, 'dash');
+			$this->name = Joomla\String\StringHelper::increment($this->name, 'dash');
 		}
 
-		$this->alias = str_replace(',', '-', $this->alias);
+		$this->name = str_replace(',', '-', $this->name);
+
+		// Verify that the name is unique
+		$table = JTable::getInstance('Field', 'FieldsTable', array('dbo' => $this->_db));
+
+		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
+		{
+			$this->setError(JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
+
+			return false;
+		}
+
+		$this->name = str_replace(',', '-', $this->name);
 
 		if (empty($this->type))
 		{
 			$this->type = 'text';
-		}
-
-		if (is_array($this->assigned_cat_ids))
-		{
-			$this->assigned_cat_ids = implode(',', $this->assigned_cat_ids);
 		}
 
 		$date = JFactory::getDate();
@@ -122,11 +129,11 @@ class FieldsTableField extends JTable
 		{
 			// Existing item
 			$this->modified_time = $date->toSql();
-			$this->modified_by   = $user->get('id');
+			$this->modified_by = $user->get('id');
 		}
 		else
 		{
-			if (! (int) $this->created_time)
+			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();
 			}
@@ -135,6 +142,11 @@ class FieldsTableField extends JTable
 			{
 				$this->created_user_id = $user->get('id');
 			}
+		}
+
+		if (empty($this->group_id))
+		{
+			$this->group_id = 0;
 		}
 
 		return true;
@@ -147,13 +159,13 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getAssetName()
 	{
-		$k = $this->_tbl_key;
+		$contextArray = explode('.', $this->context);
 
-		return $this->context . '.field.' . (int) $this->$k;
+		return $contextArray[0] . '.field.' . (int) $this->id;
 	}
 
 	/**
@@ -166,7 +178,7 @@ class FieldsTableField extends JTable
 	 * @return  string  The string to use as the title in the asset table.
 	 *
 	 * @link    https://docs.joomla.org/JTable/getAssetTitle
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getAssetTitle()
 	{
@@ -185,27 +197,27 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
-		$parts     = FieldsHelper::extract($this->context);
-		$component = $parts ? $parts[0] : null;
+		$contextArray = explode('.', $this->context);
+		$component = $contextArray[0];
 
-		if ($parts && $this->catid)
+		if ($this->group_id)
 		{
-			$assetId = $this->getAssetId($parts[0] . '.' . $parts[1] . '.fields.category.' . $this->catid);
+			$assetId = $this->getAssetId($component . '.fieldgroup.' . (int) $this->group_id);
 
-			if ($assetId !== false)
+			if ($assetId)
 			{
 				return $assetId;
 			}
 		}
-		elseif ($component)
+		else
 		{
 			$assetId = $this->getAssetId($component);
 
-			if ($assetId !== false)
+			if ($assetId)
 			{
 				return $assetId;
 			}
@@ -221,22 +233,22 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  number|boolean
 	 *
-	 * since    __DEPLOY_VERSION__
+	 * @since    3.7.0
 	 */
 	private function getAssetId($name)
 	{
-		// Build the query to get the asset id for the name.
-		$query = $this->_db->getQuery(true)
-			->select($this->_db->quoteName('id'))
-			->from($this->_db->quoteName('#__assets'))
-			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('name') . ' = ' . $db->quote($name));
 
 		// Get the asset id from the database.
-		$this->_db->setQuery($query);
+		$db->setQuery($query);
 
 		$assetId = null;
 
-		if ($result = $this->_db->loadResult())
+		if ($result = $db->loadResult())
 		{
 			$assetId = (int) $result;
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +82,7 @@ elseif ($input->get('module'))
 			$class = 'Mod' . ucfirst($module) . 'Helper';
 		}
 
-		$method = $input->get('method') ? $input->get('method') : 'get';
+		$method = $input->get('method') ?: 'get';
 
 		if (is_file($helperFile))
 		{

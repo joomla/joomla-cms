@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -269,9 +269,9 @@ class ContactViewContact extends JViewLegacy
 			$contactUser->text = '';
 			JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
 
-			if (!isset($contactUser->fields))
+			if (!isset($contactUser->jcfields))
 			{
-				$contactUser->fields = array();
+				$contactUser->jcfields = array();
 			}
 		}
 
