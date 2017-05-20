@@ -67,6 +67,7 @@ $data .= ' data-value="' . $value . '"';
 
 $attributes = array(
 	$class,
+	$dataAttribute ? $dataAttribute : '',
 	!empty($width) ? ' style="width:' . $width . ';"' : '',
 	$data
 );

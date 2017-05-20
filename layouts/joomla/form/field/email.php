@@ -60,6 +60,7 @@ $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$required ? 'required aria-required="true"' : '',
 	$autofocus ? 'autofocus' : '',
+	$dataAttribute ? $dataAttribute : '',
 );
 
 // Including fallback code for HTML5 non supported browsers.

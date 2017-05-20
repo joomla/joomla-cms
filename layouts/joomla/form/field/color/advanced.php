@@ -55,16 +55,17 @@ else
 	$placeholder = '#rrggbb';
 }
 
-$inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
-$class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
-$control      = $control ? ' data-control="' . $control . '"' : '';
-$format       = $format ? ' data-format="' . $format . '"' : '';
-$keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
-$validate     = $validate ? ' data-validate="' . $validate . '"' : '';
-$disabled     = $disabled ? ' disabled' : '';
-$readonly     = $readonly ? ' readonly' : '';
-$hint         = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ' placeholder="' . $placeholder . '"';
-$autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
+$inputclass    = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
+$class         = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
+$control       = $control ? ' data-control="' . $control . '"' : '';
+$format        = $format ? ' data-format="' . $format . '"' : '';
+$keywords      = $keywords ? ' data-keywords="' . $keywords . '"' : '';
+$validate      = $validate ? ' data-validate="' . $validate . '"' : '';
+$disabled      = $disabled ? ' disabled' : '';
+$readonly      = $readonly ? ' readonly' : '';
+$hint          = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ' placeholder="' . $placeholder . '"';
+$autocomplete  = ! $autocomplete ? ' autocomplete="off"' : '';
+$dataAttribute = $dataAttribute ? $dataAttribute : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
@@ -77,4 +78,4 @@ JHtml::_('stylesheet', 'jui/jquery.minicolors.css', array('version' => 'auto', '
 JHtml::_('script', 'system/color-field-adv-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>" <?php
-echo $hint . $class . $position . $control . $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus . $format . $keywords . $direction . $validate; ?>/>
+echo $hint . $class . $position . $control . $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus . $format . $keywords . $direction . $validate . $dataAttribute; ?>/>

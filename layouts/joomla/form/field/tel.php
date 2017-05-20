@@ -55,6 +55,7 @@ $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
+	$dataAttribute ? $dataAttribute : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$autocomplete,

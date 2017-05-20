@@ -52,6 +52,7 @@ JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relati
 $attributes = array(
 	$class ? 'class="' . $class . '"' : '',
 	$disabled ? 'disabled' : '',
+	$dataAttribute ? $dataAttribute : '',
 	$readonly ? 'readonly' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
 	!empty($max) ? 'max="' . $max . '"' : '',

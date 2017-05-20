@@ -336,6 +336,21 @@ abstract class JFormField
 	protected $renderLabelLayout = 'joomla.form.renderlabel';
 
 	/**
+	 * The data-attribute name of the form field. For example, data-action-type
+	 *
+	 * @var  string
+	 */
+	protected $dataAttributeName = '';
+
+	/**
+	 * The data-attribute name and values of the form field.
+	 * For example, data-action-type="click" data-action-type="change"
+	 *
+	 * @var  string
+	 */
+	protected $dataAttributeValues = array();
+
+	/**
 	 * Method to instantiate the form field object.
 	 *
 	 * @param   JForm  $form  The form to attach to the form field object.
@@ -520,6 +535,10 @@ abstract class JFormField
 				$this->$name = (int) $value;
 				break;
 
+			case $this->dataAttributeName = $this->dataAttributeName ? $this->dataAttributeName : '' === $name:
+				$this->dataAttributeValues[] = $name . '="' . $value . '"';
+				break;
+
 			default:
 				if (property_exists(__CLASS__, $name))
 				{
@@ -585,6 +604,12 @@ abstract class JFormField
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
 			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
 
+		// Get data-attributes
+		$dataAttributes = $this->getDataAttributes();
+
+		// Merge list of data-attribute(s) with $attributes array
+		$attributes = array_merge($attributes, $dataAttributes);
+
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		// Set the field default value.
@@ -592,6 +617,7 @@ abstract class JFormField
 
 		foreach ($attributes as $attributeName)
 		{
+			$this->dataAttributeName = strpos($attributeName, 'data-') === false ? '' : $attributeName;
 			$this->__set($attributeName, $element[$attributeName]);
 		}
 
@@ -611,6 +637,44 @@ abstract class JFormField
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to get data attributes. For example, data-user-type
+	 *
+	 * @return  list of data attribute(s)
+	 *
+	 * @since   3.2
+	 */
+	public function getDataAttributes()
+	{
+		// Array to return list of data attribute(s)
+		$dataAttributes    = array();
+		$elementAttributes = $this->element->attributes();
+
+		// Check is object
+		if (is_object($elementAttributes))
+		{
+			$elementAttributes = get_object_vars($elementAttributes);
+		}
+
+		// Check is array
+		if (is_array($elementAttributes))
+		{
+			foreach ($elementAttributes as $elementAttribute)
+			{
+				foreach ($elementAttribute as $attrName => $attrValue)
+				{
+					// Check attribute name contains "data-". If found then push into $dataAttributes array
+					if (strpos($attrName, "data-") === 0)
+					{
+						$dataAttributes[] = $attrName;
+					}
+				}
+			}
+		}
+
+		return $dataAttributes;
 	}
 
 	/**
@@ -986,30 +1050,31 @@ abstract class JFormField
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
 		return array(
-			'autocomplete' => $this->autocomplete,
-			'autofocus'    => $this->autofocus,
-			'class'        => $this->class,
-			'description'  => $description,
-			'disabled'     => $this->disabled,
-			'field'        => $this,
-			'group'        => $this->group,
-			'hidden'       => $this->hidden,
-			'hint'         => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
-			'id'           => $this->id,
-			'label'        => $label,
-			'labelclass'   => $this->labelclass,
-			'multiple'     => $this->multiple,
-			'name'         => $this->name,
-			'onchange'     => $this->onchange,
-			'onclick'      => $this->onclick,
-			'pattern'      => $this->pattern,
-			'readonly'     => $this->readonly,
-			'repeat'       => $this->repeat,
-			'required'     => (bool) $this->required,
-			'size'         => $this->size,
-			'spellcheck'   => $this->spellcheck,
-			'validate'     => $this->validate,
-			'value'        => $this->value,
+			'autocomplete'  => $this->autocomplete,
+			'autofocus'     => $this->autofocus,
+			'class'         => $this->class,
+			'description'   => $description,
+			'disabled'      => $this->disabled,
+			'field'         => $this,
+			'group'         => $this->group,
+			'hidden'        => $this->hidden,
+			'hint'          => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
+			'id'            => $this->id,
+			'label'         => $label,
+			'labelclass'    => $this->labelclass,
+			'multiple'      => $this->multiple,
+			'name'          => $this->name,
+			'onchange'      => $this->onchange,
+			'onclick'       => $this->onclick,
+			'pattern'       => $this->pattern,
+			'readonly'      => $this->readonly,
+			'repeat'        => $this->repeat,
+			'required'      => (bool) $this->required,
+			'size'          => $this->size,
+			'spellcheck'    => $this->spellcheck,
+			'validate'      => $this->validate,
+			'value'         => $this->value,
+			'dataAttribute' => !empty($this->dataAttributeValues) ? ' ' . implode("  ", $this->dataAttributeValues) : '';
 		);
 	}
 

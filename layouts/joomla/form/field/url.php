@@ -55,6 +55,7 @@ $attributes = array(
 	!empty($size) ? ' size="' . $size . '"' : '',
 	$disabled ? ' disabled' : '',
 	$readonly ? ' readonly' : '',
+	$dataAttribute ? $dataAttribute : '',
 	strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$autocomplete,
 	$autofocus ? ' autofocus' : '',

@@ -70,6 +70,7 @@ $attributes = array(
 	!$autocomplete ? 'autocomplete="off"' : '',
 	!empty($class) ? 'class="' . $class . '"' : '',
 	$readonly ? 'readonly' : '',
+	$dataAttribute ? $dataAttribute : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',

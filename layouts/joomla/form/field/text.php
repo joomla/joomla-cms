@@ -62,6 +62,7 @@ $attributes = array(
 	!empty($class) ? 'class="' . $class . '"' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
+	$dataAttribute ? $dataAttribute : '',
 	$readonly ? 'readonly' : '',
 	$list,
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',

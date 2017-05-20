@@ -54,6 +54,9 @@ class JFormFieldList extends JFormField
 		// Initialize JavaScript field attributes.
 		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
+		// Initialize JavaScript field data attributes. For eg, data-action-type="click"
+		$attr .= !empty($this->dataAttributeValues) ? ' ' . implode("  ", $this->dataAttributeValues) : '';
+
 		// Get the field options.
 		$options = (array) $this->getOptions();
 

@@ -44,11 +44,12 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$class    = !empty($class) ? ' class="' . $class . '"' : '';
-$disabled = $disabled ? ' disabled' : '';
-$onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
+$class         = !empty($class) ? ' class="' . $class . '"' : '';
+$disabled      = $disabled ? ' disabled' : '';
+$onchange      = $onchange ? ' onchange="' . $onchange . '"' : '';
+$dataAttribute = $dataAttribute ? $dataAttribute : '';
 ?>
 <input type="hidden" name="<?php
 echo $name; ?>" id="<?php
 echo $id; ?>" value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $class, $disabled, $onchange; ?> />
+echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $class, $disabled, $onchange, $dataAttribute; ?> />

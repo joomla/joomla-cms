@@ -45,9 +45,10 @@ extract($displayData);
  * @var   array    $control         Is this field checked?
  */
 
-$class    = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
-$disabled = $disabled ? ' disabled' : '';
-$readonly = $readonly ? ' readonly' : '';
+$class         = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
+$disabled      = $disabled ? ' disabled' : '';
+$readonly      = $readonly ? ' readonly' : '';
+$dataAttribute = $dataAttribute ? $dataAttribute : '';
 
 // Include jQuery
 JHtml::_('jquery.framework');
@@ -57,7 +58,7 @@ JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', array('version' => 'auto',
 JHtml::_('script', 'system/color-field-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <select data-chosen="true" name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
-echo $disabled; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
+echo $disabled; ?><?php echo $dataAttribute; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
 echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
 	<?php foreach ($colors as $i => $c) : ?>
 		<option<?php echo ($c == $color ? ' selected="selected"' : ''); ?>><?php echo $c; ?></option>
