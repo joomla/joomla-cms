@@ -159,6 +159,10 @@ class JHelperMediaTest extends TestCaseDatabase
 			array('Unknown format' => array('name' => 'myfile.xyz', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
 			array('File above php limit' => array('name' => 'mypicture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 20485770), false),
 			array('File above max configured but below php limit' => array('name' => 'mypicture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 10685770), false),
+			array('PDF file wich work' => array('name' => 'JoomlaCoC.pdf', 'type' => 'application/pdf', 'tmp_name' => JPATH_TESTS . '/suites/libraries/cms/helper/stubs/JoomlaCoC.pdf', 'error' => 0, 'size' => 335872), true),
+			array('PDF file mime check fails' => array('name' => 'JoomlaCoC.pdf', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/cms/helper/stubs/JoomlaCoC.pdf', 'error' => 0, 'size' => 335872), false),
+			array('PDF file mime check fails' => array('name' => 'JoomlaCoC.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/cms/helper/stubs/JoomlaCoC.pdf', 'error' => 0, 'size' => 335872), false),
+
 			);
 	}
 
@@ -176,13 +180,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 */
 	public function testCanUpload($file, $expected)
 	{
-		/*
-		 * We need to skip the test because of a security fix a component configuration is needed and we can't mock a
-		 * static call to a method
-		 */
-        $this->markTestSkipped('Skipped because of static call in the class under test');
-
-	    $canUpload = $this->object->canUpload($file);
+		$canUpload = $this->object->canUpload($file);
 		$this->assertEquals($canUpload, $expected);
 	}
 
