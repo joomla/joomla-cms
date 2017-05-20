@@ -60,9 +60,11 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		// Convert entities equivalent to spaces to actual spaces.
 		$input = str_replace(array('&nbsp;', '&#160;'), ' ', $input);
 
-		// This fixes issues such as '<h1>Title</h1><p>Paragraph</p>'
-		// being transformed into 'TitleParagraph' with no space
-		// and issues such as '<b>T</b>itle' not being indexed as Title.
+		/** 
+		* This fixes issues such as '<h1>Title</h1><p>Paragraph</p>'
+		* being transformed into 'TitleParagraph' with no space
+		* and issues such as '<b>T</b>itle' not being indexed as Title.
+		*/
 		$input = str_replace('><', '> <', $input);
 
 		// Strip HTML tags.
