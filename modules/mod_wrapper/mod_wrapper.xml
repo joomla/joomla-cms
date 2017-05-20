@@ -13,6 +13,7 @@
 		<filename module="mod_wrapper">mod_wrapper.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
+		<filename>mod_wrapper.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_wrapper.ini</language>
