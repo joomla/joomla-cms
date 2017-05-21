@@ -66,8 +66,8 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 			'address|article|aside|blockquote|br|canvas|dd|div|dl|dt|' .
 			'fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|li|' .
 			'main|nav|noscript|ol|output|p|pre|section|table|tfoot|ul|video' .
-			')\b/i',
-		' $1$2', $input);
+			')\b/i', ' $1$2', $input
+		);
 
 		// Strip HTML tags.
 		$input = strip_tags($input);
