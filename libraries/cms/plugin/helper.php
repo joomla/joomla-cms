@@ -145,7 +145,15 @@ abstract class JPluginHelper
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
-		static $loaded = array();
+		static $loaded = [];
+
+		// Check for the default args, if so we can optimise cheaply
+		$defaults = false;
+
+		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
+		{
+			$defaults = true;
+		}
 
 		// Ensure we have a dispatcher now so we can correctly track the loaded plugins
 		$dispatcher = $dispatcher ?: JEventDispatcher::getInstance();
@@ -158,7 +166,7 @@ abstract class JPluginHelper
 			$loaded[$dispatcherHash] = array();
 		}
 
-		if (!isset($loaded[$dispatcherHash][$type]))
+		if (!isset($loaded[$dispatcherHash][$type]) || !$defaults)
 		{
 			$results = null;
 
@@ -173,6 +181,12 @@ abstract class JPluginHelper
 					static::import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
 				}
+			}
+
+			// Bail out early if we're not using default args
+			if (!$defaults)
+			{
+				return $results;
 			}
 
 			$loaded[$dispatcherHash][$type] = $results;
