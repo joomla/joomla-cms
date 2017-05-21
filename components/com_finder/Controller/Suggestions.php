@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Controller\Controller;
+
 /**
- * Suggestions JSON controller for Finder.
+ * Suggestions \JSON controller for Finder.
  *
  * @since  2.5
  */
-class FinderControllerSuggestions extends JControllerLegacy
+class Suggestions extends Controller
 {
 	/**
 	 * Method to find search query suggestions. Uses jQuery and autocopleter.js
@@ -25,7 +29,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 	 */
 	public function suggest()
 	{
-		$app = JFactory::getApplication();
+		$app = $this->app;
 		$app->mimeType = 'application/json';
 
 		$suggestions = $this->getSuggestions();
@@ -41,7 +45,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 	 * Method to find search query suggestions. Uses Mootools and autocompleter.js
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
 	 * @return  void
 	 *
@@ -50,7 +54,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$app = JFactory::getApplication();
+		$app = $this->app;
 		$app->mimeType = 'application/json';
 
 		$suggestions = $this->getSuggestions();
@@ -73,7 +77,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 	{
 		$return = array();
 
-		$params = JComponentHelper::getParams('com_finder');
+		$params = ComponentHelper::getParams('com_finder');
 
 		if ($params->get('show_autosuggest', 1))
 		{

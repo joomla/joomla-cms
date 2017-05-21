@@ -6,32 +6,34 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Site\Controller;
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 /**
  * Finder Component Controller.
  *
  * @since  2.5
  */
-class FinderController extends JControllerLegacy
+class Controller extends BaseController
 {
 	/**
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached. [optional]
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types,
-	 *                               for valid values see {@link JFilterInput::clean()}. [optional]
+	 *                               for valid values see {@link \JFilterInput::clean()}. [optional]
 	 *
-	 * @return  JControllerLegacy  This object is to support chaining.
+	 * @return  static  This object is to support chaining.
 	 *
 	 * @since   2.5
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$cachable = true;
 
 		// Load plugin language files.

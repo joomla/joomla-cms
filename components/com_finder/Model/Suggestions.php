@@ -6,18 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Model\ListModel;
+
 define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
-JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
+\JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
 
 /**
  * Suggestions model class for the Finder package.
  *
  * @since  2.5
  */
-class FinderModelSuggestions extends JModelList
+class Suggestions extends ListModel
 {
 	/**
 	 * Context string for the model type.
@@ -51,7 +56,7 @@ class FinderModelSuggestions extends JModelList
 	/**
 	 * Method to build a database query to load the list data.
 	 *
-	 * @return  JDatabaseQuery  A database query
+	 * @return  \JDatabaseQuery  A database query
 	 *
 	 * @since   2.5
 	 */
@@ -112,25 +117,25 @@ class FinderModelSuggestions extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Get the configuration options.
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$input = $app->input;
-		$params = JComponentHelper::getParams('com_finder');
-		$user = JFactory::getUser();
+		$params = ComponentHelper::getParams('com_finder');
+		$user = \JFactory::getUser();
 
 		// Get the query input.
 		$this->setState('input', $input->request->get('q', '', 'string'));
 
 		// Set the query language
-		if (JLanguageMultilang::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
-			$lang = JFactory::getLanguage()->getTag();
+			$lang = \JFactory::getLanguage()->getTag();
 		}
 		else
 		{
-			$lang = FinderIndexerHelper::getDefaultLanguage();
+			$lang = \FinderIndexerHelper::getDefaultLanguage();
 		}
 
-		$lang = FinderIndexerHelper::getPrimaryLanguage($lang);
+		$lang = \FinderIndexerHelper::getPrimaryLanguage($lang);
 		$this->setState('language', $lang);
 
 		// Load the list state.

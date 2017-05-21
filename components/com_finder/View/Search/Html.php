@@ -6,22 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\SearchHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Search HTML view class for the Finder package.
  *
  * @since  2.5
  */
-class FinderViewSearch extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The query indexer object
 	 *
-	 * @var    FinderIndexerQuery
+	 * @var    \FinderIndexerQuery
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $query;
@@ -36,14 +38,14 @@ class FinderViewSearch extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 */
 	protected $state;
 
 	/**
 	 * The logged in user
 	 *
-	 * @var    JUser|null
+	 * @var    \JUser|null
 	 */
 	protected $user = null;
 
@@ -66,7 +68,7 @@ class FinderViewSearch extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination|null
+	 * @var    \Joomla\CMS\Pagination\Pagination|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination = null;
@@ -100,30 +102,30 @@ class FinderViewSearch extends JViewLegacy
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  JError object on failure, void on success.
+	 * @return  mixed  \JError object on failure, void on success.
 	 *
 	 * @since   2.5
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$params = $app->getParams();
 
 		// Get view data.
 		$state = $this->get('State');
 		$query = $this->get('Query');
-		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderQuery') : null;
+		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderQuery') : null;
 		$results = $this->get('Results');
-		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderResults') : null;
+		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderResults') : null;
 		$total = $this->get('Total');
-		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderTotal') : null;
+		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderTotal') : null;
 		$pagination = $this->get('Pagination');
-		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderPagination') : null;
+		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Configure the pathway.
@@ -157,9 +159,9 @@ class FinderViewSearch extends JViewLegacy
 		SearchHelper::logSearch($this->query->input, 'com_finder');
 
 		// Push out the query data.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$this->suggested = JHtml::_('query.suggested', $query);
-		$this->explained = JHtml::_('query.explained', $query);
+		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$this->suggested = \JHtml::_('query.suggested', $query);
+		$this->explained = \JHtml::_('query.explained', $query);
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
@@ -175,11 +177,11 @@ class FinderViewSearch extends JViewLegacy
 
 		$this->prepareDocument($query);
 
-		JDEBUG ? JProfiler::getInstance('Application')->mark('beforeFinderLayout') : null;
+		\JDEBUG ? \JProfiler::getInstance('Application')->mark('beforeFinderLayout') : null;
 
 		parent::display($tpl);
 
-		JDEBUG ? JProfiler::getInstance('Application')->mark('afterFinderLayout') : null;
+		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderLayout') : null;
 	}
 
 	/**
@@ -195,7 +197,7 @@ class FinderViewSearch extends JViewLegacy
 		$fields = null;
 
 		// Get the URI.
-		$uri = JUri::getInstance(JRoute::_($this->query->toUri()));
+		$uri = \JUri::getInstance(\JRoute::_($this->query->toUri()));
 		$uri->delVar('q');
 		$uri->delVar('o');
 		$uri->delVar('t');
@@ -234,7 +236,7 @@ class FinderViewSearch extends JViewLegacy
 		// Check if the file exists.
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$exists = JPath::find($this->_path['template'], $filetofind);
+		$exists = \JPath::find($this->_path['template'], $filetofind);
 
 		return ($exists ? $layout : 'result');
 	}
@@ -242,7 +244,7 @@ class FinderViewSearch extends JViewLegacy
 	/**
 	 * Prepares the document
 	 *
-	 * @param   FinderIndexerQuery  $query  The search query
+	 * @param   \FinderIndexerQuery  $query  The search query
 	 *
 	 * @return  void
 	 *
@@ -250,7 +252,7 @@ class FinderViewSearch extends JViewLegacy
 	 */
 	protected function prepareDocument($query)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -264,7 +266,7 @@ class FinderViewSearch extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', \JText::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -275,11 +277,11 @@ class FinderViewSearch extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -312,12 +314,12 @@ class FinderViewSearch extends JViewLegacy
 		{
 			// Add the RSS link.
 			$props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$route = JRoute::_($this->query->toUri() . '&format=feed&type=rss');
+			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=rss');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
 			// Add the ATOM link.
 			$props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$route = JRoute::_($this->query->toUri() . '&format=feed&type=atom');
+			$route = \JRoute::_($this->query->toUri() . '&format=feed&type=atom');
 			$this->document->addHeadLink($route, 'alternate', 'rel', $props);
 		}
 	}

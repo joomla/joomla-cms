@@ -6,25 +6,28 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Model\ListModel;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // Register dependent classes.
 define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
-JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
-JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
-JLoader::register('FinderIndexerResult', FINDER_PATH_INDEXER . '/result.php');
-JLoader::register('FinderIndexerStemmer', FINDER_PATH_INDEXER . '/stemmer.php');
+\JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
+\JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
+\JLoader::register('FinderIndexerResult', FINDER_PATH_INDEXER . '/result.php');
+\JLoader::register('FinderIndexerStemmer', FINDER_PATH_INDEXER . '/stemmer.php');
 
 /**
  * Search model class for the Finder package.
  *
  * @since  2.5
  */
-class FinderModelSearch extends JModelList
+class Search extends ListModel
 {
 	/**
 	 * Context string for the model type
@@ -39,7 +42,7 @@ class FinderModelSearch extends JModelList
 	 * models the entire search query including the text input; static and
 	 * dynamic taxonomy filters; date filters; etc.
 	 *
-	 * @var    FinderIndexerQuery
+	 * @var    \FinderIndexerQuery
 	 * @since  2.5
 	 */
 	protected $query;
@@ -74,7 +77,7 @@ class FinderModelSearch extends JModelList
 	 * @return  array  An array of FinderIndexerResult objects.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \Exception on database error.
 	 */
 	public function getResults()
 	{
@@ -150,7 +153,7 @@ class FinderModelSearch extends JModelList
 	 * @return  integer  The total number of results.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \Exception on database error.
 	 */
 	public function getTotal()
 	{
@@ -188,7 +191,7 @@ class FinderModelSearch extends JModelList
 	/**
 	 * Method to get the query object.
 	 *
-	 * @return  FinderIndexerQuery  A query object.
+	 * @return  \FinderIndexerQuery  A query object.
 	 *
 	 * @since   2.5
 	 */
@@ -201,7 +204,7 @@ class FinderModelSearch extends JModelList
 	/**
 	 * Method to build a database query to load the list data.
 	 *
-	 * @return  JDatabaseQuery  A database query.
+	 * @return  \JDatabaseQuery  A database query.
 	 *
 	 * @since   2.5
 	 */
@@ -217,7 +220,7 @@ class FinderModelSearch extends JModelList
 		}
 
 		// Set variables
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -231,7 +234,7 @@ class FinderModelSearch extends JModelList
 
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSql(), '00', -2));
+		$nowDate = $db->quote(substr_replace(\JFactory::getDate()->toSql(), '00', -2));
 
 		// Add the publish up and publish down filters.
 		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
@@ -301,7 +304,7 @@ class FinderModelSearch extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('l.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
+			$query->where('l.language IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
 		}
 		// Push the data into cache.
 		$this->store($store, $query, false);
@@ -316,7 +319,7 @@ class FinderModelSearch extends JModelList
 	 * @return  integer  The results total.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \Exception on database error.
 	 */
 	protected function getResultsTotal()
 	{
@@ -593,7 +596,7 @@ class FinderModelSearch extends JModelList
 	 * @return  array  An array of result data objects.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \Exception on database error.
 	 */
 	protected function getResultsData()
 	{
@@ -911,7 +914,7 @@ class FinderModelSearch extends JModelList
 	 * @return  array  An array of links ids.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \Exception on database error.
 	 */
 	protected function getExcludedLinkIds()
 	{
@@ -1044,18 +1047,17 @@ class FinderModelSearch extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Get the configuration options.
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$input = $app->input;
 		$params = $app->getParams();
-		$user = JFactory::getUser();
-		$filter = JFilterInput::getInstance();
+		$user = \JFactory::getUser();
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Setup the stemmer.
 		if ($params->get('stem', 1) && $params->get('stemmer', 'porter_en'))
 		{
-			FinderIndexerHelper::$stemmer = FinderIndexerStemmer::getInstance($params->get('stemmer', 'porter_en'));
+			\FinderIndexerHelper::$stemmer = \FinderIndexerStemmer::getInstance($params->get('stemmer', 'porter_en'));
 		}
 
 		$request = $input->request;
@@ -1085,7 +1087,7 @@ class FinderModelSearch extends JModelList
 		$options['when2'] = $request->getString('w2', $params->get('w2', ''));
 
 		// Load the query object.
-		$this->query = new FinderIndexerQuery($options);
+		$this->query = new \FinderIndexerQuery($options);
 
 		// Load the query token data.
 		$this->excludedTerms = $this->query->getExcludedTermIds();
@@ -1181,7 +1183,7 @@ class FinderModelSearch extends JModelList
 		// Use the external cache if data is persistent.
 		if ($persistent)
 		{
-			$data = JFactory::getCache($this->context, 'output')->get($id);
+			$data = \JFactory::getCache($this->context, 'output')->get($id);
 			$data = $data ? unserialize($data) : null;
 		}
 
@@ -1213,7 +1215,7 @@ class FinderModelSearch extends JModelList
 		// Store the data in external cache if data is persistent.
 		if ($persistent)
 		{
-			return JFactory::getCache($this->context, 'output')->store(serialize($data), $id);
+			return \JFactory::getCache($this->context, 'output')->store(serialize($data), $id);
 		}
 
 		return true;

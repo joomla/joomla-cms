@@ -6,29 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Search feed view class for the Finder package.
  *
  * @since  2.5
  */
-class FinderViewSearch extends JViewLegacy
+class Feed extends HtmlView
 {
 	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  JError object on failure, void on success.
+	 * @return  mixed  \JError object on failure, void on success.
 	 *
 	 * @since   2.5
 	 */
 	public function display($tpl = null)
 	{
 		// Get the application
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Adjust the list limit to the feed limit.
 		$app->input->set('limit', $app->get('feed_limit'));
@@ -40,8 +43,8 @@ class FinderViewSearch extends JViewLegacy
 		$results = $this->get('Results');
 
 		// Push out the query data.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$explained = JHtml::_('query.explained', $query);
+		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		$explained = \JHtml::_('query.explained', $query);
 
 		// Set the document title.
 		$title = $params->get('page_title', '');
@@ -52,11 +55,11 @@ class FinderViewSearch extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -68,7 +71,7 @@ class FinderViewSearch extends JViewLegacy
 		}
 
 		// Set the document link.
-		$this->document->link = JRoute::_($query->toUri());
+		$this->document->link = \JRoute::_($query->toUri());
 
 		// If we don't have any results, we are done.
 		if (empty($results))
@@ -80,11 +83,11 @@ class FinderViewSearch extends JViewLegacy
 		foreach ($results as $result)
 		{
 			// Convert the result to a feed entry.
-			$item              = new JFeedItem;
+			$item              = new \JFeedItem;
 			$item->title       = $result->title;
-			$item->link        = JRoute::_($result->route);
+			$item->link        = \JRoute::_($result->route);
 			$item->description = $result->description;
-			$item->date        = (int) $result->start_date ? JHtml::_('date', $result->start_date, 'l d F Y') : $result->indexdate;
+			$item->date        = (int) $result->start_date ? \JHtml::_('date', $result->start_date, 'l d F Y') : $result->indexdate;
 
 			// Get the taxonomy data.
 			$taxonomy = $result->getTaxonomy();
