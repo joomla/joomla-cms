@@ -269,9 +269,9 @@ class ContactViewContact extends JViewLegacy
 			$contactUser->text = '';
 			JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
 
-			if (!isset($contactUser->fields))
+			if (!isset($contactUser->jcfields))
 			{
-				$contactUser->fields = array();
+				$contactUser->jcfields = array();
 			}
 		}
 

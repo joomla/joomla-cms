@@ -164,8 +164,8 @@ class JFormFieldCalendar extends JFormField
 			$this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
 			$this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
 			$this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : 'true';
-			$this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : 'false';
-			$this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : 'true';
+			$this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : 'true';
+			$this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : 'false';
 			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
@@ -226,7 +226,7 @@ class JFormFieldCalendar extends JFormField
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
-					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+					$date->setTimezone($user->getTimezone());
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);

@@ -37,10 +37,12 @@ class JFormRuleColor extends JFormRule
 	{
 		$value = trim($value);
 
-		if (empty($value))
+		// If the field is empty and not required, the field is valid.
+		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+		if (!$required && empty($value))
 		{
-			// A color field can't be empty
-			return false;
+			return true;
 		}
 
 		if ($value[0] != '#')

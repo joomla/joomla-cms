@@ -242,5 +242,4 @@ class RedirectModelLink extends JModelAdmin
 
 		return true;
 	}
-
 }
