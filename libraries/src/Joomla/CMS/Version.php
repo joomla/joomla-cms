@@ -225,9 +225,12 @@ final class Version
 	{
 		$version = self::MAJOR_VERSION . '.' . self::MINOR_VERSION . '.' . self::PATCH_VERSION;
 
-		if (!empty(self::EXTRA_VERSION))
+		// Has to be assigned to a variable to support PHP 5.3 and 5.4
+		$extraVersion = self::EXTRA_VERSION;
+
+		if (!empty($extraVersion))
 		{
-			$version .= '-' . self::EXTRA_VERSION;
+			$version .= '-' . $extraVersion;
 		}
 
 		return $version;
