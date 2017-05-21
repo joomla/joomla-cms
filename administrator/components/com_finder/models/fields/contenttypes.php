@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die();
 
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 JFormHelper::loadFieldClass('list');
 
