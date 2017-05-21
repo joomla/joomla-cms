@@ -117,7 +117,8 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 
 		if ($app->get('MetaVersion', 0))
 		{
-			$versionHtmlEscaped = ' version="' . htmlspecialchars(JVersion::RELEASE, ENT_COMPAT, 'UTF-8') . '"';
+			$minorVersion       = JVersion::MAJOR_VERSION . '.' . JVersion::MINOR_VERSION;
+			$versionHtmlEscaped = ' version="' . htmlspecialchars($minorVersion, ENT_COMPAT, 'UTF-8') . '"';
 		}
 
 		$feed .= "	<generator uri=\"https://www.joomla.org\"" . $versionHtmlEscaped . ">" . $data->getGenerator() . "</generator>\n";
