@@ -6,15 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\View\Associations;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\CMS\Language\Associations;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
  * View class for a list of articles.
  *
  * @since  3.7.0
  */
-class AssociationsViewAssociations extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * An array of items
@@ -28,7 +34,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 *
 	 * @since  3.7.0
 	 */
@@ -67,13 +73,13 @@ class AssociationsViewAssociations extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		if (!JLanguageAssociations::isEnabled())
+		if (!Associations::isEnabled())
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_ERROR_NO_ASSOC'), 'warning');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_ASSOCIATIONS_ERROR_NO_ASSOC'), 'warning');
 		}
 		elseif ($this->state->get('itemtype') == '' || $this->state->get('language') == '')
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
 		}
 		else
 		{
@@ -94,7 +100,7 @@ class AssociationsViewAssociations extends JViewLegacy
 
 			if (is_null($type))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_ASSOCIATIONS_ERROR_NO_TYPE'), 'warning');
 			}
 			else
 			{
@@ -171,12 +177,12 @@ class AssociationsViewAssociations extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new \Exception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
 
-		// Will add sidebar if needed $this->sidebar = JHtmlSidebar::render();
+		// Will add sidebar if needed $this->sidebar = \JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -189,7 +195,7 @@ class AssociationsViewAssociations extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if (isset($this->typeName) && isset($this->extensionName))
 		{
@@ -203,27 +209,27 @@ class AssociationsViewAssociations extends JViewLegacy
 				$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 			}
 
-			JToolbarHelper::title(
-				JText::sprintf(
-					'COM_ASSOCIATIONS_TITLE_LIST', JText::_($this->extensionName), JText::_($languageKey)
+			ToolbarHelper::title(
+				\JText::sprintf(
+					'COM_ASSOCIATIONS_TITLE_LIST', \JText::_($this->extensionName), \JText::_($languageKey)
 				), 'contract assoc'
 			);
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract assoc');
+			ToolbarHelper::title(\JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract assoc');
 		}
 
 		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))
 		{
 			if (!isset($this->typeName))
 			{
-				JToolbarHelper::custom('associations.purge', 'purge', 'purge', 'COM_ASSOCIATIONS_PURGE', false, false);
-				JToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
+				ToolbarHelper::custom('associations.purge', 'purge', 'purge', 'COM_ASSOCIATIONS_PURGE', false, false);
+				ToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
 			}
-			JToolbarHelper::preferences('com_associations');
+			ToolbarHelper::preferences('com_associations');
 		}
 
-		JToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS');
+		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS');
 	}
 }

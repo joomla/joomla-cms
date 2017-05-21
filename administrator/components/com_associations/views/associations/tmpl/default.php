@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');

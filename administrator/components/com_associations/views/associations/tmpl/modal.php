@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+
 $app = JFactory::getApplication();
 
 if ($app->isClient('site'))

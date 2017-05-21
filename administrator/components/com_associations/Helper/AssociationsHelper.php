@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class AssociationsHelper extends JHelperContent
+class AssociationsHelper extends ContentHelper
 {
 	/**
 	 * Array of Registry objects of extensions
@@ -89,7 +92,7 @@ class AssociationsHelper extends JHelperContent
 	 * @param   string  $typeName       The item type
 	 * @param   int     $itemId         The id of item for which we need the associated items
 	 *
-	 * @return  JTable|null
+	 * @return  \Joomla\CMS\Table\Table|null
 	 *
 	 * @since  3.7.00
 	 */
@@ -212,7 +215,7 @@ class AssociationsHelper extends JHelperContent
 
 				if (isset($items[$langCode]['catid']))
 				{
-					$db = JFactory::getDbo();
+					$db = \JFactory::getDbo();
 
 					// Get the category name
 					$query = $db->getQuery(true)
@@ -223,11 +226,11 @@ class AssociationsHelper extends JHelperContent
 					$db->setQuery($query);
 					$category_title = $db->loadResult();
 
-					$additional = '<strong>' . JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br>';
+					$additional = '<strong>' . \JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br>';
 				}
 				elseif (isset($items[$langCode]['menutype']))
 				{
-					$db = JFactory::getDbo();
+					$db = \JFactory::getDbo();
 
 					// Get the menutype name
 					$query = $db->getQuery(true)
@@ -238,7 +241,7 @@ class AssociationsHelper extends JHelperContent
 					$db->setQuery($query);
 					$menutype_title = $db->loadResult();
 
-					$additional = '<strong>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
+					$additional = '<strong>' . \JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
 				}
 
 				$labelClass  = 'badge-association';
@@ -247,14 +250,14 @@ class AssociationsHelper extends JHelperContent
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
 								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
 
-				$additional .= $addLink && $allow ? JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+				$additional .= $addLink && $allow ? \JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 			}
 			else
 			{
 				$items[$langCode] = array();
 
-				$title      = JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
-				$additional = $addLink ? JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
+				$title      = \JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$additional = $addLink ? \JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
 				$labelClass = 'badge-warning';
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
@@ -271,7 +274,7 @@ class AssociationsHelper extends JHelperContent
 				'target'   => $target,
 			);
 
-			$url     = JRoute::_('index.php?' . http_build_query($options));
+			$url     = \JRoute::_('index.php?' . http_build_query($options));
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
 
@@ -283,8 +286,8 @@ class AssociationsHelper extends JHelperContent
 						. $text . '</a>';
 		}
 
-		JHtml::_('bootstrap.popover');
-		return JLayoutHelper::render('joomla.content.associations', $items);
+		\JHtml::_('bootstrap.popover');
+		return LayoutHelper::render('joomla.content.associations', $items);
 	}
 
 	/**
@@ -325,7 +328,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @param   string  $extensionName  The extension identifier.
 	 *
-	 * @return  Joomla\Registry\Registry  The item properties.
+	 * @return  \Joomla\Registry\Registry  The item properties.
 	 *
 	 * @since  3.7.0
 	 */
@@ -365,14 +368,14 @@ class AssociationsHelper extends JHelperContent
 
 		// Get the translated titles.
 		$languagePath = JPATH_ADMINISTRATOR . '/components/' . $extensionName;
-		$lang         = JFactory::getLanguage();
+		$lang         = \JFactory::getLanguage();
 
 		$lang->load($extensionName . '.sys', JPATH_ADMINISTRATOR);
 		$lang->load($extensionName . '.sys', $languagePath);
 		$lang->load($extensionName, JPATH_ADMINISTRATOR);
 		$lang->load($extensionName, $languagePath);
 
-		$result->def('title', JText::_(strtoupper($extensionName)));
+		$result->def('title', \JText::_(strtoupper($extensionName)));
 
 		// Get the supported types
 		$types  = $helper->getItemTypes();
@@ -396,7 +399,7 @@ class AssociationsHelper extends JHelperContent
 				$languageKey = strtoupper($extensionName . '_' . $title . 'S');
 			}
 
-			$title = $lang->hasKey($languageKey) ? JText::_($languageKey) : JText::_('COM_ASSOCIATIONS_ITEMS');
+			$title = $lang->hasKey($languageKey) ? \JText::_($languageKey) : \JText::_('COM_ASSOCIATIONS_ITEMS');
 
 			$rType = new Registry;
 
@@ -422,7 +425,7 @@ class AssociationsHelper extends JHelperContent
 	 */
 	private static function getEnabledExtensions()
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('*')
@@ -444,7 +447,7 @@ class AssociationsHelper extends JHelperContent
 	 */
 	public static function getContentLanguages()
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Get all content languages.
 		$query = $db->getQuery(true)
@@ -484,7 +487,7 @@ class AssociationsHelper extends JHelperContent
 			return $helper->allowEdit($typeName, $itemId);
 		}
 
-		return JFactory::getUser()->authorise('core.edit', $extensionName);
+		return \JFactory::getUser()->authorise('core.edit', $extensionName);
 	}
 
 	/**
@@ -512,7 +515,7 @@ class AssociationsHelper extends JHelperContent
 			return $helper->allowAdd($typeName);
 		}
 
-		return JFactory::getUser()->authorise('core.create', $extensionName);
+		return \JFactory::getUser()->authorise('core.create', $extensionName);
 	}
 
 	/**
@@ -588,7 +591,7 @@ class AssociationsHelper extends JHelperContent
 
 		$checkedOutFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
 
-		$userId = JFactory::getUser()->id;
+		$userId = \JFactory::getUser()->id;
 
 		return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
 	}

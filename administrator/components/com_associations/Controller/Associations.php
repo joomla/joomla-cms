@@ -6,17 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+use Joomla\CMS\Controller\Admin;
 
 /**
  * Associations controller class.
  *
  * @since  3.7.0
  */
-class AssociationsControllerAssociations extends JControllerAdmin
+class Associations extends Admin
 {
 	/**
 	 * The URL view list variable.
@@ -34,11 +35,11 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  JModel|bool
+	 * @return  \Joomla\CMS\Model\Model|bool
 	 *
 	 * @since  3.7.0
 	 */
-	public function getModel($name = 'Associations', $prefix = 'AssociationsModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Associations', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -53,7 +54,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	public function purge()
 	{
 		$this->getModel('associations')->purge();
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
@@ -66,6 +67,6 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	public function clean()
 	{
 		$this->getModel('associations')->clean();
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 }
