@@ -60,6 +60,7 @@ class FinderIndexerTokenTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerToken::__construct
 	 */
 	public function test__construct()
 	{
