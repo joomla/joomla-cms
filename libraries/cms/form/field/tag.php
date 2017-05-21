@@ -141,8 +141,13 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		// Respect the current user Access levels
-		$viewlevels = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$user = JFactory::getUser();
 		$vl_where = array();
+
+		$viewlevels = !$user->authorise('core.admin')
+			? implode(',', $user->getAuthorisedViewLevels())
+			: false;
+
 		if ($viewlevels)
 		{
 			$vl_where[] = 'a.access IN (' . $viewlevels . ')';
