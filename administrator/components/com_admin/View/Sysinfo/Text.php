@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
+
+use Joomla\CMS\View\AbstractView;
 
 defined('_JEXEC') or die;
 
@@ -14,7 +17,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.5
  */
-class AdminViewSysinfo extends JViewLegacy
+class Text extends AbstractView
 {
 	/**
 	 * Execute and display a template script.
@@ -28,9 +31,9 @@ class AdminViewSysinfo extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!JFactory::getUser()->authorise('core.admin'))
+		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new JUserAuthorizationexception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \JUserAuthorizationexception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		header('Content-Type: text/plain; charset=utf-8');
@@ -58,7 +61,7 @@ class AdminViewSysinfo extends JViewLegacy
 
 		echo str_replace(JPATH_ROOT, 'xxxxxx', implode("\n\n", $lines));
 
-		JFactory::getApplication()->close();
+		\JFactory::getApplication()->close();
 	}
 
 	/**
@@ -70,31 +73,32 @@ class AdminViewSysinfo extends JViewLegacy
 	 */
 	protected function getLayoutData()
 	{
+		/* @var \Joomla\Component\Admin\Administrator\Model\SysInfo $model */
 		$model = $this->getModel();
 
 		return array(
 			'info' => array(
-				'title' => JText::_('COM_ADMIN_SYSTEM_INFORMATION', true),
+				'title' => \JText::_('COM_ADMIN_SYSTEM_INFORMATION', true),
 				'data'  => $model->getSafeData('info')
 			),
 			'phpSettings' => array(
-				'title' => JText::_('COM_ADMIN_PHP_SETTINGS', true),
+				'title' => \JText::_('COM_ADMIN_PHP_SETTINGS', true),
 				'data'  => $model->getSafeData('phpSettings')
 			),
 			'config' => array(
-				'title' => JText::_('COM_ADMIN_CONFIGURATION_FILE', true),
+				'title' => \JText::_('COM_ADMIN_CONFIGURATION_FILE', true),
 				'data'  => $model->getSafeData('config')
 			),
 			'directories' => array(
-				'title' => JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
+				'title' => \JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
 				'data'  => $model->getSafeData('directory', true)
 			),
 			'phpInfo' => array(
-				'title' => JText::_('COM_ADMIN_PHP_INFORMATION', true),
+				'title' => \JText::_('COM_ADMIN_PHP_INFORMATION', true),
 				'data'  => $model->getSafeData('phpInfoArray')
 			),
 			'extensions' => array(
-				'title' => JText::_('COM_ADMIN_EXTENSIONS', true),
+				'title' => \JText::_('COM_ADMIN_EXTENSIONS', true),
 				'data'  => $model->getSafeData('extensions')
 			)
 		);

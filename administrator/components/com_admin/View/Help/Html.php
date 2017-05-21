@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Admin\Administrator\View\Help;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\HtmlView;
 
 /**
  * HTML View class for the Admin component
  *
  * @since  1.6
  */
-class AdminViewHelp extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The search string
@@ -95,6 +98,6 @@ class AdminViewHelp extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_ADMIN_HELP'), 'support help_header');
+		\JToolbarHelper::title(\JText::_('COM_ADMIN_HELP'), 'support help_header');
 	}
 }

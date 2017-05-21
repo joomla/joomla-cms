@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-JLoader::register('UsersModelUser', JPATH_ADMINISTRATOR . '/components/com_users/models/user.php');
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Users\Administrator\Model\User;
 
 /**
  * User model.
  *
  * @since  1.6
  */
-class AdminModelProfile extends UsersModelUser
+class Profile extends User
 {
 	/**
 	 * Method to get the record form.
@@ -24,7 +28,7 @@ class AdminModelProfile extends UsersModelUser
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm    A JForm object on success, false on failure
+	 * @return  \JForm    A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -50,7 +54,7 @@ class AdminModelProfile extends UsersModelUser
 
 		$this->setState('user.username.compliant', $isUsernameCompliant);
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if (!ComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
 		{
 			$form->setFieldAttribute('username', 'required', 'false');
 			$form->setFieldAttribute('username', 'readonly', 'true');
@@ -58,13 +62,13 @@ class AdminModelProfile extends UsersModelUser
 		}
 
 		// When multilanguage is set, a user's default site language should also be a Content Language
-		if (JLanguageMultilang::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
 
 		// If the user needs to change their password, mark the password fields as required
-		if (JFactory::getUser()->requireReset)
+		if (\JFactory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
@@ -83,7 +87,7 @@ class AdminModelProfile extends UsersModelUser
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_users.edit.user.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_users.edit.user.data', array());
 
 		if (empty($data))
 		{
@@ -91,7 +95,7 @@ class AdminModelProfile extends UsersModelUser
 		}
 
 		// Load the users plugins.
-		JPluginHelper::importPlugin('user');
+		PluginHelper::importPlugin('user');
 
 		$this->preprocessData('com_admin.profile', $data);
 
@@ -109,7 +113,7 @@ class AdminModelProfile extends UsersModelUser
 	 */
 	public function getItem($pk = null)
 	{
-		return parent::getItem(JFactory::getUser()->id);
+		return parent::getItem(\JFactory::getUser()->id);
 	}
 
 	/**
@@ -123,7 +127,7 @@ class AdminModelProfile extends UsersModelUser
 	 */
 	public function save($data)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		unset($data['id']);
 		unset($data['groups']);
@@ -132,7 +136,7 @@ class AdminModelProfile extends UsersModelUser
 
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if (!ComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
 		{
 			unset($data['username']);
 		}

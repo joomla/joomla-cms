@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Help\Help as JHelp;
+use Joomla\CMS\Model\Model;
 use Joomla\String\StringHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class AdminModelHelp extends JModelLegacy
+class Help extends Model
 {
 	/**
 	 * The search string
@@ -69,7 +72,7 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (is_null($this->help_search))
 		{
-			$this->help_search = JFactory::getApplication()->input->getString('helpsearch');
+			$this->help_search = \JFactory::getApplication()->input->getString('helpsearch');
 		}
 
 		return $this->help_search;
@@ -86,7 +89,7 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (is_null($this->page))
 		{
-			$this->page = JHelp::createUrl(JFactory::getApplication()->input->get('page', 'JHELP_START_HERE'));
+			$this->page = JHelp::createUrl(\JFactory::getApplication()->input->get('page', 'JHELP_START_HERE'));
 		}
 
 		return $this->page;
@@ -103,7 +106,7 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (is_null($this->lang_tag))
 		{
-			$this->lang_tag = JFactory::getLanguage()->getTag();
+			$this->lang_tag = \JFactory::getLanguage()->getTag();
 
 			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
 			{
@@ -131,7 +134,7 @@ class AdminModelHelp extends JModelLegacy
 		$lang_tag    = $this->getLangTag();
 		$help_search = $this->getHelpSearch();
 
-		// New style - Check for a TOC JSON file
+		// New style - Check for a TOC \JSON file
 		if (file_exists(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'))
 		{
 			$data = json_decode(file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'));
@@ -139,7 +142,7 @@ class AdminModelHelp extends JModelLegacy
 			// Loop through the data array
 			foreach ($data as $key => $value)
 			{
-				$this->toc[$key] = JText::_('COM_ADMIN_HELP_' . $value);
+				$this->toc[$key] = \JText::_('COM_ADMIN_HELP_' . $value);
 			}
 
 			// Sort the Table of Contents
@@ -150,7 +153,7 @@ class AdminModelHelp extends JModelLegacy
 
 		// Get Help files
 		jimport('joomla.filesystem.folder');
-		$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
+		$files = \JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 		$this->toc = array();
 
 		foreach ($files as $file)
@@ -170,7 +173,7 @@ class AdminModelHelp extends JModelLegacy
 			}
 
 			// Translate the page title
-			$title = JText::_($title);
+			$title = \JText::_($title);
 
 			// Strip the extension
 			$file = preg_replace('#\.xml$|\.html$#', '', $file);

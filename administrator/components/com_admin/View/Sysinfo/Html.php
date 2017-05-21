@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Sysinfo View class for the Admin component
  *
  * @since  1.6
  */
-class AdminViewSysinfo extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * Some PHP settings
@@ -68,9 +72,9 @@ class AdminViewSysinfo extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!JFactory::getUser()->authorise('core.admin'))
+		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new JUserAuthorizationexception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \JUserAuthorizationexception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$this->php_settings = $this->get('PhpSettings');
@@ -93,9 +97,9 @@ class AdminViewSysinfo extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-2 systeminfo');
-		JToolbarHelper::link(JRoute::_('index.php?option=com_admin&view=sysinfo&format=text'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT', 'download');
-		JToolbarHelper::link(JRoute::_('index.php?option=com_admin&view=sysinfo&format=json'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON', 'download');
-		JToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
+		ToolbarHelper::title(\JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-2 systeminfo');
+		ToolbarHelper::link(\JRoute::_('index.php?option=com_admin&view=sysinfo&format=text'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT', 'download');
+		ToolbarHelper::link(\JRoute::_('index.php?option=com_admin&view=sysinfo&format=json'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON', 'download');
+		ToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
 	}
 }
