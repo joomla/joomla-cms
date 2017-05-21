@@ -6,6 +6,10 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Joomlaupdate\Administrator\View\Upload;
+
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 defined('_JEXEC') or die;
 
@@ -14,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.6.0
  */
-class JoomlaupdateViewUpload extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * Renders the view.
@@ -28,17 +32,14 @@ class JoomlaupdateViewUpload extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Set the toolbar information.
-		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		ToolbarHelper::title(\JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Load com_installer's language
-		$language = JFactory::getLanguage();
+		$language = \JFactory::getLanguage();
 		$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
 		$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
-
-		// Import com_login's model
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_login/models', 'LoginModel');
 
 		// Render the view.
 		parent::display($tpl);
