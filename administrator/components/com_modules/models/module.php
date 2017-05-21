@@ -295,11 +295,9 @@ class ModulesModelModule extends JModelAdmin
 		{
 			return $user->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
 		}
+
 		// Default to component settings if module not known.
-		else
-		{
-			return parent::canEditState($record);
-		}
+		return parent::canEditState($record);
 	}
 
 	/**
