@@ -158,18 +158,18 @@ class AssociationsHelper extends JHelperContent
 	/**
 	 * Get the associated language edit links Html.
 	 *
-	 * @param   string   $extensionName  Extension Name
-	 * @param   string   $typeName       ItemType
-	 * @param   integer  $itemId         Item id.
-	 * @param   string   $itemLanguage   Item language code.
-	 * @param   boolean  $addLink        True for adding edit links. False for just text.
-	 * @param   boolean  $allLanguages   True for showing all content languages. False only languages with associations.
+	 * @param   string   $extensionName   Extension Name
+	 * @param   string   $typeName        ItemType
+	 * @param   integer  $itemId          Item id.
+	 * @param   string   $itemLanguage    Item language code.
+	 * @param   boolean  $addLink         True for adding edit links. False for just text.
+	 * @param   boolean  $assocLanguages  True for showing non associated content languages. False only languages with associations.
 	 *
 	 * @return  string   The language HTML
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $allLanguages = true)
+	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocLanguages = true)
 	{
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
@@ -191,8 +191,15 @@ class AssociationsHelper extends JHelperContent
 				continue;
 			}
 
+			// Don't show languages with associations, if we don't want to show them.
+			if ($assocLanguages && isset($items[$langCode]))
+			{
+				unset($items[$langCode]);
+				continue;
+			}
+
 			// Don't show languages without associations, if we don't want to show them.
-			if (!$allLanguages && !isset($items[$langCode]))
+			if (!$assocLanguages && !isset($items[$langCode]))
 			{
 				continue;
 			}
@@ -203,13 +210,35 @@ class AssociationsHelper extends JHelperContent
 				$title       = $items[$langCode][$titleFieldName];
 				$additional  = '';
 
-				if (isset($items[$langCode]['category_title']))
+				if (isset($items[$langCode]['catid']))
 				{
-					$additional = '<br/>' . JText::_('JCATEGORY') . ': ' . $items[$langCode]['category_title'];
+					$db = JFactory::getDbo();
+
+					// Get the category name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__categories'))
+						->where($db->quoteName('id') . ' = ' . $db->quote($items[$langCode]['catid']));
+
+					$db->setQuery($query);
+					$category_title = $db->loadResult();
+
+					$additional = '<strong>' . JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br />';
 				}
-				elseif (isset($items[$langCode]['menu_title']))
+				elseif (isset($items[$langCode]['menutype']))
 				{
-					$additional = '<br/>' . JText::_('COM_ASSOCIATIONS_HEADING_MENUTYPE') . ': ' . $items[$langCode]['menu_title'];
+					$db = JFactory::getDbo();
+
+					// Get the menutype name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__menu_types'))
+						->where($db->quoteName('menutype') . ' = ' . $db->quote($items[$langCode]['menutype']));
+
+					$db->setQuery($query);
+					$menutype_title = $db->loadResult();
+
+					$additional = '<strong>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br />';
 				}
 
 				$labelClass  = '';
@@ -421,6 +450,7 @@ class AssociationsHelper extends JHelperContent
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
 			->from($db->quoteName('#__languages'))
+			->where($db->quoteName('published') . ' != -2')
 			->order($db->quoteName('ordering') . ' ASC');
 
 		$db->setQuery($query);

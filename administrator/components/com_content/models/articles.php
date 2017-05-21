@@ -52,7 +52,8 @@ class ContentModelArticles extends JModelList
 				'author_id',
 				'category_id',
 				'level',
-				'tag'
+				'tag',
+				'rating_count', 'rating',
 			);
 
 			if (JLanguageAssociations::isEnabled())
@@ -322,14 +323,8 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.fullordering', 'a.id');
-		$orderDirn = '';
-
-		if (empty($orderCol))
-		{
-			$orderCol  = $this->state->get('list.ordering', 'a.id');
-			$orderDirn = $this->state->get('list.direction', 'DESC');
-		}
+		$orderCol  = $this->state->get('list.ordering', 'a.id');
+		$orderDirn = $this->state->get('list.direction', 'DESC');
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
