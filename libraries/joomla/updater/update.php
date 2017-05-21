@@ -315,11 +315,14 @@ class JUpdate extends JObject
 				 *
 				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				 */
+				$patchMinimumSupported = JVersion::PATCH_VERSION >= $this->currentUpdate->targetplatform->min_dev_level;
+				$patchMaximumSupported = JVersion::PATCH_VERSION <= $this->currentUpdate->targetplatform->max_dev_level;
+
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
 					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', JVERSION)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::PATCH_VERSION >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::PATCH_VERSION <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $patchMinimumSupported)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $patchMaximumSupported))
 				{
 					$phpMatch = false;
 
