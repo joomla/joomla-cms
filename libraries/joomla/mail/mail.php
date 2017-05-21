@@ -57,6 +57,9 @@ class JMail extends PHPMailer
 		{
 			$this->SMTPDebug = 4;
 		}
+
+		// Don't disclose the PHPMailer version
+		$this->XMailer = ' ';
 	}
 
 	/**
@@ -757,6 +760,7 @@ class JMail extends PHPMailer
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Without replacement please implement it in your own code
 	 */
 	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
