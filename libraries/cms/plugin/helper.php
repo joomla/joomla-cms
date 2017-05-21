@@ -147,14 +147,6 @@ abstract class JPluginHelper
 	{
 		static $loaded = array();
 
-		// Check for the default args, if so we can optimise cheaply
-		$defaults = false;
-
-		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
-		{
-			$defaults = true;
-		}
-
 		// Ensure we have a dispatcher now so we can correctly track the loaded plugins
 		$dispatcher = $dispatcher ?: JEventDispatcher::getInstance();
 
@@ -166,7 +158,7 @@ abstract class JPluginHelper
 			$loaded[$dispatcherHash] = array();
 		}
 
-		if (!isset($loaded[$dispatcherHash][$type]) || !$defaults)
+		if (!isset($loaded[$dispatcherHash][$type]))
 		{
 			$results = null;
 
@@ -181,12 +173,6 @@ abstract class JPluginHelper
 					static::import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
 				}
-			}
-
-			// Bail out early if we're not using default args
-			if (!$defaults)
-			{
-				return $results;
 			}
 
 			$loaded[$dispatcherHash][$type] = $results;
@@ -227,30 +213,35 @@ abstract class JPluginHelper
 	{
 		static $paths = array();
 
+		// Ensure we have a dispatcher now so we can correctly track the loaded paths
+		$dispatcher = $dispatcher ?: JEventDispatcher::getInstance();
+
+		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
+		$dispatcherHash = spl_object_hash($dispatcher);
+
+		if (!isset($paths[$dispatcherHash]))
+		{
+			$paths[$dispatcherHash] = array();
+		}
+
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
 
 		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
 
-		if (!isset($paths[$path]))
+		if (!isset($paths[$dispatcherHash][$path]))
 		{
 			if (file_exists($path))
 			{
-				if (!isset($paths[$path]))
+				if (!isset($paths[$dispatcherHash][$path]))
 				{
 					require_once $path;
 				}
 
-				$paths[$path] = true;
+				$paths[$dispatcherHash][$path] = true;
 
 				if ($autocreate)
 				{
-					// Makes sure we have an event dispatcher
-					if (!is_object($dispatcher))
-					{
-						$dispatcher = JEventDispatcher::getInstance();
-					}
-
 					$className = 'Plg' . $plugin->type . $plugin->name;
 
 					if (class_exists($className))
@@ -269,7 +260,7 @@ abstract class JPluginHelper
 			}
 			else
 			{
-				$paths[$path] = false;
+				$paths[$dispatcherHash][$path] = false;
 			}
 		}
 	}
