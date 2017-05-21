@@ -145,7 +145,7 @@ abstract class JPluginHelper
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
-		static $loaded = [];
+		static $loaded = array();
 
 		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
