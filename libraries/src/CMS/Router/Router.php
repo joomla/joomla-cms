@@ -1,20 +1,19 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Router
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\CMS\Router;
 
 /**
  * Class to create and parse routes
  *
  * @since  1.5
  */
-class JRouter
+class Router
 {
 	/**
 	 * Mask for the before process stage
@@ -72,9 +71,9 @@ class JRouter
 	protected $cache = array();
 
 	/**
-	 * JRouter instances container.
+	 * Router instances container.
 	 *
-	 * @var    JRouter[]
+	 * @var    Router[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();
@@ -86,27 +85,27 @@ class JRouter
 	 * @param   string  $client   The name of the client
 	 * @param   array   $options  An associative array of options
 	 *
-	 * @return  JRouter  A JRouter object.
+	 * @return  Router  A Router object.
 	 *
 	 * @since   1.5
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
 	{
 		if (empty(self::$instances[$client]))
 		{
-			// Create a JRouter object
+			// Create a Router object
 			$classname = 'JRouter' . ucfirst($client);
 
 			if (!class_exists($classname))
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
+				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
 
 			// Check for a possible service from the container otherwise manually instantiate the class
-			if (JFactory::getContainer()->exists($classname))
+			if (\JFactory::getContainer()->exists($classname))
 			{
-				self::$instances[$client] = JFactory::getContainer()->get($classname);
+				self::$instances[$client] = \JFactory::getContainer()->get($classname);
 			}
   			else
   			{
@@ -120,13 +119,14 @@ class JRouter
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JUri  &$uri     The uri.
-	 * @param   bool  $setVars  Set the parsed data in the internal
-	 *                             storage for current-request-URLs
+	 * @param   \JUri  &$uri     The uri.
+	 * @param   bool   $setVars  Set the parsed data in the internal
+	 *                           storage for current-request-URLs
 	 *
 	 * @return  array
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function parse(&$uri, $setVars = false)
 	{
@@ -143,7 +143,7 @@ class JRouter
 		// Otherwise we have an invalid URL
 		if (strlen($uri->getPath()) > 0)
 		{
-			throw new Exception('URL invalid', 404);
+			throw new \Exception('URL invalid', 404);
 		}
 
 		if ($setVars)
@@ -161,7 +161,7 @@ class JRouter
 	 *
 	 * @param   string  $url  The internal URL or an associative array
 	 *
-	 * @return  JUri  The absolute search engine friendly URL object
+	 * @return  \JUri  The absolute search engine friendly URL object
 	 *
 	 * @since   1.5
 	 */
@@ -282,7 +282,7 @@ class JRouter
 	{
 		if (!array_key_exists('build' . $stage, $this->rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		$this->rules['build' . $stage][] = $callback;
@@ -305,7 +305,7 @@ class JRouter
 	{
 		if (!array_key_exists('parse' . $stage, $this->rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		$this->rules['parse' . $stage][] = $callback;
@@ -324,17 +324,18 @@ class JRouter
 	 * @return   boolean  Was a rule removed?
 	 *
 	 * @since   4.0
+	 * @throws  \InvalidArgumentException
 	 */
 	public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
 	{
 		if (!in_array($type, array('parse', 'build')))
 		{
-			throw new InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
 		}
 
 		if (!array_key_exists($type . $stage, $this->rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		foreach ($this->rules[$type . $stage] as $id => $r)
@@ -365,7 +366,7 @@ class JRouter
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   JUri    &$uri   The URI to parse
+	 * @param   \JUri   &$uri   The URI to parse
 	 * @param   string  $stage  The stage that should be processed.
 	 *                          Possible values: 'preprocess', 'postprocess'
 	 *                          and '' for the main parse stage
@@ -378,7 +379,7 @@ class JRouter
 	{
 		if (!array_key_exists('parse' . $stage, $this->rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		foreach ($this->rules['parse' . $stage] as $rule)
@@ -390,7 +391,7 @@ class JRouter
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   JUri    &$uri   The URI
+	 * @param   \JUri   &$uri   The URI
 	 * @param   string  $stage  The stage that should be processed.
 	 *                          Possible values: 'preprocess', 'postprocess'
 	 *                          and '' for the main build stage
@@ -403,7 +404,7 @@ class JRouter
 	{
 		if (!array_key_exists('build' . $stage, $this->rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		foreach ($this->rules['build' . $stage] as $rule)
@@ -417,7 +418,7 @@ class JRouter
 	 *
 	 * @param   string  $url  The URI or an associative array
 	 *
-	 * @return  JUri
+	 * @return  \JUri
 	 *
 	 * @since   3.2
 	 */
@@ -425,10 +426,10 @@ class JRouter
 	{
 		if (!is_array($url) && substr($url, 0, 1) != '&')
 		{
-			return new JUri($url);
+			return new \JUri($url);
 		}
 
-		$uri = new JUri('index.php');
+		$uri = new \JUri('index.php');
 
 		if (is_string($url))
 		{

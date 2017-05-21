@@ -1,24 +1,28 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Installer
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Installer;
+
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Version;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.path');
+\JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.folder');
+\JLoader::import('joomla.filesystem.path');
 
 /**
  * Installer helper class
  *
  * @since  3.1
  */
-abstract class JInstallerHelper
+abstract class InstallerHelper
 {
 	/**
 	 * Downloads a package
@@ -37,21 +41,21 @@ abstract class JInstallerHelper
 		ini_set('track_errors', true);
 
 		// Set user agent
-		$version = new JVersion;
+		$version = new Version;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		// Load installer plugins, and allow URL and headers modification
 		$headers = array();
-		JPluginHelper::importPlugin('installer');
-		JFactory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
+		PluginHelper::importPlugin('installer');
+		\JFactory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
 
 		try
 		{
-			$response = JHttpFactory::getHttp()->get($url, $headers);
+			$response = \JHttpFactory::getHttp()->get($url, $headers);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
-			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -62,7 +66,7 @@ abstract class JInstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -75,7 +79,7 @@ abstract class JInstallerHelper
 			$target = trim($flds[0], '"');
 		}
 
-		$tmpPath = JFactory::getConfig()->get('tmp_path');
+		$tmpPath = \JFactory::getConfig()->get('tmp_path');
 
 		// Set the target path if not given
 		if (!$target)
@@ -88,7 +92,7 @@ abstract class JInstallerHelper
 		}
 
 		// Write buffer to file
-		JFile::write($target, $response->body);
+		\JFile::write($target, $response->body);
 
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
@@ -120,15 +124,15 @@ abstract class JInstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = JPath::clean(dirname($p_filename) . '/' . $tmpdir);
-		$archivename = JPath::clean($archivename);
+		$extractdir = \JPath::clean(dirname($p_filename) . '/' . $tmpdir);
+		$archivename = \JPath::clean($archivename);
 
 		// Do the unpacking of the archive
 		try
 		{
-			$extract = JArchive::extract($archivename, $extractdir);
+			$extract = \JArchive::extract($archivename, $extractdir);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			if ($alwaysReturnArray)
 			{
@@ -170,13 +174,13 @@ abstract class JInstallerHelper
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
-		$dirList = array_merge((array) JFolder::files($extractdir, ''), (array) JFolder::folders($extractdir, ''));
+		$dirList = array_merge((array) \JFolder::files($extractdir, ''), (array) \JFolder::folders($extractdir, ''));
 
 		if (count($dirList) == 1)
 		{
-			if (JFolder::exists($extractdir . '/' . $dirList[0]))
+			if (\JFolder::exists($extractdir . '/' . $dirList[0]))
 			{
-				$extractdir = JPath::clean($extractdir . '/' . $dirList[0]);
+				$extractdir = \JPath::clean($extractdir . '/' . $dirList[0]);
 			}
 		}
 
@@ -214,11 +218,11 @@ abstract class JInstallerHelper
 	public static function detectType($p_dir)
 	{
 		// Search the install dir for an XML file
-		$files = JFolder::files($p_dir, '\.xml$', 1, true);
+		$files = \JFolder::files($p_dir, '\.xml$', 1, true);
 
 		if (!$files || !count($files))
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -246,7 +250,7 @@ abstract class JInstallerHelper
 			return $type;
 		}
 
-		JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), JLog::WARNING, 'jerror');
+		\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
 
 		// Free up memory.
 		unset($xml);
@@ -287,23 +291,23 @@ abstract class JInstallerHelper
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
-		$config = JFactory::getConfig();
+		$config = \JFactory::getConfig();
 
 		// Does the unpacked extension directory exist?
 		if ($resultdir && is_dir($resultdir))
 		{
-			JFolder::delete($resultdir);
+			\JFolder::delete($resultdir);
 		}
 
 		// Is the package file a valid file?
 		if (is_file($package))
 		{
-			JFile::delete($package);
+			\JFile::delete($package);
 		}
-		elseif (is_file(JPath::clean($config->get('tmp_path') . '/' . $package)))
+		elseif (is_file(\JPath::clean($config->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			JFile::delete(JPath::clean($config->get('tmp_path') . '/' . $package));
+			\JFile::delete(\JPath::clean($config->get('tmp_path') . '/' . $package));
 		}
 	}
 }

@@ -45,6 +45,8 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Method to test the parse and process methods.
+	 *
+	 * @covers  FinderIndexerParserHtml::parse
 	 */
 	public function testParse()
 	{
@@ -60,6 +62,8 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Test with parsing more complex HTML.
+	 *
+	 * @covers  FinderIndexerParserHtml::parse
 	 */
 	public function testParseComplex()
 	{
@@ -100,6 +104,8 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests the removal of unwanted HTML blocks.
+	 *
+	 * @covers  FinderIndexerParserHtml::parse
 	 */
 	public function testRemoveBlocks()
 	{
@@ -146,6 +152,8 @@ class FinderIndexerParserHtmlTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests the parsing of HTML tags spanning the 2Kbyte boundary.
+	 *
+	 * @covers  FinderIndexerParserHtml::parse
 	 */
 	public function testBlockBoundary()
 	{

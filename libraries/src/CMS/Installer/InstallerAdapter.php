@@ -1,11 +1,17 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Installer
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Installer;
+
+use Joomla\CMS\Installer\Manifest\PackageManifest;
+use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\TableInterface;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.4
  */
-abstract class JInstallerAdapter
+abstract class InstallerAdapter
 {
 	/**
 	 * ID for the currently installed extension if present
@@ -33,9 +39,9 @@ abstract class JInstallerAdapter
 	protected $element = null;
 
 	/**
-	 * JTableExtension object.
+	 * Extension object.
 	 *
-	 * @var    JTableExtension
+	 * @var    Extension
 	 * @since  3.4
 	 * */
 	protected $extension = null;
@@ -53,7 +59,7 @@ abstract class JInstallerAdapter
 	 *
 	 * Making this object public allows extensions to customize the manifest in custom scripts.
 	 *
-	 * @var    SimpleXMLElement
+	 * @var    \SimpleXMLElement
 	 * @since  3.4
 	 */
 	public $manifest = null;
@@ -77,7 +83,7 @@ abstract class JInstallerAdapter
 	/**
 	 * Installer used with this adapter
 	 *
-	 * @var    JInstaller
+	 * @var    Installer
 	 * @since  4.0
 	 */
 	protected $parent = null;
@@ -111,13 +117,13 @@ abstract class JInstallerAdapter
 	/**
 	 * Constructor
 	 *
-	 * @param   JInstaller       $parent   Parent object
-	 * @param   JDatabaseDriver  $db       Database object
-	 * @param   array            $options  Configuration Options
+	 * @param   Installer         $parent   Parent object
+	 * @param   \JDatabaseDriver  $db       Database object
+	 * @param   array             $options  Configuration Options
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JInstaller $parent, JDatabaseDriver $db, array $options = array())
+	public function __construct(Installer $parent, \JDatabaseDriver $db, array $options = array())
 	{
 		$this->parent = $parent;
 		$this->db     = $db;
@@ -130,10 +136,10 @@ abstract class JInstallerAdapter
 			}
 		}
 
-		// Get a generic JTableExtension instance for use if not already loaded
-		if (!($this->extension instanceof JTableInterface))
+		// Get a generic TableExtension instance for use if not already loaded
+		if (!($this->extension instanceof TableInterface))
 		{
-			$this->extension = JTable::getInstance('extension');
+			$this->extension = Table::getInstance('extension');
 		}
 
 		// Sanity check, make sure the type is set by taking the adapter name from the class name
@@ -155,7 +161,7 @@ abstract class JInstallerAdapter
 	 */
 	protected function canUninstallPackageChild($packageId)
 	{
-		$package = JTable::getInstance('extension');
+		$package = Table::getInstance('extension');
 
 		// If we can't load this package ID, we have a corrupt database
 		if (!$package->load((int) $packageId))
@@ -173,7 +179,7 @@ abstract class JInstallerAdapter
 			return true;
 		}
 
-		$manifest = new JInstallerManifestPackage($manifestFile);
+		$manifest = new PackageManifest($manifestFile);
 
 		return $manifest->blockChildUninstall === false;
 	}
@@ -184,7 +190,7 @@ abstract class JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function checkExistingExtension()
 	{
@@ -200,13 +206,13 @@ abstract class JInstallerAdapter
 				$this->extension->load(array('element' => $this->element, 'type' => $this->type));
 			}
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
-			throw new RuntimeException(
-				JText::sprintf(
+			throw new \RuntimeException(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					JText::_('JLIB_INSTALLER_' . $this->route),
+					\JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
 				),
 				$e->getCode(),
@@ -221,7 +227,7 @@ abstract class JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function checkExtensionInFilesystem()
 	{
@@ -247,10 +253,10 @@ abstract class JInstallerAdapter
 			elseif (!$this->parent->isOverwrite())
 			{
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
-				throw new RuntimeException(
-					JText::sprintf(
+				throw new \RuntimeException(
+					\JText::sprintf(
 						'JLIB_INSTALLER_ABORT_DIRECTORY',
-						JText::_('JLIB_INSTALLER_' . $this->route),
+						\JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->type,
 						$this->parent->getPath('extension_root')
 					)
@@ -265,7 +271,7 @@ abstract class JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	abstract protected function copyBaseFiles();
 
@@ -275,7 +281,7 @@ abstract class JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function createExtensionRoot()
 	{
@@ -284,12 +290,12 @@ abstract class JInstallerAdapter
 
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
-			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
+			if (!$created = \JFolder::create($this->parent->getPath('extension_root')))
 			{
-				throw new RuntimeException(
-					JText::sprintf(
+				throw new \RuntimeException(
+					\JText::sprintf(
 						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
-						JText::_('JLIB_INSTALLER_' . $this->route),
+						\JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->parent->getPath('extension_root')
 					)
 				);
@@ -327,7 +333,7 @@ abstract class JInstallerAdapter
 
 		if ($description)
 		{
-			$this->parent->message = JText::_($description);
+			$this->parent->message = \JText::_($description);
 		}
 		else
 		{
@@ -349,7 +355,7 @@ abstract class JInstallerAdapter
 		{
 			$this->setupInstallPaths();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -369,7 +375,7 @@ abstract class JInstallerAdapter
 		{
 			$this->triggerManifestScript('preflight');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -387,7 +393,7 @@ abstract class JInstallerAdapter
 		{
 			$this->storeExtension();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -399,7 +405,7 @@ abstract class JInstallerAdapter
 		{
 			$this->parseQueries();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -412,7 +418,7 @@ abstract class JInstallerAdapter
 		{
 			$this->triggerManifestScript('install');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -430,7 +436,7 @@ abstract class JInstallerAdapter
 		{
 			$this->finaliseInstall();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -443,7 +449,7 @@ abstract class JInstallerAdapter
 		{
 			$this->triggerManifestScript('postflight');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -460,7 +466,7 @@ abstract class JInstallerAdapter
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function doDatabaseTransactions()
 	{
@@ -476,10 +482,10 @@ abstract class JInstallerAdapter
 				// Only rollback if installing
 				if ($route == 'install')
 				{
-					throw new RuntimeException(
-						JText::sprintf(
+					throw new \RuntimeException(
+						\JText::sprintf(
 							'JLIB_INSTALLER_ABORT_SQL_ERROR',
-							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+							\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 							$this->parent->getDbo()->stderr(true)
 						)
 					);
@@ -511,7 +517,7 @@ abstract class JInstallerAdapter
 	 */
 	protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
 	}
 
@@ -550,13 +556,13 @@ abstract class JInstallerAdapter
 		}
 
 		// Filter the name for illegal characters
-		return strtolower(JFilterInput::getInstance()->clean($element, 'cmd'));
+		return strtolower(\JFilterInput::getInstance()->clean($element, 'cmd'));
 	}
 
 	/**
 	 * Get the manifest object.
 	 *
-	 * @return  SimpleXMLElement  Manifest object
+	 * @return  \SimpleXMLElement  Manifest object
 	 *
 	 * @since   3.4
 	 */
@@ -578,7 +584,7 @@ abstract class JInstallerAdapter
 		$name = (string) $this->getManifest()->name;
 
 		// Filter the name for illegal characters
-		$name = JFilterInput::getInstance()->clean($name, 'string');
+		$name = \JFilterInput::getInstance()->clean($name, 'string');
 
 		return $name;
 	}
@@ -586,7 +592,7 @@ abstract class JInstallerAdapter
 	/**
 	 * Retrieves the parent installer
 	 *
-	 * @return  JInstaller
+	 * @return  Installer
 	 *
 	 * @since   4.0
 	 */
@@ -617,7 +623,7 @@ abstract class JInstallerAdapter
 	protected function getScriptClassName()
 	{
 		// Support element names like 'en-GB'
-		$className = JFilterInput::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
+		$className = \JFilterInput::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
 
 		// Cannot have - in class names
 		$className = str_replace('-', '', $className);
@@ -639,7 +645,7 @@ abstract class JInstallerAdapter
 
 		if ($description)
 		{
-			$this->parent->message = JText::_($description);
+			$this->parent->message = \JText::_($description);
 		}
 		else
 		{
@@ -661,7 +667,7 @@ abstract class JInstallerAdapter
 		{
 			$this->setupInstallPaths();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -674,7 +680,7 @@ abstract class JInstallerAdapter
 		{
 			$this->checkExistingExtension();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -687,7 +693,7 @@ abstract class JInstallerAdapter
 		{
 			$this->checkExtensionInFilesystem();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -702,7 +708,7 @@ abstract class JInstallerAdapter
 			{
 				$this->setupUpdates();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				// Install failed, roll back changes
 				$this->parent->abort($e->getMessage());
@@ -723,7 +729,7 @@ abstract class JInstallerAdapter
 		{
 			$this->triggerManifestScript('preflight');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -742,7 +748,7 @@ abstract class JInstallerAdapter
 		{
 			$this->createExtensionRoot();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -755,7 +761,7 @@ abstract class JInstallerAdapter
 		{
 			$this->copyBaseFiles();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -776,7 +782,7 @@ abstract class JInstallerAdapter
 		{
 			$this->storeExtension();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -788,7 +794,7 @@ abstract class JInstallerAdapter
 		{
 			$this->parseQueries();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -801,7 +807,7 @@ abstract class JInstallerAdapter
 		{
 			$this->triggerManifestScript($this->route);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -819,7 +825,7 @@ abstract class JInstallerAdapter
 		{
 			$this->finaliseInstall();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -832,7 +838,7 @@ abstract class JInstallerAdapter
 		{
 			$this->triggerManifestScript('postflight');
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort($e->getMessage());
@@ -849,7 +855,7 @@ abstract class JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function parseQueries()
 	{
@@ -859,10 +865,10 @@ abstract class JInstallerAdapter
 			// This method may throw an exception, but it is caught by the parent caller
 			if (!$this->doDatabaseTransactions())
 			{
-				throw new RuntimeException(
-					JText::sprintf(
+				throw new \RuntimeException(
+					\JText::sprintf(
 						'JLIB_INSTALLER_ABORT_SQL_ERROR',
-						JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+						\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->db->stderr(true)
 					)
 				);
@@ -883,10 +889,10 @@ abstract class JInstallerAdapter
 				if ($result === false)
 				{
 					// Install failed, rollback changes
-					throw new RuntimeException(
-						JText::sprintf(
+					throw new \RuntimeException(
+						\JText::sprintf(
 							'JLIB_INSTALLER_ABORT_SQL_ERROR',
-							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+							\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 							$this->db->stderr(true)
 						)
 					);
@@ -924,7 +930,7 @@ abstract class JInstallerAdapter
 	 *
 	 * @param   object  $manifest  The manifest object
 	 *
-	 * @return  JInstallerAdapter  Instance of this class to support chaining
+	 * @return  InstallerAdapter  Instance of this class to support chaining
 	 *
 	 * @since   3.4
 	 */
@@ -940,7 +946,7 @@ abstract class JInstallerAdapter
 	 *
 	 * @param   string  $route  The install route being followed
 	 *
-	 * @return  JInstallerAdapter  Instance of this class to support chaining
+	 * @return  InstallerAdapter  Instance of this class to support chaining
 	 *
 	 * @since   3.4
 	 */
@@ -978,7 +984,7 @@ abstract class JInstallerAdapter
 
 			$classname = $this->getScriptClassName();
 
-			JLoader::register($classname, $manifestScriptFile);
+			\JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{
@@ -1009,7 +1015,7 @@ abstract class JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	abstract protected function storeExtension();
 
@@ -1021,7 +1027,7 @@ abstract class JInstallerAdapter
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function triggerManifestScript($method)
 	{
@@ -1043,10 +1049,10 @@ abstract class JInstallerAdapter
 							ob_end_clean();
 
 							// The script failed, rollback changes
-							throw new RuntimeException(
-								JText::sprintf(
+							throw new \RuntimeException(
+								\JText::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									JText::_('JLIB_INSTALLER_' . $this->route)
+									\JText::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}
@@ -1065,10 +1071,10 @@ abstract class JInstallerAdapter
 							ob_end_clean();
 
 							// The script failed, rollback changes
-							throw new RuntimeException(
-								JText::sprintf(
+							throw new \RuntimeException(
+								\JText::sprintf(
 									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
-									JText::_('JLIB_INSTALLER_' . $this->route)
+									\JText::_('JLIB_INSTALLER_' . $this->route)
 								)
 							);
 						}

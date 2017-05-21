@@ -339,8 +339,8 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 				}
 
 				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($this->responseMap[$status]);
-				$this->header('Location: ' . $url);
+				$this->setHeader('Status', $status, true);
+				$this->setHeader('Location', $url, true);
 			}
 		}
 

@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Environment
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Environment;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -20,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JBrowser
+class Browser
 {
 	/**
 	 * @var    integer  Major version number
@@ -140,7 +141,7 @@ class JBrowser
 	protected $images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
 
 	/**
-	 * @var    array  JBrowser instances container.
+	 * @var    array  Browser instances container.
 	 * @since  11.3
 	 */
 	protected static $instances = array();
@@ -165,7 +166,7 @@ class JBrowser
 	 * @param   string  $userAgent  The browser string to parse.
 	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
 	 *
-	 * @return  JBrowser  The Browser object.
+	 * @return  Browser  The Browser object.
 	 *
 	 * @since   11.1
 	 */
@@ -708,9 +709,9 @@ class JBrowser
 	 */
 	public function isSSLConnection()
 	{
-		JLog::add(
-			'JBrowser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
-			JLog::WARNING,
+		\JLog::add(
+			'Browser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
+			\JLog::WARNING,
 			'deprecated'
 		);
 

@@ -69,7 +69,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  HelperClass|null
+	 * @return  \Joomla\CMS\Association\AssociationExtensionHelper|null
 	 *
 	 * @since  3.7.0
 	 */

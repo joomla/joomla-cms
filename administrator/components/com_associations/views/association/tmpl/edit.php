@@ -51,8 +51,8 @@ $options = array(
 					<?php echo $this->form->getInput('itemlanguage'); ?>
 				</div>
 				<iframe id="target-association" name="target-association"
-					src="<?php echo $this->defaultTargetSrc; ?>"
-					width="400" height="400"
+					data-url="<?php echo $this->defaultTargetSrc; ?>"
+					height="400" width="400"
 					data-action="<?php echo $this->targetAction; ?>"
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->targetId; ?>"

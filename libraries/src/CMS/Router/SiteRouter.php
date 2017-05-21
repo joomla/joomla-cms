@@ -1,15 +1,18 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Router
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\CmsApplication;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\Router\RouterInterface;
+use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\String\StringHelper;
 
@@ -18,7 +21,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class JRouterSite extends JRouter
+class SiteRouter extends Router
 {
 	/**
 	 * Component-router objects
@@ -29,15 +32,15 @@ class JRouterSite extends JRouter
 	protected $componentRouters = array();
 
 	/**
-	 * Current JApplication-Object
+	 * Current Application-Object
 	 *
-	 * @var    CmsApplication
+	 * @var    CMSApplication
 	 * @since  3.4
 	 */
 	protected $app;
 
 	/**
-	 * Current JMenu-Object
+	 * Current Menu-Object
 	 *
 	 * @var    AbstractMenu
 	 * @since  3.4
@@ -47,14 +50,14 @@ class JRouterSite extends JRouter
 	/**
 	 * Class constructor
 	 *
-	 * @param   CmsApplication  $app   JApplicationCms Object
+	 * @param   CMSApplication  $app   JApplicationCms Object
 	 * @param   AbstractMenu    $menu  JMenu object
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(CmsApplication $app = null, AbstractMenu $menu = null)
+	public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
 	{
-		$this->app  = $app ?: CmsApplication::getInstance('site');
+		$this->app  = $app ?: CMSApplication::getInstance('site');
 		$this->menu = $menu ?: $this->app->getMenu();
 
 		// Add core rules
@@ -93,8 +96,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Force to SSL
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   Router  &$router  Router object
+	 * @param   \JUri   &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -113,8 +116,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Do some initial cleanup before parsing the URL
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -127,7 +130,7 @@ class JRouterSite extends JRouter
 		$path = urldecode($uri->getPath());
 
 		// Remove the base URI path.
-		$path = substr_replace($path, '', 0, strlen(JUri::base(true)));
+		$path = substr_replace($path, '', 0, strlen(\JUri::base(true)));
 
 		// Check to see if a request to a specific entry point has been made.
 		if (preg_match("#.*?\.php#u", $path, $matches))
@@ -152,8 +155,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Parse the format of the request
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -175,8 +178,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Convert a sef route to an internal URI
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -310,8 +313,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Convert a raw route to an internal URI
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -352,8 +355,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Convert limits for pagination
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -372,8 +375,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Do some initial processing for building a URL
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -402,8 +405,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Run the component preprocess method
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -438,8 +441,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Build the SEF route
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -501,8 +504,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Convert limits for pagination
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -520,8 +523,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Build the format of the request
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -543,8 +546,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Create a uri based on a full or partial URL string
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -571,8 +574,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Add the basepath to the URI
 	 *
-	 * @param   JRouterSite  &$router  Router object
-	 * @param   JUri         &$uri     URI object to process
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   \JUri       &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -581,7 +584,7 @@ class JRouterSite extends JRouter
 	public function buildBase(&$router, &$uri)
 	{
 		// Add basepath to the uri
-		$uri->setPath(JUri::base(true) . '/' . $uri->getPath());
+		$uri->setPath(\JUri::base(true) . '/' . $uri->getPath());
 	}
 
 	/**
@@ -589,7 +592,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @param   string  $component  Name of the component including com_ prefix
 	 *
-	 * @return  JComponentRouterInterface  Component router
+	 * @return  RouterInterface  Component router
 	 *
 	 * @since   3.3
 	 */
@@ -614,7 +617,7 @@ class JRouterSite extends JRouter
 
 			if (class_exists($class))
 			{
-				$reflection = new ReflectionClass($class);
+				$reflection = new \ReflectionClass($class);
 
 				if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
 				{
@@ -624,7 +627,7 @@ class JRouterSite extends JRouter
 
 			if (!isset($this->componentRouters[$component]))
 			{
-				$this->componentRouters[$component] = new JComponentRouterLegacy($compname);
+				$this->componentRouters[$component] = new RouterLegacy($compname);
 			}
 		}
 
@@ -643,7 +646,7 @@ class JRouterSite extends JRouter
 	 */
 	public function setComponentRouter($component, $router)
 	{
-		$reflection = new ReflectionClass($router);
+		$reflection = new \ReflectionClass($router);
 
 		if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
 		{

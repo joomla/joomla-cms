@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Router
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,14 +15,14 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.5
  */
-class JRouterAdministrator extends JRouter
+class AdministratorRouter extends Router
 {
 	/**
 	 * Function to convert a route to an internal URI.
 	 *
-	 * @param   JUri  &$uri     The uri.
-	 * @param   bool  $setVars  Set the parsed data in the internal 
-	 *                             storage for current-request-URLs
+	 * @param   \JUri  &$uri     The uri.
+	 * @param   bool   $setVars  Set the parsed data in the internal
+	 *                           storage for current-request-URLs
 	 *
 	 * @return  array
 	 *
@@ -50,7 +51,7 @@ class JRouterAdministrator extends JRouter
 		$route = $uri->getPath();
 
 		// Add basepath to the uri
-		$uri->setPath(JUri::base(true) . '/' . $route);
+		$uri->setPath(\JUri::base(true) . '/' . $route);
 
 		return $uri;
 	}

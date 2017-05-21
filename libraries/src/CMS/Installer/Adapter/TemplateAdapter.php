@@ -1,22 +1,29 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Installer
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Installer\Adapter;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Update;
+
+\JLoader::import('joomla.filesystem.folder');
 
 /**
  * Template installer
  *
  * @since  3.1
  */
-class JInstallerAdapterTemplate extends JInstallerAdapter
+class TemplateAdapter extends InstallerAdapter
 {
 	/**
 	 * The install client ID
@@ -32,7 +39,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function checkExistingExtension()
 	{
@@ -46,13 +53,13 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 				)
 			);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// Install failed, roll back changes
-			throw new RuntimeException(
-				JText::sprintf(
+			throw new \RuntimeException(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					JText::_('JLIB_INSTALLER_' . $this->route),
+					\JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
 				),
 				$e->getCode(),
@@ -67,15 +74,15 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function copyBaseFiles()
 	{
 		// Copy all the necessary files
 		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
-			throw new RuntimeException(
-				JText::sprintf(
+			throw new \RuntimeException(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_FILES',
 					'files'
 				)
@@ -84,8 +91,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		if ($this->parent->parseFiles($this->getManifest()->images, -1) === false)
 		{
-			throw new RuntimeException(
-				JText::sprintf(
+			throw new \RuntimeException(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_FILES',
 					'images'
 				)
@@ -94,8 +101,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		if ($this->parent->parseFiles($this->getManifest()->css, -1) === false)
 		{
-			throw new RuntimeException(
-				JText::sprintf(
+			throw new \RuntimeException(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_FILES',
 					'css'
 				)
@@ -112,10 +119,10 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
-					throw new RuntimeException(
-						JText::sprintf(
+					throw new \RuntimeException(
+						\JText::sprintf(
 							'JLIB_INSTALLER_ABORT_MANIFEST',
-							JText::_('JLIB_INSTALLER_' . strtoupper($this->getRoute()))
+							\JText::_('JLIB_INSTALLER_' . strtoupper($this->getRoute()))
 						)
 					);
 				}
@@ -129,13 +136,13 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function finaliseInstall()
 	{
 		// Clobber any possible pending updates
-		/** @var JTableUpdate $update */
-		$update = JTable::getInstance('update');
+		/** @var Update $update */
+		$update = Table::getInstance('update');
 
 		$uid = $update->find(
 			array(
@@ -156,7 +163,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			if (!$this->parent->copyManifest(-1))
 			{
 				// Install failed, rollback changes
-				throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
 			}
 		}
 	}
@@ -166,7 +173,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 *
 	 * @param   string  $path  The path where to find language files.
 	 *
-	 * @return  JInstallerTemplate
+	 * @return  InstallerTemplate
 	 *
 	 * @since   3.1
 	 */
@@ -216,14 +223,14 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function parseQueries()
 	{
 		if (in_array($this->route, array('install', 'discover_install')))
 		{
 			$db    = $this->db;
-			$lang  = JFactory::getLanguage();
+			$lang  = \JFactory::getLanguage();
 			$debug = $lang->setDebug(false);
 
 			$columns = array(
@@ -236,7 +243,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 			$values = array(
 				$db->quote($this->extension->element), $this->extension->client_id, $db->quote(0),
-				$db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->extension->name))),
+				$db->quote(\JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', \JText::_($this->extension->name))),
 				$db->quote($this->extension->params),
 			);
 
@@ -262,7 +269,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 */
 	public function prepareDiscoverInstall()
 	{
-		$client = JApplicationHelper::getClientInfo($this->extension->client_id);
+		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
 		$manifestPath = $client->path . '/templates/' . $this->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
@@ -275,7 +282,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function setupInstallPaths()
 	{
@@ -285,11 +292,11 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		if ($cname)
 		{
 			// Attempt to map the client to a base path
-			$client = JApplicationHelper::getClientInfo($cname, true);
+			$client = ApplicationHelper::getClientInfo($cname, true);
 
 			if ($client === false)
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
+				throw new \RuntimeException(\JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
 			}
 
 			$basePath = $client->path;
@@ -305,10 +312,10 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		// Set the template root path
 		if (empty($this->element))
 		{
-			throw new RuntimeException(
-				JText::sprintf(
+			throw new \RuntimeException(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_MOD_INSTALL_NOFILE',
-					JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					\JText::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);
 		}
@@ -322,14 +329,14 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 * @return  void
 	 *
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function storeExtension()
 	{
 		// Discover installs are stored a little differently
 		if ($this->route == 'discover_install')
 		{
-			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
 			$this->extension->state = 0;
@@ -340,7 +347,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			if (!$this->extension->store())
 			{
 				// Install failed, roll back changes
-				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'));
+				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'));
 			}
 
 			return;
@@ -352,8 +359,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			if (!$this->parent->isOverwrite())
 			{
 				// Install failed, roll back changes
-				throw new RuntimeException(
-					JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_ALREADY_INSTALLED')
+				throw new \RuntimeException(
+					\JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_ALREADY_INSTALLED')
 				);
 			}
 
@@ -383,10 +390,10 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		if (!$this->extension->store())
 		{
 			// Install failed, roll back changes
-			throw new RuntimeException(
-				JText::sprintf(
+			throw new \RuntimeException(
+				\JText::sprintf(
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
-					JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
+					\JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 					$this->extension->getError()
 				)
 			);
@@ -406,11 +413,11 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	{
 		// First order of business will be to load the template object table from the database.
 		// This should give us the necessary information to proceed.
-		$row = JTable::getInstance('extension');
+		$row = Table::getInstance('extension');
 
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -419,7 +426,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		// Because that is not a good idea...
 		if ($row->protected)
 		{
-			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -430,7 +437,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		 */
 		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
 		{
-			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -441,7 +448,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		// For a template the id will be the template name which represents the subfolder of the templates folder that the template resides in.
 		if (!$name)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -453,17 +460,17 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		if ($db->loadResult() != 0)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
 
 		// Get the template root path
-		$client = JApplicationHelper::getClientInfo($clientId);
+		$client = ApplicationHelper::getClientInfo($clientId);
 
 		if (!$client)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -475,15 +482,15 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		$this->parent->findManifest();
 		$manifest = $this->parent->getManifest();
 
-		if (!($manifest instanceof SimpleXMLElement))
+		if (!($manifest instanceof \SimpleXMLElement))
 		{
 			// Kill the extension entry
 			$row->delete($row->extension_id);
 			unset($row);
 
 			// Make sure we delete the folders
-			JFolder::delete($this->parent->getPath('extension_root'));
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), JLog::WARNING, 'jerror');
+			\JFolder::delete($this->parent->getPath('extension_root'));
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -493,13 +500,13 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		$this->parent->removeFiles($manifest->languages, $clientId);
 
 		// Delete the template directory
-		if (JFolder::exists($this->parent->getPath('extension_root')))
+		if (\JFolder::exists($this->parent->getPath('extension_root')))
 		{
-			$retval = JFolder::delete($this->parent->getPath('extension_root'));
+			$retval = \JFolder::delete($this->parent->getPath('extension_root'));
 		}
 		else
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), \JLog::WARNING, 'jerror');
 			$retval = false;
 		}
 
@@ -529,15 +536,15 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	/**
 	 * Discover existing but uninstalled templates
 	 *
-	 * @return  array  JExtensionTable list
+	 * @return  array  Extension list
 	 */
 	public function discover()
 	{
 		$results = array();
-		$site_list = JFolder::folders(JPATH_SITE . '/templates');
-		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR . '/templates');
-		$site_info = JApplicationHelper::getClientInfo('site', true);
-		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
+		$site_list = \JFolder::folders(JPATH_SITE . '/templates');
+		$admin_list = \JFolder::folders(JPATH_ADMINISTRATOR . '/templates');
+		$site_info = ApplicationHelper::getClientInfo('site', true);
+		$admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
 		foreach ($site_list as $template)
 		{
@@ -549,8 +556,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 					continue;
 				}
 
-				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-				$extension = JTable::getInstance('extension');
+				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+				$extension = Table::getInstance('extension');
 				$extension->set('type', 'template');
 				$extension->set('client_id', $site_info->id);
 				$extension->set('element', $template);
@@ -573,8 +580,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 					continue;
 				}
 
-				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-				$extension = JTable::getInstance('extension');
+				$manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
+				$extension = Table::getInstance('extension');
 				$extension->set('type', 'template');
 				$extension->set('client_id', $admin_info->id);
 				$extension->set('element', $template);
@@ -600,12 +607,12 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally.
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
@@ -613,9 +620,9 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		{
 			return $this->parent->extension->store();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
