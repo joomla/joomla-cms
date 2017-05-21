@@ -62,10 +62,10 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 
 		// Add a space before both the OPEN and CLOSE tags of BLOCK and LINE BREAKING elements,
 		// e.g. 'all<h1><strong>m<strong/>obile</h1>List' will become 'all mobile list'
-		$input = preg_replace('/(<|<\/)('.
-			'address|article|aside|blockquote|br|canvas|dd|div|dl|dt|'.
-			'fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|li|'.
-			'main|nav|noscript|ol|output|p|pre|section|table|tfoot|ul|video'.
+		$input = preg_replace('/(<|<\/)(' .
+			'address|article|aside|blockquote|br|canvas|dd|div|dl|dt|' .
+			'fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|li|' .
+			'main|nav|noscript|ol|output|p|pre|section|table|tfoot|ul|video' .
 			')\b/i',
 		' $1$2', $input);
 
