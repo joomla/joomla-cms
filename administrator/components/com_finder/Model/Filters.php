@@ -6,25 +6,31 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Filters model class for Finder.
  *
  * @since  2.5
  */
-class FinderModelFilters extends JModelList
+class Filters extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An associative array of configuration settings. [optional]
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @since   2.5
-	 * @see     JControllerLegacy
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.7
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -38,13 +44,13 @@ class FinderModelFilters extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object
+	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
 	 *
 	 * @since   2.5
 	 */
@@ -125,7 +131,7 @@ class FinderModelFilters extends JModelList
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_finder');
+		$params = ComponentHelper::getParams('com_finder');
 		$this->setState('params', $params);
 
 		// List state information.

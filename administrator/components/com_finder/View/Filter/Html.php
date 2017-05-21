@@ -6,27 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\View\Filter;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Filter view class for Finder.
  *
  * @since  2.5
  */
-class FinderViewFilter extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The filter object
 	 *
-	 * @var  FinderTableFilter
+	 * @var  \Joomla\Component\Finder\Administrator\Table\Filter
 	 */
 	protected $filter;
 
 	/**
-	 * The JForm object
+	 * The \JForm object
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	protected $form;
 
@@ -40,7 +45,7 @@ class FinderViewFilter extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
@@ -57,7 +62,7 @@ class FinderViewFilter extends JViewLegacy
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise a JError object.
+	 * @return  mixed  A string if successful, otherwise a \JError object.
 	 *
 	 * @since   2.5
 	 */
@@ -73,11 +78,11 @@ class FinderViewFilter extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		\JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();
@@ -94,15 +99,15 @@ class FinderViewFilter extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->filter_id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == JFactory::getUser()->id);
-		$canDo = JHelperContent::getActions('com_finder');
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == \JFactory::getUser()->id);
+		$canDo = ContentHelper::getActions('com_finder');
 
 		// Configure the toolbar.
-		JToolbarHelper::title(
-			$isNew ? JText::_('COM_FINDER_FILTER_NEW_TOOLBAR_TITLE') : JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'),
+		ToolbarHelper::title(
+			$isNew ? \JText::_('COM_FINDER_FILTER_NEW_TOOLBAR_TITLE') : \JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'),
 			'zoom-in finder'
 		);
 
@@ -112,7 +117,7 @@ class FinderViewFilter extends JViewLegacy
 			// For new records, check the create permission.
 			if ($canDo->get('core.create'))
 			{
-				JToolbarHelper::saveGroup(
+				ToolbarHelper::saveGroup(
 					[
 						['apply', 'filter.apply'],
 						['save', 'filter.save'],
@@ -122,7 +127,7 @@ class FinderViewFilter extends JViewLegacy
 				);
 			}
 
-			JToolbarHelper::cancel('filter.cancel');
+			ToolbarHelper::cancel('filter.cancel');
 		}
 		else
 		{
@@ -151,15 +156,15 @@ class FinderViewFilter extends JViewLegacy
 				$toolbarButtons[] = ['save2copy', 'filter.save2copy'];
 			}
 
-			JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('filter.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('filter.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS_EDIT');
 	}
 }

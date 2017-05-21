@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Admin;
 
 /**
  * Index controller class for Finder.
  *
  * @since  2.5
  */
-class FinderControllerIndex extends JControllerAdmin
+class Index extends Admin
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -23,11 +26,11 @@ class FinderControllerIndex extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModelLegacy  The model.
+	 * @return  \Joomla\CMS\Model\Model  The model.
 	 *
 	 * @since   2.5
 	 */
-	public function getModel($name = 'Index', $prefix = 'FinderModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Index', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -41,26 +44,27 @@ class FinderControllerIndex extends JControllerAdmin
 	 */
 	public function purge()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Remove the script time limit.
 		@set_time_limit(0);
 
-		$model = $this->getModel('Index', 'FinderModel');
+		/* @var \Joomla\Component\Finder\Administrator\Model\Index $model */
+		$model = $this->getModel('Index', 'Administrator');
 
 		// Attempt to purge the index.
 		$return = $model->purge();
 
 		if (!$return)
 		{
-			$message = JText::_('COM_FINDER_INDEX_PURGE_FAILED', $model->getError());
+			$message = \JText::_('COM_FINDER_INDEX_PURGE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_finder&view=index', $message);
 
 			return false;
 		}
 		else
 		{
-			$message = JText::_('COM_FINDER_INDEX_PURGE_SUCCESS');
+			$message = \JText::_('COM_FINDER_INDEX_PURGE_SUCCESS');
 			$this->setRedirect('index.php?option=com_finder&view=index', $message);
 
 			return true;

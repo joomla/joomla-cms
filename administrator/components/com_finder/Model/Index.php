@@ -6,15 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Index model class for Finder.
  *
  * @since  2.5
  */
-class FinderModelIndex extends JModelList
+class Index extends ListModel
 {
 	/**
 	 * The event to trigger after deleting the data.
@@ -35,12 +41,13 @@ class FinderModelIndex extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An associative array of configuration settings. [optional]
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @since   2.5
-	 * @see     JControllerLegacy
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.7
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -55,7 +62,7 @@ class FinderModelIndex extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -69,7 +76,7 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		return JFactory::getUser()->authorise('core.delete', $this->option);
+		return \JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -83,7 +90,7 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canEditState($record)
 	{
-		return JFactory::getUser()->authorise('core.edit.state', $this->option);
+		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -101,7 +108,7 @@ class FinderModelIndex extends JModelList
 		$table = $this->getTable();
 
 		// Include the content plugins for the on delete events.
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -113,7 +120,7 @@ class FinderModelIndex extends JModelList
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
-					$result = JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+					$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -130,7 +137,7 @@ class FinderModelIndex extends JModelList
 					}
 
 					// Trigger the onContentAfterDelete event.
-					JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+					\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 				}
 				else
 				{
@@ -144,7 +151,7 @@ class FinderModelIndex extends JModelList
 					}
 					else
 					{
-						$this->setError(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
 			}
@@ -165,7 +172,7 @@ class FinderModelIndex extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object
+	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
 	 *
 	 * @since   2.5
 	 */
@@ -304,19 +311,19 @@ class FinderModelIndex extends JModelList
 	}
 
 	/**
-	 * Returns a JTable object, always creating it.
+	 * Returns a \JTable object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate. [optional]
 	 * @param   string  $prefix  A prefix for the table class name. [optional]
 	 * @param   array   $config  Configuration array for model. [optional]
 	 *
-	 * @return  JTable  A database object
+	 * @return  \JTable  A database object
 	 *
 	 * @since   2.5
 	 */
-	public function getTable($type = 'Link', $prefix = 'FinderTable', $config = array())
+	public function getTable($type = 'Link', $prefix = 'Administrator', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return parent::getTable($type, $prefix, $config);
 	}
 
 	/**
@@ -325,7 +332,7 @@ class FinderModelIndex extends JModelList
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error
+	 * @throws  \Exception on database error
 	 */
 	public function purge()
 	{
@@ -384,7 +391,7 @@ class FinderModelIndex extends JModelList
 		$this->setState('filter.content_map', $this->getUserStateFromRequest($this->context . '.filter.content_map', 'filter_content_map', '', 'cmd'));
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_finder');
+		$params = ComponentHelper::getParams('com_finder');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -403,12 +410,12 @@ class FinderModelIndex extends JModelList
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
 		// Include the content plugins for the change of state event.
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -421,7 +428,7 @@ class FinderModelIndex extends JModelList
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+					$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
 					return false;
 				}
@@ -439,7 +446,7 @@ class FinderModelIndex extends JModelList
 		$context = $this->option . '.' . $this->name;
 
 		// Trigger the onContentChangeState event.
-		$result = JFactory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+		$result = \JFactory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{

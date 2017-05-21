@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Helper;
+
+use Joomla\CMS\Helper\ContentHelper;
 
 defined('_JEXEC') or die;
 
@@ -35,18 +38,18 @@ class FinderHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_FINDER_SUBMENU_INDEX'),
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_FINDER_SUBMENU_INDEX'),
 			'index.php?option=com_finder&view=index',
 			$vName == 'index'
 		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_FINDER_SUBMENU_MAPS'),
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_FINDER_SUBMENU_MAPS'),
 			'index.php?option=com_finder&view=maps',
 			$vName == 'maps'
 		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_FINDER_SUBMENU_FILTERS'),
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_FINDER_SUBMENU_FILTERS'),
 			'index.php?option=com_finder&view=filters',
 			$vName == 'filters'
 		);
@@ -61,7 +64,7 @@ class FinderHelper
 	 */
 	public static function getFinderPluginId()
 	{
-		$db    = JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -73,9 +76,9 @@ class FinderHelper
 		{
 			$result = (int) $db->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			\JError::raiseWarning(500, $e->getMessage());
 		}
 
 		return $result;
@@ -84,28 +87,28 @@ class FinderHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return  JObject  A JObject containing the allowed actions.
+	 * @return  \JObject  A JObject containing the allowed actions.
 	 *
 	 * @since   2.5
-	 * @deprecated  3.2  Use JHelperContent::getActions() instead
+	 * @deprecated  3.2  Use \JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
 		// Log usage of deprecated function
 		try
 		{
-			JLog::add(
+			\JLog::add(
 				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				JLog::WARNING,
+				\JLog::WARNING,
 				'deprecated'
 			);
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
 
 		// Get list of actions
-		return JHelperContent::getActions('com_finder');
+		return ContentHelper::getActions('com_finder');
 	}
 }

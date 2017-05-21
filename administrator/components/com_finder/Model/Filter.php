@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Model\Admin;
 
 /**
  * Filter model class for Finder.
  *
  * @since  2.5
  */
-class FinderModelFilter extends JModelAdmin
+class Filter extends Admin
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -50,7 +53,7 @@ class FinderModelFilter extends JModelAdmin
 	/**
 	 * Method to get the filter data.
 	 *
-	 * @return  FinderTableFilter|boolean  The filter data or false on a failure.
+	 * @return  \Joomla\Component\Finder\Administrator\Table\Filter|boolean  The filter data or false on a failure.
 	 *
 	 * @since   2.5
 	 */
@@ -99,7 +102,7 @@ class FinderModelFilter extends JModelAdmin
 	 * @param   array    $data      Data for the form. [optional]
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  \JForm|boolean  A \JForm object on success, false on failure
 	 *
 	 * @since   2.5
 	 */
@@ -117,22 +120,6 @@ class FinderModelFilter extends JModelAdmin
 	}
 
 	/**
-	 * Returns a JTable object, always creating it.
-	 *
-	 * @param   string  $type    The table type to instantiate. [optional]
-	 * @param   string  $prefix  A prefix for the table class name. [optional]
-	 * @param   array   $config  Configuration array for model. [optional]
-	 *
-	 * @return  JTable  A database object
-	 *
-	 * @since   2.5
-	 */
-	public function getTable($type = 'Filter', $prefix = 'FinderTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
@@ -142,7 +129,7 @@ class FinderModelFilter extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_finder.edit.filter.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_finder.edit.filter.data', array());
 
 		if (empty($data))
 		{
@@ -163,7 +150,7 @@ class FinderModelFilter extends JModelAdmin
 	 */
 	public function getTotal()
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('MAX(link_id)')
 			->from('#__finder_links');

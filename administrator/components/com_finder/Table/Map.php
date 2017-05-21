@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,16 +18,16 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5
  */
-class FinderTableMap extends JTable
+class  Map extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  JDatabaseDriver connector object.
+	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__finder_taxonomy', 'id', $db);
 	}
@@ -62,7 +64,7 @@ class FinderTableMap extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -82,14 +84,14 @@ class FinderTableMap extends JTable
 		{
 			$this->_db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
 			return false;
 		}
 
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
+		// If the \JTable instance value is in the list of primary keys that were set, set the instance.
 		if (in_array($this->$k, $pks))
 		{
 			$this->state = $state;

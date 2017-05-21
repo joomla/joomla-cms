@@ -6,25 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die();
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Maps model for the Finder package.
  *
  * @since  2.5
  */
-class FinderModelMaps extends JModelList
+class Maps extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An associative array of configuration settings. [optional]
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @since   2.5
-	 * @see     JControllerLegacy
+	 * @see     \Joomla\CMS\Model\Model
+	 * @since   3.7
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -37,7 +44,7 @@ class FinderModelMaps extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -51,7 +58,7 @@ class FinderModelMaps extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		return JFactory::getUser()->authorise('core.delete', $this->option);
+		return \JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -65,7 +72,7 @@ class FinderModelMaps extends JModelList
 	 */
 	protected function canEditState($record)
 	{
-		return JFactory::getUser()->authorise('core.edit.state', $this->option);
+		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -83,7 +90,7 @@ class FinderModelMaps extends JModelList
 		$table = $this->getTable();
 
 		// Include the content plugins for the on delete events.
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -95,7 +102,7 @@ class FinderModelMaps extends JModelList
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
-					$result = JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
+					$result = \JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -112,7 +119,7 @@ class FinderModelMaps extends JModelList
 					}
 
 					// Trigger the onContentAfterDelete event.
-					JFactory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
+					\JFactory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
 				}
 				else
 				{
@@ -126,7 +133,7 @@ class FinderModelMaps extends JModelList
 					}
 					else
 					{
-						$this->setError(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 					}
 				}
 			}
@@ -147,7 +154,7 @@ class FinderModelMaps extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object
+	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
 	 *
 	 * @since   2.5
 	 */
@@ -239,7 +246,7 @@ class FinderModelMaps extends JModelList
 	/**
 	 * Returns a record count for the query.
 	 *
-	 * @param   JDatabaseQuery|string  $query  The query.
+	 * @param   \JDatabaseQuery|string  $query  The query.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
@@ -278,19 +285,19 @@ class FinderModelMaps extends JModelList
 	}
 
 	/**
-	 * Returns a JTable object, always creating it.
+	 * Returns a \JTable object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate. [optional]
 	 * @param   string  $prefix  A prefix for the table class name. [optional]
 	 * @param   array   $config  Configuration array for model. [optional]
 	 *
-	 * @return  JTable  A database object
+	 * @return  \Joomla\CMS\Table\Table  A database object
 	 *
 	 * @since   2.5
 	 */
-	public function getTable($type = 'Map', $prefix = 'FinderTable', $config = array())
+	public function getTable($type = 'Map', $prefix = 'Administrator', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return parent::getTable($type, $prefix, $config);
 	}
 
 	/**
@@ -312,7 +319,7 @@ class FinderModelMaps extends JModelList
 		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_finder');
+		$params = ComponentHelper::getParams('com_finder');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -331,12 +338,12 @@ class FinderModelMaps extends JModelList
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
 		// Include the content plugins for the change of state event.
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -349,7 +356,7 @@ class FinderModelMaps extends JModelList
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+					$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
 					return false;
 				}
@@ -367,7 +374,7 @@ class FinderModelMaps extends JModelList
 		$context = $this->option . '.' . $this->name;
 
 		// Trigger the onContentChangeState event.
-		$result = JFactory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+		$result = \JFactory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{

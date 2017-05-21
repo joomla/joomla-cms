@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -17,22 +20,22 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5
  */
-class FinderTableFilter extends JTable
+class  Filter extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  JDatabaseDriver connector object.
+	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__finder_filters', 'filter_id', $db);
 	}
 
 	/**
-	 * Method to bind an associative array or object to the JTable instance.  This
+	 * Method to bind an associative array or object to the \JTable instance.  This
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
 	 *
@@ -56,7 +59,7 @@ class FinderTableFilter extends JTable
 	}
 
 	/**
-	 * Method to perform sanity checks on the JTable instance properties to ensure
+	 * Method to perform sanity checks on the \JTable instance properties to ensure
 	 * they are safe to store in the database.  Child classes should override this
 	 * method to make sure the data they are storing in the database is safe and
 	 * as expected before storage.
@@ -83,11 +86,11 @@ class FinderTableFilter extends JTable
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = ApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		$params = new Registry($this->params);
@@ -141,7 +144,7 @@ class FinderTableFilter extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -171,7 +174,7 @@ class FinderTableFilter extends JTable
 		{
 			$this->_db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -188,7 +191,7 @@ class FinderTableFilter extends JTable
 			}
 		}
 
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
+		// If the \JTable instance value is in the list of primary keys that were set, set the instance.
 		if (in_array($this->$k, $pks))
 		{
 			$this->state = $state;
@@ -200,11 +203,11 @@ class FinderTableFilter extends JTable
 	}
 
 	/**
-	 * Method to store a row in the database from the JTable instance properties.
+	 * Method to store a row in the database from the \JTable instance properties.
 	 * If a primary key value is set the row with that primary key value will be
 	 * updated with the instance property values.  If no primary key value is set
 	 * a new row will be inserted into the database with the properties from the
-	 * JTable instance.
+	 * \JTable instance.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null. [optional]
 	 *
@@ -214,8 +217,8 @@ class FinderTableFilter extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate()->toSql();
-		$userId = JFactory::getUser()->id;
+		$date = \JFactory::getDate()->toSql();
+		$userId = \JFactory::getUser()->id;
 
 		$this->modified = $date;
 
@@ -251,11 +254,11 @@ class FinderTableFilter extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Filter', 'FinderTable');
+		$table = new Filter($this->getDbo());
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0))
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 
 			return false;
 		}

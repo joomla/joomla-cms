@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Admin;
 
 /**
  * Filters controller class for Finder.
  *
  * @since  2.5
  */
-class FinderControllerFilters extends JControllerAdmin
+class Filters extends Admin
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -23,11 +26,11 @@ class FinderControllerFilters extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModelLegacy  The model.
+	 * @return  \Joomla\CMS\Model\Model  The model.
 	 *
 	 * @since   2.5
 	 */
-	public function getModel($name = 'Filter', $prefix = 'FinderModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Filter', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

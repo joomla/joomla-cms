@@ -6,20 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Model\Model;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Statistics model class for Finder.
  *
  * @since  2.5
  */
-class FinderModelStatistics extends JModelLegacy
+class Statistics extends Model
 {
 	/**
 	 * Method to get the component statistics
 	 *
-	 * @return  JObject  The component statistics
+	 * @return  \JObject  The component statistics
 	 *
 	 * @since   2.5
 	 */
@@ -28,7 +32,7 @@ class FinderModelStatistics extends JModelLegacy
 		// Initialise
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$data = new JObject;
+		$data = new \JObject;
 
 		$query->select('COUNT(term_id)')
 			->from($db->quoteName('#__finder_terms'));
@@ -64,8 +68,8 @@ class FinderModelStatistics extends JModelLegacy
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 
-		$lang  = JFactory::getLanguage();
-		$plugins = JPluginHelper::getPlugin('finder');
+		$lang  = \JFactory::getLanguage();
+		$plugins = PluginHelper::getPlugin('finder');
 
 		foreach ($plugins as $plugin)
 		{
