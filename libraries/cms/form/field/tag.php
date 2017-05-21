@@ -156,7 +156,10 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		// Add view level limitations but include already assigned tags
-		$query->where('(' . implode(' OR ', $vl_where) . ')');
+		if (count($vl_where))
+		{
+			$query->where('(' . implode(' OR ', $vl_where) . ')');
+		}
 
 		$query->order('a.lft ASC');
 
