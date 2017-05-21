@@ -35,13 +35,12 @@ class AssociationsDispatcher extends Dispatcher
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
+	 *
 	 * @throws  Exception|Notallowed
 	 */
 	protected function checkAccess()
 	{
 		parent::checkAccess();
-
-
 
 		// Check if user has permission to access the component item type.
 		$itemType = $this->input->get('itemtype', '', 'string');
