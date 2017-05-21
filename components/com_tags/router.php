@@ -153,6 +153,7 @@ class TagsRouter extends \JComponentRouterBase
 
 		$vars['id'] = $this->fixSegment($segments[0]);
 		$vars['view'] = 'tag';
+		unset($segments[0]);
 
 		return $vars;
 	}
