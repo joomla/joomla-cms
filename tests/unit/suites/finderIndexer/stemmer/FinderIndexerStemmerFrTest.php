@@ -48,6 +48,7 @@ class FinderIndexerStemmerFrTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerFr::stem
 	 */
 	public function testStem()
 	{
@@ -63,6 +64,7 @@ class FinderIndexerStemmerFrTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerFr::stem
 	 */
 	public function testStemShort()
 	{
@@ -78,6 +80,7 @@ class FinderIndexerStemmerFrTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerFr::stem
 	 */
 	public function testStemWrongLanguage()
 	{

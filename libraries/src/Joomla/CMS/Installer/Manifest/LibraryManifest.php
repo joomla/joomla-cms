@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Installer
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installer\Manifest;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Installer\Manifest;
 
 /**
  * Joomla! Library Manifest File
  *
  * @since  3.1
  */
-class JInstallerManifestLibrary extends JInstallerManifest
+class LibraryManifest extends Manifest
 {
 	/**
 	 * File system name of the library
@@ -73,15 +76,15 @@ class JInstallerManifestLibrary extends JInstallerManifest
 	public $authorurl = '';
 
 	/**
-	 * Apply manifest data from a SimpleXMLElement to the object.
+	 * Apply manifest data from a \SimpleXMLElement to the object.
 	 *
-	 * @param   SimpleXMLElement  $xml  Data to load
+	 * @param   \SimpleXMLElement  $xml  Data to load
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function loadManifestFromData(SimpleXMLElement $xml)
+	protected function loadManifestFromData(\SimpleXMLElement $xml)
 	{
 		$this->name         = (string) $xml->name;
 		$this->libraryname  = (string) $xml->libraryname;

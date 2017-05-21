@@ -48,6 +48,16 @@ class ModulesViewModules extends JViewLegacy
 			return false;
 		}
 
+		// We do not need the Page and the Language filters when filtering by administrator
+		if ($this->state->get('client_id') == 1)
+		{
+			unset($this->activeFilters['menuitem']);
+			$this->filterForm->removeField('menuitem', 'filter');
+
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
+		}
+
 		// We don't need the toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{

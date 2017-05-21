@@ -1,34 +1,24 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Router
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
-/**
- * Mask for the raw routing mode
- *
- * @deprecated  4.0
- */
-const JROUTER_MODE_RAW = 0;
-
-/**
- * Mask for the SEF routing mode
- *
- * @deprecated  4.0
- */
-const JROUTER_MODE_SEF = 1;
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Class to create and parse routes
  *
  * @since  1.5
  */
-class JRouter
+class Router
 {
 	/**
 	 * Mask for the before process stage
@@ -129,9 +119,9 @@ class JRouter
 	protected $cache = array();
 
 	/**
-	 * JRouter instances container.
+	 * Router instances container.
 	 *
-	 * @var    JRouter[]
+	 * @var    Router[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();
@@ -156,39 +146,39 @@ class JRouter
 	}
 
 	/**
-	 * Returns the global JRouter object, only creating it if it
+	 * Returns the global Router object, only creating it if it
 	 * doesn't already exist.
 	 *
 	 * @param   string  $client   The name of the client
 	 * @param   array   $options  An associative array of options
 	 *
-	 * @return  JRouter  A JRouter object.
+	 * @return  Router  A Router object.
 	 *
 	 * @since   1.5
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
 	{
 		if (empty(self::$instances[$client]))
 		{
-			// Create a JRouter object
+			// Create a Router object
 			$classname = 'JRouter' . ucfirst($client);
 
 			if (!class_exists($classname))
 			{
 				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the router object
-				$info = JApplicationHelper::getClientInfo($client, true);
+				$info = ApplicationHelper::getClientInfo($client, true);
 
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/router.php';
 
-					JLoader::register($classname, $path);
+					\JLoader::register($classname, $path);
 
 					if (class_exists($classname))
 					{
-						JLog::add('Non-autoloadable JRouter subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
+						\JLog::add('Non-autoloadable Router subclasses are deprecated, support will be removed in 4.0.', \JLog::WARNING, 'deprecated');
 					}
 				}
 			}
@@ -199,7 +189,7 @@ class JRouter
 			}
 			else
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
+				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
 		}
 
@@ -209,7 +199,7 @@ class JRouter
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JUri  &$uri  The uri.
+	 * @param   \JUri  &$uri  The uri.
 	 *
 	 * @return  array
 	 *
@@ -242,9 +232,9 @@ class JRouter
 		// Check if all parts of the URL have been parsed.
 		// Otherwise we have an invalid URL
 		if (strlen($uri->getPath()) > 0 && array_key_exists('option', $vars)
-			&& JComponentHelper::getParams($vars['option'])->get('sef_advanced', 0))
+			&& ComponentHelper::getParams($vars['option'])->get('sef_advanced', 0))
 		{
-			throw new Exception('URL invalid', 404);
+			throw new \Exception('URL invalid', 404);
 		}
 
 		return array_merge($this->getVars(), $vars);
@@ -255,7 +245,7 @@ class JRouter
 	 *
 	 * @param   string  $url  The internal URL or an associative array
 	 *
-	 * @return  JUri  The absolute search engine friendly URL object
+	 * @return  \JUri  The absolute search engine friendly URL object
 	 *
 	 * @since   1.5
 	 */
@@ -417,7 +407,7 @@ class JRouter
 	{
 		if (!array_key_exists('build' . $stage, $this->_rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		$this->_rules['build' . $stage][] = $callback;
@@ -440,7 +430,7 @@ class JRouter
 	{
 		if (!array_key_exists('parse' . $stage, $this->_rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		$this->_rules['parse' . $stage][] = $callback;
@@ -449,7 +439,7 @@ class JRouter
 	/**
 	 * Function to convert a raw route to an internal URI
 	 *
-	 * @param   JUri  &$uri  The raw route
+	 * @param   \JUri  &$uri  The raw route
 	 *
 	 * @return  boolean
 	 *
@@ -464,7 +454,7 @@ class JRouter
 	/**
 	 * Function to convert a raw route to an internal URI
 	 *
-	 * @param   JUri  &$uri  The raw route
+	 * @param   \JUri  &$uri  The raw route
 	 *
 	 * @return  array  Array of variables
 	 *
@@ -479,7 +469,7 @@ class JRouter
 	/**
 	 * Function to convert a sef route to an internal URI
 	 *
-	 * @param   JUri  &$uri  The sef URI
+	 * @param   \JUri  &$uri  The sef URI
 	 *
 	 * @return  string  Internal URI
 	 *
@@ -494,7 +484,7 @@ class JRouter
 	/**
 	 * Function to convert a sef route to an internal URI
 	 *
-	 * @param   JUri  &$uri  The sef URI
+	 * @param   \JUri  &$uri  The sef URI
 	 *
 	 * @return  array  Array of variables
 	 *
@@ -509,7 +499,7 @@ class JRouter
 	/**
 	 * Function to build a raw route
 	 *
-	 * @param   JUri  &$uri  The internal URL
+	 * @param   \JUri  &$uri  The internal URL
 	 *
 	 * @return  string  Raw Route
 	 *
@@ -524,7 +514,7 @@ class JRouter
 	/**
 	 * Function to build a raw route
 	 *
-	 * @param   JUri  &$uri  The internal URL
+	 * @param   \JUri  &$uri  The internal URL
 	 *
 	 * @return  string  Raw Route
 	 *
@@ -538,7 +528,7 @@ class JRouter
 	/**
 	 * Function to build a sef route
 	 *
-	 * @param   JUri  &$uri  The uri
+	 * @param   \JUri  &$uri  The uri
 	 *
 	 * @return  string  The SEF route
 	 *
@@ -553,7 +543,7 @@ class JRouter
 	/**
 	 * Function to build a sef route
 	 *
-	 * @param   JUri  &$uri  The uri
+	 * @param   \JUri  &$uri  The uri
 	 *
 	 * @return  string  The SEF route
 	 *
@@ -567,7 +557,7 @@ class JRouter
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   JUri  &$uri  The URI to parse
+	 * @param   \JUri  &$uri  The URI to parse
 	 *
 	 * @return  array  The array of processed URI variables
 	 *
@@ -582,7 +572,7 @@ class JRouter
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   JUri    &$uri   The URI to parse
+	 * @param   \JUri   &$uri   The URI to parse
 	 * @param   string  $stage  The stage that should be processed.
 	 *                          Possible values: 'preprocess', 'postprocess'
 	 *                          and '' for the main parse stage
@@ -595,7 +585,7 @@ class JRouter
 	{
 		if (!array_key_exists('parse' . $stage, $this->_rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		$vars = array();
@@ -611,7 +601,7 @@ class JRouter
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   JUri  &$uri  The URI
+	 * @param   \JUri  &$uri  The URI
 	 *
 	 * @return  void
 	 *
@@ -626,7 +616,7 @@ class JRouter
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   JUri    &$uri   The URI
+	 * @param   \JUri   &$uri   The URI
 	 * @param   string  $stage  The stage that should be processed.
 	 *                          Possible values: 'preprocess', 'postprocess'
 	 *                          and '' for the main build stage
@@ -639,7 +629,7 @@ class JRouter
 	{
 		if (!array_key_exists('build' . $stage, $this->_rules))
 		{
-			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		foreach ($this->_rules['build' . $stage] as $rule)
@@ -653,7 +643,7 @@ class JRouter
 	 *
 	 * @param   string  $url  The URI
 	 *
-	 * @return  JUri
+	 * @return  \JUri
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use createUri() instead
@@ -669,7 +659,7 @@ class JRouter
 	 *
 	 * @param   string  $url  The URI or an associative array
 	 *
-	 * @return  JUri
+	 * @return  \JUri
 	 *
 	 * @since   3.2
 	 */
@@ -677,10 +667,10 @@ class JRouter
 	{
 		if (!is_array($url) && substr($url, 0, 1) != '&')
 		{
-			return new JUri($url);
+			return new \JUri($url);
 		}
 
-		$uri = new JUri('index.php');
+		$uri = new \JUri('index.php');
 
 		if (is_string($url))
 		{
