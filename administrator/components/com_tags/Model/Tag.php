@@ -6,9 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -17,7 +22,7 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class TagsModelTag extends JModelAdmin
+class Tag extends Admin
 {
 	/**
 	 * @var    string  The prefix to use with controller messages.
@@ -79,22 +84,6 @@ class TagsModelTag extends JModelAdmin
 	}
 
 	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $type    The table name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A JTable object
-	 *
-	 * @since   3.1
-	 */
-	public function getTable($type = 'Tag', $prefix = 'TagsTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
 	 * Auto-populate the model state.
 	 *
 	 * @note Calling getState in this method will result in recursion.
@@ -105,7 +94,7 @@ class TagsModelTag extends JModelAdmin
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		$parentId = $app->input->getInt('parent_id');
 		$this->setState('tag.parent_id', $parentId);
@@ -115,7 +104,7 @@ class TagsModelTag extends JModelAdmin
 		$this->setState($this->getName() . '.id', $pk);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_tags');
+		$params = ComponentHelper::getParams('com_tags');
 		$this->setState('params', $params);
 	}
 
@@ -151,11 +140,11 @@ class TagsModelTag extends JModelAdmin
 			$result->urls = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
+			$tz = new \DateTimeZone(\JFactory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
-				$date = new JDate($result->created_time);
+				$date = new \JDate($result->created_time);
 				$date->setTimezone($tz);
 				$result->created_time = $date->toSql(true);
 			}
@@ -166,7 +155,7 @@ class TagsModelTag extends JModelAdmin
 
 			if ((int) $result->modified_time)
 			{
-				$date = new JDate($result->modified_time);
+				$date = new \JDate($result->modified_time);
 				$date->setTimezone($tz);
 				$result->modified_time = $date->toSql(true);
 			}
@@ -185,13 +174,13 @@ class TagsModelTag extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed  A \JForm object on success, false on failure
 	 *
 	 * @since   3.1
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$jinput = JFactory::getApplication()->input;
+		$jinput = \JFactory::getApplication()->input;
 
 		// Get the form.
 		$form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
@@ -201,7 +190,7 @@ class TagsModelTag extends JModelAdmin
 			return false;
 		}
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id')))
 		{
@@ -228,7 +217,7 @@ class TagsModelTag extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_tags.edit.tag.data', array());
+		$data = \JFactory::getApplication()->getUserState('com_tags.edit.tag.data', array());
 
 		if (empty($data))
 		{
@@ -251,14 +240,15 @@ class TagsModelTag extends JModelAdmin
 	 */
 	public function save($data)
 	{
+		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 		$table      = $this->getTable();
-		$input      = JFactory::getApplication()->input;
+		$input      = \JFactory::getApplication()->input;
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 
 		// Include the plugins for the save events.
-		JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing tag.
 		if ($pk > 0)
@@ -304,7 +294,7 @@ class TagsModelTag extends JModelAdmin
 		// Bind the rules.
 		if (isset($data['rules']))
 		{
-			$rules = new JAccessRules($data['rules']);
+			$rules = new Rules($data['rules']);
 			$table->setRules($rules);
 		}
 
@@ -317,7 +307,7 @@ class TagsModelTag extends JModelAdmin
 		}
 
 		// Trigger the before save event.
-		$result = JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -335,7 +325,7 @@ class TagsModelTag extends JModelAdmin
 		}
 
 		// Trigger the after save event.
-		JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		// Rebuild the path for the tag:
 		if (!$table->rebuildPath($table->id))
@@ -371,6 +361,7 @@ class TagsModelTag extends JModelAdmin
 	public function rebuild()
 	{
 		// Get an instance of the table object.
+		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 		$table = $this->getTable();
 
 		if (!$table->rebuild())
@@ -401,6 +392,7 @@ class TagsModelTag extends JModelAdmin
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
+		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 		$table = $this->getTable();
 
 		if (!$table->saveorder($idArray, $lft_array))
@@ -430,6 +422,7 @@ class TagsModelTag extends JModelAdmin
 	protected function generateNewTitle($parent_id, $alias, $title)
 	{
 		// Alter the title & alias
+		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 		$table = $this->getTable();
 
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))

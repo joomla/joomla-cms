@@ -6,20 +6,26 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Administrator\View\Tag;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * HTML View class for the Tags component
  *
  * @since  3.1
  */
-class TagsViewTag extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
-	 * The JForm object
+	 * The \JForm object
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	protected $form;
 
@@ -33,7 +39,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
@@ -47,7 +53,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $canDo;
@@ -64,18 +70,16 @@ class TagsViewTag extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = JHelperContent::getActions('com_tags');
+		$this->canDo = ContentHelper::getActions('com_tags');
 		$this->assoc = $this->get('Assoc');
-
-		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		$input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -89,31 +93,31 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$userId     = $user->get('id');
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load('com_tags', JPATH_BASE, null, false, true)
 		|| $lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
 
 		// Get the results for each action.
 		$canDo = $this->canDo;
-		$title = JText::_('COM_TAGS_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
+		$title = \JText::_('COM_TAGS_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
 
 		/**
 		 * Prepare the toolbar.
 		 * If it is new we get: `badge badge-add add`
 		 * else we get `badge badge-edit edit`
 		 */
-		JToolbarHelper::title($title, 'badge badge-' . ($isNew ? 'add add' : 'edit edit'));
+		ToolbarHelper::title($title, 'badge badge-' . ($isNew ? 'add add' : 'edit edit'));
 
 		// For new records, check the create permission.
 		if ($isNew)
 		{
-			JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				[
 					['apply', 'tag.apply'],
 					['save', 'tag.save'],
@@ -122,7 +126,7 @@ class TagsViewTag extends JViewLegacy
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('tag.cancel');
+			ToolbarHelper::cancel('tag.cancel');
 		}
 
 		// If not checked out, can save the item.
@@ -151,21 +155,21 @@ class TagsViewTag extends JViewLegacy
 				$toolbarButtons[] = ['save2copy', 'tag.save2copy'];
 			}
 
-			JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
-			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
-				JToolbarHelper::versions('com_tags.tag', $this->item->id);
+				ToolbarHelper::versions('com_tags.tag', $this->item->id);
 			}
 
-			JToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
-		JToolbarHelper::divider();
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
+		ToolbarHelper::divider();
 	}
 }

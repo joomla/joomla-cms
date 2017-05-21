@@ -6,25 +6,31 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Tags Component Tags Model
  *
  * @since  3.1
  */
-class TagsModelTags extends JModelList
+class Tags extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see    JController
-	 * @since  3.0.3
+	 * @see     \JControllerLegacy
+	 * @since   1.6
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -46,7 +52,7 @@ class TagsModelTags extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -75,7 +81,7 @@ class TagsModelTags extends JModelList
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_tags');
+		$params = ComponentHelper::getParams('com_tags');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -120,7 +126,7 @@ class TagsModelTags extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -231,6 +237,8 @@ class TagsModelTags extends JModelList
 	public function checkin($pks = array())
 	{
 		$pks = (array) $pks;
+
+		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 		$table = $this->getTable();
 		$count = 0;
 
@@ -249,7 +257,7 @@ class TagsModelTags extends JModelList
 					// Only attempt to check the row in if it exists.
 					if ($pk)
 					{
-						$user = JFactory::getUser();
+						$user = \JFactory::getUser();
 
 						// Get an instance of the row to checkin.
 						$table = $this->getTable();
@@ -264,7 +272,7 @@ class TagsModelTags extends JModelList
 						// Check if this is the user having previously checked out the row.
 						if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 						{
-							$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+							$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
 							return false;
 						}
@@ -299,13 +307,13 @@ class TagsModelTags extends JModelList
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
 	 * @since   3.1
 	 */
-	public function getTable($type = 'Tag', $prefix = 'TagsTable', $config = array())
+	public function getTable($type = 'Tag', $prefix = 'Administrator', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return parent::getTable($type, $prefix, $config);
 	}
 
 	/**
@@ -332,8 +340,8 @@ class TagsModelTags extends JModelList
 	/**
 	 * Method to load the countItems method from the extensions
 	 *
-	 * @param   stdClass[]  &$items     The category items
-	 * @param   string      $extension  The category extension
+	 * @param   \stdClass[]  &$items     The category items
+	 * @param   string       $extension  The category extension
 	 *
 	 * @return  void
 	 *
@@ -352,14 +360,14 @@ class TagsModelTags extends JModelList
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (file_exists($file))
 		{
 			$prefix = ucfirst(str_replace('com_', '', $component));
 			$cName = $prefix . 'Helper';
 
-			JLoader::register($cName, $file);
+			\JLoader::register($cName, $file);
 
 			if (class_exists($cName) && is_callable(array($cName, 'countTagItems')))
 			{

@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Form;
 
 /**
  * The Tag Controller
  *
  * @since  3.1
  */
-class TagsControllerTag extends JControllerForm
+class Tag extends Form
 {
 	/**
 	 * Method to check if you can add a new record.
@@ -27,9 +30,7 @@ class TagsControllerTag extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = JFactory::getUser();
-
-		return ($user->authorise('core.create', 'com_tags'));
+		return ($this->app->getIdentity()->authorise('core.create', 'com_tags'));
 	}
 
 	/**
@@ -59,7 +60,7 @@ class TagsControllerTag extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Tag');

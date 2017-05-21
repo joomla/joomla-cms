@@ -6,6 +6,10 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Site\View\Tag;
+
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 defined('_JEXEC') or die;
 
@@ -14,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.1
  */
-class TagsViewTag extends JViewLegacy
+class Feed extends HtmlView
 {
 	/**
 	 * Execute and display a template script.
@@ -25,9 +29,9 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
-		$document       = JFactory::getDocument();
-		$document->link = JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
+		$app            = \JFactory::getApplication();
+		$document       = \JFactory::getDocument();
+		$document->link = \JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -53,7 +57,7 @@ class TagsViewTag extends JViewLegacy
 
 				// URL link to tagged item
 				// Change to new routing once it is merged
-				$link = JRoute::_($item->link);
+				$link = \JRoute::_($item->link);
 
 				// Strip HTML from feed item description text
 				$description = $item->core_body;
@@ -61,7 +65,7 @@ class TagsViewTag extends JViewLegacy
 				$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 				// Load individual item creator class
-				$feeditem              = new JFeedItem;
+				$feeditem              = new \JFeedItem;
 				$feeditem->title       = $title;
 				$feeditem->link        = $link;
 				$feeditem->description = $description;

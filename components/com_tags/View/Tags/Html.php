@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Site\View\Tags;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\View\HtmlView;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,12 +18,12 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1
  */
-class TagsViewTags extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The model state
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 * @since  3.1
 	 */
 	protected $state;
@@ -46,7 +48,7 @@ class TagsViewTags extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 * @since  3.1
 	 */
 	protected $pagination;
@@ -70,7 +72,7 @@ class TagsViewTags extends JViewLegacy
 	/**
 	 * The logged in user
 	 *
-	 * @var    JUser|null
+	 * @var    \JUser|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $user = null;
@@ -84,7 +86,7 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app    = JFactory::getApplication();
+		$app    = \JFactory::getApplication();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -95,12 +97,12 @@ class TagsViewTags extends JViewLegacy
 
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Check whether access level allows access.
 		// @todo: Should already be computed in $item->params->get('access-view')
-		$user   = JFactory::getUser();
+		$user   = \JFactory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
 
 		if (!empty($items))
@@ -193,7 +195,7 @@ class TagsViewTags extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -207,7 +209,7 @@ class TagsViewTags extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', \JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
 		if ($menu && ($menu->query['option'] != 'com_tags'))
@@ -255,11 +257,11 @@ class TagsViewTags extends JViewLegacy
 			}
 			elseif ($app->get('sitename_pagetitles', 0) == 1)
 			{
-				$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+				$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 			}
 			elseif ($app->get('sitename_pagetitles', 0) == 2)
 			{
-				$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+				$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
 
 			$this->document->setTitle($title);
@@ -313,11 +315,11 @@ class TagsViewTags extends JViewLegacy
 
 			if ($pos == 1)
 			{
-				$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+				$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 			}
 			else
 			{
-				$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+				$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
 			$this->document->setTitle($title);
 		}
@@ -327,9 +329,9 @@ class TagsViewTags extends JViewLegacy
 		{
 			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(\JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(\JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

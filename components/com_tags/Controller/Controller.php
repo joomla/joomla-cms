@@ -6,29 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Tags\Site\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Controller as BaseController;
 
 /**
  * Tags Component Controller
  *
  * @since  3.1
  */
-class TagsController extends JControllerLegacy
+class Controller extends BaseController
 {
 	/**
 	 * Method to display a view.
 	 *
 	 * @param   boolean        $cachable   If true, the view output will be cached
-	 * @param   mixed|boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   mixed|boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  JControllerLegacy  This object to support chaining.
+	 * @return  static  This object to support chaining.
 	 *
 	 * @since   3.1
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'tags');
