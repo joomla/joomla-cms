@@ -229,7 +229,7 @@ class MediaHelper
 						// If the mime type is not allowed we don't upload it and show the mime code error to the user
 						if ($result === false)
 						{
-							$app->enqueueMessage(JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+							$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 							return false;
 						}
@@ -270,7 +270,7 @@ class MediaHelper
 				// We can't detect the mime type so it looks like an invalid file
 				else
 				{
-					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
+					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
 					return false;
 				}
