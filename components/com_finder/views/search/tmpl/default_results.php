@@ -46,12 +46,11 @@ defined('_JEXEC') or die;
 
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
-	<?php JHtml::_('behavior.highlighter', $this->query->highlight); ?>
+	<?php JHtml::_('behavior.highlight', $this->query->highlight); ?>
 <?php endif; ?>
 
 <?php // Display a list of results ?>
-<br id="highlighter-start" />
-<ul class="search-results<?php echo $this->pageclass_sfx; ?> list-striped">
+<ul class="search-results<?php echo $this->pageclass_sfx; ?> list-striped js-highlight">
 	<?php $this->baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 
 	<?php foreach ($this->results as $result) : ?>
@@ -60,8 +59,6 @@ defined('_JEXEC') or die;
 		<?php echo $this->loadTemplate($layout); ?>
 	<?php endforeach; ?>
 </ul>
-<br id="highlighter-end" />
-
 <?php // Display the pagination ?>
 <div class="search-pagination">
 	<div class="w-100">
