@@ -133,7 +133,7 @@
 					attr.push('title="' + title + '"');
 				}
 
-				tag = '<img src="' + url + '" ' + attr.join(' ') + '/>';
+				tag = '<img src="' + url + '" ' + attr.join(' ') + '>';
 
 				// Process caption
 				if (caption)

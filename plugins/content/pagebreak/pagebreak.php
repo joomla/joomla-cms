@@ -17,14 +17,14 @@ jimport('joomla.utilities.utility');
  * Page break plugin
  *
  * <strong>Usage:</strong>
- * <code><hr class="system-pagebreak" /></code>
- * <code><hr class="system-pagebreak" title="The page title" /></code>
+ * <code><hr class="system-pagebreak"></code>
+ * <code><hr class="system-pagebreak" title="The page title"></code>
  * or
- * <code><hr class="system-pagebreak" alt="The first page" /></code>
+ * <code><hr class="system-pagebreak" alt="The first page"></code>
  * or
- * <code><hr class="system-pagebreak" title="The page title" alt="The first page" /></code>
+ * <code><hr class="system-pagebreak" title="The page title" alt="The first page"></code>
  * or
- * <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
+ * <code><hr class="system-pagebreak" alt="The first page" title="The page title"></code>
  *
  * @since  1.6
  */
@@ -179,7 +179,7 @@ class PlgContentPagebreak extends JPlugin
 				$row->text .= '</div>';
 
 				// Page text.
-				$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
+				$text[$page] = str_replace('<hr id="system-readmore">', '', $text[$page]);
 				$row->text .= $text[$page];
 
 				// $row->text .= '<br>';
