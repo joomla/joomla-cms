@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\Model;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Model\ListModel;
 
 /**
  * Methods supporting a list of article records.
  *
  * @since  3.7.0
  */
-class AssociationsModelAssociation extends JModelList
+class Association extends ListModel
 {
 	/**
 	 * Method to get the record form.
@@ -22,7 +25,7 @@ class AssociationsModelAssociation extends JModelList
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed  A \JForm object on success, false on failure
 	 *
 	 * @since  3.7.0
 	 */

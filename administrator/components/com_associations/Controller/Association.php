@@ -6,17 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+use Joomla\CMS\Controller\Form;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
  * Association edit controller class.
  *
  * @since  3.7.0
  */
-class AssociationsControllerAssociation extends JControllerForm
+class Association extends Form
 {
 	/**
 	 * Method to edit an existing record.
@@ -38,8 +40,8 @@ class AssociationsControllerAssociation extends JControllerForm
 		// Check if reference item can be edited.
 		if (!AssociationsHelper::allowEdit($extensionName, $typeName, $id))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
+			$this->setMessage(\JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+			$this->setRedirect(\JRoute::_('index.php?option=com_associations&view=associations', false));
 
 			return false;
 		}
@@ -58,7 +60,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'));
 
@@ -81,6 +83,6 @@ class AssociationsControllerAssociation extends JControllerForm
 			}
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_associations&view=associations', false));
+		$this->setRedirect(\JRoute::_('index.php?option=com_associations&view=associations', false));
 	}
 }

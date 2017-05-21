@@ -6,17 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\View\Association;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
  * View class for a list of articles.
  *
  * @since  3.7.0
  */
-class AssociationsViewAssociation extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * An array of items
@@ -30,7 +35,7 @@ class AssociationsViewAssociation extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 *
 	 * @since  3.7.0
 	 */
@@ -48,7 +53,7 @@ class AssociationsViewAssociation extends JViewLegacy
 	/**
 	 * Selected item type properties.
 	 *
-	 * @var    Registry
+	 * @var    \Joomla\Registry\Registry
 	 *
 	 * @since  3.7.0
 	 */
@@ -62,17 +67,17 @@ class AssociationsViewAssociation extends JViewLegacy
 	 * @return  void
 	 *
 	 * @since   3.7.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new \Exception(implode("\n", $errors), 500);
 		}
 
-		$this->app  = JFactory::getApplication();
+		$this->app  = \JFactory::getApplication();
 		$this->form = $this->get('Form');
 		$input      = $this->app->input;
 		$this->referenceId = $input->get('id', 0, 'int');
@@ -134,7 +139,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
 			$task                   = $typeName . '.' . $this->targetAction;
-			$this->defaultTargetSrc = JRoute::_($this->editUri . '&task= ' . $task . ' &id=' . (int) $this->targetId);
+			$this->defaultTargetSrc = \JRoute::_($this->editUri . '&task= ' . $task . ' &id=' . (int) $this->targetId);
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
 
@@ -146,16 +151,16 @@ class AssociationsViewAssociation extends JViewLegacy
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = JHtmlSidebar::render();
+			$this->sidebar = \JHtmlSidebar::render();
 		}
 		else
 		{
 			// In article associations modal we need to remove language filter if forcing a language.
 			// We also need to change the category filter to show show categories with All or the forced language.
-			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
-				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 
 				// Also, unset the active language filter so the search tools is not open by default with this filter.
@@ -179,7 +184,7 @@ class AssociationsViewAssociation extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Hide main menu.
-		JFactory::getApplication()->input->set('hidemainmenu', 1);
+		\JFactory::getApplication()->input->set('hidemainmenu', 1);
 
 		$helper = AssociationsHelper::getExtensionHelper($this->extensionName);
 		$title  = $helper->getTypeTitle($this->typeName);
@@ -191,30 +196,30 @@ class AssociationsViewAssociation extends JViewLegacy
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($languageKey)), 'contract assoc');
+		ToolbarHelper::title(\JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', \JText::_($this->extensionName), \JText::_($languageKey)), 'contract assoc');
 
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
 			. 'class="btn btn-sm btn-success"><span class="icon-32-apply icon-white"></span>'
-			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
+			. \JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
 			. 'class="btn btn-sm btn-success"><span class="icon-32-apply icon-white"></span>'
-			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
+			. \JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 
 		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
 		{
-			JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+			ToolbarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
 		}
 
-		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
-		JToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
+		ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
+		ToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');
 
-		JHtmlSidebar::setAction('index.php?option=com_associations');
+		\JHtmlSidebar::setAction('index.php?option=com_associations');
 	}
 }

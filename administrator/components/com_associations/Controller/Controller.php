@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Associations\Administrator\Controller;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Controller\Controller as BaseController;
 
 /**
  * Component Controller
  *
  * @since  3.7.0
  */
-class AssociationsController extends JControllerLegacy
+class Controller extends BaseController
 {
 	/**
 	 * The default view.
