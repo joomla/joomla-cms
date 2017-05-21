@@ -926,8 +926,10 @@ class JFilterInput extends InputFilter
 				// Find position of equal and open quotes ignoring
 				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE))
 				{
+					// We have found an attribute, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+					$stringBeforeAttr = substr($fromSpace, 0, $matches[0][1]);
+					$startAttPosition = StringHelper::strlen($stringBeforeAttr);
 					$startAtt = $matches[0][0];
-					$startAttPosition = $matches[0][1];
 					$closeQuotes = StringHelper::strpos(
 						StringHelper::substr($fromSpace, ($startAttPosition + StringHelper::strlen($startAtt))), '"'
 						) + $startAttPosition + StringHelper::strlen($startAtt);
@@ -1080,9 +1082,12 @@ class JFilterInput extends InputFilter
 		 */
 		while (preg_match('#<[^>]*?=\s*?(\"|\')#s', $remainder, $matches, PREG_OFFSET_CAPTURE))
 		{
-			// Get the portion before the attribute value
-			$quotePosition = $matches[0][1];
-			$nextBefore = $quotePosition + StringHelper::strlen($matches[0][0]);
+			// We have found a tag with an attribute, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+			$stringBeforeTag = substr($remainder, 0, $matches[0][1]);
+			$tagPosition = StringHelper::strlen($stringBeforeTag);
+
+			// Get the character length before the attribute value
+			$nextBefore = $tagPosition + StringHelper::strlen($matches[0][0]);
 
 			/*
 			 * Figure out if we have a single or double quote and look for the matching closing quote
@@ -1092,9 +1097,12 @@ class JFilterInput extends InputFilter
 			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
 			// Get the portion after attribute value
-			if (preg_match($pregMatch, StringHelper::substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
+			$attributeValueRemainder = StringHelper::substr($remainder, $nextBefore);
+			if (preg_match($pregMatch, $attributeValueRemainder, $matches, PREG_OFFSET_CAPTURE))
 			{
-				// We have a closing quote
+				// We have a closing quote, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+				$stringBeforeQuote = substr($attributeValueRemainder, 0, $matches[0][1]);
+				$closeQuoteChars = StringHelper::strlen($stringBeforeQuote);
 				$nextAfter = $nextBefore + $matches[0][1];
 			}
 			else
