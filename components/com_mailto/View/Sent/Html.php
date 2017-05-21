@@ -6,11 +6,17 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Mailto\Site\View\Sent;
 
 defined('_JEXEC') or die;
 
-JLoader::register('MailtoHelper', JPATH_COMPONENT . '/helpers/mailto.php');
+use Joomla\CMS\View\HtmlView;
 
-$controller = JControllerLegacy::getInstance('Mailto');
-$controller->registerDefaultTask('mailto');
-$controller->execute(JFactory::getApplication()->input->get('task'));
+/**
+ * Class for email sent view.
+ *
+ * @since  1.5
+ */
+class Html extends HtmlView
+{
+}
