@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
-
 /**
  * Fields URL Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsUrl extends FieldsPlugin
+class PlgFieldsUrl extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
