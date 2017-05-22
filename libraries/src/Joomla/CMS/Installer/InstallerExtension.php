@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Installer
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Installer;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
 
 /**
  * Extension object
  *
  * @since  3.1
  */
-class JInstallerExtension extends JObject
+class InstallerExtension extends \JObject
 {
 	/**
 	 * Filename of the extension
@@ -84,11 +87,11 @@ class JInstallerExtension extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
+	 * @param   \SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
 	 *
 	 * @since  3.1
 	 */
-	public function __construct(SimpleXMLElement $element = null)
+	public function __construct(\SimpleXMLElement $element = null)
 	{
 		if ($element)
 		{
@@ -105,11 +108,11 @@ class JInstallerExtension extends JObject
 				case 'template':
 				case 'language':
 					$this->client = (string) $element->attributes()->client;
-					$tmp_client_id = JApplicationHelper::getClientInfo($this->client, 1);
+					$tmp_client_id = ApplicationHelper::getClientInfo($this->client, 1);
 
 					if ($tmp_client_id == null)
 					{
-						JLog::add(JText::_('JLIB_INSTALLER_ERROR_EXTENSION_INVALID_CLIENT_IDENTIFIER'), JLog::WARNING, 'jerror');
+						\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_EXTENSION_INVALID_CLIENT_IDENTIFIER'), \JLog::WARNING, 'jerror');
 					}
 					else
 					{
@@ -126,7 +129,7 @@ class JInstallerExtension extends JObject
 					// Get and set client and group if we don't recognise the extension
 					if ($element->attributes()->client)
 					{
-						$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
+						$this->client_id = ApplicationHelper::getClientInfo($this->client, 1);
 						$this->client_id = $this->client_id->id;
 					}
 
@@ -140,15 +143,4 @@ class JInstallerExtension extends JObject
 			$this->filename = (string) $element;
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder. You should use JInstallerExtension instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JExtension extends JInstallerExtension
-{
 }

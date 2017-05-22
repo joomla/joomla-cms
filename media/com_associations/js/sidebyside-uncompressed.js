@@ -154,6 +154,10 @@ jQuery(document).ready(function($) {
 
 	// Attach behaviour to reference frame load event.
 	$('#reference-association').on('load', function() {
+
+		// Load Target Pane AFTER reference pane has loaded to prevent session conflict with checkout
+		document.getElementById('target-association').setAttribute('src', document.getElementById('target-association').getAttribute('data-url'));
+
 		// If copy button used
 		if ($(this).contents().find('#jform_id').val() !== this.getAttribute('data-id'))
 		{

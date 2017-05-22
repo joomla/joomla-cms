@@ -1,22 +1,23 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Installer
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Installer;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.file');
 
 /**
  * Joomla! Package Manifest File
  *
  * @since  3.1
  */
-abstract class JInstallerManifest
+abstract class Manifest
 {
 	/**
 	 * Path to the manifest file
@@ -114,7 +115,7 @@ abstract class JInstallerManifest
 
 		if (!$xml)
 		{
-			$this->_errors[] = JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
+			$this->_errors[] = \JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
 
 			return false;
 		}
@@ -127,13 +128,13 @@ abstract class JInstallerManifest
 	}
 
 	/**
-	 * Apply manifest data from a SimpleXMLElement to the object.
+	 * Apply manifest data from a \SimpleXMLElement to the object.
 	 *
-	 * @param   SimpleXMLElement  $xml  Data to load
+	 * @param   \SimpleXMLElement  $xml  Data to load
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	abstract protected function loadManifestFromData(SimpleXmlElement $xml);
+	abstract protected function loadManifestFromData(\SimpleXmlElement $xml);
 }

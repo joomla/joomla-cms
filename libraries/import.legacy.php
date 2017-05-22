@@ -68,6 +68,20 @@ if (!interface_exists('JsonSerializable'))
 define('JPATH_ISWIN', IS_WIN);
 define('JPATH_ISMAC', IS_MAC);
 
+/**
+ * Mask for the raw routing mode
+ *
+ * @deprecated  4.0
+ */
+const JROUTER_MODE_RAW = 0;
+
+/**
+ * Mask for the SEF routing mode
+ *
+ * @deprecated  4.0
+ */
+const JROUTER_MODE_SEF = 1;
+
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 

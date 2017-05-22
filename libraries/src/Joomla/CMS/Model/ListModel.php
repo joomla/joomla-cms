@@ -515,6 +515,13 @@ class ListModel extends Model
 									{
 										$this->setState('list.direction', $fullDirection);
 									}
+									else
+									{
+										$this->setState('list.direction', $direction);
+
+										// Fallback to the default value
+										$value = $ordering . ' ' . $direction;
+									}
 
 									unset($orderingParts[count($orderingParts) - 1]);
 
@@ -525,11 +532,22 @@ class ListModel extends Model
 									{
 										$this->setState('list.ordering', $fullOrdering);
 									}
+									else
+									{
+										$this->setState('list.ordering', $ordering);
+
+										// Fallback to the default value
+										$value = $ordering . ' ' . $direction;
+									}
+
 								}
 								else
 								{
 									$this->setState('list.ordering', $ordering);
 									$this->setState('list.direction', $direction);
+
+									// Fallback to the default value
+									$value = $ordering . ' ' . $direction;
 								}
 								break;
 
