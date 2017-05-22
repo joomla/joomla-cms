@@ -1701,7 +1701,46 @@ class MenusModelItem extends JModelAdmin
 			return true;
 		}
 
-		return parent::publish($pks, $value);
+		$result = false;
+
+		try
+		{
+			$pks = ArrayHelper::toInteger($pks);
+
+			if (!empty($pks))
+			{
+				$db = $table->getDbo();
+				$query = $db->getQuery(true);
+
+				// If unpublish or trash then change the item and its subtree
+				if (($value == 0) || ($value == -2))
+				{
+					$query->update(
+						$db->quoteName($table->getTableName()) . ' as parent,'
+						. $db->quoteName($table->getTableName()) . ' as child')
+						->set('child.' . $db->qn($table->getColumnAlias('published')) . ' = ' . (int) $value)
+						->where('child.lft between parent.lft and parent.rgt')
+						->where('parent.id in (' . implode(',', $pks) . ')');
+				}
+				// Otherwise only change the given pks
+				else
+				{
+					$query->update($db->quoteName($table->getTableName()))
+						->set($db->qn($table->getColumnAlias('published')) . ' = ' . (int) $value)
+						->where('id in (' . implode(',', $pks) . ')');
+				}
+
+				$db->setQuery($query)->execute();
+			}
+
+			$result = true;
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+		}
+
+		return $result;
 	}
 
 	/**
