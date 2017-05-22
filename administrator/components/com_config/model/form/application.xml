@@ -969,7 +969,7 @@
 		<field
 			name="offline"
 			type="radio"
-			class="btn-group btn-group-yesno btn-group-reversed"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
