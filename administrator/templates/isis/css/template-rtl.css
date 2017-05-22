@@ -8562,7 +8562,7 @@ td.nowrap.has-context {
 	padding: 0 10px;
 }
 #toolbar .btn-success {
-	width: 148px;
+	min-width: 148px;
 }
 #toolbar .btn-primary [class^="icon-"],
 #toolbar .btn-primary [class*=" icon-"],
