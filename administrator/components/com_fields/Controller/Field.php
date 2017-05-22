@@ -45,7 +45,7 @@ class Field extends Form
 	 * @param   CmsApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since   3.0
+	 * @since   3.7.0
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
@@ -116,7 +116,7 @@ class Field extends Form
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since   3.7.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{

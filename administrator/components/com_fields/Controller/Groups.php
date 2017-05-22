@@ -37,7 +37,7 @@ class Groups extends Admin
 	 *
 	 * @return  \Joomla\CMS\Model\Model
 	 *
-	 * @since   1.6
+	 * @since   3.7.0
 	 */
 	public function getModel($name = 'Group', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
