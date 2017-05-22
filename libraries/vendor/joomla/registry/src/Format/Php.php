@@ -36,7 +36,11 @@ class Php extends AbstractRegistryFormat
 		// Build the object variables string
 		$vars = '';
 
-		foreach (get_object_vars($object) as $k => $v)
+		// Save the object properties in alphabetical order
+		$data = get_object_vars($object);
+		ksort($data, SORT_NATURAL | SORT_FLAG_CASE );
+
+		foreach ($data as $k => $v)
 		{
 			if (is_scalar($v))
 			{
