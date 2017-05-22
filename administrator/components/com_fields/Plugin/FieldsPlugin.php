@@ -6,14 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Plugin;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Abstract Fields Plugin
  *
  * @since  3.7.0
  */
-abstract class FieldsPlugin extends JPlugin
+abstract class FieldsPlugin extends CMSPlugin
 {
 	protected $autoloadLanguage = true;
 
@@ -31,7 +36,7 @@ abstract class FieldsPlugin extends JPlugin
 		// The root of the plugin
 		$root = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
 
-		foreach (JFolder::files($root . '/tmpl', '.php') as $layout)
+		foreach (\JFolder::files($root . '/tmpl', '.php') as $layout)
 		{
 			// Strip the extension
 			$layout = str_replace('.php', '', $layout);
@@ -50,12 +55,12 @@ abstract class FieldsPlugin extends JPlugin
 			// Needed attributes
 			$data['type'] = $layout;
 
-			if (JFactory::getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL'))
+			if (\JFactory::getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL'))
 			{
-				$data['label'] = JText::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
+				$data['label'] = \JText::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
 
 				// Fix wrongly set parentheses in RTL languages
-				if (JFactory::getLanguage()->isRTL())
+				if (\JFactory::getLanguage()->isRTL())
 				{
 					$data['label'] = $data['label'] . '&#x200E;';
 				}
@@ -91,9 +96,9 @@ abstract class FieldsPlugin extends JPlugin
 	/**
 	 * Prepares the field value.
 	 *
-	 * @param   string    $context  The context.
-	 * @param   stdclass  $item     The item.
-	 * @param   stdclass  $field    The field.
+	 * @param   string     $context  The context.
+	 * @param   \stdclass  $item     The item.
+	 * @param   \stdclass  $field    The field.
 	 *
 	 * @return  string
 	 *
@@ -112,7 +117,7 @@ abstract class FieldsPlugin extends JPlugin
 		$fieldParams->merge($field->fieldparams);
 
 		// Get the path for the layout file
-		$path = JPluginHelper::getLayoutPath('fields', $field->type, $field->type);
+		$path = PluginHelper::getLayoutPath('fields', $field->type, $field->type);
 
 		// Render the layout
 		ob_start();
@@ -126,15 +131,15 @@ abstract class FieldsPlugin extends JPlugin
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
 	 *
-	 * @param   stdClass    $field   The field.
-	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
+	 * @param   \stdClass    $field   The field.
+	 * @param   \DOMElement  $parent  The field node parent.
+	 * @param   \JForm       $form    The form.
 	 *
-	 * @return  DOMElement
+	 * @return  \DOMElement
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, \DOMElement $parent, \JForm $form)
 	{
 		// Check if the field should be processed by us
 		if (!$this->isTypeSupported($field->type))
@@ -142,7 +147,7 @@ abstract class FieldsPlugin extends JPlugin
 			return null;
 		}
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Detect if the field should be shown at all
 		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
@@ -155,7 +160,7 @@ abstract class FieldsPlugin extends JPlugin
 		}
 
 		// Create the node
-		$node = $parent->appendChild(new DOMElement('field'));
+		$node = $parent->appendChild(new \DOMElement('field'));
 
 		// Set the attributes
 		$node->setAttribute('name', $field->name);
@@ -189,7 +194,7 @@ abstract class FieldsPlugin extends JPlugin
 		}
 
 		// Check if it is allowed to edit the field
-		if (!FieldsHelper::canEditFieldValue($field))
+		if (!\FieldsHelper::canEditFieldValue($field))
 		{
 			$node->setAttribute('disabled', 'true');
 		}
@@ -202,14 +207,14 @@ abstract class FieldsPlugin extends JPlugin
 	 * The form event. Load additional parameters when available into the field form.
 	 * Only when the type of the form is of interest.
 	 *
-	 * @param   JForm     $form  The form
-	 * @param   stdClass  $data  The data
+	 * @param   \JForm     $form  The form
+	 * @param   \stdClass  $data  The data
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentPrepareForm(JForm $form, $data)
+	public function onContentPrepareForm(\JForm $form, $data)
 	{
 		// Check if the field form is calling us
 		if (strpos($form->getName(), 'com_fields.field') !== 0)

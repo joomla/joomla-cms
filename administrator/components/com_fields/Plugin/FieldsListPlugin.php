@@ -6,9 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
+namespace Joomla\Component\Fields\Administrator\Plugin;
 
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+defined('_JEXEC') or die;
 
 /**
  * Base plugin for all list based plugins
@@ -20,15 +20,15 @@ class FieldsListPlugin extends FieldsPlugin
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
 	 *
-	 * @param   stdClass    $field   The field.
-	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
+	 * @param   \stdClass    $field   The field.
+	 * @param   \DOMElement  $parent  The field node parent.
+	 * @param   \JForm       $form    The form.
 	 *
-	 * @return  DOMElement
+	 * @return  \DOMElement
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, \DOMElement $parent, \JForm $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
@@ -41,8 +41,8 @@ class FieldsListPlugin extends FieldsPlugin
 
 		foreach ($this->getOptionsFromField($field) as $value => $name)
 		{
-			$option = new DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
-			$option->nodeValue = htmlspecialchars(JText::_($name), ENT_COMPAT, 'UTF-8');
+			$option = new \DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
+			$option->nodeValue = htmlspecialchars(\JText::_($name), ENT_COMPAT, 'UTF-8');
 
 			$element = $fieldNode->appendChild($option);
 			$element->setAttribute('value', $value);
@@ -54,7 +54,7 @@ class FieldsListPlugin extends FieldsPlugin
 	/**
 	 * Returns an array of key values to put in a list from the given field.
 	 *
-	 * @param   stdClass  $field  The field.
+	 * @param   \stdClass  $field  The field.
 	 *
 	 * @return  array
 	 *
