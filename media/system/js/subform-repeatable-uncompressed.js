@@ -126,6 +126,7 @@
 
 		// tell everyone about the new row
 		this.$container.trigger('subform-row-add', $row);
+		Joomla.Behavior.call('update', row);
 		return $row;
 	};
 
@@ -139,6 +140,7 @@
 
 		// tell everyoune about the row will be removed
 		this.$container.trigger('subform-row-remove', $row);
+		Joomla.Behavior.call('unload', row);
 		$row.remove();
 	};
 

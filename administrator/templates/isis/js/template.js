@@ -8,16 +8,17 @@
 
 (function($)
 {
-	$(document).ready(function()
+	Joomla.Behavior.add('template.isis', 'ready update', function(event)
 	{
-		var $w = $(window);
+		var $w = $(window),
+			$target = $(event.target);
 
-		$('*[rel=tooltip]').tooltip();
+		$target.find('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
-		$('.radio.btn-group label').addClass('btn');
+		$target.find('.radio.btn-group label').addClass('btn');
 
-		$('fieldset.btn-group').each(function() {
+		$target.find('fieldset.btn-group').each(function () {
 			// Handle disabled, prevent clicks on the container, and add disabled style to each button
 			if ($(this).prop('disabled')) {
 				$(this).css('pointer-events', 'none').off('click');
@@ -25,42 +26,32 @@
 			}
 		});
 
-		$('.btn-group label:not(.active)').click(function()
-		{
+		$target.find('.btn-group label:not(.active)').click(function () {
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
 
-			if (!input.prop('checked'))
-			{
+			if (!input.prop('checked')) {
 				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
 
-				if (label.closest('.btn-group').hasClass('btn-group-reversed'))
-				{
-					if (input.val() == '')
-					{
+				if (label.closest('.btn-group').hasClass('btn-group-reversed')) {
+					if (input.val() == '') {
 						label.addClass('active btn-primary');
 					}
-					else if (input.val() == 0)
-					{
+					else if (input.val() == 0) {
 						label.addClass('active btn-success');
 					}
-					else
-					{
+					else {
 						label.addClass('active btn-danger');
 					}
 				}
-				else
-				{
-					if (input.val() == '')
-					{
+				else {
+					if (input.val() == '') {
 						label.addClass('active btn-primary');
 					}
-					else if (input.val() == 0)
-					{
+					else if (input.val() == 0) {
 						label.addClass('active btn-danger');
 					}
-					else
-					{
+					else {
 						label.addClass('active btn-success');
 					}
 
@@ -69,54 +60,46 @@
 				input.trigger('change');
 			}
 		});
-		$('.btn-group input[checked=checked]').each(function()
-		{
-			var $self  = $(this);
+		$target.find('.btn-group input[checked=checked]').each(function () {
+			var $self = $(this);
 			var attrId = $self.attr('id');
 
-			if ($self.parent().hasClass('btn-group-reversed'))
-			{
-				if ($self.val() == '')
-				{
+			if ($self.parent().hasClass('btn-group-reversed')) {
+				if ($self.val() == '') {
 					$('label[for=' + attrId + ']').addClass('active btn-primary');
 				}
-				else if ($self.val() == 0)
-				{
+				else if ($self.val() == 0) {
 					$('label[for=' + attrId + ']').addClass('active btn-success');
 				}
-				else
-				{
+				else {
 					$('label[for=' + attrId + ']').addClass('active btn-danger');
 				}
 			}
-			else
-			{
-				if ($self.val() == '')
-				{
+			else {
+				if ($self.val() == '') {
 					$('label[for=' + attrId + ']').addClass('active btn-primary');
 				}
-				else if ($self.val() == 0)
-				{
+				else if ($self.val() == 0) {
 					$('label[for=' + attrId + ']').addClass('active btn-danger');
 				}
-				else
-				{
+				else {
 					$('label[for=' + attrId + ']').addClass('active btn-success');
 				}
 			}
 		});
 		// add color classes to chosen field based on value
-		$('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
+		$target.find('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function () {
 			var select = $(this);
 			var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '\1');
 			var container = select.next('.chzn-container').find('.chzn-single');
 			container.addClass(cls).attr('rel', 'value_' + select.val());
-			select.on('change click', function()
-			{
+			select.on('change click', function () {
 				container.attr('rel', 'value_' + select.val());
 			});
 
 		});
+
+		if (event.type !== 'ready') return;
 
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown

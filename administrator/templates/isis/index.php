@@ -24,6 +24,8 @@ $frontEndUri = JUri::getInstance(JUri::root());
 $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
 $mainPageUri = $frontEndUri->toString();
 
+JHtml::_('behavior.core');
+
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
