@@ -535,6 +535,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 
 		if (!$element)
 		{
+			// Creates element from option in admin menu link
+			$element = $this->getMenuLinkOption();
+		}
+
+		if (!$element)
+		{
 			$element = $this->getName();
 		}
 
@@ -552,6 +558,44 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	public function getManifest()
 	{
 		return $this->manifest;
+	}
+
+	/**
+	 * Get the filtered option from the component manifest administrator menu link
+	 *
+	 * @return  string  The filtered option
+	 *
+	 * @since   3.5
+	 */
+	public function getMenuLinkOption()
+	{
+		// Get the component root menu element
+		$menuElement = $this->getManifest()->administration->menu;
+
+		if ($menuElement)
+		{
+			// Check link attribute exists and ensure it is a string
+			$link = (string) $menuElement->attributes()->link;
+
+			if ($link)
+			{
+				$delimiter = 'option=';
+
+				// Checks delimiter is in the link string
+				if (strpos($link, $delimiter) !== false)
+				{
+					// Gets the option from the link attribute
+					$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
+
+					// Filter the option for illegal characters
+					$option = JFilterInput::getInstance()->clean($option, 'string');
+
+					return $option;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
