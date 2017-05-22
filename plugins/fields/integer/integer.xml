@@ -22,18 +22,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="multiple"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-	
-				<field
 					name="first"
 					type="number"
 					default="1"
@@ -62,6 +50,18 @@
 					size="5"
 					required="true"
 				/>
+
+				<field
+					name="multiple"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
+					description="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
