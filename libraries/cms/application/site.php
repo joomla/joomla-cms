@@ -349,7 +349,9 @@ final class JApplicationSite extends JApplicationCms
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
 
-				$params[$hash]->merge($menu->params);
+				$temp = new Registry;
+				$temp->loadString($menu->params);
+				$params[$hash]->merge($temp);
 				$title = $menu->title;
 			}
 			else
