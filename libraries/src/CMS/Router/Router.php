@@ -107,10 +107,10 @@ class Router
 			{
 				self::$instances[$client] = \JFactory::getContainer()->get($classname);
 			}
-  			else
-  			{
+			else
+			{
 				self::$instances[$client] = new $classname;
-  			}
+			}
 		}
 
 		return self::$instances[$client];

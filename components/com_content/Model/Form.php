@@ -194,9 +194,9 @@ class Form extends \Joomla\Component\Content\Administrator\Model\Article
 	/**
 	 * Allows preprocessing of the JForm object.
 	 *
-	 * @param   \JForm   $form   The form object
-	 * @param   array    $data   The data to be merged into the form object
-	 * @param   string   $group  The plugin group to be executed
+	 * @param   \JForm  $form   The form object
+	 * @param   array   $data   The data to be merged into the form object
+	 * @param   string  $group  The plugin group to be executed
 	 *
 	 * @return  void
 	 *
