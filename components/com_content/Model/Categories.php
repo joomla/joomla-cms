@@ -6,9 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Model\ListModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +18,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class ContentModelCategories extends JModelList
+class Categories extends ListModel
 {
 	/**
 	 * Model context string.
@@ -48,7 +50,7 @@ class ContentModelCategories extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$this->setState('filter.extension', $this->_extension);
 
 		// Get the parent id if defined.
@@ -99,7 +101,7 @@ class ContentModelCategories extends JModelList
 
 		if (!isset($this->cache[$store]))
 		{
-			$app = JFactory::getApplication();
+			$app = \JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;
@@ -111,7 +113,7 @@ class ContentModelCategories extends JModelList
 
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_num_articles_cat', 1) || !$params->get('show_empty_categories_cat', 0);
-			$categories = JCategories::getInstance('Content', $options);
+			$categories = \JCategories::getInstance('Content', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
 			if (is_object($this->_parent))

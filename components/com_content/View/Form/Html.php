@@ -6,27 +6,33 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\View\Form;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * HTML Article View class for the Content component
  *
  * @since  1.5
  */
-class ContentViewForm extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The JForm object
 	 *
-	 * @var  JForm
+	 * @var  \JForm
 	 */
 	protected $form;
 
 	/**
 	 * The item being created
 	 *
-	 * @var  stdClass
+	 * @var  \stdClass
 	 */
 	protected $item;
 
@@ -40,7 +46,7 @@ class ContentViewForm extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
@@ -63,7 +69,7 @@ class ContentViewForm extends JViewLegacy
 	/**
 	 * The user object
 	 *
-	 * @var    JUser
+	 * @var    \JUser
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $user = null;
@@ -85,8 +91,8 @@ class ContentViewForm extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
-		$app  = JFactory::getApplication();
+		$user = \JFactory::getUser();
+		$app  = \JFactory::getApplication();
 
 		// Get model data.
 		$this->state       = $this->get('State');
@@ -105,13 +111,13 @@ class ContentViewForm extends JViewLegacy
 
 		if ($authorised !== true)
 		{
-			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return false;
 		}
 
-		$this->item->tags = new JHelperTags;
+		$this->item->tags = new TagsHelper;
 
 		if (!empty($this->item->id))
 		{
@@ -123,7 +129,7 @@ class ContentViewForm extends JViewLegacy
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 
-			$tmp = new stdClass;
+			$tmp = new \stdClass;
 			$tmp->images = $this->item->images;
 			$tmp->urls = $this->item->urls;
 			$this->form->bind($tmp);
@@ -132,7 +138,7 @@ class ContentViewForm extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Create a shortcut to the parameters.
@@ -148,15 +154,15 @@ class ContentViewForm extends JViewLegacy
 		$this->user   = $user;
 
 		// Propose current language as default when creating new article
-		if (empty($this->item->id) && JLanguageMultilang::isEnabled())
+		if (empty($this->item->id) && Multilanguage::isEnabled())
 		{
-			$lang = JFactory::getLanguage()->getTag();
+			$lang = \JFactory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);
 		}
 
-		$captchaSet = $params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
+		$captchaSet = $params->get('captcha', \JFactory::getApplication()->get('captcha', '0'));
 
-		foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+		foreach (PluginHelper::getPlugin('captcha') as $plugin)
 		{
 			if ($captchaSet === $plugin->name)
 			{
@@ -176,7 +182,7 @@ class ContentViewForm extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -190,18 +196,18 @@ class ContentViewForm extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+			$this->params->def('page_heading', \JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 		}
 
-		$title = $this->params->def('page_title', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+		$title = $this->params->def('page_title', \JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

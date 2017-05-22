@@ -6,21 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-
-// Base this model on the backend version.
-JLoader::register('ContentModelArticle', JPATH_ADMINISTRATOR . '/components/com_content/models/article.php');
 
 /**
  * Content Component Article Model
  *
  * @since  1.5
  */
-class ContentModelForm extends ContentModelArticle
+class Form extends \Joomla\Component\Content\Administrator\Model\Article
 {
 	/**
 	 * Model typeAlias string. Used for version history.
@@ -40,7 +40,7 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Load state from the request.
 		$pk = $app->input->getInt('a_id');
@@ -90,7 +90,7 @@ class ContentModelForm extends ContentModelArticle
 		$value->params = new Registry($value->attribs);
 
 		// Compute selected asset permissions.
-		$user   = JFactory::getUser();
+		$user   = \JFactory::getUser();
 		$userId = $user->get('id');
 		$asset  = 'com_content.article.' . $value->id;
 
@@ -145,7 +145,7 @@ class ContentModelForm extends ContentModelArticle
 
 		if ($itemId)
 		{
-			$value->tags = new JHelperTags;
+			$value->tags = new TagsHelper;
 			$value->tags->getTagIds($value->id, 'com_content.article');
 			$value->metadata['tags'] = $value->tags;
 		}
@@ -177,8 +177,8 @@ class ContentModelForm extends ContentModelArticle
 	public function save($data)
 	{
 		// Associations are not edited in frontend ATM so we have to inherit them
-		if (JLanguageAssociations::isEnabled() && !empty($data['id'])
-			&& $associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $data['id']))
+		if (Associations::isEnabled() && !empty($data['id'])
+			&& $associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $data['id']))
 		{
 			foreach ($associations as $tag => $associated)
 			{
@@ -194,7 +194,7 @@ class ContentModelForm extends ContentModelArticle
 	/**
 	 * Allows preprocessing of the JForm object.
 	 *
-	 * @param   JForm   $form   The form object
+	 * @param   \JForm  $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
 	 * @param   string  $group  The plugin group to be executed
 	 *
@@ -202,7 +202,7 @@ class ContentModelForm extends ContentModelArticle
 	 *
 	 * @since   3.7.0
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		$params = $this->getState()->get('params');
 
