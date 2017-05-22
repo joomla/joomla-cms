@@ -105,21 +105,8 @@ if (!Array.prototype.indexOf)
                                         // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
                                         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
                                         // use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach                                        
-                                        itemval.forEach(function (itemval_val, i)
-                                        {
-						// ":" Equal to one or more of the values condition
-						if (jsondata[j]['sign'] == '=' && jsondata[j]['values'].indexOf(itemval_val) !== -1)
-						{
-							jsondata[j]['valid'] = 1;
-						}
-						// "!:" Not equal to one or more of the values condition
-						if (jsondata[j]['sign'] == '!=' && jsondata[j]['values'].indexOf(itemval_val) === -1)
-						{
-							jsondata[j]['valid'] = 1;
-						}
-					});
-                                       /* 
-                                        // alternative code
+                                        // We can't use forEach because its not supported in MSIE 8 - once that is dropped this code could use forEach instead and not have to use propertyIsEnumerable
+                                        // 
 					// Test if any of the values of the field exists in showon conditions
                                         for (var i in itemval) {
                                                 // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable
@@ -139,7 +126,7 @@ if (!Array.prototype.indexOf)
 						}
                                             
                                         }
-                                   */     
+
 				});
 
 				// Verify conditions
