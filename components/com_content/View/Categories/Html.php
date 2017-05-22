@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\View\Categories;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\Categories;
 
 /**
  * Content categories view.
  *
  * @since  1.5
  */
-class ContentViewCategories extends JViewCategories
+class Html extends Categories
 {
 	/**
 	 * Language key for default page heading

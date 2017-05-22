@@ -6,34 +6,38 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\View\Archive;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * HTML View class for the Content component
  *
  * @since  1.5
  */
-class ContentViewArchive extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The model state
 	 *
-	 * @var    JObject
+	 * @var    \JObject
 	 */
 	protected $state = null;
 
 	/**
 	 * An array containing archived articles
 	 *
-	 * @var    stdClass[]
+	 * @var    \stdClass[]
 	 */
 	protected $items = array();
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  JPagination|null
+	 * @var  \JPagination|null
 	 */
 	protected $pagination = null;
 
@@ -48,7 +52,7 @@ class ContentViewArchive extends JViewLegacy
 	/**
 	 * Object containing the year, month and limit field to be displayed
 	 *
-	 * @var    stdClass|null
+	 * @var    \stdClass|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $form = null;
@@ -73,7 +77,7 @@ class ContentViewArchive extends JViewLegacy
 	/**
 	 * The user object
 	 *
-	 * @var    JUser
+	 * @var    \JUser
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $user = null;
@@ -95,7 +99,7 @@ class ContentViewArchive extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
@@ -103,7 +107,7 @@ class ContentViewArchive extends JViewLegacy
 		// Get the page/component configuration
 		$params = &$state->params;
 
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 
 		foreach ($items as $item)
 		{
@@ -116,7 +120,7 @@ class ContentViewArchive extends JViewLegacy
 				$item->parent_slug = null;
 			}
 
-			$item->event = new stdClass;
+			$item->event = new \stdClass;
 
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))
@@ -124,40 +128,40 @@ class ContentViewArchive extends JViewLegacy
 				$item->text = $item->introtext;
 			}
 
-			JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.archive', &$item, &$item->params, 0));
+			\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.archive', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
+			$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
+			$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
-		$form = new stdClass;
+		$form = new \stdClass;
 
 		// Month Field
 		$months = array(
-			'' => JText::_('COM_CONTENT_MONTH'),
-			'01' => JText::_('JANUARY_SHORT'),
-			'02' => JText::_('FEBRUARY_SHORT'),
-			'03' => JText::_('MARCH_SHORT'),
-			'04' => JText::_('APRIL_SHORT'),
-			'05' => JText::_('MAY_SHORT'),
-			'06' => JText::_('JUNE_SHORT'),
-			'07' => JText::_('JULY_SHORT'),
-			'08' => JText::_('AUGUST_SHORT'),
-			'09' => JText::_('SEPTEMBER_SHORT'),
-			'10' => JText::_('OCTOBER_SHORT'),
-			'11' => JText::_('NOVEMBER_SHORT'),
-			'12' => JText::_('DECEMBER_SHORT')
+			'' => \JText::_('COM_CONTENT_MONTH'),
+			'01' => \JText::_('JANUARY_SHORT'),
+			'02' => \JText::_('FEBRUARY_SHORT'),
+			'03' => \JText::_('MARCH_SHORT'),
+			'04' => \JText::_('APRIL_SHORT'),
+			'05' => \JText::_('MAY_SHORT'),
+			'06' => \JText::_('JUNE_SHORT'),
+			'07' => \JText::_('JULY_SHORT'),
+			'08' => \JText::_('AUGUST_SHORT'),
+			'09' => \JText::_('SEPTEMBER_SHORT'),
+			'10' => \JText::_('OCTOBER_SHORT'),
+			'11' => \JText::_('NOVEMBER_SHORT'),
+			'12' => \JText::_('DECEMBER_SHORT')
 		);
-		$form->monthField = JHtml::_(
+		$form->monthField = \JHtml::_(
 			'select.genericlist',
 			$months,
 			'month',
@@ -171,14 +175,14 @@ class ContentViewArchive extends JViewLegacy
 		// Year Field
 		$this->years = $this->getModel()->getYears();
 		$years = array();
-		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
+		$years[] = \JHtml::_('select.option', null, JText::_('JYEAR'));
 
 		for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++)
 		{
-			$years[] = JHtml::_('select.option', $this->years[$i], $this->years[$i]);
+			$years[] = \JHtml::_('select.option', $this->years[$i], $this->years[$i]);
 		}
 
-		$form->yearField = JHtml::_(
+		$form->yearField = \JHtml::_(
 			'select.genericlist',
 			$years,
 			'year',
@@ -210,7 +214,7 @@ class ContentViewArchive extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -224,7 +228,7 @@ class ContentViewArchive extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('JGLOBAL_ARTICLES'));
+			$this->params->def('page_heading', \JText::_('JGLOBAL_ARTICLES'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -235,11 +239,11 @@ class ContentViewArchive extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

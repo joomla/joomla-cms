@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Form;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6.0
  */
-class ContentControllerArticle extends JControllerForm
+class Article extends Form
 {
 	/**
 	 * The URL view item variable.
@@ -69,7 +72,7 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow      = null;
 
@@ -103,7 +106,7 @@ class ContentControllerArticle extends JControllerForm
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
@@ -149,7 +152,7 @@ class ContentControllerArticle extends JControllerForm
 		parent::cancel($key);
 
 		// Redirect to the return page.
-		$this->setRedirect(JRoute::_($this->getReturnPage()));
+		$this->setRedirect(\JRoute::_($this->getReturnPage()));
 	}
 
 	/**
@@ -169,7 +172,7 @@ class ContentControllerArticle extends JControllerForm
 
 		if (!$result)
 		{
-			$this->setRedirect(JRoute::_($this->getReturnPage()));
+			$this->setRedirect(\JRoute::_($this->getReturnPage()));
 		}
 
 		return $result;
@@ -264,9 +267,9 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$return = $this->input->get('return', null, 'base64');
 
-		if (empty($return) || !JUri::isInternal(base64_decode($return)))
+		if (empty($return) || !\JUri::isInternal(base64_decode($return)))
 		{
-			return JUri::base();
+			return \JUri::base();
 		}
 		else
 		{
@@ -287,7 +290,7 @@ class ContentControllerArticle extends JControllerForm
 	public function save($key = null, $urlVar = 'a_id')
 	{
 		$result    = parent::save($key, $urlVar);
-		$app       = JFactory::getApplication();
+		$app       = \JFactory::getApplication();
 		$articleId = $app->input->getInt('a_id');
 
 		// Load the parameters.
@@ -299,7 +302,7 @@ class ContentControllerArticle extends JControllerForm
 		{
 			$lang = '';
 
-			if (JLanguageMultilang::isEnabled())
+			if (Multilanguage::isEnabled())
 			{
 				$item = $app->getMenu()->getItem($menuitem);
 				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
@@ -310,7 +313,7 @@ class ContentControllerArticle extends JControllerForm
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_(base64_decode($return)));
+				$this->setRedirect(\JRoute::_(base64_decode($return)));
 			}
 		}
 		else
@@ -318,7 +321,7 @@ class ContentControllerArticle extends JControllerForm
 			// If ok, redirect to the return page.
 			if ($result)
 			{
-				$this->setRedirect(JRoute::_($this->getReturnPage()));
+				$this->setRedirect(\JRoute::_($this->getReturnPage()));
 			}
 		}
 
@@ -348,11 +351,11 @@ class ContentControllerArticle extends JControllerForm
 
 			if ($model->storeVote($id, $user_rating))
 			{
-				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
+				$this->setRedirect($url, \JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
 			}
 			else
 			{
-				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
+				$this->setRedirect($url, \JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
 			}
 		}
 	}

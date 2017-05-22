@@ -6,9 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Model\Model;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -18,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class ContentModelCategory extends JModelList
+class Category extends ListModel
 {
 	/**
 	 * Category items data
@@ -109,7 +114,7 @@ class ContentModelCategory extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('site');
+		$app = \JFactory::getApplication('site');
 		$pk  = $app->input->getInt('id');
 
 		$this->setState('category.id', $pk);
@@ -130,7 +135,7 @@ class ContentModelCategory extends JModelList
 		$mergedParams->merge($params);
 
 		$this->setState('params', $mergedParams);
-		$user  = JFactory::getUser();
+		$user  = \JFactory::getUser();
 
 		$asset = 'com_content';
 
@@ -208,7 +213,7 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.subcategories', true);
 		}
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		$this->setState('layout', $app->input->getString('layout'));
 
@@ -229,8 +234,8 @@ class ContentModelCategory extends JModelList
 
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
-			$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
-			$model->setState('params', JFactory::getApplication()->getParams());
+			$model = new Articles(array('ignore_request' => true));
+			$model->setState('params', \JFactory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
 			$model->setState('filter.published', $this->getState('filter.published'));
 			$model->setState('filter.access', $this->getState('filter.access'));
@@ -277,7 +282,7 @@ class ContentModelCategory extends JModelList
 	 */
 	protected function _buildContentOrderBy()
 	{
-		$app       = JFactory::getApplication('site');
+		$app       = \JFactory::getApplication('site');
 		$db        = $this->getDbo();
 		$params    = $this->state->params;
 		$itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
@@ -303,8 +308,8 @@ class ContentModelCategory extends JModelList
 		$articleOrderby   = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby  = $params->def('orderby_pri', '');
-		$secondary        = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary          = ContentHelperQuery::orderbyPrimary($categoryOrderby);
+		$secondary        = \ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
+		$primary          = \ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
 		$orderby .= $primary . ' ' . $secondary . ' a.created ';
 
@@ -314,7 +319,7 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Method to get a JPagination object for the data set.
 	 *
-	 * @return  JPagination  A JPagination object for the data set.
+	 * @return  \JPagination  A JPagination object for the data set.
 	 *
 	 * @since   12.2
 	 */
@@ -351,13 +356,13 @@ class ContentModelCategory extends JModelList
 				$options['countItems'] = 0;
 			}
 
-			$categories = JCategories::getInstance('Content', $options);
+			$categories = \JCategories::getInstance('Content', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
 			// Compute selected asset permissions.
 			if (is_object($this->_item))
 			{
-				$user  = JFactory::getUser();
+				$user  = \JFactory::getUser();
 				$asset = 'com_content.category.' . $this->_item->id;
 
 				// Check general create permission.
@@ -478,14 +483,14 @@ class ContentModelCategory extends JModelList
 	 */
 	public function hit($pk = 0)
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
 		{
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
-			$table = JTable::getInstance('Category', 'JTable');
+			$table = Table::getInstance('Category', 'JTable');
 			$table->load($pk);
 			$table->hit($pk);
 		}

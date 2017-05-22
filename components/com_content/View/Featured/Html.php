@@ -6,55 +6,59 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\View\Featured;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Frontpage View class
  *
  * @since  1.5
  */
-class ContentViewFeatured extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state = null;
 
 	/**
 	 * The featured articles array
 	 *
-	 * @var  stdClass[]
+	 * @var  \stdClass[]
 	 */
 	protected $items = null;
 
 	/**
 	 * The pagination object.
 	 *
-	 * @var  JPagination
+	 * @var  \JPagination
 	 */
 	protected $pagination = null;
 
 	/**
 	 * The featured articles to be displayed as lead items.
 	 *
-	 * @var  stdClass[]
+	 * @var  \stdClass[]
 	 */
 	protected $lead_items = array();
 
 	/**
 	 * The featured articles to be displayed as intro items.
 	 *
-	 * @var  stdClass[]
+	 * @var  \stdClass[]
 	 */
 	protected $intro_items = array();
 
 	/**
 	 * The featured articles to be displayed as link items.
 	 *
-	 * @var  stdClass[]
+	 * @var  \stdClass[]
 	 */
 	protected $link_items = array();
 
@@ -68,7 +72,7 @@ class ContentViewFeatured extends JViewLegacy
 	/**
 	 * An instance of JDatabaseDriver.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  3.6.3
 	 */
 	 protected $db;
@@ -76,7 +80,7 @@ class ContentViewFeatured extends JViewLegacy
 	/**
 	 * The user object
 	 *
-	 * @var  JUser|null
+	 * @var  \JUser|null
 	 */
 	protected $user = null;
 
@@ -105,7 +109,7 @@ class ContentViewFeatured extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
@@ -114,7 +118,7 @@ class ContentViewFeatured extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		/** @var \Joomla\Registry\Registry $params */
@@ -126,7 +130,7 @@ class ContentViewFeatured extends JViewLegacy
 		$numLeading = (int) $params->def('num_leading_articles', 1);
 		$numIntro   = (int) $params->def('num_intro_articles', 4);
 
-		JPluginHelper::importPlugin('content');
+		PluginHelper::importPlugin('content');
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($items as &$item)
@@ -141,7 +145,7 @@ class ContentViewFeatured extends JViewLegacy
 				$item->parent_slug = null;
 			}
 
-			$item->event = new stdClass;
+			$item->event = new \stdClass;
 
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))
@@ -149,18 +153,18 @@ class ContentViewFeatured extends JViewLegacy
 				$item->text = $item->introtext;
 			}
 
-			JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.featured', &$item, &$item->params, 0));
+			\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.featured', &$item, &$item->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
 
-			$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.featured', &$item, &$item->params, 0));
+			$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.featured', &$item, &$item->params, 0));
+			$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
+			$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
@@ -191,7 +195,7 @@ class ContentViewFeatured extends JViewLegacy
 		if ($order == 0 && $this->columns > 1)
 		{
 			// Call order down helper
-			$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
+			$this->intro_items = \ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
 		}
 
 		// The remainder are the links.
@@ -207,7 +211,7 @@ class ContentViewFeatured extends JViewLegacy
 		$this->items      = &$items;
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
-		$this->db         = JFactory::getDbo();
+		$this->db         = \JFactory::getDbo();
 
 		$this->_prepareDocument();
 
@@ -221,7 +225,7 @@ class ContentViewFeatured extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
+		$app   = \JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -235,7 +239,7 @@ class ContentViewFeatured extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('JGLOBAL_ARTICLES'));
+			$this->params->def('page_heading', \JText::_('JGLOBAL_ARTICLES'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -246,11 +250,11 @@ class ContentViewFeatured extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -275,9 +279,9 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(\JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(\JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

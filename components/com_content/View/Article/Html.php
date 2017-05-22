@@ -6,20 +6,26 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\View\Article;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * HTML Article View class for the Content component
  *
  * @since  1.5
  */
-class ContentViewArticle extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
 	 * The article object
 	 *
-	 * @var  stdClass
+	 * @var  \stdClass
 	 */
 	protected $item;
 
@@ -41,14 +47,14 @@ class ContentViewArticle extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 */
 	protected $state;
 
 	/**
 	 * The user object
 	 *
-	 * @var  JUser|null
+	 * @var  \JUser|null
 	 */
 	protected $user = null;
 
@@ -69,8 +75,8 @@ class ContentViewArticle extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app        = JFactory::getApplication();
-		$user       = JFactory::getUser();
+		$app        = \JFactory::getApplication();
+		$user       = \JFactory::getUser();
 
 		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print', false);
@@ -80,12 +86,12 @@ class ContentViewArticle extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Create a shortcut for $item.
 		$item            = $this->item;
-		$item->tagLayout = new JLayoutFile('joomla.content.tags');
+		$item->tagLayout = new FileLayout('joomla.content.tags');
 
 		// Add router helpers.
 		$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
@@ -99,7 +105,7 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		// TODO: Change based on shownoauth
-		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+		$item->readmore_link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
@@ -164,7 +170,7 @@ class ContentViewArticle extends JViewLegacy
 		// Check the view access to the article (the model has already computed the values).
 		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
 		{
-			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$app->setHeader('status', 403, true);
 
 			return;
@@ -179,14 +185,14 @@ class ContentViewArticle extends JViewLegacy
 		{
 			if ($this->user->get('guest'))
 			{
-				$return = base64_encode(JUri::getInstance());
-				$login_url_with_return = JRoute::_('index.php?option=com_users&return=' . $return);
-				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
+				$return = base64_encode(\JUri::getInstance());
+				$login_url_with_return = \JRoute::_('index.php?option=com_users&return=' . $return);
+				$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->setHeader('status', 403, true);
 				return;
 			}
@@ -207,27 +213,27 @@ class ContentViewArticle extends JViewLegacy
 			$item->text = $item->introtext;
 		}
 
-		$item->tags = new JHelperTags;
+		$item->tags = new TagsHelper;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
 		if ($item->params->get('show_associations'))
 		{
-			$item->associations = ContentHelperAssociation::displayAssociations($item->id);
+			$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
 		}
 
 		// Process the content plugins.
 
-		JPluginHelper::importPlugin('content');
-		JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
+		PluginHelper::importPlugin('content');
+		\JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
 
-		$item->event = new stdClass;
-		$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
+		$item->event = new \stdClass;
+		$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
+		$results = \JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
+		$results = \JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Escape strings for HTML output
@@ -245,7 +251,7 @@ class ContentViewArticle extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = JFactory::getApplication();
+		$app     = \JFactory::getApplication();
 		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
 		$title   = null;
@@ -260,7 +266,7 @@ class ContentViewArticle extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('JGLOBAL_ARTICLES'));
+			$this->params->def('page_heading', \JText::_('JGLOBAL_ARTICLES'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -274,11 +280,11 @@ class ContentViewArticle extends JViewLegacy
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
 
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
-			$category = JCategories::getInstance('Content')->get($this->item->catid);
+			$category = \JCategories::getInstance('Content')->get($this->item->catid);
 
 			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[]   = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
+				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
 
@@ -297,11 +303,11 @@ class ContentViewArticle extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
@@ -355,7 +361,7 @@ class ContentViewArticle extends JViewLegacy
 		{
 			$this->item->title = $this->item->title . ' - ' . $this->item->page_title;
 			$this->document->setTitle(
-				$this->item->page_title . ' - ' . JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
+				$this->item->page_title . ' - ' . \JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
 			);
 		}
 
