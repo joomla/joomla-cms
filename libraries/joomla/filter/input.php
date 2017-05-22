@@ -1103,7 +1103,7 @@ class JFilterInput extends InputFilter
 				// We have a closing quote, convert its byte position to a UTF-8 string length, using non-multibyte substr()
 				$stringBeforeQuote = substr($attributeValueRemainder, 0, $matches[0][1]);
 				$closeQuoteChars = StringHelper::strlen($stringBeforeQuote);
-				$nextAfter = $nextBefore + $matches[0][1];
+				$nextAfter = $nextBefore + $closeQuoteChars;
 			}
 			else
 			{
