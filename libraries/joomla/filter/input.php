@@ -60,7 +60,7 @@ class JFilterInput extends InputFilter
 		 * If Unicode Supplementary Characters stripping is not set we have to check with the database driver. If the
 		 * driver does not support USCs (i.e. there is no utf8mb4 support) we will enable USC stripping.
 		 */
-		if ($this->stripUSC == -1)
+		if ($this->stripUSC === -1)
 		{
 			try
 			{
@@ -617,7 +617,8 @@ class JFilterInput extends InputFilter
 				}
 
 				// 3. File contents scanner (PHP tag in file contents)
-				if ($options['php_tag_in_content'] || $options['shorttag_in_content']
+				if ($options['php_tag_in_content']
+					|| $options['shorttag_in_content']
 					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
 					$fp = @fopen($tempName, 'r');
@@ -789,7 +790,7 @@ class JFilterInput extends InputFilter
 			$temp = $source;
 			$source = $this->_cleanTags($source);
 		}
-		while ($temp != $source);
+		while ($temp !== $source);
 
 		return $source;
 	}
@@ -880,7 +881,7 @@ class JFilterInput extends InputFilter
 			$currentSpace = StringHelper::strpos($tagLeft, ' ');
 
 			// Are we an open tag or a close tag?
-			if (StringHelper::substr($currentTag, 0, 1) == '/')
+			if (StringHelper::substr($currentTag, 0, 1) === '/')
 			{
 				// Close Tag
 				$isCloseTag = true;
@@ -899,7 +900,9 @@ class JFilterInput extends InputFilter
 			 * OR no tagname
 			 * OR remove if xssauto is on and tag is blacklisted
 			 */
-			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
+			if (!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)
+				|| (!$tagName)
+				|| ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
 			{
 				$postTag = StringHelper::substr($postTag, ($tagLength + 2));
 				$tagOpen_start = StringHelper::strpos($postTag, '<');
@@ -939,7 +942,7 @@ class JFilterInput extends InputFilter
 				}
 
 				// Do we have an attribute to process? [check for equal sign]
-				if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
+				if ($fromSpace !== '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
 				{
 					if (!$nextEqual)
 					{
@@ -976,14 +979,14 @@ class JFilterInput extends InputFilter
 				// No more equal signs so add any extra text in the tag into the attribute array [eg. checked]
 				else
 				{
-					if ($fromSpace != '/')
+					if ($fromSpace !== '/')
 					{
 						$attr = StringHelper::substr($fromSpace, 0, $nextSpace);
 					}
 				}
 
 				// Last Attribute Pair
-				if (!$attr && $fromSpace != '/')
+				if (!$attr && $fromSpace !== '/')
 				{
 					$attr = $fromSpace;
 				}
@@ -1037,7 +1040,7 @@ class JFilterInput extends InputFilter
 		}
 
 		// Append any code after the end of tags and return
-		if ($postTag != '<')
+		if ($postTag !== '<')
 		{
 			$preTag .= $postTag;
 		}
