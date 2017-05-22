@@ -214,4 +214,21 @@ class Form extends \Joomla\Component\Content\Administrator\Model\Article
 
 		return parent::preprocessForm($form, $data, $group);
 	}
+
+	/**
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return  Table  A Table object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function getTable($name = 'Article', $prefix = 'Administrator', $options = array())
+	{
+		return parent::getTable($name, $prefix, $options);
+	}
 }
