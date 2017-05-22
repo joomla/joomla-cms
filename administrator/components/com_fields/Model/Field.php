@@ -909,9 +909,9 @@ class Field extends Admin
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm   $form   A JForm object.
-	 * @param   mixed    $data   The data expected for the form.
-	 * @param   string   $group  The name of the plugin group to import (defaults to "content").
+	 * @param   \JForm  $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *

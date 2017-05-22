@@ -112,7 +112,7 @@ class Field extends Table
 		$this->name = str_replace(',', '-', $this->name);
 
 		// Verify that the name is unique
-		$table = new Field( $this->_db);
+		$table = new Field($this->_db);
 
 		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
 		{
@@ -198,7 +198,7 @@ class Field extends Table
 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
-	 * @param   Table   $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A JTable object for the asset parent.
 	 * @param   integer  $id     Id to look up
 	 *
 	 * @return  integer
