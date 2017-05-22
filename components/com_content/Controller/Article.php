@@ -189,7 +189,7 @@ class Article extends Form
 	 *
 	 * @since   1.5
 	 */
-	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
+	public function getModel($name = 'Form', $prefix = 'Site', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
