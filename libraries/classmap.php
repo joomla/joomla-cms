@@ -9,6 +9,8 @@
 // No direct access.
 defined('_JEXEC') or die;
 
+require_once __DIR__ . '/extensions.classmap.php';
+
 JLoader::registerAlias('JRegistry',                         '\\Joomla\\Registry\\Registry', '4.0');
 JLoader::registerAlias('JRegistryFormat',                   '\\Joomla\\Registry\\AbstractRegistryFormat', '4.0');
 JLoader::registerAlias('JRegistryFormatIni',                '\\Joomla\\Registry\\Format\\Ini', '4.0');
