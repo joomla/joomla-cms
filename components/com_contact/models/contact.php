@@ -294,7 +294,8 @@ class ContactModelContact extends JModelForm
 				->select('a.access')
 				->select('a.catid')
 				->select('a.created')
-				->select('a.language');
+				->select('a.language')
+				->select('a.publish_up');
 
 			// SQL Server changes
 			$case_when = ' CASE WHEN ';
@@ -316,7 +317,7 @@ class ContactModelContact extends JModelForm
 				->join('LEFT', '#__categories as c on a.catid=c.id')
 				->where('a.created_by = ' . (int) $contact->user_id)
 				->where('a.access IN (' . $groups . ')')
-				->order('a.state DESC, a.created DESC');
+				->order('a.publish_up DESC');
 
 			// Filter per language if plugin published
 			if (JLanguageMultilang::isEnabled())
@@ -476,7 +477,8 @@ class ContactModelContact extends JModelForm
 						->select('a.access')
 						->select('a.catid')
 						->select('a.created')
-						->select('a.language');
+						->select('a.language')
+						->select('a.publish_up');
 
 					// SQL Server changes
 					$case_when = ' CASE WHEN ';
@@ -498,7 +500,7 @@ class ContactModelContact extends JModelForm
 						->join('LEFT', '#__categories as c on a.catid=c.id')
 						->where('a.created_by = ' . (int) $result->user_id)
 						->where('a.access IN (' . $groups . ')')
-						->order('a.state DESC, a.created DESC');
+						->order('a.publish_up DESC');
 
 					// Filter per language if plugin published
 					if (JLanguageMultilang::isEnabled())
