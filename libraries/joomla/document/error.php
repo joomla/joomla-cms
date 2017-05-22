@@ -221,10 +221,6 @@ class JDocumentError extends JDocument
 			return;
 		}
 
-		// The back trace
-		$backtrace = $this->_error->getTrace();
-		// Add the position of the actual file
-		array_unshift($backtrace, array('file' => $this->_error->getFile(), 'line' => $this->_error->getLine(), 'function' => ''));
-		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $this->_error->getTrace()));
 	}
 }
