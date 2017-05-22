@@ -135,7 +135,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 
 		// Make sure there is an menu item ID, check it is the home menu, and the user can actually access this menu item,
 		// otherwise it can end up in a redirect loop.
-		if (!empty($default->id) && $active->home !== 1 && in_array($default->access, $levels))
+		if (!empty($default->id) && ($active && $active->home !== 1 && in_array($default->access, $levels)))
 		{
 			$query['Itemid'] = $default->id;
 		}
