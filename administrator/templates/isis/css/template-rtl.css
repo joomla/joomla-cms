@@ -1966,6 +1966,18 @@ table th[class*="span"],
 	background-color: #F0F0F0;
 	border-bottom: 1px solid #fff;
 }
+.dropdown-menu .menuitem-group {
+	height: 1px;
+	margin: 4px 1px;
+	overflow: hidden;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	background-color: #eee;
+	color: #555;
+	text-transform: capitalize;
+	font-size: 95%;
+	padding: 2px 0 24px;
+}
 .dropdown-menu > li > a {
 	display: block;
 	padding: 3px 20px;
@@ -7028,8 +7040,7 @@ h6 {
 	border-radius: 0 0 3px 3px;
 }
 .control-group .chzn-container {
-	width: 100% !important;
-	max-width: 220px;
+	max-width: 100%;
 }
 .control-group .chzn-container .chzn-choices li.search-field,
 .control-group .chzn-container .chzn-choices li.search-field input {
@@ -7187,9 +7198,6 @@ h6 {
 	margin: 1px 0;
 	padding: 0 !important;
 }
-#jform_tags_chzn.chzn-container {
-	max-width: 440px;
-}
 .chzn-color.chzn-single[rel="value_1"],
 .chzn-color-reverse.chzn-single[rel="value_0"],
 .chzn-color-state.chzn-single[rel="value_1"],
@@ -7281,7 +7289,6 @@ h6 {
 	max-height: 800px;
 }
 .form-horizontal .control-label {
-	width: auto;
 	padding-right: 5px;
 	text-align: left;
 }
@@ -7292,6 +7299,9 @@ h6 {
 	.form-horizontal .control-label .spacer hr {
 		width: 220px;
 	}
+}
+.form-horizontal .field-spacer>.control-label {
+	width: auto;
 }
 .form-horizontal #jform_catid_chzn {
 	vertical-align: middle;
@@ -7355,19 +7365,36 @@ h6 {
 .form-inline-header .controls {
 	padding-right: 20px;
 }
+fieldset[class^="form-"] {
+	min-width: 100%;
+}
+@-moz-document url-prefix() {
+	fieldset[class^="form-"] {
+		display: table-cell;
+	}
+}
 fieldset.checkboxes input {
 	float: left;
 }
 fieldset.checkboxes li {
 	list-style: none;
 }
+.control-group,
+.controls,
+.controls input[type="text"],
+.controls input[type="number"],
+.controls input[type="email"],
+.controls select,
+.controls textarea {
+	max-width: 100%;
+}
 .controls .btn-group > .btn {
 	min-width: 50px;
 	margin-left: -1px;
 }
 .controls .btn-group.btn-group-yesno {
-	width: 100%;
-	max-width: 220px;
+	width: 220px;
+	max-width: 100%;
 }
 .controls .btn-group.btn-group-yesno > .btn {
 	width: 50%;
@@ -8537,7 +8564,7 @@ td.nowrap.has-context {
 	padding: 0 10px;
 }
 #toolbar .btn-success {
-	width: 148px;
+	min-width: 148px;
 }
 #toolbar .btn-primary [class^="icon-"],
 #toolbar .btn-primary [class*=" icon-"],

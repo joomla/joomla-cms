@@ -57,12 +57,12 @@
 				label="TPL_ISIS_COLOR_HEADER_LABEL"
 				description="TPL_ISIS_COLOR_HEADER_DESC" />
 
-				<field name="sidebarColor" class="" type="color" default="#0088CC"
+				<field name="sidebarColor" class="" type="color" default="#3071a9"
 				validate="color"
 				label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
 				description="TPL_ISIS_COLOR_SIDEBAR_DESC" />
 
-				<field name="linkColor" class="" type="color" default="#0088CC"
+				<field name="linkColor" class="" type="color" default="#3071a9"
 				validate="color"
 				label="TPL_ISIS_COLOR_LINK_LABEL"
 				description="TPL_ISIS_COLOR_LINK_DESC" />

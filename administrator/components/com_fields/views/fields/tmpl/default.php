@@ -20,7 +20,7 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');
-$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
@@ -139,9 +139,9 @@ if ($saveOrder)
 									<?php endif; ?>
 									<span class="small break-word">
 										<?php if (empty($item->note)) : ?>
-											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+											<?php echo JText::sprintf('JGLOBAL_LIST_NAME', $this->escape($item->name)); ?>
 										<?php else : ?>
-											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+											<?php echo JText::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
 										<?php endif; ?>
 									</span>
 									<div class="small">

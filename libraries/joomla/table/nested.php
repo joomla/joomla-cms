@@ -344,7 +344,7 @@ class JTableNested extends JTable
 		{
 			$this->setError(
 				new UnexpectedValueException(
-					sprintf('%1%ss::moveByReference() is trying to make record ID %2$d a child of itself.', get_class($this), $pk)
+					sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', get_class($this), $pk)
 				)
 			);
 
