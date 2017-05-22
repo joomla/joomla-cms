@@ -136,9 +136,15 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @since   11.1
 	 */
-	public function gc($lifetime = 1440)
+	public function gc($lifetime)
 	{
-		// Get the database connection object and verify its connected.
+		// Ensure a max lifetime value is set.
+		if (!$lifetime)
+		{
+			$lifetime = ini_get("session.gc_maxlifetime");
+		}
+
+		// Get the database connection object and verify it's connected.
 		$db = JFactory::getDbo();
 
 		// Determine the timestamp threshold with which to purge old sessions.
