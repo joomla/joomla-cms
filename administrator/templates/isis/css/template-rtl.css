@@ -7289,7 +7289,6 @@ h6 {
 	max-height: 800px;
 }
 .form-horizontal .control-label {
-	width: auto;
 	padding-right: 5px;
 	text-align: left;
 }
@@ -7300,6 +7299,9 @@ h6 {
 	.form-horizontal .control-label .spacer hr {
 		width: 220px;
 	}
+}
+.form-horizontal .field-spacer>.control-label {
+	width: auto;
 }
 .form-horizontal #jform_catid_chzn {
 	vertical-align: middle;
