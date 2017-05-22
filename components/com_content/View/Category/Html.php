@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\View\Category;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\View\Category;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class ContentViewCategory extends JViewCategory
+class Html extends Category
 {
 	/**
 	 * @var    array  Array of leading items for blog display
@@ -77,11 +80,11 @@ class ContentViewCategory extends JViewCategory
 		$numLeading = $params->def('num_leading_articles', 1);
 		$numIntro   = $params->def('num_intro_articles', 4);
 		$numLinks   = $params->def('num_links', 4);
-		$this->vote = JPluginHelper::isEnabled('content', 'vote');
+		$this->vote = PluginHelper::isEnabled('content', 'vote');
 
-		JPluginHelper::importPlugin('content');
-		
-		$app     = JFactory::getApplication();
+		PluginHelper::importPlugin('content');
+
+		$app     = \JFactory::getApplication();
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
@@ -97,7 +100,7 @@ class ContentViewCategory extends JViewCategory
 			}
 
 			$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->event   = new stdClass;
+			$item->event   = new \stdClass;
 
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))
@@ -121,7 +124,7 @@ class ContentViewCategory extends JViewCategory
 		}
 
 		// Check for layout override only if this is not the active menu item
-		// If it is the active menu item, then the view and category id will match		
+		// If it is the active menu item, then the view and category id will match
 		$active  = $app->getMenu()->getActive();
 		$menus   = $app->getMenu();
 		$title   = null;
@@ -174,7 +177,7 @@ class ContentViewCategory extends JViewCategory
 			if ($order == 0 && $this->columns > 1)
 			{
 				// Call order down helper
-				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
+				$this->intro_items = \ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
 			}
 		}
 
@@ -196,11 +199,11 @@ class ContentViewCategory extends JViewCategory
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		if (empty($title))
@@ -274,7 +277,7 @@ class ContentViewCategory extends JViewCategory
 
 			while (($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
+				$path[] = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
 

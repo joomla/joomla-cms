@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Controller;
+
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 defined('_JEXEC') or die;
 
@@ -14,7 +17,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.5
  */
-class ContentController extends JControllerLegacy
+class Controller extends \Joomla\CMS\Controller\Controller
 {
 	/**
 	 * Constructor.
@@ -22,12 +25,15 @@ class ContentController extends JControllerLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
 	 * @since   12.2
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		$this->input = JFactory::getApplication()->input;
+		$this->input = \JFactory::getApplication()->input;
 
 		// Article frontpage Editor pagebreak proxying:
 		if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak')
@@ -37,11 +43,11 @@ class ContentController extends JControllerLegacy
 		// Article frontpage Editor article proxying:
 		elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
 		{
-			JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
+			\JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 	}
 
 	/**
@@ -50,7 +56,7 @@ class ContentController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JControllerLegacy  This object to support chaining.
+	 * @return  \Joomla\CMS\Controller\Controller  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
@@ -67,7 +73,7 @@ class ContentController extends JControllerLegacy
 		$vName = $this->input->getCmd('view', 'categories');
 		$this->input->set('view', $vName);
 
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ($user->get('id')
 			|| ($this->input->getMethod() === 'POST'
@@ -98,7 +104,7 @@ class ContentController extends JControllerLegacy
 		if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			return \JError::raiseError(403, \JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}
 
 		if ($vName === 'article')

@@ -6,9 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Model\Item;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class ContentModelArticle extends JModelItem
+class Article extends Item
 {
 	/**
 	 * Model context string.
@@ -36,7 +40,7 @@ class ContentModelArticle extends JModelItem
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('site');
+		$app = \JFactory::getApplication('site');
 
 		// Load state from the request.
 		$pk = $app->input->getInt('id');
@@ -50,7 +54,7 @@ class ContentModelArticle extends JModelItem
 		$this->setState('params', $params);
 
 		// TODO: Tune these values based on other permissions.
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
@@ -58,7 +62,7 @@ class ContentModelArticle extends JModelItem
 			$this->setState('filter.archived', 2);
 		}
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', Multilanguage::isEnabled());
 	}
 
 	/**
@@ -66,11 +70,11 @@ class ContentModelArticle extends JModelItem
 	 *
 	 * @param   integer  $pk  The id of the article.
 	 *
-	 * @return  object|boolean|JException  Menu item data object on success, boolean false or JException instance on error
+	 * @return  object|boolean|\JException  Menu item data object on success, boolean false or JException instance on error
 	 */
 	public function getItem($pk = null)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
@@ -111,7 +115,7 @@ class ContentModelArticle extends JModelItem
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+					$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
 				// Join over the categories to get parent category titles
@@ -126,7 +130,7 @@ class ContentModelArticle extends JModelItem
 				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
-					$date = JFactory::getDate();
+					$date = \JFactory::getDate();
 
 					$nowDate = $db->quote($date->toSql());
 
@@ -149,13 +153,13 @@ class ContentModelArticle extends JModelItem
 
 				if (empty($data))
 				{
-					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					return \JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Check for published state if filter set.
 				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
 				{
-					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					return \JError::raiseError(404, \JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
@@ -198,7 +202,7 @@ class ContentModelArticle extends JModelItem
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user = JFactory::getUser();
+					$user = \JFactory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 
 					if ($data->catid == 0 || $data->category_access === null)
@@ -213,12 +217,12 @@ class ContentModelArticle extends JModelItem
 
 				$this->_item[$pk] = $data;
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				if ($e->getCode() == 404)
 				{
 					// Need to go through the error handler to allow Redirect to work.
-					JError::raiseError(404, $e->getMessage());
+					\JError::raiseError(404, $e->getMessage());
 				}
 				else
 				{
@@ -240,14 +244,14 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function hit($pk = 0)
 	{
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
 		{
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
-			$table = JTable::getInstance('Content', 'JTable');
+			$table = Table::getInstance('Content', 'JTable');
 			$table->load($pk);
 			$table->hit($pk);
 		}
@@ -286,9 +290,9 @@ class ContentModelArticle extends JModelItem
 			{
 				$rating = $db->loadObject();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
-				JError::raiseWarning(500, $e->getMessage());
+				\JError::raiseWarning(500, $e->getMessage());
 
 				return false;
 			}
@@ -310,9 +314,9 @@ class ContentModelArticle extends JModelItem
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
-					JError::raiseWarning(500, $e->getMessage());
+					\JError::raiseWarning(500, $e->getMessage());
 
 					return false;
 				}
@@ -337,9 +341,9 @@ class ContentModelArticle extends JModelItem
 					{
 						$db->execute();
 					}
-					catch (RuntimeException $e)
+					catch (\RuntimeException $e)
 					{
-						JError::raiseWarning(500, $e->getMessage());
+						\JError::raiseWarning(500, $e->getMessage());
 
 						return false;
 					}
@@ -353,7 +357,7 @@ class ContentModelArticle extends JModelItem
 			return true;
 		}
 
-		JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+		\JError::raiseWarning('SOME_ERROR_CODE', \JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
 
 		return false;
 	}

@@ -6,9 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -18,14 +23,14 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ContentModelArticles extends JModelList
+class Articles extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     \JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -76,7 +81,7 @@ class ContentModelArticles extends JModelList
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// List state information
 		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
@@ -108,7 +113,7 @@ class ContentModelArticles extends JModelList
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
@@ -116,7 +121,7 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.published', 1);
 		}
 
-		$this->setState('filter.language', JLanguageMultilang::isEnabled());
+		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Process show_noauth parameter
 		if (!$params->get('show_noauth'))
@@ -170,14 +175,14 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Get the master query for retrieving a list of articles subject to the model state.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
 		// Get the current user for authorisation checks
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -241,7 +246,7 @@ class ContentModelArticles extends JModelList
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
-		if (JPluginHelper::isEnabled('content', 'vote'))
+		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
@@ -431,7 +436,7 @@ class ContentModelArticles extends JModelList
 
 		// Define null and now dates
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(JFactory::getDate()->toSql());
+		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
 
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
@@ -500,7 +505,7 @@ class ContentModelArticles extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Filter by a single tag.
@@ -525,7 +530,7 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * Overriden to inject convert the attribs field into a JParameter object.
+	 * Overriden to inject convert the attribs field into a \JParameter object.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
@@ -534,14 +539,14 @@ class ContentModelArticles extends JModelList
 	public function getItems()
 	{
 		$items = parent::getItems();
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 		$userId = $user->get('id');
 		$guest = $user->get('guest');
 		$groups = $user->getAuthorisedViewLevels();
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		// Get the global params
-		$globalParams = JComponentHelper::getParams('com_content', true);
+		$globalParams = ComponentHelper::getParams('com_content', true);
 
 		// Convert the parameter fields into objects.
 		foreach ($items as &$item)
@@ -658,13 +663,13 @@ class ContentModelArticles extends JModelList
 			// Get the tags
 			if ($item->params->get('show_tags'))
 			{
-				$item->tags = new JHelperTags;
+				$item->tags = new \JHelperTags;
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
 			if ($item->params->get('show_associations'))
 			{
-				$item->associations = ContentHelperAssociation::displayAssociations($item->id);
+				$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
 			}
 		}
 

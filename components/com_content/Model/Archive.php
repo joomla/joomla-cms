@@ -6,17 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
-JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
+use Joomla\Component\Content\Administrator\Model\Articles;
 
 /**
  * Content Component Archive Model
  *
  * @since  1.5
  */
-class ContentModelArchive extends ContentModelArticles
+class Archive extends Articles
 {
 	/**
 	 * Model context string.
@@ -41,7 +42,7 @@ class ContentModelArchive extends ContentModelArticles
 	{
 		parent::populateState();
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Add archive properties
 		$params = $this->state->params;
@@ -66,7 +67,7 @@ class ContentModelArchive extends ContentModelArticles
 		$articleOrderDate = $params->get('order_date');
 
 		// No category ordering
-		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
+		$secondary = \ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
 
 		$this->setState('list.ordering', $secondary . ', a.created DESC');
 		$this->setState('list.direction', '');
@@ -75,7 +76,7 @@ class ContentModelArchive extends ContentModelArticles
 	/**
 	 * Get the master query for retrieving a list of articles subject to the model state.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -93,7 +94,7 @@ class ContentModelArchive extends ContentModelArticles
 
 		// Filter on month, year
 		// First, get the date field
-		$queryDate = ContentHelperQuery::getQueryDate($articleOrderDate);
+		$queryDate = \ContentHelperQuery::getQueryDate($articleOrderDate);
 
 		if ($month = $this->getState('filter.month'))
 		{
@@ -116,7 +117,7 @@ class ContentModelArchive extends ContentModelArticles
 	 */
 	public function getData()
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -137,7 +138,7 @@ class ContentModelArchive extends ContentModelArticles
 	}
 
 	/**
-	 * JModelLegacy override to add alternating value for $odd
+	 * Model override to add alternating value for $odd
 	 *
 	 * @param   string   $query       The query.
 	 * @param   integer  $limitstart  Offset.
@@ -146,7 +147,7 @@ class ContentModelArchive extends ContentModelArticles
 	 * @return  array  An array of results.
 	 *
 	 * @since   12.2
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
@@ -167,14 +168,14 @@ class ContentModelArchive extends ContentModelArticles
 	 * Gets the archived articles years
 	 *
 	 * @return   array
-	 * 
+	 *
 	 * @since    3.6.0
 	 */
 	public function getYears()
 	{
 		$db = $this->getDbo();
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(JFactory::getDate()->toSql());
+		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
 		$years = $query->year($db->qn('created'));
@@ -192,9 +193,9 @@ class ContentModelArchive extends ContentModelArticles
 	/**
 	* Generate column expression for slug or catslug.
 	*
-	* @param   JDatabaseQuery  $query  Current query instance.
-	* @param   string          $id     Column id name.
-	* @param   string          $alias  Column alias name.
+	* @param   \JDatabaseQuery  $query  Current query instance.
+	* @param   string           $id     Column id name.
+	* @param   string           $alias  Column alias name.
 	*
 	* @return  string
 	*

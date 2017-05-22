@@ -6,17 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
-
-JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * Frontpage Component Model
  *
  * @since  1.5
  */
-class ContentModelFeatured extends ContentModelArticles
+class Featured extends Articles
 {
 	/**
 	 * Model context string.
@@ -41,8 +40,8 @@ class ContentModelFeatured extends ContentModelArticles
 	{
 		parent::populateState($ordering, $direction);
 
-		$input = JFactory::getApplication()->input;
-		$user  = JFactory::getUser();
+		$input = \JFactory::getApplication()->input;
+		$user  = \JFactory::getUser();
 
 		// List state information
 		$limitstart = $input->getUInt('limitstart', 0);
@@ -76,8 +75,8 @@ class ContentModelFeatured extends ContentModelArticles
 		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby  = $params->def('orderby_pri', '');
 
-		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
-		$primary   = ContentHelperQuery::orderbyPrimary($categoryOrderby);
+		$secondary = \ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
+		$primary   = \ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
 		$this->setState('list.ordering', $primary . $secondary . ', a.created DESC');
 		$this->setState('list.direction', '');
@@ -125,7 +124,7 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Get the list of items.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  \JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

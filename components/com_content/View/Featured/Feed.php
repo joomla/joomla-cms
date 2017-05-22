@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\View\Featured;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\View\AbstractView;
 
 /**
  * Frontpage View class
  *
  * @since  1.5
  */
-class ContentViewFeatured extends JViewLegacy
+class Feed extends AbstractView
 {
 	/**
 	 * Execute and display a template script.
@@ -26,16 +29,16 @@ class ContentViewFeatured extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Parameters
-		$app       = JFactory::getApplication();
-		$doc       = JFactory::getDocument();
+		$app       = \JFactory::getApplication();
+		$doc       = \JFactory::getDocument();
 		$params    = $app->getParams();
 		$feedEmail = $app->get('feed_email', 'none');
 		$siteEmail = $app->get('mailfrom');
-		$doc->link = JRoute::_('index.php?option=com_content&view=featured');
+		$doc->link = \JRoute::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
 		$app->input->set('limit', $app->get('feed_limit'));
-		$categories = JCategories::getInstance('Content');
+		$categories = \JCategories::getInstance('Content');
 		$rows       = $this->get('Items');
 
 		foreach ($rows as $row)
@@ -48,10 +51,10 @@ class ContentViewFeatured extends JViewLegacy
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// URL link to article
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
+			$link = \JRoute::_(\ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 
 			// Get row fulltext
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('fulltext'))
 				->from($db->quoteName('#__content'))
@@ -73,14 +76,14 @@ class ContentViewFeatured extends JViewLegacy
 			$author      = $row->created_by_alias ?: $row->author;
 
 			// Load individual item creator class
-			$item           = new JFeedItem;
+			$item           = new \JFeedItem;
 			$item->title    = $title;
 			$item->link     = $link;
 			$item->date     = $row->publish_up;
 			$item->category = array();
 
 			// All featured articles are categorized as "Featured"
-			$item->category[] = JText::_('JFEATURED');
+			$item->category[] = \JText::_('JFEATURED');
 
 			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())
 			{
@@ -105,7 +108,7 @@ class ContentViewFeatured extends JViewLegacy
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
 			{
-				$description .= '<p class="feed-readmore"><a target="_blank" href ="' . $item->link . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+				$description .= '<p class="feed-readmore"><a target="_blank" href ="' . $item->link . '">' . \JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 			}
 
 			// Load item description and add div
