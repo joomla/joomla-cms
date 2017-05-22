@@ -4,7 +4,7 @@
 -- Enlarge some database columns to avoid data losses, then convert all tables
 -- to utf8mb4 or utf8, then set default character sets and collations for all
 -- tables, then add back indexes previosly dropped with step 1,
--- utf8mb4-conversion-01.sql, but addd them back with limited lenghts of
+-- utf8mb4-conversion-01.sql, but add them back with limited lenghts of
 -- columns.
 --
 -- Do not rename this file or any other of the utf8mb4-conversion-*.sql

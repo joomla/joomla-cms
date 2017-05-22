@@ -184,7 +184,6 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @return  mixed   version if successful, false if fail.
 	 */
-
 	public function getUpdateVersion()
 	{
 		$table = JTable::getInstance('Extension');

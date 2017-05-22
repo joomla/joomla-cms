@@ -330,7 +330,7 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
+	 * @see     \PHPUnit\Framework\TestCase::setUp()
 	 * @since   12.3
 	 */
 	protected function setUp()
@@ -345,7 +345,7 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   12.3
 	 */
 	protected function tearDown()

@@ -35,7 +35,7 @@ JHtml::_('bootstrap.tooltip');
 				</div>
 				<div class="span4">
 					<div class="small pull-right hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JGLOBAL_FIELD_CREATED_LABEL'); ?>">
-						<span class="icon-calendar"></span> <?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
+						<span class="icon-calendar" aria-hidden="true"></span> <?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
 					</div>
 				</div>
 			</div>

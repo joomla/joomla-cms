@@ -42,7 +42,7 @@ JHtml::_('bootstrap.tooltip');
 			</div>
 			<div class="span4">
 				<div class="small pull-right hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGGED_LAST_ACTIVITY'); ?>">
-					<span class="icon-calendar"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC5')); ?>
+					<span class="icon-calendar" aria-hidden="true"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC5')); ?>
 				</div>
 			</div>
 		</div>

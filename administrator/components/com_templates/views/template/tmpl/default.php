@@ -36,7 +36,7 @@ JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
 
 	// Hide all the folder when the page loads
-	$('.folder ul, .component-folder ul').hide();
+	$('.folder ul, .component-folder ul, .layout-folder ul').hide();
 
 	// Display the tree after loading
 	$('.directory-tree').removeClass('directory-tree');
@@ -45,7 +45,7 @@ jQuery(document).ready(function($){
 	$('.show > ul').show();
 
 	// Stop the default action of anchor tag on a click event
-	$('.folder-url, .component-folder-url').click(function(event){
+	$('.folder-url, .component-folder-url, .layout-folder-url').click(function(event){
 		event.preventDefault();
 	});
 
@@ -55,7 +55,7 @@ jQuery(document).ready(function($){
 	});
 
 	// Toggle the child indented list on a click event
-	$('.folder, .component-folder').bind('click',function(e){
+	$('.folder, .component-folder, .layout-folder').bind('click',function(e){
 		$(this).children('ul').toggle();
 		e.stopPropagation();
 	});
@@ -258,10 +258,10 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-								<span class="icon-folder"></span>&nbsp;<?php echo $file; ?>
+								<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<span class="icon-file"></span>&nbsp;<?php echo $file; ?>
+								<span class="icon-file" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -391,16 +391,25 @@ if ($this->type == 'font')
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
-			<?php foreach ($this->overridesList['layouts'] as $layout) : ?>
-				<li>
-					<?php
-					$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path
-							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
-					?>
-					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
-					</a>
-				</li>
+			<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
+			<li class="layout-folder">
+				<a href="#" class="layout-folder-url">
+					<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
+				</a>
+				<ul class="nav nav-list">
+					<?php foreach ($value as $layout) : ?>
+						<li>
+							<?php
+							$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path
+									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+							?>
+							<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
+								<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
