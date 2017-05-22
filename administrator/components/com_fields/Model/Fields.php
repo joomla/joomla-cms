@@ -6,8 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Model;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -16,17 +20,18 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.7.0
  */
-class FieldsModelFields extends JModelList
+class Fields extends ListModel
 {
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JModelLegacy
-	 * @since   3.7.0
+	 * @since   1.6
+	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -51,7 +56,7 @@ class FieldsModelFields extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -79,7 +84,7 @@ class FieldsModelFields extends JModelList
 		$this->setState('filter.context', $context);
 
 		// Split context into component and optional section
-		$parts = FieldsHelper::extract($context);
+		$parts = \FieldsHelper::extract($context);
 
 		if ($parts)
 		{
@@ -117,7 +122,7 @@ class FieldsModelFields extends JModelList
 	/**
 	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 * @return  \JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   3.7.0
 	 */
@@ -126,8 +131,8 @@ class FieldsModelFields extends JModelList
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user  = JFactory::getUser();
-		$app   = JFactory::getApplication();
+		$user  = \JFactory::getUser();
+		$app   = \JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -182,12 +187,12 @@ class FieldsModelFields extends JModelList
 		{
 			$categories = (array) $categories;
 			$categories = ArrayHelper::toInteger($categories);
-			$parts = FieldsHelper::extract($context);
+			$parts = \FieldsHelper::extract($context);
 
 			if ($parts)
 			{
 				// Get the category
-				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				$cat = \JCategories::getInstance(str_replace('com_', '', $parts[0]));
 
 				if ($cat)
 				{
@@ -337,7 +342,7 @@ class FieldsModelFields extends JModelList
 		$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
 		$orderDirn     = $this->state->get('list.direction', 'DESC');
 
-		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}
@@ -352,7 +357,7 @@ class FieldsModelFields extends JModelList
 	 * @return  array  An array of results.
 	 *
 	 * @since   3.7.0
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
@@ -376,7 +381,7 @@ class FieldsModelFields extends JModelList
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  JForm/false  the JForm object or false
+	 * @return  \JForm/false  the JForm object or false
 	 *
 	 * @since   3.7.0
 	 */
@@ -403,7 +408,7 @@ class FieldsModelFields extends JModelList
 	 */
 	public function getGroups()
 	{
-		$user       = JFactory::getUser();
+		$user       = \JFactory::getUser();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
 		$db    = $this->getDbo();

@@ -6,8 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Table;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
 /**
@@ -15,12 +19,12 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class FieldsTableGroup extends JTable
+class Group extends Table
 {
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JDatabaseDriver  $db  JDatabaseDriver object.
+	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver object.
 	 *
 	 * @since   3.7.0
 	 */
@@ -42,7 +46,7 @@ class FieldsTableGroup extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.7.0
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function bind($src, $ignore = '')
 	{
@@ -56,7 +60,7 @@ class FieldsTableGroup extends JTable
 		// Bind the rules.
 		if (isset($src['rules']) && is_array($src['rules']))
 		{
-			$rules = new JAccessRules($src['rules']);
+			$rules = new Rules($src['rules']);
 			$this->setRules($rules);
 		}
 
@@ -84,8 +88,8 @@ class FieldsTableGroup extends JTable
 			return false;
 		}
 
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		if ($this->id)
 		{
@@ -148,14 +152,14 @@ class FieldsTableGroup extends JTable
 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
-	 * @param   JTable   $table  A JTable object for the asset parent.
-	 * @param   integer  $id     Id to look up
+	 * @param   Table   $table  A JTable object for the asset parent.
+	 * @param   integer $id     Id to look up
 	 *
 	 * @return  integer
 	 *
 	 * @since   3.7.0
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		$component = explode('.', $this->context);
 		$db = $this->getDbo();

@@ -6,31 +6,36 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\View\Field;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Field View
  *
  * @since  3.7.0
  */
-class FieldsViewField extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
-	 * @var  JForm
+	 * @var  \JForm
 	 *
 	 * @since   3.7.0
 	 */
 	protected $form;
 
 	/**
-	 * @var  JObject
+	 * @var  \JObject
 	 *
 	 * @since   3.7.0
 	 */
 	protected $item;
 
 	/**
-	 * @var  JObject
+	 * @var  \JObject
 	 *
 	 * @since   3.7.0
 	 */
@@ -43,7 +48,7 @@ class FieldsViewField extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     HtmlView::loadTemplate()
 	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
@@ -52,17 +57,17 @@ class FieldsViewField extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
-		$this->canDo = JHelperContent::getActions($this->state->get('field.component'), 'field', $this->item->id);
+		$this->canDo = \JHelperContent::getActions($this->state->get('field.component'), 'field', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
+			\JError::raiseError(500, implode("\n", $errors));
 
 			return false;
 		}
 
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$this->addToolbar();
 
@@ -80,7 +85,7 @@ class FieldsViewField extends JViewLegacy
 	{
 		$component = $this->state->get('field.component');
 		$section   = $this->state->get('field.section');
-		$userId    = JFactory::getUser()->get('id');
+		$userId    = \JFactory::getUser()->get('id');
 		$canDo     = $this->canDo;
 
 		$isNew      = ($this->item->id == 0);
@@ -93,14 +98,14 @@ class FieldsViewField extends JViewLegacy
 		}
 
 		// Load component language file
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load($component, JPATH_ADMINISTRATOR)
-		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+		|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-		$title = JText::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
+		$title = \JText::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', \JText::_(strtoupper($component)));
 
 		// Prepare the toolbar.
-		JToolbarHelper::title(
+		ToolbarHelper::title(
 			$title,
 			'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-field-' .
 			($isNew ? 'add' : 'edit')
@@ -109,7 +114,7 @@ class FieldsViewField extends JViewLegacy
 		// For new records, check the create permission.
 		if ($isNew)
 		{
-			JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				[
 					['apply', 'field.apply'],
 					['save', 'field.save'],
@@ -118,7 +123,7 @@ class FieldsViewField extends JViewLegacy
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('field.cancel');
+			ToolbarHelper::cancel('field.cancel');
 		}
 		else
 		{
@@ -146,14 +151,14 @@ class FieldsViewField extends JViewLegacy
 				$toolbarButtons[] = ['save2copy', 'field.save2copy'];
 			}
 
-			JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELDS_EDIT');
+		ToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELDS_EDIT');
 	}
 }
