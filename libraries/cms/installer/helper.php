@@ -38,7 +38,11 @@ abstract class JInstallerHelper
 
 		// Set user agent
 		$version = new JVersion;
-		ini_set('user_agent', $version->getUserAgent('Installer'));
+		$agent = $version->getUserAgent('Installer');
+		ini_set('user_agent', $agent);
+
+		// Create option with userAgent to supply to transport
+		$xport_opts = new JRegistry(array('userAgent'=>$agent));
 
 		// Load installer plugins, and allow URL and headers modification
 		$headers = array();
@@ -48,7 +52,7 @@ abstract class JInstallerHelper
 
 		try
 		{
-			$response = JHttpFactory::getHttp()->get($url, $headers);
+			$response = JHttpFactory::getHttp($xport_opts)->get($url, $headers);
 		}
 		catch (RuntimeException $exception)
 		{
