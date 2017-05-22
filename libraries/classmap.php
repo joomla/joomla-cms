@@ -199,3 +199,5 @@ JLoader::registerAlias('JInstallerManifestPackage',         '\\Joomla\\CMS\\Inst
 JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '4.0');
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
 JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
+
+JLoader::registerAlias('JUri',                              '\\Joomla\\CMS\\Uri\\Uri', '4.0');
