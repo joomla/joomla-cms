@@ -532,13 +532,13 @@ class JHelperTags extends JHelper
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(JFactory::getDate()->toSql());
 
-		$ntagsr = substr_count($tagId, ',') + 1;
-
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
 		$tagIds = implode(',', $tagIds);
 		$tagIds = explode(',', $tagIds);
 		$tagIds = ArrayHelper::toInteger($tagIds);
+
+		$ntagsr = count($tagIds);
 
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
