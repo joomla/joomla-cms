@@ -784,6 +784,13 @@ class JFilterInput extends InputFilter
 	 */
 	protected function remove($source)
 	{
+		// Check for invalid UTF-8 byte sequence
+		if (!preg_match('//u', $source))
+		{
+			// String contains invalid byte sequence, remove it
+			$source = htmlspecialchars_decode(htmlspecialchars($source, ENT_IGNORE, 'UTF-8'));
+		}
+
 		// Iteration provides nested tag protection
 		do
 		{

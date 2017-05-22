@@ -1390,6 +1390,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				"<p>equals quote =' inside valid tag</p>",
 				'Test single quote equals inside valid tag'
 			),
+			'invalid_utf8_byte_sequence' => array(
+				'html',
+				"<p>Invalid \xC2\xFF\x80char</p>",
+				"<p>Invalid char</p>",
+				"Test for invalid UTF-8 byte sequence",
+			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
