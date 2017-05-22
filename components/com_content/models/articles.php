@@ -519,6 +519,11 @@ class ContentModelArticles extends JModelList
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
 
+		// Process the content plugins that might modify the query
+		JPluginHelper::importPlugin('content');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onContentGetQuery', array ($this->context, &$query, JFactory::getApplication()->scope, $this->getState()));
+
 		return $query;
 	}
 
