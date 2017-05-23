@@ -8426,11 +8426,11 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 }
 #status {
 	background: #ebebeb;
-	border-top: 1px solid #d4d4d4;
+	border-top: 1px solid #dedede;
 	padding: 4px 10px;
-	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
-	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
-	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
+	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.08);
+	-moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.08);
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.08);
 	color: #626262;
 }
 #status .btn-group {
