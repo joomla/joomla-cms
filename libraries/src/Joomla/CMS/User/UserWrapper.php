@@ -1,22 +1,23 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  User
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\User;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Wrapper class for JUserHelper
+ * Wrapper class for UserHelper
  *
  * @package     Joomla.Platform
  * @subpackage  User
  * @since       3.4
  */
-class JUserWrapperHelper
+class UserWrapper
 {
 	/**
 	 * Helper wrapper method for addUserToGroup
@@ -26,13 +27,13 @@ class JUserWrapperHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     JUserHelper::addUserToGroup()
+	 * @see     UserHelper::addUserToGroup()
 	 * @since   3.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function addUserToGroup($userId, $groupId)
 	{
-		return JUserHelper::addUserToGroup($userId, $groupId);
+		return UserHelper::addUserToGroup($userId, $groupId);
 	}
 
 	/**
@@ -42,12 +43,12 @@ class JUserWrapperHelper
 	 *
 	 * @return  array    List of groups
 	 *
-	 * @see     JUserHelper::addUserToGroup()
+	 * @see     UserHelper::addUserToGroup()
 	 * @since   3.4
 	 */
 	public function getUserGroups($userId)
 	{
-		return JUserHelper::getUserGroups($userId);
+		return UserHelper::getUserGroups($userId);
 	}
 
 	/**
@@ -58,12 +59,12 @@ class JUserWrapperHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     JUserHelper::removeUserFromGroup()
+	 * @see     UserHelper::removeUserFromGroup()
 	 * @since   3.4
 	 */
 	public function removeUserFromGroup($userId, $groupId)
 	{
-		return JUserHelper::removeUserFromGroup($userId, $groupId);
+		return UserHelper::removeUserFromGroup($userId, $groupId);
 	}
 
 	/**
@@ -74,12 +75,12 @@ class JUserWrapperHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     JUserHelper::setUserGroups()
+	 * @see     UserHelper::setUserGroups()
 	 * @since   3.4
 	 */
 	public function setUserGroups($userId, $groups)
 	{
-		return JUserHelper::setUserGroups($userId, $groups);
+		return UserHelper::setUserGroups($userId, $groups);
 	}
 
 	/**
@@ -89,12 +90,12 @@ class JUserWrapperHelper
 	 *
 	 * @return  object
 	 *
-	 * @see     JUserHelper::getProfile()
+	 * @see     UserHelper::getProfile()
 	 * @since   3.4
 	 */
 	public function getProfile($userId = 0)
 	{
-		return JUserHelper::getProfile($userId);
+		return UserHelper::getProfile($userId);
 	}
 
 	/**
@@ -104,12 +105,12 @@ class JUserWrapperHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     JUserHelper::activateUser()
+	 * @see     UserHelper::activateUser()
 	 * @since   3.4
 	 */
 	public function activateUser($activation)
 	{
-		return JUserHelper::activateUser($activation);
+		return UserHelper::activateUser($activation);
 	}
 
 	/**
@@ -119,12 +120,12 @@ class JUserWrapperHelper
 	 *
 	 * @return  integer  The user id or 0 if not found.
 	 *
-	 * @see     JUserHelper::getUserId()
+	 * @see     UserHelper::getUserId()
 	 * @since   3.4
 	 */
 	public function getUserId($username)
 	{
-		return JUserHelper::getUserId($username);
+		return UserHelper::getUserId($username);
 	}
 
 	/**
@@ -134,12 +135,12 @@ class JUserWrapperHelper
 	 *
 	 * @return  string  The encrypted password.
 	 *
-	 * @see     JUserHelper::hashPassword()
+	 * @see     UserHelper::hashPassword()
 	 * @since   3.4
 	 */
 	public function hashPassword($password)
 	{
-		return JUserHelper::hashPassword($password);
+		return UserHelper::hashPassword($password);
 	}
 
 	/**
@@ -151,12 +152,12 @@ class JUserWrapperHelper
 	 *
 	 * @return  boolean  True if the password and hash match, false otherwise
 	 *
-	 * @see     JUserHelper::verifyPassword()
+	 * @see     UserHelper::verifyPassword()
 	 * @since   3.4
 	 */
 	public function verifyPassword($password, $hash, $user_id = 0)
 	{
-		return JUserHelper::verifyPassword($password, $hash, $user_id);
+		return UserHelper::verifyPassword($password, $hash, $user_id);
 	}
 
 	/**
@@ -174,13 +175,13 @@ class JUserWrapperHelper
 	 *
 	 * @return  string  The encrypted password.
 	 *
-	 * @see     JUserHelper::getCryptedPassword()
+	 * @see     UserHelper::getCryptedPassword()
 	 * @since   3.4
 	 * @deprecated  4.0
 	 */
 	public function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
-		return JUserHelper::getCryptedPassword($plaintext, $salt, $encryption, $show_encrypt);
+		return UserHelper::getCryptedPassword($plaintext, $salt, $encryption, $show_encrypt);
 	}
 
 	/**
@@ -196,13 +197,13 @@ class JUserWrapperHelper
 	 *
 	 * @return  string  The generated or extracted salt.
 	 *
-	 * @see     JUserHelper::getSalt()
+	 * @see     UserHelper::getSalt()
 	 * @since   3.4
 	 * @deprecated  4.0
 	 */
 	public function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
-		return JUserHelper::getSalt($encryption, $seed, $plaintext);
+		return UserHelper::getSalt($encryption, $seed, $plaintext);
 	}
 
 	/**
@@ -212,12 +213,12 @@ class JUserWrapperHelper
 	 *
 	 * @return  string  Random Password
 	 *
-	 * @see     JUserHelper::genRandomPassword()
+	 * @see     UserHelper::genRandomPassword()
 	 * @since   3.4
 	 */
 	public function genRandomPassword($length = 8)
 	{
-		return JUserHelper::genRandomPassword($length);
+		return UserHelper::genRandomPassword($length);
 	}
 
 	/**
@@ -228,13 +229,13 @@ class JUserWrapperHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     JUserHelper::invalidateCookie()
+	 * @see     UserHelper::invalidateCookie()
 	 * @since   3.4
 	 * @deprecated  4.0
 	 */
 	public function invalidateCookie($userId, $cookieName)
 	{
-		return JUserHelper::invalidateCookie($userId, $cookieName);
+		return UserHelper::invalidateCookie($userId, $cookieName);
 	}
 
 	/**
@@ -242,13 +243,13 @@ class JUserWrapperHelper
 	 *
 	 * @return  mixed  Database query result
 	 *
-	 * @see     JUserHelper::clearExpiredTokens()
+	 * @see     UserHelper::clearExpiredTokens()
 	 * @since   3.4
 	 * @deprecated  4.0
 	 */
 	public function clearExpiredTokens()
 	{
-		return JUserHelper::clearExpiredTokens();
+		return UserHelper::clearExpiredTokens();
 	}
 
 	/**
@@ -256,13 +257,13 @@ class JUserWrapperHelper
 	 *
 	 * @return  mixed  An array of information from an authentication cookie or false if there is no cookie
 	 *
-	 * @see     JUserHelper::getRememberCookieData()
+	 * @see     UserHelper::getRememberCookieData()
 	 * @since   3.4
 	 * @deprecated  4.0
 	 */
 	public function getRememberCookieData()
 	{
-		return JUserHelper::getRememberCookieData();
+		return UserHelper::getRememberCookieData();
 	}
 
 	/**
@@ -270,11 +271,11 @@ class JUserWrapperHelper
 	 *
 	 * @return  string  A hashed user agent string with version replaced by 'abcd'
 	 *
-	 * @see     JUserHelper::getShortHashedUserAgent()
+	 * @see     UserHelper::getShortHashedUserAgent()
 	 * @since   3.4
 	 */
 	public function getShortHashedUserAgent()
 	{
-		return JUserHelper::getShortHashedUserAgent();
+		return UserHelper::getShortHashedUserAgent();
 	}
 }

@@ -199,3 +199,7 @@ JLoader::registerAlias('JInstallerManifestPackage',         '\\Joomla\\CMS\\Inst
 JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '4.0');
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
 JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
+
+JLoader::registerAlias('JUser',                             '\\Joomla\\CMS\\User\\User', '4.0');
+JLoader::registerAlias('JUserHelper',                       '\\Joomla\\CMS\\User\\UserHelper', '4.0');
+JLoader::registerAlias('JUserWrapperHelper',                '\\Joomla\\CMS\\User\\UserWrapper', '4.0');

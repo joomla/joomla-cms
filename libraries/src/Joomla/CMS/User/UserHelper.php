@@ -1,14 +1,17 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  User
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\User;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -19,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  11.1
  */
-abstract class JUserHelper
+abstract class UserHelper
 {
 	/**
 	 * Method to add a user to a group.
@@ -30,18 +33,18 @@ abstract class JUserHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
 		// Get the user object.
-		$user = new JUser((int) $userId);
+		$user = new User((int) $userId);
 
 		// Add the user to the group if necessary.
 		if (!in_array($groupId, $user->groups))
 		{
 			// Get the title of the group.
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
@@ -52,7 +55,7 @@ abstract class JUserHelper
 			// If the group does not exist, return an exception.
 			if (!$title)
 			{
-				throw new RuntimeException('Access Usergroup Invalid');
+				throw new \RuntimeException('Access Usergroup Invalid');
 			}
 
 			// Add the group data to the user object.
@@ -63,13 +66,13 @@ abstract class JUserHelper
 		}
 
 		// Set the group data for any preloaded user objects.
-		$temp         = JUser::getInstance((int) $userId);
+		$temp         = User::getInstance((int) $userId);
 		$temp->groups = $user->groups;
 
-		if (JFactory::getSession()->getId())
+		if (\JFactory::getSession()->getId())
 		{
 			// Set the group data for the user object in the session.
-			$temp = JFactory::getUser();
+			$temp = \JFactory::getUser();
 
 			if ($temp->id == $userId)
 			{
@@ -92,7 +95,7 @@ abstract class JUserHelper
 	public static function getUserGroups($userId)
 	{
 		// Get the user object.
-		$user = JUser::getInstance((int) $userId);
+		$user = User::getInstance((int) $userId);
 
 		return isset($user->groups) ? $user->groups : array();
 	}
@@ -110,7 +113,7 @@ abstract class JUserHelper
 	public static function removeUserFromGroup($userId, $groupId)
 	{
 		// Get the user object.
-		$user = JUser::getInstance((int) $userId);
+		$user = User::getInstance((int) $userId);
 
 		// Remove the user from the group if necessary.
 		$key = array_search($groupId, $user->groups);
@@ -125,11 +128,11 @@ abstract class JUserHelper
 		}
 
 		// Set the group data for any preloaded user objects.
-		$temp = JFactory::getUser((int) $userId);
+		$temp = \JFactory::getUser((int) $userId);
 		$temp->groups = $user->groups;
 
 		// Set the group data for the user object in the session.
-		$temp = JFactory::getUser();
+		$temp = \JFactory::getUser();
 
 		if ($temp->id == $userId)
 		{
@@ -152,14 +155,14 @@ abstract class JUserHelper
 	public static function setUserGroups($userId, $groups)
 	{
 		// Get the user object.
-		$user = JUser::getInstance((int) $userId);
+		$user = User::getInstance((int) $userId);
 
 		// Set the group ids.
 		$groups = ArrayHelper::toInteger($groups);
 		$user->groups = $groups;
 
 		// Get the titles for the user groups.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
@@ -179,11 +182,11 @@ abstract class JUserHelper
 		if (session_id())
 		{
 			// Set the group data for any preloaded user objects.
-			$temp = JFactory::getUser((int) $userId);
+			$temp = \JFactory::getUser((int) $userId);
 			$temp->groups = $user->groups;
 
 			// Set the group data for the user object in the session.
-			$temp = JFactory::getUser();
+			$temp = \JFactory::getUser();
 
 			if ($temp->id == $userId)
 			{
@@ -207,15 +210,15 @@ abstract class JUserHelper
 	{
 		if ($userId == 0)
 		{
-			$user   = JFactory::getUser();
+			$user   = \JFactory::getUser();
 			$userId = $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher = JEventDispatcher::getInstance();
-		JPluginHelper::importPlugin('user');
+		$dispatcher = \JEventDispatcher::getInstance();
+		PluginHelper::importPlugin('user');
 
-		$data = new JObject;
+		$data = new \JObject;
 		$data->id = $userId;
 
 		// Trigger the data preparation event.
@@ -235,7 +238,7 @@ abstract class JUserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
@@ -250,7 +253,7 @@ abstract class JUserHelper
 		// Is it a valid user to activate?
 		if ($id)
 		{
-			$user = JUser::getInstance((int) $id);
+			$user = User::getInstance((int) $id);
 
 			$user->set('block', '0');
 			$user->set('activation', '');
@@ -258,14 +261,14 @@ abstract class JUserHelper
 			// Time to take care of business.... store the user.
 			if (!$user->save())
 			{
-				JLog::add($user->getError(), JLog::WARNING, 'jerror');
+				\JLog::add($user->getError(), \JLog::WARNING, 'jerror');
 
 				return false;
 			}
 		}
 		else
 		{
-			JLog::add(JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), JLog::WARNING, 'jerror');
+			\JLog::add(\JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), \JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -285,7 +288,7 @@ abstract class JUserHelper
 	public static function getUserId($username)
 	{
 		// Initialise some variables
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -306,8 +309,8 @@ abstract class JUserHelper
 	 */
 	public static function hashPassword($password)
 	{
-		// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
-		JCrypt::hasStrongPasswordSupport();
+		// \JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+		\JCrypt::hasStrongPasswordSupport();
 
 		return password_hash($password, PASSWORD_DEFAULT);
 	}
@@ -339,8 +342,8 @@ abstract class JUserHelper
 		}
 		elseif ($hash[0] == '$')
 		{
-			// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
-			JCrypt::hasStrongPasswordSupport();
+			// \JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+			\JCrypt::hasStrongPasswordSupport();
 			$match = password_verify($password, $hash);
 
 			// Uncomment this line if we actually move to bcrypt.
@@ -353,7 +356,7 @@ abstract class JUserHelper
 			$salt      = @$parts[1];
 			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
 
-			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
+			$match = \JCrypt::timingSafeCompare($hash, $testcrypt);
 
 			$rehash = true;
 		}
@@ -369,13 +372,13 @@ abstract class JUserHelper
 			// If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
 			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : (strpos($hash, ':') !== false ? ':' : ''));
 
-			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
+			$match = \JCrypt::timingSafeCompare($hash, $testcrypt);
 		}
 
 		// If we have a match and rehash = true, rehash the password with the current algorithm.
 		if ((int) $user_id > 0 && $match && $rehash)
 		{
-			$user = new JUser($user_id);
+			$user = new User($user_id);
 			$user->password = static::hashPassword($password);
 			$user->save();
 		}
@@ -557,7 +560,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					return '$1$' . substr(md5(JCrypt::genRandomBytes()), 0, 8) . '$';
+					return '$1$' . substr(md5(\JCrypt::genRandomBytes()), 0, 8) . '$';
 				}
 				break;
 
@@ -568,7 +571,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					return '$2y$10$' . substr(md5(JCrypt::genRandomBytes()), 0, 22) . '$';
+					return '$2y$10$' . substr(md5(\JCrypt::genRandomBytes()), 0, 22) . '$';
 				}
 				break;
 
@@ -579,7 +582,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					return mhash_keygen_s2k(MHASH_SHA1, $plaintext, substr(pack('h*', md5(JCrypt::genRandomBytes())), 0, 8), 4);
+					return mhash_keygen_s2k(MHASH_SHA1, $plaintext, substr(pack('h*', md5(\JCrypt::genRandomBytes())), 0, 8), 4);
 				}
 				break;
 
@@ -590,7 +593,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					return mhash_keygen_s2k(MHASH_MD5, $plaintext, substr(pack('h*', md5(JCrypt::genRandomBytes())), 0, 8), 4);
+					return mhash_keygen_s2k(MHASH_MD5, $plaintext, substr(pack('h*', md5(\JCrypt::genRandomBytes())), 0, 8), 4);
 				}
 				break;
 
@@ -649,7 +652,7 @@ abstract class JUserHelper
 		 * distribution is even, and randomize the start shift so it's not
 		 * predictable.
 		 */
-		$random = JCrypt::genRandomBytes($length + 1);
+		$random = \JCrypt::genRandomBytes($length + 1);
 		$shift = ord($random[0]);
 
 		for ($i = 1; $i <= $length; ++$i)
@@ -724,7 +727,7 @@ abstract class JUserHelper
 	 */
 	public static function invalidateCookie($userId, $cookieName)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Invalidate cookie in the database
@@ -736,7 +739,7 @@ abstract class JUserHelper
 		$db->setQuery($query)->execute();
 
 		// Destroy the cookie in the browser.
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$app->input->cookie->set($cookieName, false, time() - 42000, $app->get('cookie_path', '/'), $app->get('cookie_domain'), false, true);
 
 		return true;
@@ -754,7 +757,7 @@ abstract class JUserHelper
 	{
 		$now = time();
 
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 		->delete('#__user_keys')
 		->where($db->quoteName('time') . ' < ' . $db->quote($now));
@@ -776,7 +779,7 @@ abstract class JUserHelper
 		$cookieName = static::getShortHashedUserAgent();
 
 		// Fetch the cookie value
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$cookieValue = $app->input->cookie->get($cookieName);
 
 		if (!empty($cookieValue))
@@ -799,12 +802,12 @@ abstract class JUserHelper
 	 */
 	public static function getShortHashedUserAgent()
 	{
-		$ua = JFactory::getApplication()->client;
+		$ua = \JFactory::getApplication()->client;
 		$uaString = $ua->userAgent;
 		$browserVersion = $ua->browserVersion;
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
-		return md5(JUri::base() . $uaShort);
+		return md5(\JUri::base() . $uaShort);
 	}
 
 	/**
@@ -822,7 +825,7 @@ abstract class JUserHelper
 		{
 			foreach (static::getUserGroups($userId) as $userGroupId)
 			{
-				if (JAccess::checkGroup($userGroupId, 'core.admin'))
+				if (Access::checkGroup($userGroupId, 'core.admin'))
 				{
 					return true;
 				}
