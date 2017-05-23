@@ -334,7 +334,7 @@ abstract class UserHelper
 		if (strpos($hash, '$P$') === 0)
 		{
 			// Use PHPass's portable hashes with a cost of 10.
-			$phpass = new PasswordHash(10, true);
+			$phpass = new \PasswordHash(10, true);
 
 			$match = $phpass->CheckPassword($password, $hash);
 
