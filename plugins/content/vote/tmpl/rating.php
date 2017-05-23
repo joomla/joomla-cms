@@ -20,7 +20,8 @@ defined('_JEXEC') or die;
  * @var   string   $path     Path to this file
  */
 
-$rating = (int) @$row->rating;
+$rating      = (int) @$row->rating;
+$ratingcount = (int) @$row->rating_count;
 
 $img = '';
 
@@ -42,7 +43,7 @@ for ($i = $rating; $i < 5; $i++)
 <div class="content_rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
 	<p class="unseen element-invisible">
 		<?php echo JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
-		<meta itemprop="ratingCount" content="<?php echo (int) $row->rating_count; ?>" />
+		<meta itemprop="ratingCount" content="<?php echo $ratingcount; ?>" />
 		<meta itemprop="worstRating" content="0" />
 	</p>
 	<?php echo $img; ?>
