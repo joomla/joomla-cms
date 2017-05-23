@@ -166,7 +166,7 @@ class PlgUserJoomla extends JPlugin
 
 		$retSetRecipient = $mail->addRecipient($user['email']);
 
-		if (!$retSetSender || $retSetRecipient)
+		if (!$retSetSender || !$retSetRecipient)
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
 			return;
