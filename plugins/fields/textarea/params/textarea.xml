@@ -20,10 +20,12 @@
 
 			<field
 				name="maxlength"
-				type="text"
-				filter="integer"
+				type="number"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_MAXLENGTH_LABEL"
 				description="PLG_FIELDS_TEXTAREA_PARAMS_MAXLENGTH_DESC"
+				min="0"
+				filter="integer"
+				validate="number"
 			/>
 
 			<field
