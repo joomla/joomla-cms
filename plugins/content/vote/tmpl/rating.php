@@ -20,7 +20,12 @@ defined('_JEXEC') or die;
  * @var   string   $path     Path to this file
  */
 
-$rating = (int) @$row->rating;
+if ($context=='com_content.categories')
+{
+	return;
+}
+
+$rating = (int) $row->rating;
 
 $img = '';
 
