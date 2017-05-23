@@ -14,9 +14,6 @@
             <a href="#" class="action-delete">
                 <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
             </a>
-            <a href="#" class="action-download">
-                <span class="image-browser-action fa fa-download" aria-hidden="true" ></span>
-            </a>
             <a href="#" class="action-edit">
                 <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
             </a>
