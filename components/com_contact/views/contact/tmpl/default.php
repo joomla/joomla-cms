@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$cparams = JComponentHelper::getParams('com_media');
-$tparams = $this->params;
 jimport('joomla.html.html.bootstrap');
+
+$cparams = JComponentHelper::getParams('com_media');
+$tparams = $this->item->params;
+
 ?>
 
 <div class="contact<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Person">

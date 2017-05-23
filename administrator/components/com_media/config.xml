@@ -9,8 +9,10 @@
 			label="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC"
 			size="50"
-			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS"
-		/>
+			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS"
+			label="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_LEGAL_EXTENSIONS_DESC"
+			/>
 
 		<field
 			name="upload_maxsize"
@@ -93,7 +95,9 @@
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
 			size="50"
-			default="image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
+			default="image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
+			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
+			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
 		/>
 
 		<field

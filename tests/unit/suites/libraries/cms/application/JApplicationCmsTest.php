@@ -447,7 +447,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
+			array('HTTP/1.1 303', true, null),
 			$this->class->headers[0]
 		);
 
@@ -517,7 +517,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
+			array('HTTP/1.1 303', true, null),
 			$this->class->headers[0]
 		);
 
@@ -583,7 +583,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// The redirect gives a 303 error code
 		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
+			array('HTTP/1.1 303', true, null),
 			$this->class->headers[0]
 		);
 
@@ -701,7 +701,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array('HTTP/1.1 301 Moved Permanently', true, null),
+			array('HTTP/1.1 301', true, null),
 			$this->class->headers[0]
 		);
 

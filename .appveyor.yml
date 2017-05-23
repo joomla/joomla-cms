@@ -33,13 +33,13 @@ install:
           $VC = "vc14"
           $PHPBuild = "x64"
         }
-    - cinst -y sqlite
+    - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
     # Get the MSSQL DLL's
     - ps: >-
         If ($env:PHP -eq "1") {
           If ($env:php_ver_target -eq "5.6") {
-            appveyor-retry appveyor DownloadFile https://files.nette.org/misc/php-sqlsrv.zip
+            appveyor-retry appveyor DownloadFile https://cdn.joomla.org/ci/php-sqlsrv.zip
             7z x -y php-sqlsrv.zip > $null
             copy SQLSRV\php_sqlsrv_56_nts.dll ext\php_sqlsrv_nts.dll
             copy SQLSRV\php_pdo_sqlsrv_56_nts.dll ext\php_pdo_sqlsrv_nts.dll

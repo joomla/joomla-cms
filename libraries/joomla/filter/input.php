@@ -60,7 +60,7 @@ class JFilterInput extends InputFilter
 		 * If Unicode Supplementary Characters stripping is not set we have to check with the database driver. If the
 		 * driver does not support USCs (i.e. there is no utf8mb4 support) we will enable USC stripping.
 		 */
-		if ($this->stripUSC == -1)
+		if ($this->stripUSC === -1)
 		{
 			try
 			{
@@ -617,7 +617,8 @@ class JFilterInput extends InputFilter
 				}
 
 				// 3. File contents scanner (PHP tag in file contents)
-				if ($options['php_tag_in_content'] || $options['shorttag_in_content']
+				if ($options['php_tag_in_content']
+					|| $options['shorttag_in_content']
 					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
 					$fp = @fopen($tempName, 'r');
@@ -789,7 +790,7 @@ class JFilterInput extends InputFilter
 			$temp = $source;
 			$source = $this->_cleanTags($source);
 		}
-		while ($temp != $source);
+		while ($temp !== $source);
 
 		return $source;
 	}
@@ -880,7 +881,7 @@ class JFilterInput extends InputFilter
 			$currentSpace = StringHelper::strpos($tagLeft, ' ');
 
 			// Are we an open tag or a close tag?
-			if (StringHelper::substr($currentTag, 0, 1) == '/')
+			if (StringHelper::substr($currentTag, 0, 1) === '/')
 			{
 				// Close Tag
 				$isCloseTag = true;
@@ -899,7 +900,9 @@ class JFilterInput extends InputFilter
 			 * OR no tagname
 			 * OR remove if xssauto is on and tag is blacklisted
 			 */
-			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
+			if (!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)
+				|| (!$tagName)
+				|| ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
 			{
 				$postTag = StringHelper::substr($postTag, ($tagLength + 2));
 				$tagOpen_start = StringHelper::strpos($postTag, '<');
@@ -926,8 +929,10 @@ class JFilterInput extends InputFilter
 				// Find position of equal and open quotes ignoring
 				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE))
 				{
+					// We have found an attribute, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+					$stringBeforeAttr = substr($fromSpace, 0, $matches[0][1]);
+					$startAttPosition = StringHelper::strlen($stringBeforeAttr);
 					$startAtt = $matches[0][0];
-					$startAttPosition = $matches[0][1];
 					$closeQuotes = StringHelper::strpos(
 						StringHelper::substr($fromSpace, ($startAttPosition + StringHelper::strlen($startAtt))), '"'
 						) + $startAttPosition + StringHelper::strlen($startAtt);
@@ -937,7 +942,7 @@ class JFilterInput extends InputFilter
 				}
 
 				// Do we have an attribute to process? [check for equal sign]
-				if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
+				if ($fromSpace !== '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
 				{
 					if (!$nextEqual)
 					{
@@ -974,14 +979,14 @@ class JFilterInput extends InputFilter
 				// No more equal signs so add any extra text in the tag into the attribute array [eg. checked]
 				else
 				{
-					if ($fromSpace != '/')
+					if ($fromSpace !== '/')
 					{
 						$attr = StringHelper::substr($fromSpace, 0, $nextSpace);
 					}
 				}
 
 				// Last Attribute Pair
-				if (!$attr && $fromSpace != '/')
+				if (!$attr && $fromSpace !== '/')
 				{
 					$attr = $fromSpace;
 				}
@@ -1035,7 +1040,7 @@ class JFilterInput extends InputFilter
 		}
 
 		// Append any code after the end of tags and return
-		if ($postTag != '<')
+		if ($postTag !== '<')
 		{
 			$preTag .= $postTag;
 		}
@@ -1080,9 +1085,12 @@ class JFilterInput extends InputFilter
 		 */
 		while (preg_match('#<[^>]*?=\s*?(\"|\')#s', $remainder, $matches, PREG_OFFSET_CAPTURE))
 		{
-			// Get the portion before the attribute value
-			$quotePosition = $matches[0][1];
-			$nextBefore = $quotePosition + StringHelper::strlen($matches[0][0]);
+			// We have found a tag with an attribute, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+			$stringBeforeTag = substr($remainder, 0, $matches[0][1]);
+			$tagPosition = StringHelper::strlen($stringBeforeTag);
+
+			// Get the character length before the attribute value
+			$nextBefore = $tagPosition + StringHelper::strlen($matches[0][0]);
 
 			/*
 			 * Figure out if we have a single or double quote and look for the matching closing quote
@@ -1092,10 +1100,13 @@ class JFilterInput extends InputFilter
 			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
 			// Get the portion after attribute value
-			if (preg_match($pregMatch, StringHelper::substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
+			$attributeValueRemainder = StringHelper::substr($remainder, $nextBefore);
+			if (preg_match($pregMatch, $attributeValueRemainder, $matches, PREG_OFFSET_CAPTURE))
 			{
-				// We have a closing quote
-				$nextAfter = $nextBefore + $matches[0][1];
+				// We have a closing quote, convert its byte position to a UTF-8 string length, using non-multibyte substr()
+				$stringBeforeQuote = substr($attributeValueRemainder, 0, $matches[0][1]);
+				$closeQuoteChars = StringHelper::strlen($stringBeforeQuote);
+				$nextAfter = $nextBefore + $closeQuoteChars;
 			}
 			else
 			{

@@ -565,8 +565,8 @@ class JApplicationWeb extends JApplicationBase
 				}
 
 				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($this->responseMap[$status]);
-				$this->header('Location: ' . $url);
+				$this->setHeader('Status', $status, true);
+				$this->setHeader('Location', $url, true);
 			}
 		}
 
@@ -719,7 +719,7 @@ class JApplicationWeb extends JApplicationBase
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header('HTTP/1.1 ' . $header['value'], null, (int) $header['value']);
+					$this->header('HTTP/1.1 ' . (int) $header['value'], true);
 				}
 				else
 				{
