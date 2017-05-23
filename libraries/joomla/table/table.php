@@ -1715,7 +1715,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	/**
 	 * Implement Serializable. Prevent DB object getting into serialized string.
 	 *
-	 * @return string
+	 * @return   string
 	 */
 	public function serialize()
 	{
@@ -1727,12 +1727,13 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	/**
 	 * Implement Serializable. DB object needs to be restored separately as it was excluded from serialization.
 	 *
-	 * @param string $data
+	 * @param   string  $data A serialized string matching this class.
 	 */
 	public function unserialize($data)
 	{
 		$vars = unserialize($data);
-		foreach ($vars as $key=>$value) {
+		foreach ($vars as $key => $value)
+		{
 			$this->$key = $value;
 		}
 		$this->_db = JFactory::getDBO();
