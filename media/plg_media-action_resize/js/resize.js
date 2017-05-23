@@ -11,6 +11,13 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	"use strict";
 
 	var initResize = function(imageSrc) {
+		// Amend the layout
+		var tabContent = document.getElementById('myTabContent'),
+			pluginControls = document.getElementById('attrib-Resize');
+
+		tabContent.classList.add('row', 'ml-0', 'mr-0', 'p-0');
+		pluginControls.classList.add('col-md-3', 'p-4');
+
 		// Clear previous cropper
 		if (Joomla.cropper) Joomla.cropper = {};
 
@@ -66,12 +73,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 			imageSrc.style.maxWidth = '100%';
 			imagePreview.style.maxWidth = '100%';
 			editContainer.style.display = 'none';
-			previewH3.innerText = 'Actual preview:';
 
 			editContainer.appendChild(imageSrc);
 			baseContainer.appendChild(editContainer);
 
-			previewContainer.appendChild(previewH3);
 			previewContainer.appendChild(imagePreview);
 			baseContainer.appendChild(previewContainer);
 

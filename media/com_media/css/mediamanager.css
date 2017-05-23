@@ -10,7 +10,6 @@
   opacity: 0; }
 
 .com_media .container-main {
-  min-height: calc(100vh - 182px);
   padding-top: 0;
   padding-bottom: 0; }
 
@@ -220,6 +219,20 @@
 @media only screen and (max-width: 440px) {
   .media-browser-item {
     width: calc(100% - 20px); } }
+
+#media-form .control-group .control-label {
+  width: 160px; }
+
+#media-form .control-group .controls {
+  margin-left: 160px; }
+
+.media-manager-edit > div {
+  padding: 0 15px; }
+
+.media-manager-edit h3 {
+  text-align: center;
+  opacity: .6;
+  padding: 3px; }
 
 .media-infobar {
   background-color: #fafafa;
