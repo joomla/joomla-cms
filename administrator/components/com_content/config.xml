@@ -567,7 +567,8 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_category_title"
+		<field 
+			name="show_category_title"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
@@ -578,7 +579,8 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_description"
+		<field 
+			name="show_description"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
@@ -589,7 +591,8 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_description_image"
+		<field 
+			name="show_description_image"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
@@ -949,10 +952,10 @@
 	>
 		<field 
 			name="orderby_pri"
-			default="none"
+			type="list"
 			label="JGLOBAL_CATEGORY_ORDER_LABEL"
 			description="JGLOBAL_CATEGORY_ORDER_DESC"
-			type="list"
+			default="none"
 			>
 			<option
 				value="none">JGLOBAL_NO_ORDER
@@ -973,46 +976,20 @@
 			type="list"
 			label="JGLOBAL_ARTICLE_ORDER_LABEL"
 			description="JGLOBAL_ARTICLE_ORDER_DESC"
-			label="JGLOBAL_ARTICLE_ORDER_LABEL"
 			>
-			<option
-				value="rdate">JGLOBAL_MOST_RECENT_FIRST
-			</option>
-			<option
-				value="date">JGLOBAL_OLDEST_FIRST
-			</option>
-			<option
-				value="alpha">JGLOBAL_TITLE_ALPHABETICAL
-			</option>
-			<option
-				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL
-			</option>
-			<option
-				value="author">JGLOBAL_AUTHOR_ALPHABETICAL
-			</option>
-			<option
-				value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL
-			</option>
-			<option
-				value="hits">JGLOBAL_MOST_HITS
-			</option>
-			<option
-				value="rhits">JGLOBAL_LEAST_HITS
-			</option>
-			<option
-				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER
-			</option>
-			<option
-				value="vote" requires="vote">JGLOBAL_VOTES_DESC
-			</option>
-			<option
-				value="rvote" requires="vote">JGLOBAL_VOTES_ASC
-			</option>
-			<option
-				value="rank" requires="vote">JGLOBAL_RATINGS_DESC
-			</option>
-			<option
-				value="rrank" requires="vote">JGLOBAL_RATINGS_ASC
+			<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+			<option value="date">JGLOBAL_OLDEST_FIRST</option>
+			<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+			<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+			<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+			<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+			<option value="hits">JGLOBAL_MOST_HITS</option>
+			<option value="rhits">JGLOBAL_LEAST_HITS</option>
+			<option value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
+			<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+			<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+			<option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
+			<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC
 			</option>
 		</field>
 
