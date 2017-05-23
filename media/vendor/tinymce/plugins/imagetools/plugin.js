@@ -2802,7 +2802,12 @@ define(
           g = win.find('#g')[0].value();
           b = win.find('#b')[0].value();
 
-          filter(currentState.blob, r, g, b).then(function (blob) {
+          BlobConversions.blobToImageResult(currentState.blob).
+          then(function (ir) {
+            return filter(ir, r, g, b);
+          }).
+          then(imageResultToBlob).
+          then(function (blob) {
             var newTempState = createState(blob);
             displayState(newTempState);
             destroyState(tempState);
@@ -3218,6 +3223,7 @@ define(
 
       function editImageDialog() {
         var img = getSelectedImage(), originalSize = ImageSize.getNaturalImageSize(img);
+
         var handleDialogBlob = function (blob) {
           return new Promise(function (resolve) {
             BlobConversions.blobToImage(blob).
@@ -3236,19 +3242,19 @@ define(
           });
         };
 
-        var openDialog = function (blob) {
-          return Dialog.edit(blob).then(handleDialogBlob).
+        var openDialog = function (imageResult) {
+          return Dialog.edit(imageResult).then(handleDialogBlob).
             then(BlobConversions.blobToImageResult).
             then(function (imageResult) {
-              updateSelectedImage(imageResult, true);
+              return updateSelectedImage(imageResult, true);
             }, function () {
               // Close dialog
             });
         };
 
-        if (img) {
-          BlobConversions.imageToImageResult(img).then(openDialog, displayError);
-        }
+        findSelectedBlob().
+          then(BlobConversions.blobToImageResult).
+          then(openDialog, displayError);
       }
 
       function addButtons() {
