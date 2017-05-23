@@ -234,7 +234,7 @@ class JLayoutFile extends JLayoutBase
 	/**
 	 * Add one or more paths to include in layout search
 	 *
-	 * @param   string  $paths  The path or array of paths to search for layouts
+	 * @param   mixed  $paths  The path or array of paths to search for layouts
 	 *
 	 * @return  self
 	 *
@@ -502,6 +502,22 @@ class JLayoutFile extends JLayoutBase
 
 		// Refresh include paths
 		$this->refreshIncludePaths();
+	}
+
+	/**
+	 * Method to set the include paths
+	 *
+	 * @param   mixed  $paths  String of single path or array of paths
+	 *
+	 * @return  JLayoutFile    Self instance for chaining
+	 *
+	 * @since   3.4
+	 */
+	public function setIncludePaths($paths)
+	{
+		$this->includePaths = (array) $paths;
+
+		return $this;
 	}
 
 	/**
