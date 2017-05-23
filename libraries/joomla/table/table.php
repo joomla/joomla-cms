@@ -19,7 +19,7 @@ jimport('joomla.filesystem.path');
  * @since  11.1
  * @tutorial  Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject implements JObservableInterface, JTableInterface
+abstract class JTable extends JObject implements JObservableInterface, JTableInterface, Serializable
 {
 	/**
 	 * Include paths for searching for JTable classes.
@@ -1710,5 +1710,31 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$this->_locked = false;
 
 		return true;
+	}
+
+	/**
+	 * Implement Serializable. Prevent DB object getting into serialized string.
+	 *
+	 * @return string
+	 */
+	public function serialize()
+	{
+		$vars = get_object_vars($this);
+		unset ($vars['_db']);
+		return serialize($vars);
+	}
+
+	/**
+	 * Implement Serializable. DB object needs to be restored separately as it was excluded from serialization.
+	 *
+	 * @param string $data
+	 */
+	public function unserialize($data)
+	{
+		$vars = unserialize($data);
+		foreach ($vars as $key=>$value) {
+			$this->$key = $value;
+		}
+		$this->_db = JFactory::getDBO();
 	}
 }
