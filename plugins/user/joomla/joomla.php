@@ -101,79 +101,85 @@ class PlgUserJoomla extends JPlugin
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
-		if ($isnew)
-		{
-			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
-			// The method check here ensures that if running as a CLI Application we don't get any errors
-			if (method_exists($this->app, 'isClient') && $this->app->isClient('administrator'))
-			{
-				if ($mail_to_user)
-				{
-					$lang = JFactory::getLanguage();
-					$defaultLocale = $lang->getTag();
-
-					/**
-					 * Look for user language. Priority:
-					 * 	1. User frontend language
-					 * 	2. User backend language
-					 */
-					$userParams = new Registry($user['params']);
-					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
-
-					if ($userLocale != $defaultLocale)
-					{
-						$lang->setLanguage($userLocale);
-					}
-
-					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
-
-					// Compute the mail subject.
-					$emailSubject = JText::sprintf(
-						'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
-						$user['name'],
-						$config = $this->app->get('sitename')
-					);
-
-					// Compute the mail body.
-					$emailBody = JText::sprintf(
-						'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
-						$user['name'],
-						$this->app->get('sitename'),
-						JUri::root(),
-						$user['username'],
-						$user['password_clear']
-					);
-
-					// Assemble the email data...
-					$mail = JFactory::getMailer();
-
-					$mail->setSender(
-							array(
-								$this->app->get('mailfrom'),
-								$this->app->get('fromname')
-							)
-						);
-
-					$mail->addRecipient($user['email']);
-					$mail->setSubject($emailSubject);
-					$mail->setBody($emailBody);
-
-					// Set application language back to default if we changed it
-					if ($userLocale != $defaultLocale)
-					{
-						$lang->setLanguage($defaultLocale);
-					}
-
-					if (!$mail->Send())
-					{
-						$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
-					}
-				}
-			}
+		if (!$isnew || !$mail_to_user) {
+			return;
 		}
-		else
+
+		// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
+		// The method check here ensures that if running as a CLI Application we don't get any errors
+		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator')) {
+			return;
+		}
+
+		// check if we have a sensible from email address, if not bail out as mail would not be sent anyway
+		if (strpos($this->app->get('mailfrom'), '@'))
 		{
-			// Existing user - nothing to do...yet.
+			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
+			return;
+		}
+
+		$lang = JFactory::getLanguage();
+		$defaultLocale = $lang->getTag();
+
+		/**
+		 * Look for user language. Priority:
+		 * 	1. User frontend language
+		 * 	2. User backend language
+		 */
+		$userParams = new Registry($user['params']);
+		$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
+
+		if ($userLocale != $defaultLocale)
+		{
+			$lang->setLanguage($userLocale);
+		}
+
+		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
+
+		// Compute the mail subject.
+		$emailSubject = JText::sprintf(
+			'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
+			$user['name'],
+			$this->app->get('sitename')
+		);
+
+		// Compute the mail body.
+		$emailBody = JText::sprintf(
+			'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
+			$user['name'],
+			$this->app->get('sitename'),
+			JUri::root(),
+			$user['username'],
+			$user['password_clear']
+		);
+
+		$mail = JFactory::getMailer();
+
+		$retSetSender = $mail->setSender(
+			array(
+				$this->app->get('mailfrom'),
+				$this->app->get('fromname')
+			)
+		);
+
+		$retSetRecipient = $mail->addRecipient($user['email']);
+
+		if (!$retSetSender || $retSetRecipient)
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
+			return;
+		}
+
+		$mail->setSubject($emailSubject);
+		$mail->setBody($emailBody);
+
+		// Set application language back to default if we changed it
+		if ($userLocale != $defaultLocale) {
+			$lang->setLanguage($defaultLocale);
+		}
+
+		if ($mail->Send() !== true) {
+			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
 		}
 	}
 
