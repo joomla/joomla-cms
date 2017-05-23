@@ -48,7 +48,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 					{
 						case 1:
 							// Open in a new window
-							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" target="_blank" rel="nofollow noopener noreferrer">' .
+							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" target="_blank" rel="noopener noreferrer">' .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . '</a>';
 							break;
 
@@ -67,7 +67,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 
 						default:
 							// Open in parent window
-							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" rel="nofollow">' .
+							echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '">' .
 								htmlspecialchars($label, ENT_COMPAT, 'UTF-8') . ' </a>';
 							break;
 					}
