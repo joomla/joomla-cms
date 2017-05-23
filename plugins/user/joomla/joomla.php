@@ -101,13 +101,15 @@ class PlgUserJoomla extends JPlugin
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
-		if (!$isnew || !$mail_to_user) {
+		if (!$isnew || !$mail_to_user)
+		{
 			return;
 		}
 
 		// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 		// The method check here ensures that if running as a CLI Application we don't get any errors
-		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator')) {
+		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator'))
+		{
 			return;
 		}
 
@@ -174,11 +176,13 @@ class PlgUserJoomla extends JPlugin
 		$mail->setBody($emailBody);
 
 		// Set application language back to default if we changed it
-		if ($userLocale != $defaultLocale) {
+		if ($userLocale != $defaultLocale)
+		{
 			$lang->setLanguage($defaultLocale);
 		}
 
-		if ($mail->Send() !== true) {
+		if ($mail->Send() !== true)
+		{
 			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
 		}
 	}
