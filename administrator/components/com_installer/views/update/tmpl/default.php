@@ -58,6 +58,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th class="nowrap center">
 									<?php echo JText::_('COM_INSTALLER_NEW_VERSION'); ?>
 								</th>
+								<th class="nowrap center">
+									<?php echo JText::_('COM_INSTALLER_CHANGELOG'); ?>
+								</th>
 								<th class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
@@ -101,16 +104,31 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td class="hidden-sm-down text-center">
 										<span class="badge badge-warning"><?php echo $item->current_version; ?></span>
 									</td>
-									<td>
+									<td class="hidden-sm-down text-center">
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
-										<?php $modal_params = array(); ?>
-										<?php $modal_params['title'] = $item->version . " - " . $item->name; ?>
-										<?php $modal_params['height'] = '500px'; ?>
-										<?php $body = '<iframe height="500px" src="' . $item->changelogurl . '"></iframe>'; ?>
+									</td>
+									<td class="hidden-sm-down text-center">
+										<?php if($item->changelogurl != NULL):?>
+										<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal">Changelog</button>
 
-										<a href="#myModal" class="btn" data-toggle="modal"> <?php echo $item->version; ?></a>
+										<?php
+										echo Jhtml::_(
+											'bootstrap.renderModal',
+											'changelog_modal',
+											array(
+												'title' => $item->version . " - " . $item->name,
+												'bodyHeight'  => '60',
+												'modalWidth'  => '60',
+											),
+											'<iframe src="' . $item->changelogurl . '"></iframe>');
+										?>
 
-										<?php echo JHTML::_('bootstrap.renderModal', 'myModal', $modal_params, $body); ?>
+										<?php else:?>
+										<span>
+											N/A
+										</span>
+
+										<?php endif; ?>
 									</td>
 									<td class="hidden-sm-down text-center">
 										<?php echo $item->folder_translated; ?>
