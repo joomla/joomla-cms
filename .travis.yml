@@ -14,7 +14,9 @@ matrix:
   fast_finish: true
   include:
     - php: 5.3
-      env: INSTALL_APC="yes"
+      env: INSTALL_APC="yes" crappy=true
+    - php: 5.3
+      env: INSTALL_APC="yes" crappy=false
     - php: 5.4
       env: INSTALL_APC="yes"
     - php: 5.5
@@ -43,6 +45,19 @@ matrix:
   allow_failures:
     - php: hhvm
 
+before_install:
+  - |
+    if [[ $crappy ]]; then
+      INI=~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+      echo date.timezone = "" >> $INI
+      echo memory_limit = 1024M >> $INI
+      echo disable_functions = parse_ini_file,exec,passthru,shell_exec,system,proc_open,popen,curl_exec,curl_multi_exec,parse_ini_file,show_source >> $INI
+      echo session.gc_probability = 0 >> $INI
+      echo opcache.enable_cli = 1 >> $INI
+      echo hhvm.jit = 0 >> $INI
+      echo apc.enable_cli = 0 >> $INI
+    fi
+
 services:
   - memcache
   - memcached
@@ -53,7 +68,7 @@ before_script:
   - if [[ $RUN_UNIT_TESTS == "yes" ]]; then bash build/travis/unit-tests.sh $PWD; fi
 
 script:
-  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
+  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --debug --configuration travisci-phpunit.xml; fi
 
 branches:
   except:
