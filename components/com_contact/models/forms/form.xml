@@ -1,5 +1,5 @@
-<!-- @deprecated  4.0  Not used since 1.6 No replacement. -->
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- @deprecated  4.0  Not used since 1.6 No replacement. -->
 <form>
 	<fieldset>
 		<field name="id" type="hidden"
