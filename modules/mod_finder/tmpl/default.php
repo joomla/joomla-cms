@@ -25,28 +25,33 @@ $output = '<input type="text" name="q" id="mod-finder-searchword' . $module->id 
 	. ' placeholder="' . JText::_('MOD_FINDER_SEARCH_VALUE') . '"/>';
 
 $showLabel  = $params->get('show_label', 1);
-$labelClass = (!$showLabel ? 'element-invisible ' : '') . 'finder' . $suffix;
+
+if ($showLabel) {
+
+$labelClass = 'finder' . $suffix;
 $label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . $labelClass . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
+ 
+	switch ($params->get('label_pos', 'left'))
+	{
+		case 'top' :
+			$output = $label . '<br />' . $output;
+			break;
 
-switch ($params->get('label_pos', 'left'))
-{
-	case 'top' :
-		$output = $label . '<br />' . $output;
-		break;
+		case 'bottom' :
+			$output .= '<br />' . $label;
+			break;
 
-	case 'bottom' :
-		$output .= '<br />' . $label;
-		break;
+		case 'right' :
+			$output .= $label;
+			break;
 
-	case 'right' :
-		$output .= $label;
-		break;
-
-	case 'left' :
-	default :
-		$output = $label . $output;
-		break;
+		case 'left' :
+		default :
+			$output = $label . $output;
+			break;
+	}
 }
+	
 
 if ($params->get('show_button'))
 {
