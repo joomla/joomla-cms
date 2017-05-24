@@ -149,7 +149,7 @@ class JLibraryHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected static function loadLibrary($element)
 	{

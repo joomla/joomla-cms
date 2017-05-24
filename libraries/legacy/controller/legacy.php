@@ -276,19 +276,18 @@ class JControllerLegacy extends JObject
 		// Include the class if not present.
 		if (!class_exists($class))
 		{
-			JLoader::register($class, $path);
-
-			if (!class_exists($class))
+			// If the controller file path exists, include it.
+			if (file_exists($path))
 			{
-				if (isset($backuppath) && file_exists($backuppath))
-				{
-					JLoader::register($class, $backuppath);
-				}
-
-				if (!class_exists($class))
-				{
-					throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
-				}
+				require_once $path;
+			}
+			elseif (isset($backuppath) && file_exists($backuppath))
+			{
+				require_once $backuppath;
+			}
+			else
+			{
+				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
 		}
 
@@ -587,7 +586,7 @@ class JControllerLegacy extends JObject
 				return null;
 			}
 
-			JLoader::register($viewClass, $path);
+			require_once $path;
 
 			if (!class_exists($viewClass))
 			{
@@ -847,19 +846,7 @@ class JControllerLegacy extends JObject
 			}
 			else
 			{
-				$response = 500;
-
-				/*
-				 * With URL rewriting enabled on the server, all client requests for non-existent files are being
-				 * forwarded to Joomla.  Return a 404 response here and assume the client was requesting a non-existent
-				 * file for which there is no view type that matches the file's extension (the most likely scenario).
-				 */
-				if (JFactory::getApplication()->get('sef_rewrite'))
-				{
-					$response = 404;
-				}
-
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), $response);
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
 			}
 		}
 

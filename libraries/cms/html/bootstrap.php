@@ -632,6 +632,20 @@ abstract class JHtmlBootstrap
 				$script[] = "\t.on('hidden', " . $onHidden . ")";
 			}
 
+			$parents = array_key_exists(__METHOD__, static::$loaded) ? array_filter(array_column(static::$loaded[__METHOD__], 'parent')) : array();
+
+			if ($opt['parent'] && empty($parents))
+			{
+				$script[] = "
+					$(document).on('click.collapse.data-api', '[data-toggle=collapse]', function (e) {
+						var \$this   = $(this), href
+						var parent  = \$this.attr('data-parent')
+						var \$parent = parent && $(parent)
+
+						if (\$parent) \$parent.find('[data-toggle=collapse][data-parent=' + parent + ']').not(\$this).addClass('collapsed')
+					})";
+			}
+
 			$script[] = "});";
 
 			// Attach accordion to document

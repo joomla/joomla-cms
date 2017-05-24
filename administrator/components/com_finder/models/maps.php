@@ -55,7 +55,7 @@ class FinderModelMaps extends JModelList
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
