@@ -131,14 +131,15 @@ class JHelperMedia
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   $file       File information
-	 * @param   string  $component  The option name for the component storing the parameters
+	 * @param   array    $file       File information
+	 * @param   string   $component  The option name for the component storing the parameters
+	 * @param   boolean  $checkMime  With this option you can disable all mime checks
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function canUpload($file, $component = 'com_media')
+	public function canUpload($file, $component = 'com_media', $checkMime = ture)
 	{
 		$app    = JFactory::getApplication();
 		$params = JComponentHelper::getParams($component);
@@ -215,8 +216,48 @@ class JHelperMedia
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
 				{
-					// Get the mime type this is an image file
-					$mime = $this->getMimeType($file['tmp_name'], true);
+					// Bypass all mime checks...
+					if ($checkMime)
+					{
+						// Get the mime type this is an image file
+						$mime = $this->getMimeType($file['tmp_name'], true);
+
+						// Did we get anything useful?
+						if ($mime != false)
+						{
+							$result = $this->checkMimeType($mime, $component);
+
+							// If the mime type is not allowed we don't upload it and show the mime code error to the user
+							if ($result === false)
+							{
+								$app->enqueueMessage(JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+
+								return false;
+							}
+						}
+						// We can't detect the mime type so it looks like an invalid image
+						else
+						{
+							$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
+
+							return false;
+						}
+					}
+				}
+				else
+				{
+					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+
+					return false;
+				}
+			}
+			elseif (!in_array($filetype, $ignored))
+			{
+				// Bypass all mime checks...
+				if ($checkMime)
+				{
+					// Get the mime type this is not an image file
+					$mime = $this->getMimeType($file['tmp_name'], false);
 
 					// Did we get anything useful?
 					if ($mime != false)
@@ -231,45 +272,13 @@ class JHelperMedia
 							return false;
 						}
 					}
-					// We can't detect the mime type so it looks like an invalid image
+					// We can't detect the mime type so it looks like an invalid file
 					else
 					{
-						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
 						return false;
 					}
-				}
-				else
-				{
-					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
-
-					return false;
-				}
-			}
-			elseif (!in_array($filetype, $ignored))
-			{
-				// Get the mime type this is not an image file
-				$mime = $this->getMimeType($file['tmp_name'], false);
-
-				// Did we get anything useful?
-				if ($mime != false)
-				{
-					$result = $this->checkMimeType($mime, $component);
-
-					// If the mime type is not allowed we don't upload it and show the mime code error to the user
-					if ($result === false)
-					{
-						$app->enqueueMessage(JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
-
-						return false;
-					}
-				}
-				// We can't detect the mime type so it looks like an invalid file
-				else
-				{
-					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
-
-					return false;
 				}
 
 				if (!JFactory::getUser()->authorise('core.manage', $component))
