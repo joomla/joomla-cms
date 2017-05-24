@@ -1,16 +1,20 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Log\Logger;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Log\LogEntry;
+use Joomla\CMS\Log\Logger;
+
+\JLoader::import('joomla.filesystem.file');
+\JLoader::import('joomla.filesystem.folder');
 
 /**
  * Joomla! Formatted Text File Log class
@@ -20,7 +24,7 @@ jimport('joomla.filesystem.folder');
  *
  * @since  11.1
  */
-class JLogLoggerFormattedtext extends JLogLogger
+class FormattedtextLogger extends Logger
 {
 	/**
 	 * The format which each entry follows in the log file.
@@ -69,7 +73,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		// The name of the text file path defaults to that which is set in configuration if not explicitly given.
 		if (empty($this->options['text_file_path']))
 		{
-			$this->options['text_file_path'] = JFactory::getConfig()->get('log_path');
+			$this->options['text_file_path'] = \JFactory::getConfig()->get('log_path');
 		}
 
 		// False to treat the log file as a php file.
@@ -94,14 +98,14 @@ class JLogLoggerFormattedtext extends JLogLogger
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   JLogEntry  $entry  The log entry object to add to the log.
+	 * @param   LogEntry  $entry  The log entry object to add to the log.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
-	public function addEntry(JLogEntry $entry)
+	public function addEntry(LogEntry $entry)
 	{
 		// Initialise the file if not already done.
 		$this->initFile();
@@ -150,9 +154,9 @@ class JLogLoggerFormattedtext extends JLogLogger
 		// Write the new entry to the file.
 		$line .= "\n";
 
-		if (!JFile::append($this->path, $line))
+		if (!\JFile::append($this->path, $line))
 		{
-			throw new RuntimeException('Cannot write to log file.');
+			throw new \RuntimeException('Cannot write to log file.');
 		}
 	}
 
@@ -178,7 +182,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		}
 
 		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
-		$head[] = '#Software: ' . JPlatform::getLongVersion();
+		$head[] = '#Software: ' . \JPlatform::getLongVersion();
 		$head[] = '';
 
 		// Prepare the fields string
@@ -196,25 +200,25 @@ class JLogLoggerFormattedtext extends JLogLogger
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function initFile()
 	{
 		// We only need to make sure the file exists
-		if (JFile::exists($this->path))
+		if (\JFile::exists($this->path))
 		{
 			return;
 		}
 
 		// Make sure the folder exists in which to create the log file.
-		JFolder::create(dirname($this->path));
+		\JFolder::create(dirname($this->path));
 
 		// Build the log file header.
 		$head = $this->generateFileHeader();
 
-		if (!JFile::write($this->path, $head))
+		if (!\JFile::write($this->path, $head))
 		{
-			throw new RuntimeException('Cannot write to log file.');
+			throw new \RuntimeException('Cannot write to log file.');
 		}
 	}
 
