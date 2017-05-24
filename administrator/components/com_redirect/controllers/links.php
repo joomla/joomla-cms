@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Redirect link list controller class.
@@ -41,7 +43,7 @@ class RedirectControllerLinks extends JControllerAdmin
 			// Get the model.
 			$model = $this->getModel();
 
-			JArrayHelper::toInteger($ids);
+			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->activate($ids, $newUrl, $comment))
@@ -82,7 +84,7 @@ class RedirectControllerLinks extends JControllerAdmin
 			// Get the model.
 			$model = $this->getModel();
 
-			JArrayHelper::toInteger($ids);
+			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->duplicateUrls($ids, $newUrl, $comment))

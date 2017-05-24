@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Http
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,9 +47,18 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		static $classNumber = 1;
-		$this->options = $this->getMock('\\Joomla\\Registry\\Registry', array('get', 'set'));
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport' . $classNumber ++, false);
 
+		// Build the mock object.
+		$this->options  = $this->getMockBuilder('\\Joomla\\Registry\\Registry')
+					->setMethods(array('get', 'set'))
+					->getMock();
+
+		$this->transport = $this->getMockBuilder('JHttpTransportStream')
+					->setMethods(array('request'))
+					->setConstructorArgs(array($this->options))
+					->setMockClassName('CustomTransport' . $classNumber ++)
+					->disableOriginalConstructor()
+					->getMock();
 		$this->object = new JHttp($this->options, $this->transport);
 	}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -87,6 +87,13 @@ class JImage
 	 * @since  11.3
 	 */
 	protected static $formats = array();
+
+	/**
+	 * @var    boolean  True for best quality. False for speed
+	 *
+	 * @since  3.7.0
+	 */
+	protected $generateBestQuality = true;
 
 	/**
 	 * Class constructor.
@@ -420,7 +427,10 @@ class JImage
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
+		if (!$this->generateBestQuality)
+		{
 			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 		else
@@ -550,7 +560,7 @@ class JImage
 	/**
 	 * Method to determine whether or not the image has transparency.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.3
 	 * @throws  LogicException
@@ -749,7 +759,10 @@ class JImage
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
+		if (!$this->generateBestQuality)
+		{
 			imagecopyresized(
 				$handle,
 				$this->handle,
@@ -1177,5 +1190,19 @@ class JImage
 	public function __destruct()
 	{
 		$this->destroy();
+	}
+
+	/**
+	 * Method for set option of generate thumbnail method
+	 *
+	 * @param   boolean  $quality  True for best quality. False for best speed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function setThumbnailGenerate($quality = true)
+	{
+		$this->generateBestQuality = (boolean) $quality;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,15 +47,19 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
+		$this->total         = $this->get('Total');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		MenusHelper::addSubmenu('items');
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			MenusHelper::addSubmenu('items');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -202,6 +206,7 @@ class MenusViewItems extends JViewLegacy
 			}
 
 			$item->item_type = $value;
+			$item->protected = $item->menutype == 'main' || $item->menutype == 'menu';
 		}
 
 		// Levels filter.
@@ -219,8 +224,25 @@ class MenusViewItems extends JViewLegacy
 
 		$this->f_levels = $options;
 
-		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+			$this->sidebar = JHtmlSidebar::render();
+		}
+		else
+		{
+			// In menu items associations modal we need to remove language filter if forcing a language.
+			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			{
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+				$this->filterForm->setField($languageXml, 'filter', true);
+
+				// Also, unset the active language filter so the search tools is not open by default with this filter.
+				unset($this->activeFilters['language']);
+			}
+		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
 		JEventDispatcher::getInstance()->trigger('onBeforeRenderMenuItems', array($this));
@@ -262,7 +284,9 @@ class MenusViewItems extends JViewLegacy
 			JToolbarHelper::addNew('item.add');
 		}
 
-		if ($canDo->get('core.edit'))
+		$m = $this->state->get('filter.menutype');
+
+		if ($canDo->get('core.edit') && ($m != 'main' && $m != 'menu'))
 		{
 			JToolbarHelper::editList('item.edit');
 		}
@@ -278,7 +302,7 @@ class MenusViewItems extends JViewLegacy
 			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
 		{
 			JToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 		}
@@ -309,6 +333,12 @@ class MenusViewItems extends JViewLegacy
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('items.trash');
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::preferences('com_menus');
 		}
 
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');

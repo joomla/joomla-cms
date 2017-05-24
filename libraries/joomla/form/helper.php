@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\String\StringHelper;
 
 jimport('joomla.filesystem.path');
 
@@ -169,7 +171,7 @@ class JFormHelper
 			list($prefix, $type) = explode('.', $type);
 		}
 
-		$class = JString::ucfirst($prefix, '_') . 'Form' . JString::ucfirst($entity, '_') . JString::ucfirst($type, '_');
+		$class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
 
 		if (class_exists($class))
 		{
@@ -204,12 +206,13 @@ class JFormHelper
 		foreach ($paths as $path)
 		{
 			$file = JPath::find($path, $type);
+
 			if (!$file)
 			{
 				continue;
 			}
 
-			require_once $file;
+			JLoader::register($class, $file);
 
 			if (class_exists($class))
 			{
@@ -312,5 +315,124 @@ class JFormHelper
 		}
 
 		return $paths;
+	}
+
+	/**
+	 * Parse the show on conditions
+	 *
+	 * @param   string  $showOn       Show on conditions.
+	 * @param   string  $formControl  Form name.
+	 * @param   string  $group        The dot-separated form group path.
+	 *
+	 * @return  array   Array with show on conditions.
+	 *
+	 * @since   3.7.0
+	 */
+	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
+	{
+		// Process the showon data.
+		if (!$showOn)
+		{
+			return array();
+		}
+
+		$formPath = $formControl ?: '';
+
+		if ($formPath && $group)
+		{
+			$formPath .= '[' . $group . ']';
+		}
+
+		$showOnData  = array();
+		$showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$op          = '';
+
+		foreach ($showOnParts as $showOnPart)
+		{
+			if (($showOnPart === '[AND]') || $showOnPart === '[OR]')
+			{
+				$op = trim($showOnPart, '[]');
+				continue;
+			}
+
+			$compareEqual     = strpos($showOnPart, '!:') === false;
+			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
+
+			$showOnData[] = array(
+				'field'  => $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
+				'values' => explode(',', $showOnPartBlocks[1]),
+				'sign'   => $compareEqual === true ? '=' : '!=',
+				'op'     => $op,
+			);
+
+			if ($op !== '')
+			{
+				$op = '';
+			}
+		}
+
+		return $showOnData;
+	}
+
+	/**
+	 * Parse the render on conditions
+	 *
+	 * @param   string    $renderOn   Render on conditions.
+	 *
+	 * @return  boolean   True if the field shall be rendered, False otherwise.
+	 *
+	 * @since 3.7.0
+	 */
+	public static function parseRenderOnConditions($renderOn)
+	{
+		// Process the renderon data.
+		if (!$renderOn)
+		{
+			return true;
+		}
+
+		$result = null;
+		$lastop = null;
+		$renderOnParts = preg_split('%\[(AND|OR)\]%', $renderOn, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+		foreach ($renderOnParts as $renderOnPart)
+		{
+			if (($renderOnPart == 'AND') || ($renderOnPart == 'OR'))
+			{
+				$lastop = $renderOnPart;
+				continue;
+			}
+
+			// Split field into 3 items: "global" or component name, parameter name, list of expected values
+			$renderon = explode(':', $renderOnPart, 3);
+
+			// Get global config if first part is 'global' otherwise it is a component name
+			$config = ($renderon[0] == 'global') ?
+				JFactory::getConfig() :
+				JComponentHelper::getParams($renderon[0]);
+
+			// Get parameter value
+			$currsetting = $config->get($renderon[1], null);
+
+			// Get renderon expected values and compare with parameter value
+			$onvalues = explode(',', $renderon[2]);
+
+			if ($currsetting !== null and in_array($currsetting, $onvalues))
+			{
+				if ($result === null or $lastop == 'OR')
+				{
+					$result = true;
+				}
+			}
+			else
+			{
+				if ($result === null or $lastop == 'AND')
+				{
+					$result = false;
+				}
+			}
+		}
+
+		return $result;
 	}
 }

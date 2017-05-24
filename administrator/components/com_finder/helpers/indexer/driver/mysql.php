@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -538,8 +538,16 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			$db->execute();
 		}
 
-		// Optimize the terms mapping table.
-		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
+		// Optimize the filters table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_filters'));
+		$db->execute();
+
+		// Optimize the terms common table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_terms_common'));
+		$db->execute();
+
+		// Optimize the types table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_types'));
 		$db->execute();
 
 		// Remove the orphaned taxonomy nodes.
@@ -547,6 +555,10 @@ class FinderIndexerDriverMysql extends FinderIndexer
 
 		// Optimize the taxonomy mapping table.
 		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
+		$db->execute();
+
+		// Optimize the taxonomy table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy'));
 		$db->execute();
 
 		return true;

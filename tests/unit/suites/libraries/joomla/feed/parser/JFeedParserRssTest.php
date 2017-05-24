@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -453,7 +453,7 @@ class JFeedParserRssTest extends TestCase
 	public function testInitialise($expected, $xml)
 	{
 		// Set the XML for the internal reader.
-		$this->_reader->Xml($xml);
+		$this->_reader->XML($xml);
 
 		// Advance the reader to the first element.
 		do
@@ -506,19 +506,19 @@ class JFeedParserRssTest extends TestCase
 
 		TestReflection::invoke($this->_instance, 'processFeedEntry', $entry, $el);
 
-		$this->assertEquals('http://example.com/id', $entry->uri);
-		$this->assertEquals('title', $entry->title);
+		$this->assertSame('http://example.com/id', $entry->uri);
+		$this->assertSame('title', $entry->title);
 		$this->assertInstanceOf('JDate', $entry->updatedDate);
 		$this->assertInstanceOf('JDate', $entry->publishedDate);
-		$this->assertEquals('description', $entry->content);
-		$this->assertEquals(array('category' => ''), $entry->categories);
+		$this->assertSame('description', $entry->content);
+		$this->assertSame(array('category' => ''), $entry->categories);
 		$this->assertInstanceOf('JFeedPerson', $entry->author);
-		$this->assertEquals('Webmaster', $entry->author->name);
-		$this->assertEquals('admin@domain.com', $entry->author->email);
-		$this->assertEquals(1, count($entry->links));
+		$this->assertSame('Webmaster', $entry->author->name);
+		$this->assertSame('admin@domain.com', $entry->author->email);
+		$this->assertCount(1, $entry->links);
 		$this->assertInstanceOf('JFeedLink', $entry->links[0]);
-		$this->assertEquals('http://www.w3schools.com/media/3d.wmv', $entry->links[0]->uri);
-		$this->assertEquals('video/wmv', $entry->links[0]->type);
+		$this->assertSame('http://www.w3schools.com/media/3d.wmv', $entry->links[0]->uri);
+		$this->assertSame('video/wmv', $entry->links[0]->type);
 		$this->assertEquals(78645, $entry->links[0]->length);
 	}
 
@@ -540,8 +540,8 @@ class JFeedParserRssTest extends TestCase
 
 		$this->assertInstanceOf('JFeedPerson', $person);
 
-		$this->assertEquals($name, $person->name);
-		$this->assertEquals($email, $person->email);
+		$this->assertSame($name, $person->name);
+		$this->assertSame($email, $person->email);
 	}
 
 	/**
@@ -576,6 +576,6 @@ class JFeedParserRssTest extends TestCase
 		unset($this->_instance);
 		unset($this->_reader);
 
-		parent::teardown();
+		parent::tearDown();
 	}
 }

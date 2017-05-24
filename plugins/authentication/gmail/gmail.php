@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.gmail
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class PlgAuthenticationGMail extends JPlugin
 		$this->loadLanguage();
 
 		// No backend authentication
-		if (JFactory::getApplication()->isAdmin() && !$this->params->get('backendLogin', 0))
+		if (JFactory::getApplication()->isClient('administrator') && !$this->params->get('backendLogin', 0))
 		{
 			return;
 		}
@@ -216,7 +216,7 @@ class PlgAuthenticationGMail extends JPlugin
 				}
 			}
 		}
-		elseif (JFactory::getApplication()->isAdmin())
+		elseif (JFactory::getApplication()->isClient('administrator'))
 		{
 			// We wont' allow backend access without local account
 			$response->status        = JAuthentication::STATUS_FAILURE;

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -298,8 +298,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 			// Create the JEditor instance based on the given editor.
 			if (is_null($editor))
 			{
-				$conf = JFactory::getConfig();
-				$editor = $conf->get('editor');
+				$editor = JFactory::getConfig()->get('editor');
 			}
 
 			$this->editor = JEditor::getInstance($editor);

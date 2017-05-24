@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -201,6 +201,12 @@ class JFormFieldSubform extends JFormField
 		{
 			// Guess here is the JSON string from 'default' attribute
 			$this->value = json_decode($this->value, true);
+		}
+
+		if (!$this->formsource)
+		{
+			// Set the formsource parameter from the content of the node
+			$this->formsource = $element->children()->saveXML();
 		}
 
 		return true;

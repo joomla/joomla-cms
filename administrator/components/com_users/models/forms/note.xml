@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset
+		addfieldpath="/administrator/components/com_categories/models/fields"
+	>
 		<field
 			name="id"
 			type="hidden"
@@ -22,11 +24,16 @@
 
 		<field
 			name="catid"
-			type="category"
-			extension="com_users"
+			type="modal_category"
 			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
-			description="JFIELD_CATEGORY_DESC" >
-		</field>
+			description="JFIELD_CATEGORY_DESC"
+			extension="com_users"
+			required="true"
+			select="true"
+			new="true"
+			edit="true"
+			clear="true"
+		/>
 
 		<field
 			name="subject"
@@ -69,7 +76,7 @@
 			label="COM_USERS_FIELD_REVIEW_TIME_LABEL"
 			description="COM_USERS_FIELD_REVIEW_TIME_DESC"
 			default="NOW"
-			format="%Y-%m-%d"
+			translateformat="true"
 			/>
 
 		<field
@@ -111,18 +118,30 @@
 			type="hidden"
 			filter="unset"
 			/>
-			
-		<field name="publish_up" type="calendar"
-			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />
 
-		<field name="publish_down" type="calendar"
-			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />	
-			
-		<field 
+		<field
+			name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
@@ -130,7 +149,6 @@
 			maxlength="255"
 			size="45"
 			labelclass="control-label"
-			/>	
-	
+			/>
 	</fieldset>
 </form>

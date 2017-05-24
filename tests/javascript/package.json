@@ -15,8 +15,7 @@
 	"devDependencies": {
 		"jasmine-core": "^2.4.1",
 		"jasmine-jquery": "^2.1.1",
-		"jquery": "^2.2.3",
-		"jquery-ui-bundle": "^1.11.4",
+		"jquery": "^1.12.4",
 		"karma": "^0.13.22",
 		"karma-coverage": "^1.0.0",
 		"karma-firefox-launcher": "^0.1.7",

@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Modules component helper.
@@ -208,7 +210,7 @@ abstract class ModulesHelper
 			$modules[$i]->text = JText::_($module->text);
 		}
 
-		JArrayHelper::sortObjects($modules, 'text', 1, true, true);
+		$modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);
 
 		return $modules;
 	}

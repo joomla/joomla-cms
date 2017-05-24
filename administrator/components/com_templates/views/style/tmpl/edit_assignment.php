@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,11 +21,11 @@ $user      = JFactory::getUser();
 	</button>
 </div>
 <div id="menu-assignment">
-	<ul class="menu-links thumbnails">
+	<ul class="menu-links">
 
 		<?php foreach ($menuTypes as &$type) : ?>
 			<li class="span3">
-				<div class="thumbnail">
+				<div class="menu-links-block">
 					<button class="btn" type="button" class="jform-rightbtn" onclick="jQuery('.<?php echo $type->menutype; ?>').attr('checked', !jQuery('.<?php echo $type->menutype; ?>').attr('checked'));">
 						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 					</button>

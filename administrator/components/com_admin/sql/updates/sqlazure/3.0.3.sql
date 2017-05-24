@@ -1,1 +1,1 @@
-ALTER TABLE #__associations ALTER COLUMN id INT;
+ALTER TABLE [#__associations] ALTER COLUMN [id] INT;

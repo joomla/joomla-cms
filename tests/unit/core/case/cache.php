@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,23 +62,23 @@ abstract class TestCaseCache extends TestCase
 
 		if ($this->handler instanceof JCacheStorage)
 		{
+			// Deprecated, temporary have to stay because flush method is not implemented in all storages.
 			$this->handler->clean($this->group);
+			$this->handler->flush();
 		}
 
 		parent::tearDown();
 	}
 
 	/**
-	 * Check if the adapter is blacklisted in an environment
-	 *
-	 * @param   string  $name  The name of the adapter
-	 *
-	 * @return  boolean
+	 * @testdox  Data is correctly stored to the cache store and reported as existing
 	 */
-	protected function isBlacklisted($name)
+	public function testCacheContains()
 	{
-		// Memcached & Redis test as supported on the Jenkins server but data processing fails, temporarily block them only in this environment
-		return in_array($name, array('memcached', 'redis')) && isset($_ENV['BUILD_TAG']) && strpos($_ENV['BUILD_TAG'], 'jenkins-cms-') === 0;
+		$data = 'testData';
+
+		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
+		$this->assertTrue($this->handler->contains($this->id, $this->group), 'Failed validating data exists in the cache store');
 	}
 
 	/**
@@ -109,13 +109,34 @@ abstract class TestCaseCache extends TestCase
 	{
 		$data = 'testData';
 
-		$this->handler->_lifetime = 2;
+		if ($this->handler->_lifetime > 1)
+		{
+			// Minimum lifetime for memcache(-d) and redis can be only 1
+			$this->handler->_lifetime = 1;
+		}
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
 
-		sleep(5);
+		// Test whether data was stored.
+		$this->assertEquals($data, $this->handler->get($this->id, $this->group), 'Some data should be available in lifetime.');
 
-		$this->assertFalse($this->handler->get($this->id, $this->group), 'No data should be returned from the cache store when expired.');
+		// Timer and testing interval (in seconds)
+		$timer    = 0;
+		$interval = 0.05;
+
+		// Wait for lifetime minus the first interval.
+		usleep(($this->handler->_lifetime - $interval) * 1000000);
+
+		do
+		{
+			usleep($interval * 1000000);
+
+			$cache  = $this->handler->get($this->id, $this->group);
+			$timer += $interval;
+		}
+		while ($cache === $data && $timer < 5);
+
+		$this->assertFalse($cache, 'No data should be returned from the cache store when expired.');
 	}
 
 	/**
@@ -163,6 +184,8 @@ abstract class TestCaseCache extends TestCase
 	 */
 	public function testIsSupported()
 	{
-		$this->assertTrue($this->handler->isSupported(), 'Claims the cache handler is not supported.');
+		$handler = $this->handler;
+
+		$this->assertTrue($handler::isSupported(), 'Claims the cache handler is not supported.');
 	}
 }

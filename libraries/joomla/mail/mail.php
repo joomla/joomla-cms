@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -451,11 +451,13 @@ class JMail extends PHPMailer
 			// Wrapped in try/catch if PHPMailer is configured to throw exceptions
 			try
 			{
+				$result = true;
+
 				if (is_array($path))
 				{
 					if (!empty($name) && count($path) != count($name))
 					{
-						throw new InvalidArgumentException("The number of attachments must be equal with the number of name");
+						throw new InvalidArgumentException('The number of attachments must be equal with the number of name');
 					}
 
 					foreach ($path as $key => $file)
@@ -672,6 +674,9 @@ class JMail extends PHPMailer
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null)
 	{
+		// Create config object
+		$config = JFactory::getConfig();
+
 		$this->setSubject($subject);
 		$this->setBody($body);
 
@@ -721,6 +726,10 @@ class JMail extends PHPMailer
 			{
 				return false;
 			}
+		}
+		elseif ($config->get('replyto'))
+		{
+			$this->addReplyTo($config->get('replyto'), $config->get('replytoname'));
 		}
 
 		// Add sender to replyTo only if no replyTo received

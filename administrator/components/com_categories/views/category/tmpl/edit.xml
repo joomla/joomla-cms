@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CATEGORIES_CATEGORY_VIEW_EDIT_TITLE">
+		<message>
+			<![CDATA[COM_CATEGORIES_CATEGORY_VIEW_EDIT_DESC]]>
+		</message>
+	</layout>
+	<fieldset name="request">
+		<fields name="request">
+			<field
+				name="extension"
+				type="components"
+				label="COM_CATEGORIES_CHOOSE_COMPONENT_LABEL"
+				description="COM_CATEGORIES_CHOOSE_COMPONENT_DESC"
+				required="true"
+			/>
+			<field
+				name="id"
+				type="hidden"
+				default="0"
+			/>
+		</fields>
+	</fieldset>
+</metadata>

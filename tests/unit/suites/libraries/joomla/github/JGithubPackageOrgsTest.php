@@ -23,9 +23,9 @@ class JGithubPackageOrgsTest extends PHPUnit_Framework_TestCase
 	protected $response;
 
 	/**
-     * @var JGithubPackageOrgs
-     */
-    protected $object;
+	 * @var JGithubPackageOrgs
+	 */
+	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
@@ -52,8 +52,8 @@ class JGithubPackageOrgsTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options  = new JRegistry;
-		$this->client   = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
-		$this->response = $this->getMock('JHttpResponse');
+		$this->client   = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
+		$this->response = $this->getMockBuilder('JHttpResponse')->getMock();
 
 		$this->object = new JGithubPackageOrgs($this->options, $this->client);
 	}
@@ -75,60 +75,60 @@ class JGithubPackageOrgsTest extends PHPUnit_Framework_TestCase
 		parent::tearDown();
 	}
 
-    /**
-     * @covers JGithubPackageOrgs::getList
-     */
-    public function testGetList()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageOrgs::getList
+	 */
+	public function testGetList()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/users/joomla/orgs')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/users/joomla/orgs')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->getList('joomla'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->getList('joomla'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageOrgs::get
-     */
-    public function testGet()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageOrgs::get
+	 */
+	public function testGet()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/orgs/joomla')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/orgs/joomla')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->get('joomla'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->get('joomla'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageOrgs::edit
-     */
-    public function testEdit()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageOrgs::edit
+	 */
+	public function testEdit()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('patch')
-		    ->with('/orgs/joomla')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/orgs/joomla')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->edit('joomla', 'email@example.com'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->edit('joomla', 'email@example.com'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 }

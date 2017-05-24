@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -263,7 +263,7 @@ class JApplicationAdministrator extends JApplicationCms
 			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -275,11 +275,11 @@ class JApplicationAdministrator extends JApplicationCms
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language']))
+		if (!JLanguageHelper::exists($options['language']))
 		{
 			$lang = $this->get('language', 'en-GB');
 
-			if (JLanguage::exists($lang))
+			if (JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -292,9 +292,6 @@ class JApplicationAdministrator extends JApplicationCms
 
 		// Finish initialisation
 		parent::initialiseApp($options);
-
-		// Load Library language
-		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
@@ -415,8 +412,7 @@ class JApplicationAdministrator extends JApplicationCms
 		$this->set('themeFile', $file . '.php');
 
 		// Safety check for when configuration.php root_user is in use.
-		$config = JFactory::getConfig();
-		$rootUser = $config->get('root_user');
+		$rootUser = $this->get('root_user');
 
 		if (property_exists('JConfig', 'root_user')
 			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))

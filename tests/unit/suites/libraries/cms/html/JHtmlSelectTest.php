@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -334,14 +334,14 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 		{
 			$this->assertEquals(
 				$expected,
-				JHtml::_('select.genericlist', $data, $name, $attribs)
+				JHtmlSelect::genericlist($data, $name, $attribs)
 			);
 		}
 		else
 		{
 			$this->assertEquals(
 				$expected,
-				JHtml::_('select.genericlist', $data, $name, $attribs, $optKey, $optText, $selected, $idtag, $translate)
+				JHtmlSelect::genericlist($data, $name, $attribs, $optKey, $optText, $selected, $idtag, $translate)
 			);
 		}
 	}
@@ -383,7 +383,7 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			(object) $expected,
-			JHtml::_('select.option', $value, $text, $optKey, $optText, $disable)
+			JHtmlSelect::option($value, $text, $optKey, $optText, $disable)
 		);
 	}
 
@@ -435,7 +435,7 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			$expected,
-			JHtml::_('select.options', $arr, $optKey, $optText, $selected, $translate)
+			JHtmlSelect::options($arr, $optKey, $optText, $selected, $translate)
 		);
 	}
 
@@ -471,14 +471,14 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 		{
 			$this->assertEquals(
 				$expected,
-				JHtml::_('select.radiolist', (object) $data, $name, $attribs)
+				JHtmlSelect::radiolist((object) $data, $name, $attribs)
 			);
 		}
 		else
 		{
 			$this->assertEquals(
 				$expected,
-				JHtml::_('select.radiolist', (object) $data, $name, $attribs, $optKey, $optText, $selected, $idtag, $translate)
+				JHtmlSelect::radiolist((object) $data, $name, $attribs, $optKey, $optText, $selected, $idtag, $translate)
 			);
 		}
 	}

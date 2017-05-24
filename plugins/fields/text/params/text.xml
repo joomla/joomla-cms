@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="filter"
+				type="list"
+				class="btn-group"
+				label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
+				description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
+			>
+				<option value="">PLG_FIELDS_TEXT_PARAMS_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="raw">PLG_FIELDS_TEXT_PARAMS_FILTER_RAW</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

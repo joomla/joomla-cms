@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		$app = JFactory::getApplication();
 		$this->setState('message', $app->getUserState('com_installer.message'));
@@ -46,7 +46,7 @@ class InstallerModelDatabase extends InstallerModel
 		// Prepare the utf8mb4 conversion check table
 		$this->prepareUtf8mb4StatusTable();
 
-		parent::populateState('name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**

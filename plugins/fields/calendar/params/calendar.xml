@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="format"
+				type="text"
+				class="input-xxlarge"
+				label="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_LABEL"
+				description="PLG_FIELDS_CALENDAR_PARAMS_FORMAT_DESC"
+				size="20"
+			/>
+		</fieldset>
+	</fields>
+</form>

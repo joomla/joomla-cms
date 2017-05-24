@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -190,19 +190,43 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 */
 	public function test__toStringUpdate()
 	{
-		$q = new JDatabaseQueryPostgresql($this->dbo);
+		// Test on ugly query
+		$this->_instance
+			->update('#__foo AS a')
+			->join('INNER', "b\roN\nb.id = a.id")
+			->set('a.hits = 0');
 
-		$q->update('#__foo AS a')
+		$string = (string) $this->_instance;
+
+		$this->assertEquals(
+			PHP_EOL . "UPDATE #__foo AS a" .
+			PHP_EOL . "SET a.hits = 0" .
+			PHP_EOL . "FROM b" .
+			PHP_EOL . "WHERE b.id = a.id",
+			$string
+		);
+
+		$this->_instance
+			->clear()
+			->update('#__foo AS a')
 			->join('INNER', 'b ON b.id = a.id')
 			->set('a.id = 2')
 			->where('b.id = 1');
+
+		$string = (string) $this->_instance;
 
 		$this->assertEquals(
 			PHP_EOL . "UPDATE #__foo AS a" .
 			PHP_EOL . "SET a.id = 2" .
 			PHP_EOL . "FROM b" .
 			PHP_EOL . "WHERE b.id = 1 AND b.id = a.id",
-			(string) $q
+			$string
+		);
+
+		// Run method __toString() again on the same query
+		$this->assertEquals(
+			$string,
+			(string) $this->_instance
 		);
 	}
 

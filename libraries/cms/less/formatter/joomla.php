@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Less
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,9 +22,9 @@ class JLessFormatterJoomla extends lessc_formatter_classic
 
 	public $breakSelectors = true;
 
-	public $assignSeparator = ": ";
+	public $assignSeparator = ': ';
 
-	public $selectorSeparator = ",";
+	public $selectorSeparator = ',';
 
 	public $indentChar = "\t";
 }

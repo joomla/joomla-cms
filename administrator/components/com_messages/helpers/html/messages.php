@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * JHtml administrator messages class.
@@ -73,7 +75,7 @@ class JHtmlMessages
 			0 => array('unpublish', 'messages.publish', 'COM_MESSAGES_OPTION_UNREAD', 'COM_MESSAGES_MARK_AS_READ'),
 		);
 
-		$state = JArrayHelper::getValue($states, (int) $value, $states[0]);
+		$state = ArrayHelper::getValue($states, (int) $value, $states[0]);
 		$icon  = $state[0];
 
 		if ($canChange)

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			class="readonly"
+			default="0"
+			filter="int"
+			readonly="true"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
+			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
+			class="input-xxlarge input-large-text"
+			size="40"
+			required="true"/>
+
+		<field
+			name="alias"
+			type="alias"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="40"
+		/>
+
+		<field
+			name="note"
+			type="text"
+			label="JFIELD_NOTE_LABEL"
+			description="COM_MENUS_ITEM_FIELD_NOTE_DESC"
+			maxlength="255"
+			class="span12"
+			size="40"
+		/>
+
+		<field
+			name="link"
+			type="link"
+			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
+			description="COM_MENUS_ITEM_FIELD_LINK_DESC"
+			readonly="true"
+			class="input-xxlarge"
+			size="50"
+		/>
+
+		<field
+			name="menutype"
+			type="menu"
+			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
+			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
+			required="true"
+			clientid="1"
+			size="1"
+		>
+			<option value="">COM_MENUS_SELECT_MENU</option>
+		</field>
+
+		<field
+			name="type"
+			type="menutype"
+			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
+			description="COM_MENUS_ITEM_FIELD_TYPE_DESC"
+			class="input-medium"
+			required="true"
+			size="40"
+		/>
+
+		<field
+			name="published"
+			type="list"
+			class="chzn-color-state"
+			id="published"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			size="1"
+			default="1"
+			filter="integer">
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="parent_id"
+			type="menuparent"
+			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
+			description="COM_MENUS_ITEM_FIELD_PARENT_DESC"
+			default="1"
+			filter="int"
+			clientid="1"
+			size="1">
+			<option value="1">COM_MENUS_ITEM_ROOT</option>
+		</field>
+
+		<field
+			name="menuordering"
+			type="menuordering"
+			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
+			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"
+			filter="int"
+			size="1">
+		</field>
+
+		<field
+			name="component_id"
+			type="hidden"
+			filter="int"
+		/>
+
+		<field
+			name="browserNav"
+			type="list"
+			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
+			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
+			default="0"
+			filter="int"
+		>
+			<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
+			<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
+			<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
+		</field>
+
+		<field
+			name="home"
+			type="hidden"
+			default="0"
+		/>
+
+		<field
+			name="access"
+			type="hidden"
+			id="access"
+			default="0"
+		/>
+
+		<field
+			name="template_style_id"
+			type="hidden"
+			default="0"
+		/>
+
+		<field
+			name="language"
+			type="hidden"
+			default="*"
+		/>
+
+		<field
+			name="path"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="level"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="lft"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="rgt"
+			type="hidden"
+			filter="unset"
+		/>
+	</fieldset>
+
+	<fields name="params">
+	</fields>
+</form>

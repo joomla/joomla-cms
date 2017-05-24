@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -140,7 +140,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 			'RELDATE'    => '22-June-2009',
 			'RELTIME'    => '23:00',
 			'RELTZ'      => 'GMT',
-			'COPYRIGHT'  => 'Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.',
+			'COPYRIGHT'  => 'Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.',
 			'URL'        => '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
 		);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,12 +63,6 @@ JFactory::getDocument()->addStyleDeclaration(
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
 		overflow: hidden;
-	}
-	
-	.j-jed-message {
-		margin-bottom: 40px;
-		line-height: 2em;
-		color:#333333;
 	}
 	'
 );

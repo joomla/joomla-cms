@@ -23,9 +23,9 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 	protected $response;
 
 	/**
-     * @var JGithubPackageOrgsMembers
-     */
-    protected $object;
+	 * @var JGithubPackageOrgsMembers
+	 */
+	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
@@ -52,30 +52,30 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options  = new JRegistry;
-		$this->client   = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
-		$this->response = $this->getMock('JHttpResponse');
+		$this->client   = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
+		$this->response = $this->getMockBuilder('JHttpResponse')->getMock();
 
 		$this->object = new JGithubPackageOrgsMembers($this->options, $this->client);
 	}
 
-    /**
-     * @covers JGithubPackageOrgsMembers::getList
-     */
-    public function testGetList()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageOrgsMembers::getList
+	 */
+	public function testGetList()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/orgs/joomla/members')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/orgs/joomla/members')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->getList('joomla'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->getList('joomla'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::getList
@@ -118,23 +118,23 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * @covers JGithubPackageOrgsMembers::check
-     */
-    public function testCheck()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	 * @covers JGithubPackageOrgsMembers::check
+	 */
+	public function testCheck()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/orgs/joomla/members/elkuku')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/orgs/joomla/members/elkuku')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->check('joomla', 'elkuku'),
-		    $this->equalTo(true)
-	    );
-    }
+		$this->assertThat(
+			$this->object->check('joomla', 'elkuku'),
+			$this->equalTo(true)
+		);
+	}
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::check
@@ -196,61 +196,61 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * @covers JGithubPackageOrgsMembers::remove
-     */
-    public function testRemove()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	 * @covers JGithubPackageOrgsMembers::remove
+	 */
+	public function testRemove()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('delete')
-		    ->with('/orgs/joomla/members/elkuku')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/orgs/joomla/members/elkuku')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->remove('joomla', 'elkuku'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->remove('joomla', 'elkuku'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageOrgsMembers::getListPublic
-     */
-    public function testGetListPublic()
-    {
-	    $this->response->code = 200;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageOrgsMembers::getListPublic
+	 */
+	public function testGetListPublic()
+	{
+		$this->response->code = 200;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/orgs/joomla/public_members')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/orgs/joomla/public_members')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->getListPublic('joomla'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->getListPublic('joomla'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageOrgsMembers::checkPublic
-     */
-    public function testCheckPublic()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageOrgsMembers::checkPublic
+	 */
+	public function testCheckPublic()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('get')
-		    ->with('/orgs/joomla/public_members/elkuku')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/orgs/joomla/public_members/elkuku')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->checkPublic('joomla', 'elkuku'),
-		    $this->equalTo(true)
-	    );
-    }
+		$this->assertThat(
+			$this->object->checkPublic('joomla', 'elkuku'),
+			$this->equalTo(true)
+		);
+	}
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::checkPublic
@@ -293,40 +293,40 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * @covers JGithubPackageOrgsMembers::publicize
-     */
-    public function testPublicize()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	 * @covers JGithubPackageOrgsMembers::publicize
+	 */
+	public function testPublicize()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('put')
-		    ->with('/orgs/joomla/public_members/elkuku')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('put')
+			->with('/orgs/joomla/public_members/elkuku')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->publicize('joomla', 'elkuku'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->publicize('joomla', 'elkuku'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 
-    /**
-     * @covers JGithubPackageOrgsMembers::conceal
-     */
-    public function testConceal()
-    {
-	    $this->response->code = 204;
-	    $this->response->body = $this->sampleString;
+	/**
+	 * @covers JGithubPackageOrgsMembers::conceal
+	 */
+	public function testConceal()
+	{
+		$this->response->code = 204;
+		$this->response->body = $this->sampleString;
 
-	    $this->client->expects($this->once())
-		    ->method('delete')
-		    ->with('/orgs/joomla/public_members/elkuku')
-		    ->will($this->returnValue($this->response));
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/orgs/joomla/public_members/elkuku')
+			->will($this->returnValue($this->response));
 
-	    $this->assertThat(
-		    $this->object->conceal('joomla', 'elkuku'),
-		    $this->equalTo(json_decode($this->sampleString))
-	    );
-    }
+		$this->assertThat(
+			$this->object->conceal('joomla', 'elkuku'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
 }

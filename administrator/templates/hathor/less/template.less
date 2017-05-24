@@ -754,7 +754,7 @@ p.tab-description {
 }
 
 #form-login {
-	float: right;
+	float: left;
 	padding: 1.1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -3234,6 +3234,7 @@ div#database-sliders {
 fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	min-height: 200px;
 }
 
 /* Installer Database */
@@ -3349,7 +3350,8 @@ fieldset.uploadform {
 }
 
 .row-striped .row-fluid {
-	width: 97%;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .row-striped .row-fluid [class*="span"] {
@@ -3548,4 +3550,8 @@ div.toggle-editor {
 }
 .muted {
 	color: #999;
+}
+/* Popover minimum height - overwrite bootstrap default */
+.popover-content {
+    min-height: 33px;
 }

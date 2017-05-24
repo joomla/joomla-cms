@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
-		// Attempt to create the root user.
+		// Attempt to create the configuration.
 		if (!$this->createConfiguration($options))
 		{
 			return false;
@@ -144,6 +144,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Session setting.
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
+		$registry->set('shared_session', 0);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
@@ -247,7 +248,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
 
 			return false;
 		}
@@ -322,7 +323,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -358,7 +359,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

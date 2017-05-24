@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,28 +31,27 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	public function setup()
 	{
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverPostgresql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'getTableSequences',
-				'getAddSequenceSQL',
-				'getChangeSequenceSQL',
-				'getDropSequenceSQL',
-				'getAddIndexSQL',
-				'getVersion',
-				'quoteName',
-				'loadObjectList',
-				'quote',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverPostgresql')
+					->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'getTableSequences',
+						'getAddSequenceSQL',
+						'getChangeSequenceSQL',
+						'getDropSequenceSQL',
+						'getAddIndexSQL',
+						'getVersion',
+						'quoteName',
+						'loadObjectList',
+						'quote',
+						'setQuery',
+					))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$this->dbo->expects(
 			$this->any()

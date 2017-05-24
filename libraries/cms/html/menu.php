@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -252,9 +252,9 @@ abstract class JHtmlMenu
 		// First pass - collect children
 		foreach ($mitems as $v)
 		{
-			$pt = $v->parent_id;
-			$list = @$children[$pt] ? $children[$pt] : array();
-			array_push($list, $v);
+			$pt            = $v->parent_id;
+			$list          = @$children[$pt] ? $children[$pt] : array();
+			$list[]        = $v;
 			$children[$pt] = $list;
 		}
 

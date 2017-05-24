@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,17 +22,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty($this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
-	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
-		<div class="clearfix"> </div>
-	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'); ?>
-		</div>
-	<?php else : ?>
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif; ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
+		<?php if ($this->total > 0) : ?>
 		<table class="table table-striped" id="template-mgr">
 			<thead>
 				<tr>
@@ -105,7 +104,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-	<?php endif;?>
+	<?php endif; ?>
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />

@@ -1,6 +1,6 @@
 /**
  * @package		Joomla.JavaScript
- * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -384,7 +384,7 @@
         		var $el =  $(elements[i]);
         		var oldValue = $el.attr(attr);
         		// set new
-        		$el.attr(attr, oldValue + '-' + count);
+        		$el.attr(attr, count + '-' + oldValue);
         	}
         };
 
@@ -471,9 +471,10 @@
         			$select = $el.prev(),
         			oldHref = $select.attr('href');
         		// update the clear button
-        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;")
+        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;");
         		// update select button
         		$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
+				jMediaRefreshPreview(inputId);
         	});
 
         	// another modals

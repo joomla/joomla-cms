@@ -1,5 +1,5 @@
 /**
-*  Ajax Autocomplete for jQuery, version 1.2.26
+*  Ajax Autocomplete for jQuery, version 1.2.27
 *  (c) 2015 Tomas Kirda
 *
 *  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.
@@ -853,6 +853,7 @@
             var that = this;
             that.hide();
             that.onSelect(i);
+            that.disableKillerFn();
         },
 
         moveUp: function () {

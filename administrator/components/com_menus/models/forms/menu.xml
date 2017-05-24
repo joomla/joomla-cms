@@ -7,13 +7,13 @@
 			type="hidden"
 			default="0"
 			filter="int"
-			readonly="true"/>
-
+			readonly="true"
+		/>
 		<field
 			name="asset_id"
 			type="hidden"
-			filter="unset" />
-
+			filter="unset"
+		/>
 		<field
 			id="menutype"
 			name="menutype"
@@ -22,8 +22,8 @@
 			description="COM_MENUS_MENU_MENUTYPE_DESC"
 			size="30"
 			maxlength="24"
-			required="true" />
-
+			required="true"
+		/>
 		<field
 			id="title"
 			name="title"
@@ -32,8 +32,8 @@
 			description="COM_MENUS_MENU_TITLE_DESC"
 			size="30"
 			maxlength="48"
-			required="true" />
-
+			required="true"
+		/>
 		<field
 			id="menudescription"
 			name="description"
@@ -41,8 +41,21 @@
 			label="JGLOBAL_DESCRIPTION"
 			description="COM_MENUS_MENU_DESCRIPTION_DESC"
 			size="30"
-			maxlength="255" />
-
+			maxlength="255"
+		/>
+		<field
+			id="client_id"
+			name="client_id"
+			type="radio"
+			label="COM_MENUS_MENU_CLIENT_ID_LABEL"
+			description="COM_MENUS_MENU_CLIENT_ID_DESC"
+			default="0"
+			class="btn-group"
+			required="true"
+		>
+			<option value="0">JSITE</option>
+			<option value="1">JADMINISTRATOR</option>
+		</field>
 		<field
 			name="rules"
 			type="rules"

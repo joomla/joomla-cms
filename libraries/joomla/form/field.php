@@ -3,11 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\String\Normalise;
+use Joomla\String\StringHelper;
 
 /**
  * Abstract Form Field class for the Joomla Platform.
@@ -287,6 +290,22 @@ abstract class JFormField
 	protected $onclick;
 
 	/**
+	 * The conditions to show/hide the field.
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $showon;
+
+	/**
+	 * The conditions to render/not render the field.
+	 *
+	 * @var    string
+	 * @since  3.7.0
+	 */
+	protected $renderon;
+
+	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -343,15 +362,15 @@ abstract class JFormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = JStringNormalise::fromCamelCase(get_called_class(), true);
+			$parts = Normalise::fromCamelCase(get_called_class(), true);
 
 			if ($parts[0] == 'J')
 			{
-				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 			else
 			{
-				$this->type = JString::ucfirst($parts[0], '_') . JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 		}
 	}
@@ -393,6 +412,8 @@ abstract class JFormField
 			case 'autofocus':
 			case 'autocomplete':
 			case 'spellcheck':
+			case 'showon':
+			case 'renderon':
 				return $this->$name;
 
 			case 'input':
@@ -448,6 +469,8 @@ abstract class JFormField
 			case 'validate':
 			case 'pattern':
 			case 'group':
+			case 'showon':
+			case 'renderon':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -570,7 +593,7 @@ abstract class JFormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'default',
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'renderon');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -758,7 +781,6 @@ abstract class JFormField
 	protected function getName($fieldName)
 	{
 		// To support repeated element, extensions can set this in plugin->onRenderSettings
-		$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
 
 		$name = '';
 
@@ -938,70 +960,18 @@ abstract class JFormField
 			$options['hiddenLabel'] = true;
 		}
 
-		if ($renderonstring = $this->getAttribute('renderon'))
+		if ($this->renderon)
 		{
-			$result = null;
-			$lastop = null;
-			
-			foreach (preg_split('%\[(AND|OR)\]%', $renderonstring, -1, PREG_SPLIT_DELIM_CAPTURE) as $renderonfield)
-			{
-				if ($renderonfield == 'AND' or $renderonfield == 'OR')
-				{
-					$lastop = $renderonfield;
-				}
-				else
-				{
-					// Split field into 3 items: "global" or component name, parameter name, list of expected value
-					$renderon = explode(':', $renderonfield, 3);
-					
-					// Get global config if first part is 'global' otherwise it is a component name
-					$config = ($renderon[0] == 'global') ?
-						JFactory::getConfig() :
-						JComponentHelper::getParams($renderon[0]);
-						
-					// Get parameter value
-					$currsetting = $config->get($renderon[1], null);
-					
-					// Get showon_ext expected values and compare with parameter value
-					$onvalues = explode(',', $renderon[2]);
-					if ($currsetting !== null and in_array($currsetting, $onvalues))
-					{
-						if ($result === null or $lastop == 'OR')
-						{
-							$result = true;
-						}
-					}
-					else
-					{
-						if ($result === null or $lastop == 'AND')
-						{
-							$result = false;
-						}
-					}
-				}
-			}
-			
-			if ($result === false)
+			if (!JFormHelper::parseRenderOnConditions($this->renderon))
 			{
 				return '';
 			}
 		}
-		
-		if ($showonstring = $this->getAttribute('showon'))
+
+		if ($this->showon)
 		{
-			$showonarr = array();
-
-			foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
-			{
-				$showon   = explode(':', $showonfield, 2);
-				$showonarr[] = array(
-					'field'  => str_replace('[]', '', $this->getName($showon[0])),
-					'values' => explode(',', $showon[1]),
-					'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : '',
-				);
-			}
-
-			$options['rel'] = ' data-showon=\'' . json_encode($showonarr) . '\'';
+			$options['rel']           = ' data-showon=\'' .
+				json_encode(JFormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
 			$options['showonEnabled'] = true;
 		}
 

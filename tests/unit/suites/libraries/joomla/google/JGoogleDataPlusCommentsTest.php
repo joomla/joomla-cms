@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -81,7 +81,10 @@ class JGoogleDataPlusCommentsTest extends TestCase
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->input = new JInput;
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);

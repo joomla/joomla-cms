@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.none
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::script('media/editors/none/none.min.js', false, false, false, false, true);
+		JHtml::_('script', 'media/editors/none/none.min.js', array('version' => 'auto'));
 
 		return null;
 	}

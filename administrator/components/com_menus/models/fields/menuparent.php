@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,9 +39,8 @@ class JFormFieldMenuParent extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level')
-			->from('#__menu AS a')
-			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->select('DISTINCT(a.id) AS value, a.title AS text, a.level, a.lft')
+			->from('#__menu AS a');
 
 		// Filter by menu type.
 		if ($menuType = $this->form->getValue('menutype'))
@@ -50,7 +49,10 @@ class JFormFieldMenuParent extends JFormFieldList
 		}
 		else
 		{
+			// Skip special menu types
 			$query->where('a.menutype != ' . $db->quote(''));
+			$query->where('a.menutype != ' . $db->quote('main'));
+			$query->where('a.menutype != ' . $db->quote('menu'));
 		}
 
 		// Filter by client id.
@@ -69,7 +71,6 @@ class JFormFieldMenuParent extends JFormFieldList
 		}
 
 		$query->where('a.published != -2')
-			->group('a.id, a.title, a.level, a.lft, a.rgt, a.menutype, a.parent_id, a.published')
 			->order('a.lft ASC');
 
 		// Get the options.
