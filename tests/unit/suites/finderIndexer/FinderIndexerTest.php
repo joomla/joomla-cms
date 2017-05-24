@@ -76,6 +76,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -91,6 +92,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::getInstance
 	 */
 	public function testGetInstancePostgresql()
 	{
@@ -108,6 +110,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::getInstance
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetInstanceException()
@@ -123,6 +126,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::getState
 	 */
 	public function testGetState()
 	{
@@ -138,6 +142,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::setState
 	 */
 	public function testSetState()
 	{
@@ -166,6 +171,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::setState
 	 */
 	public function testSetStateBadData()
 	{
@@ -186,6 +192,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexer::resetState
 	 */
 	public function testResetState()
 	{

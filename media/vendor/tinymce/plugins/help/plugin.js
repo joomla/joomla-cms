@@ -1234,7 +1234,7 @@ function (tinymce, Obj, Arr, Fun, Strings, PluginUrls) {
       layout: 'flex',
       padding: 10,
       spacing: 10,
-      items:	[
+      items: [
         installedPlugins(editor),
         availablePlugins()
       ]
@@ -1281,10 +1281,9 @@ define(
     return {
       makeRow: makeRow
     };
-  });
+  }
+);
 
-
-//https://www.tinymce.com/docs/changelog/
 define(
   'tinymce.plugins.help.ui.Dialog',
   [
@@ -1346,7 +1345,8 @@ define(
     PluginManager.add('help', Plugin);
 
     return function () {};
-  });
+  }
+);
 
 dem('tinymce.plugins.help.Plugin')();
 })();

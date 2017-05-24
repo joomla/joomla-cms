@@ -210,14 +210,13 @@ abstract class AbstractView extends \JObject
 		if (empty($this->_name))
 		{
 			$reflection = new \ReflectionClass($this);
-
 			if ($viewNamespace = $reflection->getNamespaceName())
 			{
 				$pos = strrpos($viewNamespace, '\\');
 
 				if ($pos !== false)
 				{
-					$this->_name = strtolower(substr($viewNamespace, $pos));
+					$this->_name = strtolower(substr($viewNamespace, $pos + 1));
 				}
 			}
 			else

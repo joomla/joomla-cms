@@ -162,6 +162,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getClientId
 	 */
 	public function testGetClientId()
 	{
@@ -174,6 +175,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getName
 	 */
 	public function testGetName()
 	{
@@ -186,6 +188,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getMenu
 	 */
 	public function testGetMenu()
 	{
@@ -200,6 +203,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @since   3.2
 	 *
 	 * @expectedException  RuntimeException
+	 * @covers  JApplicationAdministrator::getPathway
 	 */
 	public function testGetPathway()
 	{
@@ -212,6 +216,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getRouter
 	 */
 	public function testGetRouter()
 	{
@@ -224,6 +229,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getTemplate
 	 */
 	public function testGetTemplate()
 	{
@@ -242,6 +248,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::isAdmin
 	 */
 	public function testIsAdmin()
 	{
@@ -254,6 +261,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::isSite
 	 */
 	public function testIsSite()
 	{
@@ -265,7 +273,8 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since  3.7.0
+	 * @since   3.7.0
+	 * @covers  JApplicationAdministrator::isClient
 	 */
 	public function testIsClient()
 	{
@@ -279,6 +288,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::render
 	 */
 	public function testRender()
 	{

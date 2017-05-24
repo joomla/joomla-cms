@@ -94,6 +94,7 @@ class JHelperTest extends TestCaseDatabase
 	 *
 	 * @since   3.2
 	 * @dataProvider  languageIdProvider
+	 * @covers  JHelper::getLanguageId
 	 */
 	public function testGetLanguageId($languageName, $expected)
 	{
@@ -107,6 +108,7 @@ class JHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JHelper::getRowData
 	 */
 	public function testGetRowData()
 	{
@@ -127,6 +129,7 @@ class JHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JHelper::getDataObject
 	 */
 	public function testDataObject()
 	{

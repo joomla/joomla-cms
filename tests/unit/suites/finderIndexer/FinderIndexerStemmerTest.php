@@ -21,6 +21,7 @@ class FinderIndexerStemmerTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexerStemmer::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -38,6 +39,7 @@ class FinderIndexerStemmerTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0
 	 *
+	 * @covers  FinderIndexerStemmer::getInstance
 	 * @expectedException  Exception
 	 */
 	public function testGetInstance_noParser()

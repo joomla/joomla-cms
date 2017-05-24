@@ -504,25 +504,25 @@
         },
         {
             "name": "joomla/filter",
-            "version": "1.3.0",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "250d8f0d3e2d2fb6e31a540ddc6c8d992c92091d"
+                "reference": "1183f96e2dab5bf952415442e54bd67c083f3766"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/250d8f0d3e2d2fb6e31a540ddc6c8d992c92091d",
-                "reference": "250d8f0d3e2d2fb6e31a540ddc6c8d992c92091d",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/1183f96e2dab5bf952415442e54bd67c083f3766",
+                "reference": "1183f96e2dab5bf952415442e54bd67c083f3766",
                 "shasum": ""
             },
             "require": {
-                "joomla/string": "~1.3",
+                "joomla/string": "~1.3|~2.0",
                 "php": "^5.3.10|~7.0"
             },
             "require-dev": {
                 "joomla/language": "~1.3",
-                "phpunit/phpunit": "~4.8|~5.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
                 "squizlabs/php_codesniffer": "1.*"
             },
             "suggest": {
@@ -550,7 +550,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2016-10-16T18:10:33+00:00"
+            "time": "2017-05-14T18:12:10+00:00"
         },
         {
             "name": "joomla/http",

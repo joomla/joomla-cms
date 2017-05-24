@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_associations/helpers/associations.php');
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
-$listOrder        = $this->escape($this->state->get('list.fullordering'));
+$listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = JFactory::getUser()->authorise('core.manage', 'com_checkin');
 $colSpan          = 5;
