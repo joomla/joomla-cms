@@ -113,7 +113,7 @@ class PlgUserJoomla extends JPlugin
 			return;
 		}
 
-		// check if we have a sensible from email address, if not bail out as mail would not be sent anyway
+		// Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
 		if (strpos($this->app->get('mailfrom'), '@') === false)
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
