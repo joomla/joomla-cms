@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Mvc\Factory\LegacyFactory;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -142,7 +143,7 @@ abstract class Model extends \JObject
 	 */
 	public static function addTablePath($path)
 	{
-		\JTable::addIncludePath($path);
+		Table::addIncludePath($path);
 	}
 
 	/**
@@ -233,14 +234,21 @@ abstract class Model extends \JObject
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			if (!empty($config['option']))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				$this->option = $config['option'];
 			}
+			else
+			{
+				$r = null;
 
-			$this->option = \JComponentHelper::getComponentName($this, $r[1]);
+				if (!preg_match('/(.*)Model/i', get_class($this), $r))
+				{
+					throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				}
+
+				$this->option = ComponentHelper::getComponentName($this, $r[1]);
+			}
 		}
 
 		// Set the view name

@@ -61,7 +61,9 @@ class JControllerFormTest extends TestCase
 		$object = new MincesControllerMince(
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
-				'base_path' => JPATH_BASE . '/component/com_foobar'
+				'base_path' => JPATH_BASE . '/component/com_foobar',
+				'option' => 'com_minces',
+				'name'	=> 'mince'	
 			),
 			null,
 			JFactory::getApplication(),
@@ -80,7 +82,9 @@ class JControllerFormTest extends TestCase
 		$object = new MiniesControllerMiny(
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
-				'base_path' => JPATH_BASE . '/component/com_foobar'
+				'base_path' => JPATH_BASE . '/component/com_foobar',
+				'option' => 'com_minies',
+				'name'	=> 'miny'			
 			),
 			null,
 			JFactory::getApplication(),
@@ -92,7 +96,9 @@ class JControllerFormTest extends TestCase
 		$object = new MintsControllerMint(
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
-				'base_path' => JPATH_BASE . '/component/com_foobar'
+				'base_path' => JPATH_BASE . '/component/com_foobar',
+				'option'	=> 'com_mints',
+				'name'		=> 'mint'
 			),
 			null,
 			JFactory::getApplication(),

@@ -149,7 +149,7 @@ class Controller implements ControllerInterface
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    \Joomla\CMS\View\View[]
+	 * @var    \Joomla\CMS\View\AbstractView[]
 	 * @since  3.4
 	 */
 	protected static $views;
@@ -157,10 +157,18 @@ class Controller implements ControllerInterface
 	/**
 	 * The Application
 	 *
-	 * @var    \JApplicationCms|null
+	 * @var    CmsApplication|null
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  1.6
+	 */
+	protected $option;
 
 	/**
 	 * Adds to the stack of model paths in LIFO order.
@@ -283,6 +291,9 @@ class Controller implements ControllerInterface
 
 			// Reset the task without the controller context.
 			$input->set('task', $task);
+
+			// Set name of controller
+			$config['name'] = strtolower($type);
 		}
 		else
 		{
@@ -360,13 +371,23 @@ class Controller implements ControllerInterface
 		$this->app   = $app ? $app : \JFactory::getApplication();
 		$this->input = $input ? $input : $this->app->input;
 
+		// Option needs to be available in $config array or from input, we don't want to guess it from class name anymore
+		if (!empty($config['option']))
+		{
+			$this->option = $config['option'];
+		}
+		else
+		{
+			$this->option = $this->input->getCmd('option');
+		}
+
 		if (defined('JDEBUG') && JDEBUG)
 		{
 			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
 		}
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('\JControllerLegacy');
+		$xMethods = get_class_methods('\\Joomla\\CMS\\Controller\\Controller');
 
 		// Get the public methods in this class using reflection.
 		$r = new \ReflectionClass($this);
@@ -386,7 +407,7 @@ class Controller implements ControllerInterface
 			}
 		}
 
-		// Set the view name
+		// Set the controller name
 		if (empty($this->name))
 		{
 			if (array_key_exists('name', $config))
@@ -429,7 +450,7 @@ class Controller implements ControllerInterface
 			}
 			else
 			{
-				$this->model_prefix = ucfirst($this->name) . 'Model';
+				$this->model_prefix = ucfirst(substr($this->option, 4)) . 'Model';
 			}
 		}
 
@@ -474,7 +495,7 @@ class Controller implements ControllerInterface
 	 * @param   string  $type  The path type (e.g. 'model', 'view').
 	 * @param   mixed   $path  The directory string  or stream array to search.
 	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
+	 * @return  static  A controller object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -564,6 +585,14 @@ class Controller implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
+		// Set basic model data
+		if (empty($config['option']))
+		{
+			$config['option'] = $this->option;
+		}
+
+		$config['name'] = strtolower($name);
+
 		$model = $this->factory->createModel($name, $prefix, $config);
 
 		if ($model === null)
@@ -587,14 +616,23 @@ class Controller implements ControllerInterface
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  View|null  View object on success; null or error result on failure.
+	 * @return  AbstractView|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
+		// Set basic view data
 		$config['paths'] = $this->paths['view'];
+
+		if (empty($config['option']))
+		{
+			$config['option'] = $this->option;
+		}
+
+		$config['name'] = strtolower($name);
+
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
@@ -607,7 +645,7 @@ class Controller implements ControllerInterface
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
+	 * @return  static  A controller object to support chaining.
 	 *
 	 * @since   3.0
 	 */
@@ -779,14 +817,7 @@ class Controller implements ControllerInterface
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-
-			$this->name = strtolower($r[1]);
+			$this->name = strtolower(substr($this->option, 4));
 		}
 
 		return $this->name;
@@ -847,7 +878,7 @@ class Controller implements ControllerInterface
 			// We need this ugly code to deal with non-namespaced MVC code
 			if ($this->factory instanceof LegacyFactory)
 			{
-				$prefix = $this->getName() . 'View';
+				$prefix = ucfirst(substr($this->option, 4)) . 'View';
 			}
 			else
 			{
