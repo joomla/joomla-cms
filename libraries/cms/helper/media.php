@@ -139,7 +139,7 @@ class JHelperMedia
 	 *
 	 * @since   3.2
 	 */
-	public function canUpload($file, $component = 'com_media', $checkMime = ture)
+	public function canUpload($file, $component = 'com_media', $checkMime = true)
 	{
 		$app    = JFactory::getApplication();
 		$params = JComponentHelper::getParams($component);
