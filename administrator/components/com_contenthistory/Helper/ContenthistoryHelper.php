@@ -34,6 +34,11 @@ class ContenthistoryHelper
 	{
 		$result = array();
 
+		if ($object === null)
+		{
+			return $result;
+		}
+
 		foreach ($object as $name => $value)
 		{
 			$result[$name] = $value;
@@ -293,6 +298,11 @@ class ContenthistoryHelper
 	public static function mergeLabels($object, $formValues)
 	{
 		$result = new \stdClass;
+
+		if ($object === null)
+		{
+			return $result;
+		}
 
 		$labelsArray = $formValues->labels;
 		$valuesArray = $formValues->values;

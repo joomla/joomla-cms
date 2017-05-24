@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+
 JHtml::_('bootstrap.tooltip');
 
 JHtml::_('bootstrap.popover');
