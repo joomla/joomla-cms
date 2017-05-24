@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $ulTarget = str_replace('/', '-', $this->folders['data']->relative);
 
 ?>
-<ul class="nav nav-list" id="collapseFolder-<?php echo $ulTarget; ?>">
+<ul class="nav flex-column" id="collapseFolder-<?php echo $ulTarget; ?>">
 <?php if (isset($this->folders['children'])) :
 	foreach ($this->folders['children'] as $folder) :
 	// Get a sanitised name for the target
