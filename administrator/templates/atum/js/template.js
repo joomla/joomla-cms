@@ -44,6 +44,12 @@ Joomla = window.Joomla || {};
 			}
 		}
 
+		// If the sidebar doesn't exist, for example, on edit views, then remove the "closed" class
+		if (!sidebar)
+		{
+			wrapper.classList.remove('closed');
+		}
+
 		// Fix toolbar and footer width for edit views
 		if (wrapper.classList.contains('wrapper0')) {
 			document.querySelector('.subhead').style.left = 0;
