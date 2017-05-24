@@ -1727,7 +1727,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	/**
 	 * Implement Serializable. DB object needs to be restored separately as it was excluded from serialization.
 	 *
-	 * @param   string  $data A serialized string matching this class.
+	 * @param   string  $data  A serialized string matching this class.
+	 * @return  void
 	 */
 	public function unserialize($data)
 	{
