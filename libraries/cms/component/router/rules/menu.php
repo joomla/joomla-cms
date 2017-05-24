@@ -117,20 +117,23 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 			}
 		}
 
-		// Check if the active menuitem matches the requested language
+		// Check if the active menu item matches the requested language
 		$active = $this->router->menu->getActive();
-
 		if ($active && $active->component == 'com_' . $this->router->getName()
 			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
 			return;
 		}
-
 		// If not found, return language specific home link
 		$default = $this->router->menu->getDefault($language);
 
-		if (!empty($default->id))
+		// Get the current user's access levels
+		$levels = JFactory::getUser()->getAuthorisedViewLevels();
+
+		// Make sure there is a menu item ID, check it is the home menu, and the user can actually access this menu item,
+		// otherwise it can end up in a redirect loop.
+		if (!empty($default->id) && ($active && $active->home !== 1 && in_array($default->access, $levels)))
 		{
 			$query['Itemid'] = $default->id;
 		}
