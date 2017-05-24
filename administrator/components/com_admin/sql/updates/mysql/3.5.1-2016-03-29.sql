@@ -4,4 +4,4 @@
 --
 
 UPDATE `#__utf8_conversion` SET `converted` = 0
- WHERE (SELECT COUNT(*) FROM `#__schemas` WHERE `extension_id`=700 AND `version_id` LIKE '3.5.0%') = 1;
+ WHERE (SELECT COUNT(`extension_id`) FROM `#__schemas` WHERE `extension_id`=700 AND `version_id` LIKE '3.5.0%') = 1;

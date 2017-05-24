@@ -27,7 +27,7 @@ abstract class MultilangstatusHelper
 		// Check for multiple Home pages.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('COUNT(*)')
+			->select('COUNT(' . $db->quoteName('id') . ')')
 			->from($db->quoteName('#__menu'))
 			->where('home = 1')
 			->where('published = 1')
@@ -47,7 +47,7 @@ abstract class MultilangstatusHelper
 		// Check if switcher is published.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('COUNT(*)')
+			->select('COUNT(' . $db->quoteName('id') . ')')
 			->from($db->quoteName('#__modules'))
 			->where('module = ' . $db->quote('mod_languages'))
 			->where('published = 1')
@@ -170,7 +170,7 @@ abstract class MultilangstatusHelper
 
 		// Get the number of contact with all as language
 		$alang = $db->getQuery(true)
-			->select('count(*)')
+			->select('COUNT(cd.id)')
 			->from('#__contact_details AS cd')
 			->where('cd.user_id=u.id')
 			->where('cd.published=1')
@@ -178,7 +178,7 @@ abstract class MultilangstatusHelper
 
 		// Get the number of languages for the contact
 		$slang = $db->getQuery(true)
-			->select('count(distinct(l.lang_code))')
+			->select('COUNT(distinct(l.lang_code))')
 			->from('#__languages as l')
 			->join('LEFT', '#__contact_details AS cd ON cd.language=l.lang_code')
 			->where('cd.user_id=u.id')
@@ -187,14 +187,14 @@ abstract class MultilangstatusHelper
 
 		// Get the number of multiple contact/language
 		$mlang = $db->getQuery(true)
-			->select('count(*)')
+			->select('COUNT(l.lang_id)')
 			->from('#__languages as l')
 			->join('LEFT', '#__contact_details AS cd ON cd.language=l.lang_code')
 			->where('cd.user_id=u.id')
 			->where('cd.published=1')
 			->where('l.published=1')
 			->group('l.lang_code')
-			->having('count(*) > 1');
+			->having('COUNT(l.lang_id) > 1');
 
 		// Get the contacts
 		$query = $db->getQuery(true)

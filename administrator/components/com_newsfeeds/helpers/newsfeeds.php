@@ -60,7 +60,7 @@ class NewsfeedsHelper extends JHelperContent
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
-			$query->select('published AS state, count(*) AS count')
+			$query->select('published AS state, COUNT(id) AS count')
 				->from($db->qn('#__newsfeeds'))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
