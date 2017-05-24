@@ -369,7 +369,7 @@
 					}
 				}
 
-				if (desiredOption.length)
+				if (desiredOption && desiredOption.length)
 				{
 					desiredOption.setAttribute('selected', 'selected');
 				}
