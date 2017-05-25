@@ -18,7 +18,7 @@
 			label="JTOOLBAR_VERSIONS"
 			id="contenthistory"
 			data-typeAlias="com_content.article"
-		 />
+		/>
 
 		<field
 			name="asset_id"
@@ -97,7 +97,7 @@
 			extension="com_content"
 			class="inputbox"
 			required="true"
-		</field>
+		/>
 
 		<field
 			name="created"
@@ -179,7 +179,7 @@
 			class="inputbox"
 			multiple="true"
 			size="45"
-		</field>
+		/>
 
 		<field
 			name="metakey"
