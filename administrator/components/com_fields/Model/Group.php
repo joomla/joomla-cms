@@ -6,14 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Model;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Model\Admin;
 
 /**
  * Group Model
  *
  * @since  3.7.0
  */
-class FieldsModelGroup extends JModelAdmin
+class Group extends Admin
 {
 	/**
 	 * @var null|string
@@ -44,7 +48,7 @@ class FieldsModelGroup extends JModelAdmin
 	public function save($data)
 	{
 		// Alter the title for save as copy
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		// Save new group as unpublished
 		if ($input->get('task') == 'save2copy')
@@ -53,23 +57,6 @@ class FieldsModelGroup extends JModelAdmin
 		}
 
 		return parent::save($data);
-	}
-
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A JTable object
-	 *
-	 * @since   3.7.0
-	 * @throws  Exception
-	 */
-	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
-	{
-		return JTable::getInstance($name, $prefix, $options);
 	}
 
 	/**
@@ -85,7 +72,7 @@ class FieldsModelGroup extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		$context = $this->getState('filter.context');
-		$jinput = JFactory::getApplication()->input;
+		$jinput = \JFactory::getApplication()->input;
 
 		if (empty($context) && isset($data['context']))
 		{
@@ -113,7 +100,7 @@ class FieldsModelGroup extends JModelAdmin
 			$data['context'] = $context;
 		}
 
-		if (!JFactory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
+		if (!\JFactory::getUser()->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -143,7 +130,7 @@ class FieldsModelGroup extends JModelAdmin
 			return false;
 		}
 
-		return JFactory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+		return \JFactory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
 	}
 
 	/**
@@ -158,7 +145,7 @@ class FieldsModelGroup extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Check for existing fieldgroup.
 		if (!empty($record->id))
@@ -183,14 +170,14 @@ class FieldsModelGroup extends JModelAdmin
 	{
 		parent::populateState();
 
-		$context = JFactory::getApplication()->getUserStateFromRequest('com_fields.groups.context', 'context', 'com_fields', 'CMD');
+		$context = \JFactory::getApplication()->getUserStateFromRequest('com_fields.groups.context', 'context', 'com_fields', 'CMD');
 		$this->setState('filter.context', $context);
 	}
 
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable  $table  A JTable object.
+	 * @param   Table  $table  A Table object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -204,21 +191,21 @@ class FieldsModelGroup extends JModelAdmin
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   \JForm  $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
-	 * @see     JFormField
+	 * @see     \JFormField
 	 * @since   3.7.0
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		parent::preprocessForm($form, $data, $group);
 
-		$parts = FieldsHelper::extract($this->state->get('filter.context'));
+		$parts = \FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{
@@ -237,7 +224,7 @@ class FieldsModelGroup extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$data = $app->getUserState('com_fields.edit.group.data', array());
 
 		if (empty($data))
@@ -261,7 +248,7 @@ class FieldsModelGroup extends JModelAdmin
 				);
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
 				);
 			}
 		}
@@ -291,11 +278,11 @@ class FieldsModelGroup extends JModelAdmin
 			}
 
 			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
+			$tz = new \DateTimeZone(\JFactory::getApplication()->get('offset'));
 
 			if ((int) $item->created)
 			{
-				$date = new JDate($item->created);
+				$date = new \JDate($item->created);
 				$date->setTimezone($tz);
 				$item->created = $date->toSql(true);
 			}
@@ -306,7 +293,7 @@ class FieldsModelGroup extends JModelAdmin
 
 			if ((int) $item->modified)
 			{
-				$date = new JDate($item->modified);
+				$date = new \JDate($item->modified);
 				$date->setTimezone($tz);
 				$item->modified = $date->toSql(true);
 			}
@@ -331,7 +318,7 @@ class FieldsModelGroup extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$context = JFactory::getApplication()->input->get('context');
+		$context = \JFactory::getApplication()->input->get('context');
 
 		parent::cleanCache($context);
 	}

@@ -6,8 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Model;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -17,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.7.0
  */
-class FieldsModelField extends JModelAdmin
+class Field extends Admin
 {
 	/**
 	 * @var null|string
@@ -60,18 +66,19 @@ class FieldsModelField extends JModelAdmin
 	private $valueCache = array();
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JModelLegacy
 	 * @since   3.7.0
+	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
-		$this->typeAlias = JFactory::getApplication()->input->getCmd('context', 'com_content.article') . '.field';
+		$this->typeAlias = \JFactory::getApplication()->input->getCmd('context', 'com_content.article') . '.field';
 	}
 
 	/**
@@ -100,7 +107,7 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		// Alter the title for save as copy
-		$input = JFactory::getApplication()->input;
+		$input = \JFactory::getApplication()->input;
 
 		if ($input->get('task') == 'save2copy')
 		{
@@ -126,7 +133,7 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		// Load the fields plugins, perhaps they want to do something
-		JPluginHelper::importPlugin('fields');
+		PluginHelper::importPlugin('fields');
 
 		$message = $this->checkDefaultValue($data);
 
@@ -166,7 +173,7 @@ class FieldsModelField extends JModelAdmin
 		$db->execute();
 
 		// Inset new assigned categories
-		$tupel = new stdClass;
+		$tupel = new \stdClass;
 		$tupel->field_id = $id;
 
 		foreach ($assignedCatIds as $catId)
@@ -218,7 +225,7 @@ class FieldsModelField extends JModelAdmin
 			return true;
 		}
 
-		$types = FieldsHelper::getFieldTypes();
+		$types = \FieldsHelper::getFieldTypes();
 
 		// Check if type exists
 		if (!key_exists($data['type'], $types))
@@ -232,7 +239,7 @@ class FieldsModelField extends JModelAdmin
 		if ($path)
 		{
 			// Add the lookup path for the rule
-			JFormHelper::addRulePath($path);
+			\JFormHelper::addRulePath($path);
 		}
 
 		// Create the fields object
@@ -241,11 +248,11 @@ class FieldsModelField extends JModelAdmin
 		$obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : array());
 
 		// Prepare the dom
-		$dom  = new DOMDocument;
-		$node = $dom->appendChild(new DOMElement('form'));
+		$dom  = new \DOMDocument;
+		$node = $dom->appendChild(new \DOMElement('form'));
 
 		// Trigger the event to create the field dom node
-		JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($obj, $node, new JForm($data['context'])));
+		\JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($obj, $node, new \JForm($data['context'])));
 
 		// Check if a node is created
 		if (!$node->firstChild)
@@ -257,7 +264,7 @@ class FieldsModelField extends JModelAdmin
 		$type = $node->firstChild->getAttribute('validate') ? : $data['type'];
 
 		// Load the rule
-		$rule = JFormHelper::loadRuleType($type);
+		$rule = \JFormHelper::loadRuleType($type);
 
 		// When no rule exists, we allow the default value
 		if (!$rule)
@@ -271,9 +278,9 @@ class FieldsModelField extends JModelAdmin
 			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
 
 			// Check if the test succeeded
-			return $result === true ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+			return $result === true ? : \JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
 		}
-		catch (UnexpectedValueException $e)
+		catch (\UnexpectedValueException $e)
 		{
 			return $e->getMessage();
 		}
@@ -284,7 +291,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @param   mixed  $params  The params.
 	 *
-	 * @return  stdClass  Object on success, false on failure.
+	 * @return  \stdClass  Object on success, false on failure.
 	 *
 	 * @since   3.7.0
 	 */
@@ -321,7 +328,7 @@ class FieldsModelField extends JModelAdmin
 			// Prime required properties.
 			if (empty($result->id))
 			{
-				$result->context = JFactory::getApplication()->input->getCmd('context', $this->getState('field.context'));
+				$result->context = \JFactory::getApplication()->input->getCmd('context', $this->getState('field.context'));
 			}
 
 			if (property_exists($result, 'fieldparams'))
@@ -342,11 +349,11 @@ class FieldsModelField extends JModelAdmin
 
 			// Convert the created and modified dates to local user time for
 			// display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
+			$tz = new \DateTimeZone(\JFactory::getApplication()->get('offset'));
 
 			if ((int) $result->created_time)
 			{
-				$date = new JDate($result->created_time);
+				$date = new \JDate($result->created_time);
 				$date->setTimezone($tz);
 
 				$result->created_time = $date->toSql(true);
@@ -358,7 +365,7 @@ class FieldsModelField extends JModelAdmin
 
 			if ((int) $result->modified_time)
 			{
-				$date = new JDate($result->modified_time);
+				$date = new \JDate($result->modified_time);
 				$date->setTimezone($tz);
 
 				$result->modified_time = $date->toSql(true);
@@ -379,20 +386,15 @@ class FieldsModelField extends JModelAdmin
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  Table  A JTable object
 	 *
 	 * @since   3.7.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Field', $prefix = 'FieldsTable', $options = array())
 	{
-		if (strpos(JPATH_COMPONENT, 'com_fields') === false)
-		{
-			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
-		}
-
 		// Default to text type
-		$table       = JTable::getInstance($name, $prefix, $options);
+		$table       = parent::getTable($name, $prefix, $options);
 		$table->type = 'text';
 
 		return $table;
@@ -474,20 +476,20 @@ class FieldsModelField extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed  A \JForm object on success, false on failure
 	 *
 	 * @since   3.7.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		$context = $this->getState('field.context');
-		$jinput  = JFactory::getApplication()->input;
+		$jinput  = \JFactory::getApplication()->input;
 
 		// A workaround to get the context into the model for save requests.
 		if (empty($context) && isset($data['context']))
 		{
 			$context = $data['context'];
-			$parts   = FieldsHelper::extract($context);
+			$parts   = \FieldsHelper::extract($context);
 
 			$this->setState('field.context', $context);
 
@@ -505,7 +507,7 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		// Load the fields plugin that they can add additional parameters to the form
-		JPluginHelper::importPlugin('fields');
+		PluginHelper::importPlugin('fields');
 
 		// Get the form.
 		$form = $this->loadForm(
@@ -530,7 +532,7 @@ class FieldsModelField extends JModelAdmin
 		$fieldId  = $jinput->get('id');
 		$assetKey = $this->state->get('field.component') . '.field.' . $fieldId;
 
-		if (!JFactory::getUser()->authorise('core.edit.state', $assetKey))
+		if (!\JFactory::getUser()->authorise('core.edit.state', $assetKey))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -566,7 +568,7 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		// Don't save the value when the user is not authorized to change it
-		if (!$field || !FieldsHelper::canEditFieldValue($field))
+		if (!$field || !\FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -617,7 +619,7 @@ class FieldsModelField extends JModelAdmin
 
 		if ($needsInsert)
 		{
-			$newObj = new stdClass;
+			$newObj = new \stdClass;
 
 			$newObj->field_id = (int) $fieldId;
 			$newObj->item_id  = $itemId;
@@ -632,7 +634,7 @@ class FieldsModelField extends JModelAdmin
 
 		if ($needsUpdate)
 		{
-			$updateObj = new stdClass;
+			$updateObj = new \stdClass;
 
 			$updateObj->field_id = (int) $fieldId;
 			$updateObj->item_id  = $itemId;
@@ -780,9 +782,9 @@ class FieldsModelField extends JModelAdmin
 				return false;
 			}
 
-			$parts = FieldsHelper::extract($record->context);
+			$parts = \FieldsHelper::extract($record->context);
 
-			return JFactory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+			return \JFactory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 		}
 
 		return false;
@@ -800,8 +802,8 @@ class FieldsModelField extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user  = JFactory::getUser();
-		$parts = FieldsHelper::extract($record->context);
+		$user  = \JFactory::getUser();
+		$parts = \FieldsHelper::extract($record->context);
 
 		// Check for existing field.
 		if (!empty($record->id))
@@ -821,7 +823,7 @@ class FieldsModelField extends JModelAdmin
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -829,7 +831,7 @@ class FieldsModelField extends JModelAdmin
 
 		$context = $app->input->get('context', 'com_content.article');
 		$this->setState('field.context', $context);
-		$parts = FieldsHelper::extract($context);
+		$parts = \FieldsHelper::extract($context);
 
 		// Extract the component name
 		$this->setState('field.component', $parts[0]);
@@ -838,7 +840,7 @@ class FieldsModelField extends JModelAdmin
 		$this->setState('field.section', (count($parts) > 1) ? $parts[1] : null);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_fields');
+		$params = ComponentHelper::getParams('com_fields');
 		$this->setState('params', $params);
 	}
 
@@ -866,7 +868,7 @@ class FieldsModelField extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app  = JFactory::getApplication();
+		$app  = \JFactory::getApplication();
 		$data = $app->getUserState('com_fields.edit.field.data', array());
 
 		if (empty($data))
@@ -886,7 +888,7 @@ class FieldsModelField extends JModelAdmin
 				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access')))
 				);
 
 				// Set the type if available from the request
@@ -907,17 +909,17 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   \JForm  $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
-	 * @see     JFormField
+	 * @see     \JFormField
 	 * @since   3.7.0
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		$component  = $this->state->get('field.component');
 		$section    = $this->state->get('field.section');
@@ -940,20 +942,20 @@ class FieldsModelField extends JModelAdmin
 
 			// Allow to override the default value label and description through the plugin
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
-			if (JFactory::getLanguage()->hasKey($key))
+			if (\JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'label', $key);
 			}
 
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
-			if (JFactory::getLanguage()->hasKey($key))
+			if (\JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'description', $key);
 			}
 		}
 
 		// Setting the context for the category field
-		$cat = JCategories::getInstance(str_replace('com_', '', $component));
+		$cat = \JCategories::getInstance(str_replace('com_', '', $component));
 
 		if ($cat && $cat->get('root')->hasChildren())
 		{
@@ -969,17 +971,17 @@ class FieldsModelField extends JModelAdmin
 		$form->setFieldAttribute('rules', 'component', $component);
 
 		// Looking first in the component models/forms folder
-		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
+		$path = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
 
 		if (file_exists($path))
 		{
-			$lang = JFactory::getLanguage();
+			$lang = \JFactory::getLanguage();
 			$lang->load($component, JPATH_BASE, null, false, true);
 			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
 
 			if (!$form->loadFile($path, false))
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
@@ -999,7 +1001,7 @@ class FieldsModelField extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$context = JFactory::getApplication()->input->get('context');
+		$context = \JFactory::getApplication()->input->get('context');
 
 		switch ($context)
 		{
@@ -1032,7 +1034,7 @@ class FieldsModelField extends JModelAdmin
 	protected function batchCopy($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user      = JFactory::getUser();
+		$user      = \JFactory::getUser();
 		$table     = $this->getTable();
 		$newIds    = array();
 		$component = $this->state->get('filter.component');
@@ -1068,7 +1070,7 @@ class FieldsModelField extends JModelAdmin
 			}
 			else
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 				return false;
 			}
@@ -1094,9 +1096,9 @@ class FieldsModelField extends JModelAdmin
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user      = JFactory::getUser();
+		$user      = \JFactory::getUser();
 		$table     = $this->getTable();
-		$context   = explode('.', JFactory::getApplication()->getUserState('com_fields.fields.context'));
+		$context   = explode('.', \JFactory::getApplication()->getUserState('com_fields.fields.context'));
 		$value     = (int) $value;
 
 		foreach ($pks as $pk)
@@ -1117,7 +1119,7 @@ class FieldsModelField extends JModelAdmin
 			}
 			else
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}

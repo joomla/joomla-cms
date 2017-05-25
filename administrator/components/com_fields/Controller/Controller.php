@@ -6,6 +6,8 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
 /**
@@ -13,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.7.0
  */
-class FieldsController extends JControllerLegacy
+class Controller extends \Joomla\CMS\Controller\Controller
 {
 	/**
 	 * The default view.
@@ -31,9 +33,9 @@ class FieldsController extends JControllerLegacy
 	 * you will need to override it in your own controllers.
 	 *
 	 * @param   boolean     $cachable   If true, the view output will be cached
-	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}
+	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
 	 *
-	 * @return JControllerLegacy|boolean  A JControllerLegacy object to support chaining.
+	 * @return Controller|boolean  A Controller object to support chaining.
 	 *
 	 * @since   3.7.0
 	 */
@@ -47,9 +49,9 @@ class FieldsController extends JControllerLegacy
 		if ($vName == 'field' && !$this->checkEditId('com_fields.edit.field', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_fields&view=fields&context=' . $this->input->get('context'), false));
+			$this->setRedirect(\JRoute::_('index.php?option=com_fields&view=fields&context=' . $this->input->get('context'), false));
 
 			return false;
 		}

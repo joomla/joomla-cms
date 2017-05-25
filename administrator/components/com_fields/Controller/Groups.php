@@ -6,14 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Admin;
+
 /**
- * Fields list controller class.
+ * Groups list controller class.
  *
  * @since  3.7.0
  */
-class FieldsControllerFields extends JControllerAdmin
+class Groups extends Admin
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -22,20 +26,20 @@ class FieldsControllerFields extends JControllerAdmin
 	 *
 	 * @since   3.7.0
 	 */
-	protected $text_prefix = 'COM_FIELDS_FIELD';
+	protected $text_prefix = 'COM_FIELDS_GROUP';
 
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  The array of possible config values. Optional.
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   array   $config  Array of configuration parameters.
 	 *
-	 * @return  FieldsModelField|boolean
+	 * @return  \Joomla\CMS\Model\Model
 	 *
 	 * @since   3.7.0
 	 */
-	public function getModel($name = 'Field', $prefix = 'FieldsModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Group', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

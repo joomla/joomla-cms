@@ -6,31 +6,36 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\View\Group;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
 
 /**
  * Group View
  *
  * @since  3.7.0
  */
-class FieldsViewGroup extends JViewLegacy
+class Html extends HtmlView
 {
 	/**
-	 * @var  JForm
+	 * @var  \JForm
 	 *
 	 * @since  3.7.0
 	 */
 	protected $form;
 
 	/**
-	 * @var  JObject
+	 * @var  \JObject
 	 *
 	 * @since  3.7.0
 	 */
 	protected $item;
 
 	/**
-	 * @var  JObject
+	 * @var  \JObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -39,7 +44,7 @@ class FieldsViewGroup extends JViewLegacy
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  JObject
+	 * @var  \JObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -63,24 +68,24 @@ class FieldsViewGroup extends JViewLegacy
 		$this->state = $this->get('State');
 
 		$component = '';
-		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
+		$parts     = \FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{
 			$component = $parts[0];
 		}
 
-		$this->canDo = JHelperContent::getActions($component, 'fieldgroup', $this->item->id);
+		$this->canDo = \JHelperContent::getActions($component, 'fieldgroup', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
+			\JError::raiseError(500, implode("\n", $errors));
 
 			return false;
 		}
 
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$this->addToolbar();
 
@@ -97,14 +102,14 @@ class FieldsViewGroup extends JViewLegacy
 	protected function addToolbar()
 	{
 		$component = '';
-		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
+		$parts     = \FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{
 			$component = $parts[0];
 		}
 
-		$userId    = JFactory::getUser()->get('id');
+		$userId    = \JFactory::getUser()->get('id');
 		$canDo     = $this->canDo;
 
 		$isNew      = ($this->item->id == 0);
@@ -117,14 +122,14 @@ class FieldsViewGroup extends JViewLegacy
 		}
 
 		// Load component language file
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		$lang->load($component, JPATH_ADMINISTRATOR)
-		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+		|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-		$title = JText::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', JText::_(strtoupper($component)));
+		$title = \JText::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', \JText::_(strtoupper($component)));
 
 		// Prepare the toolbar.
-		JToolbarHelper::title(
+		ToolbarHelper::title(
 			$title,
 			'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . '-group-' .
 			($isNew ? 'add' : 'edit')
@@ -135,7 +140,7 @@ class FieldsViewGroup extends JViewLegacy
 		// For new records, check the create permission.
 		if ($isNew)
 		{
-			JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				[
 					['apply', 'group.apply'],
 					['save', 'group.save'],
@@ -144,7 +149,7 @@ class FieldsViewGroup extends JViewLegacy
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('group.cancel');
+			ToolbarHelper::cancel('group.cancel');
 		}
 		else
 		{
@@ -172,14 +177,14 @@ class FieldsViewGroup extends JViewLegacy
 				$toolbarButtons[] = ['save2copy', 'group.save2copy'];
 			}
 
-			JToolbarHelper::saveGroup(
+			ToolbarHelper::saveGroup(
 				$toolbarButtons,
 				'btn-success'
 			);
 
-			JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS_EDIT');
+		ToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS_EDIT');
 	}
 }
