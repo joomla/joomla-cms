@@ -3769,12 +3769,13 @@ input[type="submit"].btn.btn-mini {
 .modal-body {
 	width: 98%;
 	position: relative;
-	max-height: 400px;
+	max-height: none;
 	padding: 1%;
 }
 .modal-body iframe {
 	width: 100%;
 	max-height: none;
+	height: 70vh;
 	border: 0 !important;
 }
 .modal-form {
@@ -6093,6 +6094,7 @@ div.modal.fade {
 }
 div.modal.fade.in {
 	top: 5%;
+	top: 5vh;
 }
 .modal-batch {
 	overflow-y: visible;
@@ -6185,6 +6187,10 @@ div.modal.jviewport-width100 {
 	}
 	div.modal.fade.in {
 		top: 20px;
+		top: 2vh;
+	}
+	.modal-body {
+		height: 79vh;
 	}
 	div.modal[class*="jviewport-width"] {
 		width: auto;
