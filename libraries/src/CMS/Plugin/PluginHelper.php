@@ -207,46 +207,50 @@ abstract class PluginHelper
 
 		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
 
-		if (!isset($paths[$path]))
+		// Check if the plugin is already loaded
+		if (key_exists($path, $paths))
 		{
-			if (file_exists($path))
-			{
-				if (!isset($paths[$path]))
-				{
-					require_once $path;
-				}
-
-				$paths[$path] = true;
-
-				if ($autocreate)
-				{
-					// Makes sure we have an event dispatcher
-					if (!is_object($dispatcher))
-					{
-						$dispatcher = \JFactory::getApplication()->getDispatcher();
-					}
-
-					$className = 'Plg' . $plugin->type . $plugin->name;
-
-					if (class_exists($className))
-					{
-						// Load the plugin from the database.
-						if (!isset($plugin->params))
-						{
-							// Seems like this could just go bye bye completely
-							$plugin = static::getPlugin($plugin->type, $plugin->name);
-						}
-
-						// Instantiate and register the plugin.
-						new $className($dispatcher, (array) $plugin);
-					}
-				}
-			}
-			else
-			{
-				$paths[$path] = false;
-			}
+			return;
 		}
+
+		$paths[$path] = $path;
+
+		// Check if the file exists
+		if (file_exists($path))
+		{
+			// Load the file
+			require_once $path;
+
+			// Compile the class name from the plugin attributes
+			$className = 'Plg' . $plugin->type . $plugin->name;
+		}
+		else
+		{
+			// Classname is defined in the plugin attributes
+			$className = $plugin->manifest_cache->filename;
+		}
+
+		// Check if the plugin should be created or the class does exist
+		if (!$autocreate || !class_exists($className))
+		{
+			return;
+		}
+
+		// Makes sure we have an event dispatcher
+		if (!is_object($dispatcher))
+		{
+			$dispatcher = \JFactory::getApplication()->getDispatcher();
+		}
+
+		// Load the plugin from the database.
+		if (!isset($plugin->params))
+		{
+			// Seems like this could just go bye bye completely
+			$plugin = static::getPlugin($plugin->type, $plugin->name);
+		}
+
+		// Instantiate and register the plugin.
+		new $className($dispatcher, (array) $plugin);
 	}
 
 	/**
@@ -272,7 +276,7 @@ abstract class PluginHelper
 		{
 			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
+				->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params'), $db->quoteName('manifest_cache')))
 				->from('#__extensions')
 				->where('enabled = 1')
 				->where('type = ' . $db->quote('plugin'))
@@ -281,7 +285,14 @@ abstract class PluginHelper
 				->order('ordering');
 			$db->setQuery($query);
 
-			return $db->loadObjectList();
+			$plugins = $db->loadObjectList();
+
+			foreach ($plugins as $plugin)
+			{
+				$plugin->manifest_cache = json_decode($plugin->manifest_cache);
+			}
+
+			return $plugins;
 		};
 
 		try

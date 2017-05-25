@@ -10,7 +10,7 @@
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_CALENDAR_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="calendar">calendar.php</filename>
+		<filename plugin="Joomla\Plugin\Fields\Calendar\CalendarField">CalendarField.php</filename>
 		<folder>params</folder>
 		<folder>tmpl</folder>
 	</files>
