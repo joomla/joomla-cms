@@ -28,7 +28,7 @@ class JLogEntry
 
 	/**
 	 * The date the message was logged.
-	 * @var    JDate
+	 * @var    Date
 	 * @since  11.1
 	 */
 	public $date;
@@ -102,7 +102,7 @@ class JLogEntry
 		// Get the current call stack and back trace (without args to save memory).
 		$this->callStack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-		// Get the date as a JDate object.
-		$this->date = new JDate($date ? $date : 'now');
+		// Get the date as a Date object.
+		$this->date = new Joomla\CMS\Date\Date($date ? $date : 'now');
 	}
 }
