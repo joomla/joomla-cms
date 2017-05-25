@@ -22,14 +22,7 @@
 
 .header {
 	background-color: #ffffff;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#d9effa), color-stop(25%, #d9effa), to(#ffffff));
-	background-image: -webkit-linear-gradient(#d9effa, #d9effa 25%, #ffffff);
-	background-image: -moz-linear-gradient(top, #d9effa, #d9effa 25%, #ffffff);
-	background-image: -ms-linear-gradient(#d9effa, #d9effa 25%, #ffffff);
-	background-image: -o-linear-gradient(#d9effa, #d9effa 25%, #ffffff);
-	background-image: linear-gradient(#d9effa, #d9effa 25%, #ffffff);
 	background-repeat: no-repeat;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9effa', endColorstr='#ffffff', GradientType=0);
 	border-top: 3px solid #0088cc;
 	padding: 20px 0;
 	text-align: center;
