@@ -323,7 +323,7 @@
 		<field
 			name="targeta"
 			type="hidden"
-			/>
+		/>
 
 		<field
 			name="urlb"
@@ -374,7 +374,8 @@
 		/>
 	</fields>
 	<fields name="metadata">
-		<fieldset name="jmetadata"
+		<fieldset 
+			name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 				<field 
