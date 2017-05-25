@@ -272,10 +272,10 @@ class ContactViewContact extends JViewLegacy
 		{
 			foreach ($contacts as &$contact)
 			{
-				$contact->link = JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
+				$contact->link = JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid), false);
 			}
 
-			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid));
+			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid), false);
 		}
 
 		// Process the content plugins
