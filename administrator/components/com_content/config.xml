@@ -701,8 +701,8 @@
 		<field 
 			name="maxLevelcat" 
 			type="list"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
 			>
 			<option value="0">JNONE</option>
@@ -800,12 +800,8 @@
 			default="0"
 			showon="num_columns!:,0,1"
 			>
-			<option
-				value="0">JGLOBAL_DOWN
-			</option>
-			<option
-				value="1">JGLOBAL_ACROSS
-			</option>
+			<option value="0">JGLOBAL_DOWN</option>
+			<option value="1">JGLOBAL_ACROSS</option>
 		</field>
 
 		<field 
@@ -817,8 +813,8 @@
 		<field 
 			name="show_subcategory_content" 
 			type="list"
-			description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"
 			label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
+			description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"
 			default="0"
 			>
 			<option value="0">JNONE</option>
@@ -957,18 +953,10 @@
 			description="JGLOBAL_CATEGORY_ORDER_DESC"
 			default="none"
 			>
-			<option
-				value="none">JGLOBAL_NO_ORDER
-			</option>
-			<option
-				value="alpha">JGLOBAL_TITLE_ALPHABETICAL
-			</option>
-			<option
-				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL
-			</option>
-			<option
-				value="order">JGLOBAL_CATEGORY_MANAGER_ORDER
-			</option>
+			<option value="none">JGLOBAL_NO_ORDER</option>
+			<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+			<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+			<option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
 		</field>
 
 		<field 
@@ -1070,12 +1058,8 @@
 			default="0"
 			showon="show_feed_link:1"
 			>
-			<option
-				value="0">JGLOBAL_INTRO_TEXT
-			</option>
-			<option
-				value="1">JGLOBAL_FULL_TEXT
-			</option>
+			<option value="0">JGLOBAL_INTRO_TEXT</option>
+			<option value="1">JGLOBAL_FULL_TEXT</option>
 		</field>
 
 		<field
@@ -1118,6 +1102,7 @@
 			validate="rules"
 			filter="rules"
 			component="com_content"
-			section="component"/>
+			section="component"
+		/>
 	</fieldset>
 </config>

@@ -112,7 +112,7 @@
 			type="user"
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL" 
 			description="COM_CONTENT_FIELD_CREATED_BY_DESC" 
-			/>
+		/>
 
 		<field 
 			name="created_by_alias" 
@@ -144,9 +144,17 @@
 			filter="unset"
 		 />
 
-		<field name="checked_out" type="hidden" filter="unset" />
+		<field 
+			name="checked_out" 
+			type="hidden" 
+			filter="unset" 
+		/>
 
-		<field name="checked_out_time" type="hidden" filter="unset" />
+		<field 
+			name="checked_out_time" 
+			type="hidden" 
+			filter="unset" 
+		/>
 
 		<field 
 			name="publish_up"
@@ -168,7 +176,7 @@
 			showtime="true"
 			size="22"
 			filter="user_utc" 
-			/>
+		/>
 
 		<field
 			name="version" 
@@ -188,7 +196,7 @@
 			description="JFIELD_ORDERING_DESC" 
 			size="6"
 			default="0" 
-			/>
+		/>
 
 		<field 
 			name="metakey" 
@@ -267,10 +275,11 @@
 			<field 
 				name="article_layout" 
 				type="componentlayout"
-			    label="JFIELD_ALT_LAYOUT_LABEL"
+				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				useglobal="true"
-			    extension="com_content" view="article"
+			    extension="com_content" 
+				view="article"
 			/>
 
 			<field
@@ -312,8 +321,8 @@
 			<field 
 				name="show_intro"
 				type="list"
-				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
+				description="JGLOBAL_SHOW_INTRO_DESC"
 				class="chzn-color"
 				useglobal="true"
 				>
@@ -588,9 +597,9 @@
 			<field
 				name="show_publishing_options"
 				type="list"
-				default=""
 				label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
+				default=""
 				useglobal="true"
 				class="chzn-color"
 				>
@@ -601,9 +610,9 @@
 			<field
 				name="show_article_options"
 				type="list"
-				default=""
 				label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
+				default=""
 				useglobal="true"
 				class="chzn-color"
 				>
@@ -1038,8 +1047,15 @@
 	</fields>
 	<!-- These fields are used to get labels for the Content History Preview and Compare Views -->
 	<fields>
-		<field name="introtext" label="COM_CONTENT_FIELD_INTROTEXT" />
-		<field name="fulltext" label="COM_CONTENT_FIELD_FULLTEXT" />
+		<field 
+			name="introtext" 
+			label="COM_CONTENT_FIELD_INTROTEXT" 
+		/>
+
+		<field 
+			name="fulltext" 
+			label="COM_CONTENT_FIELD_FULLTEXT" 
+		/>
 	</fields>
 
 </form>
