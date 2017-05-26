@@ -654,7 +654,7 @@ class JDocument
 			// Old mime type parameter.
 			if (!empty($argList[1]))
 			{
-				$attribs['mime'] = $argList[1];
+				$attribs['type'] = $argList[1];
 			}
 
 			// Old media parameter.
