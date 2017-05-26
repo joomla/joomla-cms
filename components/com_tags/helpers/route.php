@@ -46,13 +46,15 @@ class TagsHelperRoute extends JHelperRoute
 
 			if (class_exists($routerClass) && method_exists($routerClass, $routerMethod))
 			{
+				$itemSlug = (is_string($contentItemAlias) and $contentItemAlias !== '') ? $contentItemId . ':' . $contentItemAlias : (int) $contentItemId;
+
 				if ($routerMethod == 'getCategoryRoute')
 				{
-					$link = $routerClass::$routerMethod($contentItemId, $language);
+					$link = $routerClass::$routerMethod($itemSlug, $language);
 				}
 				else
 				{
-					$link = $routerClass::$routerMethod($contentItemId . ':' . $contentItemAlias, $contentCatId, $language);
+					$link = $routerClass::$routerMethod($itemSlug, $contentCatId, $language);
 				}
 			}
 		}
