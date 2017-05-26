@@ -204,22 +204,15 @@ class JDocumentFeed extends JDocument
 
 		$this->setMimeEncoding($renderer->getContentType());
 
-		// Output - Generate prolog
+		// Output
+		// Generate prolog
 		$data = "<?xml version=\"1.0\" encoding=\"" . $this->_charset . "\"?>\n";
 		$data .= "<!-- generator=\"" . $this->getGenerator() . "\" -->\n";
 
 		// Generate stylesheet links
 		foreach ($this->_styleSheets as $src => $attr)
 		{
-			// Ensure b/c before 3.7.0
-			if (array_key_exists('mime', $attr))
-			{
-				$data .= "<?xml-stylesheet href=\"$src\" type=\"" . $attr['mime'] . "\"?>\n";
-			}
-			else
-			{
-				$data .= "<?xml-stylesheet href=\"$src\" type=\"" . $attr['type'] . "\"?>\n";
-			}
+			$data .= "<?xml-stylesheet href=\"$src\" type=\"" . $attr['mime'] . "\"?>\n";
 		}
 
 		// Render the feed
