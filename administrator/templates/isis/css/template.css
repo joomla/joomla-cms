@@ -7982,6 +7982,9 @@ ul.manager .height-50 .icon-folder-2 {
 #mediamanager-form .height-50 .icon-folder-2 {
 	font-size: 40px;
 }
+.uploadform {
+	margin-top: 20px;
+}
 body.modal-open {
 	-ms-overflow-style: none;
 }
