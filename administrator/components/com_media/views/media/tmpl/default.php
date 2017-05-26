@@ -47,7 +47,7 @@ if ($lang->isRtl())
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 		<div class="j-toggle-sidebar-header">
-		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS'); ?> </h3>
+		<h3><?php echo JText::_('COM_MEDIA_FOLDERS'); ?> </h3>
 		</div>
 		<div id="treeview" class="sidebar">
 			<div id="media-tree_tree" class="tree-holder">
