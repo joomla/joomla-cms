@@ -211,7 +211,7 @@ class JDocumentFeed extends JDocument
 		// Generate stylesheet links
 		foreach ($this->_styleSheets as $src => $attr)
 		{
-			// b/c before 3.7.0
+			// Ensure b/c before 3.7.0
 			if (array_key_exists('mime', $attr))
 			{
 				$data .= "<?xml-stylesheet href=\"$src\" type=\"" . $attr['mime'] . "\"?>\n";
