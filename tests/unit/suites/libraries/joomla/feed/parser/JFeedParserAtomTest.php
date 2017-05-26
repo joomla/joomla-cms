@@ -136,7 +136,7 @@ class JFeedParserAtomTest extends TestCase
 	public function testHandleLink()
 	{
 		// Setup the inputs.
-		$el   = new SimpleXMLElement('<link href="http://domain.com/">');
+		$el   = new SimpleXMLElement('<link href="http://domain.com/" />');
 		$feed = new JFeed;
 
 		TestReflection::invoke($this->_instance, 'handleLink', $feed, $el);
