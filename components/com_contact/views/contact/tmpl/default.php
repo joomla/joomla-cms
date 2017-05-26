@@ -123,7 +123,7 @@ $tparams = $this->item->params;
 		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php if (!$tabSetStarted)
 			{
-			    echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-form'));
+				echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-form'));
 				$tabSetStarted = true;
 			}
 			?>
