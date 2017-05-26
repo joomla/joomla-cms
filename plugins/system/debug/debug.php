@@ -2041,4 +2041,56 @@ class PlgSystemDebug extends JPlugin
 		// Write new file.
 		JFile::write($file, $current);
 	}
+
+	/**
+	 * Write query to the log file
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	protected function writeToFile()
+	{
+		$app    = JFactory::getApplication();
+		$conf   = JFactory::getConfig();
+		$domain = str_replace(' ', '_', $conf->get('sitename', 'site'));
+
+		if ($app->isSite())
+		{
+			$alias = $app->getMenu()->getActive()->alias;
+			$id    = $app->getMenu()->getActive()->id;
+			$file  = $alias . $id . '.sql';
+			$file  = $app->get('log_path') . '/' . $domain . '_' . $file;
+		}
+		else
+		{
+			$input = $app->input;
+			$file  = $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+			$file  = $app->get('log_path') . '/' . $domain . '_' . $file;
+		}
+
+		$current = '';
+		$db      = JFactory::getDbo();
+		$log     = $db->getLog();
+		$timings = $db->getTimings();
+
+		foreach ($log as $id => $query)
+		{
+			if (isset($timings[$id * 2 + 1]))
+			{
+				$temp     = str_replace('`', '', $log[$id]);
+				$temp     = str_replace("\t", " ", $temp);
+				$temp     = str_replace("\n", " ", $temp);
+				$current .= str_replace("\r\n", " ", $temp) . ";\n";
+			}
+		}
+
+		if (JFile::exists($file))
+		{
+			JFile::delete($file);
+		}
+
+		// Write new file.
+		JFile::write($file, $current);
+	}
 }
