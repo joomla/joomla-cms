@@ -275,7 +275,7 @@ class JFeedParserRssTest extends TestCase
 	public function testHandleLink()
 	{
 		// Setup the inputs.
-		$el   = new SimpleXMLElement('<link href="http://domain.com/path/to/resource" />');
+		$el   = new SimpleXMLElement('<link href="http://domain.com/path/to/resource">');
 		$feed = new JFeed;
 
 		TestReflection::invoke($this->_instance, 'handleLink', $feed, $el);
