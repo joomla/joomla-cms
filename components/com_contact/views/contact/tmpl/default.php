@@ -115,7 +115,7 @@ $tparams = $this->item->params;
 		<?php if ($presentation_style === 'sliders') : ?>
             <?php if(!$accordionStarted)
 			{
-				echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-form'));
+			    echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-form'));
 			    $accordionStarted = true;
 			}
             ?>
