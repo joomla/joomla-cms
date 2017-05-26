@@ -66,8 +66,8 @@ $tparams = $this->item->params;
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
 	<?php $presentation_style = $tparams->get('presentation_style'); ?>
-    <?php $accordionStarted = true; ?>
-	<?php $tabSetStarted = true; ?>
+    	<?php $accordionStarted = false; ?>
+	<?php $tabSetStarted = false; ?>
 
 	<?php if ($this->params->get('show_info', 1)) : ?>
 		<?php if ($presentation_style === 'sliders') : ?>
