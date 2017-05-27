@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -155,7 +155,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	/**
 	 * Makes sure that the Joomla! Update Component Update is in the database and check if there is a new version.
 	 *
-	 * @return  boolean  True if there is a update else false
+	 * @return  boolean  True if there is an update else false
 	 *
 	 * @since   3.6.3
 	 */
@@ -166,7 +166,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('element') . " = " . $db->quote('com_joomlaupdate'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'));
 		$db->setQuery($query);
 
 		try
@@ -181,7 +181,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		// Try the update only if we have a extension id
+		// Try the update only if we have an extension id
 		if ($joomlaUpdateComponentId != 0)
 		{
 			// Allways force to check for an update!

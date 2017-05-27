@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * JFormRule for com_contact to make sure the message body contains no banned word.
@@ -23,7 +24,7 @@ class JFormRuleContactEmailMessage extends JFormRule
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
@@ -40,7 +41,7 @@ class JFormRuleContactEmailMessage extends JFormRule
 		{
 			foreach (explode(';', $banned) as $item)
 			{
-				if ($item != '' && JString::stristr($value, $item) !== false)
+				if ($item != '' && StringHelper::stristr($value, $item) !== false)
 				{
 					return false;
 				}

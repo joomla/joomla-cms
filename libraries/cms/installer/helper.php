@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,8 +32,6 @@ abstract class JInstallerHelper
 	 */
 	public static function downloadPackage($url, $target = false)
 	{
-		$config = JFactory::getConfig();
-
 		// Capture PHP errors
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
@@ -42,11 +40,11 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		// Load installer plugins, and allow url and headers modification
+		// Load installer plugins, and allow URL and headers modification
 		$headers = array();
 		JPluginHelper::importPlugin('installer');
 		$dispatcher = JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
+		$dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
 
 		try
 		{
@@ -78,14 +76,16 @@ abstract class JInstallerHelper
 			$target = trim($flds[0], '"');
 		}
 
+		$tmpPath = JFactory::getConfig()->get('tmp_path');
+
 		// Set the target path if not given
 		if (!$target)
 		{
-			$target = $config->get('tmp_path') . '/' . self::getFilenameFromUrl($url);
+			$target = $tmpPath . '/' . self::getFilenameFromUrl($url);
 		}
 		else
 		{
-			$target = $config->get('tmp_path') . '/' . basename($target);
+			$target = $tmpPath . '/' . basename($target);
 		}
 
 		// Write buffer to file

@@ -3,7 +3,7 @@
 	<name>plg_authentication_gmail</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,7 +25,7 @@
 					label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL"
 					description="PLG_GMAIL_FIELD_APPLYSUFFIX_DESC"
 					default="0"
-				>
+					>
 					<option value="0">PLG_GMAIL_FIELD_VALUE_NOAPPLYSUFFIX</option>
 					<option value="1">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXMISSING</option>
 					<option value="2">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXALWAYS</option>
@@ -47,7 +47,7 @@
 					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -59,6 +59,7 @@
 					description="PLG_GMAIL_FIELD_USER_BLACKLIST_DESC"
 					size="20"
 				/>
+
 				<field
 					name="backendLogin"
 					type="radio"
@@ -66,7 +67,7 @@
 					description="PLG_GMAIL_FIELD_BACKEND_LOGIN_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
 				</field>

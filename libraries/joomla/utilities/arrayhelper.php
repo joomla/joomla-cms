@@ -3,12 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -395,11 +396,11 @@ abstract class JArrayHelper
 			}
 			elseif ($caseSensitive)
 			{
-				$cmp = JString::strcmp($va, $vb, $locale);
+				$cmp = StringHelper::strcmp($va, $vb, $locale);
 			}
 			else
 			{
-				$cmp = JString::strcasecmp($va, $vb, $locale);
+				$cmp = StringHelper::strcasecmp($va, $vb, $locale);
 			}
 
 			if ($cmp > 0)
@@ -423,7 +424,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array
 	 *
-	 * @see     https://secure.php.net/manual/en/function.array-unique.php
+	 * @link    https://secure.php.net/manual/en/function.array-unique.php
 	 * @since   11.2
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::arrayUnique instead
 	 */
