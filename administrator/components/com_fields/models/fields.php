@@ -34,7 +34,7 @@ class FieldsModelFields extends JModelList
 				'id', 'a.id',
 				'title', 'a.title',
 				'type', 'a.type',
-				'alias', 'a.alias',
+				'name', 'a.name',
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
@@ -109,7 +109,7 @@ class FieldsModelFields extends JModelList
 		$id .= ':' . serialize($this->getState('filter.assigned_cat_ids'));
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
-		$id .= ':' . print_r($this->getState('filter.language'), true);
+		$id .= ':' . serialize($this->getState('filter.language'));
 
 		return parent::getStoreId($id);
 	}
@@ -133,7 +133,7 @@ class FieldsModelFields extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.note' .
+				'a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'
@@ -228,7 +228,7 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Implement View Level Access
-		if (!$user->authorise('core.admin'))
+		if (!$app->isClient('administrator') || !$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ') AND (a.group_id = 0 OR g.access IN (' . $groups . '))');
@@ -284,7 +284,7 @@ class FieldsModelFields extends JModelList
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.name LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -302,17 +302,10 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Add the list ordering clause
-		$listOrdering = $this->getState('list.ordering', 'a.ordering');
-		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
+		$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
+		$orderDirn     = $this->state->get('list.direction', 'ASC');
 
-		if ($listOrdering == 'a.access')
-		{
-			$query->order('a.access ' . $listDirn);
-		}
-		else
-		{
-			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
-		}
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
 
 		return $query;
 	}
@@ -351,7 +344,7 @@ class FieldsModelFields extends JModelList
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  JForm/false  the JForm object or false
+	 * @return  JForm|false  the JForm object or false
 	 *
 	 * @since   3.7.0
 	 */

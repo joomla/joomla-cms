@@ -158,18 +158,18 @@ class AssociationsHelper extends JHelperContent
 	/**
 	 * Get the associated language edit links Html.
 	 *
-	 * @param   string   $extensionName  Extension Name
-	 * @param   string   $typeName       ItemType
-	 * @param   integer  $itemId         Item id.
-	 * @param   string   $itemLanguage   Item language code.
-	 * @param   boolean  $addLink        True for adding edit links. False for just text.
-	 * @param   boolean  $allLanguages   True for showing all content languages. False only languages with associations.
+	 * @param   string   $extensionName   Extension Name
+	 * @param   string   $typeName        ItemType
+	 * @param   integer  $itemId          Item id.
+	 * @param   string   $itemLanguage    Item language code.
+	 * @param   boolean  $addLink         True for adding edit links. False for just text.
+	 * @param   boolean  $assocLanguages  True for showing non associated content languages. False only languages with associations.
 	 *
 	 * @return  string   The language HTML
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $allLanguages = true)
+	public static function getAssociationHtmlList($extensionName, $typeName, $itemId, $itemLanguage, $addLink = true, $assocLanguages = true)
 	{
 		// Get the associations list for this item.
 		$items = self::getAssociationList($extensionName, $typeName, $itemId);
@@ -191,8 +191,15 @@ class AssociationsHelper extends JHelperContent
 				continue;
 			}
 
+			// Don't show languages with associations, if we don't want to show them.
+			if ($assocLanguages && isset($items[$langCode]))
+			{
+				unset($items[$langCode]);
+				continue;
+			}
+
 			// Don't show languages without associations, if we don't want to show them.
-			if (!$allLanguages && !isset($items[$langCode]))
+			if (!$assocLanguages && !isset($items[$langCode]))
 			{
 				continue;
 			}
@@ -200,33 +207,55 @@ class AssociationsHelper extends JHelperContent
 			// Get html parameters.
 			if (isset($items[$langCode]))
 			{
-				$title       = '<br/><br/>' . $items[$langCode][$titleFieldName];
+				$title       = $items[$langCode][$titleFieldName];
 				$additional  = '';
 
-				if (isset($items[$langCode]['category_title']))
+				if (isset($items[$langCode]['catid']))
 				{
-					$additional = '<br/>' . JText::_('JCATEGORY') . ': ' . $items[$langCode]['category_title'];
+					$db = JFactory::getDbo();
+
+					// Get the category name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__categories'))
+						->where($db->quoteName('id') . ' = ' . $db->quote($items[$langCode]['catid']));
+
+					$db->setQuery($query);
+					$category_title = $db->loadResult();
+
+					$additional = '<strong>' . JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br />';
 				}
-				elseif (isset($items[$langCode]['menu_title']))
+				elseif (isset($items[$langCode]['menutype']))
 				{
-					$additional = '<br/>' . JText::_('COM_ASSOCIATIONS_HEADING_MENUTYPE') . ': ' . $items[$langCode]['menu_title'];
+					$db = JFactory::getDbo();
+
+					// Get the menutype name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__menu_types'))
+						->where($db->quoteName('menutype') . ' = ' . $db->quote($items[$langCode]['menutype']));
+
+					$db->setQuery($query);
+					$menutype_title = $db->loadResult();
+
+					$additional = '<strong>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br />';
 				}
 
-				$labelClass  = 'label';
+				$labelClass  = '';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
 								&& self::canCheckinItem($extensionName, $typeName, $items[$langCode]['id']);
 
-				$additional .= $addLink && $allow ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
+				$additional .= $addLink && $allow ? JText::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
 			}
 			else
 			{
 				$items[$langCode] = array();
 
-				$title      = '<br/><br/>' . JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
-				$additional = $addLink ? '<br/><br/>' . JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-				$labelClass = 'label label-warning';
+				$title      = JText::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
+				$additional = $addLink ? JText::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
+				$labelClass = 'label-warning';
 				$target     = $langCode . ':0:add';
 				$allow      = $canCreate;
 			}
@@ -242,14 +271,19 @@ class AssociationsHelper extends JHelperContent
 				'target'   => $target,
 			);
 
-			$url       = JRoute::_('index.php?' . http_build_query($options));
-			$text      = strtoupper($language->sef);
-			$langImage = JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title, array('title' => $language->title), true);
-			$tooltip   = implode(' ', array($langImage, $language->title, $title, $additional));
+			$url     = JRoute::_('index.php?' . http_build_query($options));
+			$url     = $allow && $addLink ? $url : '';
+			$text    = strtoupper($language->sef);
 
-			$items[$langCode]['link'] = JHtml::_('tooltip', $tooltip, null, null, $text, $allow && $addLink ? $url : '', null, 'hasTooltip ' . $labelClass);
+			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br /><br />' . $additional;
+			$classes = 'hasPopover label ' . $labelClass . ' label-' . $language->sef;
+
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
+						. '" data-content="' . $tooltip . '" data-placement="top">'
+						. $text . '</a>';
 		}
 
+		JHtml::_('bootstrap.popover');
 		return JLayoutHelper::render('joomla.content.associations', $items);
 	}
 
@@ -416,6 +450,7 @@ class AssociationsHelper extends JHelperContent
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
 			->from($db->quoteName('#__languages'))
+			->where($db->quoteName('published') . ' != -2')
 			->order($db->quoteName('ordering') . ' ASC');
 
 		$db->setQuery($query);
@@ -489,7 +524,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True if item is checked out.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function isCheckoutItem($extensionName, $typeName, $itemId)
 	{
@@ -527,7 +562,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @return  boolean  True on allowed.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function canCheckinItem($extensionName, $typeName, $itemId)
 	{
@@ -605,5 +640,34 @@ class AssociationsHelper extends JHelperContent
 		$helper = self::getExtensionHelper($extensionName);
 
 		return $helper->getTypeFieldName($typeName, $fieldName);
+	}
+
+	/**
+	 * Gets the language filter system plugin extension id.
+	 *
+	 * @return  int  The language filter system plugin extension id.
+	 *
+	 * @since   3.7.2
+	 */
+	public static function getLanguagefilterPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
 	}
 }

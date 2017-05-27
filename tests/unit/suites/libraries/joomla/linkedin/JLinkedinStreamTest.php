@@ -104,7 +104,7 @@ class JLinkedinStreamTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -168,7 +168,7 @@ class JLinkedinStreamTest extends TestCase
 			$xml .= '<comment>' . $comment . '</comment>';
 		}
 
-		// Check if title and url are specified.
+		// Check if title and URL are specified.
 		if ($title && $url)
 		{
 			$xml .= '<content>

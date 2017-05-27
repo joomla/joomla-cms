@@ -139,7 +139,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -186,7 +186,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test__toStringSelectRowNumber()
 	{

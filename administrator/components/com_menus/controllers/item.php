@@ -70,7 +70,7 @@ class MenusControllerItem extends JControllerForm
 			if (!empty($item->menutype))
 			{
 				// Protected menutype, do not allow edit
-				if ($item->menutype == 'main' || $item->menutype == 'menu')
+				if ($item->menutype == 'main')
 				{
 					return false;
 				}
