@@ -82,6 +82,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_templates"
-			section="component" />
+			section="component"
+		/>
 	</fieldset>
 </config>
