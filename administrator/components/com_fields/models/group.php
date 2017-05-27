@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -15,6 +15,23 @@ defined('_JEXEC') or die;
  */
 class FieldsModelGroup extends JModelAdmin
 {
+	/**
+	 * @var null|string
+	 *
+	 * @since   3.7.0
+	 */
+	public $typeAlias = null;
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id'   => 'batchLanguage'
+	);
+
 	/**
 	 * Method to save the form data.
 	 *
@@ -130,7 +147,7 @@ class FieldsModelGroup extends JModelAdmin
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
