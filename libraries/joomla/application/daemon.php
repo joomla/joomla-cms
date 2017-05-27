@@ -16,15 +16,15 @@ use Joomla\Registry\Registry;
 /**
  * Class to turn JApplicationCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @see    https://secure.php.net/manual/en/book.pcntl.php
- * @see    https://secure.php.net/manual/en/features.commandline.php
+ * @link   https://secure.php.net/manual/en/book.pcntl.php
+ * @link   https://secure.php.net/manual/en/features.commandline.php
  * @since  11.1
  */
 class JApplicationDaemon extends JApplicationCli
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
-	 * @see    https://secure.php.net/manual/pcntl.constants.php
+	 * @link   https://secure.php.net/manual/pcntl.constants.php
 	 * @since  11.1
 	 */
 	protected static $signals = array(
