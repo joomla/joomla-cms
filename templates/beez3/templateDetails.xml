@@ -56,49 +56,80 @@
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
-				<field name="wrapperSmall"  class="validate-numeric" type="text" default="53"
+				<field 
+					name="wrapperSmall"  
+					type="text" 
 					label="TPL_BEEZ3_FIELD_WRAPPERSMALL_LABEL"
 					description="TPL_BEEZ3_FIELD_WRAPPERSMALL_DESC"
-					filter="integer" />
+					class="validate-numeric" 
+					default="53"
+					filter="integer"
+				/>
 
-				<field name="wrapperLarge"  class="validate-numeric" type="text" default="72"
+				<field 
+					name="wrapperLarge"  
+					type="text" 
 					label="TPL_BEEZ3_FIELD_WRAPPERLARGE_LABEL"
 					description="TPL_BEEZ3_FIELD_WRAPPERLARGE_DESC"
-					filter="integer" />
+					class="validate-numeric" 
+					default="72"
+					filter="integer"
+				 />
 
-				<field name="logo" type="media"
-					label="TPL_BEEZ3_FIELD_LOGO_LABEL" description="TPL_BEEZ3_FIELD_LOGO_DESC" />
+				<field 
+					name="logo"
+					type="media"
+					label="TPL_BEEZ3_FIELD_LOGO_LABEL" 
+					description="TPL_BEEZ3_FIELD_LOGO_DESC" 
+				/>
 
-				<field name="sitetitle"  type="text" default=""
+				<field 
+					name="sitetitle"  
+					type="text" 
 					label="TPL_BEEZ3_FIELD_SITETITLE_LABEL"
 					description="TPL_BEEZ3_FIELD_SITETITLE_DESC"
-					filter="string" />
+					default=""
+					filter="string" 
+				/>
 
-				<field name="sitedescription"  type="text" default=""
+				<field 
+					name="sitedescription"  
+					type="text" 
 					label="TPL_BEEZ3_FIELD_DESCRIPTION_LABEL"
 					description="TPL_BEEZ3_FIELD_DESCRIPTION_DESC"
-					filter="string" />
+					default=""
+					filter="string" 
+				/>
 
-				<field name="navposition" type="list" default="center"
+				<field 
+					name="navposition" 
+					type="list" 
 					label="TPL_BEEZ3_FIELD_NAVPOSITION_LABEL"
 					description="TPL_BEEZ3_FIELD_NAVPOSITION_DESC"
+					default="center"
 					filter="word"
-				>
+					>
 					<option value="center">TPL_BEEZ3_OPTION_AFTER_CONTENT</option>
 					<option value="left">TPL_BEEZ3_OPTION_BEFORE_CONTENT</option>
 				</field>
 
-				<field name="bootstrap" type="textarea"
+				<field 
+					name="bootstrap" 
+					type="textarea"
 					label="TPL_BEEZ3_FIELD_BOOTSTRAP_LABEL"
 					description="TPL_BEEZ3_FIELD_BOOTSTRAP_DESC"
-					rows="4" columns="30"
+					rows="4" 
+					columns="30"
 				/>
 
-				<field name="templatecolor" type="list" default="nature"
+				<field
+					name="templatecolor" 
+					type="list" 
 					label="TPL_BEEZ3_FIELD_TEMPLATECOLOR_LABEL"
 					description="TPL_BEEZ3_FIELD_TEMPLATECOLOR_DESC"
+					default="nature"
 					filter="word"
-				>
+					>
 					<option value="nature">TPL_BEEZ3_OPTION_NATURE</option>
 					<option value="personal">TPL_BEEZ3_OPTION_PERSONAL</option>
 					<option value="red">TPL_BEEZ3_OPTION_RED</option>
@@ -106,15 +137,22 @@
 					<option value="image">TPL_BEEZ3_OPTION_IMAGE</option>
 				</field>
 
-				<field name="headerImage" type="media"
+				<field 
+					name="headerImage" 
+					type="media"
 					label="TPL_BEEZ3_FIELD_HEADER_IMAGE_LABEL" 
 					description="TPL_BEEZ3_FIELD_HEADER_IMAGE_DESC" 
-					showon="templatecolor:image" />
+					showon="templatecolor:image" 
+				/>
 
-				<field name="backgroundcolor" type="color" default="#eee"
+				<field 
+					name="backgroundcolor" 
+					type="color" 
 					label="TPL_BEEZ3_FIELD_HEADER_BACKGROUND_COLOR_LABEL"
 					description="TPL_BEEZ3_FIELD_HEADER_BACKGROUND_COLOR_DESC"
-					showon="templatecolor:image" />
+					default="#eee"
+					showon="templatecolor:image" 
+				/>
 
 			</fieldset>
 		</fields>
