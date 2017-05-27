@@ -21,6 +21,7 @@ class FinderIndexerParserTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexerParser::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -38,6 +39,7 @@ class FinderIndexerParserTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0
 	 *
+	 * @covers  FinderIndexerParser::getInstance
 	 * @expectedException  Exception
 	 */
 	public function testGetInstance_noParser()
