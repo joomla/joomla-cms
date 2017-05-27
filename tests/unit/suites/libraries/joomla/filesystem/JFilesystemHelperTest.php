@@ -14,7 +14,7 @@
  * @subpackage  Event
  * @since       11.1
  */
-class JFilesystemHelperTest extends PHPUnit_Framework_TestCase
+class JFilesystemHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JFilesystemHelper
@@ -40,7 +40,7 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

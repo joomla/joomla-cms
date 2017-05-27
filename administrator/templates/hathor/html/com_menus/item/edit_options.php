@@ -64,7 +64,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		</fieldset>
 	<?php endforeach;?>
 
-	<?php if ($assoc) : ?>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_MENUS_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+	<?php if ($assoc && $this->state->get('item.client_id') != 1) : ?>
+		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
 		<?php echo $this->loadTemplate('associations'); ?>
 	<?php endif; ?>
