@@ -17,10 +17,10 @@
 			type="text" 
 			label="JGLOBAL_TITLE"
 			description="COM_FINDER_FILTER_TITLE_DESCRIPTION"
-		    class="input-xxlarge input-large-text"
-		    size="40"
-		    id="title"
-		    required="true" 
+			class="input-xxlarge input-large-text"
+			size="40"
+			id="title"
+			required="true" 
 		/>
 
 		<field 
@@ -98,7 +98,9 @@
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
 			class="chzn-color-state"
-			filter="intval" size="1" default="1" 
+			filter="intval"
+			size="1"
+			default="1" 
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
