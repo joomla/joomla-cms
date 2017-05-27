@@ -6,8 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Controller\Form;
+use Joomla\CMS\Model\Model;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -15,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class FieldsControllerField extends JControllerForm
+class Field extends Form
 {
 	private $internalContext;
 
@@ -31,18 +36,23 @@ class FieldsControllerField extends JControllerForm
 	protected $text_prefix = 'COM_FIELDS_FIELD';
 
 	/**
-	 * Class constructor.
+	 * Constructor.
 	 *
-	 * @param   array  $config  A named array of configuration variables.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.7.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 
-		$this->internalContext = JFactory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
-		$parts = FieldsHelper::extract($this->internalContext);
+		$this->internalContext = \JFactory::getApplication()->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
+		$parts = \FieldsHelper::extract($this->internalContext);
 		$this->component = $parts ? $parts[0] : null;
 	}
 
@@ -55,12 +65,12 @@ class FieldsControllerField extends JControllerForm
 	 */
 	public function storeform()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$data = $this->input->get($this->input->get('formcontrol', 'jform'), array(), 'array');
 
-		$parts = FieldsHelper::extract($this->input->getCmd('context'));
+		$parts = \FieldsHelper::extract($this->input->getCmd('context'));
 
 		if ($parts)
 		{
@@ -75,7 +85,7 @@ class FieldsControllerField extends JControllerForm
 		$redirectUrl = base64_decode($this->input->get->getBase64('return'));
 
 		// Don't redirect to an external URL.
-		If (!JUri::isInternal($redirectUrl))
+		If (!\JUri::isInternal($redirectUrl))
 		{
 			$redirectUrl = 'index.php';
 		}
@@ -95,7 +105,7 @@ class FieldsControllerField extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		return JFactory::getUser()->authorise('core.create', $this->component);
+		return \JFactory::getUser()->authorise('core.create', $this->component);
 	}
 
 	/**
@@ -106,12 +116,12 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since   3.7.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user     = JFactory::getUser();
+		$user     = \JFactory::getUser();
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $this->component))
@@ -154,7 +164,7 @@ class FieldsControllerField extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Field');
@@ -195,14 +205,14 @@ class FieldsControllerField extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   JModelLegacy  $model      The data model object.
-	 * @param   array         $validData  The validated data.
+	 * @param   Model  $model      The data model object.
+	 * @param   array  $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	protected function postSaveHook(Model $model, $validData = array())
 	{
 		$item = $model->getItem();
 

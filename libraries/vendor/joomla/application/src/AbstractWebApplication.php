@@ -347,7 +347,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		elseif (($this->client->engine == Web\WebClient::TRIDENT) && !$this->isAscii($url))
 		{
 			$html = '<html><head>';
-			$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
+			$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '">';
 			$html .= '<script>document.location.href=\'' . $url . '\';</script>';
 			$html .= '</head><body></body></html>';
 

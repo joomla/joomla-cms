@@ -6,8 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Model;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Model\ListModel;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -15,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.7.0
  */
-class FieldsModelGroups extends JModelList
+class Groups extends ListModel
 {
 	/**
 	 * Context string for the model type.  This is used to handle uniqueness
@@ -27,14 +31,15 @@ class FieldsModelGroups extends JModelList
 	protected $context = 'com_fields.groups';
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     JModelLegacy
 	 * @since   3.7.0
+	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -54,7 +59,7 @@ class FieldsModelGroups extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -109,7 +114,7 @@ class FieldsModelGroups extends JModelList
 	/**
 	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 * @return  \JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
 	 * @since   3.7.0
 	 */
@@ -118,7 +123,7 @@ class FieldsModelGroups extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(

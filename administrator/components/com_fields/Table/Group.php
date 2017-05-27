@@ -6,27 +6,31 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Fields\Administrator\Table;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
 /**
- * Fields Table
+ * Groups Table
  *
  * @since  3.7.0
  */
-class FieldsTableField extends JTable
+class Group extends Table
 {
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JDatabaseDriver  $db  JDatabaseDriver object.
+	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver object.
 	 *
 	 * @since   3.7.0
 	 */
 	public function __construct($db = null)
 	{
-		parent::__construct('#__fields', 'id', $db);
+		parent::__construct('#__fields_groups', 'id', $db);
 
 		$this->setColumnAlias('published', 'state');
 	}
@@ -42,7 +46,7 @@ class FieldsTableField extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.7.0
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
 	public function bind($src, $ignore = '')
 	{
@@ -53,17 +57,10 @@ class FieldsTableField extends JTable
 			$src['params'] = (string) $registry;
 		}
 
-		if (isset($src['fieldparams']) && is_array($src['fieldparams']))
-		{
-			$registry = new Registry;
-			$registry->loadArray($src['fieldparams']);
-			$src['fieldparams'] = (string) $registry;
-		}
-
 		// Bind the rules.
 		if (isset($src['rules']) && is_array($src['rules']))
 		{
-			$rules = new JAccessRules($src['rules']);
+			$rules = new Rules($src['rules']);
 			$this->setRules($rules);
 		}
 
@@ -83,70 +80,33 @@ class FieldsTableField extends JTable
 	 */
 	public function check()
 	{
-		// Check for valid name
+		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
+			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_GROUP'));
 
 			return false;
 		}
 
-		if (empty($this->name))
-		{
-			$this->name = $this->title;
-		}
-
-		$this->name = JApplicationHelper::stringURLSafe($this->name, $this->language);
-
-		if (trim(str_replace('-', '', $this->name)) == '')
-		{
-			$this->name = Joomla\String\StringHelper::increment($this->name, 'dash');
-		}
-
-		$this->name = str_replace(',', '-', $this->name);
-
-		// Verify that the name is unique
-		$table = JTable::getInstance('Field', 'FieldsTable', array('dbo' => $this->_db));
-
-		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
-		{
-			$this->setError(JText::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
-
-			return false;
-		}
-
-		$this->name = str_replace(',', '-', $this->name);
-
-		if (empty($this->type))
-		{
-			$this->type = 'text';
-		}
-
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		if ($this->id)
 		{
-			// Existing item
-			$this->modified_time = $date->toSql();
+			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else
 		{
-			if (!(int) $this->created_time)
+			if (!(int) $this->created)
 			{
-				$this->created_time = $date->toSql();
+				$this->created = $date->toSql();
 			}
 
-			if (empty($this->created_user_id))
+			if (empty($this->created_by))
 			{
-				$this->created_user_id = $user->get('id');
+				$this->created_by = $user->get('id');
 			}
-		}
-
-		if (empty($this->group_id))
-		{
-			$this->group_id = 0;
 		}
 
 		return true;
@@ -163,9 +123,9 @@ class FieldsTableField extends JTable
 	 */
 	protected function _getAssetName()
 	{
-		$contextArray = explode('.', $this->context);
+		$component = explode('.', $this->context);
 
-		return $contextArray[0] . '.field.' . (int) $this->id;
+		return $component[0] . '.fieldgroup.' . (int) $this->id;
 	}
 
 	/**
@@ -192,72 +152,28 @@ class FieldsTableField extends JTable
 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
-	 * @param   JTable   $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A JTable object for the asset parent.
 	 * @param   integer  $id     Id to look up
 	 *
 	 * @return  integer
 	 *
 	 * @since   3.7.0
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
-		$contextArray = explode('.', $this->context);
-		$component = $contextArray[0];
-
-		if ($this->group_id)
-		{
-			$assetId = $this->getAssetId($component . '.fieldgroup.' . (int) $this->group_id);
-
-			if ($assetId)
-			{
-				return $assetId;
-			}
-		}
-		else
-		{
-			$assetId = $this->getAssetId($component);
-
-			if ($assetId)
-			{
-				return $assetId;
-			}
-		}
-
-		return parent::_getAssetParentId($table, $id);
-	}
-
-	/**
-	 * Returns an asset id for the given name or false.
-	 *
-	 * @param   string  $name  The asset name
-	 *
-	 * @return  number|boolean
-	 *
-	 * @since    3.7.0
-	 */
-	private function getAssetId($name)
-	{
+		$component = explode('.', $this->context);
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($name));
-
-		// Get the asset id from the database.
+			->where($db->quoteName('name') . ' = ' . $db->quote($component[0]));
 		$db->setQuery($query);
 
-		$assetId = null;
-
-		if ($result = $db->loadResult())
+		if ($assetId = (int) $db->loadResult())
 		{
-			$assetId = (int) $result;
-
-			if ($assetId)
-			{
-				return $assetId;
-			}
+			return $assetId;
 		}
 
-		return false;
+		return parent::_getAssetParentId($table, $id);
 	}
 }
