@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,7 +87,7 @@ class ModulesModelModules extends JModelList
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 
 		// If in modal layout on the frontend, state and language are always forced.
-		if ($app->isSite() && $layout === 'modal')
+		if ($app->isClient('site') && $layout === 'modal')
 		{
 			$this->setState('filter.language', 'current');
 			$this->setState('filter.state', 1);
@@ -100,7 +100,7 @@ class ModulesModelModules extends JModelList
 		}
 
 		// Special case for the client id.
-		if ($app->isSite() || $layout === 'modal')
+		if ($app->isClient('site') || $layout === 'modal')
 		{
 			$this->setState('client_id', 0);
 		}
