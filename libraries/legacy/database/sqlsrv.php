@@ -14,7 +14,7 @@ JLog::add('JDatabaseSqlsrv is deprecated, use JDatabaseDriverSqlsrv instead.', J
 /**
  * SQL Server database driver
  *
- * @see         https://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @link        https://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
  * @since       1.7
  * @deprecated  3.0 Use JDatabaseDriverSqlsrv instead.
  */
