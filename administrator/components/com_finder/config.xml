@@ -333,6 +333,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_finder"
-			section="component" />
+			section="component" 
+		/>
 	</fieldset>
 </config>
