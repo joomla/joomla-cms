@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,15 +36,24 @@ class ModulesViewModules extends JViewLegacy
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
+		$this->total         = $this->get('Total');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
+			throw new Exception(implode("\n", $errors), 500);
+		}
 
-			return false;
+		// We do not need the Page and the Language filters when filtering by administrator
+		if ($this->state->get('client_id') == 1)
+		{
+			unset($this->activeFilters['menuitem']);
+			$this->filterForm->removeField('menuitem', 'filter');
+
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
 		}
 
 		// We don't need the toolbar in the modal window.
