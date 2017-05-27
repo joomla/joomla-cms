@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,8 +29,8 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 			<h3 class="page-header item-title">
 				<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 				<?php echo $this->escape($item->title); ?></a>
-				<?php if ($this->params->get('show_cat_num_articles_cat') == 1) : ?>
-					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+				<?php if ($this->params->get('show_cat_num_articles_cat') == 1) :?>
+					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
 						<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
 						<?php echo $item->numitems; ?>
 					</span>

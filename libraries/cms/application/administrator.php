@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,8 +112,12 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	protected function doExecute()
 	{
+		// Get the language from the (login) form or user state
+		$login_lang = ($this->input->get('option') == 'com_login') ? $this->input->get('lang') : '';
+		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
+
 		// Initialise the application
-		$this->initialiseApp(array('language' => $this->getUserState('application.lang')));
+		$this->initialiseApp($options);
 
 		// Test for magic quotes
 		if (get_magic_quotes_gpc())
