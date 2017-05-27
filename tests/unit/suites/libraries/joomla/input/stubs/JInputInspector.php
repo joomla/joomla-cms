@@ -25,12 +25,12 @@ class JInputInspector extends JInput
 	public $inputs;
 
 	public static $registered;
+
 	/**
 	 * Test...
 	 *
 	 * @return void
 	 */
-
 	public static function register()
 	{
 		return parent::register();

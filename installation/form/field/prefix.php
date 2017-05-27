@@ -9,7 +9,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Form Field class for the Joomla Framework.
+ * Database Prefix field.
  *
  * @since  1.6
  */
