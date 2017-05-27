@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="redirect"
+	<fieldset 
+		name="redirect"
 		label="COM_REDIRECT_ADVANCED_OPTIONS"
 	>
 		<field
@@ -15,11 +16,12 @@
 			<option value="0">JNO</option>
 		</field>
 	</fieldset>
+
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC">
-
+		description="JCONFIG_PERMISSIONS_DESC"
+	>
 		<field
 			name="rules"
 			type="rules"
@@ -27,6 +29,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_redirect"
-			section="component" />
+			section="component" 
+		/>
 	</fieldset>
 </config>
