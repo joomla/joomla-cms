@@ -6,8 +6,8 @@
 			<field
 				name="aliasoptions"
 				type="modal_menu"
-				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
 				label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
 				clientid="1"
 				required="true"
 				select="true"
