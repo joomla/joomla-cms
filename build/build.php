@@ -115,6 +115,7 @@ $doNotPackage = array(
 	'composer.lock',
 	'karma.conf.js',
 	'phpunit.xml.dist',
+	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
 	// Remove the testing sample data from all packages
