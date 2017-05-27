@@ -269,9 +269,7 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public function getMenu($name = 'site', $options = array())
 	{
-		$menu = parent::getMenu($name, $options);
-
-		return $menu;
+		return parent::getMenu($name, $options);
 	}
 
 	/**

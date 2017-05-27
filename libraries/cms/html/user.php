@@ -71,8 +71,7 @@ abstract class JHtmlUser
 			->where('a.block = 0')
 			->order('a.name');
 		$db->setQuery($query);
-		$items = $db->loadObjectList();
 
-		return $items;
+		return $db->loadObjectList();
 	}
 }

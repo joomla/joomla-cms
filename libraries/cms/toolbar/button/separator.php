@@ -39,10 +39,10 @@ class JToolbarButtonSeparator extends JToolbarButton
 		$options = array();
 
 		// Separator class name
-		$options['class'] = (empty($definition[1])) ? '' : $definition[1];
+		$options['class'] = empty($definition[1]) ? '' : $definition[1];
 
 		// Custom width
-		$options['style'] = (empty($definition[2])) ? '' : ' style="width:' . (int) $definition[2] . 'px;"';
+		$options['style'] = empty($definition[2]) ? '' : ' style="width:' . (int) $definition[2] . 'px;"';
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.toolbar.separator');

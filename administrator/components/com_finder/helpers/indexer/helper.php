@@ -36,7 +36,7 @@ class FinderIndexerHelper
 	 * A state flag, in order to not constantly check if the stemmer is an instance of FinderIndexerStemmer
 	 *
 	 * @var		boolean
-	 * @since	__DEPLOY_VERSION__
+	 * @since	3.7.0
 	 */
 	protected static $stemmerOK;
 

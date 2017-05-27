@@ -78,7 +78,7 @@ class JFormFieldSpacer extends JFormField
 			if (!empty($this->description))
 			{
 				JHtml::_('bootstrap.tooltip');
-				$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), JText::_($this->description), 0) . '"';
+				$label .= ' title="' . JHtml::_('tooltipText', trim($text, ':'), JText::_($this->description), 0) . '"';
 			}
 
 			// Add the label text and closing tag.
@@ -103,5 +103,21 @@ class JFormFieldSpacer extends JFormField
 	protected function getTitle()
 	{
 		return $this->getLabel();
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   array  $options  Options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control group
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function renderField($options = array())
+	{
+		$options['class'] = empty($options['class']) ? 'field-spacer' : $options['class'] . ' field-spacer';
+
+		return parent::renderField($options);
 	}
 }
