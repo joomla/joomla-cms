@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,11 +89,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	public function onFinderDelete($context, $table)
 	{
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context === 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -123,7 +123,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle categories here.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Check if the access levels are different.
 			if (!$isNew && $this->old_access != $row->access)
@@ -161,7 +161,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle categories here.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			// Query the database for the old access level and the parent if the item isn't new.
 			if (!$isNew)
@@ -190,7 +190,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle categories here.
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			/*
 			 * The category published state is tied to the parent category
@@ -224,7 +224,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		}
 
 		// Handle when the plugin is disabled.
-		if ($context == 'com_plugins.plugin' && $value === 0)
+		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
 		}

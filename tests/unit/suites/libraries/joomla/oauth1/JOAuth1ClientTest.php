@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -91,7 +91,6 @@ class JOAuth1ClientTest extends TestCase
 
 		$key = "TEST_KEY";
 		$secret = "TEST_SECRET";
-		$my_url = "TEST_URL";
 
 		$this->options = new Registry;
 		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
@@ -222,7 +221,7 @@ class JOAuth1ClientTest extends TestCase
 				JFactory::$session = $mockSession;
 
 				$this->setExpectedException('DomainException');
-				$result = $this->object->authenticate();
+				$this->object->authenticate();
 			}
 
 			$mockSession->expects($this->at(0))

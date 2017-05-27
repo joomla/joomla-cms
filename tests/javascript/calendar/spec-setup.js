@@ -1,13 +1,13 @@
 /**
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @package     Joomla
  * @subpackage  JavaScript Tests
- * @since       __DEPLOY_VERSION__
+ * @since       3.7.0
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/calendar/fixtures/fixture.html', 'libs/fields/calendar-vanilla'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/calendar/fixtures/fixture.html', 'libs/fields/calendar'], function ($, fixture) {
 
 	$('body').append(fixture);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -101,19 +101,16 @@ abstract class FinderIndexer
 	public static function getInstance()
 	{
 		// Setup the adapter for the indexer.
-		$format = JFactory::getDbo()->name;
+		$serverType = JFactory::getDbo()->getServerType();
 
-		if ($format == 'mysqli' || $format == 'pdomysql')
+		// For `mssql` server types, convert the type to `sqlsrv`
+		if ($serverType === 'mssql')
 		{
-			$format = 'mysql';
-		}
-		elseif ($format == 'sqlazure')
-		{
-			$format = 'sqlsrv';
+			$serverType = 'sqlsrv';
 		}
 
-		$path = __DIR__ . '/driver/' . $format . '.php';
-		$class = 'FinderIndexerDriver' . ucfirst($format);
+		$path = __DIR__ . '/driver/' . $serverType . '.php';
+		$class = 'FinderIndexerDriver' . ucfirst($serverType);
 
 		// Check if a parser exists for the format.
 		if (file_exists($path))
@@ -125,7 +122,7 @@ abstract class FinderIndexer
 		}
 
 		// Throw invalid format exception.
-		throw new RuntimeException(JText::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $format));
+		throw new RuntimeException(JText::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $serverType));
 	}
 
 	/**
@@ -384,7 +381,7 @@ abstract class FinderIndexer
 	 *
 	 * @return  integer  Cummulative number of tokens extracted from the input so far.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function tokenizeToDbShort($input, $context, $lang, $format, $count)
 	{
