@@ -24,7 +24,6 @@ class SearchViewSearch extends JViewLegacy
 	 * @throws Exception
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
-
 	public function display($tpl = null)
 	{
 		$doc = JFactory::getDocument();

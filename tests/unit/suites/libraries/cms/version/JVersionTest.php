@@ -14,7 +14,7 @@
  * @subpackage  Version
  * @since       3.0
  */
-class JVersionTest extends PHPUnit_Framework_TestCase
+class JVersionTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Object under test
@@ -42,7 +42,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

@@ -306,6 +306,7 @@ class JoomlaInstallerScript
 				->where('name = ' . $db->quote('PLG_EOSNOTIFY'))
 		)->loadResult();
 
+		// Skip update when id doesn’t exists
 		if (!$id)
 		{
 			return;
@@ -344,10 +345,11 @@ class JoomlaInstallerScript
 					->where($db->quoteName('location') . ' = ' . $db->quote('https://update.joomla.org/jed/list.xml'))
 			)->loadResult();
 
-            if (!$id)
-            {
-                return;
-            }
+			// Skip delete when id doesn’t exists
+			if (!$id)
+			{
+				return;
+			}
 
 			// Delete from update sites
 			$db->setQuery(
@@ -525,7 +527,6 @@ class JoomlaInstallerScript
 			array('plugin', 'checkboxes', 'fields', 0),
 			array('plugin', 'color', 'fields', 0),
 			array('plugin', 'editor', 'fields', 0),
-			array('plugin', 'gallery', 'fields', 0),
 			array('plugin', 'imagelist', 'fields', 0),
 			array('plugin', 'integer', 'fields', 0),
 			array('plugin', 'list', 'fields', 0),
@@ -1746,10 +1747,29 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_templates/layouts/joomla/searchtools/default.php',
-			// Joomla 3.7.0
 			'/administrator/modules/mod_menu/tmpl/default_enabled.php',
 			'/administrator/modules/mod_menu/tmpl/default_disabled.php',
 			'/administrator/templates/hathor/html/mod_menu/default_enabled.php',
+			'/administrator/components/com_users/models/fields/components.php',
+			'/administrator/components/com_installer/controllers/languages.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_doc.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_folder.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_img.php',
+			'/administrator/components/com_media/views/medialist/tmpl/thumbs_video.php',
+			'/media/editors/none/none.js',
+			'/media/editors/none/none.min.js',
+			'/media/editors/tinymce/plugins/media/moxieplayer.swf',
+			'/media/system/js/tiny-close.js',
+			'/media/system/js/tiny-close.min.js',
+			'/administrator/components/com_messages/layouts/toolbar/mysettings.php',
+			'/media/editors/tinymce/plugins/jdragdrop/plugin.js',
+			'/media/editors/tinymce/plugins/jdragdrop/plugin.min.js',
+			// Joomla 3.7.1
+			'/media/editors/tinymce/langs/uk-UA.js',
+			'/media/system/js/fields/calendar-locales/zh.js',
+			// Joomla 3.7.3
+			'/administrator/components/com_admin/postinstall/phpversion.php',
+			'/components/com_content/layouts/field/prepare/modal_article.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1877,6 +1897,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/layouts/joomla',
 			'/administrator/components/com_templates/layouts',
 			'/administrator/templates/hathor/html/mod_menu',
+			'/administrator/components/com_messages/layouts/toolbar',
+			'/administrator/components/com_messages/layouts',
 		);
 
 		jimport('joomla.filesystem.file');

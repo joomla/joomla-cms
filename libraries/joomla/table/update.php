@@ -49,6 +49,11 @@ class JTableUpdate extends JTable
 			return false;
 		}
 
+		if (!$this->update_id && !$this->data)
+		{
+			$this->data = '';
+		}
+
 		return true;
 	}
 
