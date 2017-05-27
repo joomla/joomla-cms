@@ -95,8 +95,8 @@ class JGoogleDataPlusTest extends TestCase
 	 *
 	 * @access protected
 	 * @return void
-	 * 
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 */
 	protected function tearDown()
 	{

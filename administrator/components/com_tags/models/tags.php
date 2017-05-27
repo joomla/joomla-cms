@@ -378,7 +378,7 @@ class TagsModelTags extends JModelList
 
 			if (class_exists($cName) && is_callable(array($cName, 'countTagItems')))
 			{
-				call_user_func(array($cName, 'countTagItems'), $items, $extension);
+				$cName::countTagItems($items, $extension);
 			}
 		}
 	}

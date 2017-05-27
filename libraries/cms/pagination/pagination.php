@@ -111,7 +111,7 @@ class JPagination
 		$this->limitstart = (int) max($limitstart, 0);
 		$this->limit = (int) max($limit, 0);
 		$this->prefix = $prefix;
-		$this->app = $app ? $app : JFactory::getApplication();
+		$this->app = $app ?: JFactory::getApplication();
 
 		if ($this->limit > $this->total)
 		{
@@ -359,34 +359,34 @@ class JPagination
 		if ($data->all->base !== null)
 		{
 			$list['all']['active'] = true;
-			$list['all']['data'] = ($itemOverride) ? pagination_item_active($data->all) : $this->_item_active($data->all);
+			$list['all']['data'] = $itemOverride ? pagination_item_active($data->all) : $this->_item_active($data->all);
 		}
 		else
 		{
 			$list['all']['active'] = false;
-			$list['all']['data'] = ($itemOverride) ? pagination_item_inactive($data->all) : $this->_item_inactive($data->all);
+			$list['all']['data'] = $itemOverride ? pagination_item_inactive($data->all) : $this->_item_inactive($data->all);
 		}
 
 		if ($data->start->base !== null)
 		{
 			$list['start']['active'] = true;
-			$list['start']['data'] = ($itemOverride) ? pagination_item_active($data->start) : $this->_item_active($data->start);
+			$list['start']['data'] = $itemOverride ? pagination_item_active($data->start) : $this->_item_active($data->start);
 		}
 		else
 		{
 			$list['start']['active'] = false;
-			$list['start']['data'] = ($itemOverride) ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
+			$list['start']['data'] = $itemOverride ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
 		}
 
 		if ($data->previous->base !== null)
 		{
 			$list['previous']['active'] = true;
-			$list['previous']['data'] = ($itemOverride) ? pagination_item_active($data->previous) : $this->_item_active($data->previous);
+			$list['previous']['data'] = $itemOverride ? pagination_item_active($data->previous) : $this->_item_active($data->previous);
 		}
 		else
 		{
 			$list['previous']['active'] = false;
-			$list['previous']['data'] = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
+			$list['previous']['data'] = $itemOverride ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
 		}
 
 		// Make sure it exists
@@ -397,40 +397,40 @@ class JPagination
 			if ($page->base !== null)
 			{
 				$list['pages'][$i]['active'] = true;
-				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_active($page) : $this->_item_active($page);
+				$list['pages'][$i]['data'] = $itemOverride ? pagination_item_active($page) : $this->_item_active($page);
 			}
 			else
 			{
 				$list['pages'][$i]['active'] = false;
-				$list['pages'][$i]['data'] = ($itemOverride) ? pagination_item_inactive($page) : $this->_item_inactive($page);
+				$list['pages'][$i]['data'] = $itemOverride ? pagination_item_inactive($page) : $this->_item_inactive($page);
 			}
 		}
 
 		if ($data->next->base !== null)
 		{
 			$list['next']['active'] = true;
-			$list['next']['data'] = ($itemOverride) ? pagination_item_active($data->next) : $this->_item_active($data->next);
+			$list['next']['data'] = $itemOverride ? pagination_item_active($data->next) : $this->_item_active($data->next);
 		}
 		else
 		{
 			$list['next']['active'] = false;
-			$list['next']['data'] = ($itemOverride) ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
+			$list['next']['data'] = $itemOverride ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
 		}
 
 		if ($data->end->base !== null)
 		{
 			$list['end']['active'] = true;
-			$list['end']['data'] = ($itemOverride) ? pagination_item_active($data->end) : $this->_item_active($data->end);
+			$list['end']['data'] = $itemOverride ? pagination_item_active($data->end) : $this->_item_active($data->end);
 		}
 		else
 		{
 			$list['end']['active'] = false;
-			$list['end']['data'] = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
+			$list['end']['data'] = $itemOverride ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
 		}
 
 		if ($this->total > $this->limit)
 		{
-			return ($listOverride) ? pagination_list_render($list) : $this->_list_render($list);
+			return $listOverride ? pagination_list_render($list) : $this->_list_render($list);
 		}
 		else
 		{

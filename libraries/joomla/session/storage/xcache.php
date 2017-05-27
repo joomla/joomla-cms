@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache session storage handler
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageXcache extends JSessionStorage
 {

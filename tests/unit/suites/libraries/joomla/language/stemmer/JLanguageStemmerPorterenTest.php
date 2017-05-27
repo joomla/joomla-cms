@@ -12,7 +12,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Language
  */
-class JLanguageStemmerPorterenTest extends PHPUnit_Framework_TestCase
+class JLanguageStemmerPorterenTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JLanguageStemmerPorteren

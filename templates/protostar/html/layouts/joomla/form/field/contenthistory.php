@@ -59,5 +59,5 @@ echo JHtml::_(
 
 ?>
 <button onclick="jQuery('#versionsModal').modal('show')" class="btn" data-toggle="modal" title="<?php echo $label; ?>">
-	<span class="icon-archive"></span><?php echo $label; ?>
+	<span class="icon-archive" aria-hidden="true"></span><?php echo $label; ?>
 </button>
