@@ -7,8 +7,8 @@ BASE="$1"
 # Abort travis execution if setup fails
 set -e
 
-# Disable xdebug on php 7.0.* and lower.
-if [[ ( $TRAVIS_PHP_VERSION = 5.* ) || ( $TRAVIS_PHP_VERSION = 7.0 ) ]]; then phpenv config-rm xdebug.ini; fi
+# Disable xdebug.
+phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 # Make sure all dev dependencies are installed
 composer install
