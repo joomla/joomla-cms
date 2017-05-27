@@ -1762,7 +1762,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
-	 * @see     http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
+	 * @link    http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
 	 * @since   13.1
 	 */
 	public function dateAdd($date, $interval, $datePart)
@@ -1806,27 +1806,6 @@ abstract class JDatabaseQuery
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Find a value in a varchar used like a set.
-	 *
-	 * Ensure that the value is an integer before passing to the method.
-	 *
-	 * Usage:
-	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
-	 *
-	 * @param   string  $value  The value to search for.
-	 *
-	 * @param   string  $set    The set of values.
-	 *
-	 * @return  string  Returns the find_in_set() Mysql function and must be translated in each driver.
-	 *
-	 * @since   3.7.0
-	 */
-	public function findInSet($value, $set)
-	{
-		return '';
 	}
 
 	/**

@@ -314,7 +314,10 @@ class JEditor extends JObject
 		$args['col'] = $col;
 		$args['row'] = $row;
 		$args['buttons'] = $buttons;
-		$args['id'] = $id ? $id : $name;
+		$args['id'] = $id ?: $name;
+		$args['asset'] = $asset;
+		$args['author'] = $author;
+		$args['params'] = $params;
 		$args['event'] = 'onDisplay';
 
 		$results[] = $this->_editor->update($args);
@@ -338,6 +341,8 @@ class JEditor extends JObject
 	 * @return  string
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Bind functionality to form submit through javascript
 	 */
 	public function save($editor)
 	{
@@ -374,6 +379,8 @@ class JEditor extends JObject
 	 * @return  string
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Use Joomla.editors API, see core.js
 	 */
 	public function getContent($editor)
 	{
@@ -405,6 +412,8 @@ class JEditor extends JObject
 	 * @return  string
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Use Joomla.editors API, see core.js
 	 */
 	public function setContent($editor, $html)
 	{
@@ -499,7 +508,7 @@ class JEditor extends JObject
 	/**
 	 * Load the editor
 	 *
-	 * @param   array  $config  Associative array of editor config paramaters
+	 * @param   array  $config  Associative array of editor config parameters
 	 *
 	 * @return  mixed
 	 *

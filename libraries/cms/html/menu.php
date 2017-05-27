@@ -80,7 +80,9 @@ abstract class JHtmlMenu
 
 		if (empty(static::$items[$key]))
 		{
-			$menus = static::menus();
+			// B/C - not passed  = 0, null can be passed for both clients
+			$clientId = array_key_exists('clientid', $config) ? $config['clientid'] : 0;
+			$menus    = static::menus($clientId);
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -89,9 +91,9 @@ abstract class JHtmlMenu
 				->where('a.parent_id > 0');
 
 			// Filter on the client id
-			if (isset($config['clientid']))
+			if (isset($clientId))
 			{
-				$query->where('a.client_id = ' . (int) $config['clientid']);
+				$query->where('a.client_id = ' . (int) $clientId);
 			}
 
 			// Filter on the published state

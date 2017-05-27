@@ -161,6 +161,12 @@ class MenusModelItems extends JModelList
 		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
 		$this->setState('filter.client_id', $clientId);
 
+		// Use a different filter file when client is administrator
+		if ($clientId == 1)
+		{
+			$this->filterFormName = 'filter_itemsadmin';
+		}
+
 		$this->setState('filter.menutype', $menuType);
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
