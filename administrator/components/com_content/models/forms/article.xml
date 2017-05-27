@@ -665,8 +665,8 @@
 			<field 
 				name="show_intro"
 				type="hidden"
-				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
+				description="JGLOBAL_SHOW_INTRO_DESC"
 			/>
 
 			<field
