@@ -38,22 +38,7 @@ class JDatabaseIteratorSqlsrv extends JDatabaseIterator
 	 */
 	protected function fetchObject()
 	{
-		$row = sqlsrv_fetch_object($this->cursor, $this->class);
-
-		if (is_object($row))
-		{
-			// For SQLServer - we need to strip slashes
-			foreach (get_object_vars($row) as $key => $value)
-			{
-				// Check public variable from object including those from $class, ex. JMenuItem
-				if (is_string($value))
-				{
-					$row->$key = stripslashes($value);
-				}
-			}
-		}
-
-		return $row;
+		return sqlsrv_fetch_object($this->cursor, $this->class);
 	}
 
 	/**

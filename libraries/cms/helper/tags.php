@@ -532,13 +532,13 @@ class JHelperTags extends JHelper
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(JFactory::getDate()->toSql());
 
-		$ntagsr = substr_count($tagId, ',') + 1;
-
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
 		$tagIds = implode(',', $tagIds);
 		$tagIds = explode(',', $tagIds);
 		$tagIds = ArrayHelper::toInteger($tagIds);
+
+		$ntagsr = count($tagIds);
 
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
@@ -592,8 +592,8 @@ class JHelperTags extends JHelper
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
-			// Join over categoris for get only published
-			->join('INNER', '#__categories AS tc ON tc.id = c.core_catid AND tc.published = 1')
+			// Join over categories for get only tags from published categories
+			->join('LEFT', '#__categories AS tc ON tc.id = c.core_catid')
 
 			// Join over the users for the author and email
 			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
@@ -601,7 +601,8 @@ class JHelperTags extends JHelper
 
 			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
 
-			->where('m.tag_id IN (' . implode(',', $tagIds) . ')');
+			->where('m.tag_id IN (' . implode(',', $tagIds) . ')')
+			->where('(c.core_catid = 0 OR tc.published = 1)');
 
 		// Optionally filter on language
 		if (empty($language))
@@ -949,7 +950,7 @@ class JHelperTags extends JHelper
 		}
 
 		// Filter by parent_id
-		if (!empty($filters['parent_id']))
+		if (isset($filters['parent_id']) && is_numeric($filters['parent_id']))
 		{
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');

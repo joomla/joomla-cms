@@ -14,6 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.6.3
  */
-class JCacheExceptionUnsupported extends RuntimeException
+class JCacheExceptionUnsupported extends RuntimeException implements JCacheException
 {
 }
