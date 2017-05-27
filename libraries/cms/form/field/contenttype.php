@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Content Type field.
  *
  * @since  3.1
  */

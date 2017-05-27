@@ -25,6 +25,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
+// The category object of the component
+$category = JCategories::getInstance(str_replace('com_', '', $component));
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_fields&task=fields.saveOrderAjax&tmpl=component';
@@ -67,13 +70,13 @@ if ($saveOrder)
 							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_TYPE_LABEL', 'a.type', $listDirn, $listOrder); ?>
 						</th>
 						<th>
-							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'group_title', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'g.title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -103,7 +106,7 @@ if ($saveOrder)
 									<?php $iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED'); ?>
 								<?php endif; ?>
 								<span class="sortable-handler<?php echo $iconClass; ?>">
-									<span class="icon-menu"></span>
+									<span class="icon-menu" aria-hidden="true"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" />
@@ -136,17 +139,20 @@ if ($saveOrder)
 									<?php endif; ?>
 									<span class="small break-word">
 										<?php if (empty($item->note)) : ?>
-											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+											<?php echo JText::sprintf('JGLOBAL_LIST_NAME', $this->escape($item->name)); ?>
 										<?php else : ?>
-											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+											<?php echo JText::sprintf('JGLOBAL_LIST_NAME_NOTE', $this->escape($item->name), $this->escape($item->note)); ?>
 										<?php endif; ?>
 									</span>
 									<div class="small">
-										<?php echo JText::_('JCATEGORY') . ': '; ?>
-										<?php if ($categories = FieldsHelper::getAssignedCategoriesTitles($item->id)) : ?>
-											<?php echo implode(', ', $categories); ?>
-										<?php else: ?>
-											<?php echo JText::_('JALL'); ?>
+										<?php if ($category) : ?>
+											<?php echo JText::_('JCATEGORY') . ': '; ?>
+											<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
+											<?php if ($categories) : ?>
+												<?php echo implode(', ', $categories); ?>
+											<?php else : ?>
+												<?php echo JText::_('JALL'); ?>
+											<?php endif; ?>
 										<?php endif; ?>
 									</div>
 								</div>
