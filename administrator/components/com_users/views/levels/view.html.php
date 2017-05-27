@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * The HTML Users access levels view.
+ * View class for a list of view levels.
  *
  * @since  1.6
  */
@@ -60,9 +60,7 @@ class UsersViewLevels extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
