@@ -303,7 +303,7 @@ class FieldsModelFields extends JModelList
 
 		// Add the list ordering clause
 		$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
-		$orderDirn     = $this->state->get('list.direction', 'DESC');
+		$orderDirn     = $this->state->get('list.direction', 'ASC');
 
 		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
 
@@ -344,7 +344,7 @@ class FieldsModelFields extends JModelList
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  JForm/false  the JForm object or false
+	 * @return  JForm|false  the JForm object or false
 	 *
 	 * @since   3.7.0
 	 */
