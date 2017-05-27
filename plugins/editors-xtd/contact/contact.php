@@ -41,7 +41,7 @@ class PlgButtonContact extends JPlugin
 			|| $user->authorise('core.edit', 'com_contact')
 			|| $user->authorise('core.edit.own', 'com_contact'))
 		{
-			// The url for the contacts list
+			// The URL for the contacts list
 			$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;'
 				. JSession::getFormToken() . '=1&amp;editor=' . $name;
 

@@ -15,7 +15,7 @@
  *
  * @since       11.1
  */
-class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
+class JGitHubCommitsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
@@ -72,7 +72,7 @@ class JGitHubCommitsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

@@ -14,7 +14,7 @@
  * @subpackage  HTML
  * @since       3.1
  */
-class JHtmlStringTest extends PHPUnit_Framework_TestCase
+class JHtmlStringTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test cases for truncate.
@@ -208,6 +208,14 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				false,
 				'Plain',
 			),
+			'Do not split within a tag' => array(
+				'Some text is <div class="test"><span><i>Plain</i></span></div>',
+				20,
+				true,
+				true,
+				'Some text is...',
+			),
+
 		);
 	}
 
