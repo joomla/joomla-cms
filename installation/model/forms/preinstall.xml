@@ -4,9 +4,9 @@
 		<field
 			name="language"
 			type="installation.language"
+			label="INSTL_LANGUAGE_LABEL"
 			id="language"
 			class="chzn-select-deselect"
-			label="INSTL_LANGUAGE_LABEL"
 			size="20"
 			default="en-GB"
 			required="true"
