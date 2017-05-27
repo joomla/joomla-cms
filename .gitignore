@@ -5,6 +5,7 @@
 .settings
 .DS_Store
 .idea
+.vscode
 
 # Local System Files (i.e. cache, logs, etc.) #
 /administrator/cache
@@ -34,6 +35,16 @@ phpdoc-*
 
 # Install from Web plugin #
 /plugins/installer/webinstaller
+
+# Languages #
+administrator/language/*
+!administrator/language/en-GB
+administrator/manifests/packages/*
+!administrator/manifests/packages/pkg_en-GB.xml
+!administrator/language/overrides/index.html
+language/*
+!language/en-GB
+!language/overrides/index.html
 
 # OSX #
 ._*
@@ -94,9 +105,13 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/other
 /libraries/vendor/paragonie/random_compat/CHANGELOG.md
 /libraries/vendor/paragonie/random_compat/ERRATA.md
+/libraries/vendor/paragonie/random_compat/RATIONALE.md
 /libraries/vendor/paragonie/random_compat/README.md
 /libraries/vendor/paragonie/random_compat/SECURITY.md
+/libraries/vendor/paragonie/random_compat/build-phar.sh
 /libraries/vendor/paragonie/random_compat/composer.json
+/libraries/vendor/paragonie/random_compat/psalm-autoload.php
+/libraries/vendor/paragonie/random_compat/psalm.xml
 /libraries/vendor/paragonie/random_compat/tests
 /libraries/vendor/phpmailer/phpmailer/docs
 /libraries/vendor/phpmailer/phpmailer/examples

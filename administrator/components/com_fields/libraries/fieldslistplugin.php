@@ -18,9 +18,7 @@ JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRA
 class FieldsListPlugin extends FieldsPlugin
 {
 	/**
-	 * Transforms the field into an XML element and appends it as child on the given parent. This
-	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
@@ -39,10 +37,12 @@ class FieldsListPlugin extends FieldsPlugin
 			return $fieldNode;
 		}
 
+		$fieldNode->setAttribute('validate', 'options');
+
 		foreach ($this->getOptionsFromField($field) as $value => $name)
 		{
-			$option = new DOMElement('option', $value);
-			$option->nodeValue = JText::_($name);
+			$option = new DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
+			$option->nodeValue = htmlspecialchars(JText::_($name), ENT_COMPAT, 'UTF-8');
 
 			$element = $fieldNode->appendChild($option);
 			$element->setAttribute('value', $value);
@@ -65,16 +65,13 @@ class FieldsListPlugin extends FieldsPlugin
 		$data = array();
 
 		// Fetch the options from the plugin
-		foreach ($this->params->get('options', array()) as $option)
+		$params = clone($this->params);
+		$params->merge($field->fieldparams);
+
+		foreach ($params->get('options', array()) as $option)
 		{
 			$op = (object) $option;
 			$data[$op->value] = $op->name;
-		}
-
-		// Fetch the options from the field
-		foreach ($field->fieldparams->get('options', array()) as $option)
-		{
-			$data[$option->value] = $option->name;
 		}
 
 		return $data;

@@ -255,7 +255,7 @@ abstract class JModelAdmin extends JModelForm
 
 		foreach ($this->batch_commands as $identifier => $command)
 		{
-			if (strlen($commands[$identifier]) > 0)
+			if (!empty($commands[$identifier]))
 			{
 				if (!$this->$command($commands[$identifier], $pks, $contexts))
 				{
@@ -407,6 +407,13 @@ abstract class JModelAdmin extends JModelForm
 			elseif (isset($this->table->state))
 			{
 				$this->table->state = 0;
+			}
+
+			$hitsAlias = $this->table->getColumnAlias('hits');
+
+			if (isset($this->table->$hitsAlias))
+			{
+				$this->table->$hitsAlias = 0;
 			}
 
 			// New category ID
@@ -662,7 +669,7 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *

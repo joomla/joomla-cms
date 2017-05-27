@@ -14,7 +14,7 @@
  * @subpackage  Archive
  * @since       3.1
  */
-abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
+abstract class JArchiveTestCase extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Output path

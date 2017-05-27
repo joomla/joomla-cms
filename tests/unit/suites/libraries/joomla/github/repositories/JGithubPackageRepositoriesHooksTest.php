@@ -14,7 +14,7 @@
  * @subpackage  Github
  * @since       12.3
  */
-class JGithubPackageRepositoriesHooksTest extends PHPUnit_Framework_TestCase
+class JGithubPackageRepositoriesHooksTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.

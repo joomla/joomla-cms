@@ -49,7 +49,7 @@ class UsersController extends JControllerLegacy
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController	 This object to support chaining.
 	 *
@@ -63,9 +63,7 @@ class UsersController extends JControllerLegacy
 
 		if (!$this->canView($view))
 		{
-			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-
-			return;
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check for edit form.
