@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Libraries
  * @subpackage  Less
  * @since       3.4
+ * @deprecated  4.0  without replacement
  */
 class JLessFormatterJoomla extends lessc_formatter_classic
 {

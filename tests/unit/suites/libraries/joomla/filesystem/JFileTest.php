@@ -13,7 +13,7 @@
  * @subpackage  Event
  * @since       11.1
  */
-class JFileTest extends PHPUnit_Framework_TestCase
+class JFileTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test...

@@ -15,7 +15,7 @@
  *
  * @since       11.1
  */
-class JGithubPackageDataRefsTest extends PHPUnit_Framework_TestCase
+class JGithubPackageDataRefsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.

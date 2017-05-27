@@ -47,7 +47,6 @@ class TestCallbackController
 
 		return $arg2;
 	}
-
 }
 
 /**

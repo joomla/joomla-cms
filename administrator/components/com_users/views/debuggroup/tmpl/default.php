@@ -41,7 +41,7 @@ $colSpan   = 4 + count($this->actions);
 					</th>
 					<?php foreach ($this->actions as $key => $action) : ?>
 					<th width="5%" class="center">
-						<span class="hasTooltip" title="<?php echo JHtml::tooltipText($key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
+						<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', $key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
 					</th>
 					<?php endforeach; ?>
 					<th width="5%" class="nowrap center">

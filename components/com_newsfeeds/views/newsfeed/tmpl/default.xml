@@ -15,9 +15,11 @@
 			addfieldpath="/administrator/components/com_newsfeeds/models/fields"
 		 >
 
-			<field name="id" type="modal_newsfeed"
-				description="COM_NEWSFEEDS_FIELD_SELECT_FEED_DESC"
+			<field 
+				name="id" 
+				type="modal_newsfeed"
 				label="COM_NEWSFEEDS_FIELD_SELECT_FEED_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SELECT_FEED_DESC"
 				required="true"
 				select="true"
 				new="true"
@@ -31,59 +33,71 @@
 	<fields name="params">
 
 		<!-- Basic options. -->
-<fieldset name="basic" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
-			<field name="show_feed_image" type="list"
-				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
+		<fieldset name="basic" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
+			<field 
+				name="show_feed_image" 
+				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_feed_description" type="list"
-				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
+			<field 
+				name="show_feed_description" 
+				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_item_description" type="list"
-				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
+			<field 
+				name="show_item_description" 
+				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_tags" type="list"
+			<field 
+				name="show_tags" 
+				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="feed_character_count" type="text"
-				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
+			<field 
+				name="feed_character_count" 
+				type="text"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				size="6"
 				useglobal="true"
 			/>
 
-			<field name="feed_display_order" type="list"
-				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
+			<field 
+				name="feed_display_order" 
+				type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
+				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 			</field>
-			
+		
 		</fieldset>
 	</fields>
 </metadata>

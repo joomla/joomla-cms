@@ -120,7 +120,7 @@ class TemplatesModelStyles extends JModelList
 		// Join on menus.
 		$query->select('COUNT(m.template_style_id) AS assigned')
 			->join('LEFT', $db->quoteName('#__menu', 'm') . ' ON ' . $db->quoteName('m.template_style_id') . ' = ' . $db->quoteName('a.id'))
-			->group('a.id, a.template, a.title, a.home, a.client_id, l.title, l.image, e.extension_id');
+			->group('a.id, a.template, a.title, a.home, a.client_id, l.title, l.image, e.extension_id, l.sef');
 
 		// Join over the language.
 		$query->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.home'));
