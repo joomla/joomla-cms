@@ -57,7 +57,7 @@ class JFormFieldRepeatable extends JFormField
 		$head_row_str = array();
 		$body_row_str = array();
 		$head_row_str[] = '<th></th>';
-		$body_row_str[] = '<td><span class="sortable-handler " style="cursor: move;"><i class="icon-menu"></i></span></td>';
+		$body_row_str[] = '<td><span class="sortable-handler " style="cursor: move;"><span class="icon-menu" aria-hidden="true"></span></span></td>';
 		foreach ($subForm->getFieldset() as $field)
 		{
 			// Reset name to simple

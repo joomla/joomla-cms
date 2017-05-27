@@ -210,13 +210,35 @@ class AssociationsHelper extends JHelperContent
 				$title       = $items[$langCode][$titleFieldName];
 				$additional  = '';
 
-				if (isset($items[$langCode]['category_title']))
+				if (isset($items[$langCode]['catid']))
 				{
-					$additional = '<br/>' . JText::_('JCATEGORY') . ': ' . $items[$langCode]['category_title'];
+					$db = JFactory::getDbo();
+
+					// Get the category name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__categories'))
+						->where($db->quoteName('id') . ' = ' . $db->quote($items[$langCode]['catid']));
+
+					$db->setQuery($query);
+					$category_title = $db->loadResult();
+
+					$additional = '<strong>' . JText::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br />';
 				}
-				elseif (isset($items[$langCode]['menu_title']))
+				elseif (isset($items[$langCode]['menutype']))
 				{
-					$additional = '<br/>' . JText::_('COM_ASSOCIATIONS_HEADING_MENUTYPE') . ': ' . $items[$langCode]['menu_title'];
+					$db = JFactory::getDbo();
+
+					// Get the menutype name
+					$query = $db->getQuery(true)
+						->select($db->quoteName('title'))
+						->from($db->quoteName('#__menu_types'))
+						->where($db->quoteName('menutype') . ' = ' . $db->quote($items[$langCode]['menutype']));
+
+					$db->setQuery($query);
+					$menutype_title = $db->loadResult();
+
+					$additional = '<strong>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br />';
 				}
 
 				$labelClass  = '';
@@ -618,5 +640,34 @@ class AssociationsHelper extends JHelperContent
 		$helper = self::getExtensionHelper($extensionName);
 
 		return $helper->getTypeFieldName($typeName, $fieldName);
+	}
+
+	/**
+	 * Gets the language filter system plugin extension id.
+	 *
+	 * @return  int  The language filter system plugin extension id.
+	 *
+	 * @since   3.7.2
+	 */
+	public static function getLanguagefilterPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
 	}
 }
