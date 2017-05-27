@@ -18,7 +18,7 @@
 			label="JTOOLBAR_VERSIONS"
 			id="contenthistory"
 			data-typeAlias="com_content.article"
-		 />
+		/>
 
 		<field
 			name="asset_id"
@@ -97,7 +97,7 @@
 			extension="com_content"
 			class="inputbox"
 			required="true"
-		</field>
+		/>
 
 		<field
 			name="created"
@@ -179,7 +179,7 @@
 			class="inputbox"
 			multiple="true"
 			size="45"
-		</field>
+		/>
 
 		<field
 			name="metakey"
@@ -323,7 +323,7 @@
 		<field
 			name="targeta"
 			type="hidden"
-			/>
+		/>
 
 		<field
 			name="urlb"
@@ -373,56 +373,57 @@
 			type="hidden"
 		/>
 	</fields>
-		<fields name="metadata">
-			<fieldset name="jmetadata"
-				label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+	<fields name="metadata">
+		<fieldset 
+			name="jmetadata"
+			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
-					<field 
-						name="robots"
-						type="hidden"
-						label="JFIELD_METADATA_ROBOTS_LABEL"
-						description="JFIELD_METADATA_ROBOTS_DESC"
-						filter="unset"
-						labelclass="control-label"
-						>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-						<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-						<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-						<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
-					</field>
+				<field 
+					name="robots"
+					type="hidden"
+					label="JFIELD_METADATA_ROBOTS_LABEL"
+					description="JFIELD_METADATA_ROBOTS_DESC"
+					filter="unset"
+					labelclass="control-label"
+					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+					<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				</field>
 
-					<field 
-						name="author"
-						type="hidden"
-						label="JAUTHOR"
-						description="JFIELD_METADATA_AUTHOR_DESC"
-						filter="unset"
-						size="20"
-						labelclass="control-label"
-					/>
+				<field 
+					name="author"
+					type="hidden"
+					label="JAUTHOR"
+					description="JFIELD_METADATA_AUTHOR_DESC"
+					filter="unset"
+					size="20"
+					labelclass="control-label"
+				/>
 
-					<field 
-						name="rights"
-						type="hidden"
-						label="JFIELD_META_RIGHTS_LABEL"
-						description="JFIELD_META_RIGHTS_DESC"
-						filter="unset"
-						required="false"
-						labelclass="control-label"
-					/>
+				<field 
+					name="rights"
+					type="hidden"
+					label="JFIELD_META_RIGHTS_LABEL"
+					description="JFIELD_META_RIGHTS_DESC"
+					filter="unset"
+					required="false"
+					labelclass="control-label"
+				/>
 
-					<field 
-						name="xreference"
-						type="hidden"
-						label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
-						description="COM_CONTENT_FIELD_XREFERENCE_DESC"
-						filter="unset"
-						class="inputbox"
-						size="20"
-						labelclass="control-label" 
-					/>
+				<field 
+					name="xreference"
+					type="hidden"
+					label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
+					description="COM_CONTENT_FIELD_XREFERENCE_DESC"
+					filter="unset"
+					class="inputbox"
+					size="20"
+					labelclass="control-label" 
+				/>
 
-			</fieldset>
-		</fields>
+		</fieldset>
+	</fields>
 </form>
