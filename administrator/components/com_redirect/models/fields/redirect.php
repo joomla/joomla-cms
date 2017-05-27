@@ -33,7 +33,7 @@ class JFormFieldRedirect extends JFormFieldList
 	 *
 	 * @var    object
 	 * @since  3.4
-	 * @see    http://www.iana.org/assignments/http-status-codes/
+	 * @link   http://www.iana.org/assignments/http-status-codes/
 	 */
 	protected $responseMap = array(
 		100 => 'HTTP/1.1 100 Continue',

@@ -116,8 +116,7 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		// Categories store the images differently so lets re-map it so the display is correct
-		$count = count($items);
-		if ($count > 0 && $items[0]->type_alias === 'com_content.category')
+		if ($items && $items[0]->type_alias === 'com_content.category')
 		{
 			foreach ($items as $row)
 			{

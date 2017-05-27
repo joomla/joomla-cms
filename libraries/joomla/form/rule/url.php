@@ -25,7 +25,7 @@ class JFormRuleUrl extends JFormRule
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
@@ -65,7 +65,7 @@ class JFormRuleUrl extends JFormRule
 		 * Note that parse_url() does not always parse accurately without a scheme,
 		 * but at least the path should be set always. Note also that parse_url()
 		 * returns False for seriously malformed URLs instead of an associative array.
-		 * @see https://secure.php.net/manual/en/function.parse-url.php
+		 * @link https://secure.php.net/manual/en/function.parse-url.php
 		 */
 		if ($urlParts === false or !array_key_exists('scheme', $urlParts))
 		{
