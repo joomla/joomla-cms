@@ -3,10 +3,12 @@
 	<fieldset
 		name="articles"
 		label="JGLOBAL_ARTICLES"
-		description="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_DESC">
+		description="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_DESC"
+	>
 
 		<field
-			name="article_layout" type="componentlayout"
+			name="article_layout"
+			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -299,6 +301,7 @@
 			type="spacer"
 			hr="true"
 		/>
+
 		<field
 			name="show_icons"
 			type="radio"
@@ -371,8 +374,12 @@
 		</field>
 	</fieldset>
 
-	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
-		description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">
+	<fieldset 
+		name="editinglayout" 
+		label="COM_CONTENT_EDITING_LAYOUT"
+		description="COM_CONTENT_CONFIG_EDITOR_LAYOUT"
+	>
+
 		<field
 			name="captcha"
 			type="plugins"
@@ -541,13 +548,15 @@
 
 	</fieldset>
 
-	<fieldset name="category"
+	<fieldset
+		name="category"
 		label="JCATEGORY"
 		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC"
 	>
 
 		<field
-			name="category_layout" type="componentlayout"
+			name="category_layout" 
+			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -942,10 +951,12 @@
 
 	</fieldset>
 
-	<fieldset name="shared"
+	<fieldset
+		name="shared"
 		label="COM_CONTENT_SHARED_LABEL"
 		description="COM_CONTENT_SHARED_DESC"
 	>
+	
 		<field 
 			name="orderby_pri"
 			type="list"
