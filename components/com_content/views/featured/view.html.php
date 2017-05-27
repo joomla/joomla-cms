@@ -163,7 +163,7 @@ class ContentViewFeatured extends JViewLegacy
 	/**
 	 * Prepares the document.
 	 *
-	 * @return  void.
+	 * @return  void
 	 */
 	protected function _prepareDocument()
 	{
