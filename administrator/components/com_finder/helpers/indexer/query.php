@@ -665,10 +665,10 @@ class FinderIndexerQuery
 	protected function processDates($date1, $date2, $when1, $when2)
 	{
 		// Clean up the inputs.
-		$date1 = StringHelper::trim(StringHelper::strtolower($date1));
-		$date2 = StringHelper::trim(StringHelper::strtolower($date2));
-		$when1 = StringHelper::trim(StringHelper::strtolower($when1));
-		$when2 = StringHelper::trim(StringHelper::strtolower($when2));
+		$date1 = trim(StringHelper::strtolower($date1));
+		$date2 = trim(StringHelper::strtolower($date2));
+		$when1 = trim(StringHelper::strtolower($when1));
+		$when2 = trim(StringHelper::strtolower($when2));
 
 		// Get the time offset.
 		$offset = JFactory::getApplication()->get('offset');
@@ -732,7 +732,7 @@ class FinderIndexerQuery
 		$input = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 		$input = StringHelper::strtolower($input);
 		$input = preg_replace('#\s+#mi', ' ', $input);
-		$input = StringHelper::trim($input);
+		$input = trim($input);
 		$debug = JFactory::getConfig()->get('debug_lang');
 
 		/*
@@ -850,7 +850,7 @@ class FinderIndexerQuery
 				// Clean up the input string again.
 				$input = str_replace($matches[0], '', $input);
 				$input = preg_replace('#\s+#mi', ' ', $input);
-				$input = StringHelper::trim($input);
+				$input = trim($input);
 			}
 		}
 
@@ -877,9 +877,9 @@ class FinderIndexerQuery
 					$len = StringHelper::strlen($matches[0][$key]);
 
 					// Add any terms that are before this phrase to the stack.
-					if (StringHelper::trim(StringHelper::substr($input, 0, $pos)))
+					if (trim(StringHelper::substr($input, 0, $pos)))
 					{
-						$terms = array_merge($terms, explode(' ', StringHelper::trim(StringHelper::substr($input, 0, $pos))));
+						$terms = array_merge($terms, explode(' ', trim(StringHelper::substr($input, 0, $pos))));
 					}
 
 					// Strip out everything up to and including the phrase.
@@ -887,7 +887,7 @@ class FinderIndexerQuery
 
 					// Clean up the input string again.
 					$input = preg_replace('#\s+#mi', ' ', $input);
-					$input = StringHelper::trim($input);
+					$input = trim($input);
 
 					// Get the number of words in the phrase.
 					$parts = explode(' ', $match);
