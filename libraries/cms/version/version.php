@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '1-dev';
+	const DEV_LEVEL = '3-dev';
 
 	/**
 	 * Development status.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '12-May-2017';
+	const RELDATE = '22-May-2017';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '17:56';
+	const RELTIME = '10:18';
 
 	/**
 	 * Release timezone.
@@ -153,7 +153,7 @@ final class JVersion
 	 *
 	 * @return  boolean True if the version is compatible.
 	 *
-	 * @see     https://secure.php.net/version_compare
+	 * @link    https://secure.php.net/version_compare
 	 * @since   1.0
 	 */
 	public function isCompatible($minimum)
