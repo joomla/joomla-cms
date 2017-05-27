@@ -801,10 +801,10 @@
 			})();
 		}
 
-		if (this.params.showsTodayBtn) {                                                                    // Head - today
-			row = createElement("div", this.wrapper);
-			row.className = "buttons-wrapper btn-group";
+		row = createElement("div", this.wrapper);
+		row.className = "buttons-wrapper btn-group";
 
+		if (this.params.showsTodayBtn) {
 			this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'a', '', 'js-btn btn btn-clear', {"data-action": "clear"});
 
 			if (!this.inputField.hasAttribute('required')) {
@@ -994,17 +994,17 @@
 	/** Method to listen for the click event on the input button. **/
 	JoomlaCalendar.prototype._bindEvents = function () {
 		var self = this;
-		this.inputField.addEventListener('focus', function() {
-			self.show();
-		}, true);
 		this.inputField.addEventListener('blur', function(event) {
-			if (event.relatedTarget != null && (event.relatedTarget.classList.contains('time-hours') || event.relatedTarget.classList.contains('time-minutes') || event.relatedTarget.classList.contains('time-ampm'))) {
-				return;
-			}
 			var elem = event.target;
 			while (elem.parentNode) {
 				elem = elem.parentNode;
 				if (elem.classList.contains('field-calendar')) {
+					if (event.target.value) {
+						event.target.setAttribute('data-alt-value', event.target.value);
+					} else {
+						event.target.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+					}
+					elem._joomlaCalendar.checkInputs();
 					return;
 				}
 			}
@@ -1135,7 +1135,11 @@
 		}
 
 		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
-			JoomlaCalendar.init(".field-calendar", row);
+			elements = row.querySelectorAll(".field-calendar");
+
+			for (i = 0; i < elements.length; i++) {
+				JoomlaCalendar.init(elements[i]);
+			}
 		});
 
 		/** B/C related code
