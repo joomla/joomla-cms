@@ -45,6 +45,8 @@ class FinderIndexerParserRtfTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Method to test the parse and process methods.
+	 *
+	 * @covers  FinderIndexerParserRtf::parse
 	 */
 	public function testParse()
 	{
