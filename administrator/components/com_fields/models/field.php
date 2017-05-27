@@ -109,16 +109,16 @@ class FieldsModelField extends JModelAdmin
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
+				list($title, $name) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
 				$data['title'] = $title;
 				$data['label'] = $title;
-				$data['alias'] = $alias;
+				$data['name'] = $name;
 			}
 			else
 			{
-				if ($data['alias'] == $origTable->alias)
+				if ($data['name'] == $origTable->name)
 				{
-					$data['alias'] = '';
+					$data['name'] = '';
 				}
 			}
 
@@ -208,7 +208,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  true|string  true if valid, a string containing the exception message when not.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function checkDefaultValue($data)
 	{
@@ -399,30 +399,30 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Method to change the title & alias.
+	 * Method to change the title & name.
 	 *
 	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
+	 * @param   string   $name         The name.
 	 * @param   string   $title        The title.
 	 *
-	 * @return  array  Contains the modified title and alias.
+	 * @return  array  Contains the modified title and name.
 	 *
 	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($category_id, $name, $title)
 	{
-		// Alter the title & alias
+		// Alter the title & name
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias)))
+		while ($table->load(array('name' => $name)))
 		{
 			$title = StringHelper::increment($title);
-			$alias = StringHelper::increment($alias, 'dash');
+			$name = StringHelper::increment($name, 'dash');
 		}
 
 		return array(
 			$title,
-			$alias,
+			$name,
 		);
 	}
 
@@ -565,9 +565,8 @@ class FieldsModelField extends JModelAdmin
 			$params = new Registry($params);
 		}
 
-		// Don't save the value when the field is disabled or the user is
-		// not authorized to change it
-		if (!$field || $params->get('disabled', 0) || !FieldsHelper::canEditFieldValue($field))
+		// Don't save the value when the user is not authorized to change it
+		if (!$field || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -921,6 +920,7 @@ class FieldsModelField extends JModelAdmin
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		$component  = $this->state->get('field.component');
+		$section    = $this->state->get('field.section');
 		$dataObject = $data;
 
 		if (is_array($dataObject))
@@ -967,6 +967,21 @@ class FieldsModelField extends JModelAdmin
 		$form->setFieldAttribute('type', 'component', $component);
 		$form->setFieldAttribute('group_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('rules', 'component', $component);
+
+		// Looking first in the component models/forms folder
+		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
+
+		if (file_exists($path))
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_BASE, null, false, true);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+
+			if (!$form->loadFile($path, false))
+			{
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			}
+		}
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
