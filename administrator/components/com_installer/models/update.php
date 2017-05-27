@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -277,7 +277,11 @@ class InstallerModelUpdate extends JModelList
 		// This may or may not mean depending on your database
 		$db->setQuery('TRUNCATE TABLE #__updates');
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			$this->_message = JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
@@ -311,7 +315,11 @@ class InstallerModelUpdate extends JModelList
 			->where($db->quoteName('enabled') . ' = 0');
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			$this->_message .= JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
 
@@ -350,6 +358,8 @@ class InstallerModelUpdate extends JModelList
 			$update->loadFromXml($instance->detailsurl, $minimum_stability);
 			$update->set('extra_query', $instance->extra_query);
 
+			$this->preparePreUpdate($update, $instance);
+
 			// Install sets state and enqueues messages
 			$res = $this->install($update);
 
@@ -360,6 +370,16 @@ class InstallerModelUpdate extends JModelList
 
 			$result = $res & $result;
 		}
+
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('com_plugins', 0);
+		$this->cleanCache('com_plugins', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
 
 		// Set the final state
 		$this->setState('result', $result);
@@ -500,5 +520,67 @@ class InstallerModelUpdate extends JModelList
 		$data = JFactory::getApplication()->getUserState($this->context, array());
 
 		return $data;
+	}
+
+	/**
+	 * Method to add parameters to the update
+	 *
+	 * @param   JUpdate       $update  An update definition
+	 * @param   JTableUpdate  $table   The update instance from the database
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	protected function preparePreUpdate($update, $table)
+	{
+		jimport('joomla.filesystem.file');
+
+		switch ($table->type)
+		{
+			// Components could have a helper which adds additional data
+			case 'component':
+				$ename = str_replace('com_', '', $table->element);
+				$fname = $ename . '.php';
+				$cname = ucfirst($ename) . 'Helper';
+
+				$path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
+
+				if (JFile::exists($path))
+				{
+					require_once $path;
+
+					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
+					{
+						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+					}
+				}
+
+				break;
+
+			// Modules could have a helper which adds additional data
+			case 'module':
+				$cname = str_replace('_', '', $table->element) . 'Helper';
+				$path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
+
+				if (JFile::exists($path))
+				{
+					require_once $path;
+
+					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
+					{
+						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+					}
+				}
+
+				break;
+
+			// If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
+			// But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
+			case 'plugin':
+				$cname = str_replace('plg_', '', $table->element);
+				JPluginHelper::importPlugin($table->folder, $cname);
+				break;
+		}
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@
  * @subpackage  Crypt
  * @since       11.1
  */
-class JCryptTest extends PHPUnit_Framework_TestCase
+class JCryptTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JCrypt
@@ -33,6 +33,20 @@ class JCryptTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->object = new JCrypt;
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,11 +12,26 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APCu cache storage handler
  *
- * @see    http://php.net/manual/en/ref.apcu.php
+ * @link   https://secure.php.net/manual/en/ref.apcu.php
  * @since  3.5
  */
 class JCacheStorageApcu extends JCacheStorage
 {
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		return apcu_exists($this->_getCacheId($id, $group));
+	}
+
 	/**
 	 * Get cached data by ID and group
 	 *
@@ -50,8 +65,22 @@ class JCacheStorageApcu extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			// The internal key name changed with APCu 4.0.7 from key to info
-			$name    = isset($key['info']) ? $key['info'] : $key['key'];
+			if (isset($key['info']))
+			{
+				// The internal key name changed with APCu 4.0.7 from key to info
+				$name = $key['info'];
+			}
+			elseif (isset($key['entry_name']))
+			{
+				// Some APCu modules changed the internal key name from key to entry_name
+				$name = $key['entry_name'];
+			}
+			else
+			{
+				// A fall back for the old internal key name
+				$name = $key['key'];
+			}
+
 			$namearr = explode('-', $name);
 
 			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
@@ -136,8 +165,21 @@ class JCacheStorageApcu extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			// The internal key name changed with APCu 4.0.7 from key to info
-			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
+			if (isset($key['info']))
+			{
+				// The internal key name changed with APCu 4.0.7 from key to info
+				$internalKey = $key['info'];
+			}
+			elseif (isset($key['entry_name']))
+			{
+				// Some APCu modules changed the internal key name from key to entry_name
+				$internalKey = $key['entry_name'];
+			}
+			else
+			{
+				// A fall back for the old internal key name
+				$internalKey = $key['key'];
+			}
 
 			if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
@@ -163,8 +205,21 @@ class JCacheStorageApcu extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			// The internal key name changed with APCu 4.0.7 from key to info
-			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
+			if (isset($key['info']))
+			{
+				// The internal key name changed with APCu 4.0.7 from key to info
+				$internalKey = $key['info'];
+			}
+			elseif (isset($key['entry_name']))
+			{
+				// Some APCu modules changed the internal key name from key to entry_name
+				$internalKey = $key['entry_name'];
+			}
+			else
+			{
+				// A fall back for the old internal key name
+				$internalKey = $key['key'];
+			}
 
 			if (strpos($internalKey, $secret . '-cache-'))
 			{

@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/EditorObserver.php';
  * @subpackage  Editor
  * @since       3.0
  */
-class JEditorTest extends PHPUnit_Framework_TestCase
+class JEditorTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Object under test
@@ -37,6 +37,20 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->object = new JEditor;
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

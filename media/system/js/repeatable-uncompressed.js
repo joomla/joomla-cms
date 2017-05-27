@@ -1,6 +1,6 @@
 /**
  * @package		Joomla.JavaScript
- * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@
  * 			<thead>
  * 				<tr>
  * 					<th>Field label 1</th>
- * 					<th>Field lable 2</th>
+ * 					<th>Field label 2</th>
  * 					<th><a href="#" class="add">Add new</a></th>
  * 				</tr>
  * 			</thead>
@@ -384,7 +384,7 @@
         		var $el =  $(elements[i]);
         		var oldValue = $el.attr(attr);
         		// set new
-        		$el.attr(attr, oldValue + '-' + count);
+        		$el.attr(attr, count + '-' + oldValue);
         	}
         };
 
@@ -436,30 +436,23 @@
         self.clearScripts = function($row){
         	// destroy chosen if any
         	if($.fn.chosen){
-        		$row.find('select.chzn-done').chosen('destroy');
+                $row.find('select').each(function(){
+                	if ($(this).data('chosen')) {
+                        $(this).chosen('destroy');
+					}
+				});
         	}
         	// colorpicker
         	if($.fn.minicolors){
         		$row.find('.minicolors input').each(function(){
-        			$(this).removeData('minicolors-initialized')
-        			.removeData('minicolors-settings')
-        			.removeProp('size')
-        			.removeProp('maxlength')
-        			.removeClass('minicolors-input')
-        			// move out from <span>
-        			.parents('span.minicolors').parent().append(this);
+        			$(this).minicolors('destroy', $(this));
         		});
-        		$row.find('span.minicolors').remove();
         	}
         };
 
         // method for hack the scripts that can be related
         // to the one of field that in given $row
         self.fixScripts = function($row){
-        	// chosen hack
-        	if($.fn.chosen){
-        		$row.find('select').chosen()
-        	}
 
         	//color picker
         	$row.find('.minicolors').each(function() {
@@ -478,13 +471,14 @@
         			$select = $el.prev(),
         			oldHref = $select.attr('href');
         		// update the clear button
-        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;")
+        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;");
         		// update select button
         		$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
+				jMediaRefreshPreview(inputId);
         	});
 
         	// another modals
-        	if(window.SqueezeBox){
+        	if(window.SqueezeBox && window.SqueezeBox.assign){
         		SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
         	}
         };

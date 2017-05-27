@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,9 +29,10 @@ JFactory::getDocument()->addScriptDeclaration('
 		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
 			jQuery("#permissions-sliders select").attr("disabled", "disabled");
-			' . $this->form->getField("description")->save() . '
+			' . $this->form->getField('description')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 
+			// @deprecated 4.0  The following js is not needed since 3.7.0.
 			if (task !== "category.apply")
 			{
 				window.parent.jQuery("#categoryEdit' . $this->item->id . 'Modal").modal("hide");
@@ -45,8 +46,8 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
-$layout = $isModal ? 'modal' : 'edit';
-$tmpl = $isModal ? '&tmpl=component' : '';
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -67,6 +68,8 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
@@ -93,12 +96,11 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
-
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 		<?php echo $this->form->getInput('extension'); ?>
 		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

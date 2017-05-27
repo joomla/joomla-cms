@@ -2,11 +2,9 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
-include_once JPATH_PLATFORM . '/joomla/session/storage.php';
 
 /**
  * Test class for JSessionStorageDatabase.
@@ -15,7 +13,7 @@ include_once JPATH_PLATFORM . '/joomla/session/storage.php';
  * @subpackage  Session
  * @since       11.1
  */
-class JSessionStorageDatabaseTest extends PHPUnit_Framework_TestCase
+class JSessionStorageDatabaseTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JSessionStorageDatabase
@@ -94,5 +92,4 @@ class JSessionStorageDatabaseTest extends PHPUnit_Framework_TestCase
 			'This test has not been implemented yet.'
 		);
 	}
-
 }
