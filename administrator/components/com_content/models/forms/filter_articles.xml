@@ -23,8 +23,8 @@
 			name="category_id"
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
-			extension="com_content"
 			description="JOPTION_FILTER_CATEGORY_DESC"
+			extension="com_content"
 			onchange="this.form.submit();"
 			published="0,1,2"
 			>
@@ -80,11 +80,11 @@
 			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
-        	step="1"
-        	languages="*"
-        	onchange="this.form.submit();"
-        	>
-        	<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+			step="1"
+			languages="*"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
         	</field>
 	</fields>
 
