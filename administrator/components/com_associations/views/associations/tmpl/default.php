@@ -81,10 +81,10 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
 					<th width="5%" class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+						<?php echo JText::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 					</th>
 					<th width="15%" class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+						<?php echo JText::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
 						<th width="10%" class="nowrap">
@@ -110,7 +110,6 @@ JFactory::getDocument()->addScriptDeclaration('
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canCheckin = true;
 				$canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
 				$canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
 				$isCheckout = AssociationsHelper::isCheckoutItem($this->extensionName, $this->typeName, $item->id);
@@ -122,8 +121,12 @@ JFactory::getDocument()->addScriptDeclaration('
 						</td>
 					<?php endif; ?>
 					<td class="nowrap has-context">
+						<span style="display: none"><?php echo JHtml::_('grid.id', $i, $item->id); ?></span>
 						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+						<?php endif; ?>
+						<?php if (!$canCheckin && $isCheckout) : ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
 						<?php endif; ?>
 						<?php if ($canCheckin && $isCheckout) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
@@ -173,6 +176,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		</table>
 	<?php endif; ?>
 	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="boxchecked" value="0" />
 	<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

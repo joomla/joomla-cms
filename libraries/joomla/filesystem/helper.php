@@ -25,7 +25,7 @@ class JFilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @see     https://secure.php.net/manual/en/function.filesize.php#71098
+	 * @link    https://secure.php.net/manual/en/function.filesize.php#71098
 	 * @since   11.1
 	 */
 	public static function remotefsize($url)
@@ -120,7 +120,7 @@ class JFilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @see     https://secure.php.net/manual/en/function.ftp-chmod.php
+	 * @link    https://secure.php.net/manual/en/function.ftp-chmod.php
 	 * @since   11.1
 	 */
 	public static function ftpChmod($url, $mode)

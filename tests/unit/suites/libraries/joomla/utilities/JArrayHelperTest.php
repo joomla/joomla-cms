@@ -19,7 +19,7 @@ require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
  * @subpackage  Utilities
  * @since       11.1
  */
-class JArrayHelperTest extends PHPUnit_Framework_TestCase
+class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Data provider for testArrayUnique.

@@ -11,7 +11,8 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 
 	describe('Calendar set for the input element', function () {
 		beforeAll(function () {
-			JoomlaCalendar.init(".field-calendar");
+			var element = document.querySelector(".field-calendar");
+			JoomlaCalendar.init(element);
 		});
 
 		it('Should have calendar element under the input element', function () {
