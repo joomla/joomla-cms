@@ -211,7 +211,7 @@ abstract class JHtml
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @see     https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  InvalidArgumentException
 	 */
@@ -1019,7 +1019,7 @@ abstract class JHtml
 		$required     = isset($attribs['required']) && $attribs['required'] == '';
 		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
 		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
-		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : false;
+		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : true;
 		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : false;
 		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
 		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;

@@ -63,9 +63,7 @@ class UsersController extends JControllerLegacy
 
 		if (!$this->canView($view))
 		{
-			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-
-			return;
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check for edit form.
