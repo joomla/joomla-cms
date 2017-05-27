@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,6 +49,19 @@ class JTableExtension extends JTable
 			return false;
 		}
 
+		if (!$this->extension_id)
+		{
+			if (!$this->custom_data)
+			{
+				$this->custom_data = '';
+			}
+
+			if (!$this->system_data)
+			{
+				$this->system_data = '';
+			}
+		}
+
 		return true;
 	}
 
@@ -68,15 +81,13 @@ class JTableExtension extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['control']) && is_array($array['control']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['control']);
+			$registry = new Registry($array['control']);
 			$array['control'] = (string) $registry;
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,7 +74,15 @@ class MessagesModelMessage extends JModelAdmin
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+					try
+					{
+						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+					}
+					catch (RuntimeException $exception)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+					}
 
 					return false;
 				}
@@ -254,7 +262,15 @@ class MessagesModelMessage extends JModelAdmin
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+					try
+					{
+						JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+					}
+					catch (RuntimeException $exception)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
+					}
 
 					return false;
 				}
@@ -348,7 +364,43 @@ class MessagesModelMessage extends JModelAdmin
 			$msg      = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			// Send the email
-			JFactory::getMailer()->sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
+			$mailer = JFactory::getMailer();
+
+			if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
+			{
+				try
+				{
+					JLog::add(JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $exception)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
+				}
+
+				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+				return true;
+			}
+
+			if (!$mailer->addRecipient($toUser->email, $toUser->name))
+			{
+				try
+				{
+					JLog::add(JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), JLog::WARNING, 'jerror');
+				}
+				catch (RuntimeException $exception)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
+				}
+
+				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+				return true;
+			}
+
+			$mailer->setSubject($subject);
+			$mailer->setBody($msg);
+
+			// The Send method will raise an error via JError on a failure, we do not need to check it ourselves here
+			$mailer->Send();
 		}
 
 		return true;
