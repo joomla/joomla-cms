@@ -14,7 +14,7 @@ JLog::add('JDatabaseSqlazure is deprecated, use JDatabaseDriverSqlazure instead.
 /**
  * SQL Server database driver
  *
- * @see         https://azure.microsoft.com/en-us/documentation/services/sql-database/
+ * @link        https://azure.microsoft.com/en-us/documentation/services/sql-database/
  * @since       1.7
  * @deprecated  3.0 Use JDatabaseDriverSqlazure instead.
  */

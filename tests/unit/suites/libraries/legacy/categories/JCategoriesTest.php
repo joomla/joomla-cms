@@ -89,6 +89,24 @@ class JCategoriesTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests JCategories::getInstance() returns the same instance regardless of the case of the extension parameter
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function testGetInstanceWithDifferentCasing()
+	{
+		$instance = JCategories::getInstance('Content');
+
+		$this->assertSame(
+			$instance,
+			JCategories::getInstance('content'),
+			'JCategories::getInstance() should return the same instance regardless of the case of the extension parameter.'
+		);
+	}
+
+	/**
 	 * Tests JCategories::get()
 	 *
 	 * @return  void
