@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APC cache storage handler
  *
- * @see    https://secure.php.net/manual/en/book.apc.php
+ * @link   https://secure.php.net/manual/en/book.apc.php
  * @since  11.1
  */
 class JCacheStorageApc extends JCacheStorage

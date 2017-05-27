@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Cache lite storage handler
  *
- * @see    http://pear.php.net/package/Cache_Lite/
+ * @link   http://pear.php.net/package/Cache_Lite/
  * @since  11.1
  */
 class JCacheStorageCachelite extends JCacheStorage

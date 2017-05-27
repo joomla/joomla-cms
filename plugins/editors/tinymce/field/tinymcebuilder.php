@@ -38,7 +38,7 @@ class JFormFieldTinymceBuilder extends JFormField
 	 * The prepared layout data
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $layoutData = array();
 
