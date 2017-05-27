@@ -1070,8 +1070,8 @@ class Access
 		$authorised = array(1);
 
 		// Check for the recovery mode setting and return early.
-		$user      = JUser::getInstance($userId);
-		$root_user = JFactory::getConfig()->get('root_user');
+		$user      = \JUser::getInstance($userId);
+		$root_user = \JFactory::getConfig()->get('root_user');
 
 		if ($root_user && ($root_user == $user->username || $root_user == $user->id))
 		{
