@@ -390,9 +390,9 @@ class JFormHelper
 	/**
 	 * Parse the render on conditions
 	 *
-	 * @param   string    $renderOn   Render on conditions.
+	 * @param   string   $renderOn  Render on conditions.
 	 *
-	 * @return  boolean   True if the field shall be rendered, False otherwise.
+	 * @return  boolean  True if the field shall be rendered, False otherwise.
 	 *
 	 * @since 3.7.0
 	 */
