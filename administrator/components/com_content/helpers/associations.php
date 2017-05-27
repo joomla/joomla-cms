@@ -55,7 +55,6 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @since   3.7.0
 	 */
-
 	public function getAssociations($typeName, $id)
 	{
 		$type = $this->getType($typeName);
@@ -151,6 +150,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 					$support['acl'] = true;
 					$support['checkout'] = true;
 					$support['category'] = true;
+					$support['save2copy'] = true;
 
 					$tables = array(
 						'a' => '#__content'

@@ -14,7 +14,7 @@ JLog::add('JDatabaseMysql is deprecated, use JDatabaseDriverMysql instead.', JLo
 /**
  * MySQL database driver
  *
- * @see         http://dev.mysql.com/doc/
+ * @link        http://dev.mysql.com/doc/
  * @since       1.5
  * @deprecated  3.0 Use JDatabaseDriverMysql instead.
  */
