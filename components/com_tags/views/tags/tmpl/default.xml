@@ -15,10 +15,10 @@
 			<field 
 				name="parent_id" 
 				type="tag" 
-				mode="nested"
 				label="COM_TAGS_FIELD_PARENT_TAG_LABEL"
 				description="COM_TAGS_FIELD_PARENT_TAG_DESC"
-			>
+				mode="nested"
+				>
 				<option value="">JNONE</option>
 				<option value="1">JGLOBAL_ROOT</option>
 			</field>
@@ -26,11 +26,11 @@
 			<field 
 				name="tag_list_language_filter"
 				type="contentlanguage"
-				default=""
 				label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
 				description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC"
+				default=""
 				useglobal="true"
-			>
+				>
 				<option value="all">JALL</option>
 				<option value="current_language">JCURRENT</option>
 			</field>
@@ -66,7 +66,7 @@
 				type="list"
 				label="COM_TAGS_SHOW_ALL_TAGS_IMAGE_LABEL"
 				description="COM_TAGS_SHOW_ALL_TAGS_IMAGE_DESC"
-			>
+				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -85,7 +85,7 @@
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="hits">JGLOBAL_HITS</option>
 				<option value="created_time">JGLOBAL_CREATED_DATE</option>
@@ -99,7 +99,7 @@
 				label="JGLOBAL_ORDER_DIRECTION_LABEL"
 				description="JGLOBAL_ORDER_DIRECTION_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
 				<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
 			</field>
@@ -110,7 +110,7 @@
 				label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 				description="COM_TAGS_SHOW_ITEM_IMAGE_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -120,7 +120,7 @@
 				type="list"
 				label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
 				description="COM_TAGS_SHOW_ITEM_DESCRIPTION_DESC"
-			>
+				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -129,9 +129,9 @@
 			<field
 				name="all_tags_tag_maximum_characters"
 				type="text"
-				filter="integer"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
+				filter="integer"
 			/>
 
 			<field 
@@ -140,7 +140,7 @@
 				label="JGLOBAL_HITS"
 				description="COM_TAGS_FIELD_CONFIG_HITS_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -153,31 +153,31 @@
 			<field
 				name="maximum"
 				type="text"
-				default="200"
-				filter="integer"
 				label="COM_TAGS_LIST_MAX_LABEL"
 				description="COM_TAGS_LIST_MAX_DESC"
+				default="200"
+				filter="integer"
 			/>
+
 			<field
 				name="filter_field"
 				type="list"
-				default=""
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				description="JGLOBAL_FILTER_FIELD_DESC"
+				default=""
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
-			
+		
 			<field	
 				name="show_pagination_limit" 
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -188,7 +188,7 @@
 				label="JGLOBAL_PAGINATION_LABEL"
 				description="JGLOBAL_PAGINATION_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>
@@ -200,7 +200,7 @@
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -213,7 +213,7 @@
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 				useglobal="true"
-			>
+				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>

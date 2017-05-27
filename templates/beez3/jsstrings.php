@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
+defined('_JEXEC') or die;
+
 JText::script('TPL_BEEZ3_ALTOPEN');
 JText::script('TPL_BEEZ3_ALTCLOSE');
 JText::script('TPL_BEEZ3_TEXTRIGHTOPEN');

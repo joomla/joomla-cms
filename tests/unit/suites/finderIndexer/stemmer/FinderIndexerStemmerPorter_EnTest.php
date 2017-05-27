@@ -49,6 +49,7 @@ class FinderIndexerStemmerPorter_EnTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerPorter_En::stem
 	 */
 	public function testStem()
 	{
@@ -107,6 +108,7 @@ class FinderIndexerStemmerPorter_EnTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerPorter_En::stem
 	 */
 	public function testStemShort()
 	{
@@ -122,6 +124,7 @@ class FinderIndexerStemmerPorter_EnTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerPorter_En::stem
 	 */
 	public function testStemWrongLanguage()
 	{

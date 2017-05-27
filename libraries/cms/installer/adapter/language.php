@@ -313,9 +313,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			$contentLanguageNativeTitle = $contentLanguageTitle;
 
 			// If exist, load the native title from the language xml metadata.
-			if (isset($siteLanguageMetadata['nativeName']) && $siteLanguageMetadata['nativeName'])
+			if (isset($siteLanguageManifest['nativeName']) && $siteLanguageManifest['nativeName'])
 			{
-				$contentLanguageNativeTitle = $siteLanguageMetadata['nativeName'];
+				$contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
 			}
 
 			// Try to load a language string from the installation language var. Will be removed in 4.0.
@@ -366,7 +366,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			{
 				JLog::add(
 					JText::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
-					JLog::WARNING,
+					JLog::NOTICE,
 					'jerror'
 				);
 			}
