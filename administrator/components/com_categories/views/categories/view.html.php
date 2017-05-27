@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,9 +84,7 @@ class CategoriesViewCategories extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -146,7 +144,6 @@ class CategoriesViewCategories extends JViewLegacy
 		$section    = $this->state->get('filter.section');
 		$canDo      = JHelperContent::getActions($component, 'category', $categoryId);
 		$user       = JFactory::getUser();
-		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
@@ -210,9 +207,9 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', $extension)
-			&& $user->authorise('core.edit', $extension)
-			&& $user->authorise('core.edit.state', $extension))
+		if ($canDo->get('core.create')
+			&& $canDo->get('core.edit')
+			&& $canDo->get('core.edit.state'))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 

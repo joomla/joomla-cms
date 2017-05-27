@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,9 @@ $this->setHtml5(true);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+
+// Add filter polyfill for IE8
+JHtml::_('behavior.polyfill', array('filter'), 'lte IE 9');
 
 // Add template js
 JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
