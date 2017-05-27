@@ -151,7 +151,6 @@ class AssociationsModelAssociations extends JModelList
 	protected function getListQuery()
 	{
 		$type         = null;
-		$listOrdering = $this->getState('list.fullordering');
 
 		list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'));
 
@@ -403,11 +402,11 @@ class AssociationsModelAssociations extends JModelList
 		// Add the group by clause
 		$query->group($db->qn($groupby));
 
-		// Add the list ordering clause.
-		if (!empty($listOrdering))
-		{
-			$query->order($db->escape($listOrdering));
-		}
+		// Add the list ordering clause
+		$listOrdering  = $this->state->get('list.ordering', 'id');
+		$orderDirn     = $this->state->get('list.direction', 'ASC');
+
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}
