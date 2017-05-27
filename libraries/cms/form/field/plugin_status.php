@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('predefinedlist');
 
 /**
- * Form Field to load a list of states
+ * Plugin Status field.
  *
  * @since  3.5
  */

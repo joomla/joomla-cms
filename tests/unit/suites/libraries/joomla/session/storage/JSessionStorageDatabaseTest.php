@@ -92,5 +92,4 @@ class JSessionStorageDatabaseTest extends \PHPUnit\Framework\TestCase
 			'This test has not been implemented yet.'
 		);
 	}
-
 }
