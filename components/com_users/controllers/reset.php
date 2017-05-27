@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class UsersControllerReset extends UsersController
 	public function request()
 	{
 		// Check the request token.
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('post');
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('Reset', 'UsersModel');
@@ -85,7 +85,7 @@ class UsersControllerReset extends UsersController
 	public function confirm()
 	{
 		// Check the request token.
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('Reset', 'UsersModel');
@@ -141,7 +141,7 @@ class UsersControllerReset extends UsersController
 	public function complete()
 	{
 		// Check for request forgeries
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('post');
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('Reset', 'UsersModel');

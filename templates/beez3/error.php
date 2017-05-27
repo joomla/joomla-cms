@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ $navposition = $params->get('navposition');
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/layout.css" rel="stylesheet" media="screen" />
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/print.css" rel="stylesheet" media="print" />
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" rel="stylesheet" />
-	<?php $files = JHtml::_('stylesheet', 'templates/' . $this->template . '/css/general.css', null, false, true); ?>
+	<?php $files = JHtml::_('stylesheet', 'general.css', array('relative' => true, 'returnPath' => true)); ?>
 	<?php if ($files) : ?>
 		<?php if (!is_array($files)) : ?>
 			<?php $files = array($files); ?>
@@ -43,7 +43,7 @@ $navposition = $params->get('navposition');
 	<?php endforeach; ?>
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>.css" rel="stylesheet" />
-	<?php if ($this->direction == 'rtl') : ?>
+	<?php if ($this->direction === 'rtl') : ?>
 		<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template_rtl.css" rel="stylesheet" />
 		<?php if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) : ?>
 			<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>_rtl.css" rel="stylesheet" />

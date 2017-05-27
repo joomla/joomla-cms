@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Category table
  *
- * @since  11.1
+ * @since  1.5
  */
 class JTableCategory extends JTableNested
 {
@@ -23,7 +23,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -42,7 +42,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetName()
 	{
@@ -56,7 +56,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetTitle()
 	{
@@ -71,7 +71,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
@@ -129,7 +129,7 @@ class JTableCategory extends JTableNested
 	 * @return  boolean
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function check()
 	{
@@ -168,7 +168,7 @@ class JTableCategory extends JTableNested
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     JTable::bind()
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -201,7 +201,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{

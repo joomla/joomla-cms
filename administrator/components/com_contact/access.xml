@@ -9,6 +9,7 @@
 		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
 		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
+		<action name="core.edit.value" title="JACTION_EDITVALUE" description="JACTION_EDITVALUE_COMPONENT_DESC" />
 	</section>
 	<section name="category">
 		<action name="core.create" title="JACTION_CREATE" description="COM_CATEGORIES_ACCESS_CREATE_DESC" />
@@ -16,5 +17,19 @@
 		<action name="core.edit" title="JACTION_EDIT" description="COM_CATEGORIES_ACCESS_EDIT_DESC" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CATEGORIES_ACCESS_EDITSTATE_DESC" />
 		<action name="core.edit.own" title="JACTION_EDITOWN" description="COM_CATEGORIES_ACCESS_EDITOWN_DESC" />
+	</section>
+	<section name="fieldgroup">
+		<action name="core.create" title="JACTION_CREATE" description="COM_FIELDS_GROUP_PERMISSION_CREATE_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="COM_FIELDS_GROUP_PERMISSION_DELETE_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="COM_FIELDS_GROUP_PERMISSION_EDIT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_FIELDS_GROUP_PERMISSION_EDITSTATE_DESC" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" description="COM_FIELDS_GROUP_PERMISSION_EDITOWN_DESC" />
+		<action name="core.edit.value" title="JACTION_EDITVALUE" description="COM_FIELDS_GROUP_PERMISSION_EDITVALUE_DESC" />
+	</section>
+	<section name="field">
+		<action name="core.delete" title="JACTION_DELETE" description="COM_FIELDS_FIELD_PERMISSION_DELETE_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="COM_FIELDS_FIELD_PERMISSION_EDIT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_FIELDS_FIELD_PERMISSION_EDITSTATE_DESC" />
+		<action name="core.edit.value" title="JACTION_EDITVALUE" description="COM_FIELDS_FIELD_PERMISSION_EDITVALUE_DESC" />
 	</section>
 </access>

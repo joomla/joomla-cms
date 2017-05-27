@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-if ($app->isSite())
+if ($app->isClient('site'))
 {
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
@@ -60,7 +60,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 						<th width="15%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder);	?>
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -97,12 +97,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							}
 							else
 							{
-								$lang = "";
+								$lang = '';
 							}
 						}
 						elseif (!JLanguageMultilang::isEnabled())
 						{
-							$lang = "";
+							$lang = '';
 						}
 						?>
 						<tr class="row<?php echo $i % 2; ?>">

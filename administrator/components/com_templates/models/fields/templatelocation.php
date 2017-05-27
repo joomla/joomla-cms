@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
-
 JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
 
+JFormHelper::loadFieldClass('list');
+
 /**
- * Template Style Field class for the Joomla Framework.
+ * Template Location field. 
  *
  * @since  3.5
  */

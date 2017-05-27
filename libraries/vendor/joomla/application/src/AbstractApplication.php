@@ -48,12 +48,11 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   Input     $input   An optional argument to provide dependency injection for the application's
-	 *                             input object.  If the argument is an InputCli object that object will become
-	 *                             the application's input object, otherwise a default input object is created.
-	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's
-	 *                             config object.  If the argument is a Registry object that object will become
-	 *                             the application's config object, otherwise a default config object is created.
+	 * @param   Input     $input   An optional argument to provide dependency injection for the application's input object.  If the argument is an
+	 *                             Input object that object will become the application's input object, otherwise a default input object is created.
+	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's config object.  If the argument
+	 *                             is a Registry object that object will become the application's config object, otherwise a default config
+	 *                             object is created.
 	 *
 	 * @since   1.0
 	 */
