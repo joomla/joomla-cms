@@ -27,9 +27,9 @@
 				<field
 					name="menutype"
 					type="menu"
-					clientid="0"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
 					description="MOD_MENU_FIELD_MENUTYPE_DESC"
+					clientid="0"
 				/>
 
 				<field
