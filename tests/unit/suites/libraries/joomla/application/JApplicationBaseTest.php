@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,8 +39,8 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function test__constructDependencyInjection()
 	{
-		$mockInput  = $this->getMock('JInput');
-		$mockConfig = $this->getMock('Joomla\Registry\Registry');
+		$mockInput  = $this->getMockBuilder('JInput')->getMock();
+		$mockConfig = $this->getMockBuilder('Joomla\Registry\Registry')->getMock();
 		$object     = $this->getMockForAbstractClass('JApplicationBase', array($mockInput, $mockConfig));
 
 		$this->assertAttributeSame($mockInput, 'input', $object);
@@ -82,7 +82,14 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testGet()
 	{
-		$mockConfig = $this->getMock('Joomla\Registry\Registry', array('get'), array(array('foo' => 'bar')), '', true, true, true, false, true);
+		// Build the mock object.
+		$mockConfig  = $this->getMockBuilder('Joomla\Registry\Registry')
+					->setMethods(array('get'))
+					->setConstructorArgs(array(array('foo' => 'bar')))
+					->setMockClassName('')
+					->disableOriginalClone()
+					->enableProxyingToOriginalMethods()
+					->getMock();
 
 		// Inject the mock config
 		$this->class->setConfiguration($mockConfig);
@@ -153,7 +160,7 @@ class JApplicationBaseTest extends TestCase
 		// We need to mock JSession for this test, don't use the getMockSession() method since it has an inbuilt method to mock loading the user
 		$this->saveFactoryState();
 
-		JFactory::$session = $this->getMock('JSession');
+		JFactory::$session = $this->getMockBuilder('JSession')->getMock();
 
 		// Before running, this should be null
 		$this->assertAttributeNotInstanceOf('JUser', 'identity', $this->class);
@@ -175,7 +182,7 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testLoadIdentityWithInjectedUser()
 	{
-		$mockUser = $this->getMock('JUser');
+		$mockUser = $this->getMockBuilder('JUser')->getMock();
 
 		// Validate method chaining
 		$this->assertSame($this->class, $this->class->loadIdentity($mockUser));
@@ -210,8 +217,14 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testSet()
 	{
-		$mockConfig = $this->getMock('Joomla\Registry\Registry', array('get', 'set'), array(array('foo' => 'bar')), '', true, true, true, false, true);
-
+		// Build the mock object.
+		$mockConfig  = $this->getMockBuilder('Joomla\Registry\Registry')
+					->setMethods(array('get', 'set'))
+					->setConstructorArgs(array(array('foo' => 'bar')))
+					->setMockClassName('')
+					->disableOriginalClone()
+					->enableProxyingToOriginalMethods()
+					->getMock();
 		$this->class->setConfiguration($mockConfig);
 
 		$this->assertEquals('bar', $this->class->set('foo', 'car'), 'Checks set returns the previous value.');
@@ -225,7 +238,7 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testSetConfiguration()
 	{
-		$mockConfig = $this->getMock('Joomla\Registry\Registry');
+		$mockConfig = $this->getMockBuilder('Joomla\Registry\Registry')->getMock();
 
 		$this->class->setConfiguration($mockConfig);
 
@@ -296,7 +309,7 @@ class JApplicationBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

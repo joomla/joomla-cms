@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/JCategoriesMock.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Component
- * @since       3.4
+ * @since       3.5
  */
 class JComponentRouterViewTest extends TestCaseDatabase
 {
@@ -24,7 +24,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * Object under test
 	 *
 	 * @var    JComponentRouterView
-	 * @since  3.4
+	 * @since  3.5
 	 */
 	protected $object;
 
@@ -34,7 +34,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	protected function setUp()
 	{
@@ -53,7 +53,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -84,7 +84,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::registerView
 	 */
 	public function testRegisterView()
@@ -104,7 +104,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::getViews
 	 */
 	public function testGetViews()
@@ -120,14 +120,64 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Cases for testGetPath
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function casesGetPath()
+	{
+		$cases   = array();
+		// No view, so we don't have a path to return.
+		$cases[] = array(array('task' => 'edit'), array());
+
+		// View without any parents and children
+		$cases[] = array(array('view' => 'form'), array('form' => true));
+
+		// View without any parents, but with children
+		$cases[] = array(array('view' => 'categories'), array('categories' => array()));
+
+		// View with parent and children
+		$cases[] = array(array('view' => 'category', 'id' => '9'), array('category' => array(9 => '9:uncategorised'), 'categories' => array(9 => '9:uncategorised')));
+
+		//View with parent, no children
+		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '9'),
+			array(
+				'article' => array(42 => '42:question-for-everything'),
+				'category' => array(9 => '9:uncategorised'),
+				'categories' => array(9 => '9:uncategorised')
+			)
+		);
+
+		//View with parent, no children and nested view
+		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '20'),
+			array(
+				'article' => array(42 => '42:question-for-everything'),
+				'category' => array(20 => '20:extensions',
+					19 => '19:joomla',
+					14 => '14:sample-data-articles'
+				),
+				'categories' => array(20 => '20:extensions',
+					19 => '19:joomla',
+					14 => '14:sample-data-articles'
+				)
+			)
+		);
+
+		return $cases;
+	}
+
+	/**
 	 * Tests the getPath() method
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @dataProvider  casesGetPath
+	 * @since   3.5
 	 * @covers  JComponentRouterView::getPath
 	 */
-	public function testGetPath()
+	public function testGetPath($input, $result)
 	{
 		// This test requires an application registered to JFactory
 		$this->saveFactoryState();
@@ -141,41 +191,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 			$this->object->registerView($view);
 		}
 
-		// No view, so we don't have a path to return.
-		$query = array('task' => 'edit');
-		$this->assertEquals(array(), $this->object->getPath($query));
-
-		// View without any parents and children
-		$query = array('view' => 'form');
-		$this->assertEquals(array('form' => true), $this->object->getPath($query));
-
-		// View without any parents, but with children
-		$query = array('view' => 'categories');
-		$this->assertEquals(array('categories' => true), $this->object->getPath($query));
-
-		// View with parent and children
-		$query = array('view' => 'category', 'id' => '9');
-		$this->assertEquals(array('category' => array('9:uncategorised'), 'categories' => true), $this->object->getPath($query));
-
-		//View with parent, no children
-		$query = array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '9');
-		$this->assertEquals(array(
-			'article' => array('42:question-for-everything'),
-			'category' => array('9:uncategorised'),
-			'categories' => true),
-			$this->object->getPath($query));
-
-		//View with parent, no children and nested view
-		$query = array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '20');
-		$this->assertEquals(array(
-			'article' => array('42:question-for-everything'),
-			'category' => array('20:extensions',
-				'19:joomla',
-				'14:sample-data-articles'
-			),
-			'categories' => true),
-			$this->object->getPath($query)
-		);
+		$this->assertEquals($result, $this->object->getPath($input));
 
 		$this->restoreFactoryState();
 	}
@@ -185,7 +201,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::getRules
 	 */
 	public function testGetRules()
@@ -200,7 +216,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::attachRules
 	 */
 	public function testAttachRules()
@@ -216,7 +232,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::attachRule
 	 */
 	public function testAttachRule()
@@ -234,7 +250,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::detachRule
 	 */
 	public function testDetachRule()
@@ -252,7 +268,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::preprocess
 	 */
 	public function testPreprocess()
@@ -267,7 +283,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::build
 	 */
 	public function testBuild()
@@ -284,7 +300,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::parse
 	 */
 	public function testParse()
@@ -301,7 +317,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @covers  JComponentRouterView::getName
 	 */
 	public function testGetName()
@@ -317,7 +333,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 * @expectedException Exception
 	 * @covers  JComponentRouterView::getName
 	 */
@@ -335,8 +351,9 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	protected function getComContentViews()
 	{
 		$categories = new JComponentRouterViewconfiguration('categories');
+		$categories->setKey('id');
 		$category = new JComponentRouterViewconfiguration('category');
-		$category->setKey('id')->setParent($categories)->setNestable()->addLayout('blog');
+		$category->setKey('id')->setParent($categories, 'catid')->setNestable()->addLayout('blog');
 		$article = new JComponentRouterViewconfiguration('article');
 		$article->setKey('id')->setParent($category, 'catid');
 		$archive = new JComponentRouterViewconfiguration('archive');

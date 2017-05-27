@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.none
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,9 +26,7 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::script('media/editors/none/none.min.js', false, false, false, false, true);
-
-		return null;
+		JHtml::_('script', 'editors/none/none.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -36,11 +34,14 @@ class PlgEditorNone extends JPlugin
 	 *
 	 * Not applicable in this editor.
 	 *
+	 * @param   string  $editor  the editor id
+	 *
 	 * @return  void
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
-	public function onSave()
+	public function onSave($editor)
 	{
-		return;
 	}
 
 	/**
@@ -49,10 +50,12 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onGetContent($id)
 	{
-		return "document.getElementById('$id').value;\n";
+		return 'Joomla.editors.instances[' . json_encode($id) . '].getValue();';
 	}
 
 	/**
@@ -62,10 +65,12 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $html  The content to set.
 	 *
 	 * @return  string
+	 *
+	 * @deprecated 4.0 Use directly the returned code
 	 */
 	public function onSetContent($id, $html)
 	{
-		return "document.getElementById('$id').value = $html;\n";
+		return 'Joomla.editors.instances[' . json_encode($id) . '].setValue(' . json_encode($html) . ');';
 	}
 
 	/**
@@ -74,10 +79,11 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $id  The id of the editor field
 	 *
 	 * @return  void
+	 *
+	 * @deprecated 4.0
 	 */
 	public function onGetInsertMethod($id)
 	{
-		return null;
 	}
 
 	/**
@@ -116,9 +122,13 @@ class PlgEditorNone extends JPlugin
 			$height .= 'px';
 		}
 
-		$editor = '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
-				. '" style="width: ' . $width . '; height: ' . $height . ';">' . $content . '</textarea>'
-				. $this->_displayButtons($id, $buttons, $asset, $author);
+		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
+
+		$editor = '<div class="js-editor-none">'
+			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
+			. '" style="width: ' . $width . '; height: ' . $height . ';"' . $readonly . '>' . $content . '</textarea>'
+			. $this->_displayButtons($id, $buttons, $asset, $author)
+			. '</div>';
 
 		return $editor;
 	}
@@ -131,37 +141,15 @@ class PlgEditorNone extends JPlugin
 	 * @param   string  $asset    The object asset
 	 * @param   object  $author   The author.
 	 *
-	 * @return  string HTML
+	 * @return  void|string HTML
 	 */
 	public function _displayButtons($name, $buttons, $asset, $author)
 	{
-		$return = '';
-
-		$args = array(
-			'name'  => $name,
-			'event' => 'onGetInsertMethod'
-		);
-
-		$results = (array) $this->update($args);
-
-		if ($results)
-		{
-			foreach ($results as $result)
-			{
-				if (is_string($result) && trim($result))
-				{
-					$return .= $result;
-				}
-			}
-		}
-
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
+			return JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
-
-		return $return;
 	}
 }
