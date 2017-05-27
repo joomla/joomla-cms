@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * 1. The no id's object is a constructor parameter
  * 2. The router only has the JComponentRouterRulesStandard rule attached
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class ContentRouterStandardRuleOnly extends JComponentRouterView
 {
@@ -28,7 +28,7 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 * @param   JMenu            $menu   The menu object to work with
 	 * @param   boolean          $noIds  Should ID's be present in the URL or not?
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function __construct($app = null, $menu = null, $noIds)
 	{
@@ -59,7 +59,7 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 *
 	 * @return  array|string  The segments of this item
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function getCategorySegment($id, $query)
 	{
@@ -92,7 +92,7 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 *
 	 * @return  array|string  The segments of this item
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function getCategoriesSegment($id, $query)
 	{
@@ -107,7 +107,7 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 *
 	 * @return  array|string  The segments of this item
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function getArticleSegment($id, $query)
 	{
@@ -141,7 +141,7 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 *
 	 * @return  mixed   The id of this item or false
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function getCategoryId($segment, $query)
 	{
@@ -179,7 +179,7 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 *
 	 * @return  mixed   The id of this item or false
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function getCategoriesId($segment, $query)
 	{
@@ -194,7 +194,7 @@ class ContentRouterStandardRuleOnly extends JComponentRouterView
 	 *
 	 * @return  mixed   The id of this item or false
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function getArticleId($segment, $query)
 	{

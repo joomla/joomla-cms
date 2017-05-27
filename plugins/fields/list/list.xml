@@ -22,34 +22,37 @@
 				<field
 					name="multiple"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
 					label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"
 					description="PLG_FIELDS_LIST_PARAMS_MULTIPLE_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="options"
-					type="subform" layout="joomla.form.field.subform.repeatable-table"
-					icon="list" multiple="true"
-					description="PLG_FIELDS_LIST_PARAMS_OPTIONS_DESC"
+					type="subform" 
 					label="PLG_FIELDS_LIST_PARAMS_OPTIONS_LABEL"
-				>
+					description="PLG_FIELDS_LIST_PARAMS_OPTIONS_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
+					icon="list" 
+					multiple="true"
+					>
 					<form hidden="true" name="list_templates_modal" repeat="true">
 						<field
 							name="name"
+							type="text"
 							label="PLG_FIELDS_LIST_PARAMS_OPTIONS_NAME_LABEL"
 							size="30"
-							type="text"
 						/>
 	
 						<field
 							name="value"
+							type="text"
 							label="PLG_FIELDS_LIST_PARAMS_OPTIONS_VALUE_LABEL"
 							size="30"
-							type="text"
 						/>
 					</form>
 				</field>

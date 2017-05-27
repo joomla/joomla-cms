@@ -290,7 +290,7 @@ if ($this->type == 'font')
 				<h1><p><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></p></h1>
 				<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
-					<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank">
+					<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank">
 						<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 					</a>
 				</p>
@@ -334,10 +334,10 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file): ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
-								<span class="icon-folder"></span>&nbsp;<?php echo $file; ?>
+								<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
-								<span class="icon-file"></span>&nbsp;<?php echo $file; ?>
+								<span class="icon-file" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
