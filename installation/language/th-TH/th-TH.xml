@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.6"
+	version="3.7"
 	client="installation">
-	<name>Thai ไทย (ภาษาไทย)</name>
-	<version>3.6.3</version>
-	<creationDate>September 2016</creationDate>
+	<name>Thai (ภาษาไทย)</name>
+	<version>3.7.0</version>
+	<creationDate>February 2017</creationDate>
 	<author>Thai Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>th-TH.ini</filename>
 	</files>
 	<metadata>
-		<name>Thai ไทย (ภาษาไทย)</name>
+		<name>Thai (th-TH)</name>
+		<nativeName>ไทย (ภาษาไทย)</nativeName>
 		<tag>th-TH</tag>
 		<rtl>0</rtl>
 	</metadata>
