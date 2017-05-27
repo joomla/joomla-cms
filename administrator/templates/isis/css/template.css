@@ -7037,6 +7037,11 @@ h6 {
 	font-size: 12px;
 	line-height: 14px;
 }
+.truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 .chzn-container .chzn-drop {
 	border-radius: 0 0 3px 3px;
 }
@@ -7976,6 +7981,9 @@ ul.manager .height-50 .icon-folder-2 {
 }
 #mediamanager-form .height-50 .icon-folder-2 {
 	font-size: 40px;
+}
+.uploadform {
+	margin-top: 20px;
 }
 body.modal-open {
 	-ms-overflow-style: none;
