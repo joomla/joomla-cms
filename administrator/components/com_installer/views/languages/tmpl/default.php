@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,9 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<input type="button" class="btn btn-small" value="<?php echo JText::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>" />
 						</td>
 						<td>
-							<label for="cb<?php echo $i; ?>">
-								<?php echo $language->name; ?>
-							</label>
+							<?php echo $language->name; ?>
 						</td>
 						<td>
 							<?php echo $language->code; ?>

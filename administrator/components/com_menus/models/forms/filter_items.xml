@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<field
+		name="client_id"
+		type="list"
+		label=""
+		filtermode="selector"
+		onchange="this.form.submit();"
+	>
+		<option value="0">JSITE</option>
+		<option value="1">JADMINISTRATOR</option>
+	</field>
+	<field
 		name="menutype"
 		type="menu"
 		label="COM_MENUS_FILTER_CATEGORY"
 		description="JOPTION_FILTER_CATEGORY_DESC"
 		accesstype="manage"
+		clientid=""
+		showAll="false"
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>
