@@ -21,10 +21,12 @@ JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$function   = $app->input->getCmd('function', 'jSelectAssociation');
-$listOrder  = $this->escape($this->state->get('list.ordering'));
-$listDirn   = $this->escape($this->state->get('list.direction'));
-$colSpan    = 4;
+$function         = $app->input->getCmd('function', 'jSelectAssociation');
+$listOrder        = $this->escape($this->state->get('list.ordering'));
+$listDirn         = $this->escape($this->state->get('list.direction'));
+$canManageCheckin = JFactory::getUser()->authorise('core.manage', 'com_checkin');
+$colSpan          = 4;
+
 $iconStates = array(
 	-2 => 'icon-trash',
 	0  => 'icon-unpublish',
@@ -102,6 +104,9 @@ $app->getDocument()->addScriptDeclaration(
 			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) :
+				$canEdit    = AssociationsHelper::allowEdit($this->extensionName, $this->typeName, $item->id);
+				$canCheckin = $canManageCheckin || AssociationsHelper::canCheckinItem($this->extensionName, $this->typeName, $item->id);
+				$isCheckout = AssociationsHelper::isCheckoutItem($this->extensionName, $this->typeName, $item->id);
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!empty($this->typeSupports['state'])) : ?>
@@ -113,7 +118,17 @@ $app->getDocument()->addScriptDeclaration(
 						<?php if (isset($item->level)) : ?>
 							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 						<?php endif; ?>
-						<a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>"><?php echo $this->escape($item->title); ?></a>
+						<?php if (($canEdit && !$isCheckout) || ($canEdit && $canCheckin && $isCheckout)) : ?>
+							<a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>">
+							<?php echo $this->escape($item->title); ?></a>
+						<?php elseif ($canEdit && $isCheckout) : ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
+							<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>">
+							<?php echo $this->escape($item->title); ?></span>
+						<?php else : ?>
+							<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>">
+							<?php echo $this->escape($item->title); ?></span>
+						<?php endif; ?>
 						<?php if (!empty($this->typeFields['alias'])) : ?>
 							<span class="small">
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>

@@ -69,7 +69,8 @@ class AssociationsViewAssociations extends JViewLegacy
 
 		if (!JLanguageAssociations::isEnabled())
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_ASSOCIATIONS_ERROR_NO_ASSOC'), 'warning');
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
 		}
 		elseif ($this->state->get('itemtype') == '' || $this->state->get('language') == '')
 		{
@@ -206,12 +207,12 @@ class AssociationsViewAssociations extends JViewLegacy
 			JToolbarHelper::title(
 				JText::sprintf(
 					'COM_ASSOCIATIONS_TITLE_LIST', JText::_($this->extensionName), JText::_($languageKey)
-				), 'contract'
+				), 'contract assoc'
 			);
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract');
+			JToolbarHelper::title(JText::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract assoc');
 		}
 
 		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))
