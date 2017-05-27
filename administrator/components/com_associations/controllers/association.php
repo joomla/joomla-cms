@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_a
 /**
  * Association edit controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class AssociationsControllerAssociation extends JControllerForm
 {
@@ -27,13 +27,13 @@ class AssociationsControllerAssociation extends JControllerForm
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype'));
+		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'));
 
-		$id = $this->input->get('id', 0);
+		$id = $this->input->get('id', 0, 'int');
 
 		// Check if reference item can be edited.
 		if (!AssociationsHelper::allowEdit($extensionName, $typeName, $id))
@@ -52,15 +52,15 @@ class AssociationsControllerAssociation extends JControllerForm
 	 *
 	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function cancel($key = null)
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype'));
+		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'));
 
 		// Only check in, if component item type allows to check out.
 		if (AssociationsHelper::typeSupportsCheckout($extensionName, $typeName))
@@ -73,7 +73,7 @@ class AssociationsControllerAssociation extends JControllerForm
 				$ids = array_unique(explode(',', $targetId));
 			}
 
-			$ids[] = $this->input->get('id', 0);
+			$ids[] = $this->input->get('id', 0, 'int');
 
 			foreach ($ids as $key => $id)
 			{

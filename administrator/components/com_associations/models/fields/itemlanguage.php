@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,9 @@ JLoader::register('AssociationsHelper', JPATH_ADMINISTRATOR . '/components/com_a
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Field listing item languages
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldItemLanguage extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldItemLanguage extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $type = 'ItemLanguage';
 
@@ -34,30 +34,18 @@ class JFormFieldItemLanguage extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{
 		$input = JFactory::getApplication()->input;
 
-		list($extensionName, $typeName) = explode('.', $input->get('itemtype'));
+		list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'));
 
-		$extension = AssociationsHelper::getSupportedExtension($extensionName);
-		$types     = $extension->get('types');
+		// Get the extension specific helper method
+		$helper = AssociationsHelper::getExtensionHelper($extensionName);
 
-		if (array_key_exists($typeName, $types))
-		{
-			$type = $types[$typeName];
-		}
-
-		$details = $type->get('details');
-
-		if (array_key_exists('fields', $details))
-		{
-			$fields = $details['fields'];
-		}
-
-		$languageField = substr($fields['language'], 2);
+		$languageField = $helper->getTypeFieldName($typeName, 'language');
 		$referenceId   = $input->get('id', 0, 'int');
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 		$referenceLang = $reference[$languageField];
@@ -94,8 +82,8 @@ class JFormFieldItemLanguage extends JFormFieldList
 				 // Check if user does have permission to edit the associated item.
 				$canEdit = AssociationsHelper::allowEdit($extensionName, $typeName, $itemId);
 
-				// ToDo: Do an additional check to check if user can edit a checked out item (if component item type supports it).
-				$canCheckout = true;
+				// Check if item can be checked out
+				$canCheckout = AssociationsHelper::canCheckinItem($extensionName, $typeName, $itemId);
 
 				// Disable language if user is not allowed to edit the item associated to it.
 				$options[$langCode]->disable = !($canEdit && $canCheckout);

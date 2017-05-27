@@ -73,7 +73,7 @@ class FinderModelIndex extends JModelList
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -215,7 +215,7 @@ class FinderModelIndex extends JModelList
 			// Filter by indexdate only if $search doesn't contains non-ascii characters
 			if (!preg_match('/[^\x00-\x7F]/', $search))
 			{
-				$orSearchSql .= ' OR ' . $db->quoteName('l.indexdate') . ' LIKE  ' . $search;
+				$orSearchSql .= ' OR ' . $query->castAsChar($db->quoteName('l.indexdate')) . ' LIKE ' . $search;
 			}
 
 			$query->where('(' . $orSearchSql . ')');

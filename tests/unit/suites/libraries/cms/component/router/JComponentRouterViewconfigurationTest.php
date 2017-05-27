@@ -44,7 +44,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -215,5 +215,4 @@ class JComponentRouterViewconfigurationTest extends TestCase
 		$this->object->removeLayout('form');
 		$this->assertEquals(array(), $this->object->layouts);
 	}
-
 }

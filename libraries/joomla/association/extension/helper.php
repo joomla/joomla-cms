@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Association
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Association Extension Helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 abstract class JAssociationExtensionHelper  implements JAssociationExtensionInterface
 {
@@ -23,7 +23,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @var     array  $extension
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $extension = 'com_??';
 
@@ -32,7 +32,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @var     array  $itemTypes
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $itemTypes = array();
 
@@ -41,7 +41,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @var     boolean  $associationsSupport
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $associationsSupport = false;
 
@@ -50,7 +50,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  boolean  Supports the extension associations
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function hasAssociationsSupport()
 	{
@@ -62,7 +62,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public function getItemTypes()
 	{
@@ -77,7 +77,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return   array
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.7.0
 	 */
 	public function getAssociationList($typeName, $itemId)
 	{
@@ -100,7 +100,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of item types
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getType($typeName = '')
 	{
@@ -126,7 +126,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getTypeFields($typeName)
 	{
@@ -140,7 +140,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getTypeSupport($typeName)
 	{
@@ -154,7 +154,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getTypeTables($typeName)
 	{
@@ -168,7 +168,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getTypeJoins($typeName)
 	{
@@ -182,7 +182,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array  Array of support information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getTypeTitle($typeName)
 	{
@@ -204,7 +204,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array Array of support information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function getTypeInformation($typeName, $part = 'support')
 	{
@@ -226,7 +226,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getTypeFieldName($typeName, $fieldName)
 	{
@@ -253,7 +253,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getSupportTemplate()
 	{
@@ -269,7 +269,7 @@ abstract class JAssociationExtensionHelper  implements JAssociationExtensionInte
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getFieldsTemplate()
 	{

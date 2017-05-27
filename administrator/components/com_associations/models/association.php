@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of article records.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class AssociationsModelAssociation extends JModelList
 {
@@ -24,7 +24,7 @@ class AssociationsModelAssociation extends JModelList
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

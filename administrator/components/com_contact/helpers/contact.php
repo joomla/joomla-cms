@@ -181,14 +181,15 @@ class ContactHelper extends JHelperContent
 	 * is returned.
 	 *
 	 * @param   string  $section  The section to get the mapping for
+	 * @param   object  $item     optional item object
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
-	public static function validateSection($section)
+	public static function validateSection($section, $item)
 	{
-		if (JFactory::getApplication()->isClient('site') && $section == 'contact')
+		if (JFactory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof JForm)
 		{
 			// The contact form needs to be the mail section
 			$section = 'mail';
@@ -215,8 +216,9 @@ class ContactHelper extends JHelperContent
 		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_contact.contact' => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
-			'com_contact.mail' => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.contact'    => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail'       => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.categories' => JText::_('JCATEGORY')
 		);
 
 		return $contexts;

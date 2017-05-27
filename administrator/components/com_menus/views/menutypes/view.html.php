@@ -93,7 +93,7 @@ class MenusViewMenutypes extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function addCustomTypes(&$types)
 	{
@@ -131,6 +131,16 @@ class MenusViewMenutypes extends JViewLegacy
 		$o->description = 'COM_MENUS_TYPE_HEADING_DESC';
 		$o->request     = null;
 		$list[]         = $o;
+
+		if ($this->get('state')->get('client_id') == 1)
+		{
+			$o              = new JObject;
+			$o->title       = 'COM_MENUS_TYPE_CONTAINER';
+			$o->type        = 'container';
+			$o->description = 'COM_MENUS_TYPE_CONTAINER_DESC';
+			$o->request     = null;
+			$list[]         = $o;
+		}
 
 		$types['COM_MENUS_TYPE_SYSTEM'] = $list;
 	}

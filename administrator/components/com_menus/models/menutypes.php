@@ -379,7 +379,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @return  array|bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getTypeOptionsFromManifest($component)
 	{

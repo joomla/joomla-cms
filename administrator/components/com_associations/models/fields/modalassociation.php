@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal item picker.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldModalAssociation extends JFormField
 {
@@ -20,7 +20,7 @@ class JFormFieldModalAssociation extends JFormField
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $type = 'Modal_Association';
 
@@ -29,7 +29,7 @@ class JFormFieldModalAssociation extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getInput()
 	{
@@ -69,7 +69,7 @@ class JFormFieldModalAssociation extends JFormField
 			. ' data-change="' . JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' role="button"'
 			. ' href="#associationSelect' . $this->id . 'Modal">'
-			. '<span class="icon-file"></span>'
+			. '<span class="icon-file" aria-hidden="true"></span>'
 			. '<span id="select-change-text"></span>'
 			. '</a>';
 
@@ -78,7 +78,7 @@ class JFormFieldModalAssociation extends JFormField
  				. ' class="btn' . ($value ? '' : ' hidden') . '"'
  				. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
  				. ' id="remove-assoc">'
- 				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
+ 				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
  				. '</button>';
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '" />';
@@ -95,8 +95,8 @@ class JFormFieldModalAssociation extends JFormField
 				'width'       => '800px',
 				'bodyHeight'  => '70',
 				'modalWidth'  => '80',
-				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+				'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
 			)
 		);
 
