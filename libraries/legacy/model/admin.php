@@ -255,7 +255,7 @@ abstract class JModelAdmin extends JModelForm
 
 		foreach ($this->batch_commands as $identifier => $command)
 		{
-			if (strlen($commands[$identifier]) > 0)
+			if (!empty($commands[$identifier]))
 			{
 				if (!$this->$command($commands[$identifier], $pks, $contexts))
 				{

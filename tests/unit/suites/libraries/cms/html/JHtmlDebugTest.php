@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Html
- * @since       __DEPLOY_VERSION__
+ * @since       3.7.0
  */
 class JHtmlDebugTest extends TestCase
 {
@@ -21,7 +21,7 @@ class JHtmlDebugTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function testXdebugLink()
 	{
