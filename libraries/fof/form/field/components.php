@@ -8,6 +8,8 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for FOF
  * Components installed on the site
@@ -15,7 +17,7 @@ defined('FOF_INCLUDED') or die;
  * @package  FrameworkOnFramework
  * @since    2.1
  */
-class FOFFormFieldComponents extends JFormAbstractlist implements FOFFormField
+class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 {
 	protected $static;
 

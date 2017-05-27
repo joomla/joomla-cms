@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -234,6 +234,31 @@ class JBrowser
 			{
 				$this->mobile = true;
 			}
+			// We have to check for Edge as the first browser, because Edge has something like:
+			// Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
+			elseif (preg_match('|Edge/([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('edge');
+
+				if (strpos($version[1], '.') !== false)
+				{
+					list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				}
+				else
+				{
+					$this->majorVersion = $version[1];
+					$this->minorVersion = 0;
+				}
+
+				/* Some Handhelds have their screen resolution in the
+				 * user agent string, which we can use to look for
+				 * mobile agents.
+				 */
+				if (preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->agent))
+				{
+					$this->mobile = true;
+				}
+			}
 			elseif (preg_match('|Opera[/ ]([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('opera');
@@ -276,9 +301,16 @@ class JBrowser
 				$this->setBrowser('palm');
 				$this->mobile = true;
 			}
-			elseif ((preg_match('|MSIE ([0-9.]+)|', $this->agent, $version)) || (preg_match('|Internet Explorer/([0-9.]+)|', $this->agent, $version)))
+			elseif ((preg_match('|MSIE ([0-9.]+)|', $this->agent, $version)) || (preg_match('|Internet Explorer/([0-9.]+)|', $this->agent, $version))
+					|| (preg_match('|Trident/([0-9.]+)|', $this->agent, $version)))
 			{
 				$this->setBrowser('msie');
+
+				// Special case for IE 11+
+				if (strpos($version[0], 'Trident') !== false && strpos($version[0], 'rv:') !== false)
+				{
+					preg_match('|rv:([0-9.]+)|', $this->agent, $version);
+				}
 
 				if (strpos($version[1], '.') !== false)
 				{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -238,13 +238,13 @@ class JUpdate extends JObject
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
-		array_push($this->stack, $name);
-		$tag = $this->_getStackLocation();
+		$this->stack[] = $name;
+		$tag           = $this->_getStackLocation();
 
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = "";
+			$this->$tag->_data = '';
 		}
 
 		switch ($name)
@@ -470,7 +470,7 @@ class JUpdate extends JObject
 		{
 			JLog::add(
 				sprintf(
-					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
+					'XML error: %s at line %d', xml_error_string(xml_get_error_code($this->xmlParser)),
 					xml_get_current_line_number($this->xmlParser)
 				),
 				JLog::WARNING, 'updater'
