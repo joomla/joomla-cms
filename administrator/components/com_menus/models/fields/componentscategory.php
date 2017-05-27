@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Components Category field.
  *
  * @since  1.6
  */

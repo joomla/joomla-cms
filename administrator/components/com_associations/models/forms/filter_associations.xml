@@ -92,7 +92,7 @@
 		<field
 			name="fullordering"
 			type="list"
-			default="ordering ASC"
+			default="id ASC"
 			onchange="this.form.submit();"
 		>
 			<option value="">JGLOBAL_SORT_BY</option>
