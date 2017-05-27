@@ -1767,6 +1767,9 @@ class JoomlaInstallerScript
 			// Joomla 3.7.1
 			'/media/editors/tinymce/langs/uk-UA.js',
 			'/media/system/js/fields/calendar-locales/zh.js',
+			// Joomla 3.7.3
+			'/administrator/components/com_admin/postinstall/phpversion.php',
+			'/components/com_content/layouts/field/prepare/modal_article.php',
 			// Joomla 3.8.0
 			'/libraries/cms/application/administrator.php',
 			'/libraries/cms/application/cms.php',
