@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,22 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		return array(
 			array("'%_abc123", false, '\\\'%_abc123'),
 			array("'%_abc123", true, '\\\'\\%\_abc123')
+		);
+	}
+
+	/**
+	 * Data for the testQuoteName test.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public function dataTestQuoteName()
+	{
+		return array(
+			array('protected`title', null, '`protected``title`'),
+			array('protected"title', null, '`protected"title`'),
+			array('protected]title', null, '`protected]title`'),
 		);
 	}
 
@@ -127,6 +143,27 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
+	 * Test the quoteName method.
+	 *
+	 * @param   string  $text      The column name or alias to be quote.
+	 * @param   string  $asPart    String used for AS query part.
+	 * @param   string  $expected  The expected result.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestQuoteName
+	 * @since         3.7.0
+	 */
+	public function testQuoteName($text, $asPart, $expected)
+	{
+		$this->assertThat(
+			self::$driver->quoteName($text, $asPart),
+			$this->equalTo($expected),
+			'The name was not quoted properly'
+		);
+	}
+
+	/**
 	 * Test getAffectedRows method.
 	 *
 	 * @return  void
@@ -140,7 +177,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$query->from('jos_dbtest');
 		self::$driver->setQuery($query);
 
-		$result = self::$driver->execute();
+		self::$driver->execute();
 
 		$this->assertThat(self::$driver->getAffectedRows(), $this->equalTo(4), __LINE__);
 	}

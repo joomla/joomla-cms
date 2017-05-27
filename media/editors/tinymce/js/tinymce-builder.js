@@ -1,10 +1,27 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 ;(function($) {
     "use strict";
+
+    /**
+     * Fake TinyMCE object to allow to use TinyMCE translation for the button labels
+     *
+     * @since  3.7.0
+     */
+    window.tinymce = {
+        langCode: 'en',
+        langStrings: {},
+        addI18n: function (code, strings){
+            this.langCode    = code;
+            this.langStrings = strings || {};
+        },
+        translate: function (string){
+            return this.langStrings[string] ? this.langStrings[string] : string;
+        }
+    };
 
     /**
      * Joomla TinyMCE Builder
@@ -13,7 +30,7 @@
      * @param {Object}      options
      * @constructor
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     var JoomlaTinyMCEBuilder = function(container, options) {
         this.$container = $(container);
@@ -124,7 +141,7 @@
      * @param {Array|null}  value      The value
      * @param {Boolean}     withInput  Whether append input
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     JoomlaTinyMCEBuilder.prototype.renderBar = function(container, type, value, withInput) {
         var $container = $(container),
@@ -165,14 +182,14 @@
      *
      * @return {jQuery}
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     JoomlaTinyMCEBuilder.prototype.createButton = function(name, info, type){
         var $element = $('<div />', {
             'class': 'mce-btn',
             'data-name': name,
             'data-toggle': 'tooltip',
-            'title': info.label
+            'title': tinymce.translate(info.label)
         });
         var $btn = $('<button/>', {
             'type': 'button'
@@ -180,10 +197,10 @@
         $element.append($btn);
 
         if (type === 'menu') {
-            $btn.html('<span class="mce-txt">' + info.label + '</span> <i class="mce-caret"></i>');
+            $btn.html('<span class="mce-txt">' + tinymce.translate(info.label) + '</span> <i class="mce-caret"></i>');
         } else {
             $element.addClass('mce-btn-small');
-            $btn.html(info.text ? info.text : '<span class="mce-ico mce-i-' + name + '"></span>');
+            $btn.html(info.text ? tinymce.translate(info.text) : '<span class="mce-ico mce-i-' + name + '"></span>');
         }
 
         return $element;
@@ -195,7 +212,7 @@
      * @param {String}      group
      * @param {String}      set
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     JoomlaTinyMCEBuilder.prototype.appendInput = function (element, group, set) {
         var $el    = $(element),
@@ -266,5 +283,34 @@
             event.preventDefault();
             $(this).tab("show");
         });
+
+        // Allow to select the group only once per the set
+        var $accessSelects = $('#joomla-tinymce-builder').find('.access-select');
+        toggleAvailableOption();
+        $accessSelects.on('change', function () {
+            toggleAvailableOption();
+        });
+
+        function toggleAvailableOption () {
+            $accessSelects.find('option[disabled]').removeAttr('disabled');
+
+            // Disable already selected options
+            $accessSelects.each(function () {
+                var $select = $(this), val = $select.val() || [], query = [],
+                    $options = $accessSelects.not(this).find('option');
+
+                for (var i = 0, l = val.length; i < l; i++ ) {
+                    if (!val[i]) continue;
+                    query.push('[value="' + val[i] + '"]');
+                }
+
+                if (query.length) {
+                    $options.filter(query.join(',')).attr('disabled', 'disabled');
+                }
+            });
+
+            // Update Chosen
+            $accessSelects.trigger('liszt:updated');
+        }
     });
 }(jQuery));
