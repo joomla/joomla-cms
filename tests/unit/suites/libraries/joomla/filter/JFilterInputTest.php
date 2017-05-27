@@ -1294,6 +1294,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'<img src="xxx" height="zzz" />',
 				'Test empty alt attribute'
 			),
+			'infinte_loop_c' => array(
+				'string',
+				'<hr title="Äußerungen" class="system-pagebreak" alt="Äußerungen" />',
+				'<hr title="Äußerungen" class="system-pagebreak" alt="Äußerungen" />',
+				'Test correct position of close quote in UTF-8 value'
+			),
 			'quotes_in_text' => array(
 				'string',
 				$quotesInText1,
@@ -1351,7 +1357,7 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 			'tracker25558e' => array(
 				'string',
 				'<b><script<b></b><alert(1)</script </b>',
-				'<b>script<b></b>alert(1)/script</b>',
+				'<b>script<b></b>alert(1)/script </b>',
 				'Test mal-formed element from 25558e'
 			),
 			'security_20110329a' => array(
@@ -1366,6 +1372,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				'<div>Hello</div>',
 				'Generic test case for HTML cleaning'
 			),
+			'html_02' => array(
+				'html',
+				'<br/>',
+				'<br />',
+				'Generic test case for HTML cleaning'
+			),
 			'tracker26439a' => array(
 				'string',
 				'<p>equals quote =" inside valid tag</p>',
@@ -1377,6 +1389,12 @@ class JFilterInputTest extends \PHPUnit\Framework\TestCase
 				"<p>equals quote =' inside valid tag</p>",
 				"<p>equals quote =' inside valid tag</p>",
 				'Test single quote equals inside valid tag'
+			),
+			'invalid_utf8_byte_sequence' => array(
+				'html',
+				"<p>Invalid \xC2\xFF\x80char</p>",
+				"<p>Invalid char</p>",
+				"Test for invalid UTF-8 byte sequence",
 			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);

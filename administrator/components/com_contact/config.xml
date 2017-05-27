@@ -112,7 +112,7 @@
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
-		</field>
+		</field>	
 
 		<field
 			name="show_position"
@@ -136,6 +136,19 @@
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="add_mailto_link"
+			type="radio"
+			label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
+			description="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_email:1"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
