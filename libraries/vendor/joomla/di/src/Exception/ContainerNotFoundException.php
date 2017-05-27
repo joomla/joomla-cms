@@ -11,10 +11,10 @@ namespace Joomla\DI\Exception;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
- * Exception class for handling errors in resolving a dependency
+ * No container is available.
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
-class DependencyResolutionException extends \RuntimeException implements ContainerExceptionInterface
+class ContainerNotFoundException extends \RuntimeException implements ContainerExceptionInterface
 {
 }

@@ -8,13 +8,13 @@
 
 namespace Joomla\DI\Exception;
 
-use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
- * Exception class for handling errors in resolving a dependency
+ * No entry was found in the container.
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
-class DependencyResolutionException extends \RuntimeException implements ContainerExceptionInterface
+class KeyNotFoundException extends \InvalidArgumentException implements NotFoundExceptionInterface
 {
 }
