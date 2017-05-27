@@ -1,12 +1,11 @@
 // Modals
 
 body.modal-open {
-	overflow: hidden;
 	-ms-overflow-style: none;
 }
 
 .modal-header {
-  padding: 0 15px;
+  padding: 0 20px;
   text-align: left;
   h3 {
   	font-weight: normal;
@@ -26,7 +25,10 @@ body.modal-open {
   padding: 0;
   width: 100%;
   height: auto;
-  overflow: hidden;
+  .container-fluid {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
 }
 
 .modal-footer {
@@ -36,4 +38,15 @@ body.modal-open {
 .contentpane {
   padding: 10px;
   height: auto
+}
+
+@media (min-width: 768px) {
+	.row-fluid .modal-batch [class*="span"] {
+		margin-left: 0;
+	}
+}
+
+/* Component pop-up */
+.container-popup {
+	padding: 28px 10px 10px 10px;
 }

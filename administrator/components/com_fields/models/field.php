@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -15,21 +15,21 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Field Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsModelField extends JModelAdmin
 {
 	/**
 	 * @var null|string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public $typeAlias = null;
 
 	/**
 	 * @var string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $text_prefix = 'COM_FIELDS';
 
@@ -43,9 +43,19 @@ class FieldsModelField extends JModelAdmin
 	protected $batch_copymove = 'group_id';
 
 	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id'   => 'batchLanguage'
+	);
+
+	/**
 	 * @var array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private $valueCache = array();
 
@@ -55,7 +65,7 @@ class FieldsModelField extends JModelAdmin
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($config = array())
 	{
@@ -71,7 +81,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function save($data)
 	{
@@ -80,25 +90,6 @@ class FieldsModelField extends JModelAdmin
 		if (isset($data['id']) && $data['id'])
 		{
 			$field = $this->getItem($data['id']);
-		}
-
-		if (!isset($data['assigned_cat_ids']))
-		{
-			$data['assigned_cat_ids'] = array();
-		}
-		else
-		{
-			$cats = (array) $data['assigned_cat_ids'];
-
-			foreach ($cats as $key => $c)
-			{
-				if (empty($c))
-				{
-					unset($cats[$key]);
-				}
-			}
-
-			$data['assigned_cat_ids'] = $cats;
 		}
 
 		if (!isset($data['label']) && isset($data['params']['label']))
@@ -118,43 +109,198 @@ class FieldsModelField extends JModelAdmin
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
+				list($title, $name) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
 				$data['title'] = $title;
 				$data['label'] = $title;
-				$data['alias'] = $alias;
+				$data['name'] = $name;
 			}
 			else
 			{
-				if ($data['alias'] == $origTable->alias)
+				if ($data['name'] == $origTable->name)
 				{
-					$data['alias'] = '';
+					$data['name'] = '';
 				}
 			}
 
 			$data['state'] = 0;
 		}
 
-		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+		// Load the fields plugins, perhaps they want to do something
+		JPluginHelper::importPlugin('fields');
 
-		$success = parent::save($data);
+		$message = $this->checkDefaultValue($data);
 
-		// If the options have changed delete the values
-		if ($success && $field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
+		if ($message !== true)
 		{
-			$oldParams = json_decode($field->fieldparams['options']);
-			$newParams = json_decode($data['fieldparams']['options']);
+			$this->setError($message);
 
-			if (is_object($oldParams) && is_object($newParams) && $oldParams->name != $newParams->name)
+			return false;
+		}
+
+		if (!parent::save($data))
+		{
+			return false;
+		}
+
+		// Save the assigned categories into #__fields_categories
+		$db = $this->getDbo();
+		$id = (int) $this->getState('field.id');
+		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+		$cats = ArrayHelper::toInteger($cats);
+
+		$assignedCatIds = array();
+
+		foreach ($cats as $cat)
+		{
+			if ($cat)
 			{
-				$query = $this->_db->getQuery(true);
-				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where("value not in ('" . implode("','", $newParams->name) . "')");
-				$this->_db->setQuery($query);
-				$this->_db->execute();
+				$assignedCatIds[] = $cat;
 			}
 		}
 
-		return $success;
+		// First delete all assigned categories
+		$query = $db->getQuery(true);
+		$query->delete('#__fields_categories')
+			->where('field_id = ' . $id);
+		$db->setQuery($query);
+		$db->execute();
+
+		// Inset new assigned categories
+		$tupel = new stdClass;
+		$tupel->field_id = $id;
+
+		foreach ($assignedCatIds as $catId)
+		{
+			$tupel->category_id = $catId;
+			$db->insertObject('#__fields_categories', $tupel);
+		}
+
+		// If the options have changed delete the values
+		if ($field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
+		{
+			$oldParams = $this->getParams($field->fieldparams['options']);
+			$newParams = $this->getParams($data['fieldparams']['options']);
+
+			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
+			{
+				$names = array();
+				foreach ($newParams as $param)
+				{
+					$names[] = $db->q($param['value']);
+				}
+				$query = $db->getQuery(true);
+				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
+					->where('value NOT IN (' . implode(',', $names) . ')');
+				$db->setQuery($query);
+				$db->execute();
+			}
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Checks if the default value is valid for the given data. If a string is returned then
+	 * it can be assumed that the default value is invalid.
+	 *
+	 * @param   array  $data  The data.
+	 *
+	 * @return  true|string  true if valid, a string containing the exception message when not.
+	 *
+	 * @since   3.7.0
+	 */
+	private function checkDefaultValue($data)
+	{
+		// Empty default values are correct
+		if (empty($data['default_value']))
+		{
+			return true;
+		}
+
+		$types = FieldsHelper::getFieldTypes();
+
+		// Check if type exists
+		if (!key_exists($data['type'], $types))
+		{
+			return true;
+		}
+
+		$path = $types[$data['type']]['rules'];
+
+		// Add the path for the rules of the plugin when available
+		if ($path)
+		{
+			// Add the lookup path for the rule
+			JFormHelper::addRulePath($path);
+		}
+
+		// Create the fields object
+		$obj              = (object) $data;
+		$obj->params      = new Registry($obj->params);
+		$obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : array());
+
+		// Prepare the dom
+		$dom  = new DOMDocument;
+		$node = $dom->appendChild(new DOMElement('form'));
+
+		// Trigger the event to create the field dom node
+		JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($obj, $node, new JForm($data['context'])));
+
+		// Check if a node is created
+		if (!$node->firstChild)
+		{
+			return true;
+		}
+
+		// Define the type either from the field or from the data
+		$type = $node->firstChild->getAttribute('validate') ? : $data['type'];
+
+		// Load the rule
+		$rule = JFormHelper::loadRuleType($type);
+
+		// When no rule exists, we allow the default value
+		if (!$rule)
+		{
+			return true;
+		}
+
+		try
+		{
+			// Perform the check
+			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
+
+			// Check if the test succeeded
+			return $result === true ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+		}
+		catch (UnexpectedValueException $e)
+		{
+			return $e->getMessage();
+		}
+	}
+
+	/**
+	 * Converts the unknown params into an object.
+	 *
+	 * @param   mixed  $params  The params.
+	 *
+	 * @return  stdClass  Object on success, false on failure.
+	 *
+	 * @since   3.7.0
+	 */
+	private function getParams($params)
+	{
+		if (is_string($params))
+		{
+			$params = json_decode($params);
+		}
+
+		if (is_array($params))
+		{
+			$params = (object) $params;
+		}
+
+		return $params;
 	}
 
 	/**
@@ -164,7 +310,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getItem($pk = null)
 	{
@@ -185,10 +331,14 @@ class FieldsModelField extends JModelAdmin
 				$result->fieldparams = $registry->toArray();
 			}
 
-			if ($result->assigned_cat_ids)
-			{
-				$result->assigned_cat_ids = explode(',', $result->assigned_cat_ids);
-			}
+			$db = $this->getDbo();
+			$query = $db->getQuery(true);
+			$query->select('category_id')
+				->from('#__fields_categories')
+				->where('field_id = ' . (int) $result->id);
+
+			$db->setQuery($query);
+			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
 
 			// Convert the created and modified dates to local user time for
 			// display in the form.
@@ -231,7 +381,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  Exception
 	 */
 	public function getTable($name = 'Field', $prefix = 'FieldsTable', $options = array())
@@ -241,34 +391,38 @@ class FieldsModelField extends JModelAdmin
 			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 		}
 
-		return JTable::getInstance($name, $prefix, $options);
+		// Default to text type
+		$table       = JTable::getInstance($name, $prefix, $options);
+		$table->type = 'text';
+
+		return $table;
 	}
 
 	/**
-	 * Method to change the title & alias.
+	 * Method to change the title & name.
 	 *
 	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
+	 * @param   string   $name         The name.
 	 * @param   string   $title        The title.
 	 *
-	 * @return  array  Contains the modified title and alias.
+	 * @return  array  Contains the modified title and name.
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($category_id, $name, $title)
 	{
-		// Alter the title & alias
+		// Alter the title & name
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias)))
+		while ($table->load(array('name' => $name)))
 		{
 			$title = StringHelper::increment($title);
-			$alias = StringHelper::increment($alias, 'dash');
+			$name = StringHelper::increment($name, 'dash');
 		}
 
 		return array(
 			$title,
-			$alias,
+			$name,
 		);
 	}
 
@@ -279,7 +433,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function delete(&$pks)
 	{
@@ -293,9 +447,18 @@ class FieldsModelField extends JModelAdmin
 
 			if (!empty($pks))
 			{
+				// Delete Values
 				$query = $this->getDbo()->getQuery(true);
 
 				$query->delete($query->qn('#__fields_values'))
+					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+
+				$this->getDbo()->setQuery($query)->execute();
+
+				// Delete Assigned Categories
+				$query = $this->getDbo()->getQuery(true);
+
+				$query->delete($query->qn('#__fields_categories'))
 					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
@@ -313,7 +476,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -335,12 +498,21 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
+		if (isset($data['type']))
+		{
+			// This is needed that the plugins can determine the type
+			$this->setState('field.type', $data['type']);
+		}
+
+		// Load the fields plugin that they can add additional parameters to the form
+		JPluginHelper::importPlugin('fields');
+
 		// Get the form.
 		$form = $this->loadForm(
 			'com_fields.field' . $context, 'field',
 			array(
 				'control'   => 'jform',
-				'load_data' => $loadData,
+				'load_data' => true,
 			)
 		);
 
@@ -353,11 +525,6 @@ class FieldsModelField extends JModelAdmin
 		if (empty($data['context']))
 		{
 			$data['context'] = $context;
-		}
-
-		if (isset($data['type']))
-		{
-			$this->loadTypeForms($form, $data['type']);
 		}
 
 		$fieldId  = $jinput->get('id');
@@ -378,43 +545,17 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Load the form declaration for the type.
-	 *
-	 * @param   JForm   &$form  The form
-	 * @param   string  $type   The type
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function loadTypeForms(JForm &$form, $type)
-	{
-		FieldsHelperInternal::loadPlugins();
-
-		$type = JFormHelper::loadFieldType($type);
-
-		// Load all children that's why we need to define the xpath
-		if (!($type instanceof JFormDomfieldinterface))
-		{
-			return;
-		}
-
-		$form->load($type->getFormParameters(), true, '/form/*');
-	}
-
-	/**
 	 * Setting the value for the gven field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
 	 * @param   string  $itemId   The ID of the item.
 	 * @param   string  $value    The value.
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
-	public function setFieldValue($fieldId, $context, $itemId, $value)
+	public function setFieldValue($fieldId, $itemId, $value)
 	{
 		$field  = $this->getItem($fieldId);
 		$params = $field->params;
@@ -424,9 +565,8 @@ class FieldsModelField extends JModelAdmin
 			$params = new Registry($params);
 		}
 
-		// Don't save the value when the field is disabled or the user is
-		// not authorized to change it
-		if (!$field || $params->get('disabled', 0) || !FieldsHelperInternal::canEditFieldValue($field))
+		// Don't save the value when the user is not authorized to change it
+		if (!$field || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -441,7 +581,7 @@ class FieldsModelField extends JModelAdmin
 		}
 		else
 		{
-			$oldValue = $this->getFieldValue($fieldId, $context, $itemId);
+			$oldValue = $this->getFieldValue($fieldId, $itemId);
 			$value    = (array) $value;
 
 			if ($oldValue === null)
@@ -470,7 +610,6 @@ class FieldsModelField extends JModelAdmin
 
 			$query->delete($query->qn('#__fields_values'))
 				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('context') . ' = ' . $query->q($context))
 				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 			$this->getDbo()->setQuery($query)->execute();
@@ -481,7 +620,6 @@ class FieldsModelField extends JModelAdmin
 			$newObj = new stdClass;
 
 			$newObj->field_id = (int) $fieldId;
-			$newObj->context  = $context;
 			$newObj->item_id  = $itemId;
 
 			foreach ($value as $v)
@@ -497,11 +635,10 @@ class FieldsModelField extends JModelAdmin
 			$updateObj = new stdClass;
 
 			$updateObj->field_id = (int) $fieldId;
-			$updateObj->context  = $context;
 			$updateObj->item_id  = $itemId;
 			$updateObj->value    = reset($value);
 
-			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id'));
+			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
 		}
 
 		$this->valueCache = array();
@@ -513,48 +650,88 @@ class FieldsModelField extends JModelAdmin
 	 * Returning the value for the given field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
 	 * @param   string  $itemId   The ID of the item.
 	 *
 	 * @return  NULL|string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
-	public function getFieldValue($fieldId, $context, $itemId)
+	public function getFieldValue($fieldId, $itemId)
 	{
-		$key = md5($fieldId . $context . $itemId);
+		$values = $this->getFieldValues(array($fieldId), $itemId);
 
-		if (!key_exists($key, $this->valueCache))
+		if (key_exists($fieldId, $values))
 		{
-			$this->valueCache[$key] = null;
-
-			$query = $this->getDbo()->getQuery(true);
-
-			$query->select($query->qn('value'))
-				->from($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('context') . ' = ' . $query->q($context))
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
-
-			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
-
-			if (count($rows) == 1)
-			{
-				$this->valueCache[$key] = array_shift($rows)->value;
-			}
-			elseif (count($rows) > 1)
-			{
-				$data = array();
-
-				foreach ($rows as $row)
-				{
-					$data[] = $row->value;
-				}
-
-				$this->valueCache[$key] = $data;
-			}
+			return $values[$fieldId];
 		}
 
+		return null;
+	}
+
+	/**
+	 * Returning the values for the given field ids, context and item id.
+	 *
+	 * @param   array   $fieldIds  The field Ids.
+	 * @param   string  $itemId    The ID of the item.
+	 *
+	 * @return  NULL|array
+	 *
+	 * @since  3.7.0
+	 */
+	public function getFieldValues(array $fieldIds, $itemId)
+	{
+		if (!$fieldIds)
+		{
+			return array();
+		}
+
+		// Create a unique key for the cache
+		$key = md5(serialize($fieldIds) . $itemId);
+
+		// Fill the cache when it doesn't exist
+		if (!key_exists($key, $this->valueCache))
+		{
+			// Create the query
+			$query = $this->getDbo()->getQuery(true);
+
+			$query->select(array($query->qn('field_id'), $query->qn('value')))
+				->from($query->qn('#__fields_values'))
+				->where($query->qn('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
+				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+
+			// Fetch the row from the database
+			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
+
+			$data = array();
+
+			// Fill the data container from the database rows
+			foreach ($rows as $row)
+			{
+				// If there are multiple values for a field, create an array
+				if (key_exists($row->field_id, $data))
+				{
+					// Transform it to an array
+					if (!is_array($data[$row->field_id]))
+					{
+						$data[$row->field_id] = array($data[$row->field_id]);
+					}
+
+					// Set the value in the array
+					$data[$row->field_id][] = $row->value;
+
+					// Go to the next row, otherwise the value gets overwritten in the data container
+					continue;
+				}
+
+				// Set the value
+				$data[$row->field_id] = $row->value;
+			}
+
+			// Assign it to the internal cache
+			$this->valueCache[$key] = $data;
+		}
+
+		// Return the value from the cache
 		return $this->valueCache[$key];
 	}
 
@@ -566,14 +743,20 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function cleanupValues($context, $itemId)
 	{
+		// Delete with inner join is not possible so we need to do a subquery
+		$fieldsQuery = $this->getDbo()->getQuery(true);
+		$fieldsQuery->select($fieldsQuery->qn('id'))
+			->from($fieldsQuery->qn('#__fields'))
+			->where($fieldsQuery->qn('context') . ' = ' . $fieldsQuery->q($context));
+
 		$query = $this->getDbo()->getQuery(true);
 
 		$query->delete($query->qn('#__fields_values'))
-			->where($query->qn('context') . ' = ' . $query->q($context))
+			->where($query->qn('field_id') . ' IN (' . $fieldsQuery . ')')
 			->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 		$this->getDbo()->setQuery($query)->execute();
@@ -586,7 +769,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function canDelete($record)
 	{
@@ -606,14 +789,14 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the
 	 *                   component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function canEditState($record)
 	{
@@ -634,7 +817,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function populateState()
 	{
@@ -666,7 +849,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -678,7 +861,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function loadFormData()
 	{
@@ -696,21 +879,18 @@ class FieldsModelField extends JModelAdmin
 			{
 				// Check for which context the Category Manager is used and
 				// get selected fields
-				$context   = substr($app->getUserState('com_fields.fields.filter.context'), 4);
-				$component = FieldsHelper::extract($context);
-				$component = $component ? $component[0] : null;
+				$filters = (array) $app->getUserState('com_fields.fields.filter');
 
-				$filters = (array) $app->getUserState('com_fields.fields.' . $component . '.filter');
-
-				$data->set('published', $app->input->getInt('published', (!empty($filters['published']) ? $filters['published'] : null)));
+				$data->set('state', $app->input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
 					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))
 				);
 
 				// Set the type if available from the request
-				$data->set('type', $app->input->getWord('type', $data->get('type')));
+				$data->set('type', $app->input->getWord('type', $this->state->get('field.type', $data->get('type'))));
 			}
 
 			if ($data->label && !isset($data->params['label']))
@@ -734,12 +914,13 @@ class FieldsModelField extends JModelAdmin
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		$component  = $this->state->get('field.component');
+		$section    = $this->state->get('field.section');
 		$dataObject = $data;
 
 		if (is_array($dataObject))
@@ -749,14 +930,25 @@ class FieldsModelField extends JModelAdmin
 
 		if (isset($dataObject->type))
 		{
-			$this->loadTypeForms($form, $dataObject->type);
-
 			$form->setFieldAttribute('type', 'component', $component);
 
 			// Not allowed to change the type of an existing record
 			if ($dataObject->id)
 			{
 				$form->setFieldAttribute('type', 'readonly', 'true');
+			}
+
+			// Allow to override the default value label and description through the plugin
+			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
+			if (JFactory::getLanguage()->hasKey($key))
+			{
+				$form->setFieldAttribute('default_value', 'label', $key);
+			}
+
+			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
+			if (JFactory::getLanguage()->hasKey($key))
+			{
+				$form->setFieldAttribute('default_value', 'description', $key);
 			}
 		}
 
@@ -776,6 +968,21 @@ class FieldsModelField extends JModelAdmin
 		$form->setFieldAttribute('group_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('rules', 'component', $component);
 
+		// Looking first in the component models/forms folder
+		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
+
+		if (file_exists($path))
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_BASE, null, false, true);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+
+			if (!$form->loadFile($path, false))
+			{
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			}
+		}
+
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -788,7 +995,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
@@ -820,7 +1027,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  array|boolean  new IDs if successful, false otherwise and internal error is set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -882,7 +1089,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{

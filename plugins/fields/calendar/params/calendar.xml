@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="showtime"
+				type="radio"
+				label="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_LABEL"
+				description="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_DESC"
+				class="btn-group btn-group-yesno"
+				size="20"
+				default="0"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>
