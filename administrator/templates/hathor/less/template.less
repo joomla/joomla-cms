@@ -754,7 +754,7 @@ p.tab-description {
 }
 
 #form-login {
-	float: right;
+	float: left;
 	padding: 1.1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -2798,6 +2798,10 @@ ul.helpmenu li {
 	background-image: url(../images/menu/icon-16-article.png);
 }
 
+.menu-associations {
+	background-image: url(../images/menu/icon-16-assoc.png);
+}
+
 .menu-banners {
 	background-image: url(../images/menu/icon-16-banner.png);
 }
@@ -2856,6 +2860,10 @@ ul.helpmenu li {
 
 .menu-featured {
 	background-image: url(../images/menu/icon-16-featured.png);
+}
+
+.menu-fields {
+	background-image: url(../images/menu/icon-16-puzzle.png);
 }
 
 .menu-groups {
@@ -3234,6 +3242,7 @@ div#database-sliders {
 fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	min-height: 200px;
 }
 
 /* Installer Database */
@@ -3549,4 +3558,8 @@ div.toggle-editor {
 }
 .muted {
 	color: #999;
+}
+/* Popover minimum height - overwrite bootstrap default */
+.popover-content {
+    min-height: 33px;
 }

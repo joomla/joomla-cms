@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -101,6 +101,14 @@ class JInstaller extends JAdapter
 	 * @since  3.1
 	 */
 	protected $redirect_url = null;
+
+	/**
+	 * Flag if the uninstall process was triggered by uninstalling a package
+	 *
+	 * @var    boolean
+	 * @since  3.7.0
+	 */
+	protected $packageUninstall = false;
 
 	/**
 	 * JInstaller instance container.
@@ -223,6 +231,32 @@ class JInstaller extends JAdapter
 	public function setRedirectUrl($newurl)
 	{
 		$this->redirect_url = $newurl;
+	}
+
+	/**
+	 * Get whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function isPackageUninstall()
+	{
+		return $this->packageUninstall;
+	}
+
+	/**
+	 * Set whether this installer is uninstalling extensions which are part of a package
+	 *
+	 * @param   boolean  $uninstall  True if a package triggered the uninstall, false otherwise
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function setPackageUninstall($uninstall)
+	{
+		$this->packageUninstall = $uninstall;
 	}
 
 	/**
@@ -359,9 +393,8 @@ class JInstaller extends JAdapter
 					break;
 
 				case 'query':
-					// Placeholder in case this is necessary in the future
-					// $stepval is always false because if this step was called it invariably failed
-					$stepval = false;
+					// Execute the query.
+					$stepval = $this->parseSQLFiles($step['script']);
 					break;
 
 				case 'extension':
@@ -906,11 +939,12 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		$queries = array();
 		$db = & $this->_db;
+
+		// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
 		$dbDriver = strtolower($db->name);
 
-		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+		if ($db->getServerType() === 'mysql')
 		{
 			$dbDriver = 'mysql';
 		}
@@ -1009,7 +1043,7 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+				if ($db->getServerType() === 'mysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1074,9 +1108,10 @@ class JInstaller extends JAdapter
 
 			if (count($schemapaths))
 			{
+				// TODO - At 4.0 we can change this to use `getServerType()` since SQL Server will not be supported
 				$dbDriver = strtolower($db->name);
 
-				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+				if ($db->getServerType() === 'mysql')
 				{
 					$dbDriver = 'mysql';
 				}
@@ -1641,7 +1676,7 @@ class JInstaller extends JAdapter
 					// Copy the folder or file to the new location.
 					if ($filetype == 'folder')
 					{
-						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
+						if (!JFolder::copy($filesource, $filedest, null, $overwrite))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), JLog::WARNING, 'jerror');
 
@@ -1652,7 +1687,7 @@ class JInstaller extends JAdapter
 					}
 					else
 					{
-						if (!(JFile::copy($filesource, $filedest, null)))
+						if (!JFile::copy($filesource, $filedest, null))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
 
@@ -2202,8 +2237,8 @@ class JInstaller extends JAdapter
 		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
+		$data['creationDate'] = ((string) $xml->creationDate) ?: JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ?: JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
