@@ -36,7 +36,7 @@
 			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_DESC"
 			size="50"
-			/>
+		/>
 
 		<field
 			name="searchtype"
@@ -84,6 +84,7 @@
 
 		<field
 			name="id"
-			type="hidden" />
+			type="hidden"
+		/>
 	</fieldset>
 </form>
