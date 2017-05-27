@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -87,7 +87,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 			. chr(244) . chr(251) . chr(249) . chr(231);
 
 		// The rule patterns include all accented words for french language
-		$vars['rule_pattern'] = "/^([a-z" . $vars['accents'] . "]*)(\*){0,1}(\d)([a-z" . $vars['accents'] . "]*)([.|>])/";
+		$vars['rule_pattern'] = '/^([a-z' . $vars['accents'] . ']*)(\*){0,1}(\d)([a-z' . $vars['accents'] . ']*)([.|>])/';
 
 		// French vowels (including y) in ISO-8859-1 encoding
 		$vars['vowels'] = chr(97) . chr(224) . chr(226) . chr(101) . chr(232) . chr(233) . chr(234) . chr(235)

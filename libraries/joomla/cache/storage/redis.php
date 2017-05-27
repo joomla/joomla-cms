@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -64,16 +64,15 @@ class JCacheStorageRedis extends JCacheStorage
 			return false;
 		}
 
-		$config = JFactory::getConfig();
-		$app    = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-		$this->_persistent = $config->get('redis_persist', true);
+		$this->_persistent = $app->get('redis_persist', true);
 
 		$server = array(
-			'host' => $config->get('redis_server_host', 'localhost'),
-			'port' => $config->get('redis_server_port', 6379),
-			'auth' => $config->get('redis_server_auth', null),
-			'db'   => (int) $config->get('redis_server_db', null),
+			'host' => $app->get('redis_server_host', 'localhost'),
+			'port' => $app->get('redis_server_port', 6379),
+			'auth' => $app->get('redis_server_auth', null),
+			'db'   => (int) $app->get('redis_server_db', null),
 		);
 
 		static::$_redis = new Redis;
@@ -107,7 +106,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis connection failed');
 			}
@@ -117,7 +116,7 @@ class JCacheStorageRedis extends JCacheStorage
 
 		if ($auth == false)
 		{
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis authentication failed');
 			}
@@ -131,7 +130,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis failed to select database');
 			}
@@ -147,7 +146,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isAdmin())
+			if ($app->isClient('administrator'))
 			{
 				JError::raiseWarning(500, 'Redis ping failed');
 			}
@@ -156,6 +155,26 @@ class JCacheStorageRedis extends JCacheStorage
 		}
 
 		return static::$_redis;
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		if (static::isConnected() == false)
+		{
+			return false;
+		}
+
+		return static::$_redis->exists($this->_getCacheId($id, $group));
 	}
 
 	/**

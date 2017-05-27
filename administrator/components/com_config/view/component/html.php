@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,8 +37,14 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 
 		try
 		{
-			$form = $this->model->getForm();
 			$component = $this->model->getComponent();
+
+			if (!$component->enabled)
+			{
+				return false;
+			}
+
+			$form = $this->model->getForm();
 			$user = JFactory::getUser();
 		}
 		catch (Exception $e)
@@ -54,7 +60,8 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 			$form->bind($component->params);
 		}
 
-		$this->fieldsets = $form->getFieldsets();
+		$this->fieldsets   = $form ? $form->getFieldsets() : null;
+		$this->formControl = $form ? $form->getFormControl() : null;
 
 		// Don't show permissions fieldset if not authorised.
 		if (!$user->authorise('core.admin', $component->option) && isset($this->fieldsets['permissions']))
