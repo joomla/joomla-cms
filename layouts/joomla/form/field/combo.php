@@ -45,7 +45,7 @@ JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('behavior.combobox');
 
-$attr = !empty($class) ? ' class="combobox ' . $class . '"' : ' class="combobox"';
+$attr  = !empty($class) ? ' class="combobox ' . $class . '"' : ' class="combobox"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= !empty($readonly) ? ' readonly' : '';
 $attr .= !empty($disabled) ? ' disabled' : '';
@@ -56,20 +56,22 @@ $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
 ?>
 <div class="combobox input-append">
-    <input type="text"
-           name="<?php echo $name; ?>"
-           id="<?php echo $id; ?>"
-           value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-           <?php echo $attr; ?>
-           autocomplete="off"/>
-    <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle">
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <?php foreach ($options as $option) : ?>
-                <li><a href="#"><?php echo $option->text; ?></a></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
+	<input
+		type="text"
+		name="<?php echo $name; ?>"
+		id="<?php echo $id; ?>"
+		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+		<?php echo $attr; ?>
+		autocomplete="off"
+	/>
+	<div class="btn-group">
+		<button type="button" class="btn dropdown-toggle">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<?php foreach ($options as $option) : ?>
+				<li><a href="#"><?php echo $option->text; ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
 </div>
