@@ -877,6 +877,7 @@ abstract class JHtmlBehavior
 		}
 		// Include jQuery
 		JHtml::_('jquery.framework');
+		JHtml::_('behavior.polyfill', array('filter','xpath'));
 		JHtml::_('script', 'system/tabs-state.js', array('version' => 'auto', 'relative' => true));
 		self::$loaded[__METHOD__] = true;
 	}
