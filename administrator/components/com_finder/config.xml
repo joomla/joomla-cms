@@ -266,6 +266,7 @@
 			size="5"
 			default="1.2"
 		/>
+
 		<field
 			name="path_multiplier"
 			type="text"
