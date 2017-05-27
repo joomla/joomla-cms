@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,6 +59,14 @@ class JFormFieldMeter extends JFormFieldNumber
 	 * @since  3.2
 	 */
 	protected $color;
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.meter';
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -122,7 +130,7 @@ class JFormFieldMeter extends JFormFieldNumber
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -159,32 +167,32 @@ class JFormFieldMeter extends JFormFieldNumber
 	 */
 	protected function getInput()
 	{
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
+
 		// Initialize some field attributes.
-		$width = !empty($this->width) ? ' style="width:' . $this->width . ';"' : '';
-		$color = !empty($this->color) ? ' background-color:' . $this->color . ';' : '';
+		$extraData = array(
+			'width'    => $this->width,
+			'color'    => $this->color,
+			'animated' => $this->animated,
+			'active'   => $this->active,
+			'max'      => $this->max,
+			'min'      => $this->min,
+			'step'     => $this->step,
+		);
 
-		$data = '';
-		$data .= ' data-max="' . $this->max . '"';
-		$data .= ' data-min="' . $this->min . '"';
-		$data .= ' data-step="' . $this->step . '"';
-
-		$class = 'progress ' . $this->class;
-		$class .= $this->animated ? ' progress-striped' : '';
-		$class .= $this->active ? ' active' : '';
-		$class = ' class="' . $class . '"';
-
-		$value = (float) $this->value;
-		$value = $value < $this->min ? $this->min : $value;
-		$value = $value > $this->max ? $this->max : $value;
-
-		$data .= ' data-value="' . $this->value . '"';
-
-		$value = ((float) ($value - $this->min) * 100) / ($this->max - $this->min);
-
-		$html[] = '<div ' . $class . $width . $data . ' >';
-		$html[] = '		<div class="bar" style="width: ' . strval($value) . '%;' . $color . '"></div>';
-		$html[] = '</div>';
-
-		return implode('', $html);
+		return array_merge($data, $extraData);
 	}
 }

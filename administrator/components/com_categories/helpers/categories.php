@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,10 +47,10 @@ class CategoriesHelper
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
 			$prefix = ucfirst(str_replace('com_', '', $component));
 			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName))
 			{
@@ -83,7 +83,18 @@ class CategoriesHelper
 	public static function getActions($extension, $categoryId = 0)
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated, use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions
 		return JHelperContent::getActions($extension, 'category', $categoryId);
@@ -141,7 +152,7 @@ class CategoriesHelper
 	 *
 	 * @param   array  $data  Array of data for new category.
 	 *
-	 * @return  integer.
+	 * @return  integer
 	 */
 	public static function createCategory($data)
 	{

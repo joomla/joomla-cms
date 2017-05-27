@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -401,7 +401,7 @@ class JForm
 		else
 		{
 			// Get an array of <fieldset /> elements and fieldset attributes.
-			$sets = $this->xml->xpath('//fieldset[@name] | //field[@fieldset]/@fieldset');
+			$sets = $this->xml->xpath('//fieldset[@name and not(ancestor::field/form/*)] | //field[@fieldset and not(ancestor::field/form/*)]/@fieldset');
 		}
 
 		// If no fieldsets are found return empty.
@@ -896,7 +896,7 @@ class JForm
 	 *
 	 * @param   string  $group  The dot-separated form group path for the group to remove.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
@@ -916,11 +916,9 @@ class JForm
 		{
 			$dom = dom_import_simplexml($element);
 			$dom->parentNode->removeChild($dom);
-
-			return true;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -951,16 +949,17 @@ class JForm
 	 * the field will be set whether it already exists or not.  If it isn't set, then the field
 	 * will not be replaced if it already exists.
 	 *
-	 * @param   SimpleXMLElement  $element  The XML element object representation of the form field.
-	 * @param   string            $group    The optional dot-separated form group path on which to set the field.
-	 * @param   boolean           $replace  True to replace an existing field if one already exists.
+	 * @param   SimpleXMLElement  $element   The XML element object representation of the form field.
+	 * @param   string            $group     The optional dot-separated form group path on which to set the field.
+	 * @param   boolean           $replace   True to replace an existing field if one already exists.
+	 * @param   string            $fieldset  The name of the fieldset we are adding the field to.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function setField(SimpleXMLElement $element, $group = null, $replace = true)
+	public function setField(SimpleXMLElement $element, $group = null, $replace = true, $fieldset = 'default')
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
@@ -981,13 +980,40 @@ class JForm
 		if ($replace && !empty($old) && ($old instanceof SimpleXMLElement))
 		{
 			$dom = dom_import_simplexml($old);
-			$dom->parentNode->removeChild($dom);
+
+			// Get the parent element, this should be the fieldset
+			$parent   = $dom->parentNode;
+			$fieldset = $parent->getAttribute('name');
+
+			$parent->removeChild($dom);
 		}
 
-		// If no existing field is found find a group element and add the field as a child of it.
-		if ($group)
+		// Create the search path
+		$path = '//';
+
+		if (!empty($group))
 		{
-			// Get the fields elements for a given group.
+			$path .= 'fields[@name="' . $group . '"]/';
+		}
+
+		$path .= 'fieldset[@name="' . $fieldset . '"]';
+
+		$fs = $this->xml->xpath($path);
+
+		if (isset($fs[0]) && ($fs[0] instanceof SimpleXMLElement))
+		{
+			// Add field to the form.
+			self::addNode($fs[0], $element);
+
+			// Synchronize any paths found in the load.
+			$this->syncPaths();
+
+			return true;
+		}
+
+		// We couldn't find a fieldset to add the field. Now we are checking, if we have set only a group
+		if (!empty($group))
+		{
 			$fields = &$this->findGroup($group);
 
 			// If an appropriate fields element was found for the group, add the element.
@@ -995,12 +1021,17 @@ class JForm
 			{
 				self::addNode($fields[0], $element);
 			}
+
+			// Synchronize any paths found in the load.
+			$this->syncPaths();
+
+			return true;
 		}
-		else
-		{
-			// Set the new field to the form.
-			self::addNode($this->xml, $element);
-		}
+
+		// We couldn't find a parent so we are adding it at root level
+
+		// Add field to the form.
+		self::addNode($this->xml, $element);
 
 		// Synchronize any paths found in the load.
 		$this->syncPaths();
@@ -1058,13 +1089,14 @@ class JForm
 	 * @param   array    &$elements  The array of XML element object representations of the form fields.
 	 * @param   string   $group      The optional dot-separated form group path on which to set the fields.
 	 * @param   boolean  $replace    True to replace existing fields if they already exist.
+	 * @param   string   $fieldset   The name of the fieldset we are adding the field to.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function setFields(&$elements, $group = null, $replace = true)
+	public function setFields(&$elements, $group = null, $replace = true, $fieldset = 'default')
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
@@ -1086,7 +1118,7 @@ class JForm
 
 		foreach ($elements as $element)
 		{
-			if (!$this->setField($element, $group, $replace))
+			if (!$this->setField($element, $group, $replace, $fieldset))
 			{
 				$return = false;
 			}
@@ -1194,8 +1226,8 @@ class JForm
 			// Check for an error.
 			if ($valid instanceof Exception)
 			{
-				array_push($this->errors, $valid);
-				$return = false;
+				$this->errors[] = $valid;
+				$return         = false;
 			}
 		}
 
@@ -1279,11 +1311,37 @@ class JForm
 			case 'SERVER_UTC':
 				if ((int) $value > 0)
 				{
+					// Check if we have a localised date format
+					$translateFormat = (string) $element['translateformat'];
+
+					if ($translateFormat && $translateFormat != 'false')
+					{
+						$showTime = (string) $element['showtime'];
+						$showTime = ($showTime && $showTime != 'false');
+						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+
+						if ($showTime)
+						{
+							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
+						}
+					}
+
 					// Get the server timezone setting.
 					$offset = JFactory::getConfig()->get('offset');
 
 					// Return an SQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
+					try
+					{
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 'warning');
+
+						$return = '';
+					}
 				}
 				else
 				{
@@ -1295,11 +1353,37 @@ class JForm
 			case 'USER_UTC':
 				if ((int) $value > 0)
 				{
+					// Check if we have a localised date format
+					$translateFormat = (string) $element['translateformat'];
+
+					if ($translateFormat && $translateFormat != 'false')
+					{
+						$showTime = (string) $element['showtime'];
+						$showTime = ($showTime && $showTime != 'false');
+						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+
+						if ($showTime)
+						{
+							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
+						}
+					}
+
 					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
+					$offset = JFactory::getUser()->getTimezone();
 
 					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
+					try
+					{
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 'warning');
+
+						$return = '';
+					}
 				}
 				else
 				{
@@ -1466,10 +1550,20 @@ class JForm
 					$return = call_user_func($filter, $value);
 				}
 
-				// Filter using JFilterInput. All HTML code is filtered by default.
+				// Check for empty value and return empty string if no value is required,
+				// otherwise filter using JFilterInput. All HTML code is filtered by default.
 				else
 				{
-					$return = JFilterInput::getInstance()->clean($value, $filter);
+					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+					if (($value === '' || $value === null) && ! $required)
+					{
+						$return = '';
+					}
+					else
+					{
+						$return = JFilterInput::getInstance()->clean($value, $filter);
+					}
 				}
 				break;
 		}
@@ -1508,7 +1602,7 @@ class JForm
 			foreach ($elements as $el)
 			{
 				// If there are matching field elements add them to the fields array.
-				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '"]'))
+				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '" and not(ancestor::field/form/*)]'))
 				{
 					$fields = array_merge($fields, $tmp);
 				}
@@ -1540,7 +1634,7 @@ class JForm
 		else
 		{
 			// Get an array of fields with the correct name.
-			$fields = $this->xml->xpath('//field[@name="' . $name . '"]');
+			$fields = $this->xml->xpath('//field[@name="' . $name . '" and not(ancestor::field/form/*)]');
 
 			// Make sure something was found.
 			if (!$fields)
@@ -1669,7 +1763,7 @@ class JForm
 		else
 		{
 			// Get an array of all the <field /> elements.
-			$fields = $this->xml->xpath('//field');
+			$fields = $this->xml->xpath('//field[not(ancestor::field/form/*)]');
 		}
 
 		return $fields;
@@ -1702,7 +1796,7 @@ class JForm
 		if (!empty($group))
 		{
 			// Get any fields elements with the correct group name.
-			$elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '"]');
+			$elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 
 			// Check to make sure that there are no parent groups for each element.
 			foreach ($elements as $element)
@@ -2264,5 +2358,20 @@ class JForm
 	public function getXml()
 	{
 		return $this->xml;
+	}
+
+	/**
+	 * Method to get a form field represented as an XML element object.
+	 *
+	 * @param   string  $name   The name of the form field.
+	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return  SimpleXMLElement|boolean  The XML element object for the field or boolean false on error.
+	 *
+	 * @since   3.7.0
+	 */
+	public function getFieldXml($name, $group = null)
+	{
+		return $this->findField($name, $group);
 	}
 }
