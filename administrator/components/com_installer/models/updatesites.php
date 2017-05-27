@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -291,7 +291,7 @@ class InstallerModelUpdatesites extends InstallerModel
 				{
 					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
 					{
-						array_push($pathsToSearch, $extensionFolderPath);
+						$pathsToSearch[] = $extensionFolderPath;
 					}
 				}
 
@@ -302,7 +302,7 @@ class InstallerModelUpdatesites extends InstallerModel
 					{
 						foreach (glob($pluginGroupFolderPath . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
 						{
-							array_push($pathsToSearch, $extensionFolderPath);
+							$pathsToSearch[] = $extensionFolderPath;
 						}
 					}
 				}

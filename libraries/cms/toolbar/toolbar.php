@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,8 +97,8 @@ class JToolbar
 	public function appendButton()
 	{
 		// Push button onto the end of the toolbar array.
-		$btn = func_get_args();
-		array_push($this->_bar, $btn);
+		$btn          = func_get_args();
+		$this->_bar[] = $btn;
 
 		return true;
 	}
