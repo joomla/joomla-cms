@@ -61,7 +61,7 @@ JFactory::getDocument()->addStyleDeclaration($css);
 
 <div class="alert alert-info">
 	<p>
-		<span class="icon icon-info"></span>
+		<span class="icon icon-info" aria-hidden="true"></span>
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
 	</p>
 </div>

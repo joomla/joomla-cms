@@ -1191,6 +1191,11 @@
 				description="COM_CONFIG_ACTION_ADMIN_DESC"
 			/>
 			<action
+				name="core.options"
+				title="JACTION_OPTIONS"
+				description="COM_CONFIG_ACTION_OPTIONS_DESC"
+			/>
+			<action
 				name="core.manage"
 				title="JACTION_MANAGE"
 				description="COM_CONFIG_ACTION_MANAGE_DESC"
