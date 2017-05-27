@@ -169,7 +169,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 
 		$extension = 'lib_' . $this->getElement();
 		$librarypath = (string) $this->getManifest()->libraryname;
-		$source = $path ? $path : JPATH_PLATFORM . '/' . $librarypath;
+		$source = $path ?: JPATH_PLATFORM . '/' . $librarypath;
 
 		$this->doLoadLanguage($extension, $source, JPATH_SITE);
 	}

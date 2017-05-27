@@ -35,6 +35,7 @@ class LanguagesViewMultilangstatus extends JViewLegacy
 		$this->site_langs      = JLanguageHelper::getInstalledLanguages(0);
 		$this->statuses        = MultilangstatusHelper::getStatus();
 		$this->homepages       = JLanguageMultilang::getSiteHomePages();
+		$this->defaultHome     = MultilangstatusHelper::getDefaultHomeModule();
 
 		parent::display($tpl);
 	}

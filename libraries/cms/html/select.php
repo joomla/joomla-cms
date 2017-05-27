@@ -771,7 +771,7 @@ abstract class JHtmlSelect
 			$attribs = ArrayHelper::toString($attribs);
 		}
 
-		$id_text = $idtag ? $idtag : $name;
+		$id_text = $idtag ?: $name;
 
 		$html = '<div class="controls">';
 

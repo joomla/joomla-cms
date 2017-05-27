@@ -97,11 +97,18 @@ class JAdminCssMenu
 	/**
 	 * Method to add a separator node
 	 *
+	 * @param   string  $title  The separator label text. A dash "-" can be used to use a horizontal bar instead of text label.
+	 *
 	 * @return  void
 	 */
-	public function addSeparator()
+	public function addSeparator($title = null)
 	{
-		$this->addChild(new JMenuNode(null, null, 'separator', false));
+		if ($title == '-' || $title == '')
+		{
+			$title = null;
+		}
+
+		$this->addChild(new JMenuNode($title, null, 'separator', false));
 	}
 
 	/**
@@ -168,7 +175,7 @@ class JAdminCssMenu
 
 		if ($this->_current->class == 'separator')
 		{
-			$class = ' class="divider"';
+			$class = $this->_current->title ? ' class="menuitem-group"' : ' class="divider"';
 		}
 
 		if ($this->_current->hasChildren() && $this->_current->class)
@@ -231,13 +238,13 @@ class JAdminCssMenu
 		{
 			echo '<a' . $linkClass . ' ' . $dataToggle . ' href="' . $this->_current->link . '">' . $this->_current->title . $dropdownCaret . '</a>';
 		}
-		elseif ($this->_current->title != null)
+		elseif ($this->_current->title != null && $this->_current->class != 'separator')
 		{
 			echo '<a' . $linkClass . ' ' . $dataToggle . '>' . $this->_current->title . $dropdownCaret . '</a>';
 		}
 		else
 		{
-			echo '<span></span>';
+			echo '<span>' . $this->_current->title . '</span>';
 		}
 
 		// Recurse through children if they exist
@@ -343,11 +350,12 @@ class JAdminCssMenu
 
 		if ($menutype == '*')
 		{
-			require_once __DIR__ . '/preset/' . ($enabled ? 'enabled.php' : 'disabled.php');
+			require __DIR__ . '/preset/' . ($enabled ? 'enabled.php' : 'disabled.php');
 		}
 		else
 		{
 			$items = ModMenuHelper::getMenuItems($menutype);
+			$types = ArrayHelper::getColumn($items, 'type');
 			$app   = JFactory::getApplication();
 			$me    = JFactory::getUser();
 
@@ -358,33 +366,61 @@ class JAdminCssMenu
 			{
 				$elements = ArrayHelper::getColumn($items, 'element');
 
-				$rMenu   = $authMenus && !in_array('com_menus', $elements);
-				$rModule = $authModules && !in_array('com_modules', $elements);
+				$rMenu      = $authMenus && !in_array('com_menus', $elements);
+				$rModule    = $authModules && !in_array('com_modules', $elements);
+				$rContainer = !in_array('container', $types);
 
-				if ($rMenu || $rModule)
+				if ($rMenu || $rModule || $rContainer)
 				{
 					$recovery = $app->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
 
 					if ($recovery)
 					{
-						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_RECOVERY'), 'info');
-
 						$params->set('recovery', true);
 
 						// In recovery mode, load the preset inside a special root node.
 						$this->addChild(new JMenuNode(JText::_('MOD_MENU_RECOVERY_MENU_ROOT'), '#'), true);
 
-						require_once __DIR__ . '/preset/enabled.php';
+						require __DIR__ . '/preset/enabled.php';
+
+						$this->addSeparator();
+
+						$uri = clone JUri::getInstance();
+						$uri->setVar('recover_menu', 0);
+
+						$this->addChild(new JMenuNode(JText::_('MOD_MENU_RECOVERY_EXIT'), $uri->toString()));
 
 						$this->getParent();
 					}
-					elseif ($rMenu && $rModule)
-					{
-						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE'), 'warning');
-					}
 					else
 					{
-						$app->enqueueMessage(JText::_('MOD_MENU_WARNING_IMPORTANT_ITEMS_INACCESSIBLE_' . ($rMenu ? 'MENUS' : 'MODULES')), 'warning');
+						$missing = array();
+
+						if ($rMenu)
+						{
+							$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
+						}
+
+						if ($rModule)
+						{
+							$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MODULE_MANAGER');
+						}
+
+						if ($rContainer)
+						{
+							$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_COMPONENTS_CONTAINER');
+						}
+
+						$uri = clone JUri::getInstance();
+						$uri->setVar('recover_menu', 1);
+
+						$table = JTable::getInstance('MenuType');
+						$table->load(array('menutype' => $menutype));
+						$mType = $table->get('title', $menutype);
+
+						$msg = JText::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $mType, implode(', ', $missing), $uri);
+
+						$app->enqueueMessage($msg, 'warning');
 					}
 				}
 			}
@@ -413,14 +449,56 @@ class JAdminCssMenu
 		{
 			if ($item->type == 'separator')
 			{
-				$this->addSeparator();
-
-				continue;
+				$this->addSeparator($item->text);
 			}
-
-			if ($item->type == 'heading' && !count($item->submenu))
+			elseif ($item->type == 'heading' && !count($item->submenu))
 			{
 				// Exclude if it is a heading type menu item, and has no children.
+			}
+			elseif ($item->type == 'container')
+			{
+				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$components = ModMenuHelper::getComponents(true, false, $exclude);
+
+				// Exclude if it is a container type menu item, and has no children.
+				if (count($item->submenu) || count($components))
+				{
+					$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
+
+					if ($enabled)
+					{
+						// Load explicitly assigned child items first.
+						$this->loadItems($item->submenu);
+
+						// Add a separator between dynamic menu items and components menu items
+						if (count($item->submenu) && count($components))
+						{
+							$this->addSeparator($item->text);
+						}
+
+						// Adding component submenu the old way, this assumes 2-level menu only
+						foreach ($components as $component)
+						{
+							if (empty($component->submenu))
+							{
+								$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
+							}
+							else
+							{
+								$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
+
+								foreach ($component->submenu as $sub)
+								{
+									$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
+								}
+
+								$this->getParent();
+							}
+						}
+					}
+
+					$this->getParent();
+				}
 			}
 			elseif (!$enabled)
 			{
@@ -428,43 +506,10 @@ class JAdminCssMenu
 			}
 			else
 			{
-				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
+				$target = $item->browserNav ? '_blank' : null;
 
+				$this->addChild(new JMenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:', false, $target), true);
 				$this->loadItems($item->submenu);
-
-				$components = array();
-
-				if ($item->type == 'container')
-				{
-					$components = ModMenuHelper::getComponents(true, true);
-				}
-
-				// Add a separator between dynamic menu items and components menu items
-				if (count($item->submenu) && count($components))
-				{
-					$this->addSeparator();
-				}
-
-				// Adding component submenu the old way, this assumes 2-level menu only
-				foreach ($components as &$component)
-				{
-					if (empty($component->submenu))
-					{
-						$this->addChild(new JMenuNode($component->text, $component->link, $component->img));
-					}
-					else
-					{
-						$this->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
-
-						foreach ($component->submenu as $sub)
-						{
-							$this->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
-						}
-
-						$this->getParent();
-					}
-				}
-
 				$this->getParent();
 			}
 		}

@@ -143,43 +143,41 @@ class BannersModelBanner extends JModelLegacy
 	{
 		if (!isset($this->_item))
 		{
-			$cache = JFactory::getCache('com_banners', '');
+			/** @var JCacheControllerCallback $cache */
+			$cache = JFactory::getCache('com_banners', 'callback');
 
 			$id = $this->getState('banner.id');
 
-			if ($cache->contains($id))
+			// For PHP 5.3 compat we can't use $this in the lambda function below, so grab the database driver now to use it
+			$db = $this->getDbo();
+
+			$loader = function ($id) use ($db)
 			{
-				$this->_item = $cache->get($id);
-			}
-			else
-			{
-				// Redirect to banner url
-				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
-						'a.clickurl as clickurl,'
-							. 'a.cid as cid,'
-							. 'a.track_clicks as track_clicks'
+						array(
+							$db->quoteName('a.clickurl', 'clickurl'),
+							$db->quoteName('a.cid', 'cid'),
+							$db->quoteName('a.track_clicks', 'track_clicks'),
+							$db->quoteName('cl.track_clicks', 'client_track_clicks'),
+						)
 					)
-					->from('#__banners as a')
-					->where('a.id = ' . (int) $id)
-
+					->from($db->quoteName('#__banners', 'a'))
 					->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
-					->select('cl.track_clicks as client_track_clicks');
+					->where('a.id = ' . (int) $id);
 
 				$db->setQuery($query);
 
-				try
-				{
-					$db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					JError::raiseError(500, $e->getMessage());
-				}
+				return $db->loadObject();
+			};
 
-				$this->_item = $db->loadObject();
-				$cache->store($this->_item, $id);
+			try
+			{
+				$this->_item = $cache->get($loader, array($id), md5(__METHOD__ . $id));
+			}
+			catch (JCacheException $e)
+			{
+				$this->_item = $loader($id);
 			}
 		}
 
