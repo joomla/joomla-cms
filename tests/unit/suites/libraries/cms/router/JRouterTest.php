@@ -62,7 +62,7 @@ class JRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   4.0
 	 */
 	protected function tearDown()
@@ -252,7 +252,7 @@ class JRouterTest extends TestCase
 	}
 
 	/**
-	 * @see     https://github.com/joomla-projects/joomla-pythagoras/issues/3
+	 * @link    https://github.com/joomla-projects/joomla-pythagoras/issues/3
 	 * @since   3.4
 	 */
 	public function testMultipleVariablesCanBeAddedAtOnceAndOptionallyReplaceExistingVariables()

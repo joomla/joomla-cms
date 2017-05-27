@@ -340,7 +340,7 @@ class JViewLegacy extends JObject
 	 * $view->assignRef('var1', $ref);
 	 *
 	 * // Assign directly
-	 * $view->ref = &$var1;
+	 * $view->var1 = &$ref;
 	 * </code>
 	 *
 	 * @param   string  $key   The name for the reference in the view.
