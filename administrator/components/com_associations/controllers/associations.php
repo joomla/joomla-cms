@@ -74,7 +74,7 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.1
 	 */
 	public function checkin()
 	{

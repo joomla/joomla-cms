@@ -11,6 +11,6 @@ defined('_JEXEC') or die;
 ?>
 <ul class="list-striped list-condensed stats-module<?php echo $moduleclass_sfx ?>">
 	<?php foreach ($list as $item) : ?>
-		<li><span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>"></span> <?php echo $item->title; ?> <?php echo $item->data; ?></li>
+		<li><span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>" aria-hidden="true"></span> <?php echo $item->title; ?> <?php echo $item->data; ?></li>
 	<?php endforeach; ?>
 </ul>
