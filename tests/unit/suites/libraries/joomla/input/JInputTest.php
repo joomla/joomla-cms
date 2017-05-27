@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Input
  * @since       11.1
  */
-class JInputTest extends PHPUnit_Framework_TestCase
+class JInputTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * The test class.
@@ -350,5 +350,20 @@ class JInputTest extends PHPUnit_Framework_TestCase
 
 		$array = null;
 		$this->class = new JInputInspector($array, array('filter' => new JFilterInputMock));
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->class);
+		parent::tearDown();
 	}
 }

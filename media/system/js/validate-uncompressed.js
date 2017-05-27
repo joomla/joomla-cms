@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,21 +83,34 @@ var JFormValidator = function() {
  	 	}
  	 	// Only validate the field if the validate class is set
  	 	handler = ($el.attr('class') && $el.attr('class').match(/validate-([a-zA-Z0-9\_\-]+)/)) ? $el.attr('class').match(/validate-([a-zA-Z0-9\_\-]+)/)[1] : "";
- 	 	if (handler === '') {
- 	 	 	handleResponse(true, $el);
- 	 	 	return true;
- 	 	}
- 	 	// Check the additional validation types
- 	 	if ((handler) && (handler !== 'none') && (handlers[handler]) && $el.val()) {
- 	 	 	// Execute the validation handler and return result
- 	 	 	if (handlers[handler].exec($el.val(), $el) !== true) {
- 	 	 	 	handleResponse(false, $el);
- 	 	 	 	return false;
- 	 	 	}
- 	 	}
- 	 	// Return validation state
- 	 	handleResponse(true, $el);
- 	 	return true;
+
+		// Try HTML5 pattern first then the handlers
+	    if ($el.attr('pattern') && $el.attr('pattern') != '') {
+		    if ($el.val().length) {
+			    isValid = new RegExp('^'+$el.attr('pattern')+'$').test($el.val());
+			    handleResponse(isValid, $el);
+			    return isValid;
+		    } else {
+			    handleResponse(false, $el);
+			    return false;
+		    }
+	    } else {
+		    if (handler === '') {
+			    handleResponse(true, $el);
+			    return true;
+		    }
+		    // Check the additional validation types
+		    if ((handler) && (handler !== 'none') && (handlers[handler]) && $el.val()) {
+			    // Execute the validation handler and return result
+			    if (handlers[handler].exec($el.val(), $el) !== true) {
+				    handleResponse(false, $el);
+				    return false;
+			    }
+		    }
+		    // Return validation state
+		    handleResponse(true, $el);
+		    return true;
+	    }
  	},
 
  	isValid = function(form) {
@@ -196,7 +209,7 @@ var JFormValidator = function() {
  	 	});
  	 	setHandler('email', function(value, element) {
 		    value = punycode.toASCII(value);
- 	 	 	var regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+ 	 	 	var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'

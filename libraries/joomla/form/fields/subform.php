@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -121,12 +121,18 @@ class JFormFieldSubform extends JFormField
 				break;
 
 			case 'max':
-				$this->max = max(1, (int) $value);
+				if ($value)
+				{
+					$this->max = max(1, (int) $value);
+				}
 				break;
 
 			case 'groupByFieldset':
-				$value = (string) $value;
-				$this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
+				if ($value !== null)
+				{
+					$value = (string) $value;
+					$this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
+				}
 				break;
 
 			case 'layout':
@@ -195,6 +201,12 @@ class JFormFieldSubform extends JFormField
 		{
 			// Guess here is the JSON string from 'default' attribute
 			$this->value = json_decode($this->value, true);
+		}
+
+		if (!$this->formsource)
+		{
+			// Set the formsource parameter from the content of the node
+			$this->formsource = $element->children()->saveXML();
 		}
 
 		return true;
@@ -344,5 +356,4 @@ class JFormFieldSubform extends JFormField
 
 		return $name;
 	}
-
 }

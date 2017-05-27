@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,6 +16,7 @@ use Joomla\String\StringHelper;
  * Base class for a Joomla! Web application.
  *
  * @since  11.4
+ * @note   As of 4.0 this class will be abstract
  */
 class JApplicationWeb extends JApplicationBase
 {
@@ -78,7 +79,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @var    object
 	 * @since  3.4
-	 * @see    http://tools.ietf.org/pdf/rfc7231.pdf
+	 * @link   http://tools.ietf.org/pdf/rfc7231.pdf
 	 */
 	private $responseMap = array(
 		300 => 'HTTP/1.1 300 Multiple Choices',
@@ -90,6 +91,33 @@ class JApplicationWeb extends JApplicationBase
 		306 => 'HTTP/1.1 306 (Unused)',
 		307 => 'HTTP/1.1 307 Temporary Redirect',
 		308 => 'HTTP/1.1 308 Permanent Redirect',
+	);
+
+	/**
+         * A map of HTTP Response headers which may only send a single value, all others
+         * are considered to allow multiple
+         * 
+         * @var    object
+         * @since  3.5.2
+         * @link   https://tools.ietf.org/html/rfc7230
+         */
+	private $singleValueResponseHeaders = array(
+		'status', // This is not a valid header name, but the representation used by Joomla to identify the HTTP Response Code
+		'Content-Length',
+		'Host',
+		'Content-Type',
+		'Content-Location',
+		'Date',
+		'Location',
+		'Retry-After',
+		'Server',
+		'Mime-Version',
+		'Last-Modified',
+		'ETag',
+		'Accept-Ranges',
+		'Content-Range',
+		'Age',
+		'Expires'
 	);
 
 	/**
@@ -290,21 +318,6 @@ class JApplicationWeb extends JApplicationBase
 
 		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
-	}
-
-	/**
-	 * Method to run the Web application routines.  Most likely you will want to instantiate a controller
-	 * and execute it, or perform some sort of action that populates a JDocument object so that output
-	 * can be rendered to the client.
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.3
-	 */
-	protected function doExecute()
-	{
-		// Your application routines go here.
 	}
 
 	/**
@@ -521,7 +534,7 @@ class JApplicationWeb extends JApplicationBase
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href='" . str_replace("'", "&apos;", $url) . "';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
 		}
 		else
 		{
@@ -530,7 +543,7 @@ class JApplicationWeb extends JApplicationBase
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '<script>document.location.href=\'' . str_replace("'", "&apos;", $url) . '\';</script>';
+				$html .= '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script>';
 				$html .= '</head><body></body></html>';
 
 				echo $html;
@@ -552,13 +565,15 @@ class JApplicationWeb extends JApplicationBase
 				}
 
 				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($this->responseMap[$status]);
-				$this->header('Location: ' . $url);
-				$this->header('Content-Type: text/html; charset=' . $this->charSet);
+				$this->setHeader('Status', $status, true);
+				$this->setHeader('Location', $url, true);
 			}
 		}
 
-		// Close the application after the redirect.
+		// Set appropriate headers
+		$this->respond();
+
+		//  Close the application after the redirect.
 		$this->close();
 	}
 
@@ -625,23 +640,36 @@ class JApplicationWeb extends JApplicationBase
 		$name = (string) $name;
 		$value = (string) $value;
 
-		// If the replace flag is set, unset all known headers with the given name.
-		if ($replace)
+		// Create an array of duplicate header names
+		$keys = false;
+		if ($this->response->headers)
 		{
+			$names = array();
 			foreach ($this->response->headers as $key => $header)
 			{
-				if ($name == $header['name'])
-				{
-					unset($this->response->headers[$key]);
-				}
+				$names[$key] = $header['name'];
 			}
-
-			// Clean up the array as unsetting nested arrays leaves some junk.
-			$this->response->headers = array_values($this->response->headers);
+			// Find existing headers by name
+			$keys = array_keys($names, $name);
 		}
 
-		// Add the header to the internal array.
-		$this->response->headers[] = array('name' => $name, 'value' => $value);
+		// Remove if $replace is true and there are duplicate names
+		if ($replace && $keys)
+		{
+			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
+		}
+
+		/**
+                 * If no keys found, safe to insert (!$keys)
+                 * If ($keys && $replace) it's a replacement and previous have been deleted
+                 * if($keys && !in_array...) it's a multiple value header
+                 */
+		$single = in_array($name, $this->singleValueResponseHeaders);
+		if ($value && (!$keys || ($keys && ($replace || !$single))))
+		{
+			// Add the header to the internal array.
+			$this->response->headers[] = array('name' => $name, 'value' => $value);
+		}
 
 		return $this;
 	}
@@ -650,8 +678,8 @@ class JApplicationWeb extends JApplicationBase
 	 * Method to get the array of response headers to be sent when the response is sent
 	 * to the client.
 	 *
-	 * @return  array
-	 *
+	 * @return  array	 *
+	 * 
 	 * @since   11.3
 	 */
 	public function getHeaders()
@@ -684,16 +712,19 @@ class JApplicationWeb extends JApplicationBase
 	{
 		if (!$this->checkHeadersSent())
 		{
+			// Creating an array of headers, making arrays of headers with multiple values
+			$val = array();
 			foreach ($this->response->headers as $header)
 			{
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header('HTTP/1.1 ' . $header['value'], null, (int) $header['value']);
+					$this->header('HTTP/1.1 ' . (int) $header['value'], true);
 				}
 				else
 				{
-					$this->header($header['name'] . ': ' . $header['value']);
+					$val[$header['name']] = !isset($val[$header['name']])?$header['value']:implode(', ', array($val[$header['name']], $header['value']));
+					$this->header($header['name'] . ': ' . $val[$header['name']], true);
 				}
 			}
 		}
@@ -744,7 +775,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function appendBody($content)
 	{
-		array_push($this->response->body, (string) $content);
+		$this->response->body[] = (string) $content;
 
 		return $this;
 	}
@@ -800,7 +831,7 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Method to check the current client connnection status to ensure that it is alive.  We are
+	 * Method to check the current client connection status to ensure that it is alive.  We are
 	 * wrapping this to isolate the connection_status() function from our code base for testing reasons.
 	 *
 	 * @return  boolean  True if the connection is valid and normal.
@@ -884,7 +915,7 @@ class JApplicationWeb extends JApplicationBase
 	 * for your specific application.
 	 *
 	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_BASE will be used.
+	 *                          in JPATH_CONFIGURATION will be used.
 	 * @param   string  $class  The class name to instantiate.
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
@@ -897,9 +928,9 @@ class JApplicationWeb extends JApplicationBase
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($file) && defined('JPATH_ROOT'))
+		if (empty($file))
 		{
-			$file = JPATH_ROOT . '/configuration.php';
+			$file = JPATH_CONFIGURATION . '/configuration.php';
 
 			// Applications can choose not to have any configuration data
 			// by not implementing this method and not having a config file.
@@ -1085,7 +1116,7 @@ class JApplicationWeb extends JApplicationBase
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 			$session->set('user', new JUser);
 		}
 	}
