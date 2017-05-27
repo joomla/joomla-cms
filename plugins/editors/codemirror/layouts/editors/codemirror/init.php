@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,20 +13,19 @@ defined('_JEXEC') or die;
 $params   = $displayData->params;
 $basePath = $params->get('basePath', 'media/editors/codemirror/');
 $modePath = $params->get('modePath', 'media/editors/codemirror/mode/%N/%N');
-$extJS    = JFactory::getConfig()->get('debug') ? '.js' : '.min.js';
-$extCSS   = JFactory::getConfig()->get('debug') ? '.css' : '.min.css';
+$extJS    = JDEBUG ? '.js' : '.min.js';
+$extCSS   = JDEBUG ? '.css' : '.min.css';
 
-JHtml::_('script', $basePath . 'lib/codemirror' . $extJS);
-JHtml::_('script', $basePath . 'lib/addons' . $extJS);
-JHtml::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS);
-JHtml::_('stylesheet', $basePath . 'lib/addons' . $extCSS);
+JHtml::_('script', $basePath . 'lib/codemirror' . $extJS, array('version' => 'auto'));
+JHtml::_('script', $basePath . 'lib/addons' . $extJS, array('version' => 'auto'));
+JHtml::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS, array('version' => 'auto'));
+JHtml::_('stylesheet', $basePath . 'lib/addons' . $extCSS, array('version' => 'auto'));
 
 $fskeys          = $params->get('fullScreenMod', array());
 $fskeys[]        = $params->get('fullScreen', 'F10');
 $fullScreenCombo = implode('-', $fskeys);
 $fsCombo         = json_encode($fullScreenCombo);
 $modPath         = json_encode(JUri::root(true) . '/' . $modePath . $extJS);
-
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
 		;(function (cm, $) {

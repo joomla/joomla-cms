@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<li><?php echo $this->form->getLabel('email'); ?>
 				<?php echo $this->form->getInput('email'); ?></li>
 
-				<?php if ($canDo->get('core.edit.state')) : ?>
+				<?php if ($this->canDo->get('core.edit.state')) : ?>
 					<li><?php echo $this->form->getLabel('state'); ?>
 					<?php echo $this->form->getInput('state'); ?></li>
 				<?php endif; ?>
