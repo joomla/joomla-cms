@@ -21,7 +21,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	/**
 	 * Method to update a record.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -62,7 +62,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	/**
 	 * Method to duplicate URLs in records.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   3.6.0
 	 */
