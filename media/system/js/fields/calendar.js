@@ -801,10 +801,10 @@
 			})();
 		}
 
-		if (this.params.showsTodayBtn) {                                                                    // Head - today
-			row = createElement("div", this.wrapper);
-			row.className = "buttons-wrapper btn-group";
+		row = createElement("div", this.wrapper);
+		row.className = "buttons-wrapper btn-group";
 
+		if (this.params.showsTodayBtn) {
 			this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'a', '', 'js-btn btn btn-clear', {"data-action": "clear"});
 
 			if (!this.inputField.hasAttribute('required')) {
@@ -994,17 +994,17 @@
 	/** Method to listen for the click event on the input button. **/
 	JoomlaCalendar.prototype._bindEvents = function () {
 		var self = this;
-		this.inputField.addEventListener('focus', function() {
-			self.show();
-		}, true);
 		this.inputField.addEventListener('blur', function(event) {
-			if (event.relatedTarget != null && (event.relatedTarget.classList.contains('time-hours') || event.relatedTarget.classList.contains('time-minutes') || event.relatedTarget.classList.contains('time-ampm'))) {
-				return;
-			}
 			var elem = event.target;
 			while (elem.parentNode) {
 				elem = elem.parentNode;
 				if (elem.classList.contains('field-calendar')) {
+					if (event.target.value) {
+						event.target.setAttribute('data-alt-value', event.target.value);
+					} else {
+						event.target.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+					}
+					elem._joomlaCalendar.checkInputs();
 					return;
 				}
 			}
@@ -1135,7 +1135,85 @@
 		}
 
 		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
-			JoomlaCalendar.init(".field-calendar", row);
+			elements = row.querySelectorAll(".field-calendar");
+
+			for (i = 0; i < elements.length; i++) {
+				JoomlaCalendar.init(elements[i]);
+			}
 		});
+
+		/** B/C related code
+		 *  @deprecated 4.0
+		 */
+		window.Calendar = {};
+
+		/** B/C related code
+		 *  @deprecated 4.0
+		 */
+		Calendar.setup = function(obj) {
+
+			if (obj.inputField && document.getElementById(obj.inputField)) {
+				var element = document.getElementById(obj.inputField),
+					cal = element.parentNode.querySelectorAll('button')[0];
+
+				for (var property in obj) {
+					if (obj.hasOwnProperty(property)) {
+						switch (property) {
+							case 'ifFormat':
+								if (cal) cal.setAttribute('data-dayformat', obj.ifFormat);
+								break;
+
+							case 'firstDay':
+								if (cal) cal.setAttribute('data-firstday', parseInt(obj.firstDay));
+								break;
+
+							case 'weekNumbers':
+								if (cal) cal.setAttribute('data-week-numbers', (obj.weekNumbers === "true" || obj.weekNumbers === true) ? '1' : '0');
+								break;
+
+							case 'showOthers':
+								if (cal) cal.setAttribute('data-show-others', (obj.showOthers === "true" || obj.showOthers === true) ? '1' : '0');
+								break;
+
+							case 'showsTime':
+								if (cal) cal.setAttribute('data-show-time', (obj.showsTime === "true" || obj.showsTime === true) ? '1' : '0');
+								break;
+
+							case 'timeFormat':
+								if (cal) cal.setAttribute('data-time-24', parseInt(obj.timeFormat));
+								break;
+
+							case 'displayArea':
+							case 'inputField':
+							case 'button':
+							case 'eventName':
+							case 'daFormat':
+							case 'disableFunc':
+							case 'dateStatusFunc':
+							case 'dateTooltipFunc':
+							case 'dateText':
+							case 'align':
+							case 'range':
+							case 'flat':
+							case 'flatCallback':
+							case 'onSelect':
+							case 'onClose':
+							case 'onUpdate':
+							case 'date':
+							case 'electric':
+							case 'step':
+							case 'position':
+							case 'cache':
+							case 'multiple':
+								break;
+						}
+
+
+					}
+				}
+				JoomlaCalendar.init(element.parentNode.parentNode);
+			}
+			return null;
+		};
 	});
 })(window, document);

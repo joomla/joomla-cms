@@ -1,3 +1,4 @@
+UPDATE `#__categories` SET `published` = 1 WHERE `alias` = 'root';
 UPDATE `#__categories` AS `c` INNER JOIN (
 	SELECT c2.id, CASE WHEN MIN(p.published) > 0 THEN MAX(p.published) ELSE MIN(p.published) END AS newPublished
 	FROM `#__categories` AS `c2`
@@ -6,6 +7,7 @@ UPDATE `#__categories` AS `c` INNER JOIN (
 ON c.id = c2.id
 SET published = c2.newPublished;
 
+UPDATE `#__menu` SET `published` = 1 WHERE `alias` = 'root';
 UPDATE `#__menu` AS `c` INNER JOIN (
 	SELECT c2.id, CASE WHEN MIN(p.published) > 0 THEN MAX(p.published) ELSE MIN(p.published) END AS newPublished
 	FROM `#__menu` AS `c2`
