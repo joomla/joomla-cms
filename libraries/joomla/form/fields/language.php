@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,7 +53,7 @@ class JFormFieldLanguage extends JFormFieldList
 				$languages,
 				function ($a, $b)
 				{
-					return strcmp($a["value"], $b["value"]);
+					return strcmp($a['value'], $b['value']);
 				}
 			);
 		}

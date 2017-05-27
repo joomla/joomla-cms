@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Simplepie
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,23 +16,21 @@ jimport('simplepie.simplepie');
  *
  * The user's navigated path within the application.
  *
- * @since       12.2
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JFeed or supply your own methods
+ * @since       3.0
+ * @deprecated  3.0 Use JFeed or supply your own methods
  */
 class JSimplepieFactory
 {
 	/**
 	 * Get a parsed XML Feed Source
 	 *
-	 * @param   string   $url         Url for feed source.
+	 * @param   string   $url         URL for feed source.
 	 * @param   integer  $cache_time  Time to cache feed for (using internal cache mechanism).
 	 *
-	 * @return  mixed  SimplePie parsed object on success, false on failure.
+	 * @return  SimplePie|boolean  SimplePie parsed object on success, false on failure.
 	 *
-	 * @since   12.2
-	 * @deprecated  4.0   Use JFeedFactory($url) instead.
-	 *
-	 * @note  In 3.2 will be proxied to JFeedFactory()
+	 * @since   3.0
+	 * @deprecated  3.0  Use JFeedFactory($url) instead.
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{

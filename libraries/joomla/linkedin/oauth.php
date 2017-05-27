@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -119,7 +119,7 @@ class JLinkedinOauth extends JOAuth1Client
 	 *
 	 * @return  JLinkedinOauth  This object for method chaining
 	 *
-	 * @see     https://developer.linkedin.com/documents/authentication
+	 * @link    https://developer.linkedin.com/documents/authentication
 	 * @since   13.1
 	 */
 	public function setScope($scope)

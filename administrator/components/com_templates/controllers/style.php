@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,9 +64,6 @@ class TemplatesControllerStyle extends JControllerForm
 			unset($data['xml']);
 
 			$key = $table->getKeyName();
-			$urlVar = $key;
-
-			$recordId = $this->input->getInt($urlVar);
 
 			// Access check.
 			if (!$this->allowSave($data, $key))

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class JLanguageMultilang
 		$app = JFactory::getApplication();
 
 		// If being called from the frontend, we can avoid the database query.
-		if ($app->isSite())
+		if ($app->isClient('site'))
 		{
 			$enabled = $app->getLanguageFilter();
 
@@ -69,28 +69,13 @@ class JLanguageMultilang
 	 * @return  array of language extension objects.
 	 *
 	 * @since   3.5
+	 * @deprecated   3.7.0  Use JLanguageHelper::getInstalledLanguages(0) instead.
 	 */
 	public static function getSiteLangs()
 	{
-		// To avoid doing duplicate database queries.
-		static $multilangSiteLangs = null;
+		JLog::add(__METHOD__ . ' is deprecated. Use JLanguageHelper::getInstalledLanguages(0) instead.', JLog::WARNING, 'deprecated');
 
-		if (!isset($multilangSiteLangs))
-		{
-			// Check for published Site Languages.
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('element')
-				->from('#__extensions')
-				->where('type = ' . $db->quote('language'))
-				->where('client_id = 0')
-				->where('enabled = 1');
-			$db->setQuery($query);
-
-			$multilangSiteLangs = $db->loadObjectList('element');
-		}
-
-		return $multilangSiteLangs;
+		return JLanguageHelper::getInstalledLanguages(0);
 	}
 
 	/**

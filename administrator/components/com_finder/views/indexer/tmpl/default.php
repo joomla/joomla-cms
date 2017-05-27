@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
-JHtml::_('script', 'com_finder/indexer.js', false, true);
+JHtml::_('script', 'com_finder/indexer.js', array('version' => 'auto', 'relative' => true));
 JFactory::getDocument()->addScriptDeclaration('var msg = "' . JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
 ?>
 

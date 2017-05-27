@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,9 +30,9 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form">
-	
+
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
-	
+
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
@@ -51,6 +51,14 @@ JFactory::getDocument()->addScriptDeclaration("
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('description'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('client_id'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('client_id'); ?>
 				</div>
 			</div>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
