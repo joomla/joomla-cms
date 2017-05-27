@@ -3,8 +3,8 @@
 	<field
 		name="client_id"
 		type="list"
-		label=""
 		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
+		filtermode="selector"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -16,6 +16,7 @@
 			label="COM_LANGUAGES_INSTALLED_FILTER_SEARCH_LABEL"
 			description="COM_LANGUAGES_INSTALLED_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
+			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>
 	</fields>
 	<fields name="list">
@@ -30,6 +31,8 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="name ASC">COM_LANGUAGES_HEADING_LANGUAGE_ASC</option>
 			<option value="name DESC">COM_LANGUAGES_HEADING_LANGUAGE_DESC</option>
+			<option value="nativeName ASC">COM_LANGUAGES_HEADING_TITLE_NATIVE_ASC</option>
+			<option value="nativeName DESC">COM_LANGUAGES_HEADING_TITLE_NATIVE_DESC</option>
 			<option value="language ASC">COM_LANGUAGES_HEADING_LANG_TAG_ASC</option>
 			<option value="language DESC">COM_LANGUAGES_HEADING_LANG_TAG_DESC</option>
 			<option value="published ASC">COM_LANGUAGES_HEADING_DEFAULT_ASC</option>

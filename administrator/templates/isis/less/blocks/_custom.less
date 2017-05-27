@@ -1,0 +1,294 @@
+// Custom
+
+/* Links */
+.j-links-separator {
+	margin: 20px 0px;
+	width: 100%;
+	height: 0px;
+	border-top: 2px solid #DDDDDD;
+}
+/* Main Container & System Debug Padding */
+.container-main,
+#system-debug {
+	padding-bottom: 50px;
+}
+
+/* Pagination in toolbar */
+.pagination-toolbar {
+	margin: 0;
+}
+
+.pagination-toolbar a {
+	line-height: 26px;
+}
+/* Toolbar dropdown */
+.pull-right > .dropdown-menu {
+	left: auto;
+	right: 0;
+}
+
+/* Nav list filters */
+.nav-filters hr {
+	margin: 5px 0;
+}
+/* Module Assignment Tab */
+#assignment.tab-pane {
+	min-height: 500px;
+}
+
+@media (max-width: 979px) {
+	.container-fluid {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+
+@media (min-width: 768px) {
+	body {
+		padding-top: 30px;
+	}
+
+	.nav-collapse.collapse.in {
+		height: auto !important;
+	}
+}
+
+@media (max-width: 767px) {
+	.container-fluid {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+@media (max-width: 480px) {
+
+	.pagination a {
+		padding: 5px;
+	}
+
+	.btn-group.divider,
+	.header .row-fluid .span3,
+	.header .row-fluid .span7 {
+		display: none;
+	}
+
+	.btn-group + .btn-group {
+		margin-left: 10px;
+	}
+}
+
+/* Extension type labels */
+.info-labels {
+	margin-top: -5px;
+	margin-bottom: 10px;
+}
+
+/* Sortable list*/
+.sortable-handler.inactive {
+	opacity: 0.3;
+	filter: alpha(opacity=30);
+}
+/* Joomla and Extension update message */
+.alert-joomlaupdate {
+	text-align: center;
+	button {
+		vertical-align: baseline;
+	}
+}
+.j-jed-message {
+	line-height: 2em;
+	color:#333333;
+}
+
+/* Flash uploader */
+.upload-queue > li > span,
+.upload-queue > li > a {
+	margin: 0 2px;
+}
+
+.upload-queue .file-remove {
+	float: right;
+}
+/* z-index issues */
+.moor-box {
+	z-index: 3;
+}
+
+.admin .chzn-container .chzn-drop {
+	z-index: 1060;
+}
+
+/* Item associations */
+.item-associations {
+	margin: 0;
+}
+
+.item-associations li {
+	list-style: none;
+	display: inline-block;
+	margin: 0 0 3px 0;
+}
+
+.item-associations li a {
+	color: #ffffff;
+}
+
+/* Content Languages flag */
+#flag img {
+	padding-top: 6px;
+	vertical-align: top;
+}
+/* Tweaking of tooltips */
+.tooltip {
+	max-width: 400px;
+}
+
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+
+th .tooltip-inner {
+	font-weight: normal;
+}
+
+.tooltip.hasimage {
+	opacity: 1;
+}
+
+/* Permissions dropdown display */
+#permissions-sliders {
+	.chzn-container {
+		margin-top: -5px;
+		position: absolute;
+	}
+	.table td {
+		padding: 8px 8px 9px;
+	}
+}
+
+.img-preview > img {
+	max-height: 100%;
+}
+
+/* Help site refresh button*/
+#helpsite-refresh {
+	padding: 4px 12px;
+	vertical-align: top;
+}
+.alert-no-items {
+	margin-top: 20px;
+}
+@media (max-width: 767px) {
+	html[dir=rtl] #toolbar #toolbar-options,
+	html[dir=rtl] #toolbar #toolbar-help,
+	#toolbar #toolbar-options,
+	#toolbar #toolbar-help {
+		float: none;
+	}
+}
+
+/* Widen the drop downs for the Permissions Field */
+#permissions-sliders .input-small {
+	width: 120px;
+}
+.editor {
+	overflow: hidden;
+	position: relative
+}
+
+.editor textarea.mce_editable {
+	box-sizing: border-box;
+}
+/* For grid.boolean */
+a.grid_false {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/publish_r.png');
+}
+
+a.grid_true {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/icon-16-allow.png');
+}
+
+/* Box-shadow from focused fields */
+textarea, input, .uneditable-input {
+	box-shadow: none !important;
+}
+textarea:focus, input:focus, .uneditable-input:focus {
+	box-shadow: none;
+	border: 1px solid @inputBorderHighlight;
+}
+
+/* Stats plugin */
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
+
+/* ACL Permission page */
+#permissions,
+#page-permissions {
+	table {
+		td {
+			vertical-align: middle;
+		}
+		select {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.js-stools-container-bar .btn-primary .caret {
+  border-bottom: 4px solid @white;
+}
+
+.input-append .add-on, .input-append .btn, .input-append .btn-group > .dropdown-toggle, .input-prepend .add-on, .input-prepend .btn, .input-prepend .btn-group > .dropdown-toggle {
+  -webkit-border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
+  -moz-border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
+  border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
+}
+
+/* Removes Text Shadows */
+.alert,
+.alert-options,
+.badge,
+.breadcrumb > li,
+.close,
+.input-append .add-on,
+.input-prepend .add-on,
+.label,
+.nav-header,
+.nav-list .nav-header,
+.nav-list > .active > a,
+.nav-list > .active > a:focus,
+.nav-list > .active > a:hover,
+.nav-list > li > a,
+.nav-tabs.nav-dark,
+.navbar .brand,
+.navbar .nav > li > a,
+.navbar-inverse .brand,
+.navbar-inverse .nav > li > a,
+.navbar-inverse .navbar-search .search-query.focused,
+.navbar-inverse .navbar-search .search-query:focus,
+.progress .bar,
+.subhead {
+  text-shadow: none;
+}
+
+/* Popover minimum height - overwrite bootstrap default */
+.popover-content {
+    min-height: 33px;
+}
+
+/* Overrid font-weight 200 */
+.lead, .navbar .brand, .hero-unit, .hero-unit .lead {
+	font-weight: 400;
+}
