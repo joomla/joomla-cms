@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,13 +14,13 @@
  * @subpackage  Database
  * @since       3.4
  */
-class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
 	 * @since  3.4
 	 */
-	protected $dbo = null;
+	protected $dbo;
 
 	/**
 	 * Sets up the testing conditions
@@ -34,21 +34,20 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		// Set up the database object mock.
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverPdomysql',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'quoteName',
-				'loadObjectList',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverPdomysql')
+					->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'quoteName',
+						'loadObjectList',
+						'setQuery',
+					))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$this->dbo->expects(
 			$this->any()
@@ -155,7 +154,7 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
