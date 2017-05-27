@@ -14,7 +14,7 @@
  * @subpackage  Uri
  * @since       11.1
  */
-class JUriTest extends PHPUnit_Framework_TestCase
+class JUriTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JUri
@@ -57,7 +57,7 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

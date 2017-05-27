@@ -12,7 +12,7 @@
  *
  * @since       11.1
  */
-class JFormRuleTelTest extends PHPUnit_Framework_TestCase
+class JFormRuleTelTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Data provider for the failure test case on the NANP format
