@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,12 +68,12 @@ abstract class ModArticlesNewsHelper
 				$model->setState('filter.featured', 'show');
 				break;
 		}
-		
+
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
 
-		if (trim($ordering) == 'rand()')
+		if (trim($ordering) === 'rand()')
 		{
 			$model->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
 		}
@@ -83,6 +83,9 @@ abstract class ModArticlesNewsHelper
 			$model->setState('list.direction', $direction);
 			$model->setState('list.ordering', $ordering);
 		}
+
+		// Check if we should trigger additional plugin events
+		$triggerEvents = $params->get('triggerevents', 1);
 
 		// Retrieve Content
 		$items = $model->getItems();
@@ -115,14 +118,26 @@ abstract class ModArticlesNewsHelper
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
-			$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
-			$item->afterDisplayTitle = trim(implode("\n", $results));
+			if ($triggerEvents)
+			{
+				$item->text = '';
+				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 1));
 
-			$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
-			$item->beforeDisplayContent = trim(implode("\n", $results));
+				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
+				$item->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results                 = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
-			$item->afterDisplayContent = trim(implode("\n", $results));
+				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
+				$item->beforeDisplayContent = trim(implode("\n", $results));
+
+				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+				$item->afterDisplayContent = trim(implode("\n", $results));
+			}
+			else
+			{
+				$item->afterDisplayTitle    = '';
+				$item->beforeDisplayContent = '';
+				$item->afterDisplayContent  = '';
+			}
 		}
 
 		return $items;

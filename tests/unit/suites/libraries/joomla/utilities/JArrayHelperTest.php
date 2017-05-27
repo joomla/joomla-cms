@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
  * @subpackage  Utilities
  * @since       11.1
  */
-class JArrayHelperTest extends PHPUnit_Framework_TestCase
+class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Data provider for testArrayUnique.

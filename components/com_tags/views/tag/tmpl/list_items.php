@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,11 +68,11 @@ JFactory::getDocument()->addScriptDeclaration("
 					</th>
 					<?php if ($date = $this->params->get('tag_list_show_date')) : ?>
 						<th id="categorylist_header_date">
-							<?php if ($date == "created") : ?>
+							<?php if ($date == 'created') : ?>
 								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_created_time', $listDirn, $listOrder); ?>
-							<?php elseif ($date == "modified") : ?>
+							<?php elseif ($date == 'modified') : ?>
 								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_modified_time', $listDirn, $listOrder); ?>
-							<?php elseif ($date == "published") : ?>
+							<?php elseif ($date == 'published') : ?>
 								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_publish_up', $listDirn, $listOrder); ?>
 							<?php endif; ?>
 						</th>

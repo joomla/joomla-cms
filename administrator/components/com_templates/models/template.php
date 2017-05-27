@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		foreach ($dirFiles as $key => $value)
 		{
-			if (!in_array($value, array(".", "..")))
+			if (!in_array($value, array('.', '..')))
 			{
 				if (is_dir($dir . $value))
 				{
@@ -563,7 +563,7 @@ class TemplatesModelTemplate extends JModelForm
 			$client        = JApplicationHelper::getClientInfo($template->client_id);
 			$componentPath = JPath::clean($client->path . '/components/');
 			$modulePath    = JPath::clean($client->path . '/modules/');
-			$layoutPath    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
+			$layoutPath    = JPath::clean(JPATH_ROOT . '/layouts/');
 			$components    = JFolder::folders($componentPath);
 
 			foreach ($components as $component)
@@ -603,11 +603,36 @@ class TemplatesModelTemplate extends JModelForm
 				$result['modules'][] = $this->getOverridesFolder($module, $modulePath);
 			}
 
-			$layouts = JFolder::folders($layoutPath);
+			$layoutFolders = JFolder::folders($layoutPath);
 
-			foreach ($layouts as $layout)
+			foreach ($layoutFolders as $layoutFolder)
 			{
-				$result['layouts'][] = $this->getOverridesFolder($layout, $layoutPath);
+				$layoutFolderPath = JPath::clean($layoutPath . '/' . $layoutFolder . '/');
+				$layouts = JFolder::folders($layoutFolderPath);
+
+				foreach ($layouts as $layout)
+				{
+					$result['layouts'][$layoutFolder][] = $this->getOverridesFolder($layout, $layoutFolderPath);
+				}
+			}
+
+			// Check for layouts in component folders
+			foreach ($components as $component)
+			{
+				if (file_exists($componentPath . '/' . $component . '/layouts/'))
+				{
+					$componentLayoutPath = JPath::clean($componentPath . '/' . $component . '/layouts/');
+
+					if ($componentLayoutPath)
+					{
+						$layouts = JFolder::folders($componentLayoutPath);
+
+						foreach ($layouts as $layout)
+						{
+							$result['layouts'][$component][] = $this->getOverridesFolder($layout, $componentLayoutPath);
+						}
+					}
+				}
 			}
 		}
 
@@ -632,10 +657,10 @@ class TemplatesModelTemplate extends JModelForm
 
 		if ($template = $this->getTemplate())
 		{
-			$app            = JFactory::getApplication();
-			$explodeArray   = explode(DIRECTORY_SEPARATOR, $override);
-			$name           = end($explodeArray);
-			$client 	    = JApplicationHelper::getClientInfo($template->client_id);
+			$app          = JFactory::getApplication();
+			$explodeArray = explode(DIRECTORY_SEPARATOR, $override);
+			$name         = end($explodeArray);
+			$client       = JApplicationHelper::getClientInfo($template->client_id);
 
 			if (stristr($name, 'mod_') != false)
 			{
@@ -643,16 +668,23 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
-				$folderExplode = explode(DIRECTORY_SEPARATOR, $override);
-				$size = count($folderExplode);
+				$size = count($explodeArray);
 
-				$url = JPath::clean($folderExplode[$size - 3] . '/' . $folderExplode[$size - 1]);
+				$url = JPath::clean($explodeArray[$size - 3] . '/' . $explodeArray[$size - 1]);
 
-				$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
+				if ($explodeArray[$size - 2] == 'layouts')
+				{
+					$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $url);
+				}
+				else
+				{
+					$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
+				}
 			}
 			else
 			{
-				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/layouts/joomla/' . $name);
+				$layoutPath = implode('/', array_slice($explodeArray, -2));
+				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/layouts/' . $layoutPath);
 			}
 
 			// Check Html folder, create if not exist
@@ -670,7 +702,7 @@ class TemplatesModelTemplate extends JModelForm
 			{
 				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
-			elseif (stristr($override, 'com_') != false)
+			elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false)
 			{
 				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
