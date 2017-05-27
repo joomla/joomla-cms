@@ -101,27 +101,24 @@ class JTableAsset extends JTableNested
 		{
 			$this->rules = '{}';
 		}
+
 		// JTableNested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
 			// Get the JDatabaseQuery object
 			$query = $this->_db->getQuery(true)
-				->select('COUNT(id)')
+				->select('1')
 				->from($this->_db->quoteName($this->_tbl))
 				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
-			$this->_db->setQuery($query);
 
-			if ($this->_db->loadResult())
+			if ($this->_db->setQuery($query, 0, 1)->loadResult())
 			{
 				return true;
 			}
-			else
-			{
-				$this->setError('Invalid Parent ID');
 
-				return false;
+			$this->setError('Invalid Parent ID');
 
-			}
+			return false;
 		}
 
 		return true;
