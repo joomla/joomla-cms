@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Sql
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -29,7 +29,7 @@ foreach ($value as $v)
 	$condition .= ', ' . $db->q($v);
 }
 
-$query = $fieldParams->get('query', 'select id as value, name as text from #__users');
+$query = $fieldParams->get('query', '');
 
 // Run the query with a having condition because it supports aliases
 $db->setQuery($query . ' having value in (' . trim($condition, ',') . ')');

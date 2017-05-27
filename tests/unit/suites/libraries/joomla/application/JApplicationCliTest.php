@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,7 +48,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()

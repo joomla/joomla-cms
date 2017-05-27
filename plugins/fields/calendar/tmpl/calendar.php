@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Calendar
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,4 +21,6 @@ if (is_array($value))
 	$value = implode(', ', $value);
 }
 
-echo htmlentities($value);
+$formatString =  $field->fieldparams->get('showtime', 0) ? 'DATE_FORMAT_LC5' : 'DATE_FORMAT_LC4';
+
+echo htmlentities(JHtml::_('date', $value, JText::_($formatString)));

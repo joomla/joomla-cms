@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,6 +47,34 @@ class JFormFieldUser extends JFormField
 	 * @since 3.5
 	 */
 	protected $layout = 'joomla.form.field.user';
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.7.0
+	 *
+	 * @see     JFormField::setup()
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$return = parent::setup($element, $value, $group);
+
+		// If user can't access com_users the field should be readonly.
+		if ($return)
+		{
+			$this->readonly = !JFactory::getUser()->authorise('core.manage', 'com_users');
+		}
+
+		return $return;
+	}
 
 	/**
 	 * Method to get the user field input markup.

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_module
 JFormHelper::loadFieldClass('list');
 
 /**
- * ModulesPosition Field class for the Joomla Framework.
+ * Modules Position field.
  *
  * @since  3.4.2
  */
