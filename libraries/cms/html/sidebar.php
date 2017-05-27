@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,9 +60,8 @@ abstract class JHtmlSidebar
 
 		// Create a layout object and ask it to render the sidebar
 		$layout      = new JLayoutFile('joomla.sidebars.submenu');
-		$sidebarHtml = $layout->render($data);
 
-		return $sidebarHtml;
+		return $layout->render($data);
 	}
 
 	/**

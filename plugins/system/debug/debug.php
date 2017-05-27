@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -873,7 +873,7 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')))
+				if ($db->getServerType() === 'mysql')
 				{
 					if (isset($this->sqlShowProfileEach[$id]))
 					{
@@ -1151,7 +1151,7 @@ class PlgSystemDebug extends JPlugin
 					}
 
 					$htmlQuery = '<div class="alert alert-error">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
-						. '<pre class="alert hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
+						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
 				}
 				else
 				{
@@ -1307,7 +1307,7 @@ class PlgSystemDebug extends JPlugin
 			if (isset($bar->tip) && $bar->tip)
 			{
 				$barClass .= ' hasTooltip';
-				$tip = JHtml::tooltipText($bar->tip, '', 0);
+				$tip = JHtml::_('tooltipText', $bar->tip, '', 0);
 			}
 
 			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
@@ -1401,7 +1401,7 @@ class PlgSystemDebug extends JPlugin
 					{
 						// Displays query parts which don't use a key with warning:
 						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="'
-									. JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
+									. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
 									. JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
 						$hasWarnings = true;
 					}
@@ -1421,7 +1421,7 @@ class PlgSystemDebug extends JPlugin
 					$htmlTdWithWarnings = str_replace(
 											'Using&nbsp;filesort',
 											'<span class="dbg-warning hasTooltip" title="'
-												. JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
+												. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
 												. JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
 											$htmlTd
 										);
@@ -1464,7 +1464,7 @@ class PlgSystemDebug extends JPlugin
 
 		$this->totalQueries = $db->getCount();
 
-		$dbVersion5037 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.0.37', '>=');
+		$dbVersion5037 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.0.37', '>=');
 
 		if ($dbVersion5037)
 		{
@@ -1501,13 +1501,13 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql', 'postgresql')))
+		if (in_array($db->getServerType(), array('mysql', 'postgresql')))
 		{
 			$log = $db->getLog();
 
 			foreach ($log as $k => $query)
 			{
-				$dbVersion56 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.6', '>=');
+				$dbVersion56 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.6', '>=');
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
 				{
@@ -1730,59 +1730,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function renderBacktrace($error)
 	{
-		$backtrace = $error->getTrace();
-
-		$html = array();
-
-		if (is_array($backtrace))
-		{
-			$j = 1;
-
-			$html[] = '<table cellpadding="0" cellspacing="0">';
-			$html[] = '<thead>';
-			$html[] = '<tr>';
-			$html[] = '<th colspan="3"><strong>Call stack</strong></th>';
-			$html[] = '</tr>';
-
-			$html[] = '<tr>';
-			$html[] = '<th>#</th>';
-			$html[] = '<th>Function</th>';
-			$html[] = '<th>Location</th>';
-			$html[] = '</tr>';
-			$html[] = '</thead>';
-			$html[] = '<tbody>';
-
-			for ($i = count($backtrace) - 1; $i >= 0; $i--)
-			{
-				$link = '&#160;';
-
-				if (isset($backtrace[$i]['file']))
-				{
-					$link = $this->formatLink($backtrace[$i]['file'], $backtrace[$i]['line']);
-				}
-
-				$html[] = '<tr>';
-				$html[] = '<td>' . $j . '</td>';
-
-				if (isset($backtrace[$i]['class']))
-				{
-					$html[] = '<td>' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
-				}
-				else
-				{
-					$html[] = '<td>' . $backtrace[$i]['function'] . '()</td>';
-				}
-
-				$html[] = '<td>' . $link . '</td>';
-
-				$html[] = '</tr>';
-				$j++;
-			}
-			$html[] = '</tbody>';
-			$html[] = '</table>';
-		}
-
-		return implode('', $html);
+		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $error->getTrace()));
 	}
 
 	/**
@@ -1799,23 +1747,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function formatLink($file, $line = '')
 	{
-		$link = str_replace(JPATH_ROOT, 'JROOT', $file);
-		$link .= $line ? ':' . $line : '';
-
-		if ($this->linkFormat)
-		{
-			$href = $this->linkFormat;
-			$href = str_replace('%f', $file, $href);
-			$href = str_replace('%l', $line, $href);
-
-			$html = '<a href="' . $href . '">' . $link . '</a>';
-		}
-		else
-		{
-			$html = $link;
-		}
-
-		return $html;
+		return JHtml::_('debug.xdebuglink', $file, $line);
 	}
 
 	/**
@@ -2037,7 +1969,7 @@ class PlgSystemDebug extends JPlugin
 
 			if (!$this->linkFormat)
 			{
-				$htmlCallStack .= '<div>[<a href="https://xdebug.org/docs/all_settings#file_link_format" target="_blank">';
+				$htmlCallStack .= '<div>[<a href="https://xdebug.org/docs/all_settings#file_link_format" target="_blank" rel="noopener noreferrer">';
 				$htmlCallStack .= JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
 			}
 		}
