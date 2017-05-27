@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,6 +97,8 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @var    boolean
 	 * @since  12.1
+	 *
+	 * @note  4.0  Will be replaced by $html5 and the default value will be true.
 	 */
 	private $_html5 = null;
 
@@ -141,6 +143,79 @@ class JDocumentHtml extends JDocument
 		$data['scriptText']  = JText::script();
 
 		return $data;
+	}
+
+	/**
+	 * Reset the HTML document head data
+	 *
+	 * @param   mixed  $types  type or types of the heads elements to reset
+	 *
+	 * @return  JDocumentHTML  instance of $this to allow chaining
+	 *
+	 * @since   3.7.0
+	 */
+	public function resetHeadData($types = null)
+	{
+		if (is_null($types))
+		{
+			$this->title        = '';
+			$this->description  = '';
+			$this->link         = '';
+			$this->_metaTags    = array();
+			$this->_links       = array();
+			$this->_styleSheets = array();
+			$this->_style       = array();
+			$this->_scripts     = array();
+			$this->_script      = array();
+			$this->_custom      = array();
+		}
+
+		if (is_array($types))
+		{
+			foreach ($types as $type)
+			{
+				$this->resetHeadDatum($type);
+			}
+		}
+
+		if (is_string($types))
+		{
+			$this->resetHeadDatum($types);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Reset a part the HTML document head data
+	 *
+	 * @param   string  $type  type of the heads elements to reset
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	private function resetHeadDatum($type)
+	{
+		switch ($type)
+		{
+			case 'title':
+			case 'description':
+			case 'link':
+				$this->{$type} = '';
+				break;
+
+			case 'metaTags':
+			case 'links':
+			case 'styleSheets':
+			case 'style':
+			case 'scripts':
+			case 'script':
+			case 'custom':
+				$realType = '_' . $type;
+				$this->{$realType} = array();
+				break;
+		}
 	}
 
 	/**
@@ -219,7 +294,7 @@ class JDocumentHtml extends JDocument
 		}
 
 		$this->_links = (isset($data['links']) && !empty($data['links']) && is_array($data['links']))
-			? array_unique(array_merge($this->_links, $data['links']))
+			? array_unique(array_merge($this->_links, $data['links']), SORT_REGULAR)
 			: $this->_links;
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
 			? array_merge($this->_styleSheets, $data['styleSheets'])
@@ -520,7 +595,7 @@ class JDocumentHtml extends JDocument
 	}
 
 	/**
-	 * Count the number of child menu items
+	 * Count the number of child menu items of the current active menu item
 	 *
 	 * @return  integer  Number of child menu items
 	 *

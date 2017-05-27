@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -102,6 +102,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  isImageProvider
 	 * @since         3.2
+	 * @covers        JHelperMedia::isImage
 	 */
 	public function testIsImage($fileName, $expected)
 	{
@@ -115,10 +116,11 @@ class JHelperMediaTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JHelperMedia::getTypeIcon
 	 */
 	public function testGetTypeIcon()
 	{
-		$name = $this->object->getTypeIcon('myfile.pdf');
+		$name = JHelperMedia::getTypeIcon('myfile.pdf');
 		$this->assertEquals($name, 'pdf');
 	}
 
@@ -128,6 +130,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JHelperMedia::countFiles
 	 */
 	public function testCountFiles()
 	{
@@ -169,10 +172,11 @@ class JHelperMediaTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  canUploadProvider
 	 * @since         3.2
+	 * @covers        JHelperMedia::canUpload
 	 */
 	public function testCanUpload($file, $expected)
 	{
-		$canUpload = $this->object->canUpload($file);
+	    $canUpload = $this->object->canUpload($file);
 		$this->assertEquals($canUpload, $expected);
 	}
 
@@ -205,10 +209,11 @@ class JHelperMediaTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  imageResizeProvider
 	 * @since         3.2
+	 * @covers        JHelperMedia::imageResize
 	 */
 	public function testImageResize($width, $height, $target, $expected)
 	{
-		$newSize = $this->object->imageResize($width, $height, $target);
+		$newSize = JHelperMedia::imageResize($width, $height, $target);
 		$this->assertEquals($newSize, $expected);
 	}
 }

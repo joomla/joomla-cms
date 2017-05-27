@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,8 +44,8 @@ class TagsRouter extends JComponentRouterBase
 			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
-		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-		$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
+		$mId   = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
 
 		if (is_array($mId))
 		{
@@ -103,6 +103,13 @@ class TagsRouter extends JComponentRouterBase
 		for ($i = 0; $i < $total; $i++)
 		{
 			$segments[$i] = str_replace(':', '-', $segments[$i]);
+			$position     = strpos($segments[$i], '-');
+
+			if ($position)
+			{
+				// Remove id from segment
+				$segments[$i] = substr($segments[$i], $position + 1);
+			}
 		}
 
 		return $segments;
@@ -137,18 +144,46 @@ class TagsRouter extends JComponentRouterBase
 		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
-			$vars['id']   = $segments[$count - 1];
+			$vars['id']   = $this->fixSegment($segments[$count - 1]);
 
 			return $vars;
 		}
 
-		// From the tags view, we can only jump to a tag.
-		$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-
-		$vars['id'] = $segments[0];
+		$vars['id'] = $this->fixSegment($segments[0]);
 		$vars['view'] = 'tag';
 
 		return $vars;
+	}
+
+	/**
+	 * Try to add missing id to segment
+	 *
+	 * @param   string  $segment  One piece of segment of the URL to parse
+	 *
+	 * @return  string  The segment with founded id
+	 *
+	 * @since   3.7
+	*/
+	protected function fixSegment($segment)
+	{
+		$db = JFactory::getDbo();
+
+		// Try to find tag id
+		$alias = str_replace(':', '-', $segment);
+
+		$query = $db->getQuery(true)
+			->select('id')
+			->from($db->quoteName('#__tags'))
+			->where($db->quoteName('alias') . " = " . $db->quote($alias));
+
+		$id = $db->setQuery($query)->loadResult();
+
+		if ($id)
+		{
+			$segment = "$id:$alias";
+		}
+
+		return $segment;
 	}
 }
 
