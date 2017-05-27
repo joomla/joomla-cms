@@ -114,7 +114,8 @@
 		<field
 			name="component_id"
 			type="hidden"
-			filter="int" />
+			filter="int"
+		/>
 
 		<field
 			name="browserNav"
