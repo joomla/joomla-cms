@@ -33,9 +33,9 @@
 				<field
 					name="filter_groups"
 					type="radio"
-					class="btn-group btn-group-yesno"
 					label="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_LABEL"
 					description="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_DESC"
+					class="btn-group btn-group-yesno"
 					default="0"
 					>
 					<option value="1">JYES</option>
@@ -68,6 +68,7 @@
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+
 				<field
 					name="cache_time"
 					type="text"
