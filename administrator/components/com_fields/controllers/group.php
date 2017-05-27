@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * The Group controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsControllerGroup extends JControllerForm
 {
@@ -22,7 +22,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @var    string
 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $text_prefix = 'COM_FIELDS_GROUP';
 
@@ -30,7 +30,7 @@ class FieldsControllerGroup extends JControllerForm
 	 * The component for which the group applies.
 	 *
 	 * @var    string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private $component = '';
 
@@ -39,7 +39,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @param   array  $config  A named array of configuration variables.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($config = array())
 	{
@@ -60,7 +60,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function batch($model = null)
 	{
@@ -82,7 +82,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -97,7 +97,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
@@ -142,7 +142,7 @@ class FieldsControllerGroup extends JControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
