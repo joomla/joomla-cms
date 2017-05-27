@@ -42,7 +42,10 @@
 			required="true" 
 		/>
 
-		<field name="assigned" type="hidden" />
+		<field 
+			name="assigned" 
+			type="hidden" 
+		/>
 
 	</fieldset>
 </form>
