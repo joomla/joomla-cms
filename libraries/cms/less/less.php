@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  LESS
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Libraries
  * @subpackage  Less
  * @since       3.4
+ * @deprecated  4.0  without replacement
  */
 class JLess extends lessc
 {
@@ -42,7 +43,7 @@ class JLess extends lessc
 	 * Override compile to reset $this->allParsedFiles array to allow
 	 * parsing multiple files/strings using same imports.
 	 * PR: https://github.com/leafo/lessphp/pull/607
-	 * 
+	 *
 	 * For documentation on this please see /vendor/leafo/lessc.inc.php
 	 *
 	 * @param   string  $string  LESS string to parse.
