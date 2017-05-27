@@ -142,11 +142,19 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="assignment" type="hidden" />
+		<field 
+			name="assignment" 
+			type="hidden"
+		/>
 
-		<field name="assigned" type="hidden" />
+		<field 
+			name="assigned" 
+			type="hidden"
+		/>
 
-		<field name="asset_id" type="hidden"
+		<field 
+			name="asset_id" 
+			type="hidden"
 			filter="unset"
 		/>
 
