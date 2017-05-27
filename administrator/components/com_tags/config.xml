@@ -161,7 +161,7 @@
 			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
 			filter="integer"
 			showon="tag_list_show_item_description:1"
-		</field>
+		/>
 
 	</fieldset>
 	
@@ -212,7 +212,7 @@
 			description="COM_TAGS_LIST_MAX_DESC"
 			default="200"
 			filter="integer"
-		</field>
+		/>
 		
 		<field 
 			name="tag_list_language_filter"
@@ -224,7 +224,6 @@
 			<option value="all">JALL</option>
 			<option value="current_language">JCURRENT</option>
 		</field>
-
 		
 	</fieldset>	
 
@@ -259,9 +258,9 @@
 
 		<field 
 			name="all_tags_orderby_direction" 
-			type="radio" 
-			description="JGLOBAL_ORDER_DIRECTION_DESC"
+			type="radio"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
+			description="JGLOBAL_ORDER_DIRECTION_DESC"
 			class="btn-group btn-group-yesno"
 			default="ASC"
 			>
@@ -284,8 +283,8 @@
 		<field 
 			name="all_tags_show_tag_descripion" 
 			type="radio" 
-			description="COM_TAGS_SHOW_ITEM_DESCRIPTION_DESC"
 			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
+			description="COM_TAGS_SHOW_ITEM_DESCRIPTION_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
@@ -315,7 +314,8 @@
 		</field>
 
 	</fieldset>
-		<fieldset
+
+	<fieldset
 		name="shared"
 		label="COM_TAGS_CONFIG_SHARED_SETTINGS_LABEL"
 		description="COM_TAGS_CONFIG_SHARED_SETTINGS_DESC">
@@ -387,9 +387,7 @@
 			<option value="1">COM_TAGS_TAG_FIELD_MODE_AJAX</option>
 			<option value="0">COM_TAGS_TAG_FIELD_MODE_NESTED</option>
 		</field>
-		
-	
-		
+
 	</fieldset>
 	
 	<fieldset 
@@ -400,9 +398,9 @@
 
 		<field
 			name="show_feed_link"
+			type="radio"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 			description="JGLOBAL_SHOW_FEED_LINK_DESC"
-			type="radio"
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
@@ -425,6 +423,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_tags"
-			section="component" />
+			section="component"
+		/>
 	</fieldset>
 </config>
