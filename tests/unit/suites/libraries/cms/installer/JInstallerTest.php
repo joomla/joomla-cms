@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,7 +39,7 @@ class JInstallerTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -129,7 +129,7 @@ class JInstallerTest extends TestCaseDatabase
 		$this->assertEquals(
 			$this->object->getRedirectUrl(),
 			'http://www.example.com',
-			'Get or Set Redirect Url failed'
+			'Get or Set Redirect URL failed'
 		);
 	}
 
@@ -182,22 +182,6 @@ class JInstallerTest extends TestCaseDatabase
 			$this->object->getPath('path2_getpath', 'default_value'),
 			JPATH_BASE . '/required_path',
 			'getPath did not return the previously set value for the path'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers  JInstaller::abort
-	 *
-	 * @return void
-	 */
-	public function testAbortQuery()
-	{
-		$this->object->pushStep(array('type' => 'query'));
-
-		$this->assertFalse(
-			$this->object->abort()
 		);
 	}
 
