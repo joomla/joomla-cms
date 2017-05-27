@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcache cache storage handler
  *
- * @see    https://secure.php.net/manual/en/book.memcache.php
+ * @link   https://secure.php.net/manual/en/book.memcache.php
  * @since  11.1
  */
 class JCacheStorageMemcache extends JCacheStorage
@@ -126,7 +126,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function contains($id, $group)
 	{

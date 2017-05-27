@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,6 @@ $fskeys[]        = $params->get('fullScreen', 'F10');
 $fullScreenCombo = implode('-', $fskeys);
 $fsCombo         = json_encode($fullScreenCombo);
 $modPath         = json_encode(JUri::root(true) . '/' . $modePath . $extJS);
-
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
 		;(function (cm, $) {
