@@ -13,7 +13,7 @@
  * @subpackage  Language
  * @since       11.1
  */
-class JLanguageStemmerTest extends PHPUnit_Framework_TestCase
+class JLanguageStemmerTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test...

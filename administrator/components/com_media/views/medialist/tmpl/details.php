@@ -86,8 +86,7 @@ $doc->addScriptDeclaration(
 		<p>
 			<span class="icon-folder"></span>
 			<?php
-				echo JText::_('JGLOBAL_ROOT'), ': ',
-					$params->get($path, 'images'),
+				echo $params->get($path, 'images'),
 					($this->state->folder != '') ? '/' . $this->state->folder : '';
 			?>
 		</p>
