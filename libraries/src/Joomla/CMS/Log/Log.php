@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Log;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -20,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JLog
+class Log
 {
 	/**
 	 * All log priorities.
@@ -95,15 +96,15 @@ class JLog
 	const DEBUG = 128;
 
 	/**
-	 * The global JLog instance.
+	 * The global Log instance.
 	 *
-	 * @var    JLog
+	 * @var    Log
 	 * @since  11.1
 	 */
 	protected static $instance;
 
 	/**
-	 * Container for JLogLogger configurations.
+	 * Container for Logger configurations.
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -111,9 +112,9 @@ class JLog
 	protected $configurations = array();
 
 	/**
-	 * Container for JLogLogger objects.
+	 * Container for Logger objects.
 	 *
-	 * @var    JLogLogger[]
+	 * @var    Logger[]
 	 * @since  11.1
 	 */
 	protected $loggers = array();
@@ -138,7 +139,7 @@ class JLog
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   mixed    $entry     The JLogEntry object to add to the log or the message for a new JLogEntry object.
+	 * @param   mixed    $entry     The LogEntry object to add to the log or the message for a new LogEntry object.
 	 * @param   integer  $priority  Message priority.
 	 * @param   string   $category  Type of entry
 	 * @param   string   $date      Date of entry (defaults to now if not specified or blank)
@@ -152,20 +153,20 @@ class JLog
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(static::$instance))
 		{
-			static::setInstance(new JLog);
+			static::setInstance(new Log);
 		}
 
-		// If the entry object isn't a JLogEntry object let's make one.
-		if (!($entry instanceof JLogEntry))
+		// If the entry object isn't a LogEntry object let's make one.
+		if (!($entry instanceof LogEntry))
 		{
-			$entry = new JLogEntry((string) $entry, $priority, $category, $date);
+			$entry = new LogEntry((string) $entry, $priority, $category, $date);
 		}
 
 		static::$instance->addLogEntry($entry);
 	}
 
 	/**
-	 * Add a logger to the JLog instance.  Loggers route log entries to the correct files/systems to be logged.
+	 * Add a logger to the Log instance.  Loggers route log entries to the correct files/systems to be logged.
 	 *
 	 * @param   array    $options     The object configuration array.
 	 * @param   integer  $priorities  Message priority
@@ -181,15 +182,15 @@ class JLog
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(static::$instance))
 		{
-			static::setInstance(new JLog);
+			static::setInstance(new Log);
 		}
 
 		static::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
 	}
 
 	/**
-	 * Add a logger to the JLog instance.  Loggers route log entries to the correct files/systems to be logged.
-	 * This method allows you to extend JLog completely.
+	 * Add a logger to the Log instance.  Loggers route log entries to the correct files/systems to be logged.
+	 * This method allows you to extend Log completely.
 	 *
 	 * @param   array    $options     The object configuration array.
 	 * @param   integer  $priorities  Message priority
@@ -210,7 +211,7 @@ class JLog
 
 		$options['logger'] = strtolower($options['logger']);
 
-		// Special case - if a Closure object is sent as the callback (in case of JLogLoggerCallback)
+		// Special case - if a Closure object is sent as the callback (in case of CallbackLogger)
 		// Closure objects are not serializable so swap it out for a unique id first then back again later
 		if (isset($options['callback']))
 		{
@@ -226,7 +227,7 @@ class JLog
 			}
 		}
 
-		// Generate a unique signature for the JLog instance based on its options.
+		// Generate a unique signature for the Log instance based on its options.
 		$signature = md5(serialize($options));
 
 		// Now that the options array has been serialized, swap the callback back in
@@ -249,10 +250,10 @@ class JLog
 	}
 
 	/**
-	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
+	 * Returns a reference to the a Log object, only creating it if it doesn't already exist.
 	 * Note: This is principally made available for testing and internal purposes.
 	 *
-	 * @param   JLog  $instance  The logging object instance to be used by the static methods.
+	 * @param   Log  $instance  The logging object instance to be used by the static methods.
 	 *
 	 * @return  void
 	 *
@@ -260,7 +261,7 @@ class JLog
 	 */
 	public static function setInstance($instance)
 	{
-		if (($instance instanceof JLog) || $instance === null)
+		if (($instance instanceof Log) || $instance === null)
 		{
 			static::$instance = & $instance;
 		}
@@ -269,14 +270,14 @@ class JLog
 	/**
 	 * Method to add an entry to the appropriate loggers.
 	 *
-	 * @param   JLogEntry  $entry  The JLogEntry object to send to the loggers.
+	 * @param   LogEntry  $entry  The LogEntry object to send to the loggers.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
-	protected function addLogEntry(JLogEntry $entry)
+	protected function addLogEntry(LogEntry $entry)
 	{
 		// Find all the appropriate loggers based on priority and category for the entry.
 		$loggers = $this->findLoggers($entry->priority, $entry->category);
@@ -286,11 +287,11 @@ class JLog
 			// Attempt to instantiate the logger object if it doesn't already exist.
 			if (empty($this->loggers[$signature]))
 			{
-				$class = 'JLogLogger' . ucfirst($this->configurations[$signature]['logger']);
+				$class = __NAMESPACE__ . '\\Logger\\' . ucfirst($this->configurations[$signature]['logger']) . 'Logger';
 
 				if (!class_exists($class))
 				{
-					throw new RuntimeException('Unable to create a JLogLogger instance: ' . $class);
+					throw new \RuntimeException('Unable to create a Logger instance: ' . $class);
 				}
 
 				$this->loggers[$signature] = new $class($this->configurations[$signature]);

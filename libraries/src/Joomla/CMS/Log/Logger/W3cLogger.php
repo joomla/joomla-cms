@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Log\Logger;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   https://www.w3.org/TR/WD-logfile.html
  * @since  11.1
  */
-class JLogLoggerW3c extends JLogLoggerFormattedtext
+class W3cLogger extends FormattedtextLogger
 {
 	/**
 	 * The format which each entry follows in the log file.

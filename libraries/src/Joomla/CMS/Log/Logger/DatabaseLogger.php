@@ -1,13 +1,17 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Log\Logger;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Log\LogEntry;
+use Joomla\CMS\Log\Logger;
 
 /**
  * Joomla! MySQL Database Log class
@@ -18,7 +22,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JLogLoggerDatabase extends JLogLogger
+class DatabaseLogger extends Logger
 {
 	/**
 	 * The name of the database driver to use for connecting to the database.
@@ -71,7 +75,7 @@ class JLogLoggerDatabase extends JLogLogger
 	/**
 	 * The database driver object for the logger.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  11.1
 	 */
 	protected $db;
@@ -91,7 +95,7 @@ class JLogLoggerDatabase extends JLogLogger
 		// If both the database object and driver options are empty we want to use the system database connection.
 		if (empty($this->options['db_driver']))
 		{
-			$this->db = JFactory::getDbo();
+			$this->db = \JFactory::getDbo();
 			$this->driver = null;
 			$this->host = null;
 			$this->user = null;
@@ -117,14 +121,14 @@ class JLogLoggerDatabase extends JLogLogger
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   JLogEntry  $entry  The log entry object to add to the log.
+	 * @param   LogEntry  $entry  The log entry object to add to the log.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
-	public function addEntry(JLogEntry $entry)
+	public function addEntry(LogEntry $entry)
 	{
 		// Connect to the database if not connected.
 		if (empty($this->db))
@@ -144,7 +148,7 @@ class JLogLoggerDatabase extends JLogLogger
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function connect()
 	{
@@ -158,6 +162,6 @@ class JLogLoggerDatabase extends JLogLogger
 			'prefix' => $this->prefix,
 		);
 
-		$this->db = JDatabaseDriver::getInstance($options);
+		$this->db = \JDatabaseDriver::getInstance($options);
 	}
 }
