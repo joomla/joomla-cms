@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -34,7 +34,7 @@ class FieldsModelFields extends JModelList
 				'id', 'a.id',
 				'title', 'a.title',
 				'type', 'a.type',
-				'alias', 'a.alias',
+				'name', 'a.name',
 				'state', 'a.state',
 				'access', 'a.access',
 				'access_level',
@@ -47,6 +47,7 @@ class FieldsModelFields extends JModelList
 				'category_title',
 				'category_id', 'a.category_id',
 				'group_id', 'a.group_id',
+				'assigned_cat_ids'
 			);
 		}
 
@@ -108,7 +109,7 @@ class FieldsModelFields extends JModelList
 		$id .= ':' . serialize($this->getState('filter.assigned_cat_ids'));
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
-		$id .= ':' . print_r($this->getState('filter.language'), true);
+		$id .= ':' . serialize($this->getState('filter.language'));
 
 		return parent::getStoreId($id);
 	}
@@ -132,7 +133,7 @@ class FieldsModelFields extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.note' .
+				'a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'
@@ -177,11 +178,6 @@ class FieldsModelFields extends JModelList
 			}
 		}
 
-		// Join over the assigned categories
-		$query->select("GROUP_CONCAT(fc.category_id SEPARATOR ',') AS assigned_cat_ids")
-			->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
-			->group('a.id');
-
 		if (($categories = $this->getState('filter.assigned_cat_ids')) && $context)
 		{
 			$categories = (array) $categories;
@@ -215,11 +211,24 @@ class FieldsModelFields extends JModelList
 				}
 			}
 
-			$query->where('(fc.category_id IS NULL OR fc.category_id IN (' . implode(',', $categories) . '))');
+			$categories = array_unique($categories);
+
+			// Join over the assigned categories
+			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
+			->group('a.id, l.title, l.image, uc.name, ag.title, ua.name, g.title, g.access, g.state');
+
+			if (in_array('0', $categories))
+			{
+				$query->where('(fc.category_id IS NULL OR fc.category_id IN (' . implode(',', $categories) . '))');
+			}
+			else
+			{
+				$query->where('fc.category_id IN (' . implode(',', $categories) . ')');
+			}
 		}
 
 		// Implement View Level Access
-		if (!$user->authorise('core.admin'))
+		if (!$app->isClient('administrator') || !$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ') AND (a.group_id = 0 OR g.access IN (' . $groups . '))');
@@ -275,7 +284,7 @@ class FieldsModelFields extends JModelList
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.name LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -293,17 +302,10 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Add the list ordering clause
-		$listOrdering = $this->getState('list.ordering', 'a.ordering');
-		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
+		$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
+		$orderDirn     = $this->state->get('list.direction', 'ASC');
 
-		if ($listOrdering == 'a.access')
-		{
-			$query->order('a.access ' . $listDirn);
-		}
-		else
-		{
-			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
-		}
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
 
 		return $query;
 	}
@@ -342,7 +344,7 @@ class FieldsModelFields extends JModelList
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  JForm/false  the JForm object or false
+	 * @return  JForm|false  the JForm object or false
 	 *
 	 * @since   3.7.0
 	 */
@@ -354,6 +356,7 @@ class FieldsModelFields extends JModelList
 		{
 			$form->setValue('context', null, $this->getState('filter.context'));
 			$form->setFieldAttribute('group_id', 'context', $this->getState('filter.context'), 'filter');
+			$form->setFieldAttribute('assigned_cat_ids', 'extension', $this->state->get('filter.component'), 'filter');
 		}
 
 		return $form;
@@ -376,7 +379,7 @@ class FieldsModelFields extends JModelList
 		$query->select('title AS text, id AS value, state');
 		$query->from('#__fields_groups');
 		$query->where('state IN (0,1)');
-		$query->where('context = ' . $db->quote($this->state->get('filter.component')));
+		$query->where('context = ' . $db->quote($this->state->get('filter.context')));
 		$query->where('access IN (' . implode(',', $viewlevels) . ')');
 
 		$db->setQuery($query);

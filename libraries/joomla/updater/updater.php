@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -157,6 +157,7 @@ class JUpdater extends JAdapter
 				/** @var JTableUpdate $update */
 				foreach ($updateObjects as $update)
 				{
+					$update->check();
 					$update->store();
 				}
 			}
@@ -176,6 +177,8 @@ class JUpdater extends JAdapter
 	 * @return  mixed
 	 *
 	 * @since   3.6.0
+	 *
+	 * @deprecated  4.0  No replacement.
 	 */
 	public function update($id)
 	{
@@ -299,7 +302,7 @@ class JUpdater extends JAdapter
 
 			if (array_key_exists('updates', $update_result) && count($update_result['updates']))
 			{
-				/** @var JUpdate $current_update */
+				/** @var JTableUpdate $current_update */
 				foreach ($update_result['updates'] as $current_update)
 				{
 					$current_update->extra_query = $updateSite['extra_query'];

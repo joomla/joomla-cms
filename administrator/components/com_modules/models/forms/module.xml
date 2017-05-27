@@ -55,19 +55,25 @@
 			<option value="-2">JTRASHED</option>
 		</field>
 
-		<field name="publish_up" type="calendar"
+		<field
+			name="publish_up"
+			type="calendar"
+			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
 			description="COM_MODULES_FIELD_PUBLISH_UP_DESC"
 			filter="user_utc"
-			format="%Y-%m-%d %H:%M:%S"
-			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
+			translateformat="true"
+			showtime="true"
 			size="22"
 		/>
 
-		<field name="publish_down" type="calendar"
+		<field
+			name="publish_down"
+			type="calendar"
+			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
 			description="COM_MODULES_FIELD_PUBLISH_DOWN_DESC"
 			filter="user_utc"
-			format="%Y-%m-%d %H:%M:%S"
-			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
 			size="22"
 		/>
 
