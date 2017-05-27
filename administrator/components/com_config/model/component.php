@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -130,6 +130,25 @@ class ConfigModelComponent extends ConfigModelForm
 		$dispatcher = JEventDispatcher::getInstance();
 		$context    = $this->option . '.' . $this->name;
 		JPluginHelper::importPlugin('extension');
+
+		// Check super user group.
+		if (isset($data['params']) && !JFactory::getUser()->authorise('core.admin'))
+		{
+			$form = $this->getForm(array(), false);
+
+			foreach ($form->getFieldsets() as $fieldset)
+			{
+				foreach ($form->getFieldset($fieldset->name) as $field)
+				{
+					if ($field->type === 'UserGroupList' && isset($data['params'][$field->fieldname])
+						&& (int) $field->getAttribute('checksuperusergroup', 0) === 1
+						&& JAccess::checkGroup($data['params'][$field->fieldname], 'core.admin'))
+					{
+						throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+					}
+				}
+			}
+		}
 
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
