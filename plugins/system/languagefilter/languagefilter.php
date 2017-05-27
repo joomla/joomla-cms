@@ -479,7 +479,10 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			foreach ($language->getPaths() as $extension => $files)
 			{
-				$newLang->load($extension);
+				if($newLang->load($extension) == false)
+				{
+					$newLang->load($extension, JPATH_ADMINISTRATOR);
+				}
 			}
 
 			JFactory::$language = $newLang;
