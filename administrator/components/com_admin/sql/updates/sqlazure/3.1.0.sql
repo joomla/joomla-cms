@@ -322,5 +322,5 @@ SELECT 29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '{"name":"com_jo
 
 SET IDENTITY_INSERT [#__extensions] OFF;
 
-INSERT INTO [#__menu] ([menutype], [title], [alias], [note], [path], [link], [type], [published], [parent_id], [level], [component_id], [ordering], [checked_out], [checked_out_time], [browserNav], [access], [img], [template_style_id], [params], [lft], [rgt], [home], [language], [client_id])
+INSERT INTO [#__menu] ([menutype], [title], [alias], [note], [path], [link], [type], [published], [parent_id], [level], [component_id], [checked_out], [checked_out_time], [browserNav], [access], [img], [template_style_id], [params], [lft], [rgt], [home], [language], [client_id])
 SELECT 'menu', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 0, 1, 1, 29, 0, '1900-01-01 00:00:00', 0, 0, 'class:tags', 0, '', 43, 44, 0, '*', 1;
