@@ -18,7 +18,7 @@
 		/>
 
 		<field
-			name="extension"
+			name="context"
 			type="hidden"
 			class="readonly"
 			readonly="true"
