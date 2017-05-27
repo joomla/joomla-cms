@@ -50,7 +50,7 @@ class JImageInspector extends JImage
 	 * @param   string  $name   The name of the property.
 	 * @param   mixed   $value  The value of the property.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   11.3
 	 * @throws  Exception
