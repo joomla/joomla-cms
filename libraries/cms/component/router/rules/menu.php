@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
+
 /**
  * Rule to identify the right Itemid for a view in a component
  *
@@ -46,11 +48,11 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 
 	/**
 	 * Finds the right Itemid for this query
-	 * 
+	 *
 	 * @param   array  &$query  The query array to process
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.4
 	 */
 	public function preprocess(&$query)
@@ -136,11 +138,11 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 
 	/**
 	 * Method to build the lookup array
-	 * 
+	 *
 	 * @param   string  $language  The language that the lookup should be built up for
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.4
 	 */
 	protected function buildLookup($language = '*')
