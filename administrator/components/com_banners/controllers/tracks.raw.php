@@ -97,7 +97,7 @@ class BannersControllerTracks extends JControllerLegacy
 
 			$app->input->cookie->set(
 				JApplicationHelper::getHash($this->context . '.compressed'),
-				$form['compressed']
+				$form['compressed'],
 				$cookieLifeTime,
 				$cookiePath,
 				$cookieDomain,
