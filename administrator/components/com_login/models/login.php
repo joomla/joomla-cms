@@ -162,20 +162,7 @@ class LoginModelLogin extends JModelLegacy
 		{
 			return $clean = $cache->get($loader, array(), md5(serialize(array($clientId, $lang))));
 		}
-		catch (JCacheExceptionConnecting $cacheException)
-		{
-			try
-			{
-				return $loader();
-			}
-			catch (JDatabaseExceptionExecuting $databaseException)
-			{
-				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()));
-
-				return array();
-			}
-		}
-		catch (JCacheExceptionUnsupported $cacheException)
+		catch (JCacheException $cacheException)
 		{
 			try
 			{

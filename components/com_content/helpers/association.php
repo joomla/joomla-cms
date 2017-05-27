@@ -36,7 +36,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		$view   = $view === null ? $jinput->get('view') : $view;
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
-		if ($view === 'article' || $view === 'category' || $view === 'featured')
+		if ($view === 'article')
 		{
 			if ($id)
 			{
@@ -74,7 +74,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	{
 		$return = array();
 
-		if ($associations = self::getAssociations($id))
+		if ($associations = self::getAssociations($id, 'article'))
 		{
 			$levels    = JFactory::getUser()->getAuthorisedViewLevels();
 			$languages = JLanguageHelper::getLanguages();
