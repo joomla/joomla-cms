@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -895,7 +895,7 @@ class InstallationModelDatabase extends JModelBase
 			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
 			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
 			'#__contentitem_tag_map' => array('tag_date'),
-			'#__fields'              => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+			'#__fields'              => array('created_time', 'modified_time'),
 			'#__finder_filters'      => array('created', 'modified'),
 			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
 			'#__messages'            => array('date_time'),

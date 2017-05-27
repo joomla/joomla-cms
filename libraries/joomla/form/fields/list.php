@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -117,12 +117,6 @@ class JFormFieldList extends JFormField
 				{
 					continue;
 				}
-
-				// Requires vote plugin enabled
-				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
-				{
-					continue;
-				}
 			}
 
 			$value = (string) $option['value'];
@@ -209,7 +203,7 @@ class JFormFieldList extends JFormField
 
 		return $options;
 	}
-	
+
 	/**
 	 * Method to add an option to the list field.
 	 *
@@ -218,20 +212,39 @@ class JFormFieldList extends JFormField
 	 *
 	 * @return  JFormFieldList  For chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function addOption($text, $attributes = array())
 	{
 		if ($text && $this->element instanceof SimpleXMLElement)
 		{
 			$child = $this->element->addChild('option', $text);
-	
+
 			foreach ($attributes as $name => $value)
 			{
 				$child->addAttribute($name, $value);
 			}
 		}
-	
+
 		return $this;
+	}
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.7.0
+	 */
+	public function __get($name)
+	{
+		if ($name == 'options')
+		{
+			return $this->getOptions();
+		}
+
+		return parent::__get($name);
 	}
 }
