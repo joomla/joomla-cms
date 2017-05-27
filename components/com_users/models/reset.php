@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -307,7 +307,7 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Verify the token
-		if (!(JUserHelper::verifyPassword($data['token'], $user->activation)))
+		if (!JUserHelper::verifyPassword($data['token'], $user->activation))
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -498,7 +498,7 @@ class UsersModelReset extends JModelForm
 		$resetHours = (int) $params->get('reset_time');
 		$result = true;
 
-		$lastResetTime = strtotime($user->lastResetTime) ? strtotime($user->lastResetTime) : 0;
+		$lastResetTime = strtotime($user->lastResetTime) ?: 0;
 		$hoursSinceLastReset = (strtotime(JFactory::getDate()->toSql()) - $lastResetTime) / 3600;
 
 		if ($hoursSinceLastReset > $resetHours)
