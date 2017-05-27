@@ -39,7 +39,7 @@ class JInstallerTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -129,7 +129,7 @@ class JInstallerTest extends TestCaseDatabase
 		$this->assertEquals(
 			$this->object->getRedirectUrl(),
 			'http://www.example.com',
-			'Get or Set Redirect Url failed'
+			'Get or Set Redirect URL failed'
 		);
 	}
 
