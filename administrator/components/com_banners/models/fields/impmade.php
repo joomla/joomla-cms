@@ -37,6 +37,6 @@ class JFormFieldImpMade extends JFormField
 
 		return '<input class="input-small" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly" /> <a class="btn" ' . $onclick . '>'
-			. '<span class="icon-refresh"></span> ' . JText::_('COM_BANNERS_RESET_IMPMADE') . '</a>';
+			. '<span class="icon-refresh" aria-hidden="true"></span> ' . JText::_('COM_BANNERS_RESET_IMPMADE') . '</a>';
 	}
 }

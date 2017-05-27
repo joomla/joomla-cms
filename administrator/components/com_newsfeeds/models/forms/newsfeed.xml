@@ -455,9 +455,6 @@
 		</fields>
 	</fieldset>
 
-	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
-	</fields>
-
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
@@ -485,17 +482,17 @@
 				cols="30"
 				filter="string"
 			/>
-		</fieldset>
 
-		<field
-			name="hits"
-			type="text"
-			label="JGLOBAL_HITS"
-			description="COM_WEBLINKS_HITS_DESC"
-			class="readonly"
-			size="6"
-			readonly="true"
-			filter="unset"
-		/>
+			<field
+				name="hits"
+				type="text"
+				label="JGLOBAL_HITS"
+				description="COM_NEWSFEEDS_HITS_DESC"
+				class="readonly"
+				size="6"
+				readonly="true"
+				filter="unset"
+			/>
+		</fieldset>
 	</fields>
 </form>
