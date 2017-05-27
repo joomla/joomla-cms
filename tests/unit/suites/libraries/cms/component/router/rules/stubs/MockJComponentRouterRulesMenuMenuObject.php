@@ -50,6 +50,7 @@ class MockJComponentRouterRulesMenuMenuObject
 			'component_id' => '22',
 			'component'    => 'com_content',
 			'parent_id'    => '0', 
+			'access'       => '1',
 			'query'        => array('option' => 'com_content', 'view' => 'featured'));
 
 		$this->items[48] = (object) array(
