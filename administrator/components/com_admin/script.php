@@ -1769,6 +1769,7 @@ class JoomlaInstallerScript
 			'/media/system/js/fields/calendar-locales/zh.js',
 			// Joomla 3.7.3
 			'/administrator/components/com_admin/postinstall/phpversion.php',
+			'/components/com_content/layouts/field/prepare/modal_article.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
