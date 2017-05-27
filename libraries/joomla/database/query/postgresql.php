@@ -193,7 +193,13 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 					{
 						$joinElem = $join->getElements();
 
-						$joinArray = preg_split('/\sON\s/i', $joinElem[0], 2);
+						$joinArray = preg_split('/\sON\s/i', $joinElem[0]);
+
+						if (count($joinArray) > 2)
+						{
+							$condition = array_pop($joinArray);
+							$joinArray = array(implode(' ON ', $joinArray), $condition);
+						}
 
 						$this->from($joinArray[0]);
 
@@ -335,16 +341,26 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * Usage:
 	 * $query->select($query->castAsChar('a'));
+	 * $query->select($query->castAsChar('a', 40));
 	 *
 	 * @param   string  $value  The value to cast as a char.
+	 *
+	 * @param   string  $len    The lenght of the char.
 	 *
 	 * @return  string  Returns the cast value.
 	 *
 	 * @since   11.3
 	 */
-	public function castAsChar($value)
+	public function castAsChar($value, $len = null)
 	{
-		return $value . '::text';
+		if (!$len)
+		{
+			return $value . '::text';
+		}
+		else
+		{
+			return ' CAST(' . $value . ' AS CHAR(' . $len . '))';
+		}
 	}
 
 	/**
@@ -731,27 +747,6 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	}
 
 	/**
-	 * Find a value in a varchar used like a set.
-	 *
-	 * Ensure that the value is an integer before passing to the method.
-	 *
-	 * Usage:
-	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
-	 *
-	 * @param   string  $value  The value to search for.
-	 *
-	 * @param   string  $set    The set of values.
-	 *
-	 * @return  string  Returns the find_in_set() postgresql translation.
-	 *
-	 * @since   3.7.0
-	 */
-	public function findInSet($value, $set)
-	{
-		return " $value = ANY (string_to_array($set, ',')::integer[]) ";
-	}
-
-	/**
 	 * Return the number of the current row.
 	 *
 	 * @param   string  $orderBy           An expression of ordering for window function.
@@ -759,7 +754,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
 	public function selectRowNumber($orderBy, $orderColumnAlias)

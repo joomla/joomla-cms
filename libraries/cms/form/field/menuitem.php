@@ -38,6 +38,14 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	protected $menuType;
 
 	/**
+	 * The client id.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $clientId;
+
+	/**
 	 * The language.
 	 *
 	 * @var    array
@@ -75,6 +83,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		switch ($name)
 		{
 			case 'menuType':
+			case 'clientId':
 			case 'language':
 			case 'published':
 			case 'disable':
@@ -102,6 +111,10 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 				$this->menuType = (string) $value;
 				break;
 
+			case 'clientId':
+				$this->clientId = (int) $value;
+				break;
+
 			case 'language':
 			case 'published':
 			case 'disable':
@@ -119,7 +132,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -135,6 +148,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		if ($result == true)
 		{
 			$this->menuType  = (string) $this->element['menu_type'];
+			$this->clientId  = (int) $this->element['client_id'];
 			$this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array();
 			$this->disable   = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : array();
 			$this->language  = $this->element['language'] ? explode(',', (string) $this->element['language']) : array();
@@ -157,7 +171,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		$menuType = $this->menuType;
 
 		// Get the menu items.
-		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language);
+		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language, $this->clientId);
 
 		// Build group for a specific menu type.
 		if ($menuType)

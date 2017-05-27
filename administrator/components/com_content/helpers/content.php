@@ -40,6 +40,12 @@ class ContentHelper extends JHelperContent
 			$vName == 'categories'
 		);
 
+		JHtmlSidebar::addEntry(
+			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
+			'index.php?option=com_content&view=featured',
+			$vName == 'featured'
+		);
+
 		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 		{
 			JHtmlSidebar::addEntry(
@@ -53,12 +59,6 @@ class ContentHelper extends JHelperContent
 				$vName == 'fields.groups'
 			);
 		}
-
-		JHtmlSidebar::addEntry(
-			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
-			'index.php?option=com_content&view=featured',
-			$vName == 'featured'
-		);
 	}
 
 	/**
@@ -72,7 +72,18 @@ class ContentHelper extends JHelperContent
 	 */
 	public static function filterText($text)
 	{
-		JLog::add('ContentHelper::filterText() is deprecated. Use JComponentHelper::filterText() instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JComponentHelper::filterText() instead', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		return JComponentHelper::filterText($text);
 	}
@@ -225,6 +236,7 @@ class ContentHelper extends JHelperContent
 				case 'form':
 
 				// Category list view
+				case 'featured':
 				case 'category':
 					$section = 'article';
 			}
@@ -251,7 +263,8 @@ class ContentHelper extends JHelperContent
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		$contexts = array(
-			'com_content.article' => JText::_('COM_CONTENT'),
+			'com_content.article'    => JText::_('COM_CONTENT'),
+			'com_content.categories' => JText::_('JCATEGORY')
 		);
 
 		return $contexts;

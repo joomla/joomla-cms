@@ -184,27 +184,6 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	}
 
 	/**
-	 * Find a value in a varchar used like a set.
-	 *
-	 * Ensure that the value is an integer before passing to the method.
-	 *
-	 * Usage:
-	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
-	 *
-	 * @param   string  $value  The value to search for.
-	 *
-	 * @param   string  $set    The set of values.
-	 *
-	 * @return  string  Returns the find_in_set() Mysql translation.
-	 *
-	 * @since   3.7.0
-	 */
-	public function findInSet($value, $set)
-	{
-		return ' find_in_set(' . $value . ', ' . $set . ')';
-	}
-
-	/**
 	 * Return the number of the current row.
 	 *
 	 * @param   string  $orderBy           An expression of ordering for window function.
@@ -212,7 +191,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @throws  RuntimeException
 	 */
 	public function selectRowNumber($orderBy, $orderColumnAlias)
@@ -221,5 +200,34 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 		$this->select("(SELECT @rownum := @rownum + 1 FROM (SELECT @rownum := 0) AS r) AS $orderColumnAlias");
 
 		return $this;
+	}
+
+	/**
+	 * Casts a value to a char.
+	 *
+	 * Ensure that the value is properly quoted before passing to the method.
+	 *
+	 * Usage:
+	 * $query->select($query->castAsChar('a'));
+	 * $query->select($query->castAsChar('a', 40));
+	 *
+	 * @param   string  $value  The value to cast as a char.
+	 *
+	 * @param   string  $len    The lenght of the char.
+	 *
+	 * @return  string  Returns the cast value.
+	 *
+	 * @since   3.7.0
+	 */
+	public function castAsChar($value, $len = null)
+	{
+		if (!$len)
+		{
+			return $value;
+		}
+		else
+		{
+			return ' CAST(' . $value . ' AS CHAR(' . $len . '))';
+		}
 	}
 }

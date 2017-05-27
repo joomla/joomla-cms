@@ -78,9 +78,7 @@ class FieldsViewFields extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// Display a warning if the fields system plugin is disabled
@@ -90,7 +88,11 @@ class FieldsViewFields extends JViewLegacy
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
-		$this->addToolbar();
+		// Only add toolbar when not in modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+		}
 
 		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
 		$this->sidebar = JHtmlSidebar::render();
@@ -183,6 +185,8 @@ class FieldsViewFields extends JViewLegacy
 		{
 			JToolbarHelper::trash('fields.trash');
 		}
+
+		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELDS');
 	}
 
 	/**

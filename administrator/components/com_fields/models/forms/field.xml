@@ -36,7 +36,7 @@
 			type="category"
 			label="JCATEGORY"
 			extension="com_content"
-			description="JFIELD_CATEGORY_DESC"
+			description="JFIELD_FIELDS_CATEGORY_DESC"
 			multiple="true"
 		>
 			<option value="">JALL</option>
@@ -51,16 +51,16 @@
 			size="40"
 			required="true"
 		/>
-		
+
 		<field
-			name="alias"
+			name="name"
 			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
+			label="JFIELD_NAME_LABEL"
+			description="JFIELD_NAME_DESC"
+			hint="JFIELD_NAME_PLACEHOLDER"
 			size="45"
 		/>
-	
+
 		<field
 			name="type"
 			type="type"
@@ -89,7 +89,7 @@
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
 		/>
-	
+
 		<field
 			name="state"
 			type="list"
@@ -111,7 +111,7 @@
 			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 			type="spacer"
 		/>
-	
+
 		<field
 			name="checked_out"
 			type="hidden"
@@ -123,7 +123,7 @@
 			type="hidden"
 			filter="unset"
 		/>
-	
+
 		<field
 			name="created_user_id"
 			type="user"
@@ -182,7 +182,7 @@
 			label="COM_FIELDS_FIELD_LABEL_LABEL"
 			description="COM_FIELDS_FIELD_LABEL_DESC"
 			size="40"
-			required="true"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
 
 		<field
@@ -250,27 +250,15 @@
 			/>
 
 			<field
-				name="disabled"
+				name="showlabel"
 				type="radio"
 				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_FIELDS_FIELD_DISABLED_LABEL"
-				description="COM_FIELDS_FIELD_DISABLED_DESC"
+				default="1"
+				label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
+				description="COM_FIELDS_FIELD_SHOWLABEL_DESC"
 			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-
-			<field
-				name="readonly"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_FIELDS_FIELD_READONLY_LABEL"
-				description="COM_FIELDS_FIELD_READONLY_DESC"
-			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 			<field
