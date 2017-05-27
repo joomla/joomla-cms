@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 $buttons = $displayData;
 
 ?>
-<div id="editor-xtd-buttons" class="btn-toolbar pull-left">
+<div id="editor-xtd-buttons" class="btn-toolbar pull-left" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 	<?php if ($buttons) : ?>
 		<?php foreach ($buttons as $button) : ?>
 			<?php echo $this->sublayout('button', $button); ?>
