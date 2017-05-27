@@ -2,9 +2,12 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+// No direct access.
+defined('_JEXEC') or die;
 
 JLoader::registerAlias('JRegistry',           '\\Joomla\\Registry\\Registry', '4.0');
 JLoader::registerAlias('JRegistryFormat',     '\\Joomla\\Registry\\AbstractRegistryFormat', '4.0');
@@ -15,3 +18,6 @@ JLoader::registerAlias('JRegistryFormatXml',  '\\Joomla\\Registry\\Format\\Xml',
 JLoader::registerAlias('JStringInflector',    '\\Joomla\\String\\Inflector', '4.0');
 JLoader::registerAlias('JStringNormalise',    '\\Joomla\\String\\Normalise', '4.0');
 JLoader::registerAlias('JApplicationWebClient', '\\Joomla\\Application\\Web\\WebClient', '4.0');
+JLoader::registerAlias('JData',               '\\Joomla\\Data\\DataObject', '4.0');
+JLoader::registerAlias('JDataSet',            '\\Joomla\\Data\\DataSet', '4.0');
+JLoader::registerAlias('JDataDumpable',       '\\Joomla\\Data\\DumpableInterface', '4.0');

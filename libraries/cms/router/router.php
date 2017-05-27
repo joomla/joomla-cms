@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -184,10 +184,11 @@ class JRouter
 				{
 					$path = $info->path . '/includes/router.php';
 
-					if (file_exists($path))
+					JLoader::register($classname, $path);
+
+					if (class_exists($classname))
 					{
 						JLog::add('Non-autoloadable JRouter subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
 					}
 				}
 			}
@@ -640,7 +641,7 @@ class JRouter
 	}
 
 	/**
-	 * Create a uri based on a full or partial url string
+	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   string  $url  The URI
 	 *
@@ -656,7 +657,7 @@ class JRouter
 	}
 
 	/**
-	 * Create a uri based on a full or partial url string
+	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   string  $url  The URI or an associative array
 	 *
@@ -693,7 +694,7 @@ class JRouter
 
 		foreach ($vars as $key => $var)
 		{
-			if ($var == "")
+			if ($var == '')
 			{
 				unset($vars[$key]);
 			}
