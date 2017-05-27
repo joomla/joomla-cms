@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -231,7 +231,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		$matches = array();
 
 		// Get all of the available fields in the format string.
-		preg_match_all("/{(.*?)}/i", $this->format, $matches);
+		preg_match_all('/{(.*?)}/i', $this->format, $matches);
 
 		// Build the parsed fields list based on the found fields.
 		foreach ($matches[1] as $match)

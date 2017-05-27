@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="15%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="nowrap">
+					<th width="15%" class="hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap">
@@ -90,7 +90,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($row->name); ?>
 						</label>
 					</td>
-					<td class="hidden-phone hidden-tablet">
+					<td class="hidden-phone">
 						<?php echo $this->escape($row->nativeName); ?>
 					</td>
 					<td>
