@@ -45,7 +45,7 @@
 			class="span12"
 			maxlength="255"
 			size="45"
-		 />
+		/>
 
 		<field 
 			name="articletext" 
@@ -142,7 +142,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
-		 />
+		/>
 
 		<field 
 			name="checked_out" 
@@ -205,7 +205,7 @@
 			description="JFIELD_META_KEYWORDS_DESC"
 			rows="3" 
 			cols="30"
-		 />
+		/>
 
 		<field 
 			name="metadesc" 
