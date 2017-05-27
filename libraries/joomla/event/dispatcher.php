@@ -15,8 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * This is the Observable part of the Observer design pattern
  * for the event architecture.
  *
- * @see    JPlugin
- * @since  12.1
+ * @see         JPlugin
+ * @since       12.1
+ * @deprecated  4.0  The CMS' Event classes will be replaced with the `joomla/event` package
  */
 class JEventDispatcher extends JObject
 {

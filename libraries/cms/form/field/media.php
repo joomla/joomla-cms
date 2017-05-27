@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Form Field class for the Joomla CMS.
  * Provides a modal media selector including upload mechanism
  *
  * @since  1.6
@@ -172,7 +171,7 @@ class JFormFieldMedia extends JFormField
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -190,7 +189,7 @@ class JFormFieldMedia extends JFormField
 			$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
 			$this->authorField   = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-			$this->asset         = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
+			$this->asset         = $this->form->getValue($assetField) ?: (string) $this->element['asset_id'];
 			$this->link          = (string) $this->element['link'];
 			$this->width  	     = isset($this->element['width']) ? (int) $this->element['width'] : 800;
 			$this->height 	     = isset($this->element['height']) ? (int) $this->element['height'] : 500;

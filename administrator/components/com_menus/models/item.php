@@ -602,7 +602,7 @@ class MenusModelItem extends JModelAdmin
 			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (isset($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'));
+			$data['access'] = (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -892,7 +892,7 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'menutype = ' . $this->_db->quote($table->get('menutype'));
+		return array('menutype = ' . $this->_db->quote($table->get('menutype')));
 	}
 
 	/**
@@ -1212,7 +1212,6 @@ class MenusModelItem extends JModelAdmin
 				$fields->addAttribute('name', 'associations');
 				$fieldset = $fields->addChild('fieldset');
 				$fieldset->addAttribute('name', 'item_associations');
-				$fieldset->addAttribute('description', 'COM_MENUS_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 
 				foreach ($languages as $language)
 				{
@@ -1609,7 +1608,7 @@ class MenusModelItem extends JModelAdmin
 						unset($pks[$i]);
 						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
 					}
-					elseif ($table->menutype == 'main' || $table->menutype == 'menu')
+					elseif ($table->menutype == 'main')
 					{
 						// Prune items that you can't change.
 						unset($pks[$i]);
@@ -1748,6 +1747,7 @@ class MenusModelItem extends JModelAdmin
 	{
 		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu');
+		parent::cleanCache('mod_menu', 0);
+		parent::cleanCache('mod_menu', 1);
 	}
 }

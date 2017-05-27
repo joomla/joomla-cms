@@ -47,7 +47,7 @@ class ContentViewFeatured extends JViewLegacy
 			// Compute the article slug
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
-			// Url link to article
+			// URL link to article
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 
 			// Get row fulltext
