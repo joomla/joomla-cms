@@ -247,6 +247,26 @@ class JMenuItem extends stdClass
 	}
 
 	/**
+	 * Method check if a certain otherwise inaccessible properties of the form field object is set.
+	 *
+	 * @param   string  $name  The property name to check.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.1
+	 * @deprecated  4.0 Deprecated without replacement
+	 */
+	public function __isset($name)
+	{
+		if ($name === 'params')
+		{
+			return !($this->params instanceof Registry);
+		}
+
+		return $this->get($name) !== null;
+	}
+
+	/**
 	 * Returns the menu item parameters
 	 *
 	 * @return  Registry
