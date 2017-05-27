@@ -20,7 +20,7 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');
-$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');

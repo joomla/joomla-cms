@@ -68,7 +68,6 @@
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC"
 			translateformat="true"
-			weeknumbers="true"
 			showtime="true"
 			size="22"
 			filter="user_utc" />
