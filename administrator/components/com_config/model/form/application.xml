@@ -943,7 +943,7 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -1013,9 +1013,9 @@
 		<field
 			name="frontediting"
 			type="list"
-			default="1"
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			description="COM_CONFIG_FRONTEDITING_DESC"
+			default="1"
 			filter="integer"
 			>
 			<option value="2">COM_CONFIG_FRONTEDITING_MENUSANDMODULES</option>
