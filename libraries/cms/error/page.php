@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,10 +35,33 @@ class JErrorPage
 		{
 			try
 			{
+				// Try to log the error, but don't let the logging cause a fatal error
+				try
+				{
+					JLog::add(
+						sprintf(
+							'Uncaught %1$s of type %2$s thrown. Stack trace: %3$s',
+							$expectedClass,
+							get_class($error),
+							$error->getTraceAsString()
+						),
+						JLog::CRITICAL,
+						'error'
+					);
+				}
+				catch (Throwable $e)
+				{
+					// Logging failed, don't make a stink about it though
+				}
+				catch (Exception $e)
+				{
+					// Logging failed, don't make a stink about it though
+				}
+
 				$app = JFactory::getApplication();
 
 				// If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
-				if ($error->getCode() == '404' && JFactory::getConfig()->get('offline') == 1)
+				if ($error->getCode() == '404' && $app->get('offline') == 1)
 				{
 					$app->redirect('index.php');
 				}
@@ -77,7 +100,7 @@ class JErrorPage
 					ob_end_clean();
 				}
 
-				$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
+				$document->setTitle(JText::_('ERROR') . ': ' . $error->getCode());
 
 				$data = $document->render(
 					false,
@@ -126,14 +149,18 @@ class JErrorPage
 
 		if ($isException)
 		{
-			$message .= ': ';
-
-			if (isset($e))
+			// Make sure we do not display sensitive data in production environments
+			if (ini_get('display_errors'))
 			{
-				$message .= $e->getMessage() . ': ';
-			}
+				$message .= ': ';
 
-			$message .= $error->getMessage();
+				if (isset($e))
+				{
+					$message .= $e->getMessage() . ': ';
+				}
+
+				$message .= $error->getMessage();
+			}
 		}
 
 		echo $message;

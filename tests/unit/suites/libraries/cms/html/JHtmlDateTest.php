@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Html
  * @since       3.1
  */
-class JHtmlDateTest extends PHPUnit_Framework_TestCase
+class JHtmlDateTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test data for the testRelative method
@@ -25,6 +25,10 @@ class JHtmlDateTest extends PHPUnit_Framework_TestCase
 	 */
 	public function dataTestRelative()
 	{
+		$now1 = new JDate('now');
+		usleep(1);
+		$now2 = new JDate('now');
+
 		return array(
 			// Element order: result, date, unit, time
 			// result - 1 hour ago
@@ -58,7 +62,9 @@ class JHtmlDateTest extends PHPUnit_Framework_TestCase
 			// Result - Less than a minute ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
-				new JDate('now'),
+				$now1,
+				null,
+				$now2
 			)
 		);
 	}

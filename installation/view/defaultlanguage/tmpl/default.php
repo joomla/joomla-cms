@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,7 @@ JS
 		</div>
 	</div>
 	<div id="multilanguageOptions">
-		<div class="control-group" id="installLocalisedContent" style="display:auto;">
+		<div class="control-group" id="installLocalisedContent" style="display:none;">
 			<div class="control-label">
 				<?php echo $this->form->getLabel('installLocalisedContent'); ?>
 			</div>
@@ -74,7 +74,7 @@ JS
 				</p>
 			</div>
 		</div>
-		<div class="control-group" id="activatePluginLanguageCode" style="display:auto;">
+		<div class="control-group" id="activatePluginLanguageCode" style="display:none;">
 			<div class="control-label">
 				<?php echo $this->form->getLabel('activatePluginLanguageCode'); ?>
 			</div>
@@ -198,3 +198,14 @@ JS
 	<input type="hidden" name="task" value="setdefaultlanguage" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+
+<script type="text/javascript">
+	jQuery('input[name="jform[activateMultilanguage]"]').each(function(index, el) {
+		jQuery(el).on('click', function() {
+			Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);
+			Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);
+		});
+		Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);
+		Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);
+	});
+</script>
