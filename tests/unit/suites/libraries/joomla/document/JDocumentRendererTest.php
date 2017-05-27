@@ -10,7 +10,7 @@
 /**
  * Test class for JDocumentRenderer.
  */
-class JDocumentRendererTest extends PHPUnit_Framework_TestCase
+class JDocumentRendererTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var  JDocumentRenderer

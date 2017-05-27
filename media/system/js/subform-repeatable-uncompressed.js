@@ -198,7 +198,7 @@
 			$el.attr('name', nameNew);
 			// set new id
 			$el.attr('id', idNew);
-			// guess there a lable for this input
+			// guess there a label for this input
 			$row.find('label[for="' + forOldAttr + '"]').attr('for', idNew);
 		}
 	};
@@ -214,28 +214,11 @@
 				$el.show().addClass('fix-chosen');
 			});
 		}
-
-		// colorpicker
-		if($.fn.minicolors){
-			$row.find('.minicolors input').each(function(){
-				$(this).minicolors('destroy', $(this));
-			});
-		}
 	};
 
 	// method for hack the scripts that can be related
 	// to the one of field that in given $row
 	$.subformRepeatable.prototype.fixScripts = function($row){
-		//color picker
-		$row.find('.minicolors').each(function() {
-			var $el = $(this);
-			$el.minicolors({
-				control: $el.attr('data-control') || 'hue',
-				position: $el.attr('data-position') || 'right',
-				theme: 'bootstrap'
-			});
-		});
-
 		// fix media field
 		$row.find('a[onclick*="jInsertFieldValue"]').each(function(){
 				var $el = $(this),

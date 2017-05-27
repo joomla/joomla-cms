@@ -53,7 +53,7 @@ $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
 	isset($max) ? 'max="' . $max . '"' : '',
 	!empty($step) ? 'step="' . $step . '"' : '',
@@ -70,7 +70,7 @@ if (is_numeric($value))
 else
 {
 	$value = "";
-	$value = isset($min) ? $min : $value;
+	$value = ($required && isset($min)) ? $min : $value;
 }
 
 // Including fallback code for HTML5 non supported browsers.

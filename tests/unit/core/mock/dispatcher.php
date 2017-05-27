@@ -127,5 +127,4 @@ class TestMockDispatcher
 
 		return array();
 	}
-
 }

@@ -29,6 +29,7 @@
 					type="menu"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
 					description="MOD_MENU_FIELD_MENUTYPE_DESC"
+					clientid="0"
 				/>
 
 				<field

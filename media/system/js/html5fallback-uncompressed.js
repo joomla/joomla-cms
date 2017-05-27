@@ -158,7 +158,9 @@
 			for ( i = 0; i < flen; i++ ) {
 				elem = f[ i ];
 				elem.isRequired = !!elem.required;
-				elem.isDisabled = !!elem.disabled;
+				if (elem.isDisabled) {
+					elem.isDisabled = !!elem.disabled;
+				}
 
 				//Do Validation
 				if ( !elem.isDisabled ) {
