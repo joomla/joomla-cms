@@ -10,10 +10,10 @@ window.insertReadmore = function(editor) {
 		return false;
 	}
 
-	var content, options = window.parent.Joomla.getOptions('xtd-readmore');
+	var content, options = window.Joomla.getOptions('xtd-readmore');
 
-	if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
-		content = window.parent.Joomla.editors.instances[editor].getValue();
+	if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty(editor)) {
+		content = window.Joomla.editors.instances[editor].getValue();
 	} else {
 		content = (new Function('return ' + options.editor))();
 	}
@@ -23,10 +23,10 @@ window.insertReadmore = function(editor) {
 		return false;
 	} else {
 		/** Use the API, if editor supports it **/
-		if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
-			window.parent.Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />');
+		if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty(editor)) {
+			window.Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />');
 		} else {
-			window.parent.jInsertEditorText('<hr id="system-readmore" />', editor);
+			window.jInsertEditorText('<hr id="system-readmore" />', editor);
 		}
 	}
 };
