@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -101,7 +101,7 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 			. '<form action="index.php" method="post" class="form-inline">'
 			. '<label for="mod-search-searchword63" class="element-invisible">Search ...</label>'
 			. '<input name="searchword" id="mod-search-searchword63" maxlength="200"  '
-			. 'class="inputbox search-query" type="search" size="20" placeholder="Search ..." />'
+			. 'class="inputbox search-query input-medium" type="search" size="20" placeholder="Search ..." />'
 			. '<input type="hidden" name="task" value="search" /><input type="hidden" name="option" value="com_search" />'
 			. '<input type="hidden" name="Itemid" value="" /></form></div></div>';
 		$this->assertEquals($html, $htmlClean, 'render output does not match expected content');

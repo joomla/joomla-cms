@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,6 +61,6 @@ class ContentViewCategory extends JViewCategoryfeed
 			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 		}
 
-		$item->author = $item->created_by_alias ? $item->created_by_alias : $item->author;
+		$item->author = $item->created_by_alias ?: $item->author;
 	}
 }

@@ -16,11 +16,13 @@
 		<fieldset name="basic" label="JGLOBAL_ARCHIVE_OPTIONS"
 		>
 
-			<field name="orderby_sec" type="list"
-				default="alpha"
-				description="JGLOBAL_ARTICLE_ORDER_DESC"
+			<field 
+				name="orderby_sec" 
+				type="list"
 				label="JGLOBAL_ARTICLE_ORDER_LABEL"
-			>
+				description="JGLOBAL_ARTICLE_ORDER_DESC"
+				default="alpha"
+				>
 				<option value="date">JGLOBAL_OLDEST_FIRST</option>
 				<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
@@ -36,21 +38,25 @@
 				<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
 			</field>
 
-			<field name="order_date" type="list"
-				default="created"
-				description="JGLOBAL_ORDERING_DATE_DESC"
+			<field 
+				name="order_date" 
+				type="list"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
-			>
+				description="JGLOBAL_ORDERING_DATE_DESC"
+				default="created"
+				>
 				<option value="created">JGLOBAL_Created</option>
 				<option value="modified">JGLOBAL_Modified</option>
 				<option value="published">JPUBLISHED</option>
 			</field>
 
-			<field name="display_num" type="list"
-				default="5"
-				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
+			<field 
+				name="display_num" 
+				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-			>
+				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
+				default="5"
+				>
 				<option value="5">J5</option>
 				<option value="10">J10</option>
 				<option value="15">J15</option>
@@ -65,18 +71,22 @@
 			<field
 				name="filter_field"
 				type="list"
-				default=""
-				description="JGLOBAL_FILTER_FIELD_DESC"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
+				description="JGLOBAL_FILTER_FIELD_DESC"
+				default=""
 				useglobal="true"
 				>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="introtext_limit" type="text" default="100"
-					label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
-					description="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_DESC" />
+			<field 
+				name="introtext_limit" 
+				type="text" 
+				label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
+				description="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_DESC" 
+				default="100"
+			/>
 
 		</fieldset>
 
@@ -85,9 +95,11 @@
 			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL"
 		>
 
-			<field name="show_intro" type="list"
-				description="JGLOBAL_SHOW_INTRO_DESC"
+			<field 
+				name="show_intro" 
+				type="list"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
+				description="JGLOBAL_SHOW_INTRO_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -97,9 +109,9 @@
 			<field
 				name="info_block_position"
 				type="list"
-				default=""
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
+				default=""
 				useglobal="true"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
@@ -119,18 +131,22 @@
 				<option	value="1">JSHOW</option>
 			</field>
 
-			<field name="show_category" type="list"
-				description="JGLOBAL_SHOW_CATEGORY_DESC"
+			<field 
+				name="show_category" 
+				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
+				description="JGLOBAL_SHOW_CATEGORY_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="link_category" type="list"
-				description="JGLOBAL_LINK_CATEGORY_DESC"
+			<field 
+				name="link_category" 
+				type="list"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
+				description="JGLOBAL_LINK_CATEGORY_DESC"
 				useglobal="true"
 				>
 				<option value="0">JNo</option>
@@ -159,18 +175,22 @@
 				<option	value="1">JYES</option>
 			</field>
 
-			<field name="link_titles" type="list"
-				description="JGLOBAL_LINKED_TITLES_DESC"
+			<field 
+				name="link_titles" 
+				type="list"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
+				description="JGLOBAL_LINKED_TITLES_DESC"
 				useglobal="true"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="show_author" type="list"
-				description="JGLOBAL_SHOW_AUTHOR_DESC"
+			<field 
+				name="show_author" 
+				type="list"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
+				description="JGLOBAL_SHOW_AUTHOR_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
@@ -188,46 +208,55 @@
 				<option	value="1">JYES</option>
 			</field>
 
-			<field name="show_create_date" type="list"
-				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
+			<field 
+				name="show_create_date" 
+				type="list"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_modify_date" type="list"
-				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
+			<field 
+				name="show_modify_date" 
+				type="list"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
+				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_publish_date" type="list"
-				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
+			<field 
+				name="show_publish_date" 
+				type="list"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
+				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-
-			<field name="show_item_navigation" type="list"
-				description="JGLOBAL_SHOW_NAVIGATION_DESC"
+			<field 
+				name="show_item_navigation" 
+				type="list"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
+				description="JGLOBAL_SHOW_NAVIGATION_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_hits" type="list"
-				description="JGLOBAL_SHOW_HITS_DESC"
+			<field 
+				name="show_hits" 
+				type="list"
 				label="JGLOBAL_SHOW_HITS_LABEL"
+				description="JGLOBAL_SHOW_HITS_DESC"
 				useglobal="true"
 				>
 				<option value="0">JHIDE</option>
