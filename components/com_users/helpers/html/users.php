@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ abstract class JHtmlUsers
 
 			$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 
-			if (substr($value, 0, 4) == "http")
+			if (substr($value, 0, 4) == 'http')
 			{
 				return '<a href="' . $value . '">' . $text . '</a>';
 			}
@@ -156,14 +156,13 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR, $value);
-			$file = "$value.xml";
+			$file = JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
-			if (is_file("$path/$file"))
+			if (is_file($file))
 			{
-				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+				$result = JLanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)
@@ -194,14 +193,13 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$path = JLanguage::getLanguagePath(JPATH_SITE, $value);
-			$file = "$value.xml";
+			$file = JLanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
 
 			$result = null;
 
-			if (is_file("$path/$file"))
+			if (is_file($file))
 			{
-				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+				$result = JLanguageHelper::parseXMLLanguageFile($file);
 			}
 
 			if ($result)

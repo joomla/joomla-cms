@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ abstract class ContactHelperRoute
 			$link .= '&catid=' . $catid;
 		}
 
-		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 		}
@@ -78,7 +78,7 @@ abstract class ContactHelperRoute
 			// Create the link
 			$link = 'index.php?option=com_contact&view=category&id=' . $id;
 
-			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 			}

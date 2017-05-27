@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,6 +40,10 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	{
 		parent::setUp();
 
+		// Getting categories relies on the user access which relies on the session.
+		$this->saveFactoryState();
+		JFactory::$session = $this->getMockSession();
+
 		$app = $this->getMockCmsApp();
 		JFactory::$application = $app;
 		$router = new JComponentRouterViewInspector($app, $app->getMenu());
@@ -62,6 +66,21 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 		$router->menu = new MockJComponentRouterRulesMenuMenuObject();
 
 		$this->object = new JComponentRouterRulesMenuInspector($router);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.7.0
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -198,7 +217,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 		$this->object->preprocess($query);
 		$this->assertEquals(array('Itemid' => '47'), $query);
 
-		// If we inject a item id and we have no active menu item we should get the injected item id
+		// If we inject an item id and we have no active menu item we should get the injected item id
 		$query = array('Itemid' => '50');
 		$this->object->preprocess($query);
 		$this->assertEquals(array('Itemid' => '50'), $query);

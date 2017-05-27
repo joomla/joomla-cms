@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,7 +80,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()
@@ -283,10 +283,9 @@ class JAuthenticationTest extends TestCase
 	 */
 	public function testAuthorise($input, $expect, $message)
 	{
-		$authentication = JAuthentication::getInstance();
 		$this->assertEquals(
 			$expect,
-			$authentication->authorise($input),
+			JAuthentication::authorise($input),
 			$message
 		);
 	}

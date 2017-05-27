@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -387,7 +387,7 @@ class ContentModelArticle extends JModelAdmin
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated
-		if ($this->getState('article.id') && $app->isSite() && $assoc)
+		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
 		{
 			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
@@ -414,7 +414,7 @@ class ContentModelArticle extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data))
@@ -449,6 +449,38 @@ class ContentModelArticle extends JModelAdmin
 		$this->preprocessData('com_content.article', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.7.0
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (JFactory::getApplication()->isClient('administrator') && !JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_by']))
+			{
+				unset($data['created_by']);
+			}
+
+			if (isset($data['modified_by']))
+			{
+				unset($data['modified_by']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 
 	/**
@@ -652,15 +684,15 @@ class ContentModelArticle extends JModelAdmin
 					->where('content_id IN (' . implode(',', $pks) . ')');
 				$db->setQuery($query);
 
-				$old_featured = $db->loadColumn();
+				$oldFeatured = $db->loadColumn();
 
 				// We diff the arrays to get a list of the articles that are newly featured
-				$new_featured = array_diff($pks, $old_featured);
+				$newFeatured = array_diff($pks, $oldFeatured);
 
 				// Featuring.
 				$tuples = array();
 
-				foreach ($new_featured as $pk)
+				foreach ($newFeatured as $pk)
 				{
 					$tuples[] = $pk . ', 0';
 				}
@@ -724,28 +756,24 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Association content items
-		$assoc = JLanguageAssociations::isEnabled();
-
-		if ($assoc)
+		if (JLanguageAssociations::isEnabled())
 		{
-			$languages = JLanguageHelper::getLanguages('lang_code');
-			$addform = new SimpleXMLElement('<form />');
-			$fields = $addform->addChild('fields');
-			$fields->addAttribute('name', 'associations');
-			$fieldset = $fields->addChild('fieldset');
-			$fieldset->addAttribute('name', 'item_associations');
-			$fieldset->addAttribute('description', 'COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
-			$add = false;
+			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
-			foreach ($languages as $tag => $language)
+			if (count($languages) > 1)
 			{
-				if (empty($data->language) || $tag != $data->language)
+				$addform = new SimpleXMLElement('<form />');
+				$fields = $addform->addChild('fields');
+				$fields->addAttribute('name', 'associations');
+				$fieldset = $fields->addChild('fieldset');
+				$fieldset->addAttribute('name', 'item_associations');
+
+				foreach ($languages as $language)
 				{
-					$add = true;
 					$field = $fieldset->addChild('field');
-					$field->addAttribute('name', $tag);
+					$field->addAttribute('name', $language->lang_code);
 					$field->addAttribute('type', 'modal_article');
-					$field->addAttribute('language', $tag);
+					$field->addAttribute('language', $language->lang_code);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$field->addAttribute('select', 'true');
@@ -753,10 +781,7 @@ class ContentModelArticle extends JModelAdmin
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
 				}
-			}
 
-			if ($add)
-			{
 				$form->load($addform, false);
 			}
 		}
@@ -807,5 +832,32 @@ class ContentModelArticle extends JModelAdmin
 	private function canCreateCategory()
 	{
 		return JFactory::getUser()->authorise('core.create', 'com_content');
+	}
+
+	/**
+	 * Delete #__content_frontpage items if the deleted articles was featured
+	 *
+	 * @param   object  &$pks  The primary key related to the contents that was deleted.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function delete(&$pks)
+	{
+		$return = parent::delete($pks);
+
+		if ($return)
+		{
+			// Now check to see if this articles was featured if so delete it from the #__content_frontpage table
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__content_frontpage'))
+				->where('content_id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+			$db->execute();
+		}
+
+		return $return;
 	}
 }

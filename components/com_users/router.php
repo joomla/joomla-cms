@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ class UsersRouter extends JComponentRouterView
 {
 	/**
 	 * Users Component router constructor
-	 * 
+	 *
 	 * @param   JApplicationCms  $app   The application object
 	 * @param   JMenu            $menu  The menu object to work with
 	 */
@@ -36,7 +36,7 @@ class UsersRouter extends JComponentRouterView
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 
-		$params = JComponentHelper::getParams('com_content');
+		$params = JComponentHelper::getParams('com_users');
 
 		if ($params->get('sef_advanced', 0))
 		{
@@ -45,7 +45,7 @@ class UsersRouter extends JComponentRouterView
 		}
 		else
 		{
-			require_once JPATH_SITE . '/components/com_users/helpers/legacyrouter.php';
+			JLoader::register('UsersRouterRulesLegacy', __DIR__ . '/helpers/legacyrouter.php');
 			$this->attachRule(new UsersRouterRulesLegacy($this));
 		}
 	}

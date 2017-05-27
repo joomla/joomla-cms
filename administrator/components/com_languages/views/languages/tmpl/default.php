@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ if ($saveOrder)
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
@@ -66,7 +66,7 @@ if ($saveOrder)
 						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_CODE', 'a.sef', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone">
+						<th width="8%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-phone">
@@ -105,12 +105,12 @@ if ($saveOrder)
 									$disableClassName = 'inactive tip-top';
 								endif; ?>
 								<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
-									<span class="icon-menu"></span>
+									<span class="icon-menu" aria-hidden="true"></span>
 								</span>
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php else : ?>
 								<span class="sortable-handler inactive">
-									<span class="icon-menu"></span>
+									<span class="icon-menu" aria-hidden="true"></span>
 								</span>
 							<?php endif; ?>
 						</td>
@@ -121,7 +121,7 @@ if ($saveOrder)
 							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 						</td>
 						<td>
-							<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
+							<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>"><?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
@@ -139,7 +139,11 @@ if ($saveOrder)
 							<?php echo $this->escape($item->sef); ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('title' => $item->image), true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+							<?php if ($item->image) : ?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, null, true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+							<?php else : ?>
+								<?php echo JText::_('JNONE'); ?>
+							<?php endif; ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
@@ -154,7 +158,7 @@ if ($saveOrder)
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>

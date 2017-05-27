@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Date
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,7 +28,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string   $microsecond   u - Microseconds with leading zeros.
  * @property-read  string   $month         m - Numeric representation of a month, with leading zeros.
  * @property-read  string   $ordinal       S - English ordinal suffix for the day of the month, 2 characters.
- * @property-read  string   $week          W - Numeric representation of the day of the week.
+ * @property-read  string   $week          W - ISO-8601 week number of year, weeks starting on Monday.
  * @property-read  string   $year          Y - A full numeric representation of a year, 4 digits.
  *
  * @since  11.1
@@ -106,9 +106,6 @@ class JDate extends DateTime
 		// If the date is numeric assume a unix timestamp and convert it.
 		date_default_timezone_set('UTC');
 		$date = is_numeric($date) ? date('c', $date) : $date;
-
-		// If now, add the microseconds to date.
-		$date = $date === 'now' ? parent::createFromFormat('U.u', number_format(microtime(true), 6, '.', ''), $tz)->format('Y-m-d H:i:s.u') : $date;
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
