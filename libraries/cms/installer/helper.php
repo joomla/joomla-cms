@@ -46,7 +46,7 @@ abstract class JInstallerHelper
 		// Create option with userAgent to supply to transport
 		$httpTransportOpts = new Registry(array('userAgent' => $agent));
 
-		// Load installer plugins, and allow url and headers modification
+		// Load installer plugins, and allow URL and headers modification
 		$headers = array();
 		JPluginHelper::importPlugin('installer');
 		$dispatcher = JEventDispatcher::getInstance();

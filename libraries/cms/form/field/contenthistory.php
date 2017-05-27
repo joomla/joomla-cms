@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Field to select a user id from a modal list.
+ * Field to select Content History from a modal list.
  *
  * @since  3.2
  */

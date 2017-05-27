@@ -211,7 +211,7 @@ abstract class JHtml
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @see     https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  InvalidArgumentException
 	 */
@@ -384,7 +384,7 @@ abstract class JHtml
 
 				/*
 				 * Loop on 1 or 2 files and break on first found.
-				 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+				 * Add the content of the MD5SUM file located in the same folder to URL to ensure cache browser refresh
 				 * This MD5SUM file must represent the signature of the folder content
 				 */
 				foreach ($files as $file)
@@ -529,7 +529,7 @@ abstract class JHtml
 
 				/*
 				 * Loop on 1 or 2 files and break on first found.
-				 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+				 * Add the content of the MD5SUM file located in the same folder to URL to ensure cache browser refresh
 				 * This MD5SUM file must represent the signature of the folder content
 				 */
 				foreach ($files as $file)
@@ -673,7 +673,7 @@ abstract class JHtml
 	public static function script($file, $options = array(), $attribs = array())
 	{
 		// B/C before 3.7.0
-		if (!is_array($options) && !is_array($attribs))
+		if (!is_array($options))
 		{
 			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
@@ -717,7 +717,7 @@ abstract class JHtml
 			{
 				return $includes[0];
 			}
-			
+
 			return $includes;
 		}
 
@@ -786,7 +786,7 @@ abstract class JHtml
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+			$date->setTimezone($user->getTimezone());
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
@@ -1019,13 +1019,20 @@ abstract class JHtml
 		$required     = isset($attribs['required']) && $attribs['required'] == '';
 		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
 		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
-		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : false;
-		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : true;
+		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : true;
+		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : false;
 		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
 		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;
 		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
 		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
 		$class        = isset($attribs['class']) ? $attribs['class'] : '';
+		$onchange     = isset($attribs['onChange']) ? $attribs['onChange'] : '';
+
+		$showTime     = ($showTime) ? "1" : "0";
+		$todayBtn     = ($todayBtn) ? "1" : "0";
+		$weekNumbers  = ($weekNumbers) ? "1" : "0";
+		$fillTable    = ($fillTable) ? "1" : "0";
+		$singleHeader = ($singleHeader) ? "1" : "0";
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
@@ -1063,7 +1070,8 @@ abstract class JHtml
 			'helperPath'   => $helperPath,
 			'localesPath'  => $localesPath,
 			'direction'    => $direction,
-			);
+			'onchange'     => $onchange,
+		);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
 	}

@@ -132,7 +132,7 @@ class FOFFormFieldMedia extends JFormFieldMedia implements FOFFormField
 			$src = '';
 		}
 
-		return JHtml::image($src, $alt, $imgattr);
+		return JHtml::_('image', $src, $alt, $imgattr);
 	}
 
 	/**

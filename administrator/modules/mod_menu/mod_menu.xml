@@ -11,6 +11,7 @@
 	<description>MOD_MENU_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
+		<folder>preset</folder>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>menu.php</filename>
@@ -23,6 +24,26 @@
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
+				<field
+					name="menutype"
+					type="menu"
+					clientid="1"
+					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
+					description="MOD_MENU_FIELD_MENUTYPE_DESC"
+				>
+					<option value="*">MOD_MENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
+				</field>
+				<field
+					name="check"
+					type="radio"
+					label="MOD_MENU_FIELD_CHECK_LABEL"
+					description="MOD_MENU_FIELD_CHECK_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 				<field
 					name="layout"
 					type="modulelayout"

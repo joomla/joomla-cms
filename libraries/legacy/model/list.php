@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Model class for handling lists of items.
  *
@@ -375,7 +377,7 @@ class JModelList extends JModelLegacy
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['control'] = JArrayHelper::getValue($options, 'control', false);
+		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
 
 		// Create a signature hash.
 		$hash = md5($source . serialize($options));
@@ -512,6 +514,13 @@ class JModelList extends JModelLegacy
 									{
 										$this->setState('list.direction', $fullDirection);
 									}
+									else
+									{
+										$this->setState('list.direction', $direction);
+
+										// Fallback to the default value
+										$value = $ordering . ' ' . $direction;
+									}
 
 									unset($orderingParts[count($orderingParts) - 1]);
 
@@ -522,11 +531,22 @@ class JModelList extends JModelLegacy
 									{
 										$this->setState('list.ordering', $fullOrdering);
 									}
+									else
+									{
+										$this->setState('list.ordering', $ordering);
+
+										// Fallback to the default value
+										$value = $ordering . ' ' . $direction;
+									}
+
 								}
 								else
 								{
 									$this->setState('list.ordering', $ordering);
 									$this->setState('list.direction', $direction);
+
+									// Fallback to the default value
+									$value = $ordering . ' ' . $direction;
 								}
 								break;
 
@@ -640,7 +660,7 @@ class JModelList extends JModelLegacy
 		JPluginHelper::importPlugin($group);
 
 		// Get the dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));

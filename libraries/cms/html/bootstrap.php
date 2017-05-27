@@ -294,7 +294,7 @@ abstract class JHtmlBootstrap
 	 *                             - url          string   URL of a resource to be inserted as an `<iframe>` inside the modal body
 	 *                             - height       string   height of the `<iframe>` containing the remote resource
 	 *                             - width        string   width of the `<iframe>` containing the remote resource
-	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the url option is set
+	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the URL option is set
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
@@ -632,6 +632,20 @@ abstract class JHtmlBootstrap
 				$script[] = "\t.on('hidden', " . $onHidden . ")";
 			}
 
+			$parents = array_key_exists(__METHOD__, static::$loaded) ? array_filter(array_column(static::$loaded[__METHOD__], 'parent')) : array();
+
+			if ($opt['parent'] && empty($parents))
+			{
+				$script[] = "
+					$(document).on('click.collapse.data-api', '[data-toggle=collapse]', function (e) {
+						var \$this   = $(this), href
+						var parent  = \$this.attr('data-parent')
+						var \$parent = parent && $(parent)
+
+						if (\$parent) \$parent.find('[data-toggle=collapse][data-parent=' + parent + ']').not(\$this).addClass('collapsed')
+					})";
+			}
+
 			$script[] = "});";
 
 			// Attach accordion to document
@@ -720,7 +734,7 @@ abstract class JHtmlBootstrap
 			JHtml::_('bootstrap.framework');
 
 			// Setup options object
-			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+			$opt['active'] = (isset($params['active']) && $params['active']) ? (string) $params['active'] : '';
 
 			// Attach tabs to document
 			JFactory::getDocument()

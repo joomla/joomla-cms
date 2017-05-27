@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * WinCache cache storage handler
  *
- * @see    https://secure.php.net/manual/en/book.wincache.php
+ * @link   https://secure.php.net/manual/en/book.wincache.php
  * @since  11.1
  */
 class JCacheStorageWincache extends JCacheStorage
@@ -25,7 +25,7 @@ class JCacheStorageWincache extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function contains($id, $group)
 	{
