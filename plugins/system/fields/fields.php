@@ -52,6 +52,9 @@ class PlgSystemFields extends JPlugin
 		if ($context == 'com_categories.category')
 		{
 			$context = $item->extension . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			$item->catid = $item->id;
 		}
 
 		// Check the context
@@ -83,7 +86,7 @@ class PlgSystemFields extends JPlugin
 		foreach ($fields as $field)
 		{
 			// Determine the value if it is available from the data
-			$value = key_exists($field->alias, $fieldsData) ? $fieldsData[$field->alias] : null;
+			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->id, $value);
@@ -115,6 +118,14 @@ class PlgSystemFields extends JPlugin
 
 		$user = JFactory::getUser($userData['id']);
 
+		$task = JFactory::getApplication()->input->getCmd('task');
+
+		// Skip fields save when we activate a user, because we will lose the saved data
+		if (in_array($task, array('activate', 'block', 'unblock')))
+		{
+			return true;
+		}
+
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
 
@@ -135,7 +146,7 @@ class PlgSystemFields extends JPlugin
 	{
 		$parts = FieldsHelper::extract($context, $item);
 
-		if (!$parts)
+		if (!$parts || empty($item->id))
 		{
 			return true;
 		}
@@ -188,6 +199,16 @@ class PlgSystemFields extends JPlugin
 		if (strpos($context, 'com_categories.category') === 0)
 		{
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			if (is_array($data) && key_exists('id', $data))
+			{
+				$data['catid'] = $data['id'];
+			}
+			if (is_object($data) && isset($data->id))
+			{
+				$data->catid = $data->id;
+			}
 		}
 
 		$parts = FieldsHelper::extract($context, $form);
@@ -287,6 +308,12 @@ class PlgSystemFields extends JPlugin
 		if (!$parts)
 		{
 			return '';
+		}
+
+		// If we have a category, set the catid field to fetch only the fields which belong to it
+		if ($parts[1] == 'categories' && !isset($item->catid))
+		{
+			$item->catid = $item->id;
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
@@ -408,10 +435,10 @@ class PlgSystemFields extends JPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->alias);
+						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->name);
 
 						// Adding the field value as a field
-						$item->{$field->alias} = $field->value;
+						$item->{$field->name} = $field->value;
 					}
 				}
 			}
