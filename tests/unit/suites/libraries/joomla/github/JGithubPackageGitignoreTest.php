@@ -197,5 +197,4 @@ class JGithubPackageGitignoreTest extends \PHPUnit\Framework\TestCase
 			$this->equalTo(json_decode($this->response->body))
 		);
 	}
-
 }

@@ -613,5 +613,4 @@ XML;
 
 		$this->object->diffUploadChangeset($xml, $id);
 	}
-
 }

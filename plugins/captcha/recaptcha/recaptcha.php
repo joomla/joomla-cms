@@ -202,9 +202,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 				if ( !isset($response->success) || !$response->success)
 				{
 					// @todo use exceptions here
-					foreach ($response->errorCodes as $error)
+					if (is_array($response->errorCodes))
 					{
-						$this->_subject->setError($error);
+						foreach ($response->errorCodes as $error)
+						{
+							$this->_subject->setError($error);
+						}
 					}
 
 					return false;

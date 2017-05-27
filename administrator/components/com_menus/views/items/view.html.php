@@ -64,9 +64,7 @@ class MenusViewItems extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		$this->ordering = array();
@@ -236,7 +234,7 @@ class MenusViewItems extends JViewLegacy
 		}
 		else
 		{
-			// In menu items associations modal we need to remove language filter if forcing a language.
+			// In menu associations modal we need to remove language filter if forcing a language.
 			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
@@ -357,15 +355,29 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.title'     => JText::_('JGLOBAL_TITLE'),
-			'a.home'      => JText::_('COM_MENUS_HEADING_HOME'),
-			'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
-			'association' => JText::_('COM_MENUS_HEADING_ASSOCIATION'),
-			'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => JText::_('JGRID_HEADING_ID')
-		);
+		$this->state = $this->get('State');
+
+		if ($this->state->get('filter.client_id') == 0)
+		{
+			return array(
+				'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published' => JText::_('JSTATUS'),
+				'a.title'     => JText::_('JGLOBAL_TITLE'),
+				'a.home'      => JText::_('COM_MENUS_HEADING_HOME'),
+				'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
+				'association' => JText::_('COM_MENUS_HEADING_ASSOCIATION'),
+				'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'        => JText::_('JGRID_HEADING_ID')
+			);
+		}
+		else
+		{
+			return array(
+				'a.lft'       => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published' => JText::_('JSTATUS'),
+				'a.title'     => JText::_('JGLOBAL_TITLE'),
+				'a.id'        => JText::_('JGRID_HEADING_ID')
+			);
+		}
 	}
 }
