@@ -228,7 +228,7 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Implement View Level Access
-		if (!$user->authorise('core.admin'))
+		if (!$app->isClient('administrator') || !$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ') AND (a.group_id = 0 OR g.access IN (' . $groups . '))');
@@ -302,15 +302,9 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Add the list ordering clause
-		$listOrdering = $this->getState('list.fullordering', 'a.ordering');
-		$orderDirn    = '';
+		$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
+		$orderDirn     = $this->state->get('list.direction', 'ASC');
 
-		if (empty($listOrdering))
-		{
-			$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
-			$orderDirn     = $this->state->get('list.direction', 'DESC');
-		}
-	
 		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
 
 		return $query;
@@ -350,7 +344,7 @@ class FieldsModelFields extends JModelList
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  JForm/false  the JForm object or false
+	 * @return  JForm|false  the JForm object or false
 	 *
 	 * @since   3.7.0
 	 */

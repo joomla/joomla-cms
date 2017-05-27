@@ -375,7 +375,7 @@ class PlgUserProfile extends JPlugin
 			if (JDate::getInstance('now') < $date)
 			{
 				// Throw an exception if dob is greather than now.
-				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
 		// Check that the tos is checked if required ie only in registration from frontend.
@@ -414,22 +414,43 @@ class PlgUserProfile extends JPlugin
 		{
 			try
 			{
+				$db = JFactory::getDbo();
+
 				// Sanitize the date
 				$data['profile']['dob'] = $this->date;
 
-				$db = JFactory::getDbo();
+				$keys = array_keys($data['profile']);
+
+				foreach ($keys as &$key)
+				{
+					$key = 'profile.' . $key;
+					$key = $db->quote($key);
+				}
+
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__user_profiles'))
 					->where($db->quoteName('user_id') . ' = ' . (int) $userId)
-					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
+					->where($db->quoteName('profile_key') . ' IN (' . implode(',', $keys) . ')');
 				$db->setQuery($query);
 				$db->execute();
+
+				$query = $db->getQuery(true)
+					->select($db->quoteName('ordering'))
+					->from($db->quoteName('#__user_profiles'))
+					->where($db->quoteName('user_id') . ' = ' . (int) $userId);
+				$db->setQuery($query);
+				$usedOrdering = $db->loadColumn();
 
 				$tuples = array();
 				$order = 1;
 
 				foreach ($data['profile'] as $k => $v)
 				{
+					while (in_array($order, $usedOrdering))
+					{
+						$order++;
+					}
+
 					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++) . ')';
 				}
 

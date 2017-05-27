@@ -830,7 +830,21 @@ class JLanguage
 			ini_set('track_errors', true);
 		}
 
-		$strings = @parse_ini_file($filename);
+		if (!function_exists('parse_ini_file'))
+		{
+			$contents = file_get_contents($filename);
+			$contents = str_replace('_QQ_', '"\""', $contents);
+			$strings = @parse_ini_string($contents);
+		}
+		else
+		{
+			$strings = @parse_ini_file($filename);
+		}
+
+		if (!is_array($strings))
+		{
+			$strings = array();
+		}
 
 		// Restore error tracking to what it was before.
 		if ($this->debug)
@@ -840,7 +854,7 @@ class JLanguage
 			$this->debugFile($filename);
 		}
 
-		return is_array($strings) ? $strings : array();
+		return $strings;
 	}
 
 	/**
