@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -79,7 +79,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @var    object
 	 * @since  3.4
-	 * @see    http://tools.ietf.org/pdf/rfc7231.pdf
+	 * @link   http://tools.ietf.org/pdf/rfc7231.pdf
 	 */
 	private $responseMap = array(
 		300 => 'HTTP/1.1 300 Multiple Choices',
@@ -99,7 +99,7 @@ class JApplicationWeb extends JApplicationBase
          * 
          * @var    object
          * @since  3.5.2
-         * @see    https://tools.ietf.org/html/rfc7230
+         * @link   https://tools.ietf.org/html/rfc7230
          */
 	private $singleValueResponseHeaders = array(
 		'status', // This is not a valid header name, but the representation used by Joomla to identify the HTTP Response Code
@@ -534,7 +534,7 @@ class JApplicationWeb extends JApplicationBase
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href='" . str_replace("'", "&apos;", $url) . "';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
 		}
 		else
 		{
@@ -543,7 +543,7 @@ class JApplicationWeb extends JApplicationBase
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '<script>document.location.href=\'' . str_replace("'", "&apos;", $url) . '\';</script>';
+				$html .= '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script>';
 				$html .= '</head><body></body></html>';
 
 				echo $html;
@@ -565,13 +565,15 @@ class JApplicationWeb extends JApplicationBase
 				}
 
 				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($this->responseMap[$status]);
-				$this->header('Location: ' . $url);
-				$this->header('Content-Type: text/html; charset=' . $this->charSet);
+				$this->setHeader('Status', $status, true);
+				$this->setHeader('Location', $url, true);
 			}
 		}
 
-		// Close the application after the redirect.
+		// Set appropriate headers
+		$this->respond();
+
+		//  Close the application after the redirect.
 		$this->close();
 	}
 
@@ -717,7 +719,7 @@ class JApplicationWeb extends JApplicationBase
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header('HTTP/1.1 ' . $header['value'], null, (int) $header['value']);
+					$this->header('HTTP/1.1 ' . (int) $header['value'], true);
 				}
 				else
 				{
@@ -829,7 +831,7 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Method to check the current client connnection status to ensure that it is alive.  We are
+	 * Method to check the current client connection status to ensure that it is alive.  We are
 	 * wrapping this to isolate the connection_status() function from our code base for testing reasons.
 	 *
 	 * @return  boolean  True if the connection is valid and normal.

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,12 +42,21 @@ class SearchHelper
 	public static function getActions()
 	{
 		// Log usage of deprecated function.
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions.
-		$result = JHelperContent::getActions('com_search');
-
-		return $result;
+		return JHelperContent::getActions('com_search');
 	}
 
 	/**
@@ -67,7 +76,7 @@ class SearchHelper
 		$search_ignore = $lang->getIgnoredSearchWords();
 
 		// Deprecated in 1.6 use $lang->getIgnoredSearchWords instead.
-		$ignoreFile = $lang->getLanguagePath() . '/' . $tag . '/' . $tag . '.ignore.php';
+		$ignoreFile = JLanguageHelper::getLanguagePath() . '/' . $tag . '/' . $tag . '.ignore.php';
 
 		if (file_exists($ignoreFile))
 		{
@@ -150,7 +159,18 @@ class SearchHelper
 	 */
 	public static function logSearch($search_term)
 	{
-		JLog::add(__METHOD__ . '() is deprecated, use JSearchHelper::logSearch() instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JSearchHelper::logSearch() instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		JSearchHelper::logSearch($search_term, 'com_search');
 	}
@@ -168,7 +188,7 @@ class SearchHelper
 	public static function prepareSearchContent($text, $searchword)
 	{
 		// Strips tags won't remove the actual jscript.
-		$text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
+		$text = preg_replace("'<script[^>]*>.*?</script>'si", '', $text);
 		$text = preg_replace('/{.+?}/', '', $text);
 
 		// $text = preg_replace('/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2', $text);

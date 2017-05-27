@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,9 +78,18 @@ class ContactControllerContacts extends JControllerAdmin
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
+
+			if ($value == 1)
+			{
+				$message = JText::plural('COM_CONTACT_N_ITEMS_FEATURED', count($ids));
+			}
+			else
+			{
+				$message = JText::plural('COM_CONTACT_N_ITEMS_UNFEATURED', count($ids));
+			}
 		}
 
-		$this->setRedirect('index.php?option=com_contact&view=contacts');
+		$this->setRedirect('index.php?option=com_contact&view=contacts', $message);
 	}
 
 	/**
