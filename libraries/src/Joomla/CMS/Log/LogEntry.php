@@ -10,6 +10,8 @@ namespace Joomla\CMS\Log;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
+
 /**
  * Joomla! Log Entry class
  *
@@ -104,6 +106,6 @@ class LogEntry
 		$this->callStack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		// Get the date as a Date object.
-		$this->date = new Joomla\CMS\Date\Date($date ? $date : 'now');
+		$this->date = new Date($date ? $date : 'now');
 	}
 }
