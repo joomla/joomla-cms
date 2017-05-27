@@ -206,13 +206,13 @@ class PlgSystemDebug extends JPlugin
 	}
 
 	/**
-	 * Show the debug info.
+	 * Show the debug info after the onAfterRespond events.
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.6
 	 */
-	public function onAfterRespond()
+	public function onAfterExecute()
 	{
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
