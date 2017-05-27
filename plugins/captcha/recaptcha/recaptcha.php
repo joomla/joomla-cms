@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		if ($this->params->get('version', '1.0') == '1.0')
+		if ($this->params->get('version', '1.0') === '1.0')
 		{
 			JHtml::_('jquery.framework');
 
@@ -59,7 +59,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		else
 		{
 			// Load callback first for browser compatibility
-			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', false, true);
+			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
 
 			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
 			JHtml::_('script', $file);
@@ -82,7 +82,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
-		if ($this->params->get('version', '1.0') == '1.0')
+		if ($this->params->get('version', '1.0') === '1.0')
 		{
 			return '<div id="' . $id . '" ' . $class . '></div>';
 		}
@@ -202,9 +202,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 				if ( !isset($response->success) || !$response->success)
 				{
 					// @todo use exceptions here
-					foreach ($response->errorCodes as $error)
+					if (is_array($response->errorCodes))
 					{
-						$this->_subject->setError($error);
+						foreach ($response->errorCodes as $error)
+						{
+							$this->_subject->setError($error);
+						}
 					}
 
 					return false;
@@ -226,7 +229,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	private function _recaptcha_qsencode($data)
 	{
-		$req = "";
+		$req = '';
 
 		foreach ($data as $key => $value)
 		{

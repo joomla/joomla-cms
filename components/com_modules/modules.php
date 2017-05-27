@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,16 @@ $app    = JFactory::getApplication();
 $config = array();
 $lang->load('joomla', JPATH_ADMINISTRATOR);
 $lang->load('com_modules', JPATH_ADMINISTRATOR);
+
+if ($app->input->get('view') === 'modules' && $app->input->get('layout') === 'modal')
+{
+	if (!JFactory::getUser()->authorise('core.create', 'com_modules'))
+	{
+		$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+
+		return;
+	}
+}
 
 if ($app->input->get('task') === 'module.orderPosition')
 {

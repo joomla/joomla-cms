@@ -1,3 +1,3 @@
 'id','parent_id','lft','rgt','level','name','title','rules'
-'168','0','0','169','1','#__dbtest_composite.25.50','Asset Title 1','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
-'169','0','168','175','1','#__dbtest_composite.25.51','Asset Title 2','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+'168','0','0','169','1','#__dbtest_composite.25.50','Asset Title 1','{}'
+'169','0','168','175','1','#__dbtest_composite.25.51','Asset Title 2','{}'

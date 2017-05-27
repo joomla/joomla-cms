@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,7 +80,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -141,7 +141,8 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 */
 	public function testIsEnabledWithAdminApp()
 	{
-		$mockApplication = $this->getMock('JApplicationAdministrator');
+		// Build the mock object.
+		$mockApplication = $this->getMockBuilder('JApplicationAdministrator')->getMock();
 		$mockApplication->expects($this->any())
 			->method('isSite')
 			->willReturn(false);

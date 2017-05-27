@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,7 +43,7 @@ abstract class JHtmlRules
 		$groups = static::_getUserGroups();
 
 		// Get the incoming inherited rules as well as the asset specific rules.
-		$inheriting = JAccess::getAssetRules($parent ? $parent : static::_getParentAssetId($assetId), true);
+		$inheriting = JAccess::getAssetRules($parent ?: static::_getParentAssetId($assetId), true);
 		$inherited = JAccess::getAssetRules($assetId, true);
 		$rules = JAccess::getAssetRules($assetId);
 
