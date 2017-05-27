@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -113,7 +113,12 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$stash;
-		static::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**
@@ -130,6 +135,7 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 
 		// Create the PDO object from the DSN and options.
 		$pdo = new PDO($dsn, self::$options['user'], self::$options['password']);
+		$pdo->exec('create table [jos_dbtest]([id] [int] IDENTITY(1,1) NOT NULL, [title] [nvarchar](50) NOT NULL, [start_date] [datetime] NOT NULL, [description] [nvarchar](max) NOT NULL, CONSTRAINT [PK_jos_dbtest_id] PRIMARY KEY CLUSTERED ([id] ASC) WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF))');
 
 		return $this->createDefaultDBConnection($pdo, self::$options['database']);
 	}

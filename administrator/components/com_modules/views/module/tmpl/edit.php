@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,12 +18,12 @@ JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_t
 JHtml::_('formbehavior.chosen', 'select');
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
-$hasContentFieldName = "content";
+$hasContentFieldName = 'content';
 
 // For a later improvement
 if ($hasContent)
 {
-	$hasContentFieldName = "content";
+	$hasContentFieldName = 'content';
 }
 
 // Get Params Fieldsets
@@ -75,11 +75,11 @@ $script .= "
 							}
 						});
 						if (updMenus == 0) {
-							tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+							tmpMenu.html('<span class=\"label label-info\">" . JText::_('JALL') . "</span>');
 							if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
 						}
 						if (updMenus == '-') {
-							tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+							tmpMenu.html('<span class=\"label label-important\">" . JText::_('JNO') . "</span>');
 							if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no '); }
 						}
 						if (updMenus > 0) {
@@ -87,18 +87,18 @@ $script .= "
 							{
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
-									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+									tmpMenu.html('<span class=\"label label-info\">" . JText::_('JALL') . "</span>');
 									if (tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
-									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+									tmpMenu.html('<span class=\"label label-success\">" . JText::_('JYES') . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
-								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+								tmpMenu.html('<span class=\"label label-important\">" . JText::_('JNO') . "</span>');
 								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no'); }
 							}
 						}
@@ -107,31 +107,31 @@ $script .= "
 							{
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
-									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+									tmpMenu.html('<span class=\"label label-info\">" . JText::_('JALL') . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
-									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+									tmpMenu.html('<span class=\"label label-success\">" . JText::_('JYES') . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
-								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+								tmpMenu.html('<span class=\"label label-important\">" . JText::_('JNO') . "</span>');
 								if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
 							}
 						}
 						if (updStatus == 1) {
-							tmpStatus.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+							tmpStatus.html('<span class=\"label label-success\">" . JText::_('JYES') . "</span>');
 							if (tmpRow.hasClass('unpublished')) { tmpRow.removeClass('unpublished '); }
 						}
 						if (updStatus == 0) {
-							tmpStatus.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+							tmpStatus.html('<span class=\"label label-important\">" . JText::_('JNO') . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (updStatus == -2) {
-							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTRASHED") . "</span>');
+							tmpStatus.html('<span class=\"label label-default\">" . JText::_('JTRASHED') . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (document.formvalidator.isValid(document.getElementById('module-form'))) {
@@ -185,7 +185,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							?>
 						</h3>
 						<div class="info-labels">
-							<span class="label hasTooltip" title="<?php echo JHtml::tooltipText('COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
+							<span class="label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
 								<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 							</span>
 						</div>
@@ -194,12 +194,12 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							$short_description = JText::_($this->item->xml->description);
 							$this->fieldset = 'description';
 							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
-							if(!$long_description) {
+							if (!$long_description) {
 								$truncated = JHtmlString::truncate($short_description, 550, true, false);
-								if(strlen($truncated) > 500) {
+								if (strlen($truncated) > 500) {
 									$long_description = $short_description;
 									$short_description = JHtmlString::truncate($truncated, 250);
-									if($short_description == $long_description) {
+									if ($short_description == $long_description) {
 										$long_description = '';
 									}
 								}

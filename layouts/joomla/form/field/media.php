@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,7 +136,7 @@ if ($showPreview)
 		'style' => $style,
 	);
 
-	$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
+	$img = JHtml::_('image', $src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 	$previewImg = '<div id="' . $id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
 	$previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 		. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
@@ -147,11 +147,11 @@ if ($showPreview)
 		$tooltip = $previewImgEmpty . $previewImg;
 		$options = array(
 			'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
-					'text' => '<i class="icon-eye"></i>',
+					'text' => '<span class="icon-eye" aria-hidden="true"></span>',
 					'class' => 'hasTipPreview'
 					);
 
-		echo JHtml::tooltip($tooltip, $options);
+		echo JHtml::_('tooltip', $tooltip, $options);
 		echo '</div>';
 	}
 	else
@@ -174,7 +174,7 @@ echo '	<input type="text" name="' . $name . '" id="' . $id . '" value="'
 	. $authorField) . '&amp;fieldid=' . $id . '&amp;folder=' . $folder) . '"'
 	. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}"'; ?>>
  <?php echo JText::_('JLIB_FORM_BUTTON_SELECT'); ?></a><a class="btn hasTooltip" title="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>" href="#" onclick="jInsertFieldValue('', '<?php echo $id; ?>'); return false;">
-	<i class="icon-remove"></i></a>
+	<span class="icon-remove" aria-hidden="true"></span></a>
 
 
 </div>

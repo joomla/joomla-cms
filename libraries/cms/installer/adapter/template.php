@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -192,7 +192,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		$base = constant('JPATH_' . strtoupper($client));
 		$extension = 'tpl_' . $this->getName();
-		$source    = $path ? $path : $base . '/templates/' . $this->getName();
+		$source    = $path ?: $base . '/templates/' . $this->getName();
 
 		$this->doLoadLanguage($extension, $source, $base);
 	}
@@ -421,6 +421,17 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		if ($row->protected)
 		{
 			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), JLog::WARNING, 'jerror');
 
 			return false;
 		}
