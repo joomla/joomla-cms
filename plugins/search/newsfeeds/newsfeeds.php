@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,7 +122,7 @@ class PlgSearchNewsfeeds extends JPlugin
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
@@ -173,7 +173,7 @@ class PlgSearchNewsfeeds extends JPlugin
 			->order($order);
 
 		// Filter by language.
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
