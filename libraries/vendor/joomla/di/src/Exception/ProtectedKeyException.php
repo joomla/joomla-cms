@@ -11,10 +11,10 @@ namespace Joomla\DI\Exception;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
- * Exception class for handling errors in resolving a dependency
+ * Attempt to set the value of a protected key, which already is set
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
-class DependencyResolutionException extends \RuntimeException implements ContainerExceptionInterface
+class ProtectedKeyException extends \OutOfBoundsException implements ContainerExceptionInterface
 {
 }

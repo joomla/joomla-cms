@@ -16,9 +16,9 @@ namespace Joomla\Session;
 interface SessionInterface extends \IteratorAggregate
 {
 	/**
-	 * Get expiration time in minutes
+	 * Get expiration time in seconds
 	 *
-	 * @return  integer  The session expiration time in minutes
+	 * @return  integer  The session expiration time in seconds
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
