@@ -39,9 +39,9 @@ abstract class JHtmlForm
 	 * @see     JSession::checkToken()
 	 * @since   1.5
 	 */
-	public static function token($attribs = null)
+	public static function token(array $attribs = array())
 	{
-		if (is_array($attribs))
+		if (!empty($attribs))
 		{
 			$attribs = ' ' . ArrayHelper::toString($attribs);
 		}
@@ -50,9 +50,9 @@ abstract class JHtmlForm
 	}
 
 	/**
-	 * Add CSRF form token to <head> meta that developers can get it by Javascript.
+	 * Add CSRF form token to Joomla script options that developers can get it by Javascript.
 	 *
-	 * @param   string  $name  The name of this meta tag.
+	 * @param   string  $name  The script option key name.
 	 *
 	 * @return  void
 	 *
