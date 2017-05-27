@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -75,6 +75,14 @@ class JFormFieldColor extends JFormField
 	protected $split = 3;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $layout = 'joomla.form.field.color';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -137,7 +145,7 @@ class JFormFieldColor extends JFormField
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -172,140 +180,125 @@ class JFormFieldColor extends JFormField
 	 */
 	protected function getInput()
 	{
-		$lang = JFactory::getLanguage();
+		// Switch the layouts
+		$this->layout = $this->control === 'simple' ? $this->layout . '.simple' : $this->layout . '.advanced';
 
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+	}
 
-		// Control value can be: hue (default), saturation, brightness, wheel or simple
-		$control = $this->control;
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getLayoutData()
+	{
+		$lang  = JFactory::getLanguage();
+		$data  = parent::getLayoutData();
+		$color = strtolower($this->value);
+		$color = ! $color ? '' : $color;
 
 		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
 		$position = ' data-position="' . (($lang->isRTL() && $this->position == 'default') ? 'left' : $this->position) . '"';
 
-		// Validation of data can be: color (hex color value). Keep for B/C (minicolors.js already auto-validates color)
-		$validate = $this->validate ? ' data-validate="' . $this->validate . '"' : '';
-
-		$onchange  = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-		$class     = $this->class;
-		$required  = $this->required ? ' required aria-required="true"' : '';
-		$disabled  = $this->disabled ? ' disabled' : '';
-		$autofocus = $this->autofocus ? ' autofocus' : '';
-
-		$color = strtolower($this->value);
-		$color = ! $color ? '' : $color;
-
-		if ($control == 'simple')
+		if (!$color || in_array($color, array('none', 'transparent')))
 		{
-			$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
-			JHtml::_('behavior.simplecolorpicker');
+			$color = 'none';
+		}
+		elseif ($color['0'] != '#' && $this->format == 'hex')
+		{
+			$color = '#' . $color;
+		}
 
-			if (in_array($color, array('none', 'transparent')))
-			{
-				$color = 'none';
-			}
-			elseif ($color['0'] != '#')
-			{
-				$color = '#' . $color;
-			}
+		// Assign data for simple/advanced mode
+		$controlModeData = $this->control === 'simple' ? $this->getSimpleModeLayoutData() : $this->getAdvancedModeLayoutData($lang);
 
-			$colors = strtolower($this->colors);
+		$extraData = array(
+			'color'    => $color,
+			'format'   => $this->format,
+			'keywords' => $this->keywords,
+			'position' => $position,
+			'validate' => $this->validate
+		);
 
-			if (empty($colors))
-			{
-				$colors = array(
-					'none',
-					'#049cdb',
-					'#46a546',
-					'#9d261d',
-					'#ffc40d',
-					'#f89406',
-					'#c3325f',
-					'#7a43b6',
-					'#ffffff',
-					'#999999',
-					'#555555',
-					'#000000',
-				);
-			}
-			else
-			{
-				$colors = explode(',', $colors);
-			}
+		return array_merge($data, $extraData, $controlModeData);
+	}
 
-			$split = $this->split;
+	/**
+	 * Method to get the data for the simple mode to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getSimpleModeLayoutData()
+	{
+		$colors = strtolower($this->colors);
 
-			if (!$split)
-			{
-				$count = count($colors);
-
-				if ($count % 5 == 0)
-				{
-					$split = 5;
-				}
-				else
-				{
-					if ($count % 4 == 0)
-					{
-						$split = 4;
-					}
-				}
-			}
-
-			$split = $split ? $split : 3;
-
-			$html = array();
-			$html[] = '<select data-chosen="true" name="' . $this->name . '" id="' . $this->id . '"' . $disabled . $required
-				. $class . $position . $onchange . $autofocus . ' style="visibility:hidden;width:22px;height:1px">';
-
-			foreach ($colors as $i => $c)
-			{
-				$html[] = '<option' . ($c == $color ? ' selected="selected"' : '') . '>' . $c . '</option>';
-
-				if (($i + 1) % $split == 0)
-				{
-					$html[] = '<option>-</option>';
-				}
-			}
-
-			$html[] = '</select>';
-
-			return implode('', $html);
+		if (empty($colors))
+		{
+			$colors = array(
+				'none',
+				'#049cdb',
+				'#46a546',
+				'#9d261d',
+				'#ffc40d',
+				'#f89406',
+				'#c3325f',
+				'#7a43b6',
+				'#ffffff',
+				'#999999',
+				'#555555',
+				'#000000',
+			);
 		}
 		else
 		{
-			if (in_array($this->format, array('rgb', 'rgba')) && $this->validate != 'color')
+			$colors = explode(',', $colors);
+		}
+
+		if (!$this->split)
+		{
+			$count = count($colors);
+			if ($count % 5 == 0)
 			{
-				$alpha = ($this->format == 'rgba') ? true : false;
-				$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
+				$split = 5;
 			}
 			else
 			{
-				$placeholder = '#rrggbb';
+				if ($count % 4 == 0)
+				{
+					$split = 4;
+				}
 			}
-
-			$inputclass   = ($this->keywords && ! in_array($this->format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $this->format;
-			$class        = ' class="' . trim('minicolors ' . $class) . ($this->validate == 'color' ? '' : $inputclass) . '"';
-			$control      = $control ? ' data-control="' . $control . '"' : '';
-			$format       = $this->format ? ' data-format="' . $this->format . '"' : '';
-			$keywords     = $this->keywords ? ' data-keywords="' . $this->keywords . '"' : '';
-			$readonly     = $this->readonly ? ' readonly' : '';
-			$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
-			$autocomplete = ! $this->autocomplete ? ' autocomplete="off"' : '';
-
-			// Force LTR input value in RTL, due to display issues with rgba/hex colors
-			$direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
-
-			// Including fallback code for HTML5 non supported browsers.
-			JHtml::_('jquery.framework');
-			JHtml::_('script', 'system/html5fallback.js', false, true);
-
-			JHtml::_('behavior.colorpicker');
-
-			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $hint . $class . $position . $control
-				. $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus
-				. $format . $keywords . $direction . $validate . '/>';
 		}
+
+		$split = $this->split ? $this->split : 3;
+
+		return array(
+			'colors' => $colors,
+			'split'  => $split,
+		);
+	}
+
+	/**
+	 * Method to get the data for the advanced mode to be passed to the layout for rendering.
+	 *
+	 * @param   object  $lang  The language object
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	protected function getAdvancedModeLayoutData($lang)
+	{
+		return array(
+			'colors'  => $this->colors,
+			'control' => $this->control,
+			'lang'    => $lang,
+		);
 	}
 }

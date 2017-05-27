@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\String\StringHelper;
 
 /**
  * Admin Component Help Model
@@ -173,8 +175,7 @@ class AdminModelHelp extends JModelLegacy
 			// Strip the extension
 			$file = preg_replace('#\.xml$|\.html$#', '', $file);
 
-			if ($help_search
-				&& JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) === false)
+			if ($help_search && StringHelper::strpos(StringHelper::strtolower(strip_tags($buffer)), StringHelper::strtolower($help_search)) === false)
 			{
 				continue;
 			}

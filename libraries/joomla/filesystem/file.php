@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,9 +27,14 @@ class JFile
 	 */
 	public static function getExt($file)
 	{
-		$dot = strrpos($file, '.') + 1;
+		$dot = strrpos($file, '.');
 
-		return substr($file, $dot);
+		if ($dot === false)
+		{
+			return '';
+		}
+
+		return (string) substr($file, $dot + 1);
 	}
 
 	/**
