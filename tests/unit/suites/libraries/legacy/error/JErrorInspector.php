@@ -19,7 +19,7 @@ class JErrorInspector extends JError
 	/**
 	 * Stub method to get $levels
 	 *
-	 * @return  JError::$levels
+	 * @return  array
 	 */
 	public static function inspectLevels()
 	{
@@ -29,7 +29,7 @@ class JErrorInspector extends JError
 	/**
 	 * Stub method get $handlers
 	 *
-	 * @return  JError::$handlers
+	 * @return  array
 	 */
 	public static function inspectHandlers()
 	{
@@ -39,7 +39,7 @@ class JErrorInspector extends JError
 	/**
 	 * Stub method to get $stack
 	 *
-	 * @return  JError::$stack
+	 * @return  array
 	 */
 	public static function inspectStack()
 	{
