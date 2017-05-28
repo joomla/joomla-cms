@@ -42,7 +42,7 @@
 			label="COM_USERS_FIELD_SUBJECT_LABEL"
 			description="COM_USERS_FIELD_SUBJECT_DESC"
 			size="80"
-			/>
+		/>
 
 		<field
 			name="body"
@@ -52,7 +52,7 @@
 			rows="10"
 			cols="80"
 			filter="safehtml"
-			/>
+		/>
 
 		<field
 			name="state"
