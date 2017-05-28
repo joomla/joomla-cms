@@ -475,18 +475,25 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($language->getTag() != $lang_code)
 		{
-			$newLang = JLanguage::getInstance($lang_code);
+			$language_new = JLanguage::getInstance($lang_code);
 
 			foreach ($language->getPaths() as $extension => $files)
 			{
-				if ($newLang->load($extension) == false)
+				if (strpos($extension, 'plg_system') !== false)
 				{
-					$newLang->load($extension, JPATH_ADMINISTRATOR);
+					$extension_name = substr($extension, 11);
+
+					$language_new->load($extension, JPATH_ADMINISTRATOR)
+					|| $language_new->load($extension, JPATH_PLUGINS . '/system/' . $extension_name);
+
+					continue;
 				}
+
+				$language_new->load($extension);
 			}
 
-			JFactory::$language = $newLang;
-			$this->app->loadLanguage($newLang);
+			JFactory::$language = $language_new;
+			$this->app->loadLanguage($language_new);
 		}
 
 		// Create a cookie.
