@@ -155,6 +155,19 @@ if (!function_exists('finalizeRestore'))
 	 */
 	function finalizeRestore($siteRoot, $restorePath)
 	{
+		// Clear OPcache
+		if (function_exists('opcache_reset'))
+		{
+			opcache_reset();
+		}
+		elseif (function_exists('apc_clear_cache'))
+		{
+			@apc_clear_cache();
+		}
+
+		// Make sure Joomla!'s code can figure out which files exist and need be removed
+		clearstatcache();
+
 		if (!defined('JPATH_ROOT'))
 		{
 			define('JPATH_ROOT', $siteRoot);
@@ -167,24 +180,15 @@ if (!function_exists('finalizeRestore'))
 			require_once ($filePath);
 		}
 
-		// Make sure Joomla!'s code can figure out which files exist and need be removed
-		clearstatcache();
-
 		// Remove obsolete files - prevents errors occuring in some system plugins
 		if (class_exists('JoomlaInstallerScript'))
 		{
-			$script = new JoomlaInstallerScript;
+			$script = new JoomlaInstallerScript();
 			$script->deleteUnexistingFiles();
 		}
 
-		// Clear OPcache
-		if (function_exists('opcache_reset'))
-		{
-			opcache_reset();
-		}
-		elseif (function_exists('apc_clear_cache'))
-		{
-			@apc_clear_cache();
-		}
+		// We have modified the filesystem, therefore we must clear the stat cache a second time.
+		clearstatcache();
+
 	}
 }
