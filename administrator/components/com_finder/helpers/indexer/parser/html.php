@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	public function parse($input)
 	{
 		// Strip invalid UTF-8 characters.
-		$input = iconv("utf-8", "utf-8//IGNORE", $input);
+		$input = iconv('utf-8', 'utf-8//IGNORE', $input);
 
 		// Remove anything between <head> and </head> tags.  Do this first
 		// because there might be <script> or <style> tags nested inside.
