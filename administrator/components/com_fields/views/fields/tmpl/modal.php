@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_modules
+ * @subpackage  com_fields
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -17,6 +17,7 @@ if (JFactory::getApplication()->isClient('site'))
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => true));
 
 // Special case for the search field tooltip.
 $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
@@ -25,16 +26,6 @@ JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searc
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
-
-JFactory::getDocument()->addScriptDeclaration('
-fieldIns = function(id) {
-	window.parent.jInsertEditorText("{field " + id + "}", "' . $editor . '");
-	window.parent.jModalClose();
-};
-fieldgroupIns = function(id) {
-	window.parent.jInsertEditorText("{fieldgroup " + id + "}", "' . $editor . '");
-	window.parent.jModalClose();
-};');
 ?>
 <div class="container-popup">
 
@@ -94,10 +85,10 @@ fieldgroupIns = function(id) {
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 						</td>
 						<td class="has-context">
-							<a class="btn btn-small btn-block btn-success" href="#" onclick="fieldIns('<?php echo $this->escape($item->id); ?>');"><?php echo $this->escape($item->title); ?></a>
+							<a class="btn btn-small btn-block btn-success" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
 						</td>
 						<td class="small hidden-phone">
-							<a class="btn btn-small btn-block btn-warning" href="#" onclick="fieldgroupIns('<?php echo $this->escape($item->group_id); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : JText::_('JNONE'); ?></a>
+							<a class="btn btn-small btn-block btn-warning" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : JText::_('JNONE'); ?></a>
 						</td>
 						<td class="small hidden-phone">
 							<?php echo $item->type; ?>
