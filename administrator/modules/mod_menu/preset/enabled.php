@@ -14,12 +14,11 @@ use Joomla\Utilities\ArrayHelper;
 /* @var  $this    JAdminCSSMenu */
 /* @var  $params  Joomla\Registry\Registry */
 
-$recovery = (boolean) $params->get('recovery', 0);
-$shownew  = (boolean) $params->get('shownew', 1);
-$showhelp = (boolean) $params->get('showhelp', 1);
-$user     = JFactory::getUser();
-$lang     = JFactory::getLanguage();
-
+$recovery  = (boolean) $params->get('recovery', 0);
+$shownew   = (boolean) $params->get('shownew', 1);
+$showhelp  = (boolean) $params->get('showhelp', 1);
+$user      = JFactory::getUser();
+$lang      = JFactory::getLanguage();
 $rootClass = $recovery ? 'class:' : null;
 
 // Is com_fields installed and enabled?
@@ -93,6 +92,20 @@ if ($user->authorise('core.manage', 'com_users'))
 		}
 	}
 
+	if ($comFieldsEnabled && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+	{
+		$this->addSeparator();
+		$this->addChild(
+				new JMenuNode(
+						JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_users.user', 'class:fields')
+				);
+
+		$this->addChild(
+				new JMenuNode(
+						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_users.user', 'class:category')
+				);
+	}
+
 	$this->addSeparator();
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS_NOTES'), 'index.php?option=com_users&view=notes', 'class:user-note'), $createUser);
 
@@ -105,7 +118,7 @@ if ($user->authorise('core.manage', 'com_users'))
 	$this->addChild(
 		new JMenuNode(
 			JText::_('MOD_MENU_COM_USERS_NOTE_CATEGORIES'), 'index.php?option=com_categories&view=categories&extension=com_users', 'class:category'),
-		$createUser
+			$createUser
 	);
 
 	if ($createUser)
@@ -116,20 +129,8 @@ if ($user->authorise('core.manage', 'com_users'))
 				'class:newarticle'
 			)
 		);
+
 		$this->getParent();
-	}
-
-	if ($comFieldsEnabled && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
-	{
-		$this->addChild(
-				new JMenuNode(
-						JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_users.user', 'class:fields')
-				);
-
-		$this->addChild(
-				new JMenuNode(
-						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_users.user', 'class:category')
-				);
 	}
 
 	if (JFactory::getApplication()->get('massmailoff') != 1)
@@ -183,7 +184,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 		}
 		elseif ($menuType->home == 1 && $menuType->language == '*')
 		{
-			$titleicon = ' <span class="icon-home"></span>';
+			$titleicon = ' <span class="icon-home" aria-hidden="true"></span>';
 		}
 		elseif ($menuType->home > 1)
 		{
@@ -265,8 +266,11 @@ if ($user->authorise('core.manage', 'com_content'))
 		$this->getParent();
 	}
 
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured'));
+
 	if ($comFieldsEnabled && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 	{
+		$this->addSeparator();
 		$this->addChild(
 			new JMenuNode(
 				JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_content.article', 'class:fields')
@@ -277,8 +281,6 @@ if ($user->authorise('core.manage', 'com_content'))
 				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_content.article', 'class:category')
 		);
 	}
-
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured'));
 
 	if ($user->authorise('core.manage', 'com_media'))
 	{
