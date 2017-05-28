@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -160,19 +160,8 @@ class ContactModelFeatured extends JModelList
 		}
 
 		// Change for sqlsrv... aliased c.published to cat_published
-		// Join to check for category published state in parent categories up the tree
-		$query->select('c.published as cat_published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
-		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
-		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_contact');
-
-		// Find any up-path categories that are not published
-		// If all categories are published, badcats.id will be null, and we just use the contact state
-		$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
-
-		// Select state to unpublished if up-path category is unpublished
-		$publishedWhere = 'CASE WHEN badcats.id is null THEN a.published ELSE 0 END';
-		$query->join('LEFT OUTER', '(' . $subquery . ') AS badcats ON badcats.id = c.id');
+		$query->select('c.published as cat_published, c.published AS parents_published')
+			->where('c.published = 1');
 
 		// Filter by state
 		$state = $this->getState('filter.published');
@@ -185,8 +174,7 @@ class ContactModelFeatured extends JModelList
 			$date = JFactory::getDate();
 			$nowDate = $db->quote($date->toSql());
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
-				->where($publishedWhere . ' = ' . (int) $state);
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 
 		// Filter by language
