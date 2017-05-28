@@ -558,7 +558,7 @@ class Articles extends ListModel
 				$assetsForEditCheck[] = $item->asset_id;
 			}
 
-			$profiler = JProfiler::getInstance('Application');
+			$profiler = \JProfiler::getInstance('Application');
 			JDEBUG ? $profiler->mark('Start Article multiple access check') : null;
 			$editChecks = Authorize::getInstance()->check($userId, $assetsForEditCheck, 'core.edit', 'user');
 			JDEBUG ? $profiler->mark('Stop Article multiple access check') : null;
