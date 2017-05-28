@@ -26,14 +26,21 @@
 			required="true"
 		/>
 
-		<field name="actions" type="hidden"
+		<field 
+			name="actions" 
+			type="hidden"
 			multiple="true"
 		/>
 
-		<field name="lft" type="hidden"
+		<field 
+			name="lft" 
+			type="hidden"
 			filter="unset"
 		/>
-		<field name="rgt" type="hidden"
+
+		<field 
+			name="rgt" 
+			type="hidden"
 			filter="unset"
 		/>
 	</fieldset>
