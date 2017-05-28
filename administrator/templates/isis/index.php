@@ -76,8 +76,8 @@ $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 // Header classes
-$navbar_color = $this->params->get('templateColor') ?: '';
-$header_color = $displayHeader && $this->params->get('headerColor') ? $this->params->get('headerColor') : '';
+$navbar_color    = $this->params->get('templateColor') ?: '';
+$header_color    = $displayHeader && $this->params->get('headerColor') ? $this->params->get('headerColor') : '';
 $navbar_is_light = $navbar_color && colorIsLight($navbar_color);
 $header_is_light = $header_color && colorIsLight($header_color);
 
@@ -99,6 +99,7 @@ function colorIsLight($color)
 	$r = hexdec(substr($color, 1, 2));
 	$g = hexdec(substr($color, 3, 2));
 	$b = hexdec(substr($color, 5, 2));
+
 	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
 	return $yiq >= 200;

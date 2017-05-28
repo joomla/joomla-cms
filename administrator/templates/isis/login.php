@@ -23,7 +23,7 @@ $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'htt
 
 // Color Params
 $background_color = $this->params->get('loginBackgroundColor') ?: '';
-$color_is_light = $background_color && colorIsLight($background_color);
+$color_is_light   = $background_color && colorIsLight($background_color);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -57,6 +57,7 @@ function colorIsLight($color)
 	$r = hexdec(substr($color, 1, 2));
 	$g = hexdec(substr($color, 3, 2));
 	$b = hexdec(substr($color, 5, 2));
+
 	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
 	return $yiq >= 200;
