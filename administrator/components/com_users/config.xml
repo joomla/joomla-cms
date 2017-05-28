@@ -52,12 +52,9 @@
 			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC"
 			default="2"
 			>
-			<option
-				value="0">JNONE</option>
-			<option
-				value="1">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_SELFACTIVATION</option>
-			<option
-				value="2">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
+			<option value="0">JNONE</option>
+			<option value="1">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_SELFACTIVATION</option>
+			<option value="2">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
 		</field>
 
 		<field
@@ -81,10 +78,8 @@
 			default=""
 			filter="cmd" 
 			>
-			<option
-				value="">JOPTION_USE_DEFAULT</option>
-			<option
-				value="0">JOPTION_DO_NOT_USE</option>
+			<option value="">JOPTION_USE_DEFAULT</option>
+			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
 		<field
@@ -98,6 +93,7 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+
 		<field
 			name="site_language"
 			type="radio"
@@ -110,6 +106,7 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+
 		<field
 			name="change_login_name"
 			type="radio"
@@ -135,7 +132,7 @@
 			first="0"
 			last="20"
 			step="1"
-			default="10">
+			default="10"
 		/>
 
 		<field
@@ -146,7 +143,7 @@
 			first="1"
 			last="24"
 			step="1"
-			default="1">
+			default="1"
 		/>
 
 		<field
@@ -157,7 +154,7 @@
 			first="4"
 			last="99"
 			step="1"
-			default="4">
+			default="4"
 		/>
 
 		<field
@@ -168,7 +165,7 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
+			default="0"
 		/>
 
 		<field
@@ -179,7 +176,7 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
+			default="0"
 		/>
 
 		<field
@@ -190,21 +187,22 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
+			default="0"
 		/>
+
 	</fieldset>
 
 	<fieldset
 		name="user_notes_history"
 		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
 
-			<field
+		<field
 			name="save_history"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -213,12 +211,13 @@
 		<field
 			name="history_limit"
 			type="text"
-			filter="integer"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
+			filter="integer"
 			default="5"
 			showon="save_history:1"
 		/>
+
 	</fieldset>
 
  	<fieldset
@@ -236,10 +235,10 @@
  		<field
  			name="mailBodySuffix"
 			type="textarea"
- 			rows="5"
- 			cols="30"
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
+ 			rows="5"
+ 			cols="30"
 		/>
 
 	</fieldset>
@@ -252,11 +251,11 @@
 		<field
 			name="debugUsers"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_USERS_DEBUG_USERS_LABEL"
 			description="COM_USERS_DEBUG_USERS_DESC"
-		>
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -264,11 +263,11 @@
 		<field
 			name="debugGroups"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_USERS_DEBUG_GROUPS_LABEL"
 			description="COM_USERS_DEBUG_GROUPS_DESC"
-		>
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -283,11 +282,11 @@
 		<field
 			name="custom_fields_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
+			class="btn-group btn-group-yesno"
 			default="1"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -307,6 +306,8 @@
 			filter="rules"
 			validate="rules"
 			component="com_users"
-			section="component" />
+			section="component"
+		/>
+
 	</fieldset>
 </config>
