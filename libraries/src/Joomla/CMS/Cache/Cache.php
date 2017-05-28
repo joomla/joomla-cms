@@ -1,14 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Cache;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Web\WebClient;
 use Joomla\String\StringHelper;
 
 /**
@@ -16,12 +18,12 @@ use Joomla\String\StringHelper;
  *
  * @since  11.1
  */
-class JCache
+class Cache
 {
 	/**
 	 * Storage handler
 	 *
-	 * @var    JCacheStorage[]
+	 * @var    CacheStorage[]
 	 * @since  11.1
 	 */
 	public static $_handler = array();
@@ -43,7 +45,7 @@ class JCache
 	 */
 	public function __construct($options)
 	{
-		$conf = JFactory::getConfig();
+		$conf = \JFactory::getConfig();
 
 		$this->_options = array(
 			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
@@ -78,13 +80,13 @@ class JCache
 	 * @param   string  $type     The cache object type to instantiate
 	 * @param   array   $options  The array of options
 	 *
-	 * @return  JCacheController
+	 * @return  CacheController
 	 *
 	 * @since   11.1
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
-		return JCacheController::getInstance($type, $options);
+		return CacheController::getInstance($type, $options);
 	}
 
 	/**
@@ -99,9 +101,9 @@ class JCache
 		$handlers = array();
 
 		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(__DIR__ . '/storage');
+		$iterator = new \DirectoryIterator(__DIR__ . '/storage');
 
-		/** @type  $file  DirectoryIterator */
+		/** @type  $file  \DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
@@ -318,13 +320,13 @@ class JCache
 	 * @param   string  $group     The cache data group
 	 * @param   string  $locktime  The default locktime for locking the cache.
 	 *
-	 * @return  stdClass  Object with properties of lock and locklooped
+	 * @return  \stdClass  Object with properties of lock and locklooped
 	 *
 	 * @since   11.1
 	 */
 	public function lock($id, $group = null, $locktime = null)
 	{
-		$returning = new stdClass;
+		$returning = new \stdClass;
 		$returning->locklooped = false;
 
 		if (!$this->getCaching())
@@ -443,7 +445,7 @@ class JCache
 	/**
 	 * Get the cache storage handler
 	 *
-	 * @return  JCacheStorage
+	 * @return  CacheStorage
 	 *
 	 * @since   11.1
 	 */
@@ -456,7 +458,7 @@ class JCache
 			return self::$_handler[$hash];
 		}
 
-		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+		self::$_handler[$hash] = CacheStorage::getInstance($this->_options['storage'], $this->_options);
 
 		return self::$_handler[$hash];
 	}
@@ -473,8 +475,8 @@ class JCache
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		$app      = \JFactory::getApplication();
+		$document = \JFactory::getDocument();
 		$body     = null;
 
 		// Get the document head out of the cache.
@@ -524,7 +526,7 @@ class JCache
 		// The following code searches for a token in the cached page and replaces it with the proper token.
 		if (isset($data['body']))
 		{
-			$token       = JSession::getFormToken();
+			$token       = \JSession::getFormToken();
 			$search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
 			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
 
@@ -575,8 +577,8 @@ class JCache
 			$loptions['modulemode'] = $options['modulemode'];
 		}
 
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		$app      = \JFactory::getApplication();
+		$document = \JFactory::getDocument();
 
 		if ($loptions['nomodules'] != 1)
 		{
@@ -709,9 +711,9 @@ class JCache
 	 */
 	public static function makeId()
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
-		$registeredurlparams = new stdClass;
+		$registeredurlparams = new \stdClass;
 
 		// Get url parameters set by plugins
 		if (!empty($app->registeredurlparams))
@@ -738,7 +740,7 @@ class JCache
 			}
 		}
 
-		$safeuriaddon = new stdClass;
+		$safeuriaddon = new \stdClass;
 
 		foreach ($registeredurlparams as $key => $value)
 		{
@@ -758,12 +760,12 @@ class JCache
 	public static function getPlatformPrefix()
 	{
 		// No prefix when Global Config is set to no platfom specific prefix
-		if (!JFactory::getConfig()->get('cache_platformprefix', '0'))
+		if (!\JFactory::getConfig()->get('cache_platformprefix', '0'))
 		{
 			return '';
 		}
 
-		$webclient = new JApplicationWebClient;
+		$webclient = new WebClient;
 
 		if ($webclient->mobile)
 		{
@@ -774,7 +776,7 @@ class JCache
 	}
 
 	/**
-	 * Add a directory where JCache should search for handlers. You may either pass a string or an array of directories.
+	 * Add a directory where Cache should search for handlers. You may either pass a string or an array of directories.
 	 *
 	 * @param   array|string  $path  A path to search.
 	 *
@@ -793,8 +795,8 @@ class JCache
 
 		if (!empty($path) && !in_array($path, $paths))
 		{
-			jimport('joomla.filesystem.path');
-			array_unshift($paths, JPath::clean($path));
+			\JLoader::import('joomla.filesystem.path');
+			array_unshift($paths, \JPath::clean($path));
 		}
 
 		return $paths;

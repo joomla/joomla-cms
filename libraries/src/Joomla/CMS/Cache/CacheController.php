@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Cache;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,12 +16,12 @@ defined('JPATH_PLATFORM') or die;
  * @since  11.1
  * @note   As of 4.0 this class will be abstract
  */
-class JCacheController
+class CacheController
 {
 	/**
-	 * JCache object
+	 * Cache object
 	 *
-	 * @var    JCache
+	 * @var    Cache
 	 * @since  11.1
 	 */
 	public $cache;
@@ -42,7 +43,7 @@ class JCacheController
 	 */
 	public function __construct($options)
 	{
-		$this->cache = new JCache($options);
+		$this->cache = new Cache($options);
 		$this->options = & $this->cache->_options;
 
 		// Overwrite default options with given options
@@ -56,7 +57,7 @@ class JCacheController
 	}
 
 	/**
-	 * Magic method to proxy JCacheController method calls to JCache
+	 * Magic method to proxy CacheController method calls to Cache
 	 *
 	 * @param   string  $name       Name of the function
 	 * @param   array   $arguments  Array of arguments for the function
@@ -76,10 +77,10 @@ class JCacheController
 	 * @param   string  $type     The cache object type to instantiate; default is output.
 	 * @param   array   $options  Array of options
 	 *
-	 * @return  JCacheController
+	 * @return  CacheController
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
@@ -91,20 +92,20 @@ class JCacheController
 
 		if (!class_exists($class))
 		{
-			// Search for the class file in the JCache include paths.
-			jimport('joomla.filesystem.path');
+			// Search for the class file in the Cache include paths.
+			\JLoader::import('joomla.filesystem.path');
 
-			$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+			$path = \JPath::find(self::addIncludePath(), strtolower($type) . '.php');
 
 			if ($path !== false)
 			{
-				JLoader::register($class, $path);
+				\JLoader::register($class, $path);
 			}
 
 			// The class should now be loaded
 			if (!class_exists($class))
 			{
-				throw new RuntimeException('Unable to load Cache Controller: ' . $type, 500);
+				throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
 			}
 		}
 
@@ -112,7 +113,7 @@ class JCacheController
 	}
 
 	/**
-	 * Add a directory where JCache should search for controllers. You may either pass a string or an array of directories.
+	 * Add a directory where Cache should search for controllers. You may either pass a string or an array of directories.
 	 *
 	 * @param   array|string  $path  A path to search.
 	 *
@@ -131,8 +132,8 @@ class JCacheController
 
 		if (!empty($path) && !in_array($path, $paths))
 		{
-			jimport('joomla.filesystem.path');
-			array_unshift($paths, JPath::clean($path));
+			\JLoader::import('joomla.filesystem.path');
+			array_unshift($paths, \JPath::clean($path));
 		}
 
 		return $paths;

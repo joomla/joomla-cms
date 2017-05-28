@@ -1,11 +1,15 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Cache;
+
+use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
+use Joomla\CMS\Log\Log;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @since  11.1
  * @note   As of 4.0 this class will be abstract
  */
-class JCacheStorage
+class CacheStorage
 {
 	/**
 	 * The raw object name
@@ -82,7 +86,7 @@ class JCacheStorage
 	 */
 	public function __construct($options = array())
 	{
-		$config = JFactory::getConfig();
+		$config = \JFactory::getConfig();
 
 		$this->_hash        = md5($config->get('secret'));
 		$this->_application = (isset($options['application'])) ? $options['application'] : null;
@@ -110,11 +114,11 @@ class JCacheStorage
 	 * @param   string  $handler  The cache storage handler to instantiate
 	 * @param   array   $options  Array of handler options
 	 *
-	 * @return  JCacheStorage
+	 * @return  CacheStorage
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
-	 * @throws  JCacheExceptionUnsupported
+	 * @throws  \UnexpectedValueException
+	 * @throws  UnsupportedCacheException
 	 */
 	public static function getInstance($handler = null, $options = array())
 	{
@@ -125,11 +129,11 @@ class JCacheStorage
 
 		if (!isset($handler))
 		{
-			$handler = JFactory::getConfig()->get('cache_handler');
+			$handler = \JFactory::getConfig()->get('cache_handler');
 
 			if (empty($handler))
 			{
-				throw new UnexpectedValueException('Cache Storage Handler not set.');
+				throw new \UnexpectedValueException('Cache Storage Handler not set.');
 			}
 		}
 
@@ -143,34 +147,34 @@ class JCacheStorage
 		// We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
-		/** @var JCacheStorage $class */
+		/** @var CacheStorage $class */
 		$class = 'JCacheStorage' . ucfirst($handler);
 
 		if (!class_exists($class))
 		{
 			// Search for the class file in the JCacheStorage include paths.
-			jimport('joomla.filesystem.path');
+			\JLoader::import('joomla.filesystem.path');
 
-			$path = JPath::find(self::addIncludePath(), strtolower($handler) . '.php');
+			$path = \JPath::find(self::addIncludePath(), strtolower($handler) . '.php');
 
 			if ($path === false)
 			{
-				throw new JCacheExceptionUnsupported(sprintf('Unable to load Cache Storage: %s', $handler));
+				throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
 
-			JLoader::register($class, $path);
+			\JLoader::register($class, $path);
 
 			// The class should now be loaded
 			if (!class_exists($class))
 			{
-				throw new JCacheExceptionUnsupported(sprintf('Unable to load Cache Storage: %s', $handler));
+				throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
 		}
 
 		// Validate the cache storage is supported on this platform
 		if (!$class::isSupported())
 		{
-			throw new JCacheExceptionUnsupported(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
+			throw new UnsupportedCacheException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
 		}
 
 		return new $class($options);
@@ -314,7 +318,7 @@ class JCacheStorage
 	 */
 	public static function test()
 	{
-		JLog::add(__METHOD__ . '() is deprecated. Use JCacheStorage::isSupported() instead.', JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . '() is deprecated. Use CacheStorage::isSupported() instead.', Log::WARNING, 'deprecated');
 
 		return static::isSupported();
 	}
@@ -365,11 +369,11 @@ class JCacheStorage
 		$name          = md5($this->_application . '-' . $id . '-' . $this->_language);
 		$this->rawname = $this->_hash . '-' . $name;
 
-		return JCache::getPlatformPrefix() . $this->_hash . '-cache-' . $group . '-' . $name;
+		return Cache::getPlatformPrefix() . $this->_hash . '-cache-' . $group . '-' . $name;
 	}
 
 	/**
-	 * Add a directory where JCacheStorage should search for handlers. You may either pass a string or an array of directories.
+	 * Add a directory where CacheStorage should search for handlers. You may either pass a string or an array of directories.
 	 *
 	 * @param   array|string  $path  A path to search.
 	 *
@@ -388,8 +392,8 @@ class JCacheStorage
 
 		if (!empty($path) && !in_array($path, $paths))
 		{
-			jimport('joomla.filesystem.path');
-			array_unshift($paths, JPath::clean($path));
+			\JLoader::import('joomla.filesystem.path');
+			array_unshift($paths, \JPath::clean($path));
 		}
 
 		return $paths;

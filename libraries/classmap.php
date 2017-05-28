@@ -213,3 +213,23 @@ JLoader::registerAlias('JLogLoggerFormattedtext',           '\\Joomla\\CMS\\Log\
 JLoader::registerAlias('JLogLoggerMessagequeue',            '\\Joomla\\CMS\\Log\\Logger\\MessagequeueLogger', '4.0');
 JLoader::registerAlias('JLogLoggerSyslog',                  '\\Joomla\\CMS\\Log\\Logger\\SyslogLogger', '4.0');
 JLoader::registerAlias('JLogLoggerW3c',                     '\\Joomla\\CMS\\Log\\Logger\\W3cLogger', '4.0');
+
+JLoader::registerAlias('JCache',                            '\\Joomla\\CMS\\Cache\\Cache', '4.0');
+JLoader::registerAlias('JCacheController',                  '\\Joomla\\CMS\\Cache\\CacheController', '4.0');
+JLoader::registerAlias('JCacheStorage',                     '\\Joomla\\CMS\\Cache\\CacheStorage', '4.0');
+JLoader::registerAlias('JCacheControllerCallback',          '\\Joomla\\CMS\\Cache\\Controller\\CacheController', '4.0');
+JLoader::registerAlias('JCacheControllerOutput',            '\\Joomla\\CMS\\Cache\\Controller\\OutputController', '4.0');
+JLoader::registerAlias('JCacheControllerPage',              '\\Joomla\\CMS\\Cache\\Controller\\PageController', '4.0');
+JLoader::registerAlias('JCacheControllerView',              '\\Joomla\\CMS\\Cache\\Controller\\ViewController', '4.0');
+JLoader::registerAlias('JCacheStorageApc',                  '\\Joomla\\CMS\\Cache\\Storage\\ApcStorage', '4.0');
+JLoader::registerAlias('JCacheStorageApcu',                 '\\Joomla\\CMS\\Cache\\Storage\\ApcuStorage', '4.0');
+JLoader::registerAlias('JCacheStorageHelper',               '\\Joomla\\CMS\\Cache\\Storage\\CacheStorageHelper', '4.0');
+JLoader::registerAlias('JCacheStorageCachelite',            '\\Joomla\\CMS\\Cache\\Storage\\CacheliteStorage', '4.0');
+JLoader::registerAlias('JCacheStorageFile',                 '\\Joomla\\CMS\\Cache\\Storage\\FileStorage', '4.0');
+JLoader::registerAlias('JCacheStorageMemcache',             '\\Joomla\\CMS\\Cache\\Storage\\MemcacheStorage  ', '4.0');
+JLoader::registerAlias('JCacheStorageRedis',                '\\Joomla\\CMS\\Cache\\Storage\\RedisStorage  ', '4.0');
+JLoader::registerAlias('JCacheStorageWincache',             '\\Joomla\\CMS\\Cache\\Storage\\WincacheStorage  ', '4.0');
+JLoader::registerAlias('JCacheStorageXcache',               '\\Joomla\\CMS\\Cache\\Storage\\XcacheStorage  ', '4.0');
+JLoader::registerAlias('JCacheException',                   '\\Joomla\\CMS\\Cache\\Exception\\CacheExceptionInterface', '4.0');
+JLoader::registerAlias('JCacheExceptionConnecting',         '\\Joomla\\CMS\\Cache\\Exception\\CacheConnectingException', '4.0');
+JLoader::registerAlias('JCacheExceptionUnsupported',        '\\Joomla\\CMS\\Cache\\Exception\\UnsupportedCacheException', '4.0');

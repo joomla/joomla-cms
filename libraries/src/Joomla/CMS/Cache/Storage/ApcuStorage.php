@@ -1,13 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Cache\Storage;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Cache\CacheStorage;
 
 /**
  * APCu cache storage handler
@@ -15,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   https://secure.php.net/manual/en/ref.apcu.php
  * @since  3.5
  */
-class JCacheStorageApcu extends JCacheStorage
+class ApcuStorage extends CacheStorage
 {
 	/**
 	 * Check if the cache contains data stored by ID and group
@@ -89,7 +92,7 @@ class JCacheStorageApcu extends JCacheStorage
 
 				if (!isset($data[$group]))
 				{
-					$item = new JCacheStorageHelper($group);
+					$item = new CacheStorageHelper($group);
 				}
 				else
 				{
@@ -263,7 +266,7 @@ class JCacheStorageApcu extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass;
+		$returning = new \stdClass;
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;
