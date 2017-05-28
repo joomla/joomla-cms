@@ -954,8 +954,8 @@ class JInstaller extends JAdapter
 		// Get the name of the sql file to process
 		foreach ($element->children() as $file)
 		{
-			$fCharset = (strtolower($file->attributes()->charset) === 'utf8') ? 'utf8' : '';
-			$fDriver = strtolower($file->attributes()->driver);
+			$fCharset = strtolower($file->attributes()->charset) === 'utf8' ? 'utf8' : '';
+			$fDriver  = strtolower($file->attributes()->driver);
 
 			if ($fDriver === 'mysqli' || $fDriver === 'pdomysql')
 			{
@@ -1528,7 +1528,7 @@ class JInstaller extends JAdapter
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
-			$path['type'] = ($file->getName() === 'folder') ? 'folder' : 'file';
+			$path['type'] = $file->getName() === 'folder' ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
