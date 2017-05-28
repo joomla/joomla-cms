@@ -8,6 +8,7 @@
 			description="COM_USERS_SEARCH_IN_ASSETS"
 			hint="JSEARCH_FILTER"
 		/>
+
 		<field
 			name="component"
 			type="Components"
@@ -16,7 +17,8 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_COMPONENT</option>
-		/>
+		</field>
+
 		<field
 			name="level_start"
 			type="Levels"
@@ -25,7 +27,8 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_START</option>
-		/>
+		</field>
+
 		<field
 			name="level_end"
 			type="Levels"
@@ -34,8 +37,9 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_END</option>
-		/>
+		</field>
 	</fields>
+
 	<fields name="list">
 		<field
 			name="fullordering"
@@ -53,6 +57,7 @@
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
+
 		<field
 			name="limit"
 			type="limitbox"
