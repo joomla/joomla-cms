@@ -1331,7 +1331,7 @@ class JInstaller extends JAdapter
 			$path['dest'] = $destination . '/' . $file;
 
 			// Is this path a file or folder?
-			$path['type'] = ($file->getName() === 'folder') ? 'folder' : 'file';
+			$path['type'] = $file->getName() === 'folder' ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure

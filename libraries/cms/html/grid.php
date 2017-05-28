@@ -84,7 +84,7 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			$direction = ($direction === 'desc') ? 'asc' : 'desc';
+			$direction = $direction === 'desc' ? 'asc' : 'desc';
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'

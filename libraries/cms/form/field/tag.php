@@ -237,8 +237,8 @@ class JFormFieldTag extends JFormFieldList
 		if (is_null($this->isNested))
 		{
 			// If mode="nested" || ( mode not set & config = nested )
-			if ((isset($this->element['mode']) && $this->element['mode'] === 'nested')
-				|| (!isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0))
+			if (isset($this->element['mode']) && $this->element['mode'] === 'nested'
+				|| !isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0)
 			{
 				$this->isNested = true;
 			}

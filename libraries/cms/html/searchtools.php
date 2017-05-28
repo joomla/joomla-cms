@@ -147,7 +147,7 @@ abstract class JHtmlSearchtools
 		}
 		else
 		{
-			$direction = ($direction === 'desc') ? 'asc' : 'desc';
+			$direction = $direction === 'desc' ? 'asc' : 'desc';
 		}
 
 		// Create an object to pass it to the layouts
