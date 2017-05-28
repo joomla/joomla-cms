@@ -52,7 +52,7 @@ $layout   = $input->get('layout', '');
 $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
-$cpanel   = ($option === 'com_cpanel');
+$cpanel   = $option === 'com_cpanel';
 
 $hidden = $app->input->get('hidemainmenu');
 
@@ -63,7 +63,7 @@ foreach ($this->submenumodules as $submenumodule)
 {
 	$output = JModuleHelper::renderModule($submenumodule);
 
-	if (strlen($output))
+	if ($output !== '')
 	{
 		$showSubmenu = true;
 		break;
@@ -77,9 +77,9 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 // Header classes
 $navbar_color = $this->params->get('templateColor') ?: '';
-$header_color = ($displayHeader && $this->params->get('headerColor')) ? $this->params->get('headerColor') : '';
-$navbar_is_light = ($navbar_color && colorIsLight($navbar_color));
-$header_is_light = ($header_color && colorIsLight($header_color));
+$header_color = $displayHeader && $this->params->get('headerColor') ? $this->params->get('headerColor') : '';
+$navbar_is_light = $navbar_color && colorIsLight($navbar_color);
+$header_is_light = $header_color && colorIsLight($header_color);
 
 if ($displayHeader)
 {

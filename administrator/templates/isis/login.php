@@ -23,7 +23,7 @@ $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'htt
 
 // Color Params
 $background_color = $this->params->get('loginBackgroundColor') ?: '';
-$color_is_light = ($background_color && colorIsLight($background_color));
+$color_is_light = $background_color && colorIsLight($background_color);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
