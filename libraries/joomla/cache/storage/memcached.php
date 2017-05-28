@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler
  *
- * @see    https://secure.php.net/manual/en/book.memcached.php
+ * @link   https://secure.php.net/manual/en/book.memcached.php
  * @since  12.1
  */
 class JCacheStorageMemcached extends JCacheStorage
@@ -133,6 +133,23 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		return $cache_id;
+	}
+
+	/**
+	 * Check if the cache contains data stored by ID and group
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		static::$_db->get($this->_getCacheId($id, $group));
+
+		return static::$_db->getResultCode() !== Memcached::RES_NOTFOUND;
 	}
 
 	/**
