@@ -84,11 +84,16 @@ class CacheController
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
-		self::addIncludePath(JPATH_PLATFORM . '/joomla/cache/controller');
+		self::addIncludePath(__DIR__ . '/Controller');
 
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
-		$class = 'JCacheController' . ucfirst($type);
+		$class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
+
+		if (!class_exists($class))
+		{
+			$class = 'JCacheController' . ucfirst($type);
+		}
 
 		if (!class_exists($class))
 		{

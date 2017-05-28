@@ -125,7 +125,7 @@ class CacheStorage
 		static $now = null;
 
 		// @deprecated  4.0  This class path is autoloaded, manual inclusion is no longer necessary
-		self::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
+		self::addIncludePath(__DIR__ . '/Storage');
 
 		if (!isset($handler))
 		{
@@ -148,7 +148,12 @@ class CacheStorage
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
 		/** @var CacheStorage $class */
-		$class = 'JCacheStorage' . ucfirst($handler);
+		$class = __NAMESPACE__ . '\\Storage\\' . ucfirst($handler) . 'Storage';
+
+		if (!class_exists($class))
+		{
+			$class = 'JCacheStorage' . ucfirst($handler);
+		}
 
 		if (!class_exists($class))
 		{
