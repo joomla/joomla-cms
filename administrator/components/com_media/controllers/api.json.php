@@ -102,6 +102,9 @@ class MediaControllerApi extends Controller
 					break;
 				case 'delete':
 					$this->getModel()->delete($path);
+
+					// Define this for capability with other cases
+					$data = null;
 					break;
 				case 'post':
 					$content      = $this->input->json;
