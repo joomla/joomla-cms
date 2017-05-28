@@ -19,7 +19,7 @@ else
 	$myrtl     = $this->newsfeed->rtl;
 	$direction = ' ';
 
-	$isRtl= $lang->isRtl();
+	$isRtl = $lang->isRtl();
 
 		if ($isRtl && $myrtl == 0)
 		{

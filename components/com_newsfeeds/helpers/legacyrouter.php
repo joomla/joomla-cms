@@ -77,7 +77,7 @@ class NewsfeedsRouterRulesLegacy implements JComponentRouterRulesInterface
 		{
 			$view = $query['view'];
 
-			if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_newsfeeds')
+			if (empty($menuItem) || $menuItem->component !== 'com_newsfeeds' || empty($query['Itemid']))
 			{
 				$segments[] = $query['view'];
 			}
@@ -86,18 +86,18 @@ class NewsfeedsRouterRulesLegacy implements JComponentRouterRulesInterface
 		}
 
 		// Are we dealing with an newsfeed that is attached to a menu item?
-		if (isset($query['view']) && ($mView == $query['view']) and isset($query['id']) and ($mId == (int) $query['id']))
+		if (isset($query['view'], $query['id']) && $mView == $query['view'] && $mId == (int) $query['id'])
 		{
 			unset($query['view'], $query['catid'], $query['id']);
 
 			return;
 		}
 
-		if (isset($view) and ($view == 'category' or $view == 'newsfeed'))
+		if (isset($view) && ($view === 'category' || $view === 'newsfeed'))
 		{
 			if ($mId != (int) $query['id'] || $mView != $view)
 			{
-				if ($view == 'newsfeed' && isset($query['catid']))
+				if ($view === 'newsfeed' && isset($query['catid']))
 				{
 					$catid = $query['catid'];
 				}
@@ -119,7 +119,7 @@ class NewsfeedsRouterRulesLegacy implements JComponentRouterRulesInterface
 
 					foreach ($path as $id)
 					{
-						if ((int) $id == (int) $menuCatid)
+						if ((int) $id === (int) $menuCatid)
 						{
 							break;
 						}
@@ -135,7 +135,7 @@ class NewsfeedsRouterRulesLegacy implements JComponentRouterRulesInterface
 					$segments = array_merge($segments, array_reverse($array));
 				}
 
-				if ($view == 'newsfeed')
+				if ($view === 'newsfeed')
 				{
 					if ($advanced)
 					{
@@ -164,7 +164,7 @@ class NewsfeedsRouterRulesLegacy implements JComponentRouterRulesInterface
 			}
 			else
 			{
-				if ($query['layout'] == 'default')
+				if ($query['layout'] === 'default')
 				{
 					unset($query['layout']);
 				}
