@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,12 +91,21 @@ class UsersHelper
 	public static function getActions()
 	{
 		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions
-		$result = JHelperContent::getActions('com_users');
-
-		return $result;
+		return JHelperContent::getActions('com_users');
 	}
 
 	/**
@@ -298,6 +307,37 @@ class UsersHelper
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Returns a valid section for users. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   3.7.0
+	 */
+	public static function validateSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site'))
+		{
+			switch ($section)
+			{
+				case 'registration':
+				case 'profile':
+					$section = 'user';
+			}
+		}
+
+		if ($section != 'user')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
 	}
 
 	/**

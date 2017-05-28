@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('groupedlist');
  *
  * @since  11.1
  */
-class JFormFieldTimezone extends JFormFieldGroupedList implements JFormDomfieldinterface
+class JFormFieldTimezone extends JFormFieldGroupedList
 {
 	/**
 	 * The form field type.

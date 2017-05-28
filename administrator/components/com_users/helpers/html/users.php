@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class JHtmlUsers
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="'
-			. $title . '"><span class="icon-vcard"></span><span class="hidden-phone">' . $title . '</span></a>';
+			. $title . '"><span class="icon-vcard" aria-hidden="true"></span><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**

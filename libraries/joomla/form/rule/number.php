@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,15 @@ class JFormRuleNumber extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
+		// Check if the field is required.
+		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+		// If the value is empty and the field is not required return True.
+		if (($value === '' || $value === null) && ! $required)
+		{
+			return true;
+		}
+
 		$float_value = (float) $value;
 
 		if (isset($element['min']))

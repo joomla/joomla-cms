@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -292,7 +292,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		$row->set('params', $this->parent->getParams());
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 
-		if (!$row->store())
+		if (!$row->check() || !$row->store())
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
@@ -304,7 +304,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		if ((int) $clientId === 0)
 		{
 			// Load the site language manifest.
-			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
+			$siteLanguageManifest = JLanguageHelper::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
 
 			// Set the content language title as the language metadata name.
 			$contentLanguageTitle = $siteLanguageManifest['name'];
@@ -313,9 +313,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			$contentLanguageNativeTitle = $contentLanguageTitle;
 
 			// If exist, load the native title from the language xml metadata.
-			if (isset($siteLanguageMetadata['nativeName']) && $siteLanguageMetadata['nativeName'])
+			if (isset($siteLanguageManifest['nativeName']) && $siteLanguageManifest['nativeName'])
 			{
-				$contentLanguageNativeTitle = $siteLanguageMetadata['nativeName'];
+				$contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
 			}
 
 			// Try to load a language string from the installation language var. Will be removed in 4.0.
@@ -537,7 +537,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
-		$eid = $row->find(array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
+		$eid = $row->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
 
 		if ($eid)
 		{
@@ -564,7 +564,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		// Clean installed languages cache.
 		JFactory::getCache()->clean('com_languages');
 
-		if (!$row->store())
+		if (!$row->check() || !$row->store())
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
@@ -794,6 +794,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		// @todo remove code: $this->parent->extension->params = $this->parent->getParams();
 		try
 		{
+			$this->parent->extension->check();
 			$this->parent->extension->store();
 		}
 		catch (RuntimeException $e)

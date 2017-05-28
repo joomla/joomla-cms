@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $colSpan = $clientId === 1 ? 5 : 6;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if (!empty( $this->sidebar)) : ?>
+<?php if (!empty($this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -31,13 +31,8 @@ $colSpan = $clientId === 1 ? 5 : 6;
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif; ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<div class="clear"> </div>
-		<?php if (empty($this->items)) : ?>
-				<div class="alert alert-no-items">
-					<?php echo JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'); ?>
-				</div>
-		<?php else : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
+		<?php if ($this->total > 0) : ?>
 			<table class="table table-striped" id="styleList">
 				<thead>
 					<tr>
@@ -83,11 +78,11 @@ $colSpan = $clientId === 1 ? 5 : 6;
 						<td>
 							<?php if ($this->preview && $item->client_id == '0') : ?>
 								<a target="_blank" href="<?php echo JUri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
-								<span class="icon-eye-open hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>" ></span></a>
+								<span class="icon-eye-open hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>" ></span></a>
 							<?php elseif ($item->client_id == '1') : ?>
-								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>" ></span>
-							<?php else : ?>
-								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>" ></span>
+								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>" ></span>
+							<?php else: ?>
+								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>" ></span>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>">
