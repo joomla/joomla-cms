@@ -19,6 +19,9 @@ $showhelp = (boolean) $params->get('showhelp', 1);
 $user     = JFactory::getUser();
 $lang     = JFactory::getLanguage();
 
+// Is com_fields installed and enabled?
+$comFieldsEnabled = JComponentHelper::isInstalled('com_fields') && JComponentHelper::isEnabled('com_fields');
+
 /**
  * Site Submenu
  */
@@ -103,7 +106,7 @@ if ($user->authorise('core.manage', 'com_users'))
 		$this->getParent();
 	}
 
-	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+	if ($comFieldsEnabled && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
 	{
 		$this->addChild(
 				new JMenuNode(
@@ -147,7 +150,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	// Menu Types
 	$menuTypes = ModMenuHelper::getMenus();
-	$menuTypes = ArrayHelper::sortObjects($menuTypes, array('client_id', 'title'), 1, false);
+	$menuTypes = ArrayHelper::sortObjects($menuTypes, isset($menuTypes[0]->client_id) ? array('client_id', 'title') : 'title', 1, false);
 
 	foreach ($menuTypes as $mti => $menuType)
 	{
@@ -182,7 +185,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 			$titleicon = ' <span class="label" title="' . $menuType->title_native . '">' . $menuType->sef . '</span>';
 		}
 
-		if (isset($menuTypes[$mti - 1]) && $menuTypes[$mti - 1]->client_id != $menuType->client_id)
+		if (isset($menuTypes[$mti - 1], $menuType->client_id) && $menuTypes[$mti - 1]->client_id != $menuType->client_id)
 		{
 			$this->addSeparator(JText::_('JADMINISTRATOR'));
 		}
@@ -239,7 +242,7 @@ if ($user->authorise('core.manage', 'com_content'))
 		$this->getParent();
 	}
 
-	if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
+	if ($comFieldsEnabled && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 	{
 		$this->addChild(
 			new JMenuNode(

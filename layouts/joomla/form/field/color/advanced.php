@@ -60,9 +60,10 @@ $class        = ' class="form-control ' . trim('minicolors ' . $class) . ($valid
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
+$validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
-$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
+$hint         = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ' placeholder="' . $placeholder . '"';
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors

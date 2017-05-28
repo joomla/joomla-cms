@@ -46,7 +46,7 @@ JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 					</div>
 				</div>
 			<?php endif; ?>
-			<div class="control-group span6">
+			<div class="control-group col-md-6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.tag'); ?>
 				</div>

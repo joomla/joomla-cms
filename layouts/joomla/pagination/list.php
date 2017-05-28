@@ -21,8 +21,8 @@ $endDisabled   = $list['end']['active'] ? '' : ' disabled';
 	<li class="pagination-start<?php echo $startDisabled; ?> page-item"><?php echo $list['start']['data']; ?></li>
 	<li class="pagination-prev<?php echo $prevDisabled; ?> page-item"><?php echo $list['previous']['data']; ?></li>
 	<?php foreach ($list['pages'] as $page) : ?>
-		<?php $disabled = $page['active'] ? '' : 'disabled'; ?>
-		<?php echo '<li class="page-item ' . $disabled . '">' . $page['data'] . '</li>'; ?>
+		<?php $disabled = $page['active'] ? '' : ' disabled'; ?>
+		<?php echo '<li class="page-item' . $disabled . '">' . $page['data'] . '</li>'; ?>
 	<?php endforeach; ?>
 	<li class="pagination-next<?php echo $nextDisabled; ?> page-item"><?php echo $list['next']['data']; ?></li>
 	<li class="pagination-end<?php echo $endDisabled; ?> page-item"><?php echo $list['end']['data']; ?></li>

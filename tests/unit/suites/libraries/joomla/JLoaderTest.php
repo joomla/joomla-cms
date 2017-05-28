@@ -107,7 +107,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	{
 		return array(
 			'fred.factory' => array('fred.factory', false, 'fred.factory does not exist'),
-			'browser' => array('joomla.environment.browser', true, 'JBrowser should load properly'));
+			'classloader' => array('cms.class.loader', true, 'JClassLoader should load properly'));
 	}
 
 	/**
@@ -294,6 +294,58 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(class_exists('JoomlaPatchTester'), 'Tests that a class with multiple parts is loaded from the correct path.');
 		$this->assertTrue(class_exists('JoomlaTester'), 'Tests that a class with a single part is loaded from a folder (legacy behavior).');
 		$this->assertFalse(class_exists('JoomlaNotPresent'), 'Tests that a non-existing class is not found.');
+	}
+
+	/**
+	 * Tests if JLoader can autoload a component.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadComponentClass()
+	{
+		JLoader::registerExtensionRootFolder('Administrator', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Component\\Foo\\Administrator\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader can autoload a module.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadModuleClass()
+	{
+		JLoader::registerExtensionRootFolder('Site', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Module\\FooBar\\Site\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader can autoload a plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadPluginClass()
+	{
+		JLoader::registerExtensionRootFolder('', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertTrue(class_exists('Vendor\\Plugin\\Test\\Foo\\Helper\\Bar'));
+	}
+
+	/**
+	 * Tests if JLoader fails to autoload an extension which doesn't exist.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testLoadNotExistingExtensionClass()
+	{
+		JLoader::registerExtensionRootFolder('Administrator', JPATH_TEST_STUBS . '/loaderextension');
+		$this->assertFalse(class_exists('Vendor\\Component\\Fooinvalid\\Administrator\\Helper\\Bar'));
 	}
 
 	/**

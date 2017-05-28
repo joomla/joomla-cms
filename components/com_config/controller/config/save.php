@@ -17,14 +17,6 @@ defined('_JEXEC') or die;
 class ConfigControllerConfigSave extends JControllerBase
 {
 	/**
-	 * Application object - Redeclared for proper typehinting
-	 *
-	 * @var    JApplicationCms
-	 * @since  3.2
-	 */
-	protected $app;
-
-	/**
 	 * Method to save global configuration.
 	 *
 	 * @return  boolean  True on success.
@@ -36,15 +28,15 @@ class ConfigControllerConfigSave extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->getApplication()->redirect('index.php');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->getApplication()->redirect('index.php');
 		}
 
 		// Set FTP credentials, if given.
@@ -52,7 +44,7 @@ class ConfigControllerConfigSave extends JControllerBase
 
 		$model = new ConfigModelConfig;
 		$form  = $model->getForm();
-		$data  = $this->input->post->get('jform', array(), 'array');
+		$data  = $this->getInput()->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
@@ -65,10 +57,10 @@ class ConfigControllerConfigSave extends JControllerBase
 			 */
 
 			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
+			$this->getApplication()->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.config', false));
+			$this->getApplication()->redirect(JRoute::_('index.php?option=com_config&controller=config.display.config', false));
 		}
 
 		// Attempt to save the configuration.
@@ -98,15 +90,15 @@ class ConfigControllerConfigSave extends JControllerBase
 			 */
 
 			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
+			$this->getApplication()->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.config', false));
+			$this->getApplication()->redirect(JRoute::_('index.php?option=com_config&controller=config.display.config', false));
 		}
 
 		// Redirect back to com_config display
-		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'));
-		$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.config', false));
+		$this->getApplication()->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'));
+		$this->getApplication()->redirect(JRoute::_('index.php?option=com_config&controller=config.display.config', false));
 
 		return true;
 	}

@@ -24,7 +24,6 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
-        'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
@@ -37,19 +36,18 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
             'Symfony\\Polyfill\\Php56\\' => 23,
-            'Symfony\\Polyfill\\Php55\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
         ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Container\\' => 14,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'J' => 
         array (
             'Joomla\\Utilities\\' => 17,
-            'Joomla\\Uri\\Tests\\' => 17,
             'Joomla\\Uri\\' => 11,
             'Joomla\\String\\' => 14,
             'Joomla\\Session\\' => 15,
@@ -62,11 +60,10 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
             'Joomla\\Http\\' => 12,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Event\\' => 13,
-            'Joomla\\Data\\Tests\\' => 18,
             'Joomla\\Data\\' => 12,
-            'Joomla\\DI\\Tests\\' => 16,
             'Joomla\\DI\\' => 10,
             'Joomla\\Crypt\\' => 13,
+            'Joomla\\Controller\\' => 18,
             'Joomla\\Application\\' => 19,
             'Joomla\\' => 7,
         ),
@@ -89,10 +86,6 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
         ),
-        'Symfony\\Polyfill\\Php55\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php55',
-        ),
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
@@ -105,6 +98,10 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
@@ -112,10 +109,6 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         'Joomla\\Utilities\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/utilities/src',
-        ),
-        'Joomla\\Uri\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/uri/Tests',
         ),
         'Joomla\\Uri\\' => 
         array (
@@ -165,17 +158,9 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         array (
             0 => __DIR__ . '/..' . '/joomla/event/src',
         ),
-        'Joomla\\Data\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/data/Tests',
-        ),
         'Joomla\\Data\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/data/src',
-        ),
-        'Joomla\\DI\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/di/Tests',
         ),
         'Joomla\\DI\\' => 
         array (
@@ -184,6 +169,10 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         'Joomla\\Crypt\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/crypt/src',
+        ),
+        'Joomla\\Controller\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/controller/src',
         ),
         'Joomla\\Application\\' => 
         array (

@@ -1134,7 +1134,7 @@ function endOfLine(visually, cm, lineObj, lineNo, dir) {
         ch = dir < 0 ? lineObj.text.length - 1 : 0;
         var targetTop = measureCharPrepared(cm, prep, ch).top;
         ch = findFirst(function (ch) { return measureCharPrepared(cm, prep, ch).top == targetTop; }, (dir < 0) == (part.level == 1) ? part.from : part.to - 1, ch);
-        if (sticky == "before") { ch = moveCharLogically(lineObj, ch, 1, true); }
+        if (sticky == "before") { ch = moveCharLogically(lineObj, ch, 1); }
       } else { ch = dir < 0 ? part.to : part.from; }
       return new Pos(lineNo, ch, sticky)
     }
@@ -2643,8 +2643,17 @@ function clearCaches(cm) {
   cm.display.lineNumChars = null;
 }
 
-function pageScrollX() { return window.pageXOffset || (document.documentElement || document.body).scrollLeft }
-function pageScrollY() { return window.pageYOffset || (document.documentElement || document.body).scrollTop }
+function pageScrollX() {
+  // Work around https://bugs.chromium.org/p/chromium/issues/detail?id=489206
+  // which causes page_Offset and bounding client rects to use
+  // different reference viewports and invalidate our calculations.
+  if (chrome && android) { return -(document.body.getBoundingClientRect().left - parseInt(getComputedStyle(document.body).marginLeft)) }
+  return window.pageXOffset || (document.documentElement || document.body).scrollLeft
+}
+function pageScrollY() {
+  if (chrome && android) { return -(document.body.getBoundingClientRect().top - parseInt(getComputedStyle(document.body).marginTop)) }
+  return window.pageYOffset || (document.documentElement || document.body).scrollTop
+}
 
 // Converts a {top, bottom, left, right} box from line-local
 // coordinates into another coordinate system. Context may be one of
@@ -3139,49 +3148,6 @@ function onBlur(cm, e) {
   setTimeout(function () { if (!cm.state.focused) { cm.display.shift = false; } }, 150);
 }
 
-// Re-align line numbers and gutter marks to compensate for
-// horizontal scrolling.
-function alignHorizontally(cm) {
-  var display = cm.display, view = display.view;
-  if (!display.alignWidgets && (!display.gutters.firstChild || !cm.options.fixedGutter)) { return }
-  var comp = compensateForHScroll(display) - display.scroller.scrollLeft + cm.doc.scrollLeft;
-  var gutterW = display.gutters.offsetWidth, left = comp + "px";
-  for (var i = 0; i < view.length; i++) { if (!view[i].hidden) {
-    if (cm.options.fixedGutter) {
-      if (view[i].gutter)
-        { view[i].gutter.style.left = left; }
-      if (view[i].gutterBackground)
-        { view[i].gutterBackground.style.left = left; }
-    }
-    var align = view[i].alignable;
-    if (align) { for (var j = 0; j < align.length; j++)
-      { align[j].style.left = left; } }
-  } }
-  if (cm.options.fixedGutter)
-    { display.gutters.style.left = (comp + gutterW) + "px"; }
-}
-
-// Used to ensure that the line number gutter is still the right
-// size for the current document size. Returns true when an update
-// is needed.
-function maybeUpdateLineNumberWidth(cm) {
-  if (!cm.options.lineNumbers) { return false }
-  var doc = cm.doc, last = lineNumberFor(cm.options, doc.first + doc.size - 1), display = cm.display;
-  if (last.length != display.lineNumChars) {
-    var test = display.measure.appendChild(elt("div", [elt("div", last)],
-                                               "CodeMirror-linenumber CodeMirror-gutter-elt"));
-    var innerW = test.firstChild.offsetWidth, padding = test.offsetWidth - innerW;
-    display.lineGutter.style.width = "";
-    display.lineNumInnerWidth = Math.max(innerW, display.lineGutter.offsetWidth - padding) + 1;
-    display.lineNumWidth = display.lineNumInnerWidth + padding;
-    display.lineNumChars = display.lineNumInnerWidth ? last.length : -1;
-    display.lineGutter.style.width = display.lineNumWidth + "px";
-    updateGutterSpace(cm);
-    return true
-  }
-  return false
-}
-
 // Read the actual heights of the rendered lines, and update their
 // stored heights to match.
 function updateHeightsInViewport(cm) {
@@ -3240,137 +3206,216 @@ function visibleLines(display, doc, viewport) {
   return {from: from, to: Math.max(to, from + 1)}
 }
 
+// Re-align line numbers and gutter marks to compensate for
+// horizontal scrolling.
+function alignHorizontally(cm) {
+  var display = cm.display, view = display.view;
+  if (!display.alignWidgets && (!display.gutters.firstChild || !cm.options.fixedGutter)) { return }
+  var comp = compensateForHScroll(display) - display.scroller.scrollLeft + cm.doc.scrollLeft;
+  var gutterW = display.gutters.offsetWidth, left = comp + "px";
+  for (var i = 0; i < view.length; i++) { if (!view[i].hidden) {
+    if (cm.options.fixedGutter) {
+      if (view[i].gutter)
+        { view[i].gutter.style.left = left; }
+      if (view[i].gutterBackground)
+        { view[i].gutterBackground.style.left = left; }
+    }
+    var align = view[i].alignable;
+    if (align) { for (var j = 0; j < align.length; j++)
+      { align[j].style.left = left; } }
+  } }
+  if (cm.options.fixedGutter)
+    { display.gutters.style.left = (comp + gutterW) + "px"; }
+}
+
+// Used to ensure that the line number gutter is still the right
+// size for the current document size. Returns true when an update
+// is needed.
+function maybeUpdateLineNumberWidth(cm) {
+  if (!cm.options.lineNumbers) { return false }
+  var doc = cm.doc, last = lineNumberFor(cm.options, doc.first + doc.size - 1), display = cm.display;
+  if (last.length != display.lineNumChars) {
+    var test = display.measure.appendChild(elt("div", [elt("div", last)],
+                                               "CodeMirror-linenumber CodeMirror-gutter-elt"));
+    var innerW = test.firstChild.offsetWidth, padding = test.offsetWidth - innerW;
+    display.lineGutter.style.width = "";
+    display.lineNumInnerWidth = Math.max(innerW, display.lineGutter.offsetWidth - padding) + 1;
+    display.lineNumWidth = display.lineNumInnerWidth + padding;
+    display.lineNumChars = display.lineNumInnerWidth ? last.length : -1;
+    display.lineGutter.style.width = display.lineNumWidth + "px";
+    updateGutterSpace(cm);
+    return true
+  }
+  return false
+}
+
+// SCROLLING THINGS INTO VIEW
+
+// If an editor sits on the top or bottom of the window, partially
+// scrolled out of view, this ensures that the cursor is visible.
+function maybeScrollWindow(cm, rect) {
+  if (signalDOMEvent(cm, "scrollCursorIntoView")) { return }
+
+  var display = cm.display, box = display.sizer.getBoundingClientRect(), doScroll = null;
+  if (rect.top + box.top < 0) { doScroll = true; }
+  else if (rect.bottom + box.top > (window.innerHeight || document.documentElement.clientHeight)) { doScroll = false; }
+  if (doScroll != null && !phantom) {
+    var scrollNode = elt("div", "\u200b", null, ("position: absolute;\n                         top: " + (rect.top - display.viewOffset - paddingTop(cm.display)) + "px;\n                         height: " + (rect.bottom - rect.top + scrollGap(cm) + display.barHeight) + "px;\n                         left: " + (rect.left) + "px; width: " + (Math.max(2, rect.right - rect.left)) + "px;"));
+    cm.display.lineSpace.appendChild(scrollNode);
+    scrollNode.scrollIntoView(doScroll);
+    cm.display.lineSpace.removeChild(scrollNode);
+  }
+}
+
+// Scroll a given position into view (immediately), verifying that
+// it actually became visible (as line heights are accurately
+// measured, the position of something may 'drift' during drawing).
+function scrollPosIntoView(cm, pos, end, margin) {
+  if (margin == null) { margin = 0; }
+  var rect;
+  for (var limit = 0; limit < 5; limit++) {
+    var changed = false;
+    var coords = cursorCoords(cm, pos);
+    var endCoords = !end || end == pos ? coords : cursorCoords(cm, end);
+    rect = {left: Math.min(coords.left, endCoords.left),
+            top: Math.min(coords.top, endCoords.top) - margin,
+            right: Math.max(coords.left, endCoords.left),
+            bottom: Math.max(coords.bottom, endCoords.bottom) + margin};
+    var scrollPos = calculateScrollPos(cm, rect);
+    var startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
+    if (scrollPos.scrollTop != null) {
+      updateScrollTop(cm, scrollPos.scrollTop);
+      if (Math.abs(cm.doc.scrollTop - startTop) > 1) { changed = true; }
+    }
+    if (scrollPos.scrollLeft != null) {
+      setScrollLeft(cm, scrollPos.scrollLeft);
+      if (Math.abs(cm.doc.scrollLeft - startLeft) > 1) { changed = true; }
+    }
+    if (!changed) { break }
+  }
+  return rect
+}
+
+// Scroll a given set of coordinates into view (immediately).
+function scrollIntoView(cm, rect) {
+  var scrollPos = calculateScrollPos(cm, rect);
+  if (scrollPos.scrollTop != null) { updateScrollTop(cm, scrollPos.scrollTop); }
+  if (scrollPos.scrollLeft != null) { setScrollLeft(cm, scrollPos.scrollLeft); }
+}
+
+// Calculate a new scroll position needed to scroll the given
+// rectangle into view. Returns an object with scrollTop and
+// scrollLeft properties. When these are undefined, the
+// vertical/horizontal position does not need to be adjusted.
+function calculateScrollPos(cm, rect) {
+  var display = cm.display, snapMargin = textHeight(cm.display);
+  if (rect.top < 0) { rect.top = 0; }
+  var screentop = cm.curOp && cm.curOp.scrollTop != null ? cm.curOp.scrollTop : display.scroller.scrollTop;
+  var screen = displayHeight(cm), result = {};
+  if (rect.bottom - rect.top > screen) { rect.bottom = rect.top + screen; }
+  var docBottom = cm.doc.height + paddingVert(display);
+  var atTop = rect.top < snapMargin, atBottom = rect.bottom > docBottom - snapMargin;
+  if (rect.top < screentop) {
+    result.scrollTop = atTop ? 0 : rect.top;
+  } else if (rect.bottom > screentop + screen) {
+    var newTop = Math.min(rect.top, (atBottom ? docBottom : rect.bottom) - screen);
+    if (newTop != screentop) { result.scrollTop = newTop; }
+  }
+
+  var screenleft = cm.curOp && cm.curOp.scrollLeft != null ? cm.curOp.scrollLeft : display.scroller.scrollLeft;
+  var screenw = displayWidth(cm) - (cm.options.fixedGutter ? display.gutters.offsetWidth : 0);
+  var tooWide = rect.right - rect.left > screenw;
+  if (tooWide) { rect.right = rect.left + screenw; }
+  if (rect.left < 10)
+    { result.scrollLeft = 0; }
+  else if (rect.left < screenleft)
+    { result.scrollLeft = Math.max(0, rect.left - (tooWide ? 0 : 10)); }
+  else if (rect.right > screenw + screenleft - 3)
+    { result.scrollLeft = rect.right + (tooWide ? 0 : 10) - screenw; }
+  return result
+}
+
+// Store a relative adjustment to the scroll position in the current
+// operation (to be applied when the operation finishes).
+function addToScrollTop(cm, top) {
+  if (top == null) { return }
+  resolveScrollToPos(cm);
+  cm.curOp.scrollTop = (cm.curOp.scrollTop == null ? cm.doc.scrollTop : cm.curOp.scrollTop) + top;
+}
+
+// Make sure that at the end of the operation the current cursor is
+// shown.
+function ensureCursorVisible(cm) {
+  resolveScrollToPos(cm);
+  var cur = cm.getCursor(), from = cur, to = cur;
+  if (!cm.options.lineWrapping) {
+    from = cur.ch ? Pos(cur.line, cur.ch - 1) : cur;
+    to = Pos(cur.line, cur.ch + 1);
+  }
+  cm.curOp.scrollToPos = {from: from, to: to, margin: cm.options.cursorScrollMargin};
+}
+
+function scrollToCoords(cm, x, y) {
+  if (x != null || y != null) { resolveScrollToPos(cm); }
+  if (x != null) { cm.curOp.scrollLeft = x; }
+  if (y != null) { cm.curOp.scrollTop = y; }
+}
+
+function scrollToRange(cm, range$$1) {
+  resolveScrollToPos(cm);
+  cm.curOp.scrollToPos = range$$1;
+}
+
+// When an operation has its scrollToPos property set, and another
+// scroll action is applied before the end of the operation, this
+// 'simulates' scrolling that position into view in a cheap way, so
+// that the effect of intermediate scroll commands is not ignored.
+function resolveScrollToPos(cm) {
+  var range$$1 = cm.curOp.scrollToPos;
+  if (range$$1) {
+    cm.curOp.scrollToPos = null;
+    var from = estimateCoords(cm, range$$1.from), to = estimateCoords(cm, range$$1.to);
+    scrollToCoordsRange(cm, from, to, range$$1.margin);
+  }
+}
+
+function scrollToCoordsRange(cm, from, to, margin) {
+  var sPos = calculateScrollPos(cm, {
+    left: Math.min(from.left, to.left),
+    top: Math.min(from.top, to.top) - margin,
+    right: Math.max(from.right, to.right),
+    bottom: Math.max(from.bottom, to.bottom) + margin
+  });
+  scrollToCoords(cm, sPos.scrollLeft, sPos.scrollTop);
+}
+
 // Sync the scrollable area and scrollbars, ensure the viewport
 // covers the visible area.
-function setScrollTop(cm, val) {
+function updateScrollTop(cm, val) {
   if (Math.abs(cm.doc.scrollTop - val) < 2) { return }
-  cm.doc.scrollTop = val;
   if (!gecko) { updateDisplaySimple(cm, {top: val}); }
-  if (cm.display.scroller.scrollTop != val) { cm.display.scroller.scrollTop = val; }
-  cm.display.scrollbars.setScrollTop(val);
+  setScrollTop(cm, val, true);
   if (gecko) { updateDisplaySimple(cm); }
   startWorker(cm, 100);
 }
+
+function setScrollTop(cm, val, forceScroll) {
+  val = Math.min(cm.display.scroller.scrollHeight - cm.display.scroller.clientHeight, val);
+  if (cm.display.scroller.scrollTop == val && !forceScroll) { return }
+  cm.doc.scrollTop = val;
+  cm.display.scrollbars.setScrollTop(val);
+  if (cm.display.scroller.scrollTop != val) { cm.display.scroller.scrollTop = val; }
+}
+
 // Sync scroller and scrollbar, ensure the gutter elements are
 // aligned.
-function setScrollLeft(cm, val, isScroller) {
-  if (isScroller ? val == cm.doc.scrollLeft : Math.abs(cm.doc.scrollLeft - val) < 2) { return }
+function setScrollLeft(cm, val, isScroller, forceScroll) {
   val = Math.min(val, cm.display.scroller.scrollWidth - cm.display.scroller.clientWidth);
+  if ((isScroller ? val == cm.doc.scrollLeft : Math.abs(cm.doc.scrollLeft - val) < 2) && !forceScroll) { return }
   cm.doc.scrollLeft = val;
   alignHorizontally(cm);
   if (cm.display.scroller.scrollLeft != val) { cm.display.scroller.scrollLeft = val; }
   cm.display.scrollbars.setScrollLeft(val);
-}
-
-// Since the delta values reported on mouse wheel events are
-// unstandardized between browsers and even browser versions, and
-// generally horribly unpredictable, this code starts by measuring
-// the scroll effect that the first few mouse wheel events have,
-// and, from that, detects the way it can convert deltas to pixel
-// offsets afterwards.
-//
-// The reason we want to know the amount a wheel event will scroll
-// is that it gives us a chance to update the display before the
-// actual scrolling happens, reducing flickering.
-
-var wheelSamples = 0;
-var wheelPixelsPerUnit = null;
-// Fill in a browser-detected starting value on browsers where we
-// know one. These don't have to be accurate -- the result of them
-// being wrong would just be a slight flicker on the first wheel
-// scroll (if it is large enough).
-if (ie) { wheelPixelsPerUnit = -.53; }
-else if (gecko) { wheelPixelsPerUnit = 15; }
-else if (chrome) { wheelPixelsPerUnit = -.7; }
-else if (safari) { wheelPixelsPerUnit = -1/3; }
-
-function wheelEventDelta(e) {
-  var dx = e.wheelDeltaX, dy = e.wheelDeltaY;
-  if (dx == null && e.detail && e.axis == e.HORIZONTAL_AXIS) { dx = e.detail; }
-  if (dy == null && e.detail && e.axis == e.VERTICAL_AXIS) { dy = e.detail; }
-  else if (dy == null) { dy = e.wheelDelta; }
-  return {x: dx, y: dy}
-}
-function wheelEventPixels(e) {
-  var delta = wheelEventDelta(e);
-  delta.x *= wheelPixelsPerUnit;
-  delta.y *= wheelPixelsPerUnit;
-  return delta
-}
-
-function onScrollWheel(cm, e) {
-  var delta = wheelEventDelta(e), dx = delta.x, dy = delta.y;
-
-  var display = cm.display, scroll = display.scroller;
-  // Quit if there's nothing to scroll here
-  var canScrollX = scroll.scrollWidth > scroll.clientWidth;
-  var canScrollY = scroll.scrollHeight > scroll.clientHeight;
-  if (!(dx && canScrollX || dy && canScrollY)) { return }
-
-  // Webkit browsers on OS X abort momentum scrolls when the target
-  // of the scroll event is removed from the scrollable element.
-  // This hack (see related code in patchDisplay) makes sure the
-  // element is kept around.
-  if (dy && mac && webkit) {
-    outer: for (var cur = e.target, view = display.view; cur != scroll; cur = cur.parentNode) {
-      for (var i = 0; i < view.length; i++) {
-        if (view[i].node == cur) {
-          cm.display.currentWheelTarget = cur;
-          break outer
-        }
-      }
-    }
-  }
-
-  // On some browsers, horizontal scrolling will cause redraws to
-  // happen before the gutter has been realigned, causing it to
-  // wriggle around in a most unseemly way. When we have an
-  // estimated pixels/delta value, we just handle horizontal
-  // scrolling entirely here. It'll be slightly off from native, but
-  // better than glitching out.
-  if (dx && !gecko && !presto && wheelPixelsPerUnit != null) {
-    if (dy && canScrollY)
-      { setScrollTop(cm, Math.max(0, Math.min(scroll.scrollTop + dy * wheelPixelsPerUnit, scroll.scrollHeight - scroll.clientHeight))); }
-    setScrollLeft(cm, Math.max(0, Math.min(scroll.scrollLeft + dx * wheelPixelsPerUnit, scroll.scrollWidth - scroll.clientWidth)));
-    // Only prevent default scrolling if vertical scrolling is
-    // actually possible. Otherwise, it causes vertical scroll
-    // jitter on OSX trackpads when deltaX is small and deltaY
-    // is large (issue #3579)
-    if (!dy || (dy && canScrollY))
-      { e_preventDefault(e); }
-    display.wheelStartX = null; // Abort measurement, if in progress
-    return
-  }
-
-  // 'Project' the visible viewport to cover the area that is being
-  // scrolled into view (if we know enough to estimate it).
-  if (dy && wheelPixelsPerUnit != null) {
-    var pixels = dy * wheelPixelsPerUnit;
-    var top = cm.doc.scrollTop, bot = top + display.wrapper.clientHeight;
-    if (pixels < 0) { top = Math.max(0, top + pixels - 50); }
-    else { bot = Math.min(cm.doc.height, bot + pixels + 50); }
-    updateDisplaySimple(cm, {top: top, bottom: bot});
-  }
-
-  if (wheelSamples < 20) {
-    if (display.wheelStartX == null) {
-      display.wheelStartX = scroll.scrollLeft; display.wheelStartY = scroll.scrollTop;
-      display.wheelDX = dx; display.wheelDY = dy;
-      setTimeout(function () {
-        if (display.wheelStartX == null) { return }
-        var movedX = scroll.scrollLeft - display.wheelStartX;
-        var movedY = scroll.scrollTop - display.wheelStartY;
-        var sample = (movedY && display.wheelDY && movedY / display.wheelDY) ||
-          (movedX && display.wheelDX && movedX / display.wheelDX);
-        display.wheelStartX = display.wheelStartY = null;
-        if (!sample) { return }
-        wheelPixelsPerUnit = (wheelPixelsPerUnit * wheelSamples + sample) / (wheelSamples + 1);
-        ++wheelSamples;
-      }, 200);
-    } else {
-      display.wheelDX += dx; display.wheelDY += dy;
-    }
-  }
 }
 
 // SCROLLBARS
@@ -3450,12 +3495,12 @@ NativeScrollbars.prototype.update = function (measure) {
 
 NativeScrollbars.prototype.setScrollLeft = function (pos) {
   if (this.horiz.scrollLeft != pos) { this.horiz.scrollLeft = pos; }
-  if (this.disableHoriz) { this.enableZeroWidthBar(this.horiz, this.disableHoriz); }
+  if (this.disableHoriz) { this.enableZeroWidthBar(this.horiz, this.disableHoriz, "horiz"); }
 };
 
 NativeScrollbars.prototype.setScrollTop = function (pos) {
   if (this.vert.scrollTop != pos) { this.vert.scrollTop = pos; }
-  if (this.disableVert) { this.enableZeroWidthBar(this.vert, this.disableVert); }
+  if (this.disableVert) { this.enableZeroWidthBar(this.vert, this.disableVert, "vert"); }
 };
 
 NativeScrollbars.prototype.zeroWidthHack = function () {
@@ -3466,17 +3511,18 @@ NativeScrollbars.prototype.zeroWidthHack = function () {
   this.disableVert = new Delayed;
 };
 
-NativeScrollbars.prototype.enableZeroWidthBar = function (bar, delay) {
+NativeScrollbars.prototype.enableZeroWidthBar = function (bar, delay, type) {
   bar.style.pointerEvents = "auto";
   function maybeDisable() {
     // To find out whether the scrollbar is still visible, we
     // check whether the element under the pixel in the bottom
-    // left corner of the scrollbar box is the scrollbar box
+    // right corner of the scrollbar box is the scrollbar box
     // itself (when the bar is still visible) or its filler child
     // (when the bar is hidden). If it is still visible, we keep
     // it enabled, if it's hidden, we disable pointer events.
     var box = bar.getBoundingClientRect();
-    var elt$$1 = document.elementFromPoint(box.left + 1, box.bottom - 1);
+    var elt$$1 = type == "vert" ? document.elementFromPoint(box.right - 1, (box.top + box.bottom) / 2)
+        : document.elementFromPoint((box.right + box.left) / 2, box.bottom - 1);
     if (elt$$1 != bar) { bar.style.pointerEvents = "none"; }
     else { delay.set(1000, maybeDisable); }
   }
@@ -3548,137 +3594,10 @@ function initScrollbars(cm) {
     node.setAttribute("cm-not-content", "true");
   }, function (pos, axis) {
     if (axis == "horizontal") { setScrollLeft(cm, pos); }
-    else { setScrollTop(cm, pos); }
+    else { updateScrollTop(cm, pos); }
   }, cm);
   if (cm.display.scrollbars.addClass)
     { addClass(cm.display.wrapper, cm.display.scrollbars.addClass); }
-}
-
-// SCROLLING THINGS INTO VIEW
-
-// If an editor sits on the top or bottom of the window, partially
-// scrolled out of view, this ensures that the cursor is visible.
-function maybeScrollWindow(cm, rect) {
-  if (signalDOMEvent(cm, "scrollCursorIntoView")) { return }
-
-  var display = cm.display, box = display.sizer.getBoundingClientRect(), doScroll = null;
-  if (rect.top + box.top < 0) { doScroll = true; }
-  else if (rect.bottom + box.top > (window.innerHeight || document.documentElement.clientHeight)) { doScroll = false; }
-  if (doScroll != null && !phantom) {
-    var scrollNode = elt("div", "\u200b", null, ("position: absolute;\n                         top: " + (rect.top - display.viewOffset - paddingTop(cm.display)) + "px;\n                         height: " + (rect.bottom - rect.top + scrollGap(cm) + display.barHeight) + "px;\n                         left: " + (rect.left) + "px; width: " + (Math.max(2, rect.right - rect.left)) + "px;"));
-    cm.display.lineSpace.appendChild(scrollNode);
-    scrollNode.scrollIntoView(doScroll);
-    cm.display.lineSpace.removeChild(scrollNode);
-  }
-}
-
-// Scroll a given position into view (immediately), verifying that
-// it actually became visible (as line heights are accurately
-// measured, the position of something may 'drift' during drawing).
-function scrollPosIntoView(cm, pos, end, margin) {
-  if (margin == null) { margin = 0; }
-  var rect;
-  for (var limit = 0; limit < 5; limit++) {
-    var changed = false;
-    var coords = cursorCoords(cm, pos);
-    var endCoords = !end || end == pos ? coords : cursorCoords(cm, end);
-    rect = {left: Math.min(coords.left, endCoords.left),
-            top: Math.min(coords.top, endCoords.top) - margin,
-            right: Math.max(coords.left, endCoords.left),
-            bottom: Math.max(coords.bottom, endCoords.bottom) + margin};
-    var scrollPos = calculateScrollPos(cm, rect);
-    var startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
-    if (scrollPos.scrollTop != null) {
-      setScrollTop(cm, scrollPos.scrollTop);
-      if (Math.abs(cm.doc.scrollTop - startTop) > 1) { changed = true; }
-    }
-    if (scrollPos.scrollLeft != null) {
-      setScrollLeft(cm, scrollPos.scrollLeft);
-      if (Math.abs(cm.doc.scrollLeft - startLeft) > 1) { changed = true; }
-    }
-    if (!changed) { break }
-  }
-  return rect
-}
-
-// Scroll a given set of coordinates into view (immediately).
-function scrollIntoView(cm, rect) {
-  var scrollPos = calculateScrollPos(cm, rect);
-  if (scrollPos.scrollTop != null) { setScrollTop(cm, scrollPos.scrollTop); }
-  if (scrollPos.scrollLeft != null) { setScrollLeft(cm, scrollPos.scrollLeft); }
-}
-
-// Calculate a new scroll position needed to scroll the given
-// rectangle into view. Returns an object with scrollTop and
-// scrollLeft properties. When these are undefined, the
-// vertical/horizontal position does not need to be adjusted.
-function calculateScrollPos(cm, rect) {
-  var display = cm.display, snapMargin = textHeight(cm.display);
-  if (rect.top < 0) { rect.top = 0; }
-  var screentop = cm.curOp && cm.curOp.scrollTop != null ? cm.curOp.scrollTop : display.scroller.scrollTop;
-  var screen = displayHeight(cm), result = {};
-  if (rect.bottom - rect.top > screen) { rect.bottom = rect.top + screen; }
-  var docBottom = cm.doc.height + paddingVert(display);
-  var atTop = rect.top < snapMargin, atBottom = rect.bottom > docBottom - snapMargin;
-  if (rect.top < screentop) {
-    result.scrollTop = atTop ? 0 : rect.top;
-  } else if (rect.bottom > screentop + screen) {
-    var newTop = Math.min(rect.top, (atBottom ? docBottom : rect.bottom) - screen);
-    if (newTop != screentop) { result.scrollTop = newTop; }
-  }
-
-  var screenleft = cm.curOp && cm.curOp.scrollLeft != null ? cm.curOp.scrollLeft : display.scroller.scrollLeft;
-  var screenw = displayWidth(cm) - (cm.options.fixedGutter ? display.gutters.offsetWidth : 0);
-  var tooWide = rect.right - rect.left > screenw;
-  if (tooWide) { rect.right = rect.left + screenw; }
-  if (rect.left < 10)
-    { result.scrollLeft = 0; }
-  else if (rect.left < screenleft)
-    { result.scrollLeft = Math.max(0, rect.left - (tooWide ? 0 : 10)); }
-  else if (rect.right > screenw + screenleft - 3)
-    { result.scrollLeft = rect.right + (tooWide ? 0 : 10) - screenw; }
-  return result
-}
-
-// Store a relative adjustment to the scroll position in the current
-// operation (to be applied when the operation finishes).
-function addToScrollPos(cm, left, top) {
-  if (left != null || top != null) { resolveScrollToPos(cm); }
-  if (left != null)
-    { cm.curOp.scrollLeft = (cm.curOp.scrollLeft == null ? cm.doc.scrollLeft : cm.curOp.scrollLeft) + left; }
-  if (top != null)
-    { cm.curOp.scrollTop = (cm.curOp.scrollTop == null ? cm.doc.scrollTop : cm.curOp.scrollTop) + top; }
-}
-
-// Make sure that at the end of the operation the current cursor is
-// shown.
-function ensureCursorVisible(cm) {
-  resolveScrollToPos(cm);
-  var cur = cm.getCursor(), from = cur, to = cur;
-  if (!cm.options.lineWrapping) {
-    from = cur.ch ? Pos(cur.line, cur.ch - 1) : cur;
-    to = Pos(cur.line, cur.ch + 1);
-  }
-  cm.curOp.scrollToPos = {from: from, to: to, margin: cm.options.cursorScrollMargin};
-}
-
-// When an operation has its scrollToPos property set, and another
-// scroll action is applied before the end of the operation, this
-// 'simulates' scrolling that position into view in a cheap way, so
-// that the effect of intermediate scroll commands is not ignored.
-function resolveScrollToPos(cm) {
-  var range$$1 = cm.curOp.scrollToPos;
-  if (range$$1) {
-    cm.curOp.scrollToPos = null;
-    var from = estimateCoords(cm, range$$1.from), to = estimateCoords(cm, range$$1.to);
-    var sPos = calculateScrollPos(cm, {
-      left: Math.min(from.left, to.left),
-      top: Math.min(from.top, to.top) - range$$1.margin,
-      right: Math.max(from.right, to.right),
-      bottom: Math.max(from.bottom, to.bottom) + range$$1.margin
-    });
-    cm.scrollTo(sPos.scrollLeft, sPos.scrollTop);
-  }
 }
 
 // Operations are used to wrap a series of changes to the editor
@@ -3809,17 +3728,9 @@ function endOperation_finish(op) {
     { display.wheelStartX = display.wheelStartY = null; }
 
   // Propagate the scroll position to the actual DOM scroller
-  if (op.scrollTop != null && (display.scroller.scrollTop != op.scrollTop || op.forceScroll)) {
-    doc.scrollTop = Math.max(0, Math.min(display.scroller.scrollHeight - display.scroller.clientHeight, op.scrollTop));
-    display.scrollbars.setScrollTop(doc.scrollTop);
-    display.scroller.scrollTop = doc.scrollTop;
-  }
-  if (op.scrollLeft != null && (display.scroller.scrollLeft != op.scrollLeft || op.forceScroll)) {
-    doc.scrollLeft = Math.max(0, Math.min(display.scroller.scrollWidth - display.scroller.clientWidth, op.scrollLeft));
-    display.scrollbars.setScrollLeft(doc.scrollLeft);
-    display.scroller.scrollLeft = doc.scrollLeft;
-    alignHorizontally(cm);
-  }
+  if (op.scrollTop != null) { setScrollTop(cm, op.scrollTop, op.forceScroll); }
+
+  if (op.scrollLeft != null) { setScrollLeft(cm, op.scrollLeft, true, true); }
   // If we need to scroll a specific position into view, do so.
   if (op.scrollToPos) {
     var rect = scrollPosIntoView(cm, clipPos(doc, op.scrollToPos.from),
@@ -4113,6 +4024,36 @@ function maybeClipScrollbars(cm) {
   }
 }
 
+function selectionSnapshot(cm) {
+  if (cm.hasFocus()) { return null }
+  var active = activeElt();
+  if (!active || !contains(cm.display.lineDiv, active)) { return null }
+  var result = {activeElt: active};
+  if (window.getSelection) {
+    var sel = window.getSelection();
+    if (sel.anchorNode && sel.extend && contains(cm.display.lineDiv, sel.anchorNode)) {
+      result.anchorNode = sel.anchorNode;
+      result.anchorOffset = sel.anchorOffset;
+      result.focusNode = sel.focusNode;
+      result.focusOffset = sel.focusOffset;
+    }
+  }
+  return result
+}
+
+function restoreSelection(snapshot) {
+  if (!snapshot || !snapshot.activeElt || snapshot.activeElt == activeElt()) { return }
+  snapshot.activeElt.focus();
+  if (snapshot.anchorNode && contains(document.body, snapshot.anchorNode) && contains(document.body, snapshot.focusNode)) {
+    var sel = window.getSelection(), range$$1 = document.createRange();
+    range$$1.setEnd(snapshot.anchorNode, snapshot.anchorOffset);
+    range$$1.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range$$1);
+    sel.extend(snapshot.focusNode, snapshot.focusOffset);
+  }
+}
+
 // Does the actual updating of the line display. Bails out
 // (returning false) when there is nothing to be done and forced is
 // false.
@@ -4162,14 +4103,14 @@ function updateDisplayIfNeeded(cm, update) {
 
   // For big changes, we hide the enclosing element during the
   // update, since that speeds up the operations on most browsers.
-  var focused = activeElt();
+  var selSnapshot = selectionSnapshot(cm);
   if (toUpdate > 4) { display.lineDiv.style.display = "none"; }
   patchDisplay(cm, display.updateLineNumbers, update.dims);
   if (toUpdate > 4) { display.lineDiv.style.display = ""; }
   display.renderedView = display.view;
   // There might have been a widget with a focused element that got
   // hidden or updated, if so re-focus it.
-  if (focused && activeElt() != focused && focused.offsetHeight) { focused.focus(); }
+  restoreSelection(selSnapshot);
 
   // Prevent selection and cursors from interfering with the scroll
   // width and height.
@@ -4314,6 +4255,117 @@ function setGuttersForLineNumbers(options) {
   } else if (found > -1 && !options.lineNumbers) {
     options.gutters = options.gutters.slice(0);
     options.gutters.splice(found, 1);
+  }
+}
+
+// Since the delta values reported on mouse wheel events are
+// unstandardized between browsers and even browser versions, and
+// generally horribly unpredictable, this code starts by measuring
+// the scroll effect that the first few mouse wheel events have,
+// and, from that, detects the way it can convert deltas to pixel
+// offsets afterwards.
+//
+// The reason we want to know the amount a wheel event will scroll
+// is that it gives us a chance to update the display before the
+// actual scrolling happens, reducing flickering.
+
+var wheelSamples = 0;
+var wheelPixelsPerUnit = null;
+// Fill in a browser-detected starting value on browsers where we
+// know one. These don't have to be accurate -- the result of them
+// being wrong would just be a slight flicker on the first wheel
+// scroll (if it is large enough).
+if (ie) { wheelPixelsPerUnit = -.53; }
+else if (gecko) { wheelPixelsPerUnit = 15; }
+else if (chrome) { wheelPixelsPerUnit = -.7; }
+else if (safari) { wheelPixelsPerUnit = -1/3; }
+
+function wheelEventDelta(e) {
+  var dx = e.wheelDeltaX, dy = e.wheelDeltaY;
+  if (dx == null && e.detail && e.axis == e.HORIZONTAL_AXIS) { dx = e.detail; }
+  if (dy == null && e.detail && e.axis == e.VERTICAL_AXIS) { dy = e.detail; }
+  else if (dy == null) { dy = e.wheelDelta; }
+  return {x: dx, y: dy}
+}
+function wheelEventPixels(e) {
+  var delta = wheelEventDelta(e);
+  delta.x *= wheelPixelsPerUnit;
+  delta.y *= wheelPixelsPerUnit;
+  return delta
+}
+
+function onScrollWheel(cm, e) {
+  var delta = wheelEventDelta(e), dx = delta.x, dy = delta.y;
+
+  var display = cm.display, scroll = display.scroller;
+  // Quit if there's nothing to scroll here
+  var canScrollX = scroll.scrollWidth > scroll.clientWidth;
+  var canScrollY = scroll.scrollHeight > scroll.clientHeight;
+  if (!(dx && canScrollX || dy && canScrollY)) { return }
+
+  // Webkit browsers on OS X abort momentum scrolls when the target
+  // of the scroll event is removed from the scrollable element.
+  // This hack (see related code in patchDisplay) makes sure the
+  // element is kept around.
+  if (dy && mac && webkit) {
+    outer: for (var cur = e.target, view = display.view; cur != scroll; cur = cur.parentNode) {
+      for (var i = 0; i < view.length; i++) {
+        if (view[i].node == cur) {
+          cm.display.currentWheelTarget = cur;
+          break outer
+        }
+      }
+    }
+  }
+
+  // On some browsers, horizontal scrolling will cause redraws to
+  // happen before the gutter has been realigned, causing it to
+  // wriggle around in a most unseemly way. When we have an
+  // estimated pixels/delta value, we just handle horizontal
+  // scrolling entirely here. It'll be slightly off from native, but
+  // better than glitching out.
+  if (dx && !gecko && !presto && wheelPixelsPerUnit != null) {
+    if (dy && canScrollY)
+      { updateScrollTop(cm, Math.max(0, scroll.scrollTop + dy * wheelPixelsPerUnit)); }
+    setScrollLeft(cm, Math.max(0, scroll.scrollLeft + dx * wheelPixelsPerUnit));
+    // Only prevent default scrolling if vertical scrolling is
+    // actually possible. Otherwise, it causes vertical scroll
+    // jitter on OSX trackpads when deltaX is small and deltaY
+    // is large (issue #3579)
+    if (!dy || (dy && canScrollY))
+      { e_preventDefault(e); }
+    display.wheelStartX = null; // Abort measurement, if in progress
+    return
+  }
+
+  // 'Project' the visible viewport to cover the area that is being
+  // scrolled into view (if we know enough to estimate it).
+  if (dy && wheelPixelsPerUnit != null) {
+    var pixels = dy * wheelPixelsPerUnit;
+    var top = cm.doc.scrollTop, bot = top + display.wrapper.clientHeight;
+    if (pixels < 0) { top = Math.max(0, top + pixels - 50); }
+    else { bot = Math.min(cm.doc.height, bot + pixels + 50); }
+    updateDisplaySimple(cm, {top: top, bottom: bot});
+  }
+
+  if (wheelSamples < 20) {
+    if (display.wheelStartX == null) {
+      display.wheelStartX = scroll.scrollLeft; display.wheelStartY = scroll.scrollTop;
+      display.wheelDX = dx; display.wheelDY = dy;
+      setTimeout(function () {
+        if (display.wheelStartX == null) { return }
+        var movedX = scroll.scrollLeft - display.wheelStartX;
+        var movedY = scroll.scrollTop - display.wheelStartY;
+        var sample = (movedY && display.wheelDY && movedY / display.wheelDY) ||
+          (movedX && display.wheelDX && movedX / display.wheelDX);
+        display.wheelStartX = display.wheelStartY = null;
+        if (!sample) { return }
+        wheelPixelsPerUnit = (wheelPixelsPerUnit * wheelSamples + sample) / (wheelSamples + 1);
+        ++wheelSamples;
+      }, 200);
+    } else {
+      display.wheelDX += dx; display.wheelDY += dy;
+    }
   }
 }
 
@@ -4913,7 +4965,7 @@ function setSelectionInner(doc, sel) {
 // Verify that the selection does not partially select any atomic
 // marked ranges.
 function reCheckSelection(doc) {
-  setSelectionInner(doc, skipAtomicInSelection(doc, doc.sel, null, false), sel_dontScroll);
+  setSelectionInner(doc, skipAtomicInSelection(doc, doc.sel, null, false));
 }
 
 // Return a selection that does not partially select any atomic
@@ -5541,7 +5593,7 @@ eventMixin(LineWidget);
 
 function adjustScrollWhenAboveVisible(cm, line, diff) {
   if (heightAtLine(line) < ((cm.curOp && cm.curOp.scrollTop) || cm.doc.scrollTop))
-    { addToScrollPos(cm, null, diff); }
+    { addToScrollTop(cm, diff); }
 }
 
 function addLineWidget(doc, handle, node, options) {
@@ -5556,7 +5608,7 @@ function addLineWidget(doc, handle, node, options) {
     if (cm && !lineIsHidden(doc, line)) {
       var aboveVisible = heightAtLine(line) < doc.scrollTop;
       updateLineHeight(line, line.height + widgetHeight(widget));
-      if (aboveVisible) { addToScrollPos(cm, null, widget.height); }
+      if (aboveVisible) { addToScrollTop(cm, widget.height); }
       cm.curOp.forceUpdate = true;
     }
     return true
@@ -5904,7 +5956,8 @@ Doc.prototype = createObj(BranchChunk.prototype, {
     var top = Pos(this.first, 0), last = this.first + this.size - 1;
     makeChange(this, {from: top, to: Pos(last, getLine(this, last).text.length),
                       text: this.splitLines(code), origin: "setValue", full: true}, true);
-    setSelection(this, simpleSelection(top));
+    if (this.cm) { scrollToCoords(this.cm, 0, 0); }
+    setSelection(this, simpleSelection(top), sel_dontScroll);
   }),
   replaceRange: function(code, from, to, origin) {
     from = clipPos(this, from);
@@ -6981,15 +7034,17 @@ function leftButtonDown(cm, e, start) {
 // Start a text drag. When it ends, see if any dragging actually
 // happen, and treat as a click if it didn't.
 function leftButtonStartDrag(cm, e, start, modifier) {
-  var display = cm.display, startTime = +new Date;
-  var dragEnd = operation(cm, function (e2) {
+  var display = cm.display, moved = false;
+  var dragEnd = operation(cm, function (e) {
     if (webkit) { display.scroller.draggable = false; }
     cm.state.draggingText = false;
     off(document, "mouseup", dragEnd);
+    off(document, "mousemove", mouseMove);
+    off(display.scroller, "dragstart", dragStart);
     off(display.scroller, "drop", dragEnd);
-    if (Math.abs(e.clientX - e2.clientX) + Math.abs(e.clientY - e2.clientY) < 10) {
-      e_preventDefault(e2);
-      if (!modifier && +new Date - 200 < startTime)
+    if (!moved) {
+      e_preventDefault(e);
+      if (!modifier)
         { extendSelection(cm.doc, start); }
       // Work around unexplainable focus problem in IE9 (#2127) and Chrome (#3081)
       if (webkit || ie && ie_version == 9)
@@ -6998,6 +7053,10 @@ function leftButtonStartDrag(cm, e, start, modifier) {
         { display.input.focus(); }
     }
   });
+  var mouseMove = function(e2) {
+    moved = moved || Math.abs(e.clientX - e2.clientX) + Math.abs(e.clientY - e2.clientY) >= 10;
+  };
+  var dragStart = function () { return moved = true; };
   // Let the drag handler handle this.
   if (webkit) { display.scroller.draggable = true; }
   cm.state.draggingText = dragEnd;
@@ -7005,7 +7064,12 @@ function leftButtonStartDrag(cm, e, start, modifier) {
   // IE's approach to draggable
   if (display.scroller.dragDrop) { display.scroller.dragDrop(); }
   on(document, "mouseup", dragEnd);
+  on(document, "mousemove", mouseMove);
+  on(display.scroller, "dragstart", dragStart);
   on(display.scroller, "drop", dragEnd);
+
+  delayBlurEvent(cm);
+  setTimeout(function () { return display.input.focus(); }, 20);
 }
 
 // Normal selection, as opposed to text dragging.
@@ -7537,7 +7601,7 @@ function registerEventHandlers(cm) {
   // area, ensure viewport is updated when scrolling.
   on(d.scroller, "scroll", function () {
     if (d.scroller.clientHeight) {
-      setScrollTop(cm, d.scroller.scrollTop);
+      updateScrollTop(cm, d.scroller.scrollTop);
       setScrollLeft(cm, d.scroller.scrollLeft, true);
       signal(cm, "scroll", cm);
     }
@@ -8070,7 +8134,7 @@ var addEditorMethods = function(CodeMirror) {
         goals.push(headPos.left);
         var pos = findPosV(this$1, headPos, dir, unit);
         if (unit == "page" && range$$1 == doc.sel.primary())
-          { addToScrollPos(this$1, null, charCoords(this$1, pos, "div").top - headPos.top); }
+          { addToScrollTop(this$1, charCoords(this$1, pos, "div").top - headPos.top); }
         return pos
       }, sel_move);
       if (goals.length) { for (var i = 0; i < doc.sel.ranges.length; i++)
@@ -8107,11 +8171,7 @@ var addEditorMethods = function(CodeMirror) {
     hasFocus: function() { return this.display.input.getField() == activeElt() },
     isReadOnly: function() { return !!(this.options.readOnly || this.doc.cantEdit) },
 
-    scrollTo: methodOp(function(x, y) {
-      if (x != null || y != null) { resolveScrollToPos(this); }
-      if (x != null) { this.curOp.scrollLeft = x; }
-      if (y != null) { this.curOp.scrollTop = y; }
-    }),
+    scrollTo: methodOp(function (x, y) { scrollToCoords(this, x, y); }),
     getScrollInfo: function() {
       var scroller = this.display.scroller;
       return {left: scroller.scrollLeft, top: scroller.scrollTop,
@@ -8133,16 +8193,9 @@ var addEditorMethods = function(CodeMirror) {
       range$$1.margin = margin || 0;
 
       if (range$$1.from.line != null) {
-        resolveScrollToPos(this);
-        this.curOp.scrollToPos = range$$1;
+        scrollToRange(this, range$$1);
       } else {
-        var sPos = calculateScrollPos(this, {
-          left: Math.min(range$$1.from.left, range$$1.to.left),
-          top: Math.min(range$$1.from.top, range$$1.to.top) - range$$1.margin,
-          right: Math.max(range$$1.from.right, range$$1.to.right),
-          bottom: Math.max(range$$1.from.bottom, range$$1.to.bottom) + range$$1.margin
-        });
-        this.scrollTo(sPos.scrollLeft, sPos.scrollTop);
+        scrollToCoordsRange(this, range$$1.from, range$$1.to, range$$1.margin);
       }
     }),
 
@@ -8170,7 +8223,7 @@ var addEditorMethods = function(CodeMirror) {
       regChange(this);
       this.curOp.forceUpdate = true;
       clearCaches(this);
-      this.scrollTo(this.doc.scrollLeft, this.doc.scrollTop);
+      scrollToCoords(this, this.doc.scrollLeft, this.doc.scrollTop);
       updateGutterSpace(this);
       if (oldHeight == null || Math.abs(oldHeight - textHeight(this.display)) > .5)
         { estimateLineHeights(this); }
@@ -8183,7 +8236,7 @@ var addEditorMethods = function(CodeMirror) {
       attachDoc(this, doc);
       clearCaches(this);
       this.display.input.reset();
-      this.scrollTo(doc.scrollLeft, doc.scrollTop);
+      scrollToCoords(this, doc.scrollLeft, doc.scrollTop);
       this.curOp.forceScroll = true;
       signalLater(this, "swapDoc", this, old);
       return old
@@ -8394,36 +8447,41 @@ ContentEditableInput.prototype.showSelection = function (info, takeFocus) {
 };
 
 ContentEditableInput.prototype.showPrimarySelection = function () {
-  var sel = window.getSelection(), prim = this.cm.doc.sel.primary();
-  var curAnchor = domToPos(this.cm, sel.anchorNode, sel.anchorOffset);
-  var curFocus = domToPos(this.cm, sel.focusNode, sel.focusOffset);
-  if (curAnchor && !curAnchor.bad && curFocus && !curFocus.bad &&
-      cmp(minPos(curAnchor, curFocus), prim.from()) == 0 &&
-      cmp(maxPos(curAnchor, curFocus), prim.to()) == 0)
-    { return }
+  var sel = window.getSelection(), cm = this.cm, prim = cm.doc.sel.primary();
+  var from = prim.from(), to = prim.to();
 
-  var start = posToDOM(this.cm, prim.from());
-  var end = posToDOM(this.cm, prim.to());
-  if (!start && !end) {
+  if (cm.display.viewTo == cm.display.viewFrom || from.line >= cm.display.viewTo || to.line < cm.display.viewFrom) {
     sel.removeAllRanges();
     return
   }
 
-  var view = this.cm.display.view;
-  var old = sel.rangeCount && sel.getRangeAt(0);
-  if (!start) {
-    start = {node: view[0].measure.map[2], offset: 0};
-  } else if (!end) { // FIXME dangerously hacky
+  var curAnchor = domToPos(cm, sel.anchorNode, sel.anchorOffset);
+  var curFocus = domToPos(cm, sel.focusNode, sel.focusOffset);
+  if (curAnchor && !curAnchor.bad && curFocus && !curFocus.bad &&
+      cmp(minPos(curAnchor, curFocus), from) == 0 &&
+      cmp(maxPos(curAnchor, curFocus), to) == 0)
+    { return }
+
+  var view = cm.display.view;
+  var start = (from.line >= cm.display.viewFrom && posToDOM(cm, from)) ||
+      {node: view[0].measure.map[2], offset: 0};
+  var end = to.line < cm.display.viewTo && posToDOM(cm, to);
+  if (!end) {
     var measure = view[view.length - 1].measure;
     var map$$1 = measure.maps ? measure.maps[measure.maps.length - 1] : measure.map;
     end = {node: map$$1[map$$1.length - 1], offset: map$$1[map$$1.length - 2] - map$$1[map$$1.length - 3]};
   }
 
-  var rng;
+  if (!start || !end) {
+    sel.removeAllRanges();
+    return
+  }
+
+  var old = sel.rangeCount && sel.getRangeAt(0), rng;
   try { rng = range(start.node, start.offset, end.offset, end.node); }
   catch(e) {} // Our model of the DOM might be outdated, in which case the range we try to set can be impossible
   if (rng) {
-    if (!gecko && this.cm.state.focused) {
+    if (!gecko && cm.state.focused) {
       sel.collapse(start.node, start.offset);
       if (!rng.collapsed) {
         sel.removeAllRanges();
@@ -8933,7 +8991,7 @@ TextareaInput.prototype.showSelection = function (drawn) {
 // Reset the input to correspond to the selection (or to be empty,
 // when not typing and nothing is selected)
 TextareaInput.prototype.reset = function (typing) {
-  if (this.contextMenuPending) { return }
+  if (this.contextMenuPending || this.composing) { return }
   var minimal, selected, cm = this.cm, doc = cm.doc;
   if (cm.somethingSelected()) {
     this.prevInput = "";
@@ -9298,7 +9356,7 @@ CodeMirror$1.fromTextArea = fromTextArea;
 
 addLegacyProps(CodeMirror$1);
 
-CodeMirror$1.version = "5.25.0";
+CodeMirror$1.version = "5.26.0";
 
 return CodeMirror$1;
 

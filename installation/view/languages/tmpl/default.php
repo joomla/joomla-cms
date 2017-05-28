@@ -48,7 +48,7 @@ $version = new JVersion;
 		</div>
 	</div>
 	<h3><?php echo JText::_('INSTL_LANGUAGES'); ?></h3>
-	<hr class="hr-condensed" />
+	<hr>
 	<?php if (!$this->items) : ?>
 		<p><?php echo JText::_('INSTL_LANGUAGES_WARNING_NO_INTERNET') ?></p>
 		<p>

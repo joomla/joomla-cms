@@ -112,12 +112,12 @@ abstract class JHtmlContentAdministrator
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-xs btn-secondary hasTooltip'
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
 				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 		else
 		{
-			$html = '<a class="btn btn-xs btn-secondary hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
+			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
 				. JHtml::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 

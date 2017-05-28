@@ -17,7 +17,7 @@ JHtml::_('behavior.multiselect');
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $columns   = 10;
@@ -144,7 +144,7 @@ $assoc = JLanguageAssociations::isEnabled();
 										<span class="icon-menu" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
-										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order ">
+										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
@@ -172,9 +172,9 @@ $assoc = JLanguageAssociations::isEnabled();
 										<?php else : ?>
 											<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-										<span class="small break-word">
+										<div class="small">
 											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-										</span>
+										</div>
 										<div class="small">
 											<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 										</div>

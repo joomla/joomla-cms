@@ -107,20 +107,6 @@ class Html extends HtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		// Levels filter - Used in Hathor.
-		$this->f_levels = array(
-			\JHtml::_('select.option', '1', \JText::_('J1')),
-			\JHtml::_('select.option', '2', \JText::_('J2')),
-			\JHtml::_('select.option', '3', \JText::_('J3')),
-			\JHtml::_('select.option', '4', \JText::_('J4')),
-			\JHtml::_('select.option', '5', \JText::_('J5')),
-			\JHtml::_('select.option', '6', \JText::_('J6')),
-			\JHtml::_('select.option', '7', \JText::_('J7')),
-			\JHtml::_('select.option', '8', \JText::_('J8')),
-			\JHtml::_('select.option', '9', \JText::_('J9')),
-			\JHtml::_('select.option', '10', \JText::_('J10')),
-		);
-
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{
@@ -134,7 +120,7 @@ class Html extends HtmlView
 			if ($forcedLanguage = \JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
 				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
-				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+				$languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 
 				// Also, unset the active language filter so the search tools is not open by default with this filter.

@@ -101,7 +101,7 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="'
+		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-xs" title="'
 			. $title . '"><span class="icon-drawer-2"></span><span class="hidden-sm-down">' . $title . '</span></a>';
 	}
 

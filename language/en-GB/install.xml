@@ -88,8 +88,8 @@
 		<filename>en-GB.mod_whosonline.sys.ini</filename>
 		<filename>en-GB.mod_wrapper.ini</filename>
 		<filename>en-GB.mod_wrapper.sys.ini</filename>
-		<filename>en-GB.tpl_protostar.ini</filename>
-		<filename>en-GB.tpl_protostar.sys.ini</filename>
+		<filename>en-GB.tpl_aurora.ini</filename>
+		<filename>en-GB.tpl_aurora.sys.ini</filename>
 		<filename file="meta">install.xml</filename>
 		<filename file="meta">en-GB.xml</filename>
 	</files>

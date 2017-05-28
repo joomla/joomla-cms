@@ -80,7 +80,7 @@ class PlgSystemFields extends JPlugin
 		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
 
 		// Loading the model
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
 
 		// Loop over the fields
 		foreach ($fields as $field)
@@ -117,6 +117,14 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$user = JFactory::getUser($userData['id']);
+
+		$task = JFactory::getApplication()->input->getCmd('task');
+
+		// Skip fields save when we activate a user, because we will lose the saved data
+		if (in_array($task, array('activate', 'block', 'unblock')))
+		{
+			return true;
+		}
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);

@@ -107,7 +107,7 @@ if ($saveOrder)
 									$columns++; ?>
 									<th style="width:3%" class="nowrap text-center hidden-sm-down">
                                         <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>">
-                                            <span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
+                                            <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
                                         </span>
 									</th>
 								<?php endif; ?>

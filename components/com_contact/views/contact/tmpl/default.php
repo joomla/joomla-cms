@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+
 $cparams = JComponentHelper::getParams('com_media');
 $tparams = $this->params;
 jimport('joomla.html.html.bootstrap');
@@ -77,7 +79,7 @@ jimport('joomla.html.html.bootstrap');
 		<?php endif; ?>
 
 		<?php if ($this->contact->image && $tparams->get('show_image')) : ?>
-			<div class="thumbnail pull-right">
+			<div class="thumbnail float-right">
 				<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('align' => 'middle', 'itemprop' => 'image')); ?>
 			</div>
 		<?php endif; ?>

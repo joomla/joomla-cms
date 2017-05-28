@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-	var settings      = grunt.file.readYAML('grunt_settings.yaml'),
+	var settings      = grunt.file.readYAML('grunt-settings.yaml'),
 		path          = require('path'),
 		preText       = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText      = '  },\n  "license": "GPL-2.0+"\n}',
@@ -65,7 +65,14 @@ module.exports = function(grunt) {
 					force: true
 				}
 			},
-			temp: { src: [ 'build/assets_tmp/*', 'build/assets_tmp/tmp', 'build/assets_tmp/package.json' ], expand: true, options: { force: true } }
+			temp: {
+				src: [ 'build/assets_tmp/*', 'build/assets_tmp/tmp', 'build/assets_tmp/package.json' ],
+				expand: true,
+				options: { force: true } },
+			allMinJs: ['media/**/*.min.js', '!media/vendor/*.min.js',
+				'media/**/**/*.min.js', '!media/vendor/**/*.min.js',
+				'media/**/**/**/*.min.js', '!media/vendor/**/**/*.min.js',
+				'media/**/**/**/**/*.min.js', '!media/vendor/**/**/**/*.min.js']
 		},
 
 		// Update all the packages to the version specified in assets/package.json
@@ -149,9 +156,9 @@ module.exports = function(grunt) {
 					// Media Element css, png, gif, svg files
 					{ expand: true, cwd: '<%= folder.node_module %>mediaelement/build', src: ['*.css', '*.png', '*.svg', '*.gif'], dest: 'media/vendor/mediaelement/css/', filter: 'isFile'},
 					// MiniColors js files
-					{ expand: true, cwd: '<%= folder.node_module %>jquery-minicolors', src: ['*.js'], dest: 'media/vendor/minicolors/js/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>@claviska/jquery-minicolors/', src: ['jquery.minicolors.js','jquery.minicolors.min.js'], dest: 'media/vendor/minicolors/js/', filter: 'isFile'},
 					// MiniColors css, ong files
-					{ expand: true, cwd: '<%= folder.node_module %>jquery-minicolors', src: ['*.css', '*.png'], dest: 'media/vendor/minicolors/css/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>@claviska/jquery-minicolors', src: ['*.css', '*.png'], dest: 'media/vendor/minicolors/css/', filter: 'isFile'},
 					// Awesomplete js files
 					{ expand: true, cwd: '<%= folder.node_module %>awesomplete', src: ['awesomplete.js', 'awesomplete.min.js'], dest: 'media/vendor/awesomplete/js/', filter: 'isFile'},
 					// Awesomplete css files
@@ -222,6 +229,8 @@ module.exports = function(grunt) {
 							'!<%= folder.system %>/*.min.js',
 							'<%= folder.system %>/fields/*.js',
 							'!<%= folder.system %>/fields/*.min.js',
+							'<%= folder.system %>/fields/calendar-locales/date/*/*.js',
+							'!<%= folder.system %>/fields/calendar-locales/date/*/*.min.js',
 							'<%= folder.system %>/legacy/*.js',
 							'!<%= folder.system %>/legacy/*.min.js',
 							'<%= folder.codemirror %>/addon/*/*.js',
@@ -239,8 +248,6 @@ module.exports = function(grunt) {
 							'!<%= folder.editors %>/none/js/*.min.js',
 							'<%= folder.editors %>/tinymce/js/*.js',
 							'!<%= folder.editors %>/tinymce/js/*.min.js',
-                            '<%= folder.system %>/tinymce/js/plugins/dragdrop/*.js',
-                            '<%= folder.system %>/tinymce/js/plugins/dragdrop/*.min.js',
 							'<%= folder.editors %>/codemirror/js/*.js',
 							'!<%= folder.editors %>/codemirror/js/*.min.js',
 							'<%= folder.media %>/com_associations/js/*.js',
@@ -255,22 +262,31 @@ module.exports = function(grunt) {
 							'!<%= folder.media %>/com_finder/js/*.min.js',
 							'<%= folder.media %>/com_joomlaupdate/js/*.js',
 							'!<%= folder.media %>/com_joomlaupdate/js/*.min.js',
+							'<%= folder.media %>/com_languages/js/*.js',
+							'!<%= folder.media %>/com_languages/js/*.min.js',
+							'<%= folder.media %>/com_fields/js/*.js',
+							'!<%= folder.media %>/com_fields/js/*.min.js',
 							'<%= folder.media %>/com_menus/js/*.js',
 							'!<%= folder.media %>/com_menus/js/*.min.js',
 							'<%= folder.media %>/com_modules/js/*.js',
 							'!<%= folder.media %>/com_modules/js/*.min.js',
 							'<%= folder.media %>/com_wrapper/js/*.js',
 							'!<%= folder.media %>/com_wrapper/js/*.min.js',
-							'<%= folder.media %>/editors/*/js/*.js',
-							'!<%= folder.media %>/contacts/*/js/*.min.js',
+							'<%= folder.media %>/editors/none/js/*.js',
+							'!<%= folder.media %>/editors/none/js/*.min.js',
+							'<%= folder.media %>/editors/tinymce/js/*.js',
+							'!<%= folder.media %>/editors/tinymce/js/*.min.js',
+							'<%= folder.media %>/editors/codemirror/js/*.js',
+							'!<%= folder.media %>/editors/codemirror/js/*.min.js',
+							'<%= folder.media %>/editors/tinymce/js/plugins/dragdrop/*.js',
+							'!<%= folder.media %>/editors/tinymce/js/plugins/dragdrop/*.min.js',
+							'<%= folder.media %>/contacts/**/js/*.min.js',
 							'<%= folder.media %>/jui/js/*.js',
 							'!<%= folder.media %>/jui/js/*.min.js',
 							'<%= folder.media %>/media/js/*.js',
 							'!<%= folder.media %>/media/js/*.min.js',
 							'<%= folder.media %>/mod_languages/js/*.js',
 							'!<%= folder.media %>/mod_languages/js/*.min.js',
-							'<%= folder.media %>/overrider/js/*.js',
-							'!<%= folder.media %>/overrider/js/*.min.js',
 							'<%= folder.media %>/plg_captcha_recaptcha/js/*.js',
 							'!<%= folder.media %>/plg_captcha_recaptcha/js/*.min.js',
 							'<%= folder.media %>/plg_quickicon_extensionupdate/js/*.js',
@@ -281,6 +297,8 @@ module.exports = function(grunt) {
 							'!<%= folder.media %>/plg_system_highlight/js/*.min.js',
 							'<%= folder.media %>/plg_system_stats/js/*.js',
 							'!<%= folder.media %>/plg_system_stats/js/*.min.js',
+							'<%= folder.media %>/plg_system_debug/js/*.js',
+							'!<%= folder.media %>/plg_system_debug/js/*.min.js',
 							// '<%= folder.puny %>/*.js',            // Uglifying punicode.js fails!!!
 							// '!<%= folder.puny %>/*.min.js',       // Uglifying punicode.js fails!!!
 						],
@@ -366,6 +384,20 @@ module.exports = function(grunt) {
 				}]
 			}
 		},
+
+		// Watch files for changes and run tasks based on the changed files
+		watch: {
+			sass: {
+				files: [
+					'<%= folder.adminTemplate %>/**/*.scss',
+					'<%= folder.siteTemplate %>/**/*.scss',
+				],
+				tasks: ['compile']
+			},
+			gruntfile: {
+				files: ['Gruntfile.js']
+			}
+		}
 	});
 
 	// Load required modules
@@ -374,6 +406,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-scss-lint');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-shell');
@@ -386,6 +419,7 @@ module.exports = function(grunt) {
 			'concat:someFiles',
 			'copy:fromSource',
 			'sass:dist',
+			'clean:allMinJs',
 			'uglify:allJs',
 			'cssmin:allCss',
 			'postcss',
@@ -412,6 +446,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('scripts', 'Minifies the javascript files.', function() {
 		grunt.task.run([
+			'clean:allMinJs',
 			'uglify:allJs'
 		]);
 	});
@@ -429,8 +464,40 @@ module.exports = function(grunt) {
 			'sass:dist',
 			'postcss',
 			'cssmin:adminTemplate',
-			'cssmin:siteTemplate'
+			'cssmin:siteTemplate',
+			'watch'
 		]);
 	 });
+
+	grunt.registerTask('installation', 'Compiles the error-locales.js translation file', function() {
+
+		// Set the initial template
+		var template = `
+window.errorLocale = {`;
+
+		grunt.file.recurse('installation/language', function(abspath, rootdir, subdir, filename) {
+
+			if (abspath.indexOf('.ini') > -1) {
+				var fs = require('fs'), ini = require('ini'), languageStrings = ini.parse(fs.readFileSync(abspath, 'utf-8'));
+
+				if (languageStrings["MIN_PHP_ERROR_LANGUAGE"]) {
+					template = template + `
+	"` + subdir + `": {
+		"language": "` + languageStrings["MIN_PHP_ERROR_LANGUAGE"] + `",
+		"header": "` + languageStrings["MIN_PHP_ERROR_HEADER"] + `",
+		"text1": "` + languageStrings["MIN_PHP_ERROR_TEXT"] + `",
+		"help-url-text": "` + languageStrings["MIN_PHP_ERROR_URL_TEXT"] + `"
+	},`;
+				}
+			}
+		});
+
+		// Add the closing bracket
+		template = template + `
+}`;
+
+		// Write the file
+		grunt.file.write('installation/template/js/error-locales.js', template);
+	});
 
 };

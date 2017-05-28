@@ -85,7 +85,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @var    array
 	 * @since  1.6.0
-	 * @see    https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+	 * @link   https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
 	 */
 	private $responseMap = [
 		300 => 'HTTP/1.1 300 Multiple Choices',
@@ -251,7 +251,10 @@ abstract class AbstractWebApplication extends AbstractApplication
 	protected function respond()
 	{
 		// Send the content-type header.
-		$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
+		if (!$this->getResponse()->hasHeader('Content-Type'))
+		{
+			$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
+		}
 
 		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
 		if (!$this->allowCache())
@@ -269,10 +272,13 @@ abstract class AbstractWebApplication extends AbstractApplication
 		else
 		{
 			// Expires.
-			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
+			if (!$this->getResponse()->hasHeader('Expires'))
+			{
+				$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
+			}
 
 			// Last modified.
-			if ($this->modifiedDate instanceof \DateTime)
+			if (!$this->getResponse()->hasHeader('Last-Modified') && $this->modifiedDate instanceof \DateTime)
 			{
 				$this->modifiedDate->setTimezone(new \DateTimeZone('UTC'));
 				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s') . ' GMT');

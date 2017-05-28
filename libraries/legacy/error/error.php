@@ -582,7 +582,7 @@ abstract class JError
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// Output as html
-			echo "<br><b>jos-$level_human</b>: "
+			echo "<br><strong>jos-$level_human</strong>: "
 				. $error->get('message') . "<br>\n"
 				. (JDEBUG ? nl2br($trace) : '');
 		}
@@ -635,7 +635,7 @@ abstract class JError
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// Output as html
-			echo "<br><b>J$level_human</b>: " . $error->get('message') . "<br>\n";
+			echo "<br><strong>J$level_human</strong>: " . $error->get('message') . "<br>\n";
 
 			if ($info != null)
 			{
@@ -680,7 +680,7 @@ abstract class JError
 		if (isset($_SERVER['HTTP_HOST']))
 		{
 			// Output as html
-			jexit("<br><b>J$level_human</b>: " . $error->get('message') . "<br>\n");
+			jexit("<br><strong>J$level_human</strong>: " . $error->get('message') . "<br>\n");
 		}
 		else
 		{

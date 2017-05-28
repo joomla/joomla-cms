@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
  * Administrator category HTML
@@ -78,7 +77,7 @@ abstract class JHtmlCategoriesAdministrator
 
 			JHtml::_('bootstrap.popover');
 
-			$html = JLayoutHelper::render('joomla.content.associations', $items);
+			$html = \Joomla\CMS\Layout\LayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;

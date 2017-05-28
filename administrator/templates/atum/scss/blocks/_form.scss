@@ -18,35 +18,30 @@
 
 }
 
-.control-group::after {
-  display: table;
-  clear: both;
-  content: "";
-}
+.control-group {
+  margin-bottom: 18px;
 
-form:not(.form-no-margin) {
+  &::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
 
-  .control-group {
-    margin-bottom: 18px;
+  .control-label {
+    float: left;
+    width: 220px;
+    padding-top: 5px;
+    padding-right: 5px;
+    text-align: left;
+  }
 
-    .control-label {
-      float: left;
-      width: 220px;
-      padding-top: 5px;
-      padding-right: 5px;
-      text-align: left;
-    }
-
-    .controls {
-      margin-left: 0;
-      overflow: hidden;
-    }
-
+  .controls {
+    margin-left: 220px;
   }
 
 }
 
-form .form-no-margin {
+.form-no-margin {
 
   .control-group {
 
@@ -111,7 +106,7 @@ legend {
   border-color: $switcher-color-success;
 }
 
-// Possibly temporary until Bootstrap suport it themselves
+// Possibly temporary until Bootstrap support it themselves
 .custom-select[multiple] {
   height: auto;
   background: none;

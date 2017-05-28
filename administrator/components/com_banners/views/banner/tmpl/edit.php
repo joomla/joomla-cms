@@ -15,30 +15,7 @@ JHtml::_('jquery.framework');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
 
-JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function ($){
-		$("#jform_type").on("change", function (a, params) {
-
-			var v = typeof(params) !== "object" ? $("#jform_type").val() : params.selected;
-
-			var img_url = $("#image, #url");
-			var custom  = $("#custom");
-
-			switch (v) {
-				case "0":
-					// Image
-					img_url.show();
-					custom.hide();
-					break;
-				case "1":
-					// Custom
-					img_url.hide();
-					custom.show();
-					break;
-			}
-		}).trigger("change");
-	});
-');
+JHtml::_('script', 'com_banners/admin-banner-edit.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">

@@ -1,116 +1,323 @@
+(function () {
+
+var defs = {}; // id -> {dependencies, definition, instance (possibly undefined)}
+
+// Used when there is no 'main' module.
+// The name is probably (hopefully) unique so minification removes for releases.
+var register_3795 = function (id) {
+  var module = dem(id);
+  var fragments = id.split('.');
+  var target = Function('return this;')();
+  for (var i = 0; i < fragments.length - 1; ++i) {
+    if (target[fragments[i]] === undefined)
+      target[fragments[i]] = {};
+    target = target[fragments[i]];
+  }
+  target[fragments[fragments.length - 1]] = module;
+};
+
+var instantiate = function (id) {
+  var actual = defs[id];
+  var dependencies = actual.deps;
+  var definition = actual.defn;
+  var len = dependencies.length;
+  var instances = new Array(len);
+  for (var i = 0; i < len; ++i)
+    instances[i] = dem(dependencies[i]);
+  var defResult = definition.apply(null, instances);
+  if (defResult === undefined)
+     throw 'module [' + id + '] returned undefined';
+  actual.instance = defResult;
+};
+
+var def = function (id, dependencies, definition) {
+  if (typeof id !== 'string')
+    throw 'module id must be a string';
+  else if (dependencies === undefined)
+    throw 'no dependencies for ' + id;
+  else if (definition === undefined)
+    throw 'no definition function for ' + id;
+  defs[id] = {
+    deps: dependencies,
+    defn: definition,
+    instance: undefined
+  };
+};
+
+var dem = function (id) {
+  var actual = defs[id];
+  if (actual === undefined)
+    throw 'module [' + id + '] was undefined';
+  else if (actual.instance === undefined)
+    instantiate(id);
+  return actual.instance;
+};
+
+var req = function (ids, callback) {
+  var len = ids.length;
+  var instances = new Array(len);
+  for (var i = 0; i < len; ++i)
+    instances.push(dem(ids[i]));
+  callback.apply(null, callback);
+};
+
+var ephox = {};
+
+ephox.bolt = {
+  module: {
+    api: {
+      define: def,
+      require: req,
+      demand: dem
+    }
+  }
+};
+
+var define = def;
+var require = req;
+var demand = dem;
+// this helps with minificiation when using a lot of global references
+var defineGlobal = function (id, ref) {
+  define(id, [], function () { return ref; });
+};
+/*jsc
+["tinymce.plugins.contextmenu.Plugin","tinymce.core.dom.DOMUtils","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.ui.Menu","tinymce.core.util.Tools","global!tinymce.util.Tools.resolve"]
+jsc*/
+defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
- * plugin.js
+ * ResolveGlobal.js
  *
  * Released under LGPL License.
- * Copyright (c) 1999-2015 Ephox Corp. All rights reserved
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
  *
  * License: http://www.tinymce.com/license
  * Contributing: http://www.tinymce.com/contributing
  */
 
-/*global tinymce:true */
+define(
+  'tinymce.core.dom.DOMUtils',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.dom.DOMUtils');
+  }
+);
 
-tinymce.PluginManager.add('contextmenu', function(editor) {
-	var menu, visibleState, contextmenuNeverUseNative = editor.settings.contextmenu_never_use_native;
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
 
-	var isNativeOverrideKeyEvent = function (e) {
-		return e.ctrlKey && !contextmenuNeverUseNative;
-	};
+define(
+  'tinymce.core.Env',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.Env');
+  }
+);
 
-	var isMacWebKit = function () {
-		return tinymce.Env.mac && tinymce.Env.webkit;
-	};
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
 
-	var isContextMenuVisible = function () {
-		return visibleState === true;
-	};
+define(
+  'tinymce.core.PluginManager',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.PluginManager');
+  }
+);
 
-	/**
-	 * This takes care of a os x native issue where it expands the selection
-	 * to the word at the caret position to do "lookups". Since we are overriding
-	 * the context menu we also need to override this expanding so the behavior becomes
-	 * normalized. Firefox on os x doesn't expand to the word when using the context menu.
-	 */
-	editor.on('mousedown', function (e) {
-		if (isMacWebKit() && e.button === 2 && !isNativeOverrideKeyEvent(e)) {
-			if (editor.selection.isCollapsed()) {
-				editor.once('contextmenu', function (e) {
-					editor.selection.placeCaretAt(e.clientX, e.clientY);
-				});
-			}
-		}
-	});
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
 
-	editor.on('contextmenu', function(e) {
-		var contextmenu;
+define(
+  'tinymce.core.ui.Menu',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.ui.Menu');
+  }
+);
 
-		if (isNativeOverrideKeyEvent(e)) {
-			return;
-		}
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
 
-		e.preventDefault();
-		contextmenu = editor.settings.contextmenu || 'link openlink image inserttable | cell row column deletetable';
+define(
+  'tinymce.core.util.Tools',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.util.Tools');
+  }
+);
 
-		// Render menu
-		if (!menu) {
-			var items = [];
+/**
+ * Plugin.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
 
-			tinymce.each(contextmenu.split(/[ ,]/), function(name) {
-				var item = editor.menuItems[name];
+/**
+ * This class contains all core logic for the contextmenu plugin.
+ *
+ * @class tinymce.contextmenu.Plugin
+ * @private
+ */
+define(
+  'tinymce.plugins.contextmenu.Plugin',
+  [
+    'tinymce.core.dom.DOMUtils',
+    'tinymce.core.Env',
+    'tinymce.core.PluginManager',
+    'tinymce.core.ui.Menu',
+    'tinymce.core.util.Tools'
+  ],
+  function (DOMUtils, Env, PluginManager, Menu, Tools) {
+    var DOM = DOMUtils.DOM;
 
-				if (name == '|') {
-					item = {text: name};
-				}
+    PluginManager.add('contextmenu', function (editor) {
+      var menu, visibleState, contextmenuNeverUseNative = editor.settings.contextmenu_never_use_native;
 
-				if (item) {
-					item.shortcut = ''; // Hide shortcuts
-					items.push(item);
-				}
-			});
+      var isNativeOverrideKeyEvent = function (e) {
+        return e.ctrlKey && !contextmenuNeverUseNative;
+      };
 
-			for (var i = 0; i < items.length; i++) {
-				if (items[i].text == '|') {
-					if (i === 0 || i == items.length - 1) {
-						items.splice(i, 1);
-					}
-				}
-			}
+      var isMacWebKit = function () {
+        return Env.mac && Env.webkit;
+      };
 
-			menu = new tinymce.ui.Menu({
-				items: items,
-				context: 'contextmenu',
-				classes: 'contextmenu'
-			}).renderTo();
+      var isContextMenuVisible = function () {
+        return visibleState === true;
+      };
 
-			menu.on('hide', function (e) {
-				if (e.control === this) {
-					visibleState = false;
-				}
-			});
+      /**
+       * This takes care of a os x native issue where it expands the selection
+       * to the word at the caret position to do "lookups". Since we are overriding
+       * the context menu we also need to override this expanding so the behavior becomes
+       * normalized. Firefox on os x doesn't expand to the word when using the context menu.
+       */
+      editor.on('mousedown', function (e) {
+        if (isMacWebKit() && e.button === 2 && !isNativeOverrideKeyEvent(e)) {
+          if (editor.selection.isCollapsed()) {
+            editor.once('contextmenu', function (e) {
+              editor.selection.placeCaretAt(e.clientX, e.clientY);
+            });
+          }
+        }
+      });
 
-			editor.on('remove', function() {
-				menu.remove();
-				menu = null;
-			});
+      editor.on('contextmenu', function (e) {
+        var contextmenu;
 
-		} else {
-			menu.show();
-		}
+        if (isNativeOverrideKeyEvent(e)) {
+          return;
+        }
 
-		// Position menu
-		var pos = {x: e.pageX, y: e.pageY};
+        e.preventDefault();
+        contextmenu = editor.settings.contextmenu || 'link openlink image inserttable | cell row column deletetable';
 
-		if (!editor.inline) {
-			pos = tinymce.DOM.getPos(editor.getContentAreaContainer());
-			pos.x += e.clientX;
-			pos.y += e.clientY;
-		}
+        // Render menu
+        if (!menu) {
+          var items = [];
 
-		menu.moveTo(pos.x, pos.y);
-		visibleState = true;
-	});
+          Tools.each(contextmenu.split(/[ ,]/), function (name) {
+            var item = editor.menuItems[name];
 
-	return {
-		isContextMenuVisible: isContextMenuVisible
-	};
-});
+            if (name == '|') {
+              item = { text: name };
+            }
+
+            if (item) {
+              item.shortcut = ''; // Hide shortcuts
+              items.push(item);
+            }
+          });
+
+          for (var i = 0; i < items.length; i++) {
+            if (items[i].text == '|') {
+              if (i === 0 || i == items.length - 1) {
+                items.splice(i, 1);
+              }
+            }
+          }
+
+          menu = new Menu({
+            items: items,
+            context: 'contextmenu',
+            classes: 'contextmenu'
+          }).renderTo();
+
+          menu.on('hide', function (e) {
+            if (e.control === this) {
+              visibleState = false;
+            }
+          });
+
+          editor.on('remove', function () {
+            menu.remove();
+            menu = null;
+          });
+
+        } else {
+          menu.show();
+        }
+
+        // Position menu
+        var pos = { x: e.pageX, y: e.pageY };
+
+        if (!editor.inline) {
+          pos = DOM.getPos(editor.getContentAreaContainer());
+          pos.x += e.clientX;
+          pos.y += e.clientY;
+        }
+
+        menu.moveTo(pos.x, pos.y);
+        visibleState = true;
+      });
+
+      return {
+        isContextMenuVisible: isContextMenuVisible
+      };
+    });
+    return function () { };
+  }
+);
+dem('tinymce.plugins.contextmenu.Plugin')();
+})();

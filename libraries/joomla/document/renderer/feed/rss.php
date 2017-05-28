@@ -42,6 +42,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 	public function render($name = '', $params = null, $content = null)
 	{
 		$app = JFactory::getApplication();
+		$tz  = new DateTimeZone($app->get('offset'));
 
 		$data = $this->_doc;
 

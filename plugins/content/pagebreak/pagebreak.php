@@ -16,7 +16,7 @@ jimport('joomla.utilities.utility');
 /**
  * Page break plugin
  *
- * <b>Usage:</b>
+ * <strong>Usage:</strong>
  * <code><hr class="system-pagebreak" /></code>
  * <code><hr class="system-pagebreak" title="The page title" /></code>
  * or
@@ -259,7 +259,7 @@ class PlgContentPagebreak extends JPlugin
 		$showall = $input->getInt('showall', 0);
 
 		// TOC header.
-		$row->toc = '<div class="pull-right article-index">';
+		$row->toc = '<div class="float-right article-index">';
 
 		if ($this->params->get('article_index') == 1)
 		{

@@ -133,8 +133,8 @@ class JAdminCssMenu
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-		echo "<div role=\"navigation\" aria-label=\"Main menu\">";
-		echo "<ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' tabindex='0' role=\"menubar\">";
+		echo "<div class='main-nav-container' role=\"navigation\" aria-label=\"Main menu\">";
+		echo "<ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' role=\"menubar\">";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
@@ -231,9 +231,11 @@ class JAdminCssMenu
 		}
 
 		// Recurse through children if they exist
+		// @TODO - A better solution needed to add 2nd level title ($this->_current->title) & 'close'
 		while ($this->_current->hasChildren())
 		{
-			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">' . "\n";
+			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">
+		   <li>' . $this->_current->title . '<a href="#" class="close"><span aria-label="Close Menu">×</span></a></li>' . "\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{

@@ -8,13 +8,12 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Application\CmsApplication;
-use Joomla\CMS\Controller\Controller;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
-use Joomla\CMS\Mvc\Factory\MvcFactory;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Mvc\Factory\MvcFactory;
 
 /**
  * Base class for a Joomla Dispatcher
@@ -27,9 +26,26 @@ defined('_JEXEC') or die;
 abstract class Dispatcher implements DispatcherInterface
 {
 	/**
-	 * The JApplication instance
+	 * The URL option for the component.
 	 *
-	 * @var    CmsApplication
+	 * @var    string
+	 * @since  1.6
+	 */
+	protected $option;
+
+	/**
+	 * The extension namespace
+	 *
+	 * @var    string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $namespace;
+
+	/**
+	 * The CmsApplication instance
+	 *
+	 * @var    CMSApplication
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -45,46 +61,40 @@ abstract class Dispatcher implements DispatcherInterface
 	protected $input;
 
 	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $namespace;
-
-	/**
-	 * The extension namespace
-	 *
-	 * @var    MvcFactoryInterface
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $factory;
-
-	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   string               $namespace  Namespace of the Extension
-	 * @param   CmsApplication       $app        The JApplication for the dispatcher
-	 * @param   \JInput              $input      JInput
-	 * @param   MvcFactoryInterface  $factory    The factory object for the component
+	 * @param   CMSApplication  $app    The JApplication for the dispatcher
+	 * @param   \JInput         $input  JInput
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($namespace, CmsApplication $app, \JInput $input = null, MvcFactoryInterface $factory = null)
+	public function __construct(CMSApplication $app, \JInput $input = null)
 	{
-		$this->namespace = rtrim($namespace, '\\') . '\\';
-		$this->app       = $app;
-		$this->input     = $input ? $input : $app->input;
-		$this->factory   = $factory ? $factory : new MvcFactory($namespace, $this->app);
+		if (empty($this->namespace))
+		{
+			throw new \RuntimeException('Namespace can not be empty!');
+		}
+
+		$this->app   = $app;
+		$this->input = $input ?: $app->input;
+
+		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
+		if (empty($this->option))
+		{
+			$className = get_class($this);
+			$pos       = strpos($className, 'Dispatcher');
+
+			if ($pos !== false)
+			{
+				$this->option = 'com_' . strtolower(substr($className, 0, $pos));
+			}
+		}
 
 		$this->loadLanguage();
-		$this->autoLoad();
 	}
 
 	/**
-	 * Load the laguage
+	 * Load the language
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
@@ -93,25 +103,24 @@ abstract class Dispatcher implements DispatcherInterface
 	protected function loadLanguage()
 	{
 		// Load common and local language files.
-		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
-		$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+		$this->app->getLanguage()->load($this->option, JPATH_BASE, null, false, true) ||
+		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT, null, false, true);
 	}
 
-
 	/**
-	 * Autoload the extension files
-	 *
-	 * @return  void
+	 * Method to check component access permission
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
 	 */
-	protected function autoLoad()
+	protected function checkAccess()
 	{
-		$autoLoader = include JPATH_LIBRARIES . '/vendor/autoload.php';
-
-		// Autoload the component
-		$autoLoader->setPsr4($this->namespace . 'Administrator\\', JPATH_ADMINISTRATOR . '/components/' . $this->app->scope);
-		$autoLoader->setPsr4($this->namespace . 'Site\\', JPATH_BASE . '/components/' . $this->app->scope);
+		// Check the user has permission to access this component if in the backend
+		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->option))
+		{
+			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 	}
 
 	/**
@@ -123,11 +132,8 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function dispatch()
 	{
-		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->app->scope))
-		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+		// Check component access permission
+		$this->checkAccess();
 
 		$command = $this->input->getCmd('task', 'display');
 
@@ -148,7 +154,7 @@ abstract class Dispatcher implements DispatcherInterface
 		}
 
 		// Build controller config data
-		$config['option'] = $this->app->scope;
+		$config['option'] = $this->option;
 
 		// Set name of controller if it is passed in the request
 		if ($this->input->exists('controller'))
@@ -165,7 +171,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The application the dispatcher is working with.
 	 *
-	 * @return  CmsApplication
+	 * @return  CMSApplication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -187,27 +193,21 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function getController($name, $client = null, $config = array())
 	{
+		// Set up the namespace
+		$namespace = rtrim($this->namespace, '\\') . '\\';
+
+		// Set up the client
 		$client = $client ? $client : ucfirst($this->app->getName());
 
-		$controllerClass = $this->namespace . $client . '\\Controller\\' . ucfirst($name);
+		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
 
 		if (!class_exists($controllerClass))
 		{
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$controller = new $controllerClass($config, $this->factory, $this->app, $this->input);
+		$controller = new $controllerClass($config, new MvcFactory($namespace, $this->app), $this->app, $this->input);
 
 		return $controller;
-	}
-
-	/**
-	 * Method to get factory object
-	 *
-	 * @return  MvcFactoryInterface
-	 */
-	public function getFactory()
-	{
-		return $this->factory;
 	}
 }

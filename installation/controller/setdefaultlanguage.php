@@ -50,7 +50,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		$model = new InstallationModelLanguages;
 
 		// Check for request forgeries in the administrator language
-		$admin_lang = $this->input->getString('administratorlang', false);
+		$admin_lang = $this->getInput()->getString('administratorlang', false);
 
 		// Check that the string is an ISO Language Code avoiding any injection.
 		if (!preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $admin_lang))
@@ -71,7 +71,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		}
 
 		// Check for request forgeries in the site language
-		$frontend_lang = $this->input->getString('frontendlang', false);
+		$frontend_lang = $this->getInput()->getString('frontendlang', false);
 
 		// Check that the string is an ISO Language Code avoiding any injection.
 		if (!preg_match('/^[a-z]{2}(\-[A-Z]{2})?$/', $frontend_lang))
@@ -92,7 +92,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		}
 
 		// Check if user has activated the multilingual site
-		$data = $this->input->post->get('jform', array(), 'array');
+		$data = $this->getInput()->post->get('jform', array(), 'array');
 
 		if ((int) $data['activateMultilanguage'])
 		{
