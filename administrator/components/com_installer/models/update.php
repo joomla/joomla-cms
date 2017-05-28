@@ -371,6 +371,16 @@ class InstallerModelUpdate extends JModelList
 			$result = $res & $result;
 		}
 
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('com_plugins', 0);
+		$this->cleanCache('com_plugins', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
+
 		// Set the final state
 		$this->setState('result', $result);
 	}
@@ -525,7 +535,7 @@ class InstallerModelUpdate extends JModelList
 	protected function preparePreUpdate($update, $table)
 	{
 		jimport('joomla.filesystem.file');
-		
+
 		switch ($table->type)
 		{
 			// Components could have a helper which adds additional data
@@ -535,11 +545,11 @@ class InstallerModelUpdate extends JModelList
 				$cname = ucfirst($ename) . 'Helper';
 
 				$path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
-				
+
 				if (JFile::exists($path))
 				{
 					require_once $path;
-					
+
 					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
 					{
 						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
@@ -552,19 +562,19 @@ class InstallerModelUpdate extends JModelList
 			case 'module':
 				$cname = str_replace('_', '', $table->element) . 'Helper';
 				$path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
-				
+
 				if (JFile::exists($path))
 				{
 					require_once $path;
-					
+
 					if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate')))
 					{
 						call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
 					}
 				}
-			
+
 				break;
-				
+
 			// If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
 			// But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
 			case 'plugin':

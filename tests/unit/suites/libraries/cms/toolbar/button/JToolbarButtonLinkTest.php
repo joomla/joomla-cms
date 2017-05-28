@@ -84,7 +84,7 @@ class JToolbarButtonLinkTest extends TestCase
 
 		$this->assertRegExp(
 			'#<button onclick="location.href=\'' . preg_quote($url, '#') . '\';" class="btn btn-small">\s*'
-			. '<span class="icon-' . preg_quote($name, '#') . '"></span>\s+' . preg_quote($text, '#') . '\s*'
+			. '<span class="icon-' . preg_quote($name, '#') . '" aria-hidden=\"true\"></span>\s+' . preg_quote($text, '#') . '\s*'
 			. '</button>\s*#',
 			$this->object->fetchButton('Link', $name, $text, $url)
 		);

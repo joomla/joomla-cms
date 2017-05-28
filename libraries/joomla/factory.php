@@ -594,8 +594,13 @@ abstract class JFactory
 		// Config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
+		// The session handler needs a JInput object, we can inject it without having a hard dependency to an application instance
+		$input = self::$application ? self::getApplication()->input : new JInput;
+
 		$sessionHandler = new JSessionHandlerJoomla($options);
-		$session        = JSession::getInstance($handler, $options, $sessionHandler);
+		$sessionHandler->input = $input;
+
+		$session = JSession::getInstance($handler, $options, $sessionHandler);
 
 		if ($session->getState() == 'expired')
 		{

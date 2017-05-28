@@ -37,7 +37,7 @@ abstract class JHtmlNumber
 	 * @return  string   The number of bytes in the proper units.
 	 *
 	 * @since   1.6
-	 * @see     https://en.wikipedia.org/wiki/Binary_prefix
+	 * @link    https://en.wikipedia.org/wiki/Binary_prefix
 	 */
 	public static function bytes($bytes, $unit = 'auto', $precision = 2, $iec = false)
 	{
