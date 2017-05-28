@@ -127,7 +127,9 @@ class Cache
 			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
-				$handlers[] = strtolower(str_ireplace('Storage.php', '', $fileName));
+				$handler = str_ireplace('Storage.php', '', $fileName);
+				$handler = str_ireplace('.php', '', $handler);
+				$handlers[] = strtolower($handler);
 			}
 		}
 
