@@ -1,27 +1,32 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Cache\Storage;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheStorage;
+use Joomla\CMS\Cache\Exception\CacheConnectingException;
+
 /**
- * Memcache cache storage handler
+ * Memcached cache storage handler
  *
- * @link   https://secure.php.net/manual/en/book.memcache.php
- * @since  11.1
+ * @link   https://secure.php.net/manual/en/book.memcached.php
+ * @since  12.1
  */
-class JCacheStorageMemcache extends JCacheStorage
+class MemcachedStorage extends CacheStorage
 {
 	/**
-	 * Memcache connection object
+	 * Memcached connection object
 	 *
-	 * @var    Memcache
-	 * @since  11.1
+	 * @var    \Memcached
+	 * @since  12.1
 	 */
 	protected static $_db = null;
 
@@ -29,7 +34,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Payload compression level
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	protected $_compress = 0;
 
@@ -38,13 +43,13 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
-		$this->_compress = JFactory::getConfig()->get('memcache_compress', false) ? MEMCACHE_COMPRESSED : 0;
+		$this->_compress = \JFactory::getConfig()->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
 
 		if (static::$_db === null)
 		{
@@ -53,43 +58,60 @@ class JCacheStorageMemcache extends JCacheStorage
 	}
 
 	/**
-	 * Create the Memcache connection
+	 * Create the Memcached connection
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @since   12.1
+	 * @throws  \RuntimeException
 	 */
 	protected function getConnection()
 	{
 		if (!static::isSupported())
 		{
-			throw new RuntimeException('Memcache Extension is not available');
+			throw new \RuntimeException('Memcached Extension is not available');
 		}
 
-		$config = JFactory::getConfig();
+		$config = \JFactory::getConfig();
 
-		$host = $config->get('memcache_server_host', 'localhost');
-		$port = $config->get('memcache_server_port', 11211);
+		$host = $config->get('memcached_server_host', 'localhost');
+		$port = $config->get('memcached_server_port', 11211);
 
-		// Create the memcache connection
-		static::$_db = new Memcache;
 
-		if ($config->get('memcache_persist', true))
+		// Create the memcached connection
+		if ($config->get('memcached_persist', true))
 		{
-			$result = @static::$_db->pconnect($host, $port);
+			static::$_db = new \Memcached($this->_hash);
+			$servers = static::$_db->getServerList();
+
+			if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port))
+			{
+				static::$_db->resetServerList();
+				$servers = array();
+			}
+
+			if (!$servers)
+			{
+				static::$_db->addServer($host, $port);
+			}
 		}
 		else
 		{
-			$result = @static::$_db->connect($host, $port);
+			static::$_db = new \Memcached;
+			static::$_db->addServer($host, $port);
 		}
+
+		static::$_db->setOption(\Memcached::OPT_COMPRESSION, $this->_compress);
+
+		$stats  = static::$_db->getStats();
+		$result = !empty($stats["$host:$port"]) && $stats["$host:$port"]['pid'] > 0;
 
 		if (!$result)
 		{
 			// Null out the connection to inform the constructor it will need to attempt to connect if this class is instantiated again
 			static::$_db = null;
 
-			throw new JCacheExceptionConnecting('Could not connect to memcache server');
+			throw new CacheConnectingException('Could not connect to memcached server');
 		}
 	}
 
@@ -105,13 +127,13 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	protected function _getCacheId($id, $group)
 	{
-		$prefix   = JCache::getPlatformPrefix();
+		$prefix   = Cache::getPlatformPrefix();
 		$length   = strlen($prefix);
 		$cache_id = parent::_getCacheId($id, $group);
 
 		if ($length)
 		{
-			// Memcache use suffix instead of prefix
+			// Memcached use suffix instead of prefix
 			$cache_id = substr($cache_id, $length) . strrev($prefix);
 		}
 
@@ -130,7 +152,9 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function contains($id, $group)
 	{
-		return $this->get($id, $group) !== false;
+		static::$_db->get($this->_getCacheId($id, $group));
+
+		return static::$_db->getResultCode() !== \Memcached::RES_NOTFOUND;
 	}
 
 	/**
@@ -142,7 +166,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -154,7 +178,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getAll()
 	{
@@ -180,7 +204,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 					if (!isset($data[$group]))
 					{
-						$item = new JCacheStorageHelper($group);
+						$item = new CacheStorageHelper($group);
 					}
 					else
 					{
@@ -206,7 +230,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -224,15 +248,15 @@ class JCacheStorageMemcache extends JCacheStorage
 			$index = array();
 		}
 
-		$tmparr       = new stdClass;
+		$tmparr       = new \stdClass;
 		$tmparr->name = $cache_id;
 		$tmparr->size = strlen($data);
 
 		$index[] = $tmparr;
-		static::$_db->set($this->_hash . '-index', $index, 0, 0);
+		static::$_db->set($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
-		static::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
+		static::$_db->set($cache_id, $data, $this->_lifetime);
 
 		return true;
 	}
@@ -245,7 +269,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function remove($id, $group)
 	{
@@ -265,7 +289,7 @@ class JCacheStorageMemcache extends JCacheStorage
 				if ($value->name == $cache_id)
 				{
 					unset($index[$key]);
-					static::$_db->set($this->_hash . '-index', $index, 0, 0);
+					static::$_db->set($this->_hash . '-index', $index, 0);
 					break;
 				}
 			}
@@ -287,7 +311,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -311,7 +335,7 @@ class JCacheStorageMemcache extends JCacheStorage
 				}
 			}
 
-			static::$_db->set($this->_hash . '-index', $index, 0, 0);
+			static::$_db->set($this->_hash . '-index', $index, 0);
 		}
 
 		$this->unlockindex();
@@ -345,7 +369,11 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		return extension_loaded('memcache') && class_exists('Memcache');
+		/*
+		 * GAE and HHVM have both had instances where Memcached the class was defined but no extension was loaded.
+		 * If the class is there, we can assume support.
+		 */
+		return class_exists('Memcached');
 	}
 
 	/**
@@ -357,18 +385,18 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  mixed  Boolean false if locking failed or an object containing properties lock and locklooped
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass;
+		$returning = new \stdClass;
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;
 
 		$cache_id = $this->_getCacheId($id, $group);
 
-		$data_lock = static::$_db->add($cache_id . '_lock', 1, 0, $locktime);
+		$data_lock = static::$_db->add($cache_id . '_lock', 1, $locktime);
 
 		if ($data_lock === false)
 		{
@@ -384,7 +412,7 @@ class JCacheStorageMemcache extends JCacheStorage
 				}
 
 				usleep(100);
-				$data_lock = static::$_db->add($cache_id . '_lock', 1, 0, $locktime);
+				$data_lock = static::$_db->add($cache_id . '_lock', 1, $locktime);
 				$lock_counter++;
 			}
 
@@ -404,7 +432,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -417,12 +445,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function lockindex()
 	{
 		$looptime  = 300;
-		$data_lock = static::$_db->add($this->_hash . '-index_lock', 1, 0, 30);
+		$data_lock = static::$_db->add($this->_hash . '-index_lock', 1, 30);
 
 		if ($data_lock === false)
 		{
@@ -437,7 +465,7 @@ class JCacheStorageMemcache extends JCacheStorage
 				}
 
 				usleep(100);
-				$data_lock = static::$_db->add($this->_hash . '-index_lock', 1, 0, 30);
+				$data_lock = static::$_db->add($this->_hash . '-index_lock', 1, 30);
 				$lock_counter++;
 			}
 		}
@@ -450,7 +478,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function unlockindex()
 	{

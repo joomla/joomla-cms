@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Cache\Controller;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheController;
 
 /**
  * Joomla! Cache callback type object
  *
  * @since  11.1
  */
-class JCacheControllerCallback extends JCacheController
+class CallbackController extends CacheController
 {
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
@@ -113,7 +117,7 @@ class JCacheControllerCallback extends JCacheController
 
 			if ($wrkarounds)
 			{
-				echo JCache::getWorkarounds(
+				echo Cache::getWorkarounds(
 					$data['output'],
 					array('mergehead' => isset($woptions['mergehead']) ? $woptions['mergehead'] : 0)
 				);
@@ -145,7 +149,7 @@ class JCacheControllerCallback extends JCacheController
 
 		if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
 		{
-			$document = JFactory::getDocument();
+			$document = \JFactory::getDocument();
 
 			if (method_exists($document, 'getHeadData'))
 			{
@@ -173,7 +177,7 @@ class JCacheControllerCallback extends JCacheController
 
 		if ($wrkarounds)
 		{
-			$data['output'] = JCache::setWorkarounds($output, $coptions);
+			$data['output'] = Cache::setWorkarounds($output, $coptions);
 		}
 		else
 		{

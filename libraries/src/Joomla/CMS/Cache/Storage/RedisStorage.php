@@ -1,25 +1,29 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Cache\Storage;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Cache\CacheStorage;
+use Joomla\CMS\Log\Log;
 
 /**
  * Redis cache storage handler for PECL
  *
  * @since  3.4
  */
-class JCacheStorageRedis extends JCacheStorage
+class RedisStorage extends CacheStorage
 {
 	/**
 	 * Redis connection object
 	 *
-	 * @var    Redis
+	 * @var    \Redis
 	 * @since  3.4
 	 */
 	protected static $_redis = null;
@@ -52,7 +56,7 @@ class JCacheStorageRedis extends JCacheStorage
 	/**
 	 * Create the Redis connection
 	 *
-	 * @return  Redis|boolean  Redis connection object on success, boolean on failure
+	 * @return  \Redis|boolean  Redis connection object on success, boolean on failure
 	 *
 	 * @since   3.4
 	 * @note    As of 4.0 this method will throw a JCacheExceptionConnecting object on connection failure
@@ -64,7 +68,7 @@ class JCacheStorageRedis extends JCacheStorage
 			return false;
 		}
 
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$this->_persistent = $app->get('redis_persist', true);
 
@@ -75,7 +79,7 @@ class JCacheStorageRedis extends JCacheStorage
 			'db'   => (int) $app->get('redis_server_db', null),
 		);
 
-		static::$_redis = new Redis;
+		static::$_redis = new \Redis;
 
 		if ($this->_persistent)
 		{
@@ -84,9 +88,9 @@ class JCacheStorageRedis extends JCacheStorage
 				$connection = static::$_redis->pconnect($server['host'], $server['port']);
 				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (RedisException $e)
+			catch (\RedisException $e)
 			{
-				JLog::add($e->getMessage(), JLog::DEBUG);
+				Log::add($e->getMessage(), Log::DEBUG);
 			}
 		}
 		else
@@ -96,9 +100,9 @@ class JCacheStorageRedis extends JCacheStorage
 				$connection = static::$_redis->connect($server['host'], $server['port']);
 				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (RedisException $e)
+			catch (\RedisException $e)
 			{
-				JLog::add($e->getMessage(), JLog::DEBUG);
+				Log::add($e->getMessage(), Log::DEBUG);
 			}
 		}
 
@@ -108,7 +112,7 @@ class JCacheStorageRedis extends JCacheStorage
 
 			if ($app->isClient('administrator'))
 			{
-				JError::raiseWarning(500, 'Redis connection failed');
+				\JError::raiseWarning(500, 'Redis connection failed');
 			}
 
 			return false;
@@ -118,7 +122,7 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			if ($app->isClient('administrator'))
 			{
-				JError::raiseWarning(500, 'Redis authentication failed');
+				\JError::raiseWarning(500, 'Redis authentication failed');
 			}
 
 			return false;
@@ -142,13 +146,13 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis->ping();
 		}
-		catch (RedisException $e)
+		catch (\RedisException $e)
 		{
 			static::$_redis = null;
 
 			if ($app->isClient('administrator'))
 			{
-				JError::raiseWarning(500, 'Redis ping failed');
+				\JError::raiseWarning(500, 'Redis ping failed');
 			}
 
 			return false;
@@ -228,7 +232,7 @@ class JCacheStorageRedis extends JCacheStorage
 
 					if (!isset($data[$group]))
 					{
-						$item = new JCacheStorageHelper($group);
+						$item = new CacheStorageHelper($group);
 					}
 					else
 					{
@@ -341,7 +345,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		return class_exists('Redis');
+		return class_exists('\\Redis');
 	}
 
 	/**
@@ -353,6 +357,6 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public static function isConnected()
 	{
-		return static::$_redis instanceof Redis;
+		return static::$_redis instanceof \Redis;
 	}
 }

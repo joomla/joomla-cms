@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Cache\Controller;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Log\Log;
 
 /**
  * Joomla Cache output type object
  *
  * @since  11.1
  */
-class JCacheControllerOutput extends JCacheController
+class OutputController extends CacheController
 {
 	/**
 	 * Cache data ID
@@ -35,7 +39,7 @@ class JCacheControllerOutput extends JCacheController
 	/**
 	 * Object to test locked state
 	 *
-	 * @var    stdClass
+	 * @var    \stdClass
 	 * @since  11.1
 	 * @deprecated  4.0
 	 */
@@ -54,16 +58,16 @@ class JCacheControllerOutput extends JCacheController
 	 */
 	public function start($id, $group = null)
 	{
-		JLog::add(
+		Log::add(
 			__METHOD__ . '() is deprecated.',
-			JLog::WARNING,
+			Log::WARNING,
 			'deprecated'
 		);
 
 		// If we have data in cache use that.
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest             = new stdClass;
+		$this->_locktest             = new \stdClass;
 		$this->_locktest->locked     = null;
 		$this->_locktest->locklooped = null;
 
@@ -116,9 +120,9 @@ class JCacheControllerOutput extends JCacheController
 	 */
 	public function end()
 	{
-		JLog::add(
+		Log::add(
 			__METHOD__ . '() is deprecated.',
-			JLog::WARNING,
+			Log::WARNING,
 			'deprecated'
 		);
 
