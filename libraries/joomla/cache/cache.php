@@ -111,7 +111,7 @@ class JCache
 		$handlers = array();
 
 		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(__DIR__ . '/storage');
+		$iterator = new DirectoryIterator(JPATH_PLATFORM . '/vendor/joomla/cache/src/Adapter');
 
 		/** @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
@@ -119,13 +119,13 @@ class JCache
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			if (!$file->isFile() || $file->getExtension() != 'php' || $fileName == 'helper.php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}
 
 			// Derive the class name from the type.
-			$class = str_ireplace('.php', '', 'JCacheStorage' . ucfirst(trim($fileName)));
+			$class = str_ireplace('.php', '', 'Joomla\\Cache\\Adapter\\' . ucfirst(trim($fileName)));
 
 			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
 			if (!class_exists($class))
