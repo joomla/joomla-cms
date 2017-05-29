@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die;
 			if ($displayData->hide) : ?>
 				<a class="nolink"><?php echo $item[0]; ?></a>
 			<?php else :
-				if (strlen($item[1])) : ?>
+				if ($item[1] !== '') : ?>
 					<a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
 				<?php else : ?>
 					<?php echo $item[0]; ?>
