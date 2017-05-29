@@ -15,7 +15,7 @@ JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
- * Installer Manage Model
+ * Installer Database Model
  *
  * @since  1.6
  */
@@ -184,7 +184,6 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @return  mixed   version if successful, false if fail.
 	 */
-
 	public function getUpdateVersion()
 	{
 		$table = JTable::getInstance('Extension');

@@ -45,7 +45,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$html = '<a href="#' . $template . '-Modal" role="button" class="thumbnail pull-left hasTooltip" data-toggle="modal" title="' .
-					JHtml::tooltipText('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
+					JHtml::_('tooltipText', 'COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
 			}
 		}
 
@@ -77,7 +77,7 @@ class JHtmlTemplates
 			{
 				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
 				$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-					. JText::_('JTOOLBAR_CLOSE') . '</a>';
+					. JText::_('JTOOLBAR_CLOSE') . '</button>';
 
 				$html .= JHtml::_(
 					'bootstrap.renderModal',
@@ -88,7 +88,7 @@ class JHtmlTemplates
 						'width' => '800px',
 						'footer' => $footer
 					),
-					$body = '<div><img src="' . $preview . '" style="max-width:100%"></div>'
+					$body = '<div><img src="' . $preview . '" style="max-width:100%" alt="' . $template . '"></div>'
 				);
 			}
 		}

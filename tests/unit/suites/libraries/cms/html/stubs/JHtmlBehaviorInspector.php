@@ -19,7 +19,7 @@ abstract class JHtmlBehaviorInspector extends JHtmlBehavior
 	/**
 	 * Resets the JHtmlBehavior::$loaded array
 	 *
-	 * @return  mixed  void.
+	 * @return  mixed  void
 	 *
 	 * @since   3.1
 	 */
