@@ -356,12 +356,24 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		if ($this->allowAdd)
 		{
-			$customGroupText = JText::_('JGLOBAL_CUSTOM_CATEGORY');
+			JText::script('JGLOBAL_CUSTOM_CATEGORY');
+			JFactory::getDocument()->addScriptOptions(
+				'js-category-edit',
+				[
+				'elementId'      => $this->id,
+				'addItems'       => true,
+				'duplicateItems' => false,
+				'flip'           => true,
+				'shouldSort'     => false,
+				'search'         => true,
+				]
+			);
 
-			$class[] = 'chzn-custom-value';
-			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
-					. 'data-no_results_text="' . JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
-					. 'data-placeholder="' . JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
+			// Include scripts
+			JHtml::_('behavior.core');
+			JHtml::_('stylesheet', 'vendor/choices/choices.min.css', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'vendor/choices/choices.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'system/fields/category-new.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		if ($class)
