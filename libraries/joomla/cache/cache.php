@@ -227,7 +227,7 @@ class JCache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->get($id, $group, $this->_options['checkTime']);
+		return $this->getAdapter()->get($this->getCacheId($id, $group));
 	}
 
 	/**
@@ -269,7 +269,7 @@ class JCache
 		$group = $group ?: $this->_options['defaultgroup'];
 
 		// Get the storage and store the cached data
-		return $this->_getStorage()->store($id, $group, $data);
+		return $this->getAdapter()->set($this->getCacheId($id, $group), $data);
 	}
 
 	/**
@@ -287,7 +287,7 @@ class JCache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->remove($id, $group);
+		return $this->getAdapter()->delete($this->getCacheId($id, $group));
 	}
 
 	/**
