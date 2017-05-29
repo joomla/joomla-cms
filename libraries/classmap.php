@@ -200,6 +200,9 @@ JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Rout
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
 JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
 
+JLoader::registerAlias('JCategories',                       '\\Joomla\\CMS\\Categories\\Categories', '4.0');
+JLoader::registerAlias('JCategoryNode',                     '\\Joomla\\CMS\\Categories\\CategoryNode', '4.0');
+
 JLoader::registerAlias('JDate',                             '\\Joomla\\CMS\\Date\\Date', '4.0');
 
 JLoader::registerAlias('JLog',                              '\\Joomla\\CMS\\Log\\Log', '4.0');
@@ -240,3 +243,7 @@ JLoader::registerAlias('JCacheExceptionConnecting',         '\\Joomla\\CMS\\Cach
 JLoader::registerAlias('JCacheExceptionUnsupported',        '\\Joomla\\CMS\\Cache\\Exception\\UnsupportedCacheException', '4.0');
 
 JLoader::registerAlias('JSession',                          '\\Joomla\\CMS\\Session\\Session', '4.0');
+
+JLoader::registerAlias('JUser',                             '\\Joomla\\CMS\\User\\User', '4.0');
+JLoader::registerAlias('JUserHelper',                       '\\Joomla\\CMS\\User\\UserHelper', '4.0');
+JLoader::registerAlias('JUserWrapperHelper',                '\\Joomla\\CMS\\User\\UserWrapper', '4.0');
