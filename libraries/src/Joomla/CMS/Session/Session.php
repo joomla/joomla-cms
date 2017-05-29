@@ -10,6 +10,9 @@ namespace Joomla\CMS\Session;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\User\UserHelper;
+
 /**
  * Class for managing HTTP sessions
  *
@@ -281,19 +284,19 @@ class Session implements \IteratorAggregate
 		$user    = \JFactory::getUser();
 		$session = \JFactory::getSession();
 
-		return \JApplicationHelper::getHash($user->get('id', 0) . $session->getToken($forceNew));
+		return ApplicationHelper::getHash($user->get('id', 0) . $session->getToken($forceNew));
 	}
 
 	/**
 	 * Retrieve an external iterator.
 	 *
-	 * @return  ArrayIterator
+	 * @return  \ArrayIterator
 	 *
 	 * @since   12.2
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($this->getData());
+		return new \ArrayIterator($this->getData());
 	}
 
 	/**
@@ -387,9 +390,9 @@ class Session implements \IteratorAggregate
 		$connectors = array();
 
 		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(__DIR__ . '/storage');
+		$iterator = new \DirectoryIterator(__DIR__ . '/storage');
 
-		/* @type  $file  DirectoryIterator */
+		/* @type  $file  \DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
@@ -846,7 +849,7 @@ class Session implements \IteratorAggregate
 	 */
 	protected function _createToken($length = 32)
 	{
-		return \JUserHelper::genRandomPassword($length);
+		return UserHelper::genRandomPassword($length);
 	}
 
 	/**
