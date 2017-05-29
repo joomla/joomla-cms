@@ -94,6 +94,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 			<div class="container-fluid">
 				<div class="d-flex">
 					<div class="d-flex col">
+						<?php if (!$hidden) : ?>
 						<div class="menu-collapse">
 							<a id="menu-collapse" class="menu-toggle" href="#">
 								<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true">
@@ -101,7 +102,8 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 								</span>
 							</a>
 						</div>
-
+						<?php endif; ?>
+						
 						<div class="container-title hidden-md-down">
 							<jdoc:include type="modules" name="title" />
 						</div>
