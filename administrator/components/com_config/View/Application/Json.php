@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Administrator
  * @subpackage  com_config
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
@@ -10,11 +10,25 @@
 defined('_JEXEC') or die;
 
 /**
- * Display Controller for global configuration
+ * View for the component configuration
  *
  * @since  3.2
  */
-class ConfigControllerConfigDisplay extends ConfigControllerDisplay
+class Json  extends H
 {
+	public $state;
 
+	public $data;
+
+	/**
+	 * Display the view
+	 *
+	 * @return  string  The rendered view.
+	 *
+	 * @since   3.2
+	 */
+	public function render()
+	{
+
+	}
 }
