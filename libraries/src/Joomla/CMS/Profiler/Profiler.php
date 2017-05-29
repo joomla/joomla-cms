@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Profiler
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Profiler;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -15,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JProfiler
+class Profiler
 {
 	/**
 	 * @var    integer  The start time.
@@ -80,7 +81,7 @@ class JProfiler
 	 *
 	 * @param   string  $prefix  Prefix used to distinguish profiler objects.
 	 *
-	 * @return  JProfiler  The Profiler object.
+	 * @return  Profiler  The Profiler object.
 	 *
 	 * @since   11.1
 	 */
@@ -88,7 +89,7 @@ class JProfiler
 	{
 		if (empty(self::$instances[$prefix]))
 		{
-			self::$instances[$prefix] = new JProfiler($prefix);
+			self::$instances[$prefix] = new Profiler($prefix);
 		}
 
 		return self::$instances[$prefix];
@@ -183,7 +184,7 @@ class JProfiler
 	 * Get all profiler mark buffers.
 	 *
 	 * Returns an array of all mark buffers created since the Profiler object
-	 * was instantiated.  Marks are strings as per {@link JProfiler::mark()}.
+	 * was instantiated.  Marks are strings as per {@link Profiler::mark()}.
 	 *
 	 * @return  array  Array of profiler marks
 	 *
