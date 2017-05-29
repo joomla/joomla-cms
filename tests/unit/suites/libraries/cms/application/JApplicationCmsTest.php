@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -113,7 +113,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -157,6 +157,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::__construct
 	 */
 	public function test__construct()
 	{
@@ -173,6 +174,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::__construct
 	 */
 	public function test__constructDependancyInjection()
 	{
@@ -207,6 +209,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::execute
 	 */
 	public function testExecuteWithoutDocument()
 	{
@@ -228,6 +231,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::execute
 	 */
 	public function testExecuteWithDocument()
 	{
@@ -265,6 +269,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.7.0
+	 * @covers  JApplicationCms::get
 	 */
 	public function testGet()
 	{
@@ -282,6 +287,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getCfg
 	 */
 	public function testGetCfg()
 	{
@@ -299,6 +305,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -317,6 +324,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getMenu
 	 */
 	public function testGetMenu()
 	{
@@ -329,6 +337,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getPathway
 	 */
 	public function testGetPathway()
 	{
@@ -341,10 +350,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getRouter
 	 */
 	public function testGetRouter()
 	{
-		$this->assertInstanceOf('JRouter', $this->class->getRouter(''));
+		$this->assertInstanceOf('JRouter', JApplicationCmsInspector::getRouter(''));
 	}
 
 	/**
@@ -353,6 +363,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getTemplate
 	 */
 	public function testGetTemplate()
 	{
@@ -369,6 +380,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::isAdmin
 	 */
 	public function testIsAdmin()
 	{
@@ -381,6 +393,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::isSite
 	 */
 	public function testIsSite()
 	{
@@ -392,7 +405,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since  3.7.0
+	 * @since   3.7.0
+	 * @covers  JApplicationCms::isClient
 	 */
 	public function testIsClient()
 	{
@@ -406,6 +420,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirect()
 	{
@@ -430,12 +445,32 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 303 See other', true, null),
-				array('Location: ' . $base . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 303', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -445,6 +480,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectLegacy()
 	{
@@ -479,12 +515,32 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 303 See other', true, null),
-				array('Location: ' . $base . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 303', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -494,6 +550,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectLegacyWithEmptyMessageAndEmptyStatus()
 	{
@@ -524,12 +581,32 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// The redirect gives a 303 error code
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 303 See other', true, null),
-				array('Location: ' . $base . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 303', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -539,6 +616,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectWithHeadersSent()
 	{
@@ -569,6 +647,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectWithJavascriptRedirect()
 	{
@@ -602,6 +681,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectWithMoved()
 	{
@@ -619,12 +699,32 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 301 Moved Permanently', true, null),
-				array('Location: ' . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 301', true, null),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: '  . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -640,6 +740,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  getRedirectData
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectWithUrl($url, $base, $request, $expected)
 	{
@@ -670,6 +771,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::render
 	 */
 	public function testRender()
 	{

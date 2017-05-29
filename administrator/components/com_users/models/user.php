@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,13 @@ use Joomla\Utilities\ArrayHelper;
  */
 class UsersModelUser extends JModelAdmin
 {
+	/**
+	 * An item.
+	 *
+	 * @var    array
+	 */
+	protected $_item = null;
+
 	/**
 	 * Constructor.
 	 *
@@ -70,24 +77,27 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		$result = parent::getItem($pk);
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('user.id');
 
-		$context = 'com_users.user';
+		if ($this->_item === null)
+		{
+			$this->_item = array();
+		}
 
-		$result->tags = new JHelperTags;
-		$result->tags->getTagIds($result->id, $context);
+		if (!isset($this->_item[$pk]))
+		{
+			$result = parent::getItem($pk);
 
-		// Get the dispatcher and load the content plugins.
-		$dispatcher = JEventDispatcher::getInstance();
-		JPluginHelper::importPlugin('content');
+			if ($result)
+			{
+				$result->tags = new JHelperTags;
+				$result->tags->getTagIds($result->id, 'com_users.user');
+			}
 
-		// Load the user plugins for backward compatibility (v3.3.3 and earlier).
-		JPluginHelper::importPlugin('user');
+			$this->_item[$pk] = $result;
+		}
 
-		// Trigger the data preparation event.
-		$dispatcher->trigger('onContentPrepareData', array($context, $result));
-
-		return $result;
+		return $this->_item[$pk];
 	}
 
 	/**
@@ -161,9 +171,7 @@ class UsersModelUser extends JModelAdmin
 			$data = $this->getItem();
 		}
 
-		JPluginHelper::importPlugin('user');
-
-		$this->preprocessData('com_users.profile', $data);
+		$this->preprocessData('com_users.profile', $data, 'user');
 
 		return $data;
 	}
@@ -203,20 +211,25 @@ class UsersModelUser extends JModelAdmin
 		$iAmSuperAdmin = $my->authorise('core.admin');
 
 		// User cannot modify own user groups
-		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin)
+		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin && isset($data['groups']))
 		{
-			if ($data['groups'] != null)
-			{
-				// Form was probably tampered with
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
+			// Form was probably tampered with
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
 
-				$data['groups'] = null;
-			}
+			$data['groups'] = null;
 		}
 
 		if ($data['block'] && $pk == $my->id && !$my->block)
 		{
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
+
+			return false;
+		}
+
+		// Make sure user groups is selected when add/edit an account
+		if (empty($data['groups']) && ((int) $user->id != (int) $my->id || $iAmSuperAdmin))
+		{
+			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
 
 			return false;
 		}
@@ -973,7 +986,7 @@ class UsersModelUser extends JModelAdmin
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__users'))
-			->where($db->qn('id') . ' = ' . $db->q($user_id));
+			->where($db->qn('id') . ' = ' . (int) $user_id);
 		$db->setQuery($query);
 		$item = $db->loadObject();
 

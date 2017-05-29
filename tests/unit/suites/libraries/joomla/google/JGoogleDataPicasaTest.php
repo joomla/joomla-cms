@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,7 +95,7 @@ class JGoogleDataPicasaTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -138,7 +138,7 @@ class JGoogleDataPicasaTest extends TestCase
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaAlbumlistCallback'));
 		$results = $this->object->listAlbums('userID');
 
-		$this->assertEquals(count($results), 2);
+		$this->assertCount(2, $results);
 		$i = 1;
 
 		foreach ($results as $result)
@@ -311,7 +311,7 @@ function picasaAlbumCallback($url, array $headers = null, $timeout = null)
  */
 function dataPicasaAlbumCallback($url, $data, array $headers = null, $timeout = null)
 {
-	PHPUnit_Framework_TestCase::assertContains('<title>New Title</title>', $data);
+	\PHPUnit\Framework\TestCase::assertContains('<title>New Title</title>', $data);
 
 	$response = new stdClass;
 

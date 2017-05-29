@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1642,8 +1642,8 @@ class JDatabaseQueryTest extends TestCase
 
 		$baseElement->testArray[] = 'test';
 
-		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertTrue(count($cloneElement->testArray) == 0);
+		$this->assertNotSame($baseElement, $cloneElement);
+		$this->assertCount(0, $cloneElement->testArray);
 	}
 
 	/**
@@ -1661,9 +1661,9 @@ class JDatabaseQueryTest extends TestCase
 
 		$cloneElement = clone($baseElement);
 
-		$this->assertFalse($baseElement === $cloneElement);
+		$this->assertNotSame($baseElement, $cloneElement);
 
-		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
+		$this->assertNotSame($baseElement->testObject, $cloneElement->testObject);
 	}
 
 	/**
@@ -1995,7 +1995,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

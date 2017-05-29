@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,7 +83,7 @@ class JToolbarButtonLinkTest extends TestCase
 
 		$this->assertRegExp(
 			'#<button onclick="location.href=\'' . preg_quote($url, '#') . '\';" class="btn btn-small">\s*'
-			. '<span class="icon-' . preg_quote($name, '#') . '"></span>\s+' . preg_quote($text, '#') . '\s*'
+			. '<span class="icon-' . preg_quote($name, '#') . '" aria-hidden=\"true\"></span>\s+' . preg_quote($text, '#') . '\s*'
 			. '</button>\s*#',
 			$this->object->fetchButton('Link', $name, $text, $url)
 		);

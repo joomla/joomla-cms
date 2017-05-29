@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ require_once __DIR__ . '/stubs/JGithubObjectMock.php';
  *
  * @since       11.1
  */
-class JGithubObjectTest extends PHPUnit_Framework_TestCase
+class JGithubObjectTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
@@ -60,7 +60,7 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

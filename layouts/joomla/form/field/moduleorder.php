@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,5 +61,5 @@ JHtml::_('jquery.framework');
 JHtml::_('script', 'system/moduleorder.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div id="parent_<?php echo $id; ?>" <?php echo $attr; ?> data-url="<?php echo 'index.php?option=com_modules&task=module.orderPosition&'
-. $token; ?>" data-element="<?php echo 'parent_' . $id; ?>" data-ordering="<?php echo $ordering; ?>" data-position-element ="<?php
+. $token; ?>" data-element="<?php echo 'parent_' . $id; ?>" data-ordering="<?php echo $ordering; ?>" data-position-element="<?php
 echo $element; ?>" data-client-id="<?php echo $clientId; ?>" data-name="<?php echo $name; ?>"></div>

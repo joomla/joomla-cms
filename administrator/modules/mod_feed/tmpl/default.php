@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,8 +101,7 @@ else
 						<?php
 							// Strip the images.
 							$text = JFilterOutput::stripImages($text);
-
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
+							$text = JHtml::_('string.truncate', $text, $params->get('word_count'), true, false);
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>
