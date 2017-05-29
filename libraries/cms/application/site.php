@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -464,7 +464,13 @@ final class JApplicationSite extends JApplicationCms
 			$tag = '';
 		}
 
-		if (!$templates = $cache->get('templates0' . $tag))
+		$cacheId = 'templates0' . $tag;
+
+		if ($cache->contains($cacheId))
+		{
+			$templates = $cache->get($cacheId);
+		}
+		else
 		{
 			// Load styles
 			$db = JFactory::getDbo();
@@ -489,6 +495,9 @@ final class JApplicationSite extends JApplicationCms
 				$template->params = new Registry($template->params);
 			}
 
+			// Unset the $template reference to the last $templates[n] item cycled in the foreach above to avoid editing it later
+			unset($template);
+
 			// Add home element, after loop to avoid double execution
 			if (isset($template_home))
 			{
@@ -496,7 +505,7 @@ final class JApplicationSite extends JApplicationCms
 				$templates[0] = $template_home;
 			}
 
-			$cache->store($templates, 'templates0' . $tag);
+			$cache->store($templates, $cacheId);
 		}
 
 		if (isset($templates[$id]))
@@ -607,7 +616,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = $this->input->getString('language', null);
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -619,7 +628,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -631,7 +640,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = $user->getParam('language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -643,7 +652,7 @@ final class JApplicationSite extends JApplicationCms
 			$lang = JLanguageHelper::detectLanguage();
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($lang && JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}
@@ -657,11 +666,11 @@ final class JApplicationSite extends JApplicationCms
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language']))
+		if (!JLanguageHelper::exists($options['language']))
 		{
 			$lang = $this->config->get('language', 'en-GB');
 
-			if (JLanguage::exists($lang))
+			if (JLanguageHelper::exists($lang))
 			{
 				$options['language'] = $lang;
 			}

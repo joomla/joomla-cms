@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -686,7 +686,7 @@ abstract class JHtmlSelect
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 
-				if (isset($splitText[1]) && $splitText[1] != "" && !preg_match('/^[\s]+$/', $splitText[1]))
+				if (isset($splitText[1]) && $splitText[1] != '' && !preg_match('/^[\s]+$/', $splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}
@@ -771,7 +771,7 @@ abstract class JHtmlSelect
 			$attribs = ArrayHelper::toString($attribs);
 		}
 
-		$id_text = $idtag ? $idtag : $name;
+		$id_text = $idtag ?: $name;
 
 		$html = '<div class="controls">';
 
