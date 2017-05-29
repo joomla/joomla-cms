@@ -1,14 +1,16 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,20 +18,20 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class JTableModule extends JTable
+class Module extends Table
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__modules', 'id', $db);
 
-		$this->access = (int) JFactory::getConfig()->get('access');
+		$this->access = (int) \JFactory::getConfig()->get('access');
 	}
 
 	/**
@@ -63,14 +65,14 @@ class JTableModule extends JTable
 	/**
 	 * Method to get the parent asset id for the record
 	 *
-	 * @param   JTable   $table  A JTable object (optional) for the asset parent
-	 * @param   integer  $id     The id (optional) of the content.
+	 * @param   Table   $table  A Table object (optional) for the asset parent
+	 * @param   integer $id     The id (optional) of the content.
 	 *
 	 * @return  integer
 	 *
 	 * @since   3.2
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		$assetId = null;
 
@@ -108,7 +110,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @see     JTable::check()
+	 * @see     Table::check()
 	 * @since   1.5
 	 */
 	public function check()
@@ -116,7 +118,7 @@ class JTableModule extends JTable
 		// Check for valid name
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
 
 			return false;
 		}
@@ -141,7 +143,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind()
+	 * @see     Table::bind()
 	 * @since   1.5
 	 */
 	public function bind($array, $ignore = '')
@@ -155,7 +157,7 @@ class JTableModule extends JTable
 		// Bind the rules.
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
-			$rules = new JAccessRules($array['rules']);
+			$rules = new Rules($array['rules']);
 			$this->setRules($rules);
 		}
 

@@ -1,14 +1,20 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Table\Observer\Tags;
+use Joomla\CMS\Table\Observer\ContentHistory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -18,22 +24,22 @@ use Joomla\String\StringHelper;
  * @since       1.5
  * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
  */
-class JTableContent extends JTable
+class Content extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   1.5
 	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__content', 'id', $db);
 
-		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_content.article'));
+		Tags::createObserver($this, array('typeAlias' => 'com_content.article'));
+		ContentHistory::createObserver($this, array('typeAlias' => 'com_content.article'));
 
 		// Set the alias since the column is called state
 		$this->setColumnAlias('published', 'state');
@@ -72,15 +78,15 @@ class JTableContent extends JTable
 	/**
 	 * Method to get the parent asset id for the record
 	 *
-	 * @param   JTable   $table  A JTable object (optional) for the asset parent
-	 * @param   integer  $id     The id (optional) of the content.
+	 * @param   Table   $table  A Table object (optional) for the asset parent
+	 * @param   integer  $id    The id (optional) of the content.
 	 *
 	 * @return  integer
 	 *
 	 * @since   1.6
 	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		$assetId = null;
 
@@ -122,7 +128,7 @@ class JTableContent extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable::bind()
+	 * @see     Table::bind()
 	 * @since   1.6
 	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
@@ -160,7 +166,7 @@ class JTableContent extends JTable
 		// Bind the rules.
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
-			$rules = new JAccessRules($array['rules']);
+			$rules = new Rules($array['rules']);
 			$this->setRules($rules);
 		}
 
@@ -172,7 +178,7 @@ class JTableContent extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     JTable::check()
+	 * @see     Table::check()
 	 * @since   1.5
 	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
@@ -180,7 +186,7 @@ class JTableContent extends JTable
 	{
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(\JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -190,11 +196,11 @@ class JTableContent extends JTable
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
+		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
@@ -279,7 +285,7 @@ class JTableContent extends JTable
 	 *
 	 * @param   string  $component  The component asset name to search for
 	 *
-	 * @return  JAccessRules  The JAccessRules object for the asset
+	 * @return  Rules  The Rules object for the asset
 	 *
 	 * @since   3.4
 	 * @deprecated  3.4 Class will be removed upon completion of transition to UCM
@@ -287,7 +293,7 @@ class JTableContent extends JTable
 	protected function getDefaultAssetValues($component)
 	{
 		// Need to find the asset id by the name of the component.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
@@ -295,11 +301,11 @@ class JTableContent extends JTable
 		$db->setQuery($query);
 		$assetId = (int) $db->loadResult();
 
-		return JAccess::getAssetRules($assetId);
+		return Access::getAssetRules($assetId);
 	}
 
 	/**
-	 * Overrides JTable::store to set modified data and user id.
+	 * Overrides Table::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -310,8 +316,8 @@ class JTableContent extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		$this->modified = $date->toSql();
 
@@ -336,11 +342,11 @@ class JTableContent extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Content', 'JTable', array('dbo' => $this->getDbo()));
+		$table = Table::getInstance('Content', 'JTable', array('dbo' => $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 
 			return false;
 		}
