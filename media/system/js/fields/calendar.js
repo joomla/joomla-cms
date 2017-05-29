@@ -994,17 +994,17 @@
 	/** Method to listen for the click event on the input button. **/
 	JoomlaCalendar.prototype._bindEvents = function () {
 		var self = this;
-		this.inputField.addEventListener('focus', function() {
-			self.show();
-		}, true);
 		this.inputField.addEventListener('blur', function(event) {
-			if (event.relatedTarget != null && (event.relatedTarget.classList.contains('time-hours') || event.relatedTarget.classList.contains('time-minutes') || event.relatedTarget.classList.contains('time-ampm'))) {
-				return;
-			}
 			var elem = event.target;
 			while (elem.parentNode) {
 				elem = elem.parentNode;
 				if (elem.classList.contains('field-calendar')) {
+					if (event.target.value) {
+						event.target.setAttribute('data-alt-value', event.target.value);
+					} else {
+						event.target.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+					}
+					elem._joomlaCalendar.checkInputs();
 					return;
 				}
 			}
@@ -1124,19 +1124,20 @@
 
 	window.JoomlaCalendar = JoomlaCalendar;
 
-	/** Instantiate all the calendar fields when the document is ready */
-	document.addEventListener("DOMContentLoaded", function() {
-		var elements, i;
+	/**
+	 * Instantiate all the calendar fields when the document is ready/updated
+	 * @param {Event} event
+	 * @private
+	 */
+	function _initCalendars(event) {
+		var elements = event.target.querySelectorAll(".field-calendar");
 
-		elements = document.querySelectorAll(".field-calendar");
-
-		for (i = 0; i < elements.length; i++) {
+		for (var i = 0, l = elements.length; i < l; i++) {
 			JoomlaCalendar.init(elements[i]);
 		}
-
-		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
-			JoomlaCalendar.init(".field-calendar", row);
-		});
+	}
+	document.addEventListener("DOMContentLoaded", _initCalendars);
+	document.addEventListener("joomla:updated", _initCalendars);
 
 		/** B/C related code
 		 *  @deprecated 4.0
@@ -1211,5 +1212,5 @@
 			}
 			return null;
 		};
-	});
+
 })(window, document);

@@ -129,7 +129,7 @@ doEncryptedAjax = function(data, successCallback, errorCallback)
 			}
 			catch(err)
 			{
-				var msg = err.message + "\n<br/>\n<pre>\n" + message + "\n</pre>";
+				var msg = err.message + "\n<br>\n<pre>\n" + message + "\n</pre>";
 
 				if (errorCallback == null)
 				{

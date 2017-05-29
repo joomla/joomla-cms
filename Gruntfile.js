@@ -384,6 +384,20 @@ module.exports = function(grunt) {
 				}]
 			}
 		},
+
+		// Watch files for changes and run tasks based on the changed files
+		watch: {
+			sass: {
+				files: [
+					'<%= folder.adminTemplate %>/**/*.scss',
+					'<%= folder.siteTemplate %>/**/*.scss',
+				],
+				tasks: ['compile']
+			},
+			gruntfile: {
+				files: ['Gruntfile.js']
+			}
+		}
 	});
 
 	// Load required modules
@@ -392,6 +406,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-scss-lint');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-shell');
@@ -449,8 +464,40 @@ module.exports = function(grunt) {
 			'sass:dist',
 			'postcss',
 			'cssmin:adminTemplate',
-			'cssmin:siteTemplate'
+			'cssmin:siteTemplate',
+			'watch'
 		]);
 	 });
+
+	grunt.registerTask('installation', 'Compiles the error-locales.js translation file', function() {
+
+		// Set the initial template
+		var template = `
+window.errorLocale = {`;
+
+		grunt.file.recurse('installation/language', function(abspath, rootdir, subdir, filename) {
+
+			if (abspath.indexOf('.ini') > -1) {
+				var fs = require('fs'), ini = require('ini'), languageStrings = ini.parse(fs.readFileSync(abspath, 'utf-8'));
+
+				if (languageStrings["MIN_PHP_ERROR_LANGUAGE"]) {
+					template = template + `
+	"` + subdir + `": {
+		"language": "` + languageStrings["MIN_PHP_ERROR_LANGUAGE"] + `",
+		"header": "` + languageStrings["MIN_PHP_ERROR_HEADER"] + `",
+		"text1": "` + languageStrings["MIN_PHP_ERROR_TEXT"] + `",
+		"help-url-text": "` + languageStrings["MIN_PHP_ERROR_URL_TEXT"] + `"
+	},`;
+				}
+			}
+		});
+
+		// Add the closing bracket
+		template = template + `
+}`;
+
+		// Write the file
+		grunt.file.write('installation/template/js/error-locales.js', template);
+	});
 
 };

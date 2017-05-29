@@ -24,7 +24,7 @@
 # Grunt #
 node_modules/
 /build/assets_tmp
-scss-lint-report.xml
+/scss-lint-report.xml
 /dev/assets/packages.json
 
 # Removed in Joomla 4 #
@@ -135,6 +135,9 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/README.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
 /libraries/vendor/phpmailer/phpmailer/UPGRADING.md
+/libraries/vendor/psr/container/.gitignore
+/libraries/vendor/psr/container/composer.json
+/libraries/vendor/psr/container/README.md
 /libraries/vendor/psr/http-message/CHANGELOG.md
 /libraries/vendor/psr/http-message/composer.json
 /libraries/vendor/psr/http-message/README.md

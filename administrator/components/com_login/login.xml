@@ -11,10 +11,11 @@
 	<description>COM_LOGIN_XML_DESCRIPTION</description>
 	<administration>
 		<files folder="admin">
-			<filename>controller.php</filename>
-			<filename>login.php</filename>
+			<filename>dispatcher.php</filename>
+			<folder>Controller</folder>
+			<folder>Model</folder>
+			<folder>View</folder>
 			<folder>views</folder>
-			<folder>models</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_login.ini</language>

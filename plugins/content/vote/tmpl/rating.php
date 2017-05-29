@@ -40,10 +40,10 @@ for ($i = $rating; $i < 5; $i++)
 
 ?>
 <div class="content_rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-	<p class="unseen element-invisible">
+	<p class="unseen sr-only">
 		<?php echo JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
-		<meta itemprop="ratingCount" content="<?php echo (int) $row->rating_count; ?>" />
-		<meta itemprop="worstRating" content="0" />
+		<meta itemprop="ratingCount" content="<?php echo (int) $row->rating_count; ?>">
+		<meta itemprop="worstRating" content="0">
 	</p>
 	<?php echo $img; ?>
 </div>

@@ -47,6 +47,7 @@ class JDatabaseFactory
 		$options['driver']   = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
+		$options['factory']  = (isset($options['factory'])) ? $options['factory'] : $this;
 
 		// Derive the class name from the driver.
 		$class = 'JDatabaseDriver' . ucfirst(strtolower($options['driver']));
@@ -146,6 +147,35 @@ class JDatabaseFactory
 	public static function getInstance()
 	{
 		return self::$_instance ? self::$_instance : new JDatabaseFactory;
+	}
+
+	/**
+	 * Get a new iterator on the current query.
+	 *
+	 * @param   string           $name    Name of the driver you want an iterator for.
+	 * @param   JDatabaseDriver  $db      JDatabaseDriver instance with the query to be iterated.
+	 * @param   string           $column  An optional column to use as the iterator key.
+	 * @param   string           $class   The class of object that is returned.
+	 *
+	 * @return  JDatabaseIterator
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function getIterator($name, JDatabaseDriver $db, $column = null, $class = 'stdClass')
+	{
+		// Derive the class name from the driver.
+		$iteratorClass = 'JDatabaseIterator' . ucfirst($name);
+
+		// Make sure we have an iterator class for this driver.
+		if (!class_exists($iteratorClass))
+		{
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new JDatabaseExceptionUnsupported(sprintf('class *%s* is not defined', $iteratorClass));
+		}
+
+		// Return a new iterator
+		return new $iteratorClass($db->execute(), $column, $class);
 	}
 
 	/**

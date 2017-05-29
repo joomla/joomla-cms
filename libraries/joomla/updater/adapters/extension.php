@@ -48,6 +48,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->currentUpdate->detailsurl = $this->_url;
 				$this->currentUpdate->folder = '';
 				$this->currentUpdate->client_id = 1;
+				$this->currentUpdate->infourl = '';
 				break;
 
 			// Don't do anything

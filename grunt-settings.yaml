@@ -17,7 +17,7 @@ vendors:
                   'version': '4.7.0'
                   'dependencies': ''
     '@claviska/jquery-minicolors':
-                  'version': '2.2.5'
+                  'version': '2.2.6'
                   'dependencies': 'jquery'
     'jquery-sortable':
                   'version': '0.9.13'
@@ -26,13 +26,13 @@ vendors:
                   'version': '1.12.1'
                   'dependencies': 'jquery'
     'mediaelement':
-                  'version': '2.23.4'
+                  'version': '4.1.1'
                   'dependencies': 'jquery'
     'punycode':
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.5.6'
+                  'version': '4.6.2'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.1'
@@ -41,7 +41,7 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.25.2'
+                  'version': '5.26.0'
                   'dependencies': ''
     'cropperjs':
                   'version': '1.0.0-rc'

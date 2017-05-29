@@ -431,7 +431,7 @@ class Contact extends Admin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   \Joomla\Cms\Table\Table  $table  The Table object
+	 * @param   \Joomla\CMS\Table\Table  $table  The Table object
 	 *
 	 * @return  void
 	 *
@@ -477,7 +477,7 @@ class Contact extends Admin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   \Joomla\Cms\Table\Table  $table  A record object.
+	 * @param   \Joomla\CMS\Table\Table  $table  A record object.
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *

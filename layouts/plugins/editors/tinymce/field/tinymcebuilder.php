@@ -52,8 +52,9 @@ extract($displayData);
  */
 
 JHtml::_('behavior.core');
-JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
 JHtml::_('jquery.ui', array('core', 'sortable'));
+JHtml::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
+JHtml::_('stylesheet', 'editors/tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
 
 if ($languageFile)
@@ -61,42 +62,13 @@ if ($languageFile)
 	JHtml::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
 }
 
-
-$doc = JFactory::getDocument();
-$doc->addScriptOptions('plg_editors_tinymce_builder', array(
+JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 		'menus'         => $menus,
 		'buttons'       => $buttons,
 		'toolbarPreset' => $toolbarPreset,
 		'formControl'   => $name . '[toolbars]',
 	)
 );
-$doc->addStyleDeclaration('
-    #joomla-tinymce-builder{
-		margin-left: -180px;
-	}
-	.mce-menubar,
-	.mce-panel {
-		min-height: 18px;
-		border-bottom: 1px solid rgba(217,217,217,0.52);
-		white-space: normal;
-	}
-	.mce-tinymce {
-		margin-bottom: 20px;
-	}
-	.mce-panel .drop-area-highlight{
-		background-color: #d0d0d0;
-	}
-	.mce-panel .mce-btn.ui-state-highlight{
-		height: 28px;
-		width: 40px;
-		background-color: #409740;
-		border: 1px solid #f0f0f0;
-	}
-	.timymce-builder-toolbar .mce-btn.ui-state-highlight{
-		height: 22px;
-		width: 28px;
-	}
-');
 
 ?>
 <div id="joomla-tinymce-builder">
@@ -123,16 +95,19 @@ $doc->addStyleDeclaration('
 	<hr>
 	<p><?php echo JText::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 
-	<!-- Render tabs for each set -->
+	<?php // Render tabs for each set ?>
 	<ul class="nav nav-tabs" id="set-tabs">
-		<?php foreach ( $setsNames as $num => $title ) : ?>
-		<li class="<?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>">
-			<a href="#set-<?php echo $num; ?>"><?php echo $title; ?></a>
+		<?php foreach ( $setsNames as $num => $title ) :
+			$isActive = $num === $setsAmount - 1;
+		?>
+		<li class="nav-item">
+			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $isActive ? 'active' : ''; ?>">
+				<?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>
 	</ul>
 
-	<!-- Render tab content for each set -->
+	<?php // Render tab content for each set ?>
 	<div class="tab-content">
 		<?php
 		$presetButtonClases = array(
@@ -168,20 +143,20 @@ $doc->addStyleDeclaration('
 			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
 		?>
 			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" id="set-<?php echo $num; ?>">
-				<div class="btn-toolbar clearfix">
-					<div class="btn-group float-right">
+				<div class="btn-toolbar float-right">
+					<div class="btn-group btn-group-sm">
 
 					<?php foreach(array_keys($toolbarPreset) as $presetName) :
 						$btnClass = empty($presetButtonClases[$presetName]) ? 'btn-primary' : $presetButtonClases[$presetName];
 						?>
-						<button type="button" class="btn btn-xs <?php echo $btnClass; ?> button-action"
-						    data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
+						<button type="button" class="btn <?php echo $btnClass; ?> button-action"
+							data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
 							<?php echo JText::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
 						</button>
 					<?php endforeach; ?>
 
-						<button type="button" class="btn btn-xs btn-danger button-action"
-						     data-action="clearPane" data-set="<?php echo $num; ?>">
+						<button type="button" class="btn btn-danger button-action"
+							 data-action="clearPane" data-set="<?php echo $num; ?>">
 							<?php echo JText::_('JCLEAR'); ?></button>
 					</div>
 				</div>
@@ -203,7 +178,7 @@ $doc->addStyleDeclaration('
 					</div>
 				</div>
 
-				<!-- Render the form for extra options -->
+				<?php // Render the form for extra options ?>
 				<?php echo $this->sublayout('setoptions', array('form' => $setsForms[$num])); ?>
 			</div>
 		<?php endforeach; ?>

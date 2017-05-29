@@ -10,7 +10,7 @@ namespace Joomla\Component\Contact\Site\View\Category;
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\View\CategoryFeed;
+use Joomla\CMS\View\CategoryFeed;
 
 /**
  * HTML View class for the Contact component

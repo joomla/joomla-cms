@@ -87,15 +87,6 @@ abstract class JFactory
 	public static $document = null;
 
 	/**
-	 * Global ACL object
-	 *
-	 * @var    JAccess
-	 * @since  11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
-	 */
-	public static $acl = null;
-
-	/**
 	 * Global database object
 	 *
 	 * @var    JDatabaseDriver
@@ -596,6 +587,7 @@ abstract class JFactory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session);
 
 		return $container;

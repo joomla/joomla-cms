@@ -9,7 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_messages/helpers/messages.php');
+use Joomla\Component\Messages\Administrator\Helper\MessagesHelper;
 
 JFormHelper::loadFieldClass('list');
 

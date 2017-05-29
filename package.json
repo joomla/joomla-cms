@@ -14,7 +14,9 @@
   "dependencies": {
     "autoprefixer": "^6.7.7",
     "grunt": "latest",
+    "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
+    "grunt-contrib-watch": "^1.0.0",
     "grunt-contrib-concat": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-cssmin": "latest",
@@ -23,7 +25,8 @@
     "grunt-postcss": "0.8.0",
     "grunt-sass": "^2.0.0",
     "grunt-scss-lint": "^0.5.0",
-    "grunt-shell": "latest"
+    "grunt-shell": "latest",
+    "ini": "latest"
   },
   "license": "GPL-2.0+"
 }

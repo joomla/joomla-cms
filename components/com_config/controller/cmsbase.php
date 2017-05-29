@@ -37,11 +37,10 @@ class ConfigControllerCmsbase extends JControllerBase
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application
-		$this->app = $this->getApplication();
-		$this->app->redirect('index.php?option=' . $this->input->get('option'));
+		$this->getApplication()->redirect('index.php?option=' . $this->getInput()->get('option'));
 
-		$this->componentFolder = $this->input->getWord('option', 'com_content');
-		$this->viewName        = $this->input->getWord('view');
+		$this->componentFolder = $this->getInput()->getWord('option', 'com_content');
+		$this->viewName        = $this->getInput()->getWord('view');
 
 		return $this;
 	}

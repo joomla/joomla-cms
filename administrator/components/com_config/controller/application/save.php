@@ -16,14 +16,6 @@ defined('_JEXEC') or die;
 class ConfigControllerApplicationSave extends JControllerBase
 {
 	/**
-	 * Application object - Redeclared for proper typehinting
-	 *
-	 * @var    JApplicationCms
-	 * @since  3.2
-	 */
-	protected $app;
-
-	/**
 	 * Method to save global configuration.
 	 *
 	 * @return  mixed  Calls $app->redirect() for all cases except JSON
@@ -35,22 +27,22 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
+			$this->getApplication()->redirect('index.php');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-			$this->app->redirect('index.php');
+			$this->getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->getApplication()->redirect('index.php');
 		}
 
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		$model = new ConfigModelApplication;
-		$data  = $this->input->post->get('jform', array(), 'array');
+		$data  = $this->getInput()->post->get('jform', array(), 'array');
 
 		// Complete data array if needed
 		$oldData = $model->getData();
@@ -72,7 +64,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 		$return = $model->validate($form, $data);
 
 		// Save the posted data in the session.
-		$this->app->setUserState('com_config.config.global.data', $data);
+		$this->getApplication()->setUserState('com_config.config.global.data', $data);
 
 		// Check for validation errors.
 		if ($return === false)
@@ -82,7 +74,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 			 */
 
 			// Redirect back to the edit screen.
-			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
+			$this->getApplication()->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
 		}
 
 		// Attempt to save the configuration.
@@ -90,7 +82,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 		$return = $model->save($data);
 
 		// Save the validated data in the session.
-		$this->app->setUserState('com_config.config.global.data', $data);
+		$this->getApplication()->setUserState('com_config.config.global.data', $data);
 
 		// Check the return value.
 		if ($return === false)
@@ -100,22 +92,22 @@ class ConfigControllerApplicationSave extends JControllerBase
 			 */
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
+			$this->getApplication()->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
 		}
 
 		// Set the success message.
-		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
+		$this->getApplication()->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
 
 		// Set the redirect based on the task.
 		switch ($this->options[3])
 		{
 			case 'apply':
-				$this->app->redirect(JRoute::_('index.php?option=com_config', false));
+				$this->getApplication()->redirect(JRoute::_('index.php?option=com_config', false));
 				break;
 
 			case 'save':
 			default:
-				$this->app->redirect(JRoute::_('index.php', false));
+				$this->getApplication()->redirect(JRoute::_('index.php', false));
 				break;
 		}
 	}

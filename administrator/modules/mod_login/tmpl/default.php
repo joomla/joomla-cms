@@ -90,8 +90,8 @@ if ($spacing > 0)
 		</div>
 
 		<div class="forgot">
-			<div><a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>"><?php echo JText::_('MOD_LOGIN_REMIND'); ?></a></div>
-			<div><a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>"><?php echo JText::_('MOD_LOGIN_RESET'); ?></a></div>
+			<div><a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=remind"><?php echo JText::_('MOD_LOGIN_REMIND'); ?></a></div>
+			<div><a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset"><?php echo JText::_('MOD_LOGIN_RESET'); ?></a></div>
 		</div>
 
 		<input type="hidden" name="option" value="com_login">

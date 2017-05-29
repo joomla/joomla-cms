@@ -63,7 +63,9 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="head" />
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
@@ -75,7 +77,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 	</noscript>
 
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?> closed">
+	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?>">
 
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
@@ -94,9 +96,9 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 			<div class="container-fluid">
 				<div class="d-flex">
 					<div class="d-flex col">
-						<div class="menu-collapse hidden-lg-up">
+						<div class="menu-collapse">
 							<a id="menu-collapse" class="menu-toggle" href="#">
-								<span class="fa fa-bars fa-fw" aria-hidden="true">
+								<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true">
 									<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
 								</span>
 							</a>
@@ -154,7 +156,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 									<div class="list-group">
 										<?php if (empty($messages)) : ?>
 										<p class="list-group-item text-center">
-											<b><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></b>
+											<strong><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></strong>
 										</p>
 										<?php endif; ?>
 										<?php foreach ($messages as $message) : ?>

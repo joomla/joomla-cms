@@ -44,24 +44,24 @@ class ConfigControllerDisplay extends JControllerBase
 		// Get the document object.
 		$document = JFactory::getDocument();
 
-		$componentFolder = $this->input->getWord('option', 'com_config');
+		$componentFolder = $this->getInput()->getWord('option', 'com_config');
 
-		if ($this->app->isClient('administrator'))
+		if ($this->getApplication()->isClient('administrator'))
 		{
-			$viewName = $this->input->getWord('view', 'application');
+			$viewName = $this->getInput()->getWord('view', 'application');
 		}
 		else
 		{
-			$viewName = $this->input->getWord('view', 'config');
+			$viewName = $this->getInput()->getWord('view', 'config');
 		}
 
 		$viewFormat = $document->getType();
-		$layoutName = $this->input->getWord('layout', 'default');
+		$layoutName = $this->getInput()->getWord('layout', 'default');
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
 
-		if ($this->app->isClient('administrator'))
+		if ($this->getApplication()->isClient('administrator'))
 		{
 			$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
 		}
@@ -82,7 +82,7 @@ class ConfigControllerDisplay extends JControllerBase
 			if (!JFactory::getUser()->authorise('core.admin', $component)
 				&& !JFactory::getUser()->authorise('core.options', $component))
 			{
-				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 				return;
 			}

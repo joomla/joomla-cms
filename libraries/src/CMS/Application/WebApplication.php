@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Version;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
@@ -39,7 +41,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	/**
 	 * The application language object.
 	 *
-	 * @var    \JLanguage
+	 * @var    Language
 	 * @since  11.3
 	 */
 	protected $language;
@@ -69,33 +71,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		306 => 'HTTP/1.1 306 (Unused)',
 		307 => 'HTTP/1.1 307 Temporary Redirect',
 		308 => 'HTTP/1.1 308 Permanent Redirect',
-	);
-
-	/**
-     * A map of HTTP Response headers which may only send a single value, all others
-     * are considered to allow multiple
-     *
-     * @var    object
-     * @since  3.5.2
-     * @see    https://tools.ietf.org/html/rfc7230
-     */
-	private $singleValueResponseHeaders = array(
-		'status', // This is not a valid header name, but the representation used by Joomla to identify the HTTP Response Code
-		'Content-Length',
-		'Host',
-		'Content-Type',
-		'Content-Location',
-		'Date',
-		'Location',
-		'Retry-After',
-		'Server',
-		'Mime-Version',
-		'Last-Modified',
-		'ETag',
-		'Accept-Ranges',
-		'Content-Range',
-		'Age',
-		'Expires'
 	);
 
 	/**
@@ -249,107 +224,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	}
 
 	/**
-	 * Redirect to another URL.
-	 *
-	 * If the headers have not been sent the redirect will be accomplished using a "301 Moved Permanently"
-	 * or "303 See Other" code in the header pointing to the new location. If the headers have already been
-	 * sent this will be accomplished using a JavaScript statement.
-	 *
-	 * @param   string   $url     The URL to redirect to. Can only be http/https URL.
-	 * @param   integer  $status  The HTTP 1.1 status code to be provided. 303 is assumed by default.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function redirect($url, $status = 303)
-	{
-		// Check for relative internal links.
-		if (preg_match('#^index\.php#', $url))
-		{
-			// We changed this from "$this->get('uri.base.full') . $url" due to the inability to run the system tests with the original code
-			$url = \JUri::base() . $url;
-		}
-
-		// Perform a basic sanity check to make sure we don't have any CRLF garbage.
-		$url = preg_split("/[\r\n]/", $url);
-		$url = $url[0];
-
-		/*
-		 * Here we need to check and see if the URL is relative or absolute.  Essentially, do we need to
-		 * prepend the URL with our base URL for a proper redirect.  The rudimentary way we are looking
-		 * at this is to simply check whether or not the URL string has a valid scheme or not.
-		 */
-		if (!preg_match('#^[a-z]+\://#i', $url))
-		{
-			// Get a \JUri instance for the requested URI.
-			$uri = \JUri::getInstance($this->get('uri.request'));
-
-			// Get a base URL to prepend from the requested URI.
-			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-
-			// We just need the prefix since we have a path relative to the root.
-			if ($url[0] == '/')
-			{
-				$url = $prefix . $url;
-			}
-			// It's relative to where we are now, so lets add that.
-			else
-			{
-				$parts = explode('/', $uri->toString(array('path')));
-				array_pop($parts);
-				$path = implode('/', $parts) . '/';
-				$url = $prefix . $path . $url;
-			}
-		}
-
-		// If the headers have already been sent we need to send the redirect statement via JavaScript.
-		if ($this->checkHeadersSent())
-		{
-			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
-		}
-		else
-		{
-			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == WebClient::TRIDENT) && !StringHelper::is_ascii($url))
-			{
-				$html = '<html><head>';
-				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '">';
-				$html .= '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script>';
-				$html .= '</head><body></body></html>';
-
-				echo $html;
-			}
-			else
-			{
-				// Check if we have a boolean for the status variable for compatability with old $move parameter
-				// @deprecated 4.0
-				if (is_bool($status))
-				{
-					$status = $status ? 301 : 303;
-				}
-
-				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
-				// @deprecated 4.0 From 4.0 if no valid status code is given an \InvalidArgumentException will be thrown
-				if (!is_int($status) || is_int($status) && !isset($this->responseMap[$status]))
-				{
-					$status = 303;
-				}
-
-				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($this->responseMap[$status]);
-				$this->header('Location: ' . $url);
-			}
-		}
-
-		// Set appropriate headers
-		$this->respond();
-
-		//  Close the application after the redirect.
-		$this->close();
-	}
-
-	/**
 	 * Method to get the application document object.
 	 *
 	 * @return  \JDocument  The document object
@@ -364,7 +238,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	/**
 	 * Method to get the application language object.
 	 *
-	 * @return  \JLanguage  The language object
+	 * @return  Language  The language object
 	 *
 	 * @since   11.3
 	 */
@@ -382,8 +256,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function flushAssets()
 	{
-		$version = new \JVersion;
-		$version->refreshMediaVersion();
+		(new Version)->refreshMediaVersion();
 	}
 
 	/**
@@ -413,13 +286,13 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * but for many applications it will make sense to override this method and create a language,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   \JLanguage  $language  An optional language object. If omitted, the factory language is created.
+	 * @param   Language  $language  An optional language object. If omitted, the factory language is created.
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   11.3
 	 */
-	public function loadLanguage(\JLanguage $language = null)
+	public function loadLanguage(Language $language = null)
 	{
 		$this->language = ($language === null) ? \JFactory::getLanguage() : $language;
 

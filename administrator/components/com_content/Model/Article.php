@@ -269,7 +269,7 @@ class Article extends Admin
 			$registry = new Registry($item->urls);
 			$item->urls = $registry->toArray();
 
-			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
+			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\">" . $item->fulltext : $item->introtext;
 
 			if (!empty($item->id))
 			{
@@ -452,7 +452,7 @@ class Article extends Admin
 	public function validate($form, $data, $group = null)
 	{
 		// Don't allow to change the users if not allowed to access com_users.
-		if (($data['created_by'] || $data['modified_by']) && !JFactory::getUser()->authorise('core.manage', 'com_users'))
+		if (\JFactory::getApplication()->isClient('administrator') && !\JFactory::getUser()->authorise('core.manage', 'com_users'))
 		{
 			if (isset($data['created_by']))
 			{

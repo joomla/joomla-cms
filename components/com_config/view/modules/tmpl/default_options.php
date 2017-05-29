@@ -16,7 +16,7 @@ $i = 0;
 
 foreach ($fieldSets as $name => $fieldSet) :
 
-$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . $name . '_FIELDSET_LABEL';
+$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . strtoupper($name) . '_FIELDSET_LABEL';
 $class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
 
 
@@ -26,7 +26,7 @@ endif;
 ?>
 <?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($label), 'collapse' . ($i++)); ?>
 
-<ul class="nav nav-tabs nav-stacked">
+<ul class="nav flex-column">
 <?php foreach ($this->form->getFieldset($name) as $field) : ?>
 
 	<li>

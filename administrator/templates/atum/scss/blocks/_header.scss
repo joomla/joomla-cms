@@ -18,7 +18,7 @@
 
   .page-title {
     display: inline-block;
-    margin: 0;
+    margin: 0 0 0 46px;
     font-size: 1.3rem;
     font-weight: normal;
     line-height: $header-height;
@@ -141,6 +141,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  margin-left: -7.5px;
   font-size: 2rem;
   text-align: center;
 
@@ -149,6 +150,7 @@
     width: $header-height;
     line-height: $header-height;
     color: $white;
+    background-color: rgba($white, .15);
   }
 
 }

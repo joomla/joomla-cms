@@ -26,6 +26,14 @@ use Joomla\CMS\Mvc\Factory\MvcFactory;
 abstract class Dispatcher implements DispatcherInterface
 {
 	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  1.6
+	 */
+	protected $option;
+
+	/**
 	 * The extension namespace
 	 *
 	 * @var    string
@@ -68,13 +76,25 @@ abstract class Dispatcher implements DispatcherInterface
 		}
 
 		$this->app   = $app;
-		$this->input = $input ? $input : $app->input;
+		$this->input = $input ?: $app->input;
+
+		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
+		if (empty($this->option))
+		{
+			$className = get_class($this);
+			$pos       = strpos($className, 'Dispatcher');
+
+			if ($pos !== false)
+			{
+				$this->option = 'com_' . strtolower(substr($className, 0, $pos));
+			}
+		}
 
 		$this->loadLanguage();
 	}
 
 	/**
-	 * Load the laguage
+	 * Load the language
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
@@ -83,8 +103,24 @@ abstract class Dispatcher implements DispatcherInterface
 	protected function loadLanguage()
 	{
 		// Load common and local language files.
-		$this->app->getLanguage()->load($this->app->scope, JPATH_BASE, null, false, true) ||
-		$this->app->getLanguage()->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+		$this->app->getLanguage()->load($this->option, JPATH_BASE, null, false, true) ||
+		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT, null, false, true);
+	}
+
+	/**
+	 * Method to check component access permission
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	protected function checkAccess()
+	{
+		// Check the user has permission to access this component if in the backend
+		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->option))
+		{
+			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 	}
 
 	/**
@@ -96,11 +132,8 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function dispatch()
 	{
-		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $this->app->scope))
-		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+		// Check component access permission
+		$this->checkAccess();
 
 		$command = $this->input->getCmd('task', 'display');
 
@@ -121,7 +154,7 @@ abstract class Dispatcher implements DispatcherInterface
 		}
 
 		// Build controller config data
-		$config['option'] = $this->app->scope;
+		$config['option'] = $this->option;
 
 		// Set name of controller if it is passed in the request
 		if ($this->input->exists('controller'))
@@ -164,7 +197,7 @@ abstract class Dispatcher implements DispatcherInterface
 		$namespace = rtrim($this->namespace, '\\') . '\\';
 
 		// Set up the client
-		$client = $client ? $client : ucfirst($this->app->getName()) . '\\';
+		$client = $client ? $client : ucfirst($this->app->getName());
 
 		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name);
 

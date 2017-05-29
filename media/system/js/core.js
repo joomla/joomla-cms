@@ -235,7 +235,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 		}
 	};
-	
+
 	/**
 	 * USED IN: administrator/components/com_banners/views/client/tmpl/default.php
 	 * Actually, probably not used anywhere. Can we deprecate in favor of <input type="email">?
@@ -928,3 +928,94 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 }( Joomla, document ));
+
+/**
+ * Joomla! Custom events
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+(function( window, Joomla ) {
+	"use strict";
+
+	if (Joomla.Event) {
+		return;
+	}
+
+	Joomla.Event = {};
+
+	/**
+	 * Dispatch custom event.
+	 *
+	 * An event name convention:
+	 * 		The event name has at least two part, separated ":", eg `foo:bar`. Where the first part is an "event supporter",
+	 * 		and second part is the event name which happened.
+	 * 		Which is allow us to avoid possible collisions with another scripts and native DOM events.
+	 * 		Joomla! CMS standard events should start from `joomla:`.
+	 *
+	 * Joomla! events:
+	 * 		`joomla:updated`  Dispatch it over the changed container, example after the content was updated via ajax
+	 * 		`joomla:removed`  The container was removed
+	 *
+	 * @param {HTMLElement|string}  element  DOM element, the event target. Or the event name, then the target will be a Window
+	 * @param {String|Object}       name     The event name, or an optional parameters in case when "element" is an event name
+	 * @param {Object}              params   An optional parameters. Allow to send a custom data through the event.
+	 *
+	 * @example
+	 *
+	 * 	Joomla.Event.dispatch(myElement, 'joomla:updated', {for: 'bar', foo2: 'bar2'}); // Will dispatch event to myElement
+	 * 	or:
+	 * 	Joomla.Event.dispatch('joomla:updated', {for: 'bar', foo2: 'bar2'}); // Will dispatch event to Window
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	Joomla.Event.dispatch = function(element, name, params) {
+		if (typeof element === 'string') {
+			params  = name;
+			name    = element;
+			element = window;
+		}
+		params = params || {};
+
+		var event = new CustomEvent(name, {
+			detail:     params,
+			bubbles:    true,
+			cancelable: true
+		});
+		element.dispatchEvent(event);
+	};
+
+	/**
+	 * Once listener. Add EventListener to the Element and auto-remove it after the event was dispatched.
+	 *
+	 * @param {HTMLElement}  element   DOM element
+	 * @param {String}       name      The event name
+	 * @param {Function}     callback  The event callback
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	Joomla.Event.listenOnce = function (element, name, callback) {
+		var onceCallback = function(event){
+			element.removeEventListener(name, onceCallback);
+			return callback.call(element, event)
+		};
+
+		element.addEventListener(name, onceCallback);
+	};
+
+	/**
+	 * Check if HTML5 localStorage enabled on the browser
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	Joomla.localStorageEnabled = function() {
+		var test = 'joomla-cms';
+		try {
+			localStorage.setItem(test, test);
+			localStorage.removeItem(test);
+			return true;
+		} catch(e) {
+			return false;
+		}
+	}
+
+})( window, Joomla );
