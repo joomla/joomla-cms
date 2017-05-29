@@ -10,8 +10,6 @@ namespace Joomla\CMS\Cache\Exception;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Cache\CacheExceptionInterface;
-
 /**
  * Exception class defining an error connecting to the cache storage engine
  *
