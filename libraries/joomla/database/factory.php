@@ -150,6 +150,35 @@ class JDatabaseFactory
 	}
 
 	/**
+	 * Get a new iterator on the current query.
+	 *
+	 * @param   string           $name    Name of the driver you want an iterator for.
+	 * @param   JDatabaseDriver  $db      JDatabaseDriver instance with the query to be iterated.
+	 * @param   string           $column  An optional column to use as the iterator key.
+	 * @param   string           $class   The class of object that is returned.
+	 *
+	 * @return  JDatabaseIterator
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function getIterator($name, JDatabaseDriver $db, $column = null, $class = 'stdClass')
+	{
+		// Derive the class name from the driver.
+		$iteratorClass = 'JDatabaseIterator' . ucfirst($name);
+
+		// Make sure we have an iterator class for this driver.
+		if (!class_exists($iteratorClass))
+		{
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new JDatabaseExceptionUnsupported(sprintf('class *%s* is not defined', $iteratorClass));
+		}
+
+		// Return a new iterator
+		return new $iteratorClass($db->execute(), $column, $class);
+	}
+
+	/**
 	 * Get the current query object or a new JDatabaseQuery object.
 	 *
 	 * @param   string           $name  Name of the driver you want an query object for.

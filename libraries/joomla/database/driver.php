@@ -1190,18 +1190,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function getIterator($column = null, $class = 'stdClass')
 	{
-		// Derive the class name from the driver.
-		$iteratorClass = 'JDatabaseIterator' . ucfirst($this->name);
-
-		// Make sure we have an iterator class for this driver.
-		if (!class_exists($iteratorClass))
-		{
-			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new JDatabaseExceptionUnsupported(sprintf('class *%s* is not defined', $iteratorClass));
-		}
-
-		// Return a new iterator
-		return new $iteratorClass($this->execute(), $column, $class);
+		return $this->factory->getIterator($this->name, $this, $column, $class);
 	}
 
 	/**
