@@ -687,12 +687,6 @@ abstract class JHtml
 			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
 		}
 
-		// Include MooTools framework
-		if ($options['framework'])
-		{
-			static::_('behavior.framework');
-		}
-
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
 		// If only path is required
@@ -845,7 +839,7 @@ abstract class JHtml
 			{
 				if (isset($title[$param]))
 				{
-					$$param = $title[$param];
+					$param = $title[$param];
 				}
 			}
 
