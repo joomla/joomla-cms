@@ -65,6 +65,8 @@ class JCache
 			'locktime'     => 15,
 			'checkTime'    => true,
 			'caching'      => ($conf->get('caching') >= 1) ? true : false,
+			'hash'         => md5($conf->get('secret')),
+			'application'  => null,
 		);
 
 		// Overwrite default options with given options
@@ -514,6 +516,23 @@ class JCache
 		$this->adapter = $adapter;
 
 		return $this;
+	}
+
+	/**
+	 * Get a cache ID string from an ID/group pair
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getCacheId($id, $group)
+	{
+		$name = md5($this->_options['application'] . '-' . $id . '-' . $this->_options['language']);
+
+		return static::getPlatformPrefix() . $this->_options['hash'] . '-cache-' . $group . '-' . $name;
 	}
 
 	/**
