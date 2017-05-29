@@ -22,7 +22,7 @@ $parts = FieldsHelper::extract($context);
 
 if (!$parts || !JFactory::getUser()->authorise('core.manage', $parts[0]))
 {
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 $controller = JControllerLegacy::getInstance('Fields');
