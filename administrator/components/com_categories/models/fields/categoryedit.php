@@ -425,6 +425,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				$options[0]->published = '1';
 				$options[0]->lft       = '1';
 			}
+
 			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 
