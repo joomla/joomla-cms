@@ -40,9 +40,11 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         ),
         'P' => 
         array (
+            'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
+            'Psr\\Cache\\' => 10,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'J' => 
@@ -64,6 +66,7 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
             'Joomla\\DI\\' => 10,
             'Joomla\\Crypt\\' => 13,
             'Joomla\\Controller\\' => 18,
+            'Joomla\\Cache\\' => 13,
             'Joomla\\Application\\' => 19,
             'Joomla\\' => 7,
         ),
@@ -90,6 +93,10 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -101,6 +108,10 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
         'PHPMailer\\PHPMailer\\' => 
         array (
@@ -173,6 +184,10 @@ class ComposerStaticInitf349050c508061257f7f25c9c2eeb293
         'Joomla\\Controller\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/controller/src',
+        ),
+        'Joomla\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/cache/src',
         ),
         'Joomla\\Application\\' => 
         array (

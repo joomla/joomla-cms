@@ -1523,5 +1523,165 @@
             "joomla",
             "uri"
         ]
+    },
+    {
+        "name": "psr/simple-cache",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/simple-cache.git",
+            "reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/753fa598e8f3b9966c886fe13f370baa45ef0e24",
+            "reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2017-01-02T13:31:39+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\SimpleCache\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interfaces for simple caching",
+        "keywords": [
+            "cache",
+            "caching",
+            "psr",
+            "psr-16",
+            "simple-cache"
+        ]
+    },
+    {
+        "name": "psr/cache",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/cache.git",
+            "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
+            "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-08-06T20:24:11+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Cache\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for caching libraries",
+        "keywords": [
+            "cache",
+            "psr",
+            "psr-6"
+        ]
+    },
+    {
+        "name": "joomla/cache",
+        "version": "dev-2.0-dev",
+        "version_normalized": "dev-2.0-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/cache.git",
+            "reference": "e9e84ca60983deb510461ac1c61c19bd2943cd8d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/cache/zipball/e9e84ca60983deb510461ac1c61c19bd2943cd8d",
+            "reference": "e9e84ca60983deb510461ac1c61c19bd2943cd8d",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.5.9|~7.0",
+            "psr/cache": "~1.0",
+            "psr/simple-cache": "~1.0"
+        },
+        "provide": {
+            "psr/cache-implementation": "~1.0",
+            "psr/simple-cache-implementation": "~1.0"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0",
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "suggest": {
+            "ext-apc": "To use APC caching",
+            "ext-apcu": "To use APCu caching",
+            "ext-memcached": "To use Memcached caching",
+            "ext-redis": "To use Redis caching",
+            "ext-wincache": "To use WinCache caching",
+            "ext-xcache": "To use XCache caching"
+        },
+        "time": "2017-05-29T09:44:25+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-2.0-dev": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Cache\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Cache Package",
+        "homepage": "https://github.com/joomla-framework/cache",
+        "keywords": [
+            "cache",
+            "framework",
+            "joomla"
+        ]
     }
 ]
