@@ -3,19 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Fields Groups
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
-class JFormFieldFieldgroups extends JFormAbstractlist
+class JFormFieldFieldgroups extends JFormFieldList
 {
 	public $type = 'Fieldgroups';
 
@@ -24,7 +26,7 @@ class JFormFieldFieldgroups extends JFormAbstractlist
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{

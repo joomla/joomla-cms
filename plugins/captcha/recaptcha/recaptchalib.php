@@ -85,7 +85,7 @@ class JReCaptcha
 	/**
 	 * Submits an HTTP GET to a reCAPTCHA server.
 	 *
-	 * @param string $path url path to recaptcha server.
+	 * @param string $path URL path to recaptcha server.
 	 * @param array  $data array of parameters to be sent.
 	 *
 	 * @return array response

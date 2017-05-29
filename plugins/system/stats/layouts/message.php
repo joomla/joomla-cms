@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.Stats
+ * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,8 +31,8 @@ extract($displayData);
 	?>
 	<p><?php echo JText::_('PLG_SYSTEM_STATS_MSG_ALLOW_SENDING_DATA'); ?></p>
 	<p class="actions">
-		<a href="#" class="btn btn-default js-pstats-btn-allow-always"><?php echo JText::_('PLG_SYSTEM_STATS_BTN_SEND_ALWAYS'); ?></a>
-		<a href="#" class="btn btn-default js-pstats-btn-allow-once"><?php echo JText::_('PLG_SYSTEM_STATS_BTN_SEND_NOW'); ?></a>
-		<a href="#" class="btn btn-default js-pstats-btn-allow-never"><?php echo JText::_('PLG_SYSTEM_STATS_BTN_NEVER_SEND'); ?></a>
+		<a href="#" class="btn js-pstats-btn-allow-always"><?php echo JText::_('PLG_SYSTEM_STATS_BTN_SEND_ALWAYS'); ?></a>
+		<a href="#" class="btn js-pstats-btn-allow-once"><?php echo JText::_('PLG_SYSTEM_STATS_BTN_SEND_NOW'); ?></a>
+		<a href="#" class="btn js-pstats-btn-allow-never"><?php echo JText::_('PLG_SYSTEM_STATS_BTN_NEVER_SEND'); ?></a>
 	</p>
 </div>

@@ -3,22 +3,24 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.form.helper');
+
+JFormHelper::loadFieldClass('list');
+
 /**
- * Form Field class for the TinyMCE editor.
  * Generates the list of options for available skins.
  *
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  * @since       3.4
  */
-class JFormFieldSkins extends JFormAbstractlist
+class JFormFieldSkins extends JFormFieldList
 {
 	protected $type = 'skins';
 

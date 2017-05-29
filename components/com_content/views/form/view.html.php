@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class ContentViewForm extends JViewLegacy
 	 * Should we show a captcha form for the submission of the article?
 	 *
 	 * @var   bool
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	protected $captchaEnabled = false;
 
@@ -71,7 +71,7 @@ class ContentViewForm extends JViewLegacy
 
 		if (!empty($this->item->id))
 		{
-			$this->item->tags->getItemTags('com_content.article.', $this->item->id);
+			$this->item->tags->getItemTags('com_content.article', $this->item->id);
 		}
 
 		if (!empty($this->item) && isset($this->item->id))
@@ -105,12 +105,6 @@ class ContentViewForm extends JViewLegacy
 		$this->params->merge($this->item->params);
 		$this->user   = $user;
 
-		if ($params->get('enable_category') == 1)
-		{
-			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
-			$this->form->setFieldAttribute('catid', 'readonly', 'true');
-		}
-
 		// Propose current language as default when creating new article
 		if (empty($this->item->id) && JLanguageMultilang::isEnabled())
 		{
@@ -136,7 +130,7 @@ class ContentViewForm extends JViewLegacy
 	/**
 	 * Prepares the document
 	 *
-	 * @return  void.
+	 * @return  void
 	 */
 	protected function _prepareDocument()
 	{

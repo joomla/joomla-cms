@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ if (!empty($this->query->highlight)
 	<h4 class="result-title <?php echo $mime; ?>">
 		<a href="<?php echo JRoute::_($route); ?>"><?php echo $this->result->title; ?></a>
 	</h4>
-	<?php if ($show_description) : ?>
+	<?php if ($show_description && $description !== '') : ?>
 		<p class="result-text<?php echo $this->pageclass_sfx; ?>">
 			<?php echo $description; ?>
 		</p>

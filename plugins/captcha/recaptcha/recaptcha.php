@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -202,9 +202,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 				if ( !isset($response->success) || !$response->success)
 				{
 					// @todo use exceptions here
-					foreach ($response->errorCodes as $error)
+					if (is_array($response->errorCodes))
 					{
-						$this->_subject->setError($error);
+						foreach ($response->errorCodes as $error)
+						{
+							$this->_subject->setError($error);
+						}
 					}
 
 					return false;
