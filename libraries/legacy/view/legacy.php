@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -340,7 +340,7 @@ class JViewLegacy extends JObject
 	 * $view->assignRef('var1', $ref);
 	 *
 	 * // Assign directly
-	 * $view->ref = &$var1;
+	 * $view->var1 = &$ref;
 	 * </code>
 	 *
 	 * @param   string  $key   The name for the reference in the view.

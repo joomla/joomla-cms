@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -213,9 +213,8 @@ class JMenu
 		if (isset($this->_items[$id]))
 		{
 			$this->_active = $id;
-			$result = &$this->_items[$id];
 
-			return $result;
+			return $this->_items[$id];
 		}
 
 		return;
@@ -232,9 +231,7 @@ class JMenu
 	{
 		if ($this->_active)
 		{
-			$item = &$this->_items[$this->_active];
-
-			return $item;
+			return $this->_items[$this->_active];
 		}
 
 		return;
