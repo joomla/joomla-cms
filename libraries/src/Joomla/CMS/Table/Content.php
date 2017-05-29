@@ -78,8 +78,8 @@ class Content extends Table
 	/**
 	 * Method to get the parent asset id for the record
 	 *
-	 * @param   Table   $table  A Table object (optional) for the asset parent
-	 * @param   integer  $id    The id (optional) of the content.
+	 * @param   Table    $table  A Table object (optional) for the asset parent
+	 * @param   integer  $id     The id (optional) of the content.
 	 *
 	 * @return  integer
 	 *
