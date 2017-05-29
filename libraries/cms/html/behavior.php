@@ -477,6 +477,52 @@ JS
 	 * Highlight some words via Javascript.
 	 *
 	 * @param   array   $terms      Array of words that should be highlighted.
+	 * @param   array   $options    Array of options to pass to the javascript
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function highlight(array $terms, $options = [])
+	{
+		$terms = array_filter($terms, 'strlen');
+
+		// Nothing to Highlight
+		if (empty($terms))
+		{
+			return;
+		}
+
+		// Include core
+		static::core();
+		JHtml::_('script', 'vendor/mark.js/mark.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/highlight.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('stylesheet', 'vendor/mark.js/mark.min.css', array('version' => 'auto', 'relative' => true));
+
+		$attribs = [
+			'class'          => !empty($options['class']) ? $options['class'] : 'js-highlight',
+			'iframes'        => !empty($options['iframes']) ? $options['iframes'] : false,
+			'iframesTimeout' => !empty($options['iframesTimeout']) ? $options['iframesTimeout'] : 5000,
+			'debug'          => !empty($options['debug']) ? $options['debug'] : false,
+			'highLight'      => $terms,
+			"accuracy"       => "partially",
+			"diacritics"     => true,
+			"exclude"        => !empty($options['exclude']) ? $options['exclude'] : [],
+			"done"           => !empty($options['done']) ? $options['done'] : function(){},
+
+			// For B/C with the old code!!!!
+			'compatibility'  => !empty($options['compatibility']) ? $options['compatibility'] : false,
+			'start'          => !empty($options['start']) ? $options['start'] : '',
+			'end'            => !empty($options['end']) ? $options['end'] : '',
+		];
+
+		JFactory::getDocument()->addScriptOptions('js-highlight', $attribs);
+	}
+
+	/**
+	 * Highlight some words via Javascript.
+	 *
+	 * @param   array   $terms      Array of words that should be highlighted.
 	 * @param   string  $start      ID of the element that marks the begin of the section in which words
 	 *                              should be highlighted. Note this element will be removed from the DOM.
 	 * @param   string  $end        ID of the element that end this section.
@@ -490,59 +536,25 @@ JS
 	 */
 	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
 	{
-		$sig = md5(serialize(array($terms, $start, $end)));
-
-		if (isset(static::$loaded[__METHOD__][$sig]))
-		{
-			return;
-		}
-
 		$terms = array_filter($terms, 'strlen');
 
 		// Nothing to Highlight
 		if (empty($terms))
 		{
-			static::$loaded[__METHOD__][$sig] = true;
-
 			return;
 		}
 
+		$options = [
+			'class'          => 'js-highlight',
+			'iframes'        => false,
+			'iframesTimeout' => 100,
+			'compatibility'  => true,
+			'start'          => $start,
+			'end'            => $end,
+		];
+
 		// Include core
-		static::core();
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		JHtml::_('script', 'system/highlighter.min.js', array('version' => 'auto', 'relative' => true));
-
-		foreach ($terms as $i => $term)
-		{
-			$terms[$i] = JFilterOutput::stringJSSafe($term);
-		}
-
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration("
-			jQuery(function ($) {
-				var start = document.getElementById('" . $start . "');
-				var end = document.getElementById('" . $end . "');
-				if (!start || !end || !Joomla.Highlighter) {
-					return true;
-				}
-				highlighter = new Joomla.Highlighter({
-					startElement: start,
-					endElement: end,
-					className: '" . $className . "',
-					onlyWords: false,
-					tag: '" . $tag . "'
-				}).highlight([\"" . implode('","', $terms) . "\"]);
-				$(start).remove();
-				$(end).remove();
-			});
-		");
-
-		static::$loaded[__METHOD__][$sig] = true;
-
-		return;
+		static::highlight($terms, $options);
 	}
 
 	/**
