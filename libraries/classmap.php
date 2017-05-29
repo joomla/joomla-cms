@@ -214,6 +214,10 @@ JLoader::registerAlias('JLogLoggerMessagequeue',            '\\Joomla\\CMS\\Log\
 JLoader::registerAlias('JLogLoggerSyslog',                  '\\Joomla\\CMS\\Log\\Logger\\SyslogLogger', '4.0');
 JLoader::registerAlias('JLogLoggerW3c',                     '\\Joomla\\CMS\\Log\\Logger\\W3cLogger', '4.0');
 
+JLoader::registerAlias('JProfiler',                         '\\Joomla\\CMS\\Profiler\\Profiler', '4.0');
+
+JLoader::registerAlias('JUri',                              '\\Joomla\\CMS\\Uri\\Uri', '4.0');
+
 JLoader::registerAlias('JCache',                            '\\Joomla\\CMS\\Cache\\Cache', '4.0');
 JLoader::registerAlias('JCacheController',                  '\\Joomla\\CMS\\Cache\\CacheController', '4.0');
 JLoader::registerAlias('JCacheStorage',                     '\\Joomla\\CMS\\Cache\\CacheStorage', '4.0');
