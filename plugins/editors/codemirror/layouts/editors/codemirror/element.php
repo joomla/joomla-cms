@@ -22,7 +22,9 @@ $modifier = $params->get('fullScreenMod', '') !== '' ? implode($params->get('ful
 
 ?>
 
-<p class="label"><?php echo JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $params->get('fullScreen', 'F10')); ?></p>
+<p class="label">
+    <?php echo JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $modifier, $params->get('fullScreen', 'F10')); ?>
+</p>
 
 <?php
 	echo '<textarea class="codemirror-source" name="', $name,
