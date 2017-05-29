@@ -479,7 +479,7 @@ class LanguageAdapter extends InstallerAdapter
 		// Set the extensions name
 		$name = (string) $this->getManifest()->name;
 		$name = \JFilterInput::getInstance()->clean($name, 'cmd');
-		$this->set('name', $name);
+		$this->name = $name;
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag = (string) $xml->tag;
@@ -492,7 +492,7 @@ class LanguageAdapter extends InstallerAdapter
 			return false;
 		}
 
-		$this->set('tag', $tag);
+		$this->tag = $tag;
 
 		// Set the language installation path
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
