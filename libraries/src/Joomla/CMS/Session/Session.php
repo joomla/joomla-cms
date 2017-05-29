@@ -20,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class Session implements IteratorAggregate
+class Session implements \IteratorAggregate
 {
 	/**
 	 * Internal state.
