@@ -19,7 +19,6 @@ JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 
 // Scripts for the modules xtd-button
-JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 JHtml::_('script', 'com_modules/admin-modules-modal.min.js', array('version' => 'auto', 'relative' => true));
 
 // Special case for the search field tooltip.
