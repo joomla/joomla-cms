@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ abstract class JPluginHelper
 			$temp = explode(':', $layout);
 			$template = ($temp[0] == '_') ? $template : $temp[0];
 			$layout = $temp[1];
-			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
@@ -252,7 +252,7 @@ abstract class JPluginHelper
 						}
 
 						// Instantiate and register the plugin.
-						new $className($dispatcher, (array) ($plugin));
+						new $className($dispatcher, (array) $plugin);
 					}
 				}
 			}
@@ -290,26 +290,34 @@ abstract class JPluginHelper
 			return static::$plugins;
 		}
 
-		$user = JFactory::getUser();
-		$cache = JFactory::getCache('com_plugins', '');
+		$levels = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 
-		$levels = implode(',', $user->getAuthorisedViewLevels());
+		/** @var JCacheControllerCallback $cache */
+		$cache = JFactory::getCache('com_plugins', 'callback');
 
-		if (!(static::$plugins = $cache->get($levels)))
+		$loader = function () use ($levels)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('folder AS type, element AS name, params')
+				->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
 				->from('#__extensions')
 				->where('enabled = 1')
-				->where('type =' . $db->quote('plugin'))
+				->where('type = ' . $db->quote('plugin'))
 				->where('state IN (0,1)')
 				->where('access IN (' . $levels . ')')
 				->order('ordering');
+			$db->setQuery($query);
 
-			static::$plugins = $db->setQuery($query)->loadObjectList();
+			return $db->loadObjectList();
+		};
 
-			$cache->store(static::$plugins, $levels);
+		try
+		{
+			static::$plugins = $cache->get($loader, array(), md5($levels), false);
+		}
+		catch (JCacheException $cacheException)
+		{
+			static::$plugins = $loader();
 		}
 
 		return static::$plugins;
