@@ -395,8 +395,12 @@ class UsersModelProfile extends JModelForm
 			return false;
 		}
 
-		$user->tags = new JHelperTags;
-		$user->tags->getTagIds($user->id, 'com_users.user');
+		// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
+		if ($this->getState('load_tags', true))
+		{
+			$user->tags = new JHelperTags;
+			$user->tags->getTagIds($user->id, 'com_users.user');
+		}
 
 		return $user->id;
 	}
