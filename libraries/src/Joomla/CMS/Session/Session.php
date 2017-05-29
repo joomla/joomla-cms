@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Session
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Session;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -19,14 +20,14 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JSession implements IteratorAggregate
+class Session implements IteratorAggregate
 {
 	/**
 	 * Internal state.
 	 * One of 'inactive'|'active'|'expired'|'destroyed'|'error'
 	 *
 	 * @var    string
-	 * @see    JSession::getState()
+	 * @see    Session::getState()
 	 * @since  11.1
 	 */
 	protected $_state = 'inactive';
@@ -42,7 +43,7 @@ class JSession implements IteratorAggregate
 	/**
 	 * The session store object.
 	 *
-	 * @var    JSessionStorage
+	 * @var    \JSessionStorage
 	 * @since  11.1
 	 */
 	protected $_store = null;
@@ -61,9 +62,9 @@ class JSession implements IteratorAggregate
 	protected $_security = array('fix_browser');
 
 	/**
-	 * JSession instances container.
+	 * Session instances container.
 	 *
-	 * @var    JSession
+	 * @var    Session
 	 * @since  11.3
 	 */
 	protected static $instance;
@@ -77,9 +78,9 @@ class JSession implements IteratorAggregate
 	protected $storeName;
 
 	/**
-	 * Holds the JInput object
+	 * Holds the \JInput object
 	 *
-	 * @var    JInput
+	 * @var    \JInput
 	 * @since  12.2
 	 */
 	private $_input = null;
@@ -87,7 +88,7 @@ class JSession implements IteratorAggregate
 	/**
 	 * Holds the event dispatcher object
 	 *
-	 * @var    JEventDispatcher
+	 * @var    \JEventDispatcher
 	 * @since  12.2
 	 */
 	private $_dispatcher = null;
@@ -95,7 +96,7 @@ class JSession implements IteratorAggregate
 	/**
 	 * Holds the event dispatcher object
 	 *
-	 * @var    JSessionHandlerInterface
+	 * @var    \JSessionHandlerInterface
 	 * @since  3.5
 	 */
 	protected $_handler = null;
@@ -110,16 +111,16 @@ class JSession implements IteratorAggregate
 	/**
 	 * Constructor
 	 *
-	 * @param   string                    $store             The type of storage for the session.
-	 * @param   array                     $options           Optional parameters
-	 * @param   JSessionHandlerInterface  $handlerInterface  The session handler
+	 * @param   string                     $store             The type of storage for the session.
+	 * @param   array                      $options           Optional parameters
+	 * @param   \JSessionHandlerInterface  $handlerInterface  The session handler
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($store = 'none', array $options = array(), JSessionHandlerInterface $handlerInterface = null)
+	public function __construct($store = 'none', array $options = array(), \JSessionHandlerInterface $handlerInterface = null)
 	{
 		// Set the session handler
-		$this->_handler = $handlerInterface instanceof JSessionHandlerInterface ? $handlerInterface : new JSessionHandlerJoomla($options);
+		$this->_handler = $handlerInterface instanceof \JSessionHandlerInterface ? $handlerInterface : new \JSessionHandlerJoomla($options);
 
 		// Initialize the data variable, let's avoid fatal error if the session is not corretly started (ie in CLI).
 		$this->data = new \Joomla\Registry\Registry;
@@ -131,7 +132,7 @@ class JSession implements IteratorAggregate
 		}
 
 		// Create handler
-		$this->_store = JSessionStorage::getInstance($store, $options);
+		$this->_store = \JSessionStorage::getInstance($store, $options);
 
 		$this->storeName = $store;
 
@@ -167,19 +168,19 @@ class JSession implements IteratorAggregate
 	/**
 	 * Returns the global Session object, only creating it if it doesn't already exist.
 	 *
-	 * @param   string                    $store             The type of storage for the session.
-	 * @param   array                     $options           An array of configuration options.
-	 * @param   JSessionHandlerInterface  $handlerInterface  The session handler
+	 * @param   string                     $store             The type of storage for the session.
+	 * @param   array                      $options           An array of configuration options.
+	 * @param   \JSessionHandlerInterface  $handlerInterface  The session handler
 	 *
-	 * @return  JSession  The Session object.
+	 * @return  Session  The Session object.
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($store, $options, JSessionHandlerInterface $handlerInterface = null)
+	public static function getInstance($store, $options, \JSessionHandlerInterface $handlerInterface = null)
 	{
 		if (!is_object(self::$instance))
 		{
-			self::$instance = new JSession($store, $options, $handlerInterface);
+			self::$instance = new Session($store, $options, $handlerInterface);
 		}
 
 		return self::$instance;
@@ -277,10 +278,10 @@ class JSession implements IteratorAggregate
 	 */
 	public static function getFormToken($forceNew = false)
 	{
-		$user    = JFactory::getUser();
-		$session = JFactory::getSession();
+		$user    = \JFactory::getUser();
+		$session = \JFactory::getSession();
 
-		return JApplicationHelper::getHash($user->get('id', 0) . $session->getToken($forceNew));
+		return \JApplicationHelper::getHash($user->get('id', 0) . $session->getToken($forceNew));
 	}
 
 	/**
@@ -298,7 +299,7 @@ class JSession implements IteratorAggregate
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
+	 * Use in conjunction with \JHtml::_('form.token') or Session::getFormToken.
 	 *
 	 * @param   string  $method  The request method in which to look for the token key.
 	 *
@@ -309,15 +310,15 @@ class JSession implements IteratorAggregate
 	public static function checkToken($method = 'post')
 	{
 		$token = self::getFormToken();
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		if (!$app->input->$method->get($token, '', 'alnum'))
 		{
-			if (JFactory::getSession()->isNew())
+			if (\JFactory::getSession()->isNew())
 			{
 				// Redirect to login screen.
-				$app->enqueueMessage(JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
-				$app->redirect(JRoute::_('index.php'));
+				$app->enqueueMessage(\JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
+				$app->redirect(\JRoute::_('index.php'));
 
 				return true;
 			}
@@ -446,21 +447,21 @@ class JSession implements IteratorAggregate
 	/**
 	 * Check whether this session is currently created
 	 *
-	 * @param   JInput            $input       JInput object for the session to use.
-	 * @param   JEventDispatcher  $dispatcher  Dispatcher object for the session to use.
+	 * @param   \JInput            $input       \JInput object for the session to use.
+	 * @param   \JEventDispatcher  $dispatcher  Dispatcher object for the session to use.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.2
 	 */
-	public function initialise(JInput $input, JEventDispatcher $dispatcher = null)
+	public function initialise(\JInput $input, \JEventDispatcher $dispatcher = null)
 	{
 		// With the introduction of the handler class this variable is no longer required
 		// however we keep setting it for b/c
 		$this->_input      = $input;
 
 		// Nasty workaround to deal in a b/c way with JInput being required in the 3.4+ Handler class.
-		if ($this->_handler instanceof JSessionHandlerJoomla)
+		if ($this->_handler instanceof \JSessionHandlerJoomla)
 		{
 			$this->_handler->input = $input;
 		}
@@ -628,7 +629,7 @@ class JSession implements IteratorAggregate
 			}
 		}
 
-		if ($this->_dispatcher instanceof JEventDispatcher)
+		if ($this->_dispatcher instanceof \JEventDispatcher)
 		{
 			$this->_dispatcher->trigger('onAfterSessionStart');
 		}
@@ -733,7 +734,7 @@ class JSession implements IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     JSession::destroy()
+	 * @see     Session::destroy()
 	 * @since   11.1
 	 */
 	public function restart()
@@ -805,7 +806,7 @@ class JSession implements IteratorAggregate
 	 * Writes session data and ends session
 	 *
 	 * Session data is usually stored after your script terminated without the need
-	 * to call JSession::close(), but as session data is locked to prevent concurrent
+	 * to call Session::close(), but as session data is locked to prevent concurrent
 	 * writes only one script may operate on a session at any time. When using
 	 * framesets together with sessions you will experience the frames loading one
 	 * by one due to this locking. You can reduce the time needed to load all the
@@ -825,11 +826,11 @@ class JSession implements IteratorAggregate
 	/**
 	 * Set the session handler
 	 *
-	 * @param   JSessionHandlerInterface  $handler  The session handler
+	 * @param   \JSessionHandlerInterface  $handler  The session handler
 	 *
 	 * @return  void
 	 */
-	public function setHandler(JSessionHandlerInterface $handler)
+	public function setHandler(\JSessionHandlerInterface $handler)
 	{
 		$this->_handler = $handler;
 	}
@@ -845,7 +846,7 @@ class JSession implements IteratorAggregate
 	 */
 	protected function _createToken($length = 32)
 	{
-		return JUserHelper::genRandomPassword($length);
+		return \JUserHelper::genRandomPassword($length);
 	}
 
 	/**

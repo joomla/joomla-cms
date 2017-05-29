@@ -242,6 +242,8 @@ JLoader::registerAlias('JCacheException',                   '\\Joomla\\CMS\\Cach
 JLoader::registerAlias('JCacheExceptionConnecting',         '\\Joomla\\CMS\\Cache\\Exception\\CacheConnectingException', '4.0');
 JLoader::registerAlias('JCacheExceptionUnsupported',        '\\Joomla\\CMS\\Cache\\Exception\\UnsupportedCacheException', '4.0');
 
+JLoader::registerAlias('JSession',                          '\\Joomla\\CMS\\Session\\Session', '4.0');
+
 JLoader::registerAlias('JUser',                             '\\Joomla\\CMS\\User\\User', '4.0');
 JLoader::registerAlias('JUserHelper',                       '\\Joomla\\CMS\\User\\UserHelper', '4.0');
 JLoader::registerAlias('JUserWrapperHelper',                '\\Joomla\\CMS\\User\\UserWrapper', '4.0');
