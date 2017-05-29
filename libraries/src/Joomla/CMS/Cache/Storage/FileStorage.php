@@ -1,13 +1,17 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Cache\Storage;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Cache\CacheStorage;
+use Joomla\CMS\Log\Log;
 
 /**
  * File cache storage handler
@@ -15,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @since  11.1
  * @note   For performance reasons this class does not use the Filesystem package's API
  */
-class JCacheStorageFile extends JCacheStorage
+class FileStorage extends CacheStorage
 {
 	/**
 	 * Root path
@@ -158,7 +162,7 @@ class JCacheStorageFile extends JCacheStorage
 		foreach ($folders as $folder)
 		{
 			$files = $this->_filesInFolder($path . '/' . $folder);
-			$item  = new JCacheStorageHelper($folder);
+			$item  = new CacheStorageHelper($folder);
 
 			foreach ($files as $file)
 			{
@@ -330,7 +334,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		return is_writable(JFactory::getConfig()->get('cache_path', JPATH_CACHE));
+		return is_writable(\JFactory::getConfig()->get('cache_path', JPATH_CACHE));
 	}
 
 	/**
@@ -346,7 +350,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning             = new stdClass;
+		$returning             = new \stdClass;
 		$returning->locklooped = false;
 
 		$looptime  = $locktime * 10;
@@ -508,7 +512,7 @@ class JCacheStorageFile extends JCacheStorage
 		if (!$path || !is_dir($path) || empty($this->_root))
 		{
 			// Bad programmer! Bad, bad programmer!
-			JLog::add(__METHOD__ . ' ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . \JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -520,7 +524,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		if ($pos === false || $pos > 0)
 		{
-			JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -544,7 +548,7 @@ class JCacheStorageFile extends JCacheStorage
 				// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp
 				if (@unlink($file) !== true)
 				{
-					JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), JLog::WARNING, 'jerror');
+					Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -576,7 +580,7 @@ class JCacheStorageFile extends JCacheStorage
 			return true;
 		}
 
-		JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
+		Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
 
 		return false;
 	}
@@ -631,7 +635,7 @@ class JCacheStorageFile extends JCacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -721,7 +725,7 @@ class JCacheStorageFile extends JCacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
