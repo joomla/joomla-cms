@@ -219,4 +219,6 @@ JLoader::registerAlias('JLogLoggerW3c',                     '\\Joomla\\CMS\\Log\
 
 JLoader::registerAlias('JProfiler',                         '\\Joomla\\CMS\\Profiler\\Profiler', '4.0');
 
+JLoader::registerAlias('JUri',                              '\\Joomla\\CMS\\Uri\\Uri', '4.0');
+
 JLoader::registerAlias('JSession',                          '\\Joomla\\CMS\\Session\\Session', '4.0');
