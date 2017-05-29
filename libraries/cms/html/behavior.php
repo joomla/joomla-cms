@@ -121,9 +121,6 @@ JS
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
 		// Load the new jQuery code
 		static::formvalidator();
 	}

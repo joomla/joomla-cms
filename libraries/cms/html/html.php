@@ -585,33 +585,13 @@ abstract class JHtml
 	 *
 	 * @see     JBrowser
 	 * @since   1.5
-	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
-	 *                  use (file, options, attributes) instead.
 	 */
-	public static function stylesheet($file, $options = array(), $attribs = array())
+	public static function stylesheet($file, $options = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($attribs))
-		{
-			JLog::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-
-			// Old parameters.
-			$attribs                  = isset($argList[1]) ? $argList[1] : array();
-			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
-			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
-			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
-			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
-		}
-		else
-		{
-			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
-			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
-			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
-			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
-		}
+		$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
+		$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
+		$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
+		$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
 
 		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -657,41 +637,13 @@ abstract class JHtml
 	 *
 	 * @see     JHtml::stylesheet()
 	 * @since   1.5
-	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
-	 *                  use (file, options, attributes) instead.
 	 */
-	public static function script($file, $options = array(), $attribs = array())
+	public static function script($file, $options = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($options))
-		{
-			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old parameters.
-			$options['framework']     = isset($argList[1]) ? $argList[1] : false;
-			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
-			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
-			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
-			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
-		}
-		else
-		{
-			$options['framework']     = isset($options['framework']) ? $options['framework'] : false;
-			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
-			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
-			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
-			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
-		}
-
-		// Include MooTools framework
-		if ($options['framework'])
-		{
-			static::_('behavior.framework');
-		}
+		$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
+		$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
+		$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
+		$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
 
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 

@@ -42,7 +42,7 @@ class Suggestions extends Controller
 	}
 
 	/**
-	 * Method to find search query suggestions. Uses Mootools and autocompleter.js
+	 * Method to find search query suggestions. Use autocompleter.js
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
