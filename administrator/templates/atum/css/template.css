@@ -3293,10 +3293,8 @@ tbody.collapse.show {
 
 @media (min-width: 576px) {
   .card-columns {
-    -moz-column-count: 3;
-         column-count: 3;
-    -moz-column-gap: 1.25rem;
-         column-gap: 1.25rem; }
+    column-count: 3;
+    column-gap: 1.25rem; }
     .card-columns .card {
       display: inline-block;
       width: 100%;
@@ -8959,6 +8957,15 @@ small,
 
 .form-no-margin .control-group .control-label {
   float: none; }
+
+.form-inline-header {
+  margin: 20px 0 30px; }
+  .form-inline-header .control-label {
+    width: auto;
+    min-width: 50px;
+    padding-right: 10px; }
+  .form-inline-header .controls {
+    margin-left: 0; }
 
 .custom-select {
   min-width: 240px; }
