@@ -102,13 +102,23 @@ class Stream extends AbstractTransport
 		}
 
 		// Build the headers string for the request.
-		$headerString = null;
-
-		if (isset($headers))
+		if (!empty($headers))
 		{
+			$headerString = '';
+
 			foreach ($headers as $key => $value)
 			{
-				$headerString .= $key . ': ' . $value . "\r\n";
+				if (is_array($value))
+				{
+					foreach ($value as $header)
+					{
+						$headerString .= "$key: $header\r\n";
+					}
+				}
+				else
+				{
+					$headerString .= "$key: $value\r\n";
+				}
 			}
 
 			// Add the headers string into the stream context options array.

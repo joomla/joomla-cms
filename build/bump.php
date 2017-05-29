@@ -36,7 +36,7 @@ function usage($command)
 const PHP_TAB = "\t";
 
 // File paths.
-$versionFile      = '/libraries/cms/version/version.php';
+$versionFile      = '/libraries/src/Joomla/CMS/Version.php';
 
 $coreXmlFiles     = array(
 			'/administrator/manifests/files/joomla.xml',

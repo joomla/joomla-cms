@@ -8859,7 +8859,7 @@ body {
   font-size: 14px; }
 
 body {
-  padding: 0 0 30px;
+  padding: 0;
   margin: 0; }
 
 h1,
@@ -9122,6 +9122,39 @@ legend {
 
 .icon-unpublish {
   color: #d9534f; }
+
+.tbody-icon {
+  padding: 0 3px;
+  text-align: center;
+  background-color: transparent;
+  border: 0; }
+  .tbody-icon span {
+    width: 26px;
+    height: 26px;
+    font-size: 1rem;
+    line-height: 22px;
+    color: #ccc;
+    border: 2px solid #ccc;
+    border-radius: 50%; }
+  .tbody-icon .icon-publish {
+    color: #348534;
+    border-color: #348534; }
+  .tbody-icon .icon-featured {
+    color: #f0ad4e;
+    border-color: #f0ad4e; }
+  .tbody-icon .icon-unpublish {
+    color: #d9534f;
+    border-color: #d9534f; }
+  .tbody-icon .icon-archive {
+    color: #464a4c;
+    border-color: #464a4c; }
+  .tbody-icon .icon-checkedout {
+    width: auto;
+    height: auto;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    color: #464a4c;
+    border: 0; }
 
 iframe {
   border: 0; }
@@ -9550,6 +9583,8 @@ iframe {
     visibility: visible;
     content: "\f0da";
     transition-delay: .25s; }
+  .closed .main-nav {
+    overflow-x: hidden; }
 
 .child-open {
   width: 50px;
@@ -9644,7 +9679,7 @@ iframe {
   background: #ebebeb;
   border-top: 1px solid #d4d4d4;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
-  transition: all .4s ease;
+  transition: all .3s ease;
   transition-delay: 0s; }
   .status p {
     margin: 0; }
@@ -9652,6 +9687,8 @@ iframe {
   .status a {
     font-size: 14px;
     color: #555; }
+  .closed .status {
+    margin-left: 50px; }
 
 .sidebar-wrapper[data-hidden="1"] ~ .status {
   margin-left: 0; }
@@ -9784,7 +9821,7 @@ iframe {
   .subhead.subhead-fixed {
     position: fixed;
     top: 0;
-    left: 55px;
+    left: 250px;
     z-index: 9;
     padding-top: 12px;
     padding-bottom: 12px; }

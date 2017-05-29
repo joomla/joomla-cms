@@ -93,7 +93,7 @@ class JToolbarButtonTest extends TestCaseDatabase
 	{
 		$this->assertThat(
 			new JToolbarButtonStandard($this->toolbar),
-			$this->isInstanceOf('JToolbarButton')
+			$this->isInstanceOf('Joomla\\CMS\\Toolbar\\ToolbarButton')
 		);
 	}
 

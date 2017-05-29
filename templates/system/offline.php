@@ -20,14 +20,14 @@ $this->setHtml5(true);
 JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Styles
-JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'templates/system/css/offline.css', array('version' => 'auto'));
 
 if ($this->direction === 'rtl')
 {
-	JHtml::_('stylesheet', 'offline_rtl.css', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', 'templates/system/css/offline_rtl.css', array('version' => 'auto'));
 }
 
-JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'templates/system/css/general.css', array('version' => 'auto'));
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -37,7 +37,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="head" />
 </head>
 <body>

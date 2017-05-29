@@ -1009,8 +1009,8 @@ abstract class JHtml
 		$required     = isset($attribs['required']) && $attribs['required'] == '';
 		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
 		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
-		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : false;
-		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : true;
+		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : true;
+		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : false;
 		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
 		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;
 		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
