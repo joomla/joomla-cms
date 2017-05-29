@@ -216,3 +216,5 @@ JLoader::registerAlias('JLogLoggerFormattedtext',           '\\Joomla\\CMS\\Log\
 JLoader::registerAlias('JLogLoggerMessagequeue',            '\\Joomla\\CMS\\Log\\Logger\\MessagequeueLogger', '4.0');
 JLoader::registerAlias('JLogLoggerSyslog',                  '\\Joomla\\CMS\\Log\\Logger\\SyslogLogger', '4.0');
 JLoader::registerAlias('JLogLoggerW3c',                     '\\Joomla\\CMS\\Log\\Logger\\W3cLogger', '4.0');
+
+JLoader::registerAlias('JProfiler',                         '\\Joomla\\CMS\\Profiler\\Profiler', '4.0');
