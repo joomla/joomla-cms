@@ -945,12 +945,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/application.git",
-            "reference": "5ec3299dfc7ce2e4b133eae9ba72079990cbcf9e"
+            "reference": "d0cbbe087f11138e3ced5b12d0bf91e84cc8d7cb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/application/zipball/5ec3299dfc7ce2e4b133eae9ba72079990cbcf9e",
-            "reference": "5ec3299dfc7ce2e4b133eae9ba72079990cbcf9e",
+            "url": "https://api.github.com/repos/joomla-framework/application/zipball/d0cbbe087f11138e3ced5b12d0bf91e84cc8d7cb",
+            "reference": "d0cbbe087f11138e3ced5b12d0bf91e84cc8d7cb",
             "shasum": ""
         },
         "require": {
@@ -973,7 +973,7 @@
             "joomla/session": "To use AbstractWebApplication with session support, install joomla/session",
             "joomla/uri": "To use AbstractWebApplication, install joomla/uri"
         },
-        "time": "2017-05-27T01:06:15+00:00",
+        "time": "2017-05-29T11:04:58+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
