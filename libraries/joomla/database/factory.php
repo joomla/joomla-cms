@@ -47,6 +47,7 @@ class JDatabaseFactory
 		$options['driver']   = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
+		$options['factory']  = (isset($options['factory'])) ? $options['factory'] : $this;
 
 		// Derive the class name from the driver.
 		$class = 'JDatabaseDriver' . ucfirst(strtolower($options['driver']));
