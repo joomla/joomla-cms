@@ -217,7 +217,7 @@ JLoader::registerAlias('JLogLoggerW3c',                     '\\Joomla\\CMS\\Log\
 JLoader::registerAlias('JCache',                            '\\Joomla\\CMS\\Cache\\Cache', '4.0');
 JLoader::registerAlias('JCacheController',                  '\\Joomla\\CMS\\Cache\\CacheController', '4.0');
 JLoader::registerAlias('JCacheStorage',                     '\\Joomla\\CMS\\Cache\\CacheStorage', '4.0');
-JLoader::registerAlias('JCacheControllerCallback',          '\\Joomla\\CMS\\Cache\\Controller\\CacheController', '4.0');
+JLoader::registerAlias('JCacheControllerCallback',          '\\Joomla\\CMS\\Cache\\Controller\\CallbackController', '4.0');
 JLoader::registerAlias('JCacheControllerOutput',            '\\Joomla\\CMS\\Cache\\Controller\\OutputController', '4.0');
 JLoader::registerAlias('JCacheControllerPage',              '\\Joomla\\CMS\\Cache\\Controller\\PageController', '4.0');
 JLoader::registerAlias('JCacheControllerView',              '\\Joomla\\CMS\\Cache\\Controller\\ViewController', '4.0');
