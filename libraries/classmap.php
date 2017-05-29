@@ -200,6 +200,9 @@ JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Rout
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
 JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
 
+JLoader::registerAlias('JCategories',                       '\\Joomla\\CMS\\Categories\\Categories', '4.0');
+JLoader::registerAlias('JCategoryNode',                     '\\Joomla\\CMS\\Categories\\CategoryNode', '4.0');
+
 JLoader::registerAlias('JDate',                             '\\Joomla\\CMS\\Date\\Date', '4.0');
 
 JLoader::registerAlias('JLog',                              '\\Joomla\\CMS\\Log\\Log', '4.0');
