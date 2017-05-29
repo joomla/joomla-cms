@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\String\StringHelper;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Joomla! Cache base object
@@ -34,6 +35,14 @@ class JCache
 	 * @since  11.1
 	 */
 	public $_options;
+
+	/**
+	 * Cache storage adapter
+	 *
+	 * @var    CacheInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $adapter;
 
 	/**
 	 * Constructor
@@ -460,6 +469,51 @@ class JCache
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 
 		return self::$_handler[$hash];
+	}
+
+	/**
+	 * Get the cache storage adapter
+	 *
+	 * @return  CacheInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAdapter()
+	{
+		if (!$this->adapter)
+		{
+			$this->setAdapter($this->loadAdapter());
+		}
+
+		return $this->adapter;
+	}
+
+	/**
+	 * Load the cache storage adapter
+	 *
+	 * @return  CacheInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadAdapter()
+	{
+		return JFactory::getContainer()->get('cache.storage');
+	}
+
+	/**
+	 * Set the cache storage adapter
+	 *
+	 * @param   CacheInterface  $adapter  Storage adapter to use
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setAdapter(CacheInterface $adapter)
+	{
+		$this->adapter = $adapter;
+
+		return $this;
 	}
 
 	/**
