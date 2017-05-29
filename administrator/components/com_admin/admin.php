@@ -16,4 +16,4 @@ $controller = JControllerLegacy::getInstance('Admin');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
 
-// a useless comment
+// A useless comment
