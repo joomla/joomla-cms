@@ -30,9 +30,9 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	public function render($head, $params = array(), $content = null)
 	{
 		$buffer  = '';
-		$buffer .= (new JDocumentRendererHtmlMetas($this->_doc))->render($head, $params, $content);
-		$buffer .= (new JDocumentRendererHtmlStyles($this->_doc))->render($head, $params, $content);
-		$buffer .= (new JDocumentRendererHtmlScripts($this->_doc))->render($head, $params, $content);
+		$buffer .= $this->_doc->loadRenderer('metas')->render($head, $params, $content);
+		$buffer .= $this->_doc->loadRenderer('styles')->render($head, $params, $content);
+		$buffer .= $this->_doc->loadRenderer('scripts')->render($head, $params, $content);
 
 		return $buffer;
 	}
