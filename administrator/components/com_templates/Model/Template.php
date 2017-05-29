@@ -606,7 +606,7 @@ class Template extends Form
 							continue;
 						}
 
-						$result['components'][$component][] = $this->getOverridesFolder($view, $folder . '/');
+						$result['components'][$component][] = $this->getOverridesFolder($view, \JPath::clean($folder . '/'));
 					}
 				}
 			}
