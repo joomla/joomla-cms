@@ -52,8 +52,13 @@ Joomla = window.Joomla || {};
 
 		// Fix toolbar and footer width for edit views
 		if (wrapper.classList.contains('wrapper0')) {
-			document.querySelector('.subhead').style.left = 0;
-			document.getElementById('status').style.marginLeft = 0;
+			if (document.querySelector('.subhead')) {
+				document.querySelector('.subhead').style.left = 0;
+			}
+
+			if (document.getElementById('status')) {
+				document.getElementById('status').style.marginLeft = 0;
+			}
 		}
 
 		if (sidebar && !sidebar.getAttribute('data-hidden')) {

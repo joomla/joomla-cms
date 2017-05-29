@@ -51,7 +51,7 @@ Joomla = window.Joomla || {};
 	document.addEventListener('DOMContentLoaded', function(event) {
 		'use strict';
 
-		if (joomla.getOptions && typeof joomla.getOptions === 'function' && Joomla.getOptions('js-multiselect')) {
+		if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-multiselect')) {
 			if (Joomla.getOptions('js-multiselect').formName) {
 				Joomla.JMultiSelect(Joomla.getOptions('js-multiselect').formName);
 			} else {
