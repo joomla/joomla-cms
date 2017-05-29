@@ -417,8 +417,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			if (count($options) === 0)
 			{
+
 				//All Categories have been deleted, so we need a new delete (This will create on save if selected)
-				$options[0]            = new stdClass();
+				$options[0]            = new stdClass;
 				$options[0]->value     = 'Uncategorised';
 				$options[0]->text      = 'uncategorised';
 				$options[0]->level     = '1';
