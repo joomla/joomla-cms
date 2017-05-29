@@ -19,6 +19,13 @@ use Joomla\String\StringHelper;
 class PlgContentEmailcloak extends JPlugin
 {
 	/**
+	 * Used to save the extracted form elements in an array. If nothing to replace, it's default false
+	 *
+	 * @since  3.4.5
+	 */
+	private $saveReplacements = false;
+
+	/**
 	 * Plugin that cloaks all emails in content from spambots via Javascript.
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
@@ -113,6 +120,8 @@ class PlgContentEmailcloak extends JPlugin
 			return true;
 		}
 
+		// Extract all Formelements out of the text.
+		$text = $this->_extractFormElements($text);
 		$mode = $this->params->def('mode', 1);
 
 		// Example: any@example.org
@@ -496,7 +505,85 @@ class PlgContentEmailcloak extends JPlugin
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
 		}
+		// All exctracted Form elements get insert the text again.
+		$text = $this->_insertFormElements($text);
 
 		return true;
+	}
+
+	/**
+	 * Extract all input, select, textarea, script, picture and noemailclloak tags out of the given Text.
+	 *
+	 * @param   string  $text  The text wich must be cleaned of elements
+	 *
+	 * @return  string  $text  The cleaned text
+	 *
+	 * @since   3.4.5
+	 */
+	private function _extractFormElements($text)
+	{
+		// Pattern to extract the noemailcloak sections.
+		$noemailcloak_pattern = '#\{noemailcloak\}(.*)\{/noemailcloak\}#Uis';
+		$counter              = 0;
+
+		preg_match_all($noemailcloak_pattern, $text, $results, PREG_SET_ORDER);
+
+		foreach ($results as $result)
+		{
+			$replace_string = "{{##formelement_" . $counter . "##}}";
+			$text           = str_replace($result[0], $replace_string,  $text);
+
+			$this->saveReplacements[$replace_string] = $result[1];
+			$counter++;
+		}
+
+		unset($results);
+
+		// Pattern to extract all input tags, (text, checkbox, radio, hidden, submit> and img-tag.
+		$input_pattern = '#<(input|img) [^<].*>#Uis';
+
+		preg_match_all($input_pattern, $text, $results);
+
+		// Pattern to extract select, textarea picture and script tags.
+		$st_pattern = '#<(select|textarea|picture|script).*</\1>#Uis';
+
+		preg_match_all($st_pattern, $text, $st_results);
+
+		$results = array_merge($results[0], $st_results[0]);
+
+		foreach ($results as $value)
+		{
+			$replace_string = "{{##formelement_" . $counter . "##}}";
+			$text           = str_replace($value, $replace_string, $text);
+
+			$this->saveReplacements[$replace_string] = $value;
+			$counter++;
+		}
+
+		return $text;
+	}
+
+	/**
+	 * Inserts all input, select and textareelements in the given Text, which was extractedfrom _extractFormElements
+	 *
+	 * @param   string  $text  The text where the extracted Formelements get inserted.
+	 *
+	 * @return  string  $text  The modifiy text.
+	 *
+	 * @since   3.4.5
+	 */
+	private function _insertFormElements($text)
+	{
+		if (!is_array($this->saveReplacements))
+		{
+			return $text;
+		}
+
+		foreach ($this->saveReplacements as $key => $value)
+		{
+			$text = str_replace($key, $value, $text);
+		}
+
+		return $text;
 	}
 }
