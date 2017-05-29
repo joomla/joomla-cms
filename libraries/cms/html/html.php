@@ -579,7 +579,6 @@ abstract class JHtml
 	 *
 	 * @param   string  $file     Path to file
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
-	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
@@ -622,7 +621,7 @@ abstract class JHtml
 				$options['version'] = substr($include, $pos + 1);
 			}
 
-			$document->addStyleSheet($include, $options, $attribs);
+			$document->addStyleSheet($include, $options);
 		}
 	}
 
@@ -631,7 +630,6 @@ abstract class JHtml
 	 *
 	 * @param   string  $file     Path to file.
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
-	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
@@ -674,7 +672,7 @@ abstract class JHtml
 				$options['version'] = substr($include, $pos + 1);
 			}
 
-			$document->addScript($include, $options, $attribs);
+			$document->addScript($include, $options);
 		}
 	}
 
