@@ -1034,49 +1034,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function redirect($url, $status = 303)
 	{
-		// Handle B/C by checking if a message was passed to the method, will be removed at 4.0
-		if (func_num_args() > 1)
-		{
-			$args = func_get_args();
-
-			/*
-			 * Do some checks on the $args array, values below correspond to legacy redirect() method
-			 *
-			 * $args[0] = $url
-			 * $args[1] = Message to enqueue
-			 * $args[2] = Message type
-			 * $args[3] = $status (previously moved)
-			 */
-			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
-			{
-				// Log that passing the message to the function is deprecated
-				$this->getLogger()->warning(
-					'Passing a message and message type to ' . __METHOD__ . '() is deprecated. '
-					. 'Please set your message via ' . __CLASS__ . '::enqueueMessage() prior to calling ' . __CLASS__
-					. '::redirect().',
-					array('category' => 'deprecated')
-				);
-
-				$message = $args[1];
-
-				// Set the message type if present
-				if (isset($args[2]) && !empty($args[2]))
-				{
-					$type = $args[2];
-				}
-				else
-				{
-					$type = 'message';
-				}
-
-				// Enqueue the message
-				$this->enqueueMessage($message, $type);
-
-				// Reset the $moved variable
-				$status = isset($args[3]) ? (boolean) $args[3] : false;
-			}
-		}
-
 		// Persist messages if they exist.
 		if (count($this->messageQueue))
 		{
