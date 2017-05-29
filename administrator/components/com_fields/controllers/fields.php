@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Fields list controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class FieldsControllerFields extends JControllerAdmin
 {
@@ -20,7 +20,7 @@ class FieldsControllerFields extends JControllerAdmin
 	 *
 	 * @var    string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected $text_prefix = 'COM_FIELDS_FIELD';
 
@@ -33,7 +33,7 @@ class FieldsControllerFields extends JControllerAdmin
 	 *
 	 * @return  FieldsModelField|boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getModel($name = 'Field', $prefix = 'FieldsModel', $config = array('ignore_request' => true))
 	{

@@ -6,7 +6,7 @@
 	<creationDate>3/30/2012</creationDate>
 	<author>Kyle Ledbetter</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.</copyright>
 	<description>TPL_ISIS_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
@@ -57,12 +57,12 @@
 				label="TPL_ISIS_COLOR_HEADER_LABEL"
 				description="TPL_ISIS_COLOR_HEADER_DESC" />
 
-				<field name="sidebarColor" class="" type="color" default="#0088CC"
+				<field name="sidebarColor" class="" type="color" default="#3071a9"
 				validate="color"
 				label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
 				description="TPL_ISIS_COLOR_SIDEBAR_DESC" />
 
-				<field name="linkColor" class="" type="color" default="#0088CC"
+				<field name="linkColor" class="" type="color" default="#3071a9"
 				validate="color"
 				label="TPL_ISIS_COLOR_LINK_LABEL"
 				description="TPL_ISIS_COLOR_LINK_DESC" />
