@@ -39,7 +39,7 @@ abstract class JHtmlSearchtools
 		if (empty(static::$loaded[__METHOD__]))
 		{
 			// Load the script && css files
-			JHtml::_('script', 'system/searchtools.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
 			JHtml::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
 
 			static::$loaded[__METHOD__] = true;
@@ -71,8 +71,8 @@ abstract class JHtmlSearchtools
 
 			// Load the script && css files
 			JHtml::_('behavior.core');
-			JHtml::_('script', 'system/searchtools.js', false, true);
-			JHtml::_('stylesheet', 'system/searchtools.css', array(), true);
+			JHtml::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
 
 			JFactory::getDocument()->addScriptOptions('searchtools', $options);
 

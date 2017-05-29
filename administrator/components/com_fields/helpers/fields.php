@@ -91,12 +91,7 @@ class FieldsHelper
 		if (self::$fieldsCache === null)
 		{
 			// Load the model
-			JLoader::import('joomla.application.component.model');
-			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
-
-			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
-				'ignore_request' => true)
-			);
+			self::$fieldsCache = new \Joomla\Component\Fields\Administrator\Model\Fields(array('ignore_request' => true));
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
@@ -142,7 +137,7 @@ class FieldsHelper
 		{
 			if (self::$fieldCache === null)
 			{
-				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+				self::$fieldCache = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
 			}
 
 			$fieldIds = array_map(
@@ -404,9 +399,6 @@ class FieldsHelper
 			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
-		// On the front, sometimes the admin fields path is not included
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
-
 		// Looping through the groups
 		foreach ($fieldsPerGroup as $group_id => $groupFields)
 		{
@@ -427,7 +419,7 @@ class FieldsHelper
 
 			if ($group_id)
 			{
-				$group = JTable::getInstance('Group', 'FieldsTable');
+				$group = new \Joomla\Component\Fields\Administrator\Table\Group(JFactory::getDbo());
 				$group->load($group_id);
 
 				if ($group->id)
@@ -499,7 +491,7 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
 			&& JFactory::getApplication()->isClient('site'))
