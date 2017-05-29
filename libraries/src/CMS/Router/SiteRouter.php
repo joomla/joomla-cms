@@ -129,8 +129,8 @@ class SiteRouter extends Router
 		// Decode URL to convert percent-encoding to unicode so that strings match when routing.
 		$path = urldecode($uri->getPath());
 
-		// In some environments (e.g. CLI we can't form a valid base URL). In this case we catch the exception thrown
-		// by URI and set an empty base URI for further work.
+		/* In some environments (e.g. CLI we can't form a valid base URL). In this case we catch the exception thrown
+		   by URI and set an empty base URI for further work. */
 		// TODO: This should probably be handled better
 		try
 		{
