@@ -1,13 +1,18 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Log\Logger;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Log\LogEntry;
+use Joomla\CMS\Log\Logger;
 
 /**
  * Joomla! Syslog Log class
@@ -19,23 +24,23 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JLogLoggerSyslog extends JLogLogger
+class SyslogLogger extends Logger
 {
 	/**
-	 * Translation array for JLogEntry priorities to SysLog priority names.
+	 * Translation array for LogEntry priorities to SysLog priority names.
 	 *
 	 * @var    array
 	 * @since  11.1
 	 */
 	protected $priorities = array(
-		JLog::EMERGENCY => 'EMERG',
-		JLog::ALERT => 'ALERT',
-		JLog::CRITICAL => 'CRIT',
-		JLog::ERROR => 'ERR',
-		JLog::WARNING => 'WARNING',
-		JLog::NOTICE => 'NOTICE',
-		JLog::INFO => 'INFO',
-		JLog::DEBUG => 'DEBUG',
+		Log::EMERGENCY => 'EMERG',
+		Log::ALERT => 'ALERT',
+		Log::CRITICAL => 'CRIT',
+		Log::ERROR => 'ERR',
+		Log::WARNING => 'WARNING',
+		Log::NOTICE => 'NOTICE',
+		Log::INFO => 'INFO',
+		Log::DEBUG => 'DEBUG',
 	);
 
 	/**
@@ -115,13 +120,13 @@ class JLogLoggerSyslog extends JLogLogger
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   JLogEntry  $entry  The log entry object to add to the log.
+	 * @param   LogEntry  $entry  The log entry object to add to the log.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function addEntry(JLogEntry $entry)
+	public function addEntry(LogEntry $entry)
 	{
 		// Generate the value for the priority based on predefined constants.
 		$priority = constant(strtoupper('LOG_' . $this->priorities[$entry->priority]));

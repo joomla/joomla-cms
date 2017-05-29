@@ -1,13 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Log
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Log;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Date\Date;
 
 /**
  * Joomla! Log Entry class
@@ -17,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JLogEntry
+class LogEntry
 {
 	/**
 	 * Application responsible for log entry.
@@ -28,7 +31,7 @@ class JLogEntry
 
 	/**
 	 * The date the message was logged.
-	 * @var    JDate
+	 * @var    Date
 	 * @since  11.1
 	 */
 	public $date;
@@ -44,9 +47,9 @@ class JLogEntry
 	 * The priority of the message to be logged.
 	 * @var    string
 	 * @since  11.1
-	 * @see    JLogEntry::$priorities
+	 * @see    LogEntry::$priorities
 	 */
-	public $priority = JLog::INFO;
+	public $priority = Log::INFO;
 
 	/**
 	 * List of available log priority levels [Based on the Syslog default levels].
@@ -54,14 +57,14 @@ class JLogEntry
 	 * @since  11.1
 	 */
 	protected $priorities = array(
-		JLog::EMERGENCY,
-		JLog::ALERT,
-		JLog::CRITICAL,
-		JLog::ERROR,
-		JLog::WARNING,
-		JLog::NOTICE,
-		JLog::INFO,
-		JLog::DEBUG,
+		Log::EMERGENCY,
+		Log::ALERT,
+		Log::CRITICAL,
+		Log::ERROR,
+		Log::WARNING,
+		Log::NOTICE,
+		Log::INFO,
+		Log::DEBUG,
 	);
 
 	/**
@@ -81,14 +84,14 @@ class JLogEntry
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($message, $priority = JLog::INFO, $category = '', $date = null)
+	public function __construct($message, $priority = Log::INFO, $category = '', $date = null)
 	{
 		$this->message = (string) $message;
 
 		// Sanitize the priority.
 		if (!in_array($priority, $this->priorities, true))
 		{
-			$priority = JLog::INFO;
+			$priority = Log::INFO;
 		}
 
 		$this->priority = $priority;
@@ -102,7 +105,7 @@ class JLogEntry
 		// Get the current call stack and back trace (without args to save memory).
 		$this->callStack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-		// Get the date as a JDate object.
-		$this->date = new JDate($date ? $date : 'now');
+		// Get the date as a Date object.
+		$this->date = new Date($date ? $date : 'now');
 	}
 }
