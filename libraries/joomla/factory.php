@@ -485,12 +485,12 @@ abstract class JFactory
 	}
 
 	/**
-	 * Return the {@link JDate} object
+	 * Return the {@link \Joomla\CMS\Date\Date} object
 	 *
 	 * @param   mixed  $time      The initial time for the JDate object
 	 * @param   mixed  $tzOffset  The timezone offset.
 	 *
-	 * @return  JDate object
+	 * @return  \Joomla\CMS\Date\Date object
 	 *
 	 * @see     JDate
 	 * @since   11.1
@@ -515,13 +515,13 @@ abstract class JFactory
 				if (!class_exists($classname))
 				{
 					// The class does not exist, default to JDate
-					$classname = 'JDate';
+					$classname = 'Joomla\\CMS\\Date\\Date';
 				}
 			}
 			else
 			{
 				// No tag, so default to JDate
-				$classname = 'JDate';
+				$classname = 'Joomla\\CMS\\Date\\Date';
 			}
 		}
 

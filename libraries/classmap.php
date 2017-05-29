@@ -200,6 +200,27 @@ JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Rout
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
 JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
 
+JLoader::registerAlias('JCategories',                       '\\Joomla\\CMS\\Categories\\Categories', '4.0');
+JLoader::registerAlias('JCategoryNode',                     '\\Joomla\\CMS\\Categories\\CategoryNode', '4.0');
+
+JLoader::registerAlias('JDate',                             '\\Joomla\\CMS\\Date\\Date', '4.0');
+
+JLoader::registerAlias('JLog',                              '\\Joomla\\CMS\\Log\\Log', '4.0');
+JLoader::registerAlias('JLogEntry',                         '\\Joomla\\CMS\\Log\\LogEntry', '4.0');
+JLoader::registerAlias('JLogLogger',                        '\\Joomla\\CMS\\Log\\Logger', '4.0');
+JLoader::registerAlias('JLogger',                           '\\Joomla\\CMS\\Log\\Logger', '4.0');
+JLoader::registerAlias('JLogLoggerCallback',                '\\Joomla\\CMS\\Log\\Logger\\CallbackLogger', '4.0');
+JLoader::registerAlias('JLogLoggerDatabase',                '\\Joomla\\CMS\\Log\\Logger\\DatabaseLogger', '4.0');
+JLoader::registerAlias('JLogLoggerEcho',                    '\\Joomla\\CMS\\Log\\Logger\\EchoLogger', '4.0');
+JLoader::registerAlias('JLogLoggerFormattedtext',           '\\Joomla\\CMS\\Log\\Logger\\FormattedtextLogger', '4.0');
+JLoader::registerAlias('JLogLoggerMessagequeue',            '\\Joomla\\CMS\\Log\\Logger\\MessagequeueLogger', '4.0');
+JLoader::registerAlias('JLogLoggerSyslog',                  '\\Joomla\\CMS\\Log\\Logger\\SyslogLogger', '4.0');
+JLoader::registerAlias('JLogLoggerW3c',                     '\\Joomla\\CMS\\Log\\Logger\\W3cLogger', '4.0');
+
+JLoader::registerAlias('JProfiler',                         '\\Joomla\\CMS\\Profiler\\Profiler', '4.0');
+
+JLoader::registerAlias('JUri',                              '\\Joomla\\CMS\\Uri\\Uri', '4.0');
+
 JLoader::registerAlias('JUser',                             '\\Joomla\\CMS\\User\\User', '4.0');
 JLoader::registerAlias('JUserHelper',                       '\\Joomla\\CMS\\User\\UserHelper', '4.0');
 JLoader::registerAlias('JUserWrapperHelper',                '\\Joomla\\CMS\\User\\UserWrapper', '4.0');

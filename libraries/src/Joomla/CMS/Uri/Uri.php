@@ -1,15 +1,14 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Uri
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\CMS\Uri;
 
-use Joomla\Uri\Uri;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JUri Class
@@ -20,10 +19,10 @@ use Joomla\Uri\Uri;
  *
  * @since  11.1
  */
-class JUri extends Uri
+class Uri extends \Joomla\Uri\Uri
 {
 	/**
-	 * @var    JUri[]  An array of JUri instances.
+	 * @var    Uri[]  An array of JUri instances.
 	 * @since  11.1
 	 */
 	protected static $instances = array();
@@ -51,7 +50,7 @@ class JUri extends Uri
 	 *
 	 * @param   string  $uri  The URI to parse.  [optional: if null uses script URI]
 	 *
-	 * @return  JUri  The URI object.
+	 * @return  Uri  The URI object.
 	 *
 	 * @since   11.1
 	 */
@@ -137,7 +136,7 @@ class JUri extends Uri
 		// Get the base request path.
 		if (empty(static::$base))
 		{
-			$config = JFactory::getConfig();
+			$config = \JFactory::getConfig();
 			$uri = static::getInstance();
 			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
 
