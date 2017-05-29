@@ -27,6 +27,9 @@
   &:hover {
     cursor: pointer;
   }
+  a {
+    -webkit-appearance: none;
+  }
   .dropdown-toggle::after {
     display: none;
   }
