@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Cache\Controller;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheController;
 
 /**
  * Joomla! Cache page type object
  *
  * @since  11.1
  */
-class JCacheControllerPage extends JCacheController
+class PageController extends CacheController
 {
 	/**
 	 * ID property for the cache page object.
@@ -35,7 +39,7 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Cache lock test
 	 *
-	 * @var    stdClass
+	 * @var    \stdClass
 	 * @since  11.1
 	 */
 	protected $_locktest = null;
@@ -98,7 +102,7 @@ class JCacheControllerPage extends JCacheController
 			}
 
 			$data = unserialize(trim($data));
-			$data = JCache::getWorkarounds($data);
+			$data = Cache::getWorkarounds($data);
 
 			$this->_setEtag($id);
 
@@ -135,7 +139,7 @@ class JCacheControllerPage extends JCacheController
 		// Get page data from the application object
 		if (!$data)
 		{
-			$data = JFactory::getApplication()->getBody();
+			$data = \JFactory::getApplication()->getBody();
 
 			// Only attempt to store if page data exists.
 			if (!$data)
@@ -157,7 +161,7 @@ class JCacheControllerPage extends JCacheController
 
 		if ($wrkarounds)
 		{
-			$data = JCache::setWorkarounds(
+			$data = Cache::setWorkarounds(
 				$data,
 				array(
 					'nopathway' => 1,
@@ -188,7 +192,7 @@ class JCacheControllerPage extends JCacheController
 	 */
 	protected function _makeId()
 	{
-		return JCache::makeId();
+		return Cache::makeId();
 	}
 
 	/**
@@ -200,7 +204,7 @@ class JCacheControllerPage extends JCacheController
 	 */
 	protected function _noChange()
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Send not modified header and exit gracefully
 		header('HTTP/1.x 304 Not Modified', true);
@@ -218,6 +222,6 @@ class JCacheControllerPage extends JCacheController
 	 */
 	protected function _setEtag($etag)
 	{
-		JFactory::getApplication()->setHeader('ETag', $etag, true);
+		\JFactory::getApplication()->setHeader('ETag', $etag, true);
 	}
 }

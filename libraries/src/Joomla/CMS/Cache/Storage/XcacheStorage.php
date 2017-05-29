@@ -1,13 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Cache\Storage;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Cache\CacheStorage;
 
 /**
  * XCache cache storage handler
@@ -15,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://xcache.lighttpd.net/
  * @since  11.1
  */
-class JCacheStorageXcache extends JCacheStorage
+class XcacheStorage extends CacheStorage
 {
 	/**
 	 * Check if the cache contains data stored by ID and group
@@ -94,7 +97,7 @@ class JCacheStorageXcache extends JCacheStorage
 
 				if (!isset($data[$group]))
 				{
-					$item = new JCacheStorageHelper($group);
+					$item = new CacheStorageHelper($group);
 				}
 				else
 				{

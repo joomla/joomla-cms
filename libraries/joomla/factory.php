@@ -256,13 +256,13 @@ abstract class JFactory
 	/**
 	 * Get a cache object
 	 *
-	 * Returns the global {@link JCacheController} object
+	 * Returns the global {@link CacheController} object
 	 *
 	 * @param   string  $group    The cache group name
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  JCacheController object
+	 * @return  \Joomla\CMS\Cache\CacheController object
 	 *
 	 * @see     JCache
 	 * @since   11.1
@@ -285,7 +285,7 @@ abstract class JFactory
 			$options['storage'] = $storage;
 		}
 
-		$cache = JCache::getInstance($handler, $options);
+		$cache = \Joomla\CMS\Cache\Cache::getInstance($handler, $options);
 
 		self::$cache[$hash] = $cache;
 

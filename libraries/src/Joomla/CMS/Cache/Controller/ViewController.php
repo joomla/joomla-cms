@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Cache
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Cache\Controller;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheController;
 
 /**
  * Joomla! Cache view type object
  *
  * @since  11.1
  */
-class JCacheControllerView extends JCacheController
+class ViewController extends CacheController
 {
 	/**
 	 * Get the cached view data
@@ -67,7 +71,7 @@ class JCacheControllerView extends JCacheController
 
 			if ($wrkarounds)
 			{
-				echo JCache::getWorkarounds($data);
+				echo Cache::getWorkarounds($data);
 			}
 			else
 			{
@@ -106,7 +110,7 @@ class JCacheControllerView extends JCacheController
 		 */
 		if ($wrkarounds)
 		{
-			$data = JCache::setWorkarounds($data);
+			$data = Cache::setWorkarounds($data);
 		}
 
 		// Store the cache data
@@ -132,6 +136,6 @@ class JCacheControllerView extends JCacheController
 	 */
 	protected function _makeId($view, $method)
 	{
-		return md5(serialize(array(JCache::makeId(), get_class($view), $method)));
+		return md5(serialize(array(Cache::makeId(), get_class($view), $method)));
 	}
 }
