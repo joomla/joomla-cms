@@ -49,8 +49,8 @@ if ($this->params->get('show_advanced', 1))
 					<button name="Search" type="submit" class="btn btn-primary disabled"><span class="fa fa-search icon-white"></span> <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 				<?php endif; ?>
 				<?php if ($this->params->get('show_advanced', 1)) : ?>
-					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary hasPopover" aria-hidden="true" data-placement="bottom" data-title="<?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?>" data-content="<?php echo JText::_('COM_FINDER_ADVANCED_TIPS'); ?>">
-						<span class="fa fa-search-plus" aria-hidden="true"></span> <span class="sr-only"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></span></a>
+					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary" aria-hidden="true">
+						<span class="fa fa-search-plus" aria-hidden="true"></span> <?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
 				<?php endif; ?>
 				</span>
 			</div>
@@ -59,6 +59,13 @@ if ($this->params->get('show_advanced', 1))
 
 	<?php if ($this->params->get('show_advanced', 1)) : ?>
 		<div id="advancedSearch" class="js-finder-advanced collapse<?php if ($this->params->get('expand_advanced', 0)) echo ' in'; ?>">
+			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
+				<div class="card card-outline-secondary mb-3">
+					<div class="card-block">
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS'); ?>
+					</div>
+				</div>
+			<?php endif; ?>
 			<div id="finder-filter-window">
 				<?php echo JHtml::_('filter.select', $this->query, $this->params); ?>
 			</div>
