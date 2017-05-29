@@ -29,25 +29,6 @@ class MailtoDispatcher extends Dispatcher
 	protected $namespace = 'Joomla\\Component\\Mailto';
 
 	/**
-	 * Get a controller from the component
-	 *
-	 * @param   string  $name    Controller name
-	 * @param   string  $client  Optional client (like Administrator, Site etc.)
-	 * @param   array   $config  Optional controller config
-	 *
-	 * @return  Controller
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getController($name, $client = null, $config = array())
-	{
-		$controller = parent::getController($name, $client, $config);
-		$controller->registerDefaultTask('mailto');
-
-		return $controller;
-	}
-
-	/**
 	 * Dispatch a controller task. Redirecting the user if appropriate.
 	 *
 	 * @return  void
