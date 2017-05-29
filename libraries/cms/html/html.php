@@ -845,7 +845,7 @@ abstract class JHtml
 			{
 				if (isset($title[$param]))
 				{
-					$$param = $title[$param];
+					$param = $title[$param];
 				}
 			}
 
