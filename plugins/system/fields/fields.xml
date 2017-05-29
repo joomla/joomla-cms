@@ -16,22 +16,4 @@
 		<language tag="en-GB">en-GB.plg_system_fields.ini</language>
 		<language tag="en-GB">en-GB.plg_system_fields.sys.ini</language>
 	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="display"
-					type="list"
-					label="PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_LABEL"
-					description="PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_DESC"
-					default="2"
-					>
-					<option value="1">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_AFTER_TITLE</option>
-					<option value="2">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_BEFORE_DISPLAY</option>
-					<option value="3">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_AFTER_DISPLAY</option>
-					<option value="0">JNO</option>
-				</field>
-			</fieldset>
-		</fields>
-	</config>
 </extension>

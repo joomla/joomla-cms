@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APCu cache storage handler
  *
- * @see    https://secure.php.net/manual/en/ref.apcu.php
+ * @link   https://secure.php.net/manual/en/ref.apcu.php
  * @since  3.5
  */
 class JCacheStorageApcu extends JCacheStorage
@@ -25,7 +25,7 @@ class JCacheStorageApcu extends JCacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function contains($id, $group)
 	{

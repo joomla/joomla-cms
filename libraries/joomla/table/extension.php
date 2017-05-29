@@ -49,6 +49,19 @@ class JTableExtension extends JTable
 			return false;
 		}
 
+		if (!$this->extension_id)
+		{
+			if (!$this->custom_data)
+			{
+				$this->custom_data = '';
+			}
+
+			if (!$this->system_data)
+			{
+				$this->system_data = '';
+			}
+		}
+
 		return true;
 	}
 

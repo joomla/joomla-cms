@@ -35,7 +35,15 @@ class FieldsControllerField extends JControllerLegacy
 			$app->setUserState($parts[0] . '.edit.' . $parts[1] . '.data', $data);
 		}
 
-		$app->redirect(base64_decode($this->input->get->getBase64('return')));
+		$redirectUrl = base64_decode($this->input->get->getBase64('return'));
+
+		// Don't redirect to an external URL.
+		If (!JUri::isInternal($redirectUrl))
+		{
+			$redirectUrl = 'index.php';
+		}
+
+		$app->redirect($redirectUrl);
 		$app->close();
 	}
 }
