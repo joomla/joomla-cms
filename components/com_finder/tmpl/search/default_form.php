@@ -17,11 +17,6 @@ if ($this->params->get('show_autosuggest', 1))
 	JHtml::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
 	JFactory::getDocument()->addScriptOptions('finder-search', array('url' => JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
-
-if ($this->params->get('show_advanced', 1))
-{
-	JHtml::_('bootstrap.popover');
-}
 ?>
 
 <form action="<?php echo JRoute::_($this->query->toUri()); ?>" method="get" class="js-finder-searchform">
