@@ -587,6 +587,7 @@ abstract class JFactory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session);
 
 		return $container;

@@ -40,6 +40,7 @@ JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
 JFactory::$container = (new \Joomla\DI\Container)
 	->registerServiceProvider(new InstallationServiceProviderApplication)
 	->registerServiceProvider(new InstallationServiceProviderSession)
+	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database);
 

@@ -62,9 +62,6 @@ JLoader::registerAlias('JTableContenthistory',              '\\Joomla\\CMS\\Tabl
 JLoader::registerAlias('JTableContenttype',                 '\\Joomla\\CMS\\Table\\ContentType', '4.0');
 JLoader::registerAlias('JTableCorecontent',                 '\\Joomla\\CMS\\Table\\CoreContent', '4.0');
 JLoader::registerAlias('JTableUcm',                         '\\Joomla\\CMS\\Table\\Ucm', '4.0');
-JLoader::registerAlias('JTableObserver',                    '\\Joomla\\CMS\\Table\\Observer\\AbstractObserver', '4.0');
-JLoader::registerAlias('JTableObserverContenthistory',      '\\Joomla\\CMS\\Table\\Observer\\ContentHistory', '4.0');
-JLoader::registerAlias('JTableObserverTags',                '\\Joomla\\CMS\\Table\\Observer\\Tags', '4.0');
 
 JLoader::registerAlias('JAccess',                           '\\Joomla\\CMS\\Access\\Access', '4.0');
 JLoader::registerAlias('JAccessRule',                       '\\Joomla\\CMS\\Access\\Rule', '4.0');
