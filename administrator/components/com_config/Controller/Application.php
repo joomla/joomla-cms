@@ -69,7 +69,7 @@ class Application extends Controller
 		}
 
 		// Check if the user is authorized to do this.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', \JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
@@ -77,9 +77,10 @@ class Application extends Controller
 		// Set FTP credentials, if given.
 		\JClientHelper::setCredentialsFromRequest('ftp');
 
-		$model = new \Joomla\Component\Config\Administrator\Model\Application;
+		/** @var \Joomla\Component\Config\Administrator\Model\Application $model */
+		$model = $this->getModel('Application', 'Administrator');
 
-		$data  = $this->app->input->post->get('jform', array(), 'array');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Complete data array if needed
 		$oldData = $model->getData();
@@ -165,13 +166,15 @@ class Application extends Controller
 		}
 
 		// Check if the user is authorized to do this.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php',\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 
 		// Initialise model.
-		$model = new \Joomla\Component\Config\Administrator\Model\Application;
+
+		/** @var \Joomla\Component\Config\Administrator\Model\Application $model */
+		$model = $this->getModel('Application', 'Administrator');
 
 		// Attempt to save the configuration and remove root.
 		try
@@ -211,14 +214,15 @@ class Application extends Controller
 		}
 
 		// Check if the user is authorized to do this.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			echo new JsonResponse;
 			$this->app->close();
 		}
 
-		$model = new \Joomla\Component\Config\Administrator\Model\Application;
+		/** @var \Joomla\Component\Config\Administrator\Model\Application $model */
+		$model = $this->getModel('Application', 'Administrator');
 
 		echo new JsonResponse($model->sendTestMail());
 
@@ -247,7 +251,8 @@ class Application extends Controller
 			$this->app->close();
 		}
 
-		$model = $this->getModel('Applications');
+		/** @var \Joomla\Component\Config\Administrator\Model\Application $model */
+		$model = $this->getModel('Application', 'Administrator');
 		echo new JsonResponse($model->storePermissions());
 		$this->app->close();
 	}
