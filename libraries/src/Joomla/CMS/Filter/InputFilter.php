@@ -1,26 +1,27 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Filter
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Filter\InputFilter;
+use Joomla\Filter\InputFilter as BaseInputFilter;
 use Joomla\String\StringHelper;
 
 /**
- * JFilterInput is a class for filtering input from any data source
+ * InputFilter is a class for filtering input from any data source
  *
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
  * @since  11.1
  */
-class JFilterInput extends InputFilter
+class InputFilter extends BaseInputFilter
 {
 	/**
 	 * A flag for Unicode Supplementary Characters (4-byte Unicode character) stripping.
@@ -65,7 +66,7 @@ class JFilterInput extends InputFilter
 			try
 			{
 				// Get the database driver
-				$db = JFactory::getDbo();
+				$db = \JFactory::getDbo();
 
 				// This trick is required to let the driver determine the utf-8 multibyte support
 				$db->connect();
@@ -73,7 +74,7 @@ class JFilterInput extends InputFilter
 				// And now we can decide if we should strip USCs
 				$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				// Could not connect to MySQL. Strip USC to be on the safe side.
 				$this->stripUSC = 1;
@@ -91,7 +92,7 @@ class JFilterInput extends InputFilter
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0, ask the database driver = -1
 	 *
-	 * @return  JFilterInput  The JFilterInput object.
+	 * @return  InputFilter  The InputFilter object.
 	 *
 	 * @since   11.1
 	 */
@@ -101,7 +102,7 @@ class JFilterInput extends InputFilter
 
 		if (empty(self::$instances[$sig]))
 		{
-			self::$instances[$sig] = new JFilterInput($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto, $stripUSC);
+			self::$instances[$sig] = new InputFilter($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto, $stripUSC);
 		}
 
 		return self::$instances[$sig];
@@ -469,7 +470,7 @@ class JFilterInput extends InputFilter
 			foreach ($matches[0] as $match)
 			{
 				$match  = (string) str_replace(array('?', '"'), '', $match);
-				$text   = (string) str_replace($match, JStringPunycode::emailToPunycode($match), $text);
+				$text   = (string) str_replace($match, \JStringPunycode::emailToPunycode($match), $text);
 			}
 		}
 
@@ -766,7 +767,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  'Cleaned' version of input parameter
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::remove() instead
+	 * @deprecated  4.0 Use InputFilter::remove() instead
 	 */
 	protected function _remove($source)
 	{
@@ -810,7 +811,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  'Cleaned' version of input parameter
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::cleanTags() instead
+	 * @deprecated  4.0 Use InputFilter::cleanTags() instead
 	 */
 	protected function _cleanTags($source)
 	{
@@ -1082,7 +1083,7 @@ class JFilterInput extends InputFilter
 	 * @return  array  Filtered array of attribute pairs
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::cleanAttributes() instead
+	 * @deprecated  4.0 Use InputFilter::cleanAttributes() instead
 	 */
 	protected function _cleanAttributes($attrSet)
 	{
@@ -1156,7 +1157,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  Plaintext string
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::decode() instead
+	 * @deprecated  4.0 Use InputFilter::decode() instead
 	 */
 	protected function _decode($source)
 	{
@@ -1214,7 +1215,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  Filtered string
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::escapeAttributeValues() instead
+	 * @deprecated  4.0 Use InputFilter::escapeAttributeValues() instead
 	 */
 	protected function _escapeAttributeValues($source)
 	{
@@ -1229,7 +1230,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  Filtered string
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::stripCSSExpressions() instead
+	 * @deprecated  4.0 Use InputFilter::stripCSSExpressions() instead
 	 */
 	protected function _stripCSSExpressions($source)
 	{
