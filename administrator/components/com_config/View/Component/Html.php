@@ -11,14 +11,16 @@ namespace Joomla\Component\Config\Administrator\View\Component;
 
 defined('_JEXEC') or die;
 
-
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**
  * View for the component configuration
  *
  * @since  3.2
  */
-class Html extends \Joomla\CMS\View\HtmlView
+class Html extends HtmlView
 {
 	public $state;
 
@@ -75,7 +77,7 @@ class Html extends \Joomla\CMS\View\HtmlView
 		$this->form = &$form;
 		$this->component = &$component;
 
-		$this->components = \ConfigHelperConfig::getComponentsWithConfig();
+		$this->components = ConfigHelper::getComponentsWithConfig();
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 		$this->currentComponent = \JFactory::getApplication()->input->get('component');
@@ -95,17 +97,17 @@ class Html extends \Joomla\CMS\View\HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(\JText::_($this->component->option . '_configuration'), 'equalizer config');
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::title(\JText::_($this->component->option . '_configuration'), 'equalizer config');
+		ToolbarHelper::saveGroup(
 			[
 				['apply', 'component.apply'],
 				['save', 'component.save']
 			],
 			'btn-success'
 		);
-		\JToolbarHelper::divider();
-		\JToolbarHelper::cancel('component.cancel');
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
+		ToolbarHelper::divider();
+		ToolbarHelper::cancel('component.cancel');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
 	}
 }

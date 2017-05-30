@@ -6,15 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Config\Administrator\Helper;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * Components helper for com_config
  *
  * @since  3.0
  */
-class ConfigHelperConfig extends JHelperContent
+class ConfigHelper extends ContentHelper
 {
 	/**
 	 * Get an array of all enabled components.
@@ -25,7 +29,7 @@ class ConfigHelperConfig extends JHelperContent
 	 */
 	public static function getAllComponents()
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('element')
 			->from('#__extensions')
@@ -65,7 +69,7 @@ class ConfigHelperConfig extends JHelperContent
 	{
 		$result = array();
 		$components = self::getAllComponents();
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// Remove com_config from the array as that may have weird side effects
 		$components = array_diff($components, array('com_config'));
@@ -75,7 +79,7 @@ class ConfigHelperConfig extends JHelperContent
 			if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component)))
 			{
 				self::loadLanguageForComponent($component);
-				$result[$component] = JApplicationHelper::stringURLSafe(JText::_($component)) . '_' . $component;
+				$result[$component] = ApplicationHelper::stringURLSafe(\JText::_($component)) . '_' . $component;
 			}
 		}
 
@@ -117,7 +121,7 @@ class ConfigHelperConfig extends JHelperContent
 			return;
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		// Load the core file then
 		// Load extension-local file.

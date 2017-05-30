@@ -11,7 +11,12 @@ namespace Joomla\Component\Config\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access as JAccess;
+use Joomla\CMS\Access\Rules as JAccessRules;
+use Joomla\CMS\Component\ComponentHelper;
 use \Joomla\CMS\Model\Form;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 
 /**
  * Model for component configuration
@@ -111,7 +116,7 @@ class Component extends Form
 		$lang->load($option, JPATH_BASE, null, false, true)
 		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
-		$result = \JComponentHelper::getComponent($option);
+		$result = ComponentHelper::getComponent($option);
 
 		return $result;
 	}
@@ -128,9 +133,9 @@ class Component extends Form
 	 */
 	public function save($data)
 	{
-		$table      = \JTable::getInstance('extension');
+		$table      = Table::getInstance('extension');
 		$context    = $this->option . '.' . $this->name;
-		\JPluginHelper::importPlugin('extension');
+		PluginHelper::importPlugin('extension');
 
 		// Check super user group.
 		if (isset($data['params']) && !\JFactory::getUser()->authorise('core.admin'))
@@ -143,7 +148,7 @@ class Component extends Form
 				{
 					if ($field->type === 'UserGroupList' && isset($data['params'][$field->fieldname])
 						&& (int) $field->getAttribute('checksuperusergroup', 0) === 1
-						&& \JAccess::checkGroup($data['params'][$field->fieldname], 'core.admin'))
+						&& JAccess::checkGroup($data['params'][$field->fieldname], 'core.admin'))
 					{
 						throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 					}
@@ -154,12 +159,12 @@ class Component extends Form
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
-			$rules = new \JAccessRules($data['params']['rules']);
-			$asset = \JTable::getInstance('asset');
+			$rules = new JAccessRules($data['params']['rules']);
+			$asset = Table::getInstance('asset');
 
 			if (!$asset->loadByName($data['option']))
 			{
-				$root = \JTable::getInstance('asset');
+				$root = Table::getInstance('asset');
 				$root->loadByName('root.1');
 				$asset->name = $data['option'];
 				$asset->title = $data['option'];

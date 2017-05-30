@@ -11,7 +11,12 @@ namespace Joomla\Component\Config\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access as JAccess;
+use Joomla\CMS\Access\Rules as JAccessRules;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Model\Form;
+use Joomla\CMS\Table\Table;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -59,20 +64,20 @@ class Application extends Form
 	{
 		// Get the config data.
 		$config = new \JConfig;
-		$data   = \JArrayHelper::fromObject($config);
+		$data   = ArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
 		// Get the text filter data
-		$params          = \JComponentHelper::getParams('com_config');
-		$data['filters'] = \JArrayHelper::fromObject($params->get('filters'));
+		$params          = ComponentHelper::getParams('com_config');
+		$data['filters'] = ArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
 		if (empty($data['filters']))
 		{
-			$contentParams = \JComponentHelper::getParams('com_content');
-			$data['filters'] = \JArrayHelper::fromObject($contentParams->get('filters'));
+			$contentParams = ComponentHelper::getParams('com_content');
+			$data['filters'] = ArrayHelper::fromObject($contentParams->get('filters'));
 		}
 
 		// Check for data in the session.
@@ -128,7 +133,7 @@ class Application extends Form
 			{
 				// Make an HTTPS request to check if the site is available in HTTPS.
 				$host    = \JUri::getInstance()->getHost();
-				$options = new \Joomla\Registry\Registry;
+				$options = new Registry;
 				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
 
 				// Do not check for valid server certificate here, leave this to the user, moreover disable using a proxy if any is configured.
@@ -163,11 +168,11 @@ class Application extends Form
 		// Save the rules
 		if (isset($data['rules']))
 		{
-			$rules = new \JAccessRules($data['rules']);
+			$rules = new JAccessRules($data['rules']);
 
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed
-			$myGroups      = \JAccess::getGroupsByUser(\JFactory::getUser()->get('id'));
+			$myGroups      = JAccess::getGroupsByUser(\JFactory::getUser()->get('id'));
 			$myRules       = $rules->getData();
 			$hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
@@ -178,7 +183,7 @@ class Application extends Form
 				return false;
 			}
 
-			$asset = \JTable::getInstance('asset');
+			$asset = Table::getInstance('asset');
 
 			if ($asset->loadByName('root.1'))
 			{
@@ -204,9 +209,9 @@ class Application extends Form
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new \Joomla\Registry\Registry(array('filters' => $data['filters']));
+			$registry = new Registry(array('filters' => $data['filters']));
 
-			$extension = \JTable::getInstance('extension');
+			$extension = Table::getInstance('extension');
 
 			// Get extension_id
 			$extensionId = $extension->find(array('name' => 'com_config'));
@@ -234,7 +239,7 @@ class Application extends Form
 
 		// Get the previous configuration.
 		$prev = new \JConfig;
-		$prev = \JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Merge the new data in. We do this to preserve values that were not in the form.
 		$data = array_merge($prev, $data);
@@ -404,7 +409,7 @@ class Application extends Form
 		}
 
 		// Create the new configuration object.
-		$config = new \Joomla\Registry\Registry($data);
+		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
 		$temp = \JFactory::getConfig();
@@ -437,11 +442,11 @@ class Application extends Form
 	{
 		// Get the previous configuration.
 		$prev = new \JConfig;
-		$prev = \JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
 		unset($prev['root_user']);
-		$config = new \Registry($prev);
+		$config = new Registry($prev);
 
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
@@ -455,9 +460,9 @@ class Application extends Form
 	 * @return	boolean  True on success, false on failure.
 	 *
 	 * @since	2.5.4
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
-	private function writeConfigFile(\Joomla\Registry\Registry $config)
+	private function writeConfigFile(Registry $config)
 	{
 		jimport('joomla.filesystem.path');
 		jimport('joomla.filesystem.file');
@@ -544,13 +549,13 @@ class Application extends Form
 		$isGlobalConfig = $permission['component'] === 'root.1';
 
 		// Check if changed group has Super User permissions.
-		$isSuperUserGroupBefore = \JAccess::checkGroup($permission['rule'], 'core.admin');
+		$isSuperUserGroupBefore = JAccess::checkGroup($permission['rule'], 'core.admin');
 
 		// Check if current user belongs to changed group.
 		$currentUserBelongsToGroup = in_array((int) $permission['rule'], $user->groups) ? true : false;
 
 		// Get current user groups tree.
-		$currentUserGroupsTree = \JAccess::getGroupsByUser($user->id, true);
+		$currentUserGroupsTree = JAccess::getGroupsByUser($user->id, true);
 
 		// Check if current user belongs to changed group.
 		$currentUserSuperUser = $user->authorise('core.admin');
@@ -590,15 +595,15 @@ class Application extends Form
 		try
 		{
 			// Load the current settings for this component.
-			$query = $this->db->getQuery(true)
-				->select($this->db->quoteName(array('name', 'rules')))
-				->from($this->db->quoteName('#__assets'))
-				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName(array('name', 'rules')))
+				->from($this->_db->quoteName('#__assets'))
+				->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($permission['component']));
 
-			$this->db->setQuery($query);
+			$this->_db->setQuery($query);
 
 			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
-			$results = $this->db->loadAssocList();
+			$results = $this->_db->loadAssocList();
 		}
 		catch (\Exception $e)
 		{
@@ -613,14 +618,14 @@ class Application extends Form
 			$data = array();
 			$data[$permission['action']] = array($permission['rule'] => $permission['value']);
 
-			$rules        = new \JAccessRules($data);
-			$asset        = \JTable::getInstance('asset');
+			$rules        = new JAccessRules($data);
+			$asset        = Table::getInstance('asset');
 			$asset->rules = (string) $rules;
 			$asset->name  = (string) $permission['component'];
 			$asset->title = (string) $permission['title'];
 
 			// Get the parent asset id so we have a correct tree.
-			$parentAsset = \JTable::getInstance('Asset');
+			$parentAsset = Table::getInstance('Asset');
 
 			if (strpos($asset->name, '.') !== false)
 			{
@@ -690,11 +695,11 @@ class Application extends Form
 			try
 			{
 				$query->clear()
-					->update($this->db->quoteName('#__assets'))
-					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote(json_encode($temp)))
-					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+					->update($this->_db->quoteName('#__assets'))
+					->set($this->_db->quoteName('rules') . ' = ' . $this->_db->quote(json_encode($temp)))
+					->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($permission['component']));
 
-				$this->db->setQuery($query)->execute();
+				$this->_db->setQuery($query)->execute();
 			}
 			catch (\Exception $e)
 			{
@@ -717,13 +722,13 @@ class Application extends Form
 		{
 			// Get the asset id by the name of the component.
 			$query->clear()
-				->select($this->db->quoteName('id'))
-				->from($this->db->quoteName('#__assets'))
-				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__assets'))
+				->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($permission['component']));
 
-			$this->db->setQuery($query);
+			$this->_db->setQuery($query);
 
-			$assetId = (int) $this->db->loadResult();
+			$assetId = (int) $this->_db->loadResult();
 
 			// Fetch the parent asset id.
 			$parentAssetId = null;
@@ -740,34 +745,34 @@ class Application extends Form
 			{
 				// In this case we need to get the component rules too.
 				$query->clear()
-					->select($this->db->quoteName('parent_id'))
-					->from($this->db->quoteName('#__assets'))
-					->where($this->db->quoteName('id') . ' = ' . $assetId);
+					->select($this->_db->quoteName('parent_id'))
+					->from($this->_db->quoteName('#__assets'))
+					->where($this->_db->quoteName('id') . ' = ' . $assetId);
 
-				$this->db->setQuery($query);
+				$this->_db->setQuery($query);
 
-				$parentAssetId = (int) $this->db->loadResult();
+				$parentAssetId = (int) $this->_db->loadResult();
 			}
 
 			// Get the group parent id of the current group.
 			$query->clear()
-				->select($this->db->quoteName('parent_id'))
-				->from($this->db->quoteName('#__usergroups'))
-				->where($this->db->quoteName('id') . ' = ' . (int) $permission['rule']);
+				->select($this->_db->quoteName('parent_id'))
+				->from($this->_db->quoteName('#__usergroups'))
+				->where($this->_db->quoteName('id') . ' = ' . (int) $permission['rule']);
 
-			$this->db->setQuery($query);
+			$this->_db->setQuery($query);
 
-			$parentGroupId = (int) $this->db->loadResult();
+			$parentGroupId = (int) $this->_db->loadResult();
 
 			// Count the number of child groups of the current group.
 			$query->clear()
-				->select('COUNT(' . $this->db->quoteName('id') . ')')
-				->from($this->db->quoteName('#__usergroups'))
-				->where($this->db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
+				->select('COUNT(' . $this->_db->quoteName('id') . ')')
+				->from($this->_db->quoteName('#__usergroups'))
+				->where($this->_db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
 
-			$this->db->setQuery($query);
+			$this->_db->setQuery($query);
 
-			$totalChildGroups = (int) $this->db->loadResult();
+			$totalChildGroups = (int) $this->_db->loadResult();
 		}
 		catch (\Exception $e)
 		{
@@ -777,27 +782,27 @@ class Application extends Form
 		}
 
 		// Clear access statistics.
-		\JAccess::clearStatics();
+		JAccess::clearStatics();
 
 		// After current group permission is changed we need to check again if the group has Super User permissions.
-		$isSuperUserGroupAfter = \JAccess::checkGroup($permission['rule'], 'core.admin');
+		$isSuperUserGroupAfter = JAccess::checkGroup($permission['rule'], 'core.admin');
 
 		// Get the rule for just this asset (non-recursive) and get the actual setting for the action for this group.
-		$assetRule = \JAccess::getAssetRules($assetId, false, false)->allow($permission['action'], $permission['rule']);
+		$assetRule = JAccess::getAssetRules($assetId, false, false)->allow($permission['action'], $permission['rule']);
 
 		// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-		$inheritedGroupRule = \JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+		$inheritedGroupRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
 
 		if (!empty($parentAssetId))
 		{
-			$inheritedGroupParentAssetRule = \JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId);
+			$inheritedGroupParentAssetRule = JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId);
 		}
 		else
 		{
 			$inheritedGroupParentAssetRule = null;
 		}
 
-		$inheritedParentGroupRule = !empty($parentGroupId) ? \JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
+		$inheritedParentGroupRule = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
 
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
@@ -886,7 +891,7 @@ class Application extends Form
 	 * @return boolean
 	 *
 	 * @since   3.5
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function sendTestMail()
 	{
