@@ -93,7 +93,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 			'jfactory' => array('joomla.jfactory', null, null, false, 'JFactory does not exist so should not load properly', true),
 			'fred.factory' => array('fred.factory', null, null, false, 'fred.factory does not exist', true),
 			'bogus' => array('bogusload', JPATH_TEST_STUBS, '', true, 'bogusload.php should load properly', false),
-			'helper' => array('joomla.user.helper', null, '', true, 'userhelper should load properly', true));
+			'class.loader' => array('cms.class.loader', null, '', true, 'class loader should load properly', true));
 	}
 
 	/**
@@ -277,6 +277,28 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		// Check if really the override is used
 		$this->assertEquals('Original Override Class', $newClass->getName());
 		$this->assertEquals('Original Override Class', $oldClass->getName());
+	}
+
+	/**
+	 * Tests the JLoader::registerAlias method if the alias is loaded when the base class is loaded.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testAliasInstanceOf()
+	{
+		// Normally register the class
+		JLoader::register('JLoaderAliasStub', JPATH_TEST_STUBS . '/loaderoveralias/jloaderaliasstub.php');
+
+		// Register the alias
+		JLoader::registerAlias('JLoaderAliasStubAlias', 'JLoaderAliasStub');
+
+		$object = new JLoaderAliasStub;
+
+		$this->assertTrue(
+			$object instanceof JLoaderAliasStubAlias
+		);
 	}
 
 	/**
