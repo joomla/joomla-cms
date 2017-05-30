@@ -673,6 +673,9 @@ class PlgEditorTinymce extends JPlugin
 			// Drag and drop specific
 			'dndEnabled' => $dragdrop,
 			'dndPath'    => JUri::root() . 'media/editors/tinymce/js/dragdrop/plugin.min.js',
+
+			// Disaable TinyMCE Branding
+			'branding'	=> false,
 			)
 		);
 
