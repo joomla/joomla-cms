@@ -13,6 +13,16 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+		<field
+			name="allowReset"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_USERS_CONFIG_FIELD_ALLOWRESET_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ALLOWRESET_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 		<field
 			name="new_usertype"

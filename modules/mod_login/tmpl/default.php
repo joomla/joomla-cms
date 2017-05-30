@@ -95,6 +95,7 @@ JHtml::_('bootstrap.tooltip');
 		</div>
 		<?php
 			$usersConfig = JComponentHelper::getParams('com_users'); ?>
+		<?php if ($usersConfig->get('allowUserRegistration') || $usersConfig->get('allowReset', 1)) : ?>
 			<ul class="unstyled">
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
@@ -102,6 +103,7 @@ JHtml::_('bootstrap.tooltip');
 					<?php echo JText::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
 				</li>
 			<?php endif; ?>
+			<?php if ($usersConfig->get('allowReset', 1)) : ?>
 				<li>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
 					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
@@ -110,7 +112,9 @@ JHtml::_('bootstrap.tooltip');
 					<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
 					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
+			<?php endif; ?>
 			</ul>
+		<?php endif; ?>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />

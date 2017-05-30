@@ -86,22 +86,26 @@ JHtml::_('behavior.formvalidator');
 	</form>
 </div>
 <div>
-	<ul class="nav nav-tabs nav-stacked">
-		<li>
-			<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
-			<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
-		</li>
-		<li>
-			<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
-			<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?></a>
-		</li>
-		<?php
-		$usersConfig = JComponentHelper::getParams('com_users');
-		if ($usersConfig->get('allowUserRegistration')) : ?>
-		<li>
-			<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
-				<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?></a>
-		</li>
-		<?php endif; ?>
-	</ul>
+	<?php
+		$usersConfig = JComponentHelper::getParams('com_users'); ?>
+	<?php if ($usersConfig->get('allowUserRegistration') || $usersConfig->get('allowReset', 1)) : ?>
+		<ul class="nav nav-tabs nav-stacked">
+			<?php if ($usersConfig->get('allowReset', 1)) : ?>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
+					<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
+				</li>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
+					<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?></a>
+				</li>
+			<?php endif; ?>
+			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
+						<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?></a>
+				</li>
+			<?php endif; ?>
+		</ul>
+	<?php endif; ?>
 </div>

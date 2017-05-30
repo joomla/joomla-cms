@@ -32,6 +32,15 @@ class UsersControllerRemind extends UsersController
 
 		$model = $this->getModel('Remind', 'UsersModel');
 		$data  = $this->input->post->get('jform', array(), 'array');
+		$usersConfig = JComponentHelper::getParams('com_users');
+
+		// If allowReset option is disabled, throw a 403.
+		if ($usersConfig->get('allowReset', 1) == 0)
+		{
+			JError::raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
+
+			return false;
+		}
 
 		// Submit the password reset request.
 		$return	= $model->processRemindRequest($data);
