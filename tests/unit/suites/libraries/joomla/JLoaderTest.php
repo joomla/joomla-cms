@@ -280,7 +280,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the JLoader::registerAlias method if the alias is loaded when the base class is loaded.
+	 * Tests the JLoader::registerAlias method if the alias is loaded when the original class is loaded.
 	 *
 	 * @return  void
 	 *
