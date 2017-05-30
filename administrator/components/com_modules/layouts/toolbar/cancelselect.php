@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// @deprecated  4.0 without replacement only used in hathor
-
 defined('_JEXEC') or die;
 
 $text = JText::_('JTOOLBAR_CANCEL');
