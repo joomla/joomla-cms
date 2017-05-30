@@ -657,7 +657,7 @@ abstract class JHtml
 	 *
 	 * @see     JHtml::stylesheet()
 	 * @since   1.5
-	 * @deprecated 4.0  The (file, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
+	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
 	 *                  use (file, options, attributes) instead.
 	 */
 	public static function script($file, $options = array(), $attribs = array())
@@ -672,6 +672,7 @@ abstract class JHtml
 			$attribs = array();
 
 			// Old parameters.
+			$options['framework']     = isset($argList[1]) ? $argList[1] : false;
 			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
 			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
 			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
@@ -679,6 +680,7 @@ abstract class JHtml
 		}
 		else
 		{
+			$options['framework']     = isset($options['framework']) ? $options['framework'] : false;
 			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
 			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
 			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
