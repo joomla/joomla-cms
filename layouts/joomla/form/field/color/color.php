@@ -69,24 +69,29 @@ $direction = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 JHtml::_('stylesheet', 'system/fields/color-picker.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'system/fields/color-picker.js', array('version' => 'auto', 'relative' => true));
 ?>
-<input
-	type="text"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo $hint; ?>
-	<?php echo $class; ?>
-	<?php echo $position; ?>
-	<?php echo $readonly; ?>
-	<?php echo $disabled; ?>
-	<?php echo $required; ?>
-	<?php echo $onchange; ?>
-	<?php echo $autocomplete; ?>
-	<?php echo $autofocus; ?>
-	<?php echo $format; ?>
-	<?php echo $keywords; ?>
-	<?php echo $direction; ?>
-	<?php echo $validate; ?>>
 
-<div class="ui-color-picker"></div>
+<div class="ui-color-picker-wrapper">
+	<span class="preview">
+		<span class="preview-color"></span>
+	</span>
+	<input
+		type="text"
+		name="<?php echo $name; ?>"
+		id="<?php echo $id; ?>"
+		value="<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"
+		<?php echo $hint; ?>
+		<?php echo $class; ?>
+		<?php echo $position; ?>
+		<?php echo $readonly; ?>
+		<?php echo $disabled; ?>
+		<?php echo $required; ?>
+		<?php echo $onchange; ?>
+		<?php echo $autocomplete; ?>
+		<?php echo $autofocus; ?>
+		<?php echo $format; ?>
+		<?php echo $keywords; ?>
+		<?php echo $direction; ?>
+		<?php echo $validate; ?>>
+	<div class="ui-color-picker"></div>
+</div>
 <!--<div class="ui-color-picker" data-mode="HSL"></div>-->

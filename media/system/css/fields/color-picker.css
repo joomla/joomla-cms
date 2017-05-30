@@ -2,12 +2,26 @@
  * COLOR PICKER TOOL
  */
 
+.ui-color-picker-wrapper {
+	position: relative;
+}
+.ui-color-picker-wrapper > input {
+	padding-left: 40px;
+}
+.ui-color-picker-wrapper.open .ui-color-picker {
+	display: block !important;
+}
+
 .ui-color-picker {
+	position: absolute;
 	width: 420px;
+	display: none !important;
 	margin: 0;
+	z-index: 4;
+
 	border: 1px solid #DDD;
 	background-color: #FFF;
-	display: table;
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,.2);
 
 	-moz-user-select: none;
 	-webkit-user-select: none;
@@ -204,32 +218,22 @@
 }
 
 /* Preview color */
-.ui-color-picker .preview {
-	width: 95px;
-	height: 53px;
-	margin: 5px;
-	margin-top: 10px;
-	border: 1px solid #DDD;
-	background-image: url("../../images/colorpicker/alpha.png");
-	float: left;
-	position: relative;
-}
-
-.ui-color-picker .preview:before {
-	height: 100%;
-	width: 50%;
-	left: 50%;
-	top: 0;
-	content: "";
-	background: #FFF;
+.ui-color-picker-wrapper .preview {
 	position: absolute;
-	z-index: 1;
+	top: 2px;
+	left: 3px;
+	width: 28px;
+	height: 28px;
+	display: block;
+	z-index: 2;
+	border: solid 1px #ccc;
+	border-radius: .25rem;
+	background: url("../../images/colorpicker/alpha.png");
 }
-
-.ui-color-picker .preview-color {
+.ui-color-picker-wrapper .preview-color {
 	width: 100%;
 	height: 100%;
-	background-color: rgba(255, 0, 0, 0.5);
-	position: absolute;
-	z-index: 1;
+	display: block;
+	border-radius: .25rem;
+	background: rgba(255, 0, 0, 0.5);
 }

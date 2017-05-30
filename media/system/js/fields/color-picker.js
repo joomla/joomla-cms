@@ -498,16 +498,8 @@ var UIColorPicker = (function UIColorPicker() {
 	};
 
 	ColorPicker.prototype.createPreviewBox = function createPreviewBox(e) {
-		var preview_box = document.createElement('div');
-		var preview_color = document.createElement('div');
-
-		preview_box.className = 'preview';
-		preview_color.className = 'preview-color';
-
-		this.preview_color = preview_color;
-
-		preview_box.appendChild(preview_color);
-		this.node.appendChild(preview_box);
+		var wrapper = this.node.parentNode.parentNode;
+		this.preview_color = wrapper.querySelector('.preview-color');
 	};
 
 	ColorPicker.prototype.newInputComponent = function newInputComponent(title, topic, onChangeFunc) {
@@ -540,11 +532,11 @@ var UIColorPicker = (function UIColorPicker() {
 	/*************************************************************************/
 
 	ColorPicker.prototype.updateColor = function updateColor(e) {
-		var x = e.pageX - this.picking_area.offsetLeft;
-		var y = e.pageY - this.picking_area.offsetTop;
+		var x = e.pageX - this.picking_area.getBoundingClientRect().left;
+		var y = e.pageY - this.picking_area.getBoundingClientRect().top;
 
 		// width and height should be the same
-		var size = this.picking_area.clientWidth;
+		var size = this.picking_area.getBoundingClientRect().width;
 
 		if (x > size) x = size;
 		if (y > size) y = size;
@@ -578,8 +570,8 @@ var UIColorPicker = (function UIColorPicker() {
 	};
 
 	ColorPicker.prototype.updateHueSlider = function updateHueSlider(e) {
-		var x = e.pageX - this.hue_area.offsetLeft;
-		var width = this.hue_area.clientWidth;
+		var x = e.pageX - this.hue_area.getBoundingClientRect().left;
+		var width = this.hue_area.getBoundingClientRect().width;
 
 		if (x < 0) x = 0;
 		if (x > width) x = width;
@@ -591,8 +583,8 @@ var UIColorPicker = (function UIColorPicker() {
 	};
 
 	ColorPicker.prototype.updateAlphaSlider = function updateAlphaSlider(e) {
-		var x = e.pageX - this.alpha_mask.offsetLeft;
-		var width = this.alpha_mask.clientWidth;
+		var x = e.pageX - this.alpha_mask.getBoundingClientRect().left;
+		var width = this.alpha_mask.getBoundingClientRect().width;
 
 		if (x < 0) x = 0;
 		if (x > width) x = width;
@@ -641,7 +633,7 @@ var UIColorPicker = (function UIColorPicker() {
 	/*************************************************************************/
 
 	ColorPicker.prototype.updatePickerPosition = function updatePickerPosition() {
-		var size = this.picking_area.clientWidth;
+		var size = this.picking_area.getBoundingClientRect().width;
 		var value = 0;
 
 		if (this.picker_mode === 'HSV')
@@ -661,13 +653,13 @@ var UIColorPicker = (function UIColorPicker() {
 	};
 
 	ColorPicker.prototype.updateHuePicker = function updateHuePicker() {
-		var size = this.hue_area.clientWidth;
+		var size = this.hue_area.getBoundingClientRect().width;
 		var pos = (this.color.hue * size / 360 ) | 0;
 		this.hue_picker.style.left = pos + 'px';
 	};
 
 	ColorPicker.prototype.updateAlphaPicker = function updateAlphaPicker() {
-		var size = this.alpha_mask.clientWidth;
+		var size = this.alpha_mask.getBoundingClientRect().width;
 		var pos = (this.color.a * size) | 0;
 		this.alpha_picker.style.left = pos + 'px';
 	};
@@ -860,10 +852,22 @@ var UIColorPicker = (function UIColorPicker() {
 	};
 
 	var init = function init() {
-		var elem = document.querySelectorAll('.ui-color-picker');
-		var size = elem.length;
-		for (var i = 0; i < size; i++)
-			new ColorPicker(elem[i]);
+		var wrapper = document.querySelectorAll('.ui-color-picker-wrapper');
+		for (var i = 0; i < wrapper.length; i++) {
+			var picker = wrapper[i]; // picker
+			new ColorPicker(picker.querySelector('.ui-color-picker'));
+
+			picker.querySelector('.jscolor').addEventListener('focus', function() {
+				picker.classList.add('open');
+			});
+
+			document.addEventListener('click', function(event) {
+				var isClickInside = picker.contains(event.target);
+				if (!isClickInside) {
+					picker.classList.remove('open');
+				}
+			}, true);
+		}
 	};
 
 	return {
