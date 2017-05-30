@@ -104,11 +104,14 @@
 			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 		</field>
 
-			<field name="secure" type="list"
-				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
-				default="0" filter="integer"
+			<field
+				name="secure"
+				type="list"
+				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
+				default="0"
+				filter="integer"
 			>
-				<option value="-1">JOFF</option>
 				<option value="1">JON</option>
 				<option value="0">COM_MENUS_FIELD_VALUE_IGNORE
 				</option>
