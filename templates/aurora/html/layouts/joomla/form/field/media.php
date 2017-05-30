@@ -86,7 +86,7 @@ if ($showPreview)
 $url    = ($readonly ? ''
 	: ($link ?: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;ismoo=0&amp;folder=' . $folder);
+	. '&amp;fieldid={field-media-id}&amp;folder=' . $folder);
 ?>
 <div class="field-media-wrapper"
 	data-basepath="<?php echo JUri::root(); ?>"
