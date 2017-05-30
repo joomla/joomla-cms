@@ -17,7 +17,6 @@ use \Joomla\CMS\Controller\Controller;
  * Controller for global configuration
  *
  * @since       1.5
- * @deprecated  4.0
  */
 class Application extends Controller
 {
@@ -27,7 +26,6 @@ class Application extends Controller
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0
 	 */
 	public function __construct($config = array())
 	{

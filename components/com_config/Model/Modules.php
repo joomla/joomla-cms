@@ -7,14 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Site\Model;
+
 defined('_JEXEC') or die;
+
+use \Joomla\CMS\Model\Form;
 
 /**
  * Config Module model.
  *
  * @since  3.2
  */
-class ConfigModelModules extends ConfigModelForm
+class Modules extends Form
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -27,16 +31,12 @@ class ConfigModelModules extends ConfigModelForm
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication('administrator');
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
 
-		$state = $this->loadState();
-
-		$state->set('module.id', $pk);
-
-		$this->setState($state);
+		$this->setState('module.id', $pk);
 	}
 
 	/**
@@ -45,7 +45,7 @@ class ConfigModelModules extends ConfigModelForm
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm  A JForm object on success, false on failure
+	 * @return  \JForm  A JForm object on success, false on failure
 	 *
 	 * @since   3.2
 	 */
@@ -67,25 +67,24 @@ class ConfigModelModules extends ConfigModelForm
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   JForm   $form   A form object.
+	 * @param   \JForm   $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @throws  Exception if there is an error loading the form.
+	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.path');
 
-		$lang     = JFactory::getLanguage();
-
-		$module = $this->getState()->get('module.name');
+		$lang     = \JFactory::getLanguage();
+		$module   = $this->getState()->get('module.name');
 		$basePath = JPATH_BASE;
 
-		$formFile = JPath::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
+		$formFile = \JPath::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $basePath, null, false, true)
@@ -96,18 +95,18 @@ class ConfigModelModules extends ConfigModelForm
 			// Get the module form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile))
 			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
 
 		// Load the default advanced params
-		JForm::addFormPath(JPATH_BASE . '/components/com_config/model/form');
+		\JForm::addFormPath(JPATH_BASE . '/components/com_config/model/form');
 		$form->loadFile('modules_advanced', false);
 
 		// Trigger the default form events.
@@ -123,11 +122,11 @@ class ConfigModelModules extends ConfigModelForm
 	 */
 	public function getPositions()
 	{
-		$lang         = JFactory::getLanguage();
-		$templateName = JFactory::getApplication()->getTemplate();
+		$lang         = \JFactory::getLanguage();
+		$templateName = \JFactory::getApplication()->getTemplate();
 
 		// Load templateDetails.xml file
-		$path = JPath::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
+		$path = \JPath::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
 		$currentTemplatePositions = array();
 
 		if (file_exists($path))
@@ -146,7 +145,7 @@ class ConfigModelModules extends ConfigModelForm
 					$text = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($value));
 
 					// Construct list of positions
-					$currentTemplatePositions[] = self::createOption($value, JText::_($text) . ' [' . $value . ']');
+					$currentTemplatePositions[] = self::createOption($value, \JText::_($text) . ' [' . $value . ']');
 				}
 			}
 		}
@@ -160,7 +159,7 @@ class ConfigModelModules extends ConfigModelForm
 		$templateGroups[$templateName] = self::createOptionGroup($templateName, $currentTemplatePositions);
 
 		// Add custom position to options
-		$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
+		$customGroupText = \JText::_('COM_MODULES_CUSTOM_POSITION');
 
 		$editPositions   = true;
 		$customPositions = self::getActivePositions(0, $editPositions);
@@ -181,7 +180,7 @@ class ConfigModelModules extends ConfigModelForm
 	 */
 	public static function getActivePositions($clientId, $editPositions = false)
 	{
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT position')
 			->from($db->quoteName('#__modules'))
@@ -195,9 +194,9 @@ class ConfigModelModules extends ConfigModelForm
 			$positions = $db->loadColumn();
 			$positions = is_array($positions) ? $positions : array();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			\JError::raiseWarning(500, $e->getMessage());
 
 			return;
 		}
@@ -209,11 +208,11 @@ class ConfigModelModules extends ConfigModelForm
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[] = JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
+				$options[] = \JHtml::_('select.option', 'none', ':: ' . \JText::_('JNONE') . ' ::');
 			}
 			else
 			{
-				$options[] = JHtml::_('select.option', $position, $position);
+				$options[] = \JHtml::_('select.option', $position, $position);
 			}
 		}
 
@@ -237,7 +236,7 @@ class ConfigModelModules extends ConfigModelForm
 			$text = $value;
 		}
 
-		$option = new stdClass;
+		$option = new \stdClass;
 		$option->value = $value;
 		$option->text  = $text;
 

@@ -101,7 +101,7 @@ abstract class Form extends BaseForm
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
 			{
-				throw new \RuntimeException(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+				throw new \RuntimeException(\JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 			}
 
 			// Attempt to check the row out.
@@ -113,18 +113,6 @@ abstract class Form extends BaseForm
 
 		return true;
 	}
-
-	/**
-	 * Abstract method for getting the form from the model.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  mixed  A JForm object on success, false on failure
-	 *
-	 * @since   3.2
-	 */
-	abstract public function getForm($data = array(), $loadData = true);
 
 	/**
 	 * Method to get a form object.
@@ -156,7 +144,7 @@ abstract class Form extends BaseForm
 
 		// Get the form.
 		// Register the paths for the form -- failing here
-		$paths = new SplPriorityQueue;
+		$paths = new \SplPriorityQueue;
 		$paths->insert(JPATH_COMPONENT . '/model/form', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/field', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/rule', 'normal');
@@ -167,14 +155,14 @@ abstract class Form extends BaseForm
 		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
 
 		// Solution until JForm supports splqueue
-		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		JForm::addFormPath(JPATH_COMPONENT . '/model/form');
-		JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
+		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		\JForm::addFormPath(JPATH_COMPONENT . '/model/form');
+		\JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
 
 		try
 		{
-			$form = JForm::getInstance($name, $source, $options, false, $xpath);
+			$form = \JForm::getInstance($name, $source, $options, false, $xpath);
 
 			if (isset($options['load_data']) && $options['load_data'])
 			{
@@ -193,9 +181,9 @@ abstract class Form extends BaseForm
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage());
 
 			return false;
 		}
@@ -228,19 +216,19 @@ abstract class Form extends BaseForm
 	 *
 	 * @since   3.2
 	 */
-	protected function preprocessData($context, &$data)
+	protected function preprocessData($context, &$data, $group = 'content')
 	{
 		// Get the dispatcher and load the users plugins.
-		JPluginHelper::importPlugin('content');
+		\JPluginHelper::importPlugin('content');
 
 		// Trigger the data preparation event.
-		JFactory::getApplication()->triggerEvent('onContentPrepareData', array($context, $data));
+		\JFactory::getApplication()->triggerEvent('onContentPrepareData', array($context, $data));
 	}
 
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   JForm   $form   A JForm object.
+	 * @param   \JForm   $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -248,21 +236,21 @@ abstract class Form extends BaseForm
 	 *
 	 * @see     JFormField
 	 * @since   3.2
-	 * @throws  Exception if there is an error in the form event.
+	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		// Import the appropriate plugin group.
-		JPluginHelper::importPlugin($group);
+		\JPluginHelper::importPlugin($group);
 
 		// Trigger the form preparation event.
-		JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   JForm   $form   The form to validate against.
+	 * @param   \JForm   $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
@@ -279,9 +267,9 @@ abstract class Form extends BaseForm
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
-		if ($return instanceof Exception)
+		if ($return instanceof \Exception)
 		{
-			JFactory::getApplication()->enqueueMessage($return->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($return->getMessage(), 'error');
 
 			return false;
 		}
@@ -292,12 +280,12 @@ abstract class Form extends BaseForm
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
-				if ($message instanceof Exception)
+				if ($message instanceof \Exception)
 				{
 					$message = $message->getMessage();
 				}
 
-				JFactory::getApplication()->enqueueMessage($message, 'error');
+				\JFactory::getApplication()->enqueueMessage($message, 'error');
 			}
 
 			return false;

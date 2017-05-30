@@ -7,14 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Site\Model;
+
 defined('_JEXEC') or die;
+
 
 /**
  * Template style model.
  *
  * @since  3.2
  */
-class ConfigModelTemplates extends ConfigModelForm
+class Templates extends Form
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -27,13 +30,9 @@ class ConfigModelTemplates extends ConfigModelForm
 	 */
 	protected function populateState()
 	{
-		$state = $this->loadState();
+		parent::populateState();
 
-		// Load the parameters.
-		$params = JComponentHelper::getParams('com_templates');
-		$state->set('params', $params);
-
-		$this->setState($state);
+		$this->setState('params',\JComponentHelper::getParams('com_templates'));
 	}
 
 	/**
@@ -42,7 +41,7 @@ class ConfigModelTemplates extends ConfigModelForm
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm    A JForm object on success, false on failure
+	 * @return  \JForm    A JForm object on success, false on failure
 	 *
 	 * @since   3.2
 	 */
@@ -53,16 +52,16 @@ class ConfigModelTemplates extends ConfigModelForm
 
 		try
 		{
-			$form = new JForm('com_config.templates');
+			$form = new \JForm('com_config.templates');
 			$data = array();
 			$this->preprocessForm($form, $data);
 
 			// Load the data into the form
 			$form->bind($data);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage());
 
 			return false;
 		}
@@ -78,20 +77,20 @@ class ConfigModelTemplates extends ConfigModelForm
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   JForm   $form   A form object.
+	 * @param   \JForm   $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Plugin group to load
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @throws	Exception if there is an error in the form event.
+	 * @throws	\Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
-		$template = JFactory::getApplication()->getTemplate();
+		$template = \JFactory::getApplication()->getTemplate();
 
 		jimport('joomla.filesystem.path');
 
@@ -100,24 +99,24 @@ class ConfigModelTemplates extends ConfigModelForm
 		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
 		// Look for com_config.xml, which contains fileds to display
-		$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
+		$formFile = \JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
 		if (!file_exists($formFile))
 		{
 			// If com_config.xml not found, fall back to templateDetails.xml
-			$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
+			$formFile = \JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
 		}
 
 		// Get the template form.
 		if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config'))
 		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Trigger the default form events.

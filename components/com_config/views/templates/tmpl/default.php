@@ -29,7 +29,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 		<div>
 			<div class="btn-group">
-				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.save.templates.apply')">
+				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('templates.apply')">
 					<span class="icon-ok"></span>
 					<?php echo JText::_('JSAVE') ?>
 				</button>

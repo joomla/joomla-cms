@@ -32,7 +32,6 @@ class Html extends \Joomla\CMS\View\HtmlView
 	 * @return  string  The rendered view.
 	 *
 	 * @since   3.2
-	 *
 	 */
 	public function display($tpl = null)
 	{

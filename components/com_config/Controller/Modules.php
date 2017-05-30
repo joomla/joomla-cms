@@ -14,13 +14,15 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\Component\Modules\Administrator\Controller\Module;
+
 
 /**
  * Component Controller
  *
  * @since  1.5
  */
-class Config extends Controller
+class Modules extends Controller
 {
 	/**
 	 * Constructor.
@@ -55,9 +57,9 @@ class Config extends Controller
 	}
 
 	/**
-	 * Method to save global configuration.
+	 * Method to save module editing.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  bool	True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -71,7 +73,10 @@ class Config extends Controller
 		}
 
 		// Check if the user is authorized to do this.
-		if (!\JFactory::getUser()->authorise('core.admin'))
+		$user = \JFactory::getUser();
+
+		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
+			&& !$user->authorise('module.edit.frontend', 'com_modules'))
 		{
 			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');
@@ -80,34 +85,26 @@ class Config extends Controller
 		// Set FTP credentials, if given.
 		\JClientHelper::setCredentialsFromRequest('ftp');
 
-		$model = new \Joomla\Component\Config\Site\Model\Config;
+		// Get sumitted module id
+		$moduleId = '&id=' . $this->input->getInt('id');
 
-		$form  = $model->getForm();
-		$data  = $this->app->input->post->get('jform', array(), 'array');
+		// Get returnUri
+		$returnUri = $this->input->post->get('return', null, 'base64');
+		$redirect = '';
 
-		// Validate the posted data.
-		$return = $model->validate($form, $data);
-
-		// Check for validation errors.
-		if ($return === false)
+		if (!empty($returnUri))
 		{
-			/*
-			 * The validate method enqueued all messages for us, so we just need to redirect back.
-			 */
-
-			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
-
-			// Redirect back to the edit screen.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+			$redirect = '&return=' . $returnUri;
 		}
 
-		// Attempt to save the configuration.
-		$data = $return;
+		\JLoader::register('ModulesDispatcher', JPATH_ADMINISTRATOR . '/components/com_modules/dispatcher.php');
 
-		// Access backend com_config
-		\JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
-		$saveClass = new \Joomla\Component\Config\Administrator\Controller\Application;
+		$app = \Joomla\CMS\Application\CmsApplication::getInstance('administrator');
+		$app->loadLanguage($this->app->getLanguage());
+		$dispatcher      = new \ModulesDispatcher($app, $this->input);
+
+		/** @var Module $controllerClass */
+		$controllerClass = $dispatcher->getController('Module');
 
 		// Get a document object
 		$document = \JFactory::getDocument();
@@ -116,7 +113,7 @@ class Config extends Controller
 		$document->setType('json');
 
 		// Execute backend controller
-		$return = $saveClass->save();
+		$return = $controllerClass->save();
 
 		// Reset params back after requesting from service
 		$document->setType('html');
@@ -124,21 +121,44 @@ class Config extends Controller
 		// Check the return value.
 		if ($return === false)
 		{
-			/*
-			 * The save method enqueued all messages for us, so we just need to redirect back.
-			 */
-
 			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
+			$app->setUserState('com_config.modules.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+			$this->app->enqueueMessage(\JText::_('JERROR_SAVE_FAILED'));
+			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
 		}
 
 		// Redirect back to com_config display
-		$this->app->enqueueMessage(\JText::_('COM_CONFIG_SAVE_SUCCESS'));
-		$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+		$this->app->enqueueMessage(\JText::_('COM_CONFIG_MODULES_SAVE_SUCCESS'));
 
-		return true;
+		// Set the redirect based on the task.
+		switch ($this->input->getCmd('task'))
+		{
+			case 'apply':
+				$this->app->redirect(\JRoute::_('index.php?option=com_config&view=modules' . $moduleId . $redirect, false));
+				break;
+
+			case 'save':
+			default:
+
+				if (!empty($returnUri))
+				{
+					$redirect = base64_decode(urldecode($returnUri));
+
+					// Don't redirect to an external URL.
+					if (!\JUri::isInternal($redirect))
+					{
+						$redirect = \JUri::base();
+					}
+				}
+				else
+				{
+					$redirect = \JUri::base();
+				}
+
+				$this->setRedirect($redirect);
+				break;
+		}
 	}
 }

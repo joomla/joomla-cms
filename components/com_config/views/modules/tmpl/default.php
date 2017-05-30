@@ -39,19 +39,19 @@ JFactory::getDocument()->addScriptDeclaration("
 
 			<div>
 				<div class="btn-group">
-					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.save.modules.apply')">
+					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('modules.apply')">
 						<span class="icon-apply"></span>
 						<?php echo JText::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn btn-secondary" onclick="Joomla.submitbutton('config.save.modules.save')">
+					<button type="button" class="btn btn-secondary" onclick="Joomla.submitbutton('modules.save')">
 						<span class="icon-save"></span>
 						<?php echo JText::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('config.cancel.modules')">
+					<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('modules.cancel')">
 						<span class="icon-cancel"></span>
 						<?php echo JText::_('JCANCEL') ?>
 					</button>

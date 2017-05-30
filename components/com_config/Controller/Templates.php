@@ -14,13 +14,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\Component\Templates\Administrator\Controller\Style;
 
 /**
  * Component Controller
  *
  * @since  1.5
  */
-class Config extends Controller
+class Templates extends Controller
 {
 	/**
 	 * Constructor.
@@ -66,57 +67,37 @@ class Config extends Controller
 		// Check for request forgeries.
 		if (!\JSession::checkToken())
 		{
-			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'));
-			$this->app->redirect('index.php');
+			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'));
 		}
 
 		// Check if the user is authorized to do this.
 		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'));
-			$this->app->redirect('index.php');
+			$this->setRedirect('index.php', \JText::_('JERROR_ALERTNOAUTHOR'));
+
+			return;
 		}
 
 		// Set FTP credentials, if given.
 		\JClientHelper::setCredentialsFromRequest('ftp');
 
-		$model = new \Joomla\Component\Config\Site\Model\Config;
+		$app = $this->app;
 
-		$form  = $model->getForm();
-		$data  = $this->app->input->post->get('jform', array(), 'array');
-
-		// Validate the posted data.
-		$return = $model->validate($form, $data);
-
-		// Check for validation errors.
-		if ($return === false)
-		{
-			/*
-			 * The validate method enqueued all messages for us, so we just need to redirect back.
-			 */
-
-			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
-
-			// Redirect back to the edit screen.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
-		}
-
-		// Attempt to save the configuration.
-		$data = $return;
-
-		// Access backend com_config
-		\JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
-		$saveClass = new \Joomla\Component\Config\Administrator\Controller\Application;
+		// Access backend com_templates
+		\JLoader::register('TemplatesControllerStyle', JPATH_ADMINISTRATOR . '/components/com_templates/controllers/style.php');
+		\JLoader::register('TemplatesModelStyle', JPATH_ADMINISTRATOR . '/components/com_templates/models/style.php');
+		\JLoader::register('TemplatesTableStyle', JPATH_ADMINISTRATOR . '/components/com_templates/tables/style.php');
+		$controllerClass = new Style;
 
 		// Get a document object
 		$document = \JFactory::getDocument();
 
 		// Set backend required params
 		$document->setType('json');
+		$this->input->set('id', $app->getTemplate('template')->id);
 
 		// Execute backend controller
-		$return = $saveClass->save();
+		$return = $controllerClass->save();
 
 		// Reset params back after requesting from service
 		$document->setType('html');
@@ -124,20 +105,23 @@ class Config extends Controller
 		// Check the return value.
 		if ($return === false)
 		{
-			/*
-			 * The save method enqueued all messages for us, so we just need to redirect back.
-			 */
-
 			// Save the data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
+			// TODO Which data?! How did that work?
+			$app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+			$message = \JText::sprintf('JERROR_SAVE_FAILED');
+
+			$app->redirect(\JRoute::_('index.php?option=com_config&view=templates', false), $message, 'error');
+
+			return false;
 		}
 
+		// Set the success message.
+		$message = \JText::_('COM_CONFIG_SAVE_SUCCESS');
+
 		// Redirect back to com_config display
-		$this->app->enqueueMessage(\JText::_('COM_CONFIG_SAVE_SUCCESS'));
-		$this->app->redirect(\JRoute::_('index.php?option=com_config&view=config', false));
+		$app->redirect(\JRoute::_('index.php?option=com_config&view=templates', false), $message);
 
 		return true;
 	}
