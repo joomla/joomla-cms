@@ -100,10 +100,10 @@
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION"
 			showon="show_advanced:1"
- 		>
+		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
- 		</field>
+		</field>
 		<field
 			name="expand_advanced"
 			type="radio"
