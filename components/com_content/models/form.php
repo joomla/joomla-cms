@@ -42,17 +42,24 @@ class ContentModelForm extends ContentModelArticle
 	{
 		$app = JFactory::getApplication();
 
+		// Load the parameters.
+		$params = $app->getParams();
+
 		// Load state from the request.
 		$pk = $app->input->getInt('a_id');
 		$this->setState('article.id', $pk);
+
+		if (!$pk && $params->get('enable_category') == 1)
+		{
+			$app->input->def('catid', $params->get('catid', 1));
+		}
 
 		$this->setState('article.catid', $app->input->getInt('catid'));
 
 		$return = $app->input->get('return', null, 'base64');
 		$this->setState('return_page', base64_decode($return));
 
-		// Load the parameters.
-		$params = $app->getParams();
+
 		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->getString('layout'));
@@ -84,7 +91,7 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		$properties = $table->getProperties(1);
-		$value = ArrayHelper::toObject($properties, 'JObject');
+		$value      = ArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
 		$value->params = new Registry($value->attribs);
@@ -110,27 +117,12 @@ class ContentModelForm extends ContentModelArticle
 			}
 		}
 
-		// Check edit state permission.
-		if ($itemId)
+		if (!$itemId)
 		{
-			// Existing item
-			$value->params->set('access-change', $user->authorise('core.edit.state', $asset));
+			$value->catid = (int) $this->getState('article.catid');
 		}
-		else
-		{
-			// New item.
-			$catId = (int) $this->getState('article.catid');
 
-			if ($catId)
-			{
-				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.' . $catId));
-				$value->catid = $catId;
-			}
-			else
-			{
-				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));
-			}
-		}
+		$value->params->set('access-change', $this->canEditState($value));
 
 		$value->articletext = $value->introtext;
 
@@ -140,7 +132,7 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		// Convert the metadata field to an array.
-		$registry = new Registry($value->metadata);
+		$registry        = new Registry($value->metadata);
 		$value->metadata = $registry->toArray();
 
 		if ($itemId)
