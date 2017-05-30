@@ -93,7 +93,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 			'jfactory' => array('joomla.jfactory', null, null, false, 'JFactory does not exist so should not load properly', true),
 			'fred.factory' => array('fred.factory', null, null, false, 'fred.factory does not exist', true),
 			'bogus' => array('bogusload', JPATH_TEST_STUBS, '', true, 'bogusload.php should load properly', false),
-			'helper' => array('joomla.user.helper', null, '', true, 'userhelper should load properly', true));
+			'helper' => array('cms.class.loader', null, '', true, 'class loader should load properly', true));
 	}
 
 	/**
