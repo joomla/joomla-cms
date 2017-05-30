@@ -260,7 +260,7 @@ class MenusControllerItem extends JControllerForm
 		$task     = $this->getTask();
 		$context  = 'com_menus.edit.item';
 
-        // Set the menutype should we need it.
+		// Set the menutype should we need it.
 		if ($data['menutype'] !== '')
 		{
 			$app->input->set('menutype', $data['menutype']);
