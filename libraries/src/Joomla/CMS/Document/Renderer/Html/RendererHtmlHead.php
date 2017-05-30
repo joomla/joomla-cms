@@ -1,22 +1,26 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document\Renderer\Html;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * JDocument head renderer
+ * Document Html Head Renderer
  *
  * @since  3.5
  */
-class JDocumentRendererHtmlHead extends JDocumentRenderer
+class RendererHtmlHead extends DocumentRenderer
 {
 	/**
 	 * Renders the document head and returns the results as a string
@@ -49,17 +53,17 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		// Convert the tagids to titles
 		if (isset($document->_metaTags['name']['tags']))
 		{
-			$tagsHelper = new JHelperTags;
+			$tagsHelper = new TagsHelper;
 			$document->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['name']['tags']));
 		}
 
 		if ($document->getScriptOptions())
 		{
-			JHtml::_('behavior.core');
+			\JHtml::_('behavior.core');
 		}
 
 		// Trigger the onBeforeCompileHead event
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
 
 		// Get line endings

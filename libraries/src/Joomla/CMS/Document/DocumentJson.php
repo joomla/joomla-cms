@@ -1,21 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\Document;
+
 /**
- * JDocumentJson class, provides an easy interface to parse and display JSON output
+ * DocumentJson class, provides an easy interface to parse and display JSON output
  *
  * @link   http://www.json.org/
  * @since  11.1
  */
-class JDocumentJson extends JDocument
+class DocumentJson extends Document
 {
 	/**
 	 * Document name
@@ -65,7 +68,7 @@ class JDocumentJson extends JDocument
 	 */
 	public function render($cache = false, $params = array())
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		$app->allowCache(false);
 
@@ -97,7 +100,7 @@ class JDocumentJson extends JDocument
 	 *
 	 * @param   string  $name  Document name
 	 *
-	 * @return  JDocumentJSON instance of $this to allow chaining
+	 * @return  DocumentJson instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */

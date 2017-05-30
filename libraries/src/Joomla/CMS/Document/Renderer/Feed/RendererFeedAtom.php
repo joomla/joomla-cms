@@ -1,16 +1,20 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document\Renderer\Feed;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Uri\Uri;
+
 /**
- * JDocumentRendererFeedAtom is a feed that implements the atom specification
+ * RendererFeedAtom is a feed that implements the atom specification
  *
  * Please note that just by using this class you won't automatically
  * produce valid atom files. For example, you have to specify either an editor
@@ -19,9 +23,9 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since  3.5
  *
- * @property-read  JDocumentFeed  $_doc  Reference to the JDocument object that instantiated the renderer
+ * @property-read  DocumentFeed  $_doc  Reference to the Document object that instantiated the renderer
  */
-class JDocumentRendererFeedAtom extends JDocumentRenderer
+class RendererFeedAtom extends DocumentRenderer
 {
 	/**
 	 * Document mime type
@@ -40,22 +44,22 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @see     JDocumentRenderer::render()
+	 * @see     DocumentRenderer::render()
 	 * @since   3.5
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Gets and sets timezone offset from site configuration
-		$tz  = new DateTimeZone($app->get('offset'));
-		$now = JFactory::getDate();
+		$tz  = new \DateTimeZone($app->get('offset'));
+		$now = \JFactory::getDate();
 		$now->setTimeZone($tz);
 
 		$data = $this->_doc;
 
-		$url = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL = JRoute::_('&format=feed&type=atom');
+		$url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+		$syndicationURL = \JRoute::_('&format=feed&type=atom');
 
 		$title = $data->getTitle();
 
@@ -141,7 +145,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 				$data->items[$i]->date = $now->toUnix();
 			}
 
-			$itemDate = JFactory::getDate($data->items[$i]->date);
+			$itemDate = \JFactory::getDate($data->items[$i]->date);
 			$itemDate->setTimeZone($tz);
 			$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
 			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";

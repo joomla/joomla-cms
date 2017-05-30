@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\Document;
+
 /**
- * DocumentXML class, provides an easy interface to parse and display XML output
+ * DocumentXml class, provides an easy interface to parse and display XML output
  *
  * @since  11.1
  */
-class JDocumentXml extends JDocument
+class DocumentXml extends Document
 {
 	/**
 	 * Document name
@@ -56,7 +59,7 @@ class JDocumentXml extends JDocument
 	{
 		parent::render();
 
-		JFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
+		\JFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
 
 		return $this->getBuffer();
 	}

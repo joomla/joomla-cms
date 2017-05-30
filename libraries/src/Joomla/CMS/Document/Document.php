@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JDocument
+class Document
 {
 	/**
 	 * Document title
@@ -199,7 +200,7 @@ class JDocument
 	public static $_buffer = null;
 
 	/**
-	 * JDocument instances container.
+	 * Document instances container.
 	 *
 	 * @var    array
 	 * @since  11.3
@@ -265,7 +266,7 @@ class JDocument
 	}
 
 	/**
-	 * Returns the global JDocument object, only creating it
+	 * Returns the global Document object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $type        The document type to instantiate
@@ -285,24 +286,24 @@ class JDocument
 			$ntype = null;
 
 			// Determine the path and class
-			$class = 'JDocument' . ucfirst($type);
+			$class = 'Document' . ucfirst($type);
 
 			if (!class_exists($class))
 			{
-				// @deprecated 4.0 - JDocument objects should be autoloaded instead
+				// @deprecated 4.0 - Document objects should be autoloaded instead
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 
-				JLoader::register($class, $path);
+				\JLoader::register($class, $path);
 
 				if (class_exists($class))
 				{
-					JLog::add('Non-autoloadable JDocument subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
+					\JLog::add('Non-autoloadable Document subclasses are deprecated, support will be removed in 4.0.', \JLog::WARNING, 'deprecated');
 				}
 				// Default to the raw format
 				else
 				{
 					$ntype = $type;
-					$class = 'JDocumentRaw';
+					$class = 'DocumentRaw';
 				}
 			}
 
@@ -324,7 +325,7 @@ class JDocument
 	 *
 	 * @param   string  $type  Type document is to set to
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -365,7 +366,7 @@ class JDocument
 	 * @param   string  $content  The content to be set in the buffer.
 	 * @param   array   $options  Array of optional elements.
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -417,7 +418,7 @@ class JDocument
 	 * @param   string  $content    Value of the meta HTML tag
 	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -452,7 +453,7 @@ class JDocument
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
 	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 * @deprecated 4.0  The (url, mime, defer, async) method signature is deprecated, use (url, options, attributes) instead.
@@ -462,7 +463,7 @@ class JDocument
 		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
-			JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
+			\JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', \JLog::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
@@ -507,14 +508,14 @@ class JDocument
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
 	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   3.2
 	 * @deprecated 4.0  This method is deprecated, use addScript(url, options, attributes) instead.
 	 */
 	public function addScriptVersion($url, $options = array(), $attribs = array())
 	{
-		JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
+		\JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', \JLog::WARNING, 'deprecated');
 
 		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
@@ -559,7 +560,7 @@ class JDocument
 	 * @param   string  $content  Script
 	 * @param   string  $type     Scripting mime (defaults to 'text/javascript')
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -584,7 +585,7 @@ class JDocument
 	 * @param   mixed   $options  Scrip options as array or string
 	 * @param   bool    $merge    Whether merge with existing (true) or replace (false)
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   3.5
 	 */
@@ -635,7 +636,7 @@ class JDocument
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
 	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 * @deprecated 4.0  The (url, mime, media, attribs) method signature is deprecated, use (url, options, attributes) instead.
@@ -645,7 +646,7 @@ class JDocument
 		// B/C before 3.7.0
 		if (is_string($options))
 		{
-			JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
+			\JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', \JLog::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
@@ -698,14 +699,14 @@ class JDocument
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
 	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   3.2
 	 * @deprecated 4.0  This method is deprecated, use addStyleSheet(url, options, attributes) instead.
 	 */
 	public function addStyleSheetVersion($url, $options = array(), $attribs = array())
 	{
-		JLog::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
+		\JLog::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', \JLog::WARNING, 'deprecated');
 
 		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
@@ -750,7 +751,7 @@ class JDocument
 	 * @param   string  $content  Style declarations
 	 * @param   string  $type     Type of stylesheet (defaults to 'text/css')
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -773,7 +774,7 @@ class JDocument
 	 *
 	 * @param   string  $type  Charset encoding string
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -801,7 +802,7 @@ class JDocument
 	 *
 	 * @param   string  $lang  The language to be set
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -829,7 +830,7 @@ class JDocument
 	 *
 	 * @param   string  $dir  The language direction to be set
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -857,7 +858,7 @@ class JDocument
 	 *
 	 * @param   string  $title  The title to be set
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -885,7 +886,7 @@ class JDocument
 	 *
 	 * @param   string  $mediaVersion  Media version to use
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   3.2
 	 */
@@ -913,7 +914,7 @@ class JDocument
 	 *
 	 * @param   string  $base  The base URI to be set
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -941,7 +942,7 @@ class JDocument
 	 *
 	 * @param   string  $description  The description to set
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -969,7 +970,7 @@ class JDocument
 	 *
 	 * @param   string  $url  A url
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -997,7 +998,7 @@ class JDocument
 	 *
 	 * @param   string  $generator  The generator to be set
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -1025,7 +1026,7 @@ class JDocument
 	 *
 	 * @param   string  $date  The date to be set
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -1060,7 +1061,7 @@ class JDocument
 	 * @param   string   $type  The document type to be sent
 	 * @param   boolean  $sync  Should the type be synced with HTML?
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 *
@@ -1096,7 +1097,7 @@ class JDocument
 	 *
 	 * @param   string  $style  "win", "mac", "unix" or custom string.
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -1137,7 +1138,7 @@ class JDocument
 	 *
 	 * @param   string  $string  String used to indent ("\11", "\t", '  ', etc.).
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -1165,7 +1166,7 @@ class JDocument
 	 *
 	 * @param   string  $type  The renderer type
 	 *
-	 * @return  JDocumentRenderer
+	 * @return  DocumentRenderer
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -1173,12 +1174,12 @@ class JDocument
 	public function loadRenderer($type)
 	{
 		// New class name format adds the format type to the class name
-		$class = 'JDocumentRenderer' . ucfirst($this->getType()) . ucfirst($type);
+		$class = 'DocumentRenderer' . ucfirst($this->getType()) . ucfirst($type);
 
 		if (!class_exists($class))
 		{
 			// "Legacy" class name structure
-			$class = 'JDocumentRenderer' . $type;
+			$class = 'DocumentRenderer' . $type;
 
 			if (!class_exists($class))
 			{
@@ -1187,17 +1188,17 @@ class JDocument
 
 				if (!file_exists($path))
 				{
-					throw new RuntimeException('Unable to load renderer class', 500);
+					throw new \RuntimeException('Unable to load renderer class', 500);
 				}
 
-				JLoader::register($class, $path);
+				\JLoader::register($class, $path);
 
-				JLog::add('Non-autoloadable JDocumentRenderer subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
+				\JLog::add('Non-autoloadable DocumentRenderer subclasses are deprecated, support will be removed in 4.0.', \JLog::WARNING, 'deprecated');
 
 				// If the class still doesn't exist after including the path, we've got issues
 				if (!class_exists($class))
 				{
-					throw new RuntimeException('Unable to load renderer class', 500);
+					throw new \RuntimeException('Unable to load renderer class', 500);
 				}
 			}
 		}
@@ -1210,7 +1211,7 @@ class JDocument
 	 *
 	 * @param   array  $params  The array of parameters
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -1231,7 +1232,7 @@ class JDocument
 	 */
 	public function render($cache = false, $params = array())
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		if ($mdate = $this->getModifiedDate())
 		{

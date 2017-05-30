@@ -1,20 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Document;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * DocumentError class, provides an easy interface to parse and display an error page
  *
  * @since  11.1
  */
-class JDocumentError extends JDocument
+class DocumentError extends Document
 {
 	/**
 	 * Document base URL
@@ -131,20 +136,20 @@ class JDocumentError extends JDocument
 			$status = 500;
 		}
 
-		$errorReporting = JFactory::getConfig()->get('error_reporting');
+		$errorReporting = \JFactory::getConfig()->get('error_reporting');
 
 		if ($errorReporting === "development" || $errorReporting === "maximum")
 		{
 			$status .= ' ' . str_replace("\n", ' ', $this->_error->getMessage());
 		}
 
-		JFactory::getApplication()->setHeader('status', $status);
+		\JFactory::getApplication()->setHeader('status', $status);
 
 		$file = 'error.php';
 
 		// Check template
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
-		$template = isset($params['template']) ? JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
+		$template = isset($params['template']) ? \JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
 
 		if (!file_exists($directory . '/' . $template . '/' . $file))
 		{
@@ -152,15 +157,15 @@ class JDocumentError extends JDocument
 		}
 
 		// Set variables
-		$this->baseurl = JUri::base(true);
+		$this->baseurl = Uri::base(true);
 		$this->template = $template;
 		$this->debug = isset($params['debug']) ? $params['debug'] : false;
 		$this->error = $this->_error;
 
 		// Load the language file for the template if able
-		if (JFactory::$language)
+		if (\JFactory::$language)
 		{
-			$lang = JFactory::getLanguage();
+			$lang = \JFactory::getLanguage();
 
 			// 1.5 or core then 1.6
 			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
@@ -226,6 +231,6 @@ class JDocumentError extends JDocument
 		// Add the position of the actual file
 		array_unshift($backtrace, array('file' => $this->_error->getFile(), 'line' => $this->_error->getLine(), 'function' => ''));
 
-		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
+		return LayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
 	}
 }

@@ -1,23 +1,27 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document\Renderer\Feed;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Uri\Uri;
+
 /**
- * JDocumentRendererRSS is a feed that implements RSS 2.0 Specification
+ * RendererFeedRss is a feed that implements RSS 2.0 Specification
  *
  * @link   http://www.rssboard.org/rss-specification
  * @since  3.5
  *
- * @property-read  JDocumentFeed  $_doc  Reference to the JDocument object that instantiated the renderer
+ * @property-read  DocumentFeed  $_doc  Reference to the Document object that instantiated the renderer
  */
-class JDocumentRendererFeedRss extends JDocumentRenderer
+class RendererFeedRss extends DocumentRenderer
 {
 	/**
 	 * Renderer mime type
@@ -36,32 +40,32 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @see     JDocumentRenderer::render()
+	 * @see     DocumentRenderer::render()
 	 * @since   3.5
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Gets and sets timezone offset from site configuration
-		$tz  = new DateTimeZone($app->get('offset'));
-		$now = JFactory::getDate();
+		$tz  = new \DateTimeZone($app->get('offset'));
+		$now = \JFactory::getDate();
 		$now->setTimeZone($tz);
 
 		$data = $this->_doc;
 
-		$url = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL = JRoute::_('&format=feed&type=rss');
+		$url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+		$syndicationURL = \JRoute::_('&format=feed&type=rss');
 
 		$title = $data->getTitle();
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
 		}
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
@@ -130,7 +134,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 
 		if ($data->pubDate != '')
 		{
-			$pubDate = JFactory::getDate($data->pubDate);
+			$pubDate = \JFactory::getDate($data->pubDate);
 			$pubDate->setTimeZone($tz);
 			$feed .= "		<pubDate>" . htmlspecialchars($pubDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 		}
@@ -240,7 +244,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 
 			if ($data->items[$i]->date != '')
 			{
-				$itemDate = JFactory::getDate($data->items[$i]->date);
+				$itemDate = \JFactory::getDate($data->items[$i]->date);
 				$itemDate->setTimeZone($tz);
 				$feed .= "			<pubDate>" . htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 			}

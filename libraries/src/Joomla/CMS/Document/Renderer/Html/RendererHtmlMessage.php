@@ -1,20 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document\Renderer\Html;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Layout\LayoutHelper;
+
 /**
- * JDocument system message renderer
+ * Document Html Message Renderer
  *
  * @since  3.5
  */
-class JDocumentRendererHtmlMessage extends JDocumentRenderer
+class RendererHtmlMessage extends DocumentRenderer
 {
 	/**
 	 * Renders the error stack and returns the results as a string
@@ -37,7 +42,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 			'content' => $content,
 		);
 
-		$app        = JFactory::getApplication();
+		$app        = \JFactory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 
 		if (file_exists($chromePath))
@@ -47,12 +52,12 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 
 		if (function_exists('renderMessage'))
 		{
-			JLog::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', JLog::WARNING, 'deprecated');
+			Log::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', Log::WARNING, 'deprecated');
 
 			return renderMessage($msgList);
 		}
 
-		return JLayoutHelper::render('joomla.system.message', $displayData);
+		return LayoutHelper::render('joomla.system.message', $displayData);
 	}
 
 	/**
@@ -68,7 +73,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 		$lists = array();
 
 		// Get the message queue
-		$messages = JFactory::getApplication()->getMessageQueue();
+		$messages = \JFactory::getApplication()->getMessageQueue();
 
 		// Build the sorted message list
 		if (is_array($messages) && !empty($messages))

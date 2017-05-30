@@ -1,13 +1,17 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Document;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * OpenSearch class, provides an easy interface to display an OpenSearch document
@@ -15,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.opensearch.org/
  * @since  11.1
  */
-class JDocumentOpensearch extends JDocument
+class DocumentOpensearch extends Document
 {
 	/**
 	 * ShortName element
@@ -63,15 +67,15 @@ class JDocumentOpensearch extends JDocument
 		$this->_mime = 'application/opensearchdescription+xml';
 
 		// Add the URL for self updating
-		$update = new JOpenSearchUrl;
+		$update = new OpenSearchUrl;
 		$update->type = 'application/opensearchdescription+xml';
 		$update->rel = 'self';
-		$update->template = JRoute::_(JUri::getInstance());
+		$update->template = \JRoute::_(Uri::getInstance());
 		$this->addUrl($update);
 
 		// Add the favicon as the default image
 		// Try to find a favicon by checking the template and root folder
-		$app = JFactory::getApplication();
+		$app = \JFactory::getApplication();
 		$dirs = array(JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE);
 
 		foreach ($dirs as $dir)
@@ -80,11 +84,11 @@ class JDocumentOpensearch extends JDocument
 			{
 				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$favicon = new JOpenSearchImage;
+				$favicon = new OpenSearchImage;
 
 				if ($path == '')
 				{
-					$favicon->data = JUri::base() . 'favicon.ico';
+					$favicon->data = Uri::base() . 'favicon.ico';
 				}
 				else
 				{
@@ -93,7 +97,7 @@ class JDocumentOpensearch extends JDocument
 						$path = substr($path, 1);
 					}
 
-					$favicon->data = JUri::base() . $path . '/favicon.ico';
+					$favicon->data = Uri::base() . $path . '/favicon.ico';
 				}
 
 				$favicon->height = '16';
@@ -195,13 +199,13 @@ class JDocumentOpensearch extends JDocument
 	/**
 	 * Adds a URL to the OpenSearch description.
 	 *
-	 * @param   JOpenSearchUrl  $url  The url to add to the description.
+	 * @param   OpenSearchUrl  $url  The url to add to the description.
 	 *
 	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addUrl(JOpenSearchUrl $url)
+	public function addUrl(OpenSearchUrl $url)
 	{
 		$this->_urls[] = $url;
 
@@ -211,13 +215,13 @@ class JDocumentOpensearch extends JDocument
 	/**
 	 * Adds an image to the OpenSearch description.
 	 *
-	 * @param   JOpenSearchImage  $image  The image to add to the description.
+	 * @param   OpenSearchImage  $image  The image to add to the description.
 	 *
 	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addImage(JOpenSearchImage $image)
+	public function addImage(OpenSearchImage $image)
 	{
 		$this->_images[] = $image;
 
@@ -226,11 +230,11 @@ class JDocumentOpensearch extends JDocument
 }
 
 /**
- * JOpenSearchUrl is an internal class that stores the search URLs for the OpenSearch description
+ * OpenSearchUrl is an internal class that stores the search URLs for the OpenSearch description
  *
  * @since  11.1
  */
-class JOpenSearchUrl
+class OpenSearchUrl
 {
 	/**
 	 * Type item element
@@ -264,11 +268,11 @@ class JOpenSearchUrl
 }
 
 /**
- * JOpenSearchImage is an internal class that stores Images for the OpenSearch Description
+ * OpenSearchImage is an internal class that stores Images for the OpenSearch Description
  *
  * @since  11.1
  */
-class JOpenSearchImage
+class OpenSearchImage
 {
 	/**
 	 * The images MIME type

@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Document;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Document\Document;
 
 /**
  * DocumentImage class, provides an easy interface to output image data
  *
  * @since  12.1
  */
-class JDocumentImage extends JDocument
+class DocumentImage extends Document
 {
 	/**
 	 * Class constructor
@@ -47,7 +50,7 @@ class JDocumentImage extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		// Get the image type
-		$type = JFactory::getApplication()->input->get('type', 'png');
+		$type = \JFactory::getApplication()->input->get('type', 'png');
 
 		switch ($type)
 		{

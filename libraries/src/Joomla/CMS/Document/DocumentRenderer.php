@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Document;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Abstract class for a renderer
  *
  * @since  11.1
  */
-class JDocumentRenderer
+class DocumentRenderer
 {
 	/**
 	 * Reference to the JDocument object that instantiated the renderer
@@ -39,7 +43,7 @@ class JDocumentRenderer
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(JDocument $doc)
+	public function __construct(Document $doc)
 	{
 		$this->_doc = $doc;
 	}
@@ -82,7 +86,7 @@ class JDocumentRenderer
 	 */
 	protected function _relToAbs($text)
 	{
-		$base = JUri::base();
+		$base = Uri::base();
 		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data|\/\/)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
 
 		return $text;

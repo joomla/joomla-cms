@@ -1,20 +1,24 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Document;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\DocumentRenderer;
 
 /**
  * DocumentFeed class, provides an easy interface to parse and display any feed document
  *
  * @since  11.1
  */
-class JDocumentFeed extends JDocument
+class DocumentFeed extends Document
 {
 	/**
 	 * Syndication URL feed element
@@ -31,7 +35,7 @@ class JDocumentFeed extends JDocument
 	 *
 	 * optional
 	 *
-	 * @var    JFeedImage
+	 * @var    FeedImage
 	 * @since  11.1
 	 */
 	public $image = null;
@@ -157,7 +161,7 @@ class JDocumentFeed extends JDocument
 	/**
 	 * The feed items collection
 	 *
-	 * @var    JFeedItem[]
+	 * @var    FeedItem[]
 	 * @since  11.1
 	 */
 	public $items = array();
@@ -192,14 +196,14 @@ class JDocumentFeed extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		// Get the feed type
-		$type = JFactory::getApplication()->input->get('type', 'rss');
+		$type = \JFactory::getApplication()->input->get('type', 'rss');
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
 
-		if (!($renderer instanceof JDocumentRenderer))
+		if (!($renderer instanceof DocumentRenderer))
 		{
-			throw new Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+			throw new \Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
 		}
 
 		$this->setMimeEncoding($renderer->getContentType());
@@ -224,15 +228,15 @@ class JDocumentFeed extends JDocument
 	}
 
 	/**
-	 * Adds an JFeedItem to the feed.
+	 * Adds an FeedItem to the feed.
 	 *
-	 * @param   JFeedItem  $item  The feeditem to add to the feed.
+	 * @param   FeedItem  $item  The feeditem to add to the feed.
 	 *
-	 * @return  JDocumentFeed  instance of $this to allow chaining
+	 * @return  DocumentFeed  instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addItem(JFeedItem $item)
+	public function addItem(FeedItem $item)
 	{
 		$item->source = $this->link;
 		$this->items[] = $item;
@@ -242,11 +246,11 @@ class JDocumentFeed extends JDocument
 }
 
 /**
- * JFeedItem is an internal class that stores feed item information
+ * FeedItem is an internal class that stores feed item information
  *
  * @since  11.1
  */
-class JFeedItem
+class FeedItem
 {
 	/**
 	 * Title item element
@@ -321,7 +325,7 @@ class JFeedItem
 	/**
 	 * Enclosure element
 	 *
-	 * @var    JFeedEnclosure
+	 * @var    FeedEnclosure
 	 * @since  11.1
 	 */
 	public $enclosure = null;
@@ -369,15 +373,15 @@ class JFeedItem
 	public $source;
 
 	/**
-	 * Set the JFeedEnclosure for this item
+	 * Set the FeedEnclosure for this item
 	 *
-	 * @param   JFeedEnclosure  $enclosure  The JFeedEnclosure to add to the feed.
+	 * @param   FeedEnclosure  $enclosure  The FeedEnclosure to add to the feed.
 	 *
-	 * @return  JFeedItem instance of $this to allow chaining
+	 * @return  FeedItem instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function setEnclosure(JFeedEnclosure $enclosure)
+	public function setEnclosure(FeedEnclosure $enclosure)
 	{
 		$this->enclosure = $enclosure;
 
@@ -386,11 +390,11 @@ class JFeedItem
 }
 
 /**
- * JFeedEnclosure is an internal class that stores feed enclosure information
+ * FeedEnclosure is an internal class that stores feed enclosure information
  *
  * @since  11.1
  */
-class JFeedEnclosure
+class FeedEnclosure
 {
 	/**
 	 * URL enclosure element
@@ -424,11 +428,11 @@ class JFeedEnclosure
 }
 
 /**
- * JFeedImage is an internal class that stores feed image information
+ * FeedImage is an internal class that stores feed image information
  *
  * @since  11.1
  */
-class JFeedImage
+class FeedImage
 {
 	/**
 	 * Title image attribute

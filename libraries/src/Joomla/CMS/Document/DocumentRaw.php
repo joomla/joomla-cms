@@ -1,20 +1,23 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\Document;
+
 /**
- * DocumentRAW class, provides an easy interface to parse and display raw output
+ * DocumentRaw class, provides an easy interface to parse and display raw output
  *
  * @since  11.1
  */
-class JDocumentRaw extends JDocument
+class DocumentRaw extends Document
 {
 	/**
 	 * Class constructor

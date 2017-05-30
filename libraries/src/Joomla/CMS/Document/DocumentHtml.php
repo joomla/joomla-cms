@@ -1,24 +1,30 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 
 jimport('joomla.utilities.utility');
 
 /**
- * JDocumentHtml class, provides an easy interface to parse and display a HTML document
+ * DocumentHtml class, provides an easy interface to parse and display a HTML document
  *
  * @since  11.1
  */
-class JDocumentHtml extends JDocument
+class DocumentHtml extends Document
 {
 	/**
 	 * Array of Header `<link>` tags
@@ -140,7 +146,7 @@ class JDocumentHtml extends JDocument
 		$data['scripts']     = $this->_scripts;
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
-		$data['scriptText']  = JText::script();
+		$data['scriptText']  = \JText::script();
 
 		return $data;
 	}
@@ -150,7 +156,7 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @param   mixed  $types  type or types of the heads elements to reset
 	 *
-	 * @return  JDocumentHTML  instance of $this to allow chaining
+	 * @return  DocumentHtml  instance of $this to allow chaining
 	 *
 	 * @since   3.7.0
 	 */
@@ -223,7 +229,7 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  JDocumentHTML|null instance of $this to allow chaining or null for empty input data
+	 * @return  DocumentHtml|null instance of $this to allow chaining or null for empty input data
 	 *
 	 * @since   11.1
 	 */
@@ -249,7 +255,7 @@ class JDocumentHtml extends JDocument
 		{
 			foreach ($data['scriptText'] as $key => $string)
 			{
-				JText::script($key, $string);
+				\JText::script($key, $string);
 			}
 		}
 
@@ -261,7 +267,7 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  JDocumentHTML|null instance of $this to allow chaining or null for empty input data
+	 * @return  DocumentHtml|null instance of $this to allow chaining or null for empty input data
 	 *
 	 * @since   11.1
 	 */
@@ -345,7 +351,7 @@ class JDocumentHtml extends JDocument
 	 * @param   string  $relType   Relation type attribute.  Either rel or rev (default: 'rel').
 	 * @param   array   $attribs   Associative array of remaining attributes.
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  DocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -369,7 +375,7 @@ class JDocumentHtml extends JDocument
 	 * @param   string  $type      File type
 	 * @param   string  $relation  Relation of link
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  DocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -386,7 +392,7 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @param   string  $html  The HTML to add to the head
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  DocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -456,13 +462,13 @@ class JDocumentHtml extends JDocument
 
 		if ($this->_caching == true && $type == 'modules')
 		{
-			$cache = JFactory::getCache('com_modules', '');
+			$cache = \JFactory::getCache('com_modules', '');
 			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
 			{
-				return JCache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
+				return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 			}
 			else
 			{
@@ -474,7 +480,7 @@ class JDocumentHtml extends JDocument
 				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
 				$data = parent::$_buffer[$type][$name][$title];
 
-				$tmpdata = JCache::setWorkarounds($data, $options);
+				$tmpdata = Cache::setWorkarounds($data, $options);
 
 				$cbuffer[$hash] = $tmpdata;
 
@@ -495,7 +501,7 @@ class JDocumentHtml extends JDocument
 	 * @param   string  $content  The content to be set in the buffer.
 	 * @param   array   $options  Array of optional elements.
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  DocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -521,7 +527,7 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @param   array  $params  Parameters for fetching the template
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  DocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -573,12 +579,12 @@ class JDocumentHtml extends JDocument
 		{
 			$name = strtolower($words[0]);
 			$result = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0 : count(JModuleHelper::getModules($name));
+				? 0 : count(ModuleHelper::getModules($name));
 
 			return $result;
 		}
 
-		JLog::add('Using an expression in JDocumentHtml::countModules() is deprecated.', JLog::WARNING, 'deprecated');
+		Log::add('Using an expression in DocumentHtml::countModules() is deprecated.', Log::WARNING, 'deprecated');
 
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
 		{
@@ -586,7 +592,7 @@ class JDocumentHtml extends JDocument
 			$name = strtolower($words[$i]);
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
 				? 0
-				: count(JModuleHelper::getModules($name));
+				: count(ModuleHelper::getModules($name));
 		}
 
 		$str = 'return ' . implode(' ', $words) . ';';
@@ -607,8 +613,8 @@ class JDocumentHtml extends JDocument
 
 		if (!isset($children))
 		{
-			$db = JFactory::getDbo();
-			$app = JFactory::getApplication();
+			$db = \JFactory::getDbo();
+			$app = \JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$children = 0;
@@ -677,7 +683,7 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @param   array  $params  Parameters to determine the template
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  DocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -685,7 +691,7 @@ class JDocumentHtml extends JDocument
 	{
 		// Check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
-		$filter = JFilterInput::getInstance();
+		$filter = \JFilterInput::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
 
@@ -700,7 +706,7 @@ class JDocumentHtml extends JDocument
 		}
 
 		// Load the language file for the template
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
@@ -708,7 +714,7 @@ class JDocumentHtml extends JDocument
 
 		// Assign the variables
 		$this->template = $template;
-		$this->baseurl = JUri::base(true);
+		$this->baseurl = Uri::base(true);
 		$this->params = isset($params['params']) ? $params['params'] : new Registry;
 
 		// Load
@@ -720,7 +726,7 @@ class JDocumentHtml extends JDocument
 	/**
 	 * Parse a document template
 	 *
-	 * @return  JDocumentHTML  instance of $this to allow chaining
+	 * @return  DocumentHtml  instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -737,7 +743,7 @@ class JDocumentHtml extends JDocument
 			for ($i = count($matches[0]) - 1; $i >= 0; $i--)
 			{
 				$type = $matches[1][$i];
-				$attribs = empty($matches[2][$i]) ? array() : JUtility::parseAttributes($matches[2][$i]);
+				$attribs = empty($matches[2][$i]) ? array() : \JUtility::parseAttributes($matches[2][$i]);
 				$name = isset($attribs['name']) ? $attribs['name'] : null;
 
 				// Separate buffers to be executed first and last
