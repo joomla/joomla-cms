@@ -261,10 +261,10 @@ class MenusControllerItem extends JControllerForm
 		$context  = 'com_menus.edit.item';
 
         // Set the menutype should we need it.
-        if($data['menutype'] !== '')
-        {
-            $app->input->set('menutype', $data['menutype']);
-        }
+		if ($data['menutype'] !== '')
+		{
+			$app->input->set('menutype', $data['menutype']);
+		}
 
 		// Determine the name of the primary key for the data.
 		if (empty($key))
