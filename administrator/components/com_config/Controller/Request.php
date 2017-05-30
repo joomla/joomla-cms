@@ -60,8 +60,8 @@ class Request extends Controller
 		$component = $model->getState()->get('component.option');
 
 		// Access check.
-		if (!\JFactory::getUser()->authorise('core.admin', $component)
-			&& !\JFactory::getUser()->authorise('core.options', $component)
+		if (!$this->app->getIdentity()->authorise('core.admin', $component)
+			&& !$this->app->getIdentity()->authorise('core.options', $component)
 		)
 		{
 			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
@@ -72,7 +72,7 @@ class Request extends Controller
 		try
 		{
 			$data = $model->getData();
-			$user = \JFactory::getUser();
+			$user = $this->app->getIdentity();
 		}
 		catch (\Exception $e)
 		{

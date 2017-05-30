@@ -11,7 +11,10 @@ namespace Joomla\Component\Config\Administrator\View\Application;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**
  * View for the global configuration
@@ -59,10 +62,10 @@ class Html extends HtmlView
 		}
 
 		// Get the params for com_users.
-		$usersParams = \JComponentHelper::getParams('com_users');
+		$usersParams = ComponentHelper::getParams('com_users');
 
 		// Get the params for com_media.
-		$mediaParams = \JComponentHelper::getParams('com_media');
+		$mediaParams = ComponentHelper::getParams('com_media');
 
 		// Load settings for the FTP layer.
 		$ftp = \JClientHelper::setCredentialsFromRequest('ftp');
@@ -72,8 +75,8 @@ class Html extends HtmlView
 		$this->ftp         = &$ftp;
 		$this->usersParams = &$usersParams;
 		$this->mediaParams = &$mediaParams;
-		$this->components  = \ConfigHelperConfig::getComponentsWithConfig();
-		\ConfigHelperConfig::loadLanguageForComponents($this->components);
+		$this->components  = ConfigHelper::getComponentsWithConfig();
+		ConfigHelper::loadLanguageForComponents($this->components);
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
@@ -91,17 +94,17 @@ class Html extends HtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JToolbarHelper::title(\JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::title(\JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
+		ToolbarHelper::saveGroup(
 			[
 				['apply', 'application.apply'],
 				['save', 'application.save']
 			],
 			'btn-success'
 		);
-		\JToolbarHelper::divider();
-		\JToolbarHelper::cancel('application.cancel');
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+		ToolbarHelper::divider();
+		ToolbarHelper::cancel('application.cancel');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}
 }
