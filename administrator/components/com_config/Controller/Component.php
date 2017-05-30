@@ -11,7 +11,8 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
  * Note: this view is intended only to be opened in a popup
@@ -21,15 +22,20 @@ use \Joomla\CMS\Controller\Controller;
 class Component extends Controller
 {
 	/**
-	 * Class Constructor
+	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
-	 * @since   1.5
+	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 
 		// Map the apply task to the save method.
 		$this->registerTask('apply', 'save');
@@ -53,12 +59,13 @@ class Component extends Controller
 		// Set FTP credentials, if given.
 		\JClientHelper::setCredentialsFromRequest('ftp');
 
-		$model  = new \Joomla\Component\Config\Administrator\Model\Component;
+		/** @var \Joomla\Component\Config\Administrator\Model\Component $model */
+		$model = $this->getModel('Component', 'Administrator');
 		$form   = $model->getForm();
 		$data   = $this->input->get('jform', array(), 'array');
 		$id     = $this->input->getInt('id');
 		$option = $this->input->get('component');
-		$user   = \JFactory::getUser();
+		$user   = $this->app->getIdentity();
 
 		// Check if the user is authorised to do this.
 		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
