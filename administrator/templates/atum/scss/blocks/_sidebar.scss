@@ -91,17 +91,18 @@
   background-color: $atum-template-color-light;
   opacity: 1;
   transition: all .3s ease;
-  transition-delay: 0;
+  transition-delay: .5s;
 
   // Background for animation
   &::after {
     position: absolute;
     top: 0;
+    right: 0;
     bottom: 0;
-    z-index: -1;
-    width: 250px;
+    z-index: 0;
+    width: 0;
     content: "";
-    background-color: $atum-template-color-light;
+    background-color: $atum-sidebar-child-bg;
     transition: all .3s ease;
   }
 
@@ -156,10 +157,9 @@
       width: 200px;
       height: 100%;
       padding: 0;
-      background-color: $atum-sidebar-child-bg;
       opacity: 0;
       transition: left .2s ease, opacity .2s ease;
-      transition-delay: .4s;
+      transition-delay: 0;
       ul {
         display: none;
         opacity: 1;
@@ -194,9 +194,9 @@
 
       + ul {
         left: 50px;
-        z-index: -1;
+        z-index: 1;
         opacity: 1;
-        transition-delay: 0s;
+        transition-delay: .2s;
       }
 
     }
@@ -243,7 +243,7 @@
     position: relative;
     top: -2px;
     display: inline-block;
-    margin: 0 8px 0 12px;
+    margin: 0 12px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle;
@@ -308,11 +308,9 @@
 
 // Child open
 .child-open {
-  width: 50px;
-  overflow: visible;
 
   &::after {
-    width: 50px;
+    width: 200px;
     transition: all .3s ease;
   }
   > li {
@@ -335,7 +333,6 @@
     }
   }
   .open {
-    background-color: $atum-sidebar-child-bg;
     > ul {
       display: block;
     }
@@ -348,12 +345,18 @@
 
   }
 
+  > li:hover {
+    z-index: 9;
+    background-color: transparent;
+  }
+
   > li:hover > a {
     overflow: visible;
-
+    background-color: transparent;
     .sidebar-item-title {
       position: absolute;
-      left: 100%;
+      left: 50px;
+      z-index: 9;
       padding: 6px 8px;
       margin: 7px;
       font-size: $font-size-sm;
@@ -393,8 +396,10 @@
   .child-open::after {
     display: none;
   }
-  .sidebar-wrapper, .main-nav {
+  .sidebar-wrapper {
     width: 50px;
+    overflow: hidden;
+    // transition-delay: 0s;
   }
   .parent .collapse-arrow::after {
     visibility: hidden;

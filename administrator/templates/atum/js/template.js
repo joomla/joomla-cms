@@ -144,8 +144,8 @@ Joomla = window.Joomla || {};
 				var menuItem = this.parentNode;
 
 				if (menuItem.classList.contains('open')) {
-					menuItem.classList.remove('open');
 					mainNav.classList.remove('child-open');
+					menuItem.classList.remove('open');
 				}
 				else {
 					var siblings = menuItem.parentNode.children;
