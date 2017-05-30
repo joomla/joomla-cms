@@ -60,6 +60,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		self::$cache['prefixes']   = TestReflection::getValue('JLoader', 'prefixes');
 		self::$cache['namespaces'] = TestReflection::getValue('JLoader', 'namespaces');
 		self::$cache['classAliases'] = TestReflection::getValue('JLoader', 'classAliases');
+		self::$cache['classAliasesInverse'] = TestReflection::getValue('JLoader', 'classAliasesInverse');
 	}
 
 	/**
@@ -77,6 +78,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		TestReflection::setValue('JLoader', 'prefixes', self::$cache['prefixes']);
 		TestReflection::setValue('JLoader', 'namespaces', self::$cache['namespaces']);
 		TestReflection::setValue('JLoader', 'classAliases', self::$cache['classAliases']);
+		TestReflection::setValue('JLoader', 'classAliasesInverse', self::$cache['classAliasesInverse']);
 	}
 
 	/**
