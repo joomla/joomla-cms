@@ -308,7 +308,7 @@
 
 // Child open
 .child-open {
-
+  overflow: visible;
   &::after {
     width: 200px;
     transition: all .3s ease;

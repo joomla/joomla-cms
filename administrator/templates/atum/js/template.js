@@ -86,7 +86,7 @@ Joomla = window.Joomla || {};
 			menuToggle.addEventListener('click', function(e) {
 				wrapper.classList.toggle('closed');
 
-				var listItems = document.querySelectorAll('.main-nav li');
+				var listItems = document.querySelectorAll('.main-nav > li');
 				for (var i = 0; i < listItems.length; i++) {
 				 	listItems[i].classList.remove('open');
 				}
