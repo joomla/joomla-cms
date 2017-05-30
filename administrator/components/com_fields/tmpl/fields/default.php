@@ -41,7 +41,18 @@ if ($saveOrder)
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php if ($this->filterForm->getField('context')->input) : ?>
+				<div id="filter-bar" class="js-stools clearfix">		
+					<div class="js-stools-container-list hidden-md-down">		
+						<div class="hidden-sm-down">		
+							<div class="js-stools-field-list">		
+								<?php echo $this->filterForm->getField('context')->input; ?>		
+							</div>		
+						</div>		
+					</div>		
+ 				</div>
+				<?php endif; ?>
+ 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
