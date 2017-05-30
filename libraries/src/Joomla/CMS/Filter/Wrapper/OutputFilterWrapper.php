@@ -1,22 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Filter
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Filter\Wrapper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Filter\OutputFilter;
+
 /**
- * Wrapper class for JFilterOutput
+ * Wrapper class for OutputFilter
  *
  * @package     Joomla.Platform
  * @subpackage  Filter
  * @since       3.4
  */
-class JFilterWrapperOutput
+class OutputFilterWrapper
 {
 	/**
 	 * Helper wrapper method for objectHTMLSafe
@@ -27,12 +30,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return void
 	 *
-	 * @see     JFilterOutput::objectHTMLSafe()
+	 * @see     OutputFilter::objectHTMLSafe()
 	 * @since   3.4
 	 */
 	public function objectHTMLSafe(&$mixed, $quote_style = 3, $exclude_keys = '')
 	{
-		return JFilterOutput::objectHTMLSafe($mixed, $quote_style, $exclude_keys);
+		return OutputFilter::objectHTMLSafe($mixed, $quote_style, $exclude_keys);
 	}
 
 	/**
@@ -42,12 +45,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Processed string.
 	 *
-	 * @see     JFilterOutput::linkXHTMLSafe()
+	 * @see     OutputFilter::linkXHTMLSafe()
 	 * @since   3.4
 	 */
 	public function linkXHTMLSafe($input)
 	{
-		return JFilterOutput::linkXHTMLSafe($input);
+		return OutputFilter::linkXHTMLSafe($input);
 	}
 
 	/**
@@ -57,12 +60,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Processed string.
 	 *
-	 * @see     JFilterOutput::stringURLSafe()
+	 * @see     OutputFilter::stringURLSafe()
 	 * @since   3.4
 	 */
 	public function stringURLSafe($string)
 	{
-		return JFilterOutput::stringURLSafe($string);
+		return OutputFilter::stringURLSafe($string);
 	}
 
 	/**
@@ -72,12 +75,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Processed string.
 	 *
-	 * @see     JFilterOutput::stringURLUnicodeSlug()
+	 * @see     OutputFilter::stringURLUnicodeSlug()
 	 * @since   3.4
 	 */
 	public function stringURLUnicodeSlug($string)
 	{
-		return JFilterOutput::stringURLUnicodeSlug($string);
+		return OutputFilter::stringURLUnicodeSlug($string);
 	}
 
 	/**
@@ -87,12 +90,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Processed string.
 	 *
-	 * @see     JFilterOutput::ampReplace()
+	 * @see     OutputFilter::ampReplace()
 	 * @since   3.4
 	 */
 	public function ampReplace($text)
 	{
-		return JFilterOutput::ampReplace($text);
+		return OutputFilter::ampReplace($text);
 	}
 
 	/**
@@ -102,12 +105,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Replaced string.
 	 *
-	 * @see     JFilterOutput::_ampReplaceCallback()
+	 * @see     OutputFilter::_ampReplaceCallback()
 	 * @since   3.4
 	 */
 	public function _ampReplaceCallback($m)
 	{
-		return JFilterOutput::_ampReplaceCallback($m);
+		return OutputFilter::_ampReplaceCallback($m);
 	}
 
 	/**
@@ -117,12 +120,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Cleaned text.
 	 *
-	 * @see     JFilterOutput::cleanText()
+	 * @see     OutputFilter::cleanText()
 	 * @since   3.4
 	 */
 	public function cleanText(&$text)
 	{
-		return JFilterOutput::cleanText($text);
+		return OutputFilter::cleanText($text);
 	}
 
 	/**
@@ -132,12 +135,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Cleaned string.
 	 *
-	 * @see     JFilterOutput::stripImages()
+	 * @see     OutputFilter::stripImages()
 	 * @since   3.4
 	 */
 	public function stripImages($string)
 	{
-		return JFilterOutput::stripImages($string);
+		return OutputFilter::stripImages($string);
 	}
 
 	/**
@@ -147,11 +150,11 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Cleaned string.
 	 *
-	 * @see     JFilterOutput::stripIframes()
+	 * @see     OutputFilter::stripIframes()
 	 * @since   3.4
 	 */
 	public function stripIframes($string)
 	{
-		return JFilterOutput::stripIframes($string);
+		return OutputFilter::stripIframes($string);
 	}
 }

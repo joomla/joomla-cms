@@ -1,23 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Filter
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Filter\OutputFilter;
+use Joomla\Filter\OutputFilter as BaseOutputFilter;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Language;
 
 /**
- * JFilterOutput
+ * OutputFilter
  *
  * @since  11.1
  */
-class JFilterOutput extends OutputFilter
+class OutputFilter extends BaseOutputFilter
 {
 	/**
 	 * This method processes a string and replaces all instances of & with &amp; in links only.
@@ -32,7 +34,7 @@ class JFilterOutput extends OutputFilter
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
-		return preg_replace_callback("#$regex#i", array('JFilterOutput', '_ampReplaceCallback'), $input);
+		return preg_replace_callback("#$regex#i", array('OutputFilter', '_ampReplaceCallback'), $input);
 	}
 
 	/**
@@ -69,7 +71,7 @@ class JFilterOutput extends OutputFilter
 		$str = str_replace('-', ' ', $string);
 
 		// Transliterate on the language requested (fallback to current language if not specified)
-		$lang = $language == '' || $language == '*' ? JFactory::getLanguage() : JLanguage::getInstance($language);
+		$lang = $language == '' || $language == '*' ? \JFactory::getLanguage() : Language::getInstance($language);
 		$str = $lang->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
@@ -108,7 +110,7 @@ class JFilterOutput extends OutputFilter
 	 * @return  string  Replaced string
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterOutput::ampReplaceCallback() instead
+	 * @deprecated  4.0 Use OutputFilter::ampReplaceCallback() instead
 	 */
 	public static function _ampReplaceCallback($m)
 	{
