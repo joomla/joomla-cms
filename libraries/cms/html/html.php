@@ -579,18 +579,39 @@ abstract class JHtml
 	 *
 	 * @param   string  $file     Path to file
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  array|string|null  nothing if $returnPath is false, null, path or array of path if specific CSS browser files were detected
 	 *
 	 * @see     JBrowser
 	 * @since   1.5
+	 * @deprecated 4.0  The (file, attribs, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
+	 *                  use (file, options, attributes) instead.
 	 */
-	public static function stylesheet($file, $options = array())
+	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
-		$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
-		$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
-		$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
-		$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+		// B/C before 3.7.0
+		if (!is_array($attribs))
+		{
+			JLog::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+
+			// Old parameters.
+			$attribs                  = isset($argList[1]) ? $argList[1] : array();
+			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
+			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
+			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
+			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
+		}
+		else
+		{
+			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
+			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
+			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
+			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+		}
 
 		$includes = static::includeRelativeFiles('css', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -621,7 +642,7 @@ abstract class JHtml
 				$options['version'] = substr($include, $pos + 1);
 			}
 
-			$document->addStyleSheet($include, $options);
+			$document->addStyleSheet($include, $options, $attribs);
 		}
 	}
 
@@ -630,18 +651,47 @@ abstract class JHtml
 	 *
 	 * @param   string  $file     Path to file.
 	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  array|string|null  Nothing if $returnPath is false, null, path or array of path if specific JavaScript browser files were detected
 	 *
 	 * @see     JHtml::stylesheet()
 	 * @since   1.5
+	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
+	 *                  use (file, options, attributes) instead.
 	 */
-	public static function script($file, $options = array())
+	public static function script($file, $options = array(), $attribs = array())
 	{
-		$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
-		$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
-		$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
-		$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+		// B/C before 3.7.0
+		if (!is_array($options))
+		{
+			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+			$attribs = array();
+
+			// Old parameters.
+			$options['framework']     = isset($argList[1]) ? $argList[1] : false;
+			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
+			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
+			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
+			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
+		}
+		else
+		{
+			$options['framework']     = isset($options['framework']) ? $options['framework'] : false;
+			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
+			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
+			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
+			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+		}
+
+		// Include MooTools framework
+		if ($options['framework'])
+		{
+			static::_('behavior.framework');
+		}
 
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
@@ -672,7 +722,7 @@ abstract class JHtml
 				$options['version'] = substr($include, $pos + 1);
 			}
 
-			$document->addScript($include, $options);
+			$document->addScript($include, $options, $attribs);
 		}
 	}
 
@@ -795,7 +845,7 @@ abstract class JHtml
 			{
 				if (isset($title[$param]))
 				{
-					$param = $title[$param];
+					$$param = $title[$param];
 				}
 			}
 
