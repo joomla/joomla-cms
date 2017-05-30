@@ -55,11 +55,11 @@
 
 				<field
 					name="siteTitle" 
-					type="text" 
+					type="color"
+					format="rgba"
 					default=""
 					label="JGLOBAL_TITLE"
 					description="JFIELD_ALT_PAGE_TITLE_LABEL"
-					filter="string"
 				/>
 
 				<field

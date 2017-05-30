@@ -27,14 +27,6 @@ class JFormFieldColor extends JFormField
 	protected $type = 'Color';
 
 	/**
-	 * The control.
-	 *
-	 * @var    mixed
-	 * @since  3.2
-	 */
-	protected $control = 'hue';
-
-	/**
 	 * The format.
 	 *
 	 * @var    string
@@ -95,7 +87,6 @@ class JFormFieldColor extends JFormField
 	{
 		switch ($name)
 		{
-			case 'control':
 			case 'format':
 			case 'keywords':
 			case 'exclude':
@@ -123,7 +114,6 @@ class JFormFieldColor extends JFormField
 		{
 			case 'split':
 				$value = (int) $value;
-			case 'control':
 			case 'format':
 				$this->$name = (string) $value;
 				break;
@@ -160,7 +150,6 @@ class JFormFieldColor extends JFormField
 
 		if ($return)
 		{
-			$this->control  = isset($this->element['control']) ? (string) $this->element['control'] : 'hue';
 			$this->format   = isset($this->element['format']) ? (string) $this->element['format'] : 'hex';
 			$this->keywords = isset($this->element['keywords']) ? (string) $this->element['keywords'] : '';
 			$this->position = isset($this->element['position']) ? (string) $this->element['position'] : 'default';
@@ -180,11 +169,8 @@ class JFormFieldColor extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Switch the layouts
-		$this->layout = $this->control === 'simple' ? $this->layout . '.simple' : $this->layout . '.advanced';
-
 		// Trim the trailing line in the layout file
-		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+		return rtrim($this->getRenderer($this->layout . '.color')->render($this->getLayoutData()), PHP_EOL);
 	}
 
 	/**
@@ -214,7 +200,7 @@ class JFormFieldColor extends JFormField
 		}
 
 		// Assign data for simple/advanced mode
-		$controlModeData = $this->control === 'simple' ? $this->getSimpleModeLayoutData() : $this->getAdvancedModeLayoutData($lang);
+		$controlModeData = $this->getModeLayoutData($lang);
 
 		$extraData = array(
 			'color'    => $color,
@@ -228,63 +214,6 @@ class JFormFieldColor extends JFormField
 	}
 
 	/**
-	 * Method to get the data for the simple mode to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since 3.5
-	 */
-	protected function getSimpleModeLayoutData()
-	{
-		$colors = strtolower($this->colors);
-
-		if (empty($colors))
-		{
-			$colors = array(
-				'none',
-				'#049cdb',
-				'#46a546',
-				'#9d261d',
-				'#ffc40d',
-				'#f89406',
-				'#c3325f',
-				'#7a43b6',
-				'#ffffff',
-				'#999999',
-				'#555555',
-				'#000000',
-			);
-		}
-		else
-		{
-			$colors = explode(',', $colors);
-		}
-
-		if (!$this->split)
-		{
-			$count = count($colors);
-			if ($count % 5 == 0)
-			{
-				$split = 5;
-			}
-			else
-			{
-				if ($count % 4 == 0)
-				{
-					$split = 4;
-				}
-			}
-		}
-
-		$split = $this->split ? $this->split : 3;
-
-		return array(
-			'colors' => $colors,
-			'split'  => $split,
-		);
-	}
-
-	/**
 	 * Method to get the data for the advanced mode to be passed to the layout for rendering.
 	 *
 	 * @param   object  $lang  The language object
@@ -293,11 +222,10 @@ class JFormFieldColor extends JFormField
 	 *
 	 * @since   3.5
 	 */
-	protected function getAdvancedModeLayoutData($lang)
+	protected function getModeLayoutData($lang)
 	{
 		return array(
 			'colors'  => $this->colors,
-			'control' => $this->control,
 			'lang'    => $lang,
 		);
 	}
