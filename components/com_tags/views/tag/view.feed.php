@@ -25,9 +25,20 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
-		$document       = JFactory::getDocument();
-		$document->link = JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
+		// Get the tag data.
+		$item = $this->get('Item');
+
+		$slug = function ($tag)
+		{
+			return $tag->id . ':' . $tag->alias;
+		};
+
+		$id = implode(',', array_map($slug, $item));
+
+		$document->link = JRoute::_(TagsHelperRoute::getTagRoute($id, $item[0]->language));
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');

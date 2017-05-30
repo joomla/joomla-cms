@@ -39,21 +39,14 @@ abstract class ModTagsPopularHelper
 		$nullDate    = $db->quote($db->getNullDate());
 
 		$query = $db->getQuery(true)
-			->select(
-				array(
-					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-					' COUNT(*) AS count', 'MAX(t.title) AS title',
-					'MAX(' . $db->quoteName('t.access') . ') AS access',
-					'MAX(' . $db->quoteName('t.alias') . ') AS alias',
-					'MAX(' . $db->quoteName('t.params') . ') AS params',
-				)
-			)
-			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))
+			->select($db->quoteName(array('m.tag_id', 't.title', 't.access', 't.alias', 't.language')))
+			->select('COUNT(*) AS ' . $db->quoteName('count'))
+			->group($db->quoteName(array('m.tag_id', 't.title', 't.access', 't.alias', 't.language')))
 			->from($db->quoteName('#__contentitem_tag_map', 'm'))
 			->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
 
 		// Only return published tags
-		$query->where($db->quoteName('t.published') . ' = 1 ');
+		$query->where($db->quoteName('t.published') . ' = 1');
 
 		// Optionally filter on language
 		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -73,7 +66,7 @@ abstract class ModTagsPopularHelper
 			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($nowDate, '-1', strtoupper($timeframe)));
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
+		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('m.tag_id') . ' = t.id')
 		->join('INNER', $db->qn('#__ucm_content', 'c') . ' ON ' . $db->qn('m.core_content_id') . ' = ' . $db->qn('c.core_content_id'));
 
 		$query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
@@ -107,6 +100,7 @@ abstract class ModTagsPopularHelper
 							'a.title',
 							'a.access',
 							'a.alias',
+							'a.language',
 						)
 					)
 					->from('(' . (string) $query . ') AS a')
