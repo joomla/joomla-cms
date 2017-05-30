@@ -670,7 +670,7 @@ class DocumentHtml extends Document
 			{
 				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(JUri::base(true) . $path . $icon);
+				$this->addFavicon(Uri::base(true) . $path . $icon);
 				break;
 			}
 		}

@@ -286,7 +286,12 @@ class Document
 			$ntype = null;
 
 			// Determine the path and class
-			$class = 'Document' . ucfirst($type);
+			$class = __NAMESPACE__ . '\\Document' . ucfirst($type);
+
+			if (!class_exists($class))
+			{
+				$class = 'JDocument' . ucfirst($type);
+			}
 
 			if (!class_exists($class))
 			{
@@ -1173,8 +1178,13 @@ class Document
 	 */
 	public function loadRenderer($type)
 	{
-		// New class name format adds the format type to the class name
-		$class = 'DocumentRenderer' . ucfirst($this->getType()) . ucfirst($type);
+		// Determine the path and class
+		$class = __NAMESPACE__ . '\\Renderer\\' . ucfirst($this->getType()) . '\\Renderer' . ucfirst($this->getType()) . ucfirst($type);
+
+		if (!class_exists($class))
+		{
+			$class = 'JDocumentRenderer' . ucfirst($this->getType()) . ucfirst($type);
+		}
 
 		if (!class_exists($class))
 		{
