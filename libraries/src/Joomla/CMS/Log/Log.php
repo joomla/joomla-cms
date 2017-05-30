@@ -159,7 +159,8 @@ class Log
 		// If the entry object isn't a LogEntry object let's make one.
 		if (!($entry instanceof LogEntry))
 		{
-			$entry = new LogEntry((string) $entry, $priority, $category, $date);
+			// We need here to use JLogEntry, otherwise the class don't get loaded, aaargh
+			$entry = new \JLogEntry((string) $entry, $priority, $category, $date);
 		}
 
 		static::$instance->addLogEntry($entry);
