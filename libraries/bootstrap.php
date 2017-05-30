@@ -94,3 +94,6 @@ JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 // @deprecated  4.0
 JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
 JLoader::registerAlias('JSite', 'JApplicationSite');
+
+require_once JPATH_LIBRARIES . '/namespacemap.php';
+NamespaceMap::create();
