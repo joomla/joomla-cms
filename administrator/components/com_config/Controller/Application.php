@@ -11,7 +11,10 @@ namespace Joomla\Component\Config\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use \Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Controller for global configuration
@@ -21,15 +24,20 @@ use \Joomla\CMS\Controller\Controller;
 class Application extends Controller
 {
 	/**
-	 * Class Constructor
+	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
-	 * @since   1.5
+	 * @since   3.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory, $app, $input);
 
 		// Map the apply task to the save method.
 		$this->registerTask('apply', 'save');
@@ -70,6 +78,7 @@ class Application extends Controller
 		\JClientHelper::setCredentialsFromRequest('ftp');
 
 		$model = new \Joomla\Component\Config\Administrator\Model\Application;
+
 		$data  = $this->app->input->post->get('jform', array(), 'array');
 
 		// Complete data array if needed
@@ -197,7 +206,7 @@ class Application extends Controller
 		if (!\JSession::checkToken('get'))
 		{
 			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'), 'error');
-			echo new \JResponseJson;
+			echo new JsonResponse;
 			$this->app->close();
 		}
 
@@ -205,13 +214,13 @@ class Application extends Controller
 		if (!\JFactory::getUser()->authorise('core.admin'))
 		{
 			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-			echo new \JResponseJson;
+			echo new JsonResponse;
 			$this->app->close();
 		}
 
 		$model = new \Joomla\Component\Config\Administrator\Model\Application;
 
-		echo new \JResponseJson($model->sendTestMail());
+		echo new JsonResponse($model->sendTestMail());
 
 		$this->app->close();
 	}
@@ -234,12 +243,12 @@ class Application extends Controller
 		if (!\JSession::checkToken('get'))
 		{
 			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'), 'error');
-			echo new \JResponseJson;
+			echo new JsonResponse;
 			$this->app->close();
 		}
 
-		$model = new \ConfigModelApplication;
-		echo new \JResponseJson($model->storePermissions());
+		$model = $this->getModel('Applications');
+		echo new JsonResponse($model->storePermissions());
 		$this->app->close();
 	}
 }

@@ -163,8 +163,6 @@ class Config extends Form
 				}
 			}
 
-			die('42');
-
 			return true;
 		}
 		else
