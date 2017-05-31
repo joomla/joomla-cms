@@ -9,14 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Utilities\ArrayHelper;
+
+JLoader::register('DebugMonitor', __DIR__ . '/debugmonitor.php');
 
 /**
  * Joomla! Debug plugin.
  *
  * @since  1.5
  */
-class PlgSystemDebug extends JPlugin
+class PlgSystemDebug extends CMSPlugin
 {
 	/**
 	 * xdebug.file_link_format from the php.ini.
@@ -83,12 +88,28 @@ class PlgSystemDebug extends JPlugin
 	protected $app;
 
 	/**
+	 * Database object.
+	 *
+	 * @var    DatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
+
+	/**
 	 * Container for callback functions to be triggered when rendering the console.
 	 *
 	 * @var    callable[]
 	 * @since  3.7.0
 	 */
 	private static $displayCallbacks = array();
+
+	/**
+	 * The query monitor.
+	 *
+	 * @var    DebugMonitor
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $queryMonitor;
 
 	/**
 	 * Constructor.
@@ -161,10 +182,6 @@ class PlgSystemDebug extends JPlugin
 			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
 		}
 
-		// Prepare disconnect handler for SQL profiling.
-		$db = JFactory::getDbo();
-		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
-
 		// Log deprecated class aliases
 		foreach (JLoader::getDeprecatedAliases() as $deprecation)
 		{
@@ -179,6 +196,11 @@ class PlgSystemDebug extends JPlugin
 				'deprecated'
 			);
 		}
+
+		// Attach our query monitor to the database driver
+		$this->queryMonitor = new DebugMonitor((bool) JDEBUG);
+
+		$this->db->setMonitor($this->queryMonitor);
 	}
 
 	/**
@@ -691,16 +713,14 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div class="dbg-profile-list">' . implode('', $htmlMarks) . '</div>';
 
-		$db = JFactory::getDbo();
+		// Fix for support custom shutdown function via register_shutdown_function().
+		$this->db->disconnect();
 
-		//  fix  for support custom shutdown function via register_shutdown_function().
-		$db->disconnect();
-
-		$log = $db->getLog();
+		$log = $this->queryMonitor->getLog();
 
 		if ($log)
 		{
-			$timings = $db->getTimings();
+			$timings = $this->queryMonitor->getTimings();
 
 			if ($timings)
 			{
@@ -777,17 +797,15 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayQueries()
 	{
-		$db = JFactory::getDbo();
-
-		$log = $db->getLog();
+		$log = $this->queryMonitor->getLog();
 
 		if (!$log)
 		{
 			return null;
 		}
 
-		$timings = $db->getTimings();
-		$callStacks = $db->getCallStacks();
+		$timings = $this->queryMonitor->getTimings();
+		$callStacks = $this->queryMonitor->getCallStacks();
 
 		$selectQueryTypeTicker = array();
 		$otherQueryTypeTicker = array();
@@ -858,7 +876,7 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if ($db->getServerType() === 'mysql')
+				if ($this->db->getServerType() === 'mysql')
 				{
 					if (isset($this->sqlShowProfileEach[$id]))
 					{
@@ -1177,7 +1195,7 @@ class PlgSystemDebug extends JPlugin
 
 		if ($this->totalQueries == 0)
 		{
-			$this->totalQueries = $db->getCount();
+			$this->totalQueries = $this->db->getCount();
 		}
 
 		$html = array();
@@ -1437,14 +1455,16 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Disconnect handler for database to collect profiling and explain information.
 	 *
-	 * @param   JDatabaseDriver  &$db  Database object.
+	 * @param   ConnectionEvent  $event  Event object
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function mysqlDisconnectHandler(&$db)
+	public function onAfterDisconnect(ConnectionEvent $event)
 	{
+		$db = $event->getDriver();
+
 		$this->totalQueries = $db->getCount();
 
 		if ($db->getServerType() === 'mysql')
@@ -1482,9 +1502,9 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->getServerType(), array('mysql', 'postgresql')))
+		if (in_array($db->getServerType(), ['mysql', 'postgresql']))
 		{
-			$log = $db->getLog();
+			$log = $this->queryMonitor->getLog();
 
 			foreach ($log as $k => $query)
 			{
@@ -1995,9 +2015,8 @@ class PlgSystemDebug extends JPlugin
 
 		// Get the queries from log.
 		$current = '';
-		$db      = JFactory::getDbo();
-		$log     = $db->getLog();
-		$timings = $db->getTimings();
+		$log     = $this->queryMonitor->getLog();
+		$timings = $this->queryMonitor->getTimings();
 
 		foreach ($log as $id => $query)
 		{
