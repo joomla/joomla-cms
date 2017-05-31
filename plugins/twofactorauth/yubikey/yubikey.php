@@ -262,7 +262,6 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$gotResponse = false;
 		$check       = false;
 
-		$http  = JHttpFactory::getHttp();
 		$token = JSession::getFormToken();
 		$nonce = md5($token . uniqid(mt_rand()));
 
@@ -290,7 +289,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 			try
 			{
-				$response = $http->get($uri->toString(), null, 6);
+				$response = JHttpFactory::getHttp()->get($uri->toString(), [], 6);
 
 				if (!empty($response))
 				{

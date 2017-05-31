@@ -47,8 +47,7 @@ class JFeedFactory
 			$options 	= new \joomla\Registry\Registry;
 			$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
 
-			$connector 	= JHttpFactory::getHttp($options);
-			$feed 		= $connector->get($uri);
+			$feed = JHttpFactory::getHttp($options)->get($uri);
 
 			if ($feed->code != 200)
 			{
