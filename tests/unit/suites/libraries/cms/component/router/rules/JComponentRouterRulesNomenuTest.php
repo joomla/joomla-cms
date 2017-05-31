@@ -115,7 +115,7 @@ class JComponentRouterRulesNomenuTest extends TestCase {
 		$router = $this->object->get('router');
 		$router->menu->expects($this->any())
 			->method('getActive')
-			->will($this->returnValue(new stdClass()));
+			->will($this->returnValue(new stdClass));
 		$segments = array('article', '42:the-answer');
 		$vars = array('option' => 'com_content');
 		$this->object->parse($segments, $vars);

@@ -35,7 +35,7 @@ class JFormFieldModuleLayoutTest extends TestCaseDatabase
 	 */
 	public function testGetInput()
 	{
-		$field = new JFormFieldModulelayout();
+		$field = new JFormFieldModulelayout;
 		$field->setup(
 			new SimpleXmlElement('<field name="modulelayout" type="modulelayout" module="mod_finder" client_id="0" />'),
 			'value'
