@@ -106,12 +106,12 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function preview($url = '', $updateEditors = false)
+	public static function preview($url = '', $updateEditors = false, $icon = 'preview')
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a preview button.
-		$bar->appendButton('Popup', 'preview', 'Preview', $url . '&task=preview');
+		$bar->appendButton('Popup', $icon, 'Preview', $url . '&task=preview');
 	}
 
 	/**
