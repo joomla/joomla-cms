@@ -10,6 +10,8 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Database\DatabaseInterface;
+
 /**
  * Update site table
  * Stores the update sites for extensions
@@ -23,11 +25,11 @@ class UpdateSite extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseInterface  $db  Database driver object.
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseInterface $db)
 	{
 		parent::__construct('#__update_sites', 'update_site_id', $db);
 	}

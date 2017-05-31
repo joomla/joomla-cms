@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\DatabaseDriver;
+
 /**
  * Setup model for the Joomla Core Installer.
  *
@@ -239,7 +241,7 @@ class InstallationModelSetup extends JModelBase
 
 		// Check for database support.
 		// We are satisfied if there is at least one database driver available.
-		$available = JDatabaseDriver::getConnectors();
+		$available = array_filter('strtolower', DatabaseDriver::getConnectors());
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
 		$option->label .= '<br>(' . implode(', ', $available) . ')';

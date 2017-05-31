@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 \JLoader::import('joomla.filesystem.path');
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -62,9 +63,9 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	protected $_tbl_keys = array();
 
 	/**
-	 * \JDatabaseDriver object.
+	 * DatabaseInterface object.
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseInterface
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -132,12 +133,12 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @param   string               $table       Name of the table to model.
 	 * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
-	 * @param   \JDatabaseDriver     $db          JDatabaseDriver object.
+	 * @param   DatabaseInterface    $db          DatabaseInterface object.
 	 * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, \JDatabaseDriver $db, DispatcherInterface $dispatcher = null)
+	public function __construct($table, $key, DatabaseInterface $db, DispatcherInterface $dispatcher = null)
 	{
 		parent::__construct();
 
@@ -505,9 +506,9 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	}
 
 	/**
-	 * Method to get the \JDatabaseDriver object.
+	 * Method to get the DatabaseInterface object.
 	 *
-	 * @return  \JDatabaseDriver  The internal database driver object.
+	 * @return  DatabaseInterface  The internal database driver object.
 	 *
 	 * @since   11.1
 	 */
@@ -517,15 +518,15 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	}
 
 	/**
-	 * Method to set the \JDatabaseDriver object.
+	 * Method to set the DatabaseInterface object.
 	 *
-	 * @param   \JDatabaseDriver  $db  A \JDatabaseDriver object to be used by the table object.
+	 * @param   DatabaseInterface  $db  A DatabaseInterface object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(\JDatabaseDriver $db)
+	public function setDbo(DatabaseInterface $db)
 	{
 		$this->_db = $db;
 

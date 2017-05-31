@@ -10,6 +10,8 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Database\DatabaseInterface;
+
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
@@ -52,11 +54,11 @@ class Asset extends Nested
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseInterface  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseInterface $db)
 	{
 		parent::__construct('#__assets', 'id', $db);
 	}

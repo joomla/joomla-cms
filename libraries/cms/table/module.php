@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -21,11 +22,11 @@ class JTableModule extends JTable
 	/**
 	 * Constructor.
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseInterface  $db  Database driver object.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(DatabaseInterface $db)
 	{
 		parent::__construct('#__modules', 'id', $db);
 

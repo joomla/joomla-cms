@@ -10,6 +10,8 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Database\DatabaseInterface;
+
 /**
  * Usergroup table class.
  *
@@ -20,11 +22,11 @@ class Usergroup extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseInterface  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseInterface $db)
 	{
 		parent::__construct('#__usergroups', 'id', $db);
 	}

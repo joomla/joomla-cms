@@ -10,6 +10,8 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Database\DatabaseInterface;
+
 /**
  * Content History table.
  *
@@ -39,11 +41,11 @@ class ContentHistory extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   DatabaseInterface  $db  A database connector object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseInterface $db)
 	{
 		parent::__construct('#__ucm_history', 'version_id', $db);
 		$this->ignoreChanges = array(
