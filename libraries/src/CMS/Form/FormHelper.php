@@ -1,26 +1,28 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
-jimport('joomla.filesystem.path');
+\JLoader::import('joomla.filesystem.path');
 
 /**
- * JForm's helper class.
- * Provides a storage for filesystem's paths where JForm's entities reside and methods for creating those entities.
+ * Form's helper class.
+ * Provides a storage for filesystem's paths where Form's entities reside and methods for creating those entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
  * @since  11.1
  */
-class JFormHelper
+class FormHelper
 {
 	/**
 	 * Array with paths where entities(field, rule, form) can be found.
@@ -38,7 +40,15 @@ class JFormHelper
 	protected static $paths;
 
 	/**
-	 * Static array of JForm's entity objects for re-use.
+	 * The class namespaces.
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array());
+
+	/**
+	 * Static array of Form's entity objects for re-use.
 	 * Prototypes for all fields and rules are here.
 	 *
 	 * Array's structure:
@@ -49,7 +59,7 @@ class JFormHelper
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $entities = array();
+	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array());
 
 	/**
 	 * Method to load a form field object given a type.
@@ -57,7 +67,7 @@ class JFormHelper
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  JFormField|boolean  JFormField object on success, false otherwise.
+	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -72,7 +82,7 @@ class JFormHelper
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  JFormRule|boolean  JFormRule object on success, false otherwise.
+	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -164,6 +174,23 @@ class JFormHelper
 	 */
 	protected static function loadClass($entity, $type)
 	{
+		// Check if there is a class in the registered namespaces
+		foreach (self::addPrefix($entity) as $prefix)
+		{
+			// Treat underscores as namespace
+			$name = Normalise::toSpaceSeparated($type);
+			$name = str_ireplace(' ', '\\', ucwords($name));
+
+			// Compile the classname
+			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name);
+
+			// Check if the class exists
+			if (class_exists($class))
+			{
+				return $class;
+			}
+		}
+
 		$prefix = 'J';
 
 		if (strpos($type, '.'))
@@ -205,7 +232,7 @@ class JFormHelper
 
 		foreach ($paths as $path)
 		{
-			$file = JPath::find($path, $type);
+			$file = \JPath::find($path, $type);
 
 			if (!$file)
 			{
@@ -315,6 +342,88 @@ class JFormHelper
 		}
 
 		return $paths;
+	}
+
+	/**
+	 * Method to add a namespace prefix to the list of field lookups.
+	 *
+	 * @param   mixed  $new  A namespaces or array of namespaces to add.
+	 *
+	 * @return  array  The list of namespaces that have been added.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function addFieldPrefix($new = null)
+	{
+		return self::addPrefix('field', $new);
+	}
+
+	/**
+	 * Method to add a namespace to the list of form lookups.
+	 *
+	 * @param   mixed  $new  A namespace or array of namespaces to add.
+	 *
+	 * @return  array  The list of namespaces that have been added.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function addFormPrefix($new = null)
+	{
+		return self::addPrefix('form', $new);
+	}
+
+	/**
+	 * Method to add a namespace to the list of rule lookups.
+	 *
+	 * @param   mixed  $new  A namespace or array of namespaces to add.
+	 *
+	 * @return  array  The list of namespaces that have been added.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function addRulePrefix($new = null)
+	{
+		return self::addPrefix('rule', $new);
+	}
+
+	/**
+	 * Method to add a namespace to the list of namespaces for one of the form's entities.
+	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
+	 *
+	 * @param   string  $entity  Form's entity name for which paths will be added.
+	 * @param   mixed   $new     A namespace or array of namespaces to add.
+	 *
+	 * @return  array  The list of namespaces that have been added.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function addPrefix($entity, $new = null)
+	{
+		// Reference to an array with namespaces for current entity
+		$prefixes = &self::$prefixes[$entity];
+
+		// Add the default entity's search namespace if not set.
+		if (empty($prefixes))
+		{
+			$prefixes[] = __NAMESPACE__ . '\\' . ucfirst($entity);
+		}
+
+		// Force the new namespace(s) to an array.
+		settype($new, 'array');
+
+		// Add the new paths to the stack if not already there.
+		foreach ($new as $prefix)
+		{
+			$prefix = trim($prefix);
+			if (in_array($prefix, $prefixes))
+			{
+				continue;
+			}
+
+			array_unshift($prefixes, $prefix);
+		}
+
+		return $prefixes;
 	}
 
 	/**
