@@ -192,6 +192,14 @@ abstract class DatabaseQuery implements QueryInterface
 	protected $unionAll = null;
 
 	/**
+	 * Details of window function.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $selectRowNumber = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   DatabaseInterface  $db  The database driver.
@@ -243,14 +251,17 @@ abstract class DatabaseQuery implements QueryInterface
 					$query .= (string) $this->where;
 				}
 
-				if ($this->group)
+				if ($this->selectRowNumber === null)
 				{
-					$query .= (string) $this->group;
-				}
+					if ($this->group)
+					{
+						$query .= (string) $this->group;
+					}
 
-				if ($this->having)
-				{
-					$query .= (string) $this->having;
+					if ($this->having)
+					{
+						$query .= (string) $this->having;
+					}
 				}
 
 				if ($this->order)
@@ -461,8 +472,9 @@ abstract class DatabaseQuery implements QueryInterface
 		switch ($clause)
 		{
 			case 'select':
-				$this->select = null;
-				$this->type   = null;
+				$this->select          = null;
+				$this->type            = null;
+				$this->selectRowNumber = null;
 				break;
 
 			case 'delete':
@@ -539,6 +551,7 @@ abstract class DatabaseQuery implements QueryInterface
 			default:
 				$this->type               = null;
 				$this->select             = null;
+				$this->selectRowNumber    = null;
 				$this->delete             = null;
 				$this->update             = null;
 				$this->insert             = null;
@@ -1873,5 +1886,54 @@ abstract class DatabaseQuery implements QueryInterface
 		 * 6: '%' if full token is '%%'
 		 */
 		return preg_replace_callback('#%(((([\d]+)\$)?([aeEnqQryYmMdDhHiIsStzZ]))|(%))#', $func, $format);
+	}
+
+	/**
+	 * Validate arguments which are passed to selectRowNumber method and set up common variables.
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function validateRowNumber($orderBy, $orderColumnAlias)
+	{
+		if ($this->selectRowNumber)
+		{
+			throw new \RuntimeException("Method 'selectRowNumber' can be called only once per instance.");
+		}
+
+		$this->type = 'select';
+
+		$this->selectRowNumber = [
+			'orderBy'          => $orderBy,
+			'orderColumnAlias' => $orderColumnAlias,
+		];
+	}
+
+	/**
+	 * Return the number of the current row.
+	 *
+	 * Usage:
+	 * $query->select('id');
+	 * $query->selectRowNumber('ordering,publish_up DESC', 'new_ordering');
+	 * $query->from('#__content');
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias)
+	{
+		$this->validateRowNumber($orderBy, $orderColumnAlias);
+
+		return $this->select("ROW_NUMBER() OVER (ORDER BY $orderBy) AS $orderColumnAlias");
 	}
 }

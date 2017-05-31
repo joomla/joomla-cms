@@ -435,6 +435,24 @@ interface QueryInterface
 	public function select($columns);
 
 	/**
+	 * Return the number of the current row.
+	 *
+	 * Usage:
+	 * $query->select('id');
+	 * $query->selectRowNumber('ordering,publish_up DESC', 'new_ordering');
+	 * $query->from('#__content');
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias);
+
+	/**
 	 * Add a single condition string, or an array of strings to the SET clause of the query.
 	 *
 	 * Usage:

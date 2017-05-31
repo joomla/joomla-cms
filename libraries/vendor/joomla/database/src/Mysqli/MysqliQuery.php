@@ -44,6 +44,47 @@ class MysqliQuery extends DatabaseQuery implements LimitableInterface, Preparabl
 	protected $bounded = array();
 
 	/**
+	 * Magic function to convert the query to a string.
+	 *
+	 * @return  string  The completed query.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __toString()
+	{
+		switch ($this->type)
+		{
+			case 'select':
+				if ($this->selectRowNumber)
+				{
+					$orderBy      = $this->selectRowNumber['orderBy'];
+					$tmpOffset    = $this->offset;
+					$tmpLimit     = $this->limit;
+					$this->offset = 0;
+					$this->limit  = 0;
+					$tmpOrder     = $this->order;
+					$this->order  = null;
+					$query        = parent::__toString();
+					$this->order  = $tmpOrder;
+					$this->offset = $tmpOffset;
+					$this->limit  = $tmpLimit;
+
+					// Add support for second order by, offset and limit
+					$query = PHP_EOL . 'SELECT * FROM (' . $query . PHP_EOL . "ORDER BY $orderBy" . PHP_EOL . ') w';
+
+					if ($this->order)
+					{
+						$query .= (string) $this->order;
+					}
+
+					return $this->processLimit($query, $this->limit, $this->offset);
+				}
+		}
+
+		return parent::__toString();
+	}
+
+	/**
 	 * Method to add a variable to an internal array that will be bound to a prepared SQL statement before query execution. Also
 	 * removes a variable that has been bounded from the internal bounded array when the passed in value is null.
 	 *
@@ -259,5 +300,28 @@ class MysqliQuery extends DatabaseQuery implements LimitableInterface, Preparabl
 	public function findInSet($value, $set)
 	{
 		return ' find_in_set(' . $value . ', ' . $set . ')';
+	}
+
+	/**
+	 * Return the number of the current row.
+	 *
+	 * Usage:
+	 * $query->select('id');
+	 * $query->selectRowNumber('ordering,publish_up DESC', 'new_ordering');
+	 * $query->from('#__content');
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias)
+	{
+		$this->validateRowNumber($orderBy, $orderColumnAlias);
+
+		return $this->select("(SELECT @rownum := @rownum + 1 FROM (SELECT @rownum := 0) AS r) AS $orderColumnAlias");
 	}
 }
