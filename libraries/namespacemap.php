@@ -100,7 +100,7 @@ class JNamespacePsr4Map
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function writeNamespaceFile($elements)
+	protected static function writeNamespaceFile($elements)
 	{
 		$content   = array();
 		$content[] = "<?php";
@@ -136,7 +136,7 @@ class JNamespacePsr4Map
 
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName(array('extension_id', 'element', 'namespace'))
+		$query->select($db->quoteName(array('extension_id', 'element', 'namespace')))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('namespace') . ' IS NOT NULL AND ' . $db->quoteName('namespace') . ' != ""');
 
