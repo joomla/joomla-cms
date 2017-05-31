@@ -211,12 +211,13 @@ abstract class Form extends BaseForm
 	 *
 	 * @param   string  $context  The context identifier.
 	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 * @param   string  $group    The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	protected function preprocessData($context, &$data)
+	protected function preprocessData($context, &$data, $group = 'content')
 	{
 		// Get the dispatcher and load the users plugins.
 		\JPluginHelper::importPlugin('content');
