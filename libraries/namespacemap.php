@@ -9,18 +9,24 @@
 defined('_JEXEC') or die;
 
 /**
- * Class NamespaceMap
+ * Class JNamespaceMap
  *
  * @since  __DEPLOY_VERSION__
  */
-class NamespaceMap
+class JNamespacePsr4Map
 {
+	/**
+	 * Path to the autoloader
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected static $file = JPATH_LIBRARIES . '/autoload_psr4.php';
 
 	/**
 	 * Check if the file is existing
 	 *
-	 * @return bool
+	 * @return  bool
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -32,6 +38,23 @@ class NamespaceMap
 		}
 
 		return true;
+	}
+
+	/**
+	 * Check if the namespace mapping file is existing, if not create it
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function init()
+	{
+		if (self::exists())
+		{
+			return;
+		}
+
+		self::create();
 	}
 
 	/**
@@ -63,9 +86,22 @@ class NamespaceMap
 			}
 		}
 
-		// Set the configuration file path.
-		$file = JPATH_LIBRARIES . '/autoload_psr4.php';
+		self::writeNamespaceFile($elements);
 
+		return true;
+	}
+
+	/**
+	 * Write the Namespace mapping file
+	 *
+	 * @param   array  $elements  Array of elements
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function writeNamespaceFile($elements)
+	{
 		// Attempt to write the configuration file as a PHP class named JConfig.
 		// NOPE GEORGE
 		// $registry = new Joomla\Registry\Registry($elements);
@@ -89,16 +125,15 @@ class NamespaceMap
 
 		$content[] = ');';
 
-		file_put_contents($file, implode("\n", $content));
-
-		return true;
+		file_put_contents(self::$file, implode("\n", $content));
 	}
 
 	/**
+	 * Get the namespaced extensions out of the database
 	 *
-	 * @return mixed
+	 * @return  mixed|false
 	 *
-	 * @since version
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function getNamespacedExtensions()
 	{

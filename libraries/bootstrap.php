@@ -95,5 +95,5 @@ JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
 JLoader::registerAlias('JSite', 'JApplicationSite');
 
-require_once JPATH_LIBRARIES . '/namespacemap.php';
-NamespaceMap::create();
+JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+JNamespacePsr4Map::init();
