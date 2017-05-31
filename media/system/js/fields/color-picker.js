@@ -514,6 +514,7 @@ var JUIColorPicker = (function JUIColorPicker() {
 		info.textContent = title;
 		info.className = 'name';
 		input.setAttribute('type', 'text');
+		input.className = 'form-control';
 
 		wrapper.appendChild(info);
 		wrapper.appendChild(input);
