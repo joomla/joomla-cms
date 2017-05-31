@@ -5,7 +5,7 @@ var JUIColorPicker = (function JUIColorPicker() {
 		return document.getElementById(id);
 	}
 
-	var subscribers = [];
+	var subscribers = [],
 	    pickers     = [];
 
 	/**
