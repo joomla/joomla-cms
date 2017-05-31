@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -164,8 +164,8 @@ abstract class JHtmlTag
 	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
 	{
 		// Get the component parameters
-		$params = JComponentHelper::getParams("com_tags");
-		$minTermLength = (int) $params->get("min_term_length", 3);
+		$params = JComponentHelper::getParams('com_tags');
+		$minTermLength = (int) $params->get('min_term_length', 3);
 
 		$displayData = array(
 			'minTermLength' => $minTermLength,

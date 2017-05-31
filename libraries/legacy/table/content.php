@@ -3,8 +3,8 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -231,13 +231,6 @@ class JTableContent extends JTable
 			{
 				$this->metadata = '{}';
 			}
-
-			// If we don't have any access rules set at this point just use an empty JAccessRules class
-			if (!$this->getRules())
-			{
-				$rules = $this->getDefaultAssetValues('com_content');
-				$this->setRules($rules);
-			}
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -256,10 +249,10 @@ class JTableContent extends JTable
 			// Only process if not empty
 
 			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", "<", ">");
+			$bad_characters = array("\n", "\r", "\"", '<', '>');
 
 			// Remove bad characters
-			$after_clean = StringHelper::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -275,7 +268,7 @@ class JTableContent extends JTable
 				}
 			}
 			// Put array back together delimited by ", "
-			$this->metakey = implode(", ", $clean_keys);
+			$this->metakey = implode(', ', $clean_keys);
 		}
 
 		return true;
