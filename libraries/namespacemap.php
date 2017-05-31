@@ -41,7 +41,7 @@ class JNamespacePsr4Map
 	}
 
 	/**
-	 * Check if the namespace mapping file is existing, if not create it
+	 * Check if the namespace mapping file exists, if not create it
 	 *
 	 * @return  void
 	 *
@@ -124,7 +124,7 @@ class JNamespacePsr4Map
 	}
 
 	/**
-	 * Get the namespaced extensions out of the database
+	 * Get all namespaced extensions from the database
 	 *
 	 * @return  mixed|false
 	 *
