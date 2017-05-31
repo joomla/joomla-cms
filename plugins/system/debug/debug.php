@@ -197,6 +197,12 @@ class PlgSystemDebug extends JPlugin
 			JHtml::_('stylesheet', 'cms/debug.css', array('version' => 'auto', 'relative' => true));
 		}
 
+		// Disable asset media version if needed.
+		if ((int) $this->params->get('refresh_media_version', 1) === 0)
+		{
+			$this->app->getDocument()->setMediaVersion(null);
+		}
+
 		// Only if debugging is enabled for SQL query popovers.
 		if (JDEBUG && $this->isAuthorisedDisplayDebug())
 		{
