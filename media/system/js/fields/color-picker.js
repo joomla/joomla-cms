@@ -1,4 +1,4 @@
-var UIColorPicker = (function UIColorPicker() {
+var JUIColorPicker = (function JUIColorPicker() {
 	'use strict';
 
 	function getElemById(id) {
@@ -6,7 +6,7 @@ var UIColorPicker = (function UIColorPicker() {
 	}
 
 	var subscribers = [];
-	var pickers = [];
+	    pickers     = [];
 
 	/**
 	 * RGBA Color class
@@ -20,7 +20,7 @@ var UIColorPicker = (function UIColorPicker() {
 
 	function Color(color) {
 
-		if(color instanceof Color === true) {
+		if (color instanceof Color === true) {
 			this.copy(color);
 			return;
 		}
@@ -75,7 +75,7 @@ var UIColorPicker = (function UIColorPicker() {
 	}
 
 	Color.prototype.copy = function copy(obj) {
-		if(obj instanceof Color !== true) {
+		if (obj instanceof Color !== true) {
 			console.log('Typeof parameter not Color');
 			return;
 		}
@@ -121,7 +121,7 @@ var UIColorPicker = (function UIColorPicker() {
 
 	Color.prototype.setByName = function setByName(name, value) {
 		if (name === 'r' || name === 'g' || name === 'b') {
-			if(this.isValidRGBValue(value) === false)
+			if (this.isValidRGBValue(value) === false)
 				return;
 
 			this[name] = value;
@@ -772,7 +772,7 @@ var UIColorPicker = (function UIColorPicker() {
 	/*************************************************************************/
 
 	ColorPicker.prototype.setColor = function setColor(color) {
-		if(color instanceof Color !== true) {
+		if (color instanceof Color !== true) {
 			console.log('Typeof parameter not Color');
 			return;
 		}
@@ -926,5 +926,5 @@ var UIColorPicker = (function UIColorPicker() {
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
-	UIColorPicker.init();
+	JUIColorPicker.init();
 });

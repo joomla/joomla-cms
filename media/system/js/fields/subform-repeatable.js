@@ -231,7 +231,7 @@
 	// to the one of field that in given $row
 	$.subformRepeatable.prototype.fixScripts = function($row){
 		//color picker
-		UIColorPicker.init();
+		JUIColorPicker.init();
 
 		// fix media field
 		$row.find('a[onclick*="jInsertFieldValue"]').each(function(){

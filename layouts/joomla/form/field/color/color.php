@@ -53,19 +53,19 @@ else
 	$placeholder = '#rrggbb';
 }
 
-$class        = $class ? ' class="form-control jscolor' . $class . '"' : ' class="form-control jscolor"';
-$format       = $format ? ' data-format="' . $format . '"' : ' data-format="hex"';
-$keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
-$validate     = $validate ? ' data-validate="' . $validate . '"' : '';
-$disabled     = $disabled ? ' disabled' : '';
-$readonly     = $readonly ? ' readonly' : '';
-$hint         = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ' placeholder="' . $placeholder . '"';
+$class    = $class ? ' class="form-control jscolor' . $class . '"' : ' class="form-control jscolor"';
+$format   = $format ? ' data-format="' . $format . '"' : ' data-format="hex"';
+$keywords = $keywords ? ' data-keywords="' . $keywords . '"' : '';
+$validate = $validate ? ' data-validate="' . $validate . '"' : '';
+$disabled = $disabled ? ' disabled' : '';
+$readonly = $readonly ? ' readonly' : '';
+$hint     = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ' placeholder="' . $placeholder . '"';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 
 JHtml::_('stylesheet', 'system/fields/color-picker.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'system/fields/color-picker.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'system/fields/color-picker.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <div class="ui-color-picker-wrapper">
@@ -90,4 +90,3 @@ JHtml::_('script', 'system/fields/color-picker.js', array('version' => 'auto', '
 		<?php echo $validate; ?>>
 	<div class="ui-color-picker"<?php echo $format; ?>></div>
 </div>
-<!--<div class="ui-color-picker" data-mode="HSL"></div>-->
