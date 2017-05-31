@@ -67,7 +67,7 @@
 					validate="color"
 				/>
 
-        <field 
+				<field 
 					name="sidebarColor" 
 					type="color" 
 					label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
