@@ -256,3 +256,23 @@ JLoader::registerAlias('JSession',                          '\\Joomla\\CMS\\Sess
 JLoader::registerAlias('JUser',                             '\\Joomla\\CMS\\User\\User', '5.0');
 JLoader::registerAlias('JUserHelper',                       '\\Joomla\\CMS\\User\\UserHelper', '5.0');
 JLoader::registerAlias('JUserWrapperHelper',                '\\Joomla\\CMS\\User\\UserWrapper', '5.0');
+
+JLoader::registerAlias('JForm',                             '\\Joomla\\CMS\\Form\\Form', '5.0');
+JLoader::registerAlias('JFormField',                        '\\Joomla\\CMS\\Form\\FormField', '5.0');
+JLoader::registerAlias('JFormHelper',                       '\\Joomla\\CMS\\Form\\FormHelper', '5.0');
+JLoader::registerAlias('JFormRule',                         '\\Joomla\\CMS\\Form\\FormRule', '5.0');
+JLoader::registerAlias('JFormWrapper',                      '\\Joomla\\CMS\\Form\\FormWrapper', '5.0');
+JLoader::registerAlias('JFormFieldMedia',                   '\\Joomla\\CMS\\Form\\Field\\MediaField', '5.0');
+JLoader::registerAlias('JFormRuleBoolean',                  '\\Joomla\\CMS\\Form\\Rule\\BooleanRule', '5.0');
+JLoader::registerAlias('JFormRuleCalendar',                 '\\Joomla\\CMS\\Form\\Rule\\CalendarRule', '5.0');
+JLoader::registerAlias('JFormRuleCaptcha',                  '\\Joomla\\CMS\\Form\\Rule\\CaptchaRule', '5.0');
+JLoader::registerAlias('JFormRuleColor',                    '\\Joomla\\CMS\\Form\\Rule\\ColorRule', '5.0');
+JLoader::registerAlias('JFormRuleEquals',                   '\\Joomla\\CMS\\Form\\Rule\\EqualsRule', '5.0');
+JLoader::registerAlias('JFormRuleNotequals',                '\\Joomla\\CMS\\Form\\Rule\\NotequalsRule', '5.0');
+JLoader::registerAlias('JFormRuleNumber',                   '\\Joomla\\CMS\\Form\\Rule\\NumberRule', '5.0');
+JLoader::registerAlias('JFormRuleOptions',                  '\\Joomla\\CMS\\Form\\Rule\\OptionsRule', '5.0');
+JLoader::registerAlias('JFormRulePassword',                 '\\Joomla\\CMS\\Form\\Rule\\PasswordRule', '5.0');
+JLoader::registerAlias('JFormRuleRules',                    '\\Joomla\\CMS\\Form\\Rule\\RulesRule', '5.0');
+JLoader::registerAlias('JFormRuleTel',                      '\\Joomla\\CMS\\Form\\Rule\\TelRule', '5.0');
+JLoader::registerAlias('JFormRuleUrl',                      '\\Joomla\\CMS\\Form\\Rule\\UrlRule', '5.0');
+JLoader::registerAlias('JFormRuleUsername',                 '\\Joomla\\CMS\\Form\\Rule\\UsernameRule', '5.0');
