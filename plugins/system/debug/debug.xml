@@ -141,6 +141,18 @@
 				</field>
 			</fieldset>
 
+				<field
+					name="refresh_media_version"
+					type="radio"
+					label="PLG_DEBUG_FIELD_REFRESH_MEDIA_VERSION_LABEL"
+					description="PLG_DEBUG_FIELD_REFRESH_MEDIA_VERSION_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 			<fieldset
 				name="language"
 				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL"
