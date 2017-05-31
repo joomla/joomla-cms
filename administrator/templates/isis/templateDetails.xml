@@ -69,10 +69,10 @@
 
 				<field 
 					name="sidebarColor" 
+					type="color" 
 					label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
 					description="TPL_ISIS_COLOR_SIDEBAR_DESC" 
 					class="" 
-					type="color" 
 					default="#0088CC"
 					validate="color"
 				/>
@@ -135,7 +135,8 @@
 					description="TPL_ISIS_HEADER_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					filter="integer">
+					filter="integer"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
