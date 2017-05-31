@@ -82,7 +82,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 */
 	public function createToolbar($name = 'toolbar')
 	{
-		return new Toolbar($name, $this->getContainer());
+		return new Toolbar($name, $this);
 	}
 
 	/**
