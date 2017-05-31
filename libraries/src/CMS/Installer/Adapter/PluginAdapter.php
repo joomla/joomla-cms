@@ -562,9 +562,7 @@ class PluginAdapter extends InstallerAdapter
 
 		if ($utfresult === false)
 		{
-			// Install failed, rollback changes
-			$this->parent->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_PLG_UNINSTALL_SQL_ERROR', $db->stderr(true)));
-
+			// Install failed, rollback changes - error logged by the installer
 			return false;
 		}
 

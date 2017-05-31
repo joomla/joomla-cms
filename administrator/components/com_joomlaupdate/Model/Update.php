@@ -725,8 +725,8 @@ ENDDATA;
 
 		if ($result === false)
 		{
-			// Install failed, rollback changes.
-			$installer->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_FILE_UPDATE_SQL_ERROR', $db->stderr(true)));
+			// Install failed, rollback changes (message already logged by the installer).
+			$installer->abort();
 
 			return false;
 		}

@@ -675,7 +675,7 @@ class ModuleAdapter extends InstallerAdapter
 			}
 			catch (\RuntimeException $e)
 			{
-				\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)), \JLog::WARNING, 'jerror');
+				// Error logged by the installer
 				$retval = false;
 			}
 
