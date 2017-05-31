@@ -2117,7 +2117,7 @@ class Form
 
 			if ($message)
 			{
-				$message = JText::_($element['message']);
+				$message = \JText::_($element['message']);
 
 				return new \UnexpectedValueException($message);
 			}
@@ -2209,7 +2209,7 @@ class Form
 			}
 
 			// Instantiate the form.
-			$forms[$name] = new Form($name, $options);
+			$forms[$name] = new static($name, $options);
 
 			// Load the data.
 			if (substr($data, 0, 1) == '<')
