@@ -1,14 +1,19 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Table\Observer\ContentHistory;
+use Joomla\CMS\Table\Observer\Tags;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,23 +21,23 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class JTableCategory extends JTableNested
+class Category extends Nested
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__categories', 'id', $db);
 
-		JTableObserverTags::createObserver($this, array('typeAlias' => '{extension}.category'));
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => '{extension}.category'));
+		Tags::createObserver($this, array('typeAlias' => '{extension}.category'));
+		ContentHistory::createObserver($this, array('typeAlias' => '{extension}.category'));
 
-		$this->access = (int) JFactory::getConfig()->get('access');
+		$this->access = (int) \JFactory::getConfig()->get('access');
 	}
 
 	/**
@@ -66,14 +71,14 @@ class JTableCategory extends JTableNested
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @param   JTable   $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A JTable object for the asset parent.
 	 * @param   integer  $id     The id for the asset
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *
 	 * @since   1.6
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		$assetId = null;
 
@@ -128,7 +133,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  boolean
 	 *
-	 * @see     JTable::check()
+	 * @see     Table::check()
 	 * @since   1.5
 	 */
 	public function check()
@@ -136,7 +141,7 @@ class JTableCategory extends JTableNested
 		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
 
 			return false;
 		}
@@ -148,11 +153,11 @@ class JTableCategory extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
+		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return true;
@@ -167,7 +172,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind()
+	 * @see     Table::bind()
 	 * @since   1.6
 	 */
 	public function bind($array, $ignore = '')
@@ -187,7 +192,7 @@ class JTableCategory extends JTableNested
 		// Bind the rules.
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
-			$rules = new JAccessRules($array['rules']);
+			$rules = new Rules($array['rules']);
 			$this->setRules($rules);
 		}
 
@@ -195,7 +200,7 @@ class JTableCategory extends JTableNested
 	}
 
 	/**
-	 * Overridden JTable::store to set created/modified and user id.
+	 * Overridden Table::store to set created/modified and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -205,8 +210,8 @@ class JTableCategory extends JTableNested
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = \JFactory::getDate();
+		$user = \JFactory::getUser();
 
 		$this->modified_time = $date->toSql();
 
@@ -231,12 +236,12 @@ class JTableCategory extends JTableNested
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
+		$table = Table::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 
 			return false;
 		}

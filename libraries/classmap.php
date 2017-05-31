@@ -60,6 +60,11 @@ JLoader::registerAlias('JTableContenthistory',              '\\Joomla\\CMS\\Tabl
 JLoader::registerAlias('JTableContenttype',                 '\\Joomla\\CMS\\Table\\ContentType', '5.0');
 JLoader::registerAlias('JTableCorecontent',                 '\\Joomla\\CMS\\Table\\CoreContent', '5.0');
 JLoader::registerAlias('JTableUcm',                         '\\Joomla\\CMS\\Table\\Ucm', '5.0');
+JLoader::registerAlias('JTableCategory',                    '\\Joomla\\CMS\\Table\\Category', '5.0');
+JLoader::registerAlias('JTableContent',                     '\\Joomla\\CMS\\Table\\Content', '5.0');
+JLoader::registerAlias('JTableMenu',                        '\\Joomla\\CMS\\Table\\Menu', '5.0');
+JLoader::registerAlias('JTableMenuType',                    '\\Joomla\\CMS\\Table\\MenuType', '5.0');
+JLoader::registerAlias('JTableModule',                      '\\Joomla\\CMS\\Table\\Module', '5.0');
 JLoader::registerAlias('JTableObserver',                    '\\Joomla\\CMS\\Table\\Observer\\AbstractObserver', '5.0');
 JLoader::registerAlias('JTableObserverContenthistory',      '\\Joomla\\CMS\\Table\\Observer\\ContentHistory', '5.0');
 JLoader::registerAlias('JTableObserverTags',                '\\Joomla\\CMS\\Table\\Observer\\Tags', '5.0');

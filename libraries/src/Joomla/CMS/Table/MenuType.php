@@ -1,29 +1,32 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Table
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Table;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
 
 /**
  * Menu Types table
  *
  * @since  1.6
  */
-class JTableMenuType extends JTable
+class MenuType extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__menu_types', 'id', $db);
 	}
@@ -33,16 +36,16 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     JTable::check()
+	 * @see     Table::check()
 	 * @since   1.6
 	 */
 	public function check()
 	{
-		$this->menutype = JApplicationHelper::stringURLSafe($this->menutype);
+		$this->menutype = ApplicationHelper::stringURLSafe($this->menutype);
 
 		if (empty($this->menutype))
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
 
 			return false;
 		}
@@ -63,7 +66,7 @@ class JTableMenuType extends JTable
 
 		if ($this->_db->loadResult())
 		{
-			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
+			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
 
 			return false;
 		}
@@ -72,10 +75,10 @@ class JTableMenuType extends JTable
 	}
 
 	/**
-	 * Method to store a row in the database from the JTable instance properties.
+	 * Method to store a row in the database from the Table instance properties.
 	 *
 	 * If a primary key value is set the row with that primary key value will be updated with the instance property values.
-	 * If no primary key value is set a new row will be inserted into the database with the properties from the JTable instance.
+	 * If no primary key value is set a new row will be inserted into the database with the properties from the Table instance.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
@@ -88,10 +91,10 @@ class JTableMenuType extends JTable
 		if ($this->id)
 		{
 			// Get the user id
-			$userId = JFactory::getUser()->id;
+			$userId = \JFactory::getUser()->id;
 
 			// Get the old value of the table
-			$table = JTable::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+			$table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
 			$table->load($this->id);
 
 			// Verify that no items are checked out
@@ -106,7 +109,7 @@ class JTableMenuType extends JTable
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+					\JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), \JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
 
 				return false;
@@ -125,7 +128,7 @@ class JTableMenuType extends JTable
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+					\JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), \JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
 
 				return false;
@@ -173,10 +176,10 @@ class JTableMenuType extends JTable
 		if ($pk !== null)
 		{
 			// Get the user id
-			$userId = JFactory::getUser()->id;
+			$userId = \JFactory::getUser()->id;
 
 			// Get the old value of the table
-			$table = JTable::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+			$table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
 			$table->load($pk);
 
 			// Verify that no items are checked out
@@ -189,7 +192,7 @@ class JTableMenuType extends JTable
 
 			if ($this->_db->loadRowList())
 			{
-				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), \JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
 				return false;
 			}
@@ -206,7 +209,7 @@ class JTableMenuType extends JTable
 
 			if ($this->_db->loadRowList())
 			{
-				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), \JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
 				return false;
 			}
@@ -263,17 +266,17 @@ class JTableMenuType extends JTable
 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
-	 * @param   JTable   $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     Id to look up
 	 *
 	 * @return  integer
 	 *
 	 * @since   3.6
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		$assetId = null;
-		$asset = JTable::getInstance('asset');
+		$asset = Table::getInstance('asset');
 
 		if ($asset->loadByName('com_menus'))
 		{
