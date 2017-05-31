@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template styles list controller class.
@@ -35,7 +37,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
-			JArrayHelper::toInteger($pks);
+			$pks = ArrayHelper::toInteger($pks);
 
 			$model = $this->getModel();
 			$model->duplicate($pks);
@@ -86,7 +88,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
-			JArrayHelper::toInteger($pks);
+			$pks = ArrayHelper::toInteger($pks);
 
 			// Pop off the first element.
 			$id = array_shift($pks);
@@ -115,7 +117,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->get->get('cid', array(), 'array');
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 
 		try
 		{

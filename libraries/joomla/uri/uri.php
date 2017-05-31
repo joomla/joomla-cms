@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Uri
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,6 +67,12 @@ class JUri extends Uri
 				{
 					$https = 's://';
 				}
+				elseif ((isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+					!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+					(strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) !== 'http')))
+				{
+					$https = 's://';
+				}
 				else
 				{
 					$https = '://';
@@ -103,7 +109,7 @@ class JUri extends Uri
 				}
 
 				// Extra cleanup to remove invalid chars in the URL to prevent injections through the Host header
-				$theURI = str_replace(array("'", '"', '<', '>'), array("%27", "%22", "%3C", "%3E"), $theURI);
+				$theURI = str_replace(array("'", '"', '<', '>'), array('%27', '%22', '%3C', '%3E'), $theURI);
 			}
 			else
 			{
@@ -133,7 +139,7 @@ class JUri extends Uri
 		{
 			$config = JFactory::getConfig();
 			$uri = static::getInstance();
-			$live_site = ($uri->isSsl()) ? str_replace("http://", "https://", $config->get('live_site')) : $config->get('live_site');
+			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
 
 			if (trim($live_site) != '')
 			{

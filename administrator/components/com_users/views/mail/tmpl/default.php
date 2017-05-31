@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,11 +39,13 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<fieldset class="adminform">
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('subject'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('subject'); ?></div>
+					<div class="controls"><?php echo JComponentHelper::getParams('com_users')->get('mailSubjectPrefix'); ?>
+						<?php echo $this->form->getInput('subject'); ?></div>
 				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('message'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('message'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('message'); ?><br>
+						<?php echo JComponentHelper::getParams('com_users')->get('mailBodySuffix'); ?></div>
 				</div>
 			</fieldset>
 			<input type="hidden" name="task" value="" />

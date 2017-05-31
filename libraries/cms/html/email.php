@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -36,7 +36,7 @@ abstract class JHtmlEmail
 		if ($mailto && (empty($text) || $email))
 		{
 			// Use dedicated $text whereas $mail is used as href and must be punycoded.
-			$text = JStringPunycode::emailToUTF8($text ? $text : $mail);
+			$text = JStringPunycode::emailToUTF8($text ?: $mail);
 		}
 		elseif (!$mailto)
 		{
@@ -48,7 +48,7 @@ abstract class JHtmlEmail
 		$mail = static::convertEncoding($mail);
 
 		// Random hash
-		$rand = md5($mail . rand(1, 100000));
+		$rand = md5($mail . mt_rand(1, 100000));
 
 		// Split email by @ symbol
 		$mail       = explode('@', $mail);
@@ -89,7 +89,6 @@ abstract class JHtmlEmail
 			$tmpScript = "document.getElementById('cloak" . $rand . "').innerHTML += addy" . $rand . ";";
 		}
 
-		$inlineScript = '';
 		$script       = "
 				document.getElementById('cloak" . $rand . "').innerHTML = '';
 				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';

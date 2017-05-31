@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+	<name>plg_fields_editor</name>
+	<author>Joomla! Project</author>
+	<creationDate>March 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.7.0</version>
+	<description>PLG_FIELDS_EDITOR_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="editor">editor.php</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_fields_editor.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_editor.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="buttons"
+					type="radio"
+					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="hide"
+					type="plugins"
+					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
+					description="JGLOBAL_SELECT_SOME_OPTIONS"
+					folder="editors-xtd"
+					multiple="true"
+				/>
+
+				<field
+					name="width"
+					type="text"
+					label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_WIDTH_DESC"
+					default="100%"
+					size="5"
+				/>
+
+				<field
+					name="height"
+					type="text"
+					label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
+					default="250px"
+					size="5"
+				/>
+
+				<field
+					name="filter"
+					type="list"
+					label="PLG_FIELDS_EDITOR_PARAMS_FILTER_LABEL"
+					description="PLG_FIELDS_EDITOR_PARAMS_FILTER_DESC"
+					class="btn-group"
+					default="JComponentHelper::filterText"
+					>
+					<option value="0">JNO</option>
+					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
+					<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>
+					<option value="JComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

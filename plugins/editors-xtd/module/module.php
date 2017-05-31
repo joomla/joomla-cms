@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.module
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,8 +29,9 @@ class PlgButtonModule extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @since  3.5
-	 * @return array
+	 * @return  JObject  The button options as JObject
+	 *
+	 * @since   3.5
 	 */
 	public function onDisplay($name)
 	{

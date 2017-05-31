@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -63,7 +63,7 @@ abstract class FinderIndexerStemmer
 		}
 
 		// Instantiate the stemmer.
-		include_once $path;
+		JLoader::register($class, $path);
 		$instances[$adapter] = new $class;
 
 		return $instances[$adapter];
