@@ -1020,28 +1020,6 @@
 	var createElement = function (type, parent) { var el = null; el = document.createElement(type); if (typeof parent != "undefined") { parent.appendChild(el); } return el; };
 	var isInt = function (input) { return !isNaN(input) && (function(x) { return (x | 0) === x; })(parseFloat(input)) };
 	var getBoundary = function (input, type) { var date = new Date(); var y = date.getLocalFullYear(type); return y + input; };
-	/**
-	 * IE8 polyfill for indexOf()
-	 */
-	if (!Array.prototype.indexOf) {
-		Array.prototype.indexOf = function(elt) {
-			var len = this.length >>> 0,
-				from = Number(arguments[1]) || 0;
-
-			from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-
-			if (from < 0) {
-				from += len;
-			}
-
-			for (; from < len; from++) {
-				if (from in this && this[from] === elt) {
-					return from;
-				}
-			}
-			return -1;
-		};
-	}
 
 	/** Method to get the active calendar element through any descendant element. */
 	JoomlaCalendar.getCalObject = function(element) {

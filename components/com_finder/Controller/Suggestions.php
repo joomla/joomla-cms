@@ -21,7 +21,7 @@ use Joomla\CMS\Controller\Controller;
 class Suggestions extends Controller
 {
 	/**
-	 * Method to find search query suggestions. Uses jQuery and autocopleter.js
+	 * Method to find search query suggestions. Uses jQuery and autocompleter.js
 	 *
 	 * @return  void
 	 *
@@ -38,31 +38,6 @@ class Suggestions extends Controller
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
 		echo '{ "suggestions": ' . json_encode($suggestions) . ' }';
-		$app->close();
-	}
-
-	/**
-	 * Method to find search query suggestions. Uses Mootools and autocompleter.js
-	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 * @deprecated 3.4
-	 */
-	public function display($cachable = false, $urlparams = false)
-	{
-		$app = $this->app;
-		$app->mimeType = 'application/json';
-
-		$suggestions = $this->getSuggestions();
-
-		// Send the response.
-		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
-		$app->sendHeaders();
-		echo json_encode($suggestions);
 		$app->close();
 	}
 

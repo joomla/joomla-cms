@@ -365,7 +365,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $idxQuery, $options);
 		}
 
-		$html .= '<div class="filter-branch' . $classSuffix . ' control-group clearfix">';
+		$html .= '<div class="filter-branch' . $classSuffix . '">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
@@ -389,16 +389,19 @@ abstract class JHtmlFilter
 			}
 
 			// Build a node.
-			$html .= '<div class="controls finder-selects">';
-			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="control-label">';
+			$html .= '<div class="control-group">';
+			$html .= '<div class="control-label">';
+			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
-			$html .= '<br>';
+			$html .= '</div>';
+			$html .= '<div class="controls">';
 			$html .= JHtml::_(
 				'select.genericlist',
-				$branches[$bk]->nodes, 't[]', 'class="inputbox advancedSelect"', 'id', 'title', $active,
+				$branches[$bk]->nodes, 't[]', 'class="custom-select advancedSelect"', 'id', 'title', $active,
 				'tax-' . JFilterOutput::stringUrlSafe($bv->title)
 			);
+			$html .= '</div>';
 			$html .= '</div>';
 		}
 

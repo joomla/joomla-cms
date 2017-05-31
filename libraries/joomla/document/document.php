@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Factory;
 use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Document\RendererInterface;
 
 /**
  * Document class, provides an easy interface to parse and display a document
@@ -1169,7 +1170,7 @@ class JDocument
 	 *
 	 * @param   string  $type  The renderer type
 	 *
-	 * @return  JDocumentRenderer
+	 * @return  RendererInterface
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException

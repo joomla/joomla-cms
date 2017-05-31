@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "34377a669851c53d43bb71616232080b",
+    "content-hash": "a2d4a73be913adacb075a90dca9096cc",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1586,6 +1586,50 @@
             ],
             "description": "A tool to automatically fix PHP code style",
             "time": "2016-12-01T00:05:05+00:00"
+        },
+        {
+            "name": "joomla/mediawiki",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/mediawiki-api.git",
+                "reference": "9221d296e57fedacc8d437163673e3db4801cd74"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/9221d296e57fedacc8d437163673e3db4801cd74",
+                "reference": "9221d296e57fedacc8d437163673e3db4801cd74",
+                "shasum": ""
+            },
+            "require": {
+                "joomla/http": "~1.0|~2.0",
+                "joomla/registry": "~1.0|~2.0",
+                "joomla/uri": "~1.0|~2.0",
+                "php": "^5.3.10|~7.0"
+            },
+            "require-dev": {
+                "joomla/test": "~1.0",
+                "phpunit/phpunit": "~4.8|>=5.0 <5.4",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "type": "joomla-package",
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Mediawiki\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Mediawiki Package",
+            "homepage": "https://github.com/joomla-framework/mediawiki-api",
+            "keywords": [
+                "framework",
+                "joomla",
+                "mediawiki"
+            ],
+            "time": "2017-05-31T17:26:55+00:00"
         },
         {
             "name": "pear/cache_lite",
@@ -3230,7 +3274,8 @@
         "joomla/string": 20,
         "joomla/uri": 20,
         "joomla/utilities": 20,
-        "phpmailer/phpmailer": 5
+        "phpmailer/phpmailer": 5,
+        "joomla/mediawiki": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

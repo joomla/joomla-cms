@@ -15,9 +15,6 @@ $params     = JComponentHelper::getParams('com_media');
 $lang       = JFactory::getLanguage();
 $onClick    = '';
 $fieldInput = $this->state->get('field.id');
-$isMoo      = $input->getInt('ismoo', 1);
-
-
 
 // Load tooltip instance without HTML support because we have a HTML tag in the tip
 JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
@@ -36,25 +33,7 @@ JFactory::getDocument()->addScriptDeclaration(
 	"var image_base_path = '" . $params->get('image_path', 'images') . "/';"
 );
 
-/**
- * Mootools compatibility
- *
- * There is an extra option passed in the URL for the iframe &ismoo=0 for the bootstrap fields.
- * By default the value will be 1 or defaults to mootools behaviour
- *
- * This should be removed when mootools won't be shipped by Joomla.
- */
-if (!empty($fieldInput)) // Media Form Field
-{
-	if ($isMoo)
-	{
-		$onClick = "window.parent.jInsertFieldValue(document.getElementById('f_url').value, '" . $fieldInput . "');window.parent.jModalClose();window.parent.jQuery('.modal.in').modal('hide');";
-	}
-}
-else // XTD Image plugin
-{
-	$onClick = 'ImageManager.onok();window.parent.jModalClose();';
-}
+$onClick = 'ImageManager.onok();window.parent.jModalClose();';
 ?>
 <div class="container-popup">
 

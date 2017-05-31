@@ -71,7 +71,7 @@ class DebugUser extends ListModel
 	public function getItems()
 	{
 		$userId = $this->getState('user_id');
-		$user   = JFactory::getUser($userId);
+		$user   = \JFactory::getUser($userId);
 
 		if (($assets = parent::getItems()) && $userId)
 		{
