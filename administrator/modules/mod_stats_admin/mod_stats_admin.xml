@@ -65,7 +65,7 @@
 					label="MOD_STATS_FIELD_INCREASECOUNTER_LABEL"
 					description="MOD_STATS_FIELD_INCREASECOUNTER_DESC"
 					default="0"
-				 />
+				/>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
