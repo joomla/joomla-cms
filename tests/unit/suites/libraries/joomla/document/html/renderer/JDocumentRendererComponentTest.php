@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 include_once JPATH_PLATFORM . '/joomla/document/html/renderer/component.php';
