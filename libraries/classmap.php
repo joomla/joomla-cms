@@ -242,3 +242,9 @@ JLoader::registerAlias('JDatabaseQuerySqlsrv',              '\\Joomla\\Database\
 JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '4.0');
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
 JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
+
+JLoader::registerAlias('JForm',                             '\\Joomla\\CMS\\Form\\Form', '4.0');
+JLoader::registerAlias('JFormField',                        '\\Joomla\\CMS\\Form\\FormField', '4.0');
+JLoader::registerAlias('JFormHelper',                       '\\Joomla\\CMS\\Form\\FormHelper', '4.0');
+JLoader::registerAlias('JFormRule',                         '\\Joomla\\CMS\\Form\\FormRule', '4.0');
+JLoader::registerAlias('JFormFieldText',                    '\\Joomla\\CMS\\Form\\Field\\Text', '4.0');

@@ -111,7 +111,7 @@ class Toolbar
 	{
 		if (empty(self::$instances[$name]))
 		{
-			self::$instances[$name] = \JFactory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar('name');
+			self::$instances[$name] = \JFactory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name);
 		}
 
 		return self::$instances[$name];

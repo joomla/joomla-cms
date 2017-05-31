@@ -2329,7 +2329,7 @@ class Installer extends \JAdapter
 				}
 			}
 
-			$adapters[] = str_ireplace('.php', '', $fileName);
+			$adapters[] = $name;
 		}
 
 		// Add any custom adapters if specified
