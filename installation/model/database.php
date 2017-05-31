@@ -1017,7 +1017,7 @@ class InstallationModelDatabase extends JModelBase
 		// Get the contents of the schema file.
 		if (!($buffer = file_get_contents($schema)))
 		{
-			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_READING_SQL_FILE'), 'error');
 
 			return false;
 		}
