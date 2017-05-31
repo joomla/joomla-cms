@@ -124,7 +124,8 @@ class Component extends Controller
 			// Save failed, go back to the screen and display a notice.
 			$this->setRedirect(
 				\JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect),
-				\JText::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error'
+				\JText::_('JERROR_SAVE_FAILED', $e->getMessage()),
+				'error'
 			);
 		}
 
