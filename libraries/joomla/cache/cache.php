@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\String\StringHelper;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Joomla! Cache base object
@@ -36,6 +37,14 @@ class JCache
 	public $_options;
 
 	/**
+	 * Cache storage adapter
+	 *
+	 * @var    CacheInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $adapter;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Cache options
@@ -56,6 +65,8 @@ class JCache
 			'locktime'     => 15,
 			'checkTime'    => true,
 			'caching'      => ($conf->get('caching') >= 1) ? true : false,
+			'hash'         => md5($conf->get('secret')),
+			'application'  => null,
 		);
 
 		// Overwrite default options with given options
@@ -100,7 +111,7 @@ class JCache
 		$handlers = array();
 
 		// Get an iterator and loop trough the driver classes.
-		$iterator = new DirectoryIterator(__DIR__ . '/storage');
+		$iterator = new DirectoryIterator(JPATH_PLATFORM . '/vendor/joomla/cache/src/Adapter');
 
 		/** @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
@@ -108,13 +119,13 @@ class JCache
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			if (!$file->isFile() || $file->getExtension() != 'php' || $fileName == 'helper.php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}
 
 			// Derive the class name from the type.
-			$class = str_ireplace('.php', '', 'JCacheStorage' . ucfirst(trim($fileName)));
+			$class = str_ireplace('.php', '', 'Joomla\\Cache\\Adapter\\' . ucfirst(trim($fileName)));
 
 			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
 			if (!class_exists($class))
@@ -216,7 +227,7 @@ class JCache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->get($id, $group, $this->_options['checkTime']);
+		return $this->getAdapter()->get($this->getCacheId($id, $group));
 	}
 
 	/**
@@ -258,7 +269,7 @@ class JCache
 		$group = $group ?: $this->_options['defaultgroup'];
 
 		// Get the storage and store the cached data
-		return $this->_getStorage()->store($id, $group, $data);
+		return $this->getAdapter()->set($this->getCacheId($id, $group), $data);
 	}
 
 	/**
@@ -276,7 +287,7 @@ class JCache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		return $this->_getStorage()->remove($id, $group);
+		return $this->getAdapter()->delete($this->getCacheId($id, $group));
 	}
 
 	/**
@@ -460,6 +471,68 @@ class JCache
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 
 		return self::$_handler[$hash];
+	}
+
+	/**
+	 * Get the cache storage adapter
+	 *
+	 * @return  CacheInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAdapter()
+	{
+		if (!$this->adapter)
+		{
+			$this->setAdapter($this->loadAdapter());
+		}
+
+		return $this->adapter;
+	}
+
+	/**
+	 * Load the cache storage adapter
+	 *
+	 * @return  CacheInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadAdapter()
+	{
+		return JFactory::getContainer()->get('cache.storage');
+	}
+
+	/**
+	 * Set the cache storage adapter
+	 *
+	 * @param   CacheInterface  $adapter  Storage adapter to use
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setAdapter(CacheInterface $adapter)
+	{
+		$this->adapter = $adapter;
+
+		return $this;
+	}
+
+	/**
+	 * Get a cache ID string from an ID/group pair
+	 *
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getCacheId($id, $group)
+	{
+		$name = md5($this->_options['application'] . '-' . $id . '-' . $this->_options['language']);
+
+		return static::getPlatformPrefix() . $this->_options['hash'] . '-cache-' . $group . '-' . $name;
 	}
 
 	/**
