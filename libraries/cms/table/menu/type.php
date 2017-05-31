@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Database\DatabaseInterface;
-
 /**
  * Menu Types table
  *
@@ -21,11 +19,11 @@ class JTableMenuType extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseInterface  $db  Database driver object.
+	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(DatabaseInterface $db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__menu_types', 'id', $db);
 	}

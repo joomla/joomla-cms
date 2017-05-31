@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -23,11 +22,11 @@ class JTableContent extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseInterface  $db  A database connector object
+	 * @param   JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(DatabaseInterface $db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_content.article';
 		parent::__construct('#__content', 'id', $db);

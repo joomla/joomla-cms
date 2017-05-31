@@ -10,7 +10,6 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -24,11 +23,11 @@ class Extension extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseInterface  $db  Database driver object.
+	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(DatabaseInterface $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
 	}
