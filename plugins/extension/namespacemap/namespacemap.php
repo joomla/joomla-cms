@@ -31,7 +31,7 @@ class PlgExtensionNamespacemap extends JPlugin
 		// Update / Create new map
 		if ($eid)
 		{
-			NamespaceMap::create();
+			JNamespacePsr4Map::create();
 		}
 	}
 
@@ -53,7 +53,7 @@ class PlgExtensionNamespacemap extends JPlugin
 		if ($eid && $removed)
 		{
 			// Update / Create new map
-			NamespaceMap::create();
+			JNamespacePsr4Map::create();
 		}
 	}
 
@@ -72,7 +72,26 @@ class PlgExtensionNamespacemap extends JPlugin
 		if ($eid)
 		{
 			// Update / Create new map
-			NamespaceMap::create();
+			JNamespacePsr4Map::create();
+		}
+	}
+
+	/**
+	 * After update of an extension
+	 *
+	 * @param   JInstaller  $installer  Installer object
+	 * @param   integer     $eid        Extension identifier
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onExtensionAfterSave($installer, $eid)
+	{
+		if ($eid)
+		{
+			// Update / Create new map
+			JNamespacePsr4Map::create();
 		}
 	}
 }
