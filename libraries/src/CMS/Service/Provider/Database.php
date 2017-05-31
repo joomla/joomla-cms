@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Mysql\MysqlDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -44,8 +45,34 @@ class Database implements ServiceProviderInterface
 			{
 				$conf = \JFactory::getConfig();
 
+				$dbtype = $conf->get('dbtype');
+
+				/*
+				 * In Joomla! 3.x and earlier the `mysql` type was used for the `ext/mysql` PHP extension, which is no longer supported.
+				 * The `pdomysql` type represented the PDO MySQL adapter.  With the Framework's package in use, the PDO MySQL adapter
+				 * is now the `mysql` type.  Therefore, we check two conditions:
+				 *
+				 * 1) Is the type `pdomysql`, if so switch to `mysql`
+				 * 2) Is the type `mysql`, if so make sure PDO MySQL is supported and if not switch to `mysqli`
+				 *
+				 * For these cases, if a connection cannot be made with MySQLi, the database API will handle throwing an Exception
+				 * so we don't need to make any additional checks for MySQLi.
+				 */
+				if (strtolower($dbtype) === 'pdomysql')
+				{
+					$dbtype = 'mysql';
+				}
+
+				if (strtolower($dbtype) === 'mysql')
+				{
+					if (!MysqlDriver::isSupported())
+					{
+						$dbtype = 'mysqli';
+					}
+				}
+
 				$options = [
-					'driver'   => $conf->get('dbtype'),
+					'driver'   => $dbtype,
 					'host'     => $conf->get('host'),
 					'user'     => $conf->get('user'),
 					'password' => $conf->get('password'),

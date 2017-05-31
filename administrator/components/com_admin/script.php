@@ -2150,7 +2150,7 @@ class JoomlaInstallerScript
 			if (!$asset->store())
 			{
 				// Install failed, roll back changes
-				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
+				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
 				return false;
 			}
