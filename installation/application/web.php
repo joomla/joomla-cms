@@ -10,9 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\Database\DatabaseInterface;
+use Joomla\DI\Container;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
-use Joomla\DI\Container;
 
 /**
  * Joomla! Installation Application class.
@@ -319,23 +321,22 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Returns the installed language files in the administrative and
-	 * frontend area.
+	 * Returns the installed language files in the administrative and frontend area.
 	 *
-	 * @param   mixed  $db  JDatabaseDriver instance.
+	 * @param   DatabaseInterface  $db  Database driver.
 	 *
 	 * @return  array  Array with installed language packs in admin and site area.
 	 *
 	 * @since   3.1
 	 */
-	public function getLocaliseAdmin($db = false)
+	public function getLocaliseAdmin(DatabaseInterface $db = null)
 	{
 		$langfiles = array();
 
 		// If db connection, fetch them from the database.
 		if ($db)
 		{
-			foreach (JLanguageHelper::getInstalledLanguages() as $clientId => $language)
+			foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language)
 			{
 				$clientName = $clientId === 0 ? 'site' : 'admin';
 
@@ -348,8 +349,8 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = JFolder::folders(JLanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = JFolder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = JFolder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;
@@ -423,7 +424,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			}
 			else
 			{
-				$options['language'] = JLanguageHelper::detectLanguage();
+				$options['language'] = LanguageHelper::detectLanguage();
 
 				if (empty($options['language']))
 				{

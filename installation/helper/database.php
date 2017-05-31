@@ -8,6 +8,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
+
 /**
  * Joomla Installation Database Helper Class.
  *
@@ -16,7 +19,7 @@ defined('_JEXEC') or die;
 abstract class InstallationHelperDatabase
 {
 	/**
-	 * Method to get a JDatabaseDriver object.
+	 * Method to get a database driver.
 	 *
 	 * @param   string   $driver    The database driver to use.
 	 * @param   string   $host      The hostname to connect on.
@@ -26,7 +29,7 @@ abstract class InstallationHelperDatabase
 	 * @param   string   $prefix    The table prefix to use.
 	 * @param   boolean  $select    True if the database should be selected.
 	 *
-	 * @return  JDatabaseDriver
+	 * @return  DatabaseInterface
 	 *
 	 * @since   1.6
 	 */
@@ -37,18 +40,18 @@ abstract class InstallationHelperDatabase
 		if (!$db)
 		{
 			// Build the connection options array.
-			$options = array(
-				'driver' => $driver,
-				'host' => $host,
-				'user' => $user,
+			$options = [
+				'driver'   => $driver,
+				'host'     => $host,
+				'user'     => $user,
 				'password' => $password,
 				'database' => $database,
-				'prefix' => $prefix,
-				'select' => $select,
-			);
+				'prefix'   => $prefix,
+				'select'   => $select,
+			];
 
 			// Get a database object.
-			$db = JDatabaseDriver::getInstance($options);
+			$db = DatabaseDriver::getInstance($options);
 		}
 
 		return $db;
