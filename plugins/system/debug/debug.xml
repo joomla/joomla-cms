@@ -142,10 +142,10 @@
 			</fieldset>
 
 				<field
-					name="refresh_media_version"
+					name="refresh_assets"
 					type="radio"
-					label="PLG_DEBUG_FIELD_REFRESH_MEDIA_VERSION_LABEL"
-					description="PLG_DEBUG_FIELD_REFRESH_MEDIA_VERSION_DESC"
+					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
+					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
 					>
