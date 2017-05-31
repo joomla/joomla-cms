@@ -1,22 +1,23 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Wrapper class for JFormHelper
+ * Wrapper class for FormHelper
  *
  * @package     Joomla.Platform
  * @subpackage  Form
  * @since       3.4
  */
-class JFormWrapperHelper
+class FormWrapper
 {
 	/**
 	 * Helper wrapper method for loadFieldType
@@ -26,12 +27,12 @@ class JFormWrapperHelper
 	 *
 	 * @return mixed  JFormField object on success, false otherwise.
 	 *
-	 * @see     JFormHelper::loadFieldType()
+	 * @see     FormHelper::loadFieldType()
 	 * @since   3.4
 	 */
 	public function loadFieldType($type, $new = true)
 	{
-		return JFormHelper::loadFieldType($type, $new);
+		return FormHelper::loadFieldType($type, $new);
 	}
 
 	/**
@@ -42,12 +43,12 @@ class JFormWrapperHelper
 	 *
 	 * @return mixed  JFormField object on success, false otherwise.
 	 *
-	 * @see     JFormHelper::loadRuleType()
+	 * @see     FormHelper::loadRuleType()
 	 * @since   3.4
 	 */
 	public function loadRuleType($type, $new = true)
 	{
-		return JFormHelper::loadRuleType($type, $new);
+		return FormHelper::loadRuleType($type, $new);
 	}
 
 	/**
@@ -57,12 +58,12 @@ class JFormWrapperHelper
 	 *
 	 * @return mixed  Class name on success or false otherwise.
 	 *
-	 * @see     JFormHelper::loadFieldClass()
+	 * @see     FormHelper::loadFieldClass()
 	 * @since   3.4
 	 */
 	public function loadFieldClass($type)
 	{
-		return JFormHelper::loadFieldClass($type);
+		return FormHelper::loadFieldClass($type);
 	}
 
 	/**
@@ -72,12 +73,12 @@ class JFormWrapperHelper
 	 *
 	 * @return mixed  Class name on success or false otherwise.
 	 *
-	 * @see     JFormHelper::loadRuleClass()
+	 * @see     FormHelper::loadRuleClass()
 	 * @since   3.4
 	 */
 	public function loadRuleClass($type)
 	{
-		return JFormHelper::loadRuleClass($type);
+		return FormHelper::loadRuleClass($type);
 	}
 
 	/**
@@ -87,12 +88,12 @@ class JFormWrapperHelper
 	 *
 	 * @return array  The list of paths that have been added.
 	 *
-	 * @see     JFormHelper::addFieldPath()
+	 * @see     FormHelper::addFieldPath()
 	 * @since   3.4
 	 */
 	public function addFieldPath($new = null)
 	{
-		return JFormHelper::addFieldPath($new);
+		return FormHelper::addFieldPath($new);
 	}
 
 	/**
@@ -102,12 +103,12 @@ class JFormWrapperHelper
 	 *
 	 * @return array  The list of paths that have been added.
 	 *
-	 * @see     JFormHelper::addFormPath()
+	 * @see     FormHelper::addFormPath()
 	 * @since   3.4
 	 */
 	public function addFormPath($new = null)
 	{
-		return JFormHelper::addFormPath($new);
+		return FormHelper::addFormPath($new);
 	}
 
 	/**
@@ -117,11 +118,11 @@ class JFormWrapperHelper
 	 *
 	 * @return array  The list of paths that have been added.
 	 *
-	 * @see     JFormHelper::addRulePath()
+	 * @see     FormHelper::addRulePath()
 	 * @since   3.4
 	 */
 	public function addRulePath($new = null)
 	{
-		return JFormHelper::addRulePath($new);
+		return FormHelper::addRulePath($new);
 	}
 }
