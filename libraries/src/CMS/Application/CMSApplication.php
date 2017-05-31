@@ -553,6 +553,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
 			}
+
+			static::$instances[$name]->loadIdentity(\JFactory::getUser());
 		}
 
 		return static::$instances[$name];
