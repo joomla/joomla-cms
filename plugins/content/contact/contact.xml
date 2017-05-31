@@ -12,9 +12,9 @@
 	<files>
 		<filename plugin="contact">contact.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_content_contact.ini</language>
-		<language tag="en-GB">en-GB.plg_content_contact.sys.ini</language>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_content_contact.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_content_contact.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
