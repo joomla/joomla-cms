@@ -187,15 +187,13 @@ JLoader::registerAlias('JDocumentRendererHtmlMessage',      '\\Joomla\\CMS\\Docu
 JLoader::registerAlias('JDocumentRendererHtmlModule',       '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlModule', '5.0');
 JLoader::registerAlias('JDocumentRendererHtmlModules',      '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlModules', '5.0');
 JLoader::registerAlias('JDocumentXml',                      '\\Joomla\\CMS\\Document\\DocumentXml', '5.0');
-
-// Deprecated Joomla! 4.0
-JLoader::registerAlias('JDocumentRendererAtom',             '\\Joomla\\CMS\\Document\\Renderer\\Feed\\RendererFeedAtom', '5.0');
-JLoader::registerAlias('JDocumentRendererRSS',              '\\Joomla\\CMS\\Document\\Renderer\\Feed\\RendererFeedRss', '5.0');
-JLoader::registerAlias('JDocumentRendererComponent',        '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlComponent', '5.0');
-JLoader::registerAlias('JDocumentRendererHead',             '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlHead', '5.0');
-JLoader::registerAlias('JDocumentRendererMessage',          '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlMessage', '5.0');
-JLoader::registerAlias('JDocumentRendererModule',           '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlModule', '5.0');
-JLoader::registerAlias('JDocumentRendererModules',          '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlModules', '5.0');
+JLoader::registerAlias('JDocumentRendererAtom',             '\\Joomla\\CMS\\Document\\Renderer\\Feed\\RendererFeedAtom', '4.0');
+JLoader::registerAlias('JDocumentRendererRSS',              '\\Joomla\\CMS\\Document\\Renderer\\Feed\\RendererFeedRss', '4.0');
+JLoader::registerAlias('JDocumentRendererComponent',        '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlComponent', '4.0');
+JLoader::registerAlias('JDocumentRendererHead',             '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlHead', '4.0');
+JLoader::registerAlias('JDocumentRendererMessage',          '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlMessage', '4.0');
+JLoader::registerAlias('JDocumentRendererModule',           '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlModule', '4.0');
+JLoader::registerAlias('JDocumentRendererModules',          '\\Joomla\\CMS\\Document\\Renderer\\Html\\RendererHtmlModules', '4.0');
 
 JLoader::registerAlias('JFilterInput',                      '\\Joomla\\CMS\\Filter\\InputFilter', '5.0');
 JLoader::registerAlias('JFilterOutput',                     '\\Joomla\\CMS\\Filter\\OutputFilter', '5.0');
