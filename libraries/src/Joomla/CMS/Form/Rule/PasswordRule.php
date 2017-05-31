@@ -1,14 +1,18 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Rule;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,28 +20,28 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1.2
  */
-class JFormRulePassword extends JFormRule
+class PasswordRule extends FormRule
 {
 	/**
 	 * Method to test if two values are not equal. To use this rule, the form
 	 * XML needs a validate attribute of equals and a field attribute
 	 * that is equal to the field to test against.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
-	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
-	 * @param   JForm             $form     The form object for which the field is being tested.
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
+	 * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
+	 * @param   Form               $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   3.1.2
-	 * @throws  InvalidArgumentException
-	 * @throws  UnexpectedValueException
+	 * @throws  \InvalidArgumentException
+	 * @throws  \UnexpectedValueException
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
+	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
 		$meter            = isset($element['strengthmeter'])  ? ' meter="0"' : '1';
 		$threshold        = isset($element['threshold']) ? (int) $element['threshold'] : 66;
@@ -48,7 +52,7 @@ class JFormRulePassword extends JFormRule
 
 		// If we have parameters from com_users, use those instead.
 		// Some of these may be empty for legacy reasons.
-		$params = JComponentHelper::getParams('com_users');
+		$params = ComponentHelper::getParams('com_users');
 
 		if (!empty($params))
 		{
@@ -78,12 +82,12 @@ class JFormRulePassword extends JFormRule
 		$valueLength = strlen($value);
 
 		// Load language file of com_users component
-		JFactory::getLanguage()->load('com_users');
+		\JFactory::getLanguage()->load('com_users');
 
 		// We set a maximum length to prevent abuse since it is unfiltered.
 		if ($valueLength > 4096)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'), 'warning');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'), 'warning');
 		}
 
 		// We don't allow white space inside passwords
@@ -94,10 +98,10 @@ class JFormRulePassword extends JFormRule
 
 		if (strlen($valueTrim) != $valueLength)
 		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),
+			\JFactory::getApplication()->enqueueMessage(
+				\JText::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),
 				'warning'
-				);
+			);
 
 			$validPassword = false;
 		}
@@ -109,8 +113,8 @@ class JFormRulePassword extends JFormRule
 
 			if ($nInts < $minimumIntegers)
 			{
-				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
+				\JFactory::getApplication()->enqueueMessage(
+					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
 					'warning'
 				);
 
@@ -125,8 +129,8 @@ class JFormRulePassword extends JFormRule
 
 			if ($nsymbols < $minimumSymbols)
 			{
-				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
+				\JFactory::getApplication()->enqueueMessage(
+					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
 					'warning'
 				);
 
@@ -141,10 +145,10 @@ class JFormRulePassword extends JFormRule
 
 			if ($nUppercase < $minimumUppercase)
 			{
-				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
+				\JFactory::getApplication()->enqueueMessage(
+					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
 					'warning'
-			);
+				);
 
 				$validPassword = false;
 			}
@@ -155,10 +159,10 @@ class JFormRulePassword extends JFormRule
 		{
 			if (strlen((string) $value) < $minimumLength)
 			{
-				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', $minimumLength),
+				\JFactory::getApplication()->enqueueMessage(
+					\JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', $minimumLength),
 					'warning'
-					);
+				);
 
 				$validPassword = false;
 			}

@@ -1,14 +1,17 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Form\Rule;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\Registry\Registry;
  *
  * @since  11.1
  */
-class JFormRuleEmail extends JFormRule
+class EmailRule extends FormRule
 {
 	/**
 	 * The regular expression to use in testing a form field value.
@@ -30,19 +33,19 @@ class JFormRuleEmail extends JFormRule
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
-	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
-	 * @param   JForm             $form     The form object for which the field is being tested.
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
+	 * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
+	 * @param   Form               $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.1
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
+	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
 		// If the field is empty and not required, the field is valid.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
@@ -67,7 +70,7 @@ class JFormRuleEmail extends JFormRule
 		if (!$multiple)
 		{
 			// Handle idn email addresses by converting to punycode.
-			$value = JStringPunycode::emailToPunycode($value);
+			$value = \JStringPunycode::emailToPunycode($value);
 
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
@@ -82,7 +85,7 @@ class JFormRuleEmail extends JFormRule
 			foreach ($values as $value)
 			{
 				// Handle idn email addresses by converting to punycode.
-				$value = JStringPunycode::emailToPunycode($value);
+				$value = \JStringPunycode::emailToPunycode($value);
 
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
@@ -98,7 +101,7 @@ class JFormRuleEmail extends JFormRule
 		if ($unique && !$multiple)
 		{
 			// Get the database object and a new query object.
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.
@@ -107,7 +110,7 @@ class JFormRuleEmail extends JFormRule
 				->where('email = ' . $db->quote($value));
 
 			// Get the extra field check attribute.
-			$userId = ($form instanceof JForm) ? $form->getValue('id') : '';
+			$userId = ($form instanceof Form) ? $form->getValue('id') : '';
 			$query->where($db->quoteName('id') . ' <> ' . (int) $userId);
 
 			// Set and query the database.
