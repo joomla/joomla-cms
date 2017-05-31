@@ -154,7 +154,7 @@ class NewsfeedsRouter extends JComponentRouterView
 				}
 				else
 				{
-					if ($child->id === (int) $segment)
+					if ($child->id == (int) $segment)
 					{
 						return $child->id;
 					}
