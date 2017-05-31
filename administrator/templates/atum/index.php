@@ -94,35 +94,32 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 		<?php // Header ?>
 		<header id="header" class="header">
 			<div class="container-fluid">
-				<div class="d-flex">
+				<div class="d-flex justify-content-end">
 					<div class="d-flex col">
 						<div class="menu-collapse">
 							<a id="menu-collapse" class="menu-toggle" href="#">
-								<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true">
-									<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
-								</span>
+								<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
 							</a>
 						</div>
 
-						<div class="container-title hidden-md-down">
+						<div class="container-title">
 							<jdoc:include type="modules" name="title" />
 						</div>
 					</div>
 
-					<a class="navbar-brand d-flex col justify-content-center align-items-center hidden-md-down" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
-						<?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?>
-						<span class="icon-out-2 small"></span>
-					</a>
-
-					<div class="container-title hidden-lg-up col">
-						<jdoc:include type="modules" name="title" />
-					</div>
-
-					<nav class="d-flex col justify-content-end">
+					<div class="ml-auto">
 						<ul class="nav text-center">
 							<li class="nav-item">
+								<a class="nav-link" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank">
+									<span class="fa fa-external-link" aria-hidden="true"></span>
+									<span class="sr-only"><?php echo JHtml::_('string.truncate', $sitename, 28, false, false); ?></span>
+								</a>
+							</li>
+							<li class="nav-item">
 								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
-									<span class="fa fa-envelope"><span class="sr-only"><?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?></span>
+									<span class="fa fa-envelope" aria-hidden="true"></span>
+									<span class="sr-only"><?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?></span>
 									<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
 									<?php if ($countUnread > 0) : ?>
 										<span class="badge badge-pill badge-success"><?php echo $countUnread; ?></span>
@@ -147,7 +144,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo JText::_('TPL_ATUM_POST_INSTALLATION_MESSAGES'); ?>">
-									<span class="fa fa-bell"></span>
+									<span class="fa fa-bell" aria-hidden="true"></span>
 									<?php if (count($messages) > 0) : ?>
 										<span class="badge badge-pill badge-success"><?php echo count($messages); ?></span>
 									<?php endif; ?>
@@ -173,13 +170,12 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<?php endif; ?>
 							<li class="nav-item dropdown header-profile">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-									<span class="fa fa-user">
-										<span class="sr-only"><?php echo JText::_('TPL_ATUM_ADMIN_USER_MENU'); ?></span>
-									</span>
+									<span class="fa fa-user" aria-hidden="true"></span>
+									<span class="sr-only"><?php echo JText::_('TPL_ATUM_ADMIN_USER_MENU'); ?></span>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
 									<div class="dropdown-item header-profile-user">
-										<span class="fa fa-user"></span>
+										<span class="fa fa-user" aria-hidden="true"></span>
 										<?php echo $user->name; ?>
 									</div>
 									<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
@@ -190,7 +186,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 								</div>
 							</li>
 						</ul>
-					</nav>
+					</div>
 
 				</div>
 			</div>

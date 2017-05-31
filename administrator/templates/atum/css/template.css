@@ -3293,10 +3293,8 @@ tbody.collapse.show {
 
 @media (min-width: 576px) {
   .card-columns {
-    -moz-column-count: 3;
-         column-count: 3;
-    -moz-column-gap: 1.25rem;
-         column-gap: 1.25rem; }
+    column-count: 3;
+    column-gap: 1.25rem; }
     .card-columns .card {
       display: inline-block;
       width: 100%;
@@ -9640,17 +9638,22 @@ iframe {
   .child-open > .open:hover > a .sidebar-item-title {
     visibility: hidden !important; }
 
-.closed {
-  padding-left: 50px; }
-  .closed .child-open::after {
-    display: none; }
-  .closed .sidebar-wrapper, .closed .main-nav {
-    width: 50px; }
-  .closed .parent .collapse-arrow::after {
-    visibility: hidden;
-    transition-delay: 0s !important; }
-  .closed .menu-toggle-icon::before {
-    content: "\f054"; }
+@media (min-width: 992px) {
+  .closed {
+    padding-left: 50px; } }
+
+.closed .child-open::after {
+  display: none; }
+
+.closed .sidebar-wrapper, .closed .main-nav {
+  width: 50px; }
+
+.closed .parent .collapse-arrow::after {
+  visibility: hidden;
+  transition-delay: 0s !important; }
+
+.closed .menu-toggle-icon::before {
+  content: "\f054"; }
 
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
   color: #fff;
@@ -10371,6 +10374,7 @@ iframe {
   background-color: #f2f2f2; }
   @media (max-width: 991px) {
     .container-main {
+      padding-left: 50px;
       margin-top: 47px; } }
 
 .list-view-main .container-main {
