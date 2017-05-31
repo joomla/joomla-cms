@@ -293,9 +293,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					continue;
 				}
 
-				if ($option->level != 0
-					&& isset($oldParent)
-					&& $option->value != $oldParent&& !$user->authorise('core.edit.state', $assetKey))
+				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
 				{
 					unset($options[$i]);
 					continue;
@@ -313,9 +311,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 					continue;
 				}
 
-				if ( $option->level != 0
-					&& isset($oldParent)
-					&& $option->value != $oldParent&& !$user->authorise('core.create', $assetKey))
+				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.create', $assetKey))
 				{
 					unset($options[$i]);
 					continue;
