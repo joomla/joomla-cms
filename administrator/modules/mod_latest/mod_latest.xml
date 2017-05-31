@@ -37,10 +37,8 @@
 					description="MOD_LATEST_FIELD_ORDERING_DESC"
 					default="c_dsc"
 					>
-					<option
-						value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
-					<option
-						value="m_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_MODIFIED</option>
+					<option value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
+					<option value="m_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_MODIFIED</option>
 				</field>
 
 				<field
@@ -62,12 +60,9 @@
 					description="MOD_LATEST_FIELD_AUTHORS_DESC"
 					default="0"
 					>
-					<option
-						value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
-					<option
-						value="by_me">MOD_LATEST_FIELD_VALUE_AUTHORS_BY_ME</option>
-					<option
-						value="not_me">MOD_LATEST_FIELD_VALUE_AUTHORS_NOT_BY_ME</option>
+					<option value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
+					<option value="by_me">MOD_LATEST_FIELD_VALUE_AUTHORS_BY_ME</option>
+					<option value="not_me">MOD_LATEST_FIELD_VALUE_AUTHORS_NOT_BY_ME</option>
 				</field>
 			</fieldset>
 			<fieldset
@@ -81,9 +76,10 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea" 
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" 
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
 				/>
 
 				<field

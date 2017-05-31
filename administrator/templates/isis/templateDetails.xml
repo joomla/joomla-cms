@@ -89,9 +89,9 @@
 
 				<field 
 					name="loginBackgroundColor" 
+					type="color" 
 					label="TPL_ISIS_COLOR_LOGIN_BACKGROUND_LABEL"
 					description="TPL_ISIS_COLOR_LOGIN_BACKGROUND_DESC"
-					type="color" 
 					class="" 
 					default="#17568C"
 					validate="color"
@@ -108,9 +108,9 @@
 
 				<field 
 					name="loginLogoFile" 
+					type="media" 
 					label="TPL_ISIS_LOGIN_LOGO_LABEL"
 					description="TPL_ISIS_LOGIN_LOGO_DESC"
-					type="media" 
 					class="" 
 					default=""
 				 />
@@ -148,10 +148,8 @@
 					default="1"
 					filter="integer"
 					>
-					<option
-					value="1">TPL_ISIS_STATUS_BOTTOM</option>
-					<option
-					value="0">TPL_ISIS_STATUS_TOP</option>
+					<option value="1">TPL_ISIS_STATUS_BOTTOM</option>
+					<option value="0">TPL_ISIS_STATUS_TOP</option>
 				</field>
 
 				<field 

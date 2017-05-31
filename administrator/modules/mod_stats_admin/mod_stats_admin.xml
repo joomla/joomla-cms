@@ -65,8 +65,7 @@
 					default="0"
 				 />
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
@@ -87,10 +86,8 @@
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 				<field
 					name="cache_time"

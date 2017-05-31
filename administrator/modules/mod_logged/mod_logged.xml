@@ -24,9 +24,9 @@
 				<field
 					name="count"
 					type="text"
-					default="5"
 					label="MOD_LOGGED_FIELD_COUNT_LABEL"
 					description="MOD_LOGGED_FIELD_COUNT_DESC" 
+					default="5"
 				/>
 
 				<field
