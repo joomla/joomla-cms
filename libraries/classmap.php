@@ -267,6 +267,7 @@ JLoader::registerAlias('JFormRuleBoolean',                  '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormRuleCalendar',                 '\\Joomla\\CMS\\Form\\Rule\\CalendarRule', '5.0');
 JLoader::registerAlias('JFormRuleCaptcha',                  '\\Joomla\\CMS\\Form\\Rule\\CaptchaRule', '5.0');
 JLoader::registerAlias('JFormRuleColor',                    '\\Joomla\\CMS\\Form\\Rule\\ColorRule', '5.0');
+JLoader::registerAlias('JFormRuleEmail',                    '\\Joomla\\CMS\\Form\\Rule\\EmailRule', '5.0');
 JLoader::registerAlias('JFormRuleEquals',                   '\\Joomla\\CMS\\Form\\Rule\\EqualsRule', '5.0');
 JLoader::registerAlias('JFormRuleNotequals',                '\\Joomla\\CMS\\Form\\Rule\\NotequalsRule', '5.0');
 JLoader::registerAlias('JFormRuleNumber',                   '\\Joomla\\CMS\\Form\\Rule\\NumberRule', '5.0');
