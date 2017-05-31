@@ -6,17 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Categories\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Category Parent field.
  *
  * @since  1.6
  */
-class JFormFieldCategoryParent extends JFormFieldList
+class Categoryparent extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -40,7 +43,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
-		$jinput = JFactory::getApplication()->input;
+		$jinput = \JFactory::getApplication()->input;
 
 		// For categories the old category is the category id 0 for new category.
 		if ($this->element['parent'])
@@ -53,7 +56,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 			$oldCat = $this->form->getValue($name);
 		}
 
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text, a.level')
 			->from('#__categories AS a')
@@ -93,9 +96,9 @@ class JFormFieldCategoryParent extends JFormFieldList
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			\JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
@@ -104,11 +107,11 @@ class JFormFieldCategoryParent extends JFormFieldList
 			// Translate ROOT
 			if ($options[$i]->level == 0)
 			{
-				$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
+				$options[$i]->text = \JText::_('JGLOBAL_ROOT_PARENT');
 			}
 
 			// Displays language code if not set to All
-			$db = JFactory::getDbo();
+			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('language'))
 				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
@@ -126,7 +129,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 		}
 
 		// Get the current user object.
-		$user = JFactory::getUser();
+		$user = \JFactory::getUser();
 
 		// For new items we want a list of categories you are allowed to create in.
 		if ($oldCat == 0)
@@ -179,8 +182,8 @@ class JFormFieldCategoryParent extends JFormFieldList
 		{
 			if ($row->parent_id == '1')
 			{
-				$parent = new stdClass;
-				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
+				$parent = new \stdClass;
+				$parent->text = \JText::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}
 		}

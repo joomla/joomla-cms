@@ -1,13 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\FormField;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -16,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  11.1
  */
-class JFormFieldText extends JFormField
+class Text extends FormField
 {
 	/**
 	 * The form field type.
@@ -141,18 +144,18 @@ class JFormFieldText extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
-	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                      full field name would end up being "bar[foo]".
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     FormField::setup()
 	 * @since   3.2
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$result = parent::setup($element, $value, $group);
 
@@ -167,7 +170,7 @@ class JFormFieldText extends JFormField
 
 			if (!empty($inputmode))
 			{
-				$defaultInputmode = in_array('default', $inputmode) ? JText::_('JLIB_FORM_INPUTMODE') . ' ' : '';
+				$defaultInputmode = in_array('default', $inputmode) ? \JText::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
 				foreach (array_keys($inputmode, 'default') as $key)
 				{
@@ -201,36 +204,36 @@ class JFormFieldText extends JFormField
 	{
 		if ($this->element['useglobal'])
 		{
-			$component = JFactory::getApplication()->input->getCmd('option');
+			$component = \JFactory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
 			if ($component == 'com_menus')
 			{
 				$link      = $this->form->getData()->get('link');
-				$uri       = new JUri($link);
+				$uri       = new \JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
 
-			$params = JComponentHelper::getParams($component);
+			$params = ComponentHelper::getParams($component);
 			$value  = $params->get($this->fieldname);
 
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = JFactory::getConfig()->get($this->fieldname);
+				$value = \JFactory::getConfig()->get($this->fieldname);
 			}
 
 			// Try with menu configuration
-			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (is_null($value) && \JFactory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
-				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
+				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
 
 			if (!is_null($value))
 			{
 				$value = (string) $value;
 
-				$this->hint = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+				$this->hint = \JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
 			}
 		}
 
@@ -257,9 +260,9 @@ class JFormFieldText extends JFormField
 			}
 
 			// Create a new option object based on the <option /> element.
-			$options[] = JHtml::_(
+			$options[] = \JHtml::_(
 				'select.option', (string) $option['value'],
-				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
+				\JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
 			);
 		}
 
