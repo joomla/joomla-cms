@@ -1995,7 +1995,7 @@ class PlgSystemDebug extends JPlugin
 		$app    = JFactory::getApplication();
 		$domain = $app->isClient('site') ? 'site' : 'admin';
 		$input  = $app->input;
-		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+		$file   = $app->get('log_path', JPATH_ADMINISTRATOR . '/logs') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
 
 		// Get the queries from log.
 		$current = '';
