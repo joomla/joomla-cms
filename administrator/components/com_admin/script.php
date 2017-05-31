@@ -2232,10 +2232,7 @@ class JoomlaInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		// This is only required for MySQL databases
-		$serverType = $db->getServerType();
-
-		if ($serverType != 'mysql')
+		if (!($db instanceof UTF8MB4SupportInterface))
 		{
 			return;
 		}
@@ -2313,18 +2310,11 @@ class JoomlaInstallerScript
 
 			if (!empty($queries2))
 			{
-				$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
-
 				foreach ($queries2 as $query2)
 				{
 					try
 					{
-						if ($isUtf8mb4Db)
-						{
-							$query2 = $db->convertUtf8mb4QueryToUtf8($query2);
-						}
-
-						$db->setQuery($query2)->execute();
+						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
 					}
 					catch (Exception $e)
 					{
