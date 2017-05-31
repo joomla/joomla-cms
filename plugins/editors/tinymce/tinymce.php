@@ -199,7 +199,7 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
-		if($options['tinyMCE'][$fieldName])
+		if ($options['tinyMCE'][$fieldName])
 		{
 			$options['tinyMCE'][$fieldName] = array_merge($options['tinyMCE'][$fieldName], $params);
 		}
@@ -1278,7 +1278,7 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
-		if($options['tinyMCE'][$fieldName])
+		if ($options['tinyMCE'][$fieldName])
 		{
 			$options['tinyMCE'][$fieldName] = array_merge($options['tinyMCE'][$fieldName], $params);
 		}
