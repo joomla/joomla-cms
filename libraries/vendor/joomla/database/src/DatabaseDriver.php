@@ -1499,6 +1499,22 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	}
 
 	/**
+	 * Set a query monitor.
+	 *
+	 * @param   QueryMonitorInterface  $monitor  The query monitor.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setMonitor(QueryMonitorInterface $monitor)
+	{
+		$this->monitor = $monitor;
+
+		return $this;
+	}
+
+	/**
 	 * Sets the SQL statement string for later execution.
 	 *
 	 * @param   mixed    $query   The SQL statement to set either as a Query object or a string.
