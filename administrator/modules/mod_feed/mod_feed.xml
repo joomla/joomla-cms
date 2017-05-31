@@ -68,6 +68,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="rssimage"
 					type="radio"
@@ -79,12 +80,15 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="rssitems"
 					type="text"
-					default="3"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
-					description="MOD_FEED_FIELD_ITEMS_DESC" />
+					description="MOD_FEED_FIELD_ITEMS_DESC"
+					default="3"
+				/>
+
 				<field
 					name="rssitemdesc"
 					type="radio"
@@ -96,6 +100,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="word_count"
 					type="text"
@@ -105,8 +110,7 @@
 					default="0"
 				/>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
@@ -129,10 +133,8 @@
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
 				<field
