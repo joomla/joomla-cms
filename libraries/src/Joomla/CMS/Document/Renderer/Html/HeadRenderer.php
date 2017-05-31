@@ -10,7 +10,7 @@ namespace Joomla\CMS\Document\Renderer\Html;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Document\RendererDocument;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.5
  */
-class HeadRenderer extends DocumentRenderer
+class HeadRenderer extends RendererDocument
 {
 	/**
 	 * Renders the document head and returns the results as a string

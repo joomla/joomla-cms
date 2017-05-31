@@ -10,14 +10,14 @@ namespace Joomla\CMS\Document\Renderer\Html;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Document\RendererDocument;
 
 /**
  * Document Html Component Renderer
  *
  * @since  3.5
  */
-class ComponentRenderer extends DocumentRenderer
+class ComponentRenderer extends RendererDocument
 {
 	/**
 	 * Renders a component script and returns the results as a string

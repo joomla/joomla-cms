@@ -10,7 +10,7 @@ namespace Joomla\CMS\Document\Renderer\Html;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Document\RendererDocument;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Layout\LayoutHelper;
  *
  * @since  3.5
  */
-class MessageRenderer extends DocumentRenderer
+class MessageRenderer extends RendererDocument
 {
 	/**
 	 * Renders the error stack and returns the results as a string

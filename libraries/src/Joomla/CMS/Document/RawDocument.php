@@ -13,11 +13,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\Document;
 
 /**
- * DocumentRaw class, provides an easy interface to parse and display raw output
+ * RawDocument class, provides an easy interface to parse and display raw output
  *
  * @since  11.1
  */
-class DocumentRaw extends Document
+class RawDocument extends Document
 {
 	/**
 	 * Class constructor

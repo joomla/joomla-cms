@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
  * @link   http://www.opensearch.org/
  * @since  11.1
  */
-class DocumentOpensearch extends Document
+class OpensearchDocument extends Document
 {
 	/**
 	 * ShortName element
@@ -185,7 +185,7 @@ class DocumentOpensearch extends Document
 	 *
 	 * @param   string  $name  The name.
 	 *
-	 * @return  JDocumentOpensearch instance of $this to allow chaining
+	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -201,7 +201,7 @@ class DocumentOpensearch extends Document
 	 *
 	 * @param   OpenSearchUrl  $url  The url to add to the description.
 	 *
-	 * @return  JDocumentOpensearch instance of $this to allow chaining
+	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -217,7 +217,7 @@ class DocumentOpensearch extends Document
 	 *
 	 * @param   OpenSearchImage  $image  The image to add to the description.
 	 *
-	 * @return  JDocumentOpensearch instance of $this to allow chaining
+	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */

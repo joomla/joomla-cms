@@ -20,11 +20,11 @@ use Joomla\Registry\Registry;
 jimport('joomla.utilities.utility');
 
 /**
- * DocumentHtml class, provides an easy interface to parse and display a HTML document
+ * HtmlDocument class, provides an easy interface to parse and display a HTML document
  *
  * @since  11.1
  */
-class DocumentHtml extends Document
+class HtmlDocument extends Document
 {
 	/**
 	 * Array of Header `<link>` tags
@@ -156,7 +156,7 @@ class DocumentHtml extends Document
 	 *
 	 * @param   mixed  $types  type or types of the heads elements to reset
 	 *
-	 * @return  DocumentHtml  instance of $this to allow chaining
+	 * @return  HtmlDocument  instance of $this to allow chaining
 	 *
 	 * @since   3.7.0
 	 */
@@ -229,7 +229,7 @@ class DocumentHtml extends Document
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  DocumentHtml|null instance of $this to allow chaining or null for empty input data
+	 * @return  HtmlDocument|null instance of $this to allow chaining or null for empty input data
 	 *
 	 * @since   11.1
 	 */
@@ -267,7 +267,7 @@ class DocumentHtml extends Document
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  DocumentHtml|null instance of $this to allow chaining or null for empty input data
+	 * @return  HtmlDocument|null instance of $this to allow chaining or null for empty input data
 	 *
 	 * @since   11.1
 	 */
@@ -351,7 +351,7 @@ class DocumentHtml extends Document
 	 * @param   string  $relType   Relation type attribute.  Either rel or rev (default: 'rel').
 	 * @param   array   $attribs   Associative array of remaining attributes.
 	 *
-	 * @return  DocumentHtml instance of $this to allow chaining
+	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -375,7 +375,7 @@ class DocumentHtml extends Document
 	 * @param   string  $type      File type
 	 * @param   string  $relation  Relation of link
 	 *
-	 * @return  DocumentHtml instance of $this to allow chaining
+	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -392,7 +392,7 @@ class DocumentHtml extends Document
 	 *
 	 * @param   string  $html  The HTML to add to the head
 	 *
-	 * @return  DocumentHtml instance of $this to allow chaining
+	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -501,7 +501,7 @@ class DocumentHtml extends Document
 	 * @param   string  $content  The content to be set in the buffer.
 	 * @param   array   $options  Array of optional elements.
 	 *
-	 * @return  DocumentHtml instance of $this to allow chaining
+	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -527,7 +527,7 @@ class DocumentHtml extends Document
 	 *
 	 * @param   array  $params  Parameters for fetching the template
 	 *
-	 * @return  DocumentHtml instance of $this to allow chaining
+	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -584,7 +584,7 @@ class DocumentHtml extends Document
 			return $result;
 		}
 
-		Log::add('Using an expression in DocumentHtml::countModules() is deprecated.', Log::WARNING, 'deprecated');
+		Log::add('Using an expression in HtmlDocument::countModules() is deprecated.', Log::WARNING, 'deprecated');
 
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
 		{
@@ -683,7 +683,7 @@ class DocumentHtml extends Document
 	 *
 	 * @param   array  $params  Parameters to determine the template
 	 *
-	 * @return  DocumentHtml instance of $this to allow chaining
+	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -726,7 +726,7 @@ class DocumentHtml extends Document
 	/**
 	 * Parse a document template
 	 *
-	 * @return  DocumentHtml  instance of $this to allow chaining
+	 * @return  HtmlDocument  instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */

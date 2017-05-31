@@ -13,11 +13,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\Document;
 
 /**
- * DocumentXml class, provides an easy interface to parse and display XML output
+ * XmlDocument class, provides an easy interface to parse and display XML output
  *
  * @since  11.1
  */
-class DocumentXml extends Document
+class XmlDocument extends Document
 {
 	/**
 	 * Document name
@@ -81,7 +81,7 @@ class DocumentXml extends Document
 	 *
 	 * @param   string  $name  Document name
 	 *
-	 * @return  JDocumentXml instance of $this to allow chaining
+	 * @return  JXmlDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */

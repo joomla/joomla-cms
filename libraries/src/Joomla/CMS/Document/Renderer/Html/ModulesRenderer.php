@@ -10,7 +10,7 @@ namespace Joomla\CMS\Document\Renderer\Html;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Document\RendererDocument;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Layout\LayoutHelper;
  *
  * @since  3.5
  */
-class ModulesRenderer extends DocumentRenderer
+class ModulesRenderer extends RendererDocument
 {
 	/**
 	 * Renders multiple modules script and returns the results as a string

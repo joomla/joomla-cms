@@ -15,11 +15,11 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /**
- * DocumentError class, provides an easy interface to parse and display an error page
+ * ErrorDocument class, provides an easy interface to parse and display an error page
  *
  * @since  11.1
  */
-class DocumentError extends Document
+class ErrorDocument extends Document
 {
 	/**
 	 * Document base URL

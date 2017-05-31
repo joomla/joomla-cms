@@ -13,11 +13,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\Document;
 
 /**
- * DocumentImage class, provides an easy interface to output image data
+ * ImageDocument class, provides an easy interface to output image data
  *
  * @since  12.1
  */
-class DocumentImage extends Document
+class ImageDocument extends Document
 {
 	/**
 	 * Class constructor

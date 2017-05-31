@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  11.1
  */
-class DocumentRenderer
+class RendererDocument
 {
 	/**
 	 * Reference to the JDocument object that instantiated the renderer

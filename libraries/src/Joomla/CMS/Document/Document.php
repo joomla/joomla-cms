@@ -286,7 +286,7 @@ class Document
 			$ntype = null;
 
 			// Determine the path and class
-			$class = __NAMESPACE__ . '\\Document' . ucfirst($type);
+			$class = __NAMESPACE__ . '\\' . ucfirst($type) . 'Document';
 
 			if (!class_exists($class))
 			{

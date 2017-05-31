@@ -13,12 +13,12 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Document\Document;
 
 /**
- * DocumentJson class, provides an easy interface to parse and display JSON output
+ * JsonDocument class, provides an easy interface to parse and display JSON output
  *
  * @link   http://www.json.org/
  * @since  11.1
  */
-class DocumentJson extends Document
+class JsonDocument extends Document
 {
 	/**
 	 * Document name
@@ -100,7 +100,7 @@ class DocumentJson extends Document
 	 *
 	 * @param   string  $name  Document name
 	 *
-	 * @return  DocumentJson instance of $this to allow chaining
+	 * @return  JsonDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */

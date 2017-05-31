@@ -10,7 +10,7 @@ namespace Joomla\CMS\Document\Renderer\Feed;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Document\RendererDocument;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -21,7 +21,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @property-read  DocumentFeed  $_doc  Reference to the Document object that instantiated the renderer
  */
-class RssRenderer extends DocumentRenderer
+class RssRenderer extends RendererDocument
 {
 	/**
 	 * Renderer mime type
@@ -40,7 +40,7 @@ class RssRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @see     DocumentRenderer::render()
+	 * @see     RendererDocument::render()
 	 * @since   3.5
 	 */
 	public function render($name = '', $params = null, $content = null)

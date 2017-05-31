@@ -14,11 +14,11 @@ use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentRenderer;
 
 /**
- * DocumentFeed class, provides an easy interface to parse and display any feed document
+ * FeedDocument class, provides an easy interface to parse and display any feed document
  *
  * @since  11.1
  */
-class DocumentFeed extends Document
+class FeedDocument extends Document
 {
 	/**
 	 * Syndication URL feed element
@@ -232,7 +232,7 @@ class DocumentFeed extends Document
 	 *
 	 * @param   FeedItem  $item  The feeditem to add to the feed.
 	 *
-	 * @return  DocumentFeed  instance of $this to allow chaining
+	 * @return  FeedDocument  instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
