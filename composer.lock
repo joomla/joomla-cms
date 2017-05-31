@@ -414,12 +414,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "792e7adb48a6c7eaa47c2ea3a58a68c174507eed"
+                "reference": "012ff07e4a66bcc808b58afef98b883749f44243"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/792e7adb48a6c7eaa47c2ea3a58a68c174507eed",
-                "reference": "792e7adb48a6c7eaa47c2ea3a58a68c174507eed",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/012ff07e4a66bcc808b58afef98b883749f44243",
+                "reference": "012ff07e4a66bcc808b58afef98b883749f44243",
                 "shasum": ""
             },
             "require": {
@@ -465,7 +465,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-05-31T16:19:11+00:00"
+            "time": "2017-05-31T17:44:02+00:00"
         },
         {
             "name": "joomla/di",
