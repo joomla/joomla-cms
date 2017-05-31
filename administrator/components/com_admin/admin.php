@@ -15,3 +15,5 @@ JHtml::_('behavior.tabstate');
 $controller = JControllerLegacy::getInstance('Admin');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
+
+// A useless comment
