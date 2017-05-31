@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Database Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,19 @@ interface DatabaseInterface
 	public function connected();
 
 	/**
+	 * Create a new database using information from $options object.
+	 *
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  boolean|resource
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function createDatabase($options, $utf = true);
+
+	/**
 	 * Disconnects the database.
 	 *
 	 * @return  void
@@ -42,6 +55,19 @@ interface DatabaseInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function disconnect();
+
+	/**
+	 * Drops a table from the database.
+	 *
+	 * @param   string   $table     The name of the database table to drop.
+	 * @param   boolean  $ifExists  Optionally specify that the table must exist before it is dropped.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function dropTable($table, $ifExists = true);
 
 	/**
 	 * Escapes a string for usage in an SQL statement.
@@ -152,6 +178,15 @@ interface DatabaseInterface
 	public function getQuery($new = false);
 
 	/**
+	 * Get the server family type.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getServerType();
+
+	/**
 	 * Retrieves field information about the given tables.
 	 *
 	 * @param   string   $table     The name of the database table.
@@ -194,6 +229,15 @@ interface DatabaseInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getVersion();
+
+	/**
+	 * Determine whether or not the database engine supports UTF-8 character encoding.
+	 *
+	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasUtfSupport();
 
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
@@ -370,6 +414,21 @@ interface DatabaseInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function quoteName($name, $as = null);
+
+	/**
+	 * Renames a table in the database.
+	 *
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Table prefix
+	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
 
 	/**
 	 * Select a database for use.

@@ -160,6 +160,23 @@ interface QueryInterface
 	public function exec($columns);
 
 	/**
+	 * Find a value in a varchar used like a set.
+	 *
+	 * Ensure that the value is an integer before passing to the method.
+	 *
+	 * Usage:
+	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
+	 *
+	 * @param   string  $value  The value to search for.
+	 * @param   string  $set    The set of values.
+	 *
+	 * @return  string  A representation of the MySQL find_in_set() function for the driver.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function findInSet($value, $set);
+
+	/**
 	 * Add a table to the FROM clause of the query.
 	 *
 	 * Note that while an array of tables can be provided, it is recommended you use explicit joins.
@@ -325,6 +342,40 @@ interface QueryInterface
 	public function join($type, $conditions);
 
 	/**
+	 * Get the length of a string in bytes.
+	 *
+	 * Note, use 'charLength' to find the number of characters in a string.
+	 *
+	 * Usage:
+	 * query->where($query->length('a').' > 3');
+	 *
+	 * @param   string  $value  The string to measure.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function length($value);
+
+	/**
+	 * Get the null or zero representation of a timestamp for the database driver.
+	 *
+	 * This method is provided for use where the query object is passed to a function for modification.
+	 * If you have direct access to the database object, it is recommended you use the nullDate method directly.
+	 *
+	 * Usage:
+	 * $query->where('modified_date <> '.$query->nullDate());
+	 *
+	 * @param   boolean  $quoted  Optionally wraps the null date in database quotes (true by default).
+	 *
+	 * @return  string  Null or zero representation of a timestamp.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function nullDate($quoted = true);
+
+	/**
 	 * Add an ordering column to the ORDER clause of the query.
 	 *
 	 * Usage:
@@ -338,6 +389,32 @@ interface QueryInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function order($columns);
+
+	/**
+	 * Get the function to return a random floating-point value
+	 *
+	 * Usage:
+	 * $query->rand();
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function rand();
+
+	/**
+	 * Get the regular expression operator
+	 *
+	 * Usage:
+	 * $query->where('field ' . $query->regexp($search));
+	 *
+	 * @param   string  $value  The regex pattern.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function regexp($value);
 
 	/**
 	 * Add a single column, or array of columns to the SELECT clause of the query.
@@ -458,4 +535,23 @@ interface QueryInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function union($query, $distinct = false, $glue = '');
+
+	/**
+	 * Add a query to UNION ALL with the current query.
+	 * Multiple unions each require separate statements and create an array of unions.
+	 *
+	 * Usage:
+	 * $query->union('SELECT name FROM  #__foo')
+	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
+	 *
+	 * @param   DatabaseQuery|string  $query     The DatabaseQuery object or string to union.
+	 * @param   boolean               $distinct  Not used - ignored.
+	 * @param   string                $glue      The glue by which to join the conditions.
+	 *
+	 * @return  $this
+	 *
+	 * @see     union
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function unionAll($query, $distinct = false, $glue = '');
 }
