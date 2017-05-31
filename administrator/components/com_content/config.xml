@@ -975,6 +975,7 @@
 			type="list"
 			label="JGLOBAL_ARTICLE_ORDER_LABEL"
 			description="JGLOBAL_ARTICLE_ORDER_DESC"
+			default="rdate"
 			>
 			<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 			<option value="date">JGLOBAL_OLDEST_FIRST</option>
