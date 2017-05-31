@@ -61,8 +61,7 @@ class Request extends Controller
 
 		// Access check.
 		if (!$this->app->getIdentity()->authorise('core.admin', $component)
-			&& !$this->app->getIdentity()->authorise('core.options', $component)
-		)
+			&& !$this->app->getIdentity()->authorise('core.options', $component))
 		{
 			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 

@@ -17,7 +17,7 @@ use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 /**
  * Note: this view is intended only to be opened in a popup
  *
- * @since       1.5
+ * @since  1.5
  */
 class Component extends Controller
 {
@@ -122,8 +122,7 @@ class Component extends Controller
 			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->setRedirect(\JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect),
-				\JText::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+			$this->setRedirect(\JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect), \JText::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
 		}
 
 		// Set the redirect based on the task.

@@ -32,7 +32,7 @@ class Templates extends Form
 	{
 		parent::populateState();
 
-		$this->setState('params',\JComponentHelper::getParams('com_templates'));
+		$this->setState('params', \JComponentHelper::getParams('com_templates'));
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Templates extends Form
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   \JForm   $form   A form object.
+	 * @param   \JForm  $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Plugin group to load
 	 *

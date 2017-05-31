@@ -19,7 +19,7 @@ use Joomla\CMS\Response\JsonResponse;
 /**
  * Controller for global configuration
  *
- * @since       1.5
+ * @since  1.5
  */
 class Application extends Controller
 {
@@ -46,7 +46,9 @@ class Application extends Controller
 	/**
 	 * Cancel operation.
 	 *
-	 * @return  boolean  True if successful; false otherwise.
+	 * @return  void
+	 *
+	 * @since   3.0.0
 	 */
 	public function cancel()
 	{
@@ -65,7 +67,7 @@ class Application extends Controller
 		// Check for request forgeries.
 		if (!\JSession::checkToken())
 		{
-			$this->setRedirect('index.php',\JText::_('JINVALID_TOKEN'), 'error');
+			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'), 'error');
 		}
 
 		// Check if the user is authorized to do this.
@@ -162,13 +164,13 @@ class Application extends Controller
 		// Check for request forgeries.
 		if (!\JSession::checkToken('get'))
 		{
-			$this->setRedirect('index.php',\JText::_('JINVALID_TOKEN'), 'error');
+			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'), 'error');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
-			$this->setRedirect('index.php',\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->setRedirect('index.php', \JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 
 		// Initialise model.
@@ -184,7 +186,7 @@ class Application extends Controller
 		catch (\RuntimeException $e)
 		{
 			// Save failed, go back to the screen and display a notice.
-			$this->setRedirect('index.php',\JText::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+			$this->setRedirect('index.php', \JText::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
 		}
 
 		// Set the redirect based on the task.

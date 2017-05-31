@@ -216,7 +216,7 @@ abstract class Form extends BaseForm
 	 *
 	 * @since   3.2
 	 */
-	protected function preprocessData($context, &$data, $group = 'content')
+	protected function preprocessData($context, &$data)
 	{
 		// Get the dispatcher and load the users plugins.
 		\JPluginHelper::importPlugin('content');
@@ -228,7 +228,7 @@ abstract class Form extends BaseForm
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm   $form   A JForm object.
+	 * @param   \JForm  $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -250,7 +250,7 @@ abstract class Form extends BaseForm
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   \JForm   $form   The form to validate against.
+	 * @param   \JForm  $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *

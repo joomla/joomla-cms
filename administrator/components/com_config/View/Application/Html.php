@@ -30,11 +30,14 @@ class Html extends HtmlView
 	public $data;
 
 	/**
-	 * Method to display the view.
+	 * Execute and display a template script.
 	 *
-	 * @return  string  The rendered view.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @since   3.2
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @see     \JViewLegacy::loadTemplate()
+	 * @since   3.0
 	 */
 	public function display($tpl = null)
 	{

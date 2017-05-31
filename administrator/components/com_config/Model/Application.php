@@ -937,9 +937,4 @@ class Application extends Form
 
 		return false;
 	}
-
-	public function cancel()
-	{
-		die('wtf');
-	}
 }

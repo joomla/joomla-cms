@@ -68,7 +68,7 @@ class Html extends HtmlView
 		$model = new Style;
 		$view->setModel($model, true);
 
-		$view->document = \JFactory::getDocument() ;
+		$view->document = \JFactory::getDocument();
 
 		$json = $view->display();
 
