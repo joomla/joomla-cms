@@ -789,8 +789,6 @@ class PlgSystemDebug extends JPlugin
 		$timings = $db->getTimings();
 		$callStacks = $db->getCallStacks();
 
-		$db->setDebug(false);
-
 		$selectQueryTypeTicker = array();
 		$otherQueryTypeTicker = array();
 
@@ -1447,8 +1445,6 @@ class PlgSystemDebug extends JPlugin
 	 */
 	public function mysqlDisconnectHandler(&$db)
 	{
-		$db->setDebug(false);
-
 		$this->totalQueries = $db->getCount();
 
 		if ($db->getServerType() === 'mysql')

@@ -63,8 +63,6 @@ class Database implements ServiceProviderInterface
 					jexit('Database Error: ' . $e->getMessage());
 				}
 
-				$db->setDebug((bool) $conf->get('debug', false));
-
 				return $db;
 			},
 			true
