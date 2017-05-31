@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Database\UTF8MB4SupportInterface;
+
 /**
  * Script file of Joomla CMS
  *
@@ -2311,11 +2313,18 @@ class JoomlaInstallerScript
 
 			if (!empty($queries2))
 			{
+				$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
+
 				foreach ($queries2 as $query2)
 				{
 					try
 					{
-						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
+						if ($isUtf8mb4Db)
+						{
+							$query2 = $db->convertUtf8mb4QueryToUtf8($query2);
+						}
+
+						$db->setQuery($query2)->execute();
 					}
 					catch (Exception $e)
 					{

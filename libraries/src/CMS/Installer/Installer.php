@@ -12,6 +12,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\UTF8MB4SupportInterface;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -893,14 +894,19 @@ class Installer extends \JAdapter
 
 		$update_count = 0;
 
+		$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
+
 		// Process each query in the $queries array (children of $tagName).
 		foreach ($queries as $query)
 		{
-			$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
-
 			try
 			{
-				$db->execute();
+				if ($isUtf8mb4Db)
+				{
+					$query = $db->convertUtf8mb4QueryToUtf8($query);
+				}
+
+				$db->setQuery($query)->execute();
 			}
 			catch (\JDatabaseExceptionExecuting $e)
 			{
@@ -980,14 +986,19 @@ class Installer extends \JAdapter
 					return 0;
 				}
 
+				$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
+
 				// Process each query in the $queries array (split out of sql file).
 				foreach ($queries as $query)
 				{
-					$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
-
 					try
 					{
-						$db->execute();
+						if ($isUtf8mb4Db)
+						{
+							$query = $db->convertUtf8mb4QueryToUtf8($query);
+						}
+
+						$db->setQuery($query)->execute();
 					}
 					catch (\JDatabaseExceptionExecuting $e)
 					{
@@ -1164,14 +1175,19 @@ class Installer extends \JAdapter
 								continue;
 							}
 
+							$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;
+
 							// Process each query in the $queries array (split out of sql file).
 							foreach ($queries as $query)
 							{
-								$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
-
 								try
 								{
-									$db->execute();
+									if ($isUtf8mb4Db)
+									{
+										$query = $db->convertUtf8mb4QueryToUtf8($query);
+									}
+
+									$db->setQuery($query)->execute();
 								}
 								catch (\JDatabaseExceptionExecuting $e)
 								{
