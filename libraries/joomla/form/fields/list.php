@@ -38,16 +38,13 @@ class JFormFieldList extends JFormField
 		$html = array();
 		$attr = '';
 
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
-
 		// Initialize some field attributes.
 		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
 		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
-		$attr .= strlen($hint) ? ' placeholder="' . $hint . '" data-placeholder="' . $hint . '"' : '';
+		$attr .= $this->hint ? ' data-placeholder="' . ($this->translateHint ? JText::_($this->hint, true) : json_encode($this->hint)) . '"' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
