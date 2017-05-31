@@ -198,7 +198,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// Disable asset media version if needed.
-		if ((int) $this->params->get('refresh_media_version', 1) === 0)
+		if ((int) $this->params->get('refresh_assets', 1) === 0)
 		{
 			$this->app->getDocument()->setMediaVersion(null);
 		}
