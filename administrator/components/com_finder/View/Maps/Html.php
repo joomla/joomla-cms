@@ -134,11 +134,6 @@ class Html extends HtmlView
 			ToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_finder');
-		}
-
 		ToolbarHelper::divider();
 		Toolbar::getInstance('toolbar')->appendButton(
 			'Popup',
@@ -149,12 +144,18 @@ class Html extends HtmlView
 			350
 		);
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 
 		if ($canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList('', 'maps.delete');
 			ToolbarHelper::divider();
 		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			ToolbarHelper::preferences('com_finder');
+		}
+
+		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 	}
 }

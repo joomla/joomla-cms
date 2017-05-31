@@ -9,12 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\RendererInterface;
+
 /**
  * Abstract class for a renderer
  *
  * @since  11.1
  */
-class JDocumentRenderer
+abstract class JDocumentRenderer implements RendererInterface
 {
 	/**
 	 * Reference to the JDocument object that instantiated the renderer
@@ -42,21 +44,6 @@ class JDocumentRenderer
 	public function __construct(JDocument $doc)
 	{
 		$this->_doc = $doc;
-	}
-
-	/**
-	 * Renders a script and returns the results as a string
-	 *
-	 * @param   string  $name     The name of the element to render
-	 * @param   array   $params   Array of values
-	 * @param   string  $content  Override the output of the renderer
-	 *
-	 * @return  string  The output of the script
-	 *
-	 * @since   11.1
-	 */
-	public function render($name, $params = null, $content = null)
-	{
 	}
 
 	/**

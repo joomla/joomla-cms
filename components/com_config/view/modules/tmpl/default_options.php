@@ -16,7 +16,7 @@ $i = 0;
 
 foreach ($fieldSets as $name => $fieldSet) :
 
-$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . $name . '_FIELDSET_LABEL';
+$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . strtoupper($name) . '_FIELDSET_LABEL';
 $class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
 
 
