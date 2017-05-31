@@ -6,22 +6,25 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
-// TODO MOVE
-
+/**
+ * Class NamespaceMap
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class NamespaceMap
 {
 	protected static $file = JPATH_LIBRARIES . '/autoload_psr4.php';
 
 	/**
+	 * Check if the file is existing
 	 *
 	 * @return bool
 	 *
-	 * @since version
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function exists()
+	public static function exists()
 	{
 		if (!file_exists(self::$file))
 		{
@@ -32,10 +35,11 @@ class NamespaceMap
 	}
 
 	/**
+	 * Create the namespace file
 	 *
-	 * @return bool
+	 * @return  bool
 	 *
-	 * @since version
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function create()
 	{
@@ -104,7 +108,7 @@ class NamespaceMap
 
 		$query->select('extension_id, element, namespace')
 			->from('#__extensions')
-			->where('namespace IS NOT NULL AND namespace != "" AND type = "component"');
+			->where('namespace IS NOT NULL AND namespace != ""');
 
 		$db->setQuery($query);
 
