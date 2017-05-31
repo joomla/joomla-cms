@@ -65,8 +65,7 @@
 					<option value="not_me">MOD_LATEST_FIELD_VALUE_AUTHORS_NOT_BY_ME</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
