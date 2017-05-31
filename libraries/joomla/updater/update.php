@@ -440,11 +440,9 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXml($url, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
-		$http = JHttpFactory::getHttp();
-
 		try
 		{
-			$response = $http->get($url);
+			$response = JHttpFactory::getHttp()->get($url);
 		}
 		catch (RuntimeException $e)
 		{
