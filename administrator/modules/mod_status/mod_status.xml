@@ -32,6 +32,7 @@
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
+
 			<field
 				name="show_viewadmin"
 				type="radio"
@@ -43,6 +44,7 @@
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
+
 			<field
 				name="show_loggedin_users"
 				type="radio"
@@ -54,6 +56,7 @@
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
+
 			<field
 				name="show_loggedin_users_admin"
 				type="radio"
@@ -65,6 +68,7 @@
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
+
 			<field
 				name="show_messages"
 				type="radio"
@@ -77,6 +81,7 @@
 				<option value="0">JHIDE</option>
 			</field>
 		</fieldset>
+
 		<fieldset name="advanced">
 				<field
 					name="layout"

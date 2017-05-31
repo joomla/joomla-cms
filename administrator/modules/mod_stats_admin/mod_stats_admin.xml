@@ -46,6 +46,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="counter"
 					type="radio"
@@ -57,6 +58,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="increase"
 					type="text"
@@ -72,6 +74,7 @@
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
 				/>
+
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
@@ -79,6 +82,7 @@
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 				 	rows="3"
 				/>
+
 				<field
 					name="cache"
 					type="list"
@@ -89,6 +93,7 @@
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+
 				<field
 					name="cache_time"
 					type="text"
@@ -96,6 +101,7 @@
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
+
 				<field
 					name="cachemode"
 					type="hidden"
