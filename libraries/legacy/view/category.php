@@ -113,7 +113,7 @@ class JViewCategory extends JViewLegacy
 		// Get some data from the models
 		$model       = $this->getModel();
 		$paramsModel = $model->getState('params');
-		
+
 		$paramsModel->set('check_access_rights', 0);
 		$model->setState('params', $paramsModel);
 
@@ -131,10 +131,10 @@ class JViewCategory extends JViewLegacy
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
-		
+
 		// Check whether category access level allows access.
 		$groups = $user->getAuthorisedViewLevels();
-		
+
 		if (!in_array($category->access, $groups))
 		{
 			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
@@ -251,12 +251,10 @@ class JViewCategory extends JViewLegacy
 	protected function prepareDocument()
 	{
 		$app           = JFactory::getApplication();
-		$menus         = $app->getMenu();
 		$this->pathway = $app->getPathway();
-		$title         = null;
 
 		// Because the application sets a default page title, we need to get it from the menu item itself
-		$this->menu = $menus->getActive();
+		$this->menu = $app->getMenu()->getActive();
 
 		if ($this->menu)
 		{
@@ -267,22 +265,7 @@ class JViewCategory extends JViewLegacy
 			$this->params->def('page_heading', JText::_($this->defaultPageTitle));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))
 		{

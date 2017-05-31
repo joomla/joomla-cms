@@ -124,9 +124,6 @@ class ContentViewCategory extends JViewCategory
 		// If it is the active menu item, then the view and category id will match
 		$app     = JFactory::getApplication();
 		$active  = $app->getMenu()->getActive();
-		$menus   = $app->getMenu();
-		$pathway = $app->getPathway();
-		$title   = null;
 
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
@@ -182,37 +179,20 @@ class ContentViewCategory extends JViewCategory
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
-
-		if ($menu)
+		
+		if ($active)
 		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+			$this->params->def('page_heading', $this->params->get('page_title', $active->title));
 		}
 
 		$title = $this->params->get('page_title', '');
-
-		$id = (int) @$menu->query['id'];
-
-		// Check for empty title and add site name if param is set
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
+		
 		if (empty($title))
 		{
 			$title = $this->category->title;
 		}
 
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($title);
 
 		if ($this->category->metadesc)
 		{

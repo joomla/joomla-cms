@@ -208,8 +208,6 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
-		$menus = $app->getMenu();
 		$title = null;
 
 		// Generate the tags title to use for page title, page heading and show tags title option
@@ -217,7 +215,7 @@ class TagsViewTag extends JViewLegacy
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = JFactory::getApplication()->getMenu()->getActive();
 
 		if ($this->tags_title)
 		{
@@ -235,20 +233,7 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($title);
 
 		foreach ($this->item as $itemElement)
 		{

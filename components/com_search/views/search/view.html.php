@@ -42,10 +42,8 @@ class SearchViewSearch extends JViewLegacy
 		$areas      = $this->get('areas');
 		$state      = $this->get('state');
 		$searchWord = $state->get('keyword');
-		$params     = $app->getParams();
-
-		$menus = $app->getMenu();
-		$menu  = $menus->getActive();
+		$params     = $app->getParams();		
+		$menu       = $app->getMenu()->getActive();
 
 		// Because the application sets a default page title, we need to get it right from the menu item itself
 		if (is_object($menu))
@@ -60,18 +58,7 @@ class SearchViewSearch extends JViewLegacy
 			$params->set('page_title', JText::_('COM_SEARCH_SEARCH'));
 		}
 
-		$title = $params->get('page_title');
-
-		if ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($params->get('page_title'));
 
 		if ($params->get('menu-meta_description'))
 		{
