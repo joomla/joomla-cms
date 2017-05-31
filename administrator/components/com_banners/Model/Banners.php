@@ -140,7 +140,7 @@ class Banners extends ListModel
 			->join('LEFT', $db->quoteName('#__banner_clients', 'cl') . ' ON cl.id = a.cid');
 
 		// Filter by published state
-		$published = $this->getState('filter.published');
+		$published = (string) $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{

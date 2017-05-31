@@ -240,7 +240,7 @@ class Articles extends ListModel
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.published');
+		$published = (string) $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
