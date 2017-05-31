@@ -102,11 +102,6 @@ class JNamespacePsr4Map
 	 */
 	protected function writeNamespaceFile($elements)
 	{
-		// Attempt to write the configuration file as a PHP class named JConfig.
-		// NOPE GEORGE
-		// $registry = new Joomla\Registry\Registry($elements);
-		// $autoloadCache = $registry->toString('PHP', array('closingtag' => false));
-
 		$content   = array();
 		$content[] = "<?php";
 		$content[] = 'return array(';
