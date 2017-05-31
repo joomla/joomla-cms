@@ -250,7 +250,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		}
 
 		// Check if the extension that owns the category is also enabled.
-		if (JComponentHelper::isEnabled($item->extension) == false)
+		if (!JComponentHelper::isEnabled($item->extension))
 		{
 			return;
 		}

@@ -337,7 +337,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					array_shift($parts);
 
 					// Empty parts array when "index.php" is the only part left.
-					if (count($parts) == 1 && $parts[0] === 'index.php')
+					if (count($parts) === 1 && $parts[0] === 'index.php')
 					{
 						$parts = array();
 					}
