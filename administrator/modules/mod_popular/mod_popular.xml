@@ -39,8 +39,7 @@
 					extension="com_content"
 					default=""
 					>
-					<option
-						value="">JOPTION_ANY_CATEGORY</option>
+					<option value="">JOPTION_ANY_CATEGORY</option>
 				</field>
 
 				<field
