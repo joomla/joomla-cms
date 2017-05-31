@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Votelist Field class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.1
  */
 class JFormFieldVotelist extends JFormFieldList
 {
@@ -22,7 +22,7 @@ class JFormFieldVotelist extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.1
 	 */
 	protected $type = 'Votelist';
 
@@ -33,7 +33,7 @@ class JFormFieldVotelist extends JFormFieldList
 	 *
 	 * @throws \Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.1
 	 */
 	public function getOptions()
 	{

@@ -4,7 +4,7 @@
  * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -230,13 +230,6 @@ class JTableContent extends JTable
 			if (!isset($this->metadata))
 			{
 				$this->metadata = '{}';
-			}
-
-			// If we don't have any access rules set at this point just use an empty JAccessRules class
-			if (!$this->getRules())
-			{
-				$rules = $this->getDefaultAssetValues('com_content');
-				$this->setRules($rules);
 			}
 		}
 
