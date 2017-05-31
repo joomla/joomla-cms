@@ -34,8 +34,7 @@
 					<option value="0">JNO</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
@@ -49,8 +48,7 @@
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 				 	rows="3"
-				  />
-
+				/>
 			</fieldset>
 		</fields>
 	</config>
