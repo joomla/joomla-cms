@@ -231,14 +231,7 @@
 	// to the one of field that in given $row
 	$.subformRepeatable.prototype.fixScripts = function($row){
 		//color picker
-		$row.find('.minicolors').each(function() {
-			var $el = $(this);
-			$el.minicolors({
-				control: $el.attr('data-control') || 'hue',
-				position: $el.attr('data-position') || 'right',
-				theme: 'bootstrap'
-			});
-		});
+		UIColorPicker.init();
 
 		// fix media field
 		$row.find('a[onclick*="jInsertFieldValue"]').each(function(){

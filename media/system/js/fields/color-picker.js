@@ -425,6 +425,8 @@ var UIColorPicker = (function UIColorPicker() {
 		this.picker_mode = (type === 'HSL') ? 'HSL' : 'HSV';
 		this.color.setFormat(this.picker_mode);
 
+		this.mode = this.node.getAttribute('data-format');
+
 		this.createPickingArea();
 		this.createHueArea();
 
@@ -851,19 +853,54 @@ var UIColorPicker = (function UIColorPicker() {
 			subscribers[topic][i](color);
 	};
 
+	var setFinalValue = function setFinalValue(picker, mode) {
+		if (mode === 'rgb') {
+			var r = picker.querySelector('[data-topic="red"] input').value,
+			    g = picker.querySelector('[data-topic="green"] input').value,
+			    b = picker.querySelector('[data-topic="blue"] input').value;
+
+			picker.querySelector('.jscolor').value = 'rgb(' + r + ',' + g + ',' + b + ')';
+		}
+		else if (mode === 'rgba') {
+			var r = picker.querySelector('[data-topic="red"] input').value,
+			    g = picker.querySelector('[data-topic="green"] input').value,
+			    b = picker.querySelector('[data-topic="blue"] input').value,
+			    a = picker.querySelector('[data-topic="alpha"] input').value;
+
+			picker.querySelector('.jscolor').value = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+		}
+		else {
+			var value = picker.querySelector('[data-topic="hexa"] input').value;
+			picker.querySelector('.jscolor').value = value;
+		}
+	};
+
 	var init = function init() {
 		var wrapper = document.querySelectorAll('.ui-color-picker-wrapper');
 		for (var i = 0; i < wrapper.length; i++) {
-			var picker = wrapper[i]; // picker
+			var picker = wrapper[i],
+			    input  = picker.querySelector('.jscolor');
+
+			// Initiate colour picker
 			new ColorPicker(picker.querySelector('.ui-color-picker'));
 
-			picker.querySelector('.jscolor').addEventListener('focus', function() {
+			// Set the preview block to whatever the input value is
+			picker.querySelector('.preview-color').style.backgroundColor = input.value;
+
+			// Open the colour picker
+			input.addEventListener('focus', function() {
 				picker.classList.add('open');
 			});
 
+			// Close the colour picker
 			document.addEventListener('click', function(event) {
 				var isClickInside = picker.contains(event.target);
 				if (!isClickInside) {
+					// Append the value to the main input
+					var format = picker.querySelector('.ui-color-picker').getAttribute('data-format');
+					setFinalValue(picker, format);
+
+					// remove the class to show the picker
 					picker.classList.remove('open');
 				}
 			}, true);

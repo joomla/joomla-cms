@@ -194,10 +194,6 @@ class JFormFieldColor extends JFormField
 		{
 			$color = 'none';
 		}
-		elseif ($color['0'] != '#')
-		{
-			$color = '#' . $color;
-		}
 
 		// Assign data for simple/advanced mode
 		$controlModeData = $this->getModeLayoutData($lang);

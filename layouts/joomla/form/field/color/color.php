@@ -53,15 +53,13 @@ else
 	$placeholder = '#rrggbb';
 }
 
-$inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
 $class        = $class ? ' class="form-control jscolor' . $class . '"' : ' class="form-control jscolor"';
-$format       = $format ? ' data-format="' . $format . '"' : '';
+$format       = $format ? ' data-format="' . $format . '"' : ' data-format="hex"';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
 $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
 $hint         = strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ' placeholder="' . $placeholder . '"';
-$autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
@@ -86,12 +84,10 @@ JHtml::_('script', 'system/fields/color-picker.js', array('version' => 'auto', '
 		<?php echo $disabled; ?>
 		<?php echo $required; ?>
 		<?php echo $onchange; ?>
-		<?php echo $autocomplete; ?>
 		<?php echo $autofocus; ?>
-		<?php echo $format; ?>
 		<?php echo $keywords; ?>
 		<?php echo $direction; ?>
 		<?php echo $validate; ?>>
-	<div class="ui-color-picker"></div>
+	<div class="ui-color-picker"<?php echo $format; ?>></div>
 </div>
 <!--<div class="ui-color-picker" data-mode="HSL"></div>-->
