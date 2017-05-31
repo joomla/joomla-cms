@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.5
  */
-class RendererHtmlHead extends DocumentRenderer
+class HeadRenderer extends DocumentRenderer
 {
 	/**
 	 * Renders the document head and returns the results as a string

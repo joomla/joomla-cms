@@ -14,7 +14,7 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Uri\Uri;
 
 /**
- * RendererFeedAtom is a feed that implements the atom specification
+ * AtomRenderer is a feed that implements the atom specification
  *
  * Please note that just by using this class you won't automatically
  * produce valid atom files. For example, you have to specify either an editor
@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @property-read  DocumentFeed  $_doc  Reference to the Document object that instantiated the renderer
  */
-class RendererFeedAtom extends DocumentRenderer
+class AtomRenderer extends DocumentRenderer
 {
 	/**
 	 * Document mime type

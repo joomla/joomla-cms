@@ -14,14 +14,14 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Uri\Uri;
 
 /**
- * RendererFeedRss is a feed that implements RSS 2.0 Specification
+ * RssRenderer is a feed that implements RSS 2.0 Specification
  *
  * @link   http://www.rssboard.org/rss-specification
  * @since  3.5
  *
  * @property-read  DocumentFeed  $_doc  Reference to the Document object that instantiated the renderer
  */
-class RendererFeedRss extends DocumentRenderer
+class RssRenderer extends DocumentRenderer
 {
 	/**
 	 * Renderer mime type

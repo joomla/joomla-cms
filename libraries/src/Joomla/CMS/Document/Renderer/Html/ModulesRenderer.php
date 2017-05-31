@@ -19,7 +19,7 @@ use Joomla\CMS\Layout\LayoutHelper;
  *
  * @since  3.5
  */
-class RendererHtmlModules extends DocumentRenderer
+class ModulesRenderer extends DocumentRenderer
 {
 	/**
 	 * Renders multiple modules script and returns the results as a string

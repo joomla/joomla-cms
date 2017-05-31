@@ -19,7 +19,7 @@ use Joomla\CMS\Layout\LayoutHelper;
  *
  * @since  3.5
  */
-class RendererHtmlMessage extends DocumentRenderer
+class MessageRenderer extends DocumentRenderer
 {
 	/**
 	 * Renders the error stack and returns the results as a string

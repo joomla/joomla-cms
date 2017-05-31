@@ -17,7 +17,7 @@ use Joomla\CMS\Document\DocumentRenderer;
  *
  * @since  3.5
  */
-class RendererHtmlComponent extends DocumentRenderer
+class ComponentRenderer extends DocumentRenderer
 {
 	/**
 	 * Renders a component script and returns the results as a string

@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.5
  */
-class RendererHtmlModule extends DocumentRenderer
+class ModuleRenderer extends DocumentRenderer
 {
 	/**
 	 * Renders a module script and returns the results as a string
