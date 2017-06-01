@@ -21,6 +21,10 @@
 .control-group {
   margin-bottom: 18px;
 
+  > .form-check {
+    display: inline-block;
+  }
+
   &::after {
     display: table;
     clear: both;
@@ -110,14 +114,4 @@ legend {
 .custom-select[multiple] {
   height: auto;
   background: none;
-}
-
-// Validation
-.invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
-}
-
-.valid {
-  border-color: $switcher-color-success;
 }
