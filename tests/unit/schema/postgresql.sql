@@ -168,7 +168,6 @@ CREATE TABLE "jos_extensions" (
   "protected" smallint DEFAULT 0 NOT NULL,
   "manifest_cache" text NOT NULL,
   "params" text NOT NULL,
-  "namespace" VARCHAR(500) NULL DEFAULT '',
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "ordering" bigint DEFAULT 0,
@@ -375,7 +374,7 @@ CREATE INDEX "jos_session_time" on "jos_session" ("time");
 -- Table: jos_updates
 --
 
--- Comments: 
+-- Comments:
 -- Available Updates
 --
 DROP TABLE IF EXISTS "jos_updates" CASCADE;
@@ -401,7 +400,7 @@ COMMENT ON TABLE "jos_updates" IS 'Available Updates';
 -- Table: jos_update_categories
 --
 
--- Comments: 
+-- Comments:
 -- Update Categories
 --
 DROP TABLE IF EXISTS "jos_update_categories" CASCADE;
@@ -419,7 +418,7 @@ COMMENT ON TABLE "jos_update_categories" IS 'Update Categories';
 -- Table: jos_update_sites
 --
 
--- Comments: 
+-- Comments:
 -- Update Sites
 --
 DROP TABLE IF EXISTS "jos_update_sites" CASCADE;
@@ -437,7 +436,7 @@ COMMENT ON TABLE "jos_update_sites" IS 'Update Sites';
 -- Table: jos_update_sites_extensions
 --
 
--- Comments: 
+-- Comments:
 -- Links extensions to update sites
 --
 DROP TABLE IF EXISTS "jos_update_sites_extensions" CASCADE;
@@ -503,7 +502,7 @@ CREATE INDEX "jos_users_email" on "jos_users" ("email");
 -- Table: jos_user_profiles
 --
 
--- Comments: 
+-- Comments:
 -- Simple user profile storage table
 --
 DROP TABLE IF EXISTS "jos_user_profiles" CASCADE;
