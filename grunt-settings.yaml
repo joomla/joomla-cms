@@ -26,7 +26,7 @@ vendors:
                   'version': '1.12.1'
                   'dependencies': 'jquery'
     'mediaelement':
-                  'version': '4.1.1'
+                  'version': '4.1.2'
                   'dependencies': 'jquery'
     'punycode':
                   'version': '1.4.1'
