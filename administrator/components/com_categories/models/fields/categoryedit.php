@@ -143,7 +143,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
@@ -186,7 +185,12 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 
 		// Filter categories on User Access Level
-		$subQuery->where('access IN (' . $groups . ')');
+		// Filter by access level on categories.
+		if (!$user->authorise('core.admin'))
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$subQuery->where('access IN (' . $groups . ')');
+		}
 
 		$query->from('(' . (string) $subQuery . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
@@ -256,9 +260,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
 			}
 		}
-
-		// Get the current user object.
-		$user = JFactory::getUser();
 
 		// For new items we want a list of categories you are allowed to create in.
 		if ($oldCat == 0)
