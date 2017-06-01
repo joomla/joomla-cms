@@ -36,7 +36,7 @@ JFactory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false)
  *
  * @since  3.0
  */
-class MediawikiCli extends JApplicationCli
+class MediawikiCli extends \Joomla\CMS\Application\CliApplication
 {
 	/**
 	 * Entry point for CLI script
@@ -48,15 +48,18 @@ class MediawikiCli extends JApplicationCli
 	public function doExecute()
 	{
 		// Get the version data for the script
-		$version     = new JVersion;
+		$version     = new \Joomla\CMS\Version();
 		$helpVersion = str_replace('.', '', $version::RELEASE);
 		$namespace   = 'Help' . $helpVersion . ':';
+
+		// Set up HTTP driver for MediaWiki
+		$http = new \Joomla\Mediawiki\Http([], JHttpFactory::getAvailableDriver());
 
 		// Set up options for JMediawiki
 		$options = new Joomla\Registry\Registry;
 		$options->set('api.url', 'https://docs.joomla.org');
 
-		$mediawiki = new Joomla\Mediawiki\Mediawiki($options);
+		$mediawiki = new Joomla\Mediawiki\Mediawiki($options, $http);
 
 		// Get the category members (local hack)
 		$this->out('Fetching data from docs wiki', true);
@@ -198,4 +201,4 @@ class MediawikiCli extends JApplicationCli
 }
 
 // Instantiate the application and execute it
-JApplicationCli::getInstance('MediawikiCli')->execute();
+\Joomla\CMS\Application\CliApplication::getInstance('MediawikiCli')->execute();
