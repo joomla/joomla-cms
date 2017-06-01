@@ -38,7 +38,7 @@
 			description="COM_BANNERS_FIELD_CATEGORY_DESC"
 			extension="com_banners"
 			required="true"
-			addfieldpath="/administrator/components/com_categories/models/fields"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			default=""
 			class="advancedSelect"
 		/>
