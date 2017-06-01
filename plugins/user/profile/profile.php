@@ -385,7 +385,7 @@ class PlgUserProfile extends JPlugin
 		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
 
 		// Check that the tos is checked.
-		if (($task === 'register') && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
+		if ($task === 'register' && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
 		{
 			throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}
