@@ -4,6 +4,10 @@
             @drop="onDrop"
             @dragover="onDragOver"
             @dragleave="onDragLeave">
+        <div class="media-dragoutline">
+        	<span class="fa fa-cloud-upload upload-icon" aria-hidden="true"></span>
+        	<p>Drop file(s) to Upload</p>
+		</div>
         <div class="media-browser-items" ref="browserItems">
             <media-browser-item v-for="item in items" :item="item"></media-browser-item>
         </div>
@@ -49,8 +53,7 @@
 			// Notify user when file is over the drop area
 			onDragOver(e) {
 				e.preventDefault();
-				document.querySelector('.media-browser').style.borderStyle = 'dashed';
-				document.querySelector('.media-browser').style.borderWidth = '5px';
+				document.querySelector('.media-dragoutline').classList.add('active');
 				return false;
 			},
 
@@ -83,21 +86,18 @@
 				// Loop through array of files and upload each file
 				if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
 					for (let i = 0, f; f = e.dataTransfer.files[i]; i++) {
-						document.querySelector('.media-browser').style.borderWidth = '0px';
-						document.querySelector('.media-browser').style.borderStyle = 'solid';
+						document.querySelector('.media-dragoutline').classList.remove('active');
 						this.upload(f);
 					}
 				}
-				document.querySelector('.media-browser').style.borderWidth = '0px';
-				document.querySelector('.media-browser').style.borderStyle = 'solid';
+				document.querySelector('.media-dragoutline').classList.remove('active');
 			},
 
 			// Reset the drop area border
 			onDragLeave(e) {
 				e.stopPropagation();
 				e.preventDefault();
-				document.querySelector('.media-browser').style.borderWidth='0px';
-				document.querySelector('.media-browser').style.borderStyle='solid';
+				document.querySelector('.media-dragoutline').classList.remove('active');
 				return false;
 			},
 		},
