@@ -168,6 +168,7 @@ class JFormFieldPassword extends JFormField
 		// Initialize some field attributes.
 		$extraData = array(
 			'maxLength' => $this->maxLength,
+			'meter'     => $this->meter,
 			'threshold' => $this->threshold,
 		);
 
