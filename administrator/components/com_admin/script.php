@@ -2347,8 +2347,7 @@ class JoomlaInstallerScript
 	 */
 	private function cleanJoomlaCache()
 	{
-		JModelLegacy::addIncludePath(JPATH_ROOT . '/administrator/components/com_cache/models');
-		$model = JModelLegacy::getInstance('cache', 'CacheModel');
+		$model = new \Joomla\Component\Cache\Administrator\Model\Cache;
 
 		// Clean frontend cache
 		$model->clean();

@@ -21,11 +21,8 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
-// Get the Platform without legacy libraries.
-require_once JPATH_LIBRARIES . '/import.php';
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
+// Get the framework.
+require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
@@ -59,7 +56,7 @@ class MediawikiCli extends JApplicationCli
 		$options = new Joomla\Registry\Registry;
 		$options->set('api.url', 'https://docs.joomla.org');
 
-		$mediawiki = new JMediawiki($options);
+		$mediawiki = new Joomla\Mediawiki\Mediawiki($options);
 
 		// Get the category members (local hack)
 		$this->out('Fetching data from docs wiki', true);
