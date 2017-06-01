@@ -55,25 +55,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	protected static $instance;
 
 	/**
-	 * A map of integer HTTP 1.1 response codes to the full HTTP Status for the headers.
-	 *
-	 * @var    array
-	 * @since  3.4
-	 * @see    http://tools.ietf.org/pdf/rfc7231.pdf
-	 */
-	private $responseMap = array(
-		300 => 'HTTP/1.1 300 Multiple Choices',
-		301 => 'HTTP/1.1 301 Moved Permanently',
-		302 => 'HTTP/1.1 302 Found',
-		303 => 'HTTP/1.1 303 See other',
-		304 => 'HTTP/1.1 304 Not Modified',
-		305 => 'HTTP/1.1 305 Use Proxy',
-		306 => 'HTTP/1.1 306 (Unused)',
-		307 => 'HTTP/1.1 307 Temporary Redirect',
-		308 => 'HTTP/1.1 308 Permanent Redirect',
-	);
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param   \JInput            $input     An optional argument to provide dependency injection for the application's

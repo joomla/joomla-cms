@@ -16,7 +16,7 @@ JHtml::_('script', 'com_finder/indexer.js', array('version' => 'auto', 'relative
 JFactory::getDocument()->addScriptDeclaration('var msg = "' . JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
 ?>
 
-<div id="finder-indexer-container">
+<div class="text-center">
 	<h1 id="finder-progress-header m-t-2"><?php echo JText::_('COM_FINDER_INDEXER_HEADER_INIT'); ?></h1>
 	<p id="finder-progress-message"><?php echo JText::_('COM_FINDER_INDEXER_MESSAGE_INIT'); ?></p>
 	<div id="progress" class="progress">

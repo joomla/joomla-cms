@@ -324,23 +324,20 @@ class Update extends Model
 			// Informational log only
 		}
 
-		// Get the handler to download the package
-		try
-		{
-			$http = \JHttpFactory::getHttp(null, array('curl', 'stream'));
-		}
-		catch (\RuntimeException $e)
-		{
-			return false;
-		}
-
 		jimport('joomla.filesystem.file');
 
 		// Make sure the target does not exist.
 		\JFile::delete($target);
 
 		// Download the package
-		$result = $http->get($url);
+		try
+		{
+			$result = \JHttpFactory::getHttp([], ['curl', 'stream'])->get($url);
+		}
+		catch (\RuntimeException $e)
+		{
+			return false;
+		}
 
 		if (!$result || ($result->code != 200 && $result->code != 310))
 		{

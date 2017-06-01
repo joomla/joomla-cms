@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
-JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 JHtml::_('script', 'com_content/admin-article-pagebreak.min.js', array('version' => 'auto', 'relative' => true));
 
 $document    = JFactory::getDocument();
