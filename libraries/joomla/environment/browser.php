@@ -230,10 +230,9 @@ class JBrowser
 			 * Determine if mobile. Note: Some Handhelds have their screen resolution in the
 			 * user agent string, which we can use to look for mobile agents.
 			 */
-			if (strpos($this->lowerAgent, 'mobileexplorer') !== false
-				|| strpos($this->agent, 'MOT-') !== false
+			if (strpos($this->agent, 'MOT-') !== false
 				|| strpos($this->lowerAgent, 'j-') !== false
-				|| preg_match('/(openwave|opera mini|opera mobi|operamini|avantgo|wap|elaine)/i', $this->agent)
+				|| preg_match('/(mobileexplorer|openwave|opera mini|opera mobi|operamini|avantgo|wap|elaine)/i', $this->agent)
 				|| preg_match('/(iPhone|iPod|iPad|Android|Mobile|Phone|BlackBerry|Xiino|Palmscape|palmsource)/i', $this->agent)
 				|| preg_match('/(Nokia|Ericsson|docomo|digital paths|portalmmm|CriOS[\/ ]([0-9.]+))/i', $this->agent)
 				|| preg_match('/(UP|UP.B|UP.L)/', $this->agent)
