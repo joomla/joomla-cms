@@ -1463,6 +1463,11 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterDisconnect(ConnectionEvent $event)
 	{
+		if (!JDEBUG)
+		{
+			return;
+		}
+
 		$db = $event->getDriver();
 
 		$this->totalQueries = $db->getCount();
