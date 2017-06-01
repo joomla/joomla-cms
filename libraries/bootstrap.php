@@ -96,7 +96,8 @@ JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
 JLoader::registerAlias('JSite', 'JApplicationSite');
 
 JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
-JNamespacePsr4Map::init();
+$extensionPsr4Loader = new JNamespacePsr4Map;
+$extensionPsr4Loader->ensureMapFileExists();
 
 // Can be removed when the move of all core fields to namespace is finished
 \Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/joomla/form/fields');
