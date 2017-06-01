@@ -8,12 +8,6 @@
  * Date: 2017-05-30T05:02:48.005Z
  */
 
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.Cropper = factory());
-}(this, (function () { 'use strict';
-
 var DEFAULTS = {
   // Define the view mode of the cropper
   viewMode: 0, // 0, 1, 2, 3
@@ -3561,6 +3555,4 @@ if (typeof window !== 'undefined') {
   window.Cropper = Cropper;
 }
 
-return Cropper;
-
-})));
+export default Cropper;

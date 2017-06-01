@@ -21,7 +21,12 @@ class JNamespacePsr4Map
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $file = JPATH_LIBRARIES . '/autoload_psr4.php';
+	protected $file = '';
+
+	public function __construct()
+	{
+		$this->file = JPATH_LIBRARIES . '/autoload_psr4.php';
+	}
 
 	/**
 	 * Check if the file exists
@@ -30,9 +35,9 @@ class JNamespacePsr4Map
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function exists()
+	public function exists()
 	{
-		if (!file_exists(self::$file))
+		if (!file_exists($this->file))
 		{
 			return false;
 		}
@@ -47,14 +52,12 @@ class JNamespacePsr4Map
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function init()
+	public function ensureMapFileExists()
 	{
-		if (self::exists())
+		if (!$this->exists())
 		{
-			return;
+			$this->create();
 		}
-
-		self::create();
 	}
 
 	/**
@@ -64,9 +67,9 @@ class JNamespacePsr4Map
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function create()
+	public function create()
 	{
-		$extensions = self::getNamespacedExtensions();
+		$extensions = $this->getNamespacedExtensions();
 
 		$elements = array();
 
@@ -86,7 +89,7 @@ class JNamespacePsr4Map
 			}
 		}
 
-		self::writeNamespaceFile($elements);
+		$this->writeNamespaceFile($elements);
 
 		return true;
 	}
@@ -100,7 +103,7 @@ class JNamespacePsr4Map
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function writeNamespaceFile($elements)
+	protected function writeNamespaceFile($elements)
 	{
 		$content   = array();
 		$content[] = "<?php";
@@ -120,7 +123,7 @@ class JNamespacePsr4Map
 
 		$content[] = ');';
 
-		file_put_contents(self::$file, implode("\n", $content));
+		file_put_contents($this->file, implode("\n", $content));
 	}
 
 	/**
@@ -130,7 +133,7 @@ class JNamespacePsr4Map
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function getNamespacedExtensions()
+	protected function getNamespacedExtensions()
 	{
 		$db = JFactory::getDbo();
 
