@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/banner.php');
-$baseurl = JUri::base();
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx; ?>">
 <?php if ($headerText) : ?>
@@ -41,7 +40,7 @@ $baseurl = JUri::base();
 							href="<?php echo $link; ?>" target="_blank" rel="noopener noreferrer"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
-								src="<?php echo $baseurl . $imageurl;?>"
+								src="<?php echo $imageurl; ?>"
 								alt="<?php echo $alt;?>"
 								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
 								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
@@ -55,7 +54,7 @@ $baseurl = JUri::base();
 								return false"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
-								src="<?php echo $baseurl . $imageurl;?>"
+								src="<?php echo $imageurl; ?>"
 								alt="<?php echo $alt;?>"
 								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
 								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
@@ -67,7 +66,7 @@ $baseurl = JUri::base();
 							href="<?php echo $link; ?>"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<img
-								src="<?php echo $baseurl . $imageurl;?>"
+								src="<?php echo $imageurl; ?>"
 								alt="<?php echo $alt;?>"
 								<?php if (!empty($width)) echo ' width="' . $width . '"';?>
 								<?php if (!empty($height)) echo ' height="' . $height . '"';?>
@@ -77,7 +76,7 @@ $baseurl = JUri::base();
 				<?php else : ?>
 					<?php // Just display the image if no link specified ?>
 					<img
-						src="<?php echo $baseurl . $imageurl;?>"
+						src="<?php echo $imageurl; ?>"
 						alt="<?php echo $alt;?>"
 						<?php if (!empty($width)) echo ' width="' . $width . '"';?>
 						<?php if (!empty($height)) echo ' height="' . $height . '"';?>
