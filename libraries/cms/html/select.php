@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -771,7 +771,7 @@ abstract class JHtmlSelect
 			$attribs = ArrayHelper::toString($attribs);
 		}
 
-		$id_text = $idtag ? $idtag : $name;
+		$id_text = $idtag ?: $name;
 
 		$html = '<div class="controls">';
 

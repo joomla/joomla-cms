@@ -5,61 +5,67 @@
 	>
 		<field
 			name="extension_id"
-			label="JGLOBAL_FIELD_ID_LABEL"
-			description ="JGLOBAL_FIELD_ID_DESC"
 			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			readonly="true"
-			class="readonly" />
+			class="readonly" 
+		/>
 
 		<field
 			name="name"
 			type="hidden"
 			label="COM_PLUGINS_FIELD_NAME_LABEL"
-			description="COM_PLUGINS_FIELD_NAME_DESC" />
+			description="COM_PLUGINS_FIELD_NAME_DESC" 
+		/>
 
 		<field
 			name="enabled"
 			type="list"
-			class="chzn-color-state"
 			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
+			class="chzn-color-state"
 			size="1"
-			default="1">
-				<option value="1">JENABLED</option>
-				<option value="0">JDISABLED</option>
+			default="1"
+			>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
 		</field>
 
-        <field
+		<field
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
-			size="1" />
+			size="1" 
+		/>
 
 		<field
 			name="ordering"
 			type="Pluginordering"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" />
+			description="JFIELD_ORDERING_DESC" 
+		/>
 
 		<field
 			name="folder"
 			type="text"
-			class="readonly"
-			size="20"
 			label="COM_PLUGINS_FIELD_FOLDER_LABEL"
 			description="COM_PLUGINS_FIELD_FOLDER_DESC"
-			readonly="true" />
+			class="readonly"
+			size="20"
+			readonly="true" 
+		/>
 
 		<field
 			name="element"
 			type="text"
-			class="readonly"
-			size="20"
 			label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
 			description="COM_PLUGINS_FIELD_ELEMENT_DESC"
-			readonly="true" />
-
+			class="readonly"
+			size="20"
+			readonly="true" 
+		/>
 	</fieldset>
 </form>

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,12 +33,6 @@
  * Called with --minproctime=x   Will set the miminum processing time of batches for a pause to occur. Defaults to 1
  *
  */
-
-// Make sure we're being called from the command line, not a web interface
-if (PHP_SAPI !== 'cli')
-{
-	die('This is a command line only application.');
-}
 
 // We are a valid entry point.
 const _JEXEC = 1;

@@ -3,12 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('_JEXEC') or die;
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of fonts
@@ -17,7 +19,7 @@ defined('_JEXEC') or die;
  * @subpackage  Editors.codemirror
  * @since       3.4
  */
-class JFormFieldFonts extends JFormAbstractlist
+class JFormFieldFonts extends JFormFieldList
 {
 	/**
 	 * The form field type.
