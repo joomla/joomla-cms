@@ -70,11 +70,11 @@ var JFormValidator = function() {
 		    // Get a label
 		    var label = el.form.querySelector('label[for="' + el.id + '"]');
 
-		    el.classList.remove('form-control-success');
-		    el.classList.add('form-control-danger');
+			el.classList.remove('form-control-success');
+			el.classList.add('form-control-danger');
 			el.parentNode.classList.remove('has-success');
 			el.parentNode.classList.add('has-danger');
-		    el.setAttribute('aria-invalid', 'true');
+			el.setAttribute('aria-invalid', 'true');
 
 		    // Display custom message
 		    var mesgCont, message = el.getAttribute('data-validation-text');
@@ -118,10 +118,9 @@ var JFormValidator = function() {
 		    } else {
 			    message = el.parentNode.querySelector('span.form-control-feedback')
 		    }
-			console.log(message);
 
-		    el.classList.remove('form-control-danger');
-		    el.classList.remove('form-control-success');
+			el.classList.remove('form-control-danger');
+			el.classList.remove('form-control-success');
 			el.parentNode.classList.remove('has-danger');
 			el.parentNode.classList.remove('has-success');
 
