@@ -444,7 +444,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 		$c = self::$regex_consonant;
 		$v = self::$regex_vowel;
 
-		return preg_match("#($c$v$c)$#", $str, $matches) and strlen($matches[1]) === 3 and $matches[1][2] !== 'w' and $matches[1][2] !== 'x'
-			and $matches[1][2] !== 'y';
+		return preg_match("#($c$v$c)$#", $str, $matches) && strlen($matches[1]) === 3 && $matches[1][2] !== 'w' && $matches[1][2] !== 'x'
+			&& $matches[1][2] !== 'y';
 	}
 }

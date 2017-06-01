@@ -162,9 +162,9 @@ class FinderIndexerToken
 			 * 3. If numeric, multiply weight by 1.5.
 			 * 4. Round weight to 4 decimal points.
 			 */
-			$this->weight = (($this->length >= 15 ? 15 : $this->length) / 15);
-			$this->weight = ($this->common === true ? $this->weight / 8 : $this->weight);
-			$this->weight = ($this->numeric === true ? $this->weight * 1.5 : $this->weight);
+			$this->weight = ($this->length >= 15 ? 15 : $this->length) / 15;
+			$this->weight = $this->common === true ? $this->weight / 8 : $this->weight;
+			$this->weight = $this->numeric === true ? $this->weight * 1.5 : $this->weight;
 			$this->weight = round($this->weight, 4);
 		}
 	}
