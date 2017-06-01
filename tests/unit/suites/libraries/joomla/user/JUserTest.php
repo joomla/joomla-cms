@@ -275,8 +275,8 @@ class JUserTest extends TestCaseDatabase
 	{
 		return array(
 			'User42' => array(
-				null,
-				array(1)
+				42,
+				array(1,2,3,4,5)
 			),
 			'User43' => array(
 				43,

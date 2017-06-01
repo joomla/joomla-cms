@@ -40,7 +40,7 @@ class JAccessTest extends TestCaseDatabase
 	{
 		usleep(100);
 
-		$array1 = array(0 => 1, 1 => 1, 2 => 2, 3 => 3);
+		$array1 = array(0 => 1, 1 => 2, 2 => 3, 3 => 4, 4 => 5);
 
 		$this->assertThat(
 			\Joomla\CMS\Access\Access::getAuthorisedViewLevels(42),

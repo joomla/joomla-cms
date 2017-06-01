@@ -1069,26 +1069,12 @@ class Access
 		// Initialise the authorised array.
 		$authorised = array(1);
 
-		// Check for the recovery mode setting and return early.
-		$user      = \JUser::getInstance($userId);
-		$root_user = \JFactory::getConfig()->get('root_user');
+		// Return all ViewLevels for Superusers
+		$user = \JUser::getInstance($userId);
 
-		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
+		if ($user->authorise('core.admin'))
 		{
-			// Find the super user levels.
-			foreach (self::$viewLevels as $level => $rule)
-			{
-				foreach ($rule as $id)
-				{
-					if ($id > 0 && self::checkGroup($id, 'core.admin'))
-					{
-						$authorised[] = $level;
-						break;
-					}
-				}
-			}
-
-			return $authorised;
+			return array_keys(self::$viewLevels);
 		}
 
 		// Get all groups that the user is mapped to recursively.
