@@ -215,8 +215,8 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 
 		$this->connection = mysqli_init();
 
-		// Attempt to connect to the server.
-		$connected = $this->connection->real_connect(
+		// Attempt to connect to the server, use error suppression to silence warnings and allow us to throw an Exception separately.
+		$connected = @$this->connection->real_connect(
 			$this->options['host'], $this->options['user'], $this->options['password'], null, $this->options['port'], $this->options['socket']
 		);
 
