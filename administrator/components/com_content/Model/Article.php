@@ -213,7 +213,7 @@ class Article extends Admin
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   Joomla\CMS\Table\Table  $table  A Table object.
+	 * @param   \Joomla\CMS\Table\Table  $table  A Table object.
 	 *
 	 * @return  void
 	 *
