@@ -65,7 +65,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	/**
 	 * Act on a query being started.
 	 *
-	 * @param   string $sql The SQL to be executed.
+	 * @param   string  $sql  The SQL to be executed.
 	 *
 	 * @return  void
 	 *

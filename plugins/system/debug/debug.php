@@ -2013,10 +2013,11 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	protected function writeToFile()
 	{
-		$app    = JFactory::getApplication();
-		$domain = $app->isClient('site') ? 'site' : 'admin';
-		$input  = $app->input;
-		$file   = $app->get('log_path', JPATH_ADMINISTRATOR . '/logs') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+		$app     = JFactory::getApplication();
+		$domain  = $app->isClient('site') ? 'site' : 'admin';
+		$input   = $app->input;
+		$logPath = $app->get('log_path', JPATH_ADMINISTRATOR . '/logs');
+		$file    = $logPath . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
 
 		// Get the queries from log.
 		$current = '';
