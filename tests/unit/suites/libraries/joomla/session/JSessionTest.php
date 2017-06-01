@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Session
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 include_once __DIR__ . '/handler/array.php';
@@ -196,24 +196,6 @@ class JSessionTest extends TestCase
 	}
 
 	/**
-	 * Test getFormToken
-	 *
-	 * @covers  JSession::getFormToken
-	 *
-	 * @return void
-	 */
-	public function testGetFormToken()
-	{
-		// Set the factory session object for getting the token
-		JFactory::$session = $this->object;
-
-		$user = JFactory::getUser();
-
-		$expected = md5($user->get('id', 0) . $this->object->getToken(false));
-		$this->assertEquals($expected, $this->object->getFormToken(false), 'Form token should be calculated as above.');
-	}
-
-	/**
 	 * Test getName
 	 *
 	 * @covers  JSession::getName
@@ -396,5 +378,4 @@ class JSessionTest extends TestCase
 			'This test has not been implemented yet.'
 		);
 	}
-
 }

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JLoader::register('JFeedParserMock', __DIR__ . '/stubs/JFeedParserMock.php');
@@ -372,7 +372,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
+	 * @see     \PHPUnit\Framework\TestCase::setUp()
 	 * @since   12.3
 	 */
 	protected function setUp()
@@ -391,7 +391,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   12.3
 	 */
 	protected function tearDown()

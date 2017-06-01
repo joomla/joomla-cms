@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -210,8 +210,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($this->mode_sef
 			&& (!$this->params->get('remove_default_prefix', 0)
-			|| $lang != $this->default_lang
-			|| $lang != $this->current_lang))
+			|| $lang !== $this->default_lang
+			|| $lang !== $this->current_lang))
 		{
 			$uri->setPath($uri->getPath() . '/' . $sef . '/');
 		}
@@ -278,7 +278,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			// Do we have a URL Language Code ?
 			if (!isset($this->sefs[$sef]))
 			{
-				// Check if remove default url language code is set
+				// Check if remove default URL language code is set
 				if ($this->params->get('remove_default_prefix', 0))
 				{
 					if ($parts[0])
@@ -338,7 +338,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					array_shift($parts);
 
 					// Empty parts array when "index.php" is the only part left.
-					if (count($parts) == 1 && $parts[0] === 'index.php')
+					if (count($parts) === 1 && $parts[0] === 'index.php')
 					{
 						$parts = array();
 					}
@@ -548,7 +548,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->current_lang;
 			}
 
-			if ($lang_code == $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
+			if ($lang_code === $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
 			{
 				if ($this->app->isClient('site'))
 				{
@@ -662,7 +662,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						// We are on a Home page, we redirect to the user preferred site language Home page.
 						$item = $menu->getDefault($lang_code);
 
-						if ($item && $item->language != $active->language && $item->language !== '*')
+						if ($item && $item->language !== $active->language && $item->language !== '*')
 						{
 							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
 							$foundAssociation = true;
@@ -670,7 +670,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 				}
 
-				if ($foundAssociation && $lang_code != $this->current_lang)
+				if ($foundAssociation && $lang_code !== $this->current_lang)
 				{
 					// Change language.
 					$this->current_lang = $lang_code;
@@ -721,14 +721,14 @@ class PlgSystemLanguageFilter extends JPlugin
 				$current_link = JRoute::_($currentInternalUrl);
 
 				// Load menu associations
-				if ($active_link == $current_link)
+				if ($active_link === $current_link)
 				{
 					$associations = MenusHelper::getAssociations($active->id);
 				}
 
 				// Check if we are on the home page
 				$is_home = ($active->home
-					&& ($active_link == $current_link || $active_link == $current_link . 'index.php' || $active_link . '/' == $current_link));
+					&& ($active_link === $current_link || $active_link === $current_link . 'index.php' || $active_link . '/' === $current_link));
 			}
 
 			// Load component associations.
@@ -759,7 +759,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						break;
 
 					// Current language link
-					case ($i == $this->current_lang):
+					case ($i === $this->current_lang):
 						$language->link = JRoute::_($currentInternalUrl);
 						break;
 
@@ -815,27 +815,33 @@ class PlgSystemLanguageFilter extends JPlugin
 	/**
 	 * Set the language cookie
 	 *
-	 * @param   string  $lang_code  The language code for which we want to set the cookie
+	 * @param   string  $languageCode  The language code for which we want to set the cookie
 	 *
 	 * @return  void
 	 *
 	 * @since   3.4.2
 	 */
-	private function setLanguageCookie($lang_code)
+	private function setLanguageCookie($languageCode)
 	{
-		// Get the cookie lifetime we want.
-		$cookie_expire = 0;
-
-		if ($this->params->get('lang_cookie', 1) == 1)
+		// If is set to use language cookie for a year in plugin params, save the user language in a new cookie.
+		if ((int) $this->params->get('lang_cookie', 0) === 1)
 		{
-			$cookie_expire = time() + 365 * 86400;
+			// Create a cookie with one year lifetime.
+			$this->app->input->cookie->set(
+				JApplicationHelper::getHash('language'),
+				$languageCode,
+				time() + 365 * 86400,
+				$this->app->get('cookie_path', '/'),
+				$this->app->get('cookie_domain', ''),
+				$this->app->isHttpsForced(),
+				true
+			);
 		}
-
-		// Create a cookie.
-		$cookie_domain = $this->app->get('cookie_domain');
-		$cookie_path   = $this->app->get('cookie_path', '/');
-		$cookie_secure = $this->app->isSSLConnection();
-		$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $cookie_expire, $cookie_path, $cookie_domain, $cookie_secure);
+		// If not, set the user language in the session (that is already saved in a cookie).
+		else
+		{
+			JFactory::getSession()->set('plg_system_languagefilter.language', $languageCode);
+		}
 	}
 
 	/**
@@ -847,14 +853,23 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	private function getLanguageCookie()
 	{
-		$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
-
-		// Let's be sure we got a valid language code. Fallback to null.
-		if (!array_key_exists($lang_code, $this->lang_codes))
+		// Is is set to use a year language cookie in plugin params, get the user language from the cookie.
+		if ((int) $this->params->get('lang_cookie', 0) === 1)
 		{
-			$lang_code = null;
+			$languageCode = $this->app->input->cookie->get(JApplicationHelper::getHash('language'));
+		}
+		// Else get the user language from the session.
+		else
+		{
+			$languageCode = JFactory::getSession()->get('plg_system_languagefilter.language');
 		}
 
-		return $lang_code;
+		// Let's be sure we got a valid language code. Fallback to null.
+		if (!array_key_exists($languageCode, $this->lang_codes))
+		{
+			$languageCode = null;
+		}
+
+		return $languageCode;
 	}
 }
