@@ -268,7 +268,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		$response = '';
 
-		if (($fs = @fsockopen($host, $port, $errno, $errstr, 10)) === false )
+		if (($fs = @fsockopen($host, $port, $errno, $errstr, 10)) === false)
 		{
 			die('Could not open socket');
 		}

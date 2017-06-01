@@ -1106,7 +1106,7 @@ class PlgSystemDebug extends JPlugin
 					$title = '<span class="dbg-noprofile">' . $title . '</span>';
 				}
 
-				$htmlProfile = ($info[$id]->profile ?: JText::_('PLG_DEBUG_NO_PROFILE'));
+				$htmlProfile = $info[$id]->profile ?: JText::_('PLG_DEBUG_NO_PROFILE');
 
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
