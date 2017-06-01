@@ -140,8 +140,9 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_CREATED_LABEL"
 			description="JGLOBAL_FIELD_CREATED_DESC"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -166,9 +167,10 @@
 			label="JGLOBAL_FIELD_Modified_Label"
 			description="COM_NEWSFEEDS_FIELD_MODIFIED_DESC"
 			class="readonly"
+			translateformat="true"
+			showtime="true"
 			size="22"
 			readonly="true"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -218,8 +220,9 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -228,8 +231,9 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			translateformat="true"
+			showtime="true"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc"
 		/>
 
@@ -451,9 +455,6 @@
 		</fields>
 	</fieldset>
 
-	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
-	</fields>
-
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
@@ -481,17 +482,17 @@
 				cols="30"
 				filter="string"
 			/>
-		</fieldset>
 
-		<field
-			name="hits"
-			type="text"
-			label="JGLOBAL_HITS"
-			description="COM_WEBLINKS_HITS_DESC"
-			class="readonly"
-			size="6"
-			readonly="true"
-			filter="unset"
-		/>
+			<field
+				name="hits"
+				type="text"
+				label="JGLOBAL_HITS"
+				description="COM_NEWSFEEDS_HITS_DESC"
+				class="readonly"
+				size="6"
+				readonly="true"
+				filter="unset"
+			/>
+		</fieldset>
 	</fields>
 </form>

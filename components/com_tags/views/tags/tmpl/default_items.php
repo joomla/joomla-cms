@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,13 +99,13 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php $images  = json_decode($item->images); ?>
 				<span class="tag-body">
 			<?php if (!empty($images->image_intro)) : ?>
-				<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
+				<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
 				<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image">
 					<img
 						<?php if ($images->image_intro_caption) : ?>
 							<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
 						<?php endif; ?>
-						src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
+						src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
 				</div>
 			<?php endif; ?>
 			</span>

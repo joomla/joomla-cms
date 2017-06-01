@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,15 +14,16 @@ use Joomla\Registry\Registry;
 /**
  * Object representing a menu item
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
+ * @note   This class will no longer extend stdClass in Joomla 4
  */
-class JMenuItem extends JObject
+class JMenuItem extends stdClass
 {
 	/**
 	 * Primary key
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $id;
 
@@ -30,7 +31,7 @@ class JMenuItem extends JObject
 	 * The type of menu this item belongs to
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $menutype;
 
@@ -38,7 +39,7 @@ class JMenuItem extends JObject
 	 * The display title of the menu item
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $title;
 
@@ -46,7 +47,7 @@ class JMenuItem extends JObject
 	 * The SEF alias of the menu item
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $alias;
 
@@ -54,7 +55,7 @@ class JMenuItem extends JObject
 	 * A note associated with the menu item
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $note;
 
@@ -62,7 +63,7 @@ class JMenuItem extends JObject
 	 * The computed path of the menu item based on the alias field, this is populated from the `path` field in the `#__menu` table
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $route;
 
@@ -70,7 +71,7 @@ class JMenuItem extends JObject
 	 * The actual link the menu item refers to
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $link;
 
@@ -78,7 +79,7 @@ class JMenuItem extends JObject
 	 * The type of link
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $type;
 
@@ -86,7 +87,7 @@ class JMenuItem extends JObject
 	 * The relative level in the tree
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $level;
 
@@ -94,7 +95,7 @@ class JMenuItem extends JObject
 	 * The assigned language for this item
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $language;
 
@@ -102,7 +103,7 @@ class JMenuItem extends JObject
 	 * The click behaviour of the link
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $browserNav;
 
@@ -110,7 +111,7 @@ class JMenuItem extends JObject
 	 * The access level required to view the menu item
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $access;
 
@@ -118,7 +119,7 @@ class JMenuItem extends JObject
 	 * The menu item parameters
 	 *
 	 * @var    string|Registry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 * @note   This field is protected to require reading this field to proxy through the getter to convert the params to a Registry instance
 	 */
 	protected $params;
@@ -127,7 +128,7 @@ class JMenuItem extends JObject
 	 * Indicates if this menu item is the home or default page
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $home;
 
@@ -135,7 +136,7 @@ class JMenuItem extends JObject
 	 * The image of the menu item
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $img;
 
@@ -143,7 +144,7 @@ class JMenuItem extends JObject
 	 * The optional template style applied to this menu item
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $template_style_id;
 
@@ -151,7 +152,7 @@ class JMenuItem extends JObject
 	 * The extension ID of the component this menu item is for
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $component_id;
 
@@ -159,7 +160,7 @@ class JMenuItem extends JObject
 	 * The parent menu item in the menu tree
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $parent_id;
 
@@ -167,7 +168,7 @@ class JMenuItem extends JObject
 	 * The name of the component this menu item is for
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $component;
 
@@ -175,7 +176,7 @@ class JMenuItem extends JObject
 	 * The tree of parent menu items
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $tree = array();
 
@@ -183,7 +184,7 @@ class JMenuItem extends JObject
 	 * An array of the query string values for this item
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	public $query = array();
 
@@ -192,7 +193,7 @@ class JMenuItem extends JObject
 	 *
 	 * @param   array  $data  The menu item data to load
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __construct($data = array())
 	{
@@ -209,7 +210,7 @@ class JMenuItem extends JObject
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @deprecated  4.0  Access the item parameters through the `getParams()` method
 	 */
 	public function __get($name)
@@ -230,7 +231,7 @@ class JMenuItem extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 * @deprecated  4.0  Set the item parameters through the `setParams()` method
 	 */
 	public function __set($name, $value)
@@ -246,11 +247,31 @@ class JMenuItem extends JObject
 	}
 
 	/**
+	 * Method check if a certain otherwise inaccessible properties of the form field object is set.
+	 *
+	 * @param   string  $name  The property name to check.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.1
+	 * @deprecated  4.0 Deprecated without replacement
+	 */
+	public function __isset($name)
+	{
+		if ($name === 'params')
+		{
+			return !($this->params instanceof Registry);
+		}
+
+		return $this->get($name) !== null;
+	}
+
+	/**
 	 * Returns the menu item parameters
 	 *
 	 * @return  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getParams()
 	{
@@ -281,10 +302,50 @@ class JMenuItem extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function setParams($params)
 	{
 		$this->params = $params;
+	}
+
+	/**
+	 * Returns a property of the object or the default value if the property is not set.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $default   The default value.
+	 *
+	 * @return  mixed    The value of the property.
+	 *
+	 * @since   3.7.0
+	 * @deprecated  4.0
+	 */
+	public function get($property, $default = null)
+	{
+		if (isset($this->$property))
+		{
+			return $this->$property;
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Modifies a property of the object, creating it if it does not already exist.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $value     The value of the property to set.
+	 *
+	 * @return  mixed  Previous value of the property.
+	 *
+	 * @since   3.7.0
+	 * @deprecated  4.0
+	 */
+	public function set($property, $value = null)
+	{
+		$previous = isset($this->$property) ? $this->$property : null;
+		$this->$property = $value;
+
+		return $previous;
 	}
 }

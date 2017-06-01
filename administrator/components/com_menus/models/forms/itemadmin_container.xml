@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<!-- Container type menu item does not have a navigation -->
+		<field
+			name="link"
+			type="hidden"
+		/>
+
+		<field
+			name="browserNav"
+			type="hidden"
+			default="0"
+		/>
+	</fieldset>
+
+	<fields name="params">
+		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
+			<field
+				name="menu-anchor_title"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC"
+			/>
+
+			<field
+				name="menu-anchor_css"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC"
+			/>
+
+			<field
+				name="menu_image"
+				type="media"
+				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC"
+			/>
+
+			<field
+				name="menu_text"
+				type="radio"
+				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
+				class="btn-group btn-group-yesno"
+				default="1"
+				filter="integer"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="menu_show"
+				type="radio"
+				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
+				class="btn-group btn-group-yesno"
+				default="1"
+				filter="integer"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+		<field
+			name="hideitems"
+			type="checkboxes"
+			label="COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_LABEL"
+			description="COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC"
+			filter="array"
+		/>
+	</fields>
+	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_CONTAINER"/>
+</form>
