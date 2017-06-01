@@ -127,7 +127,7 @@ class FinderCli extends JApplicationCli
 	private $divisor;
 
 	/**
-	 * Minimum processing  time in seconds, in order to apply a pause
+	 * Minimum processing time in seconds, in order to apply a pause
 	 * Defaults to 1
 	 *
 	 * @var    integer
@@ -158,10 +158,10 @@ class FinderCli extends JApplicationCli
 		$_SERVER['HTTP_HOST'] = 'domain.com';
 		JFactory::getApplication('site');
 
-		// Pause between batches, to let the server catch a breath. The default, if not set by the user, is 5 seconds.
+		// Pause between batches to let the server catch a breath. The default, if not set by the user, is 5 seconds.
 		$this->minimumBatchProcessingTime = $this->input->getInt('minproctime', 1, 'raw');
 
-		// Pause between batches, to let the server catch a breath. The default, if not set by the user, is 5 seconds.
+		// Pause between batches to let the server catch a breath. The default, if not set by the user, is 5 seconds.
 		if (($pauseArg = $this->input->get('pause', 'division', 'raw')) !== false)
 		{
 			if ($pauseArg === 'division')
