@@ -121,9 +121,6 @@ JS
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
 		// Load the new jQuery code
 		static::formvalidator();
 	}
@@ -281,12 +278,8 @@ JS
 
 		JHtml::_('script', 'system/multiselect.min.js', array('version' => 'auto', 'relative' => true));
 
-		// Attach multiselect to document
-		JFactory::getDocument()->addScriptDeclaration(
-			"document.addEventListener('DOMContentLoaded', function() {
-				Joomla.JMultiSelect('" . $id . "');
-			});"
-		);
+		// Pass the required options to the javascript
+		JFactory::getDocument()->addScriptOptions('js-multiselect', ['formName' => $id]);
 
 		// Set static array
 		static::$loaded[__METHOD__][$id] = true;

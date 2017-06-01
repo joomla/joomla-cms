@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Button base class
  *
- * The JButton is the base class for all JButton types
+ * The base class for all toolbar button types
  *
  * @since  3.0
  */
@@ -33,16 +33,16 @@ abstract class ToolbarButton
 	/**
 	 * reference to the object that instantiated the element
 	 *
-	 * @var    static
+	 * @var    Toolbar
 	 */
 	protected $_parent = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $parent  The parent
+	 * @param   Toolbar  $parent  The parent
 	 */
-	public function __construct($parent = null)
+	public function __construct(Toolbar $parent = null)
 	{
 		$this->_parent = $parent;
 	}

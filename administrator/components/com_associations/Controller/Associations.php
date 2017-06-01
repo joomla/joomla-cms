@@ -11,6 +11,7 @@ namespace Joomla\Component\Associations\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Controller\Admin;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
  * Associations controller class.
@@ -80,7 +81,7 @@ class Associations extends Admin
 	public function checkin()
 	{
 		// Set the redirect so we can just stop processing when we find a condition we can't process
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 		// Figure out if the item supports checking and check it in
 		$type = null;
@@ -122,8 +123,8 @@ class Associations extends Admin
 		}
 
 		$this->setRedirect(
-			JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list),
-			JText::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
+			\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list),
+			\JText::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
 		);
 
 		return;

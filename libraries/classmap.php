@@ -62,9 +62,6 @@ JLoader::registerAlias('JTableContenthistory',              '\\Joomla\\CMS\\Tabl
 JLoader::registerAlias('JTableContenttype',                 '\\Joomla\\CMS\\Table\\ContentType', '4.0');
 JLoader::registerAlias('JTableCorecontent',                 '\\Joomla\\CMS\\Table\\CoreContent', '4.0');
 JLoader::registerAlias('JTableUcm',                         '\\Joomla\\CMS\\Table\\Ucm', '4.0');
-JLoader::registerAlias('JTableObserver',                    '\\Joomla\\CMS\\Table\\Observer\\AbstractObserver', '4.0');
-JLoader::registerAlias('JTableObserverContenthistory',      '\\Joomla\\CMS\\Table\\Observer\\ContentHistory', '4.0');
-JLoader::registerAlias('JTableObserverTags',                '\\Joomla\\CMS\\Table\\Observer\\Tags', '4.0');
 
 JLoader::registerAlias('JAccess',                           '\\Joomla\\CMS\\Access\\Access', '4.0');
 JLoader::registerAlias('JAccessRule',                       '\\Joomla\\CMS\\Access\\Rule', '4.0');
@@ -201,3 +198,9 @@ JLoader::registerAlias('JInstallerManifestPackage',         '\\Joomla\\CMS\\Inst
 JLoader::registerAlias('JRouter',                           '\\Joomla\\CMS\\Router\\Router', '4.0');
 JLoader::registerAlias('JRouterAdministrator',              '\\Joomla\\CMS\\Router\\AdministratorRouter', '4.0');
 JLoader::registerAlias('JRouterSite',                       '\\Joomla\\CMS\\Router\\SiteRouter', '4.0');
+
+JLoader::registerAlias('JForm',                             '\\Joomla\\CMS\\Form\\Form', '4.0');
+JLoader::registerAlias('JFormField',                        '\\Joomla\\CMS\\Form\\FormField', '4.0');
+JLoader::registerAlias('JFormHelper',                       '\\Joomla\\CMS\\Form\\FormHelper', '4.0');
+JLoader::registerAlias('JFormRule',                         '\\Joomla\\CMS\\Form\\FormRule', '4.0');
+JLoader::registerAlias('JFormFieldText',                    '\\Joomla\\CMS\\Form\\Field\\Text', '4.0');

@@ -12,6 +12,7 @@
 /administrator/logs
 /cache
 /installation/cache
+libraries/autoload_psr4.php
 /tmp
 /configuration.php
 /.htaccess
