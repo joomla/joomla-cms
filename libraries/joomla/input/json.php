@@ -47,11 +47,11 @@ class JInputJSON extends JInput
 		if (is_null($source))
 		{
 			$this->_raw = file_get_contents('php://input');
-			$this->data = json_decode($this->_raw, true);
+			$this->data = json_decode($this->_raw, true) ?: array();
 		}
 		else
 		{
-			$this->data = & $source;
+			$this->data = &$source;
 		}
 
 		// Set the options for the class.
