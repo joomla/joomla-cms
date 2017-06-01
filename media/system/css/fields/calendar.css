@@ -153,3 +153,10 @@ a.js-btn.btn.btn-exit, a.js-btn.btn.btn-today, a.js-btn.btn.btn-clear {
 	background-position: center; 
 }
 
+/* Adjusts the calendar field to fill the entire row
+	42px is the size of the calendar button
+*/
+
+.calendar-adjust {
+	width: calc(100% - 42px);
+}
