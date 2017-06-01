@@ -108,12 +108,12 @@ class JSchemaChangeset
 			// Set the check query
 			if ($this->db->hasUTF8mb4Support())
 			{
-				$converted = 2;
+				$converted = 4;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
 			}
 			else
 			{
-				$converted = 1;
+				$converted = 3;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
 			}
 
