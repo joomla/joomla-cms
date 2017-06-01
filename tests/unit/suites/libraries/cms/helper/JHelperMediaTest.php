@@ -4,7 +4,7 @@
  * @subpackage  Media
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -102,6 +102,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  isImageProvider
 	 * @since         3.2
+	 * @covers        JHelperMedia::isImage
 	 */
 	public function testIsImage($fileName, $expected)
 	{
@@ -115,6 +116,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JHelperMedia::getTypeIcon
 	 */
 	public function testGetTypeIcon()
 	{
@@ -128,6 +130,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JHelperMedia::countFiles
 	 */
 	public function testCountFiles()
 	{
@@ -169,10 +172,11 @@ class JHelperMediaTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  canUploadProvider
 	 * @since         3.2
+	 * @covers        JHelperMedia::canUpload
 	 */
 	public function testCanUpload($file, $expected)
 	{
-		$canUpload = $this->object->canUpload($file);
+	    $canUpload = $this->object->canUpload($file);
 		$this->assertEquals($canUpload, $expected);
 	}
 
@@ -205,6 +209,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  imageResizeProvider
 	 * @since         3.2
+	 * @covers        JHelperMedia::imageResize
 	 */
 	public function testImageResize($width, $height, $target, $expected)
 	{

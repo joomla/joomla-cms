@@ -4,7 +4,7 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -26,7 +26,6 @@ class JFormRuleColorTest extends TestCase
 			'#GGGGGG'      => array('#GGGGGG'),
 			'FFFFFF'       => array('FFFFFF'),
 			'#GGG'         => array('#GGG'),
-			'empty string' => array(''),
 		);
 	}
 
@@ -43,6 +42,7 @@ class JFormRuleColorTest extends TestCase
 			'#FFFFFF' => array('#FFFFFF'),
 			'#EEE'    => array('#EEE'),
 			'#A0A0A0' => array('#A0A0A0'),
+			'empty string' => array(''),
 		);
 	}
 

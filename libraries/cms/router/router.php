@@ -4,7 +4,7 @@
  * @subpackage  Router
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -641,7 +641,7 @@ class JRouter
 	}
 
 	/**
-	 * Create a uri based on a full or partial url string
+	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   string  $url  The URI
 	 *
@@ -657,7 +657,7 @@ class JRouter
 	}
 
 	/**
-	 * Create a uri based on a full or partial url string
+	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   string  $url  The URI or an associative array
 	 *

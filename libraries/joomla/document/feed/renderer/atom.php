@@ -18,7 +18,7 @@ JLog::add('JDocumentRendererAtom is deprecated, use JDocumentRendererFeedAtom in
  * produce valid atom files. For example, you have to specify either an editor
  * for the feed or an author for every single feed item.
  *
- * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
+ * @link        http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since       11.1
  * @deprecated  4.0  Use JDocumentRendererFeedAtom instead
  */

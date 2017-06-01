@@ -38,7 +38,7 @@ class PlgUserContactCreator extends JPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
@@ -144,7 +144,7 @@ class PlgUserContactCreator extends JPlugin
 
 		while ($table->load(array('alias' => $alias, 'catid' => $categoryId)))
 		{
-			if ($name == $table->name)
+			if ($name === $table->name)
 			{
 				$name = StringHelper::increment($name);
 			}

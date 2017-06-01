@@ -4,7 +4,7 @@
  * @subpackage  Simplepie
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -24,7 +24,7 @@ class JSimplepieFactory
 	/**
 	 * Get a parsed XML Feed Source
 	 *
-	 * @param   string   $url         Url for feed source.
+	 * @param   string   $url         URL for feed source.
 	 * @param   integer  $cache_time  Time to cache feed for (using internal cache mechanism).
 	 *
 	 * @return  SimplePie|boolean  SimplePie parsed object on success, false on failure.

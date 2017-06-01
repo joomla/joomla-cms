@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -36,7 +36,7 @@ abstract class JHtmlEmail
 		if ($mailto && (empty($text) || $email))
 		{
 			// Use dedicated $text whereas $mail is used as href and must be punycoded.
-			$text = JStringPunycode::emailToUTF8($text ? $text : $mail);
+			$text = JStringPunycode::emailToUTF8($text ?: $mail);
 		}
 		elseif (!$mailto)
 		{

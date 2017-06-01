@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -16,7 +16,7 @@
  * @subpackage  Utilities
  * @since       11.1
  */
-class JPlatformTest extends PHPUnit_Framework_TestCase
+class JPlatformTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JPlatform

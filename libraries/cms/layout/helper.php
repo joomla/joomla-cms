@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Helper to render a JLayout object, storing a base path
  *
- * @see    https://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
+ * @link   https://docs.joomla.org/Special:MyLanguage/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since  3.1
  */
 class JLayoutHelper
@@ -45,9 +45,8 @@ class JLayoutHelper
 		// Make sure we send null to JLayoutFile if no path set
 		$basePath = empty($basePath) ? null : $basePath;
 		$layout = new JLayoutFile($layoutFile, $basePath, $options);
-		$renderedLayout = $layout->debug($displayData);
 
-		return $renderedLayout;
+		return $layout->debug($displayData);
 	}
 
 	/**
@@ -69,8 +68,7 @@ class JLayoutHelper
 		// Make sure we send null to JLayoutFile if no path set
 		$basePath = empty($basePath) ? null : $basePath;
 		$layout = new JLayoutFile($layoutFile, $basePath, $options);
-		$renderedLayout = $layout->render($displayData);
 
-		return $renderedLayout;
+		return $layout->render($displayData);
 	}
 }

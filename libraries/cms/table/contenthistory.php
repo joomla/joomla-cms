@@ -102,9 +102,9 @@ class JTableContenthistory extends JTable
 	 */
 	public function getSha1($jsonData, JTableContenttype $typeTable)
 	{
-		$object = (is_object($jsonData)) ? $jsonData : json_decode($jsonData);
+		$object = is_object($jsonData) ? $jsonData : json_decode($jsonData);
 
-		if (isset($typeTable->content_history_options) && (is_object(json_decode($typeTable->content_history_options))))
+		if (isset($typeTable->content_history_options) && is_object(json_decode($typeTable->content_history_options)))
 		{
 			$options = json_decode($typeTable->content_history_options);
 			$this->ignoreChanges = isset($options->ignoreChanges) ? $options->ignoreChanges : $this->ignoreChanges;

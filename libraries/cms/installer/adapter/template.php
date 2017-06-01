@@ -4,7 +4,7 @@
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -192,7 +192,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		$base = constant('JPATH_' . strtoupper($client));
 		$extension = 'tpl_' . $this->getName();
-		$source    = $path ? $path : $base . '/templates/' . $this->getName();
+		$source    = $path ?: $base . '/templates/' . $this->getName();
 
 		$this->doLoadLanguage($extension, $source, $base);
 	}
