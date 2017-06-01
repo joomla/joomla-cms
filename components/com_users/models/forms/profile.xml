@@ -70,18 +70,6 @@
 			autocomplete="email"
 		/>
 
-		<field
-			name="email2"
-			type="email"
-			description="COM_USERS_PROFILE_EMAIL2_DESC"
-			field="email1"
-			filter="string"
-			label="COM_USERS_PROFILE_EMAIL2_LABEL"
-			message="COM_USERS_PROFILE_EMAIL2_MESSAGE"
-			required="true"
-			size="30"
-			validate="equals"
-		/>
 	</fieldset>
 	
 	<!-- Used to get the two factor authentication configuration -->
