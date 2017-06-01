@@ -75,10 +75,6 @@
   font-size: 1.7rem;
 }
 
-.main-nav-container {
-  background-color: $atum-sidebar-child-bg;
-}
-
 // Sidebar navigation
 .main-nav {
   position: relative;
@@ -90,19 +86,17 @@
   list-style: none;
   background-color: $atum-template-color-light;
   opacity: 1;
-  transition: all .3s ease;
-  transition-delay: .5s;
 
-  // Background for animation
+  // Animated child background
   &::after {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-    z-index: 0;
     width: 0;
     content: "";
     background-color: $atum-sidebar-child-bg;
+    // opacity: 0;
     transition: all .3s ease;
   }
 
@@ -170,14 +164,6 @@
       }
     }
 
-    a:hover {
-
-      &::before {
-        width: 3px;
-      }
-
-    }
-
   }
 
   .close {
@@ -186,6 +172,9 @@
     color: rgba(255, 255, 255, .8);
     text-indent: 0;
     text-shadow: none;
+    &:hover {
+      background-color: transparent;
+    }
   }
 
   .open {
@@ -311,16 +300,13 @@
   overflow: visible;
   &::after {
     width: 200px;
-    transition: all .3s ease;
+    // opacity: 1;
   }
   > li {
     &.parent > .collapse-arrow::after {
       visibility: hidden;
       opacity: 0;
       transition-delay: 0s;
-    }
-    > a .sidebar-item-title {
-      visibility: hidden;
     }
     &.open > a::before {
       position: absolute;
@@ -345,12 +331,12 @@
 
   }
 
-  > li:hover {
+  > li:hover:not(.open) {
     z-index: 9;
     background-color: transparent;
   }
 
-  > li:hover > a {
+  > li:hover:not(.open) > a {
     overflow: visible;
     background-color: transparent;
     .sidebar-item-title {
@@ -383,14 +369,9 @@
     }
   }
 
-  > .open:hover > a {
-    .sidebar-item-title {
-      visibility: hidden !important;
-    }
-  }
-
 }
 
+// Sidebar Closed
 .closed {
   padding-left: 50px;
   .child-open::after {
@@ -399,7 +380,6 @@
   .sidebar-wrapper {
     width: 50px;
     overflow: hidden;
-    // transition-delay: 0s;
   }
   .parent .collapse-arrow::after {
     visibility: hidden;
@@ -415,4 +395,9 @@
   color: $white;
   cursor: not-allowed;
   background: none;
+}
+
+.sidebar-item-title {
+  visibility: visible !important;
+  opacity: 1 !important;
 }

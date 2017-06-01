@@ -9443,9 +9443,6 @@ iframe {
   width: 48px;
   font-size: 1.7rem; }
 
-.main-nav-container {
-  background-color: #0f2131; }
-
 .main-nav {
   position: relative;
   z-index: 1;
@@ -9455,15 +9452,12 @@ iframe {
   overflow-y: auto;
   list-style: none;
   background-color: #1c3d5c;
-  opacity: 1;
-  transition: all .3s ease;
-  transition-delay: .5s; }
+  opacity: 1; }
   .main-nav::after {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-    z-index: 0;
     width: 0;
     content: "";
     background-color: #0f2131;
@@ -9512,14 +9506,14 @@ iframe {
         opacity: 1; }
       .main-nav li ul li {
         text-indent: 15px; }
-    .main-nav li a:hover::before {
-      width: 3px; }
   .main-nav .close {
     padding: 2px 10px;
     font-size: 1.7rem;
     color: rgba(255, 255, 255, 0.8);
     text-indent: 0;
     text-shadow: none; }
+    .main-nav .close:hover {
+      background-color: transparent; }
   .main-nav .open > a + ul {
     left: 50px;
     z-index: 1;
@@ -9587,14 +9581,11 @@ iframe {
 .child-open {
   overflow: visible; }
   .child-open::after {
-    width: 200px;
-    transition: all .3s ease; }
+    width: 200px; }
   .child-open > li.parent > .collapse-arrow::after {
     visibility: hidden;
     opacity: 0;
     transition-delay: 0s; }
-  .child-open > li > a .sidebar-item-title {
-    visibility: hidden; }
   .child-open > li.open > a::before {
     position: absolute;
     top: 1px;
@@ -9607,13 +9598,13 @@ iframe {
     display: block; }
   .child-open .sidebar-item-title {
     transition: opacity .2s ease; }
-  .child-open > li:hover {
+  .child-open > li:hover:not(.open) {
     z-index: 9;
     background-color: transparent; }
-  .child-open > li:hover > a {
+  .child-open > li:hover:not(.open) > a {
     overflow: visible;
     background-color: transparent; }
-    .child-open > li:hover > a .sidebar-item-title {
+    .child-open > li:hover:not(.open) > a .sidebar-item-title {
       position: absolute;
       left: 50px;
       z-index: 9;
@@ -9626,7 +9617,7 @@ iframe {
       background-color: #fff;
       border-radius: 0.25rem;
       opacity: 1; }
-      .child-open > li:hover > a .sidebar-item-title::before {
+      .child-open > li:hover:not(.open) > a .sidebar-item-title::before {
         position: absolute;
         top: 50%;
         right: 100%;
@@ -9637,8 +9628,6 @@ iframe {
         border-style: solid;
         border-width: 5px 5px 5px 0;
         transform: translateY(-50%); }
-  .child-open > .open:hover > a .sidebar-item-title {
-    visibility: hidden !important; }
 
 .closed {
   padding-left: 50px; }
@@ -9657,6 +9646,10 @@ iframe {
   color: #fff;
   cursor: not-allowed;
   background: none; }
+
+.sidebar-item-title {
+  visibility: visible !important;
+  opacity: 1 !important; }
 
 .sidebar-nav ul {
   padding-left: .5rem; }

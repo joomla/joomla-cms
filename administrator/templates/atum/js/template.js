@@ -153,8 +153,8 @@ Joomla = window.Joomla || {};
 					 	siblings[i].classList.remove('open');
 					}
 					wrapper.classList.remove('closed');
-					menuItem.classList.add('open');
 					mainNav.classList.add('child-open');
+					menuItem.classList.add('open');
 				}
 			};
 
