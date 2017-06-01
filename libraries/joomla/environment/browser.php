@@ -235,8 +235,8 @@ class JBrowser
 				|| strpos($this->lowerAgent, 'j-') !== false
 				|| preg_match('/(openwave|opera mini|opera mobi|operamini|avantgo|wap|elaine)/i', $this->agent)
 				|| preg_match('/(iPhone|iPod|iPad|Android|Mobile|Phone|BlackBerry|Xiino|Palmscape|palmsource)/i', $this->agent)
-				|| preg_match('/(Nokia|Ericsson|docomo|portalmmm|CriOS[/ ]([0-9.]+)|)/i', $this->agent)
-				|| preg_match('/(digital paths|UP|UP.B|UP.L)/i', $this->agent)
+				|| preg_match('/(Nokia|Ericsson|docomo|digital paths|portalmmm|CriOS[\/ ]([0-9.]+))/i', $this->agent)
+				|| preg_match('/(UP|UP.B|UP.L)/', $this->agent)
 				|| preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->agent))
 			{
 				$this->mobile = true;
@@ -272,12 +272,12 @@ class JBrowser
 			}
 
 			// Opera 15+
-			elseif (preg_match('|OPR[/ ]([0-9.]+)|', $this->agent, $version))
+			elseif (preg_match('/OPR[\/ ]([0-9.]+)/', $this->agent, $version))
 			{
 				$this->setBrowser('opera');
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
-			elseif (preg_match('|Chrome[/ ]([0-9.]+)|CrMo[/ ]([0-9.]+)|CriOS[/ ]([0-9.]+)|', $this->agent, $version))
+			elseif (preg_match('/Chrome[\/ ]([0-9.]+)|CrMo[\/ ]([0-9.]+)|CriOS[\/ ]([0-9.]+)/i', $this->agent, $version))
 			{
 				$this->setBrowser('chrome');
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
@@ -288,8 +288,7 @@ class JBrowser
 			{
 				$this->setBrowser('palm');
 			}
-			elseif ((preg_match('|MSIE ([0-9.]+)|', $this->agent, $version)) || (preg_match('|Internet Explorer/([0-9.]+)|', $this->agent, $version))
-					|| (preg_match('|Trident/([0-9.]+)|', $this->agent, $version)))
+			elseif ((preg_match('/MSIE ([0-9.]+)|Internet Explorer\/([0-9.]+)|Trident\/([0-9.]+)/i', $this->agent, $version)))
 			{
 				$this->setBrowser('msie');
 
