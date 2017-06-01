@@ -785,7 +785,7 @@
 	<fieldset name="list_default_parameters"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTENT_CONFIG_LIST_SETTINGS_DESC"
-		addfieldpath="/administrator/components/com_content/models/fields"
+		addfieldprefix="Joomla\Component\Content\Administrator\Field"
 	>
 
 		<field name="show_pagination_limit"
