@@ -13,12 +13,14 @@
 			filter="rules"
 			validate="rules"
 			component="com_languages"
-			section="component" />
+			section="component" 
+		/>
 
 		<field
 			type="hidden"
 			name="site"
 		/>
+
 		<field
 			type="hidden"
 			name="administrator"

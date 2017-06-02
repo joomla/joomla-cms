@@ -20,7 +20,7 @@
 			name="state"
 			type="status"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
@@ -45,7 +45,7 @@
 			name="access"
 			type="accesslevel"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 
@@ -53,7 +53,7 @@
 			name="language"
 			type="contentlanguage"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 		</field>
 	</fields>
@@ -63,11 +63,11 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			statuses="*,0,1,2,-2"
 			description="JGLOBAL_SORT_BY"
+			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.ordering ASC"
-		>
+			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
@@ -90,9 +90,10 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="COM_FIELDS_LIST_LIMIT"
+			description="COM_FIELDS_LIST_LIMIT_DESC"
 			class="input-mini"
 			default="25"
-			label="COM_FIELDS_LIST_LIMIT" description="COM_FIELDS_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"
 		/>
 	</fields>

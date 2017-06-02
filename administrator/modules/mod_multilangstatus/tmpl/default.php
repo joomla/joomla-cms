@@ -27,7 +27,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		href="#multiLangModal"
 		title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>"
 		role="button">
-		<span class="icon-comment"></span><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
+		<span class="icon-comment" aria-hidden="true"></span><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
 	</a>
 	<span class="btn-group separator"></span>
 </div>
