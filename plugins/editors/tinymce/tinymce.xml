@@ -23,7 +23,6 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field 
 				       name="configuration" 
