@@ -23,7 +23,7 @@
 		// Fallback in case no keepalive uri was found.
 		if (keepaliveUri === '')
 		{
-			var systemPath = Joomla.getOptions('system.paths');
+			var systemPaths = Joomla.getOptions('system.paths');
 
 			keepaliveUri = (systemPaths ? systemPaths.root + '/index.php' : window.location.pathname) + '?option=com_ajax&format=json';
 		}
