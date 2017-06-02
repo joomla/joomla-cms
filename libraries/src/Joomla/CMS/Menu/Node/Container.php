@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * A Container type of node for MenuTree
  *
- * @see     Node
+ * @see    Node
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class Container extends Heading
 {

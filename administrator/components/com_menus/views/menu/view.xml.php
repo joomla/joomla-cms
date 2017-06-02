@@ -96,10 +96,10 @@ class MenusViewMenu extends JViewLegacy
 	}
 
 	/**
-	 * Add a node to the xml
+	 * Add a child node to the xml
 	 *
-	 * @param   SimpleXMLElement  $xml
-	 * @param   stdClass          $item
+	 * @param   SimpleXMLElement  $xml   The current XML node which would become the parent to the new node
+	 * @param   stdClass          $item  The menuitem object to create the child XML node from
 	 *
 	 * @return  void
 	 *

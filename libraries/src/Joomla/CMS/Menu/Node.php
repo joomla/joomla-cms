@@ -14,9 +14,9 @@ use Joomla\Registry\Registry;
 /**
  * A Node for MenuTree
  *
- * @see     Tree
+ * @see    Tree
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class Node
 {

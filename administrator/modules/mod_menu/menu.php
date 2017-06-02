@@ -106,7 +106,7 @@ class JAdminCssMenu
 
 					$this->populateTree($levels);
 
-					$this->tree->addChild(new Node\Separator());
+					$this->tree->addChild(new Node\Separator);
 
 					// Add link to exit recovery mode
 					$uri = clone JUri::getInstance();
@@ -256,7 +256,7 @@ class JAdminCssMenu
 				continue;
 			}
 
-			 // Exclude item if the component is not authorised
+			// Exclude item if the component is not authorised
 			if ($item->element && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $item->element))
 			{
 				continue;
@@ -312,8 +312,8 @@ class JAdminCssMenu
 			// Ok we passed everything, load language at last only
 			if ($item->element)
 			{
-				$language->load($item->element .'.sys', JPATH_ADMINISTRATOR, null, false, true) ||
-				$language->load($item->element .'.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
+				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
 			}
 
 			$item->text = JText::_($item->title);
@@ -394,7 +394,7 @@ class JAdminCssMenu
 					// Add a separator between dynamic menu items and components menu items
 					if (count($item->submenu) && count($item->components))
 					{
-						$this->tree->addChild(new Node\Separator());
+						$this->tree->addChild(new Node\Separator);
 					}
 
 					$this->populateTree($item->components);

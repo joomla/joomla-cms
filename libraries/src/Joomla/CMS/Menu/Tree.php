@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu Tree class to represent a menu tree hierarchy
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class Tree
 {
@@ -81,7 +81,7 @@ class Tree
 	/**
 	 * Get the current node
 	 *
-	 * @param   Node  $node
+	 * @param   Node  $node  The node to be set as current
 	 *
 	 * @return  void
 	 *

@@ -249,7 +249,7 @@ class MenuHelper
 	 * Load a menu tree from an XML file
 	 *
 	 * @param   \SimpleXMLElement[]  $elements  The xml menuitem nodes
-	 * @param   \stdClass[]          $items     The menu hierarchy list to be populated
+	 * @param   \stdClass[]          &$items    The menu hierarchy list to be populated
 	 * @param   string[]             $replace   The substring replacements for iterator type items
 	 *
 	 * @return  void

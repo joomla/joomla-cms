@@ -14,9 +14,9 @@ use Joomla\CMS\Menu\Node;
 /**
  * An external Url type of node for MenuTree
  *
- * @see     Node
+ * @see    Node
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class Url extends Node
 {
