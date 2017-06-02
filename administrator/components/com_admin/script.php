@@ -1770,6 +1770,9 @@ class JoomlaInstallerScript
 			// Joomla 3.7.3
 			'/administrator/components/com_admin/postinstall/phpversion.php',
 			'/components/com_content/layouts/field/prepare/modal_article.php',
+			// Joomla! __DEPLOY_VERSION__
+			'/administrator/modules/mod_menu/preset/enabled.php',
+			'/administrator/modules/mod_menu/preset/disabled.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1899,6 +1902,8 @@ class JoomlaInstallerScript
 			'/administrator/templates/hathor/html/mod_menu',
 			'/administrator/components/com_messages/layouts/toolbar',
 			'/administrator/components/com_messages/layouts',
+			// Joomla! __DEPLOY_VERSION__
+			'/administrator/modules/mod_menu/preset',
 		);
 
 		jimport('joomla.filesystem.file');
