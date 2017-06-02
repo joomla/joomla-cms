@@ -710,6 +710,33 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Checks if HTTPS is forced in the client configuration.
+	 *
+	 * @param   integer  $clientId  An optional client id (defaults to current application client).
+	 *
+	 * @return  boolean  True if is forced for the client, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isHttpsForced($clientId = null)
+	{
+		$clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+		$forceSsl = (int) $this->get('force_ssl');
+
+		if ($clientId === 0 && $forceSsl === 2)
+		{
+			return true;
+		}
+
+		if ($clientId === 1 && $forceSsl >= 1)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check the client interface by name.
 	 *
 	 * @param   string  $identifier  String identifier for the application interface
@@ -757,37 +784,6 @@ class JApplicationCms extends JApplicationWeb
 			return $this;
 		}
 
-		// Generate a session name.
-		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name'   => $name,
-			'expire' => $lifetime,
-		);
-
-		switch ($this->getClientId())
-		{
-			case 0:
-				if ($this->get('force_ssl') == 2)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-
-			case 1:
-				if ($this->get('force_ssl') >= 1)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-		}
-
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
 		/*
@@ -797,7 +793,14 @@ class JApplicationCms extends JApplicationWeb
 		 * without a proper dependency injection container.
 		 */
 
-		$session = JFactory::getSession($options);
+		$session = JFactory::getSession(
+			array(
+				'name'      => JApplicationHelper::getHash($this->get('session_name', get_class($this))),
+				'expire'    => $this->get('lifetime') ? $this->get('lifetime') * 60 : 900,
+				'force_ssl' => $this->isHttpsForced(),
+			)
+		);
+
 		$session->initialise($this->input, $this->dispatcher);
 
 		// TODO: At some point we need to get away from having session data always in the db.
