@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$cparams = JComponentHelper::getParams('com_media');
-$tparams = $this->params;
 jimport('joomla.html.html.bootstrap');
+
+$cparams = JComponentHelper::getParams('com_media');
+$tparams = $this->item->params;
+
 ?>
 
 <div class="contact<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Person">
@@ -64,13 +66,17 @@ jimport('joomla.html.html.bootstrap');
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
 	<?php $presentation_style = $tparams->get('presentation_style'); ?>
+	<?php $accordionStarted = false; ?>
+	<?php $tabSetStarted = false; ?>
 
 	<?php if ($this->params->get('show_info', 1)) : ?>
 		<?php if ($presentation_style === 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'basic-details')); ?>
+			<?php $accordionStarted = true; ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic-details')); ?>
+			<?php $tabSetStarted = true; ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic-details', JText::_('COM_CONTACT_DETAILS')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
@@ -107,8 +113,20 @@ jimport('joomla.html.html.bootstrap');
 
 	<?php if ($tparams->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id)) : ?>
 		<?php if ($presentation_style === 'sliders') : ?>
+			<?php if (!$accordionStarted)
+			{
+				echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-form'));
+				$accordionStarted = true;
+			}
+			?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
+			<?php if (!$tabSetStarted)
+			{
+				echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-form'));
+				$tabSetStarted = true;
+			}
+			?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-form', JText::_('COM_CONTACT_EMAIL_FORM')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
@@ -129,8 +147,20 @@ jimport('joomla.html.html.bootstrap');
 
 	<?php if ($tparams->get('show_articles') && $this->contact->user_id && $this->contact->articles) : ?>
 		<?php if ($presentation_style === 'sliders') : ?>
+			<?php if (!$accordionStarted)
+			{
+				echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-articles'));
+				$accordionStarted = true;
+			}
+			?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
+			<?php if (!$tabSetStarted)
+			{
+				echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-articles'));
+				$tabSetStarted = true;
+			}
+			?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-articles', JText::_('JGLOBAL_ARTICLES')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('JGLOBAL_ARTICLES') . '</h3>'; ?>
@@ -147,8 +177,20 @@ jimport('joomla.html.html.bootstrap');
 
 	<?php if ($tparams->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
 		<?php if ($presentation_style === 'sliders') : ?>
+			<?php if (!$accordionStarted)
+			{
+				echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-profile'));
+				$accordionStarted = true;
+			}
+			?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
+			<?php if (!$tabSetStarted)
+			{
+				echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-profile'));
+				$tabSetStarted = true;
+			}
+			?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', JText::_('COM_CONTACT_PROFILE')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
@@ -169,8 +211,20 @@ jimport('joomla.html.html.bootstrap');
 
 	<?php if ($this->contact->misc && $tparams->get('show_misc')) : ?>
 		<?php if ($presentation_style === 'sliders') : ?>
+			<?php if (!$accordionStarted)
+			{
+				echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-misc'));
+				$accordionStarted = true;
+			}
+			?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
+			<?php if (!$tabSetStarted)
+			{
+				echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-misc'));
+				$tabSetStarted = true;
+			}
+			?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-misc', JText::_('COM_CONTACT_OTHER_INFORMATION')); ?>
 		<?php elseif ($presentation_style === 'plain') : ?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
@@ -198,9 +252,9 @@ jimport('joomla.html.html.bootstrap');
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<?php if ($presentation_style === 'sliders') : ?>
+	<?php if ($accordionStarted) : ?>
 		<?php echo JHtml::_('bootstrap.endAccordion'); ?>
-	<?php elseif ($presentation_style === 'tabs') : ?>
+	<?php elseif ($tabSetStarted) : ?>
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<?php endif; ?>
 

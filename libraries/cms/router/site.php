@@ -752,8 +752,14 @@ class JRouterSite extends JRouter
 
 			if (!class_exists($class))
 			{
-				// Add the custom routing handler to the autoloader if it exists
-				JLoader::register($class, JPATH_SITE . '/components/' . $component . '/router.php');
+				// Use the component routing handler if it exists
+				$path = JPATH_SITE . '/components/' . $component . '/router.php';
+
+				// Use the custom routing handler if it exists
+				if (file_exists($path))
+				{
+					require_once $path;
+				}
 			}
 
 			if (class_exists($class))

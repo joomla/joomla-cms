@@ -4,7 +4,7 @@
  * @subpackage  Github
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -197,5 +197,4 @@ class JGithubPackageGitignoreTest extends \PHPUnit\Framework\TestCase
 			$this->equalTo(json_decode($this->response->body))
 		);
 	}
-
 }
