@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
 
 /**
@@ -320,5 +322,79 @@ class MenusHelper
 		}
 
 		return $associations;
+	}
+
+	/**
+	 * Load the menu items from database for the given menutype
+	 *
+	 * @param   string   $menutype     The selected menu type
+	 * @param   boolean  $enabledOnly  Whether to load only enabled/published menu items.
+	 * @param   int[]    $exclude      The menu items to exclude from the list
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Prepare the query.
+		$query->select('m.*')
+			->from('#__menu AS m')
+			->where('m.menutype = ' . $db->q($menutype))
+			->where('m.client_id = 1')
+			->where('m.id > 1');
+
+		if ($enabledOnly)
+		{
+			$query->where('m.published = 1');
+		}
+
+		// Filter on the enabled states.
+		$query->select('e.element')
+			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+			->where('(e.enabled = 1 OR e.enabled IS NULL)');
+
+		if (count($exclude))
+		{
+			$exId = array_filter($exclude, 'is_numeric');
+			$exEl = array_filter($exclude, 'is_string');
+
+			if ($exId)
+			{
+				$query->where('m.id NOT IN (' . implode(', ', array_map('intval', $exId)) . ')');
+				$query->where('m.parent_id NOT IN (' . implode(', ', array_map('intval', $exId)) . ')');
+			}
+
+			if ($exEl)
+			{
+				$query->where('e.element NOT IN (' . implode(', ', $db->quote($exEl)) . ')');
+			}
+		}
+
+		// Order by lft.
+		$query->order('m.lft');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$menuItems = $db->loadObjectList();
+
+			foreach ($menuItems as &$menuitem)
+			{
+				$menuitem->params = new Registry($menuitem->params);
+			}
+		}
+		catch (RuntimeException $e)
+		{
+			$menuItems = array();
+
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
+
+		return $menuItems;
 	}
 }

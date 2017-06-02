@@ -153,4 +153,34 @@ class MenusControllerMenu extends JControllerForm
 				break;
 		}
 	}
+
+	/**
+	 * Method to display a menu as preset xml.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function exportXml()
+	{
+		// Check for request forgeries.
+		$this->checkToken();
+
+		$cid   = $this->input->get('cid', array(), 'array');
+		$model = $this->getModel('Menu');
+		$item  = $model->getItem(reset($cid));
+
+		if (!$item->menutype)
+		{
+			$this->setMessage(JText::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), 'warning');
+
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
+
+			return false;
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&menutype=' . $item->menutype . '&format=xml', false));
+
+		return true;
+	}
 }
