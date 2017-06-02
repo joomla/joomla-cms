@@ -144,11 +144,11 @@ class PlgContentPagebreak extends JPlugin
 			$hasToc = $this->params->get('multipage_toc', 1);
 
 			// Adds heading or title to <site> Title.
-			if ($title && $page && @$matches[$page - 1][2])
+			if ($title && $page && isset($matches[$page - 1], $matches[$page - 1][2]))
 			{
 				$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
 
-				if (@$attrs['title'])
+				if (isset($attrs['title']))
 				{
 					$row->page_title = $attrs['title'];
 				}

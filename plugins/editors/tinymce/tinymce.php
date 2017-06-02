@@ -267,6 +267,7 @@ class PlgEditorTinymce extends JPlugin
 		// Set the selected skin
 		$skin = 'lightgray';
 		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
+
 		if ((int) $levelParams->get($side, 0) < count($skindirs))
 		{
 			$skin = basename($skindirs[(int) $levelParams->get($side, 0)]);
@@ -488,7 +489,6 @@ class PlgEditorTinymce extends JPlugin
 				$plugins[] = $knownButtons[$btnName]['plugin'];
 			}
 		}
-
 
 		// Template
 		$templates = array();
