@@ -91,6 +91,12 @@ var JUIColorPicker = (function JUIColorPicker() {
 		this.lightness = obj.lightness;
 	};
 
+	Color.prototype.destroy = function destroy() {
+		var clone = this.node.cloneNode(true);
+
+		this.node.parentNode.replaceChild(clone, this.node);
+	};
+
 	Color.prototype.setFormat = function setFormat(format) {
 		if (format === 'HSV')
 			this.format = 'HSV';
