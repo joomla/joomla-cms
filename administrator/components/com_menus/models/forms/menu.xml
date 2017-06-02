@@ -57,6 +57,15 @@
 			<option value="1">JADMINISTRATOR</option>
 		</field>
 		<field
+			name="preset"
+			type="menuPreset"
+			label="COM_MENUS_FIELD_PRESET_LABEL"
+			description="COM_MENUS_FIELD_PRESET_DESC"
+			showon="client_id:1"
+		>
+			<option value="">JNONE</option>
+		</field>
+		<field
 			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"
