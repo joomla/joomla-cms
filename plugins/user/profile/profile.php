@@ -371,7 +371,7 @@ class PlgUserProfile extends JPlugin
 			if (JDate::getInstance('now') < $date)
 			{
 				// Throw an exception if dob is greather than now.
-				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
 		// Check that the tos is checked if required ie only in registration from frontend.

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.core');
+JHtml::_('behavior.tabstate');
 
 JText::script('COM_FINDER_FILTER_SHOW_ALL', true);
 JText::script('COM_FINDER_FILTER_HIDE_ALL', true);

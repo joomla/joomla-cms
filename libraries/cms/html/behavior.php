@@ -629,6 +629,7 @@ JS
 		}
 
 		JHtml::_('jquery.framework');
+		JHtml::_('behavior.polyfill', array('filter','xpath'));
 		JHtml::_('script', 'system/tabs-state.min.js', array('version' => 'auto', 'relative' => true));
 		self::$loaded[__METHOD__] = true;
 	}

@@ -87,6 +87,20 @@ if ($user->authorise('core.manage', 'com_users'))
 		}
 	}
 
+	if ($comFieldsEnabled && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+	{
+		$this->addSeparator();
+		$this->addChild(
+				new JMenuNode(
+						JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_users.user', 'class:fields')
+				);
+
+		$this->addChild(
+				new JMenuNode(
+						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_users.user', 'class:category')
+				);
+	}
+
 	$this->addSeparator();
 	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS_NOTES'), 'index.php?option=com_users&view=notes'), $createUser);
 
@@ -104,19 +118,6 @@ if ($user->authorise('core.manage', 'com_users'))
 	if ($createUser)
 	{
 		$this->getParent();
-	}
-
-	if ($comFieldsEnabled && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
-	{
-		$this->addChild(
-				new JMenuNode(
-						JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_users.user')
-				);
-
-		$this->addChild(
-				new JMenuNode(
-						JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_users.user')
-				);
 	}
 
 	if (JFactory::getApplication()->get('massmailoff') != 1)
@@ -167,7 +168,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 		}
 		elseif ($menuType->home == 1 && $menuType->language == '*')
 		{
-			$titleicon = ' <span class="fa fa-home"></span>';
+			$titleicon = ' <span class="fa fa-home" aria-hidden="true"></span>';
 		}
 		elseif ($menuType->home > 1)
 		{
@@ -242,8 +243,11 @@ if ($user->authorise('core.manage', 'com_content'))
 		$this->getParent();
 	}
 
+	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured'));
+
 	if ($comFieldsEnabled && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 	{
+		$this->addSeparator();
 		$this->addChild(
 			new JMenuNode(
 				JText::_('MOD_MENU_FIELDS'), 'index.php?option=com_fields&context=com_content.article')
@@ -254,8 +258,6 @@ if ($user->authorise('core.manage', 'com_content'))
 				JText::_('MOD_MENU_FIELDS_GROUP'), 'index.php?option=com_fields&view=groups&context=com_content.article')
 		);
 	}
-
-	$this->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured'));
 
 	$this->getParent();
 }

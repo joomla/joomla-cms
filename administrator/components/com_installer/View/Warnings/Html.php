@@ -14,7 +14,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\Html as InstallerViewDefault;
 
 /**
- * Extension Manager Templates View
+ * Extension Manager Warning View
  *
  * @since  1.6
  */
