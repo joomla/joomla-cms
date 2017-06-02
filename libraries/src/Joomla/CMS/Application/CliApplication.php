@@ -202,7 +202,7 @@ class CliApplication extends BaseApplication
 		{
 			// In 4.0, this will convert to throwing an exception and you will expected to
 			// initialize this in the constructor. Until then set a default.
-			$default = new Joomla\Application\Cli\Output\Xml;
+			$default = new \Joomla\Application\Cli\Output\Xml;
 			$this->setOutput($default);
 		}
 

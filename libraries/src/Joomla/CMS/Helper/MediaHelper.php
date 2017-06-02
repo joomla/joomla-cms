@@ -57,7 +57,7 @@ class MediaHelper
 	 *
 	 * @return  mixed    the mime type detected false on error
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.2
 	 */
 	private function getMimeType($file, $isImage = false)
 	{
