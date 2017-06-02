@@ -9,6 +9,27 @@
 
 defined('_JEXEC') or die;
 
-$direction = JFactory::getDocument()->direction == 'rtl' ? 'pull-right' : '';
+$doc       = JFactory::getDocument();
+$direction = $doc->direction == 'rtl' ? 'pull-right' : '';
+$class     = $enabled ? 'nav ' . $direction : 'nav disabled ' . $direction;
 
-$menu->renderMenu('menu', $enabled ? 'nav ' . $direction : 'nav disabled ' . $direction);
+// Recurse through children of root node if they exist
+$menuTree = $menu->getTree();
+$root     = $menuTree->reset();
+
+if ($root->hasChildren())
+{
+	echo '<ul id="menu" class="' . $class . '">' . "\n";
+
+	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
+	$menu->renderSubmenu(JModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
+
+	echo "</ul>\n";
+
+	echo '<ul id="nav-empty" class="dropdown-menu nav-empty hidden-phone"></ul>';
+
+	if ($css = $menuTree->getCss())
+	{
+		$doc->addStyleDeclaration(implode("\n", $css));
+	}
+}
