@@ -1,22 +1,26 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTTP
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Http;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Http\HttpTransport;
+use Joomla\CMS\Http\HttpResponse;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * HTTP transport class for using PHP streams.
  *
  * @since  11.3
  */
-class JHttpTransportStream implements JHttpTransport
+class StreamTransport implements HttpTransport
 {
 	/**
 	 * @var    Registry  The client options.
@@ -37,34 +41,34 @@ class JHttpTransportStream implements JHttpTransport
 		// Verify that URLs can be used with fopen();
 		if (!ini_get('allow_url_fopen'))
 		{
-			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
+			throw new \RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
 		}
 
 		// Verify that fopen() is available.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Cannot use a stream transport when fopen() is not available or "allow_url_fopen" is disabled.');
+			throw new \RuntimeException('Cannot use a stream transport when fopen() is not available or "allow_url_fopen" is disabled.');
 		}
 
 		$this->options = $options;
 	}
 
 	/**
-	 * Send a request to the server and return a JHttpResponse object with the response.
+	 * Send a request to the server and return a HttpResponse object with the response.
 	 *
 	 * @param   string   $method     The HTTP method for sending the request.
-	 * @param   JUri     $uri        The URI to the resource to request.
+	 * @param   Uri     $uri        The URI to the resource to request.
 	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
 	 * @param   array    $headers    An array of request headers to send with the request.
 	 * @param   integer  $timeout    Read timeout in seconds.
 	 * @param   string   $userAgent  The optional user agent string to send with the request.
 	 *
-	 * @return  JHttpResponse
+	 * @return  HttpResponse
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
+	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
 		// Create the stream context options array with the required method offset.
 		$options = array('method' => strtoupper($method));
@@ -117,7 +121,7 @@ class JHttpTransportStream implements JHttpTransport
 		}
 
 		// Add the proxy configuration, if any.
-		$config = JFactory::getConfig();
+		$config = \JFactory::getConfig();
 
 		if ($config->get('proxy_enable'))
 		{
@@ -192,7 +196,7 @@ class JHttpTransportStream implements JHttpTransport
 			// Restore error tracking to give control to the exception handler
 			ini_set('track_errors', $track_errors);
 
-			throw new RuntimeException($php_errormsg);
+			throw new \RuntimeException($php_errormsg);
 		}
 
 		// Restore error tracking to what it was before.
@@ -229,7 +233,7 @@ class JHttpTransportStream implements JHttpTransport
 	 * @param   array   $headers  The response headers as an array.
 	 * @param   string  $body     The response body as a string.
 	 *
-	 * @return  JHttpResponse
+	 * @return  HttpResponse
 	 *
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
@@ -237,7 +241,7 @@ class JHttpTransportStream implements JHttpTransport
 	protected function getResponse(array $headers, $body)
 	{
 		// Create the response object.
-		$return = new JHttpResponse;
+		$return = new HttpResponse;
 
 		// Set the body for the response.
 		$return->body = $body;
@@ -254,7 +258,7 @@ class JHttpTransportStream implements JHttpTransport
 		// No valid response code was detected.
 		else
 		{
-			throw new UnexpectedValueException('No HTTP response code found.');
+			throw new \UnexpectedValueException('No HTTP response code found.');
 		}
 
 		// Add the response headers to the response object.

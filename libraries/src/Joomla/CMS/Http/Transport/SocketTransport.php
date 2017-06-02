@@ -1,22 +1,26 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTTP
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Http;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Http\HttpTransport;
+use Joomla\CMS\Http\HttpResponse;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * HTTP transport class for using sockets directly.
  *
  * @since  11.3
  */
-class JHttpTransportSocket implements JHttpTransport
+class SocketTransport implements HttpTransport
 {
 	/**
 	 * @var    array  Reusable socket connections.
@@ -42,28 +46,28 @@ class JHttpTransportSocket implements JHttpTransport
 	{
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
+			throw new \RuntimeException('Cannot use a socket transport when fsockopen() is not available.');
 		}
 
 		$this->options = $options;
 	}
 
 	/**
-	 * Send a request to the server and return a JHttpResponse object with the response.
+	 * Send a request to the server and return a HttpResponse object with the response.
 	 *
 	 * @param   string   $method     The HTTP method for sending the request.
-	 * @param   JUri     $uri        The URI to the resource to request.
+	 * @param   Uri     $uri        The URI to the resource to request.
 	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
 	 * @param   array    $headers    An array of request headers to send with the request.
 	 * @param   integer  $timeout    Read timeout in seconds.
 	 * @param   string   $userAgent  The optional user agent string to send with the request.
 	 *
-	 * @return  JHttpResponse
+	 * @return  HttpResponse
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
+	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
 		$connection = $this->connect($uri, $timeout);
 
@@ -75,12 +79,12 @@ class JHttpTransportSocket implements JHttpTransport
 
 			if ($meta['timed_out'])
 			{
-				throw new RuntimeException('Server connection timed out.');
+				throw new \RuntimeException('Server connection timed out.');
 			}
 		}
 		else
 		{
-			throw new RuntimeException('Not connected to server.');
+			throw new \RuntimeException('Not connected to server.');
 		}
 
 		// Get the request path from the URI object.
@@ -159,7 +163,7 @@ class JHttpTransportSocket implements JHttpTransport
 		// Follow Http redirects
 		if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location']))
 		{
-			return $this->request($method, new JUri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
+			return $this->request($method, new Uri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
 		}
 
 		return $content;
@@ -170,7 +174,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 *
 	 * @param   string  $content  The complete server response, including headers.
 	 *
-	 * @return  JHttpResponse
+	 * @return  HttpResponse
 	 *
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
@@ -178,11 +182,11 @@ class JHttpTransportSocket implements JHttpTransport
 	protected function getResponse($content)
 	{
 		// Create the response object.
-		$return = new JHttpResponse;
+		$return = new HttpResponse;
 
 		if (empty($content))
 		{
-			throw new UnexpectedValueException('No content in response.');
+			throw new \UnexpectedValueException('No content in response.');
 		}
 
 		// Split the response into headers and body.
@@ -206,7 +210,7 @@ class JHttpTransportSocket implements JHttpTransport
 		// No valid response code was detected.
 		else
 		{
-			throw new UnexpectedValueException('No HTTP response code found.');
+			throw new \UnexpectedValueException('No HTTP response code found.');
 		}
 
 		// Add the response headers to the response object.
@@ -222,7 +226,7 @@ class JHttpTransportSocket implements JHttpTransport
 	/**
 	 * Method to connect to a server and get the resource.
 	 *
-	 * @param   JUri     $uri      The URI to connect with.
+	 * @param   Uri     $uri      The URI to connect with.
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  resource  Socket connection resource.
@@ -230,7 +234,7 @@ class JHttpTransportSocket implements JHttpTransport
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	protected function connect(JUri $uri, $timeout = null)
+	protected function connect(Uri $uri, $timeout = null)
 	{
 		$errno = null;
 		$err = null;
@@ -263,7 +267,7 @@ class JHttpTransportSocket implements JHttpTransport
 			{
 				if (!fclose($this->connections[$key]))
 				{
-					throw new RuntimeException('Cannot close connection');
+					throw new \RuntimeException('Cannot close connection');
 				}
 			}
 
@@ -299,7 +303,7 @@ class JHttpTransportSocket implements JHttpTransport
 			// Restore error tracking to give control to the exception handler
 			ini_set('track_errors', $track_errors);
 
-			throw new RuntimeException($php_errormsg);
+			throw new \RuntimeException($php_errormsg);
 		}
 
 		// Restore error tracking to what it was before.
@@ -326,6 +330,6 @@ class JHttpTransportSocket implements JHttpTransport
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen') && !JFactory::getConfig()->get('proxy_enable');
+		return function_exists('fsockopen') && is_callable('fsockopen') && !\JFactory::getConfig()->get('proxy_enable');
 	}
 }

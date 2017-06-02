@@ -1,24 +1,26 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Http
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Http;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Http\HttpFactory;
 
 /**
- * Wrapper class for JHttpFactory
+ * Wrapper class for HttpFactory
  *
  * @package     Joomla.Platform
  * @subpackage  Http
  * @since       3.4
  */
-class JHttpWrapperFactory
+class FactoryWrapper
 {
 	/**
 	 * Helper wrapper method for getHttp
@@ -26,15 +28,15 @@ class JHttpWrapperFactory
 	 * @param   Registry  $options   Client options object.
 	 * @param   mixed     $adapters  Adapter (string) or queue of adapters (array) to use for communication.
 	 *
-	 * @return JHttp      Joomla Http class
+	 * @return Http      Joomla Http class
 	 *
-	 * @see     JHttpFactory::getHttp()
+	 * @see     HttpFactory::getHttp()
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function getHttp(Registry $options = null, $adapters = null)
 	{
-		return JHttpFactory::getHttp($options, $adapters);
+		return HttpFactory::getHttp($options, $adapters);
 	}
 
 	/**
@@ -43,14 +45,14 @@ class JHttpWrapperFactory
 	 * @param   Registry  $options  Option for creating http transport object.
 	 * @param   mixed     $default  Adapter (string) or queue of adapters (array) to use.
 	 *
-	 * @return JHttpTransport Interface sub-class
+	 * @return HttpTransport Interface sub-class
 	 *
-	 * @see     JHttpFactory::getAvailableDriver()
+	 * @see     HttpFactory::getAvailableDriver()
 	 * @since   3.4
 	 */
 	public function getAvailableDriver(Registry $options, $default = null)
 	{
-		return JHttpFactory::getAvailableDriver($options, $default);
+		return HttpFactory::getAvailableDriver($options, $default);
 	}
 
 	/**
@@ -58,11 +60,11 @@ class JHttpWrapperFactory
 	 *
 	 * @return array  An array of available transport handlers
 	 *
-	 * @see     JHttpFactory::getHttpTransports()
+	 * @see     HttpFactory::getHttpTransports()
 	 * @since   3.4
 	 */
 	public function getHttpTransports()
 	{
-		return JHttpFactory::getHttpTransports();
+		return HttpFactory::getHttpTransports();
 	}
 }

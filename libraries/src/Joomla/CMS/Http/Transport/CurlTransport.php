@@ -1,22 +1,26 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTTP
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Http;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Http\HttpTransport;
+use Joomla\CMS\Http\HttpResponse;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * HTTP transport class for using cURL.
  *
  * @since  11.3
  */
-class JHttpTransportCurl implements JHttpTransport
+class CurlTransport implements HttpTransport
 {
 	/**
 	 * @var    Registry  The client options.
@@ -37,28 +41,28 @@ class JHttpTransportCurl implements JHttpTransport
 	{
 		if (!function_exists('curl_init') || !is_callable('curl_init'))
 		{
-			throw new RuntimeException('Cannot use a cURL transport when curl_init() is not available.');
+			throw new \RuntimeException('Cannot use a cURL transport when curl_init() is not available.');
 		}
 
 		$this->options = $options;
 	}
 
 	/**
-	 * Send a request to the server and return a JHttpResponse object with the response.
+	 * Send a request to the server and return a HttpResponse object with the response.
 	 *
 	 * @param   string   $method     The HTTP method for sending the request.
-	 * @param   JUri     $uri        The URI to the resource to request.
+	 * @param   Uri     $uri        The URI to the resource to request.
 	 * @param   mixed    $data       Either an associative array or a string to be sent with the request.
 	 * @param   array    $headers    An array of request headers to send with the request.
 	 * @param   integer  $timeout    Read timeout in seconds.
 	 * @param   string   $userAgent  The optional user agent string to send with the request.
 	 *
-	 * @return  JHttpResponse
+	 * @return  HttpResponse
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
+	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
 		// Setup the cURL handle.
 		$ch = curl_init();
@@ -168,7 +172,7 @@ class JHttpTransportCurl implements JHttpTransport
 		}
 
 		// Proxy configuration
-		$config = JFactory::getConfig();
+		$config = \JFactory::getConfig();
 
 		if ($config->get('proxy_enable'))
 		{
@@ -210,7 +214,7 @@ class JHttpTransportCurl implements JHttpTransport
 				$message = 'No HTTP response received';
 			}
 
-			throw new RuntimeException($message);
+			throw new \RuntimeException($message);
 		}
 
 		// Get the request information.
@@ -224,10 +228,10 @@ class JHttpTransportCurl implements JHttpTransport
 		// Manually follow redirects if server doesn't allow to follow location using curl
 		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']) && (bool) $this->options->get('follow_location', true))
 		{
-			$redirect_uri = new JUri($response->headers['Location']);
+			$redirect_uri = new Uri($response->headers['Location']);
 			if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
 			{
-				throw new RuntimeException('Curl redirect cannot be used in file or scp requests.');
+				throw new \RuntimeException('Curl redirect cannot be used in file or scp requests.');
 			}
 			$response = $this->request($method, $redirect_uri, $data, $headers, $timeout, $userAgent);
 		}
@@ -242,7 +246,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 *                            as a string if the response has no errors.
 	 * @param   array   $info     The cURL request information.
 	 *
-	 * @return  JHttpResponse
+	 * @return  HttpResponse
 	 *
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
@@ -250,7 +254,7 @@ class JHttpTransportCurl implements JHttpTransport
 	protected function getResponse($content, $info)
 	{
 		// Create the response object.
-		$return = new JHttpResponse;
+		$return = new HttpResponse;
 
 		// Try to get header size
 		if (isset($info['header_size']))
@@ -297,7 +301,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// No valid response code was detected.
 		else
 		{
-			throw new UnexpectedValueException('No HTTP response code found.');
+			throw new \UnexpectedValueException('No HTTP response code found.');
 		}
 
 		// Add the response headers to the response object.
