@@ -218,13 +218,6 @@
 				$el.show().addClass('fix-chosen');
 			});
 		}
-
-		// colorpicker
-		if($.fn.minicolors){
-			$row.find('.minicolors input').each(function(){
-				$(this).minicolors('destroy', $(this));
-			});
-		}
 	};
 
 	// method for hack the scripts that can be related

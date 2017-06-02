@@ -384,7 +384,7 @@ class LanguageAdapter extends InstallerAdapter
 			{
 				\JLog::add(
 					\JText::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
-					\JLog::WARNING,
+					\JLog::NOTICE,
 					'jerror'
 				);
 			}
