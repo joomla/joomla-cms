@@ -456,7 +456,16 @@ class JCache
 			return self::$_handler[$hash];
 		}
 
-		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+		try
+		{
+			self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+		}
+		catch (RuntimeException $e)
+		{
+			self::$_handler[$hash] = $e;
+
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
+		}
 
 		return self::$_handler[$hash];
 	}
