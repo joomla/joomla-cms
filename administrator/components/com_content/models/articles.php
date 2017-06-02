@@ -375,10 +375,10 @@ class ContentModelArticles extends JModelList
 		{
 			$groups = JFactory::getUser()->getAuthorisedViewLevels();
 
-			foreach ($items as $x => $item)
+			foreach (array_keys($items) as $x)
 			{
 				// Check the access level. Remove articles the user shouldn't see
-				if (!in_array($item->access, $groups))
+				if (!in_array($items[$x]->access, $groups))
 				{
 					unset($items[$x]);
 				}
