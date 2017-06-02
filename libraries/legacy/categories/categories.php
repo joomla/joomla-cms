@@ -4,7 +4,7 @@
  * @subpackage  Categories
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -125,7 +125,7 @@ class JCategories
 	 */
 	public static function getInstance($extension, $options = array())
 	{
-		$hash = md5($extension . serialize($options));
+		$hash = md5(strtolower($extension) . serialize($options));
 
 		if (isset(self::$instances[$hash]))
 		{

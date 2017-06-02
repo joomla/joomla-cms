@@ -4,7 +4,7 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/stemmer.php';
@@ -21,6 +21,7 @@ class FinderIndexerStemmerTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexerStemmer::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -38,6 +39,7 @@ class FinderIndexerStemmerTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0
 	 *
+	 * @covers  FinderIndexerStemmer::getInstance
 	 * @expectedException  Exception
 	 */
 	public function testGetInstance_noParser()

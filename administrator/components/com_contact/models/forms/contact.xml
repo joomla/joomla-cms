@@ -60,7 +60,7 @@
 			id="published"
 			class="chzn-color-state"
 			size="1"
-		>
+			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
@@ -531,6 +531,18 @@
 			</field>
 
 			<field
+				name="add_mailto_link"
+				type="list"
+				label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
+				description="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_DESC"
+				class="chzn-color"
+				useglobal="true"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
 				name="show_street_address"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
@@ -725,10 +737,10 @@
 			<field
 				name="show_user_custom_fields"
 				type="fieldgroups"
-				multiple="true"
-				context="com_users.user"
 				label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+				multiple="true"
+				context="com_users.user"
 				>
 				<option value="-1">JALL</option>
 			</field>
