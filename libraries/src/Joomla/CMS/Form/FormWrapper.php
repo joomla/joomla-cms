@@ -13,9 +13,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Wrapper class for FormHelper
  *
- * @package     Joomla.Platform
- * @subpackage  Form
  * @since       3.4
+ * @deprecated  4.0  Use `Joomla\CMS\Form\FormHelper` directly
  */
 class FormWrapper
 {
@@ -25,10 +24,11 @@ class FormWrapper
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return mixed  JFormField object on success, false otherwise.
+	 * @return  mixed  JFormField object on success, false otherwise.
 	 *
 	 * @see     FormHelper::loadFieldType()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Form\FormHelper` directly
 	 */
 	public function loadFieldType($type, $new = true)
 	{
@@ -41,10 +41,11 @@ class FormWrapper
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return mixed  JFormField object on success, false otherwise.
+	 * @return  mixed  JFormField object on success, false otherwise.
 	 *
 	 * @see     FormHelper::loadRuleType()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Form\FormHelper` directly
 	 */
 	public function loadRuleType($type, $new = true)
 	{
@@ -56,10 +57,11 @@ class FormWrapper
 	 *
 	 * @param   string  $type  Type of a field whose class should be loaded.
 	 *
-	 * @return mixed  Class name on success or false otherwise.
+	 * @return  mixed  Class name on success or false otherwise.
 	 *
 	 * @see     FormHelper::loadFieldClass()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Form\FormHelper` directly
 	 */
 	public function loadFieldClass($type)
 	{
@@ -71,10 +73,11 @@ class FormWrapper
 	 *
 	 * @param   string  $type  Type of a rule whose class should be loaded.
 	 *
-	 * @return mixed  Class name on success or false otherwise.
+	 * @return  mixed  Class name on success or false otherwise.
 	 *
 	 * @see     FormHelper::loadRuleClass()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Form\FormHelper` directly
 	 */
 	public function loadRuleClass($type)
 	{
@@ -86,10 +89,11 @@ class FormWrapper
 	 *
 	 * @param   mixed  $new  A path or array of paths to add.
 	 *
-	 * @return array  The list of paths that have been added.
+	 * @return  array  The list of paths that have been added.
 	 *
 	 * @see     FormHelper::addFieldPath()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Form\FormHelper` directly
 	 */
 	public function addFieldPath($new = null)
 	{
@@ -101,10 +105,11 @@ class FormWrapper
 	 *
 	 * @param   mixed  $new  A path or array of paths to add.
 	 *
-	 * @return array  The list of paths that have been added.
+	 * @return  array  The list of paths that have been added.
 	 *
 	 * @see     FormHelper::addFormPath()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Form\FormHelper` directly
 	 */
 	public function addFormPath($new = null)
 	{
@@ -116,10 +121,11 @@ class FormWrapper
 	 *
 	 * @param   mixed  $new  A path or array of paths to add.
 	 *
-	 * @return array  The list of paths that have been added.
+	 * @return  array  The list of paths that have been added.
 	 *
 	 * @see     FormHelper::addRulePath()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Form\FormHelper` directly
 	 */
 	public function addRulePath($new = null)
 	{
