@@ -120,9 +120,6 @@ class JCacheStorage
 	{
 		static $now = null;
 
-		// @deprecated  4.0  This class path is autoloaded, manual inclusion is no longer necessary
-		self::addIncludePath(JPATH_PLATFORM . '/joomla/cache/storage');
-
 		if (!isset($handler))
 		{
 			$handler = JFactory::getConfig()->get('cache_handler');
@@ -302,21 +299,6 @@ class JCacheStorage
 	public static function isSupported()
 	{
 		return true;
-	}
-
-	/**
-	 * Test to see if the storage handler is available.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)
-	 */
-	public static function test()
-	{
-		JLog::add(__METHOD__ . '() is deprecated. Use JCacheStorage::isSupported() instead.', JLog::WARNING, 'deprecated');
-
-		return static::isSupported();
 	}
 
 	/**
