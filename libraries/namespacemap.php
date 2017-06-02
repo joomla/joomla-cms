@@ -23,6 +23,11 @@ class JNamespacePsr4Map
 	 */
 	protected $file = '';
 
+	/**
+	 * Class constructor
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function __construct()
 	{
 		$this->file = JPATH_LIBRARIES . '/autoload_psr4.php';
