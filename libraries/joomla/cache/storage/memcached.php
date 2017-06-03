@@ -106,13 +106,6 @@ class JCacheStorageMemcached extends JCacheStorage
 
 		self::$_db->setOption(Memcached::OPT_COMPRESSION, $this->_compress);
 
-		// Memcached has no list keys, we do our own accounting, initialise key index
-		if (self::$_db->get($this->_hash . '-index') === false)
-		{
-			$empty = array();
-			self::$_db->set($this->_hash . '-index', $empty, 0);
-		}
-
 		return;
 	}
 
@@ -146,39 +139,35 @@ class JCacheStorageMemcached extends JCacheStorage
 	{
 		parent::getAll();
 
-		$keys = self::$_db->get($this->_hash . '-index');
+		$keys = self::$_db->getAllKeys();
 		$secret = $this->_hash;
 
 		$data = array();
 
-		if (!empty($keys) && is_array($keys))
+		foreach ($keys as $key)
 		{
-			foreach ($keys as $key)
+			$namearr = explode('-', $key);
+
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
 			{
-				if (empty($key))
+				$group = $namearr[2];
+
+				if (!isset($data[$group]))
 				{
-					continue;
+					$item = new JCacheStorageHelper($group);
+				}
+				else
+				{
+					$item = $data[$group];
 				}
 
-				$namearr = explode('-', $key->name);
+				$content = self::$_db->get($key);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
-				{
-					$group = $namearr[2];
+				$size = \Joomla\String\StringHelper::strlen($content);
 
-					if (!isset($data[$group]))
-					{
-						$item = new JCacheStorageHelper($group);
-					}
-					else
-					{
-						$item = $data[$group];
-					}
+				$item->updateSize($size / 1024);
 
-					$item->updateSize($key->size / 1024);
-
-					$data[$group] = $item;
-				}
+				$data[$group] = $item;
 			}
 		}
 
@@ -199,25 +188,6 @@ class JCacheStorageMemcached extends JCacheStorage
 	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-
-		if (!$this->lockindex())
-		{
-			return false;
-		}
-
-		$index = self::$_db->get($this->_hash . '-index');
-
-		if ($index === false)
-		{
-			$index = array();
-		}
-
-		$tmparr = new stdClass;
-		$tmparr->name = $cache_id;
-		$tmparr->size = strlen($data);
-		$index[] = $tmparr;
-		self::$_db->replace($this->_hash . '-index', $index, 0);
-		$this->unlockindex();
 
 		// Prevent double writes, write only if it doesn't exist else replace
 		if (!self::$_db->replace($cache_id, $data, $this->_lifetime))
@@ -242,31 +212,6 @@ class JCacheStorageMemcached extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (!$this->lockindex())
-		{
-			return false;
-		}
-
-		$index = self::$_db->get($this->_hash . '-index');
-
-		if ($index === false)
-		{
-			$index = array();
-		}
-
-		foreach ($index as $key => $value)
-		{
-			if ($value->name == $cache_id)
-			{
-				unset($index[$key]);
-			}
-
-			break;
-		}
-
-		self::$_db->replace($this->_hash . '-index', $index, 0);
-		$this->unlockindex();
-
 		return self::$_db->delete($cache_id);
 	}
 
@@ -284,31 +229,17 @@ class JCacheStorageMemcached extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		if (!$this->lockindex())
-		{
-			return false;
-		}
-
-		$index = self::$_db->get($this->_hash . '-index');
-
-		if ($index === false)
-		{
-			$index = array();
-		}
+		$keys = self::$_db->getAllKeys();
 
 		$secret = $this->_hash;
 
-		foreach ($index as $key => $value)
+		foreach ($keys as $key)
 		{
-			if (strpos($value->name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
-				self::$_db->delete($value->name, 0);
-				unset($index[$key]);
+				self::$_db->delete($key, 0);
 			}
 		}
-
-		self::$_db->replace($this->_hash . '-index', $index, 0);
-		$this->unlockindex();
 
 		return true;
 	}
@@ -342,162 +273,5 @@ class JCacheStorageMemcached extends JCacheStorage
 		{
 			return true;
 		}
-	}
-
-	/**
-	 * Lock cached item - override parent as this is more efficient
-	 *
-	 * @param   string   $id        The cache data id
-	 * @param   string   $group     The cache data group
-	 * @param   integer  $locktime  Cached item max lock time
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   12.1
-	 */
-	public function lock($id, $group, $locktime)
-	{
-		$returning = new stdClass;
-		$returning->locklooped = false;
-
-		$looptime = $locktime * 10;
-
-		$cache_id = $this->_getCacheId($id, $group);
-
-		if (!$this->lockindex())
-		{
-			return false;
-		}
-
-		$index = self::$_db->get($this->_hash . '-index');
-
-		if ($index === false)
-		{
-			$index = array();
-		}
-
-		$tmparr = new stdClass;
-		$tmparr->name = $cache_id;
-		$tmparr->size = 1;
-
-		$index[] = $tmparr;
-		self::$_db->replace($this->_hash . '-index', $index, 0);
-
-		$this->unlockindex();
-
-		$data_lock = self::$_db->add($cache_id . '_lock', 1, $locktime);
-
-		if ($data_lock === false)
-		{
-			$lock_counter = 0;
-
-			// Loop until you find that the lock has been released.
-			// That implies that data get from other thread has finished
-			while ($data_lock === false)
-			{
-				if ($lock_counter > $looptime)
-				{
-					$returning->locked = false;
-					$returning->locklooped = true;
-					break;
-				}
-
-				usleep(100);
-				$data_lock = self::$_db->add($cache_id . '_lock', 1, $locktime);
-				$lock_counter++;
-			}
-		}
-
-		$returning->locked = $data_lock;
-
-		return $returning;
-	}
-
-	/**
-	 * Unlock cached item - override parent for cacheid compatibility with lock
-	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   12.1
-	 */
-	public function unlock($id, $group = null)
-	{
-		$cache_id = $this->_getCacheId($id, $group) . '_lock';
-
-		if (!$this->lockindex())
-		{
-			return false;
-		}
-
-		$index = self::$_db->get($this->_hash . '-index');
-
-		if ($index === false)
-		{
-			$index = array();
-		}
-
-		foreach ($index as $key => $value)
-		{
-			if ($value->name == $cache_id)
-			{
-				unset($index[$key]);
-			}
-
-			break;
-		}
-
-		self::$_db->replace($this->_hash . '-index', $index, 0);
-		$this->unlockindex();
-
-		return self::$_db->delete($cache_id);
-	}
-
-	/**
-	 * Lock cache index
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   12.1
-	 */
-	protected function lockindex()
-	{
-		$looptime = 300;
-		$data_lock = self::$_db->add($this->_hash . '-index_lock', 1, 30);
-
-		if ($data_lock === false)
-		{
-			$lock_counter = 0;
-
-			// Loop until you find that the lock has been released.  that implies that data get from other thread has finished
-			while ($data_lock === false)
-			{
-				if ($lock_counter > $looptime)
-				{
-					return false;
-					break;
-				}
-
-				usleep(100);
-				$data_lock = self::$_db->add($this->_hash . '-index_lock', 1, 30);
-				$lock_counter++;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Unlock cache index
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   12.1
-	 */
-	protected function unlockindex()
-	{
-		return self::$_db->delete($this->_hash . '-index_lock');
 	}
 }
