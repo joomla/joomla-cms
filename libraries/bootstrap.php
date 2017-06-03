@@ -95,10 +95,6 @@ JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
 JLoader::registerAlias('JSite', 'JApplicationSite');
 
-//JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
-//$extensionPsr4Loader = new JNamespacePsr4Map;
-//$extensionPsr4Loader->ensureMapFileExists();
-
 // Can be removed when the move of all core fields to namespace is finished
 \Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/joomla/form/fields');
 \Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/joomla/form/rule');
