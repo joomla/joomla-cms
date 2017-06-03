@@ -149,7 +149,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		$back = self::$_db->get($cache_id);
+		$back = static::$_db->get($cache_id);
 
 		return $back;
 	}
@@ -163,7 +163,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 */
 	public function getAll()
 	{
-		$keys = self::$_db->getAllKeys();
+		$keys = static::$_db->getAllKeys();
 		$secret = $this->_hash;
 
 		$data = array();
@@ -185,7 +185,7 @@ class JCacheStorageMemcached extends JCacheStorage
 					$item = $data[$group];
 				}
 
-				$content = self::$_db->get($key);
+				$content = static::$_db->get($key);
 
 				$size = \Joomla\String\StringHelper::strlen($content);
 
@@ -214,9 +214,9 @@ class JCacheStorageMemcached extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group);
 
 		// Prevent double writes, write only if it doesn't exist else replace
-		if (!self::$_db->replace($cache_id, $data, $this->_lifetime))
+		if (!static::$_db->replace($cache_id, $data, $this->_lifetime))
 		{
-			self::$_db->set($cache_id, $data, $this->_lifetime);
+			static::$_db->set($cache_id, $data, $this->_lifetime);
 		}
 
 		return true;
@@ -236,7 +236,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		return self::$_db->delete($cache_id);
+		return static::$_db->delete($cache_id);
 	}
 
 	/**
