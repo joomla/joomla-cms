@@ -654,7 +654,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getLanguagefilterPluginId()
 	{
-		$db    = JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
