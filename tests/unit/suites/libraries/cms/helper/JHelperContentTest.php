@@ -4,7 +4,7 @@
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -90,6 +90,7 @@ class JHelperContentTest extends TestCaseDatabase
 	 *
 	 * @since   3.2
 	 * @dataProvider  languageIdProvider
+	 * @covers  JHelperContent::getLanguageId
 	 */
 	public function testGetLanguageId($languageName, $expected)
 	{
@@ -97,12 +98,13 @@ class JHelperContentTest extends TestCaseDatabase
 		$this->assertEquals($languageId, $expected);
 	}
 
-	/*
-	 *  Tests the getRowData() method
+	/**
+	 * Tests the getRowData() method
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JHelperContent::getRowData
 	 */
 	public function testGetRowData()
 	{
