@@ -79,7 +79,7 @@ class HttpFactory
 
 		foreach ($availableAdapters as $adapter)
 		{
-			$class = 'HttpTransport' . ucfirst($adapter);
+			$class = __NAMESPACE__ . '\\Transport\\' . ucfirst($adapter) . 'Transport';
 
 			if (class_exists($class) && $class::isSupported())
 			{
