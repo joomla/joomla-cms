@@ -20,12 +20,13 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
-  PRIMARY KEY (`id`,`lft`,`rgt`,`name`,`rules`(190)),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `idx_asset_name` (`name`),
-  UNIQUE KEY `idx_lft_rgt_id` (`lft`,`rgt`,`id`),
+	UNIQUE KEY `idx_id_lft_rgt_name_rules` (`id`,`lft`,`rgt`,`name`,`rules`(190)),
+  UNIQUE KEY `idx_lft_rgt_id` (`lft`,`rgt`),
   KEY `idx_parent_id` (`parent_id`),
-  KEY `idx_id_level` ( `level` , `id` ),
-  UNIQUE KEY `idx_rgt_lft_id` ( `rgt` , `lft` , `id` )
+  KEY `idx_id_level` (`level`,`id`),
+  UNIQUE KEY `idx_rgt_lft_id` (`rgt` ,`lft`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
