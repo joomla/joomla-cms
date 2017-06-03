@@ -51,10 +51,10 @@ $app = JFactory::getApplication();
 							</button>
 						</div>
 					<?php endif; ?>
-					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', array()); ?>
-					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $tabs[0]['name'])); ?>
 					<?php // Show installation tabs at the start ?>
 					<?php $firstTab = $app->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>
+					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', array()); ?>
+					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $tabs[0]['name'])); ?>
 					<?php // Show installation tabs ?>
 					<?php foreach ($tabs as $tab) : ?>
 						<?php echo JHtml::_('bootstrap.addTab', 'myTab', $tab['name'], $tab['label']); ?>
