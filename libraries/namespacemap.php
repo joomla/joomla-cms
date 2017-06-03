@@ -24,7 +24,7 @@ class JNamespacePsr4Map
 	protected $file = '';
 
 	/**
-	 * Class constructor
+	 * Constructor. For PHP 5.5 compatibility we must set the file property like this
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
