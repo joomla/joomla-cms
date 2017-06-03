@@ -2209,7 +2209,7 @@ class Form
 				throw new \InvalidArgumentException(sprintf('Form::getInstance(name, *%s*)', gettype($data)));
 			}
 
-			/** @var Form $form */
+			// Instantiate the form.
 			$forms[$name] = \JFactory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
 			// Load the data.
