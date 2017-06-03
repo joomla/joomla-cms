@@ -28,7 +28,6 @@ pipeline {
       }
       steps {
         sh 'echo $(date)'
-        sh 'apt-get install nodejs npm'
         sh 'ln -s /usr/bin/nodejs /usr/bin/node'
         sh 'export DISPLAY=:0'
         sh 'Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &'
