@@ -245,7 +245,7 @@ abstract class UserHelper
 	public static function getGroupTitle($groupId)
 	{
 		// Fetch the group title from the database
-		$db    = JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('title')
 			->from('#__usergroups')
@@ -268,7 +268,7 @@ abstract class UserHelper
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
 		// Get a database object.
-		$db = JFactory::getDbo();
+		$db = \JFactory::getDbo();
 
 		$test = $recursive ? '>=' : '=';
 
