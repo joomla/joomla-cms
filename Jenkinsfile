@@ -21,7 +21,10 @@ pipeline {
     }
     stage('Testing-Javascript') {
       agent {
-        docker 'joomlaprojects/docker-systemtests'
+        docker {
+            image 'joomlaprojects/docker-systemtests',
+            args  '-u jenkins:root'
+        }
       }
       steps {
         sh 'echo $(date)'
