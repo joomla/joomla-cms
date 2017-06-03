@@ -15,6 +15,7 @@ use Joomla\CMS\Access\Access as JAccess;
 use Joomla\CMS\Access\Rules as JAccessRules;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Model\Form;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -506,7 +507,7 @@ class Application extends Form
 	 *
 	 * @param   string  $permission  Need an array with Permissions (component, rule, value and title)
 	 *
-	 * @return  array  A list of result data.
+	 * @return  array|bool  A list of result data or false on failure.
 	 *
 	 * @since   3.5
 	 */
@@ -594,14 +595,24 @@ class Application extends Form
 
 		try
 		{
-			$asset  = \JTable::getInstance('asset');
+			$asset  = Table::getInstance('asset');
 			$result = $asset->loadByName($permission['component']);
 
 			if ($result == false)
 			{
-				$data                        = array();
-				$data[$permission['action']] = array();
-				$data[$permission['action']] = array($permission['rule'] => $permission['value']);
+				$data = array($permission['action'] => array($permission['rule'] => $permission['value']));
+
+				$rules        = new JAccessRules($data);
+				$asset->rules = (string) $rules;
+				$asset->name  = (string) $permission['component'];
+				$asset->title = (string) $permission['title'];
+			/** @var Asset $asset */
+			$asset  = Table::getInstance('asset');
+			$result = $asset->loadByName($permission['component']);
+
+			if ($result === false)
+			{
+				$data = array($permission['action'] => array($permission['rule'] => $permission['value']));
 
 				$rules        = new JAccessRules($data);
 				$asset->rules = (string) $rules;
@@ -609,7 +620,8 @@ class Application extends Form
 				$asset->title = (string) $permission['title'];
 
 				// Get the parent asset id so we have a correct tree.
-				$parentAsset = \JTable::getInstance('Asset');
+				/** @var Asset $parentAsset */
+				$parentAsset = Table::getInstance('Asset');
 
 				if (strpos($asset->name, '.') !== false)
 				{
@@ -671,17 +683,17 @@ class Application extends Form
 					unset($asset->rules[$permission['action']]);
 				}
 
-				$asset->rules = json_encode($asset->rules);
+				$asset->rules = json_encode($asset->rules,JSON_FORCE_OBJECT);
 			}
 
 			if (!$asset->check() || !$asset->store())
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_RULES_DATABASE_FAILURE'), 'error');
+				$app->enqueueMessage(\JText::_('JLIB_RULES_DATABASE_FAILURE'), 'error');
 
 				return false;
 			}
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 

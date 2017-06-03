@@ -32,7 +32,7 @@ $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods
 			<div class="controls">
 				<div class="input-prepend input-append">
 					<span class="input-group-addon">
-						<span class="icon-user hasTooltip" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"></span>
+						<span class="icon-user hasTooltip" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" aria-hidden="true"></span>
 						<label for="mod-login-username" class="sr-only">
 							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
 						</label>
@@ -45,7 +45,7 @@ $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods
 			<div class="controls">
 				<div class="input-prepend input-append">
 					<span class="input-group-addon">
-						<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"></span>
+						<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" aria-hidden="true"></span>
 						<label for="mod-login-password" class="sr-only">
 							<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
 						</label>
@@ -59,14 +59,14 @@ $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods
 				<div class="controls">
 					<div class="input-prepend input-append">
 						<span class="input-group-addon">
-							<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"></span>
+							<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" aria-hidden="true"></span>
 							<label for="mod-login-secretkey" class="sr-only">
 								<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
 							</label>
 						</span>
 						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15">
 						<span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="icon-help"></span>
+							<span class="icon-help" aria-hidden="true"></span>
 						</span>
 					</div>
 				</div>
@@ -76,10 +76,10 @@ $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods
 			<div class="controls">
 				<div class="btn-group">
 					<a tabindex="4" class="btn btn-danger" href="index.php?option=com_joomlaupdate">
-						<span class="icon-cancel icon-white"></span> <?php echo JText::_('JCANCEL'); ?>
+						<span class="icon-cancel icon-white" aria-hidden="true"></span> <?php echo JText::_('JCANCEL'); ?>
 					</a>
 					<button tabindex="5" class="btn btn-primary">
-						<span class="icon-play icon-white"></span> <?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
+						<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
 					</button>
 				</div>
 			</div>
