@@ -2199,7 +2199,7 @@ class Form
 		// Reference to array with form instances
 		$forms = &self::$forms;
 
-		// Only create the form if it does not already exist.
+		// Only instantiate the form if it does not already exist.
 		if (!isset($forms[$name]))
 		{
 			$data = trim($data);
@@ -2210,24 +2210,21 @@ class Form
 			}
 
 			/** @var Form $form */
-			$form = \JFactory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
-
-			// Assign the instance
-			$forms[$name] = $form;
+			$forms[$name] = \JFactory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
 			// Load the data.
 			if (substr($data, 0, 1) == '<')
 			{
-				if ($form->load($data, $replace, $xpath) == false)
+				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('Form::getInstance string could not be loaded');
+					throw new \RuntimeException('Form::getInstance could not load form');
 				}
 			}
 			else
 			{
-				if ($form->loadFile($data, $replace, $xpath) == false)
+				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('Form::getInstance file could not be loaded');
+					throw new \RuntimeException('Form::getInstance could not load file');
 				}
 			}
 		}
