@@ -672,7 +672,7 @@ class Application extends Form
 					unset($asset->rules[$permission['action']]);
 				}
 
-				$asset->rules = json_encode($asset->rules,JSON_FORCE_OBJECT);
+				$asset->rules = json_encode($asset->rules, JSON_FORCE_OBJECT);
 			}
 
 			if (!$asset->check() || !$asset->store())
