@@ -20,18 +20,12 @@ interface FormFactoryInterface
 	/**
 	 * Method to get an instance of a form.
 	 *
-	 * @param   string          $name     The name of the form.
-	 * @param   string          $data     The name of an XML file or string to load as the form definition.
-	 * @param   array           $options  An array of form options.
-	 * @param   boolean         $replace  Flag to toggle whether form fields should be replaced if a field
-	 *                                    already exists with the same group/name.
-	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
+	 * @param   string  $name     The name of the form.
+	 * @param   array   $options  An array of form options.
 	 *
 	 * @return  Form  Form instance.
 	 *
-	 * @since   11.1
-	 * @throws  \InvalidArgumentException if no data provided.
-	 * @throws  \RuntimeException if the form could not be loaded.
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function createForm($name, $data = null, $options = array(), $replace = true, $xpath = false);
+	public static function createForm($name, $options = array());
 }
