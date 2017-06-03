@@ -82,7 +82,14 @@ class JFeedFactory
 		// Setup the appopriate feed parser for the feed.
 		$parser = $this->_fetchFeedParser($reader->name, $reader);
 
-		return $parser->parse();
+		try 
+		{
+			return $parser->parse();
+		}
+		catch (Exception $e)
+		{
+			throw new RuntimeException('Error reading feed.', $e->getCode(), $e);
+		}
 	}
 
 	/**
