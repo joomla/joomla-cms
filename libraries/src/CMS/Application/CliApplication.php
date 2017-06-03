@@ -14,10 +14,12 @@ use Joomla\Application\AbstractCliApplication;
 use Joomla\Application\Cli\CliInput;
 use Joomla\Application\Cli\CliOutput;
 use Joomla\Application\Cli\Output\Stdout;
+use Joomla\CMS\Session\Session;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
+use Joomla\Session\Storage\RuntimeStorage;
 
 /**
  * Base class for a Joomla! command line application.
@@ -36,7 +38,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 */
 	protected static $instance;
 
-	private $messages = [];
+	private $session;
 
 	/**
 	 * Class constructor.
@@ -204,7 +206,14 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getSession()
-	{}
+	{
+		if ($this->session == null)
+		{
+			$this->session = new Session(new RuntimeStorage());
+		}
+
+		return $this->session;
+	}
 
 	/**
 	 * Flag if the application instance is a CLI or web based application.

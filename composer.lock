@@ -221,7 +221,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-05-29 11:04:58"
+            "time": "2017-05-29T11:04:58+00:00"
         },
         {
             "name": "joomla/compat",
@@ -797,12 +797,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "73f24b57ec1a34ecca2d4aa98beaf1af36d06a12"
+                "reference": "c5b16c184a9917d70fd8475a4adadfe4a47a2aed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/73f24b57ec1a34ecca2d4aa98beaf1af36d06a12",
-                "reference": "73f24b57ec1a34ecca2d4aa98beaf1af36d06a12",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/c5b16c184a9917d70fd8475a4adadfe4a47a2aed",
+                "reference": "c5b16c184a9917d70fd8475a4adadfe4a47a2aed",
                 "shasum": ""
             },
             "require": {
@@ -853,7 +853,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2017-05-27T01:20:50+00:00"
+            "time": "2017-06-01T16:00:13+00:00"
         },
         {
             "name": "joomla/string",
@@ -1609,17 +1609,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/mediawiki-api.git",
-                "reference": "9221d296e57fedacc8d437163673e3db4801cd74"
+                "reference": "69e892922afad053830b5df09a1e6da083536e86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/9221d296e57fedacc8d437163673e3db4801cd74",
-                "reference": "9221d296e57fedacc8d437163673e3db4801cd74",
+                "url": "https://api.github.com/repos/joomla-framework/mediawiki-api/zipball/69e892922afad053830b5df09a1e6da083536e86",
+                "reference": "69e892922afad053830b5df09a1e6da083536e86",
                 "shasum": ""
             },
             "require": {
-                "joomla/http": "~1.0|~2.0",
-                "joomla/registry": "~1.0|~2.0",
+                "joomla/http": "^1.2.2|~2.0",
+                "joomla/registry": "^1.4.5|~2.0",
                 "joomla/uri": "~1.0|~2.0",
                 "php": "^5.3.10|~7.0"
             },
@@ -1629,6 +1629,11 @@
                 "squizlabs/php_codesniffer": "1.*"
             },
             "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\Mediawiki\\": "src/"
@@ -1645,7 +1650,7 @@
                 "joomla",
                 "mediawiki"
             ],
-            "time": "2017-05-31T17:26:55+00:00"
+            "time": "2017-06-01T05:16:08+00:00"
         },
         {
             "name": "pear/cache_lite",
@@ -3271,7 +3276,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2017-04-12T14:07:15+00:00"
+            "time": "2016-11-23T20:04:58+00:00"
         }
     ],
     "aliases": [],
