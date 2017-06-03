@@ -22,7 +22,7 @@ pipeline {
     stage('Testing-Javascript') {
       agent {
         docker {
-            image 'joomlaprojects/docker-systemtests',
+            image 'joomlaprojects/docker-systemtests'
             args  '-u jenkins:root'
         }
       }
