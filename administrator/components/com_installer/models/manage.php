@@ -292,9 +292,11 @@ class InstallerModelManage extends InstallerModel
 	protected function getListQuery()
 	{
 		$query = $this->getDbo()->getQuery(true)
-			->select('*')
+			->select('e.*')
+            ->select('u.update_site_id')
 			->select('2*protected+(1-protected)*enabled AS status')
-			->from('#__extensions')
+			->from('#__extensions AS e')
+            ->leftJoin('#__update_sites_extensions AS u ON u.extension_id = e.extension_id')
 			->where('state = 0');
 
 		// Process select filters.
@@ -344,7 +346,7 @@ class InstallerModelManage extends InstallerModel
 		}
 
 		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
-
+//echo $query;
 		return $query;
 	}
 }
