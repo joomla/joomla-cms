@@ -49,6 +49,8 @@ class ConfigControllerComponentSave extends JControllerBase
 		$id     = $this->input->getInt('id');
 		$option = $this->input->get('component');
 		$user   = JFactory::getUser();
+		
+		ConfigHelperConfig::loadLanguageForComponent($option); // load component .sys language
 
 		// Check if the user is authorised to do this.
 		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
