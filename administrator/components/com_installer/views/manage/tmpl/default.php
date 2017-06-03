@@ -103,12 +103,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->name; ?>
 								</span>
 							</label>
-                            <?php if ($item->extension_id > 999 && $item->update_site_id === null) : ?>
-                                <span class="badge badge-important bold hasTooltip"
-                                      title="<?php echo JText::_('COM_INSTALLER_UPDATE_NOT_SUPPORTED_DESC'); ?>">
-                                    <?php echo JText::_('COM_INSTALLER_UPDATE_NOT_SUPPORTED'); ?>
-                                </span>
-                                <?php endif; ?>
+							<?php if ($item->extension_id > 999 && $item->update_site_id === null) : ?>
+								<span class="badge badge-important bold hasTooltip"
+									title="<?php echo JText::_('COM_INSTALLER_UPDATE_NOT_SUPPORTED_DESC'); ?>">
+									<?php echo JText::_('COM_INSTALLER_UPDATE_NOT_SUPPORTED'); ?>
+								</span>
+							<?php endif; ?>
 						</td>
 						<td>
 							<?php echo $item->client_translated; ?>
