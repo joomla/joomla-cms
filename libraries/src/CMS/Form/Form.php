@@ -2198,34 +2198,11 @@ class Form
 		// Reference to array with form instances
 		$forms = &self::$forms;
 
-		// Only instantiate the form if it does not already exist.
+		// Only create the form if it does not already exist.
 		if (!isset($forms[$name]))
 		{
-			$data = trim($data);
-
-			if (empty($data))
-			{
-				throw new \InvalidArgumentException(sprintf('Form::getInstance(name, *%s*)', gettype($data)));
-			}
-
 			// Instantiate the form.
-			$forms[$name] = new static($name, $options);
-
-			// Load the data.
-			if (substr($data, 0, 1) == '<')
-			{
-				if ($forms[$name]->load($data, $replace, $xpath) == false)
-				{
-					throw new \RuntimeException('JForm::getInstance could not load form');
-				}
-			}
-			else
-			{
-				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
-				{
-					throw new \RuntimeException('JForm::getInstance could not load file');
-				}
-			}
+			$forms[$name] = \JFactory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $data, $options, $replace, $xpath);
 		}
 
 		return $forms[$name];

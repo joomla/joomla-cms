@@ -43,6 +43,7 @@ JFactory::$container = (new \Joomla\DI\Container)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
+	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database);
 
 // Instantiate and execute the application
