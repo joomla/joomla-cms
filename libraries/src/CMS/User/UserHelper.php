@@ -144,7 +144,7 @@ abstract class UserHelper
 			// TODO: Uncouple this from JComponentHelper and allow for a configuration setting or value injection.
 			if (class_exists('JComponentHelper'))
 			{
-				$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+				$guestUsergroup = \JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			}
 			else
 			{
@@ -166,7 +166,7 @@ abstract class UserHelper
 			// Registered user and guest if all groups are requested
 			else
 			{
-				$db = JFactory::getDbo();
+				$db = \JFactory::getDbo();
 
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true)
@@ -223,7 +223,7 @@ abstract class UserHelper
 	public static function getGroupPath($groupId)
 	{
 		// Load all the groups to improve performance on intensive groups checks
-		$groups = JHelperUsergroups::getInstance()->getAll();
+		$groups = \JHelperUsergroups::getInstance()->getAll();
 
 		if (!isset($groups[$groupId]))
 		{
