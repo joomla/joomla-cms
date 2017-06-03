@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
 		<?php echo $this->pagination->limitstart + $result->count . '. '; ?>
 		<?php if ($result->href) : ?>
 			<a href="<?php echo JRoute::_($result->href); ?>"<?php if ($result->browsernav == 1) : ?> target="_blank"<?php endif; ?>>
-				<?php echo $this->escape($result->title); ?>
+				<?php echo $result->title; ?>
 			</a>
 		<?php else : ?>
-			<?php echo $this->escape($result->title); ?>
+			<?php echo $result->title; ?>
 		<?php endif; ?>
 	</dt>
 	<?php if ($result->section) : ?>
