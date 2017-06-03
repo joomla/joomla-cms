@@ -529,7 +529,6 @@ class PackageAdapter extends InstallerAdapter
 	public function uninstall($id)
 	{
 		$row = null;
-		$retval = true;
 
 		$row = Table::getInstance('extension');
 		$row->load($id);
@@ -553,10 +552,6 @@ class PackageAdapter extends InstallerAdapter
 		}
 
 		$manifestFile = JPATH_MANIFESTS . '/packages/' . $row->get('element') . '.xml';
-		$manifest = new PackageManifest($manifestFile);
-
-		// Set the package root path
-		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $manifest->packagename);
 
 		// Because packages may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (!file_exists($manifestFile))
@@ -577,6 +572,9 @@ class PackageAdapter extends InstallerAdapter
 			return false;
 		}
 
+		// Set the package root path
+		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $xml->packagename);
+
 		// Check for a valid XML root tag.
 		if ($xml->getName() != 'extension')
 		{
@@ -586,7 +584,7 @@ class PackageAdapter extends InstallerAdapter
 		}
 
 		// If there is an manifest class file, let's load it
-		$manifestScript = (string) $manifest->scriptfile;
+		$manifestScript = (string) $xml->scriptfile;
 
 		if ($manifestScript)
 		{
@@ -670,7 +668,7 @@ class PackageAdapter extends InstallerAdapter
 		}
 
 		// Return the result up the line
-		return $retval;
+		return true;
 	}
 
 	/**
