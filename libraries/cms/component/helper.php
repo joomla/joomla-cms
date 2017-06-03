@@ -325,6 +325,11 @@ class JComponentHelper
 			JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
 		}
 
+		if (JDEBUG)
+		{
+			JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
+		}
+
 		// Record the scope
 		$scope = $app->scope;
 
