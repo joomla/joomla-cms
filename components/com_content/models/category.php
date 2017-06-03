@@ -248,6 +248,12 @@ class ContentModelCategory extends JModelList
 			$model->setState('filter.max_category_levels', $this->getState('filter.max_category_levels'));
 			$model->setState('list.links', $this->getState('list.links'));
 
+			$dispatcher = JEventDispatcher::getInstance();
+			// Include the content plugins for the change of category state event
+			JPluginHelper::importPlugin('content');
+			// Trigger the onCategoryChangeState event
+			$dispatcher->trigger('onGetContentItems', array(&$model));
+
 			if ($limit >= 0)
 			{
 				$this->_articles = $model->getItems();
