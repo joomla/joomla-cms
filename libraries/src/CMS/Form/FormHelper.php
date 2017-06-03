@@ -182,7 +182,7 @@ class FormHelper
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
 			// Compile the classname
-			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name);
+			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name) . ucfirst($entity);
 
 			// Check if the class exists
 			if (class_exists($class))
