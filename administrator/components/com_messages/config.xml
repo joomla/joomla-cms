@@ -13,6 +13,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_messages"
-			section="component" />
+			section="component" 
+		/>
 	</fieldset>
 </config>
