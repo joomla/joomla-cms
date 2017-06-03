@@ -88,6 +88,14 @@ JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true
 // Check for a custom js file
 JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 
+// Check for a custom CSS file
+$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
+
+if (file_exists($userCss) && filesize($userCss) > 0)
+{
+	$doc->addStyleSheet('templates/' . $this->template . '/css/user.css');
+}
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
