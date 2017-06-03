@@ -16,6 +16,7 @@ ALTER TABLE `#__banners` DROP KEY `idx_metakey_prefix`;
 ALTER TABLE `#__banner_clients` DROP KEY `idx_metakey_prefix`;
 ALTER TABLE `#__categories` DROP KEY `idx_path`;
 ALTER TABLE `#__categories` DROP KEY `idx_alias`;
+ALTER TABLE `#__content` DROP KEY `idx_alias`;
 ALTER TABLE `#__content_types` DROP KEY `idx_alias`;
 ALTER TABLE `#__finder_links` DROP KEY `idx_title`;
 ALTER TABLE `#__menu` DROP KEY `idx_alias`;
