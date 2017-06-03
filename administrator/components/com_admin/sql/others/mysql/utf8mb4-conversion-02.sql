@@ -216,6 +216,7 @@ ALTER TABLE `#__banners` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
 ALTER TABLE `#__banner_clients` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
 ALTER TABLE `#__categories` ADD KEY `idx_path` (`path`(100));
 ALTER TABLE `#__categories` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__content` ADD INDEX `idx_alias` (`alias`(191));
 ALTER TABLE `#__content_types` ADD KEY `idx_alias` (`type_alias`(100));
 ALTER TABLE `#__finder_links` ADD KEY `idx_title` (`title`(100));
 ALTER TABLE `#__menu` ADD KEY `idx_alias` (`alias`(100));
