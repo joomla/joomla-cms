@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Microdata
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Microdata;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.2
  */
-class JMicrodata
+class Microdata
 {
 	/**
 	 * Array with all available Types and Properties from the http://schema.org vocabulary
@@ -114,7 +115,7 @@ class JMicrodata
 		// Load the JSON
 		if (!static::$types)
 		{
-			$path = JPATH_PLATFORM . '/joomla/microdata/types.json';
+			$path = __DIR__ . '/types.json';
 			static::$types = json_decode(file_get_contents($path), true);
 		}
 	}
@@ -140,7 +141,7 @@ class JMicrodata
 	 *
 	 * @param   boolean  $flag  Enable or disable the library output
 	 *
-	 * @return  JMicrodata  Instance of $this
+	 * @return  Microdata  Instance of $this
 	 *
 	 * @since   3.2
 	 */
@@ -168,7 +169,7 @@ class JMicrodata
 	 *
 	 * @param   string  $type  The $Type to be setup
 	 *
-	 * @return  JMicrodata  Instance of $this
+	 * @return  Microdata  Instance of $this
 	 *
 	 * @since   3.2
 	 */
@@ -208,7 +209,7 @@ class JMicrodata
 	 *
 	 * @param   string  $property  The Property
 	 *
-	 * @return  JMicrodata  Instance of $this
+	 * @return  Microdata  Instance of $this
 	 *
 	 * @since   3.2
 	 */
@@ -249,7 +250,7 @@ class JMicrodata
 	 * @param   string  $content         The human content or machine content to be used
 	 * @param   string  $machineContent  The machine content
 	 *
-	 * @return  JMicrodata  Instance of $this
+	 * @return  Microdata  Instance of $this
 	 *
 	 * @since   3.2
 	 */
@@ -291,7 +292,7 @@ class JMicrodata
 	 * @param   string  $type      The Fallback Type
 	 * @param   string  $property  The Fallback Property
 	 *
-	 * @return  JMicrodata  Instance of $this
+	 * @return  Microdata  Instance of $this
 	 *
 	 * @since   3.2
 	 */
