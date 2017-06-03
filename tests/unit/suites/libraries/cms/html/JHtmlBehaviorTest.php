@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/JHtmlBehaviorInspector.php';
@@ -45,11 +45,12 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
+		JFactory::$session = $this->getMockSession();
 
 		// We generate a random template name so that we don't collide or hit anything
 		JFactory::$application->expects($this->any())
 			->method('getTemplate')
-			->willReturn('mytemplate' . rand(1, 10000));
+			->willReturn('mytemplate' . mt_rand(1, 10000));
 
 		$this->backupServer = $_SERVER;
 
@@ -441,24 +442,6 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * Tests the calendar method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testCalendar()
-	{
-		JHtmlBehavior::calendar();
-
-		$this->assertEquals(
-			array('JHtmlBehavior::calendar' => true),
-			JHtmlBehaviorInspector::getLoaded(),
-			'The calendar behavior is not loaded with all dependencies'
-		);
-	}
-
-	/**
 	 * Tests the colorpicker method.
 	 *
 	 * @return  void
@@ -488,7 +471,11 @@ class JHtmlBehaviorTest extends TestCase
 		JHtmlBehavior::keepalive();
 
 		$this->assertEquals(
-			array('JHtmlBehavior::keepalive' => true),
+			array(
+				'JHtmlBehavior::keepalive' => true,
+				'JHtmlBehavior::core'      => true,
+				'JHtmlBehavior::polyfill'  => array(md5(serialize(array('event', 'lt IE 9'))) => true),
+			),
 			JHtmlBehaviorInspector::getLoaded(),
 			'The keepalive behavior is not loaded with all dependencies'
 		);

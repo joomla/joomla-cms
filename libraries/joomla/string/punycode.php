@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Uri\UriHelper;
 
 JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.class.php');
 
@@ -65,7 +67,7 @@ abstract class JStringPunycode
 	 */
 	public static function urlToPunycode($uri)
 	{
-		$parsed = JString::parse_url($uri);
+		$parsed = UriHelper::parse_url($uri);
 
 		if (!isset($parsed['host']) || $parsed['host'] == '')
 		{
@@ -136,7 +138,7 @@ abstract class JStringPunycode
 			return;
 		}
 
-		$parsed = JString::parse_url($uri);
+		$parsed = UriHelper::parse_url($uri);
 
 		if (!isset($parsed['host']) || $parsed['host'] == '')
 		{

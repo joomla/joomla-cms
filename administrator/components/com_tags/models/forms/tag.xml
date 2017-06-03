@@ -3,19 +3,19 @@
 	<field
 		name="id"
 		type="text"
-		class="readonly"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		description="JGLOBAL_FIELD_ID_DESC"
 		default="0"
+		class="readonly"
 		readonly="true"
 	/>
 
 	<field
 		name="hits"
 		type="text"
-		class="readonly"
 		label="JGLOBAL_HITS"
 		description="COM_TAGS_FIELD_HITS_DESC"
+		class="readonly"
 		default="0"
 		readonly="true"
 	/>
@@ -29,7 +29,7 @@
 		validate="notequals"
 		field="id"
 		parent="parent"
-	>
+		>
 		<option value="1">JNONE</option>
 	</field>
 
@@ -54,9 +54,9 @@
 	<field
 		name="path"
 		type="text"
-		class="readonly"
 		label="CATEGORIES_PATH_LABEL"
 		description="CATEGORIES_PATH_DESC"
+		class="readonly"
 		size="40"
 		readonly="true"
 	/>
@@ -64,9 +64,9 @@
 	<field
 		name="title"
 		type="text"
-		class="input-xxlarge input-large-text"
 		label="JGLOBAL_TITLE"
 		description="JFIELD_TITLE_DESC"
+		class="input-xxlarge input-large-text"
 		size="40"
 		required="true"
 	/>
@@ -74,10 +74,10 @@
 	<field
 		name="note"
 		type="text"
-		maxlength="255"
-		class="span12"
 		label="COM_TAGS_FIELD_NOTE_LABEL"
 		description="COM_TAGS_FIELD_NOTE_DESC"
+		maxlength="255"
+		class="span12"
 		size="40"
 	/>
 
@@ -94,12 +94,12 @@
 	<field
 		name="published"
 		type="list"
-		class="chzn-color-state"
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC"
+		class="chzn-color-state"
 		default="1"
 		size="1"
-	>
+		>
 		<option value="1">JPUBLISHED</option>
 		<option value="0">JUNPUBLISHED</option>
 		<option value="2">JARCHIVED</option>
@@ -162,28 +162,29 @@
 	<field
 		name="created_by_alias"
 		type="text"
-		labelclass="control-label"
 		label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
 		description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC"
+		labelclass="control-label"
 		size="20"
 	/>
 
 	<field
 		name="created_time"
 		type="calendar"
-		class="readonly"
 		label="JGLOBAL_CREATED_DATE"
-		format="%Y-%m-%d %H:%M:%S"
-		filter="user_utc"
 		description="COM_TAGS_FIELD_CREATED_DATE_DESC"
+		class="readonly"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
 		readonly="true"
 	/>
 
 	<field
 		name="modified_user_id"
 		type="user"
-		class="readonly"
 		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
 		readonly="true"
 		filter="unset"
 	/>
@@ -191,11 +192,12 @@
 	<field
 		name="modified_time"
 		type="calendar"
-		class="readonly"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
-		format="%Y-%m-%d %H:%M:%S"
-		filter="user_utc"
 		description="COM_TAGS_FIELD_MODIFIED_DESC"
+		class="readonly"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
 		readonly="true"
 	/>
 
@@ -204,11 +206,12 @@
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
 		description="COM_TAGS_FIELD_LANGUAGE_DESC"
-	>
+		>
 		<option value="*">JALL</option>
 	</field>
 
-	<field name="version_note"
+	<field 
+		name="version_note"
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
@@ -226,9 +229,9 @@
 			<field
 				name="tag_layout"
 				type="componentlayout"
-				labelclass="control-label"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				labelclass="control-label"
 				useglobal="true"
 				extension="com_tags"
 				view="tag"
@@ -237,9 +240,9 @@
 			<field
 				name="tag_link_class"
 				type="text"
-				labelclass="control-label"
 				label="COM_TAGS_FIELD_TAG_LINK_CLASS"
 				description="COM_TAGS_FIELD_TAG_LINK_CLASS_DESC"
+				labelclass="control-label"
 				size="20"
 				default="label label-info"
 			/>
@@ -253,17 +256,17 @@
 				name="image_intro"
 				type="media"
 				label="COM_TAGS_FIELD_INTRO_LABEL"
-				labelclass="control-label"
 				description="COM_TAGS_FIELD_INTRO_DESC"
+				labelclass="control-label"
 			/>
 
 			<field
 				name="float_intro"
 				type="list"
-				labelclass="control-label"
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
-			>
+				labelclass="control-label"
+				>
 				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 				<option value="right">COM_TAGS_RIGHT</option>
 				<option value="left">COM_TAGS_LEFT</option>
@@ -273,19 +276,19 @@
 			<field
 				name="image_intro_alt"
 				type="text"
-				labelclass="control-label"
 				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
 				description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
+				labelclass="control-label"
 				size="20"
 			/>
 
 			<field
 				name="image_intro_caption"
 				type="text"
-				labelclass="control-label"
 				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
 				size="20"
+				labelclass="control-label"
 			/>
 
 			<field
@@ -298,17 +301,17 @@
 				name="image_fulltext"
 				type="media"
 				label="COM_TAGS_FIELD_FULL_LABEL"
-				labelclass="control-label"
 				description="COM_TAGS_FIELD_FULL_DESC"
+				labelclass="control-label"
 			/>
 
 			<field
 				name="float_fulltext"
 				type="list"
-				labelclass="control-label"
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
-			>
+				labelclass="control-label"
+				>
 				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 				<option value="right">COM_TAGS_RIGHT</option>
 				<option value="left">COM_TAGS_LEFT</option>
@@ -318,18 +321,18 @@
 			<field
 				name="image_fulltext_alt"
 				type="text"
-				labelclass="control-label"
 				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
 				description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
+				labelclass="control-label"
 				size="20"
 			/>
 
 			<field
 				name="image_fulltext_caption"
 				type="text"
-				labelclass="control-label"
 				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
+				labelclass="control-label"
 				size="20"
 			/>
 		</fieldset>
@@ -351,7 +354,7 @@
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
-			>
+				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
 				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>

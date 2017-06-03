@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,7 +61,7 @@ abstract class JMailHelper
 	public static function cleanBody($body)
 	{
 		// Strip all email headers from a string
-		return preg_replace("/((From:|To:|Cc:|Bcc:|Subject:|Content-type:) ([\S]+))/", "", $body);
+		return preg_replace("/((From:|To:|Cc:|Bcc:|Subject:|Content-type:) ([\S]+))/", '', $body);
 	}
 
 	/**
@@ -75,7 +75,7 @@ abstract class JMailHelper
 	 */
 	public static function cleanSubject($subject)
 	{
-		return preg_replace("/((From:|To:|Cc:|Bcc:|Content-type:) ([\S]+))/", "", $subject);
+		return preg_replace("/((From:|To:|Cc:|Bcc:|Content-type:) ([\S]+))/", '', $subject);
 	}
 
 	/**
@@ -109,7 +109,7 @@ abstract class JMailHelper
 	public static function isEmailAddress($email)
 	{
 		// Split the email into a local and domain
-		$atIndex = strrpos($email, "@");
+		$atIndex = strrpos($email, '@');
 		$domain = substr($email, $atIndex + 1);
 		$local = substr($email, 0, $atIndex);
 
@@ -123,11 +123,11 @@ abstract class JMailHelper
 
 		/*
 		 * Check the local address
-		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-
+		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-
 		 * The first and last character in local cannot be a period ('.')
 		 * Also, period should not appear 2 or more times consecutively
 		 */
-		$allowed = 'a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-';
+		$allowed = "a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-";
 		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
 
 		if (!preg_match($regex, $local) || substr($local, -1) == '.' || $local[0] == '.' || preg_match('/\.\./', $local))
@@ -152,7 +152,7 @@ abstract class JMailHelper
 		}
 
 		// Check the domain
-		$domain_array = explode(".", rtrim($domain, '.'));
+		$domain_array = explode('.', rtrim($domain, '.'));
 		$regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 
 		foreach ($domain_array as $domain)
