@@ -110,7 +110,7 @@ class HttpFactory
 			// Only load for php files.
 			if ($file->isFile() && $file->getExtension() == 'php')
 			{
-				$names[] = substr($fileName, 0, strrpos($fileName, '.'));
+				$names[] = substr($fileName, 0, strrpos($fileName, 'Transport.'));
 			}
 		}
 
