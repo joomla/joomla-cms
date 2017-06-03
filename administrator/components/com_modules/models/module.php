@@ -538,7 +538,14 @@ class ModulesModelModule extends JModelAdmin
 		$this->setState('item.module', $module);
 
 		// Get the form.
-		$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData));
+		if ($clientId == 1)
+		{
+			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+		}
+		else
+		{
+			$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData), true);
+		}
 
 		if (empty($form))
 		{
@@ -585,7 +592,7 @@ class ModulesModelModule extends JModelAdmin
 		$app = JFactory::getApplication();
 
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());
+		$data = $app->getUserState('com_modules.edit.module.data', array());
 
 		if (empty($data))
 		{

@@ -4,7 +4,7 @@
  * @subpackage  Router
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -238,14 +238,6 @@ class JRouter
 
 		// Do the postprocess stage of the URL build process
 		$vars += $this->processParseRules($uri, self::PROCESS_AFTER);
-
-		// Check if all parts of the URL have been parsed.
-		// Otherwise we have an invalid URL
-		if (strlen($uri->getPath()) > 0 && array_key_exists('option', $vars)
-			&& JComponentHelper::getParams($vars['option'])->get('sef_advanced', 0))
-		{
-			throw new Exception('URL invalid', 404);
-		}
 
 		return array_merge($this->getVars(), $vars);
 	}

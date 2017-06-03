@@ -208,7 +208,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  true|string  true if valid, a string containing the exception message when not.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private function checkDefaultValue($data)
 	{
@@ -565,9 +565,8 @@ class FieldsModelField extends JModelAdmin
 			$params = new Registry($params);
 		}
 
-		// Don't save the value when the field is disabled or the user is
-		// not authorized to change it
-		if (!$field || $params->get('disabled', 0) || !FieldsHelper::canEditFieldValue($field))
+		// Don't save the value when the user is not authorized to change it
+		if (!$field || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -921,6 +920,7 @@ class FieldsModelField extends JModelAdmin
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		$component  = $this->state->get('field.component');
+		$section    = $this->state->get('field.section');
 		$dataObject = $data;
 
 		if (is_array($dataObject))
@@ -967,6 +967,21 @@ class FieldsModelField extends JModelAdmin
 		$form->setFieldAttribute('type', 'component', $component);
 		$form->setFieldAttribute('group_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('rules', 'component', $component);
+
+		// Looking first in the component models/forms folder
+		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
+
+		if (file_exists($path))
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_BASE, null, false, true);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+
+			if (!$form->loadFile($path, false))
+			{
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			}
+		}
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);

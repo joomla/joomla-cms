@@ -4,7 +4,7 @@
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -255,7 +255,7 @@ abstract class JModelAdmin extends JModelForm
 
 		foreach ($this->batch_commands as $identifier => $command)
 		{
-			if (strlen($commands[$identifier]) > 0)
+			if (!empty($commands[$identifier]))
 			{
 				if (!$this->$command($commands[$identifier], $pks, $contexts))
 				{

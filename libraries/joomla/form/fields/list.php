@@ -117,12 +117,6 @@ class JFormFieldList extends JFormField
 				{
 					continue;
 				}
-
-				// Requires vote plugin enabled
-				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
-				{
-					continue;
-				}
 			}
 
 			$value = (string) $option['value'];
@@ -242,7 +236,7 @@ class JFormFieldList extends JFormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function __get($name)
 	{
