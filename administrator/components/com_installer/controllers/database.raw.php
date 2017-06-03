@@ -23,7 +23,7 @@ class InstallerControllerDatabase extends JControllerLegacy
 	 *
 	 * @throws JAccessExceptionNotallowed
 	 */
-	public function backup()
+	public function dump()
 	{
 		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
 		{
@@ -31,12 +31,14 @@ class InstallerControllerDatabase extends JControllerLegacy
 		}
 
 		$model = $this->getModel('database');
+		
+		$host = JUri::getInstance()->getHost();
 
-		$backup = $model->getBackup();
+		$backup = $model->getDump();
 
 		JFactory::getApplication()->setHeader('Pragma', 'public')
 			->setHeader('Content-Type', 'application/zip')
-			->setHeader('Content-Disposition', 'attachment; filename=backup.zip')
+			->setHeader('Content-Disposition', 'attachment; filename=' . JApplicationHelper::stringURLSafe($host) . '-dump.zip')
 			->setHeader('Content-Length', strlen($backup));
 
 		echo $backup;

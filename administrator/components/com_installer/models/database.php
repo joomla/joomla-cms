@@ -81,13 +81,13 @@ class InstallerModelDatabase extends InstallerModel
 	}
 
 	/**
-	 * Create a full database backup.
+	 * Create a full database dump.
 	 *
-	 * @return string  The backup string
+	 * @return string  The dump string
 	 * 
 	 * @throws RuntimeException
 	 */
-	public function getBackup()
+	public function getDump()
 	{
 		jimport('joomla.filesystem.path');
 		jimport('joomla.filesystem.file');
@@ -142,28 +142,30 @@ class InstallerModelDatabase extends InstallerModel
 		$zip = JArchive::getAdapter('zip');
 
 		$file = array();
+		
+		$host = JUri::getInstance()->getHost();
 
-		$file['name'] = 'backup-' . JFilterOutput::stringURLSafe($now->toSql()) . '.sql';
+		$file['name'] = JApplicationHelper::stringURLSafe($host) . '-' . JFilterOutput::stringURLSafe($now->toSql()) . '.sql';
 		$file['data'] = $backup;
 		$file['time'] = $now->toUnix();
 
 		$filename = JUserHelper::genRandomPassword(20);
 
-		if (!$zip->create($path . '/backup_' . $filename . '.zip', array($file)))
+		if (!$zip->create($path . '/' . $filename . '.zip', array($file)))
 		{
 			// Cleanup broken files
-			if (JFile::exists($path . '/backup_' . $filename . '.zip'))
+			if (JFile::exists($path . '/' . $filename . '.zip'))
 			{
-				JFile::delete($path . '/backup_' . $filename . '.zip');
+				JFile::delete($path . '/' . $filename . '.zip');
 			}
 
 			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_WARNINGS_ZIP_CREATION'), 500);
 		}
 
 		// Zip is created, so let's load the content and return it
-		$content = file_get_contents($path . '/backup_' . $filename . '.zip');
+		$content = file_get_contents($path . '/' . $filename . '.zip');
 
-		JFile::delete($path . '/backup_' . $filename . '.zip');
+		JFile::delete($path . '/' . $filename . '.zip');
 
 		return $content;
 	}

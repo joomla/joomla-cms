@@ -91,9 +91,9 @@ class InstallerViewDatabase extends InstallerViewDefault
 
 		if ($canDo->get('core.admin'))
 		{
-			$link = 'index.php?option=com_installer&task=database.backup&format=raw';
+			$link = 'index.php?option=com_installer&task=database.dump&format=raw';
 
-			JToolbarHelper::link(JRoute::_($link), 'COM_INSTALLER_TOOLBAR_DATABASE_BACKUP', 'download');
+			JToolbarHelper::link(JRoute::_($link), 'COM_INSTALLER_TOOLBAR_DATABASE_DUMP', 'download');
 			JToolbarHelper::divider();
 		}
 
