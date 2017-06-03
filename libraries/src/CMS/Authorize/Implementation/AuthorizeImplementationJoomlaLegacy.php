@@ -289,9 +289,9 @@ class AuthorizeImplementationJoomlaLegacy extends AuthorizeImplementationJoomla 
 
 			if ($this->db->getServerType() == 'mysql')
 			{
-				$straightJoin = 'STRAIGHT_JOIN SQL_NO_CACHE ';
+				$straightJoin = 'STRAIGHT_JOIN ';
 
-				$forceIndex = 'FORCE INDEX FOR JOIN (`idx_lft_rgt_id`)';
+				//$forceIndex = 'FORCE INDEX FOR JOIN (`idx_lft_rgt_id`)';
 			}
 		}
 

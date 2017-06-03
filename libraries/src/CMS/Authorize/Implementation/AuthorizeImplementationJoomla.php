@@ -393,7 +393,7 @@ class AuthorizeImplementationJoomla extends AbstractAuthorizeImplementation impl
 			{
 				$straightJoin = 'STRAIGHT_JOIN ';
 
-				$forceIndex = 'FORCE INDEX FOR JOIN (`idx_lft_rgt_id`)';
+				//$forceIndex = 'FORCE INDEX FOR JOIN (`idx_lft_rgt_id`)';
 			}
 		}
 
