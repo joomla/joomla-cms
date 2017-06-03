@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler
  *
- * @see    http://php.net/manual/en/book.memcached.php
+ * @link   https://secure.php.net/manual/en/book.memcached.php
  * @since  12.1
  */
 class JCacheStorageMemcached extends JCacheStorage
@@ -136,9 +136,26 @@ class JCacheStorageMemcached extends JCacheStorage
 	}
 
 	/**
-	 * Get a cache_id string from an id/group pair
+	 * Check if the cache contains data stored by ID and group
 	 *
-	 * @param   string   $id         The cache data id
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function contains($id, $group)
+	{
+		static::$_db->get($this->_getCacheId($id, $group));
+
+		return static::$_db->getResultCode() !== Memcached::RES_NOTFOUND;
+	}
+
+	/**
+	 * Get cached data by ID and group
+	 *
+	 * @param   string   $id         The cache data ID
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
 	 *
@@ -148,10 +165,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		$cache_id = $this->_getCacheId($id, $group);
-		$back = static::$_db->get($cache_id);
-
-		return $back;
+		return static::$_db->get($this->_getCacheId($id, $group));
 	}
 
 	/**
@@ -223,31 +237,30 @@ class JCacheStorageMemcached extends JCacheStorage
 	}
 
 	/**
-	 * Remove a cached data entry by id and group
+	 * Remove a cached data entry by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   12.1
 	 */
 	public function remove($id, $group)
 	{
-		$cache_id = $this->_getCacheId($id, $group);
-
-		return static::$_db->delete($cache_id);
+		return static::$_db->delete($this->_getCacheId($id, $group));
 	}
 
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * @param   string  $group  The cache data group
-	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
 	 * group mode    : cleans all cache in the group
 	 * notgroup mode : cleans all cache not in the group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @param   string  $group  The cache data group
+	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+	 *
+	 * @return  boolean
 	 *
 	 * @since   12.1
 	 */
