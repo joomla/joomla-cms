@@ -606,18 +606,7 @@ class Application extends Form
 				$asset->rules = (string) $rules;
 				$asset->name  = (string) $permission['component'];
 				$asset->title = (string) $permission['title'];
-			/** @var Asset $asset */
-			$asset  = Table::getInstance('asset');
-			$result = $asset->loadByName($permission['component']);
 
-			if ($result === false)
-			{
-				$data = array($permission['action'] => array($permission['rule'] => $permission['value']));
-
-				$rules        = new JAccessRules($data);
-				$asset->rules = (string) $rules;
-				$asset->name  = (string) $permission['component'];
-				$asset->title = (string) $permission['title'];
 
 				// Get the parent asset id so we have a correct tree.
 				/** @var Asset $parentAsset */
