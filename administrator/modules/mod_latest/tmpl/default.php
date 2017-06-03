@@ -19,7 +19,7 @@ JHtml::_('bootstrap.tooltip');
 				<?php if ($item->checked_out) : ?>
 					<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 				<?php endif; ?>
-				<strong class="row-title break-word mr-2">
+				<strong class="row-title break-word mr-2" title="<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
 					<?php if ($item->link) : ?>
 						<a href="<?php echo $item->link; ?>">
 							<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?></a>
