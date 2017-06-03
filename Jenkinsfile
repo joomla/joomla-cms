@@ -25,7 +25,6 @@ pipeline {
       }
       steps {
         sh 'echo $(date)'
-        sh 'sudo su'
         sh 'apt-get install nodejs npm'
         sh 'ln -s /usr/bin/nodejs /usr/bin/node'
         sh 'export DISPLAY=:0'
