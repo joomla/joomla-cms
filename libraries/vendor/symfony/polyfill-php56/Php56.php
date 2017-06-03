@@ -74,7 +74,7 @@ final class Php56
         if (null === $charMaps) {
             $charMaps = array(
                 self::LDAP_ESCAPE_FILTER => array('\\', '*', '(', ')', "\x00"),
-                self::LDAP_ESCAPE_DN => array('\\', ',', '=', '+', '<', '>', ';', '"', '#'),
+                self::LDAP_ESCAPE_DN => array('\\', ',', '=', '+', '<', '>', ';', '"', '#', "\r"),
             );
 
             $charMaps[0] = array();

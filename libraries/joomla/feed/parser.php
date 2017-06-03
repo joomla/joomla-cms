@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -169,22 +169,22 @@ abstract class JFeedParser
 
 			// Add the new entry to the feed.
 			$feed->addEntry($entry);
+
+			return;
 		}
 		// Otherwise we treat it like any other element.
-		else
-		{
-			// First call the internal method.
-			if (is_callable(array($this, $method)))
-			{
-				$this->$method($feed, $el);
-			}
 
-			foreach ($namespaces as $namespace)
+		// First call the internal method.
+		if (is_callable(array($this, $method)))
+		{
+			$this->$method($feed, $el);
+		}
+
+		foreach ($namespaces as $namespace)
+		{
+			if ($namespace instanceof JFeedParserNamespace)
 			{
-				if ($namespace instanceof JFeedParserNamespace)
-				{
-					$namespace->processElementForFeed($feed, $el);
-				}
+				$namespace->processElementForFeed($feed, $el);
 			}
 		}
 	}

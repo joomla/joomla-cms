@@ -3,13 +3,14 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Configuration setup model for the Joomla Core Installer.
@@ -30,16 +31,16 @@ class InstallationModelConfiguration extends JModelBase
 	public function setup($options)
 	{
 		// Get the options as an object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($options);
 
-		// Attempt to create the root user.
-		if (!$this->_createConfiguration($options))
+		// Attempt to create the configuration.
+		if (!$this->createConfiguration($options))
 		{
 			return false;
 		}
 
 		// Attempt to create the root user.
-		if (!$this->_createRootUser($options))
+		if (!$this->createRootUser($options))
 		{
 			return false;
 		}
@@ -56,7 +57,7 @@ class InstallationModelConfiguration extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	public function _createConfiguration($options)
+	public function createConfiguration($options)
 	{
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
@@ -137,12 +138,13 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('feed_limit', 10);
 		$registry->set('feed_email', 'none');
 
-		$registry->set('log_path', JPATH_ROOT . '/logs');
+		$registry->set('log_path', JPATH_ADMINISTRATOR . '/logs');
 		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
 
 		// Session setting.
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
+		$registry->set('shared_session', 0);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
@@ -183,6 +185,9 @@ class InstallationModelConfiguration extends JModelBase
 			$useFTP = false;
 		}
 
+		// Get the session
+		$session = JFactory::getSession();
+
 		if ($useFTP == true)
 		{
 			// Connect the FTP client.
@@ -196,7 +201,6 @@ class InstallationModelConfiguration extends JModelBase
 			if (!$ftp->write($file, $buffer))
 			{
 				// Set the config string to the session.
-				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
 			}
 
@@ -207,13 +211,11 @@ class InstallationModelConfiguration extends JModelBase
 			if ($canWrite)
 			{
 				file_put_contents($path, $buffer);
-				$session = JFactory::getSession();
 				$session->set('setup.config', null);
 			}
 			else
 			{
 				// Set the config string to the session.
-				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
 			}
 		}
@@ -230,12 +232,8 @@ class InstallationModelConfiguration extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	private function _createRootUser($options)
+	private function createRootUser($options)
 	{
-		// Get the application
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Get a database object.
 		try
 		{
@@ -250,7 +248,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
 
 			return false;
 		}
@@ -325,7 +323,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -361,7 +359,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

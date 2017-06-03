@@ -26,14 +26,6 @@ class JCacheStorageMemcached extends JCacheStorage
 	protected static $_db = null;
 
 	/**
-	 * Persistent session flag
-	 *
-	 * @var    boolean
-	 * @since  12.1
-	 */
-	protected $_persistent = false;
-
-	/**
 	 * Payload compression level
 	 *
 	 * @var    integer
@@ -52,71 +44,105 @@ class JCacheStorageMemcached extends JCacheStorage
 	{
 		parent::__construct($options);
 
-		if (self::$_db === null)
+		$this->_compress = JFactory::getConfig()->get('memcached_compress', false) ? Memcached::OPT_COMPRESSION : 0;
+
+		if (static::$_db === null)
 		{
 			$this->getConnection();
 		}
 	}
 
 	/**
-	 * Return memcached connection object
+	 * Create the Memcached connection
 	 *
-	 * @return  object   memcached connection object
+	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
 	protected function getConnection()
 	{
-		if ((extension_loaded('memcached') && class_exists('Memcached')) != true)
+		if (!static::isSupported())
 		{
-			return false;
+			throw new RuntimeException('Memcached Extension is not available');
 		}
 
 		$config = JFactory::getConfig();
-		$this->_persistent = $config->get('memcached_persist', true);
-		$this->_compress = $config->get('memcached_compress', false) == false ? 0 : Memcached::OPT_COMPRESSION;
 
-		/*
-		 * This will be an array of loveliness
-		 * @todo: multiple servers
-		 * $servers = (isset($params['servers'])) ? $params['servers'] : array();
-		 */
-		$server = array();
-		$server['host'] = $config->get('memcached_server_host', 'localhost');
-		$server['port'] = $config->get('memcached_server_port', 11211);
+		$host = $config->get('memcached_server_host', 'localhost');
+		$port = $config->get('memcached_server_port', 11211);
 
-		// Create the memcache connection
-		if ($this->_persistent)
+
+		// Create the memcached connection
+		if ($config->get('memcached_persist', true))
 		{
-			$session = JFactory::getSession();
-			self::$_db = new Memcached($session->getId());
+			static::$_db = new Memcached($this->_hash);
+			$servers = static::$_db->getServerList();
+
+			if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port))
+			{
+				static::$_db->resetServerList();
+				$servers = array();
+			}
+
+			if (!$servers)
+			{
+				static::$_db->addServer($host, $port);
+			}
 		}
 		else
 		{
-			self::$_db = new Memcached;
+			static::$_db = new Memcached;
+			static::$_db->addServer($host, $port);
 		}
 
-		$memcachedtest = self::$_db->addServer($server['host'], $server['port']);
+		static::$_db->setOption(Memcached::OPT_COMPRESSION, $this->_compress);
 
-		if ($memcachedtest == false)
+		$stats  = static::$_db->getStats();
+		$result = !empty($stats["$host:$port"]) && $stats["$host:$port"]['pid'] > 0;
+
+		if (!$result)
 		{
-			throw new RuntimeException('Could not connect to memcached server', 404);
+			// Null out the connection to inform the constructor it will need to attempt to connect if this class is instantiated again
+			static::$_db = null;
+
+			throw new JCacheExceptionConnecting('Could not connect to memcached server');
 		}
-
-		self::$_db->setOption(Memcached::OPT_COMPRESSION, $this->_compress);
-
-		return;
 	}
 
 	/**
-	 * Get cached data from memcached by id and group
+	 * Get a cache_id string from an id/group pair
+	 *
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  string   The cache_id string
+	 *
+	 * @since   11.1
+	 */
+	protected function _getCacheId($id, $group)
+	{
+		$prefix   = JCache::getPlatformPrefix();
+		$length   = strlen($prefix);
+		$cache_id = parent::_getCacheId($id, $group);
+
+		if ($length)
+		{
+			// Memcached use suffix instead of prefix
+			$cache_id = substr($cache_id, $length) . strrev($prefix);
+		}
+
+		return $cache_id;
+	}
+
+	/**
+	 * Get a cache_id string from an id/group pair
 	 *
 	 * @param   string   $id         The cache data id
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
 	 *
-	 * @return  mixed  Boolean false on failure or a cached data string
+	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   12.1
 	 */
@@ -131,14 +157,12 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Get all cached data
 	 *
-	 * @return  array    data
+	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   12.1
 	 */
 	public function getAll()
 	{
-		parent::getAll();
-
 		$keys = self::$_db->getAllKeys();
 		$secret = $this->_hash;
 
@@ -175,13 +199,13 @@ class JCacheStorageMemcached extends JCacheStorage
 	}
 
 	/**
-	 * Store the data to memcached by id and group
+	 * Store the data to cache by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 * @param   string  $data   The data to store in cache
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   12.1
 	 */
@@ -229,7 +253,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		$keys = self::$_db->getAllKeys();
+		$keys = static::$_db->getAllKeys();
 
 		$secret = $this->_hash;
 
@@ -237,7 +261,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		{
 			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
-				self::$_db->delete($key, 0);
+				static::$_db->delete($key, 0);
 			}
 		}
 
@@ -245,33 +269,30 @@ class JCacheStorageMemcached extends JCacheStorage
 	}
 
 	/**
-	 * Test to see if the cache storage is available.
+	 * Flush all existing items in storage.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean
+	 *
+	 * @since   3.6.3
+	 */
+	public function flush()
+	{
+		return static::$_db->flush();
+	}
+
+	/**
+	 * Test to see if the storage handler is available.
+	 *
+	 * @return  boolean
 	 *
 	 * @since   12.1
 	 */
 	public static function isSupported()
 	{
-		if ((extension_loaded('memcached') && class_exists('Memcached')) != true)
-		{
-			return false;
-		}
-
-		$config = JFactory::getConfig();
-		$host = $config->get('memcached_server_host', 'localhost');
-		$port = $config->get('memcached_server_port', 11211);
-
-		$memcached = new Memcached;
-		$memcachedtest = @$memcached->addServer($host, $port);
-
-		if (!$memcachedtest)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		/*
+		 * GAE and HHVM have both had instances where Memcached the class was defined but no extension was loaded.
+		 * If the class is there, we can assume support.
+		 */
+		return class_exists('Memcached');
 	}
 }

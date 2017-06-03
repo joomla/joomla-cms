@@ -8,6 +8,7 @@
 		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=localhost;port=5432;dbname=joomla_ut;user=utuser;pass=ut1234" />
 		<const name="JTEST_DATABASE_SQLSRV_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
 		<const name="JTEST_HTTP_STUB" value="http://localhost/joomla-cms/tests/unit/stubs/jhttp_stub.php" />
+		<const name="JOOMLA_TEST_LOGGING" value="yes" />
 	</php>
 	-->
 
@@ -30,6 +31,9 @@
 		<testsuite name="FinderIndexer">
 			<directory>tests/unit/suites/finderIndexer</directory>
 		</testsuite>
+		<testsuite name="plugins">
+			<directory>tests/unit/suites/plugins</directory>
+		</testsuite>
 	</testsuites>
 
 	<logging>
@@ -44,6 +48,7 @@
 			<directory suffix=".php">libraries/joomla</directory>
 			<directory suffix=".php">libraries/legacy</directory>
 			<directory suffix=".php">administrator/components/com_finder/helpers/indexer</directory>
+			<directory suffix=".php">plugins</directory>
 			<file>administrator/includes/helper.php</file>
 			<file>libraries/loader.php</file>
 			<file>libraries/platform.php</file>

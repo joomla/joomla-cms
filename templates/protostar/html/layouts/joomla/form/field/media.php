@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,41 +11,25 @@ defined('_JEXEC') or die;
 
 /**
  * Layout variables
- * -----------------
- * @var   string   $autocomplete    Autocomplete attribute for the field.
- * @var   boolean  $autofocus       Is autofocus enabled?
- * @var   string   $class           Classes for the input.
- * @var   string   $description     Description of the field.
- * @var   boolean  $disabled        Is this field disabled?
- * @var   string   $group           Group the field belongs to. <fields> section in form XML.
- * @var   boolean  $hidden          Is this field hidden in the form?
- * @var   string   $hint            Placeholder for the field.
- * @var   string   $id              DOM id of the field.
- * @var   string   $label           Label of the field.
- * @var   string   $labelclass      Classes to apply to the label.
- * @var   boolean  $multiple        Does this field support multiple values?
- * @var   string   $name            Name of the input field.
- * @var   string   $onchange        Onchange attribute for the field.
- * @var   string   $onclick         Onclick attribute for the field.
- * @var   string   $pattern         Pattern (Reg Ex) of value of the form field.
- * @var   boolean  $readonly        Is this field read only?
- * @var   boolean  $repeat          Allows extensions to duplicate elements.
- * @var   boolean  $required        Is this field required?
- * @var   integer  $size            Size attribute of the input.
- * @var   boolean  $spellcheck      Spellcheck state for the form field.
- * @var   string   $validate        Validation rules to apply.
- * @var   string   $value           Value attribute of the field.
- * @var   array    $checkedOptions  Options that will be set as checked.
- * @var   boolean  $hasValue        Has this field a value assigned?
- * @var   array    $options         Options available for this field.
+ * ---------------------
  *
- * @var   string   $preview         The preview image relative path
- * @var   integer  $previewHeight   The image preview height
- * @var   integer  $previewWidth    The image preview width
- * @var   string   $asset           The asset text
- * @var   string   $authorField     The label text
- * @var   string   $folder          The folder text
- * @var   string   $link            The link text
+ * @var  string   $asset The asset text
+ * @var  string   $authorField The label text
+ * @var  integer  $authorId The author id
+ * @var  string   $class The class text
+ * @var  boolean  $disabled True if field is disabled
+ * @var  string   $folder The folder text
+ * @var  string   $id The label text
+ * @var  string   $link The link text
+ * @var  string   $name The name text
+ * @var  string   $preview The preview image relative path
+ * @var  integer  $previewHeight The image preview height
+ * @var  integer  $previewWidth The image preview width
+ * @var  string   $onchange  The onchange text
+ * @var  boolean  $readonly True if field is readonly
+ * @var  integer  $size The size text
+ * @var  string   $value The value text
+ * @var  string   $src The path and filename of the image
  */
 extract($displayData);
 
@@ -75,6 +59,9 @@ switch ($preview)
 	case 'yes': // Deprecated parameter value
 	case 'true':
 	case 'show':
+		$showPreview = true;
+		$showAsTooltip = false;
+		break;
 	case 'tooltip':
 	default:
 		$showPreview = true;
@@ -95,12 +82,11 @@ if ($showPreview)
 	}
 }
 
-// The url for the modal
+// The URL for the modal
 $url    = ($readonly ? ''
-	: ($link ? $link
-		: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
+	: ($link ?: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;folder=' . $folder);
+	. '&amp;fieldid={field-media-id}&amp;ismoo=0&amp;folder=' . $folder);
 ?>
 <div class="field-media-wrapper"
 	data-basepath="<?php echo JUri::root(); ?>"
@@ -113,10 +99,11 @@ $url    = ($readonly ? ''
 	data-button-clear=".button-clear"
 	data-button-save-selected=".button-save-selected"
 	data-preview="<?php echo $showPreview ? 'true' : 'false'; ?>"
+	data-preview-as-tooltip="<?php echo $showAsTooltip ? 'true' : 'false'; ?>"
 	data-preview-container=".field-media-preview"
 	data-preview-width="<?php echo $previewWidth; ?>"
 	data-preview-height="<?php echo $previewHeight; ?>"
-	>
+>
 	<?php
 	// Render the modal
 	echo JHtml::_('bootstrap.renderModal',
@@ -124,19 +111,19 @@ $url    = ($readonly ? ''
 		array(
 			'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer' => '<button type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+			'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
 		)
 	);
 
-	JHtml::_('script', 'media/mediafield.min.js', false, true, false, false, true);
+	JHtml::_('script', 'media/mediafield.min.js', array('version' => 'auto', 'relative' => true));
 	?>
-	<?php if ($showPreview) : ?>
+	<?php if ($showPreview && $showAsTooltip) : ?>
 	<div class="input-prepend input-append">
-	<span rel="popover" class="add-on pop-helper field-media-preview"
-		title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
-		data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
-		<i class="icon-eye"></i>
-	</span>
+		<span rel="popover" class="add-on pop-helper field-media-preview"
+			title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
+			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
+			<span class="icon-eye" aria-hidden="true"></span>
+		</span>
 	<?php else: ?>
 	<div class="input-append">
 	<?php endif; ?>
@@ -146,4 +133,7 @@ $url    = ($readonly ? ''
 			<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
 		<?php endif; ?>
 	</div>
+	<?php if ($showPreview && !$showAsTooltip) : ?>
+		<div class="field-media-preview" style="width: <?php echo $previewWidth; ?>px; max-height: <?php echo $previewHeight; ?>px;margin-top:10px;"></div>
+	<?php endif; ?>
 </div>

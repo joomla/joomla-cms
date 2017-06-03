@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,36 +38,189 @@ class ContactHelper extends JHelperContent
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
+
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_contact')->get('custom_fields_enable', '1'))
+		{
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_contact.contact',
+				$vName == 'fields.fields'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&context=com_contact.contact',
+				$vName == 'fields.groups'
+			);
+		}
 	}
 
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   JDatabaseQuery  &$query  The query object of com_categories
+	 * @param   stdClass[]  &$items  The contact category objects
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  stdClass[]
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
-	public static function countItems(&$query)
+	public static function countItems(&$items)
 	{
-		// Join articles to categories and count published items
-		$query->select('COUNT(DISTINCT cp.id) AS count_published');
-		$query->join('LEFT', '#__contact_details AS cp ON cp.catid = a.id AND cp.published = 1');
+		$db = JFactory::getDbo();
 
-		// Count unpublished items
-		$query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
-		$query->join('LEFT', '#__contact_details AS cu ON cu.catid = a.id AND cu.published = 0');
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published AS state, count(*) AS count')
+				->from($db->qn('#__contact_details'))
+				->where('catid = ' . (int) $item->id)
+				->group('published');
+			$db->setQuery($query);
+			$contacts = $db->loadObjectList();
 
-		// Count archived items
-		$query->select('COUNT(DISTINCT ca.id) AS count_archived');
-		$query->join('LEFT', '#__contact_details AS ca ON ca.catid = a.id AND ca.published = 2');
+			foreach ($contacts as $contact)
+			{
+				if ($contact->state == 1)
+				{
+					$item->count_published = $contact->count;
+				}
 
-		// Count trashed items
-		$query->select('COUNT(DISTINCT ct.id) AS count_trashed');
-		$query->join('LEFT', '#__contact_details AS ct ON ct.catid = a.id AND ct.published = -2');
+				if ($contact->state == 0)
+				{
+					$item->count_unpublished = $contact->count;
+				}
 
-		return $query;
+				if ($contact->state == 2)
+				{
+					$item->count_archived = $contact->count;
+				}
+
+				if ($contact->state == -2)
+				{
+					$item->count_trashed = $contact->count;
+				}
+			}
+		}
+
+		return $items;
 	}
 
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The banner tag objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$db = JFactory::getDbo();
+		$parts     = explode('.', $extension);
+		$section   = null;
+		if (count($parts) > 1)
+		{
+			$section = $parts[1];
+		}
+		$join = $db->qn('#__contact_details') . ' AS c ON ct.content_item_id=c.id';
+		if ($section === 'category')
+		{
+			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+		}
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published as state, count(*) AS count')
+				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->where('ct.tag_id = ' . (int) $item->id)
+				->where('ct.type_alias =' . $db->q($extension))
+				->join('LEFT', $join)
+				->group('published');
+
+			$db->setQuery($query);
+			$contacts = $db->loadObjectList();
+
+			foreach ($contacts as $contact)
+			{
+				if ($contact->state == 1)
+				{
+					$item->count_published = $contact->count;
+				}
+
+				if ($contact->state == 0)
+				{
+					$item->count_unpublished = $contact->count;
+				}
+
+				if ($contact->state == 2)
+				{
+					$item->count_archived = $contact->count;
+				}
+
+				if ($contact->state == -2)
+				{
+					$item->count_trashed = $contact->count;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Returns a valid section for contacts. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 * @param   object  $item     optional item object
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   3.7.0
+	 */
+	public static function validateSection($section, $item)
+	{
+		if (JFactory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof JForm)
+		{
+			// The contact form needs to be the mail section
+			$section = 'mail';
+		}
+
+		if ($section != 'mail' && $section != 'contact')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_contact.contact'    => JText::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
+			'com_contact.mail'       => JText::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
+			'com_contact.categories' => JText::_('JCATEGORY')
+		);
+
+		return $contexts;
+	}
 }

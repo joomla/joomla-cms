@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,22 +45,25 @@ class PlgCaptchaRecaptcha extends JPlugin
 			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		if ($this->params->get('version', '1.0') == '1.0')
+		if ($this->params->get('version', '1.0') === '1.0')
 		{
 			JHtml::_('jquery.framework');
 
 			$theme	= $this->params->get('theme', 'clean');
 			$file	= 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
+			JHtml::_('script', $file);
 			JFactory::getDocument()->addScriptDeclaration('jQuery( document ).ready(function()
 				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $this->_getLanguage() . 'tabindex: 0});});');
 		}
 		else
 		{
-			$file	= 'https://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()->getTag();
-		}
+			// Load callback first for browser compatibility
+			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
 
-		JHtml::_('script', $file);
+			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
+			JHtml::_('script', $file);
+		}
 
 		return true;
 	}
@@ -79,17 +82,17 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
-		if ($this->params->get('version', '1.0') == '1.0')
+		if ($this->params->get('version', '1.0') === '1.0')
 		{
 			return '<div id="' . $id . '" ' . $class . '></div>';
 		}
 		else
 		{
-			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class) .
-					' data-sitekey="' . $this->params->get('public_key', '') .
-					'" data-theme="' . $this->params->get('theme2', 'light') .
-					'" data-size="' . $this->params->get('size', 'normal') .
-					'"></div>';
+			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class)
+					. ' data-sitekey="' . $this->params->get('public_key', '')
+					. '" data-theme="' . $this->params->get('theme2', 'light')
+					. '" data-size="' . $this->params->get('size', 'normal')
+					. '"></div>';
 		}
 	}
 
@@ -199,9 +202,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 				if ( !isset($response->success) || !$response->success)
 				{
 					// @todo use exceptions here
-					foreach ($response->errorCodes as $error)
+					if (is_array($response->errorCodes))
 					{
-						$this->_subject->setError($error);
+						foreach ($response->errorCodes as $error)
+						{
+							$this->_subject->setError($error);
+						}
 					}
 
 					return false;
@@ -223,7 +229,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	private function _recaptcha_qsencode($data)
 	{
-		$req = "";
+		$req = '';
 
 		foreach ($data as $key => $value)
 		{

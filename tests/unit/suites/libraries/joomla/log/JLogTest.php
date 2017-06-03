@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/log/inspector.php';
@@ -16,14 +16,14 @@ require_once __DIR__ . '/stubs/log/inspector.php';
  * @subpackage  Log
  * @since       11.1
  */
-class JLogTest extends PHPUnit_Framework_TestCase
+class JLogTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Overrides the parent tearDown method.
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()
@@ -86,7 +86,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddLoggerAutoInstantiationInvalidLogger()
 	{
-		// We are expecting a InvalidArgumentException to be thrown since we are trying to add a bogus logger.
+		// We are expecting an InvalidArgumentException to be thrown since we are trying to add a bogus logger.
 		$this->setExpectedException('RuntimeException');
 
 		JLog::setInstance(null);

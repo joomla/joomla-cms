@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,12 +39,13 @@ class BannersModelTracks extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'name', 'b.name',
-				'cl.name', 'client_name',
-				'cat.title', 'category_title',
-				'track_type', 'a.track_type',
+				'b.name', 'banner_name',
+				'cl.name', 'client_name', 'client_id',
+				'c.title', 'category_title', 'category_id',
+				'track_type', 'a.track_type', 'type',
 				'count', 'a.count',
-				'track_date', 'a.track_date',
+				'track_date', 'a.track_date', 'end', 'begin',
+				'level', 'c.level',
 			);
 		}
 
@@ -66,11 +67,13 @@ class BannersModelTracks extends JModelList
 	protected function populateState($ordering = 'b.name', $direction = 'asc')
 	{
 		// Load the filter state.
-		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type'));
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));
+		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '', 'cmd'));
+		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
+		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
 		$this->setState('filter.begin', $this->getUserStateFromRequest($this->context . '.filter.begin', 'filter_begin', '', 'string'));
 		$this->setState('filter.end', $this->getUserStateFromRequest($this->context . '.filter.end', 'filter_end', '', 'string'));
-		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', ''));
-		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', ''));
 
 		// Load the parameters.
 		$this->setState('params', JComponentHelper::getParams('com_banners'));
@@ -93,69 +96,81 @@ class BannersModelTracks extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
-		$query->select(
-			'a.track_date as track_date,'
-			. 'a.track_type as track_type,'
-			. $db->quoteName('a.count') . ' as ' . $db->quoteName('count')
-		);
-		$query->from($db->quoteName('#__banner_tracks') . ' AS a');
+		$query->select($db->quoteName(array('a.track_date', 'a.track_type', 'a.count')))
+			->select($db->quoteName('b.name', 'banner_name'))
+			->select($db->quoteName('cl.name', 'client_name'))
+			->select($db->quoteName('c.title', 'category_title'));
 
-		// Join with the banners
-		$query->join('LEFT', $db->quoteName('#__banners') . ' as b ON b.id=a.banner_id')
-			->select('b.name as name');
+		// From tracks table.
+		$query->from($db->quoteName('#__banner_tracks', 'a'));
 
-		// Join with the client
-		$query->join('LEFT', $db->quoteName('#__banner_clients') . ' as cl ON cl.id=b.cid')
-			->select('cl.name as client_name');
+		// Join with the banners.
+		$query->join('LEFT', $db->quoteName('#__banners', 'b') . ' ON ' . $db->quoteName('b.id') . ' = ' . $db->quoteName('a.banner_id'));
 
-		// Join with the category
-		$query->join('LEFT', $db->quoteName('#__categories') . ' as cat ON cat.id=b.catid')
-			->select('cat.title as category_title');
+		// Join with the client.
+		$query->join('LEFT', $db->quoteName('#__banner_clients', 'cl') . ' ON ' . $db->quoteName('cl.id') . ' = ' . $db->quoteName('b.cid'));
 
-		// Filter by type
+		// Join with the category.
+		$query->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('b.catid'));
+
+		// Filter by type.
 		$type = $this->getState('filter.type');
 
 		if (!empty($type))
 		{
-			$query->where('a.track_type = ' . (int) $type);
+			$query->where($db->quoteName('a.track_type') . ' = ' . (int) $type);
 		}
 
-		// Filter by client
+		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
 
 		if (is_numeric($clientId))
 		{
-			$query->where('b.cid = ' . (int) $clientId);
+			$query->where($db->quoteName('b.cid') . ' = ' . (int) $clientId);
 		}
 
-		// Filter by category
-		$catedoryId = $this->getState('filter.category_id');
+		// Filter by category.
+		$categoryId = $this->getState('filter.category_id');
 
-		if (is_numeric($catedoryId))
+		if (is_numeric($categoryId))
 		{
-			$query->where('b.catid = ' . (int) $catedoryId);
+			$query->where($db->quoteName('b.catid') . ' = ' . (int) $categoryId);
 		}
 
-		// Filter by begin date
+		// Filter by begin date.
 
 		$begin = $this->getState('filter.begin');
 
 		if (!empty($begin))
 		{
-			$query->where('a.track_date >= ' . $db->quote($begin));
+			$query->where($db->quoteName('a.track_date') . ' >= ' . $db->quote($begin));
 		}
 
-		// Filter by end date
+		// Filter by end date.
 		$end = $this->getState('filter.end');
 
 		if (!empty($end))
 		{
-			$query->where('a.track_date <= ' . $db->quote($end));
+			$query->where($db->quoteName('a.track_date') . ' <= ' . $db->quote($end));
+		}
+
+		// Filter on the level.
+		if ($level = $this->getState('filter.level'))
+		{
+			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
+		}
+
+		// Filter by search in banner name or client name.
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
+		{
+			$search = $db->quote('%' . strtolower($search) . '%');
+			$query->where('(LOWER(b.name) LIKE ' . $search . ' OR LOWER(cl.name) LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->getState('list.ordering', 'name');
-		$query->order($db->escape($orderCol) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'b.name')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -183,7 +198,7 @@ class BannersModelTracks extends JModelList
 		if ($allow)
 		{
 			// Delete tracks from this banner
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__banner_tracks'));
 
@@ -359,7 +374,7 @@ class BannersModelTracks extends JModelList
 
 		if ($categoryId)
 		{
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->select('title')
 				->from($db->quoteName('#__categories'))
@@ -396,7 +411,7 @@ class BannersModelTracks extends JModelList
 
 		if ($clientId)
 		{
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->select('name')
 				->from($db->quoteName('#__banner_clients'))
@@ -455,21 +470,21 @@ class BannersModelTracks extends JModelList
 	{
 		if (!isset($this->content))
 		{
-			$this->content = '"' . str_replace('"', '""', JText::_('COM_BANNERS_HEADING_NAME')) . '","' .
-				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')) . '","' .
-				str_replace('"', '""', JText::_('JCATEGORY')) . '","' .
-				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_TYPE')) . '","' .
-				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_COUNT')) . '","' .
-				str_replace('"', '""', JText::_('JDATE')) . '"' . "\n";
+			$this->content = '"' . str_replace('"', '""', JText::_('COM_BANNERS_HEADING_NAME')) . '","'
+				. str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')) . '","'
+				. str_replace('"', '""', JText::_('JCATEGORY')) . '","'
+				. str_replace('"', '""', JText::_('COM_BANNERS_HEADING_TYPE')) . '","'
+				. str_replace('"', '""', JText::_('COM_BANNERS_HEADING_COUNT')) . '","'
+				. str_replace('"', '""', JText::_('JDATE')) . '"' . "\n";
 
 			foreach ($this->getItems() as $item)
 			{
-				$this->content .= '"' . str_replace('"', '""', $item->name) . '","' .
-					str_replace('"', '""', $item->client_name) . '","' .
-					str_replace('"', '""', $item->category_title) . '","' .
-					str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'))) . '","' .
-					str_replace('"', '""', $item->count) . '","' .
-					str_replace('"', '""', $item->track_date) . '"' . "\n";
+				$this->content .= '"' . str_replace('"', '""', $item->banner_name) . '","'
+					. str_replace('"', '""', $item->client_name) . '","'
+					. str_replace('"', '""', $item->category_title) . '","'
+					. str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'))) . '","'
+					. str_replace('"', '""', $item->count) . '","'
+					. str_replace('"', '""', $item->track_date) . '"' . "\n";
 			}
 
 			if ($this->getState('compressed'))

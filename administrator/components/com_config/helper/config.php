@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +75,7 @@ class ConfigHelperConfig extends JHelperContent
 			if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component)))
 			{
 				self::loadLanguageForComponent($component);
-				$result[$component] = JApplication::stringURLSafe(JText::_($component)) . '_' . $component;
+				$result[$component] = JApplicationHelper::stringURLSafe(JText::_($component)) . '_' . $component;
 			}
 		}
 

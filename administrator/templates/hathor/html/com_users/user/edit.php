@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,7 +101,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 		</div>
 		<div id="com_users_twofactor_forms_container">
-			<?php foreach($this->tfaform as $form): ?>
+			<?php foreach ($this->tfaform as $form): ?>
 			<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
 			<div id="com_users_twofactor_<?php echo $form['method'] ?>" style="<?php echo $style; ?>">
 				<?php echo $form['form'] ?>

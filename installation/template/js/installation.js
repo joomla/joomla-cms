@@ -1,12 +1,12 @@
 /**
  * @package     Joomla.Installation
  * @subpackage  JavaScript
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 var Installation = function(_container, _base) {
-    var $, container, busy, $spinner, baseUrl, view;
+    var $, container, busy, baseUrl, view;
 
     /**
      * Initializes JavaScript events on each request, required for AJAX
@@ -17,9 +17,8 @@ var Installation = function(_container, _base) {
             document.formvalidator.attachToForm(form);
         });
 
-        // Create and append the spinner
-        $spinner = $('<div/>', {id: 'loading'});
-        $('#' + container).prepend($spinner);
+        // Create and append the loading layer.
+        Joomla.loadingLayer("load");
     }
 
     /**
@@ -35,7 +34,7 @@ var Installation = function(_container, _base) {
             return false;
         }
 
-        $spinner.show();
+        Joomla.loadingLayer("show");
         busy = true;
         Joomla.removeMessages();
         var data = 'format: json&' + $form.serialize();
@@ -57,7 +56,7 @@ var Installation = function(_container, _base) {
                 window.location = baseUrl + '?view=' + r.data.view;
             }
         }).fail(function(xhr) {
-            $spinner.hide();
+            Joomla.loadingLayer("hide");
             busy = false;
             try {
                 var r = $.parseJSON(xhr.responseText);
@@ -83,7 +82,7 @@ var Installation = function(_container, _base) {
             return false;
         }
 
-        $spinner.show();
+        Joomla.loadingLayer("show");
         busy = true;
         Joomla.removeMessages();
         var data = 'format: json&' + $form.serialize();
@@ -105,7 +104,7 @@ var Installation = function(_container, _base) {
                 window.location = baseUrl + '?view=' + r.data.view;
             }
         }).fail(function(xhr) {
-            $spinner.hide();
+            Joomla.loadingLayer("hide");
             busy = false;
             try {
                 var r = $.parseJSON(xhr.responseText);
@@ -129,7 +128,7 @@ var Installation = function(_container, _base) {
     var goToPage = function(page, fromSubmit) {
         if (!fromSubmit) {
             Joomla.removeMessages();
-            $spinner.show();
+            Joomla.loadingLayer("show");
         }
 
         $.ajax({
@@ -143,7 +142,7 @@ var Installation = function(_container, _base) {
             // Attach JS behaviors to the newly loaded HTML
             pageInit();
 
-            $spinner.hide();
+            Joomla.loadingLayer("hide");
             busy = false;
 
             initElements();
@@ -178,7 +177,7 @@ var Installation = function(_container, _base) {
 
         $progress.css('width', parseFloat($progress.get(0).style.width) + step_width + '%');
         $tr.addClass('active');
-        $spinner.show();
+        Joomla.loadingLayer("show");
 
         $.ajax({
             type : "POST",
@@ -194,7 +193,7 @@ var Installation = function(_container, _base) {
             } else {
                 $progress.css('width', parseFloat($progress.get(0).style.width) + (step_width * 10) + '%');
                 $tr.removeClass('active');
-                $spinner.hide();
+                Joomla.loadingLayer("hide");
 
                 install(tasks, step_width);
             }
@@ -373,3 +372,125 @@ var Installation = function(_container, _base) {
         toggle : toggle
     }
 }
+
+/**
+ * Initializes the elements
+ */
+function initElements()
+{
+	(function($){
+		$('.hasTooltip').tooltip();
+
+		// Chosen select boxes
+		$('select').chosen({
+			disable_search_threshold : 10,
+			allow_single_deselect : true
+		});
+
+		// Turn radios into btn-group
+		$('.radio.btn-group label').addClass('btn');
+
+		$('fieldset.btn-group').each(function() {
+			var $self = $(this);
+			// Handle disabled, prevent clicks on the container, and add disabled style to each button
+			if ($self.prop('disabled'))
+			{
+				$self.css('pointer-events', 'none').off('click');
+				$self.find('.btn').addClass('disabled');
+			}
+		});
+
+		$('.btn-group label:not(.active)').click(function()
+		{
+			var label = $(this);
+			var input = $('#' + label.attr('for'));
+
+			if (!input.prop('checked'))
+			{
+				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
+
+				if (label.closest('.btn-group').hasClass('btn-group-reverse'))
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-danger');
+					}
+					else
+					{
+						label.addClass('active btn-success');
+					}
+				}
+				else
+				{
+					if (input.val() == '')
+					{
+						label.addClass('active btn-primary');
+					}
+					else if (input.val() == 0)
+					{
+						label.addClass('active btn-success');
+					}
+					else
+					{
+						label.addClass('active btn-danger');
+					}
+				}
+				input.prop('checked', true);
+			}
+		});
+
+		$('.btn-group input[checked="checked"]').each(function()
+		{
+			var $self  = $(this);
+			var attrId = $self.attr('id');
+
+			if ($self.hasClass('btn-group-reverse'))
+			{
+				if ($self.val() == '')
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-danger');
+				}
+				else
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-success');
+				}
+			}
+			else
+			{
+				if ($self.val() == '')
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-primary');
+				}
+				else if ($self.val() == 0)
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-success');
+				}
+				else
+				{
+					$('label[for="' + attrId + '"]').addClass('active btn-danger');
+				}
+			}
+		});
+	})(jQuery);
+}
+
+// Init on dom content loaded event
+document.addEventListener('DOMContentLoaded', function() {
+
+	// Init the elements
+	initElements();
+
+	// Init installation
+	var installOptions  = Joomla.getOptions('system.installation'),
+	    installurl = installOptions.url ? installOptions.url.replace(/&amp;/g, '&') : 'index.php';
+
+	window.Install = new Installation('container-installation', installurl);
+});

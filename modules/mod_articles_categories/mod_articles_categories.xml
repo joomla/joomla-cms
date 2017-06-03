@@ -3,7 +3,7 @@
 	<name>mod_articles_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -21,55 +21,66 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORIES" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic"
+				addfieldpath="/administrator/components/com_categories/models/fields"
+			>
 				<field
 					name="parent"
-					type="category"
+					type="modal_category"
+					label="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_LABEL"
+					description="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_DESC"
 					extension="com_content"
 					published=""
-					label="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_DESC"/>
-	
+					required="true"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+				/>
+
 				<field
 					name="show_description"
 					type="radio"
+					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
+					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-	
+
 				<field
 					name="numitems"
 					type="radio"
+					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
+					description="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-	
+
 				<field
 					name="show_children"
 					type="radio"
+					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
+					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
-					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-	
+
 				<field
 					name="count"
 					type="list"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_DESC"
 					default="0"
-				>
+					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
 					<option value="2">J2</option>
@@ -82,14 +93,14 @@
 					<option value="9">J9</option>
 					<option value="10">J10</option>
 				</field>
-	
+
 				<field
 					name="maxlevel"
 					type="list"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_DESC"
 					default="0"
-				>
+					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
 					<option value="2">J2</option>
@@ -103,52 +114,55 @@
 					<option value="10">J10</option>
 				</field>
 			</fieldset>
-	
+
 			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-	
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
 				<field
 					name="item_heading"
 					type="list"
-					default="4"
 					label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_DESC"
-				>
+					default="4"
+					>
 					<option value="1">JH1</option>
 					<option value="2">JH2</option>
 					<option value="3">JH3</option>
 					<option value="4">JH4</option>
 					<option value="5">JH5</option>
 				</field>
-	
+
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
-					rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-	
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
 				<field
 					name="owncache"
 					type="list"
-					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
-				>
+					default="1"
+					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-	
+
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 			</fieldset>
 		</fields>
 	</config>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class AdminViewSysinfo extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.5
 	 */
@@ -30,11 +30,12 @@ class AdminViewSysinfo extends JViewLegacy
 		// Access check.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
+		header('Content-Type: text/plain; charset=utf-8');
 		header('Content-Description: File Transfer');
-		header('Content-Disposition: attachment; filename="systeminfo-' . date("c") . '.txt"');
+		header('Content-Disposition: attachment; filename="systeminfo-' . date('c') . '.txt"');
 		header('Cache-Control: must-revalidate');
 
 		$data = $this->getLayoutData();
@@ -55,7 +56,7 @@ class AdminViewSysinfo extends JViewLegacy
 			}
 		}
 
-		echo implode("\n\n", $lines);
+		echo str_replace(JPATH_ROOT, 'xxxxxx', implode("\n\n", $lines));
 
 		JFactory::getApplication()->close();
 	}
@@ -86,7 +87,7 @@ class AdminViewSysinfo extends JViewLegacy
 			),
 			'directories' => array(
 				'title' => JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
-				'data'  => $model->getSafeData('directory')
+				'data'  => $model->getSafeData('directory', true)
 			),
 			'phpInfo' => array(
 				'title' => JText::_('COM_ADMIN_PHP_INFORMATION', true),
@@ -116,9 +117,9 @@ class AdminViewSysinfo extends JViewLegacy
 
 		$margin = ($level > 0) ? str_repeat("\t", $level) : null;
 
-		$lines[] = $margin . "=============";
+		$lines[] = $margin . '=============';
 		$lines[] = $margin . $sectionName;
-		$lines[] = $margin . "=============";
+		$lines[] = $margin . '=============';
 		$level++;
 
 		foreach ($sectionData as $name => $value)
@@ -130,7 +131,7 @@ class AdminViewSysinfo extends JViewLegacy
 					continue;
 				}
 
-				$lines[] = "";
+				$lines[] = '';
 				$lines[] = $this->renderSection($name, $value, $level);
 			}
 			else

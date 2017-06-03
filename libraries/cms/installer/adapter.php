@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -133,6 +133,41 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
+	 * Check if a package extension allows its child extensions to be uninstalled individually
+	 *
+	 * @param   integer  $packageId  The extension ID of the package to check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 * @note    This method defaults to true to emulate the behavior of 3.6 and earlier which did not support this lookup
+	 */
+	protected function canUninstallPackageChild($packageId)
+	{
+		$package = JTable::getInstance('extension');
+
+		// If we can't load this package ID, we have a corrupt database
+		if (!$package->load((int) $packageId))
+		{
+			return true;
+		}
+
+		$manifestFile = JPATH_MANIFESTS . '/packages/' . $package->element . '.xml';
+
+		$xml = $this->parent->isManifest($manifestFile);
+
+		// If the manifest doesn't exist, we've got some major issues
+		if (!$xml)
+		{
+			return true;
+		}
+
+		$manifest = new JInstallerManifestPackage($manifestFile);
+
+		return $manifest->blockChildUninstall === false;
+	}
+
+	/**
 	 * Method to check if the extension is already present in the database
 	 *
 	 * @return  void
@@ -214,7 +249,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -261,7 +296,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$this->parent->pushStep(
 				array(
 					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_root')
+					'path' => $this->parent->getPath('extension_root'),
 				)
 			);
 		}
@@ -441,6 +476,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 
 				return false;
 			}
+
+			// If installing with success and there is an uninstall script, add a installer rollback step to rollback if needed
+			if ($route === 'install' && isset($this->getManifest()->uninstall->sql))
+			{
+				$this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
+			}
 		}
 
 		return true;
@@ -564,7 +605,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Generic install method for extensions
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
 	 * @since   3.4
 	 */
@@ -780,7 +821,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to parse the queries specified in the <sql> tags
+	 * Method to parse the queries specified in the `<sql>` tags
 	 *
 	 * @return  void
 	 *
@@ -912,13 +953,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		{
 			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file
-				include_once $manifestScriptFile;
-			}
-
 			$classname = $this->getScriptClassName();
+
+			JLoader::register($classname, $manifestScriptFile);
 
 			if (class_exists($classname))
 			{
@@ -979,6 +1016,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'postflight')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(
@@ -998,6 +1038,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'uninstall')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(
@@ -1026,7 +1069,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Generic update method for extensions
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|integer  The extension ID on success, boolean false on failure
 	 *
 	 * @since   3.4
 	 */

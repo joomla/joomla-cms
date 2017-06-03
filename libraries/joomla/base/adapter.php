@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -86,6 +86,31 @@ class JAdapter extends JObject
 	}
 
 	/**
+	 * Return an adapter.
+	 *
+	 * @param   string  $name     Name of adapter to return
+	 * @param   array   $options  Adapter options
+	 *
+	 * @return  object  Adapter of type 'name' or false
+	 *
+	 * @since   11.1
+	 */
+	public function getAdapter($name, $options = array())
+	{
+		if (array_key_exists($name, $this->_adapters))
+		{
+			return $this->_adapters[$name];
+		}
+
+		if ($this->setAdapter($name, $options))
+		{
+			return $this->_adapters[$name];
+		}
+
+		return false;
+	}
+
+	/**
 	 * Set an adapter by name
 	 *
 	 * @param   string  $name      Adapter name
@@ -98,56 +123,33 @@ class JAdapter extends JObject
 	 */
 	public function setAdapter($name, &$adapter = null, $options = array())
 	{
-		if (!is_object($adapter))
+		if (is_object($adapter))
 		{
-			$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
+			$this->_adapters[$name] = &$adapter;
 
-			if (!file_exists($fullpath))
-			{
-				return false;
-			}
-
-			// Try to load the adapter object
-			require_once $fullpath;
-
-			$class = $this->_classprefix . ucfirst($name);
-
-			if (!class_exists($class))
-			{
-				return false;
-			}
-
-			$adapter = new $class($this, $this->_db, $options);
+			return true;
 		}
 
-		$this->_adapters[$name] = &$adapter;
+		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
+
+		if (!file_exists($fullpath))
+		{
+			return false;
+		}
+
+		// Try to load the adapter object
+		$class = $this->_classprefix . ucfirst($name);
+
+		JLoader::register($class, $fullpath);
+
+		if (!class_exists($class))
+		{
+			return false;
+		}
+
+		$this->_adapters[$name] = new $class($this, $this->_db, $options);
 
 		return true;
-	}
-
-	/**
-	 * Return an adapter.
-	 *
-	 * @param   string  $name     Name of adapter to return
-	 * @param   array   $options  Adapter options
-	 *
-	 * @return  object  Adapter of type 'name' or false
-	 *
-	 * @since   11.1
-	 */
-	public function getAdapter($name, $options = array())
-	{
-		if (!array_key_exists($name, $this->_adapters))
-		{
-			if (!$this->setAdapter($name, $options))
-			{
-				$false = false;
-
-				return $false;
-			}
-		}
-
-		return $this->_adapters[$name];
 	}
 
 	/**

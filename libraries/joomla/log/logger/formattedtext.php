@@ -3,12 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -22,26 +23,27 @@ jimport('joomla.filesystem.folder');
 class JLogLoggerFormattedtext extends JLogLogger
 {
 	/**
-	 * @var    resource  The file pointer for the log file.
-	 * @since  11.1
-	 */
-	protected $file;
-
-	/**
-	 * @var    string  The format for which each entry follows in the log file.  All fields must be named
-	 * in all caps and be within curly brackets eg. {FOOBAR}.
+	 * The format which each entry follows in the log file.
+	 *
+	 * All fields must be named in all caps and be within curly brackets eg. {FOOBAR}.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
 	/**
-	 * @var    array  The parsed fields from the format string.
+	 * The parsed fields from the format string.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $fields = array();
 
 	/**
-	 * @var    string  The full filesystem path for the log file.
+	 * The full filesystem path for the log file.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $path;
@@ -90,24 +92,11 @@ class JLogLoggerFormattedtext extends JLogLogger
 	}
 
 	/**
-	 * Destructor.
-	 *
-	 * @since   11.1
-	 */
-	public function __destruct()
-	{
-		if (is_resource($this->file))
-		{
-			fclose($this->file);
-		}
-	}
-
-	/**
 	 * Method to add an entry to the log.
 	 *
 	 * @param   JLogEntry  $entry  The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -115,10 +104,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 	public function addEntry(JLogEntry $entry)
 	{
 		// Initialise the file if not already done.
-		if (!is_resource($this->file))
-		{
-			$this->initFile();
-		}
+		$this->initFile();
 
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
@@ -162,7 +148,9 @@ class JLogLoggerFormattedtext extends JLogLogger
 		}
 
 		// Write the new entry to the file.
-		if (!fwrite($this->file, $line . "\n"))
+		$line .= "\n";
+
+		if (!JFile::append($this->path, $line))
 		{
 			throw new RuntimeException('Cannot write to log file.');
 		}
@@ -212,32 +200,21 @@ class JLogLoggerFormattedtext extends JLogLogger
 	 */
 	protected function initFile()
 	{
-		// If the file doesn't already exist we need to create it and generate the file header.
-		if (!is_file($this->path))
+		// We only need to make sure the file exists
+		if (JFile::exists($this->path))
 		{
-			// Make sure the folder exists in which to create the log file.
-			JFolder::create(dirname($this->path));
-
-			// Build the log file header.
-			$head = $this->generateFileHeader();
-		}
-		else
-		{
-			$head = false;
+			return;
 		}
 
-		// Open the file for writing (append mode).
-		if (!$this->file = fopen($this->path, 'a'))
-		{
-			throw new RuntimeException('Cannot open file for writing log');
-		}
+		// Make sure the folder exists in which to create the log file.
+		JFolder::create(dirname($this->path));
 
-		if ($head)
+		// Build the log file header.
+		$head = $this->generateFileHeader();
+
+		if (!JFile::write($this->path, $head))
 		{
-			if (!fwrite($this->file, $head))
-			{
-				throw new RuntimeException('Cannot fput file for log');
-			}
+			throw new RuntimeException('Cannot write to log file.');
 		}
 	}
 
@@ -254,7 +231,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		$matches = array();
 
 		// Get all of the available fields in the format string.
-		preg_match_all("/{(.*?)}/i", $this->format, $matches);
+		preg_match_all('/{(.*?)}/i', $this->format, $matches);
 
 		// Build the parsed fields list based on the found fields.
 		foreach ($matches[1] as $match)

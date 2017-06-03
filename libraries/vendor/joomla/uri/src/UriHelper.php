@@ -11,7 +11,7 @@ namespace Joomla\Uri;
 /**
  * Uri Helper
  *
- * This class provides an UTF-8 safe version of parse_url().
+ * This class provides a UTF-8 safe version of parse_url().
  *
  * @since  1.0
  */

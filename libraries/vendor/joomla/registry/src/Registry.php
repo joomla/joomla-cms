@@ -26,6 +26,14 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	protected $data;
 
 	/**
+	 * Flag if the Registry data object has been initialized
+	 *
+	 * @var    boolean
+	 * @since  1.5.2
+	 */
+	protected $initialized = false;
+
+	/**
 	 * Registry instances container.
 	 *
 	 * @var    array
@@ -58,11 +66,8 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		if (is_array($data) || is_object($data))
 		{
 			$this->bindData($this->data, $data);
-
-			return;
 		}
-
-		if (!empty($data) && is_string($data))
+		elseif (!empty($data) && is_string($data))
 		{
 			$this->loadString($data);
 		}
@@ -252,8 +257,8 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 *
 	 * @return  Registry  The Registry object.
 	 *
-	 * @deprecated  2.0  Instantiate a new Registry instance instead
 	 * @since   1.0
+	 * @deprecated  2.0  Instantiate a new Registry instance instead
 	 */
 	public static function getInstance($id)
 	{
@@ -281,7 +286,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	}
 
 	/**
-	 * Load a associative array of values into the default namespace
+	 * Load an associative array of values into the default namespace
 	 *
 	 * @param   array    $array      Associative array of value to load
 	 * @param   boolean  $flattened  Load from a one-dimensional array
@@ -359,6 +364,16 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		$handler = AbstractRegistryFormat::getInstance($format, $options);
 
 		$obj = $handler->stringToObject($data, $options);
+
+		// If the data object has not yet been initialized, direct assign the object
+		if (!$this->initialized)
+		{
+			$this->data        = $obj;
+			$this->initialized = true;
+
+			return $this;
+		}
+
 		$this->loadObject($obj);
 
 		return $this;
@@ -665,6 +680,9 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 */
 	protected function bindData($parent, $data, $recursive = true, $allowNull = true)
 	{
+		// The data object is now initialized
+		$this->initialized = true;
+
 		// Ensure the input data is an array.
 		$data = is_object($data)
 			? get_object_vars($data)
