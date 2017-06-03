@@ -597,7 +597,7 @@ class MenusModelItem extends JModelAdmin
 		$itemData = (array) $this->getItem();
 		$sessionData = (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array());
 
-		// Only merge if there is a session and item ID.
+		// Only merge if there is a session and itemId or itemid is null.
 		if (isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
 			|| is_null($itemData['id']))
 		{
