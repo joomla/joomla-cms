@@ -31,7 +31,7 @@ use Joomla\Session\SessionEvent;
  */
 abstract class CMSApplication extends WebApplication implements ContainerAwareInterface
 {
-	use ContainerAwareTrait;
+	use ContainerAwareTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Constant defining an enqueued emergency message
@@ -201,6 +201,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			$this->config->set('session_name', $this->getName());
 		}
+
+		$this->createExtensionNamespaceMap();
 	}
 
 	/**
