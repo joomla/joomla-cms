@@ -226,17 +226,24 @@ class JBrowser
 		{
 			$this->_setPlatform();
 
-			if (strpos($this->lowerAgent, 'mobileexplorer') !== false
-				|| strpos($this->lowerAgent, 'openwave') !== false
-				|| strpos($this->lowerAgent, 'opera mini') !== false
-				|| strpos($this->lowerAgent, 'opera mobi') !== false
-				|| strpos($this->lowerAgent, 'operamini') !== false)
+			/**
+			 * Determine if mobile. Note: Some Handhelds have their screen resolution in the
+			 * user agent string, which we can use to look for mobile agents.
+			 */
+			if (strpos($this->agent, 'MOT-') !== false
+				|| strpos($this->lowerAgent, 'j-') !== false
+				|| preg_match('/(mobileexplorer|openwave|opera mini|opera mobi|operamini|avantgo|wap|elaine)/i', $this->agent)
+				|| preg_match('/(iPhone|iPod|iPad|Android|Mobile|Phone|BlackBerry|Xiino|Palmscape|palmsource)/i', $this->agent)
+				|| preg_match('/(Nokia|Ericsson|docomo|digital paths|portalmmm|CriOS[\/ ]([0-9.]+))/i', $this->agent)
+				|| preg_match('/(UP|UP.B|UP.L)/', $this->agent)
+				|| preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->agent))
 			{
 				$this->mobile = true;
 			}
+
 			// We have to check for Edge as the first browser, because Edge has something like:
 			// Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
-			elseif (preg_match('|Edge/([0-9.]+)|', $this->agent, $version))
+			if (preg_match('|Edge/([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('edge');
 
@@ -248,15 +255,6 @@ class JBrowser
 				{
 					$this->majorVersion = $version[1];
 					$this->minorVersion = 0;
-				}
-
-				/* Some Handhelds have their screen resolution in the
-				 * user agent string, which we can use to look for
-				 * mobile agents.
-				 */
-				if (preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->agent))
-				{
-					$this->mobile = true;
 				}
 			}
 			elseif (preg_match('|Opera[/ ]([0-9.]+)|', $this->agent, $version))
@@ -273,36 +271,23 @@ class JBrowser
 			}
 
 			// Opera 15+
-			elseif (preg_match('|OPR[/ ]([0-9.]+)|', $this->agent, $version))
+			elseif (preg_match('/OPR[\/ ]([0-9.]+)/', $this->agent, $version))
 			{
 				$this->setBrowser('opera');
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
-			elseif (preg_match('|Chrome[/ ]([0-9.]+)|', $this->agent, $version))
+			elseif (preg_match('/Chrome[\/ ]([0-9.]+)|CrMo[\/ ]([0-9.]+)|CriOS[\/ ]([0-9.]+)/i', $this->agent, $version))
 			{
 				$this->setBrowser('chrome');
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
-			}
-			elseif (preg_match('|CrMo[/ ]([0-9.]+)|', $this->agent, $version))
-			{
-				$this->setBrowser('chrome');
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
-			}
-			elseif (preg_match('|CriOS[/ ]([0-9.]+)|', $this->agent, $version))
-			{
-				$this->setBrowser('chrome');
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
-				$this->mobile = true;
 			}
 			elseif (strpos($this->lowerAgent, 'elaine/') !== false
 				|| strpos($this->lowerAgent, 'palmsource') !== false
 				|| strpos($this->lowerAgent, 'digital paths') !== false)
 			{
 				$this->setBrowser('palm');
-				$this->mobile = true;
 			}
-			elseif ((preg_match('|MSIE ([0-9.]+)|', $this->agent, $version)) || (preg_match('|Internet Explorer/([0-9.]+)|', $this->agent, $version))
-					|| (preg_match('|Trident/([0-9.]+)|', $this->agent, $version)))
+			elseif ((preg_match('/MSIE ([0-9.]+)|Internet Explorer\/([0-9.]+)|Trident\/([0-9.]+)/i', $this->agent, $version)))
 			{
 				$this->setBrowser('msie');
 
@@ -320,15 +305,6 @@ class JBrowser
 				{
 					$this->majorVersion = $version[1];
 					$this->minorVersion = 0;
-				}
-
-				/* Some Handhelds have their screen resolution in the
-				 * user agent string, which we can use to look for
-				 * mobile agents.
-				 */
-				if (preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->agent))
-				{
-					$this->mobile = true;
 				}
 			}
 			elseif (preg_match('|amaya/([0-9.]+)|', $this->agent, $version))
@@ -348,7 +324,6 @@ class JBrowser
 			elseif (strpos($this->lowerAgent, 'avantgo') !== false)
 			{
 				$this->setBrowser('avantgo');
-				$this->mobile = true;
 			}
 			elseif (preg_match('|[Kk]onqueror/([0-9]+)|', $this->agent, $version) || preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->agent, $version))
 			{
@@ -390,52 +365,42 @@ class JBrowser
 			elseif (strpos($this->agent, 'UP/') !== false || strpos($this->agent, 'UP.B') !== false || strpos($this->agent, 'UP.L') !== false)
 			{
 				$this->setBrowser('up');
-				$this->mobile = true;
 			}
 			elseif (strpos($this->agent, 'Xiino/') !== false)
 			{
 				$this->setBrowser('xiino');
-				$this->mobile = true;
 			}
 			elseif (strpos($this->agent, 'Palmscape/') !== false)
 			{
 				$this->setBrowser('palmscape');
-				$this->mobile = true;
 			}
 			elseif (strpos($this->agent, 'Nokia') !== false)
 			{
 				$this->setBrowser('nokia');
-				$this->mobile = true;
 			}
 			elseif (strpos($this->agent, 'Ericsson') !== false)
 			{
 				$this->setBrowser('ericsson');
-				$this->mobile = true;
 			}
 			elseif (strpos($this->lowerAgent, 'wap') !== false)
 			{
 				$this->setBrowser('wap');
-				$this->mobile = true;
 			}
 			elseif (strpos($this->lowerAgent, 'docomo') !== false || strpos($this->lowerAgent, 'portalmmm') !== false)
 			{
 				$this->setBrowser('imode');
-				$this->mobile = true;
 			}
 			elseif (strpos($this->agent, 'BlackBerry') !== false)
 			{
 				$this->setBrowser('blackberry');
-				$this->mobile = true;
 			}
 			elseif (strpos($this->agent, 'MOT-') !== false)
 			{
 				$this->setBrowser('motorola');
-				$this->mobile = true;
 			}
 			elseif (strpos($this->lowerAgent, 'j-') !== false)
 			{
 				$this->setBrowser('mml');
-				$this->mobile = true;
 			}
 		}
 	}
