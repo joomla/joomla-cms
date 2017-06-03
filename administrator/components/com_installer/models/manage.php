@@ -293,10 +293,10 @@ class InstallerModelManage extends InstallerModel
 	{
 		$query = $this->getDbo()->getQuery(true)
 			->select('e.*')
-            ->select('u.update_site_id')
+			->select('u.update_site_id')
 			->select('2*protected+(1-protected)*enabled AS status')
 			->from('#__extensions AS e')
-            ->leftJoin('#__update_sites_extensions AS u ON u.extension_id = e.extension_id')
+			->leftJoin('#__update_sites_extensions AS u ON u.extension_id = e.extension_id')
 			->where('state = 0');
 
 		// Process select filters.
