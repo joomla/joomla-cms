@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  11.4
  */
-abstract class CliApplication extends AbstractCliApplication implements DispatcherAwareInterface
+abstract class CliApplication extends AbstractCliApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
 	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware;
 
@@ -35,6 +35,8 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 * @since  11.1
 	 */
 	protected static $instance;
+
+	private $messages = [];
 
 	/**
 	 * Class constructor.
@@ -146,5 +148,73 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 		$this->output = $output;
 
 		return $this;
+	}
+
+	/**
+	 * Enqueue a system message.
+	 *
+	 * @param   string  $msg   The message to enqueue.
+	 * @param   string  $type  The message type.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function enqueueMessage($msg, $type = self::MSG_INFO)
+	{
+		if (!key_exists($type, $this->messages))
+		{
+			$this->messages[$type] = [];
+		}
+
+		$this->messages[$type][] = $msg;
+	}
+
+	/**
+	 * Get the system message queue.
+	 *
+	 * @return  array  The system message queue.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMessageQueue()
+	{
+		return $this->messages;
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isClient($identifier)
+	{
+		return $identifier == 'cli';
+	}
+
+	/**
+	 * Method to get the application session object.
+	 *
+	 * @return  SessionInterface  The session object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getSession()
+	{}
+
+	/**
+	 * Flag if the application instance is a CLI or web based application.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isCli()
+	{
+		return true;
 	}
 }
