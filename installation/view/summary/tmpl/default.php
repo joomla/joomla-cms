@@ -364,6 +364,7 @@ $prev = $useftp ? 'ftp' : 'database';
 		</div>
 	</div>
 
+	<?php echo $this->form->getInput('db_type'); ?>
 	<input type="hidden" name="task" value="summary" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
