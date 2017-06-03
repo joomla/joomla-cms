@@ -47,3 +47,6 @@ var JCaption = function(_selector) {
     }
     initialize(_selector);
 }
+jQuery(window).on('load', function() {
+	new JCaption('img.caption');
+});

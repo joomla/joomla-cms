@@ -115,12 +115,15 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/caption.js', array('version' => 'auto', 'relative' => true));
 
-		// Attach caption to document
-		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(window).on('load',  function() {
-				new JCaption('" . $selector . "');
-			});"
-		);
+		// Attach caption to document B/C
+		if ($selector != 'img.caption')
+		{
+			JFactory::getDocument()->addScriptDeclaration(
+				"jQuery(window).on('load',  function() {
+					new JCaption('" . $selector . "');
+				});"
+			);
+		}
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
