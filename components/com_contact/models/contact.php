@@ -386,7 +386,14 @@ class ContactModelContact extends JModelForm
 		$data = $userModel->getItem((int) $contact->user_id);
 
 		JPluginHelper::importPlugin('user');
-		$form = new JForm('com_users.profile');
+
+		// Get the form.
+		JForm::addFormPath(JPATH_SITE . '/components/com_users/models/forms');
+		JForm::addFieldPath(JPATH_SITE . '/components/com_users/models/fields');
+		JForm::addFormPath(JPATH_SITE . '/components/com_users/model/form');
+		JForm::addFieldPath(JPATH_SITE . '/components/com_users/model/field');
+
+		$form = JForm::getInstance('com_users.profile', 'profile');
 
 		// Get the dispatcher.
 		$dispatcher = JEventDispatcher::getInstance();
