@@ -830,6 +830,33 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
+	 * Checks if HTTPS is forced in the client configuration.
+	 *
+	 * @param   integer  $clientId  An optional client id (defaults to current application client).
+	 *
+	 * @return  boolean  True if is forced for the client, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isHttpsForced($clientId = null)
+	{
+		$clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+		$forceSsl = (int) $this->get('force_ssl');
+
+		if ($clientId === 0 && $forceSsl === 2)
+		{
+			return true;
+		}
+
+		if ($clientId === 1 && $forceSsl >= 1)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check the client interface by name.
 	 *
 	 * @param   string  $identifier  String identifier for the application interface

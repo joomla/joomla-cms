@@ -126,7 +126,7 @@ final class Version
 	 *
 	 * @return  boolean True if the version is compatible.
 	 *
-	 * @see     https://secure.php.net/version_compare
+	 * @link    https://secure.php.net/version_compare
 	 * @since   1.0
 	 */
 	public function isCompatible($minimum)

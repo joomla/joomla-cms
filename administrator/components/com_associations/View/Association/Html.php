@@ -202,13 +202,13 @@ class Html extends HtmlView
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-sm btn-success"><span class="icon-32-apply icon-white"></span>'
+			. 'class="btn btn-sm btn-success"><span class="icon-32-apply icon-white" aria-hidden="true"></span>'
 			. \JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-sm btn-success"><span class="icon-32-apply icon-white"></span>'
+			. 'class="btn btn-sm btn-success"><span class="icon-32-apply icon-white" aria-hidden="true"></span>'
 			. \JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 

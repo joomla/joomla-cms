@@ -251,12 +251,26 @@ class Registration extends Form
 			// Override the base user data with any data in the session.
 			$temp = (array) $app->getUserState('com_users.registration.data', array());
 
-			$form = $this->getForm(array());
+			// Don't load the data in this getForm call, or we'll call ourself
+			$form = $this->getForm(array(), false);
 
 			foreach ($temp as $k => $v)
 			{
+				// Here we could have a grouped field, let's check it
+				if (is_array($v))
+				{
+					$this->data->$k = new stdClass;
+
+					foreach ($v as $key => $val)
+					{
+						if ($form->getField($key, $k) !== false)
+						{
+							$this->data->$k->$key = $val;
+						}
+					}
+				}
 				// Only merge the field if it exists in the form.
-				if ($form->getField($k) !== false)
+				elseif ($form->getField($k) !== false)
 				{
 					$this->data->$k = $v;
 				}

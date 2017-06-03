@@ -7,7 +7,7 @@
 				type="list"
 				label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
 				description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
-			>
+				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -16,10 +16,10 @@
 			<field
 				name="hide"
 				type="plugins"
-				folder="editors-xtd"
-				multiple="true"
 				label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
 				description="JGLOBAL_SELECT_SOME_OPTIONS"
+				folder="editors-xtd"
+				multiple="true"
 			/>
 
 			<field
@@ -41,10 +41,10 @@
 			<field
 				name="filter"
 				type="list"
-				class="btn-group"
 				label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
 				description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
-			>
+				class="btn-group"
+				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="0">JNO</option>
 				<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
