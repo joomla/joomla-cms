@@ -648,7 +648,7 @@ class JDocument
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
 		// B/C before 3.7.0
-		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
+		if (is_string($options))
 		{
 			JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
@@ -659,7 +659,7 @@ class JDocument
 			// Old mime type parameter.
 			if (!empty($argList[1]))
 			{
-				$attribs['mime'] = $argList[1];
+				$attribs['type'] = $argList[1];
 			}
 
 			// Old media parameter.

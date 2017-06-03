@@ -22,7 +22,7 @@ if ($params->get('show_viewsite', 1))
 
 	$output[] = '<li class="px-2">'
 		. '<a href="' . $frontEndUri->toString() . '" target="_blank">'
-		. '<span class="mr-1 fa fa-external-link"></span>' . JText::_('JGLOBAL_VIEW_SITE')
+		. '<span class="mr-1 fa fa-external-link" aria-hidden="true"></span>' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
 		. '</li>';
 }
@@ -32,7 +32,7 @@ if ($params->get('show_viewadmin', 0))
 {
 	$output[] = '<li class="px-2">'
 		. '<a href="' . JUri::base() . 'index.php" target="_blank">'
-		. '<span class="mr-1 fa fa-external-link"></span>' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
+		. '<span class="mr-1 fa fa-external-link" aria-hidden="true"></span>' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
 		. '</a>'
 		. '</li>';
 }
@@ -96,7 +96,7 @@ if ($params->get('show_logout', 1))
 {
 	$output[] = '<li class="px-2 logout">'
 		. ($hideLinks ? '' : '<a href="' . $logoutLink . '">')
-		. '<span class="mr-1 fa fa-sign-out"></span>' . JText::_('JLOGOUT')
+		. '<span class="mr-1 fa fa-sign-out" aria-hidden="true"></span>' . JText::_('JLOGOUT')
 		. ($hideLinks ? '' : '</a>')
 		. '</li>';
 }

@@ -275,7 +275,7 @@ class JRouterTest extends TestCase
 
 
 	/**
-	 * @see     https://github.com/joomla-projects/joomla-pythagoras/issues/3
+	 * @link    https://github.com/joomla-projects/joomla-pythagoras/issues/3
 	 * @since   3.4
 	 */
 	public function testMultipleVariablesCanBeAddedAtOnceAndOptionallyReplaceExistingVariables()
