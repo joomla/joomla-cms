@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,7 @@ class JMediawikiPages extends JMediawikiObject
 			'section' => $section,
 			'sectiontitle' => $section,
 			'text' => $text,
-			'summary' => $summary
+			'summary' => $summary,
 		);
 
 		// Send the request.
@@ -79,7 +79,7 @@ class JMediawikiPages extends JMediawikiObject
 			'token' => $token,
 			'reason' => $reason,
 			'watchlist' => $watchlist,
-			'oldimage' => $oldimage
+			'oldimage' => $oldimage,
 		);
 
 		// Send the request.
@@ -114,7 +114,7 @@ class JMediawikiPages extends JMediawikiObject
 			'token' => $token,
 			'reason' => $reason,
 			'watchlist' => $watchlist,
-			'oldimage' => $oldimage
+			'oldimage' => $oldimage,
 		);
 
 		// Send the request.
@@ -193,7 +193,7 @@ class JMediawikiPages extends JMediawikiObject
 			'movesubpages' => $movesubpages,
 			'noredirect' => $noredirect,
 			'watchlist' => $watchlist,
-			'ignorewarnings' => $ignorewarnings
+			'ignorewarnings' => $ignorewarnings,
 		);
 
 		// Send the request.
@@ -237,7 +237,7 @@ class JMediawikiPages extends JMediawikiObject
 			'movesubpages' => $movesubpages,
 			'noredirect' => $noredirect,
 			'watchlist' => $watchlist,
-			'ignorewarnings' => $ignorewarnings
+			'ignorewarnings' => $ignorewarnings,
 		);
 
 		// Send the request.
@@ -274,7 +274,7 @@ class JMediawikiPages extends JMediawikiObject
 			'user' => $user,
 			'expiry' => $summary,
 			'markbot' => $markbot,
-			'watchlist' => $watchlist
+			'watchlist' => $watchlist,
 		);
 
 		// Send the request.
@@ -313,7 +313,7 @@ class JMediawikiPages extends JMediawikiObject
 			'expiry' => $expiry,
 			'reason' => $reason,
 			'cascade' => $cascade,
-			'watchlist' => $watchlist
+			'watchlist' => $watchlist,
 		);
 
 		// Send the request.

@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the helper functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModArticlesCategoryHelper', __DIR__ . '/helper.php');
 
 $input = JFactory::getApplication()->input;
 
@@ -49,7 +49,7 @@ switch ($mode)
 		break;
 }
 
-$cacheid = md5(serialize(array ($idbase, $module->module)));
+$cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
 
 $cacheparams               = new stdClass;
 $cacheparams->cachemode    = 'id';

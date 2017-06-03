@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class CacheController extends JControllerLegacy
 	 * Display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
 	 *
@@ -111,15 +111,21 @@ class CacheController extends JControllerLegacy
 
 		$app        = JFactory::getApplication();
 		$model      = $this->getModel('cache');
-		$data       = $model->getCache()->getAll();
 		$allCleared = true;
+		$clients    = array(1, 0);
 
-		foreach ($data as $cache)
+		foreach ($clients as $client)
 		{
-			if ((int) $model->clean($cache->group) !== 1)
+			$mCache    = $model->getCache($client);
+			$clientStr = JText::_($client ? 'JADMINISTRATOR' : 'JSITE') .' > ';
+
+			foreach ($mCache->getAll() as $cache)
 			{
-				$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $cache->group), 'error');
-				$allCleared = false;
+				if ($mCache->clean($cache->group) === false)
+				{
+					$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'error');
+					$allCleared = false;
+				}
 			}
 		}
 

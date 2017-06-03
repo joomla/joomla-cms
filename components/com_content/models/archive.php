@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * Content Component Archive Model
@@ -33,7 +33,7 @@ class ContentModelArchive extends ContentModelArticles
 	 * @param   string  $ordering   The field to order on.
 	 * @param   string  $direction  The direction to order on.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -60,6 +60,16 @@ class ContentModelArchive extends ContentModelArticles
 		$itemid = $app->input->get('Itemid', 0, 'int');
 		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		$this->setState('list.limit', $limit);
+
+		// Set the archive ordering
+		$articleOrderby   = $params->get('orderby_sec', 'rdate');
+		$articleOrderDate = $params->get('order_date');
+
+		// No category ordering
+		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
+
+		$this->setState('list.ordering', $secondary . ', a.created DESC');
+		$this->setState('list.direction', '');
 	}
 
 	/**
@@ -71,19 +81,8 @@ class ContentModelArchive extends ContentModelArticles
 	 */
 	protected function getListQuery()
 	{
-		// Set the archive ordering
 		$params = $this->state->params;
-		$articleOrderby = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
-
-		// No category ordering
-		$categoryOrderby = '';
-		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary = ContentHelperQuery::orderbyPrimary($categoryOrderby);
-
-		$orderby = $primary . ' ' . $secondary . ' a.created DESC ';
-		$this->setState('list.ordering', $orderby);
-		$this->setState('list.direction', '');
 
 		// Create a new query object.
 		$query = parent::getListQuery();

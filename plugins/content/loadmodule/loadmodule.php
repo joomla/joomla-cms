@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Plug-in to enable loading modules into content (e.g. articles)
+ * Plugin to enable loading modules into content (e.g. articles)
  * This uses the {loadmodule} syntax
  *
  * @since  1.5
@@ -36,7 +36,7 @@ class PlgContentLoadmodule extends JPlugin
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
 		// Don't run this plugin when the content is being indexed
-		if ($context == 'com_finder.indexer')
+		if ($context === 'com_finder.indexer')
 		{
 			return true;
 		}

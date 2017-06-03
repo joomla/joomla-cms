@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -329,11 +329,22 @@ class FinderIndexerTaxonomy
 	{
 		// Delete all orphaned nodes.
 		$db = JFactory::getDbo();
-		$query = 'DELETE t' .
-			' FROM ' . $db->quoteName('#__finder_taxonomy') . ' AS t' .
-			' LEFT JOIN ' . $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id' .
-			' WHERE t.parent_id > 1' .
-			' AND m.link_id IS NULL';
+		$query     = $db->getQuery(true);
+		$subquery  = $db->getQuery(true);
+		$subquery1 = $db->getQuery(true);
+
+		$subquery1->select($db->quoteName('t.id'))
+			->from($db->quoteName('#__finder_taxonomy', 't'))
+			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.node_id') . '=' . $db->quoteName('t.id'))
+			->where($db->quoteName('t.parent_id') . ' > 1 ')
+			->where($db->quoteName('m.link_id') . ' IS NULL');
+
+		$subquery->select($db->quoteName('id'))
+			->from('(' . $subquery1 . ') temp');
+
+		$query->delete($db->quoteName('#__finder_taxonomy'))
+			->where($db->quoteName('id') . ' IN (' . $subquery . ')');
+
 		$db->setQuery($query);
 		$db->execute();
 

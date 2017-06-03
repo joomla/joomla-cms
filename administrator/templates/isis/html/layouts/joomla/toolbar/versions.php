@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,8 +32,8 @@ echo JHtml::_(
 		'title'  => JText::_('COM_CONTENTHISTORY_MODAL_TITLE'),
 		'height' => '300px',
 		'width'  => '800px',
-		'footer' => '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JTOOLBAR_CLOSE") . '</button>'
+		'footer' => '<a class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
+			. JText::_('JTOOLBAR_CLOSE') . '</a>'
 	)
 );
 ?>

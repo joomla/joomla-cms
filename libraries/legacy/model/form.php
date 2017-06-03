@@ -3,11 +3,13 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype form model.
@@ -15,22 +17,23 @@ defined('JPATH_PLATFORM') or die;
  * @see    JForm
  * @see    JFormField
  * @see    JFormRule
- * @since  12.2
+ * @since  1.6
  */
 abstract class JModelForm extends JModelLegacy
 {
 	/**
 	 * Array of form objects.
 	 *
-	 * @var    array
-	 * @since  12.2
+	 * @var    JForm[]
+	 * @since  1.6
 	 */
 	protected $_forms = array();
 
 	/**
 	 * Maps events to plugin groups.
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.6
 	 */
 	protected $events_map = null;
 
@@ -48,8 +51,9 @@ abstract class JModelForm extends JModelLegacy
 
 		$this->events_map = array_merge(
 			array(
-				'validate' => 'content'
-			), $config['events_map']
+				'validate' => 'content',
+			),
+			$config['events_map']
 		);
 
 		parent::__construct($config);
@@ -62,7 +66,7 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function checkin($pk = null)
 	{
@@ -81,14 +85,17 @@ abstract class JModelForm extends JModelLegacy
 				return false;
 			}
 
+			$checkedOutField = $table->getColumnAlias('checked_out');
+			$checkedOutTimeField = $table->getColumnAlias('checked_out_time');
+
 			// If there is no checked_out or checked_out_time field, just return true.
-			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			if (!property_exists($table, $checkedOutField) || !property_exists($table, $checkedOutTimeField))
 			{
 				return true;
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
@@ -96,7 +103,7 @@ abstract class JModelForm extends JModelLegacy
 			}
 
 			// Attempt to check the row in.
-			if (!$table->checkin($pk))
+			if (!$table->checkIn($pk))
 			{
 				$this->setError($table->getError());
 
@@ -114,7 +121,7 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function checkout($pk = null)
 	{
@@ -131,8 +138,11 @@ abstract class JModelForm extends JModelLegacy
 				return false;
 			}
 
+			$checkedOutField = $table->getColumnAlias('checked_out');
+			$checkedOutTimeField = $table->getColumnAlias('checked_out_time');
+
 			// If there is no checked_out or checked_out_time field, just return true.
-			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			if (!property_exists($table, $checkedOutField) || !property_exists($table, $checkedOutTimeField))
 			{
 				return true;
 			}
@@ -140,7 +150,7 @@ abstract class JModelForm extends JModelLegacy
 			$user = JFactory::getUser();
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
+			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
@@ -148,7 +158,7 @@ abstract class JModelForm extends JModelLegacy
 			}
 
 			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk))
+			if (!$table->checkOut($user->get('id'), $pk))
 			{
 				$this->setError($table->getError());
 
@@ -165,9 +175,9 @@ abstract class JModelForm extends JModelLegacy
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	abstract public function getForm($data = array(), $loadData = true);
 
@@ -180,15 +190,15 @@ abstract class JModelForm extends JModelLegacy
 	 * @param   boolean  $clear    Optional argument to force load a new form.
 	 * @param   string   $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  mixed  JForm object on success, False on error.
+	 * @return  JForm|boolean  JForm object on success, false on error.
 	 *
 	 * @see     JForm
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['control'] = JArrayHelper::getValue($options, 'control', false);
+		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
 
 		// Create a signature hash.
 		$hash = md5($source . serialize($options));
@@ -242,9 +252,9 @@ abstract class JModelForm extends JModelLegacy
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  array    The default data is an empty array.
+	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
@@ -256,16 +266,17 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @param   string  $context  The context identifier.
 	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 * @param   string  $group    The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function preprocessData($context, &$data)
+	protected function preprocessData($context, &$data, $group = 'content')
 	{
 		// Get the dispatcher and load the users plugins.
 		$dispatcher = JEventDispatcher::getInstance();
-		JPluginHelper::importPlugin('content');
+		JPluginHelper::importPlugin($group);
 
 		// Trigger the data preparation event.
 		$results = $dispatcher->trigger('onContentPrepareData', array($context, &$data));
@@ -287,7 +298,7 @@ abstract class JModelForm extends JModelLegacy
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   12.2
+	 * @since   1.6
 	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
@@ -321,11 +332,11 @@ abstract class JModelForm extends JModelLegacy
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
-	 * @return  mixed  Array of filtered data if valid, false otherwise.
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   12.2
+	 * @since   1.6
 	 */
 	public function validate($form, $data, $group = null)
 	{

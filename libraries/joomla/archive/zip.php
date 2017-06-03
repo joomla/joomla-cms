@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,8 +42,16 @@ class JArchiveZip implements JArchiveExtractable
 	 * @var    array
 	 * @since  11.1
 	 */
-	private $_methods = array(0x0 => 'None', 0x1 => 'Shrunk', 0x2 => 'Super Fast', 0x3 => 'Fast', 0x4 => 'Normal', 0x5 => 'Maximum', 0x6 => 'Imploded',
-		0x8 => 'Deflated');
+	private $_methods = array(
+		0x0 => 'None',
+		0x1 => 'Shrunk',
+		0x2 => 'Super Fast',
+		0x3 => 'Fast',
+		0x4 => 'Normal',
+		0x5 => 'Maximum',
+		0x6 => 'Imploded',
+		0x8 => 'Deflated',
+	);
 
 	/**
 	 * Beginning of central directory record.
@@ -167,7 +175,7 @@ class JArchiveZip implements JArchiveExtractable
 	 */
 	public static function isSupported()
 	{
-		return (self::hasNativeSupport() || extension_loaded('zlib'));
+		return self::hasNativeSupport() || extension_loaded('zlib');
 	}
 
 	/**
@@ -179,7 +187,7 @@ class JArchiveZip implements JArchiveExtractable
 	 */
 	public static function hasNativeSupport()
 	{
-		return (function_exists('zip_open') && function_exists('zip_read'));
+		return function_exists('zip_open') && function_exists('zip_read');
 	}
 
 	/**
@@ -288,12 +296,12 @@ class JArchiveZip implements JArchiveExtractable
 		// Read files in the archive
 		while ($file = @zip_read($zip))
 		{
-			if (!zip_entry_open($zip, $file, "r"))
+			if (!zip_entry_open($zip, $file, 'r'))
 			{
 				return $this->raiseWarning(100, 'Unable to read entry');
 			}
 
-			if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/")
+			if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != '/')
 			{
 				$buffer = zip_entry_read($file, zip_entry_filesize($file));
 
@@ -376,7 +384,7 @@ class JArchiveZip implements JArchiveExtractable
 
 			$entries[$name] = array(
 				'attr' => null,
-				'crc' => sprintf("%08s", dechex($info['CRC32'])),
+				'crc' => sprintf('%08s', dechex($info['CRC32'])),
 				'csize' => $info['Compressed'],
 				'date' => null,
 				'_dataStart' => null,
@@ -384,7 +392,7 @@ class JArchiveZip implements JArchiveExtractable
 				'method' => $this->_methods[$info['Method']],
 				'_method' => $info['Method'],
 				'size' => $info['Uncompressed'],
-				'type' => null
+				'type' => null,
 			);
 
 			$entries[$name]['date'] = mktime(

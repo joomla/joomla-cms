@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -37,6 +37,20 @@ class JComponentRouterViewconfigurationTest extends TestCase
 		parent::setUp();
 
 		$this->object = new JComponentRouterViewconfiguration('test');
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -201,5 +215,4 @@ class JComponentRouterViewconfigurationTest extends TestCase
 		$this->object->removeLayout('form');
 		$this->assertEquals(array(), $this->object->layouts);
 	}
-
 }

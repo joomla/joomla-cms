@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ class ContentController extends JControllerLegacy
 		// Article frontpage Editor article proxying:
 		elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
 		{
-			JHtml::_('stylesheet', 'system/adminlist.css', array(), true);
+			JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 
@@ -48,7 +48,7 @@ class ContentController extends JControllerLegacy
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached.
-	 * @param   boolean  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
 	 *
@@ -70,8 +70,8 @@ class ContentController extends JControllerLegacy
 		$user = JFactory::getUser();
 
 		if ($user->get('id')
-			|| ($this->input->getMethod() == 'POST'
-			&& (($vName == 'category' && $this->input->get('layout') != 'blog') || $vName == 'archive' )))
+			|| ($this->input->getMethod() === 'POST'
+			&& (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive' )))
 		{
 			$cachable = false;
 		}
@@ -95,13 +95,13 @@ class ContentController extends JControllerLegacy
 			'Itemid' => 'INT');
 
 		// Check for edit form.
-		if ($vName == 'form' && !$this->checkEditId('com_content.edit.article', $id))
+		if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}
 
-		if ($vName == 'article')
+		if ($vName === 'article')
 		{
 			// Get/Create the model
 			if ($model = $this->getModel($vName))

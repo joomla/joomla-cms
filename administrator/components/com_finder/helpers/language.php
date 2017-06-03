@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -95,7 +95,7 @@ class FinderHelperLanguage
 	}
 
 	/**
-	 * Method to load Smart Search plug-in language files.
+	 * Method to load Smart Search plugin language files.
 	 *
 	 * @return  void
 	 *
@@ -113,10 +113,10 @@ class FinderHelperLanguage
 
 		$loaded = true;
 
-		// Get array of all the enabled Smart Search plug-in names.
+		// Get array of all the enabled Smart Search plugin names.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('name')
+			->select(array($db->qn('name'), $db->qn('element')))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote('finder'))
@@ -133,10 +133,11 @@ class FinderHelperLanguage
 		$lang = JFactory::getLanguage();
 		$lang->load('plg_content_finder', JPATH_ADMINISTRATOR);
 
-		// Load language file for each plug-in.
+		// Load language file for each plugin.
 		foreach ($plugins as $plugin)
 		{
-			$lang->load($plugin->name, JPATH_ADMINISTRATOR);
+			$lang->load($plugin->name, JPATH_ADMINISTRATOR)
+				|| $lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
 		}
 	}
 }

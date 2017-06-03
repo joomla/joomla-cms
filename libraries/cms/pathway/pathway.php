@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Pathway
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -79,10 +79,11 @@ class JPathway
 				{
 					$path = $info->path . '/includes/pathway.php';
 
-					if (file_exists($path))
+					JLoader::register($classname, $path);
+
+					if (class_exists($classname))
 					{
 						JLog::add('Non-autoloadable JPathway subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
 					}
 				}
 			}

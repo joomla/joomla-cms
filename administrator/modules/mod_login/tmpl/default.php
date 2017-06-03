@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,12 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
-JHtml::_('formbehavior.chosen');
 
+// Load chosen if we have language selector, ie, more than one administrator language installed and enabled.
+if ($langs)
+{
+	JHtml::_('formbehavior.chosen', '.advancedSelect');
+}
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login" class="form-inline">
 	<fieldset class="loginform">
@@ -71,7 +75,7 @@ JHtml::_('formbehavior.chosen');
 				<div class="controls">
 					<div class="input-prepend">
 						<span class="add-on">
-							<span class="icon-comment hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGIN_LANGUAGE'); ?>"></span>
+							<span class="icon-comment hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGIN_LANGUAGE'); ?>"></span>
 							<label for="lang" class="element-invisible">
 								<?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?>
 							</label>
@@ -84,7 +88,7 @@ JHtml::_('formbehavior.chosen');
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<button tabindex="3" class="btn btn-primary btn-block btn-large">
+					<button tabindex="3" class="btn btn-primary btn-block btn-large login-button">
 						<span class="icon-lock icon-white"></span> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 					</button>
 				</div>

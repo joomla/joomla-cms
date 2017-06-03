@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -48,8 +48,7 @@ class FinderTableFilter extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
