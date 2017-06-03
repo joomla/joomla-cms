@@ -8958,6 +8958,15 @@ small,
 .form-no-margin .control-group .control-label {
   float: none; }
 
+.form-inline-header {
+  margin: 20px 0 30px; }
+  .form-inline-header .control-label {
+    width: auto;
+    min-width: 50px;
+    padding-right: 10px; }
+  .form-inline-header .controls {
+    margin-left: 0; }
+
 .custom-select {
   min-width: 240px; }
 
