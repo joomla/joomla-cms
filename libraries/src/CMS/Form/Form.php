@@ -2206,7 +2206,7 @@ class Form
 
 			if (empty($data))
 			{
-				throw new \InvalidArgumentException(sprintf('Form::createForm(name, *%s*)', gettype($data)));
+				throw new \InvalidArgumentException(sprintf('Form::getInstance(name, *%s*)', gettype($data)));
 			}
 
 			/** @var Form $form */
@@ -2220,14 +2220,14 @@ class Form
 			{
 				if ($form->load($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('Form string could not be loaded');
+					throw new \RuntimeException('Form::getInstance string could not be loaded');
 				}
 			}
 			else
 			{
 				if ($form->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('Form file could not be loaded');
+					throw new \RuntimeException('Form::getInstance file could not be loaded');
 				}
 			}
 		}
