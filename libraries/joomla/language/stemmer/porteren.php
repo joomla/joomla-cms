@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @copyright   Copyright (C) 2005 Richard Heyes (http://www.phpguru.org/). All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */

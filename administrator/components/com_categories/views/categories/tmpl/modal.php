@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center">
-								<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
+								<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 							</td>
 							<td>
 								<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>

@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -475,6 +475,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				}
 
 				return false;
+			}
+
+			// If installing with success and there is an uninstall script, add a installer rollback step to rollback if needed
+			if ($route === 'install' && isset($this->getManifest()->uninstall->sql))
+			{
+				$this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
 			}
 		}
 
