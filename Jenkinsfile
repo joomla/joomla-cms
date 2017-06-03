@@ -7,7 +7,7 @@ pipeline {
       }
       steps {
         sh 'echo $(date)'
-        sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
+        //sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
       }
     }
     stage('Testing-PHP5') {
@@ -16,7 +16,7 @@ pipeline {
       }
       steps {
         sh 'echo $(date)'
-        sh 'phpunit'
+        //sh 'phpunit'
       }
     }
     stage('Testing-Javascript') {
