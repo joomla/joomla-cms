@@ -170,19 +170,24 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		// Load form the script container
 		if (!options) {
 			var elements = document.querySelectorAll('.joomla-script-options.new'),
-				str, element, option;
+				str, element, option, counter = 0;
 
 			for (var i = 0, l = elements.length; i < l; i++) {
 				element = elements[i];
 				str     = element.text || element.textContent;
 				option  = JSON.parse(str);
 
-				option ? Joomla.loadOptions(option) : null;
+				if (option) {
+					Joomla.loadOptions(option);
+					counter++;
+				}
 
 				element.className = element.className.replace(' new', ' loaded');
 			}
 
-			return;
+			if (counter) {
+				return;
+			}
 		}
 
 		// Initial loading
@@ -190,7 +195,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			Joomla.optionsStorage = options || {};
 		}
 		// Merge with existing
-		else {
+		else if ( options ) {
 			for (var p in options) {
 				if (options.hasOwnProperty(p)) {
 					Joomla.optionsStorage[p] = options[p];
