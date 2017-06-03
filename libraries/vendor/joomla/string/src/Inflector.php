@@ -33,44 +33,44 @@ class Inflector
 	 * @var    array
 	 * @since  1.0
 	 */
-	private $rules = array(
-		'singular' => array(
-			'/(matr)ices$/i' => '\1ix',
-			'/(vert|ind)ices$/i' => '\1ex',
+	private $rules = [
+		'singular'  => [
+			'/(matr)ices$/i'                                                          => '\1ix',
+			'/(vert|ind)ices$/i'                                                      => '\1ex',
 			'/(alumn|bacill|cact|foc|fung|nucle|radi|stimul|syllab|termin|viri?)i$/i' => '\1us',
-			'/([ftw]ax)es/i' => '\1',
-			'/(cris|ax|test)es$/i' => '\1is',
-			'/(shoe|slave)s$/i' => '\1',
-			'/(o)es$/i' => '\1',
-			'/([^aeiouy]|qu)ies$/i' => '\1y',
-			'/$1ses$/i' => '\s',
-			'/ses$/i' => '\s',
-			'/eaus$/' => 'eau',
-			'/^(.*us)$/' => '\\1',
-			'/s$/i' => '',
-		),
-		'plural' => array(
-			'/([m|l])ouse$/i' => '\1ice',
-			'/(matr|vert|ind)(ix|ex)$/i'  => '\1ices',
-			'/(x|ch|ss|sh)$/i' => '\1es',
-			'/([^aeiouy]|qu)y$/i' => '\1ies',
-			'/([^aeiouy]|qu)ies$/i' => '\1y',
-			'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
-			'/sis$/i' => 'ses',
-			'/([ti])um$/i' => '\1a',
-			'/(buffal|tomat)o$/i' => '\1\2oes',
+			'/([ftw]ax)es/i'                                                          => '\1',
+			'/(cris|ax|test)es$/i'                                                    => '\1is',
+			'/(shoe|slave)s$/i'                                                       => '\1',
+			'/(o)es$/i'                                                               => '\1',
+			'/([^aeiouy]|qu)ies$/i'                                                   => '\1y',
+			'/$1ses$/i'                                                               => '\s',
+			'/ses$/i'                                                                 => '\s',
+			'/eaus$/'                                                                 => 'eau',
+			'/^(.*us)$/'                                                              => '\\1',
+			'/s$/i'                                                                   => '',
+		],
+		'plural'    => [
+			'/([m|l])ouse$/i'                                                        => '\1ice',
+			'/(matr|vert|ind)(ix|ex)$/i'                                             => '\1ices',
+			'/(x|ch|ss|sh)$/i'                                                       => '\1es',
+			'/([^aeiouy]|qu)y$/i'                                                    => '\1ies',
+			'/([^aeiouy]|qu)ies$/i'                                                  => '\1y',
+			'/(?:([^f])fe|([lr])f)$/i'                                               => '\1\2ves',
+			'/sis$/i'                                                                => 'ses',
+			'/([ti])um$/i'                                                           => '\1a',
+			'/(buffal|tomat)o$/i'                                                    => '\1\2oes',
 			'/(alumn|bacill|cact|foc|fung|nucle|radi|stimul|syllab|termin|vir)us$/i' => '\1i',
-			'/us$/i' => 'uses',
-			'/(ax|cris|test)is$/i' => '\1es',
-			'/s$/i' => 's',
-			'/$/' => 's',
-		),
-		'countable' => array(
+			'/us$/i'                                                                 => 'uses',
+			'/(ax|cris|test)is$/i'                                                   => '\1es',
+			'/s$/i'                                                                  => 's',
+			'/$/'                                                                    => 's',
+		],
+		'countable' => [
 			'id',
 			'hits',
 			'clicks',
-		),
-	);
+		],
+	];
 
 	/**
 	 * Cached inflections.
@@ -80,7 +80,7 @@ class Inflector
 	 * @var    array
 	 * @since  1.0
 	 */
-	private $cache = array();
+	private $cache = [];
 
 	/**
 	 * Protected constructor.
@@ -131,7 +131,7 @@ class Inflector
 	{
 		if (is_string($data))
 		{
-			$data = array($data);
+			$data = [$data];
 		}
 		elseif (!is_array($data))
 		{
@@ -179,9 +179,7 @@ class Inflector
 	 */
 	private function getCachedSingular($plural)
 	{
-		$plural = StringHelper::strtolower($plural);
-
-		return array_search($plural, $this->cache);
+		return array_search(StringHelper::strtolower($plural), $this->cache);
 	}
 
 	/**
@@ -266,7 +264,7 @@ class Inflector
 	 *
 	 * @since   1.0
 	 */
-	public function addWord($singular, $plural =null)
+	public function addWord($singular, $plural = null)
 	{
 		$this->setCache($singular, $plural);
 
@@ -306,10 +304,9 @@ class Inflector
 	}
 
 	/**
-	 * Gets an instance of the JStringInflector singleton.
+	 * Gets an instance of the Inflector singleton.
 	 *
-	 * @param   boolean  $new  If true (default is false), returns a new instance regardless if one exists.
-	 *                         This argument is mainly used for testing.
+	 * @param   boolean  $new  If true (default is false), returns a new instance regardless if one exists. This argument is mainly used for testing.
 	 *
 	 * @return  Inflector
 	 *
@@ -321,7 +318,8 @@ class Inflector
 		{
 			return new static;
 		}
-		elseif (!is_object(self::$instance))
+
+		if (!is_object(self::$instance))
 		{
 			self::$instance = new static;
 		}

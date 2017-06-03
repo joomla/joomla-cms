@@ -4,8 +4,8 @@
 		<field
 			name="language"
 			type="installation.language"
-			id="language"
 			label="INSTL_LANGUAGE_LABEL"
+			id="language"
 			default="en-GB"
 			required="true"
 			onchange="Install.setlanguage();"

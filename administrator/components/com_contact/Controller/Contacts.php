@@ -85,9 +85,18 @@ class Contacts extends Admin
 			{
 				$this->app->enqueueMessage($model->getError(), 'warning');
 			}
+
+			if ($value == 1)
+			{
+				$message = JText::plural('COM_CONTACT_N_ITEMS_FEATURED', count($ids));
+			}
+			else
+			{
+				$message = JText::plural('COM_CONTACT_N_ITEMS_UNFEATURED', count($ids));
+			}
 		}
 
-		$this->setRedirect('index.php?option=com_contact&view=contacts');
+		$this->setRedirect('index.php?option=com_contact&view=contacts', $message);
 	}
 
 	/**
