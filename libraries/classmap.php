@@ -43,7 +43,7 @@ JLoader::registerAlias('JModelLegacy',                      '\\Joomla\\CMS\\Mode
 JLoader::registerAlias('JViewCategories',                   '\\Joomla\\CMS\\View\\Categories', '5.0');
 JLoader::registerAlias('JViewCategory',                     '\\Joomla\\CMS\\View\\Category', '5.0');
 JLoader::registerAlias('JViewCategoryfeed',                 '\\Joomla\\CMS\\View\\CategoryFeed', '5.0');
-JLoader::registerAlias('JViewLegacy',                       '\\Joomla\\CMS\\View\\View', '5.0');
+JLoader::registerAlias('JViewLegacy',                       '\\Joomla\\CMS\\View\\HtmlView', '5.0');
 JLoader::registerAlias('JControllerAdmin',                  '\\Joomla\\CMS\\Controller\\Admin', '5.0');
 JLoader::registerAlias('JControllerLegacy',                 '\\Joomla\\CMS\\Controller\\Controller', '5.0');
 JLoader::registerAlias('JControllerForm',                   '\\Joomla\\CMS\\Controller\\Form', '5.0');
