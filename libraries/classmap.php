@@ -165,6 +165,7 @@ JLoader::registerAlias('JToolbarButtonSeparator',           '\\Joomla\\CMS\\Tool
 JLoader::registerAlias('JToolbarButtonSlider',              '\\Joomla\\CMS\\Toolbar\\Button\\SliderButton', '5.0');
 JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '5.0');
 JLoader::registerAlias('JToolbarButtonStandard',            '\\Joomla\\CMS\\Toolbar\\Button\\StandardButton', '5.0');
+JLoader::registerAlias('JToolbarHelper',                    '\\Joomla\\CMS\\Toolbar\\ToolbarHelper', '5.0');
 JLoader::registerAlias('JButton',                           '\\Joomla\\CMS\\Toolbar\\ToolbarButton', '5.0');
 
 JLoader::registerAlias('JVersion',                          '\\Joomla\\CMS\\Version', '5.0');
