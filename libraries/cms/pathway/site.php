@@ -17,13 +17,13 @@ defined('JPATH_PLATFORM') or die;
 class JPathwaySite extends JPathway
 {
 	/**
-	 * Class constructor.
+	 * Load the pathway for this instance.
 	 *
-	 * @param   array  $options  The class options.
+	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($options = array())
+	protected function loadPathway()
 	{
 		$this->_pathway = array();
 
