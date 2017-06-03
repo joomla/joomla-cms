@@ -244,7 +244,8 @@ class Html extends HtmlView
 						'image', 'contacts/' . $item->params->get('icon_address', 'con_address.png'),
 						\JText::_('COM_CONTACT_ADDRESS') . ': ',
 						null,
-						true);
+						true
+					);
 				}
 
 				if ($item->params->get('icon_email'))
