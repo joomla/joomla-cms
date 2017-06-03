@@ -187,7 +187,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		// Initial loading
 		if (!Joomla.optionsStorage) {
-			Joomla.optionsStorage = options;
+			Joomla.optionsStorage = options || {};
 		}
 		// Merge with existing
 		else {
