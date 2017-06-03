@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.5.5
  */
-class View extends \JObject
+class HtmlView extends \JObject
 {
 	/**
 	 * The active document object

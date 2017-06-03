@@ -3,7 +3,7 @@
  * @package    Joomla.Libraries
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
@@ -41,7 +41,7 @@ JLoader::registerAlias('JModelLegacy',                      '\\Joomla\\CMS\\Mode
 JLoader::registerAlias('JViewCategories',                   '\\Joomla\\CMS\\View\\Categories', '5.0');
 JLoader::registerAlias('JViewCategory',                     '\\Joomla\\CMS\\View\\Category', '5.0');
 JLoader::registerAlias('JViewCategoryfeed',                 '\\Joomla\\CMS\\View\\CategoryFeed', '5.0');
-JLoader::registerAlias('JViewLegacy',                       '\\Joomla\\CMS\\View\\View', '5.0');
+JLoader::registerAlias('JViewLegacy',                       '\\Joomla\\CMS\\View\\HtmlView', '5.0');
 JLoader::registerAlias('JControllerAdmin',                  '\\Joomla\\CMS\\Controller\\Admin', '5.0');
 JLoader::registerAlias('JControllerLegacy',                 '\\Joomla\\CMS\\Controller\\Controller', '5.0');
 JLoader::registerAlias('JControllerForm',                   '\\Joomla\\CMS\\Controller\\Form', '5.0');
@@ -286,3 +286,5 @@ JLoader::registerAlias('JFormRuleRules',                    '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormRuleTel',                      '\\Joomla\\CMS\\Form\\Rule\\TelRule', '5.0');
 JLoader::registerAlias('JFormRuleUrl',                      '\\Joomla\\CMS\\Form\\Rule\\UrlRule', '5.0');
 JLoader::registerAlias('JFormRuleUsername',                 '\\Joomla\\CMS\\Form\\Rule\\UsernameRule', '5.0');
+
+JLoader::registerAlias('JMicrodata',                        '\\Joomla\\CMS\\Microdata\\Microdata', '5.0');
