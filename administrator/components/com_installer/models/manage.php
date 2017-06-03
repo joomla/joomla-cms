@@ -346,7 +346,6 @@ class InstallerModelManage extends InstallerModel
 		}
 
 		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
-//echo $query;
 		return $query;
 	}
 }
