@@ -122,6 +122,11 @@ abstract class JHtmlContentAdministrator
 			$html = '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
 				. JHtml::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
+		else 
+		{
+			$html	= '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'.JText::_($state[2]).'"><i class="icon-'
+					. $icon.'"></i></a>';
+		}
 
 		return $html;
 	}
