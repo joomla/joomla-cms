@@ -145,7 +145,9 @@ abstract class InstallerAdapter
 		// Sanity check, make sure the type is set by taking the adapter name from the class name
 		if (!$this->type)
 		{
-			$this->type = strtolower(str_replace('JInstallerAdapter', '', get_called_class()));
+			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
+			$reflection = new \ReflectionClass(get_called_class());
+			$this->type = strtolower(str_replace('Adapter', '', $reflection->getShortName()));
 		}
 	}
 

@@ -2,127 +2,127 @@
 <form>
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field
-			id="id"
 			name="id"
 			type="hidden"
-			class="inputbox"
 			label="COM_CONTENT_ID_LABEL"
+			class="inputbox"
+			id="id"
 			size="10"
 			default="0"
-			readonly="true" />
+			readonly="true" 
+		/>
 
 		<field
-			id="contenthistory"
 			name="contenthistory"
 			type="contenthistory"
+			label="JTOOLBAR_VERSIONS"
+			id="contenthistory"
 			data-typeAlias="com_content.article"
-			label="JTOOLBAR_VERSIONS" />
+		/>
 
 		<field
 			name="asset_id"
 			type="hidden"
-			filter="unset" />
+			filter="unset" 
+		/>
 
 		<field
-			id="title"
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
 			description="JFIELD_TITLE_DESC"
+			id="title"
 			class="inputbox"
 			size="30"
-			required="true" />
+			required="true" 
+		/>
 
 		<field
-			id="alias"
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
+			id="alias"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
-			size="45" />
+			size="45" 
+		/>
 
 		<field
 			name="articletext"
 			type="editor"
-			buttons="true"
 			label="CONTENT_TEXT_LABEL"
 			description="CONTENT_TEXT_DESC"
+			buttons="true"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
 			asset_id="com_content"
 		/>
 
 		<field
-			id="state"
 			name="state"
 			type="list"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
+			id="state"
 			class="inputbox"
 			size="1"
-			default="1">
-			<option
-				value="1">
-				JPUBLISHED</option>
-			<option
-				value="0">
-				JUNPUBLISHED</option>
-			<option
-				value="2">
-				JARCHIVED</option>
-			<option
-				value="-2">
-				JTRASHED</option>
+			default="1"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
 		</field>
 
 		<field
-			id="featured"
 			name="featured"
 			type="list"
 			label="JGLOBAL_FIELD_FEATURED_LABEL"
 			description="JGLOBAL_FIELD_FEATURED_DESC"
+			id="featured"
 			class="inputbox"
 			default="0"
-		>
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
 		<field
-			id="catid"
 			name="catid"
 			type="categoryedit"
-			extension="com_content"
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
+			id="catid"
+			extension="com_content"
 			class="inputbox"
 			required="true"
-		>
-		</field>
+		/>
 
 		<field
-			id="created"
 			name="created"
 			type="calendar"
 			translateformat="true"
-			filter="unset" />
+			id="created"
+			filter="unset" 
+		/>
 
 		<field
-			id="created_by"
 			name="created_by"
 			type="text"
-			filter="unset" />
+			id="created_by"
+			filter="unset" 
+		/>
 
 		<field
-			id="created_by_alias"
 			name="created_by_alias"
 			type="text"
 			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
 			description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC"
+			id="created_by_alias"
 			class="inputbox"
-			size="20" />
+			size="20" 
+		/>
 
 		<field
 			name="version_note"
@@ -132,14 +132,15 @@
 			class="inputbox"
 			maxlength="255"
 			size="45"
-			labelclass="control-label" />
+			labelclass="control-label" 
+		/>
 
 		<field
-			id="publish_up"
 			name="publish_up"
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			id="publish_up"
 			class="inputbox"
 			translateformat="true"
 			showtime="true"
@@ -148,11 +149,11 @@
 		/>
 
 		<field
-			id="publish_down"
 			name="publish_down"
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			id="publish_down"
 			class="inputbox"
 			translateformat="true"
 			showtime="true"
@@ -165,49 +166,52 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="JFIELD_LANGUAGE_DESC"
-			class="inputbox">
+			class="inputbox"
+			>
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="tags"
+		<field 
+			name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
 			class="inputbox"
 			multiple="true"
 			size="45"
-		>
-		</field>
+		/>
 
 		<field
-			id="metakey"
 			name="metakey"
 			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"
 			description="JFIELD_META_KEYWORDS_DESC"
+			id="metakey"
 			class="inputbox"
 			rows="5"
-			cols="50" />
+			cols="50"
+		/>
 
 		<field
-			id="metadesc"
 			name="metadesc"
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			description="JFIELD_META_DESCRIPTION_DESC"
+			id="metadesc"
 			class="inputbox"
 			rows="5"
-			cols="50" />
-
+			cols="50" 
+		/>
 
 		<field
-			id="access"
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
+			id="access"
 			class="inputbox"
-			size="1" />
+			size="1" 
+		/>
 
 		<field
 			name="captcha"
@@ -224,19 +228,27 @@
 				name="image_intro"
 				type="media"
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
-				description="COM_CONTENT_FIELD_INTRO_DESC" />
-			<field name="image_intro_alt"
+				description="COM_CONTENT_FIELD_INTRO_DESC" 
+			/>
+			
+			<field 
+				name="image_intro_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
 				class="inputbox"
-				size="20" />
-			<field name="image_intro_caption"
+				size="20" 
+			/>
+			
+			<field 
+				name="image_intro_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
 				class="inputbox"
-				size="20" />
+				size="20" 
+			/>
+			
 			<field
 				name="float_intro"
 				type="list"
@@ -248,25 +260,33 @@
 				<option value="left">COM_CONTENT_LEFT</option>
 				<option value="none">COM_CONTENT_NONE</option>
 			</field>
-			</fieldset>
-			<fieldset name="image-full">
+		</fieldset>
+		<fieldset name="image-full">
 			<field
 				name="image_fulltext"
 				type="media"
 				label="COM_CONTENT_FIELD_FULL_LABEL"
-				description="COM_CONTENT_FIELD_FULL_DESC" />
-			<field name="image_fulltext_alt"
+				description="COM_CONTENT_FIELD_FULL_DESC" 
+			/>
+			
+			<field 
+				name="image_fulltext_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
 				class="inputbox"
-				size="20" />
-			<field name="image_fulltext_caption"
+				size="20" 
+			/>
+			
+			<field 
+				name="image_fulltext_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
 				class="inputbox"
-				size="20" />
+				size="20" 
+			/>
+			
 			<field
 				name="float_fulltext"
 				type="list"
@@ -278,111 +298,132 @@
 				<option value="left">COM_CONTENT_LEFT</option>
 				<option value="none">COM_CONTENT_NONE</option>
 			</field>
-			</fieldset>
-		</fields>
-		<fields name="urls">
-			<field
-				name="urla"
-				type="url"
-				validate="url"
-				filter="url"
-				relative="true"
-				label="COM_CONTENT_FIELD_URLA_LABEL"
-				description="COM_CONTENT_FIELD_URL_DESC" />
-			<field name="urlatext"
-				type="text"
-				label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
-				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox"
-				size="20" />
-			<field
-				name="targeta"
-				type="hidden"
-			 />
+		</fieldset>
+	</fields>
+	<fields name="urls">
+		<field
+			name="urla"
+			type="url"
+			label="COM_CONTENT_FIELD_URLA_LABEL"
+			description="COM_CONTENT_FIELD_URL_DESC"
+			validate="url"
+			filter="url"
+			relative="true"
+		/>
 
-			<field
-				name="urlb"
-				type="url"
-				validate="url"
-				filter="url"
-				relative="true"
-				label="COM_CONTENT_FIELD_URLB_LABEL"
-				description="COM_CONTENT_FIELD_URL_DESC" />
-			<field name="urlbtext"
-				type="text"
-				label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
-				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox"
-				size="20" />
-			<field
-				name="targetb"
-				type="hidden"
-				 />
-			<field
-				name="urlc"
-				type="url"
-				validate="url"
-				filter="url"
-				relative="true"
-				label="COM_CONTENT_FIELD_URLC_LABEL"
-				description="COM_CONTENT_FIELD_URL_DESC" />
-			<field
-				name="urlctext"
-				type="text"
-				label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
-				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox"
-				size="20" />
-			<field
-				name="targetc"
-				type="hidden"
-				 />
-		</fields>
-		<fields name="metadata">
-			<fieldset name="jmetadata"
-				label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+		<field 
+			name="urlatext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
+			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+			class="inputbox"
+			size="20" 
+		/>
+		
+		<field
+			name="targeta"
+			type="hidden"
+		/>
 
-					<field name="robots"
-						type="hidden"
-						filter="unset"
-						label="JFIELD_METADATA_ROBOTS_LABEL"
-						description="JFIELD_METADATA_ROBOTS_DESC"
-						labelclass="control-label"
-						>
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-						<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-						<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-						<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-						<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
-					</field>
+		<field
+			name="urlb"
+			type="url"
+			label="COM_CONTENT_FIELD_URLB_LABEL"
+			description="COM_CONTENT_FIELD_URL_DESC"
+			validate="url"
+			filter="url"
+			relative="true"
+		/>
 
-					<field name="author"
-						type="hidden"
-						filter="unset"
-						label="JAUTHOR"
-						description="JFIELD_METADATA_AUTHOR_DESC"
-						size="20"
-						labelclass="control-label"
-					/>
+		<field 
+			name="urlbtext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
+			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+			class="inputbox"
+			size="20" 
+		/>
+		
+		<field
+			name="targetb"
+			type="hidden"
+		/>
+		
+		<field
+			name="urlc"
+			type="url"
+			label="COM_CONTENT_FIELD_URLC_LABEL"
+			description="COM_CONTENT_FIELD_URL_DESC"
+ 			validate="url"
+			filter="url"
+			relative="true"
+		/>
 
-					<field name="rights"
-						type="hidden"
-						label="JFIELD_META_RIGHTS_LABEL"
-						filter="unset"
-						description="JFIELD_META_RIGHTS_DESC"
-						required="false"
-						labelclass="control-label"
-					/>
+		<field
+			name="urlctext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
+			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+			class="inputbox"
+			size="20" 
+		/>
+		
+		<field
+			name="targetc"
+			type="hidden"
+		/>
+	</fields>
+	<fields name="metadata">
+		<fieldset 
+			name="jmetadata"
+			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
-					<field name="xreference"
-						type="hidden"
-						filter="unset"
-						label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
-						description="COM_CONTENT_FIELD_XREFERENCE_DESC"
-						class="inputbox"
-						size="20"
-						labelclass="control-label" />
+				<field 
+					name="robots"
+					type="hidden"
+					label="JFIELD_METADATA_ROBOTS_LABEL"
+					description="JFIELD_METADATA_ROBOTS_DESC"
+					filter="unset"
+					labelclass="control-label"
+					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+					<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				</field>
 
-			</fieldset>
-		</fields>
+				<field 
+					name="author"
+					type="hidden"
+					label="JAUTHOR"
+					description="JFIELD_METADATA_AUTHOR_DESC"
+					filter="unset"
+					size="20"
+					labelclass="control-label"
+				/>
+
+				<field 
+					name="rights"
+					type="hidden"
+					label="JFIELD_META_RIGHTS_LABEL"
+					description="JFIELD_META_RIGHTS_DESC"
+					filter="unset"
+					required="false"
+					labelclass="control-label"
+				/>
+
+				<field 
+					name="xreference"
+					type="hidden"
+					label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
+					description="COM_CONTENT_FIELD_XREFERENCE_DESC"
+					filter="unset"
+					class="inputbox"
+					size="20"
+					labelclass="control-label" 
+				/>
+
+		</fieldset>
+	</fields>
 </form>

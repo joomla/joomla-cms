@@ -224,7 +224,7 @@ abstract class JHtmlActionsDropdown
 	{
 		static::$dropDownList[] = '<li>'
 			. '<a href = "javascript://" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
-			. ($icon ? '<span class="icon-' . $icon . '"></span> ' : '')
+			. ($icon ? '<span class="icon-' . $icon . '" aria-hidden="true"></span> ' : '')
 			. $label
 			. '</a>'
 			. '</li>';
