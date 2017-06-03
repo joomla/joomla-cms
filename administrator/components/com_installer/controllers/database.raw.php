@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class InstallerControllerDatabase extends JControllerLegacy
 {
 	/**
-	 * Tries to make a full database backup
+	 * Tries to make a full database dump
 	 *
 	 * @return  void
 	 *
@@ -31,16 +31,16 @@ class InstallerControllerDatabase extends JControllerLegacy
 		}
 
 		$model = $this->getModel('database');
-		
+
 		$host = JUri::getInstance()->getHost();
 
-		$backup = $model->getDump();
+		$dump = $model->getDump();
 
 		JFactory::getApplication()->setHeader('Pragma', 'public')
 			->setHeader('Content-Type', 'application/zip')
 			->setHeader('Content-Disposition', 'attachment; filename=' . JApplicationHelper::stringURLSafe($host) . '-dump.zip')
-			->setHeader('Content-Length', strlen($backup));
+			->setHeader('Content-Length', strlen($dump));
 
-		echo $backup;
+		echo $dump;
 	}
 }

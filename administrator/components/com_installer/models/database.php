@@ -84,7 +84,7 @@ class InstallerModelDatabase extends InstallerModel
 	 * Create a full database dump.
 	 *
 	 * @return string  The dump string
-	 * 
+	 *
 	 * @throws RuntimeException
 	 */
 	public function getDump()
@@ -106,12 +106,12 @@ class InstallerModelDatabase extends InstallerModel
 
 		$list = $this->getDbo()->getTableCreate($tables);
 
-		// Holds the whole backup content
-		$backup = '';
+		// Holds the whole dump content
+		$dump = '';
 
 		foreach ($list as $table => $command)
 		{
-			$backup .= $command . ";\n\n";
+			$dump .= $command . ";\n\n";
 
 			$query = $this->getDbo()->getQuery(true);
 
@@ -134,19 +134,19 @@ class InstallerModelDatabase extends InstallerModel
 					$query->values(implode(',', $query->quote($row)));
 				}
 
-				$backup .= (string) $query . ";\n\n";
+				$dump .= (string) $query . ";\n\n";
 			}
 		}
 
-		// Try to zip the backup and send to browser
+		// Try to zip the dumpand return it
 		$zip = JArchive::getAdapter('zip');
 
 		$file = array();
-		
+
 		$host = JUri::getInstance()->getHost();
 
 		$file['name'] = JApplicationHelper::stringURLSafe($host) . '-' . JFilterOutput::stringURLSafe($now->toSql()) . '.sql';
-		$file['data'] = $backup;
+		$file['data'] = $dump;
 		$file['time'] = $now->toUnix();
 
 		$filename = JUserHelper::genRandomPassword(20);
