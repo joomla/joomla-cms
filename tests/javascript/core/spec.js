@@ -12,7 +12,7 @@
 define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 
 	describe('Core Joomla.submitform', function () {
-		var form = document.getElementById('adminForm22');
+		var form = document.getElementById('adminForm');
 		form.task = {};
 
 		beforeEach(function () {
