@@ -1001,9 +1001,9 @@ ENDDATA;
 	 *
 	 * @param   string $latest_version The Joomla! version to test against
 	 *
-	 * @return  mixed  An array of data items.
+	 * @return  array  An array of data items.
 	 *
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getExtensions($latest_version)
 	{
@@ -1030,12 +1030,13 @@ ENDDATA;
 	 *
 	 * @return  array  An array of data items.
 	 *
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function checkCompatibility($extensions, $latest_version)
 	{
 		// If empty, return the current value
-		if (empty($extensions) || !is_array($extensions)) {
+		if (empty($extensions) || !is_array($extensions))
+		{
 			return array();
 		}
 
@@ -1050,18 +1051,19 @@ ENDDATA;
 
 		preg_match('/^(\d+\.\d+\.(\d+))/', $latest_version, $version);
 
-		foreach ($extensions as $extension) {
-
+		foreach ($extensions as $extension)
+		{
 			$locations = $this->getUpdateSitesLocations($extension->extension_id);
 
 			// If there are no update servers then we do not know if there is a compatible update
-			if (empty($locations)) {
+			if (empty($locations))
+			{
 				$extensions_compatibility['na'][] = $extension;
 				continue;
 			}
 
-			foreach ($locations as $location) {
-
+			foreach ($locations as $location)
+			{
 				$update = new JUpdate();
 				$update->set('jversion.full', $version[1]);
 				$update->set('jversion.dev_level', $version[2]);
@@ -1069,7 +1071,8 @@ ENDDATA;
 
 				// If there is a download URL then there is probably a compatible update
 				$download_url = $update->get('downloadurl');
-				if (!empty($download_url) && !empty($download_url->_data)) {
+				if (!empty($download_url) && !empty($download_url->_data))
+				{
 					$extensions_compatibility['compatible'][] = $extension;
 					continue 2;
 				}
@@ -1088,7 +1091,7 @@ ENDDATA;
 	 * 
 	 * @return array
 	 *
-	 * @since 3.8.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function getUpdateSitesLocations($extension_id)
 	{
