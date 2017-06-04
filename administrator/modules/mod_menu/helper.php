@@ -29,19 +29,24 @@ abstract class ModMenuHelper
 	public static function getMenus()
 	{
 		$db     = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.*, SUM(b.home) AS home')
-			->from('#__menu_types AS a')
-			->join('LEFT', '#__menu AS b ON b.menutype = a.menutype AND b.home != 0')
-			->select('b.language')
-			->join('LEFT', '#__languages AS l ON l.lang_code = language')
-			->select('l.image')
-			->select('l.sef')
-			->select('l.title_native')
-			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 
-		// Sqlsrv change
-		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
+		/* We count home page menu items inside the menu type to detect find home page menu item,
+		 * but also to detect more than 1 home page menu items which are a misconfiguration */
+		$subQuery = $db->getQuery(true)
+			->select('SUM(home) AS home, MIN(language) AS language, menutype')
+			->from('#__menu')
+			->where('home != 0')
+			->where('(client_id = 0 OR client_id IS NULL)')
+			->group('menutype');
+
+		// Get all menutype records, no where, no group by, no distinct
+		$query = $db->getQuery(true)
+			->select('a.*')
+			->select('c.home, c.language')
+			->select('l.image, l.sef, l.title_native')
+			->from('#__menu_types AS a')
+			->join('LEFT', '(' . (string) $subQuery . ') AS c ON c.menutype = a.menutype')
+			->join('LEFT', '#__languages AS l ON l.lang_code = language');
 
 		$db->setQuery($query);
 
