@@ -3,7 +3,7 @@
  * @package    Joomla.Libraries
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
@@ -277,6 +277,8 @@ JLoader::registerAlias('JFormRuleOptions',                  '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormRulePassword',                 '\\Joomla\\CMS\\Form\\Rule\\PasswordRule', '5.0');
 JLoader::registerAlias('JFormRuleRules',                    '\\Joomla\\CMS\\Form\\Rule\\RulesRule', '5.0');
 JLoader::registerAlias('JFormRuleTel',                      '\\Joomla\\CMS\\Form\\Rule\\TelRule', '5.0');
+JLoader::registerAlias('JFormFieldText',                    '\\Joomla\\CMS\\Form\\Field\\Text', '5.0');
 JLoader::registerAlias('JFormRuleUrl',                      '\\Joomla\\CMS\\Form\\Rule\\UrlRule', '5.0');
 JLoader::registerAlias('JFormRuleUsername',                 '\\Joomla\\CMS\\Form\\Rule\\UsernameRule', '5.0');
-JLoader::registerAlias('JFormFieldText',                    '\\Joomla\\CMS\\Form\\Field\\Text', '5.0');
+
+JLoader::registerAlias('JMicrodata',                        '\\Joomla\\CMS\\Microdata\\Microdata', '5.0');

@@ -147,7 +147,7 @@ class ContentHelper extends \JHelperContent
 	 * Adds Count Items for Tag Manager.
 	 *
 	 * @param   \stdClass[]  &$items     The content objects
-	 * @param   string      $extension  The name of the active view.
+	 * @param   string       $extension  The name of the active view.
 	 *
 	 * @return  \stdClass[]
 	 *

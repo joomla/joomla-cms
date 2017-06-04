@@ -212,6 +212,7 @@ class User extends \JObject
 	 *
 	 * @var    UserWrapper
 	 * @since  3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	protected $userHelper = null;
 
@@ -225,7 +226,7 @@ class User extends \JObject
 	 * Constructor activating the default information of the language
 	 *
 	 * @param   integer      $identifier  The primary key of the user to load (optional).
-	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods.
+	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods. [@deprecated 4.0]
 	 *
 	 * @since   11.1
 	 */
@@ -260,7 +261,7 @@ class User extends \JObject
 	 * Returns the global User object, only creating it if it doesn't already exist.
 	 *
 	 * @param   integer      $identifier  The primary key of the user to load (optional).
-	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods.
+	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods. [@deprecated 4.0]
 	 *
 	 * @return  User  The User object.
 	 *

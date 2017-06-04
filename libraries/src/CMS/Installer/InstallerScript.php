@@ -107,15 +107,19 @@ class InstallerScript
 	public function preflight($type, $parent)
 	{
 		// Check for the minimum PHP version before continuing
-		if (!empty($this->minimumPhp) && !version_compare(PHP_VERSION, $this->minimumPhp, '>'))
+		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
 		{
 			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), \JLog::WARNING, 'jerror');
+
+			return false;
 		}
 
 		// Check for the minimum Joomla version before continuing
-		if (!empty($this->minimumJoomla) && !version_compare(JVERSION, $this->minimumJoomla, '>'))
+		if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<'))
 		{
 			\JLog::add(\JText::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), \JLog::WARNING, 'jerror');
+
+			return false;
 		}
 
 		// Extension manifest file version
