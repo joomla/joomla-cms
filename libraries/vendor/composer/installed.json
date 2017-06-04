@@ -1241,12 +1241,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/session.git",
-            "reference": "73f24b57ec1a34ecca2d4aa98beaf1af36d06a12"
+            "reference": "c5b16c184a9917d70fd8475a4adadfe4a47a2aed"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/session/zipball/73f24b57ec1a34ecca2d4aa98beaf1af36d06a12",
-            "reference": "73f24b57ec1a34ecca2d4aa98beaf1af36d06a12",
+            "url": "https://api.github.com/repos/joomla-framework/session/zipball/c5b16c184a9917d70fd8475a4adadfe4a47a2aed",
+            "reference": "c5b16c184a9917d70fd8475a4adadfe4a47a2aed",
             "shasum": ""
         },
         "require": {
@@ -1275,7 +1275,7 @@
             "joomla/input": "The joomla/input package is required to use Address and Forwarded session validators.",
             "paragonie/random_compat": "The paragonie/random_compat package is required to use Joomla\\Session\\Session on PHP 5.x."
         },
-        "time": "2017-05-27T01:20:50+00:00",
+        "time": "2017-06-01T16:00:13+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
