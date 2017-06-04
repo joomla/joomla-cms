@@ -8939,6 +8939,8 @@ small,
 
 .control-group {
   margin-bottom: 18px; }
+  .control-group > .form-check {
+    display: inline-block; }
   .control-group::after {
     display: table;
     clear: both;
@@ -8997,13 +8999,6 @@ legend {
 .custom-select[multiple] {
   height: auto;
   background: none; }
-
-.invalid {
-  color: #bc6564;
-  border-color: #bc6564; }
-
-.valid {
-  border-color: #64bd63; }
 
 .header {
   position: relative;

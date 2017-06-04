@@ -2187,9 +2187,10 @@ class Form
 	 *                                    already exists with the same group/name.
 	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  Form  JForm instance.
+	 * @return  Form  Form instance.
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0 Use the FormFactory service from the container
 	 * @throws  \InvalidArgumentException if no data provided.
 	 * @throws  \RuntimeException if the form could not be loaded.
 	 */
@@ -2209,21 +2210,21 @@ class Form
 			}
 
 			// Instantiate the form.
-			$forms[$name] = new static($name, $options);
+			$forms[$name] = \JFactory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
 			// Load the data.
 			if (substr($data, 0, 1) == '<')
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('JForm::getInstance could not load form');
+					throw new \RuntimeException('Form::getInstance could not load form');
 				}
 			}
 			else
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('JForm::getInstance could not load file');
+					throw new \RuntimeException('Form::getInstance could not load file');
 				}
 			}
 		}

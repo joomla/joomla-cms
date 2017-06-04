@@ -69,7 +69,7 @@ class Html extends HtmlView
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

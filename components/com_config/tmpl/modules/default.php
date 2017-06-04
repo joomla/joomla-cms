@@ -37,7 +37,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<div class="row">
 		<div class="col-md-12">
 
-			<div>
+			<div role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('modules.apply')">
 						<span class="icon-apply"></span>
