@@ -9055,8 +9055,8 @@ legend {
       transition: all .2s ease-in-out; }
     .header .nav-link .badge {
       position: absolute;
-      top: 3px;
-      right: 0; }
+      top: 4px;
+      right: 2px; }
     .header .nav-link.dropdown-toggle::after {
       display: none; }
     .header .nav-link:hover .fa {
