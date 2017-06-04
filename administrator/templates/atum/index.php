@@ -119,7 +119,7 @@ $doc->setMetaData('theme-color', '#1c3d5c');
 							<li class="nav-item">
 								<a class="nav-link dropdown-toggle" href="<?php echo JRoute::_('index.php?option=com_messages'); ?>" title="<?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?>">
 									<?php $countUnread = JFactory::getSession()->get('messages.unread'); ?>
-									<span class="fa fa-envelope-o<?php echo (count($countUnread) > 0) ? ' pulsate-font-size' : ''; ?>" aria-hidden="true"></span>
+									<span class="fa fa-envelope-o<?php echo ($countUnread > 0) ? ' pulsate-font-size' : ''; ?>" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo JText::_('TPL_ATUM_PRIVATE_MESSAGES'); ?></span>
 									<?php if ($countUnread > 0) : ?>
 										<span class="badge badge-pill badge-success"><?php echo $countUnread; ?></span>
