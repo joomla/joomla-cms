@@ -28,7 +28,8 @@ pipeline {
       }
       steps {
         sh 'echo $(date)'
-        sh 'ln -s /usr/bin/nodejs /usr/bin/node && \
+        sh '''
+            ln -s /usr/bin/nodejs /usr/bin/node && \
             export DISPLAY=:0 && \
             (Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset &) && \
             sleep 3 && \
@@ -36,7 +37,7 @@ pipeline {
             cd tests/javascript && npm install --no-optional && cd ../.. && \
             (firefox &) && \
             tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
-        '
+        '''
         sh 'echo $(date)'
       }
     }
