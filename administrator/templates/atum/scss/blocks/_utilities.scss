@@ -17,3 +17,13 @@
   display: none;
   visibility: hidden;
 }
+
+// Pulsate
+.pulsate-font-size {
+  animation: pulsateFontSize .5s infinite alternate;
+}
+
+@keyframes pulsateFontSize {
+  from { font-size: 1.1rem; }
+  to { font-size: 1.3rem; }
+}
