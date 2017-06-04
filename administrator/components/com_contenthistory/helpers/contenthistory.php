@@ -16,5 +16,4 @@ defined('_JEXEC') or die;
  */
 class ContenthistoryHelper extends \Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper
 {
-	
 }

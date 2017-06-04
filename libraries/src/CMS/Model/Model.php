@@ -10,7 +10,9 @@ namespace Joomla\CMS\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Mvc\Factory\LegacyFactory;
+use Joomla\CMS\Mvc\Factory\MvcFactory;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
@@ -240,7 +242,7 @@ abstract class Model extends \JObject
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->option = \JComponentHelper::getComponentName($this, $r[1]);
+			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
 		// Set the view name
@@ -304,6 +306,19 @@ abstract class Model extends \JObject
 		elseif (empty($this->event_clean_cache))
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
+		}
+
+		if (!$factory)
+		{
+			$reflect = new \ReflectionClass($this);
+			if ($reflect->getNamespaceName())
+			{
+				// Guess the root namespace
+				$ns = explode('\\', $reflect->getNamespaceName());
+				$ns = implode('\\', array_slice($ns, 0, 3));
+
+				$factory = new MvcFactory($ns, \JFactory::getApplication());
+			}
 		}
 
 		$this->factory = $factory ? : new LegacyFactory;

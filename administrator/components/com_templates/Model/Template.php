@@ -575,30 +575,38 @@ class Template extends Form
 
 			foreach ($components as $component)
 			{
-				if (file_exists($componentPath . '/' . $component . '/views/'))
+				// Collect the folders with views
+				$folders = \JFolder::folders($componentPath . '/' . $component, '^view[s]?$', false, true);
+				$folders = array_merge($folders, \JFolder::folders($componentPath . '/' . $component, '^tmpl?$', false, true));
+
+				if (!$folders)
 				{
-					$viewPath = \JPath::clean($componentPath . '/' . $component . '/views/');
-				}
-				elseif (file_exists($componentPath . '/' . $component . '/view/'))
-				{
-					$viewPath = \JPath::clean($componentPath . '/' . $component . '/view/');
-				}
-				else
-				{
-					$viewPath = '';
+					continue;
 				}
 
-				if ($viewPath)
+				foreach ($folders as $folder)
 				{
-					$views = \JFolder::folders($viewPath);
+					// The subfolders are views
+					$views = \JFolder::folders($folder);
 
 					foreach ($views as $view)
 					{
-						// Only show the view has layout inside it
-						if (file_exists($viewPath . $view . '/tmpl'))
+						// The old scheme, if a view has a tmpl folder
+						$path = $folder . '/' . $view . '/tmpl';
+
+						// The new scheme, the views are directly in the component/tmpl folder
+						if (!is_dir($path) && substr($folder, -4) == 'tmpl')
 						{
-							$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+							$path = $folder . '/' . $view;
 						}
+
+						// Check if the folder exists
+						if (!is_dir($path))
+						{
+							continue;
+						}
+
+						$result['components'][$component][] = $this->getOverridesFolder($view, \JPath::clean($folder . '/'));
 					}
 				}
 			}
@@ -711,7 +719,15 @@ class Template extends Form
 			}
 			elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false)
 			{
-				$return = $this->createTemplateOverride(\JPath::clean($override . '/tmpl'), $htmlPath);
+				$path = $override . '/tmpl';
+
+				// View can also be in the top level folder
+				if (!is_dir($path))
+				{
+					$path = $override;
+				}
+
+				$return = $this->createTemplateOverride(\JPath::clean($path), $htmlPath);
 			}
 			else
 			{

@@ -187,8 +187,8 @@
 				<field
 					name="profile-require_address1"
 					type="list"
-					description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
+					description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>

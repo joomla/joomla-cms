@@ -26,21 +26,7 @@ $listDirn        = $this->escape($this->state->get('list.direction'));
 $enabledStates   = array(0 => 'icon-publish', 1 => 'icon-unpublish');
 $activatedStates = array(0 => 'icon-publish', 1 => 'icon-unpublish');
 $userRequired    = (int) $input->get('required', 0, 'int');
-
-/**
- * Mootools compatibility
- *
- * There is an extra option passed in the URL for the iframe &ismoo=0 for the bootstraped field.
- * By default the value will be 1 or defaults to mootools behaviour using function jSelectUser()
- *
- * This should be removed when mootools won't be shipped by Joomla.
- */
-$isMoo = $input->getInt('ismoo', 1);
-
-if ($isMoo)
-{
-	$onClick = "window.parent.jSelectUser(this);window.parent.jQuery('.modal.in').modal('hide');";
-}
+$onClick         = "window.parent.jSelectUser(this);window.parent.jQuery('.modal.in').modal('hide');";
 
 ?>
 <div class="container-popup">

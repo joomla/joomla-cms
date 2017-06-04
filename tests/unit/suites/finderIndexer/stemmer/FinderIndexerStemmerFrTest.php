@@ -4,7 +4,7 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/stemmer/fr.php';
@@ -48,6 +48,7 @@ class FinderIndexerStemmerFrTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerFr::stem
 	 */
 	public function testStem()
 	{
@@ -63,6 +64,7 @@ class FinderIndexerStemmerFrTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerFr::stem
 	 */
 	public function testStemShort()
 	{
@@ -78,6 +80,7 @@ class FinderIndexerStemmerFrTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerStemmerFr::stem
 	 */
 	public function testStemWrongLanguage()
 	{

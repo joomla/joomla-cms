@@ -4,7 +4,7 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_TESTS . '/stubs/FormInspectors.php';
@@ -129,7 +129,7 @@ class JFormTest extends TestCaseDatabase
 
 		// The default path is the class file folder/forms
 		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/forms';
+		$valid = realpath(JPATH_PLATFORM . '/src/CMS/Form') . '/forms';
 
 		$this->assertThat(
 			in_array($valid, $paths),
@@ -162,7 +162,7 @@ class JFormTest extends TestCaseDatabase
 
 		// The default path is the class file folder/rules
 		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/rules';
+		$valid = realpath(JPATH_PLATFORM . '/src/CMS/Form') . '/rules';
 
 		$this->assertThat(
 			in_array($valid, $paths),

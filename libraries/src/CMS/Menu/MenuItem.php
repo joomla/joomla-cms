@@ -254,7 +254,7 @@ class MenuItem extends \stdClass
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.1
 	 * @deprecated  4.0 Deprecated without replacement
 	 */
 	public function __isset($name)

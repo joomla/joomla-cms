@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -224,8 +224,9 @@ abstract class JHtmlActionsDropdown
 	 */
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
-		static::$dropDownList[] = '<a href = "javascript://" class="dropdown-item" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
-			. ($icon ? '<span class="icon-' . $icon . '"></span> ' : '')
+		static::$dropDownList[] = '<li>'
+			. '<a href = "javascript://" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
+			. ($icon ? '<span class="icon-' . $icon . '" aria-hidden="true"></span> ' : '')
 			. $label
 			. '</a>';
 	}

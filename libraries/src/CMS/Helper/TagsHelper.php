@@ -449,13 +449,13 @@ class TagsHelper extends CMSHelper
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(\JFactory::getDate()->toSql());
 
-		$ntagsr = substr_count($tagId, ',') + 1;
-
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
 		$tagIds = implode(',', $tagIds);
 		$tagIds = explode(',', $tagIds);
 		$tagIds = ArrayHelper::toInteger($tagIds);
+
+		$ntagsr = count($tagIds);
 
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
@@ -850,7 +850,7 @@ class TagsHelper extends CMSHelper
 		}
 
 		// Filter by parent_id
-		if (!empty($filters['parent_id']))
+		if (isset($filters['parent_id']) && is_numeric($filters['parent_id']))
 		{
 			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = Table::getInstance('Tag', 'TagsTable');

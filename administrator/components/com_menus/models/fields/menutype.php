@@ -70,8 +70,8 @@ class JFormFieldMenutype extends JFormFieldList
 			default:
 				$link = $this->form->getValue('link');
 
-				/** @var  MenusModelMenutypes $model */
-				$model = JModelLegacy::getInstance('Menutypes', 'MenusModel', array('ignore_request' => true));
+				/** @var  \Joomla\Component\Menus\Administrator\Model\Menutypes $model */
+				$model = new \Joomla\Component\Menus\Administrator\Model\Menutypes(array('ignore_request' => true));
 				$model->setState('client_id', $clientId);
 
 				$rlu   = $model->getReverseLookup();
