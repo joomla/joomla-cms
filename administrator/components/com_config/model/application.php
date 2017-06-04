@@ -119,46 +119,14 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		$config                = JFactory::getConfig();
-		$settingForceHttps     = (int) $data['force_ssl'] === 1;
-		$settingSharedSessions = (bool) $data['shared_session'];
-		$currentForceHttps     = (int) $config->get('force_ssl', 0) === 1;
-		$currentSharedSessions = (int) $config->get('shared_session', 0);
-
-		// Check if we are you shared session mode with Force HTTPS to Administrator Only, which is not possible because of secure cookies.
-		if (($newSharedSessions === 1 && $currentForceHttps === 1)
-			|| ($currentSharedSessions === 1 && $newForceHttps === 1)
-			|| ($newSharedSessions === 1 && $newForceHttps === 1)
-			|| ($currentSharedSessions === 1 && $currentForceHttps === 1))
+		// Send a warning if we are you shared session mode with Force HTTPS to Administrator Only, which is not possible because of secure cookies.
+		if ((int) $data['force_ssl'] === 1 && (int) $data['shared_session'] === 1)
 		{
-			// Reset the values to previous states.
-			if ($newForceHttps === 1)
-			{
-				$data['force_ssl'] = $currentForceHttps;
-			}
-
-			if ($newSharedSessions === 1)
-			{
-				$data['shared_session'] = $currentSharedSessions;
-			}
-
-			// Also update the user state
-			if ($newForceHttps === 1)
-			{
-				$app->setUserState('com_config.config.global.data.force_ssl', $currentForceHttps);
-			}
-
-			if ($newSharedSessions === 1)
-			{
-				$app->setUserState('com_config.config.global.data.shared_session', $currentSharedSessions);
-			}
-
-			// Send a warning.
 			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SHARED_SESSION_MODE_NOT_POSSIBLE'), 'warning');
 		}
 
 		// Check if we can set the Force SSL option
-		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $config->get('force_ssl', '0'))
+		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
 		{
 			try
 			{
