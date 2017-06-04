@@ -377,6 +377,8 @@ class JLanguage
 			}
 		}
 
+		JEventDispatcher::getInstance()->trigger('onAfterTranslate', array(&$string, $key, $this));
+
 		return $string;
 	}
 
