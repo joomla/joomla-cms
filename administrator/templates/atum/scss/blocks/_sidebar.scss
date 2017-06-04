@@ -373,7 +373,11 @@
 
 // Sidebar Closed
 .closed {
-  padding-left: 50px;
+
+  @include media-breakpoint-up(lg) {
+    padding-left: 50px;
+  }
+
   .child-open::after {
     display: none;
   }
@@ -381,13 +385,16 @@
     width: 50px;
     overflow: hidden;
   }
+
   .parent .collapse-arrow::after {
     visibility: hidden;
     transition-delay: 0s !important;
   }
+
   .menu-toggle-icon::before {
     content: "\f054";
   }
+
 }
 
 // Edit view

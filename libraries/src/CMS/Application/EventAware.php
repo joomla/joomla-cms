@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Application;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Psr\Log\LoggerInterface;
@@ -15,7 +17,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Trait for application classes which dispatch events
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 trait EventAware
 {
@@ -24,7 +26,7 @@ trait EventAware
 	 *
 	 * @return  DispatcherInterface
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
 	 */
 	abstract public function getDispatcher();
@@ -34,7 +36,7 @@ trait EventAware
 	 *
 	 * @return  LoggerInterface
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	abstract public function getLogger();
 
@@ -46,7 +48,7 @@ trait EventAware
 	 *
 	 * @return  $this
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function registerEvent($event, callable $handler)
 	{
@@ -76,7 +78,7 @@ trait EventAware
 	 *
 	 * @return  array  An array of results from each function call. Note this will be an empty array if no dispatcher is set.
 	 *
-	 * @since       4.0
+	 * @since       __DEPLOY_VERSION__
 	 * @throws      \InvalidArgumentException
 	 * @deprecated  5.0
 	 */

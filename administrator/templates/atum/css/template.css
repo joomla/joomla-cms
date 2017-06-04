@@ -8939,6 +8939,8 @@ small,
 
 .control-group {
   margin-bottom: 18px; }
+  .control-group > .form-check {
+    display: inline-block; }
   .control-group::after {
     display: table;
     clear: both;
@@ -8998,13 +9000,6 @@ legend {
   height: auto;
   background: none; }
 
-.invalid {
-  color: #bc6564;
-  border-color: #bc6564; }
-
-.valid {
-  border-color: #64bd63; }
-
 .header {
   position: relative;
   z-index: 5;
@@ -9044,10 +9039,11 @@ legend {
       margin-left: .4rem; }
   .header .nav-item + .nav-item {
     margin-left: 1px; }
+  .header .nav-item {
+    background-color: #102335; }
   .header .nav-link {
     position: relative;
-    padding: 0;
-    margin-left: 4px;
+    padding: 0 8px;
     line-height: 48px; }
     .header .nav-link .fa {
       width: 30px;
@@ -9055,14 +9051,17 @@ legend {
       font-size: 1.1rem;
       line-height: 23px;
       color: #fefefe;
-      background-color: #285783;
-      border-radius: 2px; }
+      vertical-align: middle;
+      transition: all .2s ease-in-out; }
     .header .nav-link .badge {
       position: absolute;
       top: 4px;
-      right: -5px; }
+      right: 2px; }
     .header .nav-link.dropdown-toggle::after {
       display: none; }
+    .header .nav-link:hover .fa {
+      font-size: 1.3rem;
+      transition: all .2s ease-in-out; }
   .header .dropdown-notifications {
     min-width: 280px;
     padding: 0;
@@ -9629,18 +9628,23 @@ iframe {
         border-width: 5px 5px 5px 0;
         transform: translateY(-50%); }
 
-.closed {
-  padding-left: 50px; }
-  .closed .child-open::after {
-    display: none; }
-  .closed .sidebar-wrapper {
-    width: 50px;
-    overflow: hidden; }
-  .closed .parent .collapse-arrow::after {
-    visibility: hidden;
-    transition-delay: 0s !important; }
-  .closed .menu-toggle-icon::before {
-    content: "\f054"; }
+@media (min-width: 992px) {
+  .closed {
+    padding-left: 50px; } }
+
+.closed .child-open::after {
+  display: none; }
+
+.closed .sidebar-wrapper {
+  width: 50px;
+  overflow: hidden; }
+
+.closed .parent .collapse-arrow::after {
+  visibility: hidden;
+  transition-delay: 0s !important; }
+
+.closed .menu-toggle-icon::before {
+  content: "\f054"; }
 
 .layout-edit .sidebar-wrapper .no-dropdown:hover {
   color: #fff;
@@ -10365,6 +10369,7 @@ iframe {
   background-color: #f2f2f2; }
   @media (max-width: 991px) {
     .container-main {
+      padding-left: 50px;
       margin-top: 47px; } }
 
 .list-view-main .container-main {

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Model\ListModel;
 
 /**
- * Extension Manager Templates Model
+ * Installer Warnings Model
  *
  * @since  1.6
  */

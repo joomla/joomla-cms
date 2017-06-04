@@ -144,7 +144,7 @@ class PlgUserContactCreator extends JPlugin
 
 		while ($table->load(array('alias' => $alias, 'catid' => $categoryId)))
 		{
-			if ($name == $table->name)
+			if ($name === $table->name)
 			{
 				$name = StringHelper::increment($name);
 			}
