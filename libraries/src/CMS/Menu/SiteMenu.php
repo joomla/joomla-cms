@@ -73,11 +73,9 @@ class SiteMenu extends AbstractMenu
 	{
 		$loader = function ()
 		{
-			$db = $this->db;
-
-			$query = $db->getQuery(true)
+			$query = $this->db->getQuery(true)
 				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-				->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
+				->select($this->db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
 				->select('e.element as component')
 				->from('#__menu AS m')
 				->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
@@ -87,9 +85,9 @@ class SiteMenu extends AbstractMenu
 				->order('m.lft');
 
 			// Set the query
-			$db->setQuery($query);
+			$this->db->setQuery($query);
 
-			return $db->loadObjectList('id', 'Joomla\\CMS\\Menu\\MenuItem');
+			return $this->db->loadObjectList('id', MenuItem::class);
 		};
 
 		try
@@ -97,36 +95,36 @@ class SiteMenu extends AbstractMenu
 			/** @var \JCacheControllerCallback $cache */
 			$cache = \JFactory::getCache('com_menus', 'callback');
 
-			$this->_items = $cache->get($loader, array(), md5(get_class($this)), false);
+			$this->items = $cache->get($loader, array(), md5(get_class($this)), false);
 		}
 		catch (\JCacheException $e)
 		{
 			try
 			{
-				$this->_items = $loader();
+				$this->items = $loader();
 			}
 			catch (\JDatabaseExceptionExecuting $databaseException)
 			{
-				\JError::raiseWarning(500, \JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()));
+				$this->app->enqueueMessage(\JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()), 'warning');
 
 				return false;
 			}
 		}
 		catch (\JDatabaseExceptionExecuting $e)
 		{
-			\JError::raiseWarning(500, \JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
+			$this->app->enqueueMessage(\JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'warning');
 
 			return false;
 		}
 
-		foreach ($this->_items as &$item)
+		foreach ($this->getMenu() as &$item)
 		{
 			// Get parent information.
 			$parent_tree = array();
 
-			if (isset($this->_items[$item->parent_id]))
+			if (isset($this->getMenu()[$item->parent_id]))
 			{
-				$parent_tree  = $this->_items[$item->parent_id]->tree;
+				$parent_tree  = $this->getMenu()[$item->parent_id]->tree;
 			}
 
 			// Create tree.
@@ -207,16 +205,14 @@ class SiteMenu extends AbstractMenu
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->_default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
+		if (array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
 		{
-			return $this->_items[$this->_default[$language]];
+			return $this->getMenu()[$this->default[$language]];
 		}
 
-		if (array_key_exists('*', $this->_default))
+		if (array_key_exists('*', $this->default))
 		{
-			return $this->_items[$this->_default['*']];
+			return $this->getMenu()[$this->default['*']];
 		}
-
-		return;
 	}
 }

@@ -137,6 +137,44 @@ class LibraryAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Method to finalise the uninstallation processing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function finaliseUninstall()
+	{
+		$db = $this->parent->getDbo();
+
+		// Remove the schema version
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $this->extension->extension_id);
+		$db->setQuery($query);
+		$db->execute();
+
+		// Clobber any possible pending updates
+		$update = Table::getInstance('update');
+		$uid    = $update->find(
+			[
+				'element' => $this->extension->element,
+				'type'    => $this->type,
+			]
+		);
+
+		if ($uid)
+		{
+			$update->delete($uid);
+		}
+
+		$this->extension->delete();
+
+		return true;
+	}
+
+	/**
 	 * Get the filtered extension element from the manifest
 	 *
 	 * @param   string  $element  Optional element name to be converted
@@ -210,6 +248,38 @@ class LibraryAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Removes this extension's files
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function removeExtensionFiles()
+	{
+		$this->parent->removeFiles($this->getManifest()->files, -1);
+		\JFile::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
+
+		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
+		// If the folder is empty, let's delete it
+		if (\JFolder::exists($this->parent->getPath('extension_root')))
+		{
+			if (is_dir($this->parent->getPath('extension_root')))
+			{
+				$files = \JFolder::files($this->parent->getPath('extension_root'));
+
+				if (!count($files))
+				{
+					\JFolder::delete($this->parent->getPath('extension_root'));
+				}
+			}
+		}
+
+		$this->parent->removeFiles($this->getManifest()->media);
+		$this->parent->removeFiles($this->getManifest()->languages);
+	}
+
+	/**
 	 * Method to do any prechecks and setup the install paths for the extension
 	 *
 	 * @return  void
@@ -227,6 +297,54 @@ class LibraryAdapter extends InstallerAdapter
 		}
 
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
+	}
+
+	/**
+	 * Method to do any prechecks and setup the uninstall job
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function setupUninstall()
+	{
+		$manifestFile = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
+
+		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
+		if (!file_exists($manifestFile))
+		{
+			// Remove this row entry since its invalid
+			$this->extension->delete($this->extension->extension_id);
+
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
+		}
+
+		$manifest = new LibraryManifest($manifestFile);
+
+		// Set the library root path
+		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
+
+		// Set the source path to the manifests directory so the manifest script may be found
+		$this->parent->setPath('source', JPATH_MANIFESTS . '/libraries/' . $manifest->libraryname);
+
+		$xml = simplexml_load_file($manifestFile);
+
+		// If we cannot load the XML file return null
+		if (!$xml)
+		{
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOAD_MANIFEST'));
+		}
+
+		// Check for a valid XML root tag.
+		if ($xml->getName() != 'extension')
+		{
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
+		}
+
+		$this->setManifest($xml);
+
+		// Attempt to load the language file; might have uninstall strings
+		$this->loadLanguage();
 	}
 
 	/**
@@ -347,115 +465,6 @@ class LibraryAdapter extends InstallerAdapter
 
 		// Now create the new files
 		return $this->install();
-	}
-
-	/**
-	 * Custom uninstall method
-	 *
-	 * @param   string  $id  The id of the library to uninstall.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function uninstall($id)
-	{
-		$retval = true;
-
-		// First order of business will be to load the module object table from the database.
-		// This should give us the necessary information to proceed.
-		$row = Table::getInstance('extension');
-
-		if (!$row->load((int) $id) || !strlen($row->element))
-		{
-			\JLog::add(\JText::_('ERRORUNKOWNEXTENSION'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Is the library we are trying to uninstall a core one?
-		// Because that is not a good idea...
-		if ($row->protected)
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_WARNCORELIBRARY'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/*
-		 * Does this extension have a parent package?
-		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
-		 */
-		if ($row->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($row->package_id))
-		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $row->name), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		$manifestFile = JPATH_MANIFESTS . '/libraries/' . $row->element . '.xml';
-
-		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
-		if (file_exists($manifestFile))
-		{
-			$manifest = new LibraryManifest($manifestFile);
-
-			// Set the library root path
-			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
-
-			$xml = simplexml_load_file($manifestFile);
-
-			// If we cannot load the XML file return null
-			if (!$xml)
-			{
-				\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOAD_MANIFEST'), \JLog::WARNING, 'jerror');
-
-				return false;
-			}
-
-			// Check for a valid XML root tag.
-			if ($xml->getName() != 'extension')
-			{
-				\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'), \JLog::WARNING, 'jerror');
-
-				return false;
-			}
-
-			$this->parent->removeFiles($xml->files, -1);
-			\JFile::delete($manifestFile);
-		}
-		else
-		{
-			// Remove this row entry since its invalid
-			$row->delete($row->extension_id);
-			unset($row);
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
-		// If the folder is empty, let's delete it
-		if (\JFolder::exists($this->parent->getPath('extension_root')))
-		{
-			if (is_dir($this->parent->getPath('extension_root')))
-			{
-				$files = \JFolder::files($this->parent->getPath('extension_root'));
-
-				if (!count($files))
-				{
-					\JFolder::delete($this->parent->getPath('extension_root'));
-				}
-			}
-		}
-
-		$this->parent->removeFiles($xml->media);
-		$this->parent->removeFiles($xml->languages);
-
-		$row->delete($row->extension_id);
-		unset($row);
-
-		return $retval;
 	}
 
 	/**

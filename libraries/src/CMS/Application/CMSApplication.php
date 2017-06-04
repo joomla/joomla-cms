@@ -34,7 +34,7 @@ use Joomla\Session\SessionEvent;
  */
 abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
 {
-	use ContainerAwareTrait;
+	use ContainerAwareTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Array of options for the \JDocument object
@@ -140,6 +140,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		{
 			$this->config->set('session_name', $this->getName());
 		}
+
+		$this->createExtensionNamespaceMap();
 	}
 
 	/**
