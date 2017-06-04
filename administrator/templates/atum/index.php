@@ -27,20 +27,7 @@ JHtml::_('stylesheet', 'template.min.css', array('version' => 'auto', 'relative'
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (file_exists($languageCss) && filesize($languageCss) > 0)
-{
-	JHtml::_('stylesheet', $languageCss, array('version' => 'auto'));
-}
-
-// Load custom.css
-$customCss = 'templates/' . $this->template . '/css/custom.css';
-
-if (file_exists($customCss) && filesize($customCss) > 0)
-{
-	JHtml::_('stylesheet', $customCss, array('version' => 'auto'));
-}
+JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
 
 // Detecting Active Variables
 $option      = $input->get('option', '');

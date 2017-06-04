@@ -39,6 +39,9 @@ JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true
 // Check for a custom js file
 JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 
+// Load specific language related CSS
+JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
+
 // Load optional RTL Bootstrap CSS
 //JHtml::_('bootstrap.loadCss', false, $this->direction);
 
