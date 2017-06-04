@@ -9,31 +9,6 @@
 ;(function($){
 	'use strict';
 
-	if (!Function.prototype.bind) {
-		Function.prototype.bind = function(oThis) {
-			if (typeof this !== 'function') {
-				// closest thing possible to the ECMAScript 5
-				// internal IsCallable function
-				throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
-			}
-
-			var aArgs   = Array.prototype.slice.call(arguments, 1),
-			    fToBind = this,
-			    fNOP    = function() {},
-			    fBound  = function() {
-				    return fToBind.apply(this instanceof fNOP && oThis
-						    ? this
-						    : oThis,
-					    aArgs.concat(Array.prototype.slice.call(arguments)));
-			    };
-
-			fNOP.prototype = this.prototype;
-			fBound.prototype = new fNOP();
-
-			return fBound;
-		};
-	}
-
 	$.fieldMedia = function(container, options){
 		// Merge options with defaults
 		this.options = $.extend({}, $.fieldMedia.defaults, options);
@@ -65,14 +40,26 @@
 
 		this.$container.find(this.options.buttonSaveSelected).on('click', function(e){
 			e.stopPropagation();
-			self.setValue(self.options.rootFolder + self.selectedPath);
+			if (self.selectedPath) {
+				self.setValue(self.options.rootFolder + self.selectedPath);
+			} else {
+				self.setValue('');
+			}
+
 			self.modalClose();
 			return false;
 		});
 
 
 		window.document.addEventListener('onMediaFileSelected', function (e) {
-			self.selectedPath = e.item.path;
+			var path = e.item.path;
+
+			if (path.match(/.jpg|.jpeg|.gif|.png/)) {
+				self.selectedPath = e.item.path;
+			} else {
+				self.selectedPath = '';
+			}
+
 		});
 	};
 
@@ -106,22 +93,8 @@
 			return;
 		}
 
-		if (this.options.preview && !this.options.previewAsTooltip) {
-			var value = this.$input.val();
-
-			if (!value) {
-				this.$containerPreview.append('');
-			} else {
-				var imgPreview = new Image();
-				imgPreview.src = this.options.basepath + value;
-				if (imgPreview.width > imgPreview.height) {
-					this.$containerPreview.html($('<img>',{src: imgPreview.src, style: 'width: ' + this.options.previewWidth + 'px'}));
-				} else {
-					this.$containerPreview.html($('<img>',{src: imgPreview.src, style: 'height: ' + this.options.previewHeight + 'px'}));
-				}
-			}
-		} else {
-			// Reset tooltip and preview
+		// Reset tooltip and preview
+		if (this.options.preview) {
 			this.$containerPreview.popover('dispose');
 			this.$input.tooltip('dispose');
 
@@ -163,7 +136,7 @@
 			var $el = $(this), instance = $el.data('fieldMedia');
 			if(!instance){
 				var options = options || {},
-					data = $el.data();
+				    data = $el.data();
 
 				// Check options in the element
 				for (var p in data) {
@@ -184,68 +157,3 @@
 	});
 
 })(jQuery);
-
-// Compatibility with mootools modal layout
-function jInsertFieldValue(value, id) {
-	var $ = jQuery.noConflict();
-	var old_value = $("#" + id).val();
-	if (old_value != value) {
-		var $elem = $("#" + id);
-		$elem.val(value);
-		$elem.trigger("change");
-		if (typeof($elem.get(0).onchange) === "function") {
-			$elem.get(0).onchange();
-		}
-		jMediaRefreshPreview(id);
-	}
-}
-
-function jMediaRefreshPreview(id) {
-	var $ = jQuery.noConflict();
-	var value = $("#" + id).val();
-	var $img = $("#" + id + "_preview");
-	var basepath = $("#" + id).data("basepath");
-
-	if ($img.length) {
-		if (value) {
-			$img.attr("src", basepath + value);
-			$("#" + id + "_preview_empty").hide();
-			$("#" + id + "_preview_img").show()
-		} else {
-			$img.attr("src", "");
-			$("#" + id + "_preview_empty").show();
-			$("#" + id + "_preview_img").hide();
-		}
-	}
-}
-
-function jMediaRefreshPreviewTip(tip)
-{
-	var $ = jQuery.noConflict();
-	var $tip = $(tip);
-	var $img = $tip.find("img.media-preview");
-
-	$img.each(function(index, value) {
-		$tip.find("div.tip").css("max-width", "none");
-		var id = $(this).attr("id");
-		id = id.substring(0, id.length - "_preview".length);
-		jMediaRefreshPreview(id);
-		$tip.show(this);
-	});
-}
-
-// JQuery for tooltip for INPUT showing whole image path
-function jMediaRefreshImgpathTip(tip, els)
-{
-	var $ = jQuery.noConflict();
-	var $tip = $(tip);
-	$tip.css("max-width", "none");
-	var $imgpath = $(els).val();
-	$("#TipImgpath").html($imgpath);
-
-	if ($imgpath.length) {
-		$tip.show();
-	} else {
-		$tip.hide();
-	}
-}
