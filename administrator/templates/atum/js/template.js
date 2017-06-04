@@ -154,7 +154,9 @@ Joomla = window.Joomla || {};
 					}
 					wrapper.classList.remove('closed');
 					mainNav.classList.add('child-open');
-					menuItem.classList.add('open');
+					if (menuItem.parentNode.classList.contains('main-nav')) {
+						menuItem.classList.add('open');
+					}
 				}
 			};
 
