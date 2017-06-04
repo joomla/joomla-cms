@@ -81,6 +81,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
 				<field
 					name="profilelink"
 					type="radio"
@@ -92,6 +93,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
 				<field
 					name="name"
 					type="radio"

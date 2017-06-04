@@ -15,9 +15,8 @@ use Joomla\CMS\Language\LanguageHelper;
 /**
  * Wrapper class for LanguageHelper
  *
- * @package     Joomla.Platform
- * @subpackage  Language
  * @since       3.4
+ * @deprecated  4.0  Use `Joomla\CMS\Language\LanguageHelper` directly
  */
 class LanguageHelperWrapper
 {
@@ -33,6 +32,7 @@ class LanguageHelperWrapper
 	 *
 	 * @see     LanguageHelper::createLanguageList
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Language\LanguageHelper` directly
 	 */
 	public function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -46,6 +46,7 @@ class LanguageHelperWrapper
 	 *
 	 * @see     LanguageHelper::detectLanguage
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Language\LanguageHelper` directly
 	 */
 	public function detectLanguage()
 	{
@@ -61,6 +62,7 @@ class LanguageHelperWrapper
 	 *
 	 * @see     LanguageHelper::getLanguages
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\Language\LanguageHelper` directly
 	 */
 	public function getLanguages($key = 'default')
 	{

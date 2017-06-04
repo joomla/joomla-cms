@@ -4,10 +4,11 @@
 		<field
 			name="home"
 			type="radio"
-			class="switcher"
 			label="COM_TEMPLATES_FIELD_HOME_LABEL"
 			description="COM_TEMPLATES_FIELD_HOME_ADMINISTRATOR_DESC"
-			default="0">
+			class="switcher"
+			default="0"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>

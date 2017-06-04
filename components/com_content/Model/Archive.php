@@ -34,7 +34,7 @@ class Archive extends Articles
 	 * @param   string  $ordering   The field to order on.
 	 * @param   string  $direction  The direction to order on.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -82,7 +82,10 @@ class Archive extends Articles
 	 */
 	protected function getListQuery()
 	{
-		$params = $this->state->params;
+		$params           = $this->state->params;
+		$app              = JFactory::getApplication('site');
+		$catids           = $app->input->getVar('catid', array());
+		$catids           = array_values(array_diff($catids, array('')));
 		$articleOrderDate = $params->get('order_date');
 
 		// Create a new query object.
@@ -104,6 +107,11 @@ class Archive extends Articles
 		if ($year = $this->getState('filter.year'))
 		{
 			$query->where($query->year($queryDate) . ' = ' . $year);
+		}
+
+		if (count($catids)>0)
+		{
+			$query->where('c.id IN (' . implode(', ', $catids) . ')');
 		}
 
 		return $query;

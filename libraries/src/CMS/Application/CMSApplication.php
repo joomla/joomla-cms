@@ -553,6 +553,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
 			}
+
+			static::$instances[$name]->loadIdentity(\JFactory::getUser());
 		}
 
 		return static::$instances[$name];
@@ -825,6 +827,33 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function isSite()
 	{
 		return $this->isClient('site');
+	}
+
+	/**
+	 * Checks if HTTPS is forced in the client configuration.
+	 *
+	 * @param   integer  $clientId  An optional client id (defaults to current application client).
+	 *
+	 * @return  boolean  True if is forced for the client, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isHttpsForced($clientId = null)
+	{
+		$clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+		$forceSsl = (int) $this->get('force_ssl');
+
+		if ($clientId === 0 && $forceSsl === 2)
+		{
+			return true;
+		}
+
+		if ($clientId === 1 && $forceSsl >= 1)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
