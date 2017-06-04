@@ -226,7 +226,7 @@ class SocketTransport implements HttpTransport
 	/**
 	 * Method to connect to a server and get the resource.
 	 *
-	 * @param   Uri     $uri      The URI to connect with.
+	 * @param   Uri      $uri      The URI to connect with.
 	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  resource  Socket connection resource.
