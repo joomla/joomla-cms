@@ -59,7 +59,9 @@ class JNamespacePsr4Map
 	 */
 	public function ensureMapFileExists()
 	{
-		if (!$this->exists())
+		// Ensure that the database is connected (because it isn't in the installer where this function gets called from
+		// CMSApplication
+		if (!$this->exists() && JFactory::getDbo()->connected())
 		{
 			$this->create();
 		}
