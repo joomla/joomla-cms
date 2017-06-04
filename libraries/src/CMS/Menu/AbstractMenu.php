@@ -23,28 +23,25 @@ abstract class AbstractMenu
 	 * Array to hold the menu items
 	 *
 	 * @var    MenuItem[]
-	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $items
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_items = array();
+	protected $items = array();
 
 	/**
 	 * Identifier of the default menu item
 	 *
 	 * @var    integer
-	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $default
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_default = array();
+	protected $default = array();
 
 	/**
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
-	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $active
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_active = 0;
+	protected $active = 0;
 
 	/**
 	 * Menu instances container.
@@ -74,11 +71,11 @@ abstract class AbstractMenu
 		// Load the menu items
 		$this->load();
 
-		foreach ($this->_items as $item)
+		foreach ($this->getMenu() as $item)
 		{
 			if ($item->home)
 			{
-				$this->_default[trim($item->language)] = $item->id;
+				$this->default[trim($item->language)] = $item->id;
 			}
 		}
 
@@ -124,9 +121,9 @@ abstract class AbstractMenu
 	{
 		$result = null;
 
-		if (isset($this->_items[$id]))
+		if (isset($this->getMenu()[$id]))
 		{
-			$result = &$this->_items[$id];
+			$result = &$this->getMenu()[$id];
 		}
 
 		return $result;
@@ -144,9 +141,9 @@ abstract class AbstractMenu
 	 */
 	public function setDefault($id, $language = '*')
 	{
-		if (isset($this->_items[$id]))
+		if (isset($this->getMenu()[$id]))
 		{
-			$this->_default[$language] = $id;
+			$this->default[$language] = $id;
 
 			return true;
 		}
@@ -165,17 +162,15 @@ abstract class AbstractMenu
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->_default))
+		if (array_key_exists($language, $this->default))
 		{
-			return $this->_items[$this->_default[$language]];
+			return $this->getMenu()[$this->default[$language]];
 		}
 
-		if (array_key_exists('*', $this->_default))
+		if (array_key_exists('*', $this->default))
 		{
-			return $this->_items[$this->_default['*']];
+			return $this->getMenu()[$this->default['*']];
 		}
-
-		return;
 	}
 
 	/**
@@ -189,14 +184,12 @@ abstract class AbstractMenu
 	 */
 	public function setActive($id)
 	{
-		if (isset($this->_items[$id]))
+		if (isset($this->getMenu()[$id]))
 		{
-			$this->_active = $id;
+			$this->active = $id;
 
-			return $this->_items[$id];
+			return $this->getMenu()[$id];
 		}
-
-		return;
 	}
 
 	/**
@@ -208,12 +201,10 @@ abstract class AbstractMenu
 	 */
 	public function getActive()
 	{
-		if ($this->_active)
+		if ($this->active)
 		{
-			return $this->_items[$this->_active];
+			return $this->getMenu()[$this->active];
 		}
-
-		return;
 	}
 
 	/**
@@ -235,7 +226,7 @@ abstract class AbstractMenu
 		$values = (array) $values;
 		$count = count($attributes);
 
-		foreach ($this->_items as $item)
+		foreach ($this->getMenu() as $item)
 		{
 			if (!is_object($item))
 			{
@@ -306,7 +297,7 @@ abstract class AbstractMenu
 	 */
 	public function getMenu()
 	{
-		return $this->_items;
+		return $this->items;
 	}
 
 	/**

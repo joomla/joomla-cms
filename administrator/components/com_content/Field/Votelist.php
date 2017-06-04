@@ -7,16 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Administrator\Field;
+
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Plugin\PluginHelper;
+
+\JFormHelper::loadFieldClass('list');
 
 /**
  * Votelist Field class.
  *
  * @since  3.7.1
  */
-class JFormFieldVotelist extends JFormFieldList
+class Votelist extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -38,6 +42,6 @@ class JFormFieldVotelist extends JFormFieldList
 	public function getOptions()
 	{
 		// Requires vote plugin enabled
-		return JPluginHelper::isEnabled('content', 'vote') ? parent::getOptions() : array();
+		return PluginHelper::isEnabled('content', 'vote') ? parent::getOptions() : array();
 	}
 }

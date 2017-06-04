@@ -105,6 +105,7 @@ Desktop.ini
 /libraries/vendor/joomla/*/.travis/
 /libraries/vendor/joomla/*/docs
 /libraries/vendor/joomla/*/Tests
+/libraries/vendor/joomla/*/tests
 /libraries/vendor/joomla/*/vendor
 /libraries/vendor/joomla/*/.scrutinizer.yml
 /libraries/vendor/joomla/*/.travis.yml
