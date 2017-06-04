@@ -14,12 +14,13 @@ use Joomla\Application\AbstractCliApplication;
 use Joomla\Application\Cli\CliInput;
 use Joomla\Application\Cli\CliOutput;
 use Joomla\Application\Cli\Output\Stdout;
-use Joomla\CMS\Session\Session;
+use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
-use Joomla\Session\Storage\RuntimeStorage;
+use Joomla\Session\SessionInterface;
 
 /**
  * Base class for a Joomla! command line application.
@@ -28,7 +29,7 @@ use Joomla\Session\Storage\RuntimeStorage;
  */
 abstract class CliApplication extends AbstractCliApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware;
+	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
 
 	/**
 	 * The application instance.
@@ -37,8 +38,6 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 * @since  11.1
 	 */
 	protected static $instance;
-
-	private $session;
 
 	/**
 	 * Class constructor.
@@ -55,17 +54,21 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *                                            event dispatcher.  If the argument is a DispatcherInterface object that object will become
 	 *                                            the application's event dispatcher, if it is null then the default event dispatcher
 	 *                                            will be created based on the application's loadDispatcher() method.
+	 * @param   Container            $container   Dependency injection container.
 	 *
 	 * @since   11.1
 	 */
 	public function __construct(\JInputCli $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
-		DispatcherInterface $dispatcher = null)
+		DispatcherInterface $dispatcher = null, Container $container = null)
 	{
 		// Close the application if we are not executed from the command line.
 		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}
+
+		$container = $container ?: new Container;
+		$this->setContainer($container);
 
 		$this->input    = $input ?: new \JInputCli;
 		$this->config   = $config ?: new Registry;
@@ -207,12 +210,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 */
 	public function getSession()
 	{
-		if ($this->session == null)
-		{
-			$this->session = new Session(new RuntimeStorage());
-		}
-
-		return $this->session;
+		return $this->container->get(SessionInterface::class);
 	}
 
 	/**
