@@ -75,6 +75,11 @@ class TagsHelper extends CMSHelper
 		// Prevent saving duplicate tags
 		$tags = array_unique($tags);
 
+		if (!$tags)
+		{
+			return true;
+		}
+
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
 		$query->columns(
@@ -241,9 +246,10 @@ class TagsHelper extends CMSHelper
 					else
 					{
 						// Prepare tag data
-						$tagTable->id = 0;
-						$tagTable->title = $tagText;
-						$tagTable->published = 1;
+						$tagTable->id          = 0;
+						$tagTable->title       = $tagText;
+						$tagTable->published   = 1;
+						$tagTable->description = '';
 
 						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
 						$tagTable->language = '*';

@@ -8,6 +8,8 @@
  */
 namespace Joomla\Component\Modules\Administrator\View\Preview;
 
+// @deprecated  4.0 not used for a long time
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Editor\Editor;
