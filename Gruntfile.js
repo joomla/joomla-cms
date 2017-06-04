@@ -6,7 +6,6 @@ module.exports = function(grunt) {
 		name, tinyXml, codemirrorXml,
 		vendorsTxt    = '',
 		vendorsArr    = '',
-		polyFillsUrls = [],
 		xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 	// Loop to get some text for the packgage.json
