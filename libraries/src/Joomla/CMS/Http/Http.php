@@ -37,7 +37,7 @@ class Http
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry        $options    Client options object. If the registry contains any headers.* elements,
+	 * @param   Registry       $options    Client options object. If the registry contains any headers.* elements,
 	 *                                      these will be added to the request headers.
 	 * @param   HttpTransport  $transport  The HTTP transport object.
 	 *
