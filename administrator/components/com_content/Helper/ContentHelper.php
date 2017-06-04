@@ -21,8 +21,6 @@ class ContentHelper extends \JHelperContent
 	public static $extension = 'com_content';
 
 	/**
-<<<<<<< HEAD
-=======
 	 * Configure the Linkbar.
 	 *
 	 * @param   string  $vName  The name of the active view.
@@ -65,7 +63,6 @@ class ContentHelper extends \JHelperContent
 	}
 
 	/**
->>>>>>> 68d9ed6adfd0a3fefd298ada86f3ea8bf07eaea2
 	 * Applies the content tag filters to arbitrary text as per settings for current user group
 	 *
 	 * @param   text  $text  The string to filter
