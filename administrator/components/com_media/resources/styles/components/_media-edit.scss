@@ -1,0 +1,20 @@
+#media-form {
+	.control-group .control-label {
+		width: 160px;
+	}
+	.control-group .controls {
+	    margin-left: 160px;
+	}
+}
+
+.media-manager-edit {
+    > div {
+    	padding: 0 15px;
+    }
+    h3 {
+    	text-align: center;
+    	opacity: .6;
+    	padding: 3px;
+    }
+}
+
