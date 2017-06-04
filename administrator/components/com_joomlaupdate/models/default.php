@@ -1040,7 +1040,7 @@ ENDDATA;
 			return array();
 		}
 
-		// return variable
+		// Return variable
 		$extensions_compatibility = array(
 			'compatible' => array(),
 			'not_compatible' => array(),
@@ -1087,9 +1087,9 @@ ENDDATA;
 	/**
 	 * Get an array with URL's to update servers for a given extension ID
 	 *
-	 * @param    int  $extension_id  The extension ID
+	 * @param   int  $extension_id  The extension ID
 	 * 
-	 * @return   array  An array with URL's
+	 * @return  array  An array with URL's
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -1100,9 +1100,10 @@ ENDDATA;
 
 		$query->select($db->qn('us.location'))
 			->from($db->qn('#__update_sites', 'us'))
-			->leftJoin($db->qn('#__update_sites_extensions', 'e')
+			->leftJoin(
+				$db->qn('#__update_sites_extensions', 'e')
 				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
-				  )
+			)
 			->where($db->qn('e.extension_id') . ' = ' . (int) $extension_id);
 
 		$db->setQuery($query);
