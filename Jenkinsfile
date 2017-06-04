@@ -28,15 +28,15 @@ pipeline {
       }
       steps {
         sh 'echo $(date)'
-        sh 'ln -s /usr/bin/nodejs /usr/bin/node'
-        sh 'export DISPLAY=:0'
-        sh 'Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset &'
-        sh 'sleep 3'
-        sh 'fluxbox &'
-        sh 'cd tests/javascript && npm install --no-optional'
-        sh 'cd ../..'
-        sh 'firefox'
-        sh 'tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run'
+        sh 'ln -s /usr/bin/nodejs /usr/bin/node &&
+            export DISPLAY=:0 &&
+            Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset & &&
+            sleep 3 &&
+            fluxbox & &&
+            cd tests/javascript && npm install --no-optional && cd ../.. &&
+            firefox & &&
+            tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
+        '
         sh 'echo $(date)'
       }
     }
