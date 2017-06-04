@@ -9931,6 +9931,15 @@ iframe {
   display: none;
   visibility: hidden; }
 
+.pulsate-font-size {
+  animation: pulsateFontSize .3s infinite alternate; }
+
+@keyframes pulsateFontSize {
+  from {
+    font-size: 1.1rem; }
+  to {
+    font-size: 1.3rem; } }
+
 .awesomplete {
   display: block; }
 
