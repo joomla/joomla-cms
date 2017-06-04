@@ -133,7 +133,7 @@ class JHelperMedia
 	 *
 	 * @param   array    $file       File information
 	 * @param   string   $component  The option name for the component storing the parameters
-	 * @param   boolean  $checkMime  With this option you can disable all mime checks
+	 * @param   boolean  $checkMime  If false, disable all mime checks
 	 *
 	 * @return  boolean
 	 *
