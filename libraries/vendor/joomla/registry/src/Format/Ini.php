@@ -8,7 +8,7 @@
 
 namespace Joomla\Registry\Format;
 
-use Joomla\Registry\AbstractRegistryFormat;
+use Joomla\Registry\FormatInterface;
 use Joomla\Utilities\ArrayHelper;
 use stdClass;
 
@@ -17,7 +17,7 @@ use stdClass;
  *
  * @since  1.0
  */
-class Ini extends AbstractRegistryFormat
+class Ini implements FormatInterface
 {
 	/**
 	 * Default options array

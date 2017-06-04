@@ -8,14 +8,14 @@
 
 namespace Joomla\Registry\Format;
 
-use Joomla\Registry\AbstractRegistryFormat;
+use Joomla\Registry\FormatInterface;
 
 /**
  * PHP class format handler for Registry
  *
  * @since  1.0
  */
-class Php extends AbstractRegistryFormat
+class Php implements FormatInterface
 {
 	/**
 	 * Converts an object into a php class string.

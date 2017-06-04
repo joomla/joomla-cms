@@ -361,7 +361,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	public function loadString($data, $format = 'JSON', $options = array())
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler = AbstractRegistryFormat::getInstance($format, $options);
+		$handler = Factory::getFormat($format, $options);
 
 		$obj = $handler->stringToObject($data, $options);
 
@@ -661,7 +661,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	public function toString($format = 'JSON', $options = array())
 	{
 		// Return a namespace in a given format
-		$handler = AbstractRegistryFormat::getInstance($format, $options);
+		$handler = Factory::getFormat($format, $options);
 
 		return $handler->objectToString($this->data, $options);
 	}
