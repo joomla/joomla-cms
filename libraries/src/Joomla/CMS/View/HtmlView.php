@@ -248,7 +248,7 @@ class HtmlView extends \JObject
 	 * within the template script itself.
 	 *
 	 * <code>
-	 * $view = new \Joomla\CMS\View\View;
+	 * $view = new \Joomla\CMS\View\HtmlView;
 	 *
 	 * // Assign directly
 	 * $view->var1 = 'something';
