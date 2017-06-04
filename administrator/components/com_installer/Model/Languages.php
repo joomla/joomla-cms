@@ -119,11 +119,9 @@ class Languages extends ListModel
 	{
 		$updateSite = $this->getUpdateSite();
 
-		$http = new \JHttp;
-
 		try
 		{
-			$response = $http->get($updateSite);
+			$response = \JHttpFactory::getHttp()->get($updateSite);
 		}
 		catch (\RuntimeException $e)
 		{

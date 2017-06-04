@@ -75,6 +75,11 @@ class TagsHelper extends CMSHelper
 		// Prevent saving duplicate tags
 		$tags = array_unique($tags);
 
+		if (!$tags)
+		{
+			return true;
+		}
+
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
 		$query->columns(
@@ -241,9 +246,10 @@ class TagsHelper extends CMSHelper
 					else
 					{
 						// Prepare tag data
-						$tagTable->id = 0;
-						$tagTable->title = $tagText;
-						$tagTable->published = 1;
+						$tagTable->id          = 0;
+						$tagTable->title       = $tagText;
+						$tagTable->published   = 1;
+						$tagTable->description = '';
 
 						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
 						$tagTable->language = '*';
@@ -850,7 +856,7 @@ class TagsHelper extends CMSHelper
 		}
 
 		// Filter by parent_id
-		if (!empty($filters['parent_id']))
+		if (isset($filters['parent_id']) && is_numeric($filters['parent_id']))
 		{
 			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = Table::getInstance('Tag', 'TagsTable');

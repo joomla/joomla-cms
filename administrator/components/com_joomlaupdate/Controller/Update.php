@@ -197,7 +197,7 @@ class Update extends Controller
 
 		$model->cleanUp();
 
-		$url = 'index.php?option=com_joomlaupdate&view=default&layout=complete';
+		$url = 'index.php?option=com_joomlaupdate&view=joomlaupdate&layout=complete';
 		$this->setRedirect($url);
 
 		try
