@@ -997,7 +997,7 @@ ENDDATA;
 	}
 
 	/**
-	 * Method to get a list with 3rd party extensions, sorted by compatibility
+	 * Method to get a list of 3rd party extensions, sorted by compatibility
 	 *
 	 * @param   string  $latest_version  The Joomla! version to test against
 	 *
@@ -1085,11 +1085,11 @@ ENDDATA;
 	}
 
 	/**
-	 * Get an array with URL's to update servers for a given extension ID
+	 * Get an array with URLs to update servers for a given extension ID
 	 *
 	 * @param   int  $extension_id  The extension ID
 	 * 
-	 * @return  array  An array with URL's
+	 * @return  array  An array with URLs
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
