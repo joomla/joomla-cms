@@ -135,9 +135,12 @@ interface CMSApplicationInterface
 	/**
 	 * Flag if the application instance is a CLI or web based application.
 	 *
+	 * Helper function, you should use the native PHP functions to detect if it is a CLI application.
+	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  5.0  Will be removed without replacements
 	 */
 	public function isCli();
 
