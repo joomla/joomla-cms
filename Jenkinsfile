@@ -16,7 +16,7 @@ pipeline {
       }
       steps {
         sh 'echo $(date)'
-        //sh 'phpunit'
+        sh 'phpunit'
       }
     }
     stage('Testing-Javascript') {
