@@ -46,6 +46,14 @@ class LanguageAdapter extends InstallerAdapter
 	protected $tag;
 
 	/**
+	 * Flag indicating the uninstall process should not run SQL queries
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $ignoreUninstallQueries = false;
+
+	/**
 	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
@@ -59,6 +67,131 @@ class LanguageAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Method to finalise the installation processing
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function finaliseInstall()
+	{
+		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to finalise the uninstallation processing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function finaliseUninstall()
+	{
+		if ($this->ignoreUninstallQueries)
+		{
+			return false;
+		}
+
+		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
+
+		// Setting the language of users which have this language as the default language
+		$db = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->from('#__users')
+			->select('*');
+		$db->setQuery($query);
+		$users = $db->loadObjectList();
+
+		if ($client->name == 'administrator')
+		{
+			$param_name = 'admin_language';
+		}
+		else
+		{
+			$param_name = 'language';
+		}
+
+		$count = 0;
+
+		foreach ($users as $user)
+		{
+			$registry = new Registry($user->params);
+
+			if ($registry->get($param_name) == $element)
+			{
+				$registry->set($param_name, '');
+				$query->clear()
+					->update('#__users')
+					->set('params = ' . $db->quote($registry))
+					->where('id = ' . (int) $user->id);
+				$db->setQuery($query);
+				$db->execute();
+				$count++;
+			}
+		}
+
+		// Remove the schema version
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $this->extension->extension_id);
+		$db->setQuery($query);
+		$db->execute();
+
+		// Clobber any possible pending updates
+		$update = Table::getInstance('update');
+		$uid    = $update->find(
+			[
+				'element' => $this->extension->element,
+				'type'    => $this->type,
+			]
+		);
+
+		if ($uid)
+		{
+			$update->delete($uid);
+		}
+
+		// Clean installed languages cache.
+		\JFactory::getCache()->clean('com_languages');
+
+		if (!empty($count))
+		{
+			\JLog::add(\JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), \JLog::NOTICE, 'jerror');
+		}
+
+		// Remove the extension table entry
+		$this->extension->delete();
+
+		return true;
+	}
+
+	/**
+	 * Removes this extension's files
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function removeExtensionFiles()
+	{
+		$this->parent->removeFiles($this->getManifest()->media);
+
+		// Construct the path from the client, the language and the extension element name
+		$path = ApplicationHelper::getClientInfo($this->extension->client_id)->path . '/language/' . $this->extension->element;
+
+		if (!\JFolder::delete($path))
+		{
+			// If deleting failed we'll leave the extension entry in tact just in case
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'), \JLog::WARNING, 'jerror');
+
+			$this->ignoreUninstallQueries = true;
+		}
+	}
+
+	/**
 	 * Method to do any prechecks and setup the install paths for the extension
 	 *
 	 * @return  void
@@ -68,6 +201,52 @@ class LanguageAdapter extends InstallerAdapter
 	protected function setupInstallPaths()
 	{
 		// TODO - Refactor adapter to use common code
+	}
+
+	/**
+	 * Method to do any prechecks and setup the uninstall job
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function setupUninstall()
+	{
+		// Grab a copy of the client details
+		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
+
+		// Check the element isn't blank to prevent nuking the languages directory...just in case
+		if (empty($this->extension->element))
+		{
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_ELEMENT_EMPTY'));
+		}
+
+		// Verify that it's not the default language for that client
+		$params = ComponentHelper::getParams('com_languages');
+
+		if ($params->get($client->name) == $this->extension->element)
+		{
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'));
+		}
+
+		// Construct the path from the client, the language and the extension element name
+		$path = $client->path . '/language/' . $this->extension->element;
+
+		// Get the package manifest object and remove media
+		$this->parent->setPath('source', $path);
+
+		// Check it exists
+		if (!\JFolder::exists($path))
+		{
+			// If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
+			$this->extension->delete();
+
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PATH_EMPTY'));
+		}
+
+		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
+		$this->parent->findManifest();
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -592,145 +771,6 @@ class LanguageAdapter extends InstallerAdapter
 		}
 
 		return $row->get('extension_id');
-	}
-
-	/**
-	 * Custom uninstall method
-	 *
-	 * @param   string  $eid  The tag of the language to uninstall
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function uninstall($eid)
-	{
-		// Load up the extension details
-		$extension = Table::getInstance('extension');
-		$extension->load($eid);
-
-		// Grab a copy of the client details
-		$client = ApplicationHelper::getClientInfo($extension->get('client_id'));
-
-		// Check the element isn't blank to prevent nuking the languages directory...just in case
-		$element = $extension->get('element');
-
-		if (empty($element))
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_ELEMENT_EMPTY'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Check that the language is not protected, Normally en-GB.
-		$protected = $extension->get('protected');
-
-		if ($protected == 1)
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PROTECTED'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Verify that it's not the default language for that client
-		$params = ComponentHelper::getParams('com_languages');
-
-		if ($params->get($client->name) == $element)
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/*
-		 * Does this extension have a parent package?
-		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
-		 */
-		if ($extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($extension->package_id))
-		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $extension->name), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Construct the path from the client, the language and the extension element name
-		$path = $client->path . '/language/' . $element;
-
-		// Get the package manifest object and remove media
-		$this->parent->setPath('source', $path);
-
-		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
-		$this->parent->findManifest();
-		$this->setManifest($this->parent->getManifest());
-		$this->parent->removeFiles($this->getManifest()->media);
-
-		// Check it exists
-		if (!\JFolder::exists($path))
-		{
-			// If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
-			$extension->delete();
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PATH_EMPTY'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		if (!\JFolder::delete($path))
-		{
-			// If deleting failed we'll leave the extension entry in tact just in case
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Remove the extension table entry
-		$extension->delete();
-
-		// Setting the language of users which have this language as the default language
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->from('#__users')
-			->select('*');
-		$db->setQuery($query);
-		$users = $db->loadObjectList();
-
-		if ($client->name == 'administrator')
-		{
-			$param_name = 'admin_language';
-		}
-		else
-		{
-			$param_name = 'language';
-		}
-
-		$count = 0;
-
-		foreach ($users as $user)
-		{
-			$registry = new Registry($user->params);
-
-			if ($registry->get($param_name) == $element)
-			{
-				$registry->set($param_name, '');
-				$query->clear()
-					->update('#__users')
-					->set('params=' . $db->quote($registry))
-					->where('id=' . (int) $user->id);
-				$db->setQuery($query);
-				$db->execute();
-				$count++;
-			}
-		}
-
-		// Clean installed languages cache.
-		\JFactory::getCache()->clean('com_languages');
-
-		if (!empty($count))
-		{
-			\JLog::add(\JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), \JLog::NOTICE, 'jerror');
-		}
-
-		// All done!
-		return true;
 	}
 
 	/**
