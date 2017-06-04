@@ -5,7 +5,7 @@
 .ui-color-picker-wrapper {
 	position: relative;
 }
-.ui-color-picker-wrapper > input {
+.ui-color-picker-wrapper .input-group > input {
 	padding-left: 40px;
 }
 .ui-color-picker-wrapper.open .ui-color-picker {
@@ -212,7 +212,7 @@
 	width: 28px;
 	height: 28px;
 	display: block;
-	z-index: 2;
+	z-index: 4;
 	border: solid 1px #ccc;
 	border-radius: .25rem;
 	background: url("../../images/colorpicker/alpha.png");

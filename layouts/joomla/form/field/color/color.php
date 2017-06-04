@@ -69,24 +69,29 @@ JHtml::_('script', 'system/fields/color-picker.min.js', array('version' => 'auto
 ?>
 
 <div class="ui-color-picker-wrapper">
-	<span class="preview">
-		<span class="preview-color"></span>
-	</span>
-	<input
-		type="text"
-		name="<?php echo $name; ?>"
-		id="<?php echo $id; ?>"
-		value="<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"
-		<?php echo $hint; ?>
-		<?php echo $class; ?>
-		<?php echo $position; ?>
-		<?php echo $readonly; ?>
-		<?php echo $disabled; ?>
-		<?php echo $required; ?>
-		<?php echo $onchange; ?>
-		<?php echo $autofocus; ?>
-		<?php echo $keywords; ?>
-		<?php echo $direction; ?>
-		<?php echo $validate; ?>>
+	<div class="input-group">
+		<span class="preview">
+			<span class="preview-color"></span>
+		</span>
+		<input
+			type="text"
+			name="<?php echo $name; ?>"
+			id="<?php echo $id; ?>"
+			value="<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo $hint; ?>
+			<?php echo $class; ?>
+			<?php echo $position; ?>
+			<?php echo $readonly; ?>
+			<?php echo $disabled; ?>
+			<?php echo $required; ?>
+			<?php echo $onchange; ?>
+			<?php echo $autofocus; ?>
+			<?php echo $keywords; ?>
+			<?php echo $direction; ?>
+			<?php echo $validate; ?>>
+			<span class="input-group-btn">
+				<button class="btn btn-secondary open-picker" type="button">Select</button>
+			</span>
+		</div>
 	<div class="ui-color-picker"<?php echo $format; ?>></div>
 </div>
