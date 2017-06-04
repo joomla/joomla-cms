@@ -221,7 +221,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-05-29 11:04:58"
+            "time": "2017-05-29T11:04:58+00:00"
         },
         {
             "name": "joomla/compat",
@@ -927,12 +927,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "c4c0db28f8d007ba5126ba6bcbabbfb7904be30b"
+                "reference": "9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/c4c0db28f8d007ba5126ba6bcbabbfb7904be30b",
-                "reference": "c4c0db28f8d007ba5126ba6bcbabbfb7904be30b",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3",
+                "reference": "9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3",
                 "shasum": ""
             },
             "require": {
@@ -965,7 +965,7 @@
                 "joomla",
                 "uri"
             ],
-            "time": "2017-05-27T01:23:06+00:00"
+            "time": "2017-06-04T09:37:41+00:00"
         },
         {
             "name": "joomla/utilities",

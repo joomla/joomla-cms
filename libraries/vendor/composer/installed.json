@@ -989,12 +989,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/uri.git",
-            "reference": "c4c0db28f8d007ba5126ba6bcbabbfb7904be30b"
+            "reference": "9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/uri/zipball/c4c0db28f8d007ba5126ba6bcbabbfb7904be30b",
-            "reference": "c4c0db28f8d007ba5126ba6bcbabbfb7904be30b",
+            "url": "https://api.github.com/repos/joomla-framework/uri/zipball/9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3",
+            "reference": "9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3",
             "shasum": ""
         },
         "require": {
@@ -1005,7 +1005,7 @@
             "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
             "squizlabs/php_codesniffer": "1.*"
         },
-        "time": "2017-05-27T01:23:06+00:00",
+        "time": "2017-06-04T09:37:41+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
