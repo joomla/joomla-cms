@@ -427,7 +427,7 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->toUrl($path, $data);
+		$path = $this->oauth->toUrl($path, $this->oauth->safeEncode($data));
 
 		if (strpos($fields, 'api-standard-profile-request') === false)
 		{
@@ -452,7 +452,7 @@ class JLinkedinPeopleTest extends TestCase
 			$returnData->body = $this->sampleString;
 
 			$path = '/v1/people/oAFz-3CZyv';
-			$path = $this->oauth->toUrl($path, $data);
+			$path = $this->oauth->toUrl($path, $this->oauth->safeEncode($data));
 
 			$name = 'x-li-auth-token';
 			$value = 'NAME_SEARCH:-Ogn';
@@ -539,7 +539,7 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->toUrl($path, $data);
+		$path = $this->oauth->toUrl($path, $this->oauth->safeEncode($data));
 
 		$this->client->expects($this->once())
 			->method('get')

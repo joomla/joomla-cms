@@ -601,7 +601,7 @@ class JTwitterStatuses extends JTwitterObject
 		}
 		elseif ($url)
 		{
-			$data['url'] = rawurlencode($url);
+			$data['url'] = $url;
 		}
 		else
 		{

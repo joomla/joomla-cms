@@ -180,7 +180,7 @@ class JTwitterSearchTest extends TestCase
 		// Set request parameters.
 		$data['q'] = rawurlencode($query);
 		$data['callback'] = $callback;
-		$data['geocode'] = $geocode;
+		$data['geocode'] = rawurlencode($geocode);
 		$data['lang'] = $lang;
 		$data['locale'] = $locale;
 		$data['result_type'] = $result_type;

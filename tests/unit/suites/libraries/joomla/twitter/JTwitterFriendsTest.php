@@ -982,7 +982,7 @@ class JTwitterFriendsTest extends TestCase
 
 		if ($id)
 		{
-			$data['user_id'] = $id;
+			$data['user_id'] = rawurlencode($id);
 		}
 		if ($screen_name)
 		{
@@ -1038,7 +1038,7 @@ class JTwitterFriendsTest extends TestCase
 
 		if ($id)
 		{
-			$data['user_id'] = $id;
+			$data['user_id'] = rawurlencode($id);
 		}
 		if ($screen_name)
 		{
