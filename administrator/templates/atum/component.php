@@ -25,11 +25,11 @@ JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') .
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
-// Load specific language related CSS
-JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
-
 // Load custom.css
-JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+
+// Load specific language related CSS
+JHtml::_('stylesheet', ltrim($this->baseurl, '/') . '/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 ?>
 
 <!DOCTYPE html>

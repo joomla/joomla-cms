@@ -21,21 +21,11 @@ JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', arra
 // Add Stylesheets
 JHtml::_('stylesheet', 'template.min.css', array('version' => 'auto', 'relative' => true));
 
-// Load specific language related CSS
-$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (file_exists($languageCss) && filesize($languageCss) > 0)
-{
-	JHtml::_('stylesheet', $languageCss, array('version' => 'auto'));
-}
-
 // Load custom.css
-$customCss = 'templates/' . $this->template . '/css/custom.css';
+JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
-if (file_exists($customCss) && filesize($customCss) > 0)
-{
-	JHtml::_('stylesheet', $customCss, array('version' => 'auto'));
-}
+// Load specific language related CSS
+JHtml::_('stylesheet', ltrim($this->baseurl, '/') . '/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');

@@ -33,14 +33,14 @@ JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true)
 // Add Stylesheets
 JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => true));
 
-// Check for a custom CSS file
+// Load custom.css
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+
+// Load specific language related CSS
+JHtml::_('stylesheet', ltrim($this->baseurl, '/') . '/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Check for a custom js file
 JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
-
-// Load specific language related CSS
-JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
 
 // Load optional RTL Bootstrap CSS
 //JHtml::_('bootstrap.loadCss', false, $this->direction);

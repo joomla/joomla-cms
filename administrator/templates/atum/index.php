@@ -24,10 +24,12 @@ JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true)
 
 // Add Stylesheets
 JHtml::_('stylesheet', 'template.min.css', array('version' => 'auto', 'relative' => true));
+
+// Load custom.css
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', ltrim($this->baseurl, '/') . '/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Detecting Active Variables
 $option      = $input->get('option', '');
