@@ -9039,10 +9039,11 @@ legend {
       margin-left: .4rem; }
   .header .nav-item + .nav-item {
     margin-left: 1px; }
+  .header .nav-item {
+    background-color: #102335; }
   .header .nav-link {
     position: relative;
-    padding: 0;
-    margin-left: 4px;
+    padding: 0 8px;
     line-height: 48px; }
     .header .nav-link .fa {
       width: 30px;
@@ -9050,14 +9051,17 @@ legend {
       font-size: 1.1rem;
       line-height: 23px;
       color: #fefefe;
-      background-color: #285783;
-      border-radius: 2px; }
+      vertical-align: middle;
+      transition: all .2s ease-in-out; }
     .header .nav-link .badge {
       position: absolute;
       top: 4px;
-      right: -5px; }
+      right: 2px; }
     .header .nav-link.dropdown-toggle::after {
       display: none; }
+    .header .nav-link:hover .fa {
+      font-size: 1.3rem;
+      transition: all .2s ease-in-out; }
   .header .dropdown-notifications {
     min-width: 280px;
     padding: 0;
