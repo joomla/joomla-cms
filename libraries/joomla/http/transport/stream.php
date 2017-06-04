@@ -166,6 +166,12 @@ class JHttpTransportStream implements JHttpTransport
 			)
 		);
 
+		// Ensure the ssl peer name is verified where possible
+		if (version_compare(PHP_VERSION, '5.6.0') >= 0)
+		{
+			$streamOptions['ssl']['verify_peer_name'] = true;
+		}
+
 		// Authentification, if needed
 		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
 		{
