@@ -999,7 +999,7 @@ ENDDATA;
 	/**
 	 * Method to get a list with 3rd party extensions, sorted by compatibility
 	 *
-	 * @param   string $latest_version The Joomla! version to test against
+	 * @param   string  $latest_version  The Joomla! version to test against
 	 *
 	 * @return  array  An array of data items.
 	 *
@@ -1025,8 +1025,8 @@ ENDDATA;
 	/**
 	 * Method to filter 3rd party extensions by the compatibility versions
 	 *
-	 * @param   array $extensions The items to check as an object list. See getExtensions().
-	 * @param   string $latest_version The Joomla! version to test against
+	 * @param   array   $extensions      The items to check as an object list. See getExtensions().
+	 * @param   string  $latest_version  The Joomla! version to test against
 	 *
 	 * @return  array  An array of data items.
 	 *
@@ -1040,7 +1040,7 @@ ENDDATA;
 			return array();
 		}
 
-		//return variable
+		// return variable
 		$extensions_compatibility = array(
 			'compatible' => array(),
 			'not_compatible' => array(),
@@ -1064,7 +1064,7 @@ ENDDATA;
 
 			foreach ($locations as $location)
 			{
-				$update = new JUpdate();
+				$update = new JUpdate;
 				$update->set('jversion.full', $version[1]);
 				$update->set('jversion.dev_level', $version[2]);
 				$update->loadFromXML($location);
@@ -1087,9 +1087,9 @@ ENDDATA;
 	/**
 	 * Get an array with URL's to update servers for a given extension ID
 	 *
-	 * @param $extension_id
+	 * @param    int  $extension_id  The extension ID
 	 * 
-	 * @return array
+	 * @return   array  An array with URL's
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -1101,8 +1101,9 @@ ENDDATA;
 		$query->select($db->qn('us.location'))
 			->from($db->qn('#__update_sites', 'us'))
 			->leftJoin($db->qn('#__update_sites_extensions', 'e')
-				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id'))
-			->where($db->qn('e.extension_id') . ' = ' . (int)$extension_id);
+				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
+				  )
+			->where($db->qn('e.extension_id') . ' = ' . (int) $extension_id);
 
 		$db->setQuery($query);
 
