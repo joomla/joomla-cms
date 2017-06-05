@@ -164,7 +164,7 @@ elseif ($input->get('template'))
 	 * Only allow access to current menu item's template (like modules) in the front end.
 	 * Allow full access in the back end as user is authenticated.
 	 */
-	if (($app->isSite() && $template === $app->getTemplate()) || $app->isAdmin())
+	if (($app->isClient('site') && $template === $app->getTemplate()) || $app->isClient('administrator'))
 	{
 		$basePath	= JPATH_BASE;
 		$helperFile	= $basePath . '/templates/' . $template . '/helper.php';
@@ -197,7 +197,7 @@ elseif ($input->get('template'))
 		$method = $input->get('method') ?: 'get';
 
 		// Is the back end accessing a front end template?
-		if ($app->isAdmin() && !is_file($helperFile))
+		if ($app->isClient('administrator') && !is_file($helperFile))
 		{
 			$basePath	= JPATH_ROOT;
 			$helperFile	= $basePath . '/templates/' . $template . '/helper.php';
