@@ -3,11 +3,11 @@ Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cm
 
 Build Status
 ---------------------
-Travis-CI: [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=4.0-dev)](https://travis-ci.org/joomla/joomla-cms)
+Travis-CI: [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)
 
 Drone -CI: [![Build Status](http://213.160.72.75/api/badges/joomla/joomla-cms/status.svg)](http://213.160.72.75/joomla/joomla-cms)
 
-AppVeyor: [![Build status](https://ci.appveyor.com/api/projects/status/bpcxulw6nnxlv8kb/branch/4.0-dev?svg=true)](https://ci.appveyor.com/project/joomla/joomla-cms)
+AppVeyor: [![Build status](https://ci.appveyor.com/api/projects/status/bpcxulw6nnxlv8kb/branch/staging?svg=true)](https://ci.appveyor.com/project/joomla/joomla-cms)
 
 Jenkins: [![Build Status](http://build.joomla.org/job/cms/badge/icon)](http://build.joomla.org/job/cms/)
 
@@ -16,12 +16,12 @@ What is this?
 * This is a Joomla! 4.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
 * Joomla! 4.0 [version history](https://docs.joomla.org/Joomla_4.0_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.0-dev).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
 
 What is Joomla?
 ---------------------
 * [Joomla!](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
-* It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
+* It is a simple and powerful web server application which requires a server with PHP and either MySQL or PostgreSQL to run. You can find [full technical requirements here](https://downloads.joomla.org/technical-requirements).
 * Joomla! is **free and Open Source software** distributed under the GNU General Public License version 2 or later.
 
 Is Joomla! for you?
@@ -33,12 +33,12 @@ Is Joomla! for you?
 How to find a Joomla! translation?
 ---------------------
 * Repository of [accredited language packs](https://community.joomla.org/translations.html).
-* You can also [add languages](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to your website via your Joomla! administration panel.
-* Learn how to [setup a Multilingual Joomla! Site](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site)
+* You can also [add languages](https://docs.joomla.org/Special:MyLanguage/J4.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to your website via your Joomla! administration panel.
+* Learn how to [setup a Multilingual Joomla! Site](https://docs.joomla.org/Special:MyLanguage/J4.x:Setup_a_Multilingual_Site)
 
 Learn Joomla!
 ---------------------
-* Read ['Getting Started with Joomla!'](https://docs.joomla.org/Special:MyLanguage/J3.x:Getting_Started_with_Joomla!) to learn the basics.
+* Read ['Getting Started with Joomla!'](https://docs.joomla.org/Special:MyLanguage/J4.x:Getting_Started_with_Joomla!) to learn the basics.
 * Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Special:MyLanguage/Portal:Beginners).
 
 What are the benefits of Joomla?
@@ -56,7 +56,7 @@ Is it easy to change the layout display?
 Ready to install Joomla?
 ---------------------
 * Check the [minimum requirements](https://downloads.joomla.org/technical-requirements). 
-* How do you [install Joomla](https://docs.joomla.org/Special:MyLanguage/J3.x:Installing_Joomla)?
+* How do you [install Joomla](https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla)?
 * You could start your Joomla! experience by [building your site on a local test server](https://docs.joomla.org/Special:MyLanguage/Installing_Joomla_locally).
 When ready, it can be moved to an online hosting account of your choice.
 
@@ -73,10 +73,11 @@ Where can you get support and help?
 * Post questions at [our forums](https://forum.joomla.org);
 * [Joomla Resources Directory](https://resources.joomla.org/) (JRD).
 
-Do you already have a Joomla! site that isn't built with Joomla! 3.x?
+Do you already have a Joomla! site that isn't built with Joomla! 4.x?
 ---------------------
-* What's [new in Joomla! 3.x](https://www.joomla.org/3)?
-* What are the [main differences between 2.5 and 3.x](https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_2.5_and_3.x%3F)?
+* What's [new in Joomla! 4.x](https://www.joomla.org/4)?
+* What are the [main differences between 3.x and 4.x](https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_3.x_and_4.x)?
+* How to [migrate from 3.x to 4.x](https://docs.joomla.org/Special:MyLanguage/Joomla_3.x_to_4.x_Step_by_Step_Migration).
 * How to [migrate from 2.5.x to 3.x](https://docs.joomla.org/Special:MyLanguage/Joomla_2.5_to_3.x_Step_by_Step_Migration).
 * How to [migrate from 1.5.x to 3.x](https://docs.joomla.org/Special:MyLanguage/Joomla_1.5_to_3.x_Step_by_Step_Migration).
 
