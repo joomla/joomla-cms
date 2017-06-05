@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Input CLI Class
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  4.0  Use Joomla\Input\Cli instead
  */
 class JInputCli extends JInput
 {
