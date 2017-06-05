@@ -166,7 +166,8 @@ elseif ($input->get('template'))
 	 */
 	if (($app->isSite() && $template === $app->getTemplate()) || $app->isAdmin())
 	{
-		$helperFile = JPATH_BASE . '/templates/' . $template . '/helper.php';
+		$basePath	= JPATH_BASE;
+		$helperFile	= $basePath . '/templates/' . $template . '/helper.php';
 
 		if (strpos($template, '_'))
 		{
@@ -195,6 +196,13 @@ elseif ($input->get('template'))
 
 		$method = $input->get('method') ?: 'get';
 
+		// Is the back end accessing a front end template?
+		if ($app->isAdmin() && !is_file($helperFile))
+		{
+			$basePath	= JPATH_ROOT;
+			$helperFile	= $basePath . '/templates/' . $template . '/helper.php';
+		}
+
 		if (is_file($helperFile))
 		{
 			JLoader::register($class, $helperFile);
@@ -202,8 +210,7 @@ elseif ($input->get('template'))
 			if (method_exists($class, $method . 'Ajax'))
 			{
 				// Load language file for template
-				$basePath = JPATH_BASE;
-				$lang     = JFactory::getLanguage();
+				$lang = JFactory::getLanguage();
 				$lang->load('tpl_' . $template, $basePath, null, false, true)
 				||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template, null, false, true);
 
