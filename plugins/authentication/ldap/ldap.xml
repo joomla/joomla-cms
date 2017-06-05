@@ -18,7 +18,6 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field
 					name="host"
@@ -113,7 +112,6 @@
 					size="20"
 				/>
 
-
 				<field
 					name="username"
 					type="text"
@@ -157,7 +155,6 @@
 					size="20"
 				/>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>
