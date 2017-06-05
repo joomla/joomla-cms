@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Administrator	
  * @subpackage  com_admin
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
