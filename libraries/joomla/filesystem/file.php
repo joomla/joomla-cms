@@ -112,6 +112,8 @@ class JFile
 				return false;
 			}
 
+			self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
+
 			return true;
 		}
 		else
@@ -151,6 +153,10 @@ class JFile
 				}
 
 				$ret = true;
+			}
+
+			if($ret) {
+				self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 			}
 
 			return $ret;
@@ -226,6 +232,8 @@ class JFile
 			}
 		}
 
+		self::triggerEvent(array('args'=>array('src'=>$file), 'method'=>__METHOD__));
+
 		return true;
 	}
 
@@ -270,6 +278,8 @@ class JFile
 				return false;
 			}
 
+			self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest, 'path'=>$path), 'method'=>__METHOD__));
+
 			return true;
 		}
 		else
@@ -302,6 +312,8 @@ class JFile
 					return false;
 				}
 			}
+
+			self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest, 'path'=>$path), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -418,6 +430,8 @@ class JFile
 				return false;
 			}
 
+			self::triggerEvent(array('args'=>array('dest'=>$file), 'method'=>__METHOD__));
+
 			return true;
 		}
 		else
@@ -438,6 +452,10 @@ class JFile
 			{
 				$file = $pathObject->clean($file);
 				$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
+			}
+			
+			if($ret) {
+				self::triggerEvent(array('args'=>array('dest'=>$file), 'method'=>__METHOD__));
 			}
 
 			return $ret;
@@ -564,6 +582,8 @@ class JFile
 				return false;
 			}
 
+			self::triggerEvent(array('args'=>array('dest'=>$dest), 'method'=>__METHOD__));
+
 			return true;
 		}
 		else
@@ -608,6 +628,10 @@ class JFile
 				{
 					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), JLog::WARNING, 'jerror');
 				}
+			}
+
+			if($ret) {
+				self::triggerEvent(array('args'=>array('dest'=>$dest), 'method'=>__METHOD__));
 			}
 
 			return $ret;
@@ -656,5 +680,23 @@ class JFile
 		{
 			return $file;
 		}
+	}
+
+	/*
+	 * Triggers file plugin events
+	 * 
+	 * @param   array   $args  Event args
+	 * 
+	 * @return bool success
+	 */
+	private static function triggerEvent($args=array()) {
+		JPluginHelper::importPlugin( 'file' );
+//		$app = JFactory::getApplication();
+//		if($app) {
+//		    return $app->triggerEvent('onFilesystemEvent', $args);
+//		} else {
+		    $dispatcher = JEventDispatcher::getInstance();
+		    return $dispatcher->trigger('onFilesystemEvent', $args);
+//		}
 	}
 }

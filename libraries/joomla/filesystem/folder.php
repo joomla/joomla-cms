@@ -153,6 +153,8 @@ abstract class JFolder
 			}
 		}
 
+		self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
+
 		return true;
 	}
 
@@ -207,6 +209,8 @@ abstract class JFolder
 		// Check if dir already exists
 		if (self::exists($path))
 		{
+			self::triggerEvent(array('args'=>array('path'=>$path), 'method'=>__METHOD__));
+			
 			return true;
 		}
 
@@ -280,6 +284,8 @@ abstract class JFolder
 			// Reset umask
 			@umask($origmask);
 		}
+
+		self::triggerEvent(array('args'=>array('path'=>$path), 'method'=>__METHOD__));
 
 		return $ret;
 	}
@@ -382,6 +388,10 @@ abstract class JFolder
 			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
 			$ret = false;
 		}
+		
+		if($ret) {
+			self::triggerEvent(array('args'=>array('path'=>$path), 'method'=>__METHOD__));
+		}
 
 		return $ret;
 	}
@@ -458,6 +468,10 @@ abstract class JFolder
 
 				$ret = true;
 			}
+		}
+
+		if($ret) {
+		    self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 		}
 
 		return $ret;
@@ -718,5 +732,23 @@ abstract class JFolder
 		$regex = array('#[^A-Za-z0-9_\\\/\(\)\[\]\{\}\#\$\^\+\.\'~`!@&=;,-]#');
 
 		return preg_replace($regex, '', $path);
+	}
+	
+	/*
+	 * Triggers file plugin events
+	 * 
+	 * @param   array   $args  Event args
+	 * 
+	 * @return bool success
+	 */
+	private static function triggerEvent($args=array()) {
+		JPluginHelper::importPlugin( 'file' );
+//		$app = JFactory::getApplication();
+//		if($app) {
+//		    return $app->triggerEvent('onFilesystemEvent', $args);
+//		} else {
+		    $dispatcher = JEventDispatcher::getInstance();
+		    return $dispatcher->trigger('onFilesystemEvent', $args);
+//		}
 	}
 }
