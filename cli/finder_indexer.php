@@ -222,8 +222,6 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		FinderIndexer::resetState();
 	}
 
-	public function setHeader(){echo new Exception();die;}
-
 	/**
 	 * Purge the index.
 	 *
