@@ -7,16 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Quickicon\Administrator\Helper;
+
 defined('_JEXEC') or die;
 
-JLoader::register('GetQuickIconsEvent', __DIR__ . '/event.php');
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
 /**
  * Helper for mod_quickicon
  *
  * @since  1.6
  */
-abstract class ModQuickIconHelper
+abstract class QuickIconHelper
 {
 	/**
 	 * Stack to hold buttons
@@ -31,7 +34,7 @@ abstract class ModQuickIconHelper
 	 * This method returns the array by reference so it can be
 	 * used to add custom buttons or remove default ones.
 	 *
-	 * @param   JObject  $params  The module parameters.
+	 * @param   \JObject  $params  The module parameters.
 	 *
 	 * @return  array  An array of buttons
 	 *
@@ -48,34 +51,34 @@ abstract class ModQuickIconHelper
 			if ($context == 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
-				JFactory::getLanguage()->load('mod_quickicon');
+				\JFactory::getLanguage()->load('mod_quickicon');
 
 				self::$buttons[$key] = array(
 					array(
-						'link'   => JRoute::_('index.php?option=com_content&task=article.add'),
+						'link'   => \JRoute::_('index.php?option=com_content&task=article.add'),
 						'image'  => 'fa fa-pencil-square',
-						'text'   => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
+						'text'   => \JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
-						'link'   => JRoute::_('index.php?option=com_media'),
+						'link'   => \JRoute::_('index.php?option=com_media'),
 						'image'  => 'fa fa-file-image-o',
-						'text'   => JText::_('MOD_QUICKICON_MEDIA_MANAGER'),
+						'text'   => \JText::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
-						'link'   => JRoute::_('index.php?option=com_config'),
+						'link'   => \JRoute::_('index.php?option=com_config'),
 						'image'  => 'fa fa-cog',
-						'text'   => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
+						'text'   => \JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
 						'group'  => 'MOD_QUICKICON_CONFIGURATION',
 					),
 					array(
-						'link'   => JRoute::_('index.php?option=com_modules'),
+						'link'   => \JRoute::_('index.php?option=com_modules'),
 						'image'  => 'fa fa-cube',
-						'text'   => JText::_('MOD_QUICKICON_MODULE_MANAGER'),
+						'text'   => \JText::_('MOD_QUICKICON_MODULE_MANAGER'),
 						'access' => array('core.manage', 'com_modules'),
 						'group'  => 'MOD_QUICKICON_STRUCTURE'
 					)
@@ -87,11 +90,11 @@ abstract class ModQuickIconHelper
 			}
 
 			// Include buttons defined by published quickicon plugins
-			JPluginHelper::importPlugin('quickicon');
-			$app = JFactory::getApplication();
+			PluginHelper::importPlugin('quickicon');
+			$app = \JFactory::getApplication();
 			$arrays = (array) $app->triggerEvent(
 				'onGetIcons',
-				new GetQuickIconsEvent('onGetIcons', ['context' => $context])
+				new QuickIconsEvent('onGetIcons', ['context' => $context])
 			);
 
 			foreach ($arrays as $response)
@@ -116,29 +119,5 @@ abstract class ModQuickIconHelper
 		}
 
 		return self::$buttons[$key];
-	}
-
-	/**
-	 * Get the alternate title for the module
-	 *
-	 * @param   JObject  $params  The module parameters.
-	 * @param   JObject  $module  The module.
-	 *
-	 * @return  string	The alternate title for the module.
-	 *
-	 * @deprecated  4.0 Unused. Title can be adjusted in module itself if needed.
-	 */
-	public static function getTitle($params, $module)
-	{
-		$key = $params->get('context', 'mod_quickicon') . '_title';
-
-		if (JFactory::getLanguage()->hasKey($key))
-		{
-			return JText::_($key);
-		}
-		else
-		{
-			return $module->title;
-		}
 	}
 }

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Module\Quickicon\Administrator\Event;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\AbstractEvent;
@@ -16,7 +18,7 @@ use Joomla\CMS\Event\AbstractEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class GetQuickIconsEvent extends AbstractEvent
+class QuickIconsEvent extends AbstractEvent
 {
 	/**
 	 * The event context
