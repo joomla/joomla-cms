@@ -66,4 +66,6 @@ class DeletefilesCli extends \Joomla\CMS\Application\CliApplication
 
 // Instantiate the application object, passing the class name to JCli::getInstance
 // and use chaining to execute the application.
-\Joomla\CMS\Application\CliApplication::getInstance('DeletefilesCli')->execute();
+$app = \Joomla\CMS\Application\CliApplication::getInstance('DeletefilesCli');
+JFactory::$application = $app;
+$app->execute();

@@ -44,4 +44,6 @@ class GarbageCron extends \Joomla\CMS\Application\CliApplication
 	}
 }
 
-\Joomla\CMS\Application\CliApplication::getInstance('GarbageCron')->execute();
+$app = \Joomla\CMS\Application\CliApplication::getInstance('GarbageCron');
+JFactory::$application = $app;
+$app->execute();

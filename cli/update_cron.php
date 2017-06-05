@@ -71,4 +71,6 @@ class Updatecron extends \Joomla\CMS\Application\CliApplication
 	}
 }
 
-\Joomla\CMS\Application\CliApplication::getInstance('Updatecron')->execute();
+$app = \Joomla\CMS\Application\CliApplication::getInstance('Updatecron');
+JFactory::$application = $app;
+$app->execute();
