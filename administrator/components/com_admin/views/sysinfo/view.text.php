@@ -168,7 +168,7 @@ class AdminViewSysinfo extends JViewLegacy
 	{
 		foreach ($sectionData as $directory => $data)
 		{
-			$sectionData[$directory] = $data['writable'] ? ' writable' : ' NOT writable';
+			$sectionData[$directory] = $data['writable'] ? JText::_('COM_ADMIN_WRITABLE') : JText::_('COM_ADMIN_UNWRITABLE');
 		}
 
 		return $this->renderSection($sectionName, $sectionData, $level);
