@@ -125,7 +125,7 @@ abstract class JFactory
 		if (!self::$application)
 		{
 			if (!$id)
-			{echo new Exception();die;
+			{
 				throw new Exception('Application Instantiation Error', 500);
 			}
 
