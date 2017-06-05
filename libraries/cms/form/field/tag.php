@@ -158,6 +158,10 @@ class JFormFieldTag extends JFormFieldList
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 
+		// Respect the current user Access levels
+		$viewlevels = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$query->where('a.access IN (' . $viewlevels . ')');
+
 		$query->order('a.lft ASC');
 
 		// Get the options.
