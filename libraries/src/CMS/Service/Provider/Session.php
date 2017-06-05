@@ -15,6 +15,7 @@ use InvalidArgumentException;
 use JApplicationHelper;
 use JFactory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
+use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\CMS\Session\Validator\AddressValidator;
 use Joomla\CMS\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;

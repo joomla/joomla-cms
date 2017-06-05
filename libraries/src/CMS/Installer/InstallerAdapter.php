@@ -1203,6 +1203,17 @@ abstract class InstallerAdapter
 
 		try
 		{
+			$this->triggerManifestScript('preflight');
+		}
+		catch (\RuntimeException $e)
+		{
+			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		try
+		{
 			$this->triggerManifestScript('uninstall');
 		}
 		catch (\RuntimeException $e)
@@ -1256,6 +1267,18 @@ abstract class InstallerAdapter
 		try
 		{
 			$retval |= $this->finaliseUninstall();
+		}
+		catch (\RuntimeException $e)
+		{
+			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+
+			$retval = false;
+		}
+
+		// And now we run the postflight
+		try
+		{
+			$this->triggerManifestScript('postflight');
 		}
 		catch (\RuntimeException $e)
 		{

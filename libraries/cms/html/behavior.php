@@ -670,7 +670,7 @@ JS
 			$scriptOptions = array('version' => 'auto', 'relative' => true);
 			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', $scriptOptions);
+			JHtml::_('script', 'system/polyfill-' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
