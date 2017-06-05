@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,8 +15,6 @@ JLoader::import('joomla.filesystem.file');
 
 /**
  * View to edit an file.
- *
- * @todo Prototype!
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -60,19 +58,16 @@ class MediaViewFile extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   _DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
-		// @TODO buttons
 		JToolbarHelper::apply('apply');
 		JToolbarHelper::save('save');
 		JToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
 
-		// JToolbarHelper::custom('undo', 'undo', '',  'Undo', false);
-		// JToolbarHelper::custom('redo', 'redo', '',  'Redo', false);
 		JToolbarHelper::cancel('cancel');
 	}
 }
