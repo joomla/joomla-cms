@@ -49,23 +49,6 @@ class JDate extends DateTime
 	public static $format = 'Y-m-d H:i:s';
 
 	/**
-	 * Placeholder for a DateTimeZone object with GMT as the time zone.
-	 *
-	 * @var    object
-	 * @since  11.1
-	 */
-	protected static $gmt;
-
-	/**
-	 * Placeholder for a DateTimeZone object with the default server
-	 * time zone as the time zone.
-	 *
-	 * @var    object
-	 * @since  11.1
-	 */
-	protected static $stz;
-
-	/**
 	 * The DateTimeZone object for usage in rending dates as strings.
 	 *
 	 * @var    DateTimeZone
@@ -83,35 +66,35 @@ class JDate extends DateTime
 	 */
 	public function __construct($date = 'now', $tz = null)
 	{
-		// Create the base GMT and server time zone objects.
-		if (empty(self::$gmt) || empty(self::$stz))
-		{
-			self::$gmt = new DateTimeZone('GMT');
-			self::$stz = new DateTimeZone(@date_default_timezone_get());
-		}
-
 		// If the time zone object is not set, attempt to build it.
 		if (!($tz instanceof DateTimeZone))
 		{
 			if ($tz === null)
 			{
-				$tz = self::$gmt;
+				$tz = new DateTimeZone('UTC');
 			}
 			elseif (is_string($tz))
 			{
 				$tz = new DateTimeZone($tz);
 			}
+			else
+			{
+				throw new UnexpectedValueException(__METHOD__ . ' expects parameter 2 to be valid Timezone string or a DateTimeZone object');
+			}
 		}
 
-		// If the date is numeric assume a unix timestamp and convert it.
+		// Backup current TZ and force UTC
+		$serverTimezone = date_default_timezone_get();
 		date_default_timezone_set('UTC');
+
+		// If the date is numeric assume a unix timestamp and convert it.
 		$date = is_numeric($date) ? date('c', $date) : $date;
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
 
-		// Reset the timezone for 3rd party libraries/extension that does not use JDate
-		date_default_timezone_set(self::$stz->getName());
+		// Restore default TZ
+		date_default_timezone_set($serverTimezone);
 
 		// Set the timezone object for access later.
 		$this->tz = $tz;
@@ -288,10 +271,10 @@ class JDate extends DateTime
 			$format = preg_replace('/(^|[^\\\])F/', "\\1" . self::MONTH_NAME, $format);
 		}
 
-		// If the returned time should not be local use GMT.
-		if ($local == false && !empty(self::$gmt))
+		// If the returned time should not be local use UTC.
+		if ($local === false)
 		{
-			parent::setTimezone(self::$gmt);
+			parent::setTimezone(new DateTimeZone('UTC'));
 		}
 
 		// Format the date.
@@ -321,7 +304,8 @@ class JDate extends DateTime
 			}
 		}
 
-		if ($local == false && !empty($this->tz))
+		// Restore original TZ
+		if ($local === false && ($this->tz instanceof DateTimeZone))
 		{
 			parent::setTimezone($this->tz);
 		}
