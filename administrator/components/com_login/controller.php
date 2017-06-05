@@ -33,6 +33,13 @@ class LoginController extends JControllerLegacy
 		 * after a session timeout. We must reset the view and layout prior to display
 		 * otherwise an error will occur.
 		 */
+ 
+		// In case you update from 2.5 this is not loaded but we need to re-login too complete the update
+		if (!$this->input)
+		{
+			$this->input = JFactory::getApplication()->input;
+		}
+
 		$this->input->set('view', 'login');
 		$this->input->set('layout', 'default');
 
