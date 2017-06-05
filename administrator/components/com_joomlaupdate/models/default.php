@@ -243,15 +243,24 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	/**
 	 * Downloads the update package to the site.
 	 *
+	 * @param   boolean  $reinstall  If true, we check if there is a reinstall URL
+	 *
 	 * @return  bool|string False on failure, basename of the file in any other case.
 	 *
 	 * @since   2.5.4
 	 */
-	public function download()
+	public function download($reinstall = false)
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
-		$headers    = get_headers($packageURL, 1);
+		
+		// Check if there is a special reinstall URL
+		if ($reinstall == true && empty($updateInfo['object']->reinstallurl->_data))
+		{
+			$packageURL = $updateInfo['object']->reinstallurl->_data;
+		}
+
+		$headers = get_headers($packageURL, 1);
 
 		// Follow the Location headers until the actual download URL is known
 		while (isset($headers['Location']))
