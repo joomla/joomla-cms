@@ -109,7 +109,6 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 
 		// Fool the system into thinking we are running as JSite with Smart Search as the active component.
 		$_SERVER['HTTP_HOST'] = 'domain.com';
-		JFactory::getApplication('site');
 
 		// Purge before indexing if --purge on the command line.
 		if ($this->input->getString('purge', false))
@@ -222,6 +221,8 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		// Reset the indexer state.
 		FinderIndexer::resetState();
 	}
+
+	public function setHeader(){echo new Exception();die;}
 
 	/**
 	 * Purge the index.
@@ -370,4 +371,6 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 
 // Instantiate the application object, passing the class name to JCli::getInstance
 // and use chaining to execute the application.
-\Joomla\CMS\Application\CliApplication::getInstance('FinderCli')->execute();
+$app = \Joomla\CMS\Application\CliApplication::getInstance('FinderCli');
+JFactory::$application = $app;
+$app->execute();

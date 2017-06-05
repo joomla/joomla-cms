@@ -67,7 +67,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 			$this->close();
 		}
 
-		$container = $container ?: new Container;
+		$container = $container ?: \JFactory::getContainer();
 		$this->setContainer($container);
 
 		$this->input    = $input ?: new \JInputCli;

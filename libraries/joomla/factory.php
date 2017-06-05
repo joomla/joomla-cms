@@ -114,7 +114,7 @@ abstract class JFactory
 	 * @param   string     $prefix     Application prefix
 	 * @param   Container  $container  An optional dependency injection container to inject into the application.
 	 *
-	 * @return  \Joomla\CMS\Application\CMSApplication object
+	 * @return  \Joomla\CMS\Application\CMSApplicationInterface object
 	 *
 	 * @see     JApplication
 	 * @since   11.1
@@ -125,7 +125,7 @@ abstract class JFactory
 		if (!self::$application)
 		{
 			if (!$id)
-			{
+			{echo new Exception();die;
 				throw new Exception('Application Instantiation Error', 500);
 			}
 

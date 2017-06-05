@@ -53,9 +53,6 @@ class Updatecron extends \Joomla\CMS\Application\CliApplication
 	 */
 	protected function doExecute()
 	{
-		// Load an app which can be used later
-		JFactory::getApplication('site');
-
 		// Get the update cache time
 		$component = \Joomla\CMS\Component\ComponentHelper::getComponent('com_installer');
 

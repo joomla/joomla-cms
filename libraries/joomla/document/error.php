@@ -139,7 +139,10 @@ class JDocumentError extends JDocument
 			$status .= ' ' . str_replace("\n", ' ', $this->_error->getMessage());
 		}
 
-		JFactory::getApplication()->setHeader('status', $status);
+		if (JFactory::getApplication() instanceof \Joomla\CMS\Application\CMSApplication)
+		{
+			JFactory::getApplication()->setHeader('status', $status);
+		}
 
 		$file = 'error.php';
 

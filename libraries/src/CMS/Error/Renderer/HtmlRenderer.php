@@ -8,6 +8,7 @@
 
 namespace Joomla\CMS\Error\Renderer;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Error\AbstractRenderer;
 
 /**
@@ -39,8 +40,13 @@ class HtmlRenderer extends AbstractRenderer
 	{
 		$app = \JFactory::getApplication();
 
-		// Get the current template from the application
-		$template = $app->getTemplate();
+		$template = null;
+
+		if ($app instanceof CMSApplication)
+		{
+			// Get the current template from the application
+			$template = $app->getTemplate();
+		}
 
 		// Push the error object into the document
 		$this->getDocument()->setError($error);

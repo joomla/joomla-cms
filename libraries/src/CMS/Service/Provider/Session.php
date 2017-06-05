@@ -64,23 +64,14 @@ class Session implements ServiceProviderInterface
 						'expire' => $lifetime
 					);
 
-					switch (JFactory::getApplication()->getClientId())
+					if (JFactory::getApplication()->isClient('site') && $config->get('force_ssl') == 2)
 					{
-						case 0:
-							if ($config->get('force_ssl') == 2)
-							{
-								$options['force_ssl'] = true;
-							}
+						$options['force_ssl'] = true;
+					}
 
-							break;
-
-						case 1:
-							if ($config->get('force_ssl') >= 1)
-							{
-								$options['force_ssl'] = true;
-							}
-
-							break;
+					if (JFactory::getApplication()->isClient('administrator') && $config->get('force_ssl') >= 1)
+					{
+						$options['force_ssl'] = true;
 					}
 
 					// Set up the storage handler
