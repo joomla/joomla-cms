@@ -161,9 +161,10 @@ elseif ($input->get('template'))
 	$template = $input->get('template');
 
 	/*
-	 * Like module, check whether the template is assigned to the current menu item.
+	 * Only allow access to current menu item's template (like modules) in the front end.
+	 * Allow full access in the back end as user is authenticated.
 	 */
-	if ($template === $app->getTemplate())
+	if (($app->isSite() && $template === $app->getTemplate()) || $app->isAdmin())
 	{
 		$helperFile = JPATH_BASE . '/templates/' . $template . '/helper.php';
 
