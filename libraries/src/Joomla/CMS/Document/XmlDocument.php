@@ -81,7 +81,7 @@ class XmlDocument extends Document
 	 *
 	 * @param   string  $name  Document name
 	 *
-	 * @return  JXmlDocument instance of $this to allow chaining
+	 * @return  XmlDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
