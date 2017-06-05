@@ -59,7 +59,9 @@ JFactory::getDocument()->addScriptDeclaration('
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<div class="js-stools-container">
+					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				</div>
 				<table class="table table-striped">
 					<thead>
 						<tr>

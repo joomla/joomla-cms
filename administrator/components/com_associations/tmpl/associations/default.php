@@ -34,7 +34,9 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<div class="js-stools-container">
+					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				</div>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
