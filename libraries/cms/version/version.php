@@ -147,6 +147,18 @@ final class JVersion
 	}
 
 	/**
+	 * Check if we are in development mode
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4.3
+	 */
+	public function isInDevelopmentState()
+	{
+		return strtolower($this->DEV_STATUS) != 'stable';
+	}
+
+	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla version.
 	 *
 	 * @param   string  $minimum  The minimum version of the Joomla which is compatible.
