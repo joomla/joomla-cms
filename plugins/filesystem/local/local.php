@@ -15,7 +15,7 @@ JLoader::import('filesystem.local.adapter.adapter', JPATH_PLUGINS);
  * FileSystem Local plugin.
  * The plugin used to manipulate local filesystem in Media Manager
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class PlgFileSystemLocal extends JPlugin
 {
