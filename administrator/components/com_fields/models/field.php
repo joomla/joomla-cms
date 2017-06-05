@@ -447,21 +447,31 @@ class FieldsModelField extends JModelAdmin
 
 			if (!empty($pks))
 			{
-				// Delete Values
-				$query = $this->getDbo()->getQuery(true);
+				$db = $this->getDbo();
 
-				$query->delete($query->qn('#__fields_values'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				// Delete the values
+				$query = $db->getQuery(true);
 
-				$this->getDbo()->setQuery($query)->execute();
+				$query->delete($db->qn('#__fields_values'))
+					->where($db->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
 
-				// Delete Assigned Categories
-				$query = $this->getDbo()->getQuery(true);
+				$db->setQuery($query)->execute();
 
-				$query->delete($query->qn('#__fields_categories'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				// Delete the assigned Categories
+				$query = $db->getQuery(true);
 
-				$this->getDbo()->setQuery($query)->execute();
+				$query->delete($db->qn('#__fields_categories'))
+					->where($db->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+
+				$db->setQuery($query)->execute();
+
+				// Delete the fields
+				$query = $db->getQuery(true);
+
+				$query->delete($db->qn('#__fields'))
+					->where($db->qn('id') . ' IN(' . implode(',', $pks) . ')');
+
+				$db->setQuery($query)->execute();
 			}
 		}
 
