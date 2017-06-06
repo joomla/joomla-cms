@@ -25,7 +25,7 @@ UPDATE [#__menu_types]
 -- Step 2: What remains now are the main menu items, possibly with wrong
 -- client_id if there was nothing hit by step 1 because there was no record in
 -- the menu types table with client_id = 0.
--- If there is a record in the menutype table we con't care because either
+-- If there is a record in the menutype table we don't care because either
 -- it has client_id 1, then it is ok, or it does not exist (which is the normal
 -- case for the standard main menu).
 UPDATE [#__menu]
