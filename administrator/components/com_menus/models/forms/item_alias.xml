@@ -5,9 +5,11 @@
 	<fields name="params">
 
 		<fieldset name="aliasoptions">
-			<field name="aliasoptions" type="modal_menu"
-				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
+			<field 
+				name="aliasoptions" 
+				type="modal_menu"
 				label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
 				clientid="0"
 				required="true"
 				select="true"
@@ -21,35 +23,48 @@
 				label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 			>
 
-			<field name="menu-anchor_title" type="text"
+			<field 
+				name="menu-anchor_title" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC" />
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC" 
+			/>
 
-			<field name="menu-anchor_css" type="text"
+			<field 
+				name="menu-anchor_css" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" />
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" 
+			/>
 
-			<field name="menu_image" type="media"
+			<field 
+				name="menu_image" 
+				type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" />
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" 
+			/>
 
-			<field name="menu_text" type="radio"
-				class="btn-group btn-group-yesno"
+			<field 
+				name="menu_text" 
+				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
-				default="1" filter="integer"
-			>
+				class="btn-group btn-group-yesno"
+				default="1" 
+				filter="integer"
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+
 			<field
 				name="menu_show"
 				type="radio"
-				class="btn-group btn-group-yesno"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
 				default="1"
 				filter="integer"
+				class="btn-group btn-group-yesno"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
