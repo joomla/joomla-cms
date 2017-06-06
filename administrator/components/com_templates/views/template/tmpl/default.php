@@ -74,25 +74,13 @@ if ($this->type == 'font')
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="">
 				<?php echo JHtml::_('form.token'); ?>
-<<<<<<< HEAD
 				<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 				<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
-					<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-lg">
+					<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-lg">
 						<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 					</a>
 				</p>
-=======
-				<div class="hero-unit" style="text-align: justify;">
-					<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
-					<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
-					<p>
-						<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
-							<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
-						</a>
-					</p>
-				</div>
->>>>>>> 3.9-dev
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'file') : ?>

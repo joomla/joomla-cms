@@ -93,20 +93,11 @@
 		<field
 			name="logoutredirectchoice"
 			type="radio"
-<<<<<<< HEAD:components/com_users/tmpl/login/default.xml
+			label="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_LABEL"
+			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
 			class="switcher switcher-primary"
 			default="1"
-			label="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_LABEL"
-			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
-		>
-=======
-			label="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_LABEL"
-			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
-			class="btn-group btn-group-yesno"
-			default="1"
 			>
-			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
->>>>>>> 3.9-dev:components/com_users/views/login/tmpl/default.xml
 			<option value="0">COM_USERS_FIELD_LOGIN_URL</option>
 			<option value="1">COM_USERS_FIELD_LOGIN_MENUITEM</option>
 		</field>
