@@ -158,14 +158,14 @@ elseif ($input->get('plugin'))
  */
 elseif ($input->get('template'))
 {
-	$template	= $input->get('template');
-	$table		= JTable::getInstance('extension');
-	$templateid	= $table->find(array('type' => 'template', 'element' => $template));
+	$template   = $input->get('template');
+	$table      = JTable::getInstance('extension');
+	$templateId = $table->find(array('type' => 'template', 'element' => $template));
 
 	if ($templateid && $table->load($templateid) && $table->enabled)
 	{
-		$basePath	= JPATH_BASE;
-		$helperFile	= $basePath . '/templates/' . $template . '/helper.php';
+		$basePath   = JPATH_BASE;
+		$helperFile = $basePath . '/templates/' . $template . '/helper.php';
 
 		if (strpos($template, '_'))
 		{
@@ -197,8 +197,8 @@ elseif ($input->get('template'))
 		// Is the back end accessing a front end template?
 		if ($app->isClient('administrator') && !is_file($helperFile))
 		{
-			$basePath	= JPATH_ROOT;
-			$helperFile	= $basePath . '/templates/' . $template . '/helper.php';
+			$basePath   = JPATH_ROOT;
+			$helperFile = $basePath . '/templates/' . $template . '/helper.php';
 		}
 
 		if (is_file($helperFile))
