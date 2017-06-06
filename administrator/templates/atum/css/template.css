@@ -9826,6 +9826,9 @@ iframe {
 .table-actions:hover {
   cursor: pointer; }
 
+.table-actions a {
+  -webkit-appearance: none; }
+
 .table-actions .dropdown-toggle::after {
   display: none; }
 

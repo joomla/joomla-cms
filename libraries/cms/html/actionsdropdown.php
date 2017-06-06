@@ -224,14 +224,9 @@ abstract class JHtmlActionsDropdown
 	 */
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
-<<<<<<< HEAD
-		static::$dropDownList[] = '<a href = "javascript://" class="dropdown-item" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
-			. ($icon ? '<span class="icon-' . $icon . '"></span> ' : '')
-=======
 		static::$dropDownList[] = '<li>'
 			. '<a href = "javascript://" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
 			. ($icon ? '<span class="icon-' . $icon . '" aria-hidden="true"></span> ' : '')
->>>>>>> 88b35d062f51269e9c85e5f954c90484695f802d
 			. $label
 			. '</a>';
 	}
