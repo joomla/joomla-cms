@@ -158,13 +158,11 @@ elseif ($input->get('plugin'))
  */
 elseif ($input->get('template'))
 {
-	$template = $input->get('template');
+	$template	= $input->get('template');
+	$table		= JTable::getInstance('extension');
+	$templateid	= $table->find(array('type' => 'template', 'element' => $template));
 
-	/*
-	 * Only allow access to current menu item's template (like modules) in the front end.
-	 * Allow full access in the back end as user is authenticated.
-	 */
-	if (($app->isClient('site') && $template === $app->getTemplate()) || $app->isClient('administrator'))
+	if ($templateid && $table->load($templateid) && $table->enabled)
 	{
 		$basePath	= JPATH_BASE;
 		$helperFile	= $basePath . '/templates/' . $template . '/helper.php';
