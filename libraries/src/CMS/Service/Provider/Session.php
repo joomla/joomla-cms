@@ -14,6 +14,7 @@ defined('JPATH_PLATFORM') or die;
 use InvalidArgumentException;
 use JApplicationHelper;
 use JFactory;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\CMS\Session\Validator\AddressValidator;
@@ -209,7 +210,11 @@ class Session implements ServiceProviderInterface
 					}
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
-					$dispatcher->addListener('onAfterSessionStart', array(JFactory::getApplication(), 'afterSessionStart'));
+
+					if (JFactory::getApplication() instanceof CMSApplication)
+					{
+						$dispatcher->addListener('onAfterSessionStart', array(JFactory::getApplication(), 'afterSessionStart'));
+					}
 
 					$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
 					$session->addValidator(new AddressValidator($input, $session));

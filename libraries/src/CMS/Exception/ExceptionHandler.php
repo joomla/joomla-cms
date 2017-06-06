@@ -76,7 +76,7 @@ class ExceptionHandler
 				 * If a type doesn't exist for that format, we try to use the format from the application's JInput object
 				 * Lastly, if all else fails, we default onto the HTML format to at least render something
 				 */
-				if (\JFactory::$document)
+				if (\JFactory::getApplication()->isClient('cli'))
 				{
 					// We're probably in an CLI environment
 					$format = \JFactory::getDocument()->getType();
