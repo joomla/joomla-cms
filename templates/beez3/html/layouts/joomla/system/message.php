@@ -9,14 +9,25 @@
 
 defined('_JEXEC') or die;
 
-$msgList = $displayData['msgList'];
-
+$msgList = $displayData['msgQueue'];
 ?>
 <div id="system-message-container">
 	<?php if (is_array($msgList) && $msgList) : ?>
 		<dl id="system-message">
-			<?php foreach ($msgList as $type => $msgs) : ?>
+			<?php foreach ($msgList as $groupIdentifier => $msgs) : ?>
+				<?php $options = unserialize($groupIdentifier); ?>
+				<?php $type    = $options['type']; ?>
 				<?php if ($msgs) : ?>
+					<?php if ($options['showTitle']) : ?>
+						<?php if ($options['customTitle'] !== '') : ?>
+							<?php $title = $options['customTitle']; ?>
+						<?php else : ?>
+							<?php $title = $type; ?>
+						<?php endif; ?>
+						<dt class="<?php echo strtolower($type); ?>"><?php echo JText::_($title); ?></dt>
+					<?php else : ?>
+						<dt class="<?php echo strtolower($type); ?>">&nbsp;</dt>
+					<?php endif; ?>
 					<dt class="<?php echo strtolower($type); ?>"><?php echo JText::_($type); ?></dt>
 					<dd class="<?php echo strtolower($type); ?> message">
 						<ul>

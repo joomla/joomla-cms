@@ -416,15 +416,18 @@ class JApplication extends JApplicationBase
 	/**
 	 * Enqueue a system message.
 	 *
-	 * @param   string  $msg   The message to enqueue.
-	 * @param   string  $type  The message type. Default is message.
+	 * @param   string  $msg      The message to enqueue.
+	 * @param   string  $type     The message type. Default is message.
+	 * @param   mixed   $options  Array with message options:
+	 *                            - showTitle (true/false): Show message title.
+	 *                            - customTitle (string): Custom message title.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 * @deprecated  3.2
 	 */
-	public function enqueueMessage($msg, $type = 'message')
+	public function enqueueMessage($msg, $type = 'message', $options = array())
 	{
 		// For empty queue, if messages exists in the session, enqueue them first.
 		if (!count($this->_messageQueue))
@@ -439,8 +442,12 @@ class JApplication extends JApplicationBase
 			}
 		}
 
+		// Default options values.
+		$options['showTitle']   = (isset($options['showTitle'])) ? $options['showTitle'] : true;
+		$options['customTitle'] = (isset($options['customTitle'])) ? $options['customTitle'] : '';
+
 		// Enqueue the message.
-		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
+		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type), 'options' => $options);
 	}
 
 	/**
