@@ -5678,6 +5678,12 @@ a.badge:focus {
 		-moz-border-radius: 3px;
 		border-radius: 3px;
 	}
+	.nav-collapse .nav > li.active > a {
+		color: #fff;
+	}
+	.nav-collapse .nav > li.active > a:hover {
+		color: #555;
+	}
 	.nav-collapse .btn {
 		padding: 4px 10px 4px;
 		font-weight: normal;
