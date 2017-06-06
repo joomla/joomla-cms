@@ -151,7 +151,7 @@ class TemplatesViewTemplate extends JViewLegacy
 
 		$this->addToolbar();
 
-		if (!JFactory::getUser()->authorise('core.admin'))
+		if (!JFactory::getUser()->authorise('core.edit', 'com_templates'))
 		{
 			$this->setLayout('readonly');
 		}
@@ -172,8 +172,8 @@ class TemplatesViewTemplate extends JViewLegacy
 		$user  = JFactory::getUser();
 		$app->input->set('hidemainmenu', true);
 
-		// User is global SuperUser
-		$isSuperUser = $user->authorise('core.admin');
+		// User have rights to edit the template
+		$isTemplateEditor = $user->authorise('core.edit', 'com_templates');
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
@@ -182,8 +182,8 @@ class TemplatesViewTemplate extends JViewLegacy
 
 		JToolbarHelper::title(JText::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
 
-		// Only show file edit buttons for global SuperUser
-		if ($isSuperUser)
+		// Only show file edit buttons for users with right to edit the template
+		if ($isTemplateEditor)
 		{
 			// Add an Apply and save button
 			if ($this->type == 'file')
@@ -216,8 +216,8 @@ class TemplatesViewTemplate extends JViewLegacy
 			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
 		}
 
-		// Only show file manage buttons for global SuperUser
-		if ($isSuperUser)
+		// Only show file manage buttons for users with rights to edit the template
+		if ($isTemplateEditor)
 		{
 			// Add Manage folders button
 			JToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
