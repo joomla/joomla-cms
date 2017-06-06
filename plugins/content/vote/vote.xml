@@ -3,7 +3,7 @@
 	<name>plg_content_vote</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,6 +11,7 @@
 	<description>PLG_VOTE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="vote">vote.php</filename>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_vote.ini</language>
@@ -18,6 +19,18 @@
 	</languages>
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="position"
+					type="list"
+					label="PLG_VOTE_POSITION_LABEL"
+					description="PLG_VOTE_POSITION_DESC"
+					default="top"
+					>
+					<option value="top">PLG_VOTE_TOP</option>
+					<option value="bottom">PLG_VOTE_BOTTOM</option>
+				</field>
+			</fieldset>
 		</fields>
 	</config>
 </extension>

@@ -3,7 +3,7 @@
 	<name>plg_user_profile</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2008</creationDate>
-	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -12,7 +12,7 @@
 	<files>
 		<filename plugin="profile">profile.php</filename>
 		<folder>profiles</folder>
-		<folder>fields</folder>
+		<folder>field</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_user_profile.ini</language>
@@ -154,6 +154,10 @@
 					type="modal_article"
 					label="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_LABEL"
 					description="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_DESC"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
 				/>
 
 				<field
@@ -183,8 +187,8 @@
 				<field
 					name="profile-require_address1"
 					type="list"
-					description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
+					description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -267,6 +271,7 @@
 					<option value="1">JOPTION_OPTIONAL</option>
 					<option value="0">JDISABLED</option>
 				</field>
+
 				<field
 					name="profile-require_favoritebook"
 					type="list"
@@ -288,6 +293,7 @@
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
+
 				<field
 					name="profile-require_dob"
 					type="list"

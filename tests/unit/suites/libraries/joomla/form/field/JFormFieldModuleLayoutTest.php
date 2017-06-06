@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -36,12 +36,9 @@ class JFormFieldModuleLayoutTest extends TestCaseDatabase
 	public function testGetInput()
 	{
 		$field = new JFormFieldModulelayout();
-
-		$this->assertTrue(
-			$field->setup(
-				new SimpleXmlElement('<field name="modulelayout" type="modulelayout" module="mod_finder" client_id="0" />'),
-				'value'
-			)
+		$field->setup(
+			new SimpleXmlElement('<field name="modulelayout" type="modulelayout" module="mod_finder" client_id="0" />'),
+			'value'
 		);
 
 		$this->assertNotEmpty(

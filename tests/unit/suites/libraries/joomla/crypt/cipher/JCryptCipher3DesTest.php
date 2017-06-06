@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // TODO - JCryptCipher3Des won't autoload
@@ -59,8 +59,8 @@ class JCryptCipher3DesTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$this->_cipher = null;
-
+		unset($this->_cipher);
+		unset($this->key);
 		parent::tearDown();
 	}
 

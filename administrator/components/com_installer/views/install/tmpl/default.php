@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		}
 		else
 		{
-			jQuery("#loading").css("display", "block");
+			JoomlaInstaller.showLoading();
 			
 			form.installtype.value = "url";
 			form.submit();
@@ -43,14 +43,26 @@ JFactory::getDocument()->addScriptDeclaration(
 	jQuery(document).ready(function($) {
 		var outerDiv = $("#installer-install");
 		
-		$("#loading")
-		.css("top", outerDiv.position().top - $(window).scrollTop())
-		.css("left", "0")
-		.css("width", "100%")
-		.css("height", "100%")
-		.css("display", "none")
-		.css("margin-top", "-10px");
+		JoomlaInstaller.getLoadingOverlay()
+			.css("top", outerDiv.position().top - $(window).scrollTop())
+			.css("left", "0")
+			.css("width", "100%")
+			.css("height", "100%")
+			.css("display", "none")
+			.css("margin-top", "-10px");
 	});
+	
+	var JoomlaInstaller = {
+		getLoadingOverlay: function () {
+			return jQuery("#loading");
+		},
+		showLoading: function () {
+			this.getLoadingOverlay().css("display", "block");
+		},
+		hideLoading: function () {
+			this.getLoadingOverlay().css("display", "none");
+		}
+	};
 	'
 );
 
@@ -64,12 +76,6 @@ JFactory::getDocument()->addStyleDeclaration(
 		filter: alpha(opacity = 80);
 		overflow: hidden;
 	}
-	
-	.j-jed-message {
-		margin-bottom: 40px;
-		line-height: 2em;
-		color:#333333;
-	}
 	'
 );
 
@@ -79,7 +85,7 @@ JFactory::getDocument()->addStyleDeclaration(
 	// Set the first tab to active if there is no other active tab
 	jQuery(document).ready(function($) {
 		var hasTab = function(href){
-			return $('a[data-toggle="tab"]a[href*=' + href + ']').length;
+			return $('a[data-toggle="tab"]a[href*="' + href + '"]').length;
 		};
 		if (!hasTab(localStorage.getItem('tab-href')))
 		{
@@ -110,8 +116,8 @@ JFactory::getDocument()->addStyleDeclaration(
 						<?php echo JHtml::_(
 							'link',
 							JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
-							'&times;',
-							'class="close hasTooltip" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
+							'',
+							'class="alert-options hasTooltip icon-options" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
 						);
 						?>
 						<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
@@ -126,6 +132,13 @@ JFactory::getDocument()->addStyleDeclaration(
 				<?php $firstTab = JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
 				<?php // Show installation tabs ?>
 				<?php $tabs = JEventDispatcher::getInstance()->trigger('onInstallerAddInstallationTab', array()); ?>
+				<?php foreach ($tabs as $tab) : ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', $tab['name'], $tab['label']); ?>
+					<fieldset class="uploadform">
+						<?php echo $tab['content']; ?>
+					</fieldset>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
+				<?php endforeach; ?>
 				<?php // Show installation tabs at the end ?>
 				<?php $lastTab = JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
 				<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for interacting with a Facebook API instance.
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebook
 {

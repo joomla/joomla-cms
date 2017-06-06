@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -48,8 +48,7 @@ class FinderTableFilter extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['params']);
+			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
@@ -204,15 +203,15 @@ class FinderTableFilter extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = JFactory::getDate()->toSql();
+		$userId = JFactory::getUser()->id;
 
-		$this->modified = $date->toSql();
+		$this->modified = $date;
 
 		if ($this->filter_id)
 		{
 			// Existing item
-			$this->modified_by = $user->get('id');
+			$this->modified_by = $userId;
 		}
 		else
 		{
@@ -220,12 +219,12 @@ class FinderTableFilter extends JTable
 			// so we don't touch it if it is set.
 			if (!(int) $this->created)
 			{
-				$this->created = $date->toSql();
+				$this->created = $date;
 			}
 
 			if (empty($this->created_by))
 			{
-				$this->created_by = $user->get('id');
+				$this->created_by = $userId;
 			}
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
- * Installer Manage Model
+ * Installer Database Model
  *
  * @since  1.6
  */
@@ -35,7 +35,7 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		$app = JFactory::getApplication();
 		$this->setState('message', $app->getUserState('com_installer.message'));
@@ -46,7 +46,7 @@ class InstallerModelDatabase extends InstallerModel
 		// Prepare the utf8mb4 conversion check table
 		$this->prepareUtf8mb4StatusTable();
 
-		parent::populateState('name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -167,7 +167,11 @@ class InstallerModelDatabase extends InstallerModel
 			->values('700, ' . $db->quote($schema));
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -180,7 +184,6 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @return  mixed   version if successful, false if fail.
 	 */
-
 	public function getUpdateVersion()
 	{
 		$table = JTable::getInstance('Extension');

@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -76,7 +76,7 @@ class PlgSearchTags extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}
@@ -121,13 +121,15 @@ class PlgSearchTags extends JPlugin
 
 		$query->where('(a.title LIKE ' . $text . ' OR a.alias LIKE ' . $text . ')');
 
+		$query->where($db->qn('a.published') . ' = 1');
+
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
 		}
 
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
 		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -149,12 +151,12 @@ class PlgSearchTags extends JPlugin
 
 		if ($rows)
 		{
-			require_once JPATH_ROOT . '/components/com_tags/helpers/route.php';
+			JLoader::register('TagsHelperRoute', JPATH_SITE . '/components/com_tags/helpers/route.php');
 
 			foreach ($rows as $key => $row)
 			{
 				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->id);
-				$rows[$key]->text       = ($row->description != "" ? $row->description : $row->title);
+				$rows[$key]->text       = ($row->description !== '' ? $row->description : $row->title);
 				$rows[$key]->text      .= $row->note;
 				$rows[$key]->section    = $section;
 				$rows[$key]->created    = $row->created;

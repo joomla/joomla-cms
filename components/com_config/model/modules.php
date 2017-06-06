@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,10 @@ defined('_JEXEC') or die;
 /**
  * Config Module model.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelModules extends ConfigModelForm
 {
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -120,18 +117,18 @@ class ConfigModelModules extends ConfigModelForm
 	/**
 	 * Method to get list of module positions in current template
 	 *
-	 * @return array
+	 * @return  array
 	 *
-	 * @since 3.2
+	 * @since   3.2
 	 */
 	public function getPositions()
 	{
-		$lang            = JFactory::getLanguage();
+		$lang         = JFactory::getLanguage();
 		$templateName = JFactory::getApplication()->getTemplate();
 
 		// Load templateDetails.xml file
 		$path = JPath::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
-		$currentPositions = array();
+		$currentTemplatePositions = array();
 
 		if (file_exists($path))
 		{
@@ -139,21 +136,131 @@ class ConfigModelModules extends ConfigModelForm
 
 			if (isset($xml->positions[0]))
 			{
+				// Load language files
+				$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE, null, false, true)
+				||	$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName, null, false, true);
+
 				foreach ($xml->positions[0] as $position)
 				{
-					// Load language files
-					$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE, null, false, true)
-					||	$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName, null, false, true);
-
-					$key = (string) $position;
-					$value = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($key));
+					$value = (string) $position;
+					$text = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($value));
 
 					// Construct list of positions
-					$currentPositions[$key] = JText::_($value) . ' [' . $key . ']';
+					$currentTemplatePositions[] = self::createOption($value, JText::_($text) . ' [' . $value . ']');
 				}
 			}
 		}
 
-		return $currentPositions;
+		$templateGroups = array();
+
+		// Add an empty value to be able to deselect a module position
+		$option = self::createOption();
+		$templateGroups[''] = self::createOptionGroup('', array($option));
+
+		$templateGroups[$templateName] = self::createOptionGroup($templateName, $currentTemplatePositions);
+
+		// Add custom position to options
+		$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
+
+		$editPositions   = true;
+		$customPositions = self::getActivePositions(0, $editPositions);
+		$templateGroups[$customGroupText] = self::createOptionGroup($customGroupText, $customPositions);
+
+		return $templateGroups;
+	}
+
+	/**
+	 * Get a list of modules positions
+	 *
+	 * @param   integer  $clientId       Client ID
+	 * @param   boolean  $editPositions  Allow to edit the positions
+	 *
+	 * @return  array  A list of positions
+	 *
+	 * @since   3.6.3
+	 */
+	public static function getActivePositions($clientId, $editPositions = false)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT position')
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
+			->order($db->quoteName('position'));
+
+		$db->setQuery($query);
+
+		try
+		{
+			$positions = $db->loadColumn();
+			$positions = is_array($positions) ? $positions : array();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+
+			return;
+		}
+
+		// Build the list
+		$options = array();
+
+		foreach ($positions as $position)
+		{
+			if (!$position && !$editPositions)
+			{
+				$options[] = JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
+			}
+			else
+			{
+				$options[] = JHtml::_('select.option', $position, $position);
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Create and return a new Option
+	 *
+	 * @param   string  $value  The option value [optional]
+	 * @param   string  $text   The option text [optional]
+	 *
+	 * @return  object  The option as an object (stdClass instance)
+	 *
+	 * @since   3.6.3
+	 */
+	private static function createOption($value = '', $text = '')
+	{
+		if (empty($text))
+		{
+			$text = $value;
+		}
+
+		$option = new stdClass;
+		$option->value = $value;
+		$option->text  = $text;
+
+		return $option;
+	}
+
+	/**
+	 * Create and return a new Option Group
+	 *
+	 * @param   string  $label    Value and label for group [optional]
+	 * @param   array   $options  Array of options to insert into group [optional]
+	 *
+	 * @return  array  Return the new group as an array
+	 *
+	 * @since   3.6.3
+	 */
+	private static function createOptionGroup($label = '', $options = array())
+	{
+		$group = array();
+		$group['value'] = $label;
+		$group['text']  = $label;
+		$group['items'] = $options;
+
+		return $group;
 	}
 }
