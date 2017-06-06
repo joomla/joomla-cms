@@ -162,7 +162,7 @@ elseif ($input->get('template'))
 	$table      = JTable::getInstance('extension');
 	$templateId = $table->find(array('type' => 'template', 'element' => $template));
 
-	if ($templateid && $table->load($templateid) && $table->enabled)
+	if ($templateId && $table->load($templateId) && $table->enabled)
 	{
 		$basePath   = ($table->client_id) ? JPATH_ROOT . '/administrator' : JPATH_ROOT;
 		$helperFile = $basePath . '/templates/' . $template . '/helper.php';
