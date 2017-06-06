@@ -43,11 +43,6 @@ class Update extends Controller
 
 		$model->update($uid, $minimum_stability);
 
-		if ($model->getState('result', false))
-		{
-			\JFactory::getCache('mod_menu')->clean();
-		}
-
 		$app          = $this->app;
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
 

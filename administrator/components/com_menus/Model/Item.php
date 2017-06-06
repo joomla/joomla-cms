@@ -1102,7 +1102,8 @@ class Item extends Admin
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
 					$base . '/views/' . $view . '/tmpl',
-					$base . '/view/' . $view . '/tmpl'
+					$base . '/view/' . $view . '/tmpl',
+					$base . '/tmpl/' . $view
 				);
 				$path = \JPath::find($tplFolders, $layout . '.xml');
 
@@ -1753,6 +1754,7 @@ class Item extends Admin
 	{
 		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu');
+		parent::cleanCache('mod_menu', 0);
+		parent::cleanCache('mod_menu', 1);
 	}
 }

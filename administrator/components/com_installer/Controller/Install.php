@@ -33,13 +33,8 @@ class Install extends Controller
 		/* @var \Joomla\Component\Installer\Administrator\Model\Install $model */
 		$model = $this->getModel('install');
 
-		if ($result = $model->install())
-		{
-			$cache = \JFactory::getCache('mod_menu');
-			$cache->clean();
-
-			// TODO: Reset the users acl here as well to kill off any missing bits.
-		}
+		// TODO: Reset the users acl here as well to kill off any missing bits.
+		$result = $model->install();
 
 		$app = $this->app;
 		$redirect_url = $app->getUserState('com_installer.redirect_url');

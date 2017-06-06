@@ -42,7 +42,7 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
  *
  * @since  2.5
  */
-class Updatecron extends JApplicationCli
+class Updatecron extends \Joomla\CMS\Application\CliApplication
 {
 	/**
 	 * Entry point for the script
@@ -53,8 +53,11 @@ class Updatecron extends JApplicationCli
 	 */
 	protected function doExecute()
 	{
+		// Load an app which can be used later
+		JFactory::getApplication('site');
+
 		// Get the update cache time
-		$component = JComponentHelper::getComponent('com_installer');
+		$component = \Joomla\CMS\Component\ComponentHelper::getComponent('com_installer');
 
 		$params = $component->params;
 		$cache_timeout = $params->get('cachetimeout', 6, 'int');
@@ -68,4 +71,4 @@ class Updatecron extends JApplicationCli
 	}
 }
 
-JApplicationCli::getInstance('Updatecron')->execute();
+\Joomla\CMS\Application\CliApplication::getInstance('Updatecron')->execute();

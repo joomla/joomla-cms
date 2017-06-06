@@ -220,6 +220,16 @@ class Install extends Model
 
 		\JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('com_plugins', 0);
+		$this->cleanCache('com_plugins', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
+
 		return $result;
 	}
 

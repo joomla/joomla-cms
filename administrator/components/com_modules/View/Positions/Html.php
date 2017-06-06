@@ -8,6 +8,8 @@
  */
 namespace Joomla\Component\Modules\Administrator\View\Positions;
 
+// @deprecated  4.0 without replacement only used in hathor
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\View\HtmlView;

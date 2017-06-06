@@ -198,7 +198,7 @@ class Authentication extends \JObject
 	 * @param   AuthenticationResponse  $response  response including username of the user to authorise
 	 * @param   array                   $options   list of options
 	 *
-	 * @return  array[AuthenticationResponse]  results of authorisation
+	 * @return  AuthenticationResponse[]  Array of authentication response objects
 	 *
 	 * @since  11.2
 	 */

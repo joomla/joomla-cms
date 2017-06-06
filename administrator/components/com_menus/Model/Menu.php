@@ -349,6 +349,7 @@ class Menu extends Form
 	{
 		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu');
+		parent::cleanCache('mod_menu', 0);
+		parent::cleanCache('mod_menu', 1);
 	}
 }

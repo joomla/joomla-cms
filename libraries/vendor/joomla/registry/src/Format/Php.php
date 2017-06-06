@@ -8,14 +8,14 @@
 
 namespace Joomla\Registry\Format;
 
-use Joomla\Registry\AbstractRegistryFormat;
+use Joomla\Registry\FormatInterface;
 
 /**
  * PHP class format handler for Registry
  *
  * @since  1.0
  */
-class Php extends AbstractRegistryFormat
+class Php implements FormatInterface
 {
 	/**
 	 * Converts an object into a php class string.
@@ -28,7 +28,7 @@ class Php extends AbstractRegistryFormat
 	 *
 	 * @since   1.0
 	 */
-	public function objectToString($object, $params = array())
+	public function objectToString($object, array $params = [])
 	{
 		// A class must be provided
 		$class = !empty($params['class']) ? $params['class'] : 'Registry';
@@ -38,14 +38,7 @@ class Php extends AbstractRegistryFormat
 
 		foreach (get_object_vars($object) as $k => $v)
 		{
-			if (is_scalar($v))
-			{
-				$vars .= "\tpublic $" . $k . " = '" . addcslashes($v, '\\\'') . "';\n";
-			}
-			elseif (is_array($v) || is_object($v))
-			{
-				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString((array) $v) . ";\n";
-			}
+			$vars .= "\tpublic \$$k = " . $this->formatValue($v) . ";\n";
 		}
 
 		$str = "<?php\n";
@@ -56,7 +49,7 @@ class Php extends AbstractRegistryFormat
 			$str .= "namespace " . $params['namespace'] . ";\n\n";
 		}
 
-		$str .= "class " . $class . " {\n";
+		$str .= "class $class {\n";
 		$str .= $vars;
 		$str .= "}";
 
@@ -79,9 +72,38 @@ class Php extends AbstractRegistryFormat
 	 *
 	 * @since   1.0
 	 */
-	public function stringToObject($data, array $options = array())
+	public function stringToObject($data, array $options = [])
 	{
-		return true;
+		return new \stdClass;
+	}
+
+	/**
+	 * Format a value for the string conversion
+	 *
+	 * @param   mixed  $value  The value to format
+	 *
+	 * @return  mixed  The formatted value
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function formatValue($value)
+	{
+		switch (gettype($value))
+		{
+			case 'string':
+				return "'" . addcslashes($value, '\\\'') . "'";
+
+			case 'array':
+			case 'object':
+				return $this->getArrayString((array) $value);
+
+			case 'double':
+			case 'integer':
+				return $value;
+
+			case 'boolean':
+				return $value ? 'true' : 'false';
+		}
 	}
 
 	/**
@@ -101,16 +123,8 @@ class Php extends AbstractRegistryFormat
 		foreach ($a as $k => $v)
 		{
 			$s .= ($i) ? ', ' : '';
-			$s .= '"' . $k . '" => ';
-
-			if (is_array($v) || is_object($v))
-			{
-				$s .= $this->getArrayString((array) $v);
-			}
-			else
-			{
-				$s .= '"' . addslashes($v) . '"';
-			}
+			$s .= "'" . addcslashes($k, '\\\'') . "' => ";
+			$s .= $this->formatValue($v);
 
 			$i++;
 		}

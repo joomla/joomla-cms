@@ -49,8 +49,8 @@ class Controller extends BaseController
 		 * To prevent clickjacking, only allow the login form to be used inside a frame in the same origin.
 		 * So send a X-Frame-Options HTTP Header with the SAMEORIGIN value.
 		 *
-		 * @see https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet
-		 *      https://tools.ietf.org/html/rfc7034
+		 * @link https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet
+		 * @link https://tools.ietf.org/html/rfc7034
 		 */
 		$this->app->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
