@@ -30,7 +30,6 @@
 					<option value="1">PLG_CONTENT_EMAILCLOAK_LINKABLE</option>
 				</field>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>
