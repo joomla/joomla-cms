@@ -179,7 +179,7 @@ class FOFDatabaseDriverJoomla extends FOFDatabase implements FOFDatabaseInterfac
 			return $this->dbo->getDateFormat();
 		}
 
-		return 'Y-m-d H:i:s';;
+		return 'Y-m-d H:i:s';
 	}
 
 	public function getMinimum()
