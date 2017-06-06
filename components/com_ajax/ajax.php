@@ -164,7 +164,7 @@ elseif ($input->get('template'))
 
 	if ($templateid && $table->load($templateid) && $table->enabled)
 	{
-		$basePath   = JPATH_BASE;
+		$basePath   = ($table->client_id) ? JPATH_ROOT . '/administrator' : JPATH_ROOT;
 		$helperFile = $basePath . '/templates/' . $template . '/helper.php';
 
 		if (strpos($template, '_'))
@@ -193,13 +193,6 @@ elseif ($input->get('template'))
 		}
 
 		$method = $input->get('method') ?: 'get';
-
-		// Is the back end accessing a front end template?
-		if ($app->isClient('administrator') && !is_file($helperFile))
-		{
-			$basePath   = JPATH_ROOT;
-			$helperFile = $basePath . '/templates/' . $template . '/helper.php';
-		}
 
 		if (is_file($helperFile))
 		{
