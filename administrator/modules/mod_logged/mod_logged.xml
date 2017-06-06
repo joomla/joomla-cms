@@ -24,20 +24,20 @@
 				<field
 					name="count"
 					type="text"
-					default="5"
 					label="MOD_LOGGED_FIELD_COUNT_LABEL"
-					description="MOD_LOGGED_FIELD_COUNT_DESC" />
+					description="MOD_LOGGED_FIELD_COUNT_DESC" 
+					default="5"
+				/>
 
 				<field
 					name="name"
 					type="list"
-					default="1"
 					label="MOD_LOGGED_NAME"
-					description="MOD_LOGGED_FIELD_NAME_DESC" >
-					<option
-						value="1">MOD_LOGGED_NAME</option>
-					<option
-						value="0">JGLOBAL_USERNAME</option>
+					description="MOD_LOGGED_FIELD_NAME_DESC"
+					default="1"
+					>
+					<option value="1">MOD_LOGGED_NAME</option>
+					<option value="0">JGLOBAL_USERNAME</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
@@ -45,25 +45,27 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
 
 				<field
 					name="automatic_title"
 					type="radio"
+					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
+					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
-					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>
