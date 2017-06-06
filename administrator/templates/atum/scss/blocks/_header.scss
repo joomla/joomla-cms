@@ -51,11 +51,16 @@
     }
   }
 
+  .nav {
+    margin-right: -7.5px;
+  }
+
   .nav-item + .nav-item {
     margin-left: 1px;
   }
 
   .nav-item {
+    width: $header-height + 2px;
     background-color: darken($atum-template-color-light, 10%);
   }
 
@@ -72,6 +77,11 @@
       color: $white-offset;
       vertical-align: middle;
       transition: all .2s ease-in-out;
+    }
+
+    .fa-external-link { // Position correct
+      position: relative;
+      left: 2px;
     }
 
     .badge {
