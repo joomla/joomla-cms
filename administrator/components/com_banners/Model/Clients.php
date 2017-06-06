@@ -128,7 +128,7 @@ class Clients extends ListModel
 			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Filter by published state
-		$published = $this->getState('filter.state');
+		$published = (string) $this->getState('filter.state');
 
 		if (is_numeric($published))
 		{

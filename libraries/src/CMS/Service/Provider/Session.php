@@ -15,12 +15,12 @@ use InvalidArgumentException;
 use JApplicationHelper;
 use JFactory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
+use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\CMS\Session\Validator\AddressValidator;
 use Joomla\CMS\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
-use JSession;
 use Memcache;
 use Memcached;
 use Redis;
@@ -208,12 +208,19 @@ class Session implements ServiceProviderInterface
 
 					$input = JFactory::getApplication()->input;
 
-					$storage = new JoomlaStorage($input, $handler, array('cookie_lifetime' => $lifetime));
+					if (JFactory::getApplication()->isCli())
+					{
+						$storage = new RuntimeStorage;
+					}
+					else
+					{
+						$storage = new JoomlaStorage($input, $handler, array('cookie_lifetime' => $lifetime));
+					}
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 					$dispatcher->addListener('onAfterSessionStart', array(JFactory::getApplication(), 'afterSessionStart'));
 
-					$session = new JSession($storage, $dispatcher, $options);
+					$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
 					$session->addValidator(new AddressValidator($input, $session));
 					$session->addValidator(new ForwardedValidator($input, $session));
 

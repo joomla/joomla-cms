@@ -317,9 +317,11 @@ class JUpdate extends JObject
 				 */
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', JVERSION)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) 
+					|| $this->get('jversion.dev_level', JVersion::DEV_LEVEL) >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) 
+					|| $this->get('jversion.dev_level', JVersion::DEV_LEVEL) <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					$phpMatch = false;
 
@@ -440,11 +442,9 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXml($url, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
-		$http = JHttpFactory::getHttp();
-
 		try
 		{
-			$response = $http->get($url);
+			$response = JHttpFactory::getHttp()->get($url);
 		}
 		catch (RuntimeException $e)
 		{

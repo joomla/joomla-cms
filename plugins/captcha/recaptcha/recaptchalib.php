@@ -53,7 +53,7 @@ class JReCaptcha
 	 */
 	public function __construct($secret)
 	{
-		if ($secret == null || $secret == '')
+		if ($secret == null || $secret === '')
 		{
 			die("To use reCAPTCHA you must get an API key from <a href='"
 				. self::$_signupUrl . "'>" . self::$_signupUrl . "</a>");
@@ -93,9 +93,8 @@ class JReCaptcha
 	private function _submitHTTPGet($path, $data)
 	{
 		$req = $this->_encodeQS($data);
-		$http = JHttpFactory::getHttp();
 
-		return $http->get($path . '?' . $req)->body;
+		return JHttpFactory::getHttp()->get($path . '?' . $req)->body;
 	}
 
 	/**

@@ -80,7 +80,7 @@ class PlgSystemFields extends JPlugin
 		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
 
 		// Loading the model
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
 
 		// Loop over the fields
 		foreach ($fields as $field)
@@ -153,10 +153,7 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		JLoader::import('joomla.application.component.model');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
-
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
 		$model->cleanupValues($context, $item->id);
 
 		return true;
