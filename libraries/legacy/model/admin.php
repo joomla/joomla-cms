@@ -875,7 +875,7 @@ abstract class JModelAdmin extends JModelForm
 		// Alter the title & alias
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		while ($table->load(array('catid' => $category_id, 'alias' => $alias)))
 		{
 			$title = StringHelper::increment($title);
 			$alias = StringHelper::increment($alias, 'dash');
