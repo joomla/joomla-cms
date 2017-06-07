@@ -40,8 +40,6 @@ $formSelector = !empty($data['options']['formSelector']) ? $data['options']['for
 
 // Load search tools
 JHtml::_('searchtools.form', $formSelector, $data['options']);
-
-$filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
 ?>
 <div class="js-stools clearfix">
 	<div class="clearfix">
@@ -53,7 +51,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="js-stools-container-filters hidden-xs-down clearfix<?php echo $filtersClass; ?>">
+	<div class="js-stools-container-filters hidden-xs-down clearfix">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
 	</div>
 </div>
