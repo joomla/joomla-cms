@@ -201,6 +201,7 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
+					'<%= folder.adminTemplate %>/css/template-rtl.css': '<%= folder.adminTemplate %>/scss/template-rtl.scss',
 					'<%= folder.siteTemplate %>/css/template.css' : '<%= folder.siteTemplate %>/scss/template.scss',
 				}
 			}
@@ -342,6 +343,7 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'<%= folder.adminTemplate %>/css/template.css',
+					'<%= folder.adminTemplate %>/css/template-rtl.css',
 					'<%= folder.siteTemplate %>/css/template.css'
 				]
 			}
