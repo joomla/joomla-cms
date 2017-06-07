@@ -247,17 +247,6 @@ class JLayoutFile extends JLayoutBase
 			return $this;
 		}
 
-		$includePaths = $this->getIncludePaths();
-
-		if (is_array($paths))
-		{
-			$includePaths = array_unique(array_merge($paths, $includePaths));
-		}
-		else
-		{
-			array_unshift($includePaths, $paths);
-		}
-
 		$this->setIncludePaths($includePaths);
 
 		return $this;
@@ -289,6 +278,12 @@ class JLayoutFile extends JLayoutBase
 		if (empty($this->includePaths))
 		{
 			$this->includePaths = $this->getDefaultIncludePaths();
+		}
+
+		$includeDefault = array_search('default', array_values($this->includePaths));
+		if ($includeDefault)
+		{
+			array_splice($this->includePaths, $includeDefault, 1, $this->getDefaultIncludePaths());
 		}
 
 		return $this->includePaths;

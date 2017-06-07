@@ -1016,12 +1016,18 @@ abstract class JFormField
 	/**
 	 * Allow to override renderer include paths in child fields
 	 *
+	 * @param   JLayoutFile  $renderer  Instance of JLayoutFile that can be used to load the default paths.
+	 *
 	 * @return  array
 	 *
 	 * @since   3.5
 	 */
-	protected function getLayoutPaths()
+	protected function getLayoutPaths(JLayoutFile $renderer = null)
 	{
+		if ($renderer)
+		{
+			return $renderer->getDefaultIncludePaths();
+		}
 		return array();
 	}
 
@@ -1040,7 +1046,7 @@ abstract class JFormField
 
 		$renderer->setDebug($this->isDebugEnabled());
 
-		$layoutPaths = $this->getLayoutPaths();
+		$layoutPaths = $this->getLayoutPaths($renderer);
 
 		if ($layoutPaths)
 		{
