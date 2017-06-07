@@ -22,15 +22,14 @@
 				<field
 					name="mode"
 					type="list"
-					default="1"
-					description="PLG_CONTENT_EMAILCLOAK_MODE_DESC"
 					label="PLG_CONTENT_EMAILCLOAK_MODE_LABEL"
-				>
+					description="PLG_CONTENT_EMAILCLOAK_MODE_DESC"
+					default="1"
+					>
 					<option value="0">PLG_CONTENT_EMAILCLOAK_NONLINKABLE</option>
 					<option value="1">PLG_CONTENT_EMAILCLOAK_LINKABLE</option>
 				</field>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

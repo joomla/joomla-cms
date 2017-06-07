@@ -152,7 +152,7 @@ class CategoriesHelper
 	 *
 	 * @param   array  $data  Array of data for new category.
 	 *
-	 * @return  integer.
+	 * @return  integer
 	 */
 	public static function createCategory($data)
 	{

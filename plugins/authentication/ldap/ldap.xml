@@ -18,7 +18,6 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field
 					name="host"
@@ -49,7 +48,7 @@
 					description="PLG_LDAP_FIELD_V3_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -61,7 +60,7 @@
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -69,11 +68,11 @@
 				<field
 					name="no_referrals"
 					type="radio"
-					default="0"
-					class="btn-group btn-group-yesno"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 					description="PLG_LDAP_FIELD_REFERRALS_DESC"
-				>
+					default="0"
+					class="btn-group btn-group-yesno"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -81,10 +80,10 @@
 				<field
 					name="auth_method"
 					type="list"
-					default="bind"
 					label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
 					description="PLG_LDAP_FIELD_AUTHMETHOD_DESC"
-				>
+					default="bind"
+					>
 					<option value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>
 					<option value="bind">PLG_LDAP_FIELD_VALUE_BINDUSER</option>
 				</field>
@@ -113,7 +112,6 @@
 					size="20"
 				/>
 
-
 				<field
 					name="username"
 					type="text"
@@ -129,7 +127,6 @@
 					description="PLG_LDAP_FIELD_PASSWORD_DESC"
 					size="20"
 				/>
-
 
 				<field
 					name="ldap_fullname"
@@ -158,7 +155,6 @@
 					size="20"
 				/>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

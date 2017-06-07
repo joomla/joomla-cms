@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * produce valid atom files. For example, you have to specify either an editor
  * for the feed or an author for every single feed item.
  *
- * @see    http://www.atomenabled.org/developers/syndication/atom-format-spec.php
+ * @link   http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since  3.5
  *
  * @property-read  JDocumentFeed  $_doc  Reference to the JDocument object that instantiated the renderer
