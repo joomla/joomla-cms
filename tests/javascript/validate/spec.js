@@ -125,22 +125,23 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		describe('validate method on #validate-numeric-nan', function () {
-			var res = document.formvalidator.validate($element.find('#validate-numeric-nan').get(0));
+			var elNan = document.getElementById('validate-numeric-nan'),
+				res = document.formvalidator.validate(elNan);
 
 			it('should return false', function () {
 				expect(res).toEqual(false);
 			});
 
 			it('should add class invalid to element', function () {
-				expect($element.find('#validate-numeric-nan')).toHaveClass('invalid');
+				expect(elNan).toHaveClass('invalid');
 			});
 
 			it('should have aria-invalid = true in element', function () {
-				expect($element.find('#validate-numeric-nan')).toHaveAttr('aria-invalid', 'true');
+				expect(elNan).toHaveAttr('aria-invalid', 'true');
 			});
 
 			it('should add class invalid to the label for element', function () {
-				expect($element.find('[for="validate-numeric-nan"]')).toHaveClass('invalid');
+				expect(document.querySelector('[for="validate-numeric-nan"]')).toHaveClass('invalid');
 			});
 		});
 
@@ -162,7 +163,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 
 		describe('isValid method on button click', function () {
 			beforeAll(function () {
-				$('#button').trigger( "click" );
+				$('#button').click();
 			});
 
 			it('should call Joomla.JText._(\'JLIB_FORM_CONTAINS_INVALID_FIELDS\')', function () {
@@ -170,7 +171,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 
 			it('should add class invalid to element #isvalid-numeric-nan', function () {
-				expect($element.find('#isvalid-numeric-nan')).toHaveClass('invalid');
+				expect(document.getElementById('isvalid-numeric-nan')).toHaveClass('invalid');
 			});
 
 			it('should have aria-invalid = true in element #isvalid-numeric-nan', function () {
@@ -180,12 +181,16 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			it('should not add class invalid to element #isvalid-novalidate', function () {
 				expect($element.find('#isvalid-novalidate')).not.toHaveClass('invalid');
 			});
+		});
+
+		it('Invalid element should become valid when passing the correct data', function () {
+			beforeAll(function () {
+				document.getElementById('isvalid-numeric-nan').setAttribute('value', 12345);
+			});
 
 			it('should remove class invalid from element #isvalid-numeric-nan after correcting value', function () {
-				$('#isvalid-numeric-nan').val('12345');
-				$('#button').trigger( "click" );
-
-				expect($element.find('#isvalid-numeric-nan')).not.toHaveClass('invalid');
+				expect(document.getElementById('isvalid-numeric-nan')).toHaveClass('valid');
+				document.getElementById('button').click();
 			});
 		});
 	});

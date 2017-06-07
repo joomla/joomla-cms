@@ -72,6 +72,7 @@ var JFormValidator = function() {
 
 			el.classList.remove('form-control-success');
 			el.classList.add('form-control-danger');
+			el.classList.add('invalid');
 			el.parentNode.classList.remove('has-success');
 			el.parentNode.classList.add('has-danger');
 			el.setAttribute('aria-invalid', 'true');
@@ -121,6 +122,8 @@ var JFormValidator = function() {
 
 			el.classList.remove('form-control-danger');
 			el.classList.remove('form-control-success');
+		    el.classList.remove('invalid');
+		    el.classList.add('valid');
 			el.parentNode.classList.remove('has-danger');
 			el.parentNode.classList.remove('has-success');
 
