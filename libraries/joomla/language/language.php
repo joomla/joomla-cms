@@ -104,6 +104,14 @@ class JLanguage
 	protected $strings = array();
 
 	/**
+	 * Translations defined on fly
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_strings = array();
+
+	/**
 	 * An array of used text, used during debugging.
 	 *
 	 * @var    array
@@ -328,9 +336,17 @@ class JLanguage
 
 		$key = strtoupper($string);
 
-		if (isset($this->strings[$key]))
+		if (isset($this->strings[$key]) || (isset($this->_strings[$key]) && !$this->debug))
 		{
-			$string = $this->debug ? '**' . $this->strings[$key] . '**' : $this->strings[$key];
+			if (isset($this->strings[$key]))
+			{
+				$string = $this->strings[$key];
+			}
+			elseif (!$this->debug)
+			{
+				$string = $this->_strings[$key];
+			}
+			$string = $this->debug ? '**' . $string . '**' : $string;
 
 			// Store debug information
 			if ($this->debug)
@@ -345,7 +361,8 @@ class JLanguage
 				$this->used[$key][] = $caller;
 			}
 		}
-		else
+
+		if (!isset($this->strings[$key]))
 		{
 			if ($this->debug)
 			{
@@ -807,6 +824,27 @@ class JLanguage
 		$this->paths[$extension][$filename] = $result;
 
 		return $result;
+	}
+
+	/**
+	 * Allow extensions to dynamically define if not defined new strings
+	 * [Don't allow to reset/change constants so one extension won't damage other]
+	 *
+	 * @param   string  $constant  The key of language string.
+	 * @param   string  $value     The value for current language.
+	 *
+	 * @return  bool
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function def($constant, $value)
+	{
+		if (!isset($this->strings[$constant]) && $value)
+		{
+			$this->_strings[$constant] = $value;
+			return true;
+		}
+		return false;
 	}
 
 	/**
