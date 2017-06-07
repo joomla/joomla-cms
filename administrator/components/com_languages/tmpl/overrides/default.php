@@ -33,19 +33,21 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<div id="filter-bar" class="btn-toolbar clearfix">
-					<div class="filter-search btn-group float-left">
-						<div class="input-group">
-							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
-							<div class="input-group-btn">
-								<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search" aria-hidden="true"></span></button>
-								<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove" aria-hidden="true"></span></button>
+				<div class="js-stools-container">
+					<div id="filter-bar" class="clearfix mb-3">
+						<div class="filter-search btn-group float-left">
+							<div class="input-group">
+								<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
+								<div class="input-group-btn">
+									<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search" aria-hidden="true"></span></button>
+									<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove" aria-hidden="true"></span></button>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="btn-group float-right hidden-sm-down">
-						<label for="limit" class="sr-only"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
-						<?php echo $this->pagination->getLimitBox(); ?>
+						<div class="btn-group float-right hidden-sm-down">
+							<label for="limit" class="sr-only"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
 					</div>
 				</div>
 				<?php if (empty($this->items)) : ?>

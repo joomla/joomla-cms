@@ -21,7 +21,9 @@ $colSpan   = 4 + count($this->actions);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<div class="js-stools-container">
+			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<thead>

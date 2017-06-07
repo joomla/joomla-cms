@@ -33,7 +33,9 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 	<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<div class="js-stools-container">
+			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		</div>
 
 		<?php if ($this->total > 0) : ?>
 		<table class="table table-striped" id="moduleList">

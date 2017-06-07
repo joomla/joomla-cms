@@ -47,7 +47,9 @@ if ($menuType == '')
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
+				<div class="js-stools-container">
+					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
+				</div>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>

@@ -8964,44 +8964,53 @@ iframe {
   to {
     box-shadow: 0 0 0 15px rgba(232, 76, 61, 0); } }
 
-.js-stools {
+.js-stools-container {
   width: 100%;
   padding: 8px 10px 0;
   background-color: #f5f5f5;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem 0.25rem 0 0;
   box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15); }
-  .js-stools .btn-wrapper {
-    display: inline-block;
-    margin-right: 5px; }
-  .js-stools .js-stools-container-filters {
-    display: none;
-    margin: 0 0 2px; }
-  .js-stools .js-stools-container-bar {
-    float: left; }
-    .js-stools .js-stools-container-bar .btn-toolbar {
-      float: left;
-      margin-bottom: 8px; }
-      .js-stools .js-stools-container-bar .btn-toolbar .btn-group:first-child {
-        margin-left: 0; }
-    .js-stools .js-stools-container-bar .input-append {
-      margin-bottom: 0; }
-  .js-stools .js-stools-container-list {
-    float: right;
-    text-align: left; }
-    .js-stools .js-stools-container-list .js-stools-field-list:last-child {
-      margin-right: 0; }
-  .js-stools .js-stools-container-filters-visible {
-    display: inline-block; }
-  .js-stools .js-stools-field-list,
-  .js-stools .js-stools-field-filter {
-    display: inline-block;
+  .js-stools-container .filter-bar {
     float: left;
-    margin-right: 5px;
-    margin-bottom: 5px; }
-    .js-stools .js-stools-field-list .form-control,
-    .js-stools .js-stools-field-filter .form-control {
-      display: inline-block; }
+    margin-right: 7px; }
+
+.js-stools .btn-wrapper {
+  display: inline-block;
+  margin-right: 5px; }
+
+.js-stools .js-stools-container-filters {
+  display: none;
+  margin: 0 0 2px; }
+
+.js-stools .js-stools-container-bar {
+  float: left; }
+  .js-stools .js-stools-container-bar .btn-toolbar {
+    float: left;
+    margin-bottom: 8px; }
+    .js-stools .js-stools-container-bar .btn-toolbar .btn-group:first-child {
+      margin-left: 0; }
+  .js-stools .js-stools-container-bar .input-append {
+    margin-bottom: 0; }
+
+.js-stools .js-stools-container-list {
+  float: right;
+  text-align: left; }
+  .js-stools .js-stools-container-list .js-stools-field-list:last-child {
+    margin-right: 0; }
+
+.js-stools .js-stools-container-filters-visible {
+  display: inline-block; }
+
+.js-stools .js-stools-field-list,
+.js-stools .js-stools-field-filter {
+  display: inline-block;
+  float: left;
+  margin-right: 5px;
+  margin-bottom: 5px; }
+  .js-stools .js-stools-field-list .form-control,
+  .js-stools .js-stools-field-filter .form-control {
+    display: inline-block; }
 
 .js-stools-column-order [class*=" icon-"],
 .js-stools-column-order [class^="icon-"] {

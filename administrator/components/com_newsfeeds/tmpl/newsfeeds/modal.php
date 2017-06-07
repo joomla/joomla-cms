@@ -30,7 +30,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 	<form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function=' . $function); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<div class="js-stools-container">
+			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		</div>
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-warning alert-no-items">

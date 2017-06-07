@@ -37,7 +37,9 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.jQuery('.modal
 				data-user-field="<?php echo $this->escape($field); ?>" <?php if ($isMoo) : ?>value="" onclick="window.parent.jSelectUser(this)"<?php endif; ?>><?php echo JText::_('JOPTION_NO_USER'); ?></button>&nbsp;
 		</div>
 		<?php endif; ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<div class="js-stools-container">
+			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		</div>
 		<?php if (empty($this->items)) : ?>
 		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>

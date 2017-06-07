@@ -29,7 +29,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->ftp) : ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
 					<?php endif; ?>
-					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+					<div class="js-stools-container">
+						<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+					</div>
 					<?php if (empty($this->items)) : ?>
 					<div class="alert alert-warning alert-no-items">
 						<?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
