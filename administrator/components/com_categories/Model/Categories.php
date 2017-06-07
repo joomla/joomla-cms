@@ -370,9 +370,9 @@ class Categories extends ListModel
 	 */
 	public function countItems(&$items, $extension)
 	{
-		$parts = explode('.', $extension, 2);
+		$parts     = explode('.', $extension, 2);
 		$component = $parts[0];
-		$section = null;
+		$section   = null;
 
 		if (count($parts) > 1)
 		{
@@ -386,7 +386,7 @@ class Categories extends ListModel
 
 		if ($namespace)
 		{
-			$cName = $namespace.'\\Administrator\\Helper\\'.ucfirst($eName.'Helper');
+			$cName = $namespace . '\\Administrator\\Helper\\' . ucfirst($eName . 'Helper');
 		}
 		else
 		{

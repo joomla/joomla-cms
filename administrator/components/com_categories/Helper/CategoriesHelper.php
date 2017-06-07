@@ -40,7 +40,7 @@ class CategoriesHelper
 			return;
 		}
 
-		$parts = explode('.', $extension);
+		$parts     = explode('.', $extension);
 		$component = $parts[0];
 
 		if (count($parts) > 1)
@@ -49,12 +49,12 @@ class CategoriesHelper
 		}
 
 		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
+		$eName     = str_replace('com_', '', $component);
 		$namespace = ComponentHelper::getComponent($component)->namespace;
 
 		if ($namespace)
 		{
-			$cName = $namespace.'\\Administrator\\Helper\\'.ucfirst($eName.'Helper');
+			$cName = $namespace . '\\Administrator\\Helper\\' . ucfirst($eName . 'Helper');
 		}
 		else
 		{

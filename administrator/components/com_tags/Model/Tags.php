@@ -349,9 +349,9 @@ class Tags extends ListModel
 	 */
 	public function countItems(&$items, $extension)
 	{
-		$parts = explode('.', $extension);
+		$parts     = explode('.', $extension);
 		$component = $parts[0];
-		$section = null;
+		$section   = null;
 
 		if (count($parts) < 2)
 		{
@@ -365,7 +365,7 @@ class Tags extends ListModel
 
 		if ($namespace)
 		{
-			$cName = $namespace.'\\Administrator\\Helper\\'.ucfirst($eName.'Helper');
+			$cName = $namespace . '\\Administrator\\Helper\\' . ucfirst($eName . 'Helper');
 		}
 		else
 		{
