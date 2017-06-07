@@ -23,7 +23,7 @@ JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', arra
 JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
 
 // Add Stylesheets
-JHtml::_('stylesheet', 'template.min.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
