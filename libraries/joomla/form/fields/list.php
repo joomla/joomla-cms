@@ -176,13 +176,17 @@ class JFormFieldList extends JFormField
 				// For global config plugins field types (ex: editors) is also needed to load the language files.
 				if (strtolower($this->type) === 'plugins')
 				{
-					$source    = JPATH_PLUGINS . '/' . $this->folder . '/' . $value;
-					$extension = 'plg_' . $this->folder . '_' . $value;
-					$lang      = JFactory::getApplication()->getLanguage();
+					$source = JPATH_PLUGINS . '/' . $this->folder . '/' . $value;
 
-					$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||	$lang->load($extension . '.sys', $source, null, false, true);
+					if (is_dir($source))
+					{
+						$extension = 'plg_' . $this->folder . '_' . $value;
+						$lang      = JFactory::getApplication()->getLanguage();
 
-					$text = JText::_($extension);
+						$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||	$lang->load($extension . '.sys', $source, null, false, true);
+
+						$text = JText::_($extension);
+					}
 				}
 			}
 
