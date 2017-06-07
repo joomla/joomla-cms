@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 					'media/vendor/awesomplete/*',
 					'media/vendor/flying-focus-a11y/*',
 					'media/vendor/diff/**',
-					'media/vendor/wicked-good-xpath/**',
+					'media/vendor/polyfills/**',
 				],
 				expand: true,
 				options: {
@@ -178,7 +178,7 @@ module.exports = function(grunt) {
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
 					// XPath polyfill js files
-					{ expand: true, cwd: '<%= folder.node_module %>wicked-good-xpath/dist', src: ['wgxpath.install.js'], dest: 'media/vendor/wicked-good-xpath/js/', filter: 'isFile'},
+					{ expand: false, src: '<%= folder.node_module %>wicked-good-xpath/dist/wgxpath.install.js', dest: 'media/vendor/polyfills/js/polyfill-wgxpath.js', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
@@ -191,7 +191,7 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>perfect-scrollbar/LICENSE'], dest: 'media/vendor/perfect-scrollbar/LICENSE'},
 					{ src: ['<%= folder.node_module %>flying-focus-a11y/MIT-LICENSE.txt'], dest: 'media/vendor/flying-focus-a11y/MIT-LICENSE.txt'},
 					{ src: ['<%= folder.node_module %>diff/LICENSE'], dest: 'media/vendor/diff/LICENSE'},
-					{ src: ['<%= folder.node_module %>wicked-good-xpath/LICENSE'], dest: 'media/vendor/wicked-good-xpath/LICENSE'},
+					{ src: ['<%= folder.node_module %>wicked-good-xpath/LICENSE'], dest: 'media/vendor/polyfills/wicked-good-xpath-LICENSE'},
 				]
 			}
 		},
