@@ -121,6 +121,23 @@ abstract class ToolbarHelper
 	}
 
 	/**
+	 * Writes a guide button for a given option (starts an guide).
+	 *
+	 * @param   string  $filePath The relative path for the js file
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function guide($filePath = null)
+	{
+		$bar = Toolbar::getInstance('toolbar');
+
+		// Add a help button.
+		$bar->appendButton('Guide', $filePath);
+	}
+
+	/**
 	 * Writes a preview button for a given option (opens a popup window).
 	 *
 	 * @param   string  $ref        The name of the popup file (excluding the file extension for an xml file).

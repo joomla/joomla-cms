@@ -176,6 +176,12 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>flying-focus-a11y/src/js', src: ['*.js'], dest: 'media/vendor/flying-focus-a11y/js/', filter: 'isFile'},
 					// JSDiff js files
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
+					// Shepherd css files
+					{ cwd: 'build/assets_tmp/node_modules/dragula/dist', src: ['*.css'], dest: 'media/vendor/dragula/css/', expand: true, filter: 'isFile'},
+					// Shepherd js files
+					{ expand: true, cwd: 'build/assets_tmp/node_modules/tether-shepherd/dist/js', src: ['shepherd*.js'], dest: 'media/vendor/shepherd/js/', filter: 'isFile'},
+					// Dragula css files
+					{ cwd: 'build/assets_tmp/node_modules/tether-shepherd/dist/css', src: ['*.css'], dest: 'media/vendor/shepherd/css/', expand: true, filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
