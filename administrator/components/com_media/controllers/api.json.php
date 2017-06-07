@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,6 +156,7 @@ class MediaControllerApi extends Controller
 			{
 				$errorCode = $e->getCode();
 			}
+
 			$this->sendResponse($e, $errorCode);
 		}
 	}
@@ -193,7 +194,7 @@ class MediaControllerApi extends Controller
 	 *
 	 * @return  Model|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getModel($name = 'Api', $prefix = 'MediaModel', $config = array())
 	{
