@@ -23,9 +23,12 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
-				<field name="configuration" type="tinymcebuilder" hiddenLabel="true" />
+				<field 
+				       name="configuration" 
+				       type="tinymcebuilder" 
+				       hiddenLabel="true" 
+				 />
 			</fieldset>
 
 			<fieldset name="advanced" label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS">

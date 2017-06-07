@@ -29,7 +29,7 @@ require_once JPATH_LIBRARIES . '/bootstrap.php';
  *
  * @since  2.5
  */
-class GarbageCron extends JApplicationCli
+class GarbageCron extends \Joomla\CMS\Application\CliApplication
 {
 	/**
 	 * Entry point for the script
@@ -44,4 +44,4 @@ class GarbageCron extends JApplicationCli
 	}
 }
 
-JApplicationCli::getInstance('GarbageCron')->execute();
+\Joomla\CMS\Application\CliApplication::getInstance('GarbageCron')->execute();

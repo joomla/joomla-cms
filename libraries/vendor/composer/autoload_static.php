@@ -52,6 +52,8 @@ class ComposerStaticInit423c8facdf90155590c7b49e979f3a1e
             'Joomla\\String\\' => 14,
             'Joomla\\Session\\' => 15,
             'Joomla\\Registry\\' => 16,
+            'Joomla\\OAuth2\\' => 14,
+            'Joomla\\OAuth1\\' => 14,
             'Joomla\\Ldap\\Tests\\' => 18,
             'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
@@ -125,6 +127,14 @@ class ComposerStaticInit423c8facdf90155590c7b49e979f3a1e
         'Joomla\\Registry\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
+        ),
+        'Joomla\\OAuth2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/oauth2/src',
+        ),
+        'Joomla\\OAuth1\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/oauth1/src',
         ),
         'Joomla\\Ldap\\Tests\\' => 
         array (

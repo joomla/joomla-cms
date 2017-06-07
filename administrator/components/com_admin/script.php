@@ -537,6 +537,10 @@ class JoomlaInstallerScript
 			array('plugin', 'usergrouplist', 'fields', 0),
 			array('plugin', 'fields', 'content', 0),
 			array('plugin', 'fields', 'editors-xtd', 0),
+			array('plugin', 'local', 'filesystem', 0),
+			array('plugin', 'crop', 'media-actions', 0),
+			array('plugin', 'resize', 'media-actions', 0),
+			array('plugin', 'rotate', 'media-actions', 0),
 
 			// Templates
 			array('template', 'protostar', '', 0),

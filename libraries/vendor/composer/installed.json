@@ -989,12 +989,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/uri.git",
-            "reference": "c4c0db28f8d007ba5126ba6bcbabbfb7904be30b"
+            "reference": "9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/uri/zipball/c4c0db28f8d007ba5126ba6bcbabbfb7904be30b",
-            "reference": "c4c0db28f8d007ba5126ba6bcbabbfb7904be30b",
+            "url": "https://api.github.com/repos/joomla-framework/uri/zipball/9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3",
+            "reference": "9685d1ac7f486a4d0fb78006d5acb8a2b6b6d1e3",
             "shasum": ""
         },
         "require": {
@@ -1005,7 +1005,7 @@
             "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
             "squizlabs/php_codesniffer": "1.*"
         },
-        "time": "2017-05-27T01:23:06+00:00",
+        "time": "2017-06-04T09:37:41+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -1241,12 +1241,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/session.git",
-            "reference": "73f24b57ec1a34ecca2d4aa98beaf1af36d06a12"
+            "reference": "c5b16c184a9917d70fd8475a4adadfe4a47a2aed"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/session/zipball/73f24b57ec1a34ecca2d4aa98beaf1af36d06a12",
-            "reference": "73f24b57ec1a34ecca2d4aa98beaf1af36d06a12",
+            "url": "https://api.github.com/repos/joomla-framework/session/zipball/c5b16c184a9917d70fd8475a4adadfe4a47a2aed",
+            "reference": "c5b16c184a9917d70fd8475a4adadfe4a47a2aed",
             "shasum": ""
         },
         "require": {
@@ -1275,7 +1275,7 @@
             "joomla/input": "The joomla/input package is required to use Address and Forwarded session validators.",
             "paragonie/random_compat": "The paragonie/random_compat package is required to use Joomla\\Session\\Session on PHP 5.x."
         },
-        "time": "2017-05-27T01:20:50+00:00",
+        "time": "2017-06-01T16:00:13+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -1539,5 +1539,112 @@
         ],
         "description": "Symfony Yaml Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "joomla/oauth1",
+        "version": "dev-2.0-dev",
+        "version_normalized": "dev-2.0-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/oauth1.git",
+            "reference": "7855fee23cbe1afe28121b9729e4a03c78de18ba"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/7855fee23cbe1afe28121b9729e4a03c78de18ba",
+            "reference": "7855fee23cbe1afe28121b9729e4a03c78de18ba",
+            "shasum": ""
+        },
+        "require": {
+            "joomla/application": "~1.0|~2.0",
+            "joomla/http": "^1.2.2|~2.0",
+            "joomla/input": "~1.2|~2.0",
+            "joomla/registry": "^1.4.5|~2.0",
+            "joomla/session": "~1.0|~2.0",
+            "paragonie/random_compat": "~1.0|~2.0",
+            "php": "^5.5.9|~7.0"
+        },
+        "require-dev": {
+            "joomla/event": "~1.0|~2.0",
+            "joomla/test": "~1.0",
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "time": "2017-05-27T01:17:14+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-2.0-dev": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\OAuth1\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla OAuth1 Package",
+        "homepage": "https://github.com/joomla-framework/oauth1",
+        "keywords": [
+            "framework",
+            "joomla",
+            "oauth1"
+        ]
+    },
+    {
+        "name": "joomla/oauth2",
+        "version": "dev-2.0-dev",
+        "version_normalized": "dev-2.0-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/oauth2.git",
+            "reference": "85837a6c6b05070f60b9ec784f1f95a3301ac162"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/85837a6c6b05070f60b9ec784f1f95a3301ac162",
+            "reference": "85837a6c6b05070f60b9ec784f1f95a3301ac162",
+            "shasum": ""
+        },
+        "require": {
+            "joomla/application": "~1.0|~2.0",
+            "joomla/http": "^1.2.2|~2.0",
+            "joomla/input": "~1.2|~2.0",
+            "joomla/session": "~1.0|~2.0",
+            "php": "^5.5.9|~7.0"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0",
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "time": "2017-05-27T01:17:23+00:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-2.0-dev": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\OAuth2\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla OAuth2 Package",
+        "homepage": "https://github.com/joomla-framework/oauth2",
+        "keywords": [
+            "framework",
+            "joomla",
+            "oauth2"
+        ]
     }
 ]

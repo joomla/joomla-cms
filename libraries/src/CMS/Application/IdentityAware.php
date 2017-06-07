@@ -8,27 +8,31 @@
 
 namespace Joomla\CMS\Application;
 
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\User\User;
+
 /**
  * Trait for application classes which are identity (user) aware
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 trait IdentityAware
 {
 	/**
 	 * The application identity object.
 	 *
-	 * @var    \JUser
-	 * @since  4.0
+	 * @var    User
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $identity;
 
 	/**
 	 * Get the application identity.
 	 *
-	 * @return  \JUser
+	 * @return  User
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getIdentity()
 	{
@@ -38,15 +42,15 @@ trait IdentityAware
 	/**
 	 * Allows the application to load a custom or default identity.
 	 *
-	 * @param   \JUser  $identity  An optional identity object. If omitted, a null user object is created.
+	 * @param   User  $identity  An optional identity object. If omitted, a null user object is created.
 	 *
 	 * @return  $this
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function loadIdentity(\JUser $identity = null)
+	public function loadIdentity(User $identity = null)
 	{
-		$this->identity = $identity ?: \JUser::getInstance();
+		$this->identity = $identity ?: User::getInstance();
 
 		return $this;
 	}

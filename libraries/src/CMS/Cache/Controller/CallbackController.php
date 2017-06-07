@@ -23,31 +23,6 @@ class CallbackController extends CacheController
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * Since arguments to this function are read with func_get_args you can pass any number of arguments to this method
-	 * as long as the first argument passed is the callback definition.
-	 *
-	 * The callback definition can be in several forms:
-	 * - Standard PHP Callback array see <https://secure.php.net/callback> [recommended]
-	 * - Function name as a string eg. 'foo' for function foo()
-	 * - Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
-	 *
-	 * @return  mixed  Result of the callback
-	 *
-	 * @since   11.1
-	 * @deprecated  4.0
-	 */
-	public function call()
-	{
-		// Get callback and arguments
-		$args     = func_get_args();
-		$callback = array_shift($args);
-
-		return $this->get($callback, $args);
-	}
-
-	/**
-	 * Executes a cacheable callback if not found in cache else returns cached output and result
-	 *
 	 * @param   callable  $callback    Callback or string shorthand for a callback
 	 * @param   array     $args        Callback arguments
 	 * @param   mixed     $id          Cache ID
