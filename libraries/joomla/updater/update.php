@@ -320,7 +320,7 @@ class JUpdate extends JObject
 
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', JVERSION)
+					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $patchMinimumSupported)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $patchMaximumSupported))
 				{
