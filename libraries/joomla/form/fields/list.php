@@ -183,7 +183,7 @@ class JFormFieldList extends JFormField
 						$extension = 'plg_' . $this->folder . '_' . $value;
 						$lang      = JFactory::getApplication()->getLanguage();
 
-						$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||	$lang->load($extension . '.sys', $source, null, false, true);
+						$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) || $lang->load($extension . '.sys', $source, null, false, true);
 
 						$text = JText::_($extension);
 					}
