@@ -620,8 +620,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// @TODO remove the dependencies, deprecate this and incorporate the functionality in the tabs custom element!
 		JHtml::_('jquery.framework');
-		JHtml::_('behavior.polyfill', array('xpath'));
+		JHtml::_('script', 'wicked-good-xpath/wgxpath.install.js', array('version' => 'auto', 'relative' => true));
 		JHtml::_('script', 'system/tabs-state.min.js', array('version' => 'auto', 'relative' => true));
 		self::$loaded[__METHOD__] = true;
 	}
