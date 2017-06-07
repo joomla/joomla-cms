@@ -96,6 +96,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php else : ?>
 									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?>
 							<?php endif; ?>
+
+							<?php if ($item->comment) : ?>
+								<span class="small">
+									(<?php echo JText::_('JFIELD_NOTE_LABEL') . ': ' . $item->comment; ?>)
+								</span>
+							<?php endif; ?>
 						</td>
 						<td class="small break-word">
 							<?php echo $this->escape(rawurldecode($item->new_url)); ?>
