@@ -231,7 +231,7 @@ class JFormFieldRules extends JFormField
 		$groups = $this->getUserGroups();
 
 		// Ajax request data.
-		$ajaxUri = JRoute::_('index.php?option=com_config&task=config.store&format=json&' . JSession::getFormToken() . '=1');
+		$ajaxUri = JRoute::_('index.php?option=com_config&task=application.store&format=json&' . JSession::getFormToken() . '=1');
 
 		// Prepare output
 		$html = array();
