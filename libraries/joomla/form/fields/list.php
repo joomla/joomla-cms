@@ -166,11 +166,24 @@ class JFormFieldList extends JFormField
 
 			$params = JComponentHelper::getParams($component);
 			$value  = $params->get($this->fieldname);
+			$text   = '';
 
 			// Try with global configuration
 			if (is_null($value))
 			{
 				$value = JFactory::getConfig()->get($this->fieldname);
+
+				// For global config plugins field types (ex: editors) is also needed to load the language files.
+				if (strtolower($this->type) === 'plugins')
+				{
+					$source    = JPATH_PLUGINS . '/' . $this->folder . '/' . $value;
+					$extension = 'plg_' . $this->folder . '_' . $value;
+					$lang      = JFactory::getApplication()->getLanguage();
+
+					$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||	$lang->load($extension . '.sys', $source, null, false, true);
+
+					$text = JText::_($extension);
+				}
 			}
 
 			// Try with menu configuration
@@ -193,7 +206,7 @@ class JFormFieldList extends JFormField
 					}
 				}
 
-				$tmp->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+				$tmp->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', ($text !== '' ? $text : $value));
 			}
 
 			array_unshift($options, $tmp);
