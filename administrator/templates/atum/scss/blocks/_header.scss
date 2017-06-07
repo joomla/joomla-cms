@@ -60,17 +60,16 @@
   }
 
   .nav-item {
-    width: $header-height + 2px;
     background-color: darken($atum-template-color-light, 10%);
   }
 
   .nav-link {
     position: relative;
-    padding: 0 8px;
+    padding: 0;
     line-height: $header-height;
 
     .fa {
-      width: 30px;
+      width: $header-height + 2px;
       height: 23px;
       font-size: 1.1rem;
       line-height: 23px;

@@ -8658,14 +8658,13 @@ legend {
   .header .nav-item + .nav-item {
     margin-left: 1px; }
   .header .nav-item {
-    width: 50px;
     background-color: #102335; }
   .header .nav-link {
     position: relative;
-    padding: 0 8px;
+    padding: 0;
     line-height: 48px; }
     .header .nav-link .fa {
-      width: 30px;
+      width: 50px;
       height: 23px;
       font-size: 1.1rem;
       line-height: 23px;
