@@ -8,6 +8,7 @@
  */
 namespace Joomla\Component\Categories\Administrator\Helper;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
@@ -49,29 +50,33 @@ class CategoriesHelper
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$namespace = ComponentHelper::getComponent($component)->namespace;
 
-		if (file_exists($file))
+		if ($namespace)
 		{
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
+			$cName = $namespace.'\\Administrator\\Helper\\'.ucfirst($eName.'Helper');
+		}
+		else
+		{
+			$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName))
+			if (file_exists($file))
 			{
-				if (is_callable(array($cName, 'addSubmenu')))
-				{
-					$lang = \JFactory::getLanguage();
-
-					// Loading language file from the administrator/language directory then
-					// loading language file from the administrator/components/*extension*/language directory
-					$lang->load($component, JPATH_BASE, null, false, true)
-					|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-
-					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
-				}
+				$cName = ucfirst($eName) . 'Helper';
+				\JLoader::register($cName, $file);
 			}
+		}
+
+		if (!empty($cName) && class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
+		{
+			$lang = \JFactory::getLanguage();
+
+			// Loading language file from the administrator/language directory then
+			// loading language file from the administrator/components/*extension*/language directory
+			$lang->load($component, JPATH_BASE, null, false, true)
+			|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+
+			call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
 		}
 	}
 

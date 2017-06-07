@@ -9,7 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
+use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 JFormHelper::loadFieldClass('list');
 
