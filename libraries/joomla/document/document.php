@@ -414,7 +414,7 @@ class JDocument
 	 * Sets or alters a meta tag.
 	 *
 	 * @param   string  $name       Name of the meta HTML tag
-	 * @param   string  $content    Value of the meta HTML tag
+	 * @param   mixed   $content    Value of the meta HTML tag as array or string
 	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  JDocument instance of $this to allow chaining
@@ -423,12 +423,17 @@ class JDocument
 	 */
 	public function setMetaData($name, $content, $attribute = 'name')
 	{
+		//Pop the element off the end of array if target function expects a string or this http_equiv parameter.
+		if(is_array($content) && (in_array($name, array('generator', 'description')) || !is_string($attribute))){
+			$content = array_pop($content);
+		}
+		
 		// B/C old http_equiv parameter.
 		if (!is_string($attribute))
 		{
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
-
+		
 		if ($name == 'generator')
 		{
 			$this->setGenerator($content);
