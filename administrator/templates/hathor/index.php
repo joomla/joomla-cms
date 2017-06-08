@@ -100,7 +100,7 @@ $this->addScriptDeclaration("
 	<jdoc:include type="head" />
 </head>
 <body id="minwidth-body">
-<div id="containerwrap" data-basepath="<?php echo JURI::root(true); ?>">
+<div id="containerwrap">
 	<!-- Header Logo -->
 	<div id="header">
 		<!-- Site Title and Skip to Content -->

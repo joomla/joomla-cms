@@ -87,6 +87,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Define the base path as a string
+		JText::script('JOOMLA_BASE_PATH', JURI::root(true));
+
 		JHtml::_('script', 'system/core.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
 
