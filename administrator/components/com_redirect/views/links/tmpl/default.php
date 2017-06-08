@@ -99,7 +99,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 							<?php if ($item->comment) : ?>
 								<span class="small">
-									(<?php echo JText::_('JFIELD_NOTE_LABEL') . ': ' . $item->comment; ?>)
+									(<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->comment)); ?>)
 								</span>
 							<?php endif; ?>
 						</td>
