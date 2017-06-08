@@ -710,6 +710,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
   `context` varchar(255) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT '0',
