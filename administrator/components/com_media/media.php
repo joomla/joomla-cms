@@ -14,7 +14,7 @@ $user   = JFactory::getUser();
 $asset  = $input->get('asset');
 $author = $input->get('author');
 
-// Access check.
+// Access check
 if (!$user->authorise('core.manage', 'com_media') && (!$asset || (!$user->authorise('core.edit', $asset)
 	&& !$user->authorise('core.create', $asset)
 	&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)

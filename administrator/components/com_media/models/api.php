@@ -21,15 +21,17 @@ class MediaModelApi extends Model
 	/**
 	 * The local file adapter to work with.
 	 *
-	 * @var MediaFileAdapterInterface
+	 * @var    MediaFileAdapterInterface
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $adapter = null;
+
 	/**
 	 * Constructor
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
@@ -221,7 +223,7 @@ class MediaModelApi extends Model
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
 	public function copy($sourcePath, $destinationPath, $force = false)
@@ -239,7 +241,7 @@ class MediaModelApi extends Model
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
 	public function move($sourcePath, $destinationPath, $force = false)

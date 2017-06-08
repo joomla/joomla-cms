@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,31 +50,24 @@ $config = [
 ];
 
 JFactory::getDocument()->addScriptOptions('com_media', $config);
-JFactory::getDocument()->addStyleDeclaration("	.btn-group {
+JFactory::getDocument()->addStyleDeclaration("
+	.btn-group {
 		display: block;
 	}
 	.tab-pane {
 		background-color: #fafafa;
-    	border-left: 1px solid #f0f0f0;
-    ");
+		border-left: 1px solid #f0f0f0;
+	");
 
 ?>
 <div class="row">
 	<form action="#" method="post" name="adminForm" id="media-form" class="form-validate col-md-12">
-	<?php
-	$fieldSets = $form->getFieldsets();
-
-	if ($fieldSets)
-	{
-		echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name));
-
-		echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>';
-
-		echo JLayoutHelper::render('joomla.edit.params', $this);
-
-		echo JHtml::_('bootstrap.endTabSet');
-	}
-	?>
+	<?php $fieldSets = $form->getFieldsets(); ?>
+	<?php if ($fieldSets) : ?>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
+		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>'; ?>
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	<?php endif; ?>
 	</form>
-	
 </div>
