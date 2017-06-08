@@ -118,7 +118,8 @@ class WebApplication extends BaseApplication
 		'Accept-Ranges',
 		'Content-Range',
 		'Age',
-		'Expires'
+		'Expires',
+		'Clear-Site-Data',
 	);
 
 	/**
