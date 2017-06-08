@@ -109,8 +109,19 @@ class ContentViewArticle extends JViewLegacy
 		// Built the actions for new and existing records.
 		$canDo = $this->canDo;
 
+		$linkArticle = "";
+
+		if (!$isNew)
+		{
+			$linkArticle = '<a href="' . JRoute::_(
+					JURI::root() . 'index.php?option=com_content&view=article&id='
+			. (int) $this->item->id
+				) . '" title="' . JText::_('JGLOBAL_LINK_FRONTEND_ITEM') . '" target="_blank"><span class="icon-out-2"></span></a>';
+		}
+
 		JToolbarHelper::title(
-			JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
+			JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE')))
+			. " " . $linkArticle,
 			'pencil-2 article-add'
 		);
 
