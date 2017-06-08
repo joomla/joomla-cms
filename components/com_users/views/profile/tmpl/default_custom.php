@@ -32,7 +32,6 @@ foreach ($tmp as $customField)
 	$customFields[$customField->name] = $customField;
 }
 ?>
-
 <?php foreach ($fieldsets as $group => $fieldset) : ?>
 	<?php $fields = $this->form->getFieldset($group); ?>
 	<?php if (count($fields)) : ?>
