@@ -1690,7 +1690,7 @@ class MenusModelItem extends JModelAdmin
 	public function publish(&$pks, $value = 1)
 	{
 		$table = $this->getTable();
-		$pks = (array) $pks;
+		$pks   = (array) $pks;
 
 		// Default menu item existence checks.
 		if ($value != 1)
