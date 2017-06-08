@@ -14,6 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @link   http://pear.php.net/package/Cache_Lite/
  * @since  11.1
+ * @deprecated  4.0 Deprecated without replacement
  */
 class JCacheStorageCachelite extends JCacheStorage
 {
