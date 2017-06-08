@@ -72,6 +72,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			</div>
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<?php
+				if ((int) $this->item->id > 0 )
+				{
+					echo '<a href="' . JRoute::_( JURI::root() . 'index.php?option=com_content&view=article&id='
+							. (int) $this->item->id ). '" target="_blank">link to article</a>';
+				}
+				?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
