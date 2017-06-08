@@ -10,9 +10,8 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Controller\Admin;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Sites Controller
@@ -21,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  * @subpackage  com_installer
  * @since       3.4
  */
-class Updatesites extends Controller
+class Updatesites extends Admin
 {
 	/**
 	 * Constructor.
@@ -38,78 +37,7 @@ class Updatesites extends Controller
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		$this->registerTask('unpublish', 'publish');
-		$this->registerTask('publish',   'publish');
-		$this->registerTask('delete',    'delete');
 		$this->registerTask('rebuild',   'rebuild');
-	}
-
-	/**
-	 * Enable/Disable an extension (if supported).
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 *
-	 * @throws  \Exception on error
-	 */
-	public function publish()
-	{
-		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
-
-		$ids    = $this->input->get('cid', array(), 'array');
-		$values = array('publish' => 1, 'unpublish' => 0);
-		$task   = $this->getTask();
-		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
-
-		if (empty($ids))
-		{
-			throw new \Exception(\JText::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
-		}
-
-		// Get the model.
-		/* @var \Joomla\Component\Installer\Administrator\Model\Updatesites $model */
-		$model = $this->getModel('Updatesites');
-
-		// Change the state of the records.
-		if (!$model->publish($ids, $value))
-		{
-			throw new \Exception(implode('<br>', $model->getErrors()), 500);
-		}
-
-		$ntext = ($value == 0) ? 'COM_INSTALLER_N_UPDATESITES_UNPUBLISHED' : 'COM_INSTALLER_N_UPDATESITES_PUBLISHED';
-
-		$this->setMessage(\JText::plural($ntext, count($ids)));
-
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=updatesites', false));
-	}
-
-	/**
-	 * Deletes an update site (if supported).
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6
-	 *
-	 * @throws  \Exception on error
-	 */
-	public function delete()
-	{
-		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
-
-		$ids = $this->input->get('cid', array(), 'array');
-
-		if (empty($ids))
-		{
-			throw new \Exception(\JText::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
-		}
-
-		// Delete the records.
-		$this->getModel('Updatesites')->delete($ids);
-
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=updatesites', false));
 	}
 
 	/**
