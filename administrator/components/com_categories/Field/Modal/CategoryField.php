@@ -1,32 +1,31 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_categories
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-namespace Joomla\Component\Content\Administrator\Field\Modal;
+namespace Joomla\Component\Categories\Administrator\Field\Modal;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormField;
 
 /**
- * Supports a modal article picker.
+ * Supports a modal category picker.
  *
- * @since  1.6
+ * @since  3.1
  */
-class Article extends FormField
+class CategoryField extends FormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  1.6
+	 * @var     string
+	 * @since   1.6
 	 */
-	protected $type = 'Modal_Article';
+	protected $type = 'Modal_Category';
 
 	/**
 	 * Method to get the field input markup.
@@ -37,19 +36,28 @@ class Article extends FormField
 	 */
 	protected function getInput()
 	{
+		if ($this->element['extension'])
+		{
+			$extension = (string) $this->element['extension'];
+		}
+		else
+		{
+			$extension = (string) \JFactory::getApplication()->input->get('extension', 'com_content');
+		}
+
 		$allowNew    = ((string) $this->element['new'] == 'true');
 		$allowEdit   = ((string) $this->element['edit'] == 'true');
 		$allowClear  = ((string) $this->element['clear'] != 'false');
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
-		// Load language
-		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		// Load language.
+		\JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
 
-		// The active article id field.
+		// The active category id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
 		// Create the modal id.
-		$modalId = 'Article_' . $this->id;
+		$modalId = 'Category_' . $this->id;
 
 		// Add the modal field script to the document head.
 		\JHtml::_('jquery.framework');
@@ -68,8 +76,8 @@ class Article extends FormField
 			if (!isset($scriptSelect[$this->id]))
 			{
 				\JFactory::getDocument()->addScriptDeclaration("
-				function jSelectArticle_" . $this->id . "(id, title, catid, object, url, language) {
-					window.processModalSelect('Article', '" . $this->id . "', id, title, catid, object, url, language);
+				function jSelectCategory_" . $this->id . "(id, title, object) {
+					window.processModalSelect('Category', '" . $this->id . "', id, title, '', object);
 				}
 				");
 
@@ -78,30 +86,29 @@ class Article extends FormField
 		}
 
 		// Setup variables for display.
-		$linkArticles = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
-		$linkArticle  = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1';
+		$linkCategories = 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1'
+			. '&amp;extension=' . $extension;
+		$linkCategory  = 'index.php?option=com_categories&amp;view=category&amp;layout=modal&amp;tmpl=component&amp;' . \JSession::getFormToken() . '=1'
+			. '&amp;extension=' . $extension;
+		$modalTitle    = \JText::_('COM_CATEGORIES_CHANGE_CATEGORY');
 
 		if (isset($this->element['language']))
 		{
-			$linkArticles .= '&amp;forcedLanguage=' . $this->element['language'];
-			$linkArticle  .= '&amp;forcedLanguage=' . $this->element['language'];
-			$modalTitle    = \JText::_('COM_CONTENT_CHANGE_ARTICLE') . ' &#8212; ' . $this->element['label'];
-		}
-		else
-		{
-			$modalTitle    = \JText::_('COM_CONTENT_CHANGE_ARTICLE');
+			$linkCategories .= '&amp;forcedLanguage=' . $this->element['language'];
+			$linkCategory   .= '&amp;forcedLanguage=' . $this->element['language'];
+			$modalTitle     .= ' &#8212; ' . $this->element['label'];
 		}
 
-		$urlSelect = $linkArticles . '&amp;function=jSelectArticle_' . $this->id;
-		$urlEdit   = $linkArticle . '&amp;task=article.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
-		$urlNew    = $linkArticle . '&amp;task=article.add';
+		$urlSelect = $linkCategories . '&amp;function=jSelectCategory_' . $this->id;
+		$urlEdit   = $linkCategory . '&amp;task=category.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
+		$urlNew    = $linkCategory . '&amp;task=category.add';
 
 		if ($value)
 		{
 			$db    = \JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
-				->from($db->quoteName('#__content'))
+				->from($db->quoteName('#__categories'))
 				->where($db->quoteName('id') . ' = ' . (int) $value);
 			$db->setQuery($query);
 
@@ -115,9 +122,9 @@ class Article extends FormField
 			}
 		}
 
-		$title = empty($title) ? \JText::_('COM_CONTENT_SELECT_AN_ARTICLE') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		$title = empty($title) ? \JText::_('COM_CATEGORIES_SELECT_A_CATEGORY') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
-		// The current article display field.
+		// The current category display field.
 		$html  = '';
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
@@ -131,7 +138,7 @@ class Article extends FormField
 			$html .= '<span class="input-group-btn">';
 		}
 
-		// Select article button
+		// Select category button.
 		if ($allowSelect)
 		{
 			$html .= '<a'
@@ -140,12 +147,12 @@ class Article extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">'
+				. ' title="' . \JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . \JText::_('JSELECT')
 				. '</a>';
 		}
 
-		// New article button
+		// New category button.
 		if ($allowNew)
 		{
 			$html .= '<a'
@@ -154,12 +161,12 @@ class Article extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTENT_NEW_ARTICLE') . '">'
+				. ' title="' . \JHtml::tooltipText('COM_CATEGORIES_NEW_CATEGORY') . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . \JText::_('JACTION_CREATE')
 				. '</a>';
 		}
 
-		// Edit article button
+		// Edit category button.
 		if ($allowEdit)
 		{
 			$html .= '<a'
@@ -168,12 +175,12 @@ class Article extends FormField
 				. ' data-toggle="modal"'
 				. ' role="button"'
 				. ' href="#ModalEdit' . $modalId . '"'
-				. ' title="' . \JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
+				. ' title="' . \JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . \JText::_('JACTION_EDIT')
 				. '</a>';
 		}
 
-		// Clear article button
+		// Clear category button.
 		if ($allowClear)
 		{
 			$html .= '<a'
@@ -190,7 +197,7 @@ class Article extends FormField
 			$html .= '</span></span>';
 		}
 
-		// Select article modal
+		// Select category modal.
 		if ($allowSelect)
 		{
 			$html .= \JHtml::_(
@@ -209,14 +216,14 @@ class Article extends FormField
 			);
 		}
 
-		// New article modal
+		// New category modal.
 		if ($allowNew)
 		{
 			$html .= \JHtml::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
 				array(
-					'title'       => \JText::_('COM_CONTENT_NEW_ARTICLE'),
+					'title'       => \JText::_('COM_CATEGORIES_NEW_CATEGORY'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
 					'closeButton' => false,
@@ -226,26 +233,26 @@ class Article extends FormField
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'cancel\', \'item-form\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'cancel\', \'item-form\'); return false;">'
 							. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'save\', \'item-form\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'save\', \'item-form\'); return false;">'
 							. \JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'apply\', \'item-form\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\', \'item-form\'); return false;">'
 							. \JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
 
-		// Edit article modal
+		// Edit category modal.
 		if ($allowEdit)
 		{
 			$html .= \JHtml::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
 				array(
-					'title'       => \JText::_('COM_CONTENT_EDIT_ARTICLE'),
+					'title'       => \JText::_('COM_CATEGORIES_EDIT_CATEGORY'),
 					'backdrop'    => 'static',
 					'keyboard'    => false,
 					'closeButton' => false,
@@ -255,23 +262,23 @@ class Article extends FormField
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
 					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'cancel\', \'item-form\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'cancel\', \'item-form\'); return false;">'
 							. \JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'save\', \'item-form\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'save\', \'item-form\'); return false;">'
 							. \JText::_('JSAVE') . '</a>'
 							. '<a role="button" class="btn btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'apply\', \'item-form\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\', \'item-form\'); return false;">'
 							. \JText::_('JAPPLY') . '</a>',
 				)
 			);
 		}
 
-		// Note: class='required' for client side validation.
+		// Note: class='required' for client side validation
 		$class = $this->required ? ' class="required modal-value"' : '';
 
-		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
-			. '" data-text="' . htmlspecialchars(\JText::_('COM_CONTENT_SELECT_AN_ARTICLE', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '">';
+		$html .= '<input type="hidden" id="' . $this->id . '_id"' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
+			. '" data-text="' . htmlspecialchars(\JText::_('COM_CATEGORIES_SELECT_A_CATEGORY', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '">';
 
 		return $html;
 	}
@@ -281,7 +288,7 @@ class Article extends FormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   3.4
+	 * @since   3.7.0
 	 */
 	protected function getLabel()
 	{
