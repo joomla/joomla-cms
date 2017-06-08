@@ -546,6 +546,7 @@ class MenusControllerItem extends JControllerForm
 		}
 
 		unset($data['request']);
+		
 		$data['type'] = $title;
 
 		if ($this->input->get('fieldtype') == 'type')
