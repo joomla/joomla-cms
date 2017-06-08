@@ -109,5 +109,7 @@ class Html extends HtmlView
 		ToolbarHelper::cancel('application.cancel');
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+		ToolbarHelper::divider();
+		ToolbarHelper::guide('com_config/demo.js');
 	}
 }
