@@ -423,8 +423,9 @@ class JDocument
 	 */
 	public function setMetaData($name, $content, $attribute = 'name')
 	{
-		//Pop the element off the end of array if target function expects a string or this http_equiv parameter.
-		if(is_array($content) && (in_array($name, array('generator', 'description')) || !is_string($attribute))){
+		// Pop the element off the end of array if target function expects a string or this http_equiv parameter.
+		if (is_array($content) && (in_array($name, array('generator', 'description')) || !is_string($attribute)))
+		{
 			$content = array_pop($content);
 		}
 		
