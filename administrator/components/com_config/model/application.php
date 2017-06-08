@@ -119,6 +119,12 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
+		// Send a warning if user is trying to use shared session mode with Force HTTPS set to Administrator Only, which is not possible because of secure cookies.
+		if ((int) $data['force_ssl'] === 1 && (int) $data['shared_session'] === 1)
+		{
+			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SHARED_SESSION_MODE_NOT_POSSIBLE'), 'warning');
+		}
+
 		// Check if we can set the Force SSL option
 		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
 		{
