@@ -235,8 +235,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($this->mode_sef
 			&& (!$this->params->get('remove_default_prefix', 0)
-			|| $lang != $this->default_lang
-			|| $lang != $this->current_lang))
+			|| $lang !== $this->default_lang
+			|| $lang !== $this->current_lang))
 		{
 			$uri->setPath($uri->getPath() . '/' . $sef . '/');
 		}
@@ -363,7 +363,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					array_shift($parts);
 
 					// Empty parts array when "index.php" is the only part left.
-					if (count($parts) == 1 && $parts[0] === 'index.php')
+					if (count($parts) === 1 && $parts[0] === 'index.php')
 					{
 						$parts = array();
 					}
@@ -573,7 +573,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->current_lang;
 			}
 
-			if ($lang_code == $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
+			if ($lang_code === $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
 			{
 				if ($this->app->isClient('site'))
 				{
@@ -687,7 +687,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						// We are on a Home page, we redirect to the user preferred site language Home page.
 						$item = $menu->getDefault($lang_code);
 
-						if ($item && $item->language != $active->language && $item->language !== '*')
+						if ($item && $item->language !== $active->language && $item->language !== '*')
 						{
 							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
 							$foundAssociation = true;
@@ -695,7 +695,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 				}
 
-				if ($foundAssociation && $lang_code != $this->current_lang)
+				if ($foundAssociation && $lang_code !== $this->current_lang)
 				{
 					// Change language.
 					$this->current_lang = $lang_code;
@@ -746,14 +746,14 @@ class PlgSystemLanguageFilter extends JPlugin
 				$current_link = JRoute::_($currentInternalUrl);
 
 				// Load menu associations
-				if ($active_link == $current_link)
+				if ($active_link === $current_link)
 				{
 					$associations = MenusHelper::getAssociations($active->id);
 				}
 
 				// Check if we are on the home page
 				$is_home = ($active->home
-					&& ($active_link == $current_link || $active_link == $current_link . 'index.php' || $active_link . '/' == $current_link));
+					&& ($active_link === $current_link || $active_link === $current_link . 'index.php' || $active_link . '/' === $current_link));
 			}
 
 			// Load component associations.
@@ -784,7 +784,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						break;
 
 					// Current language link
-					case ($i == $this->current_lang):
+					case ($i === $this->current_lang):
 						$language->link = JRoute::_($currentInternalUrl);
 						break;
 

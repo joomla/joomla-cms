@@ -29,7 +29,7 @@ class SitePathway extends Pathway
 	 */
 	public function __construct($options = array())
 	{
-		$this->_pathway = array();
+		$this->pathway = array();
 
 		$app  = CMSApplication::getInstance('site');
 		$menu = $app->getMenu();

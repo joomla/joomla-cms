@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="Rotate" label="PLG_MEDIA-ACTION_ROTATE_LABEL">
+		<field
+			name="rotate"
+			type="range"
+			label="Rotate"
+		    value="0"
+		/>
+	</fieldset>
+</form>

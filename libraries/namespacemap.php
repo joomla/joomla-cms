@@ -23,6 +23,11 @@ class JNamespacePsr4Map
 	 */
 	protected $file = '';
 
+	/**
+	 * Constructor. For PHP 5.5 compatibility we must set the file property like this
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function __construct()
 	{
 		$this->file = JPATH_LIBRARIES . '/autoload_psr4.php';
@@ -54,7 +59,9 @@ class JNamespacePsr4Map
 	 */
 	public function ensureMapFileExists()
 	{
-		if (!$this->exists())
+		// Ensure that the database is connected (because it isn't in the installer where this function gets called from
+		// CMSApplication
+		if (!$this->exists() && JFactory::getDbo()->connected())
 		{
 			$this->create();
 		}

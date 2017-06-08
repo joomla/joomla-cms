@@ -129,8 +129,8 @@ Joomla = window.Joomla || {};
 				}
 			}
 
-			// If com_cpanel - close menu
-			if (document.body.classList.contains('com_cpanel')) {
+			// If com_cpanel or com_media - close menu
+			if (document.body.classList.contains('com_cpanel') || document.body.classList.contains('com_media')) {
 			    var menuChildOpen = mainNav.querySelectorAll('.open');
 
 				for (var i = 0; i < menuChildOpen.length; i++) {

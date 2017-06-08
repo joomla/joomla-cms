@@ -13,9 +13,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Wrapper class for UserHelper
  *
- * @package     Joomla.Platform
- * @subpackage  User
  * @since       3.4
+ * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
  */
 class UserWrapper
 {
@@ -30,6 +29,7 @@ class UserWrapper
 	 * @see     UserHelper::addUserToGroup()
 	 * @since   3.4
 	 * @throws  \RuntimeException
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function addUserToGroup($userId, $groupId)
 	{
@@ -45,6 +45,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::addUserToGroup()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function getUserGroups($userId)
 	{
@@ -61,6 +62,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::removeUserFromGroup()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function removeUserFromGroup($userId, $groupId)
 	{
@@ -77,6 +79,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::setUserGroups()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function setUserGroups($userId, $groups)
 	{
@@ -92,6 +95,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::getProfile()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function getProfile($userId = 0)
 	{
@@ -107,6 +111,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::activateUser()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function activateUser($activation)
 	{
@@ -122,6 +127,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::getUserId()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function getUserId($username)
 	{
@@ -137,6 +143,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::hashPassword()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function hashPassword($password)
 	{
@@ -154,6 +161,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::verifyPassword()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function verifyPassword($password, $hash, $user_id = 0)
 	{
@@ -169,6 +177,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::genRandomPassword()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function genRandomPassword($length = 8)
 	{
@@ -182,6 +191,7 @@ class UserWrapper
 	 *
 	 * @see     UserHelper::getShortHashedUserAgent()
 	 * @since   3.4
+	 * @deprecated  4.0  Use `Joomla\CMS\User\UserHelper` directly
 	 */
 	public function getShortHashedUserAgent()
 	{

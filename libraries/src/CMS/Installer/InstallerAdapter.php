@@ -524,6 +524,26 @@ abstract class InstallerAdapter
 	}
 
 	/**
+	 * Method to finalise the installation processing
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	abstract protected function finaliseInstall();
+
+	/**
+	 * Method to finalise the uninstallation processing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	abstract protected function finaliseUninstall();
+
+	/**
 	 * Checks if the adapter supports discover_install
 	 *
 	 * @return  boolean
@@ -928,6 +948,16 @@ abstract class InstallerAdapter
 	}
 
 	/**
+	 * Removes this extension's files
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	abstract protected function removeExtensionFiles();
+
+	/**
 	 * Set the manifest object.
 	 *
 	 * @param   object  $manifest  The manifest object
@@ -998,6 +1028,15 @@ abstract class InstallerAdapter
 			}
 		}
 	}
+
+	/**
+	 * Method to do any prechecks and setup the uninstall job
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	abstract protected function setupUninstall();
 
 	/**
 	 * Method to setup the update routine for the adapter
@@ -1095,6 +1134,160 @@ abstract class InstallerAdapter
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generic update method for extensions
+	 *
+	 * @param   integer  $id  The extension ID
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function uninstall($id)
+	{
+		if (!$this->extension->load((int) $id))
+		{
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_UNKNOWN_EXTENSION'), \JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		// Protected extensions cannot be removed
+		if ($this->extension->protected)
+		{
+			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), \JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		/*
+		 * Does this extension have a parent package?
+		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
+		 */
+		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
+		{
+			\JLog::add(
+				\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
+				\JLog::WARNING,
+				'jerror'
+			);
+
+			return false;
+		}
+
+		// Setup the uninstall job as required
+		try
+		{
+			$this->setupUninstall();
+		}
+		catch (\RuntimeException $e)
+		{
+			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		// Set the extension's name and element
+		$this->name    = $this->getName();
+		$this->element = $this->getElement();
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading and Uninstall
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		$this->setupScriptfile();
+
+		try
+		{
+			$this->triggerManifestScript('preflight');
+		}
+		catch (\RuntimeException $e)
+		{
+			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		try
+		{
+			$this->triggerManifestScript('uninstall');
+		}
+		catch (\RuntimeException $e)
+		{
+			// Ignore errors for now
+		}
+
+		// Tasks from here may fail but we will still attempt to finish the uninstall process
+		$retval = true;
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Database Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$this->parseQueries();
+		}
+		catch (\RuntimeException $e)
+		{
+			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+
+			$retval = false;
+		}
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$this->removeExtensionFiles();
+		}
+		catch (\RuntimeException $e)
+		{
+			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+
+			$retval = false;
+		}
+
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		try
+		{
+			$retval |= $this->finaliseUninstall();
+		}
+		catch (\RuntimeException $e)
+		{
+			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+
+			$retval = false;
+		}
+
+		// And now we run the postflight
+		try
+		{
+			$this->triggerManifestScript('postflight');
+		}
+		catch (\RuntimeException $e)
+		{
+			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
+
+			$retval = false;
+		}
+
+		return $retval;
 	}
 
 	/**

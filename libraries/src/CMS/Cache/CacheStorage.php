@@ -124,9 +124,6 @@ class CacheStorage
 	{
 		static $now = null;
 
-		// @deprecated  4.0  This class path is autoloaded, manual inclusion is no longer necessary
-		self::addIncludePath(__DIR__ . '/Storage');
-
 		if (!isset($handler))
 		{
 			$handler = \JFactory::getConfig()->get('cache_handler');
@@ -311,21 +308,6 @@ class CacheStorage
 	public static function isSupported()
 	{
 		return true;
-	}
-
-	/**
-	 * Test to see if the storage handler is available.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)
-	 */
-	public static function test()
-	{
-		Log::add(__METHOD__ . '() is deprecated. Use CacheStorage::isSupported() instead.', Log::WARNING, 'deprecated');
-
-		return static::isSupported();
 	}
 
 	/**

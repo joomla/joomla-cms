@@ -19,6 +19,8 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.tabstate');
 JHtml::_('stylesheet', 'com_installer/installer.css', false, true);
 JHtml::_('script', 'com_installer/installer.js', false, true);
+
+$app = JFactory::getApplication();
 ?>
 
 <div id="installer-install" class="clearfix">
@@ -34,7 +36,7 @@ JHtml::_('script', 'com_installer/installer.js', false, true);
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
 					<?php elseif ($this->showJedAndWebInstaller) : ?>
-						<div class="alert alert-info j-jed-message" style="margin-bottom: 40px; line-height: 2em; color:#333333;">
+						<div class="alert alert-info j-jed-message">
 							<?php echo JHtml::_(
 								'link',
 								JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
@@ -49,11 +51,11 @@ JHtml::_('script', 'com_installer/installer.js', false, true);
 							</button>
 						</div>
 					<?php endif; ?>
-					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab'); ?>
 					<?php // Show installation tabs at the start ?>
-					<?php $firstTab = JFactory::getApplication()->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>
+					<?php $firstTab = $app->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>
+					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', array()); ?>
+					<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $tabs[0]['name'])); ?>
 					<?php // Show installation tabs ?>
-					<?php $tabs = JFactory::getApplication()->triggerEvent('onInstallerAddInstallationTab', array()); ?>
 					<?php foreach ($tabs as $tab) : ?>
 						<?php echo JHtml::_('bootstrap.addTab', 'myTab', $tab['name'], $tab['label']); ?>
 						<fieldset class="uploadform">
@@ -62,10 +64,10 @@ JHtml::_('script', 'com_installer/installer.js', false, true);
 						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endforeach; ?>
 					<?php // Show installation tabs at the end ?>
-					<?php $lastTab = JFactory::getApplication()->triggerEvent('onInstallerViewAfterLastTab', array()); ?>
+					<?php $lastTab = $app->triggerEvent('onInstallerViewAfterLastTab', array()); ?>
 					<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
 					<?php if (!$tabs) : ?>
-						<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
+						<?php $app->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
 					<?php endif; ?>
 
 					<?php if ($this->ftp) : ?>

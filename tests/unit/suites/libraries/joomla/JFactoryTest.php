@@ -140,24 +140,6 @@ class JFactoryTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JFactory::getXML method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	public function testGetXml()
-	{
-		$xml = JFactory::getXml('<foo />', false);
-
-		$this->assertInstanceOf(
-			'SimpleXMLElement',
-			$xml,
-			'Line: ' . __LINE__
-		);
-	}
-
-	/**
 	 * Tests the JFactory::getDate method.
 	 *
 	 * @return  void

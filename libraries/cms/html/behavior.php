@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -629,7 +629,7 @@ JS
 		}
 
 		JHtml::_('jquery.framework');
-		JHtml::_('behavior.polyfill', array('filter','xpath'));
+		JHtml::_('behavior.polyfill', array('xpath'));
 		JHtml::_('script', 'system/tabs-state.min.js', array('version' => 'auto', 'relative' => true));
 		self::$loaded[__METHOD__] = true;
 	}
@@ -670,7 +670,7 @@ JS
 			$scriptOptions = array('version' => 'auto', 'relative' => true);
 			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			JHtml::_('script', 'vendor/polyfills/polyfill.' . $polyfillType . '.js', $scriptOptions);
+			JHtml::_('script', 'system/polyfill-' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;

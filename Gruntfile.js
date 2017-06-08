@@ -6,7 +6,6 @@ module.exports = function(grunt) {
 		name, tinyXml, codemirrorXml,
 		vendorsTxt    = '',
 		vendorsArr    = '',
-		polyFillsUrls = [],
 		xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 	// Loop to get some text for the packgage.json
@@ -202,6 +201,7 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
+					'<%= folder.adminTemplate %>/css/template-rtl.css': '<%= folder.adminTemplate %>/scss/template-rtl.scss',
 					'<%= folder.siteTemplate %>/css/template.css' : '<%= folder.siteTemplate %>/scss/template.scss',
 				}
 			}
@@ -328,12 +328,22 @@ module.exports = function(grunt) {
 			options: {
 				map: false,
 				processors: [
-					require('autoprefixer')({browsers: 'last 2 versions'})
+					require('autoprefixer')({
+						browsers: [
+							'Chrome >= 58',
+							'Firefox >= 53',
+							'Edge >= 12',
+							'Explorer >= 11',
+							'Safari >= 10.1',
+							'Opera >= 44'
+						]
+					})
 				],
 			},
 			dist: {
 				src: [
 					'<%= folder.adminTemplate %>/css/template.css',
+					'<%= folder.adminTemplate %>/css/template-rtl.css',
 					'<%= folder.siteTemplate %>/css/template.css'
 				]
 			}

@@ -62,7 +62,7 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
  *
  * @since  2.5
  */
-class FinderCli extends JApplicationCli
+class FinderCli extends \Joomla\CMS\Application\CliApplication
 {
 	/**
 	 * Start time for the index process
@@ -370,4 +370,4 @@ class FinderCli extends JApplicationCli
 
 // Instantiate the application object, passing the class name to JCli::getInstance
 // and use chaining to execute the application.
-JApplicationCli::getInstance('FinderCli')->execute();
+\Joomla\CMS\Application\CliApplication::getInstance('FinderCli')->execute();
