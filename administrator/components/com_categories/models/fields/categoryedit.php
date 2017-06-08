@@ -413,8 +413,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			}
 		}
 		else
-			// Create a regular list.
 		{
+			// Create a regular list.
 			if (count($options) === 0)
 			{
 				// All Categories have been deleted, so we need a new category (This will create on save if selected).
