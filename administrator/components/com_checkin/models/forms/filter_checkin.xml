@@ -7,6 +7,7 @@
 			label="COM_CHECKIN_FILTER_SEARCH_LABEL"
 			description="COM_CHECKIN_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
+			noresults="COM_CHECKIN_NO_ITEMS"
 		/>
 	</fields>
 	<fields name="list">

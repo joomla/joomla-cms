@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ if (empty($fieldSets))
 $ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
 $ignoreFields    = $displayData->get('ignore_fields') ?: array();
 $extraFields     = $displayData->get('extra_fields') ?: array();
+$tabName         = $displayData->get('tab_name') ?: 'myTab';
 
 if (!empty($displayData->hiddenFieldsets))
 {
@@ -62,7 +63,7 @@ if ($displayData->get('show_options', 1))
 			$label = JText::_($label);
 		}
 
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-' . $name, $label);
+		echo JHtml::_('bootstrap.addTab', $tabName, 'attrib-' . $name, $label);
 
 		if (isset($fieldSet->description) && trim($fieldSet->description))
 		{

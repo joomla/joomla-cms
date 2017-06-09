@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Module
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -297,7 +297,7 @@ abstract class JModuleHelper
 			$temp = explode(':', $layout);
 			$template = ($temp[0] == '_') ? $template : $temp[0];
 			$layout = $temp[1];
-			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
@@ -377,13 +377,13 @@ abstract class JModuleHelper
 	public static function getModuleList()
 	{
 		$app = JFactory::getApplication();
-		$Itemid = $app->input->getInt('Itemid');
+		$Itemid = $app->input->getInt('Itemid', 0);
 		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 		$lang = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $groups . $clientId . (int) $Itemid;
+		$cacheId = $groups . $clientId . $Itemid;
 
 		$db = JFactory::getDbo();
 
@@ -402,7 +402,7 @@ abstract class JModuleHelper
 			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
 			->where('m.access IN (' . $groups . ')')
 			->where('m.client_id = ' . $clientId)
-			->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
+			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
 
 		// Filter by language
 		if ($app->isClient('site') && $app->getLanguageFilter())
@@ -500,7 +500,7 @@ abstract class JModuleHelper
 	 *
 	 * @param   object  $module        Module object
 	 * @param   object  $moduleparams  Module parameters
-	 * @param   object  $cacheparams   Module cache parameters - id or url parameters, depending on the module cache mode
+	 * @param   object  $cacheparams   Module cache parameters - id or URL parameters, depending on the module cache mode
 	 *
 	 * @return  string
 	 *

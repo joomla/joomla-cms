@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -643,7 +643,7 @@ class JDocument
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
 		// B/C before 3.7.0
-		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
+		if (is_string($options))
 		{
 			JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
@@ -654,7 +654,7 @@ class JDocument
 			// Old mime type parameter.
 			if (!empty($argList[1]))
 			{
-				$attribs['mime'] = $argList[1];
+				$attribs['type'] = $argList[1];
 			}
 
 			// Old media parameter.
@@ -805,7 +805,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setLanguage($lang = "en-gb")
+	public function setLanguage($lang = 'en-gb')
 	{
 		$this->language = strtolower($lang);
 
@@ -833,7 +833,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function setDirection($dir = "ltr")
+	public function setDirection($dir = 'ltr')
 	{
 		$this->direction = strtolower($dir);
 

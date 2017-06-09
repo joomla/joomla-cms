@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ defined('_JEXEC') or die;
 
 JLoader::register('InstallerHelper', JPATH_ADMINISTRATOR . '/components/com_installer/helpers/installer.php');
 
+JFormHelper::loadFieldClass('list');
+
 /**
- * Status Field class for the Joomla Framework.
+ * Extension Status field.
  *
  * @since  3.5
  */
-class JFormFieldExtensionStatus extends JFormAbstractlist
+class JFormFieldExtensionStatus extends JFormFieldList
 {
 	/**
 	 * The form field type.

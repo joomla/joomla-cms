@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,34 +30,35 @@ $attr = array(
 );
 
 ?>
-
-<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
-<div class="row-fluid">
-	<div class="control-group span6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.language'); ?>
-		</div>
-	</div>
-	<div class="control-group span6">
-		<div class="controls">
-			<?php echo JHtml::_('batch.access'); ?>
-		</div>
-	</div>
-</div>
-<div class="row-fluid">
-	<?php if ($published >= 0) : ?>
-		<div class="span6">
+<div class="container-fluid">
+	<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
+	<div class="row-fluid">
+		<div class="control-group span6">
 			<div class="controls">
-				<label id="batch-choose-action-lbl" for="batch-choose-action">
-					<?php echo JText::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
-				</label>
-				<div id="batch-choose-action" class="control-group">
-					<?php echo JHtml::_('select.groupedlist', $positions, 'batch[position_id]', $attr); ?>
-					<div id="batch-copy-move" class="control-group radio">
-						<?php echo JHtml::_('modules.batchOptions'); ?>
+				<?php echo JHtml::_('batch.language'); ?>
+			</div>
+		</div>
+		<div class="control-group span6">
+			<div class="controls">
+				<?php echo JHtml::_('batch.access'); ?>
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<?php if ($published >= 0) : ?>
+			<div class="span6">
+				<div class="controls">
+					<label id="batch-choose-action-lbl" for="batch-choose-action">
+						<?php echo JText::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
+					</label>
+					<div id="batch-choose-action" class="control-group">
+						<?php echo JHtml::_('select.groupedlist', $positions, 'batch[position_id]', $attr); ?>
+						<div id="batch-copy-move" class="control-group radio">
+							<?php echo JHtml::_('modules.batchOptions'); ?>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	<?php endif; ?>
+		<?php endif; ?>
+	</div>
 </div>

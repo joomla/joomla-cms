@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class TagsViewTags extends JViewLegacy
 		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
-		if ($feedEmail != 'none')
+		if ($feedEmail !== 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}
@@ -63,13 +63,13 @@ class TagsViewTags extends JViewLegacy
 			$feeditem->category    = 'All Tags';
 			$feeditem->author      = $author;
 
-			if ($feedEmail == 'site')
+			if ($feedEmail === 'site')
 			{
 				$item->authorEmail = $siteEmail;
 			}
 			elseif ($feedEmail === 'author')
 			{
-				$item->authorEmail = $row->author_email;
+				$item->authorEmail = $item->author_email;
 			}
 
 			// Loads item info into RSS array

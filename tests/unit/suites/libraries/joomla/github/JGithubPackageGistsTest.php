@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 /*
 require_once JPATH_PLATFORM . '/joomla/github/github.php';
@@ -19,7 +19,7 @@ require_once JPATH_PLATFORM . '/joomla/github/gists.php';
  *
  * @since       11.1
  */
-class JGithubPackageGistsTest extends PHPUnit_Framework_TestCase
+class JGithubPackageGistsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
@@ -74,7 +74,7 @@ class JGithubPackageGistsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -139,7 +139,7 @@ class JGithubPackageGistsTest extends PHPUnit_Framework_TestCase
 		$data = json_encode(
 			array(
 				'files' => array(
-					'gittest' => array('content' => 'GistContent' . PHP_EOL)
+					'gittest' => array('content' => 'GistContent' . "\n")
 				),
 				'public' => true,
 				'description' => 'This is a gist'

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -153,13 +153,14 @@ class JGithubPackageRepositoriesStatistics  extends JGithubPackage
 	 *
 	 * @param   JHttpResponse  $response      The response.
 	 * @param   integer        $expectedCode  The expected "good" code.
+	 * @param   boolean        $decode        If the should be response be JSON decoded.
 	 *
 	 * @return  mixed
 	 *
 	 * @since   1.0
 	 * @throws  \DomainException
 	 */
-	protected function processResponse(JHttpResponse $response, $expectedCode = 200)
+	protected function processResponse(JHttpResponse $response, $expectedCode = 200, $decode = true)
 	{
 		if (202 == $response->code)
 		{
@@ -169,6 +170,6 @@ class JGithubPackageRepositoriesStatistics  extends JGithubPackage
 			);
 		}
 
-		return parent::processResponse($response, $expectedCode);
+		return parent::processResponse($response, $expectedCode, $decode);
 	}
 }

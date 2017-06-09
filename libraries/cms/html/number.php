@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -37,7 +37,7 @@ abstract class JHtmlNumber
 	 * @return  string   The number of bytes in the proper units.
 	 *
 	 * @since   1.6
-	 * @see     https://en.wikipedia.org/wiki/Binary_prefix
+	 * @link    https://en.wikipedia.org/wiki/Binary_prefix
 	 */
 	public static function bytes($bytes, $unit = 'auto', $precision = 2, $iec = false)
 	{

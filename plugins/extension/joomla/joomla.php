@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -254,7 +254,7 @@ class PlgExtensionJoomla extends JPlugin
 		{
 			$data = trim((string) $updateservers);
 
-			if (strlen($data))
+			if ($data !== '')
 			{
 				// We have a single entry in the update server line, let us presume this is an extension line
 				$this->addUpdateSite(JText::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);

@@ -3,7 +3,7 @@
 	<name>plg_authentication_ldap</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -18,7 +18,6 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field
 					name="host"
@@ -30,11 +29,16 @@
 
 				<field
 					name="port"
-					type="text"
+					type="number"
 					label="PLG_LDAP_FIELD_PORT_LABEL"
 					description="PLG_LDAP_FIELD_PORT_DESC"
+					min="1"
+					max="65535"
 					default="389"
-					size="20"
+					hint="389"
+					validate="number"
+					filter="integer"
+					size="5"
 				/>
 
 				<field
@@ -44,7 +48,7 @@
 					description="PLG_LDAP_FIELD_V3_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -56,7 +60,7 @@
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -64,11 +68,11 @@
 				<field
 					name="no_referrals"
 					type="radio"
-					default="0"
-					class="btn-group btn-group-yesno"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 					description="PLG_LDAP_FIELD_REFERRALS_DESC"
-				>
+					default="0"
+					class="btn-group btn-group-yesno"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -76,10 +80,10 @@
 				<field
 					name="auth_method"
 					type="list"
-					default="bind"
 					label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
 					description="PLG_LDAP_FIELD_AUTHMETHOD_DESC"
-				>
+					default="bind"
+					>
 					<option value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>
 					<option value="bind">PLG_LDAP_FIELD_VALUE_BINDUSER</option>
 				</field>
@@ -108,7 +112,6 @@
 					size="20"
 				/>
 
-
 				<field
 					name="username"
 					type="text"
@@ -124,7 +127,6 @@
 					description="PLG_LDAP_FIELD_PASSWORD_DESC"
 					size="20"
 				/>
-
 
 				<field
 					name="ldap_fullname"
@@ -153,7 +155,6 @@
 					size="20"
 				/>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

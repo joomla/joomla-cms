@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,7 +83,7 @@ class JStreamString
 	 * @var    array
 	 * @since  12.1
 	 *
-	 * @see    http://us.php.net/manual/en/function.stat.php
+	 * @link   http://us.php.net/manual/en/function.stat.php
 	 */
 	protected $stat;
 
@@ -122,7 +122,7 @@ class JStreamString
 	 *
 	 * @return  array
 	 *
-	 * @see     https://secure.php.net/manual/en/streamwrapper.stream-stat.php
+	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-stat.php
 	 * @since   11.1
 	 */
 	public function stream_stat()
@@ -138,7 +138,7 @@ class JStreamString
 	 *
 	 * @return  array
 	 *
-	 * @see     https://secure.php.net/manual/en/streamwrapper.url-stat.php
+	 * @link    https://secure.php.net/manual/en/streamwrapper.url-stat.php
 	 * @since   11.1
 	 */
 	public function url_stat($path, $flags = 0)
@@ -175,7 +175,7 @@ class JStreamString
 	 *
 	 * @since   11.1
 	 *
-	 * @see     https://secure.php.net/manual/en/streamwrapper.stream-read.php
+	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-read.php
 	 */
 	public function stream_read($count)
 	{

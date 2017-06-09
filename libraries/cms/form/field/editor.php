@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,13 +12,12 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('textarea');
 
 /**
- * Form Field class for the Joomla CMS.
  * A textarea field for content creation
  *
  * @see    JEditor
  * @since  1.6
  */
-class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterface
+class JFormFieldEditor extends JFormFieldTextarea
 {
 	/**
 	 * The form field type.
@@ -186,7 +185,7 @@ class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterf
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -205,7 +204,7 @@ class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterf
 			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
 			$this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 			$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-			$this->asset       = $this->form->getValue($this->assetField) ? $this->form->getValue($this->assetField) : (string) $this->element['asset_id'];
+			$this->asset       = $this->form->getValue($this->assetField) ?: (string) $this->element['asset_id'];
 
 			$buttons    = (string) $this->element['buttons'];
 			$hide       = (string) $this->element['hide'];
@@ -242,11 +241,12 @@ class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterf
 	{
 		// Get an editor object.
 		$editor = $this->getEditor();
+		$readonly = $this->readonly || $this->disabled;
 
 		return $editor->display(
 			$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $this->width, $this->height, $this->columns, $this->rows,
 			$this->buttons ? (is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false, $this->id, $this->asset,
-			$this->form->getValue($this->authorField), array('syntax' => (string) $this->element['syntax'])
+			$this->form->getValue($this->authorField), array('syntax' => (string) $this->element['syntax'], 'readonly' => $readonly)
 		);
 	}
 
@@ -317,25 +317,5 @@ class JFormFieldEditor extends JFormFieldTextarea implements JFormDomfieldinterf
 	public function save()
 	{
 		return $this->getEditor()->save($this->id);
-	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', 0) ? 'true' : 'false');
-		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="3.7" client="installation">
+	<name>German (Switzerland)</name>
+	<version>3.7.0</version>
+	<creationDate>January 2017</creationDate>
+	<author>J!German</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>de-CH.ini</filename>
+	</files>
+	<metadata>
+		<name>German (Switzerland)</name>
+		<nativeName>Deutsch (Schweiz)</nativeName>
+		<tag>de-CH</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

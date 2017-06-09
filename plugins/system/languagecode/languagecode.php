@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -130,7 +130,7 @@ class PlgSystemLanguagecode extends JPlugin
 		}
 
 		// Get site languages.
-		if ($languages = JLanguage::getKnownLanguages(JPATH_SITE))
+		if ($languages = JLanguageHelper::getKnownLanguages(JPATH_SITE))
 		{
 			// Inject fields into the form.
 			foreach ($languages as $tag => $language)
@@ -146,9 +146,9 @@ class PlgSystemLanguagecode extends JPlugin
 								<field
 									name="' . strtolower($tag) . '"
 									type="text"
+									label="' . $tag . '"
 									description="' . htmlspecialchars(JText::sprintf('PLG_SYSTEM_LANGUAGECODE_FIELD_DESC', $language['name']), ENT_COMPAT, 'UTF-8') . '"
 									translate_description="false"
-									label="' . $tag . '"
 									translate_label="false"
 									size="7"
 									filter="cmd"

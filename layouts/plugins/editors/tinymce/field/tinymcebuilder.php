@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ extract($displayData);
  * @var   integer $size           Size attribute of the input.
  * @var   boolean $spellcheck     Spellcheck state for the form field.
  * @var   string  $validate       Validation rules to apply.
- * @var   string  $value          Value attribute of the field.
+ * @var   array   $value          Value of the field.
   *
  * @var   array   $menus           List of the menu items
  * @var   array   $menubarSource   Menu items for builder
@@ -100,6 +100,9 @@ $doc->addStyleDeclaration('
 
 ?>
 <div id="joomla-tinymce-builder">
+
+	<p><?php echo JText::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
+
 	<div class="mce-tinymce mce-container mce-panel">
 		<div class="mce-container-body mce-stack-layout">
 
@@ -116,6 +119,9 @@ $doc->addStyleDeclaration('
 			</div>
 		</div>
 	</div>
+
+	<hr />
+	<p><?php echo JText::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 
 	<!-- Render tabs for each set -->
 	<ul class="nav nav-tabs" id="set-tabs">

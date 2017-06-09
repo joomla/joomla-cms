@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.6"
+	version="3.7"
 	client="installation">
 	<name>Slovak (Slovenčina)</name>
-	<version>3.6.3</version>
-	<creationDate>October 2016</creationDate>
-	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<version>3.7.0</version>
+	<creationDate>Február 2017</creationDate>
+	<author>Slovak translation team : Peter Michnica</author>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>sk-SK.ini</filename>
 	</files>
 	<metadata>
-		<name>Slovak (Slovenčina)</name>
+		<name>Slovak (sk-SK)</name>
+		<nativeName>Slovenčina (Slovak)</nativeName>
 		<tag>sk-SK</tag>
 		<rtl>0</rtl>
 	</metadata>
