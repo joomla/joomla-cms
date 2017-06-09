@@ -729,35 +729,56 @@ abstract class JHtml
 	/**
 	 * Write a `<script>` or `<link>` element to load a web component file
 	 *
-	 * @param   string  $file  Relative path to file.
+	 * @param   array  $component  The name and path of the web component.
+	 * @param   array  $options    The relative, version, detect browser and detect debug options
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function webcomponent($option = [])
+	public static function webcomponent($component = [], $options = [])
 	{
-		if (empty($option))
+		if (empty($component))
 		{
 			return;
 		}
 
 		static::_('behavior.wcpolyfill');
 
-		foreach ($option as $key => $value)
+		foreach ($component as $key => $value)
 		{
-			$includes = static::includeRelativeFiles('html', $value, true, false, true);
+			$version      = '';
+			$mediaVersion = \JFactory::getDocument()->getMediaVersion();
+			$includes     = static::includeRelativeFiles(
+				'webcomponents',
+				$value,
+				isset($options['relative']) ? $options['relative'] : true,
+				isset($options['detectBrowser']) ? $options['detectBrowser'] : false,
+				isset($options['detectDebug']) ? $options['detectDebug'] : true
+			);
 
 			if (count($includes) === 0)
 			{
 				return;
 			}
 
+			if (isset($options['version']))
+			{
+				if ($options['version'] === 'auto')
+				{
+					$version = '?' . $mediaVersion;
+				}
+				else
+				{
+					$version = '?' . $options['version'];
+				}
+			}
+
 			if (count($includes) === 1)
 			{
-				JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes[0]]);
+				JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '')]);
 				return;
 			}
 
-			JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes]);
+			JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes . ((strpos($includes, '?') === false) ? $version : '')]);
 		}
 	}
 
