@@ -34,7 +34,6 @@
 					<option value="1.0">PLG_RECAPTCHA_VERSION_V1</option>
 					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
 					<option value="invisible">PLG_RECAPTCHA_VERSION_INVISIBLE</option>
-					
 				</field>
 
 				<field
