@@ -102,6 +102,7 @@
 					<option value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
 					<option value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
 				</field>
+				<field
 					name="badge"
 					type="list"
 					label="PLG_RECAPTCHA_BADGE"
