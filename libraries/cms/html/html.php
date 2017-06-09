@@ -727,6 +727,41 @@ abstract class JHtml
 	}
 
 	/**
+	 * Write a `<script>` or `<link>` element to load a web component file
+	 *
+	 * @param   string  $file  Relative path to file.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function webcomponent($option = [])
+	{
+		if (empty($option))
+		{
+			return;
+		}
+
+		static::_('behavior.wcpolyfill');
+
+		foreach ($option as $key => $value)
+		{
+			$includes = static::includeRelativeFiles('html', $value, true, false, true);
+
+			if (count($includes) === 0)
+			{
+				return;
+			}
+
+			if (count($includes) === 1)
+			{
+				JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes[0]]);
+				return;
+			}
+
+			JFactory::getDocument()->addScriptOptions('webcomponents', [$key => $includes]);
+		}
+	}
+
+	/**
 	 * Set format related options.
 	 *
 	 * Updates the formatOptions array with all valid values in the passed array.

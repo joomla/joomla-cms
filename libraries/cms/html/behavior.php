@@ -43,6 +43,30 @@ abstract class JHtmlBehavior
 	}
 
 	/**
+	 * Method to load the MooTools framework into the document head
+	 *
+	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
+	 *
+	 * @param   boolean  $extras  Flag to determine whether to load MooTools More in addition to Core
+	 * @param   mixed    $debug   Is debugging mode on? [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 * @deprecated 4.0 Update scripts to jquery
+	 */
+	public static function wcpolyfill()
+	{
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		JHtml::_('script', 'vendor/joomla/wc-loader.js', array('version' => 'auto', 'relative' => true));
+		static::$loaded[__METHOD__] = true;
+	}
+
+	/**
 	 * Method to load core.js into the document head.
 	 *
 	 * Core.js defines the 'Joomla' namespace and contains functions which are used across extensions
