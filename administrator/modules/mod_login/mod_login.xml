@@ -25,28 +25,30 @@
 				<field
 					name="usesecure"
 					type="radio"
+					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
+					description="MOD_LOGIN_FIELD_USESECURE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
-					description="MOD_LOGIN_FIELD_USESECURE_DESC">
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+				/>
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+				 	rows="3"
+				/>
 			</fieldset>
 		</fields>
 	</config>
