@@ -54,8 +54,8 @@ class JFile
 	/**
 	 * Makes file name safe to use
 	 *
-	 * @param   string  $file  The name of the file [not full path]
-	 * @param   string  $language  (optional) The language to use of the transliterating the file name
+	 * @param   string  $file     The name of the file [not full path]
+	 * @param   string  $language (optional) The language to use of the transliterating the file name
 	 *
 	 * @return  string  The sanitised string
 	 *
@@ -83,7 +83,7 @@ class JFile
 
 		// Try to transliterate according to given language and site + admin default languages
 		$file_safe = false;
-		foreach($langs as $language => $do)
+		foreach ($langs as $language => $do)
 		{
 			if ($do)
 			{
@@ -99,11 +99,12 @@ class JFile
 			}
 		}
 
-		// Finally if none of transliterations did a complete job, e.g. because wrong language(s) tried, then avoid bad looking filenames by using current time
+		// Finally if none of transliterations did a complete job,
+		// e.g. because wrong language(s) tried, then avoid bad looking filenames by using current time
 		if (!$file_safe)
 		{
 			$ext = self::getExt($file);
-			$file_safe = date('Y-m-d_H-i-s_u') .'.'. $ext;
+			$file_safe = date('Y-m-d_H-i-s_u') . '.' . $ext;
 		}
 
 		// Return filename that is filesystem safe
@@ -114,14 +115,14 @@ class JFile
 	* Makes file name unique inside a given folder
 	* NOTE: makeSafe should have been applied before this method is called
 	*
-	* @since __DEPLOY_VERSION__
-	*
 	* @param   string   $base_Dir  The folder that will contain the file
 	* @param   string   $file      The filename that must be made unique
 	*
 	* @return  string   A file name unique for the given folder
+	*
+	* @since   __DEPLOY_VERSION__
 	*/
-	static function makeUnique($base_Dir, $file)
+	public static function makeUnique($base_Dir, $file)
 	{
 		// Get name part and extension part from the file name
 		$name = self::stripExt($file);
@@ -131,7 +132,7 @@ class JFile
 		if (self::exists($base_Dir . $name . '.' . $ext))
 		{
 			$unique_num = 1;
-			while(self::exists($base_Dir . $name . '-' . $unique_num . '.' . $ext))
+			while (self::exists($base_Dir . $name . '-' . $unique_num . '.' . $ext))
 			{
 				$unique_num++;
 			}
