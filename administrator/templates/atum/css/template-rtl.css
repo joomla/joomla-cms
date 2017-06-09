@@ -10053,12 +10053,22 @@ dl, ol, ul {
 th {
   text-align: right; }
 
+.control-group .control-label {
+  text-align: right; }
+
 .dropdown-menu-right {
   right: auto;
   left: 0; }
   .dropdown-menu-right::after {
     right: auto;
     left: .9rem; }
+
+.switcher-labels {
+  margin-right: 10px;
+  margin-left: 0; }
+  .switcher-labels span {
+    right: 0;
+    left: auto; }
 
 .wrapper {
   padding-right: 250px;
