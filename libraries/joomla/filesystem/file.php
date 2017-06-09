@@ -100,7 +100,7 @@ class JFile
 		}
 
 		// Finally if none of transliterations did a complete job, e.g. because wrong language(s) tried, then avoid bad looking filenames by using current time
-		if ( !$file_safe )
+		if (!$file_safe)
 		{
 			$ext = self::getExt($file);
 			$file_safe = date('Y-m-d_H-i-s_u') .'.'. $ext;
@@ -114,7 +114,7 @@ class JFile
 	* Makes file name unique inside a given folder
 	* NOTE: makeSafe should have been applied before this method is called
 	*
-	* @since 00.0
+	* @since __DEPLOY_VERSION__
 	*
 	* @param   string   $base_Dir  The folder that will contain the file
 	* @param   string   $file      The filename that must be made unique
@@ -125,13 +125,13 @@ class JFile
 	{
 		// Get name part and extension part from the file name
 		$name = self::stripExt($file);
-		$ext  = self::getExt($file)
+		$ext  = self::getExt($file);
 
 		// Make a unique filename by checking if it is already taken, if already taken keep incrementing counter till finding a new name
-		if (self::exists( $base_Dir . $name . '.' . $ext ))
+		if (self::exists($base_Dir . $name . '.' . $ext))
 		{
 			$unique_num = 1;
-			while(self::exists( $base_Dir . $name . '-' . $unique_num . '.' . $ext ))
+			while(self::exists($base_Dir . $name . '-' . $unique_num . '.' . $ext))
 			{
 				$unique_num++;
 			}
