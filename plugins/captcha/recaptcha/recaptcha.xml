@@ -115,6 +115,7 @@
 					<option value="bottomright">PLG_RECAPTCHA_BADGE_BOTTOMRIGHT</option>
 					<option value="bottomleft">PLG_RECAPTCHA_BADGE_BOTTOMLEFT</option>
 					<option value="inline">PLG_RECAPTCHA_BADGE_INLINE</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
