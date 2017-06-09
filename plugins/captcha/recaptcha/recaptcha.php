@@ -102,6 +102,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 					. '" data-badge="' . $this->params->get('badge', 'bottomright')
 					. '" data-size="invisible'
 					. '"></div>';
+		}
+		else
+		{
 			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class)
 					. ' data-sitekey="' . $this->params->get('public_key', '')
 					. '" data-theme="' . $this->params->get('theme2', 'light')
