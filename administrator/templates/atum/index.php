@@ -29,6 +29,9 @@ JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') .
 // Load custom CSS file
 JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
+JHtml::_('webcomponent', ['joomla-alert' => 'system/alert.min.js']);
+JHtml::_('webcomponent', ['joomla-button' => 'system/button.min.js']);
+
 // Load specific language related CSS
 JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
@@ -118,7 +121,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 					</div>
 				</div>
 			<?php endif; ?>
-
+<joomla-alert type="success" button="true">Hello web componets!</joomla-alert>
 			<section id="content" class="content">
 				<?php // Begin Content ?>
 				<jdoc:include type="modules" name="top" style="xhtml" />
