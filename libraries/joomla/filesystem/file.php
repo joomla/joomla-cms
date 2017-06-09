@@ -65,7 +65,7 @@ class JFile
 		// Remove any trailing dots, as those aren't ever valid file names.
 		$file = rtrim($file, '.');
 
-		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+		$regex = array('#(\.){2,}#', '#[^\w\.\- ]#u', '#^\.#');
 
 		return trim(preg_replace($regex, '', $file));
 	}
