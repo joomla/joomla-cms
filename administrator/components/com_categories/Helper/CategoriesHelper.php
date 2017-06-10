@@ -40,7 +40,7 @@ class CategoriesHelper
 			return;
 		}
 
-		$parts     = explode('.', $extension);
+		$parts = explode('.', $extension);
 		$component = $parts[0];
 
 		if (count($parts) > 1)
@@ -48,26 +48,10 @@ class CategoriesHelper
 			$section = $parts[1];
 		}
 
-		// Try to find the component helper.
-		$eName     = str_replace('com_', '', $component);
-		$namespace = ComponentHelper::getComponent($component)->namespace;
 
-		if ($namespace)
-		{
-			$cName = $namespace . '\\Administrator\\Helper\\' . ucfirst($eName . 'Helper');
-		}
-		else
-		{
-			$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$cName = ComponentHelper::getHelperClassName($component);
 
-			if (file_exists($file))
-			{
-				$cName = ucfirst($eName) . 'Helper';
-				\JLoader::register($cName, $file);
-			}
-		}
-
-		if (!empty($cName) && class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
+		if ($cName && is_callable(array($cName, 'addSubmenu')))
 		{
 			$lang = \JFactory::getLanguage();
 

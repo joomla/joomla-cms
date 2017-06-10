@@ -349,9 +349,9 @@ class Tags extends ListModel
 	 */
 	public function countItems(&$items, $extension)
 	{
-		$parts     = explode('.', $extension);
+		$parts = explode('.', $extension);
 		$component = $parts[0];
-		$section   = null;
+		$section = null;
 
 		if (count($parts) < 2)
 		{
@@ -359,26 +359,9 @@ class Tags extends ListModel
 		}
 
 		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
+		$cName = ComponentHelper::getHelperClassName($component);
 
-		$namespace = ComponentHelper::getComponent($component)->namespace;
-
-		if ($namespace)
-		{
-			$cName = $namespace . '\\Administrator\\Helper\\' . ucfirst($eName . 'Helper');
-		}
-		else
-		{
-			$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
-
-			if (file_exists($file))
-			{
-				$cName = ucfirst($eName) . 'Helper';
-				\JLoader::register($cName, $file);
-			}
-		}
-
-		if (!empty($cName) && class_exists($cName) && is_callable(array($cName, 'countTagItems')))
+		if ($cName && is_callable(array($cName, 'countTagItems')))
 		{
 			$cName::countTagItems($items, $extension);
 		}

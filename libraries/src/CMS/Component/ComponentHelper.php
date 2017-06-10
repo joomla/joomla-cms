@@ -563,4 +563,59 @@ class ComponentHelper
 
 		return 'com_' . strtolower(substr($reflect->getNamespaceName(), $from + 11, $to));
 	}
+
+	/**
+	 * Method to get helper class for a component
+	 *
+	 * @param string $option
+	 * @param string $helper
+	 * @param string $appName
+	 *
+	 * @return bool|string  The class name if exists, false otherwise
+	 */
+	public static function getHelperClassName($option, $helper = 'helper', $appName = 'Administrator')
+	{
+		jimport('joomla.filesystem.path');
+
+		$componentName = str_replace('com_', '', $option);
+
+		if ($helper == 'helper')
+		{
+			// Main component helper class name, like ContentHelper
+			$className = ucfirst($componentName) . 'Helper';
+		}
+		else
+		{
+			// Specific type component class name like ContentAssociationsHelper
+			$className = ucfirst($componentName) . ucfirst($helper) . 'Helper';;
+		}
+
+		// If this is a namespace component, try to find a helper namespace class
+		if ($componentNamespace = self::getComponent($option)->namespace)
+		{
+			$fqcn = $componentNamespace . '\\' . ucfirst($appName) . '\\Helper\\' . $className;
+
+			if (class_exists($fqcn))
+			{
+				return $fqcn;
+			}
+		}
+
+		// Fall back to find a none namespace helper class
+		$rootPath = constant('JPATH_' . strtoupper($appName));
+
+		$file = \JPath::clean($rootPath . '/components/' . $option . '/helpers/' . $helper . '.php');
+
+		if (file_exists($file))
+		{
+			\JLoader::register($className, $file);
+
+			if (class_exists($className))
+			{
+				return $className;
+			}
+		}
+
+		return false;
+	}
 }
