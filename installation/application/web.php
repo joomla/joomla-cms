@@ -143,7 +143,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			// Register the document object with JFactory.
 			JFactory::$document = $document;
 
-			if ($document->getType() == 'html')
+			if ($document->getType() === 'html')
 			{
 				// Set metadata
 				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
@@ -231,7 +231,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	protected function fetchController($task)
 	{
-		if (is_null($task))
+		if ($task === null)
 		{
 			$task = 'default';
 		}
