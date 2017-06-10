@@ -240,7 +240,7 @@ class JExtensionHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function initCoreExtensionsIds()
+	protected static function initCoreExtensionsIds()
 	{
 		$db = JFactory::getDbo();
 
@@ -318,7 +318,7 @@ class JExtensionHelper
 			self::initCoreExtensionsIds();
 		}
 
-		return implode(",",self::$coreExtensionsIDs);
+		return implode(",", self::$coreExtensionsIDs);
 	}
 
 	/**
