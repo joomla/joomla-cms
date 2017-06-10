@@ -425,7 +425,7 @@ class FinderModelSearch extends JModelList
 					$temp = $this->_db->loadObjectList();
 
 					// Set the more flag to true if any of the sets equal the limit.
-					$more = (count($temp) === $limit);
+					$more = count($temp) === $limit;
 
 					// We loaded the data unkeyed but we need it to be keyed for later.
 					$junk = $temp;
@@ -536,7 +536,7 @@ class FinderModelSearch extends JModelList
 						$temp = $this->_db->loadObjectList('link_id');
 
 						// Set the required token more flag to true if the set equal the limit.
-						$reqMore = (count($temp) === $limit);
+						$reqMore = count($temp) === $limit;
 
 						// Merge the matching set for this token.
 						$reqTemp += $temp;
@@ -711,7 +711,7 @@ class FinderModelSearch extends JModelList
 				}
 
 				// Set the more flag to true if any of the sets equal the limit.
-				$more = (count($temp) === $limit);
+				$more = count($temp) === $limit;
 
 				// Merge the results.
 				$results = array_merge($results, $temp);
@@ -857,7 +857,7 @@ class FinderModelSearch extends JModelList
 						$temp = $this->_db->loadObjectList('link_id');
 
 						// Set the required token more flag to true if the set equal the limit.
-						$reqMore = (count($temp) === $limit);
+						$reqMore = count($temp) === $limit;
 
 						// Merge the matching set for this token.
 						$reqTemp += $temp;
