@@ -34,7 +34,7 @@ $params = &$this->params;
 		</h2>
 
 
-<?php if ($params->get('show_author') or $params->get('show_parent_category') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_hits')) : ?>
+<?php if ($params->get('show_author') || $params->get('show_parent_category') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_hits')) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
@@ -42,7 +42,7 @@ $params = &$this->params;
 		<dd class="parent-category-name">
 			<?php	$title = $this->escape($item->parent_title);
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)).'">'.$title.'</a>';?>
-			<?php if ($params->get('link_parent_category') && $item->parent_slug) : ?>
+			<?php if ($item->parent_slug && $params->get('link_parent_category')) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -54,7 +54,7 @@ $params = &$this->params;
 		<dd class="category-name">
 			<?php	$title = $this->escape($item->category_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '">' . $title . '</a>'; ?>
-			<?php if ($params->get('link_category') && $item->catslug) : ?>
+			<?php if ($item->catslug && $params->get('link_category')) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -76,7 +76,7 @@ $params = &$this->params;
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') && !empty($item->author )) : ?>
+<?php if (!empty($item->author) && $params->get('show_author')) : ?>
 	<dd class="createdby">
 		<?php $author = $item->created_by_alias ?: $item->author; ?>
 			<?php if (!empty($item->contact_link ) &&  $params->get('link_author') == true):?>
@@ -91,7 +91,7 @@ $params = &$this->params;
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_hits')) :?>
+<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_hits')) :?>
 	 </dl>
 <?php endif; ?>
 
