@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" addfieldprefix="Joomla\Component\Categories\Administrator\Field">
+	<fieldset addfieldprefix="Joomla\Component\Categories\Administrator\Field">
 		<field 
 			name="id" 
 			type="text" 
@@ -1033,3 +1033,4 @@
 	</fields>
 
 </form>
+

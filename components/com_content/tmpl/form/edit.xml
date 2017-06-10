@@ -10,7 +10,7 @@
 	</layout>
 	<fields name="params">
 		<fieldset name="basic"
-			addfieldpath="/administrator/components/com_categories/models/fields"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 		>
 			<field 
 				name="enable_category"
