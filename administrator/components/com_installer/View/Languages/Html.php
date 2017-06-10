@@ -16,7 +16,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\Html as InstallerViewDefault;
 
 /**
- * Language installer view
+ * Extension Manager Language Install View
  *
  * @since  2.5.7
  */

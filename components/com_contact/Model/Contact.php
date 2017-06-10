@@ -10,6 +10,7 @@ namespace Joomla\Component\Contact\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -59,15 +60,11 @@ class Contact extends Form
 	 */
 	protected function populateState()
 	{
+		/** @var SiteApplication $app */
 		$app = \JFactory::getApplication('site');
 
-		// Load state from the request.
-		$pk = $app->input->getInt('id');
-		$this->setState('contact.id', $pk);
-
-		// Load the parameters.
-		$params = $app->getParams();
-		$this->setState('params', $params);
+		$this->setState('contact.id', $app->input->getInt('id'));
+		$this->setState('params', $app->getParams());
 
 		$user = \JFactory::getUser();
 
@@ -91,7 +88,6 @@ class Contact extends Form
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Get the form.
 		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => true));
 
 		if (empty($form))
@@ -99,12 +95,37 @@ class Contact extends Form
 			return false;
 		}
 
-		$id = $this->getState('contact.id');
-		$params = $this->getState('params');
-		$contact = $this->_item[$id];
-		$params->merge($contact->params);
+		$temp = clone $this->getState('params');
 
-		if (!$params->get('show_email_copy', 0))
+		$contact = $this->_item[$this->getState('contact.id')];
+
+		$active = \JFactory::getApplication()->getMenu()->getActive();
+
+		if ($active)
+		{
+			// If the current view is the active item and a contact view for this contact, then the menu item params take priority
+			if (strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id))
+			{
+				// $contact->params are the contact params, $temp are the menu item params
+				// Merge so that the menu item params take priority
+				$contact->params->merge($temp);
+			}
+			else
+			{
+				// Current view is not a single contact, so the contact params take priority here
+				// Merge the menu item params with the contact params so that the contact params take priority
+				$temp->merge($contact->params);
+				$contact->params = $temp;
+			}
+		}
+		else
+		{
+			// Merge so that contact params take priority
+			$temp->merge($contact->params);
+			$contact->params = $temp;
+		}
+
+		if (!$contact->params->get('show_email_copy', 0))
 		{
 			$form->removeField('contact_email_copy');
 		}
@@ -202,8 +223,13 @@ class Contact extends Form
 					\JError::raiseError(404, \JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
 				}
 
-				// Convert parameter fields to objects.
+				/**
+				 * In case some entity params have been set to "use global", those are
+				 * represented as an empty string and must be "overridden" by merging
+				 * the component and / or menu params here.
+				 */
 				$registry = new Registry($data->params);
+
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
@@ -214,7 +240,7 @@ class Contact extends Form
 				$data->tags->getItemTags('com_contact.contact', $data->id);
 
 				// Compute access permissions.
-				if ($access = $this->getState('filter.access'))
+				if (($access = $this->getState('filter.access')))
 				{
 
 					// If the access filter has been set, we already know this user can view.
@@ -288,13 +314,14 @@ class Contact extends Form
 				->select('a.catid')
 				->select('a.created')
 				->select('a.language')
+				->select('a.publish_up')
 				->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
 				->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 				->from($db->quoteName('#__content', 'a'))
 				->leftJoin($db->quoteName('#__categories', 'c') . ' ON a.catid = c.id')
 				->where('a.created_by = ' . (int) $contact->user_id)
 				->where('a.access IN (' . $groups . ')')
-				->order('a.state DESC, a.created DESC');
+				->order('a.publish_up DESC');
 
 			// Filter per language if plugin published
 			if (Multilanguage::isEnabled())
@@ -452,13 +479,14 @@ class Contact extends Form
 						->select('a.catid')
 						->select('a.created')
 						->select('a.language')
+						->select('a.publish_up')
 						->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
 						->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 						->from($db->quoteName('#__content', 'a'))
 						->leftJoin($db->quoteName('#__categories', 'c') . ' ON a.catid = c.id')
 						->where('a.created_by = ' . (int) $result->user_id)
 						->where('a.access IN (' . $groups . ')')
-						->order('a.state DESC, a.created DESC');
+						->order('a.publish_up DESC');
 
 					// Filter per language if plugin published
 					if (Multilanguage::isEnabled())

@@ -226,12 +226,13 @@ class PlgSystemUpdatenotification extends JPlugin
 		$fromName = $jConfig->get('fromname');
 
 		$substitutions = array(
-			'[NEWVERSION]' => $newVersion,
-			'[CURVERSION]' => $currentVersion,
-			'[SITENAME]'   => $sitename,
-			'[URL]'        => JUri::base(),
-			'[LINK]'       => $uri->toString(),
-			'\\n'          => "\n",
+			'[NEWVERSION]'  => $newVersion,
+			'[CURVERSION]'  => $currentVersion,
+			'[SITENAME]'    => $sitename,
+			'[URL]'         => JUri::base(),
+			'[LINK]'        => $uri->toString(),
+			'[RELEASENEWS]' => 'https://www.joomla.org/announcements/release-news/',
+			'\\n'           => "\n",
 		);
 
 		foreach ($substitutions as $k => $v)

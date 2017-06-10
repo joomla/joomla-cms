@@ -247,7 +247,7 @@ class Html extends HtmlView
 	/**
 	 * Prepares the document.
 	 *
-	 * @return  void.
+	 * @return  void
 	 */
 	protected function _prepareDocument()
 	{

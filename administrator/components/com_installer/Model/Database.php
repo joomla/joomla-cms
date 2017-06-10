@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
- * Installer Manage Model
+ * Installer Database Model
  *
  * @since  1.6
  */

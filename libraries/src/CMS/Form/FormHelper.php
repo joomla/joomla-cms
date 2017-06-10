@@ -131,8 +131,8 @@ class FormHelper
 	}
 
 	/**
-	 * Attempt to import the JFormField class file if it isn't already imported.
-	 * You can use this method outside of JForm for loading a field for inheritance or composition.
+	 * Attempt to import the FormField class file if it isn't already imported.
+	 * You can use this method outside of Form for loading a field for inheritance or composition.
 	 *
 	 * @param   string  $type  Type of a field whose class should be loaded.
 	 *
@@ -146,8 +146,8 @@ class FormHelper
 	}
 
 	/**
-	 * Attempt to import the JFormRule class file if it isn't already imported.
-	 * You can use this method outside of JForm for loading a rule for inheritance or composition.
+	 * Attempt to import the FormRule class file if it isn't already imported.
+	 * You can use this method outside of Form for loading a rule for inheritance or composition.
 	 *
 	 * @param   string  $type  Type of a rule whose class should be loaded.
 	 *
@@ -182,7 +182,7 @@ class FormHelper
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
 			// Compile the classname
-			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name);
+			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name) . ucfirst($entity);
 
 			// Check if the class exists
 			if (class_exists($class))

@@ -85,6 +85,9 @@ class Html extends HtmlView
 	public function display($tpl = null)
 	{
 		// Set variables
+		$app                        = \JFactory::getApplication();
+		$this->enabled              = RedirectHelper::isEnabled();
+		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
 		$this->items                = $this->get('Items');
 		$this->pagination           = $this->get('Pagination');
 		$this->state                = $this->get('State');
@@ -95,6 +98,22 @@ class Html extends HtmlView
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+		}
+
+		// Show messages about the enabled plugin and if the plugin should collect URLs
+		if ($this->enabled && $this->collect_urls_enabled)
+		{
+			$app->enqueueMessage(\JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
+		}
+		elseif ($this->enabled && !$this->collect_urls_enabled)
+		{
+			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			$app->enqueueMessage(\JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
+		}
+		else
+		{
+			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			$app->enqueueMessage(\JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'error');
 		}
 
 		$this->addToolbar();

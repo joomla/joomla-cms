@@ -353,6 +353,95 @@ class ComponentAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Method to finalise the uninstallation processing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function finaliseUninstall()
+	{
+		$db = $this->parent->getDbo();
+
+		// Remove the schema version
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $this->extension->extension_id);
+		$db->setQuery($query);
+		$db->execute();
+
+		// Remove the component container in the assets table.
+		$asset = Table::getInstance('Asset');
+
+		if ($asset->loadByName($this->getElement()))
+		{
+			$asset->delete();
+		}
+
+		// Remove categories for this component
+		$query->clear()
+			->delete('#__categories')
+			->where('extension = ' . $db->quote($this->element), 'OR')
+			->where('extension LIKE ' . $db->quote($this->element . '.%'));
+		$db->setQuery($query);
+		$db->execute();
+
+		// Rebuild the categories for correct lft/rgt
+		Table::getInstance('category')->rebuild();
+
+		// Clobber any possible pending updates
+		$update = Table::getInstance('update');
+		$uid = $update->find(
+			array(
+				'element'   => $this->extension->element,
+				'type'      => 'component',
+				'client_id' => 1,
+				'folder'    => '',
+			)
+		);
+
+		if ($uid)
+		{
+			$update->delete($uid);
+		}
+
+		// Now we need to delete the installation directories. This is the final step in uninstalling the component.
+		if (trim($this->extension->element))
+		{
+			// Delete the component site directory
+			if (is_dir($this->parent->getPath('extension_site')))
+			{
+				if (!\JFolder::delete($this->parent->getPath('extension_site')))
+				{
+					\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), \JLog::WARNING, 'jerror');
+					$retval = false;
+				}
+			}
+
+			// Delete the component admin directory
+			if (is_dir($this->parent->getPath('extension_administrator')))
+			{
+				if (!\JFolder::delete($this->parent->getPath('extension_administrator')))
+				{
+					\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), \JLog::WARNING, 'jerror');
+					$retval = false;
+				}
+			}
+
+			// Now we will no longer need the extension object, so let's delete it
+			$this->extension->delete($this->extension->extension_id);
+
+			return $retval;
+		}
+
+		// No component option defined... cannot delete what we don't know about
+		\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION'), \JLog::WARNING, 'jerror');
+
+		return false;
+	}
+
+	/**
 	 * Get the filtered extension element from the manifest
 	 *
 	 * @param   string  $element  Optional element name to be converted
@@ -437,6 +526,25 @@ class ComponentAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Method to parse the queries specified in the `<sql>` tags
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function parseQueries()
+	{
+		parent::parseQueries();
+
+		// We have extra tasks to run for the uninstall path
+		if ($this->route === 'uninstall')
+		{
+			$this->_removeAdminMenus($this->extension->extension_id);
+		}
+	}
+
+	/**
 	 * Prepares the adapter for a discover_install task
 	 *
 	 * @return  void
@@ -516,6 +624,22 @@ class ComponentAdapter extends InstallerAdapter
 	}
 
 	/**
+	 * Removes this extension's files
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function removeExtensionFiles()
+	{
+		// Let's remove those language files and media in the JROOT/images/ folder that are associated with the component we are uninstalling
+		$this->parent->removeFiles($this->getManifest()->media);
+		$this->parent->removeFiles($this->getManifest()->languages);
+		$this->parent->removeFiles($this->getManifest()->administration->languages, 1);
+	}
+
+	/**
 	 * Method to do any prechecks and setup the install paths for the extension
 	 *
 	 * @return  void
@@ -537,6 +661,47 @@ class ComponentAdapter extends InstallerAdapter
 		{
 			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
 		}
+	}
+
+	/**
+	 * Method to do any prechecks and setup the uninstall job
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function setupUninstall()
+	{
+		// Get the admin and site paths for the component
+		$this->parent->setPath('extension_administrator', \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $this->extension->element));
+		$this->parent->setPath('extension_site', \JPath::clean(JPATH_SITE . '/components/' . $this->extension->element));
+
+		// Copy the admin path as it's used as a common base
+		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));
+
+		// Find and load the XML install file for the component
+		$this->parent->setPath('source', $this->parent->getPath('extension_administrator'));
+
+		// Get the package manifest object
+		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
+		$this->parent->findManifest();
+		$this->setManifest($this->parent->getManifest());
+
+		if (!$this->getManifest())
+		{
+			// Make sure we delete the folders if no manifest exists
+			\JFolder::delete($this->parent->getPath('extension_administrator'));
+			\JFolder::delete($this->parent->getPath('extension_site'));
+
+			// Remove the menu
+			$this->_removeAdminMenus($this->extension->extension_id);
+
+			// Raise a warning
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORREMOVEMANUALLY'));
+		}
+
+		// Attempt to load the admin language file; might have uninstall strings
+		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $this->element);
 	}
 
 	/**
@@ -663,222 +828,6 @@ class ComponentAdapter extends InstallerAdapter
 		{
 			// Maybe we have a failed installation (e.g. timeout). Let's retry after deleting old records.
 			$this->storeExtension(true);
-		}
-	}
-
-	/**
-	 * Custom uninstall method for components
-	 *
-	 * @param   integer  $id  The unique extension id of the component to uninstall
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function uninstall($id)
-	{
-		$db     = $this->db;
-		$retval = true;
-
-		// First order of business will be to load the component object table from the database.
-		// This should give us the necessary information to proceed.
-		if (!$this->extension->load((int) $id))
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORUNKOWNEXTENSION'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Is the component we are trying to uninstall a core one?
-		// Because that is not a good idea...
-		if ($this->extension->protected)
-		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_WARNCORECOMPONENT'), \JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		/*
-		 * Does this extension have a parent package?
-		 * If so, check if the package disallows individual extensions being uninstalled if the package is not being uninstalled
-		 */
-		if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id))
-		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name), JLog::WARNING, 'jerror');
-
-			return false;
-		}
-
-		// Get the admin and site paths for the component
-		$this->parent->setPath('extension_administrator', \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $this->extension->element));
-		$this->parent->setPath('extension_site', \JPath::clean(JPATH_SITE . '/components/' . $this->extension->element));
-
-		// Copy the admin path as it's used as a common base
-		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator'));
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Find and load the XML install file for the component
-		$this->parent->setPath('source', $this->parent->getPath('extension_administrator'));
-
-		// Get the package manifest object
-		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
-		$this->parent->findManifest();
-		$this->setManifest($this->parent->getManifest());
-
-		if (!$this->getManifest())
-		{
-			// Make sure we delete the folders if no manifest exists
-			\JFolder::delete($this->parent->getPath('extension_administrator'));
-			\JFolder::delete($this->parent->getPath('extension_site'));
-
-			// Remove the menu
-			$this->_removeAdminMenus($this->extension->extension_id);
-
-			// Raise a warning
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORREMOVEMANUALLY'), \JLog::WARNING, 'jerror');
-
-			// Return
-			return false;
-		}
-
-		// Set the extensions name
-		$this->name = $this->getName();
-		$this->element = $this->getElement();
-
-		// Attempt to load the admin language file; might have uninstall strings
-		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $this->element);
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Installer Trigger Loading and Uninstall
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		$this->setupScriptfile();
-
-		try
-		{
-			$this->triggerManifestScript('uninstall');
-		}
-		catch (\RuntimeException $e)
-		{
-			// Ignore errors for now
-		}
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Database Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Let's run the uninstall queries for the component
-		try
-		{
-			$this->parseQueries();
-		}
-		catch (\RuntimeException $e)
-		{
-			\JLog::add($e->getMessage(), \JLog::WARNING, 'jerror');
-
-			$retval = false;
-		}
-
-		$this->_removeAdminMenus($this->extension->extension_id);
-
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Filesystem Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Let's remove those language files and media in the JROOT/images/ folder that are
-		// associated with the component we are uninstalling
-		$this->parent->removeFiles($this->getManifest()->media);
-		$this->parent->removeFiles($this->getManifest()->languages);
-		$this->parent->removeFiles($this->getManifest()->administration->languages, 1);
-
-		// Remove the schema version
-		$query = $db->getQuery(true)
-					->delete('#__schemas')
-					->where('extension_id = ' . $id);
-		$db->setQuery($query);
-		$db->execute();
-
-		// Remove the component container in the assets table.
-		$asset = Table::getInstance('Asset');
-
-		if ($asset->loadByName($this->element))
-		{
-			$asset->delete();
-		}
-
-		// Remove categories for this component
-		$query->clear()
-			->delete('#__categories')
-			->where('extension=' . $db->quote($this->element), 'OR')
-			->where('extension LIKE ' . $db->quote($this->element . '.%'));
-		$db->setQuery($query);
-		$db->execute();
-
-		// Rebuild the categories for correct lft/rgt
-		$category = Table::getInstance('category');
-		$category->rebuild();
-
-		// Clobber any possible pending updates
-		$update = Table::getInstance('update');
-		$uid = $update->find(
-			array(
-				'element'   => $this->extension->element,
-				'type'      => 'component',
-				'client_id' => 1,
-				'folder'    => '',
-			)
-		);
-
-		if ($uid)
-		{
-			$update->delete($uid);
-		}
-
-		// Now we need to delete the installation directories. This is the final step in uninstalling the component.
-		if (trim($this->extension->element))
-		{
-			// Delete the component site directory
-			if (is_dir($this->parent->getPath('extension_site')))
-			{
-				if (!\JFolder::delete($this->parent->getPath('extension_site')))
-				{
-					\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), \JLog::WARNING, 'jerror');
-					$retval = false;
-				}
-			}
-
-			// Delete the component admin directory
-			if (is_dir($this->parent->getPath('extension_administrator')))
-			{
-				if (!\JFolder::delete($this->parent->getPath('extension_administrator')))
-				{
-					\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), \JLog::WARNING, 'jerror');
-					$retval = false;
-				}
-			}
-
-			// Now we will no longer need the extension object, so let's delete it
-			$this->extension->delete($this->extension->extension_id);
-
-			return $retval;
-		}
-		else
-		{
-			// No component option defined... cannot delete what we don't know about
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION'), \JLog::WARNING, 'jerror');
-
-			return false;
 		}
 	}
 

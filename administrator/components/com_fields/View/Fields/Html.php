@@ -85,9 +85,7 @@ class Html extends HtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			\JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Display a warning if the fields system plugin is disabled

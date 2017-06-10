@@ -169,11 +169,11 @@ abstract class FormField
 	protected $pattern;
 
 	/**
-	* The validation text of invalid value of the form field.
-	*
-	* @var    string
-	* @since  4.0
-	*/
+	 * The validation text of invalid value of the form field.
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
 	protected $validationtext;
 
 	/**

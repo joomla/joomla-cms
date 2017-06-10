@@ -18,6 +18,8 @@
             "joomla/event": "dist",
             "joomla/http": "dist",
             "joomla/image": "dist",
+            "joomla/oauth1": "dist",
+            "joomla/oauth2": "dist",
             "joomla/mediawiki": "dist",
             "joomla/registry": "dist",
             "joomla/session": "dist",
@@ -28,10 +30,10 @@
         "vendor-dir": "libraries/vendor"
     },
     "support": {
-        "issues":"https://issues.joomla.org",
-        "irc":"http://irc.lc/freenode/joomla/",
-        "forum":"https://forum.joomla.org/",
-        "docs":"https://docs.joomla.org"
+        "issues": "https://issues.joomla.org",
+        "irc": "https://irc.lc/freenode/joomla/",
+        "forum": "https://forum.joomla.org/",
+        "docs": "https://docs.joomla.org"
     },
     "autoload": {
         "psr-4": {
@@ -50,6 +52,8 @@
         "joomla/http": "~2.0@dev",
         "joomla/image": "~2.0@dev",
         "joomla/ldap": "~1.1",
+        "joomla/oauth1": "~2.0@dev",
+        "joomla/oauth2": "~2.0@dev",
         "joomla/registry": "~2.0@dev",
         "joomla/session": "~2.0@dev",
         "joomla/string": "~2.0@dev",

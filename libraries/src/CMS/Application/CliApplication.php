@@ -14,19 +14,22 @@ use Joomla\Application\AbstractCliApplication;
 use Joomla\Application\Cli\CliInput;
 use Joomla\Application\Cli\CliOutput;
 use Joomla\Application\Cli\Output\Stdout;
+use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionInterface;
 
 /**
  * Base class for a Joomla! command line application.
  *
  * @since  11.4
  */
-abstract class CliApplication extends AbstractCliApplication implements DispatcherAwareInterface
+abstract class CliApplication extends AbstractCliApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware;
+	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
 
 	/**
 	 * The application instance.
@@ -51,17 +54,21 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *                                            event dispatcher.  If the argument is a DispatcherInterface object that object will become
 	 *                                            the application's event dispatcher, if it is null then the default event dispatcher
 	 *                                            will be created based on the application's loadDispatcher() method.
+	 * @param   Container            $container   Dependency injection container.
 	 *
 	 * @since   11.1
 	 */
 	public function __construct(\JInputCli $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
-		DispatcherInterface $dispatcher = null)
+		DispatcherInterface $dispatcher = null, Container $container = null)
 	{
 		// Close the application if we are not executed from the command line.
 		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}
+
+		$container = $container ?: new Container;
+		$this->setContainer($container);
 
 		$this->input    = $input ?: new \JInputCli;
 		$this->config   = $config ?: new Registry;
@@ -146,5 +153,78 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 		$this->output = $output;
 
 		return $this;
+	}
+
+	/**
+	 * Enqueue a system message.
+	 *
+	 * @param   string  $msg   The message to enqueue.
+	 * @param   string  $type  The message type.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function enqueueMessage($msg, $type = self::MSG_INFO)
+	{
+		if (!key_exists($type, $this->messages))
+		{
+			$this->messages[$type] = [];
+		}
+
+		$this->messages[$type][] = $msg;
+	}
+
+	/**
+	 * Get the system message queue.
+	 *
+	 * @return  array  The system message queue.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getMessageQueue()
+	{
+		return $this->messages;
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isClient($identifier)
+	{
+		return $identifier == 'cli';
+	}
+
+	/**
+	 * Method to get the application session object.
+	 *
+	 * @return  SessionInterface  The session object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getSession()
+	{
+		return $this->container->get(SessionInterface::class);
+	}
+
+	/**
+	 * Flag if the application instance is a CLI or web based application.
+	 *
+	 * Helper function, you should use the native PHP functions to detect if it is a CLI application.
+	 *
+	 * @return  boolean
+	 *
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  5.0  Will be removed without replacements
+	 */
+	public function isCli()
+	{
+		return true;
 	}
 }

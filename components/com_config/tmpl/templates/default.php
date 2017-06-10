@@ -27,7 +27,7 @@ JFactory::getDocument()->addScriptDeclaration("
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 	<div class="row">
 
-		<div>
+		<div role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('templates.apply')">
 					<span class="icon-ok"></span>

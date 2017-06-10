@@ -55,10 +55,13 @@
     margin-left: 1px;
   }
 
+  .nav-item {
+    background-color: darken($atum-template-color-light, 10%);
+  }
+
   .nav-link {
     position: relative;
-    padding: 0;
-    margin-left: 4px;
+    padding: 0 8px;
     line-height: $header-height;
 
     .fa {
@@ -67,18 +70,23 @@
       font-size: 1.1rem;
       line-height: 23px;
       color: $white-offset;
-      background-color: lighten($atum-template-color-light, 10%);
-      border-radius: 2px;
+      vertical-align: middle;
+      transition: all .2s ease-in-out;
     }
 
     .badge {
       position: absolute;
       top: 4px;
-      right: -5px;
+      right: 2px;
     }
 
     &.dropdown-toggle::after {
       display: none;
+    }
+
+    &:hover .fa {
+      font-size: 1.3rem;
+      transition: all .2s ease-in-out;
     }
 
   }
@@ -117,6 +125,10 @@
     background-color: $atum-container-main-bg;
     border-bottom: 1px solid rgba(0,0,0,.1);
     border-radius: $border-radius $border-radius 0 0;
+  }
+
+  .list-group-item-text:last-child {
+    margin-bottom: 0;
   }
 
 }
