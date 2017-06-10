@@ -567,9 +567,9 @@ class ComponentHelper
 	/**
 	 * Method to get helper class for a component
 	 *
-	 * @param string $option
-	 * @param string $helper
-	 * @param string $appName
+	 * @param   string  $option   The name of component to get helper class, for example com_content
+	 * @param   string  $helper   The type of helper to get like helper (main component helper), association, route, associations..
+	 * @param   string  $appName  Name of application to get helper class (Site or Administrator)
 	 *
 	 * @return bool|string  The class name if exists, false otherwise
 	 */
