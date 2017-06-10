@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesite&layout=edit&id=' . (int) $this->item->id); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesite&layout=edit&update_site_id=' . (int) $this->item->update_site_id); ?>"
       method="post" name="adminForm" id="adminForm">
 	<div class="form-horizontal">
 		<fieldset class="adminform">

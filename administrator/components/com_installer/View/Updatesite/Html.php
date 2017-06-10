@@ -69,17 +69,19 @@ class Html extends HtmlView
 	{
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
-		$userId     = $user->id;
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		//$user       = \JFactory::getUser();
+		//$userId     = $user->id;
+		//$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
+		$checkedOut = false;
+		
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo = ContentHelper::getActions('com_installer', 'updatesite', $this->item->catid);
+		$canDo = ContentHelper::getActions('com_installer', 'updatesite');
 
 		\JToolbarHelper::title(\JText::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE'), 'address contact');
 
 		// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-		$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+		$itemEditable = $canDo->get('core.edit');
 
 		$toolbarButtons = [];
 
