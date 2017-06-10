@@ -62,10 +62,9 @@ abstract class ModLanguagesHelper
 			}
 
 			// Load component associations
-			$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
-			JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
+			$class = \Joomla\CMS\Component\ComponentHelper::getHelperClassName($app->input->get('option'), 'association', 'Site');
 
-			if (class_exists($class) && is_callable(array($class, 'getAssociations')))
+			if ($class && is_callable(array($class, 'getAssociations')))
 			{
 				$cassociations = call_user_func(array($class, 'getAssociations'));
 			}

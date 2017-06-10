@@ -38,13 +38,14 @@ abstract class CategoryHelperAssociation
 		{
 			// Load route helper
 			jimport('helper.route', JPATH_COMPONENT_SITE);
-			$helperClassname = ucfirst(substr($extension, 4)) . 'HelperRoute';
+			$helperClassname = \Joomla\CMS\Component\ComponentHelper::getHelperClassName($extension, 'Route', 'Site');
+
 
 			$associations = CategoriesHelper::getAssociations($id, $extension);
 
 			foreach ($associations as $tag => $item)
 			{
-				if (class_exists($helperClassname) && is_callable(array($helperClassname, 'getCategoryRoute')))
+				if ($helperClassname && is_callable(array($helperClassname, 'getCategoryRoute')))
 				{
 					$return[$tag] = $helperClassname::getCategoryRoute($item, $tag);
 				}

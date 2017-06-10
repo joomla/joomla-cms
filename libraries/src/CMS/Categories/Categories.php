@@ -10,6 +10,7 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -140,14 +141,12 @@ class Categories
 
 		if (!class_exists($classname))
 		{
-			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
+			$classname = ComponentHelper::getHelperClassName($component, 'category', 'Site');
 
-			if (!is_file($path))
+			if (!$classname)
 			{
 				return false;
 			}
-
-			include_once $path;
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
