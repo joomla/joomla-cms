@@ -4,11 +4,22 @@
 dl, ol, ul {
   padding-right: 0;
 }
+
 th {
   text-align: right;
 }
+
+.close {
+  float: left;
+  .notify-alerts & {
+    right: auto;
+    left: -.5rem;
+  }
+}
+
 .control-group {
   .control-label {
+    float: right;
     text-align: right;
   }
 }
