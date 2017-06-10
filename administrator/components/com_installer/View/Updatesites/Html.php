@@ -72,6 +72,11 @@ class Html extends InstallerViewDefault
 	{
 		$canDo = ContentHelper::getActions('com_installer');
 
+		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
+		{
+			ToolbarHelper::editList('updatesite.edit');
+		}
+
 		if ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::publish('updatesites.publish', 'JTOOLBAR_ENABLE', true);
