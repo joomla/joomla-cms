@@ -30,7 +30,7 @@
  *                               (eg. 1 second pause for every 5 seconds of batch processing time)
  *                               if --pause is omitted, the process will not pause between batches.
  *
- * Called with --minproctime=x   Will set the miminum processing time of batches for a pause to occur. Defaults to 1
+ * Called with --minproctime=x   Will set the minimum processing time of batches for a pause to occur. Defaults to 1
  *
  */
 
@@ -437,7 +437,7 @@ class FinderCli extends JApplicationCli
 		foreach ($filters as $filter)
 		{
 			// Skip empty filters.
-			if ($filter->data == '')
+			if ($filter->data === '')
 			{
 				continue;
 			}
