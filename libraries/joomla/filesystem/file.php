@@ -65,7 +65,7 @@ class JFile
 		// Remove any trailing dots, as those aren't ever valid file names.
 		$file = rtrim($file, '.');
 
-		// Allow upload UTF-8 file names in Linux
+		// Allow uploading UTF-8 filenames in Linux
 		$unicode = strtoupper(PHP_OS === 'LINUX') ? 'u' : '';
 
 		$regex = array('#(\.){2,}#', '#[^\w\.\- ]#' . $unicode, '#^\.#');
