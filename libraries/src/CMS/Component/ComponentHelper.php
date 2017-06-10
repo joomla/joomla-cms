@@ -578,8 +578,9 @@ class ComponentHelper
 		jimport('joomla.filesystem.path');
 
 		$componentName = str_replace('com_', '', $option);
+		$helper        = ucfirst($helper);
 
-		if ($helper == 'helper')
+		if ($helper == 'Helper')
 		{
 			// Main component helper class name, like ContentHelper
 			$className = ucfirst($componentName) . 'Helper';
@@ -587,7 +588,7 @@ class ComponentHelper
 		else
 		{
 			// Specific type component class name like ContentAssociationsHelper
-			$className = ucfirst($componentName) . ucfirst($helper) . 'Helper';;
+			$className = ucfirst($componentName) . $helper . 'Helper';;
 		}
 
 		// If this is a namespace component, try to find a helper namespace class
