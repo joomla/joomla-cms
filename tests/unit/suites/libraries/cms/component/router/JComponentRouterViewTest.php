@@ -58,8 +58,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		unset($this->object);
-		unset($app);
+		unset($this->object, $app);
 		parent::tearDown();
 	}
 

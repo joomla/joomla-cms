@@ -44,9 +44,19 @@ class FilterTestObject
 class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * @var beforeObject
+	 * @var  JFilterOutput
+	 */
+	protected $object;
+
+	/**
+	 * @var  FilterTestObject
 	 */
 	protected $safeObject;
+
+	/**
+	 * @var  FilterTestObject
+	 */
+	protected $safeObjectArrayTest;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -73,8 +83,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->safeObject);
-		unset($this->safeObjectArrayTest);
+		unset($this->object, $this->safeObject, $this->safeObjectArrayTest);
 		parent::tearDown();
 	}
 
