@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="redirect"
+	<fieldset 
+		name="redirect"
 		label="COM_REDIRECT_ADVANCED_OPTIONS"
 	>
 		<field
 			name="mode"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_REDIRECT_MODE_LABEL"
 			description="COM_REDIRECT_MODE_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 	</fieldset>
+
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC">
-
+		description="JCONFIG_PERMISSIONS_DESC"
+	>
 		<field
 			name="rules"
 			type="rules"
@@ -27,6 +29,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_redirect"
-			section="component" />
+			section="component" 
+		/>
 	</fieldset>
 </config>
