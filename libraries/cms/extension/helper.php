@@ -238,6 +238,8 @@ class JExtensionHelper
 	/**
 	 * Init the array of core extension_ids
 	 *
+	 * @return  void
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function initCoreExtensionsIds()
@@ -335,7 +337,8 @@ class JExtensionHelper
 	 */
 	public static function checkIfCoreExtension($type, $element, $folder, $client_id)
 	{
-		if (in_array(array($type, $element, $folder, $client_id), self::$coreExtensions)) {
+		if (in_array(array($type, $element, $folder, $client_id), self::$coreExtensions))
+		{
 			return true;
 		}
 
@@ -358,7 +361,8 @@ class JExtensionHelper
 			self::initCoreExtensionsIds();
 		}
 
-		if (in_array($extension_id, self::$coreExtensionsIDs)) {
+		if (in_array($extension_id, self::$coreExtensionsIDs))
+		{
 			return true;
 		}
 
