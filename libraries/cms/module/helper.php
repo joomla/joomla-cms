@@ -377,13 +377,13 @@ abstract class JModuleHelper
 	public static function getModuleList()
 	{
 		$app = JFactory::getApplication();
-		$Itemid = $app->input->getInt('Itemid');
+		$Itemid = $app->input->getInt('Itemid', 0);
 		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 		$lang = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $groups . $clientId . (int) $Itemid;
+		$cacheId = $groups . $clientId . $Itemid;
 
 		$db = JFactory::getDbo();
 
@@ -402,7 +402,7 @@ abstract class JModuleHelper
 			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
 			->where('m.access IN (' . $groups . ')')
 			->where('m.client_id = ' . $clientId)
-			->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
+			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
 
 		// Filter by language
 		if ($app->isClient('site') && $app->getLanguageFilter())
