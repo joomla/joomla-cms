@@ -65,7 +65,7 @@ $templateparams = $app->getTemplate(true)->params;
 
 <?php // to do not that elegant would be nice to group the params ?>
 
-<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_parent_category') || $params->get('show_hits')) : ?>
+<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
@@ -74,7 +74,7 @@ $templateparams = $app->getTemplate(true)->params;
 			<?php $title = $this->escape($this->item->parent_title);
 				$title = $title ?: JText::_('JGLOBAL_UNCATEGORISED');
 				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
-			<?php if ($this->item->parent_slug && $params->get('link_parent_category')) : ?>
+			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -86,7 +86,7 @@ $templateparams = $app->getTemplate(true)->params;
 			<?php 	$title = $this->escape($this->item->category_title);
 					$title = $title ?: JText::_('JGLOBAL_UNCATEGORISED');
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
-			<?php if ($this->item->catslug && $params->get('link_category')) : ?>
+			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -123,11 +123,11 @@ $templateparams = $app->getTemplate(true)->params;
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_parent_category') || $params->get('show_hits')) : ?>
+<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) : ?>
  </dl>
 <?php endif; ?>
 
-<?php  if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
+<?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
 	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
 	<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 	<img

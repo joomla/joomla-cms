@@ -81,7 +81,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		?>
 		</article>
 		<?php $counter++; ?>
-		<?php if (($rowcount === $this->columns) || ($counter === $introcount)) : ?>
+		<?php if (($rowcount === $this->columns) or ($counter === $introcount)) : ?>
 			<span class="row-separator"></span>
 			</div>
 		<?php endif; ?>

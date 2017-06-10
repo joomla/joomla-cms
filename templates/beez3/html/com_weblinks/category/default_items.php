@@ -136,9 +136,9 @@ $listDirn     = $this->escape($this->state->get('list.direction'));
 				<?php echo $this->item->tagLayout->render($tagsData); ?>
 			<?php endif; ?>
 
-			<?php if ($item->description !== '' && $this->params->get('show_link_description')) : ?>
+			<?php if ($this->params->get('show_link_description') and ($item->description != '')) : ?>
 				<?php $images = json_decode($item->images); ?>
-				<?php  if (isset($images->image_first) && !empty($images->image_first)) : ?>
+				<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
 				<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>
 				<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>"> <img
 					<?php if ($images->image_first_caption):
@@ -146,7 +146,7 @@ $listDirn     = $this->escape($this->state->get('list.direction'));
 					endif; ?>
 					src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
 				<?php endif; ?>
-				<?php  if (isset($images->image_second) && !empty($images->image_second)) : ?>
+				<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
 					<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
 					<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image"> <img
 					<?php if ($images->image_second_caption):

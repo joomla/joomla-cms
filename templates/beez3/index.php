@@ -107,9 +107,9 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 						<?php if ($logo) : ?>
 							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>" />
 						<?php endif;?>
-						<?php if (!$logo && $this->params->get('sitetitle')) : ?>
+						<?php if (!$logo AND $this->params->get('sitetitle')) : ?>
 							<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>
-						<?php elseif (!$logo && $config->get('sitename')) : ?>
+						<?php elseif (!$logo AND $config->get('sitename')) : ?>
 							<?php echo htmlspecialchars($config->get('sitename')); ?>
 						<?php endif; ?>
 						<span class="header1">
@@ -137,7 +137,7 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 						<jdoc:include type="modules" name="position-2" />
 					</div>
 
-					<?php if ($navposition === 'left' && $showleft) : ?>
+					<?php if ($navposition === 'left' and $showleft) : ?>
 						<nav class="left1 <?php if ($showRightColumn == null) { echo 'leftbigger';} ?>" id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
@@ -177,7 +177,7 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 						</aside><!-- end right -->
 					<?php endif; ?>
 
-					<?php if ($navposition === 'center' && $showleft) : ?>
+					<?php if ($navposition === 'center' and $showleft) : ?>
 						<nav class="left <?php if ($showRightColumn == null) { echo 'leftbigger'; } ?>" id="nav" >
 
 							<jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />
