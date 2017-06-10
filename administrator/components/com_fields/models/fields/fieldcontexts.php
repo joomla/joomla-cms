@@ -10,6 +10,8 @@ defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Fields Contexts
  *
@@ -43,7 +45,7 @@ class JFormFieldFieldcontexts extends JFormFieldList
 	{
 		$parts = explode('.', $this->value);
 
-		$cName = \Joomla\CMS\Component\ComponentHelper::getHelperClassName($parts[0]);
+		$cName = ComponentHelper::getComponentHelperClassName($parts[0]);
 
 		$contexts = array();
 
@@ -54,7 +56,7 @@ class JFormFieldFieldcontexts extends JFormFieldList
 
 		if (!$contexts || !is_array($contexts) || count($contexts) == 1)
 		{
-			return array();
+			$contexts = array();
 		}
 
 		return $contexts;

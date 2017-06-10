@@ -10,6 +10,8 @@ defined('_JEXEC') or die;
 
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * FieldsHelper
  *
@@ -43,7 +45,7 @@ class FieldsHelper
 
 		$component = $parts[0];
 
-		$cName = \Joomla\CMS\Component\ComponentHelper::getHelperClassName($component);
+		$cName = ComponentHelper::getComponentHelperClassName($component);
 
 		if ($cName && is_callable(array($cName, 'validateSection')))
 		{

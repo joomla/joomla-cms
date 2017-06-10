@@ -48,11 +48,12 @@ class CategoriesHelper
 			$section = $parts[1];
 		}
 
-
-		$cName = ComponentHelper::getHelperClassName($component);
+		// Try to find the component helper.
+		$cName = ComponentHelper::getComponentHelperClassName($component);
 
 		if ($cName && is_callable(array($cName, 'addSubmenu')))
 		{
+
 			$lang = \JFactory::getLanguage();
 
 			// Loading language file from the administrator/language directory then

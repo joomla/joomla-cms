@@ -380,7 +380,7 @@ class Categories extends ListModel
 		}
 
 		// Try to find the component helper.
-		$cName = ComponentHelper::getHelperClassName($component);
+		$cName = ComponentHelper::getComponentHelperClassName($component);
 
 		if ($cName && is_callable(array($cName, 'countItems')))
 		{

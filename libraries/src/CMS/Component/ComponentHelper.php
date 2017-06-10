@@ -567,53 +567,45 @@ class ComponentHelper
 	/**
 	 * Method to get helper class for a component
 	 *
-	 * @param   string  $option   The name of component to get helper class, for example com_content
-	 * @param   string  $helper   The type of helper to get like helper (main component helper), association, route, associations..
-	 * @param   string  $appName  Name of application to get helper class (Site or Administrator)
+	 * @param   string $option The name of component to get helper class, for example com_content
 	 *
 	 * @return bool|string  The class name if exists, false otherwise
 	 */
-	public static function getHelperClassName($option, $helper = 'helper', $appName = 'Administrator')
+	public static function getComponentHelperClassName($option)
 	{
 		jimport('joomla.filesystem.path');
 
-		$componentName = str_replace('com_', '', $option);
-		$helper        = ucfirst($helper);
+		// Check and make sure component exists to avoid warning
+		if (!self::isInstalled($option))
+		{
+			return false;
+		}
 
-		if ($helper == 'Helper')
-		{
-			// Main component helper class name, like ContentHelper
-			$className = ucfirst($componentName) . 'Helper';
-		}
-		else
-		{
-			// Specific type component class name like ContentAssociationsHelper
-			$className = ucfirst($componentName) . $helper . 'Helper';;
-		}
+		$componentName = str_replace('com_', '', $option);
 
 		// If this is a namespace component, try to find a helper namespace class
 		if ($componentNamespace = self::getComponent($option)->namespace)
 		{
-			$fqcn = $componentNamespace . '\\' . ucfirst($appName) . '\\Helper\\' . $className;
-
-			if (class_exists($fqcn))
-			{
-				return $fqcn;
-			}
-		}
-
-		// Fall back to find a none namespace helper class
-		$rootPath = constant('JPATH_' . strtoupper($appName));
-
-		$file = \JPath::clean($rootPath . '/components/' . $option . '/helpers/' . $helper . '.php');
-
-		if (file_exists($file))
-		{
-			\JLoader::register($className, $file);
+			$className = $componentNamespace . '\\Administrator\\Helper\\' . ucfirst($componentName) . 'Helper';
 
 			if (class_exists($className))
 			{
 				return $className;
+			}
+		}
+		else
+		{
+			$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/' . $componentName . '.php');
+
+			if (file_exists($file))
+			{
+				$className = ucfirst($componentName) . 'Helper';
+				\JLoader::register($className, $file);
+
+				if (class_exists($className))
+				{
+					return $className;
+				}
 			}
 		}
 
