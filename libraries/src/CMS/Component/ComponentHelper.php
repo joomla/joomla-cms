@@ -567,9 +567,9 @@ class ComponentHelper
 	/**
 	 * Method to get helper class for a component
 	 *
-	 * @param   string $option The name of component to get helper class, for example com_content
+	 * @param   string  $option  The name of component to get helper class, for example com_content
 	 *
-	 * @return bool|string  The class name if exists, false otherwise
+	 * @return  bool|string  The class name if exists, false otherwise
 	 */
 	public static function getComponentHelperClassName($option)
 	{
