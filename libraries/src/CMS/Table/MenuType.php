@@ -52,7 +52,7 @@ class MenuType extends Table
 			return false;
 		}
 
-		$this->menutype = JApplicationHelper::stringURLSafe($this->menutype);
+		$this->menutype = ApplicationHelper::stringURLSafe($this->menutype);
 
 		if (empty($this->menutype))
 		{

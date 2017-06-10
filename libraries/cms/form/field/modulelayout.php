@@ -11,6 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * Form Field to display a list of the layouts for module display from the module or template overrides.
  *
@@ -45,7 +47,7 @@ class JFormFieldModulelayout extends JFormField
 
 		$clientId = (int) $clientId;
 
-		$client = JApplicationHelper::getClientInfo($clientId);
+		$client = ApplicationHelper::getClientInfo($clientId);
 
 		// Get the module.
 		$module = (string) $this->element['module'];
