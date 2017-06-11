@@ -124,12 +124,7 @@ class JFacebookUserTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->client);
-		unset($this->input);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->client, $this->input, $this->oauth, $this->object);
 		parent::tearDown();
 	}
 
