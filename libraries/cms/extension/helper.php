@@ -243,13 +243,13 @@ class JExtensionHelper
 	);
 
 	/**
-	 * The static where clause condition based on columns
-	 * `type`, `element`, `folder` (if used) and `client_id`.
+	 * The static where clause condition for core extensions based on
+	 * columns `type`, `element`, `folder` (if used) and `client_id`.
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $whereCondition = '';
+	protected static $whereConditionCore = '';
 
 	/**
 	 * Array of IDs of installed core extensions
@@ -257,35 +257,36 @@ class JExtensionHelper
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $coreExtensionsIDs = array();
+	protected static $coreExtensionsIds = array();
 
 	/**
-	 * Init the static where clause condition based on columns
-	 * `type`, `element`, `folder` (if used) and `client_id`.
+	 * Init the static where clause condition for core extensions
+	 * based on columns `type`, `element`, `folder` (if used) and
+	 * `client_id`.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function initWhereCondition()
+	protected static function initWhereConditionCore()
 	{
 		$db = JFactory::getDbo();
 
 		foreach (self::$coreExtensions as $extension)
 		{
-			self::$whereCondition .= $db->qn('type') . ' = ' . $db->q($extension[0])
+			self::$whereConditionCore .= $db->qn('type') . ' = ' . $db->q($extension[0])
 				. ' AND ' . $db->qn('element') . ' = ' . $db->q($extension[1])
 				. ' AND ' . $db->qn('client_id') . ' = ' . $db->q($extension[3]);
 
 			if ($extension[2] !== '')
 			{
-				self::$whereCondition .= ' AND ' . $db->qn('folder') . ' = ' . $db->q($extension[2]);
+				self::$whereConditionCore .= ' AND ' . $db->qn('folder') . ' = ' . $db->q($extension[2]);
 			}
 
-			self::$whereCondition .= ' OR ';
+			self::$whereConditionCore .= ' OR ';
 		}
 
-		self::$whereCondition .= '1 = 2';
+		self::$whereConditionCore .= '1 = 2';
 	}
 
 	/**
@@ -299,7 +300,7 @@ class JExtensionHelper
 	 */
 	public static function initCoreExtensionsIds()
 	{
-		if (self::$whereCondition === '')
+		if (self::$whereConditionCore === '')
 		{
 			self::initWhereCondition();
 		}
@@ -309,14 +310,14 @@ class JExtensionHelper
 		$query = $db->getQuery(true)
 			->select($db->qn('extension_id'))
 			->from($db->qn('#__extensions'))
-			->where(self::$whereCondition);
+			->where(self::$whereConditionCore);
 
 		// Get the IDs in ascending order
 		$query->order($db->qn('extension_id') . ' ASC');
 
-		self::$coreExtensionsIDs = $db->setQuery($query)->loadColumn();
+		self::$coreExtensionsIds = $db->setQuery($query)->loadColumn();
 
-		if (self::$coreExtensionsIDs === null)
+		if (self::$coreExtensionsIds === null)
 		{
 			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'), 1000);
 		}
@@ -347,14 +348,14 @@ class JExtensionHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getWhereCondition()
+	public static function getWhereConditionCore()
 	{
-		if (self::$whereCondition === '')
+		if (self::$whereConditionCore === '')
 		{
-			self::initWhereCondition();
+			self::initWhereConditionCore();
 		}
 
-		return self::$whereCondition;
+		return self::$whereConditionCore;
 	}
 
 	/**
@@ -374,12 +375,12 @@ class JExtensionHelper
 	 */
 	public static function getCoreExtensionsIds()
 	{
-		if (!isset(self::$coreExtensionsIDs[0]))
+		if (!isset(self::$coreExtensionsIds[0]))
 		{
 			self::initCoreExtensionsIds();
 		}
 
-		return self::$coreExtensionsIDs;
+		return self::$coreExtensionsIds;
 	}
 
 	/**
@@ -401,12 +402,12 @@ class JExtensionHelper
 	 */
 	public static function getCoreExtensionsIdsList()
 	{
-		if (!isset(self::$coreExtensionsIDs[0]))
+		if (!isset(self::$coreExtensionsIds[0]))
 		{
 			self::initCoreExtensionsIds();
 		}
 
-		return implode(',', self::$coreExtensionsIDs);
+		return implode(',', self::$coreExtensionsIds);
 	}
 
 	/**
@@ -440,14 +441,14 @@ class JExtensionHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function checkIfCoreExtensionID($extension_id)
+	public static function checkIfCoreExtensionId($extension_id)
 	{
-		if (!isset(self::$coreExtensionsIDs[0]))
+		if (!isset(self::$coreExtensionsIds[0]))
 		{
 			self::initCoreExtensionsIds();
 		}
 
-		if (in_array($extension_id, self::$coreExtensionsIDs))
+		if (in_array($extension_id, self::$coreExtensionsIds))
 		{
 			return true;
 		}
