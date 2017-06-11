@@ -149,7 +149,7 @@ class JFilterInput extends InputFilter
 		{
 			case 'INT':
 			case 'INTEGER':
-				$pattern = '/[-+]?[0-9]+/';
+				$pattern = '/[^-+0-9]/';
 
 				if (is_array($source))
 				{
@@ -158,14 +158,12 @@ class JFilterInput extends InputFilter
 					// Itterate through the array
 					foreach ($source as $eachString)
 					{
-						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? (int) $matches[0] : 0;
+						$result[] = (int) preg_replace($pattern, '', (string) $eachString);
 					}
 				}
 				else
 				{
-					preg_match($pattern, (string) $source, $matches);
-					$result = isset($matches[0]) ? (int) $matches[0] : 0;
+					$result = (int) preg_replace($pattern, '', (string) $source);
 				}
 
 				break;
