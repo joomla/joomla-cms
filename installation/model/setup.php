@@ -270,7 +270,7 @@ class InstallationModelSetup extends JModelBase
 			// Check for default MB language.
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
-			$option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
+			$option->state  = (strtolower(ini_get('mbstring.language')) === 'neutral');
 			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
 			$options[] = $option;
 

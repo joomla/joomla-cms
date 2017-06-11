@@ -103,7 +103,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 				$guess = trim($guess);
 
-				$key = trim(strtoupper($key));
+				$key = strtoupper(trim($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
 
@@ -267,7 +267,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		// Check that it's a localise file.
-		if ($xml->getName() != 'localise')
+		if ($xml->getName() !== 'localise')
 		{
 			return false;
 		}
@@ -361,7 +361,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$requestLang = $this->input->getCmd('lang', null);
 
-			if (!is_null($requestLang))
+			if ($requestLang !== null)
 			{
 				$options['language'] = $requestLang;
 			}

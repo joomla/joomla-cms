@@ -403,7 +403,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	protected function getPath()
 	{
-		if (is_null($this->path))
+		if ($this->path === null)
 		{
 			$client     = $this->getClient();
 			$this->path = JLanguageHelper::getLanguagePath($client->path);
