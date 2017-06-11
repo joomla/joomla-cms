@@ -380,23 +380,14 @@ class JoomlaInstallerScript
 	 */
 	protected function updateManifestCaches()
 	{
-		$extensions = JExtensionHelper::getCoreExtensions();
-
 		// Attempt to refresh manifest caches
+		$whereCondition = JExtensionHelper::getWhereCondition();
+
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from('#__extensions');
-
-		foreach ($extensions as $extension)
-		{
-			$query->where(
-				'type=' . $db->quote($extension[0])
-				. ' AND element=' . $db->quote($extension[1])
-				. ' AND folder=' . $db->quote($extension[2])
-				. ' AND client_id=' . $extension[3], 'OR'
-			);
-		}
+			->from('#__extensions')
+			->where($whereCondition);
 
 		$db->setQuery($query);
 
