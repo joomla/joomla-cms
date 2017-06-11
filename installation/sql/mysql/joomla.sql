@@ -82,7 +82,8 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (51, 18, 66, 67, 2, 'com_modules.module.17', 'Breadcrumbs', '{}'),
 (52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{}'),
 (53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
-(54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}');
+(54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
+(55, 1, 17, 20, 1, 'com_workflow', 'com_workflow', '{}');
 
 -- --------------------------------------------------------
 
@@ -644,7 +645,8 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(802, 0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, '');
+(802, 0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(803, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Workflow');
 
 -- --------------------------------------------------------
 
@@ -2106,3 +2108,69 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (3, 'Special', 3, '[6,3,8]'),
 (5, 'Guest', 1, '[9]'),
 (6, 'Super Users', 4, '[8]');
+
+---
+--- Table structure for table `#__workflows`
+---
+
+CREATE TABLE IF NOT EXISTS `#__workflows` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `asset_id` int(10) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `extension` varchar(255) NOT NULL,
+  `default` tinyint(1) NOT NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(10) NOT NULL,
+  `modified` datetime NOT NULL,
+  `modified_by` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `asset_id` (`asset_id`),
+  KEY `title` (`title`(191)),
+  KEY `extension` (`extension`(191)),
+  KEY `default` (`default`),
+  KEY `created` (`created`),
+  KEY `created_by` (`created_by`),
+  KEY `modified` (`modified`),
+  KEY `modified_by` (`modified_by`)
+) ENGINE=InnoDB COLLATE=utf8mb4_unicode_ci;
+
+---
+--- Table structure for table `#__workflow_status`
+---
+
+CREATE TABLE IF NOT EXISTS `#__workflow_status` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `workflow_id` int(10) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `condition` enum('-1','0','1') NOT NULL,
+  `access` int(10) NOT NULL,
+  `default` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `workflow_id` (`workflow_id`),
+  KEY `title` (`title`(191)),
+  KEY `access` (`access`),
+  KEY `default` (`default`)
+) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+---
+--- Table structure for table `#__workflow_transitions`
+---
+
+CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
+  `title` varchar(255) NOT NULL,
+  `asset_id` int(10) NOT NULL,
+  `description` text NOT NULL,
+  `current_state_id` int(10) NOT NULL,
+  `new_state_id` int(10) NOT NULL,
+  KEY `title` (`title`(191)),
+  KEY `asset_id` (`asset_id`),
+  KEY `current_state_id` (`current_state_id`),
+  KEY `new_state_id` (`new_state_id`)
+) ENGINE=InnoDB DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+-- ALTER TABLE `#__content` CHANGE `state` `state` INT(10) NOT NULL DEFAULT '0';
+
+-- ALTER TABLE `#__content` ADD `workflow_id` INT(10) NOT NULL AFTER `asset_id`, ADD INDEX (`workflow_id`);
+
+-- ALTER TABLE `#__categories` ADD `workflow_id` INT(10) NOT NULL AFTER `asset_id`, ADD INDEX (`workflow_id`);
