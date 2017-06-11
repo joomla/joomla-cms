@@ -534,7 +534,8 @@ INSERT INTO `#__menu_types` (`id`, `asset_id`, `menutype`, `title`, `description
 (6, 0, 'mainmenu', 'Main Menu', 'Simple Home Menu', 0),
 (7, 0, 'fruitshop', 'Fruit Shop', 'Menu for the sample shop site.', 0),
 (8, 0, 'frontendviews', 'All Front End Views', '', 0),
-(9, 0, 'modules', 'All Modules', '', 0);
+(9, 0, 'modules', 'All Modules', '', 0),
+(10, 0, 'main', 'Admin Main Menu', 'The main menu for the backend', 1);
 
 --
 -- Dumping data for table `#__modules`
