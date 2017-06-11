@@ -223,7 +223,7 @@ class JHelperMedia
 						$mime = $this->getMimeType($file['tmp_name'], true);
 
 						// Did we get anything useful?
-						if ($mime != false)
+						if ($mime !== false)
 						{
 							$result = $this->checkMimeType($mime, $component);
 
@@ -260,7 +260,7 @@ class JHelperMedia
 					$mime = $this->getMimeType($file['tmp_name'], false);
 
 					// Did we get anything useful?
-					if ($mime != false)
+					if ($mime !== false)
 					{
 						$result = $this->checkMimeType($mime, $component);
 
