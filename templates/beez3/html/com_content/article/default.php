@@ -56,7 +56,7 @@ if ($params->get('show_title')) : ?>
 
 <?php
 
-if ($accessEdit ||  $showPrintIcon || $showEmailIcon) : ?>
+if ($accessEdit || $showPrintIcon || $showEmailIcon) : ?>
 		<ul class="actions">
 		<?php if (!$this->print) : ?>
 				<?php if ($showPrintIcon) : ?>
