@@ -1195,7 +1195,7 @@ class InstallationModelDatabase extends JModelBase
 			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($query[$i] === '"' || $query[$i] === "'") && (!isset ($buffer[0]) || $buffer[0] !== "\\"))
+			elseif (!$in_string && ($query[$i] === '"' || $query[$i] === "'") && (!isset($buffer[0]) || $buffer[0] !== '\\'))
 			{
 				$in_string = $query[$i];
 			}

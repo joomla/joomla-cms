@@ -89,7 +89,7 @@ class InstallationControllerDefault extends JControllerBase
 				break;
 		}
 
-		if ($vName !== $defaultView && ($checkOptions && empty($options)))
+		if ($vName !== $defaultView && $checkOptions && empty($options))
 		{
 			$app->redirect('index.php');
 		}
