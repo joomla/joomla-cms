@@ -33,6 +33,19 @@ th {
   }
 }
 
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+  border-top-left-radius: 0;
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: 0;
+}
+.btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child) {
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: $border-radius;
+}
+
 .switcher-labels {
   margin-right: 10px;
   margin-left: 0;
@@ -135,12 +148,10 @@ th {
 .status {
   margin-right: 250px;
   margin-left: 0;
-
   .closed & {
     margin-right: 50px;
     margin-left: 0;
   }
-
 }
 
 .sidebar-wrapper[data-hidden="1"] ~ .status {
@@ -161,8 +172,6 @@ th {
     }
   }
   .btn-toolbar > * {
-    margin-right: .5rem;
-    margin-left: 0;
     &:first-of-type {
       margin-right: 0;
     }
@@ -188,19 +197,14 @@ th {
   .card {
     .list-group {
       > .published {
-        // padding-left: .9rem;
         border-right: 5px solid $brand-success;
         border-left: 0;
       }
-
       > .unpublished {
-        // padding-left: .9rem;
         border-right: 5px solid $brand-danger;
         border-left: 0;
       }
-
     }
-
     .module-dropdown {
       right: auto;
       left: 0;

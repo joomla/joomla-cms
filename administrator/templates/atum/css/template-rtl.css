@@ -10085,6 +10085,18 @@ th {
     right: auto;
     left: .9rem; }
 
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0; }
+
+.btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child) {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0.25rem; }
+
 .switcher-labels {
   margin-right: 10px;
   margin-left: 0; }
@@ -10178,11 +10190,8 @@ th {
   border-left: 1px solid #ccc;
   border-radius: 0 3px 3px 0; }
 
-.subhead .btn-toolbar > * {
-  margin-right: .5rem;
-  margin-left: 0; }
-  .subhead .btn-toolbar > *:first-of-type {
-    margin-right: 0; }
+.subhead .btn-toolbar > *:first-of-type {
+  margin-right: 0; }
 
 .subhead .btn-group-sm > .btn [class*=" fa-"],
 .subhead .btn-group-sm > .btn [class*=" icon-"],
