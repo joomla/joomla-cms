@@ -233,7 +233,35 @@ class JExtensionHelper
 		array('package', 'pkg_en-GB', '', 0),
 	);
 
+	protected static $whereCondition = "";
+
 	protected static $coreExtensionsIDs = array();
+
+	/**
+	 * Class constructor.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct()
+	{
+		$db = JFactory::getDbo();
+
+		foreach (self::$coreExtensions as $extension)
+		{
+			$whereCondition .= $db->qn('type') . ' = ' . $db->q($extension[0])
+				. ' AND ' . $db->qn('element') . ' = ' . $db->q($extension[1])
+				. ' AND ' . $db->qn('client_id') . ' = ' . $db->q($extension[3]);
+
+			if ($extension[2] !== '')
+			{
+				$whereCondition .= ' AND ' . $db->qn('folder') . ' = ' . $db->q($extension[2]);
+			}
+
+			$whereCondition .= ' OR ';
+		}
+
+		$whereCondition .= '1 = 2';
+	}
 
 	/**
 	 * Init the array of core extensions IDs
@@ -251,25 +279,7 @@ class JExtensionHelper
 		$query = $db->getQuery(true)
 			->select($db->qn('extension_id'))
 			->from($db->qn('#__extensions'))
-			->where('1 = 2');
-
-		foreach (self::$coreExtensions as $extension)
-		{
-			// Prepare conditions.
-			$conditions = array(
-				$db->qn('type') . ' = ' . $db->q($extension[0]),
-				$db->qn('element') . ' = ' . $db->q($extension[1]),
-				$db->qn('client_id') . ' = ' . $db->q($extension[3]),
-			);
-
-			// If the extension has folder (plugins).
-			if ($extension[2] !== '')
-			{
-				$conditions[] = $db->qn('folder') . ' = ' . $db->q($extension[2]);
-			}
-
-			$query->orWhere($conditions, 'AND');
-		}
+			->where($whereCondition);
 
 		// Get the IDs in ascending order
 		$query->order($db->qn('extension_id') . ' ASC');
@@ -297,7 +307,31 @@ class JExtensionHelper
 	}
 
 	/**
-	 * Gets the core extensions IDs.
+	 * Gets the where condition for database queries for core extensions.
+	 * In opposite to using the list of IDs as returned by functions
+	 * getCoreExtensionsIds and getCoreExtensionsIdsList, this does not
+	 * result in an extra query to the database just for getting the IDs.
+	 *
+	 * @return  string  The where condition for restricting queries on the
+	 *                  extensions table to core extensions.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getWhereCondition()
+	{
+		return self::$whereCondition;
+	}
+
+	/**
+	 * Gets the IDs of installed core extensions.
+	 *
+	 * Note that this causes an extra database query to the extensions table
+	 * to get the IDs, so it is only economic if you need this array of IDs later
+	 * in the code. Using function getWhereCondition() to get a where clause to
+	 * restrict your queries to core extensions will not cause such an extra read
+	 * of the database and so is more economic if you query the database only 1 time
+	 * and so not using the primary key will cause less performance loss than doing
+	 * an additional query.
 	 *
 	 * @return  array  Array of core extension IDs.
 	 *
@@ -314,12 +348,19 @@ class JExtensionHelper
 	}
 
 	/**
-	 * Gets the core extensions ids as comma-separated list which can be used
-	 * as condition in SQL statements, e.g. "WHERE extension_id IN (1,2,3)"
-	 * to get only core extensions or "WHERE extension_id NOT IN (1,2,3)" to 
-	 * exclude core extensions.
+	 * Gets the IDs of installed core extensions as comma-separated list which
+	 * can be used as condition in SQL statements like "WHERE extension_id IN (1,2,3)"
+	 * or "WHERE extension_id NOT IN (1,2,3)".
 	 *
-	 * @return  string  Comma-separated list of core extension ids.
+	 * Note that this causes an extra database query to the extensions table
+	 * to get the IDs, so it is only economic if you need this list of IDs later
+	 * in the code or more than 1 time. Using function getWhereCondition() to
+	 * get a where clause to restrict your queries to core extensions will not
+	 * cause such an extra read of the database and so is more economic if you
+	 * query the database only 1 time and so not using the primary key will cause
+	 * less performance loss than doing an additional query.
+	 *
+	 * @return  string  Comma-separated list of core extension IDs.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -330,7 +371,7 @@ class JExtensionHelper
 			self::initCoreExtensionsIds();
 		}
 
-		return implode(",", self::$coreExtensionsIDs);
+		return implode(',', self::$coreExtensionsIDs);
 	}
 
 	/**
@@ -339,7 +380,7 @@ class JExtensionHelper
 	 * @param   string   $type       The extension's type.
 	 * @param   string   $element    The extension's element name.
 	 * @param   string   $folder     The extension's folder.
-	 * @param   integer  $client_id  The extension's client_id.
+	 * @param   integer  $client_id  The extension's client ID.
 	 *
 	 * @return  boolean  True if core, false if not.
 	 *
