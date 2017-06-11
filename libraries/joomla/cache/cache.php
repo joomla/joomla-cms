@@ -90,11 +90,13 @@ class JCache
 	/**
 	 * Get the storage handlers
 	 *
+	 * @param   boolean  $persistentOnly  If true only return persistent storage handlers.
+	 *
 	 * @return  array
 	 *
 	 * @since   11.1
 	 */
-	public static function getStores()
+	public static function getStores($persistentOnly = false)
 	{
 		$handlers = array();
 
@@ -122,7 +124,7 @@ class JCache
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			if ($class::isSupported())
+			if ($class::isSupported() && (!$persistentOnly || $class::isPersistent()))
 			{
 				// Connector names should not have file extensions.
 				$handlers[] = str_ireplace('.php', '', $fileName);

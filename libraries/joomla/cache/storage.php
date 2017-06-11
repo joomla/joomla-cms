@@ -305,6 +305,18 @@ class JCacheStorage
 	}
 
 	/**
+	 * Test to see if stored data is persistent across requests.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isPersistent()
+	{
+		return true;
+	}
+
+	/**
 	 * Test to see if the storage handler is available.
 	 *
 	 * @return  boolean
