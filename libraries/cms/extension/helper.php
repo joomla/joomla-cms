@@ -238,7 +238,10 @@ class JExtensionHelper
 	protected static $coreExtensionsIDs = array();
 
 	/**
-	 * Class constructor.
+	 * Init the static where clause condition based on columns
+	 * `type`, `element`, `folder` (if used) and `client_id`.
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
