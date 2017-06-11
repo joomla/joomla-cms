@@ -236,13 +236,15 @@ class JExtensionHelper
 	protected static $coreExtensionsIDs = array();
 
 	/**
-	 * Init the array of core extension_ids
+	 * Init the array of core extensions IDs
+	 * This function can be called to rebuild the array
+	 * e.g. after a discovery installation.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function initCoreExtensionsIds()
+	public static function initCoreExtensionsIds()
 	{
 		$db = JFactory::getDbo();
 
@@ -287,9 +289,9 @@ class JExtensionHelper
 	}
 
 	/**
-	 * Gets the core extensions ids.
+	 * Gets the core extensions IDs.
 	 *
-	 * @return  array  Array of core extension ids.
+	 * @return  array  Array of core extension IDs.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
