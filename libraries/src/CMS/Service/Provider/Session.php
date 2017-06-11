@@ -12,8 +12,8 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use InvalidArgumentException;
-use JApplicationHelper;
 use JFactory;
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\CMS\Session\Validator\AddressValidator;
@@ -54,7 +54,7 @@ class Session implements ServiceProviderInterface
 					$config = JFactory::getConfig();
 
 					// Generate a session name.
-					$name = JApplicationHelper::getHash($config->get('session_name', get_class(JFactory::getApplication())));
+					$name = ApplicationHelper::getHash($config->get('session_name', get_class(JFactory::getApplication())));
 
 					// Calculate the session lifetime.
 					$lifetime = (($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900);

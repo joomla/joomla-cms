@@ -11,6 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
@@ -46,7 +48,7 @@ class JFormFieldComponentlayout extends JFormField
 
 		$clientId = (int) $clientId;
 
-		$client = JApplicationHelper::getClientInfo($clientId);
+		$client = ApplicationHelper::getClientInfo($clientId);
 
 		// Get the extension.
 		$extension = (string) $this->element['extension'];

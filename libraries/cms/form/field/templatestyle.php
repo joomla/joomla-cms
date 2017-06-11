@@ -11,6 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('groupedlist');
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * Supports a select grouped list of template styles
  *
@@ -130,7 +132,7 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 		$lang = JFactory::getLanguage();
 
 		// Get the client and client_id.
-		$client = JApplicationHelper::getClientInfo($this->clientName, true);
+		$client = ApplicationHelper::getClientInfo($this->clientName, true);
 
 		// Get the template.
 		$template = $this->template;
