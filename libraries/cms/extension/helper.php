@@ -272,6 +272,7 @@ class JExtensionHelper
 		}
 
 		// Get the IDs in ascending order
+		$query->order($db->qn('extension_id') . ' ASC');
 
 		self::$coreExtensionsIDs = $db->setQuery($query)->loadColumn();
 	}
