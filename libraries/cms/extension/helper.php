@@ -18,7 +18,7 @@ class JExtensionHelper
 {
 	/**
 	 * Array of core extensions
-	 * Each element is an array with elements type, element, folder, client_id.
+	 * Each element is an array with elements "type", "element", "folder" and
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
