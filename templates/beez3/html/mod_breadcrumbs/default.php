@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 			echo '<span>' . $item->name . '</span>';
 		}
 
-		if (($key !== $penult_item_key) || $show_last)
+		if ($key !== $penult_item_key || $show_last)
 		{
 			echo ' '.$separator.' ';
 		}

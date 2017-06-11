@@ -29,7 +29,7 @@ $showEmailIcon = $params->get('show_email_icon');
 <article class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($showPageHeading = $this->params->get('show_page_heading')) : ?>
 
-<?php if ($this->params->get('show_page_heading') and $params->get('show_title')) :?>
+<?php if ($showPageHeading and $params->get('show_title')) :?>
 <hgroup>
 <?php endif; ?>
 <h1>
@@ -47,7 +47,7 @@ if ($params->get('show_title')) : ?>
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
 <?php endif; ?>
-<?php if ($this->params->get('show_page_heading') and $params->get('show_title')) :?>
+<?php if ($showPageHeading and $params->get('show_title')) :?>
 </hgroup>
 <?php endif; ?>
 

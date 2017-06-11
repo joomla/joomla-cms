@@ -92,8 +92,8 @@ JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Adjusting content width
-$position8ModuleCount = $this->countModules('position-8');
 $position7ModuleCount = $this->countModules('position-7');
+$position8ModuleCount = $this->countModules('position-8');
 
 if ($position7ModuleCount && $position8ModuleCount)
 {

@@ -105,7 +105,7 @@ $cparams = JComponentHelper::getParams('com_media');
 	</div>
 <?php endif; ?>
 
-<?php if (($this->pagination->pagesTotal > 1) && ($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2))) : ?>
+<?php if ($this->pagination->pagesTotal > 1 && ($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2))) : ?>
 	<div class="pagination">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 		<p class="counter">
