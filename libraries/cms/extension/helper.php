@@ -16,6 +16,13 @@ defined('JPATH_PLATFORM') or die;
  */
 class JExtensionHelper
 {
+	/**
+	 * Array of core extensions
+	 * Each element is an array with elements type, element, folder, client_id.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected static $coreExtensions = array(
 		// Format: `type`, `element`, `folder`, `client_id`
 
@@ -233,8 +240,21 @@ class JExtensionHelper
 		array('package', 'pkg_en-GB', '', 0),
 	);
 
+	/**
+	 * The static where clause condition based on columns
+	 * `type`, `element`, `folder` (if used) and `client_id`.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected static $whereCondition = '';
 
+	/**
+	 * Array of IDs of installed core extensions
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected static $coreExtensionsIDs = array();
 
 	/**
