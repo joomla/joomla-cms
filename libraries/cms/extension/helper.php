@@ -271,6 +271,8 @@ class JExtensionHelper
 			$query->orWhere($conditions, 'AND');
 		}
 
+		// Get the IDs in ascending order
+
 		self::$coreExtensionsIDs = $db->setQuery($query)->loadColumn();
 	}
 
