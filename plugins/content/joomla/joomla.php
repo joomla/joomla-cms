@@ -87,7 +87,7 @@ class PlgContentJoomla extends JPlugin
 					'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
 					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
-				$model_message = new Message();
+				$model_message = new Message;
 				$result = $model_message->save($message);
 			}
 		}

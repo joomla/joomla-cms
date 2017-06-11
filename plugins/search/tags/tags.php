@@ -173,7 +173,7 @@ class PlgSearchTags extends JPlugin
 		else
 		{
 			$final_items = $rows;
-			$tag_model = new Tag();
+			$tag_model = new Tag;
 			$tag_model->getState();
 
 			foreach ($rows as $key => $row)
