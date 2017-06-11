@@ -28,7 +28,7 @@ UPDATE "#__menu_types"
 -- the menu types table with client_id = 0.
 UPDATE "#__menu"
    SET "client_id" = 1
- WHERE `menutype` = 'main';
+ WHERE "menutype" = 'main';
 
 -- Step 3: If we have menu items for the admin using menutype = "menu" and
 -- having correct client_id = 1, we can be sure they belong to the admin menu
