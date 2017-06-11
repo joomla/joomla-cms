@@ -302,7 +302,7 @@ class JExtensionHelper
 	{
 		if (self::$whereConditionCore === '')
 		{
-			self::initWhereCondition();
+			self::initWhereConditionCore();
 		}
 
 		$db = JFactory::getDbo();
@@ -363,7 +363,7 @@ class JExtensionHelper
 	 *
 	 * Note that this causes an extra database query to the extensions table
 	 * to get the IDs, so it is only economic if you need this array of IDs later
-	 * in the code. Using function getWhereCondition() to get a where clause to
+	 * in the code. Using function getWhereConditionCore() to get a where clause to
 	 * restrict your queries to core extensions will not cause such an extra read
 	 * of the database and so is more economic if you query the database only 1 time
 	 * and so not using the primary key will cause less performance loss than doing
@@ -390,7 +390,7 @@ class JExtensionHelper
 	 *
 	 * Note that this causes an extra database query to the extensions table
 	 * to get the IDs, so it is only economic if you need this list of IDs later
-	 * in the code or more than 1 time. Using function getWhereCondition() to
+	 * in the code or more than 1 time. Using function getWhereConditionCore() to
 	 * get a where clause to restrict your queries to core extensions will not
 	 * cause such an extra read of the database and so is more economic if you
 	 * query the database only 1 time and so not using the primary key will cause

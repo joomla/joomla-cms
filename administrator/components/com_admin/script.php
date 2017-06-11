@@ -381,7 +381,7 @@ class JoomlaInstallerScript
 	protected function updateManifestCaches()
 	{
 		// Attempt to refresh manifest caches
-		$whereCondition = JExtensionHelper::getWhereCondition();
+		$whereCondition = JExtensionHelper::getWhereConditionCore();
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
