@@ -275,6 +275,11 @@ class JExtensionHelper
 		$query->order($db->qn('extension_id') . ' ASC');
 
 		self::$coreExtensionsIDs = $db->setQuery($query)->loadColumn();
+
+		if (self::$coreExtensionsIDs === null)
+		{
+			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'), 1000);
+		}
 	}
 
 	/**
