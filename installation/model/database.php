@@ -1191,7 +1191,7 @@ class InstallationModelDatabase extends JModelBase
 				$i         = 0;
 			}
 
-			if ($in_string && ($query[$i] == $in_string) && $buffer[1] !== "\\")
+			if ($in_string && ($query[$i] == $in_string) && $buffer[1] !== '\\')
 			{
 				$in_string = false;
 			}
