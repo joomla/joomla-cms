@@ -233,7 +233,7 @@ class JExtensionHelper
 		array('package', 'pkg_en-GB', '', 0),
 	);
 
-	protected static $whereCondition = "";
+	protected static $whereCondition = '';
 
 	protected static $coreExtensionsIDs = array();
 
@@ -242,25 +242,25 @@ class JExtensionHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct()
+	protected static function initWhereCondition()
 	{
 		$db = JFactory::getDbo();
 
 		foreach (self::$coreExtensions as $extension)
 		{
-			$whereCondition .= $db->qn('type') . ' = ' . $db->q($extension[0])
+			self::$whereCondition .= $db->qn('type') . ' = ' . $db->q($extension[0])
 				. ' AND ' . $db->qn('element') . ' = ' . $db->q($extension[1])
 				. ' AND ' . $db->qn('client_id') . ' = ' . $db->q($extension[3]);
 
 			if ($extension[2] !== '')
 			{
-				$whereCondition .= ' AND ' . $db->qn('folder') . ' = ' . $db->q($extension[2]);
+				self::$whereCondition .= ' AND ' . $db->qn('folder') . ' = ' . $db->q($extension[2]);
 			}
 
-			$whereCondition .= ' OR ';
+			self::$whereCondition .= ' OR ';
 		}
 
-		$whereCondition .= '1 = 2';
+		self::$whereCondition .= '1 = 2';
 	}
 
 	/**
@@ -274,12 +274,17 @@ class JExtensionHelper
 	 */
 	public static function initCoreExtensionsIds()
 	{
+		if (self::$whereCondition === '')
+		{
+			self::initWhereCondition();
+		}
+
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->qn('extension_id'))
 			->from($db->qn('#__extensions'))
-			->where($whereCondition);
+			->where(self::$whereCondition);
 
 		// Get the IDs in ascending order
 		$query->order($db->qn('extension_id') . ' ASC');
@@ -319,6 +324,11 @@ class JExtensionHelper
 	 */
 	public static function getWhereCondition()
 	{
+		if (self::$whereCondition === '')
+		{
+			self::initWhereCondition();
+		}
+
 		return self::$whereCondition;
 	}
 
