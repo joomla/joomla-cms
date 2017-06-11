@@ -512,7 +512,8 @@ INSERT INTO `#__menu_types` (`id`, `asset_id`, `menutype`, `title`, `description
 (4, 0, 'aboutjoomla', 'About Joomla', 'All about Joomla!', 0),
 (5, 0, 'parks', 'Australian Parks', 'Main menu for a site about Australian parks', 0),
 (6, 0, 'mainmenu', 'Main Menu', 'Simple Home Menu', 0),
-(7, 0, 'fruitshop', 'Fruit Shop', 'Menu for the sample shop site.', 0);
+(7, 0, 'fruitshop', 'Fruit Shop', 'Menu for the sample shop site.', 0),
+(8, 0, 'main', 'Admin Main Menu', 'The main menu for the backend', 1);
 
 --
 -- Dumping data for table `#__modules`
