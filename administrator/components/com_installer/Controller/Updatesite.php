@@ -38,7 +38,7 @@ class Updatesite extends Form
 		$joomlaUpdateSitesIds = $model->getJoomlaUpdateSitesIds(0);
 
 		// Get the $recordId name
-		$joomlaUpdateSiteName = reset($model->getJoomlaUpdateSitesNames(array($recordId)))->name;
+		$joomlaUpdateSiteName = array_shift($model->getJoomlaUpdateSitesNames(array($recordId)))->name;
 
 		if (in_array($recordId, $joomlaUpdateSitesIds))
 		{
