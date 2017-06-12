@@ -28,15 +28,15 @@ abstract class En_GBLocalise
 	{
 		if ($count == 0)
 		{
-			return array('0');
+			return ['0'];
 		}
 		elseif ($count == 1)
 		{
-			return array('1');
+			return ['1'];
 		}
 		else
 		{
-			return array('MORE');
+			return ['MORE'];
 		}
 	}
 
@@ -49,7 +49,7 @@ abstract class En_GBLocalise
 	 */
 	public static function getIgnoredSearchWords()
 	{
-		return array('and', 'in', 'on');
+		return ['and', 'in', 'on'];
 	}
 
 	/**
