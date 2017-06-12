@@ -132,7 +132,8 @@ abstract class InstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			$extract = Archive::extract($archivename, $extractdir);
+			$archive = new Archive();
+			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
 		{
