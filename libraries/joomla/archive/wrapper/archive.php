@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Archive
  * @since       3.4
- * @deprecated 4.0 use the Joomla\Archive\Archive class instead
+ * @deprecated  4.0 use the Joomla\Archive\Archive class instead
  */
 class JArchiveWrapperArchive
 {
