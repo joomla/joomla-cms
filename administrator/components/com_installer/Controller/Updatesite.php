@@ -16,7 +16,7 @@ use Joomla\CMS\Controller\Form;
 /**
  * Controller for a single contact
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class Updatesite extends Form
 {
@@ -25,7 +25,7 @@ class Updatesite extends Form
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function edit()
 	{

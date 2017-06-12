@@ -15,7 +15,7 @@ use Joomla\CMS\Model\Admin;
 /**
  * Item Model for a Contact.
  *
- * @since  1.6
+ * @since   __DEPLOY_VERSION__
  */
 class Updatesite extends Admin
 {
@@ -23,7 +23,7 @@ class Updatesite extends Admin
 	 * The type alias for this content type.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $typeAlias = 'com_installer.updatesite';
 
@@ -35,7 +35,7 @@ class Updatesite extends Admin
 	 *
 	 * @return  \JForm|boolean  A \JForm object on success, false on failure
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -57,7 +57,7 @@ class Updatesite extends Admin
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{

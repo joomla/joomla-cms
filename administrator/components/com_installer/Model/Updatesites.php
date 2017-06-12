@@ -400,7 +400,7 @@ class Updatesites extends Installer
 	 *
 	 * @return  array  Array with joomla core update site names.
 	 *
-	 * @since   3.6.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getJoomlaUpdateSitesNames($ids = array())
 	{

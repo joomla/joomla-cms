@@ -15,7 +15,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Contact Table class.
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
 class Updatesite extends Table
 {
@@ -25,7 +25,7 @@ class Updatesite extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
@@ -40,7 +40,7 @@ class Updatesite extends Table
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     \JTable::check
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()
 	{

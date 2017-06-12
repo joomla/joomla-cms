@@ -16,12 +16,14 @@ use Joomla\CMS\Helper\ContentHelper;
 /**
  * View to edit a contact.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class Html extends HtmlView
 {
 	/**
 	 * The \JForm object
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @var  \JForm
 	 */
@@ -29,6 +31,8 @@ class Html extends HtmlView
 
 	/**
 	 * The active item
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @var  object
 	 */
@@ -40,6 +44,8 @@ class Html extends HtmlView
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -63,12 +69,11 @@ class Html extends HtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{
 		\JFactory::getApplication()->input->set('hidemainmenu', true);
-
 
 		$user       = \JFactory::getUser();
 		$userId     = $user->id;
