@@ -37,12 +37,12 @@ class Updatesite extends Form
 		// Get the list of the Joomla Core UpdateSites
 		$joomlaUpdateSitesIds = $model->getJoomlaUpdateSitesIds(0);
 
-		// Get the $recordId name
-		$joomlaUpdateSiteName = array_shift($model->getJoomlaUpdateSitesNames(array($recordId)))->name;
-
 		if (in_array($recordId, $joomlaUpdateSitesIds))
 		{
-			$this->setMessage(\JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_EDIT', $joomlaUpdateSiteName), 'error');
+			$this->setMessage(
+				\JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_EDIT',
+					array_shift($model->getJoomlaUpdateSitesNames(array($recordId)))->name),
+					'error');
 
 			$this->setRedirect(
 				\JRoute::_(
